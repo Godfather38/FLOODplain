@@ -33,14 +33,32 @@ This is a personal tool for one person, and maybe their family: before leaving f
 - `docs/SCOPE.md`: sections 1–3 above, so the reasoning lives in the repo.
 - Delete `server/`, the SQLite code, and the `leaflet` npm dependency (Leaflet loads from a CDN on Pages).
 
-## Local: Avra Valley / Marana, AZ
-Desert flash floods change the plan compared with a river town:
-- **Floods come from monsoon storms (Jul–Sep) and winter storms.** Washes go from dry to impassable within minutes and drop again within hours. Rain falling *upstream* is the earliest warning, so **rain gauges matter as much as water-level gauges.**
-- **Pima County Regional Flood Control District runs an ALERT network** of rain and stream gauges across the county, with a public map. This is the most important local data source. It is checked first, and becomes a map layer if its data can be pulled.
-- **USGS gauges** exist on the Santa Cruz River and the larger washes (e.g. Brawley Wash in Avra Valley). The exact site IDs still need confirming.
-- **Low-water crossings (dips through washes) are the real hazard** on rural Avra Valley roads, and they're ideal sensor spots. A sensor on a post at the edge of a dip, on private land, needs no right-of-way permit.
-- **Pima County and the Town of Marana** each own roads out here. Who to email depends on which jurisdiction a road falls in.
-- **Arizona's "Stupid Motorist Law" (ARS 28-910):** drivers who go around barricades into a flooded wash can be billed for their rescue. It's worth a line on the map.
+## Local: Avra Valley (unincorporated Pima County, AZ)
+Avra Valley has a Marana mailing address, but it is mostly **unincorporated Pima County**. Pima County, not the Town of Marana, generally owns the roads and the flood data. The Town only comes in near I-10.
+
+### Hazard pattern
+- **Monsoon (Jul–Sep) and winter storms cause flash floods.** Washes go from dry to impassable in minutes, so **upstream rain gauges give the earliest warning**.
+- **Brawley Wash** drains most of Avra Valley; **Blanco Wash** drains the west side. Both flow north into the **Santa Cruz River**, which every route east to I-10 has to cross.
+- **Crossings named repeatedly in closures and NWS warnings** (dates vary, so this needs confirming):
+  - Avra Valley Rd at Brawley Wash, and at Trico Rd and El Paso Gas Rd
+  - Sandario Rd between Twin Peaks and Avra Valley Rd
+  - Twin Peaks Rd near Sandario
+  - Manville Rd and Sasco Rd low-water crossings
+- **The Avra Valley Rd bridge over the Santa Cruz** has been closed before, which stranded residents. This is the single biggest choke point.
+
+### Existing infrastructure and tools
+| What | Who | Use for this project |
+|---|---|---|
+| ALERT network: 100–150 rain/stream/weather stations, 10-min to 30-day rain totals ([map](https://alertmap.rfcd.pima.gov/Gmap/Gmap.html)) | Pima County Regional Flood Control District | **Main data source.** Find which stations sit upstream of each crossing. A data feed has not been confirmed yet (PAG also hosts an `RN_ALERT` ArcGIS layer). |
+| MyAlerts ([myalerts.pima.gov](https://myalerts.pima.gov)): text/call/email flood alerts for addresses inside a mapped inundation area | Pima County OEM + RFCD | **Sign up today.** Enter the home and work addresses to find out whether they're covered. |
+| USGS 09486509: Santa Cruz River at Avra Valley Rd | USGS | Right at the main choke point. Map layer, plus a free WaterAlert text. |
+| USGS 09486515 (Sanders Rd), 09486520 (Trico Rd) | USGS | Santa Cruz upstream and downstream of the crossings. |
+| USGS 09487000: Brawley Wash near Three Points | USGS | Far upstream (south) of the valley, so an early signal for Brawley Wash. |
+| NWS Tucson flash-flood warnings (they name specific crossings) | NWS | Map layer and banner. |
+| Pima County road closures (pima.gov/898); Marana PD/Town posts near I-10; AZ 511 for I-10 | County / Town / ADOT | Closures, which the map links to rather than duplicates. |
+
+### Where homemade sensors add value
+There's a gap between "rain fell upstream" (ALERT) and "the road is closed" (a barricade goes up). Nobody publishes **water depth at the specific dips on these routes**. A sensor on a post beside a crossing, **on a willing neighbor's land** with no right-of-way permit needed, fills that gap.
 
 ## Open item
-Name the 2 main routes into town and the flood-season shortcut, and which crossings flood. Each crossing then gets matched to the nearest upstream rain gauge and stream gauge.
+Name the 2 main routes to I-10 and the flood-season shortcut, and which crossings on them flood. Each crossing then gets matched to its upstream ALERT rain gauges and the nearest USGS gauge.
