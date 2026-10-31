@@ -1,0 +1,261 @@
+{
+ "type": "FeatureCollection",
+ "metadata": {
+  "source": "Overture Maps 2026-10-21.0 (OpenStreetMap contributors, ODbL)",
+  "origin": "W El Tiro Rd & N Trico Rd"
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.30426,
+     32.43882
+    ]
+   },
+   "properties": {
+    "route": "trico",
+    "km": 0.98,
+    "road": "North Trico Road",
+    "water": "Los Robles Wash",
+    "water_id": "e0e7993b-7504-3f16-904b-843494d12a7b",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.27985,
+     32.45369
+    ]
+   },
+   "properties": {
+    "route": "trico",
+    "km": 4.48,
+    "road": "West Trico Marana Road",
+    "water": "Santa Cruz River",
+    "water_id": "207e648c-754d-31dd-b278-76b1aa105b45",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.29459,
+     32.39322
+    ]
+   },
+   "properties": {
+    "route": "avra",
+    "km": 4.66,
+    "road": "West Avra Valley Road",
+    "water": "Brawley Wash",
+    "water_id": "c4ecf3c9-c405-3a86-b938-9c5297c2c7ad",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.27659,
+     32.39329
+    ]
+   },
+   "properties": {
+    "route": "avra",
+    "km": 6.58,
+    "road": "West Avra Valley Road",
+    "water": null,
+    "water_id": "7d687cd6-e5a4-36a0-8035-2d3747912b57",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.26095,
+     32.39514
+    ]
+   },
+   "properties": {
+    "route": "avra",
+    "km": 8.44,
+    "road": "West Avra Valley Road",
+    "water": null,
+    "water_id": "9db8d08e-8599-3b3c-bb24-df6cbaf10b31",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.24501,
+     32.40131
+    ]
+   },
+   "properties": {
+    "route": "avra",
+    "km": 10.56,
+    "road": "West Avra Valley Road",
+    "water": null,
+    "water_id": "7d57adbd-11ec-3c6a-9dd0-63fd6d513206",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.14714,
+     32.40224
+    ]
+   },
+   "properties": {
+    "route": "avra",
+    "km": 19.48,
+    "road": "West Avra Valley Road",
+    "water": null,
+    "water_id": "651c62a7-d6a9-3139-87de-f0b2a11f13c2",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.14614,
+     32.40256
+    ]
+   },
+   "properties": {
+    "route": "avra",
+    "km": 19.48,
+    "road": "West Avra Valley Road",
+    "water": "Santa Cruz River",
+    "water_id": "e84c8725-fb73-3ff5-9042-2b245a500a9c",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.30426,
+     32.43882
+    ]
+   },
+   "properties": {
+    "route": "silverbell-north",
+    "km": 0.98,
+    "road": "North Trico Road",
+    "water": "Los Robles Wash",
+    "water_id": "e0e7993b-7504-3f16-904b-843494d12a7b",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.23395,
+     32.43484
+    ]
+   },
+   "properties": {
+    "route": "silverbell-north",
+    "km": 11.24,
+    "road": "North Sanders Road",
+    "water": null,
+    "water_id": "570c16a8-e792-34b1-bd61-dafaa0aa75c8",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.23395,
+     32.43488
+    ]
+   },
+   "properties": {
+    "route": "silverbell-north",
+    "km": 11.24,
+    "road": "North Sanders Road",
+    "water": "Santa Cruz River",
+    "water_id": "207e648c-754d-31dd-b278-76b1aa105b45",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.30426,
+     32.43882
+    ]
+   },
+   "properties": {
+    "route": "silverbell-south",
+    "km": 0.98,
+    "road": "North Trico Road",
+    "water": "Los Robles Wash",
+    "water_id": "e0e7993b-7504-3f16-904b-843494d12a7b",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.14714,
+     32.40224
+    ]
+   },
+   "properties": {
+    "route": "silverbell-south",
+    "km": 18.51,
+    "road": "West Avra Valley Road",
+    "water": null,
+    "water_id": "651c62a7-d6a9-3139-87de-f0b2a11f13c2",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.14614,
+     32.40256
+    ]
+   },
+   "properties": {
+    "route": "silverbell-south",
+    "km": 18.51,
+    "road": "West Avra Valley Road",
+    "water": "Santa Cruz River",
+    "water_id": "e84c8725-fb73-3ff5-9042-2b245a500a9c",
+    "bridge_tagged": true
+   }
+  }
+ ]
+}
