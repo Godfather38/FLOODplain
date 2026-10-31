@@ -2,7 +2,7 @@ import { API, STALE_MS, DRY_CFS, GAUGES, ROUTES, LINKS } from './config.js';
 import { parseContinuous, summarizeGauge, rateRoute, recommend } from './logic.js';
 
 const COLORS = { ok: '#2e7d32', watch: '#1565c0', caution: '#ef8f00', danger: '#c62828', unknown: '#757575' };
-const LABEL = { ok: 'Clear', watch: 'Water under bridge', caution: 'Caution', danger: 'Avoid', unknown: 'No data' };
+const LABEL = { ok: 'Clear', watch: 'Water under bridge', caution: 'Caution', danger: 'Avoid', unknown: 'No data (not safe, just unknown)' };
 const CACHE_MS = 5 * 60 * 1000;
 const $ = (s) => document.querySelector(s);
 
@@ -88,7 +88,7 @@ function render(summaries, coords, errors, now) {
       <div class="head"><span class="dot"></span><b>${r.name}</b><span class="meta">${r.km} km · ~${Math.round(r.minutes)} min</span>
         <span class="badge">${LABEL[r.level]}</span></div>
       <ul class="links">${r.links.map((l) => `<li><span class="dot ${l.level}"></span>${l.role}: <i>${l.why}</i></li>`).join('')}</ul>
-      <div class="blind">Not monitored: ${ROUTES[r.id].blindSpots.join('; ')}.</div>
+      <ul class="blind">${ROUTES[r.id].blindSpots.map((b) => `<li>Not watched: ${b}</li>`).join('')}</ul>
     </li>`).join('');
   document.querySelectorAll('#routes > li').forEach((li) => {
     li.addEventListener('mouseenter', () => routeLayers[li.dataset.id]?.bringToFront().setStyle({ weight: 8 }));

@@ -18,6 +18,7 @@
     <section class="panel">
       <div id="verdict" class="verdict unknown"><b>Loading…</b></div>
       <p id="status" class="status"></p>
+      <p class="rain"><b>Did it rain in the valley overnight?</b> The gauges can miss local storms. If yes, skip Avra Valley Rd and check the ALERT rain map below. <a href="https://github.com/godfather38/floodplain/blob/main/docs/FAILURE-POINTS.md" target="_blank" rel="noopener">What the app can't see</a></p>
       <label class="key">USGS API key
         <input id="apikey" type="password" autocomplete="off" placeholder="paste the key USGS emailed you">
         <small>Free from <a href="https://api.waterdata.usgs.gov/signup/" target="_blank" rel="noopener">api.waterdata.usgs.gov/signup</a>. Saved only in this browser.</small>
@@ -25,7 +26,7 @@
       <ol id="routes"></ol>
       <h2>Also check</h2>
       <nav id="links"></nav>
-      <p class="fine">Routes: OpenStreetMap via Overture Maps. Gauges: USGS (provisional data). Red dots are wash crossings with no bridge in the map data.</p>
+      <p class="fine">Routes: OpenStreetMap via Overture Maps. Gauges: USGS (provisional data). Red dots: wash crossings with no bridge in the map data (likely dips, where water runs across the road). White dots: bridges. Blue circles: USGS gauges; filled blue means water is flowing.</p>
     </section>
     <div id="map"></div>
   </main>

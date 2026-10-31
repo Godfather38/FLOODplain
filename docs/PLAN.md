@@ -1,6 +1,6 @@
 # Game plan: remaining failure points
 
-The prototype (`public/`) rates 4 routes from 4 USGS gauges. Below is what it **can't see yet**, ranked by how likely it is to strand you or put you in danger.
+The prototype (`public/`) rates 4 routes from 4 USGS gauges. **[FAILURE-POINTS.md](FAILURE-POINTS.md)** explains each blind spot in plain words, along with what to do about it each morning.
 
 ## Coverage today
 | Route | Gauged | Blind spots |

@@ -32,34 +32,42 @@ export const GAUGES = {
 export const ROUTES = {
   trico: {
     gauges: [
-      { site: '09486520', kind: 'bridge', role: 'Santa Cruz at the Trico-Marana bridge' },
-      { site: '09487000', kind: 'bridge', role: 'Brawley Wash upstream, which feeds the Los Robles Wash bridge on Trico Rd' },
+      { site: '09486520', kind: 'bridge', role: 'Santa Cruz River, under the Trico-Marana bridge' },
+      { site: '09487000', kind: 'bridge', role: 'Brawley Wash, 20 mi upstream of the Los Robles bridge on Trico Rd' },
     ],
-    blindSpots: ['Los Robles Wash bridge on Trico Rd has no gauge of its own'],
+    blindSpots: [
+      'Los Robles Wash bridge on Trico Rd (0.4 mi south of Silverbell): no gauge there. Rain on the valley can fill it unseen.',
+    ],
   },
   avra: {
     gauges: [
-      { site: '09486509', kind: 'bridge', role: 'Santa Cruz at the Avra Valley Rd bridge' },
-      { site: '09487000', kind: 'dip', role: 'Brawley Wash upstream of the Avra Valley Rd crossing' },
+      { site: '09486509', kind: 'bridge', role: 'Santa Cruz River, under the Avra Valley Rd bridge' },
+      { site: '09487000', kind: 'dip', role: 'Brawley Wash, 20 mi upstream of the Avra Valley Rd crossing' },
     ],
     blindSpots: [
-      'Brawley Wash crossing on Avra Valley Rd: the gauge is ~15 mi upstream, and local storms can flood it with no warning there',
-      '2 unnamed wash crossings on Avra Valley Rd with no bridge in the map data',
+      'Brawley Wash crossing (0.55 mi east of Trico): probably a dip. Rain on the valley floods it with no gauge warning. Skip this route if it rained overnight.',
+      'Two unnamed wash crossings (0.4 mi west of El Paso Gas Rd; 0.65 mi west of Sanders): unknown whether bridge or dip, no gauge.',
     ],
   },
   'silverbell-north': {
     gauges: [
-      { site: '09486515', kind: 'bridge', role: 'Santa Cruz at the Sanders Rd bridge' },
-      { site: '09487000', kind: 'bridge', role: 'Brawley Wash upstream, which feeds the Los Robles Wash bridge on Trico Rd' },
+      { site: '09486515', kind: 'bridge', role: 'Santa Cruz River, under the Sanders Rd bridge' },
+      { site: '09487000', kind: 'bridge', role: 'Brawley Wash, 20 mi upstream of the Los Robles bridge on Trico Rd' },
     ],
-    blindSpots: ['Silverbell Rd can wash out from poor road drainage. That is shallow, but no gauge sees it'],
+    blindSpots: [
+      'Los Robles Wash bridge on Trico Rd: no gauge there.',
+      'Silverbell Rd puddling/washouts after rain: shallow, but slow down.',
+    ],
   },
   'silverbell-south': {
     gauges: [
-      { site: '09486509', kind: 'bridge', role: 'Santa Cruz at the Avra Valley Rd bridge' },
-      { site: '09487000', kind: 'bridge', role: 'Brawley Wash upstream, which feeds the Los Robles Wash bridge on Trico Rd' },
+      { site: '09486509', kind: 'bridge', role: 'Santa Cruz River, under the Avra Valley Rd bridge' },
+      { site: '09487000', kind: 'bridge', role: 'Brawley Wash, 20 mi upstream of the Los Robles bridge on Trico Rd' },
     ],
-    blindSpots: ['Silverbell Rd can wash out from poor road drainage. That is shallow, but no gauge sees it'],
+    blindSpots: [
+      'Los Robles Wash bridge on Trico Rd: no gauge there.',
+      'Silverbell Rd puddling/washouts after rain: shallow, but slow down.',
+    ],
   },
 };
 
