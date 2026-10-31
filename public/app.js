@@ -113,7 +113,7 @@ function compute(d) {
 function where() {
   const p = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   if (p[0] === 'r' && view?.byId[p[1]]) return { screen: p[2] ? 'stretch' : 'route', route: p[1], fp: p[2] };
-  if (['how', 'settings', 'sources', 'alerts'].includes(p[0])) return { screen: p[0] };
+  if (['how', 'settings', 'sources', 'alerts', 'privacy'].includes(p[0])) return { screen: p[0] };
   return { screen: 'home' };
 }
 
@@ -164,6 +164,7 @@ function homeScreen() {
       <a class="row small" href="#/how"><span class="lead-icon">❓</span><span class="text"><div class="t">How to read this</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/settings"><span class="lead-icon">⚙️</span><span class="text"><div class="t">Settings</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/sources"><span class="lead-icon">ℹ️</span><span class="text"><div class="t">Sources</div></span><span class="chev">›</span></a>
+      <a class="row small" href="#/privacy"><span class="lead-icon">🔒</span><span class="text"><div class="t">Privacy &amp; terms</div></span><span class="chev">›</span></a>
     </div>
     <p class="fine">A guide built from public data, not a safety guarantee. Water over the road: turn around.</p>`;
 }
@@ -259,6 +260,7 @@ function alertsScreen() {
       : textFlow.step === 'done'
         ? `<p>Texts are on for ${esc(textFlow.phone)}. A confirmation text is on its way.</p>`
         : `<label class="field">Verizon number<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
+           <p class="consent">By tapping <b>Text me a code</b>, you agree to get Wash Watch road-flooding texts at the times you pick, up to 2 a day (more only if you're given an access key). Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. No marketing; your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
            <button type="button" class="btn btn-primary" id="t-signup">Text me a code</button>
            <button type="button" class="btn btn-text" id="t-stop">Stop texts for this number</button>`;
   return `<div class="page">
@@ -318,6 +320,20 @@ function wireAlerts() {
   $('#t-confirm')?.addEventListener('click', () => run({ action: 'confirm', phone: textFlow.phone, code: $('#t-code').value.trim() }, 'done'));
 }
 
+function privacyScreen() {
+  return `<div class="page">
+    <h4>What you get</h4>
+    <p>Wash Watch is a free, non-commercial road-flooding guide for Avra Valley, AZ. If you sign up for texts, you get a short message with the current flood risk for the routes between Avra Valley and I-10, at the times you choose: up to 2 texts a day unless you're given an access key. No marketing.</p>
+    <h4>Signing up and stopping</h4>
+    <p>You sign up on the Alerts page and confirm with a 4-digit code we text you. To stop, reply <b>STOP</b> to any message or use <b>Stop texts</b> on the Alerts page. Reply <b>HELP</b> for help. Message and data rates may apply. Carriers aren't liable for delayed or undelivered messages.</p>
+    <h4>Your information</h4>
+    <p>We keep only your phone number, the times and days you chose, and when we last texted you. It's stored privately by the person who runs Wash Watch and used only to send these texts. It's never sold, shared or used for marketing. Stopping texts deletes your number.</p>
+    <h4>No guarantee</h4>
+    <p>Ratings come from public, provisional data (USGS, Pima County, National Weather Service) and can be late or wrong. What you see at the crossing comes first. Never drive into water crossing the road.</p>
+    <h4>Contact</h4>
+    <p>Reply HELP to any Wash Watch text to reach the person who runs it.</p>
+  </div>`;
+}
 function sourcesScreen() {
   return `<div class="list">${LINKS.map(([t, u]) => `<a class="row small" href="${u}" target="_blank" rel="noopener"><span class="text"><div class="t">${esc(t)}</div></span><span class="chev">↗</span></a>`).join('')}</div>
     <p class="fine">River gauges: USGS. Rain and stream sensors: Pima County Regional Flood Control District. Barricades: Pima County DOT. Alerts: National Weather Service. Roads © OpenStreetMap contributors. All provisional.</p>`;
@@ -336,14 +352,14 @@ function render() {
     home: ['Wash Watch', subtitle()],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
-    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'],
+    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], privacy: ['Privacy & terms', 'Wash Watch texts'],
   }[w.screen];
   $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
-  $('#map').hidden = ['how', 'settings', 'sources', 'alerts'].includes(w.screen);
+  $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy'].includes(w.screen);
   $('#screen').innerHTML = {
     home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
-    how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen,
+    how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen,
   }[w.screen]();
   wire(w);
   drawMap(w);

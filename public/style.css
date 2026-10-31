@@ -131,3 +131,4 @@ details.src .more p:first-child { color: var(--on); }
 .btn.small { height: 40px; padding: 0 12px; font-size: 14px; }
 .page .btn-text { width: 100%; }
 .note { background: var(--angel); padding: 8px 12px; border-radius: 10px; }
+.consent { font-size: 13px; color: var(--muted); margin: 4px 0 10px; }
