@@ -33,5 +33,14 @@ This is a personal tool for one person, and maybe their family: before leaving f
 - `docs/SCOPE.md`: sections 1–3 above, so the reasoning lives in the repo.
 - Delete `server/`, the SQLite code, and the `leaflet` npm dependency (Leaflet loads from a CDN on Pages).
 
+## Local: Avra Valley / Marana, AZ
+Desert flash floods change the plan compared with a river town:
+- **Floods come from monsoon storms (Jul–Sep) and winter storms.** Washes go from dry to impassable within minutes and drop again within hours. Rain falling *upstream* is the earliest warning, so **rain gauges matter as much as water-level gauges.**
+- **Pima County Regional Flood Control District runs an ALERT network** of rain and stream gauges across the county, with a public map. This is the most important local data source. It is checked first, and becomes a map layer if its data can be pulled.
+- **USGS gauges** exist on the Santa Cruz River and the larger washes (e.g. Brawley Wash in Avra Valley). The exact site IDs still need confirming.
+- **Low-water crossings (dips through washes) are the real hazard** on rural Avra Valley roads, and they're ideal sensor spots. A sensor on a post at the edge of a dip, on private land, needs no right-of-way permit.
+- **Pima County and the Town of Marana** each own roads out here. Who to email depends on which jurisdiction a road falls in.
+- **Arizona's "Stupid Motorist Law" (ARS 28-910):** drivers who go around barricades into a flooded wash can be billed for their rescue. It's worth a line on the map.
+
 ## Open item
-Add the city/county and commute route so local gauges and any county flood-warning network can be listed here.
+Name the 2 main routes into town and the flood-season shortcut, and which crossings flood. Each crossing then gets matched to the nearest upstream rain gauge and stream gauge.
