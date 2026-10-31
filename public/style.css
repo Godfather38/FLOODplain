@@ -60,3 +60,7 @@ a { color: var(--watch); }
 .ev li { margin: 2px 0; }
 .ev small { color: var(--muted); margin-left: 15px; display: inline-block; }
 .ev .dot { width: 7px; height: 7px; }
+.howto { margin: 0 0 10px; font-size: 13.5px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
+.howto summary { cursor: pointer; font-weight: 600; }
+.howto ol { padding-left: 18px; margin: 6px 0; }
+.howto li { margin: 4px 0; }
