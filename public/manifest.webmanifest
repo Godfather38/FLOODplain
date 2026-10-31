@@ -1,6 +1,6 @@
 {
-  "name": "Marshall's WashWatch",
-  "short_name": "WashWatch",
+  "name": "FLOODplain",
+  "short_name": "FLOODplain",
   "description": "Which road between Avra Valley and I-10 has the least going against it right now, from river gauges, rain gauges, county barricades and weather alerts.",
   "start_url": "./",
   "scope": "./",

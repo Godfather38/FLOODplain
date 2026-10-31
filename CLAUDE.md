@@ -14,6 +14,7 @@
 - **The repo is public.** Never commit the owner's home address. Routes start at W El Tiro Rd & N Trico Rd.
 
 ## Project facts
+- Brand: **FLOODplain** (custom domain floodplain.duckdns.org via DuckDNS). The app's own links stay on godfather38.github.io, which GitHub forwards to the custom domain once it's set in Pages settings. Push topics keep the `washwatch-` prefix and the script file stays `apps-script/WashWatch.gs` so existing links and subscriptions don't break.
 - The static app is in `public/`. It's published by `.github/workflows/pages.yml` to https://godfather38.github.io/FLOODplain/.
 - GitHub Pages only deploys from the repo's **default branch**, which is still `ccr-ae06b197-a01a6o`. To publish: `git push origin main && git push origin main:ccr-ae06b197-a01a6o`. Once the default branch is `main`, pushing `main` is enough.
 - Pima ALERT rain/stream data is copied every ~10 min to the `data` branch by `.github/workflows/alert-snapshot.yml`.

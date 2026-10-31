@@ -335,7 +335,7 @@ function alertsScreen() {
         ? `<p>Texts are on for ${esc(textFlow.phone)}. A confirmation text is on its way.</p>`
         : `<label class="field">Mobile number<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
            <label class="field">Access key (optional, for more than 2 texts a day)<input id="t-key" type="text" autocomplete="off" value="${esc(textFlow.key ?? '')}"></label>
-           <p class="consent">By tapping <b>Text me a code</b>, you agree to get recurring Marshall's WashWatch road-flooding texts: one text at each time you pick, at most 4 msgs/day, plus a one-time sign-up code. Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. No marketing; your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
+           <p class="consent">By tapping <b>Text me a code</b>, you agree to get recurring FLOODplain road-flooding texts: one text at each time you pick, at most 4 msgs/day, plus a one-time sign-up code. Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. No marketing; your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
            <button type="button" class="btn btn-primary" id="t-signup">Text me a code</button>
            <button type="button" class="btn btn-text" id="t-stop">Stop texts for this number</button>`;
   return `<div class="page">
@@ -363,7 +363,7 @@ function alertsScreen() {
   ${cfg.TEXT_API ? `<h3 class="section">Need more texts?</h3>
   <div class="page">
     ${textFlow.reqMsg ? `<p class="note">${esc(textFlow.reqMsg)}</p>` : ''}
-    <p>Without a key, texts are limited to 2 a day. Ask the person who runs Marshall's WashWatch for an access key:</p>
+    <p>Without a key, texts are limited to 2 a day. Ask the person who runs FLOODplain for an access key:</p>
     <label class="field">How to reach you<input id="r-contact" type="text" autocomplete="off" placeholder="Name, phone or email"></label>
     <label class="field">Message<textarea id="r-msg" rows="3" placeholder="How many texts a day, and why"></textarea></label>
     <button type="button" class="btn btn-primary" id="r-send">Send request</button>
@@ -456,7 +456,7 @@ function wireReport() {
         const r = await fetch(`https://ntfy.sh/${cfg.REPORT_TOPIC}`, { method: 'POST', body, headers: { Title: `Crossing report: ${report.crossing}` } });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
       }
-      reportMsg = "Thanks! Sent. It goes straight to the person who runs Marshall's WashWatch.";
+      reportMsg = "Thanks! Sent. It goes straight to the person who runs FLOODplain.";
       location.replace('#/report');
     } catch (e) { reportMsg = 'Couldn’t send just now. Try again in a minute.'; }
     render();
@@ -466,15 +466,15 @@ function wireReport() {
 function privacyScreen() {
   return `<div class="page">
     <h4>What you get</h4>
-    <p>Marshall's WashWatch is a free, non-commercial road-flooding guide for Avra Valley, AZ. If you sign up for texts, you get a short message with the current flood risk for the routes between Avra Valley and I-10, one text at each time you choose, at most 4 texts a day, plus a one-time sign-up code. No marketing.</p>
+    <p>FLOODplain is a free, non-commercial road-flooding guide for Avra Valley, AZ. If you sign up for texts, you get a short message with the current flood risk for the routes between Avra Valley and I-10, one text at each time you choose, at most 4 texts a day, plus a one-time sign-up code. No marketing.</p>
     <h4>Signing up and stopping</h4>
     <p>You sign up on the Alerts page and confirm with a 4-digit code we text you. To stop, reply <b>STOP</b> to any message or use <b>Stop texts</b> on the Alerts page. Reply <b>HELP</b> for help. Message and data rates may apply. Carriers aren't liable for delayed or undelivered messages.</p>
     <h4>Your information</h4>
-    <p>We keep only your phone number, the times and days you chose, and when we last texted you. It's stored privately by the person who runs Marshall's WashWatch and used only to send these texts. It's never sold, shared or used for marketing. Stopping texts deletes your number.</p>
+    <p>We keep only your phone number, the times and days you chose, and when we last texted you. It's stored privately by the person who runs FLOODplain and used only to send these texts. It's never sold, shared or used for marketing. Stopping texts deletes your number.</p>
     <h4>No guarantee</h4>
     <p>Ratings come from public, provisional data (USGS, Pima County, National Weather Service) and can be late or wrong. What you see at the crossing comes first. Never drive into water crossing the road.</p>
     <h4>Contact</h4>
-    <p>Reply HELP to any Marshall's WashWatch text to reach the person who runs it.</p>
+    <p>Reply HELP to any FLOODplain text to reach the person who runs it.</p>
   </div>`;
 }
 function sourcesScreen() {
@@ -492,10 +492,10 @@ function render() {
   $('#logo').hidden = sub;
   $('#refresh').hidden = sub && !['route', 'stretch'].includes(w.screen);
   const titles = {
-    home: ["Marshall's WashWatch", subtitle()],
+    home: ["FLOODplain", subtitle()],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
-    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "Marshall's WashWatch texts"],
+    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"],
   }[w.screen];
   $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
