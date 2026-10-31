@@ -8,5 +8,9 @@
     "test": "node --test test/*.test.js",
     "build:gas": "node tools/build_gas.mjs",
     "serve": "python3 -m http.server -d public 8080"
+  },
+  "devDependencies": {
+    "acorn": "^8.14.0",
+    "esbuild": "^0.24.0"
   }
 }

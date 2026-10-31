@@ -3,6 +3,8 @@
 // alert service (apps-script/Code.gs), so texts use exactly the same ratings as the app.
 // Usage: node tools/build_gas.mjs
 import { readFileSync, writeFileSync } from 'node:fs';
+import { transformSync } from 'esbuild';
+import { parse } from 'acorn';
 
 const root = new URL('../', import.meta.url);
 const read = (p) => readFileSync(new URL(p, root), 'utf8');
@@ -36,5 +38,9 @@ const ROUTE_FEATURES = ${JSON.stringify(routes)};
 // ===== apps-script/Code.gs =====
 ${read('apps-script/Code.gs')}
 `;
-writeFileSync(new URL('apps-script/WashWatch.gs', root), out);
-console.log(`apps-script/WashWatch.gs: ${out.length} chars`);
+// Google Apps Script only understands older JavaScript (no ??=, numeric separators,
+// optional chaining is risky), so lower everything to ES2019 and check it parses as such.
+const lowered = transformSync(out, { target: 'es2019', format: 'esm', charset: 'utf8', legalComments: 'inline' }).code;
+parse(lowered, { ecmaVersion: 2019, sourceType: 'script' });
+writeFileSync(new URL('apps-script/WashWatch.gs', root), lowered);
+console.log(`apps-script/WashWatch.gs: ${lowered.length} chars, parses as ES2019`);
