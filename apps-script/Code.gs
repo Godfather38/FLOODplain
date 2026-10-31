@@ -37,10 +37,12 @@ const CONFIG = {
   NTFY: 'https://ntfy.sh/washwatch',
   MAX_NEW_SIGNUPS_PER_DAY: 40,
 };
-const HEADER = ['phone', 'times', 'days', 'mode', 'verified', 'code', 'code_sent', 'last_sent', 'created', 'key', 'sent_day', 'sent_count', 'codes_day'];
+const HEADER = ['phone', 'times', 'days', 'mode', 'verified', 'code', 'code_sent', 'last_sent', 'created', 'key', 'sent_day', 'sent_count', 'codes_day', 'area'];
 const KEYS_HEADER = ['key', 'texts_per_day', 'note'];
 // Column numbers (1-based) in the subscribers tab.
-const C = { phone: 1, times: 2, days: 3, mode: 4, verified: 5, code: 6, codeSent: 7, lastSent: 8, created: 9, key: 10, sentDay: 11, sentCount: 12, codesDay: 13 };
+const C = { phone: 1, times: 2, days: 3, mode: 4, verified: 5, code: 6, codeSent: 7, lastSent: 8, created: 9, key: 10, sentDay: 11, sentCount: 12, codesDay: 13, area: 14 };
+const AREA_IDS = ['avra', 'picture-rocks'];
+const validArea_ = (a) => (AREA_IDS.includes(a) ? a : 'avra');
 
 // Run once from the editor (pick "setup" in the toolbar, press Run) if texts don't start on their own.
 function setup() { ensureTrigger_(); sheet_(); keysSheet_(); return 'ok'; }
@@ -50,7 +52,7 @@ function doGet(e) {
   ensureTrigger_();
   // The app asks for the county rain/stream feed through here (the county site blocks browsers).
   if (e && e.parameter && e.parameter.feed === 'alert') {
-    computeVerdict_();
+    computeVerdicts_();
     const snap = CacheService.getScriptCache().get('alert');
     return json_(snap ? JSON.parse(snap) : { error: 'unavailable' });
   }
@@ -109,7 +111,7 @@ function signup_(phone, b) {
   const code = String(Math.floor(1000 + Math.random() * 9000));
   const keep = row ? sh.getRange(row, 1, 1, HEADER.length).getValues()[0] : [];
   const values = [phone, times.join(','), days, mode, false, code, now, keep[C.lastSent - 1] || '',
-    row ? keep[C.created - 1] : new Date(), key, keep[C.sentDay - 1] || '', keep[C.sentCount - 1] || 0, `${today} ${codesToday + 1}`];
+    row ? keep[C.created - 1] : new Date(), key, keep[C.sentDay - 1] || '', keep[C.sentCount - 1] || 0, `${today} ${codesToday + 1}`, validArea_(b.area)];
   if (row) sh.getRange(row, 1, 1, HEADER.length).setValues([values]);
   else sh.appendRow(values);
   text_(phone, `Wash Watch code: ${code}. Enter it in the app to start your texts. If you didn't ask for this, ignore it.`, true);
@@ -184,18 +186,27 @@ function tick() {
     });
   }
 
-  const v = verdict_();
-  const fresh = v && Date.now() - Date.parse(v.at) < 45 * 60 * 1000;
-  const msg = fresh ? v.sms : 'Wash Watch couldn\'t get fresh data just now. Check the app before you go.';
+  // One verdict per area, worked out once per run.
+  const verdicts = {};
+  const forArea = (a) => {
+    const id = validArea_(a);
+    if (!verdicts[id]) {
+      const v = verdict_(id);
+      const fresh = !!(v && Date.now() - Date.parse(v.at) < 45 * 60 * 1000);
+      verdicts[id] = { v, fresh, msg: fresh ? v.sms : 'Wash Watch couldn\'t get fresh data just now. Check the app before you go.' };
+    }
+    return verdicts[id];
+  };
 
   // Push notifications (ntfy): each phone has its own private topic and schedule.
   const ps = pushSheet_();
   ps.getDataRange().getValues().slice(1).forEach((r, i) => {
-    const [topic, times, days, mode, lastSent] = r;
+    const [topic, times, days, mode, lastSent, , pArea] = r;
     for (const m of minutes) {
       const key = `${m.day} ${m.hhmm}`;
       if (lastSent === key || !String(times).split(',').includes(m.hhmm) || !dueOn_(String(days), m)) continue;
       ps.getRange(i + 2, 5).setValue(key);
+      const { v, fresh, msg } = forArea(pArea);
       if (!(mode === 'off' && fresh && !v.off)) ntfy_(String(topic), v, msg);
     }
   });
@@ -213,6 +224,7 @@ function tick() {
       if (!dueOn_(String(r[C.days - 1]), m)) continue;
       sh.getRange(i + 2, C.lastSent).setValue(key);
       r[C.lastSent - 1] = key;
+      const { v, fresh, msg } = forArea(r[C.area - 1]);
       if (r[C.mode - 1] === 'off' && fresh && !v.off) continue;
       let count = r[C.sentDay - 1] === m.day ? Number(r[C.sentCount - 1]) || 0 : 0;
       if (count >= limit) continue;
@@ -226,9 +238,13 @@ function tick() {
 
 // The verdict, computed here with the app's own rules (bundled in WashWatch.gs).
 // Cached 4 minutes. Falls back to the copy GitHub publishes if computing fails.
-function computeVerdict_() {
+function computeVerdict_(area) {
+  const all = computeVerdicts_();
+  return all ? all[validArea_(area)] : null;
+}
+function computeVerdicts_() {
   const cache = CacheService.getScriptCache();
-  const hit = cache.get('verdict2');
+  const hit = cache.get('verdicts');
   if (hit) return JSON.parse(hit);
   if (typeof evaluate !== 'function') return null; // Code.gs on its own, without the bundled engine
   const urls = sourceUrls(PropertiesService.getScriptProperties().getProperty('USGS_API_KEY'));
@@ -249,15 +265,19 @@ function computeVerdict_() {
   const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
   const [closures, rain, stream, nws] = res.slice(sites.length);
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
-  const v = evaluate({ now, usgs, closures, alert, nws, routes: ROUTE_FEATURES });
-  const out = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title };
-  cache.put('verdict2', JSON.stringify(out), 240);
+  const out = {};
+  for (const id of AREA_IDS) {
+    const v = evaluate({ now, usgs, closures, alert, nws, routes: ROUTE_FEATURES }, id);
+    out[id] = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title };
+  }
+  cache.put('verdicts', JSON.stringify(out), 240);
   if (alert) cache.put('alert', JSON.stringify(alert), 300);
   return out;
 }
 
-function verdict_() {
-  try { const v = computeVerdict_(); if (v) return v; } catch (err) { /* fall back below */ }
+function verdict_(area) {
+  try { const v = computeVerdict_(area); if (v) return v; } catch (err) { /* fall back below */ }
+  if (validArea_(area) !== 'avra') return null; // GitHub's backup copy covers Avra Valley only
   const cache = CacheService.getScriptCache();
   const hit = cache.get('verdict');
   if (hit) return JSON.parse(hit);
@@ -418,7 +438,7 @@ function daysLabel_(days) {
 function pushSheet_() {
   const ss = sheet_().getParent();
   let p = ss.getSheetByName('push');
-  if (!p) { p = ss.insertSheet('push'); p.appendRow(['topic', 'times', 'days', 'mode', 'last_sent', 'created']); }
+  if (!p) { p = ss.insertSheet('push'); p.appendRow(['topic', 'times', 'days', 'mode', 'last_sent', 'created', 'area']); }
   return p;
 }
 function push_(b) {
@@ -430,12 +450,11 @@ function push_(b) {
   const ps = pushSheet_();
   const rows = ps.getDataRange().getValues();
   const i = rows.findIndex((r, k) => k > 0 && r[0] === topic);
-  if (i > 0) ps.getRange(i + 1, 1, 1, 4).setValues([values]);
-  else {
+  if (i > 0) { ps.getRange(i + 1, 1, 1, 4).setValues([values]); ps.getRange(i + 1, 7).setValue(validArea_(b.area)); } else {
     const today = today_();
     const added = rows.slice(1).filter((r) => r[5] instanceof Date && Utilities.formatDate(r[5], CONFIG.TZ, 'yyyy-MM-dd') === today).length;
     if (added >= 300) return { ok: false, error: 'Too many new sign-ups today. Try tomorrow.' };
-    ps.appendRow([...values, '', new Date()]);
+    ps.appendRow([...values, '', new Date(), validArea_(b.area)]);
   }
   return { ok: true, step: 'saved', days: daysLabel_(values[2]) };
 }

@@ -30,24 +30,26 @@ export function alertSnapshot(rainData, streamData, fetchedAt) {
 }
 
 // raw = { now, usgs: {site: json|null}, closures: arcgisJson|null, alert: snapshot|null, nws: geojson|null, routes: [features] }
-export function evaluate(raw) {
+export function evaluate(raw, area = 'avra') {
   const now = raw.now;
   const flows = Object.fromEntries(Object.keys(cfg.USGS_SITES).map((s) => [s, summarizeFlow(raw.usgs?.[s] ? parseContinuous(raw.usgs[s]) : {}, now, cfg.STALE_MS)]));
   const closures = raw.closures?.features?.map((f) => ({ location: f.attributes.Location?.trim(), status: f.attributes.Status ?? '', updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x })) ?? null;
   const nws = raw.nws ? (raw.nws.features ?? []).map((f) => ({ event: f.properties.event })) : null;
   const d = { now, flows, closures, alert: raw.alert, nws };
   const fpResults = Object.fromEntries(cfg.FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
-  const rated = rateRoutes(raw.routes, fpResults, cfg.FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
+  const routes = raw.routes.filter((f) => (f.properties.area ?? 'avra') === area);
+  const rated = rateRoutes(routes, fpResults, cfg.FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
   const { best, order } = recommend(rated);
   const missing = [!closures && 'county', !raw.alert && 'rain', !Object.values(flows).some((f) => f.fresh) && 'river'].filter(Boolean);
-  return { rated, best, order, missing, ...message(best, order, rated, missing, now) };
+  return { rated, best, order, missing, ...message(best, order, rated, missing, now, area) };
 }
 
-export function message(best, order, rated, missing, now) {
+export function message(best, order, rated, missing, now, area = 'avra') {
+  const areaName = area === 'avra' ? '' : ` (${(cfg.AREAS.find((a) => a.id === area) ?? {}).name})`;
   const name = (r) => cfg.ROUTE_INFO[r.id].name;
   const issue = (r) => { const a = againstIt(r)[0]; return a ? `${a.short}: ${a.why}` : null; };
   const text = [
-    `Wash Watch: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
+    `Wash Watch${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
     issue(best) ? `Watch for ${issue(best)}.` : null,
     `Others: ${order.filter((r) => r !== best).map((r) => `${name(r)} ${r.score}`).join(', ')}.`,
     ...order.filter((r) => r !== best && r.score >= 4).map((r) => `${name(r)}: ${issue(r)}.`),
@@ -57,10 +59,10 @@ export function message(best, order, rated, missing, now) {
   return {
     at: new Date(now).toISOString(),
     text,
-    sms: text.replace(/^Wash Watch: /, '').replace(/ https:\S+/, ''),
+    sms: text.replace(/^Wash Watch(?: \(([^)]+)\))?: /, (m, ar) => (ar ? `${ar}: ` : '')).replace(/ https:\S+/, ''),
     spoken: text.replace(/ https:\S+/, '').replace(/(\d)\/5/g, '$1 out of 5').replace(/–/g, ' and '),
     off: rated.some((r) => r.score >= 2),
-    title: `Wash Watch: ${name(best)} ${best.score}/5`,
+    title: `Wash Watch${areaName}: ${name(best)} ${best.score}/5`,
   };
 }
 

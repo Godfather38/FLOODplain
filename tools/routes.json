@@ -1,13 +1,32 @@
 {
-  "_comment": "Origin is the shared public junction (W El Tiro Rd & N Trico Rd), not a home address. Waypoints are [road name, lon, lat]; the router snaps each to the nearest junction on that named road. Every route ends at the nearest I-10 ramp.",
-  "origin": { "name": "W El Tiro Rd & N Trico Rd", "lon": -111.3045, "lat": 32.4295 },
-  "routes": [
-    { "id": "trico", "name": "Trico Rd -> Trico-Marana Rd -> Marana Rd", "waypoints": [] },
-    { "id": "avra", "name": "Avra Valley Rd (I-10 Avra Valley exit)",
-      "waypoints": [["North Trico Road", -111.31, 32.40], ["West Avra Valley Road", -111.14, 32.40]] },
-    { "id": "silverbell-north", "name": "Silverbell Rd -> Sanders Rd north -> Marana Rd",
-      "waypoints": [["West Silverbell Road", -111.26, 32.43], ["North Sanders Road", -111.234, 32.445]] },
-    { "id": "silverbell-south", "name": "Silverbell Rd -> Sanders Rd south -> Avra Valley Rd east",
-      "waypoints": [["West Silverbell Road", -111.26, 32.43], ["North Sanders Road", -111.234, 32.405], ["West Avra Valley Road", -111.14, 32.40]] }
+  "_comment": "Each area has a public hub (never a home address). Waypoints are [road name, lon, lat]; the router snaps each to the nearest junction on that named road. Every route ends at the nearest I-10 ramp.",
+  "areas": [
+    {
+      "id": "avra", "name": "Avra Valley",
+      "origin": { "name": "W El Tiro Rd & N Trico Rd", "lon": -111.3045, "lat": 32.4295 },
+      "routes": [
+        { "id": "trico", "name": "Trico Rd -> Trico-Marana Rd -> Marana Rd", "waypoints": [] },
+        { "id": "avra", "name": "Avra Valley Rd (I-10 Avra Valley exit)",
+          "waypoints": [["North Trico Road", -111.31, 32.40], ["West Avra Valley Road", -111.14, 32.40]] },
+        { "id": "silverbell-north", "name": "Silverbell Rd -> Sanders Rd north -> Marana Rd",
+          "waypoints": [["West Silverbell Road", -111.26, 32.43], ["North Sanders Road", -111.234, 32.445]] },
+        { "id": "silverbell-south", "name": "Silverbell Rd -> Sanders Rd south -> Avra Valley Rd east",
+          "waypoints": [["West Silverbell Road", -111.26, 32.43], ["North Sanders Road", -111.234, 32.405], ["West Avra Valley Road", -111.14, 32.40]] }
+      ]
+    },
+    {
+      "id": "picture-rocks", "name": "Picture Rocks",
+      "origin": { "name": "Sandario & Picture Rocks Rd (Niko's, the Speedways)", "lon": -111.21815, "lat": 32.32782 },
+      "routes": [
+        { "id": "pr-ina", "name": "Picture Rocks Rd -> Ina Rd",
+          "waypoints": [["West Picture Rocks Road", -111.13, 32.33], ["West Ina Road", -111.05, 32.338]] },
+        { "id": "pr-twinpeaks", "name": "Sandario Rd -> Twin Peaks Rd",
+          "waypoints": [["West Twin Peaks Road", -111.15, 32.40]] },
+        { "id": "pr-avra", "name": "Sandario Rd -> Avra Valley Rd",
+          "waypoints": [["North Sandario Road", -111.217, 32.39], ["West Avra Valley Road", -111.14, 32.40]] },
+        { "id": "pr-gates", "name": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway",
+          "waypoints": [["North Kinney Road", -111.17, 32.24], ["West Gates Pass Road", -111.10, 32.225], ["West Speedway Boulevard", -111.00, 32.236]] }
+      ]
+    }
   ]
 }

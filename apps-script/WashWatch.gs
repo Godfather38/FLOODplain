@@ -34,7 +34,14 @@ const USGS_SITES = {
   '09486055': { name: 'Rillito Creek at La Cholla', lat: 32.3028, lon: -111.0114 },
   '09486350': { name: 'Cañada del Oro below Ina Rd', lat: 32.3362, lon: -111.0421 },
   '09487000': { name: 'Brawley Wash near Three Points', lat: 32.0757, lon: -111.3387 },
+  '09482500': { name: 'Santa Cruz River at Tucson', lat: 32.2212, lon: -110.9818 },
 };
+
+// Areas: each has a public hub where its routes start.
+const AREAS = [
+  { id: 'avra', name: 'Avra Valley', hub: 'Trico & El Tiro', hubAt: [32.4295, -111.3045] },
+  { id: 'picture-rocks', name: 'Picture Rocks', hub: 'Niko\'s & the Speedways', hubAt: [32.32782, -111.21815] },
+];
 
 // River flow levels in cfs (cubic feet of water per second).
 // Normal is ~40 at Cortaro and ~30 at Trico Rd: treated wastewater, every day.
@@ -67,7 +74,15 @@ const RAIN_GAUGES = {
   '6480': 'Trico Rd north of Manville',
   '6440': 'Brawley Wash at Milewide Rd',
   '6420': 'Brawley Wash at Three Points',
+  '6130': 'Continental Reserve (Marana)',
+  '6520': 'El Camino del Cerro trailhead',
+  '6500': 'Arizona-Sonora Desert Museum',
+  '6490': 'Old Tucson',
 };
+const PR_NORTH = ['6460', '6110', '6440'];   // Sandario north of the hub
+const PR_EAST = ['6130', '6520', '6460'];    // Picture Rocks Rd / Ina side
+const PR_SOUTH = ['6460', '6500', '6440'];   // Sandario south toward Kinney
+const TUCSON_MTNS = ['6500', '6490', '6520']; // Kinney, Gates Pass, west Speedway
 const LOCAL = ['6110', '6460', '6480'];
 const BRAWLEY_BASIN = ['6440', '6420', '6460', '6480'];
 
@@ -113,7 +128,7 @@ const FAILURE_POINTS = [
     river: ['09486500', '09486520'],
   },
   {
-    id: 'sc-avra', short: 'Avra Valley Rd river bridge', kind: 'river', lat: 32.40256, lon: -111.14614, routes: ['avra', 'silverbell-south'],
+    id: 'sc-avra', short: 'Avra Valley Rd river bridge', kind: 'river', lat: 32.40256, lon: -111.14614, routes: ['avra', 'silverbell-south', 'pr-avra'],
     name: 'Santa Cruz bridge on Avra Valley Rd',
     where: 'just west of I-10',
     river: ['09486500'],
@@ -124,6 +139,83 @@ const FAILURE_POINTS = [
     name: 'Silverbell Rd puddling / washouts',
     where: 'Silverbell between Trico Rd and Sanders Rd',
     rain: { road: ['6110', '6480'] },
+  },
+
+  // ----- Picture Rocks (hub: Sandario & Picture Rocks Rd) -----
+  {
+    id: 'pr-sandario-pr', short: 'Sandario dip by Picture Rocks Rd', kind: 'dip', lat: 32.3290, lon: -111.2181, routes: ['pr-twinpeaks', 'pr-avra'],
+    name: 'Sandario Rd dip just north of Picture Rocks Rd', where: 'county barricade point "Sandario Rd north of Picture Rocks Rd"',
+    rain: { local: PR_NORTH },
+  },
+  {
+    id: 'pr-sandario-ina', short: 'Sandario dip by Ina Rd', kind: 'dip', lat: 32.3353, lon: -111.2166, routes: ['pr-twinpeaks', 'pr-avra'],
+    name: 'Sandario Rd dip south of Ina Rd', where: 'county barricade point "Sandario Rd south of Ina Rd"',
+    rain: { local: PR_NORTH },
+  },
+  {
+    id: 'pr-sandario-magee', short: 'Sandario dip by Magee Rd', kind: 'dip', lat: 32.3519, lon: -111.2166, routes: ['pr-twinpeaks', 'pr-avra'],
+    name: 'Sandario Rd dip south of Magee Rd', where: 'county barricade point "Sandario Rd south of Magee Rd"',
+    rain: { local: PR_NORTH },
+  },
+  {
+    id: 'pr-sandario-emigh', short: 'Sandario dip by Emigh Rd', kind: 'dip', lat: 32.3659, lon: -111.2167, routes: ['pr-twinpeaks', 'pr-avra'],
+    name: 'Sandario Rd dip south of Emigh Rd', where: 'county barricade point "Sandario Rd south of Emigh Rd"',
+    rain: { local: PR_NORTH },
+  },
+  {
+    id: 'pr-picture-rocks-wash', short: 'Picture Rocks Wash dip', kind: 'dip', lat: 32.32598, lon: -111.12082, routes: ['pr-ina'],
+    name: 'Picture Rocks Wash dip on Picture Rocks Rd', where: 'near Wade Rd (confirmed dip)',
+    rain: { local: PR_EAST },
+  },
+  {
+    id: 'pr-ina-flat', short: 'Ina Rd flat dip', kind: 'flat', lat: 32.33758, lon: -111.10526, routes: ['pr-ina'],
+    name: 'Large flat dip on Ina Rd', where: 'west of Yuma Mine Wash. Washes out; trucks and most cars usually get through',
+    rain: { local: PR_EAST },
+  },
+  {
+    id: 'pr-yuma-mine', short: 'Yuma Mine Wash dip', kind: 'dip', lat: 32.33759, lon: -111.09519, routes: ['pr-ina'],
+    name: 'Yuma Mine Wash dip on Ina Rd', where: 'the road drops into the wash (confirmed dip)',
+    rain: { local: PR_EAST },
+  },
+  {
+    id: 'sc-ina', short: 'Ina Rd river bridge', kind: 'river', lat: 32.33759, lon: -111.08151, routes: ['pr-ina'],
+    name: 'Santa Cruz bridge on Ina Rd', where: 'just west of I-10; Cañada del Oro joins here',
+    river: ['09486500', '09486350'],
+  },
+  {
+    id: 'pr-twinpeaks-washes', short: 'Twin Peaks Rd washes (not confirmed)', kind: 'dip', lat: 32.3783, lon: -111.1487, routes: ['pr-twinpeaks'],
+    name: 'Small washes on Twin Peaks Rd (not confirmed)', where: 'four crossings with no bridge in the map data, between Sandario and I-10',
+    rain: { local: ['6130', '6110', '6460'] },
+  },
+  {
+    id: 'sc-twinpeaks', short: 'Twin Peaks Rd river bridge', kind: 'river', lat: 32.37581, lon: -111.11538, routes: ['pr-twinpeaks'],
+    name: 'Santa Cruz bridge on Twin Peaks Rd', where: 'just west of I-10',
+    river: ['09486500', '09486520'],
+  },
+  {
+    id: 'pr-sandario-south', short: 'Sandario dips by Golden Gate', kind: 'dip', lat: 32.2746, lon: -111.2183, routes: ['pr-gates'],
+    name: 'Sandario Rd dips near Golden Gate and Kinney', where: 'county barricade points "Sandario south of Golden Gate" and "Sandario at Kinney"',
+    rain: { local: PR_SOUTH },
+  },
+  {
+    id: 'pr-kinney-javelina', short: 'Kinney Rd at Javelina Wash', kind: 'dip', lat: 32.2543, lon: -111.1987, routes: ['pr-gates'],
+    name: 'Kinney Rd at Javelina Wash (Tucson Mountain Park)', where: 'county barricade points on Kinney by Mile Wide and Hohokam',
+    rain: { local: TUCSON_MTNS },
+  },
+  {
+    id: 'pr-kinney-washes', short: 'Kinney & Gates Pass washes (not confirmed)', kind: 'dip', lat: 32.2340, lon: -111.1480, routes: ['pr-gates'],
+    name: 'Small washes on Kinney Rd and Gates Pass Rd (not confirmed)', where: 'about a dozen crossings with no bridge in the map data',
+    rain: { local: TUCSON_MTNS },
+  },
+  {
+    id: 'pr-speedway-washes', short: 'Speedway washes (not confirmed)', kind: 'dip', lat: 32.2360, lon: -111.0250, routes: ['pr-gates'],
+    name: 'Greasewood and Anklam Wash crossings on Speedway (not confirmed)', where: 'west of Silverbell Rd',
+    rain: { local: TUCSON_MTNS },
+  },
+  {
+    id: 'sc-speedway', short: 'Speedway river bridge', kind: 'river', lat: 32.23567, lon: -110.98614, routes: ['pr-gates'],
+    name: 'Santa Cruz bridge on Speedway', where: 'just west of I-10',
+    river: ['09482500'],
   },
 ];
 
@@ -140,13 +232,22 @@ const ROUTE_INFO = {
   'silverbell-north': { name: 'Silverbell–Sanders north', via: 'Trico Rd · Silverbell Rd · Sanders Rd · Marana Rd' },
   avra: { name: 'Avra Valley Rd', via: 'Trico Rd · Avra Valley Rd' },
   'silverbell-south': { name: 'Silverbell–Sanders south', via: 'Trico Rd · Silverbell Rd · Sanders Rd · Avra Valley Rd' },
+  'pr-ina': { name: 'Picture Rocks–Ina', via: 'Picture Rocks Rd · Wade Rd · Ina Rd' },
+  'pr-twinpeaks': { name: 'Twin Peaks', via: 'Sandario Rd · Twin Peaks Rd' },
+  'pr-avra': { name: 'Sandario–Avra Valley Rd', via: 'Sandario Rd · Avra Valley Rd' },
+  'pr-gates': { name: 'Gates Pass', via: 'Sandario Rd · Kinney Rd · Gates Pass Rd · Speedway' },
 };
 
 // Fixed places shown on the map. Trico & El Tiro is where the routes meet on the valley side.
 const PLACES = [
-  { name: 'Trico & El Tiro', lat: 32.4295, lon: -111.3045, side: 'below' },
-  { name: 'Marana exit (I-10)', lat: 32.4611, lon: -111.2170, side: 'right' },
-  { name: 'Avra Valley exit (I-10)', lat: 32.4006, lon: -111.1313, side: 'above-left' },
+  { area: 'avra', name: 'Trico & El Tiro', lat: 32.4295, lon: -111.3045, side: 'below' },
+  { area: 'avra', name: 'Marana exit (I-10)', lat: 32.4611, lon: -111.2170, side: 'right' },
+  { area: 'avra', name: 'Avra Valley exit (I-10)', lat: 32.4006, lon: -111.1313, side: 'above-left' },
+  { area: 'picture-rocks', name: 'Niko\'s & the Speedways', lat: 32.32782, lon: -111.21815, side: 'below' },
+  { area: 'picture-rocks', name: 'Ina exit', lat: 32.3389, lon: -111.0686, side: 'right' },
+  { area: 'picture-rocks', name: 'Twin Peaks exit', lat: 32.3777, lon: -111.1094, side: 'right' },
+  { area: 'picture-rocks', name: 'Avra Valley exit', lat: 32.4006, lon: -111.1313, side: 'above-left' },
+  { area: 'picture-rocks', name: 'Speedway exit', lat: 32.2300, lon: -110.9827, side: 'above-left' },
 ];
 
 // Free text-style alerts through the ntfy app: one topic per time slot, day set and mode.
@@ -160,6 +261,10 @@ const NAV = {
   avra: { via: [[32.3933, -111.2766]], ramp: [32.4006, -111.1313] },
   'silverbell-north': { via: [[32.43062, -111.2725], [32.4349, -111.2340]], ramp: [32.4611, -111.2170] },
   'silverbell-south': { via: [[32.43062, -111.2725], [32.4050, -111.2340]], ramp: [32.4006, -111.1313] },
+  'pr-ina': { via: [[32.3260, -111.1300], [32.3376, -111.0700]], ramp: [32.3389, -111.0686], hub: [32.32782, -111.21815] },
+  'pr-twinpeaks': { via: [[32.3700, -111.2167], [32.3800, -111.1600]], ramp: [32.3777, -111.1094], hub: [32.32782, -111.21815] },
+  'pr-avra': { via: [[32.3700, -111.2167], [32.4000, -111.2000]], ramp: [32.4006, -111.1313], hub: [32.32782, -111.21815] },
+  'pr-gates': { via: [[32.2470, -111.1835], [32.2250, -111.1000]], ramp: [32.2300, -110.9827], hub: [32.32782, -111.21815] },
 };
 
 const LINKS = [
@@ -363,7 +468,8 @@ function rateFailurePoint(fp, d, cfg) {
   const known = checks.filter((c) => c.level !== 'unknown');
   let level = known.length ? worst(known.map((c) => c.level)) : 'ok';
   if (!known.length) checks.unshift({ src: 'none', level: 'ok', why: 'No live readings right now, and nothing reported against it' });
-  if (fp.kind === 'road' && level === 'danger') level = 'caution'; // shallow per local knowledge
+  // Shallow spots per local knowledge: Silverbell drainage, the big flat dip on Ina.
+  if ((fp.kind === 'road' || fp.kind === 'flat') && level === 'danger') level = 'caution';
   // Lead with a measurement when one exists; the county "Open" flag is often days old.
   // Lead with the most specific source at that level: county closure, then local measurements, then NWS.
   const pref = ['county', 'wash', 'rain-local', 'river', 'rain-road', 'rain-basin', 'river-early', 'nws'];
@@ -398,7 +504,7 @@ function googleMapsUrl(nav, destination, direction = 'toI10') {
   let dest;
   if (direction === 'valley') {
     pts = [nav.ramp, ...[...nav.via].reverse()].slice(0, 3);
-    dest = VALLEY_HUB.join(',');
+    dest = (nav.hub || VALLEY_HUB).join(',');
   } else {
     pts = [...nav.via, ...(destination ? [nav.ramp] : [])].slice(0, 3);
     dest = destination || nav.ramp.join(',');
@@ -486,24 +592,26 @@ function alertSnapshot(rainData, streamData, fetchedAt) {
 }
 
 // raw = { now, usgs: {site: json|null}, closures: arcgisJson|null, alert: snapshot|null, nws: geojson|null, routes: [features] }
-function evaluate(raw) {
+function evaluate(raw, area = 'avra') {
   const now = raw.now;
   const flows = Object.fromEntries(Object.keys(CFG_.USGS_SITES).map((s) => [s, summarizeFlow(raw.usgs?.[s] ? parseContinuous(raw.usgs[s]) : {}, now, CFG_.STALE_MS)]));
   const closures = raw.closures?.features?.map((f) => ({ location: f.attributes.Location?.trim(), status: f.attributes.Status ?? '', updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x })) ?? null;
   const nws = raw.nws ? (raw.nws.features ?? []).map((f) => ({ event: f.properties.event })) : null;
   const d = { now, flows, closures, alert: raw.alert, nws };
   const fpResults = Object.fromEntries(CFG_.FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
-  const rated = rateRoutes(raw.routes, fpResults, CFG_.FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
+  const routes = raw.routes.filter((f) => (f.properties.area ?? 'avra') === area);
+  const rated = rateRoutes(routes, fpResults, CFG_.FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
   const { best, order } = recommend(rated);
   const missing = [!closures && 'county', !raw.alert && 'rain', !Object.values(flows).some((f) => f.fresh) && 'river'].filter(Boolean);
-  return { rated, best, order, missing, ...message(best, order, rated, missing, now) };
+  return { rated, best, order, missing, ...message(best, order, rated, missing, now, area) };
 }
 
-function message(best, order, rated, missing, now) {
+function message(best, order, rated, missing, now, area = 'avra') {
+  const areaName = area === 'avra' ? '' : ` (${(CFG_.AREAS.find((a) => a.id === area) ?? {}).name})`;
   const name = (r) => CFG_.ROUTE_INFO[r.id].name;
   const issue = (r) => { const a = againstIt(r)[0]; return a ? `${a.short}: ${a.why}` : null; };
   const text = [
-    `Wash Watch: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
+    `Wash Watch${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
     issue(best) ? `Watch for ${issue(best)}.` : null,
     `Others: ${order.filter((r) => r !== best).map((r) => `${name(r)} ${r.score}`).join(', ')}.`,
     ...order.filter((r) => r !== best && r.score >= 4).map((r) => `${name(r)}: ${issue(r)}.`),
@@ -513,10 +621,10 @@ function message(best, order, rated, missing, now) {
   return {
     at: new Date(now).toISOString(),
     text,
-    sms: text.replace(/^Wash Watch: /, '').replace(/ https:\S+/, ''),
+    sms: text.replace(/^Wash Watch(?: \(([^)]+)\))?: /, (m, ar) => (ar ? `${ar}: ` : '')).replace(/ https:\S+/, ''),
     spoken: text.replace(/ https:\S+/, '').replace(/(\d)\/5/g, '$1 out of 5').replace(/–/g, ' and '),
     off: rated.some((r) => r.score >= 2),
-    title: `Wash Watch: ${name(best)} ${best.score}/5`,
+    title: `Wash Watch${areaName}: ${name(best)} ${best.score}/5`,
   };
 }
 
@@ -536,9 +644,9 @@ function sourceUrls(usgsKey) {
   };
 }
 
-const CFG_ = { SOURCES, USGS_SITES, STALE_MS, SNAPSHOT_STALE_MS, RIVER, RAIN, RAIN_GAUGES, FAILURE_POINTS, RIVER_EARLY, CLOSURE_RADIUS_M, ROUTE_INFO };
+const CFG_ = { AREAS, SOURCES, USGS_SITES, STALE_MS, SNAPSHOT_STALE_MS, RIVER, RAIN, RAIN_GAUGES, FAILURE_POINTS, RIVER_EARLY, CLOSURE_RADIUS_M, ROUTE_INFO };
 const cfg = CFG_;
-const ROUTE_FEATURES = [{"properties":{"id":"trico","name":"Trico Rd -> Trico-Marana Rd -> Marana Rd","minutes":10.4,"km":11.2}},{"properties":{"id":"avra","name":"Avra Valley Rd (I-10 Avra Valley exit)","minutes":19.5,"km":21.1}},{"properties":{"id":"silverbell-north","name":"Silverbell Rd -> Sanders Rd north -> Marana Rd","minutes":16.5,"km":16.5}},{"properties":{"id":"silverbell-south","name":"Silverbell Rd -> Sanders Rd south -> Avra Valley Rd east","minutes":19.7,"km":20.2}}];
+const ROUTE_FEATURES = [{"properties":{"id":"trico","area":"avra","name":"Trico Rd -> Trico-Marana Rd -> Marana Rd","minutes":10.4,"km":11.2}},{"properties":{"id":"avra","area":"avra","name":"Avra Valley Rd (I-10 Avra Valley exit)","minutes":19.5,"km":21.1}},{"properties":{"id":"silverbell-north","area":"avra","name":"Silverbell Rd -> Sanders Rd north -> Marana Rd","minutes":16.5,"km":16.5}},{"properties":{"id":"silverbell-south","area":"avra","name":"Silverbell Rd -> Sanders Rd south -> Avra Valley Rd east","minutes":19.7,"km":20.2}},{"properties":{"id":"pr-ina","area":"picture-rocks","name":"Picture Rocks Rd -> Ina Rd","minutes":17.7,"km":19.5}},{"properties":{"id":"pr-twinpeaks","area":"picture-rocks","name":"Sandario Rd -> Twin Peaks Rd","minutes":15.4,"km":16.7}},{"properties":{"id":"pr-avra","area":"picture-rocks","name":"Sandario Rd -> Avra Valley Rd","minutes":15.3,"km":16.6}},{"properties":{"id":"pr-gates","area":"picture-rocks","name":"Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway","minutes":30.4,"km":32.3}}];
 
 // ===== apps-script/Code.gs =====
 /**
@@ -580,10 +688,12 @@ const CONFIG = {
   NTFY: 'https://ntfy.sh/washwatch',
   MAX_NEW_SIGNUPS_PER_DAY: 40,
 };
-const HEADER = ['phone', 'times', 'days', 'mode', 'verified', 'code', 'code_sent', 'last_sent', 'created', 'key', 'sent_day', 'sent_count', 'codes_day'];
+const HEADER = ['phone', 'times', 'days', 'mode', 'verified', 'code', 'code_sent', 'last_sent', 'created', 'key', 'sent_day', 'sent_count', 'codes_day', 'area'];
 const KEYS_HEADER = ['key', 'texts_per_day', 'note'];
 // Column numbers (1-based) in the subscribers tab.
-const C = { phone: 1, times: 2, days: 3, mode: 4, verified: 5, code: 6, codeSent: 7, lastSent: 8, created: 9, key: 10, sentDay: 11, sentCount: 12, codesDay: 13 };
+const C = { phone: 1, times: 2, days: 3, mode: 4, verified: 5, code: 6, codeSent: 7, lastSent: 8, created: 9, key: 10, sentDay: 11, sentCount: 12, codesDay: 13, area: 14 };
+const AREA_IDS = ['avra', 'picture-rocks'];
+const validArea_ = (a) => (AREA_IDS.includes(a) ? a : 'avra');
 
 // Run once from the editor (pick "setup" in the toolbar, press Run) if texts don't start on their own.
 function setup() { ensureTrigger_(); sheet_(); keysSheet_(); return 'ok'; }
@@ -593,7 +703,7 @@ function doGet(e) {
   ensureTrigger_();
   // The app asks for the county rain/stream feed through here (the county site blocks browsers).
   if (e && e.parameter && e.parameter.feed === 'alert') {
-    computeVerdict_();
+    computeVerdicts_();
     const snap = CacheService.getScriptCache().get('alert');
     return json_(snap ? JSON.parse(snap) : { error: 'unavailable' });
   }
@@ -652,7 +762,7 @@ function signup_(phone, b) {
   const code = String(Math.floor(1000 + Math.random() * 9000));
   const keep = row ? sh.getRange(row, 1, 1, HEADER.length).getValues()[0] : [];
   const values = [phone, times.join(','), days, mode, false, code, now, keep[C.lastSent - 1] || '',
-    row ? keep[C.created - 1] : new Date(), key, keep[C.sentDay - 1] || '', keep[C.sentCount - 1] || 0, `${today} ${codesToday + 1}`];
+    row ? keep[C.created - 1] : new Date(), key, keep[C.sentDay - 1] || '', keep[C.sentCount - 1] || 0, `${today} ${codesToday + 1}`, validArea_(b.area)];
   if (row) sh.getRange(row, 1, 1, HEADER.length).setValues([values]);
   else sh.appendRow(values);
   text_(phone, `Wash Watch code: ${code}. Enter it in the app to start your texts. If you didn't ask for this, ignore it.`, true);
@@ -727,18 +837,27 @@ function tick() {
     });
   }
 
-  const v = verdict_();
-  const fresh = v && Date.now() - Date.parse(v.at) < 45 * 60 * 1000;
-  const msg = fresh ? v.sms : 'Wash Watch couldn\'t get fresh data just now. Check the app before you go.';
+  // One verdict per area, worked out once per run.
+  const verdicts = {};
+  const forArea = (a) => {
+    const id = validArea_(a);
+    if (!verdicts[id]) {
+      const v = verdict_(id);
+      const fresh = !!(v && Date.now() - Date.parse(v.at) < 45 * 60 * 1000);
+      verdicts[id] = { v, fresh, msg: fresh ? v.sms : 'Wash Watch couldn\'t get fresh data just now. Check the app before you go.' };
+    }
+    return verdicts[id];
+  };
 
   // Push notifications (ntfy): each phone has its own private topic and schedule.
   const ps = pushSheet_();
   ps.getDataRange().getValues().slice(1).forEach((r, i) => {
-    const [topic, times, days, mode, lastSent] = r;
+    const [topic, times, days, mode, lastSent, , pArea] = r;
     for (const m of minutes) {
       const key = `${m.day} ${m.hhmm}`;
       if (lastSent === key || !String(times).split(',').includes(m.hhmm) || !dueOn_(String(days), m)) continue;
       ps.getRange(i + 2, 5).setValue(key);
+      const { v, fresh, msg } = forArea(pArea);
       if (!(mode === 'off' && fresh && !v.off)) ntfy_(String(topic), v, msg);
     }
   });
@@ -756,6 +875,7 @@ function tick() {
       if (!dueOn_(String(r[C.days - 1]), m)) continue;
       sh.getRange(i + 2, C.lastSent).setValue(key);
       r[C.lastSent - 1] = key;
+      const { v, fresh, msg } = forArea(r[C.area - 1]);
       if (r[C.mode - 1] === 'off' && fresh && !v.off) continue;
       let count = r[C.sentDay - 1] === m.day ? Number(r[C.sentCount - 1]) || 0 : 0;
       if (count >= limit) continue;
@@ -769,9 +889,13 @@ function tick() {
 
 // The verdict, computed here with the app's own rules (bundled in WashWatch.gs).
 // Cached 4 minutes. Falls back to the copy GitHub publishes if computing fails.
-function computeVerdict_() {
+function computeVerdict_(area) {
+  const all = computeVerdicts_();
+  return all ? all[validArea_(area)] : null;
+}
+function computeVerdicts_() {
   const cache = CacheService.getScriptCache();
-  const hit = cache.get('verdict2');
+  const hit = cache.get('verdicts');
   if (hit) return JSON.parse(hit);
   if (typeof evaluate !== 'function') return null; // Code.gs on its own, without the bundled engine
   const urls = sourceUrls(PropertiesService.getScriptProperties().getProperty('USGS_API_KEY'));
@@ -792,15 +916,19 @@ function computeVerdict_() {
   const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
   const [closures, rain, stream, nws] = res.slice(sites.length);
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
-  const v = evaluate({ now, usgs, closures, alert, nws, routes: ROUTE_FEATURES });
-  const out = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title };
-  cache.put('verdict2', JSON.stringify(out), 240);
+  const out = {};
+  for (const id of AREA_IDS) {
+    const v = evaluate({ now, usgs, closures, alert, nws, routes: ROUTE_FEATURES }, id);
+    out[id] = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title };
+  }
+  cache.put('verdicts', JSON.stringify(out), 240);
   if (alert) cache.put('alert', JSON.stringify(alert), 300);
   return out;
 }
 
-function verdict_() {
-  try { const v = computeVerdict_(); if (v) return v; } catch (err) { /* fall back below */ }
+function verdict_(area) {
+  try { const v = computeVerdict_(area); if (v) return v; } catch (err) { /* fall back below */ }
+  if (validArea_(area) !== 'avra') return null; // GitHub's backup copy covers Avra Valley only
   const cache = CacheService.getScriptCache();
   const hit = cache.get('verdict');
   if (hit) return JSON.parse(hit);
@@ -961,7 +1089,7 @@ function daysLabel_(days) {
 function pushSheet_() {
   const ss = sheet_().getParent();
   let p = ss.getSheetByName('push');
-  if (!p) { p = ss.insertSheet('push'); p.appendRow(['topic', 'times', 'days', 'mode', 'last_sent', 'created']); }
+  if (!p) { p = ss.insertSheet('push'); p.appendRow(['topic', 'times', 'days', 'mode', 'last_sent', 'created', 'area']); }
   return p;
 }
 function push_(b) {
@@ -973,12 +1101,11 @@ function push_(b) {
   const ps = pushSheet_();
   const rows = ps.getDataRange().getValues();
   const i = rows.findIndex((r, k) => k > 0 && r[0] === topic);
-  if (i > 0) ps.getRange(i + 1, 1, 1, 4).setValues([values]);
-  else {
+  if (i > 0) { ps.getRange(i + 1, 1, 1, 4).setValues([values]); ps.getRange(i + 1, 7).setValue(validArea_(b.area)); } else {
     const today = today_();
     const added = rows.slice(1).filter((r) => r[5] instanceof Date && Utilities.formatDate(r[5], CONFIG.TZ, 'yyyy-MM-dd') === today).length;
     if (added >= 300) return { ok: false, error: 'Too many new sign-ups today. Try tomorrow.' };
-    ps.appendRow([...values, '', new Date()]);
+    ps.appendRow([...values, '', new Date(), validArea_(b.area)]);
   }
   return { ok: true, step: 'saved', days: daysLabel_(values[2]) };
 }

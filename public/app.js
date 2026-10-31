@@ -4,7 +4,7 @@ import {
   riskScore, routeScore, goodSigns, againstIt,
 } from './logic.js';
 
-const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES } = cfg;
+const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
 const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62828' };
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
@@ -12,7 +12,7 @@ const SRC = {
   none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
   wash: ['〰️', 'Wash flow'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
 };
-const KIND_ICON = { dip: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
+const KIND_ICON = { dip: '〰️', flat: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
 const REFRESH_MS = 5 * 60 * 1000;
 const NAV_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4.5 20.3l.7.7L12 18l6.8 3 .7-.7z"/></svg>';
 const $ = (s) => document.querySelector(s);
@@ -73,7 +73,16 @@ async function gather() {
 }
 
 // ---------------- state ----------------
-let routeFeatures = [];
+let allRoutes = [];     // every route, all areas
+let routeFeatures = []; // routes in the chosen area
+let area = 'avra';
+const areaInfo = () => AREAS.find((x) => x.id === area) ?? AREAS[0];
+function useArea(id) {
+  area = AREAS.some((x) => x.id === id) ? id : 'avra';
+  store.set('area', area);
+  routeFeatures = allRoutes.filter((f) => (f.properties.area ?? 'avra') === area);
+  allBounds = L.geoJSON({ type: 'FeatureCollection', features: routeFeatures }).getBounds();
+}
 let data = null;
 let view = null;
 let openSource = null; // index of the source row expanded on the stretch screen
@@ -139,8 +148,10 @@ function homeScreen() {
   const info = ROUTE_INFO[best.id];
   const against = againstIt(best).slice(0, 2);
   const others = rec.order.filter((r) => r.id !== best.id);
-  const overline = best.score == null ? 'Can’t tell right now' : best.score <= 2 ? 'Best route right now' : 'Least going against it';
+  const overline = best.score <= 2 ? 'Best route right now' : 'Least going against it';
+  const areaSwitch = `<div class="seg" role="tablist" aria-label="Area">${AREAS.map((x) => `<button type="button" role="tab" data-area="${x.id}" aria-selected="${x.id === area}">${esc(x.name)}</button>`).join('')}</div>`;
   return `
+    ${areaSwitch}
     <article class="hero">
       <p class="overline">${overline}</p>
       <div class="hero-top"><h2>${esc(info.name)}</h2>${badgeWithWord(best.score)}</div>
@@ -304,6 +315,7 @@ function alertsScreen() {
     </label>
     <p class="fine" style="text-align:left;margin:0">Arizona time.</p>
   </div>
+  <p class="fine" style="text-align:left;margin:12px 4px 0">These alerts are for <b>${esc(areaInfo().name)}</b> routes. Switch area on the home screen to sign up for the other.</p>
   <h3 class="section">Text message</h3>
   <div class="page">
     ${textFlow.msg ? `<p class="note">${esc(textFlow.msg)}</p>` : ''}
@@ -354,7 +366,7 @@ function wireAlerts() {
   });
   $('#p-save')?.addEventListener('click', async () => {
     try {
-      const r = await textApi({ action: 'push', topic: pushTopic(), times: a.times, days: a.days, mode: a.mode });
+      const r = await textApi({ action: 'push', topic: pushTopic(), area, times: a.times, days: a.days, mode: a.mode });
       textFlow.pushMsg = r.ok ? `Saved: ${a.times.map(clock).join(' & ')}, ${daysSummary(a.days)}.` : (r.error || 'Something went wrong.');
     } catch { textFlow.pushMsg = 'Couldn’t reach the alert service. Try again in a minute.'; }
     render();
@@ -374,7 +386,7 @@ function wireAlerts() {
   };
   $('#t-signup')?.addEventListener('click', () => {
     textFlow.phone = $('#t-phone').value.trim(); textFlow.key = $('#t-key')?.value.trim() ?? '';
-    run({ action: 'signup', phone: textFlow.phone, key: textFlow.key, times: a.times, days: a.days, mode: a.mode }, 'confirm');
+    run({ action: 'signup', phone: textFlow.phone, area, key: textFlow.key, times: a.times, days: a.days, mode: a.mode }, 'confirm');
   });
   $('#r-send')?.addEventListener('click', async () => {
     try {
@@ -433,9 +445,14 @@ function render() {
 }
 function subtitle() {
   const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-  return `Avra Valley ↔ I-10 · ${t(data.now)}${data.errors.length ? ` · no ${data.errors.join(', ')}` : ''}`;
+  return `${areaInfo().name} ↔ I-10 · ${t(data.now)}${data.errors.length ? ` · no ${data.errors.join(', ')}` : ''}`;
 }
 function wire(w) {
+  document.querySelectorAll('[data-area]').forEach((b) => b.addEventListener('click', () => {
+    useArea(b.dataset.area);
+    view = compute(data);
+    render();
+  }));
   document.querySelectorAll('details.src').forEach((d) => d.addEventListener('toggle', () => {
     const i = Number(d.dataset.i);
     if (d.open) {
@@ -480,26 +497,28 @@ function drawMap(w) {
     L.geoJSON(f, { style: { color: on ? '#3c3b38' : '#9b9a94', weight: on ? 6 : 3, opacity: on ? 0.9 : 0.5 }, interactive: false }).addTo(layer);
   }
   // The fixed places: valley hub and the two I-10 exits.
-  for (const pl of PLACES) {
+  for (const pl of PLACES.filter((x) => (x.area ?? 'avra') === area)) {
     L.circleMarker([pl.lat, pl.lon], { radius: 6, color: '#fff', weight: 2, fillColor: '#3c3b38', fillOpacity: 1, interactive: false }).addTo(layer);
     L.marker([pl.lat, pl.lon], { icon: L.divIcon({ className: 'place-pin', html: `<span class="place ${pl.side ?? 'right'}">${esc(pl.name)}</span>`, iconSize: [0, 0] }), interactive: false }).addTo(layer);
   }
   // Pins only where something is off, plus the stretch being viewed.
+  const inArea = new Set(routeFeatures.map((f) => f.properties.id));
   const visible = FAILURE_POINTS.filter((fp) => {
+    if (!fp.routes.some((rid) => inArea.has(rid))) return false; // other area
     const s = riskScore(view.fpResults[fp.id]);
     const onRoute = w.screen === 'home' || fp.routes.includes(focus);
     return (onRoute && s !== 1) || fp.id === w.fp;
   });
   for (const fp of visible) {
     const s = riskScore(view.fpResults[fp.id]);
-    for (const rid of fp.routes) {
+    for (const rid of fp.routes.filter((x) => inArea.has(x))) {
       for (const line of lineCoords(routeFeatures.find((f) => f.properties.id === rid).geometry)) {
         for (const run of stretchAround(line, fp.lat, fp.lon, fp.kind === 'road' ? 2500 : 450)) {
           L.polyline(run, { color: COLOR[s] ?? '#8e8d88', weight: rid === focus ? 9 : 5, opacity: 0.95, lineCap: 'round', interactive: false }).addTo(layer);
         }
       }
     }
-    const rid = fp.routes.includes(focus) ? focus : fp.routes[0];
+    const rid = fp.routes.includes(focus) ? focus : fp.routes.find((x) => inArea.has(x));
     L.marker([fp.lat, fp.lon], { icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${s}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
       .on('click', () => { location.hash = `#/r/${rid}/${fp.id}`; })
       .addTo(layer);
@@ -546,8 +565,8 @@ async function check() {
   render();
 }
 async function init() {
-  routeFeatures = (await getJson('data/routes.geojson')).features;
-  allBounds = L.geoJSON({ type: 'FeatureCollection', features: routeFeatures }).getBounds();
+  allRoutes = (await getJson('data/routes.geojson')).features;
+  useArea(store.get('area') ?? 'avra');
   map.fitBounds(allBounds, { animate: false });
   window.addEventListener('hashchange', () => { openSource = null; render(); window.scrollTo(0, 0); });
   $('#back').addEventListener('click', () => {

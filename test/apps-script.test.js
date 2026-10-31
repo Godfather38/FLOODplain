@@ -139,3 +139,10 @@ test('private push topic gets its own schedule', () => {
   t.clock.now = AZ('2026-11-09T06:30:10'); t.api.tick();
   assert.equal(t.fetches.filter((f) => f.url.includes('washwatch-abc12345xy')).length, 1, 'stopped');
 });
+
+test('Picture Rocks sign-ups get the Picture Rocks verdict', () => {
+  const t = setup();
+  t.post({ action: 'push', topic: 'washwatch-prtest1234', area: 'picture-rocks', times: ['06:30'], days: 'w:1' });
+  const rows = t.api.sheet_().getParent().getSheetByName('push').getDataRange().getValues();
+  assert.equal(rows[1][6], 'picture-rocks');
+});

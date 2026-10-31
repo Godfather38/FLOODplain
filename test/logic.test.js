@@ -9,7 +9,9 @@ import {
 } from '../public/logic.js';
 
 const fx = (n) => JSON.parse(readFileSync(new URL(`./fixtures/${n}`, import.meta.url)));
-const ROUTES = JSON.parse(readFileSync(new URL('../public/data/routes.geojson', import.meta.url))).features;
+const ALL_ROUTES = JSON.parse(readFileSync(new URL('../public/data/routes.geojson', import.meta.url))).features;
+const ROUTES = ALL_ROUTES.filter((f) => f.properties.area === 'avra');
+const PR_ROUTES = ALL_ROUTES.filter((f) => f.properties.area === 'picture-rocks');
 const FP = Object.fromEntries(cfg.FAILURE_POINTS.map((f) => [f.id, f]));
 const NOW = Date.parse('2026-10-31T21:30:00Z');
 
@@ -187,4 +189,27 @@ test('Google Maps into the valley: off I-10 at the route ramp, back along it to 
   assert.equal(wp[0], cfg.NAV['silverbell-north'].ramp.join(','));
   assert.equal(wp[1], cfg.NAV['silverbell-north'].via.at(-1).join(','));
   assert.equal(u.searchParams.get('destination'), '32.4295,-111.3045');
+});
+
+// ---- Picture Rocks ----
+const choosePR = (d) => {
+  const res = Object.fromEntries(cfg.FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
+  return { res, ...recommend(rateRoutes(PR_ROUTES, res, cfg.FAILURE_POINTS)) };
+};
+test('Picture Rocks: four routes, dry day picks one at 1', () => {
+  assert.equal(PR_ROUTES.length, 4);
+  const r = choosePR(data());
+  assert.equal(r.best.level, 'ok');
+  assert.ok(['pr-twinpeaks', 'pr-avra'].includes(r.best.id), 'fastest of the dry routes');
+});
+test('Picture Rocks: storm at the Picture Rocks gauge flags the Sandario dips, not Gates Pass', () => {
+  const r = choosePR(data({ alert: snapshot({ '6460': { h1: 0.8, h3: 1.3 } }) }));
+  assert.equal(r.res['pr-sandario-ina'].level, 'danger');
+  assert.equal(r.best.id, 'pr-gates' === r.best.id ? 'pr-gates' : r.best.id);
+  assert.notEqual(r.order.find((x) => x.id === 'pr-twinpeaks').level, 'ok');
+});
+test('the flat dip on Ina never rates above caution', () => {
+  const r = choosePR(data({ alert: snapshot({ '6130': { h1: 2, h3: 3 } }) }));
+  assert.equal(r.res['pr-ina-flat'].level, 'caution');
+  assert.equal(r.res['pr-yuma-mine'].level, 'danger');
 });

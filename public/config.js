@@ -22,7 +22,14 @@ export const USGS_SITES = {
   '09486055': { name: 'Rillito Creek at La Cholla', lat: 32.3028, lon: -111.0114 },
   '09486350': { name: 'Cañada del Oro below Ina Rd', lat: 32.3362, lon: -111.0421 },
   '09487000': { name: 'Brawley Wash near Three Points', lat: 32.0757, lon: -111.3387 },
+  '09482500': { name: 'Santa Cruz River at Tucson', lat: 32.2212, lon: -110.9818 },
 };
+
+// Areas: each has a public hub where its routes start.
+export const AREAS = [
+  { id: 'avra', name: 'Avra Valley', hub: 'Trico & El Tiro', hubAt: [32.4295, -111.3045] },
+  { id: 'picture-rocks', name: 'Picture Rocks', hub: 'Niko\'s & the Speedways', hubAt: [32.32782, -111.21815] },
+];
 
 // River flow levels in cfs (cubic feet of water per second).
 // Normal is ~40 at Cortaro and ~30 at Trico Rd: treated wastewater, every day.
@@ -55,7 +62,15 @@ export const RAIN_GAUGES = {
   '6480': 'Trico Rd north of Manville',
   '6440': 'Brawley Wash at Milewide Rd',
   '6420': 'Brawley Wash at Three Points',
+  '6130': 'Continental Reserve (Marana)',
+  '6520': 'El Camino del Cerro trailhead',
+  '6500': 'Arizona-Sonora Desert Museum',
+  '6490': 'Old Tucson',
 };
+const PR_NORTH = ['6460', '6110', '6440'];   // Sandario north of the hub
+const PR_EAST = ['6130', '6520', '6460'];    // Picture Rocks Rd / Ina side
+const PR_SOUTH = ['6460', '6500', '6440'];   // Sandario south toward Kinney
+const TUCSON_MTNS = ['6500', '6490', '6520']; // Kinney, Gates Pass, west Speedway
 const LOCAL = ['6110', '6460', '6480'];
 const BRAWLEY_BASIN = ['6440', '6420', '6460', '6480'];
 
@@ -101,7 +116,7 @@ export const FAILURE_POINTS = [
     river: ['09486500', '09486520'],
   },
   {
-    id: 'sc-avra', short: 'Avra Valley Rd river bridge', kind: 'river', lat: 32.40256, lon: -111.14614, routes: ['avra', 'silverbell-south'],
+    id: 'sc-avra', short: 'Avra Valley Rd river bridge', kind: 'river', lat: 32.40256, lon: -111.14614, routes: ['avra', 'silverbell-south', 'pr-avra'],
     name: 'Santa Cruz bridge on Avra Valley Rd',
     where: 'just west of I-10',
     river: ['09486500'],
@@ -112,6 +127,83 @@ export const FAILURE_POINTS = [
     name: 'Silverbell Rd puddling / washouts',
     where: 'Silverbell between Trico Rd and Sanders Rd',
     rain: { road: ['6110', '6480'] },
+  },
+
+  // ----- Picture Rocks (hub: Sandario & Picture Rocks Rd) -----
+  {
+    id: 'pr-sandario-pr', short: 'Sandario dip by Picture Rocks Rd', kind: 'dip', lat: 32.3290, lon: -111.2181, routes: ['pr-twinpeaks', 'pr-avra'],
+    name: 'Sandario Rd dip just north of Picture Rocks Rd', where: 'county barricade point "Sandario Rd north of Picture Rocks Rd"',
+    rain: { local: PR_NORTH },
+  },
+  {
+    id: 'pr-sandario-ina', short: 'Sandario dip by Ina Rd', kind: 'dip', lat: 32.3353, lon: -111.2166, routes: ['pr-twinpeaks', 'pr-avra'],
+    name: 'Sandario Rd dip south of Ina Rd', where: 'county barricade point "Sandario Rd south of Ina Rd"',
+    rain: { local: PR_NORTH },
+  },
+  {
+    id: 'pr-sandario-magee', short: 'Sandario dip by Magee Rd', kind: 'dip', lat: 32.3519, lon: -111.2166, routes: ['pr-twinpeaks', 'pr-avra'],
+    name: 'Sandario Rd dip south of Magee Rd', where: 'county barricade point "Sandario Rd south of Magee Rd"',
+    rain: { local: PR_NORTH },
+  },
+  {
+    id: 'pr-sandario-emigh', short: 'Sandario dip by Emigh Rd', kind: 'dip', lat: 32.3659, lon: -111.2167, routes: ['pr-twinpeaks', 'pr-avra'],
+    name: 'Sandario Rd dip south of Emigh Rd', where: 'county barricade point "Sandario Rd south of Emigh Rd"',
+    rain: { local: PR_NORTH },
+  },
+  {
+    id: 'pr-picture-rocks-wash', short: 'Picture Rocks Wash dip', kind: 'dip', lat: 32.32598, lon: -111.12082, routes: ['pr-ina'],
+    name: 'Picture Rocks Wash dip on Picture Rocks Rd', where: 'near Wade Rd (confirmed dip)',
+    rain: { local: PR_EAST },
+  },
+  {
+    id: 'pr-ina-flat', short: 'Ina Rd flat dip', kind: 'flat', lat: 32.33758, lon: -111.10526, routes: ['pr-ina'],
+    name: 'Large flat dip on Ina Rd', where: 'west of Yuma Mine Wash. Washes out; trucks and most cars usually get through',
+    rain: { local: PR_EAST },
+  },
+  {
+    id: 'pr-yuma-mine', short: 'Yuma Mine Wash dip', kind: 'dip', lat: 32.33759, lon: -111.09519, routes: ['pr-ina'],
+    name: 'Yuma Mine Wash dip on Ina Rd', where: 'the road drops into the wash (confirmed dip)',
+    rain: { local: PR_EAST },
+  },
+  {
+    id: 'sc-ina', short: 'Ina Rd river bridge', kind: 'river', lat: 32.33759, lon: -111.08151, routes: ['pr-ina'],
+    name: 'Santa Cruz bridge on Ina Rd', where: 'just west of I-10; Cañada del Oro joins here',
+    river: ['09486500', '09486350'],
+  },
+  {
+    id: 'pr-twinpeaks-washes', short: 'Twin Peaks Rd washes (not confirmed)', kind: 'dip', lat: 32.3783, lon: -111.1487, routes: ['pr-twinpeaks'],
+    name: 'Small washes on Twin Peaks Rd (not confirmed)', where: 'four crossings with no bridge in the map data, between Sandario and I-10',
+    rain: { local: ['6130', '6110', '6460'] },
+  },
+  {
+    id: 'sc-twinpeaks', short: 'Twin Peaks Rd river bridge', kind: 'river', lat: 32.37581, lon: -111.11538, routes: ['pr-twinpeaks'],
+    name: 'Santa Cruz bridge on Twin Peaks Rd', where: 'just west of I-10',
+    river: ['09486500', '09486520'],
+  },
+  {
+    id: 'pr-sandario-south', short: 'Sandario dips by Golden Gate', kind: 'dip', lat: 32.2746, lon: -111.2183, routes: ['pr-gates'],
+    name: 'Sandario Rd dips near Golden Gate and Kinney', where: 'county barricade points "Sandario south of Golden Gate" and "Sandario at Kinney"',
+    rain: { local: PR_SOUTH },
+  },
+  {
+    id: 'pr-kinney-javelina', short: 'Kinney Rd at Javelina Wash', kind: 'dip', lat: 32.2543, lon: -111.1987, routes: ['pr-gates'],
+    name: 'Kinney Rd at Javelina Wash (Tucson Mountain Park)', where: 'county barricade points on Kinney by Mile Wide and Hohokam',
+    rain: { local: TUCSON_MTNS },
+  },
+  {
+    id: 'pr-kinney-washes', short: 'Kinney & Gates Pass washes (not confirmed)', kind: 'dip', lat: 32.2340, lon: -111.1480, routes: ['pr-gates'],
+    name: 'Small washes on Kinney Rd and Gates Pass Rd (not confirmed)', where: 'about a dozen crossings with no bridge in the map data',
+    rain: { local: TUCSON_MTNS },
+  },
+  {
+    id: 'pr-speedway-washes', short: 'Speedway washes (not confirmed)', kind: 'dip', lat: 32.2360, lon: -111.0250, routes: ['pr-gates'],
+    name: 'Greasewood and Anklam Wash crossings on Speedway (not confirmed)', where: 'west of Silverbell Rd',
+    rain: { local: TUCSON_MTNS },
+  },
+  {
+    id: 'sc-speedway', short: 'Speedway river bridge', kind: 'river', lat: 32.23567, lon: -110.98614, routes: ['pr-gates'],
+    name: 'Santa Cruz bridge on Speedway', where: 'just west of I-10',
+    river: ['09482500'],
   },
 ];
 
@@ -128,13 +220,22 @@ export const ROUTE_INFO = {
   'silverbell-north': { name: 'Silverbell–Sanders north', via: 'Trico Rd · Silverbell Rd · Sanders Rd · Marana Rd' },
   avra: { name: 'Avra Valley Rd', via: 'Trico Rd · Avra Valley Rd' },
   'silverbell-south': { name: 'Silverbell–Sanders south', via: 'Trico Rd · Silverbell Rd · Sanders Rd · Avra Valley Rd' },
+  'pr-ina': { name: 'Picture Rocks–Ina', via: 'Picture Rocks Rd · Wade Rd · Ina Rd' },
+  'pr-twinpeaks': { name: 'Twin Peaks', via: 'Sandario Rd · Twin Peaks Rd' },
+  'pr-avra': { name: 'Sandario–Avra Valley Rd', via: 'Sandario Rd · Avra Valley Rd' },
+  'pr-gates': { name: 'Gates Pass', via: 'Sandario Rd · Kinney Rd · Gates Pass Rd · Speedway' },
 };
 
 // Fixed places shown on the map. Trico & El Tiro is where the routes meet on the valley side.
 export const PLACES = [
-  { name: 'Trico & El Tiro', lat: 32.4295, lon: -111.3045, side: 'below' },
-  { name: 'Marana exit (I-10)', lat: 32.4611, lon: -111.2170, side: 'right' },
-  { name: 'Avra Valley exit (I-10)', lat: 32.4006, lon: -111.1313, side: 'above-left' },
+  { area: 'avra', name: 'Trico & El Tiro', lat: 32.4295, lon: -111.3045, side: 'below' },
+  { area: 'avra', name: 'Marana exit (I-10)', lat: 32.4611, lon: -111.2170, side: 'right' },
+  { area: 'avra', name: 'Avra Valley exit (I-10)', lat: 32.4006, lon: -111.1313, side: 'above-left' },
+  { area: 'picture-rocks', name: 'Niko\'s & the Speedways', lat: 32.32782, lon: -111.21815, side: 'below' },
+  { area: 'picture-rocks', name: 'Ina exit', lat: 32.3389, lon: -111.0686, side: 'right' },
+  { area: 'picture-rocks', name: 'Twin Peaks exit', lat: 32.3777, lon: -111.1094, side: 'right' },
+  { area: 'picture-rocks', name: 'Avra Valley exit', lat: 32.4006, lon: -111.1313, side: 'above-left' },
+  { area: 'picture-rocks', name: 'Speedway exit', lat: 32.2300, lon: -110.9827, side: 'above-left' },
 ];
 
 // Free text-style alerts through the ntfy app: one topic per time slot, day set and mode.
@@ -148,6 +249,10 @@ export const NAV = {
   avra: { via: [[32.3933, -111.2766]], ramp: [32.4006, -111.1313] },
   'silverbell-north': { via: [[32.43062, -111.2725], [32.4349, -111.2340]], ramp: [32.4611, -111.2170] },
   'silverbell-south': { via: [[32.43062, -111.2725], [32.4050, -111.2340]], ramp: [32.4006, -111.1313] },
+  'pr-ina': { via: [[32.3260, -111.1300], [32.3376, -111.0700]], ramp: [32.3389, -111.0686], hub: [32.32782, -111.21815] },
+  'pr-twinpeaks': { via: [[32.3700, -111.2167], [32.3800, -111.1600]], ramp: [32.3777, -111.1094], hub: [32.32782, -111.21815] },
+  'pr-avra': { via: [[32.3700, -111.2167], [32.4000, -111.2000]], ramp: [32.4006, -111.1313], hub: [32.32782, -111.21815] },
+  'pr-gates': { via: [[32.2470, -111.1835], [32.2250, -111.1000]], ramp: [32.2300, -110.9827], hub: [32.32782, -111.21815] },
 };
 
 export const LINKS = [

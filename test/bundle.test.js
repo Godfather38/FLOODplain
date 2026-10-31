@@ -15,7 +15,8 @@ function feeds(now, { failRain = false } = {}) {
     let body = null;
     const site = /USGS-(\d+)/.exec(url)?.[1];
     if (site) {
-      const j = JSON.parse(fx(`usgs-${site}-2026-10-31.json`));
+      let j;
+      try { j = JSON.parse(fx(`usgs-${site}-2026-10-31.json`)); } catch { return { getResponseCode: () => 503, getContentText: () => '' }; }
       const last = Date.parse(j.features.at(-1).properties.time);
       j.features.forEach((f) => { f.properties.time = new Date(Date.parse(f.properties.time) + (now - 20 * 60e3 - last)).toISOString(); });
       body = JSON.stringify(j);
@@ -44,4 +45,12 @@ test('rain feed down: still a numbered verdict, says the rain data is missing', 
   const v = g.api.computeVerdict_();
   assert.match(v.sms, /\d\/5/);
   assert.match(v.sms, /No live rain data/);
+});
+
+test('bundle works out both areas', () => {
+  const clock = { now: NOW, verdict: null };
+  const g = makeGas(clock, SRC, feeds(NOW));
+  const pr = g.api.computeVerdict_('picture-rocks');
+  assert.match(pr.sms, /^Picture Rocks: take /);
+  assert.match(pr.title, /Picture Rocks/);
 });

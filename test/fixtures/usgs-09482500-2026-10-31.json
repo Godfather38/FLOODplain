@@ -1,0 +1,249 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T17:45:00+00:00",
+        "value": "0.00",
+        "parameter_code": "00060"
+      },
+      "id": "3b27e701-12e6-438a-88dc-a8e76bdcaf32",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T18:00:00+00:00",
+        "value": "0.00",
+        "parameter_code": "00060"
+      },
+      "id": "04f5e504-9f18-480c-8575-26323e7c6aca",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T18:15:00+00:00",
+        "value": "0.00",
+        "parameter_code": "00060"
+      },
+      "id": "bcf78a7c-d7be-47bc-9a35-699903dce9c7",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T18:30:00+00:00",
+        "value": "0.00",
+        "parameter_code": "00060"
+      },
+      "id": "e0a46a20-ef8a-4047-a1c8-855131d9e696",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T18:45:00+00:00",
+        "value": "0.00",
+        "parameter_code": "00060"
+      },
+      "id": "d46b09e4-9c9e-48de-a96f-15858e0e3203",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T19:00:00+00:00",
+        "value": "0.00",
+        "parameter_code": "00060"
+      },
+      "id": "bf349653-2e2c-4bb9-bb44-c85cb585dcbf",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T19:15:00+00:00",
+        "value": "0.00",
+        "parameter_code": "00060"
+      },
+      "id": "efaecd22-1c21-45a1-93bc-ffdcfc53bfc0",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T19:30:00+00:00",
+        "value": "42.9",
+        "parameter_code": "00060"
+      },
+      "id": "3637b450-b8e6-42d3-8031-cded8a336e28",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T19:45:00+00:00",
+        "value": "42.9",
+        "parameter_code": "00060"
+      },
+      "id": "9a59737e-0ee6-4c1f-a38d-6b8230ea2b22",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T20:00:00+00:00",
+        "value": "44.8",
+        "parameter_code": "00060"
+      },
+      "id": "64da87aa-9f86-4b74-9714-48bcb92ef9eb",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T20:15:00+00:00",
+        "value": "44.8",
+        "parameter_code": "00060"
+      },
+      "id": "7f4e7518-6dcb-40f1-bd94-3c3515fe8ad0",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T20:30:00+00:00",
+        "value": "47.9",
+        "parameter_code": "00060"
+      },
+      "id": "e95b12a4-6d46-4d0e-8500-d69106e16cd9",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T20:45:00+00:00",
+        "value": "43.8",
+        "parameter_code": "00060"
+      },
+      "id": "21147b28-e565-4382-ac99-1ce0129b3120",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T21:00:00+00:00",
+        "value": "41.9",
+        "parameter_code": "00060"
+      },
+      "id": "14ef4631-ed28-4b8b-91d3-55e8ec4edb21",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T21:15:00+00:00",
+        "value": "42.9",
+        "parameter_code": "00060"
+      },
+      "id": "8bc949a3-81be-4e8b-a141-6e73b7057a75",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T21:30:00+00:00",
+        "value": "45.9",
+        "parameter_code": "00060"
+      },
+      "id": "462def87-0f9e-4c5f-8dda-b8e8e4ce6e6e",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T21:45:00+00:00",
+        "value": "47.9",
+        "parameter_code": "00060"
+      },
+      "id": "0e3b4193-656e-4a63-857d-a2d6a841f247",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T22:00:00+00:00",
+        "value": "49.0",
+        "parameter_code": "00060"
+      },
+      "id": "5997cbbe-671e-42b3-8bd6-6ef04443a2b7",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T22:15:00+00:00",
+        "value": "40.0",
+        "parameter_code": "00060"
+      },
+      "id": "9e327f3f-83ec-497a-b56b-10215d61376f",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T22:30:00+00:00",
+        "value": "46.9",
+        "parameter_code": "00060"
+      },
+      "id": "b53387a6-1844-4cf2-ae0e-32043d98eb38",
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2026-10-31T22:45:00+00:00",
+        "value": "45.9",
+        "parameter_code": "00060"
+      },
+      "id": "89925c1b-7fdd-4d24-b2e5-6d7b286b4c61",
+      "geometry": null
+    }
+  ],
+  "numberReturned": 21,
+  "links": [
+    {
+      "type": "application/geo+json",
+      "rel": "self",
+      "title": "This document as GeoJSON",
+      "href": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09482500&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code"
+    },
+    {
+      "rel": "alternate",
+      "type": "application/ld+json",
+      "title": "This document as RDF (JSON-LD)",
+      "href": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=jsonld&monitoring_location_id=USGS-09482500&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code"
+    },
+    {
+      "type": "text/html",
+      "rel": "alternate",
+      "title": "This document as HTML",
+      "href": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=html&monitoring_location_id=USGS-09482500&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code"
+    },
+    {
+      "type": "text/csv; charset=utf-8",
+      "rel": "alternate",
+      "title": "This document as CSV",
+      "href": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=csv&monitoring_location_id=USGS-09482500&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code"
+    },
+    {
+      "type": "application/json",
+      "title": "Continuous values",
+      "rel": "collection",
+      "href": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous"
+    }
+  ],
+  "timeStamp": "2026-10-31T23:41:42.347668Z"
+}

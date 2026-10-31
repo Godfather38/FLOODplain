@@ -2,7 +2,10 @@
  "type": "FeatureCollection",
  "metadata": {
   "source": "Overture Maps 2026-10-21.0 (OpenStreetMap contributors, ODbL)",
-  "origin": "W El Tiro Rd & N Trico Rd"
+  "hubs": {
+   "avra": "W El Tiro Rd & N Trico Rd",
+   "picture-rocks": "Sandario & Picture Rocks Rd (Niko's, the Speedways)"
+  }
  },
  "features": [
   {
@@ -118,6 +121,24 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
+     -111.14566,
+     32.40271
+    ]
+   },
+   "properties": {
+    "route": "avra",
+    "km": 19.48,
+    "road": "West Avra Valley Road",
+    "water": "Santa Cruz River",
+    "water_id": "cf93c986-4ccc-3126-bd28-1eacb790565e",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
      -111.14714,
      32.40224
     ]
@@ -226,6 +247,24 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
+     -111.14566,
+     32.40271
+    ]
+   },
+   "properties": {
+    "route": "silverbell-south",
+    "km": 18.51,
+    "road": "West Avra Valley Road",
+    "water": "Santa Cruz River",
+    "water_id": "cf93c986-4ccc-3126-bd28-1eacb790565e",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
      -111.14714,
      32.40224
     ]
@@ -254,6 +293,798 @@
     "road": "West Avra Valley Road",
     "water": "Santa Cruz River",
     "water_id": "e84c8725-fb73-3ff5-9042-2b245a500a9c",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.12082,
+     32.32598
+    ]
+   },
+   "properties": {
+    "route": "pr-ina",
+    "km": 9.99,
+    "road": "West Picture Rocks Road",
+    "water": "Picture Rocks Wash Trail",
+    "water_id": "e67b81d9-1967-30d5-a110-366ad7a26046",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.10526,
+     32.33758
+    ]
+   },
+   "properties": {
+    "route": "pr-ina",
+    "km": 12.53,
+    "road": "West Ina Road",
+    "water": null,
+    "water_id": "b1babc35-ec3c-3967-b70c-d55a2aa672e0",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.09519,
+     32.33759
+    ]
+   },
+   "properties": {
+    "route": "pr-ina",
+    "km": 13.45,
+    "road": "West Ina Road",
+    "water": "Yuma Mine Wash",
+    "water_id": "6a435b42-5041-3f83-97c7-50192191efb4",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.08896,
+     32.33763
+    ]
+   },
+   "properties": {
+    "route": "pr-ina",
+    "km": 14.02,
+    "road": "West Ina Road",
+    "water": null,
+    "water_id": "f07a5cbb-151f-3e6c-9268-0d39844aa023",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.08151,
+     32.33759
+    ]
+   },
+   "properties": {
+    "route": "pr-ina",
+    "km": 14.75,
+    "road": "West Ina Road",
+    "water": "Santa Cruz River",
+    "water_id": "23957079-6da7-3185-9c87-95b64d0b6498",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.08202,
+     32.33759
+    ]
+   },
+   "properties": {
+    "route": "pr-ina",
+    "km": 14.75,
+    "road": "West Ina Road",
+    "water": null,
+    "water_id": "651c62a7-d6a9-3139-87de-f0b2a11f13c2",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.1768,
+     32.38086
+    ]
+   },
+   "properties": {
+    "route": "pr-twinpeaks",
+    "km": 9.42,
+    "road": "West Twin Peaks Road",
+    "water": null,
+    "water_id": "68efd521-79e0-3c9e-8310-ea45fa6995d0",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.14869,
+     32.37825
+    ]
+   },
+   "properties": {
+    "route": "pr-twinpeaks",
+    "km": 12.41,
+    "road": "West Twin Peaks Road",
+    "water": null,
+    "water_id": "7446d3ba-91ec-3db9-8307-6ada2a76168e",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.13049,
+     32.37543
+    ]
+   },
+   "properties": {
+    "route": "pr-twinpeaks",
+    "km": 14.53,
+    "road": "West Twin Peaks Road",
+    "water": null,
+    "water_id": "e423ab31-ae5d-3d0a-9794-9c1359a05722",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.12718,
+     32.37504
+    ]
+   },
+   "properties": {
+    "route": "pr-twinpeaks",
+    "km": 14.9,
+    "road": "West Twin Peaks Road",
+    "water": null,
+    "water_id": "e200c185-1031-31aa-938b-6b6fb3cf277e",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.12358,
+     32.37462
+    ]
+   },
+   "properties": {
+    "route": "pr-twinpeaks",
+    "km": 15.23,
+    "road": "West Twin Peaks Road",
+    "water": null,
+    "water_id": "651f760c-51b4-31f8-9980-83ff0c71d000",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.11538,
+     32.37581
+    ]
+   },
+   "properties": {
+    "route": "pr-twinpeaks",
+    "km": 16.02,
+    "road": "West Twin Peaks Road",
+    "water": "Santa Cruz River",
+    "water_id": "23957079-6da7-3185-9c87-95b64d0b6498",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.11379,
+     32.37655
+    ]
+   },
+   "properties": {
+    "route": "pr-twinpeaks",
+    "km": 16.02,
+    "road": "West Twin Peaks Road",
+    "water": null,
+    "water_id": "651c62a7-d6a9-3139-87de-f0b2a11f13c2",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.14566,
+     32.40271
+    ]
+   },
+   "properties": {
+    "route": "pr-avra",
+    "km": 14.97,
+    "road": "West Avra Valley Road",
+    "water": "Santa Cruz River",
+    "water_id": "cf93c986-4ccc-3126-bd28-1eacb790565e",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.14714,
+     32.40224
+    ]
+   },
+   "properties": {
+    "route": "pr-avra",
+    "km": 14.97,
+    "road": "West Avra Valley Road",
+    "water": null,
+    "water_id": "651c62a7-d6a9-3139-87de-f0b2a11f13c2",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.14614,
+     32.40256
+    ]
+   },
+   "properties": {
+    "route": "pr-avra",
+    "km": 14.97,
+    "road": "West Avra Valley Road",
+    "water": "Santa Cruz River",
+    "water_id": "e84c8725-fb73-3ff5-9042-2b245a500a9c",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.21817,
+     32.27528
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 4.98,
+    "road": "North Sandario Road",
+    "water": null,
+    "water_id": "772cce66-9a9d-3f3b-b882-bb18aa2e09f3",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.21849,
+     32.27434
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 6.13,
+    "road": "North Sandario Road",
+    "water": null,
+    "water_id": "c51a9407-91b1-365f-a480-c3ace54e4739",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.20377,
+     32.25678
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 7.68,
+    "road": "North Kinney Road",
+    "water": null,
+    "water_id": "5dbb6bee-aca7-3b0b-a691-7e9e5e184b16",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.19875,
+     32.25426
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 8.93,
+    "road": "North Kinney Road",
+    "water": "Javelina Wash",
+    "water_id": "25274bff-d867-3f3b-8084-1177d12a2c6d",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.18652,
+     32.25158
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 10.09,
+    "road": "North Kinney Road",
+    "water": null,
+    "water_id": "9b92cd16-3675-3b0d-99f1-03dc26d63bcd",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.18349,
+     32.24767
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 11.07,
+    "road": "North Kinney Road",
+    "water": null,
+    "water_id": "ebfb1057-9220-3b08-8b3d-a54d8322b7c5",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.1676,
+     32.24705
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 11.94,
+    "road": "North Kinney Road",
+    "water": null,
+    "water_id": "1b1a33c5-f707-3292-b245-84110bd94326",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.16343,
+     32.24402
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 12.91,
+    "road": "North Kinney Road",
+    "water": null,
+    "water_id": "9baa117d-9435-311e-8917-ed06e1c2f8ce",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.16081,
+     32.24151
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 13.27,
+    "road": "North Kinney Road",
+    "water": null,
+    "water_id": "58b6a1f5-7bdd-3879-9567-5c8967ed6c17",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.14537,
+     32.23141
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 15.21,
+    "road": "North Kinney Road",
+    "water": null,
+    "water_id": "dc5eeeb1-b2e0-37a9-852e-e0c073fc00f5",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.14371,
+     32.22917
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 15.47,
+    "road": "North Kinney Road",
+    "water": null,
+    "water_id": "0ff20647-142a-3b3d-a7f1-7a0d535a14da",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.14078,
+     32.22722
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 15.79,
+    "road": "North Kinney Road",
+    "water": null,
+    "water_id": "5111ba11-aa64-3cc8-a71d-e954e9148a58",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.13596,
+     32.22457
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 16.4,
+    "road": "North Kinney Road",
+    "water": null,
+    "water_id": "a935db27-f5e2-36ff-9889-c3438626e908",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.1326,
+     32.22235
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 16.8,
+    "road": "North Kinney Road",
+    "water": null,
+    "water_id": "80fecaad-c1fc-37bc-b85b-8cc979bbbbb2",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.12278,
+     32.22131
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 18.12,
+    "road": "West Gates Pass Road",
+    "water": null,
+    "water_id": "e5ce653e-64dc-35e8-9d87-6dc11135c0d4",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.07192,
+     32.2297
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 23.45,
+    "road": "West Gates Pass Road",
+    "water": null,
+    "water_id": "5c1051cc-71c4-3709-b624-b8ed2a55c204",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.0604,
+     32.23606
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 24.78,
+    "road": "West Speedway Boulevard",
+    "water": null,
+    "water_id": "27d1d540-d403-3a3c-be4a-330ce1c66a39",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.05747,
+     32.23604
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 25.07,
+    "road": "West Speedway Boulevard",
+    "water": null,
+    "water_id": "d7bf0696-e912-3a26-a3d9-1802ae3a96d4",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.05195,
+     32.23766
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 25.66,
+    "road": "West Speedway Boulevard",
+    "water": null,
+    "water_id": "336919b7-fc22-3e8c-9755-73ef629c1dca",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.04624,
+     32.23899
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 26.29,
+    "road": "West Speedway Boulevard",
+    "water": null,
+    "water_id": "c207405d-e624-3a20-ae5b-fb9ed016dc83",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.04501,
+     32.23899
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 26.46,
+    "road": "West Speedway Boulevard",
+    "water": null,
+    "water_id": "cf9cb6c6-fb76-3fec-9902-00a1524058c6",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.03874,
+     32.23689
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 27.07,
+    "road": "West Speedway Boulevard",
+    "water": null,
+    "water_id": "8176530f-d4af-3b4f-96ba-29799e4ae78e",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.02886,
+     32.23597
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 27.98,
+    "road": "West Speedway Boulevard",
+    "water": "Greasewood Wash",
+    "water_id": "05a15d30-dc6f-31f1-a37d-c16d0e0e666d",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.02611,
+     32.23597
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 28.26,
+    "road": "West Speedway Boulevard",
+    "water": null,
+    "water_id": "4fc13701-eaae-3181-b341-177335305475",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.0225,
+     32.23595
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 28.51,
+    "road": "West Speedway Boulevard",
+    "water": "Anklam Wash",
+    "water_id": "3e8362a2-27f3-301e-820f-6928c2ca6b02",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.0154,
+     32.23594
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 29.25,
+    "road": "West Speedway Boulevard",
+    "water": null,
+    "water_id": "a063d493-886e-3225-ac60-28eab0a80f17",
+    "bridge_tagged": false
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.00225,
+     32.23568
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 30.5,
+    "road": "West Speedway Boulevard",
+    "water": "Silvercroft Wash",
+    "water_id": "36a8f46b-3350-3fb0-b75b-4d44bc38ed7a",
+    "bridge_tagged": true
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -110.98614,
+     32.23567
+    ]
+   },
+   "properties": {
+    "route": "pr-gates",
+    "km": 32.06,
+    "road": "West Speedway Boulevard",
+    "water": "Santa Cruz River",
+    "water_id": "2c3d68be-3b9f-38a1-8bd8-6d1beae35293",
     "bridge_tagged": true
    }
   }

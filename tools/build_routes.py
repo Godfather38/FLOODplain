@@ -77,31 +77,31 @@ def main(data_dir):
     water = load_water(data_dir / "water.parquet")
     tree = shapely.STRtree([w[0] for w in water])
     ramps = [n for n in g if any(g[n][m]["cls"] == "motorway" for m in g[n])]
-    o = cfg["origin"]
-    origin = nearest_node(g, o["lon"], o["lat"])
-
     route_feats, cross_feats = [], []
-    for r in cfg["routes"]:
-        p = route(g, origin, r["waypoints"], ramps)
-        legs = summarize(g, p)
-        line = linemerge([d["geom"] for _, _, d in path_edges(g, p)])
-        xs = crossings(g, p, water, tree)
-        route_feats.append({"type": "Feature", "geometry": mapping(line), "properties": {
-            "id": r["id"], "name": r["name"],
-            "km": round(sum(l[1] for l in legs) / 1000, 1),
-            "minutes": round(sum(l[2] for l in legs) / 60, 1),
-            "legs": [{"road": n, "km": round(m / 1000, 1)} for n, m, _ in legs],
-            "crossings": len(xs),
-            "untagged_crossings": sum(not c["bridge_tagged"] for c in xs),
-        }})
-        for c in xs:
-            cross_feats.append({"type": "Feature",
-                "geometry": {"type": "Point", "coordinates": [c["lon"], c["lat"]]},
-                "properties": {"route": r["id"], **{k: v for k, v in c.items() if k not in ("lon", "lat")}}})
+    for area in cfg["areas"]:
+        o = area["origin"]
+        origin = nearest_node(g, o["lon"], o["lat"])
+        for r in area["routes"]:
+            p = route(g, origin, r["waypoints"], ramps)
+            legs = summarize(g, p)
+            line = linemerge([d["geom"] for _, _, d in path_edges(g, p)])
+            xs = crossings(g, p, water, tree)
+            route_feats.append({"type": "Feature", "geometry": mapping(line), "properties": {
+                "id": r["id"], "area": area["id"], "name": r["name"],
+                "km": round(sum(l[1] for l in legs) / 1000, 1),
+                "minutes": round(sum(l[2] for l in legs) / 60, 1),
+                "legs": [{"road": n, "km": round(m / 1000, 1)} for n, m, _ in legs],
+                "crossings": len(xs),
+                "untagged_crossings": sum(not c["bridge_tagged"] for c in xs),
+            }})
+            for c in xs:
+                cross_feats.append({"type": "Feature",
+                    "geometry": {"type": "Point", "coordinates": [c["lon"], c["lat"]]},
+                    "properties": {"route": r["id"], **{k: v for k, v in c.items() if k not in ("lon", "lat")}}})
 
     out = ROOT / "public/data"
     out.mkdir(parents=True, exist_ok=True)
-    meta = {"source": "Overture Maps 2026-10-21.0 (OpenStreetMap contributors, ODbL)", "origin": o["name"]}
+    meta = {"source": "Overture Maps 2026-10-21.0 (OpenStreetMap contributors, ODbL)", "hubs": {a["id"]: a["origin"]["name"] for a in cfg["areas"]}}
     for name, feats in (("routes", route_feats), ("crossings", cross_feats)):
         (out / f"{name}.geojson").write_text(json.dumps(
             {"type": "FeatureCollection", "metadata": meta, "features": feats}, indent=1))
