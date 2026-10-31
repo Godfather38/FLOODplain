@@ -33,11 +33,11 @@ async function fetchGauge(site) {
   if (hit && Date.now() - hit.at < CACHE_MS) return hit.json;
   const url = `${API}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
     + '&time=PT6H&limit=2000&properties=time,value,parameter_code';
-  const headers = {};
+  // Query parameter rather than X-Api-Key header: a custom header would force
+  // a CORS preflight on every request.
   const apiKey = store.get('apiKey');
-  if (apiKey) headers['X-Api-Key'] = apiKey;
-  const r = await fetch(url, { headers });
-  if (!r.ok) throw new Error(`USGS ${site}: HTTP ${r.status}${r.status === 429 ? ' (rate limited, so add a free API key below)' : ''}`);
+  const r = await fetch(apiKey ? `${url}&api_key=${encodeURIComponent(apiKey)}` : url);
+  if (!r.ok) throw new Error(`USGS ${site}: HTTP ${r.status}${r.status === 429 ? ' (rate limited: paste your free USGS key in the box above)' : ''}`);
   const json = await r.json();
   store.set(key, { at: Date.now(), json });
   return json;

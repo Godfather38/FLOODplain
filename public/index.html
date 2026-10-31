@@ -18,16 +18,13 @@
     <section class="panel">
       <div id="verdict" class="verdict unknown"><b>Loading…</b></div>
       <p id="status" class="status"></p>
+      <label class="key">USGS API key
+        <input id="apikey" type="password" autocomplete="off" placeholder="paste the key USGS emailed you">
+        <small>Free from <a href="https://api.waterdata.usgs.gov/signup/" target="_blank" rel="noopener">api.waterdata.usgs.gov/signup</a>. Saved only in this browser.</small>
+      </label>
       <ol id="routes"></ol>
       <h2>Also check</h2>
       <nav id="links"></nav>
-      <details>
-        <summary>USGS API key (optional)</summary>
-        <p>Without a key, USGS limits how often this page can check. A free key from
-          <a href="https://api.waterdata.usgs.gov/signup/" target="_blank" rel="noopener">api.waterdata.usgs.gov/signup</a>
-          is saved only in this browser.</p>
-        <input id="apikey" type="password" autocomplete="off" placeholder="paste key">
-      </details>
       <p class="fine">Routes: OpenStreetMap via Overture Maps. Gauges: USGS (provisional data). Red dots are wash crossings with no bridge in the map data.</p>
     </section>
     <div id="map"></div>
