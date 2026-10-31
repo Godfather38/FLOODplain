@@ -259,7 +259,7 @@ function alertsScreen() {
          <button type="button" class="btn btn-primary" id="t-confirm">Start texts</button>`
       : textFlow.step === 'done'
         ? `<p>Texts are on for ${esc(textFlow.phone)}. A confirmation text is on its way.</p>`
-        : `<label class="field">Verizon number<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
+        : `<label class="field">Mobile number<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
            <p class="consent">By tapping <b>Text me a code</b>, you agree to get Wash Watch road-flooding texts at the times you pick, up to 2 a day (more only if you're given an access key). Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. No marketing; your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
            <button type="button" class="btn btn-primary" id="t-signup">Text me a code</button>
            <button type="button" class="btn btn-text" id="t-stop">Stop texts for this number</button>`;
@@ -275,7 +275,7 @@ function alertsScreen() {
     </label>
     <p class="fine" style="text-align:left;margin:0">Arizona time.</p>
   </div>
-  <h3 class="section">Text message (Verizon)</h3>
+  <h3 class="section">Text message</h3>
   <div class="page">
     ${textFlow.msg ? `<p class="note">${esc(textFlow.msg)}</p>` : ''}
     ${textCard}
