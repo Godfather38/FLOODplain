@@ -10,7 +10,7 @@ if (typeof URLSearchParams === 'undefined') {
 }
 
 // ===== public/config.js =====
-// Everything Wash Watch knows about the routes, failure points and data.
+// Everything WashWatch knows about the routes, failure points and data.
 // Plain-language definitions of each failure point: docs/FAILURE-POINTS.md
 
 const SOURCES = {
@@ -626,7 +626,7 @@ function message(best, order, rated, missing, now, area = 'avra') {
   const name = (r) => CFG_.ROUTE_INFO[r.id].name;
   const issue = (r) => { const a = againstIt(r)[0]; return a ? `${a.short}: ${a.why}` : null; };
   const text = [
-    `Wash Watch${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
+    `WashWatch${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
     issue(best) ? `Watch for ${issue(best)}.` : null,
     `Others: ${order.filter((r) => r !== best).map((r) => `${name(r)} ${r.score}`).join(', ')}.`,
     ...order.filter((r) => r !== best && r.score >= 4).map((r) => `${name(r)}: ${issue(r)}.`),
@@ -636,10 +636,10 @@ function message(best, order, rated, missing, now, area = 'avra') {
   return {
     at: new Date(now).toISOString(),
     text,
-    sms: text.replace(/^Wash Watch(?: \(([^)]+)\))?: /, (m, ar) => (ar ? `${ar}: ` : '')).replace(/ https:\S+/, ''),
+    sms: text.replace(/^WashWatch(?: \(([^)]+)\))?: /, (m, ar) => (ar ? `${ar}: ` : '')).replace(/ https:\S+/, ''),
     spoken: text.replace(/ https:\S+/, '').replace(/(\d)\/5/g, '$1 out of 5').replace(/–/g, ' and '),
     off: rated.some((r) => r.score >= 2),
-    title: `Wash Watch${areaName}: ${name(best)} ${best.score}/5`,
+    title: `Marshall's WashWatch${areaName}: ${name(best)} ${best.score}/5`,
   };
 }
 
@@ -665,11 +665,11 @@ const ROUTE_FEATURES = [{"properties":{"id":"trico","area":"avra","name":"Trico 
 
 // ===== apps-script/Code.gs =====
 /**
- * Wash Watch alerts, run as a Google Apps Script web app.
+ * WashWatch alerts, run as a Google Apps Script web app.
  *
  * - Text sign-ups (phone, times, days, mode) live in a private Google Sheet owned
  *   by the account that deploys this script. Nothing personal goes to GitHub.
- * - Every minute it reads the latest check published by the Wash Watch repo and:
+ * - Every minute it reads the latest check published by the WashWatch repo and:
  *     texts everyone whose time (Arizona, any minute) has come, and
  *     posts to the free ntfy topics washwatch-HHMM-{wd|all}-{all|off}.
  *   Missed minutes (the trigger can skip) are caught up, up to 10 minutes back.
@@ -781,7 +781,7 @@ function signup_(phone, b) {
     row ? keep[C.created - 1] : new Date(), key, keep[C.sentDay - 1] || '', keep[C.sentCount - 1] || 0, `${today} ${codesToday + 1}`, validArea_(b.area)];
   if (row) sh.getRange(row, 1, 1, HEADER.length).setValues([values]);
   else sh.appendRow(values);
-  text_(phone, `Wash Watch code: ${code}. Enter it in the app to start your texts. If you didn't ask for this, ignore it.`, true);
+  text_(phone, `WashWatch code: ${code}. Enter it in the app to start your texts. If you didn't ask for this, ignore it.`, true);
   return { ok: true, step: 'confirm' };
 }
 
@@ -796,8 +796,8 @@ function request_(b) {
   const message = String(b.message || '').slice(0, 1500).trim();
   if (!contact || !message) return { ok: false, error: 'Add how to reach you and a short message.' };
   props.setProperty('requests', `${today} ${count + 1}`);
-  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'Wash Watch: request for more texts',
-    `From: ${contact}\n\n${message}\n\nTo give them a key, add a row to the "keys" tab of "Wash Watch text subscribers (private)": key | texts_per_day | note.`);
+  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'WashWatch: request for more texts',
+    `From: ${contact}\n\n${message}\n\nTo give them a key, add a row to the "keys" tab of "WashWatch text subscribers (private)": key | texts_per_day | note.`);
   return { ok: true, step: 'sent' };
 }
 
@@ -815,9 +815,9 @@ function report_(b) {
   let rs = ss.getSheetByName('reports');
   if (!rs) { rs = ss.insertSheet('reports'); rs.appendRow(['when', 'area', 'crossing_id', 'crossing', 'answers', 'last_seen_water', 'note']); }
   rs.appendRow([new Date(), clip(b.area, 20), clip(b.fp, 40), clip(b.crossing, 120), JSON.stringify(answers).slice(0, 1500), clip(b.lastSeen, 10), clip(b.note, 1500)]);
-  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), `Wash Watch: crossing report, ${clip(b.crossing, 80)}`,
+  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), `WashWatch: crossing report, ${clip(b.crossing, 80)}`,
     Object.entries(answers).map(([k, v]) => `${k}: ${v}`).join('\n') + (b.lastSeen ? `\nLast saw water: ${b.lastSeen}` : '') + (b.note ? `\nNote: ${clip(b.note, 1500)}` : '')
-    + '\n\nAll reports: the "reports" tab of "Wash Watch text subscribers (private)".');
+    + '\n\nAll reports: the "reports" tab of "WashWatch text subscribers (private)".');
   return { ok: true, step: 'saved' };
 }
 
@@ -834,7 +834,7 @@ function confirm_(phone, code) {
   sh.getRange(row, C.verified).setValue(true);
   const times = String(sh.getRange(row, C.times).getValue()).split(',').map(label_).join(' & ');
   const days = daysLabel_(String(sh.getRange(row, C.days).getValue()));
-  text_(phone, `Wash Watch texts are on: ${times}, ${days}. To stop, use Stop texts in the app's Alerts screen.`);
+  text_(phone, `WashWatch texts are on: ${times}, ${days}. To stop, use Stop texts in the app's Alerts screen.`);
   return { ok: true, step: 'done' };
 }
 
@@ -843,7 +843,7 @@ function stop_(phone) {
   const row = findRow_(sh, phone);
   if (row) {
     sh.deleteRow(row);
-    text_(phone, 'Wash Watch texts stopped.');
+    text_(phone, 'WashWatch texts stopped.');
   }
   return { ok: true, step: 'stopped' };
 }
@@ -880,7 +880,7 @@ function tick() {
     if (!verdicts[id]) {
       const v = verdict_(id);
       const fresh = !!(v && Date.now() - Date.parse(v.at) < 45 * 60 * 1000);
-      verdicts[id] = { v, fresh, msg: fresh ? v.sms : 'Wash Watch couldn\'t get fresh data just now. Check the app before you go.' };
+      verdicts[id] = { v, fresh, msg: fresh ? v.sms : 'WashWatch couldn\'t get fresh data just now. Check the app before you go.' };
     }
     return verdicts[id];
   };
@@ -981,22 +981,22 @@ function verdict_(area) {
 function ntfy_(topic, v, msg) {
   UrlFetchApp.fetch(topic.startsWith('http') ? topic : `https://ntfy.sh/${topic}`, {
     method: 'post', payload: msg, muteHttpExceptions: true,
-    headers: { Title: v && v.title ? v.title : 'Wash Watch', Click: CONFIG.APP_URL, Tags: 'droplet' },
+    headers: { Title: v && v.title ? v.title : 'WashWatch', Click: CONFIG.APP_URL, Tags: 'droplet' },
   });
 }
 
 // Verizon shutdown notices: heads-up on HEADS_UP, final on ENDED (subscribers + owner).
 function sunset_(today, props) {
   const stages = [
-    [CONFIG.HEADS_UP, 'sunset_headsup', 'Heads-up from Wash Watch: Verizon ends email-to-text on March 31, 2027, so these texts stop then. Free phone alerts keep working: ' + CONFIG.APP_URL + '#/alerts'],
-    [CONFIG.ENDED, 'sunset_ended', 'Wash Watch: Verizon has ended email-to-text, so these texts have stopped. Free phone alerts: ' + CONFIG.APP_URL + '#/alerts'],
+    [CONFIG.HEADS_UP, 'sunset_headsup', 'Heads-up from WashWatch: Verizon ends email-to-text on March 31, 2027, so these texts stop then. Free phone alerts keep working: ' + CONFIG.APP_URL + '#/alerts'],
+    [CONFIG.ENDED, 'sunset_ended', 'WashWatch: Verizon has ended email-to-text, so these texts have stopped. Free phone alerts: ' + CONFIG.APP_URL + '#/alerts'],
   ];
   for (const [date, flag, msg] of stages) {
     if (today < date || props.getProperty(flag)) continue;
     props.setProperty(flag, today);
     const rows = sheet_().getDataRange().getValues().slice(1).filter((r) => r[4] === true);
     rows.forEach((r) => text_(String(r[0]), msg));
-    MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'Wash Watch: Verizon email-to-text ' + (flag === 'sunset_ended' ? 'has ended' : 'ends March 31, 2027'),
+    MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'WashWatch: Verizon email-to-text ' + (flag === 'sunset_ended' ? 'has ended' : 'ends March 31, 2027'),
       msg + '\n\nSubscribers notified: ' + rows.length + '.');
   }
 }
@@ -1034,7 +1034,7 @@ function text_(phone, body, isCode) {
   if (used >= CONFIG.DAILY_TEXT_BUDGET) {
     if (!props.getProperty('budget_warned_' + today)) {
       props.setProperty('budget_warned_' + today, '1');
-      MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'Wash Watch: daily text budget reached',
+      MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'WashWatch: daily text budget reached',
         `All ${CONFIG.DAILY_TEXT_BUDGET} texts for ${today} are used. More texts wait until tomorrow. Change DAILY_TEXT_BUDGET in the script to raise it.`);
     }
     return false;
@@ -1051,7 +1051,7 @@ function text_(phone, body, isCode) {
     return true;
   }
   if (MailApp.getRemainingDailyQuota() < 1) return false;
-  MailApp.sendEmail({ to: `${phone}@${CONFIG.GATEWAY}`, subject: '', body: body.slice(0, 300), name: 'Wash Watch' });
+  MailApp.sendEmail({ to: `${phone}@${CONFIG.GATEWAY}`, subject: '', body: body.slice(0, 300), name: "Marshall's WashWatch" });
   return true;
 }
 function sheet_() {
@@ -1060,7 +1060,7 @@ function sheet_() {
   let ss = null;
   if (id) { try { ss = SpreadsheetApp.openById(id); } catch (err) { ss = null; } }
   if (!ss) {
-    ss = SpreadsheetApp.create('Wash Watch text subscribers (private)');
+    ss = SpreadsheetApp.create('WashWatch text subscribers (private)');
     props.setProperty('sheet_id', ss.getId());
     ss.getSheets()[0].setName('subscribers');
     ss.getSheets()[0].appendRow(HEADER);

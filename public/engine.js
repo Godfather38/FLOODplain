@@ -49,7 +49,7 @@ export function message(best, order, rated, missing, now, area = 'avra') {
   const name = (r) => cfg.ROUTE_INFO[r.id].name;
   const issue = (r) => { const a = againstIt(r)[0]; return a ? `${a.short}: ${a.why}` : null; };
   const text = [
-    `Wash Watch${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
+    `WashWatch${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
     issue(best) ? `Watch for ${issue(best)}.` : null,
     `Others: ${order.filter((r) => r !== best).map((r) => `${name(r)} ${r.score}`).join(', ')}.`,
     ...order.filter((r) => r !== best && r.score >= 4).map((r) => `${name(r)}: ${issue(r)}.`),
@@ -59,10 +59,10 @@ export function message(best, order, rated, missing, now, area = 'avra') {
   return {
     at: new Date(now).toISOString(),
     text,
-    sms: text.replace(/^Wash Watch(?: \(([^)]+)\))?: /, (m, ar) => (ar ? `${ar}: ` : '')).replace(/ https:\S+/, ''),
+    sms: text.replace(/^WashWatch(?: \(([^)]+)\))?: /, (m, ar) => (ar ? `${ar}: ` : '')).replace(/ https:\S+/, ''),
     spoken: text.replace(/ https:\S+/, '').replace(/(\d)\/5/g, '$1 out of 5').replace(/–/g, ' and '),
     off: rated.some((r) => r.score >= 2),
-    title: `Wash Watch${areaName}: ${name(best)} ${best.score}/5`,
+    title: `Marshall's WashWatch${areaName}: ${name(best)} ${best.score}/5`,
   };
 }
 
