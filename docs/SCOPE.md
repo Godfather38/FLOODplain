@@ -75,5 +75,16 @@ Avra Valley has a Marana mailing address, but it is mostly **unincorporated Pima
 ### Where homemade sensors add value
 There's a gap between "rain fell upstream" (ALERT) and "the road is closed" (a barricade goes up). Nobody publishes **water depth at the specific dips on these routes**. A sensor on a post beside a crossing, **on a willing neighbor's land** with no right-of-way permit needed, fills that gap.
 
+## Routes east to I-10
+Three roads go east: **Trico, Silverbell, Avra Valley Rd**. Every one of them has to cross the Santa Cruz River.
+
+| Route | Known flood points (from news/NWS, mixed dates) | Nearest public gauge |
+|---|---|---|
+| Avra Valley Rd | Brawley Wash crossing; Santa Cruz bridge (has closed, stranding residents) | USGS 09486509, at the bridge |
+| Trico | Santa Cruz bridge overtopped in 2014; ~300 yd of road flooded | USGS 09486520, Trico Rd |
+| Silverbell | Not yet researched | USGS 09486515 (Sanders Rd)? To confirm |
+
+**Routing is a core feature, not an extra.** The app does real geocoding and routing (OSRM or OpenRouteService on OpenStreetMap data). It snaps the three route geometries, finds every wash crossing on each one (route line ∩ OSM waterways), and ranks the routes by flood status.
+
 ## Open item
-Name the 2 main routes to I-10 and the flood-season shortcut, and which crossings on them flood. Each crossing then gets matched to its upstream ALERT rain gauges and the nearest USGS gauge.
+Pull the real route lines and wash crossings from OSM, then match each crossing to its upstream ALERT rain gauges and the nearest USGS gauge.
