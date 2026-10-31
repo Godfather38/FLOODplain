@@ -285,6 +285,8 @@ async function textApi(body) {
   return r.json();
 }
 function wireAlerts() {
+  // Wakes the alert service (it starts its own every-minute timer on first contact).
+  if (cfg.TEXT_API && !wireAlerts.pinged) { wireAlerts.pinged = true; fetch(cfg.TEXT_API).catch(() => {}); }
   const a = { times: ['05:45'], days: 'wd', mode: 'all', ...(store.get('alerts') ?? {}) };
   const save = () => { store.set('alerts', a); render(); };
   document.querySelectorAll('input[data-ti]').forEach((el) => el.addEventListener('change', () => {

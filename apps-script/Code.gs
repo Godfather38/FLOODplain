@@ -42,6 +42,9 @@ const KEYS_HEADER = ['key', 'texts_per_day', 'note'];
 // Column numbers (1-based) in the subscribers tab.
 const C = { phone: 1, times: 2, days: 3, mode: 4, verified: 5, code: 6, codeSent: 7, lastSent: 8, created: 9, key: 10, sentDay: 11, sentCount: 12, codesDay: 13 };
 
+// Run once from the editor (pick "setup" in the toolbar, press Run) if texts don't start on their own.
+function setup() { ensureTrigger_(); sheet_(); keysSheet_(); return 'ok'; }
+
 // ---------- web endpoints ----------
 function doGet() {
   ensureTrigger_();
