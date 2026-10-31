@@ -2,61 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1d1d1b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <title>Avra Valley Morning Check</title>
-  <meta name="description" content="Which road out of Avra Valley to I-10 is safe right now, from river gauges, rain gauges, county closures and NWS warnings.">
+  <meta name="description" content="A conditions guide for the roads from Avra Valley to I-10, from river gauges, rain gauges, county barricades and weather alerts.">
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Avra Valley → I-10</h1>
-    <button id="refresh" type="button">Check now</button>
+    <div>
+      <h1>Avra Valley → I-10</h1>
+      <p id="status" class="status">Checking…</p>
+    </div>
+    <button id="refresh" type="button" aria-label="Check again">↻</button>
   </header>
-  <div class="dont-drown">Hobby tool, not an official warning. Never drive into water crossing the road: Turn Around, Don't Drown. Arizona can bill you for your rescue if you go around a barricade.</div>
   <main>
-    <section class="panel">
-      <details class="howto">
-        <summary>How to use this</summary>
-        <ol>
-          <li><b>Open it before you leave.</b> It checks river gauges, county rain gauges, county barricades and weather warnings. It rechecks every 5 minutes while open; tap <b>Check now</b> to force it.</li>
-          <li><b>Read the big box.</b> It names the route with the lowest risk right now and how long it takes.</li>
-          <li><b>Read the lines under it.</b> They say why a faster route was skipped, and what to watch for on yours.</li>
-          <li><b>Tap Open in Google Maps.</b> Google Maps opens with stops that keep you on that route. Drive with Google as usual.</li>
-          <li><b>Want details?</b> Scroll to <b>All routes</b>. Every spot shows the county's barricade status, rain in inches, and river flow, side by side. Tap a route to zoom the map to it; tap a dot on the map for that spot.</li>
-          <li><b>First time only:</b> put your work address in Settings so Google Maps goes all the way there. The USGS key is optional.</li>
-          <li><b>On your phone:</b> use your browser's Share → <b>Add to Home Screen</b> so it opens like an app.</li>
-        </ol>
-        <p>The app can be wrong or have missing data. What you see at the crossing wins. Never drive into water crossing the road.</p>
+    <section class="panel" aria-label="Routes">
+      <div id="hero"></div>
+      <h2 id="others-h">Other routes</h2>
+      <div id="others"></div>
+
+      <details class="drawer">
+        <summary>How to read this</summary>
+        <ul class="legend">
+          <li><span class="pips" data-n="1"><i></i><i></i><i></i><i></i><i></i></span><b>1</b> nothing in the data points to water</li>
+          <li><span class="pips" data-n="2"><i></i><i></i><i></i><i></i><i></i></span><b>2</b> some water around, usually passable; look as you go</li>
+          <li><span class="pips" data-n="3"><i></i><i></i><i></i><i></i><i></i></span><b>3</b> water likely at or near the road</li>
+          <li><span class="pips" data-n="4"><i></i><i></i><i></i><i></i><i></i></span><b>4</b> several signs agree water is at the road</li>
+          <li><span class="pips" data-n="5"><i></i><i></i><i></i><i></i><i></i></span><b>5</b> county closed it, or a flood is running</li>
+          <li><span class="pips" data-n="?"><i></i><i></i><i></i><i></i><i></i></span><b>?</b> missing data, which isn't the same as fine</li>
+        </ul>
+        <p>Tap a route to open its stretches. Tap a stretch to see what each source says; the map zooms to match. The colored bits on the map lines are those stretches, in their risk color.</p>
+        <p>This is a conditions guide built from public, provisional data. It can be wrong or out of date. What you see at the crossing comes first.</p>
       </details>
-      <div id="verdict" class="verdict unknown"><b>Checking…</b></div>
-      <div id="brief" class="brief"></div>
-      <a id="gmaps" class="gmaps" href="#" target="_blank" rel="noopener">Open in Google Maps</a>
-      <p id="status" class="status"></p>
-      <h2>All routes</h2>
-      <ol id="routes"></ol>
-      <h2>Also check</h2>
-      <nav id="links"></nav>
-      <h2>Settings (saved only in this browser)</h2>
-      <label class="field">Where you're driving to (for Google Maps)
-        <input id="dest" type="text" autocomplete="off" placeholder="work address, or leave blank to stop at I-10">
-      </label>
-      <label class="field">USGS API key
-        <input id="apikey" type="password" autocomplete="off" placeholder="paste the key USGS emailed you">
-        <small>Free from <a href="https://api.waterdata.usgs.gov/signup/" target="_blank" rel="noopener">api.waterdata.usgs.gov/signup</a>.</small>
-      </label>
-      <p class="fine">
-        <b>Risk:</b> <span class="dot ok"></span>Low: no sign of water at this spot.
-        <span class="dot watch"></span>Some: rain or flow nearby; usually passable, so look as you go.
-        <span class="dot caution"></span>Elevated: water likely at or near the road; cross only if you can see it's fine.
-        <span class="dot danger"></span>High: county closed it or a flood is running.
-        <span class="dot"></span>Unknown: missing data (not the same as safe).<br>
-        Big dots on the map are the failure points; ☂ shows inches of rain in the last 6 hours; ⛔ is a county barricade not marked Open.
-        <a href="https://github.com/godfather38/floodplain/blob/main/docs/FAILURE-POINTS.md" target="_blank" rel="noopener">What each failure point means</a>.<br>
-        Data: USGS, Pima County Regional Flood Control District ALERT, Pima County DOT, National Weather Service. All provisional. Routes © OpenStreetMap contributors.
-      </p>
+      <details class="drawer">
+        <summary>Settings</summary>
+        <label class="field">Where you're driving to (for Google Maps)
+          <input id="dest" type="text" autocomplete="off" placeholder="work address, or blank to stop at I-10">
+        </label>
+        <label class="field">USGS API key (optional)
+          <input id="apikey" type="password" autocomplete="off" placeholder="paste the key USGS emailed you">
+          <small>Free from <a href="https://api.waterdata.usgs.gov/signup/" target="_blank" rel="noopener">api.waterdata.usgs.gov/signup</a>. Saved only on this device.</small>
+        </label>
+      </details>
+      <details class="drawer">
+        <summary>Sources and official pages</summary>
+        <nav id="links"></nav>
+        <p class="fine">USGS river gauges · Pima County Regional Flood Control District ALERT rain and stream sensors · Pima County DOT barricade points · National Weather Service alerts. Routes © OpenStreetMap contributors.</p>
+      </details>
+      <p class="fine foot">Water over the road: turn around, don't drown.</p>
     </section>
-    <div id="map"></div>
+    <div id="map" aria-label="Map"></div>
   </main>
   <script src="vendor/leaflet/leaflet.js"></script>
   <script type="module" src="app.js"></script>

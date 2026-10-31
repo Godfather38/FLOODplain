@@ -17,11 +17,11 @@ export const SNAPSHOT_STALE_MS = 45 * 60 * 1000; // ALERT copy older than this c
 // Live USGS gauges (checked Oct 31, 2026). The old Avra Valley Rd (09486509) and
 // Sanders Rd (09486515) gauges no longer report, so they are not used.
 export const USGS_SITES = {
-  '09486500': 'Santa Cruz River at Cortaro Rd (upstream of all 3 river bridges)',
-  '09486520': 'Santa Cruz River at Trico Rd (just past the Trico-Marana bridge)',
-  '09486055': 'Rillito Creek at La Cholla (feeds the Santa Cruz, hours ahead)',
-  '09486350': 'Cañada del Oro below Ina Rd (feeds the Santa Cruz, hours ahead)',
-  '09487000': 'Brawley Wash near Three Points (~20 mi upstream)',
+  '09486500': { name: 'Santa Cruz River at Cortaro Rd', lat: 32.3507, lon: -111.0959 },
+  '09486520': { name: 'Santa Cruz River at Trico Rd', lat: 32.4716, lon: -111.3020 },
+  '09486055': { name: 'Rillito Creek at La Cholla', lat: 32.3028, lon: -111.0114 },
+  '09486350': { name: 'Cañada del Oro below Ina Rd', lat: 32.3362, lon: -111.0421 },
+  '09487000': { name: 'Brawley Wash near Three Points', lat: 32.0757, lon: -111.3387 },
 };
 
 // River flow levels in cfs (cubic feet of water per second).
@@ -62,26 +62,26 @@ const BRAWLEY_BASIN = ['6440', '6420', '6460', '6480'];
 // The failure points: places where water can stop you. Coordinates from the route analysis.
 export const FAILURE_POINTS = [
   {
-    id: 'brawley-dip', kind: 'dip', lat: 32.39322, lon: -111.29459, routes: ['avra'],
+    id: 'brawley-dip', short: 'Brawley Wash dip', kind: 'dip', lat: 32.39322, lon: -111.29459, routes: ['avra'],
     name: 'Brawley Wash dip on Avra Valley Rd',
     where: '0.55 mi east of Trico Rd',
     rain: { local: LOCAL, basin: BRAWLEY_BASIN },
     wash: { alert: ['6443'], usgs: ['09487000'] },
   },
   {
-    id: 'elpaso-dip', kind: 'dip', lat: 32.39329, lon: -111.27659, routes: ['avra'],
+    id: 'elpaso-dip', short: 'El Paso Gas Rd dip', kind: 'dip', lat: 32.39329, lon: -111.27659, routes: ['avra'],
     name: 'Wash dip on Avra Valley Rd near El Paso Gas Rd',
     where: '0.4 mi west of El Paso Gas Rd',
     rain: { local: LOCAL },
   },
   {
-    id: 'clayton-dip', kind: 'dip', lat: 32.40131, lon: -111.24501, routes: ['avra'],
+    id: 'clayton-dip', short: 'Clayton Rd dip', kind: 'dip', lat: 32.40131, lon: -111.24501, routes: ['avra'],
     name: 'Wash dip on Avra Valley Rd near Clayton Rd',
     where: '0.55 mi east of Clayton Rd, 0.65 mi west of Sanders Rd',
     rain: { local: LOCAL },
   },
   {
-    id: 'losrobles-bridge', kind: 'bridge', lat: 32.43882, lon: -111.30426,
+    id: 'losrobles-bridge', short: 'Los Robles bridge', kind: 'bridge', lat: 32.43882, lon: -111.30426,
     routes: ['trico', 'silverbell-north', 'silverbell-south'],
     name: 'Los Robles Wash bridge on Trico Rd',
     where: 'between El Tiro Rd and Silverbell Rd',
@@ -89,25 +89,25 @@ export const FAILURE_POINTS = [
     wash: { alert: ['6443'], usgs: ['09487000'] },
   },
   {
-    id: 'sc-trico-marana', kind: 'river', lat: 32.45369, lon: -111.27985, routes: ['trico'],
+    id: 'sc-trico-marana', short: 'Trico-Marana river bridge', kind: 'river', lat: 32.45369, lon: -111.27985, routes: ['trico'],
     name: 'Santa Cruz bridge on Trico-Marana Rd',
     where: 'the river crossing on Trico-Marana Rd',
     river: ['09486520', '09486500'],
   },
   {
-    id: 'sc-sanders', kind: 'river', lat: 32.43488, lon: -111.23395, routes: ['silverbell-north'],
+    id: 'sc-sanders', short: 'Sanders Rd river bridge', kind: 'river', lat: 32.43488, lon: -111.23395, routes: ['silverbell-north'],
     name: 'Santa Cruz bridge on Sanders Rd',
     where: 'Sanders Rd north of Silverbell (Town of Marana road: no county status)',
     river: ['09486500', '09486520'],
   },
   {
-    id: 'sc-avra', kind: 'river', lat: 32.40256, lon: -111.14614, routes: ['avra', 'silverbell-south'],
+    id: 'sc-avra', short: 'Avra Valley Rd river bridge', kind: 'river', lat: 32.40256, lon: -111.14614, routes: ['avra', 'silverbell-south'],
     name: 'Santa Cruz bridge on Avra Valley Rd',
     where: 'just west of I-10',
     river: ['09486500'],
   },
   {
-    id: 'silverbell-drainage', kind: 'road', lat: 32.43062, lon: -111.2725,
+    id: 'silverbell-drainage', short: 'Silverbell drainage', kind: 'road', lat: 32.43062, lon: -111.2725,
     routes: ['silverbell-north', 'silverbell-south'],
     name: 'Silverbell Rd puddling / washouts',
     where: 'Silverbell between Trico Rd and Sanders Rd',
@@ -123,6 +123,13 @@ export const CLOSURE_RADIUS_M = 450;
 
 // For "Open in Google Maps": points that force Google onto each route. Google
 // starts from your current location and allows up to 3 stops on phones.
+export const ROUTE_INFO = {
+  trico: { name: 'Trico-Marana', via: 'Trico Rd → Trico-Marana Rd → Marana Rd → I-10' },
+  'silverbell-north': { name: 'Silverbell → Sanders north', via: 'Trico Rd → Silverbell Rd → Sanders Rd → Marana Rd → I-10' },
+  avra: { name: 'Avra Valley Rd', via: 'Trico Rd → Avra Valley Rd → I-10 at Avra Valley' },
+  'silverbell-south': { name: 'Silverbell → Sanders south', via: 'Trico Rd → Silverbell Rd → Sanders Rd → Avra Valley Rd → I-10' },
+};
+
 export const NAV = {
   trico: { via: [[32.4537, -111.2799]], ramp: [32.4611, -111.2170] },
   avra: { via: [[32.3933, -111.2766]], ramp: [32.4006, -111.1313] },

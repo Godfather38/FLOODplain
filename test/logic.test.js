@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import * as cfg from '../public/config.js';
 import {
+  goodSigns, againstIt, riskScore,
   parseContinuous, summarizeFlow, checkRiver, checkRain, checkWash, checkClosures, checkNws,
   rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
 } from '../public/logic.js';
@@ -141,4 +142,21 @@ test('Google Maps link forces the route through its waypoints', () => {
   const u = new URL(googleMapsUrl(cfg.NAV['silverbell-north'], 'Tucson Mall'));
   assert.equal(u.searchParams.get('destination'), 'Tucson Mall');
   assert.equal(u.searchParams.get('waypoints').split('|').length, 3);
+});
+
+test('angel never praises a source that is bad elsewhere on the same route', () => {
+  const closures = [
+    { location: 'Avra Valley Rd west of the Brawley Wash', status: 'Closed', lat: 32.3932, lon: -111.2956 },
+    { location: 'Avra Valley Rd west of El Paso Gas Rd', status: 'Open', lat: 32.3933, lon: -111.2766 },
+  ];
+  const r = choose(data({ closures }));
+  const avra = r.order.find((x) => x.id === 'avra');
+  assert.ok(!goodSigns(avra, true).some((t) => /county/.test(t)));
+  assert.equal(againstIt(avra)[0].level, 'danger');
+  assert.equal(riskScore(r.res['brawley-dip']), 5);
+});
+test('dry morning: angel lists the good signs, nothing against', () => {
+  const r = choose(data());
+  assert.deepEqual(goodSigns(r.best, true), ['the Santa Cruz is at its everyday flow', 'Brawley Wash upstream is dry', 'no rain in the last 6 hours', 'no weather-service flood alerts']);
+  assert.equal(againstIt(r.best).length, 0);
 });

@@ -6,6 +6,7 @@ const rank = (lvl) => (lvl === 'unknown' ? 1.5 : LEVELS.indexOf(lvl));
 export const worst = (levels) => levels.reduce((a, b) => (rank(b) > rank(a) ? b : a), 'ok');
 const WINDOW_WORDS = { m10: '10 min', m30: '30 min', h1: '1 hour', h3: '3 hours', h6: '6 hours', d1: '24 hours' };
 const fmtIn = (v) => `${v.toFixed(2)}"`;
+const siteName = (names, id) => names[id]?.name ?? names[id] ?? id;
 const fmtCfs = (n) => (n >= 100 ? Math.round(n).toLocaleString('en-US') : String(Math.round(n * 10) / 10));
 
 // ---------- USGS ----------
@@ -58,7 +59,7 @@ export function checkRiver(flows, siteIds, names, R) {
   if (!parts.length) return { level: 'unknown', why: 'no live river gauge reading' };
   let out = { level: 'ok', why: `river at normal level (${parts.map((p) => `${fmtCfs(p.f.cfs)} cfs`).join(', ')})` };
   for (const { id, f } of parts) {
-    const at = `${fmtCfs(f.cfs)} cfs at ${names[id].split(' (')[0]}`;
+    const at = `${fmtCfs(f.cfs)} cfs at ${siteName(names, id)}`;
     let c;
     if (f.cfs >= R.dangerCfs) c = { level: 'danger', why: `${at}: the 2014 flood that went over the Trico bridge was 12,000-21,000 cfs` };
     else if (f.cfs >= R.cautionCfs || (f.risingFast && f.cfs >= R.watchCfs)) c = { level: 'caution', why: `${at}${f.risingFast ? ' and rising fast' : ''}: big flood flow. Bridges get closed at levels like this` };
@@ -72,7 +73,7 @@ export function checkRiver(flows, siteIds, names, R) {
 export function checkRiverEarly(flows, siteIds, names, R) {
   const running = siteIds.filter((id) => flows[id]?.fresh && flows[id].cfs >= R.earlyCfs);
   if (!running.length) return null;
-  return { level: 'watch', why: `${running.map((id) => `${names[id].split(' (')[0]} at ${fmtCfs(flows[id].cfs)} cfs`).join(', ')}: that water reaches the Santa Cruz bridges in a few hours` };
+  return { level: 'watch', why: `${running.map((id) => `${siteName(names, id)} at ${fmtCfs(flows[id].cfs)} cfs`).join(', ')}: that water reaches the Santa Cruz bridges in a few hours` };
 }
 
 // 2. Rain in inches at ALERT gauges against a rule set; the heaviest gauge wins.
@@ -103,7 +104,7 @@ export function checkWash(snapshot, flows, wash, kind, now, staleMs, names) {
     if (s && s.flow_cfs != null && s.last_rpt && now - Date.parse(s.last_rpt) <= staleMs) readings.push({ name: s.name.replace(/ \(PT\)$/, ''), cfs: s.flow_cfs });
   }
   for (const id of wash.usgs ?? []) {
-    if (flows[id]?.fresh) readings.push({ name: names[id].split(' (')[0], cfs: flows[id].cfs, risingFast: flows[id].risingFast });
+    if (flows[id]?.fresh) readings.push({ name: siteName(names, id), cfs: flows[id].cfs, risingFast: flows[id].risingFast });
   }
   if (!readings.length) return { level: 'unknown', why: 'no wash flow sensor reading' };
   const top = readings.sort((a, b) => b.cfs - a.cfs)[0];
@@ -191,8 +192,12 @@ export function rateFailurePoint(fp, d, cfg) {
   if (fp.kind === 'dip' && rank(level) < rank('unknown') && !known.some((c) => c.src === 'rain-local')) level = 'unknown';
   if (fp.kind === 'road' && level === 'danger') level = 'caution'; // shallow per local knowledge
   // Lead with a measurement when one exists; the county "Open" flag is often days old.
-  const lead = checks.find((c) => c.level === level && !c.official) ?? checks.find((c) => c.level === level) ?? checks[0];
-  return { id: fp.id, name: fp.name, where: fp.where, kind: fp.kind, level, why: lead?.why ?? 'no data', checks, closurePts };
+  // Lead with the most specific source at that level: county closure, then local measurements, then NWS.
+  const pref = ['county', 'wash', 'rain-local', 'river', 'rain-road', 'rain-basin', 'river-early', 'nws'];
+  const atLevel = checks.filter((c) => c.level === level && !(c.official && level === 'ok'));
+  atLevel.sort((a, b) => pref.indexOf(a.src) - pref.indexOf(b.src));
+  const lead = atLevel[0] ?? checks.find((c) => c.level === level) ?? checks[0];
+  return { id: fp.id, name: fp.name, short: fp.short, where: fp.where, kind: fp.kind, level, why: lead?.why ?? 'no data', checks, closurePts };
 }
 
 export function rateRoutes(routeFeatures, fpResults, fps) {
@@ -219,4 +224,49 @@ export function googleMapsUrl(nav, destination) {
   u.searchParams.set('waypoints', pts.map((p) => p.join(',')).join('|'));
   u.searchParams.set('travelmode', 'driving');
   return u.toString();
+}
+
+// A small 1-5 "risk factor" for display. It summarizes the level; it is not a probability.
+//   1 nothing pointing at water · 2 some water around · 3 water likely near the road
+//   4 several signs agree water is at the road · 5 closed or flood running · null unknown
+export function riskScore(result) {
+  switch (result.level) {
+    case 'ok': return 1;
+    case 'watch': return 2;
+    case 'caution': return result.checks.filter((c) => c.level === 'caution' || c.level === 'danger').length >= 2 ? 4 : 3;
+    case 'danger': return 5;
+    default: return null;
+  }
+}
+export function routeScore(route) {
+  const scores = route.points.map(riskScore);
+  if (route.level === 'unknown') return null;
+  return Math.max(...scores.filter((x) => x != null), 1);
+}
+
+// The angel: plain "good signs" for a route, from every check that came back clear.
+export function goodSigns(route, nwsQuiet) {
+  // A sign only counts as good if nothing of the same kind on this route says otherwise.
+  const kind = (src) => (src.startsWith('rain') ? 'rain' : src === 'river-early' ? 'river' : src);
+  const checks = route.points.flatMap((p) => p.checks);
+  const bad = new Set(checks.filter((c) => c.level !== 'ok').map((c) => kind(c.src)));
+  const ok = checks.filter((c) => c.level === 'ok' && !bad.has(kind(c.src)));
+  const out = [];
+  const add = (t) => { if (!out.includes(t)) out.push(t); };
+  if (ok.some((c) => c.src === 'river')) add('the Santa Cruz is at its everyday flow');
+  if (ok.some((c) => c.src === 'wash')) add('Brawley Wash upstream is dry');
+  const rain = ok.filter((c) => c.src.startsWith('rain'));
+  if (rain.length) add(rain.every((c) => /^no rain/.test(c.why)) ? 'no rain in the last 6 hours' : 'only light rain lately');
+  if (ok.some((c) => c.src === 'county')) add('county barricades on it are marked Open');
+  if (nwsQuiet) add('no weather-service flood alerts');
+  return out;
+}
+
+// What's working against a route, worst first, one line per stretch.
+export function againstIt(route) {
+  const order = { danger: 0, caution: 1, unknown: 2, watch: 3 };
+  return route.points
+    .filter((p) => p.level !== 'ok')
+    .sort((a, b) => order[a.level] - order[b.level])
+    .map((p) => ({ level: p.level, short: p.short, why: p.why }));
 }
