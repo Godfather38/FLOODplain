@@ -13,6 +13,12 @@
  *   Verizon ends on March 31, 2027. Subscribers and the owner are told on
  *   March 1, 2027 and April 1, 2027.
  *
+ * Limits: 2 texts a day per number. An access key (rows the owner adds to the
+ * "keys" tab of the private sheet: key | texts_per_day | note) raises that.
+ * DAILY_TEXT_BUDGET caps all texts per day so a bill can't run away.
+ * People can ask the owner for a key through the app; that arrives as an email
+ * to the owner, so the owner's address is never shown publicly.
+ *
  * Deploy: Deploy > New deployment > Web app > Execute as: Me, Who has access: Anyone.
  */
 const CONFIG = {
@@ -23,22 +29,30 @@ const CONFIG = {
   HEADS_UP: '2027-03-01',
   ENDED: '2027-04-01',
   MAX_TIMES: 4,
+  FREE_PER_DAY: 2,
+  DAILY_TEXT_BUDGET: 150,     // all texts, all people, per day (about $1.50/day max on Twilio)
+  CODES_PER_NUMBER_PER_DAY: 3,
+  REQUESTS_PER_DAY: 10,
   CATCH_UP_MIN: 10,
   NTFY: 'https://ntfy.sh/washwatch',
   MAX_NEW_SIGNUPS_PER_DAY: 40,
 };
-const HEADER = ['phone', 'times', 'days', 'mode', 'verified', 'code', 'code_sent', 'last_sent', 'created'];
+const HEADER = ['phone', 'times', 'days', 'mode', 'verified', 'code', 'code_sent', 'last_sent', 'created', 'key', 'sent_day', 'sent_count', 'codes_day'];
+const KEYS_HEADER = ['key', 'texts_per_day', 'note'];
+// Column numbers (1-based) in the subscribers tab.
+const C = { phone: 1, times: 2, days: 3, mode: 4, verified: 5, code: 6, codeSent: 7, lastSent: 8, created: 9, key: 10, sentDay: 11, sentCount: 12, codesDay: 13 };
 
 // ---------- web endpoints ----------
 function doGet() {
   ensureTrigger_();
-  return json_({ ok: true, service: 'wash-watch-alerts', sender: twilio_() ? 'any' : 'verizon' });
+  return json_({ ok: true, service: 'wash-watch-alerts', sender: twilio_() ? 'any' : 'verizon', freePerDay: CONFIG.FREE_PER_DAY });
 }
 
 function doPost(e) {
   ensureTrigger_();
   let body = {};
   try { body = JSON.parse(e.postData.contents); } catch (err) { return json_({ ok: false, error: 'bad request' }); }
+  if (body.action === 'request') return json_(request_(body));
   const phone = String(body.phone || '').replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '');
   if (!/^\d{10}$/.test(phone)) return json_({ ok: false, error: 'Enter a 10-digit US number.' });
   const lock = LockService.getScriptLock();
@@ -54,34 +68,69 @@ function doPost(e) {
 }
 
 function signup_(phone, b) {
+  const key = String(b.key || '').trim();
+  const limit = key ? keyLimit_(key) : CONFIG.FREE_PER_DAY;
+  if (key && !limit) return { ok: false, error: 'That access key isn\'t valid.' };
   const times = [...new Set((b.times || []).map(String))].filter(validTime_).slice(0, CONFIG.MAX_TIMES);
   if (!times.length) return { ok: false, error: 'Pick at least one time.' };
+  if (times.length > limit) {
+    return { ok: false, error: `Texts are limited to ${limit} a day${key ? ' for this key' : ' without an access key'}. Pick ${limit} time${limit > 1 ? 's' : ''}, or ask for more below.` };
+  }
   const days = b.days === 'all' ? 'all' : 'wd';
   const mode = b.mode === 'off' ? 'off' : 'all';
   const sh = sheet_();
   const row = findRow_(sh, phone);
   const now = Date.now();
+  const today = today_();
+  let codesToday = 0;
   if (row) {
-    const last = Number(sh.getRange(row, 7).getValue()) || 0;
+    const last = Number(sh.getRange(row, C.codeSent).getValue()) || 0;
     if (now - last < 2 * 60 * 1000) return { ok: false, error: 'A code was just sent. Wait 2 minutes.' };
+    const cd = String(sh.getRange(row, C.codesDay).getValue()).split(' ');
+    codesToday = cd[0] === today ? Number(cd[1]) || 0 : 0;
+    if (codesToday >= CONFIG.CODES_PER_NUMBER_PER_DAY) return { ok: false, error: 'Too many codes for this number today. Try tomorrow.' };
   } else if (newToday_() >= CONFIG.MAX_NEW_SIGNUPS_PER_DAY) {
     return { ok: false, error: 'Too many sign-ups today. Try tomorrow.' };
   }
   const code = String(Math.floor(1000 + Math.random() * 9000));
-  const values = [phone, times.join(','), days, mode, false, code, now, '', row ? sh.getRange(row, 9).getValue() : new Date()];
+  const keep = row ? sh.getRange(row, 1, 1, HEADER.length).getValues()[0] : [];
+  const values = [phone, times.join(','), days, mode, false, code, now, keep[C.lastSent - 1] || '',
+    row ? keep[C.created - 1] : new Date(), key, keep[C.sentDay - 1] || '', keep[C.sentCount - 1] || 0, `${today} ${codesToday + 1}`];
   if (row) sh.getRange(row, 1, 1, HEADER.length).setValues([values]);
   else sh.appendRow(values);
-  text_(phone, `Wash Watch code: ${code}. Enter it in the app to start your texts. If you didn't ask for this, ignore it.`);
+  text_(phone, `Wash Watch code: ${code}. Enter it in the app to start your texts. If you didn't ask for this, ignore it.`, true);
   return { ok: true, step: 'confirm' };
+}
+
+// Someone asking the owner for more texts; goes to the owner's inbox.
+function request_(b) {
+  const props = PropertiesService.getScriptProperties();
+  const today = today_();
+  const [day, n] = String(props.getProperty('requests') || '').split(' ');
+  const count = day === today ? Number(n) || 0 : 0;
+  if (count >= CONFIG.REQUESTS_PER_DAY) return { ok: false, error: 'Too many requests today. Try tomorrow.' };
+  const contact = String(b.contact || '').slice(0, 200).trim();
+  const message = String(b.message || '').slice(0, 1500).trim();
+  if (!contact || !message) return { ok: false, error: 'Add how to reach you and a short message.' };
+  props.setProperty('requests', `${today} ${count + 1}`);
+  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'Wash Watch: request for more texts',
+    `From: ${contact}\n\n${message}\n\nTo give them a key, add a row to the "keys" tab of "Wash Watch text subscribers (private)": key | texts_per_day | note.`);
+  return { ok: true, step: 'sent' };
+}
+
+function keyLimit_(key) {
+  const rows = keysSheet_().getDataRange().getValues().slice(1);
+  const r = rows.find((x) => String(x[0]).trim() === key);
+  return r ? Math.max(1, Math.min(Number(r[1]) || 0, CONFIG.MAX_TIMES)) : 0;
 }
 
 function confirm_(phone, code) {
   const sh = sheet_();
   const row = findRow_(sh, phone);
-  if (!row || String(sh.getRange(row, 6).getValue()) !== code) return { ok: false, error: 'That code doesn\'t match.' };
-  sh.getRange(row, 5).setValue(true);
-  const times = String(sh.getRange(row, 2).getValue()).split(',').map(label_).join(' & ');
-  const days = sh.getRange(row, 3).getValue() === 'all' ? 'every day' : 'weekdays';
+  if (!row || String(sh.getRange(row, C.code).getValue()) !== code) return { ok: false, error: 'That code doesn\'t match.' };
+  sh.getRange(row, C.verified).setValue(true);
+  const times = String(sh.getRange(row, C.times).getValue()).split(',').map(label_).join(' & ');
+  const days = sh.getRange(row, C.days).getValue() === 'all' ? 'every day' : 'weekdays';
   text_(phone, `Wash Watch texts are on: ${times}, ${days}. To stop, use Stop texts in the app's Alerts screen.`);
   return { ok: true, step: 'done' };
 }
@@ -133,18 +182,26 @@ function tick() {
     }
   }
 
-  // Texts.
+  // Texts, within each person's daily limit and the overall daily budget.
   const sh = sheet_();
   const rows = sh.getDataRange().getValues().slice(1);
   rows.forEach((r, i) => {
-    const [phone, times, days, mode, verified, , , lastSent] = r;
-    if (verified !== true) return;
+    const phone = String(r[C.phone - 1]);
+    if (r[C.verified - 1] !== true) return;
+    const limit = r[C.key - 1] ? keyLimit_(String(r[C.key - 1])) || CONFIG.FREE_PER_DAY : CONFIG.FREE_PER_DAY;
     for (const m of minutes) {
       const key = `${m.day} ${m.hhmm}`;
-      if (lastSent === key || !String(times).split(',').includes(m.hhmm)) continue;
-      if (days === 'wd' && !m.weekday) continue;
-      if (!(mode === 'off' && fresh && !v.off)) text_(String(phone), msg);
-      sh.getRange(i + 2, 8).setValue(key);
+      if (r[C.lastSent - 1] === key || !String(r[C.times - 1]).split(',').includes(m.hhmm)) continue;
+      if (r[C.days - 1] === 'wd' && !m.weekday) continue;
+      sh.getRange(i + 2, C.lastSent).setValue(key);
+      r[C.lastSent - 1] = key;
+      if (r[C.mode - 1] === 'off' && fresh && !v.off) continue;
+      let count = r[C.sentDay - 1] === m.day ? Number(r[C.sentCount - 1]) || 0 : 0;
+      if (count >= limit) continue;
+      if (!text_(phone, msg)) continue;
+      count += 1;
+      r[C.sentDay - 1] = m.day; r[C.sentCount - 1] = count;
+      sh.getRange(i + 2, C.sentDay, 1, 2).setValues([[m.day, count]]);
     }
   });
 }
@@ -187,12 +244,45 @@ function sunset_(today, props) {
 }
 
 // ---------- helpers ----------
+// Twilio credentials come from Script properties (TWILIO_SID, TWILIO_TOKEN, optional
+// TWILIO_FROM) or from a private Secrets.gs file in the same Apps Script project that
+// defines `const TWILIO = { SID, TOKEN, FROM }`. Neither is ever committed to GitHub.
+// Without a FROM number, the account's first Twilio number is looked up and remembered.
 function twilio_() {
   const p = PropertiesService.getScriptProperties();
-  const sid = p.getProperty('TWILIO_SID'); const token = p.getProperty('TWILIO_TOKEN'); const from = p.getProperty('TWILIO_FROM');
-  return sid && token && from ? { sid, token, from } : null;
+  const file = typeof TWILIO === 'object' && TWILIO ? TWILIO : {};
+  const sid = p.getProperty('TWILIO_SID') || file.SID;
+  const token = p.getProperty('TWILIO_TOKEN') || file.TOKEN;
+  if (!sid || !token) return null;
+  let from = p.getProperty('TWILIO_FROM') || file.FROM;
+  if (!from) {
+    try {
+      const r = UrlFetchApp.fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/IncomingPhoneNumbers.json?PageSize=1`, {
+        muteHttpExceptions: true, headers: { Authorization: 'Basic ' + Utilities.base64Encode(`${sid}:${token}`) },
+      });
+      const n = JSON.parse(r.getContentText()).incoming_phone_numbers?.[0]?.phone_number;
+      if (n) { from = n; p.setProperty('TWILIO_FROM', n); }
+    } catch (err) { from = null; }
+  }
+  return from ? { sid, token, from } : null;
 }
-function text_(phone, body) {
+// Sends one text. Returns false when the overall daily budget is used up.
+// Codes (isCode) still count toward the budget but are always attempted while any is left.
+function text_(phone, body, isCode) {
+  const props = PropertiesService.getScriptProperties();
+  const today = today_();
+  const [day, n] = String(props.getProperty('budget') || '').split(' ');
+  const used = day === today ? Number(n) || 0 : 0;
+  if (used >= CONFIG.DAILY_TEXT_BUDGET) {
+    if (!props.getProperty('budget_warned_' + today)) {
+      props.setProperty('budget_warned_' + today, '1');
+      MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'Wash Watch: daily text budget reached',
+        `All ${CONFIG.DAILY_TEXT_BUDGET} texts for ${today} are used. More texts wait until tomorrow. Change DAILY_TEXT_BUDGET in the script to raise it.`);
+    }
+    return false;
+  }
+  props.setProperty('budget', `${today} ${used + 1}`);
+  void isCode;
   const t = twilio_();
   if (t) {
     UrlFetchApp.fetch(`https://api.twilio.com/2010-04-01/Accounts/${t.sid}/Messages.json`, {
@@ -200,10 +290,11 @@ function text_(phone, body) {
       headers: { Authorization: 'Basic ' + Utilities.base64Encode(`${t.sid}:${t.token}`) },
       payload: { To: `+1${phone}`, From: t.from, Body: body.slice(0, 320) },
     });
-    return;
+    return true;
   }
-  if (MailApp.getRemainingDailyQuota() < 1) return;
+  if (MailApp.getRemainingDailyQuota() < 1) return false;
   MailApp.sendEmail({ to: `${phone}@${CONFIG.GATEWAY}`, subject: '', body: body.slice(0, 300), name: 'Wash Watch' });
+  return true;
 }
 function sheet_() {
   const props = PropertiesService.getScriptProperties();
@@ -213,10 +304,22 @@ function sheet_() {
   if (!ss) {
     ss = SpreadsheetApp.create('Wash Watch text subscribers (private)');
     props.setProperty('sheet_id', ss.getId());
+    ss.getSheets()[0].setName('subscribers');
     ss.getSheets()[0].appendRow(HEADER);
   }
   return ss.getSheets()[0];
 }
+function keysSheet_() {
+  const ss = sheet_().getParent();
+  let k = ss.getSheetByName('keys');
+  if (!k) {
+    k = ss.insertSheet('keys');
+    k.appendRow(KEYS_HEADER);
+    k.appendRow(['example-key-change-me', 4, 'delete this row; add one per person you give more texts']);
+  }
+  return k;
+}
+function today_() { return Utilities.formatDate(new Date(), CONFIG.TZ, 'yyyy-MM-dd'); }
 function findRow_(sh, phone) {
   const col = sh.getRange(1, 1, Math.max(sh.getLastRow(), 1), 1).getValues();
   for (let i = 1; i < col.length; i++) if (String(col[i][0]) === phone) return i + 1;
@@ -225,7 +328,7 @@ function findRow_(sh, phone) {
 function newToday_() {
   const today = Utilities.formatDate(new Date(), CONFIG.TZ, 'yyyy-MM-dd');
   return sheet_().getDataRange().getValues().slice(1)
-    .filter((r) => r[8] instanceof Date && Utilities.formatDate(r[8], CONFIG.TZ, 'yyyy-MM-dd') === today).length;
+    .filter((r) => r[C.created - 1] instanceof Date && Utilities.formatDate(r[8], CONFIG.TZ, 'yyyy-MM-dd') === today).length;
 }
 function ensureTrigger_() {
   if (!ScriptApp.getProjectTriggers().some((t) => t.getHandlerFunction() === 'tick')) {
