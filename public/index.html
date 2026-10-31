@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLOODplain Morning Check</title>
+  <meta name="description" content="Which road out of Avra Valley to I-10 is clear right now, from live USGS gauges.">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Avra Valley → I-10</h1>
+    <button id="refresh" type="button">Check now</button>
+  </header>
+  <div class="dont-drown">Hobby tool, not an official warning. Never drive into flowing water: Turn Around, Don't Drown. In Arizona, drivers who go around barricades can be billed for their rescue (ARS 28-910).</div>
+  <main>
+    <section class="panel">
+      <div id="verdict" class="verdict unknown"><b>Loading…</b></div>
+      <p id="status" class="status"></p>
+      <ol id="routes"></ol>
+      <h2>Also check</h2>
+      <nav id="links"></nav>
+      <details>
+        <summary>USGS API key (optional)</summary>
+        <p>Without a key, USGS limits how often this page can check. A free key from
+          <a href="https://api.waterdata.usgs.gov/signup/" target="_blank" rel="noopener">api.waterdata.usgs.gov/signup</a>
+          is saved only in this browser.</p>
+        <input id="apikey" type="password" autocomplete="off" placeholder="paste key">
+      </details>
+      <p class="fine">Routes: OpenStreetMap via Overture Maps. Gauges: USGS (provisional data). Red dots are wash crossings with no bridge in the map data.</p>
+    </section>
+    <div id="map"></div>
+  </main>
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "floodplain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Morning flood check for the roads out of Avra Valley, AZ.",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "serve": "python3 -m http.server -d public 8080"
+  }
+}
