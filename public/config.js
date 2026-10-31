@@ -1,79 +1,137 @@
-// What the morning check knows about each route and gauge.
-// Route geometry and crossings come from data/routes.geojson (tools/build_routes.py).
+// Everything the morning check knows about your routes, failure points and data.
+// Plain-language definitions of each failure point: docs/FAILURE-POINTS.md
 
-export const API = 'https://api.waterdata.usgs.gov/ogcapi/v1';
-
-// A reading older than this counts as "no data". Desert gauges transmit
-// every 15-60 min, so 3 h of silence means the gauge is down or offline.
-export const STALE_MS = 3 * 60 * 60 * 1000;
-
-// Below this flow (cubic feet per second) an ephemeral wash or the Santa Cruz
-// counts as dry. Ponded water and sensor noise can read a few tenths.
-export const DRY_CFS = 1;
-
-export const GAUGES = {
-  '09486520': {
-    name: 'Santa Cruz River at Trico Rd',
-    // highCfs: flow at which the crossing is known to be in trouble. Unknown
-    // until calibrated against past closures (next step), so null for now.
-    highCfs: null,
-  },
-  '09486509': { name: 'Santa Cruz River at Avra Valley Rd', highCfs: null },
-  '09486515': { name: 'Santa Cruz River at Sanders Rd', highCfs: null },
-  '09487000': { name: 'Brawley Wash near Three Points (upstream)', highCfs: null },
+export const SOURCES = {
+  usgs: 'https://api.waterdata.usgs.gov/ogcapi/v1',
+  // Pima County DOT flood barricade points with live status (Open / Proceed with Caution / Closed).
+  closures: 'https://services2.arcgis.com/UTBp78iglGpbqp1B/arcgis/rest/services/Road_Closures_viewPAG/FeatureServer/0',
+  // Pima County ALERT rain + stream sensors, copied every ~10 min by .github/workflows/alert-snapshot.yml.
+  alert: 'https://raw.githubusercontent.com/godfather38/floodplain/data/alert.json',
+  // National Weather Service warnings for a point in Avra Valley.
+  nws: 'https://api.weather.gov/alerts/active?point=32.41,-111.27',
 };
 
-// How a gauge reading affects each route.
-//   bridge: water passes *under* the road. Flow alone is only "watch";
-//           it becomes a problem only near overtopping (highCfs) or on a
-//           fast rise.
-//   dip:    the road crosses at grade downstream of this gauge, so any flow
-//           here means water is headed for the road.
-export const ROUTES = {
-  trico: {
-    gauges: [
-      { site: '09486520', kind: 'bridge', role: 'Santa Cruz River, under the Trico-Marana bridge' },
-      { site: '09487000', kind: 'bridge', role: 'Brawley Wash, 20 mi upstream of the Los Robles bridge on Trico Rd' },
-    ],
-    blindSpots: [
-      'Los Robles Wash bridge on Trico Rd (0.4 mi south of Silverbell): no gauge there. Rain on the valley can fill it unseen.',
-    ],
+export const STALE_MS = 3 * 60 * 60 * 1000; // a sensor silent this long counts as "no data"
+export const SNAPSHOT_STALE_MS = 45 * 60 * 1000; // ALERT copy older than this counts as "no data"
+
+// Live USGS gauges (checked Oct 31, 2026). The old Avra Valley Rd (09486509) and
+// Sanders Rd (09486515) gauges no longer report, so they are not used.
+export const USGS_SITES = {
+  '09486500': 'Santa Cruz River at Cortaro Rd (upstream of all 3 river bridges)',
+  '09486520': 'Santa Cruz River at Trico Rd (just past the Trico-Marana bridge)',
+  '09486055': 'Rillito Creek at La Cholla (feeds the Santa Cruz, hours ahead)',
+  '09486350': 'Cañada del Oro below Ina Rd (feeds the Santa Cruz, hours ahead)',
+  '09487000': 'Brawley Wash near Three Points (~20 mi upstream)',
+};
+
+// River flow levels in cfs (cubic feet of water per second).
+// Normal is ~40 at Cortaro and ~30 at Trico Rd: treated wastewater, every day.
+// Sept 8-9 2014, when the Trico bridge was overtopped: 21,200 at Cortaro, 12,000 at Trico Rd.
+export const RIVER = { watchCfs: 300, cautionCfs: 3000, dangerCfs: 10000, earlyCfs: 1000 };
+
+// Rain thresholds in inches. Starting values for desert flash floods. They get tuned
+// against what you see at the crossings. Windows: h1 = last hour, h3 = 3 hours, etc.
+export const RAIN = {
+  local: { // rain right over a small wash that crosses the road at grade (a dip)
+    danger: { h1: 0.5, h3: 1.0 },
+    caution: { h1: 0.25, h3: 0.5, h6: 0.75 },
+    watch: { h6: 0.1, d1: 0.25 },
   },
-  avra: {
-    gauges: [
-      { site: '09486509', kind: 'bridge', role: 'Santa Cruz River, under the Avra Valley Rd bridge' },
-      { site: '09487000', kind: 'dip', role: 'Brawley Wash, 20 mi upstream of the Avra Valley Rd crossing' },
-    ],
-    blindSpots: [
-      'Brawley Wash crossing (0.55 mi east of Trico): probably a dip. Rain on the valley floods it with no gauge warning. Skip this route if it rained overnight.',
-      'Two unnamed wash crossings (0.4 mi west of El Paso Gas Rd; 0.65 mi west of Sanders): unknown whether bridge or dip, no gauge.',
-    ],
+  basin: { // rain over a whole upstream watershed (water arrives hours later)
+    caution: { h3: 0.5, h6: 0.75, d1: 1.0 },
+    watch: { h6: 0.25, d1: 0.5 },
   },
-  'silverbell-north': {
-    gauges: [
-      { site: '09486515', kind: 'bridge', role: 'Santa Cruz River, under the Sanders Rd bridge' },
-      { site: '09487000', kind: 'bridge', role: 'Brawley Wash, 20 mi upstream of the Los Robles bridge on Trico Rd' },
-    ],
-    blindSpots: [
-      'Los Robles Wash bridge on Trico Rd: no gauge there.',
-      'Silverbell Rd puddling/washouts after rain: shallow, but slow down.',
-    ],
+  road: { // poor road drainage (Silverbell): shallow, never "avoid"
+    caution: { h1: 0.25, h3: 0.5 },
+    watch: { h6: 0.1 },
   },
-  'silverbell-south': {
-    gauges: [
-      { site: '09486509', kind: 'bridge', role: 'Santa Cruz River, under the Avra Valley Rd bridge' },
-      { site: '09487000', kind: 'bridge', role: 'Brawley Wash, 20 mi upstream of the Los Robles bridge on Trico Rd' },
-    ],
-    blindSpots: [
-      'Los Robles Wash bridge on Trico Rd: no gauge there.',
-      'Silverbell Rd puddling/washouts after rain: shallow, but slow down.',
-    ],
+};
+
+// ALERT rain gauges (site id -> short name), by area.
+export const RAIN_GAUGES = {
+  '6110': 'Avra Valley Air Park',
+  '6460': 'Picture Rocks Community Ctr',
+  '6480': 'Trico Rd north of Manville',
+  '6440': 'Brawley Wash at Milewide Rd',
+  '6420': 'Brawley Wash at Three Points',
+};
+const LOCAL = ['6110', '6460', '6480'];
+const BRAWLEY_BASIN = ['6440', '6420', '6460', '6480'];
+
+// The failure points: places where water can stop you. Coordinates from the route analysis.
+export const FAILURE_POINTS = [
+  {
+    id: 'brawley-dip', kind: 'dip', lat: 32.39322, lon: -111.29459, routes: ['avra'],
+    name: 'Brawley Wash dip on Avra Valley Rd',
+    where: '0.55 mi east of Trico Rd',
+    rain: { local: LOCAL, basin: BRAWLEY_BASIN },
+    wash: { alert: ['6443'], usgs: ['09487000'] },
   },
+  {
+    id: 'elpaso-dip', kind: 'dip', lat: 32.39329, lon: -111.27659, routes: ['avra'],
+    name: 'Wash dip on Avra Valley Rd near El Paso Gas Rd',
+    where: '0.4 mi west of El Paso Gas Rd',
+    rain: { local: LOCAL },
+  },
+  {
+    id: 'clayton-dip', kind: 'dip', lat: 32.40131, lon: -111.24501, routes: ['avra'],
+    name: 'Wash dip on Avra Valley Rd near Clayton Rd',
+    where: '0.55 mi east of Clayton Rd, 0.65 mi west of Sanders Rd',
+    rain: { local: LOCAL },
+  },
+  {
+    id: 'losrobles-bridge', kind: 'bridge', lat: 32.43882, lon: -111.30426,
+    routes: ['trico', 'silverbell-north', 'silverbell-south'],
+    name: 'Los Robles Wash bridge on Trico Rd',
+    where: 'between El Tiro Rd and Silverbell Rd',
+    rain: { basin: BRAWLEY_BASIN },
+    wash: { alert: ['6443'], usgs: ['09487000'] },
+  },
+  {
+    id: 'sc-trico-marana', kind: 'river', lat: 32.45369, lon: -111.27985, routes: ['trico'],
+    name: 'Santa Cruz bridge on Trico-Marana Rd',
+    where: 'the river crossing on Trico-Marana Rd',
+    river: ['09486520', '09486500'],
+  },
+  {
+    id: 'sc-sanders', kind: 'river', lat: 32.43488, lon: -111.23395, routes: ['silverbell-north'],
+    name: 'Santa Cruz bridge on Sanders Rd',
+    where: 'Sanders Rd north of Silverbell (Town of Marana road: no county status)',
+    river: ['09486500', '09486520'],
+  },
+  {
+    id: 'sc-avra', kind: 'river', lat: 32.40256, lon: -111.14614, routes: ['avra', 'silverbell-south'],
+    name: 'Santa Cruz bridge on Avra Valley Rd',
+    where: 'just west of I-10',
+    river: ['09486500'],
+  },
+  {
+    id: 'silverbell-drainage', kind: 'road', lat: 32.43062, lon: -111.2725,
+    routes: ['silverbell-north', 'silverbell-south'],
+    name: 'Silverbell Rd puddling / washouts',
+    where: 'Silverbell between Trico Rd and Sanders Rd',
+    rain: { road: ['6110', '6480'] },
+  },
+];
+
+// Upstream feeders: if these run, the Santa Cruz rises at the bridges hours later.
+export const RIVER_EARLY = ['09486055', '09486350'];
+
+// County barricade points within this distance of a failure point count as "at" it.
+export const CLOSURE_RADIUS_M = 450;
+
+// For "Open in Google Maps": points that force Google onto each route. Google
+// starts from your current location and allows up to 3 stops on phones.
+export const NAV = {
+  trico: { via: [[32.4537, -111.2799]], ramp: [32.4611, -111.2170] },
+  avra: { via: [[32.3933, -111.2766]], ramp: [32.4006, -111.1313] },
+  'silverbell-north': { via: [[32.43062, -111.2725], [32.4349, -111.2340]], ramp: [32.4611, -111.2170] },
+  'silverbell-south': { via: [[32.43062, -111.2725], [32.4050, -111.2340]], ramp: [32.4006, -111.1313] },
 };
 
 export const LINKS = [
-  ['Pima County ALERT rain/stream map', 'https://alertmap.rfcd.pima.gov/Gmap/Gmap.html'],
-  ['Pima County road closures', 'https://www.pima.gov/898'],
+  ['Pima ALERT rain map', 'https://alertmap.rfcd.pima.gov/Gmap/Gmap.html'],
+  ['Pima road closures', 'https://www.pima.gov/898'],
   ['NWS Tucson', 'https://www.weather.gov/twc/'],
   ['AZ 511 (I-10)', 'https://az511.com/'],
 ];

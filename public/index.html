@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FLOODplain Morning Check</title>
-  <meta name="description" content="Which road out of Avra Valley to I-10 is clear right now, from live USGS gauges.">
+  <title>Avra Valley Morning Check</title>
+  <meta name="description" content="Which road out of Avra Valley to I-10 is safe right now, from river gauges, rain gauges, county closures and NWS warnings.">
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -13,20 +13,31 @@
     <h1>Avra Valley → I-10</h1>
     <button id="refresh" type="button">Check now</button>
   </header>
-  <div class="dont-drown">Hobby tool, not an official warning. Never drive into flowing water: Turn Around, Don't Drown. In Arizona, drivers who go around barricades can be billed for their rescue (ARS 28-910).</div>
+  <div class="dont-drown">Hobby tool, not an official warning. Never drive into water crossing the road: Turn Around, Don't Drown. Arizona can bill you for your rescue if you go around a barricade.</div>
   <main>
     <section class="panel">
-      <div id="verdict" class="verdict unknown"><b>Loading…</b></div>
+      <div id="verdict" class="verdict unknown"><b>Checking…</b></div>
+      <div id="brief" class="brief"></div>
+      <a id="gmaps" class="gmaps" href="#" target="_blank" rel="noopener">Open in Google Maps</a>
       <p id="status" class="status"></p>
-      <p class="rain"><b>Did it rain in the valley overnight?</b> The gauges can miss local storms. If yes, skip Avra Valley Rd and check the ALERT rain map below. <a href="https://github.com/godfather38/floodplain/blob/main/docs/FAILURE-POINTS.md" target="_blank" rel="noopener">What the app can't see</a></p>
-      <label class="key">USGS API key
-        <input id="apikey" type="password" autocomplete="off" placeholder="paste the key USGS emailed you">
-        <small>Free from <a href="https://api.waterdata.usgs.gov/signup/" target="_blank" rel="noopener">api.waterdata.usgs.gov/signup</a>. Saved only in this browser.</small>
-      </label>
+      <h2>All routes</h2>
       <ol id="routes"></ol>
       <h2>Also check</h2>
       <nav id="links"></nav>
-      <p class="fine">Routes: OpenStreetMap via Overture Maps. Gauges: USGS (provisional data). Red dots: wash crossings with no bridge in the map data (likely dips, where water runs across the road). White dots: bridges. Blue circles: USGS gauges; filled blue means water is flowing.</p>
+      <h2>Settings (saved only in this browser)</h2>
+      <label class="field">Where you're driving to (for Google Maps)
+        <input id="dest" type="text" autocomplete="off" placeholder="work address, or leave blank to stop at I-10">
+      </label>
+      <label class="field">USGS API key
+        <input id="apikey" type="password" autocomplete="off" placeholder="paste the key USGS emailed you">
+        <small>Free from <a href="https://api.waterdata.usgs.gov/signup/" target="_blank" rel="noopener">api.waterdata.usgs.gov/signup</a>.</small>
+      </label>
+      <p class="fine">
+        <b>Colors:</b> green clear · blue heads up (water around, road fine) · orange caution · red avoid · gray unknown (not safe, just unknown).
+        Big dots on the map are the failure points; ☂ shows inches of rain in the last 6 hours; ⛔ is a county barricade not marked Open.
+        <a href="https://github.com/godfather38/floodplain/blob/main/docs/FAILURE-POINTS.md" target="_blank" rel="noopener">What each failure point means</a>.<br>
+        Data: USGS, Pima County Regional Flood Control District ALERT, Pima County DOT, National Weather Service. All provisional. Routes © OpenStreetMap contributors.
+      </p>
     </section>
     <div id="map"></div>
   </main>

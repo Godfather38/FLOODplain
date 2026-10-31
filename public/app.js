@@ -1,148 +1,168 @@
-import { API, STALE_MS, DRY_CFS, GAUGES, ROUTES, LINKS } from './config.js';
-import { parseContinuous, summarizeGauge, rateRoute, recommend } from './logic.js';
+import * as cfg from './config.js';
+import { parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl } from './logic.js';
 
+const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS } = cfg;
 const COLORS = { ok: '#2e7d32', watch: '#1565c0', caution: '#ef8f00', danger: '#c62828', unknown: '#757575' };
-const LABEL = { ok: 'Clear', watch: 'Water under bridge', caution: 'Caution', danger: 'Avoid', unknown: 'No data (not safe, just unknown)' };
-const CACHE_MS = 5 * 60 * 1000;
+const LABEL = { ok: 'Clear', watch: 'Heads up', caution: 'Caution', danger: 'Avoid', unknown: 'Unknown' };
+const KIND = { dip: 'dip (water crosses the road)', bridge: 'bridge', river: 'river bridge', road: 'road drainage' };
+const REFRESH_MS = 5 * 60 * 1000;
 const $ = (s) => document.querySelector(s);
-
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const store = {
   get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode */ } },
 };
 
-// ---- map ----
+// ---------- map ----------
 const map = L.map('map', { zoomSnap: 0.25 }).setView([32.42, -111.22], 12);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 18,
-  attribution: '&copy; OpenStreetMap contributors',
-}).addTo(map);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
 const routeLayers = {};
-const gaugeLayer = L.layerGroup().addTo(map);
+const dynamic = L.layerGroup().addTo(map);
 
-async function loadJson(url) {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`${url}: ${r.status}`);
+// ---------- data ----------
+async function getJson(url, opts) {
+  const r = await fetch(url, { cache: 'no-store', ...opts });
+  if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 429 ? ' (rate limited, so add your USGS key)' : ''}`);
   return r.json();
 }
 
-// ---- USGS ----
-async function fetchGauge(site) {
-  const key = `usgs:${site}`;
-  const hit = store.get(key);
-  if (hit && Date.now() - hit.at < CACHE_MS) return hit.json;
-  const url = `${API}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
-    + '&time=PT6H&limit=2000&properties=time,value,parameter_code';
-  // Query parameter rather than X-Api-Key header: a custom header would force
-  // a CORS preflight on every request.
-  const apiKey = store.get('apiKey');
-  const r = await fetch(apiKey ? `${url}&api_key=${encodeURIComponent(apiKey)}` : url);
-  if (!r.ok) throw new Error(`USGS ${site}: HTTP ${r.status}${r.status === 429 ? ' (rate limited: paste your free USGS key in the box above)' : ''}`);
-  const json = await r.json();
-  store.set(key, { at: Date.now(), json });
-  return json;
+async function loadUsgs(site) {
+  const key = store.get('apiKey');
+  const url = `${SOURCES.usgs}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
+    + '&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code'
+    + (key ? `&api_key=${encodeURIComponent(key)}` : '');
+  return parseContinuous(await getJson(url));
+}
+
+async function loadClosures() {
+  const q = new URLSearchParams({
+    where: '1=1', outFields: 'Location,Status,Direction,timeUpdated', returnGeometry: 'true', outSR: '4326', f: 'json',
+    geometry: '-111.45,32.25,-111.10,32.50', geometryType: 'esriGeometryEnvelope', inSR: '4326', spatialRel: 'esriSpatialRelIntersects',
+  });
+  const j = await getJson(`${SOURCES.closures}/query?${q}`);
+  if (j.error) throw new Error(j.error.message);
+  return j.features.map((f) => ({
+    location: f.attributes.Location?.trim(), status: f.attributes.Status ?? '', updated: f.attributes.timeUpdated,
+    lat: f.geometry.y, lon: f.geometry.x,
+  }));
+}
+
+async function loadNws() {
+  const j = await getJson(SOURCES.nws, { headers: { Accept: 'application/geo+json' } });
+  return (j.features ?? []).map((f) => ({ event: f.properties.event, headline: f.properties.headline, ends: f.properties.ends || f.properties.expires }));
+}
+
+async function gather() {
+  const now = Date.now();
+  const errors = {};
+  const settle = async (name, p) => { try { return await p; } catch (e) { errors[name] = e.message; return null; } };
+  const sites = Object.keys(USGS_SITES);
+  const [flowsArr, closures, alert, nws] = await Promise.all([
+    Promise.all(sites.map((s) => settle(`USGS ${s}`, loadUsgs(s)))),
+    settle('County closures', loadClosures()),
+    settle('ALERT rain', getJson(SOURCES.alert)),
+    settle('NWS', loadNws()),
+  ]);
+  const flows = Object.fromEntries(sites.map((s, i) => [s, summarizeFlow(flowsArr[i], now, STALE_MS)]));
+  return { now, flows, closures, alert, nws, errors };
+}
+
+// ---------- render ----------
+let routeFeatures = [];
+
+function render(d) {
+  const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
+  const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS);
+  const { best, clear, order } = recommend(rated);
+  const problems = best.points.filter((p) => p.level !== 'ok');
+  const short = (r) => r.name.split(' -> ')[0];
+
+  // The brief
+  const head = clear ? `Take ${esc(best.name)}`
+    : best.level === 'unknown' ? 'The sensors can’t tell right now' : 'No route is clear';
+  const sub = clear
+    ? `~${Math.round(best.minutes)} min${problems.length ? ' · read the heads-up below' : ' · nothing flagged on this route'}`
+    : best.level === 'unknown'
+      ? 'Check the ALERT rain map and county closures below before you leave'
+      : `Least bad: ${esc(best.name)} (${LABEL[best.level]}). Consider waiting. Never drive into water crossing the road.`;
+  // Explain every route that is faster than the pick, or that is dangerous today.
+  const faster = order.filter((r) => r.id !== best.id && (r.minutes < best.minutes || r.level === 'danger'));
+  const whyNot = faster.map((r) => {
+    const p = r.points.find((x) => x.level === r.level);
+    return `<li><b>${r.level === 'danger' ? 'Avoid' : 'Not'} ${esc(short(r))}:</b> ${esc(p.name)}: ${esc(p.why)}</li>`;
+  }).join('');
+  const watch = problems.map((p) => `<li><b>${esc(p.name)}</b> (${LABEL[p.level]}): ${esc(p.why)}</li>`).join('');
+  $('#verdict').className = `verdict ${best.level}`;
+  $('#verdict').innerHTML = `<b>${head}</b><span>${sub}</span>`;
+  $('#brief').innerHTML = (whyNot ? `<ul>${whyNot}</ul>` : '') + (watch ? `<p class="h">On this route, watch for:</p><ul>${watch}</ul>` : '');
+  const dest = store.get('dest');
+  $('#gmaps').href = googleMapsUrl(NAV[best.id], dest);
+  $('#gmaps').textContent = `Open ${short(best)} route in Google Maps`;
+
+  // Route cards
+  $('#routes').innerHTML = order.map((r) => `
+    <li class="route ${r.level}" data-id="${r.id}">
+      <div class="head"><b>${esc(r.name)}</b><span class="meta">${r.km} km · ~${Math.round(r.minutes)} min</span><span class="badge">${LABEL[r.level]}</span></div>
+      <ul class="pts">${r.points.map((p) => `<li><span class="dot ${p.level}"></span><b>${esc(p.name)}</b> <span class="kind">${KIND[p.kind]}</span><br><i>${esc(p.why)}</i></li>`).join('')}</ul>
+      <a class="nav" href="${googleMapsUrl(NAV[r.id], dest)}" target="_blank" rel="noopener">Google Maps →</a>
+    </li>`).join('');
+  document.querySelectorAll('#routes > li').forEach((li) => {
+    li.addEventListener('click', (e) => { if (!e.target.closest('a')) map.fitBounds(routeLayers[li.dataset.id].getBounds(), { padding: [20, 20] }); });
+  });
+
+  // Map
+  for (const r of rated) routeLayers[r.id]?.setStyle({ color: COLORS[r.level] });
+  routeLayers[best.id]?.bringToFront();
+  dynamic.clearLayers();
+  for (const fp of FAILURE_POINTS) {
+    const r = fpResults[fp.id];
+    L.circleMarker([fp.lat, fp.lon], { radius: fp.kind === 'dip' ? 9 : 7, color: '#000', weight: 1.5, fillColor: COLORS[r.level], fillOpacity: 1 })
+      .bindPopup(`<b>${esc(fp.name)}</b><br>${esc(fp.where)}<br><b>${LABEL[r.level]}</b>: ${esc(r.why)}<ul>${r.checks.map((c) => `<li>${esc(c.why)}</li>`).join('')}</ul>`)
+      .addTo(dynamic);
+  }
+  for (const g of d.alert?.rain ?? []) {
+    if (!cfg.RAIN_GAUGES[g.site]) continue;
+    const h6 = g.in?.h6;
+    L.marker([g.lat, g.lon], { icon: L.divIcon({ className: 'rain-label', html: `☂ ${h6 == null ? '–' : h6.toFixed(2)}"`, iconSize: null }) })
+      .bindTooltip(`${esc(g.name)}<br>last 1 h ${g.in.h1 ?? '–'}" · 3 h ${g.in.h3 ?? '–'}" · 6 h ${g.in.h6 ?? '–'}" · 24 h ${g.in.d1 ?? '–'}"`)
+      .addTo(dynamic);
+  }
+  for (const c of d.closures ?? []) {
+    if (/open/i.test(c.status)) continue;
+    L.marker([c.lat, c.lon], { icon: L.divIcon({ className: `closure ${/clos/i.test(c.status) ? 'closed' : 'careful'}`, html: '⛔', iconSize: null }) })
+      .bindTooltip(`${esc(c.location)}: ${esc(c.status)} (updated ${esc(c.updated)})`).addTo(dynamic);
+  }
+
+  // Where the data came from
+  const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const bits = [`Checked ${t(d.now)}`];
+  if (d.alert?.fetched_at) bits.push(`rain data from ${t(Date.parse(d.alert.fetched_at))}`);
+  if (d.nws?.length) bits.push(`NWS: ${d.nws.map((a) => a.event).join(', ')}`);
+  const errs = Object.keys(d.errors);
+  if (errs.length) bits.push(`couldn't reach: ${errs.join(', ')}`);
+  $('#status').textContent = bits.join(' · ');
 }
 
 async function check() {
-  $('#status').textContent = 'Checking gauges…';
-  const now = Date.now();
-  const summaries = {};
-  const errors = [];
-  const coords = {};
-  await Promise.all(Object.keys(GAUGES).map(async (site) => {
-    try {
-      const json = await fetchGauge(site);
-      summaries[site] = summarizeGauge(parseContinuous(json), now, { staleMs: STALE_MS, dryCfs: DRY_CFS });
-      const geom = json.features?.find((f) => f.geometry)?.geometry;
-      if (geom) coords[site] = [geom.coordinates[1], geom.coordinates[0]];
-    } catch (e) {
-      errors.push(e.message);
-      summaries[site] = { state: 'nodata' };
-    }
-  }));
-  render(summaries, coords, errors, now);
-}
-
-// ---- render ----
-let routeFeatures = [];
-
-function render(summaries, coords, errors, now) {
-  const rated = routeFeatures.map((f) => ({
-    id: f.properties.id,
-    name: f.properties.name,
-    minutes: f.properties.minutes,
-    km: f.properties.km,
-    ...rateRoute(ROUTES[f.properties.id], summaries, GAUGES),
-  }));
-  const { best, clear, order } = recommend(rated);
-
-  $('#verdict').className = `verdict ${best.level}`;
-  $('#verdict').innerHTML = clear
-    ? `<b>Take ${best.name}</b><span>~${Math.round(best.minutes)} min · ${LABEL[best.level]}</span>`
-    : best.level === 'unknown'
-      ? `<b>Can't tell from the gauges right now</b><span>Check the ALERT map and closures below before leaving</span>`
-      : `<b>No route is clear</b><span>Least bad: ${best.name} (${LABEL[best.level]}). Consider waiting. Turn Around, Don't Drown.</span>`;
-
-  $('#routes').innerHTML = order.map((r) => `
-    <li class="route ${r.level}" data-id="${r.id}">
-      <div class="head"><span class="dot"></span><b>${r.name}</b><span class="meta">${r.km} km · ~${Math.round(r.minutes)} min</span>
-        <span class="badge">${LABEL[r.level]}</span></div>
-      <ul class="links">${r.links.map((l) => `<li><span class="dot ${l.level}"></span>${l.role}: <i>${l.why}</i></li>`).join('')}</ul>
-      <ul class="blind">${ROUTES[r.id].blindSpots.map((b) => `<li>Not watched: ${b}</li>`).join('')}</ul>
-    </li>`).join('');
-  document.querySelectorAll('#routes > li').forEach((li) => {
-    li.addEventListener('mouseenter', () => routeLayers[li.dataset.id]?.bringToFront().setStyle({ weight: 8 }));
-    li.addEventListener('mouseleave', () => routeLayers[li.dataset.id]?.setStyle({ weight: 5 }));
-    li.addEventListener('click', () => map.fitBounds(routeLayers[li.dataset.id].getBounds(), { padding: [20, 20] }));
-  });
-
-  for (const r of rated) routeLayers[r.id]?.setStyle({ color: COLORS[r.level] });
-  routeLayers[best.id]?.bringToFront();
-
-  gaugeLayer.clearLayers();
-  for (const [site, g] of Object.entries(GAUGES)) {
-    if (!coords[site]) continue;
-    const s = summaries[site];
-    const txt = s.state === 'nodata' ? 'no recent data'
-      : [s.cfs != null && `${s.cfs} cfs`, s.ft != null && `${s.ft} ft`].filter(Boolean).join(' · ') || s.state;
-    L.circleMarker(coords[site], { radius: 8, color: '#000', weight: 1, fillColor: s.state === 'flowing' ? '#1e88e5' : s.state === 'nodata' ? '#9e9e9e' : '#fff', fillOpacity: 1 })
-      .bindPopup(`<b>${g.name}</b><br>USGS ${site}<br>${txt}<br><a href="https://waterdata.usgs.gov/monitoring-location/USGS-${site}/" target="_blank" rel="noopener">USGS page</a>`)
-      .addTo(gaugeLayer);
-  }
-
-  $('#status').textContent = `Checked ${new Date(now).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`
-    + (errors.length ? ` · ${errors.length} gauge(s) unreachable: ${errors.join('; ')}` : '');
+  $('#status').textContent = 'Checking river gauges, rain gauges, county closures, NWS…';
+  render(await gather());
 }
 
 async function init() {
-  const [routes, crossings] = await Promise.all([loadJson('data/routes.geojson'), loadJson('data/crossings.geojson')]);
+  const routes = await getJson('data/routes.geojson');
   routeFeatures = routes.features;
   for (const f of routeFeatures) {
-    routeLayers[f.properties.id] = L.geoJSON(f, { style: { color: COLORS.unknown, weight: 5, opacity: 0.85 } })
-      .bindTooltip(f.properties.name).addTo(map);
+    routeLayers[f.properties.id] = L.geoJSON(f, { style: { color: COLORS.unknown, weight: 5, opacity: 0.8 } }).bindTooltip(f.properties.name).addTo(map);
   }
-  const seen = new Set();
-  for (const f of crossings.features) {
-    const [x, y] = f.geometry.coordinates;
-    const k = `${x.toFixed(3)},${y.toFixed(3)}`;
-    if (seen.has(k)) continue;
-    seen.add(k);
-    const p = f.properties;
-    L.circleMarker([y, x], { radius: p.bridge_tagged ? 4 : 6, color: '#000', weight: 1, fillColor: p.bridge_tagged ? '#fff' : '#c62828', fillOpacity: 1 })
-      .bindTooltip(`${p.water ?? 'Unnamed wash'} on ${p.road}: ${p.bridge_tagged ? 'bridge' : 'no bridge in map data (likely dip)'}`)
-      .addTo(map);
-  }
-  map.fitBounds(L.featureGroup(Object.values(routeLayers)).getBounds(), { padding: [10, 10] });
-
+  map.fitBounds(L.featureGroup(Object.values(routeLayers)).getBounds(), { padding: [10, 10], animate: false });
   $('#links').innerHTML = LINKS.map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join('');
-  $('#apikey').value = store.get('apiKey') ?? '';
-  $('#apikey').addEventListener('change', (e) => store.set('apiKey', e.target.value.trim() || null));
-  $('#refresh').addEventListener('click', () => {
-    Object.keys(GAUGES).forEach((s) => store.set(`usgs:${s}`, null));
-    check();
-  });
+  for (const [id, key] of [['#apikey', 'apiKey'], ['#dest', 'dest']]) {
+    $(id).value = store.get(key) ?? '';
+    $(id).addEventListener('change', (e) => { store.set(key, e.target.value.trim() || null); check(); });
+  }
+  $('#refresh').addEventListener('click', check);
   await check();
-  setInterval(check, CACHE_MS);
+  setInterval(check, REFRESH_MS);
 }
 
 init().catch((e) => { $('#status').textContent = `Failed to load: ${e.message}`; });
