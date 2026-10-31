@@ -1,0 +1,58 @@
+name: Wash Watch scheduled check
+# Runs the same check as the app and delivers a short summary.
+# GitHub schedules are in UTC (Arizona = UTC-7 all year) and can start a few minutes late.
+on:
+  schedule:
+    - cron: '40 12 * * *'   # 5:40 AM Arizona
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      NTFY_TOPIC: washwatch-avra-q7k2m9          # free push: subscribe to this topic in the ntfy app
+      SMTP_USER: ${{ secrets.SMTP_USER }}          # Gmail address that sends the text
+      SMTP_APP_PASSWORD: ${{ secrets.SMTP_APP_PASSWORD }}
+      SMS_TO: ${{ secrets.SMS_TO }}                # e.g. 5205551234@tmomail.net (carrier email-to-text)
+      TWILIO_SID: ${{ secrets.TWILIO_SID }}        # optional phone call (paid)
+      TWILIO_TOKEN: ${{ secrets.TWILIO_TOKEN }}
+      TWILIO_FROM: ${{ secrets.TWILIO_FROM }}
+      CALL_TO: ${{ secrets.CALL_TO }}
+      USGS_API_KEY: ${{ secrets.USGS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check conditions
+        run: |
+          python3 tools/snapshot_alert.py alert.json || echo '{}' > alert.json
+          node tools/notify.mjs alert.json > msg.json
+          cat msg.json
+      - name: Push notification (ntfy, free)
+        run: |
+          curl -fsS -H "Title: $(jq -r .title msg.json)" -H "Click: https://godfather38.github.io/FLOODplain/" \
+            -H "Tags: droplet" -d "$(jq -r .text msg.json)" "https://ntfy.sh/$NTFY_TOPIC"
+      - name: Text message (email-to-text)
+        if: env.SMTP_USER != '' && env.SMTP_APP_PASSWORD != '' && env.SMS_TO != ''
+        run: |
+          python3 - <<'PY'
+          import json, os, smtplib
+          from email.message import EmailMessage
+          m = json.load(open('msg.json'))
+          e = EmailMessage(); e['From'] = os.environ['SMTP_USER']; e['To'] = os.environ['SMS_TO']
+          e['Subject'] = 'Wash Watch'; e.set_content(m['sms'])
+          with smtplib.SMTP_SSL('smtp.gmail.com', 465) as s:
+              s.login(os.environ['SMTP_USER'], os.environ['SMTP_APP_PASSWORD']); s.send_message(e)
+          print('text sent')
+          PY
+      - name: Phone call (Twilio)
+        if: env.TWILIO_SID != '' && env.TWILIO_TOKEN != '' && env.TWILIO_FROM != '' && env.CALL_TO != ''
+        run: |
+          SAY=$(jq -r .spoken msg.json | sed 's/&/and/g; s/</ /g; s/>/ /g')
+          curl -fsS -u "$TWILIO_SID:$TWILIO_TOKEN" "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/Calls.json" \
+            --data-urlencode "To=$CALL_TO" --data-urlencode "From=$TWILIO_FROM" \
+            --data-urlencode "Twiml=<Response><Pause length=\"1\"/><Say>$SAY</Say><Pause length=\"1\"/><Say>$SAY</Say></Response>" >/dev/null
+          echo 'call placed'
