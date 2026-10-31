@@ -165,3 +165,11 @@ test('dry morning: angel lists the good signs, nothing against', () => {
   assert.deepEqual(goodSigns(r.best, true), ['the Santa Cruz is at its everyday flow', 'Brawley Wash upstream is dry', 'no rain in the last 6 hours', 'no weather-service flood alerts']);
   assert.equal(againstIt(r.best).length, 0);
 });
+
+test('Google Maps home direction: off I-10 at the route ramp, back along it', () => {
+  const u = new URL(googleMapsUrl(cfg.NAV['silverbell-north'], '', 'home'));
+  const wp = u.searchParams.get('waypoints').split('|');
+  assert.equal(wp[0], cfg.NAV['silverbell-north'].ramp.join(','));
+  assert.equal(wp[1], cfg.NAV['silverbell-north'].via.at(-1).join(','));
+  assert.equal(u.searchParams.get('destination'), '32.4295,-111.3045');
+});

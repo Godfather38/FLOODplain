@@ -1,6 +1,6 @@
-# FLOODplain
+# Wash Watch (FLOODplain)
 
-A morning check for the roads out of Avra Valley, AZ to I-10. It reads live USGS stream gauges at each river crossing and recommends a route. It's a hobby tool, not an official warning.
+A check of the roads between Avra Valley, AZ and I-10, either direction. It reads live USGS stream gauges at each river crossing and recommends a route. It's a hobby tool, not an official warning.
 
 - `public/`: the static web app (no server). `logic.js` holds the route-rating rules and `config.js` the gauge-to-route mapping.
 - `tools/`: rebuilds the route and crossing data from OpenStreetMap (via Overture Maps).

@@ -216,9 +216,21 @@ export function recommend(rated) {
   return { best, clear: best && rank(best.level) <= rank('watch'), order };
 }
 
-export function googleMapsUrl(nav, destination) {
-  const pts = [...nav.via, ...(destination ? [nav.ramp] : [])].slice(0, 3);
-  const dest = destination || nav.ramp.join(',');
+// Google Maps link that forces the chosen roads with waypoints (phones allow up to 3).
+//   toI10: from wherever you are, via the route, to I-10 (or on to `destination`).
+//   home:  from wherever you are (e.g. work), onto I-10, off at this route's ramp,
+//          back along the route to `destination` (your home address) or the El Tiro & Trico junction.
+export const HOME_JUNCTION = [32.4295, -111.3045];
+export function googleMapsUrl(nav, destination, direction = 'toI10') {
+  let pts;
+  let dest;
+  if (direction === 'home') {
+    pts = [nav.ramp, ...[...nav.via].reverse()].slice(0, 3);
+    dest = destination || HOME_JUNCTION.join(',');
+  } else {
+    pts = [...nav.via, ...(destination ? [nav.ramp] : [])].slice(0, 3);
+    dest = destination || nav.ramp.join(',');
+  }
   const u = new URL('https://www.google.com/maps/dir/');
   u.searchParams.set('api', '1');
   u.searchParams.set('destination', dest);

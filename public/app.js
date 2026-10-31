@@ -70,6 +70,26 @@ let routeFeatures = [];
 let data = null;
 let view = null;
 let openSource = null; // index of the source row expanded on the stretch screen
+// Direction is never a setting: the risk is the same both ways. Navigate works out
+// which way you're headed when tapped. In Avra Valley (west of the Santa Cruz) means
+// toward I-10; anywhere else means home. If location isn't available, before noon = toward I-10.
+const viaText = (rid) => ROUTE_INFO[rid].via;
+function headingHome() {
+  const byClock = () => new Date().getHours() >= 12;
+  if (!navigator.geolocation) return Promise.resolve(byClock());
+  return new Promise((done) => {
+    navigator.geolocation.getCurrentPosition(
+      (p) => done(!(p.coords.longitude < -111.2 && p.coords.latitude > 32.3 && p.coords.latitude < 32.52)),
+      () => done(byClock()),
+      { timeout: 4000, maximumAge: 300000 },
+    );
+  });
+}
+async function navigate(rid) {
+  const home = await headingHome();
+  const url = googleMapsUrl(NAV[rid], store.get(home ? 'homeAddr' : 'dest'), home ? 'home' : 'toI10');
+  location.href = url;
+}
 
 function compute(d) {
   const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
@@ -103,7 +123,7 @@ const topIssue = (r) => {
   return a ? `${a.short}: ${a.why}` : 'Nothing working against it';
 };
 const minutes = (r) => `${Math.round(r.minutes)} min`;
-const navBtn = (r, cls = 'btn btn-primary') => `<a class="${cls}" href="${esc(googleMapsUrl(NAV[r.id], store.get('dest')))}" target="_blank" rel="noopener">${NAV_ICON}Navigate</a>`;
+const navBtn = (r, cls = 'btn btn-primary') => `<button type="button" class="${cls}" data-nav="${r.id}">${NAV_ICON}Navigate</button>`;
 
 // ---------------- screens ----------------
 function homeScreen() {
@@ -112,12 +132,12 @@ function homeScreen() {
   const info = ROUTE_INFO[best.id];
   const against = againstIt(best).slice(0, 2);
   const others = rec.order.filter((r) => r.id !== best.id);
-  const overline = best.score == null ? 'Can’t tell right now' : best.score <= 2 ? 'Best route this morning' : 'Least going against it';
+  const overline = best.score == null ? 'Can’t tell right now' : best.score <= 2 ? 'Best route right now' : 'Least going against it';
   return `
     <article class="hero">
       <p class="overline">${overline}</p>
       <div class="hero-top"><h2>${esc(info.name)}</h2>${badgeWithWord(best.score)}</div>
-      <p class="meta">${minutes(best)} · ${esc(info.via)}</p>
+      <p class="meta">${minutes(best)} · ${esc(viaText(best.id))}</p>
       <div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(best))}</p></div>
       ${against.length ? `<ul class="against">${against.map((a) => `<li><span class="dot ${a.level}"></span><span>${esc(a.short)}: ${esc(a.why)}</span></li>`).join('')}</ul>` : ''}
       <div class="actions">${navBtn(best)}<a class="btn btn-text" href="#/r/${best.id}">Details</a></div>
@@ -153,7 +173,7 @@ function routeScreen(rid) {
     </a>`;
   return `
     <article class="hero">
-      <div class="hero-top"><div style="flex:1"><p class="meta" style="margin:0">${minutes(r)} · ${esc(info.via)}</p></div>${badgeWithWord(r.score)}</div>
+      <div class="hero-top"><div style="flex:1"><p class="meta" style="margin:0">${minutes(r)} · ${esc(viaText(rid))}</p></div>${badgeWithWord(r.score)}</div>
       <div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(r))}</p></div>
     </article>
     ${flagged.length ? `<h3 class="section">Working against it</h3><div class="list">${flagged.map(row).join('')}</div>` : ''}
@@ -191,7 +211,7 @@ function howScreen() {
       <li>${badge(null)}<span><b>No data.</b> Not the same as fine.</span></li>
     </ul>
     <h4>Using it</h4>
-    <p>The top card is the route with the least going against it. Tap <b>Navigate</b> to drive it in Google Maps. Tap <b>Details</b> or any route to see its stretches, then any stretch to see what each source says. The map follows along.</p>
+    <p>The top card is the route with the least going against it. The numbers are the same whichever way you're driving. Tap <b>Navigate</b> to drive it in Google Maps; it heads for I-10 when you're in Avra Valley and home when you're not. Tap <b>Details</b> or any route to see its stretches, then any stretch to see what each source says. The map follows along.</p>
     <p>A route's number is its worst stretch. The map only marks stretches that aren't normal.</p>
     <h4>Limits</h4>
     <p>Built from public, provisional data that can be late or wrong. What you see at the crossing comes first.</p>
@@ -199,8 +219,11 @@ function howScreen() {
 }
 function settingsScreen() {
   return `<div class="page">
-    <label class="field">Where you're driving to (used by Navigate)
-      <input id="dest" type="text" autocomplete="off" placeholder="Work address, or blank to stop at I-10" value="${esc(store.get('dest') ?? '')}">
+    <label class="field">Where you go in town, e.g. work (blank = stop at I-10)
+      <input id="dest" type="text" autocomplete="off" placeholder="Address" value="${esc(store.get('dest') ?? '')}">
+    </label>
+    <label class="field">Home (blank = El Tiro &amp; Trico)
+      <input id="homeAddr" type="text" autocomplete="off" placeholder="Your address" value="${esc(store.get('homeAddr') ?? '')}">
     </label>
     <label class="field">USGS key (optional; free at api.waterdata.usgs.gov/signup)
       <input id="apikey" type="password" autocomplete="off" placeholder="Paste key" value="${esc(store.get('apiKey') ?? '')}">
@@ -220,9 +243,10 @@ function render() {
   const sub = w.screen !== 'home';
   $('.appbar').classList.toggle('sub', sub);
   $('#back').hidden = !sub;
+  $('#logo').hidden = sub;
   $('#refresh').hidden = sub && !['route', 'stretch'].includes(w.screen);
   const titles = {
-    home: ['Morning check', subtitle()],
+    home: ['Wash Watch', subtitle()],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
     how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''],
@@ -239,7 +263,7 @@ function render() {
 }
 function subtitle() {
   const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-  return `Avra Valley → I-10 · ${t(data.now)}${data.errors.length ? ` · no ${data.errors.join(', ')}` : ''}`;
+  return `Avra Valley ↔ I-10 · ${t(data.now)}${data.errors.length ? ` · no ${data.errors.join(', ')}` : ''}`;
 }
 function wire(w) {
   document.querySelectorAll('details.src').forEach((d) => d.addEventListener('toggle', () => {
@@ -250,7 +274,8 @@ function wire(w) {
     } else if (openSource === i) openSource = null;
     drawMap(where());
   }));
-  for (const [id, key] of [['#apikey', 'apiKey'], ['#dest', 'dest']]) {
+  document.querySelectorAll('[data-nav]').forEach((b) => b.addEventListener('click', () => navigate(b.dataset.nav)));
+  for (const [id, key] of [['#apikey', 'apiKey'], ['#dest', 'dest'], ['#homeAddr', 'homeAddr']]) {
     const el = $(id);
     if (el) el.addEventListener('change', (e) => { store.set(key, e.target.value.trim() || null); if (key === 'apiKey') check(); });
   }

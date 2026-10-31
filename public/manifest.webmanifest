@@ -1,0 +1,15 @@
+{
+  "name": "Wash Watch: Avra Valley ↔ I-10",
+  "short_name": "Wash Watch",
+  "description": "Which road between Avra Valley and I-10 has the least going against it right now, from river gauges, rain gauges, county barricades and weather alerts.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f7f5",
+  "theme_color": "#e8743b",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

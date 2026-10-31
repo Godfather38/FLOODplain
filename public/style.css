@@ -20,6 +20,7 @@ a { color: var(--primary); }
 .appbar { position: sticky; top: 0; z-index: 1000; display: flex; align-items: center; gap: 4px; height: 64px; padding: 0 8px 0 16px; background: var(--bg); }
 .appbar.sub { padding-left: 4px; }
 .titles { flex: 1; min-width: 0; }
+.logo { width: 36px; height: 36px; margin-right: 10px; flex: none; }
 #title { font-size: 22px; font-weight: 500; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #subtitle { font-size: 13px; color: var(--muted); margin: 0; }
 .icon-btn { width: 48px; height: 48px; border: 0; border-radius: 50%; background: transparent; display: grid; place-items: center; cursor: pointer; flex: none; }

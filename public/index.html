@@ -7,8 +7,20 @@
   <meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>Morning Check</title>
-  <meta name="description" content="Which road from Avra Valley to I-10 has the least going against it this morning.">
+  <title>Wash Watch</title>
+  <meta name="description" content="Which road between Avra Valley and I-10 has the least going against it right now: river gauges, rain gauges, county barricades and weather alerts in one place.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-title" content="Wash Watch">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Wash Watch: Avra Valley ↔ I-10">
+  <meta property="og:description" content="Which road has the least going against it right now: river gauges, rain gauges, county barricades and weather alerts in one place.">
+  <meta property="og:image" content="https://godfather38.github.io/FLOODplain/icons/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -17,9 +29,10 @@
     <button id="back" class="icon-btn" type="button" aria-label="Back" hidden>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z"/></svg>
     </button>
+    <img id="logo" class="logo" src="icons/logo.svg" alt="" width="36" height="36">
     <div class="titles">
-      <h1 id="title">Morning check</h1>
-      <p id="subtitle">Avra Valley → I-10</p>
+      <h1 id="title">Wash Watch</h1>
+      <p id="subtitle">Avra Valley ↔ I-10</p>
     </div>
     <button id="refresh" class="icon-btn" type="button" aria-label="Check again">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"/></svg>

@@ -124,10 +124,10 @@ export const CLOSURE_RADIUS_M = 450;
 // For "Open in Google Maps": points that force Google onto each route. Google
 // starts from your current location and allows up to 3 stops on phones.
 export const ROUTE_INFO = {
-  trico: { name: 'Trico-Marana', via: 'Trico Rd → Trico-Marana Rd → Marana Rd → I-10' },
-  'silverbell-north': { name: 'Silverbell → Sanders north', via: 'Trico Rd → Silverbell Rd → Sanders Rd → Marana Rd → I-10' },
-  avra: { name: 'Avra Valley Rd', via: 'Trico Rd → Avra Valley Rd → I-10 at Avra Valley' },
-  'silverbell-south': { name: 'Silverbell → Sanders south', via: 'Trico Rd → Silverbell Rd → Sanders Rd → Avra Valley Rd → I-10' },
+  trico: { name: 'Trico-Marana', via: 'Trico Rd · Trico-Marana Rd · Marana Rd' },
+  'silverbell-north': { name: 'Silverbell–Sanders north', via: 'Trico Rd · Silverbell Rd · Sanders Rd · Marana Rd' },
+  avra: { name: 'Avra Valley Rd', via: 'Trico Rd · Avra Valley Rd' },
+  'silverbell-south': { name: 'Silverbell–Sanders south', via: 'Trico Rd · Silverbell Rd · Sanders Rd · Avra Valley Rd' },
 };
 
 export const NAV = {
