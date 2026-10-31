@@ -1,0 +1,7 @@
+pyarrow>=17
+fsspec>=2024.6
+aiohttp>=3.9
+requests>=2.31
+shapely>=2.0
+networkx>=3.2
+matplotlib>=3.8

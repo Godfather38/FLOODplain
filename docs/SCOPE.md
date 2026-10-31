@@ -75,16 +75,31 @@ Avra Valley has a Marana mailing address, but it is mostly **unincorporated Pima
 ### Where homemade sensors add value
 There's a gap between "rain fell upstream" (ALERT) and "the road is closed" (a barricade goes up). Nobody publishes **water depth at the specific dips on these routes**. A sensor on a post beside a crossing, **on a willing neighbor's land** with no right-of-way permit needed, fills that gap.
 
-## Routes east to I-10
-Three roads go east: **Trico, Silverbell, Avra Valley Rd**. Every one of them has to cross the Santa Cruz River.
+## Routes east to I-10 (computed, not guessed)
+![routes](routes.png)
 
-| Route | Known flood points (from news/NWS, mixed dates) | Nearest public gauge |
-|---|---|---|
-| Avra Valley Rd | Brawley Wash crossing; Santa Cruz bridge (has closed, stranding residents) | USGS 09486509, at the bridge |
-| Trico | Santa Cruz bridge overtopped in 2014; ~300 yd of road flooded | USGS 09486520, Trico Rd |
-| Silverbell | Not yet researched | USGS 09486515 (Sanders Rd)? To confirm |
+Routed on OpenStreetMap road geometry via **Overture Maps release 2026-10-21.0**, using the scripts in `tools/` (fetch → road graph → Dijkstra → route ∩ waterways). Every route starts at the shared **W El Tiro Rd & N Trico Rd** junction, because this repo is public and no home address goes in it. Output: `public/data/routes.geojson`, `public/data/crossings.geojson`.
 
-**Routing is a core feature, not an extra.** The app does real geocoding and routing (OSRM or OpenRouteService on OpenStreetMap data). It snaps the three route geometries, finds every wash crossing on each one (route line ∩ OSM waterways), and ranks the routes by flood status.
+| Route | Distance / free-flow time | Water crossings | Gauge at the crossing |
+|---|---|---|---|
+| Trico Rd → Trico-Marana Rd → Marana Rd | 11.2 km / ~10 min | Los Robles Wash (bridge, on Trico Rd); **Santa Cruz (Trico-Marana bridge)** | USGS 09486520, Santa Cruz at Trico Rd |
+| Avra Valley Rd → I-10 Avra Valley exit | 21.1 km / ~20 min | **Brawley Wash** plus 2 unnamed washes with **no bridge tag** (likely dips); 1 bridged wash; **Santa Cruz (Avra Valley Rd bridge)** | USGS 09486509, Santa Cruz at Avra Valley Rd |
+| **Silverbell → Sanders Rd north → Marana Rd** | 16.5 km / ~16 min | Los Robles Wash (bridge, on Trico Rd); **Santa Cruz (Sanders Rd bridge)** | USGS 09486515, Santa Cruz at Sanders Rd |
+| Silverbell → Sanders Rd south → Avra Valley Rd east | 20.2 km / ~20 min | Los Robles Wash (bridge); Santa Cruz (Avra Valley Rd bridge) | USGS 09486509 |
+
+### What the routing shows about Silverbell
+- West of Sanders Rd, **W Silverbell Rd runs between the Los Robles/Brawley wash system and the Santa Cruz. It crosses no mapped wash** between Trico Rd and Sanders Rd.
+- **Silverbell → Sanders south** joins Avra Valley Rd east of the Brawley Wash crossing and the 2 untagged dips, so it skips them. It still uses the Avra Valley Rd Santa Cruz bridge.
+- **Silverbell → Sanders north** avoids Avra Valley Rd entirely and crosses the Santa Cruz on the **Sanders Rd bridge** instead (built 1975, rated satisfactory, ~3,300 vehicles/day). No report was found of it closing for flooding. However, one past storm closed *all* Northwest Side Santa Cruz bridges for hours, and Trico-Marana stayed closed the longest.
+- Every route still crosses the Santa Cruz once, and **each Santa Cruz crossing has its own USGS gauge**. That gives one gauge per route for the river.
+- **Unconfirmed:**
+  - OSM has no pavement tag for W Silverbell between Trico and Sanders.
+  - News lists past Silverbell closures (Blanco Wash crossing, Avra Valley Rd to Sasco Rd), but those appear to be other stretches.
+
+### Data limitations of the routing
+- **OSM wash coverage is incomplete.** Only a handful of the washes are named, and small washes may be missing entirely. A dip on a mapped road can go undetected if its wash isn't mapped.
+- "No bridge tag" ≠ "dip". OSM may just lack the tag (bridge inventories list an Avra Valley Rd bridge over the *E Branch* of Brawley Wash). Each one needs a visual check.
+- Travel times are free-flow estimates from road class, not traffic.
 
 ## Open item
-Pull the real route lines and wash crossings from OSM, then match each crossing to its upstream ALERT rain gauges and the nearest USGS gauge.
+Verify the 3 untagged Avra Valley Rd crossings and Silverbell pavement on the ground. Match each crossing to its upstream ALERT rain gauges.

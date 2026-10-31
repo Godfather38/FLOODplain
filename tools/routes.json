@@ -1,0 +1,13 @@
+{
+  "_comment": "Origin is the shared public junction (W El Tiro Rd & N Trico Rd), not a home address. Waypoints are [road name, lon, lat]; the router snaps each to the nearest junction on that named road. Every route ends at the nearest I-10 ramp.",
+  "origin": { "name": "W El Tiro Rd & N Trico Rd", "lon": -111.3045, "lat": 32.4295 },
+  "routes": [
+    { "id": "trico", "name": "Trico Rd -> Trico-Marana Rd -> Marana Rd", "waypoints": [] },
+    { "id": "avra", "name": "Avra Valley Rd (I-10 Avra Valley exit)",
+      "waypoints": [["North Trico Road", -111.31, 32.40], ["West Avra Valley Road", -111.14, 32.40]] },
+    { "id": "silverbell-north", "name": "Silverbell Rd -> Sanders Rd north -> Marana Rd",
+      "waypoints": [["West Silverbell Road", -111.26, 32.43], ["North Sanders Road", -111.234, 32.445]] },
+    { "id": "silverbell-south", "name": "Silverbell Rd -> Sanders Rd south -> Avra Valley Rd east",
+      "waypoints": [["West Silverbell Road", -111.26, 32.43], ["North Sanders Road", -111.234, 32.405], ["West Avra Valley Road", -111.14, 32.40]] }
+  ]
+}
