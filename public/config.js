@@ -139,6 +139,8 @@ export const PLACES = [
 
 // Free text-style alerts through the ntfy app: one topic per time slot, day set and mode.
 export const ALERTS = { server: 'https://ntfy.sh', prefix: 'washwatch' };
+// Verizon text alerts: the Google Apps Script web app in apps-script/Code.gs. Empty = not connected yet.
+export const TEXT_API = '';
 export const alertTopic = (hhmm, days, mode) => `${ALERTS.prefix}-${hhmm.replace(':', '')}-${days}-${mode}`;
 
 export const NAV = {

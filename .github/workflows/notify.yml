@@ -50,12 +50,16 @@ jobs:
           WEEKDAY: ${{ steps.slot.outputs.weekday }}
         run: |
           TITLE=$(jq -r .title msg.json); BODY=$(jq -r .text msg.json); OFF=$(jq -r .off msg.json)
-          send() {
-            curl -fsS -o /dev/null -H "Title: $TITLE" -H "Click: https://godfather38.github.io/FLOODplain/" \
-              -H "Tags: droplet" -d "$BODY" "https://ntfy.sh/washwatch-$SLOT-$1" && echo "sent washwatch-$SLOT-$1"
-          }
           DAYS="all"; [ "$WEEKDAY" = yes ] && DAYS="all wd"
-          for d in $DAYS; do
-            send "$d-all"
-            [ "$OFF" = true ] && send "$d-off" || true
+          # Topics can be any minute; this fallback covers every minute of the 15-minute block.
+          H=${SLOT:0:2}; M0=$((10#${SLOT:2:2}))
+          for k in $(seq 0 14); do
+            MIN=$(printf '%s%02d' "$H" "$((M0 + k))")
+            for d in $DAYS; do
+              TOPIC="$MIN-$d"
+              curl -fsS -o /dev/null -H "Title: $TITLE" -H "Click: https://godfather38.github.io/FLOODplain/" -H "Tags: droplet" -d "$BODY" "https://ntfy.sh/washwatch-$TOPIC-all" || true
+              [ "$OFF" = true ] && curl -fsS -o /dev/null -H "Title: $TITLE" -H "Tags: droplet" -d "$BODY" "https://ntfy.sh/washwatch-$TOPIC-off" || true
+            done
           done
+          echo "posted block $SLOT"
+          # Times outside 4:00 AM-9:45 PM aren't covered by this fallback.

@@ -229,32 +229,86 @@ function settingsScreen() {
     <p class="fine" style="text-align:left;margin:0">Saved only on this phone.</p>
   </div>`;
 }
+// Any minute of the day, as HH:MM.
+function snapTime(t) {
+  const m = /^(\d{1,2}):(\d{2})/.exec(t || '');
+  return m && Number(m[1]) < 24 && Number(m[2]) < 60 ? `${m[1].padStart(2, '0')}:${m[2]}` : null;
+}
+const clock = (t) => new Date(`2000-01-01T${t}:00`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+let textFlow = { step: 'start', phone: '', msg: '' };
+
 function alertsScreen() {
-  const a = store.get('alert') ?? { time: '05:45', days: 'wd', mode: 'all' };
-  const topic = alertTopic(a.time, a.days, a.mode);
-  const times = [];
-  for (let m = 4 * 60; m <= 21 * 60 + 45; m += 15) times.push(`${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`);
-  const label = (t) => new Date(`2000-01-01T${t}:00`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const a = { times: ['05:45'], days: 'wd', mode: 'all', ...(store.get('alerts') ?? {}) };
+  const timeRows = a.times.map((t, i) => `
+    <div class="time-row">
+      <input type="time" data-ti="${i}" value="${t}" aria-label="Alert time ${i + 1}">
+      ${a.times.length > 1 ? `<button type="button" class="btn btn-text small" data-rm="${i}" aria-label="Remove">Remove</button>` : ''}
+    </div>`).join('');
+  const textCard = !cfg.TEXT_API
+    ? '<p class="fine" style="text-align:left;margin:0">Text sign-up is being connected. Use the free phone notification below until then.</p>'
+    : textFlow.step === 'confirm'
+      ? `<label class="field">Code we texted to ${esc(textFlow.phone)}<input id="t-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="4"></label>
+         <button type="button" class="btn btn-primary" id="t-confirm">Start texts</button>`
+      : textFlow.step === 'done'
+        ? `<p>Texts are on for ${esc(textFlow.phone)}. A confirmation text is on its way.</p>`
+        : `<label class="field">Verizon number<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
+           <button type="button" class="btn btn-primary" id="t-signup">Text me a code</button>
+           <button type="button" class="btn btn-text" id="t-stop">Stop texts for this number</button>`;
   return `<div class="page">
-    <p>Pick when you want the check sent to your phone. It comes as a notification with the best route and its number.</p>
-    <label class="field">Time (Arizona)
-      <select id="a-time">${times.map((t) => `<option value="${t}" ${t === a.time ? 'selected' : ''}>${label(t)}</option>`).join('')}</select>
-    </label>
+    <h4>When</h4>
+    ${timeRows}
+    ${a.times.length < 4 ? '<button type="button" class="btn btn-text" id="add-time">+ Add another time</button>' : ''}
     <label class="field">Days
       <select id="a-days"><option value="wd" ${a.days === 'wd' ? 'selected' : ''}>Weekdays</option><option value="all" ${a.days === 'all' ? 'selected' : ''}>Every day</option></select>
     </label>
     <label class="field">Send it
       <select id="a-mode"><option value="all" ${a.mode === 'all' ? 'selected' : ''}>Every time</option><option value="off" ${a.mode === 'off' ? 'selected' : ''}>Only when something's off (any route 2 or higher)</option></select>
     </label>
-    <h4>Turn it on</h4>
-    <ol class="steps">
-      <li>Install the free <b>ntfy</b> app: <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a> · <a href="https://apps.apple.com/us/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a></li>
-      <li>Tap <b>Subscribe</b> below, or in ntfy tap + and enter this topic: <code>${esc(topic)}</code></li>
-    </ol>
-    <a class="btn btn-primary" href="ntfy://ntfy.sh/${esc(topic)}">Subscribe in ntfy</a>
-    <p class="fine" style="text-align:left">No account and no phone number. The check runs every 15 minutes, and GitHub's free scheduler can be a few minutes late. To stop, unsubscribe in ntfy. Pick another time and subscribe again to get more than one.</p>
+    <p class="fine" style="text-align:left;margin:0">Arizona time.</p>
+  </div>
+  <h3 class="section">Text message (Verizon)</h3>
+  <div class="page">
+    ${textFlow.msg ? `<p class="note">${esc(textFlow.msg)}</p>` : ''}
+    ${textCard}
+    <p class="fine" style="text-align:left">Texts start once the paid text sender is connected.</p>
+  </div>
+  <h3 class="section">Phone notification (any carrier, free)</h3>
+  <div class="page">
+    <p>Install the free <b>ntfy</b> app (<a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a> · <a href="https://apps.apple.com/us/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a>), then subscribe${a.times.length > 1 ? ' to each time' : ''}:</p>
+    ${a.times.map((t) => `<a class="btn btn-primary" href="ntfy://ntfy.sh/${alertTopic(t, a.days, a.mode)}">Subscribe for ${clock(t)}</a><p class="fine" style="text-align:left;margin:0 0 8px">Topic: <code>${alertTopic(t, a.days, a.mode)}</code></p>`).join('')}
+    <p class="fine" style="text-align:left">No account, no phone number. Until the alert service is fully connected, these can arrive up to about 15 minutes off.</p>
   </div>`;
 }
+
+async function textApi(body) {
+  const r = await fetch(cfg.TEXT_API, { method: 'POST', body: JSON.stringify(body), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
+  return r.json();
+}
+function wireAlerts() {
+  const a = { times: ['05:45'], days: 'wd', mode: 'all', ...(store.get('alerts') ?? {}) };
+  const save = () => { store.set('alerts', a); render(); };
+  document.querySelectorAll('input[data-ti]').forEach((el) => el.addEventListener('change', () => {
+    const t = snapTime(el.value);
+    if (t) { a.times[Number(el.dataset.ti)] = t; a.times = [...new Set(a.times)].sort(); }
+    save();
+  }));
+  document.querySelectorAll('[data-rm]').forEach((b) => b.addEventListener('click', () => { a.times.splice(Number(b.dataset.rm), 1); save(); }));
+  $('#add-time')?.addEventListener('click', () => { a.times.push(snapTime('16:15')); a.times = [...new Set(a.times)].sort(); save(); });
+  $('#a-days')?.addEventListener('change', (e) => { a.days = e.target.value; save(); });
+  $('#a-mode')?.addEventListener('change', (e) => { a.mode = e.target.value; save(); });
+  const run = async (body, next) => {
+    textFlow.msg = 'Working…'; render();
+    try {
+      const r = await textApi(body);
+      textFlow = r.ok ? { ...textFlow, step: next, msg: '' } : { ...textFlow, msg: r.error || 'Something went wrong.' };
+    } catch { textFlow.msg = 'Couldn’t reach the text service. Try again in a minute.'; }
+    render();
+  };
+  $('#t-signup')?.addEventListener('click', () => { textFlow.phone = $('#t-phone').value.trim(); run({ action: 'signup', phone: textFlow.phone, times: a.times, days: a.days, mode: a.mode }, 'confirm'); });
+  $('#t-stop')?.addEventListener('click', () => { textFlow.phone = $('#t-phone').value.trim(); run({ action: 'stop', phone: textFlow.phone }, 'start').then(() => { textFlow.msg = 'If that number was signed up, its texts are stopped.'; render(); }); });
+  $('#t-confirm')?.addEventListener('click', () => run({ action: 'confirm', phone: textFlow.phone, code: $('#t-code').value.trim() }, 'done'));
+}
+
 function sourcesScreen() {
   return `<div class="list">${LINKS.map(([t, u]) => `<a class="row small" href="${u}" target="_blank" rel="noopener"><span class="text"><div class="t">${esc(t)}</div></span><span class="chev">↗</span></a>`).join('')}</div>
     <p class="fine">River gauges: USGS. Rain and stream sensors: Pima County Regional Flood Control District. Barricades: Pima County DOT. Alerts: National Weather Service. Roads © OpenStreetMap contributors. All provisional.</p>`;
@@ -273,7 +327,7 @@ function render() {
     home: ['Wash Watch', subtitle()],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
-    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Free, no sign-up'],
+    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'],
   }[w.screen];
   $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
@@ -299,10 +353,7 @@ function wire(w) {
     drawMap(where());
   }));
   document.querySelectorAll('[data-nav]').forEach((b) => b.addEventListener('click', () => navigate(b.dataset.nav)));
-  for (const id of ['#a-time', '#a-days', '#a-mode']) {
-    const el = $(id);
-    if (el) el.addEventListener('change', () => { store.set('alert', { time: $('#a-time').value, days: $('#a-days').value, mode: $('#a-mode').value }); render(); });
-  }
+  if (w.screen === 'alerts') wireAlerts();
   for (const [id, key] of [['#apikey', 'apiKey'], ['#dest', 'dest']]) {
     const el = $(id);
     if (el) el.addEventListener('change', (e) => { store.set(key, e.target.value.trim() || null); if (key === 'apiKey') check(); });

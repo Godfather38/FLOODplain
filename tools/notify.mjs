@@ -58,4 +58,4 @@ const spoken = text.replace(/ https:\S+/, '').replace(/(\d)\/5/g, '$1 out of 5')
 const sms = text.replace(/^Wash Watch: /, '').replace(/ https:\S+/, '');
 // "Something's off" = any route at 2 or higher, or missing data.
 const off = rated.some((r) => r.score == null || r.score >= 2);
-console.log(JSON.stringify({ text, sms, spoken, off, title: `Wash Watch: ${name(best)} ${sc(best)}/5` }));
+console.log(JSON.stringify({ at: new Date(now).toISOString(), text, sms, spoken, off, title: `Wash Watch: ${name(best)} ${sc(best)}/5` }));
