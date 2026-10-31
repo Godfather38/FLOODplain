@@ -113,4 +113,3 @@ details.normals > summary { list-style: none; cursor: pointer; padding: 9px 2px;
 details.normals > summary::-webkit-details-marker { display: none; }
 details.normals[open] > summary .chev { transform: rotate(90deg); }
 details.normals > summary .chev { transition: transform .15s; }
-.stretch-body .history { font-size: 12.5px; margin: 0 0 6px; padding: 6px 8px; border-left: 3px solid var(--line); }

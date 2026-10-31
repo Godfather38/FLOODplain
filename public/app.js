@@ -155,7 +155,6 @@ function stretchHtml(r, p) {
       <div class="stretch-body">
         <p class="lead">${cap(LEVEL_WORD[p.level])}: ${esc(p.why)}.</p>
         <p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p>
-        ${fp.history ? `<p class="history"><b>Track record:</b> ${esc(fp.history)}</p>` : ''}
         ${evidenceHtml(p, r)}
       </div>
     </details>`;

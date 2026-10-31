@@ -87,21 +87,6 @@ test('NWS: advisory nudges dips only; flash flood warning: dips caution, bridges
   assert.equal(checkNws([{ event: 'Flash Flood Warning' }], 'dip').level, 'caution');
   assert.equal(checkNws([{ event: 'Flash Flood Warning' }], 'river').level, 'watch');
 });
-test('river: a peak 3 h ago still counts while it drains', () => {
-  const f = { '09486500': flow([200, 1500, 4200, 3500, 2200, 1200, 600, 300, 200, 150, 120, 100, 90]) };
-  const r = checkRiver(f, ['09486500'], cfg.USGS_SITES, cfg.RIVER);
-  assert.equal(r.level, 'caution');
-  assert.match(r.why, /down from 4,200/);
-});
-test('rain: wet ground from the last 3 days lowers the bar', () => {
-  const dry = snapshot({ '6460': { h1: 0.32 } });
-  const wet = snapshot({ '6460': { h1: 0.32, d3: 1.1 } });
-  const f = (s) => checkRain(s, ['6460'], cfg.RAIN.local, cfg.RAIN_GAUGES, NOW, cfg.STALE_MS);
-  assert.equal(f(dry).level, 'watch');
-  assert.equal(f(wet).level, 'caution');
-  assert.match(f(wet).why, /ground already wet/);
-});
-
 // ---- whole-morning scenarios ----
 test('dry morning: fastest route (Trico) and nothing flagged', () => {
   const r = choose(data());

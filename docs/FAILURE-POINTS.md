@@ -63,7 +63,7 @@ Distances come from the map data and are approximate.
 
 ## The morning routine
 1. Open the page. The big box names the lowest-risk route and its rating.
-2. Under each spot you'll see the evidence side by side: the county's barricade status (with when it was last updated), rain in inches, and river or wash flow. Weigh them yourself.
+2. Under each spot you'll see the evidence side by side: the county's barricade status (with when it was last updated), rain in inches, and river or wash flow. Weigh them yourself. A county "Open" from weeks ago means less than an inch of rain an hour ago.
 3. **Low:** no sign of water. **Some:** rain or flow nearby; usually passable, so look as you go. **Elevated:** water likely at or near the road; cross only if you can see it's fine. **High:** the county closed it, or a flood is running. **Unknown:** missing data, which is not the same as safe.
 4. Tap **Open in Google Maps**. It opens Google Maps with stops that force the chosen roads.
 5. Any time: **if you see water across the road, don't drive into it.**
