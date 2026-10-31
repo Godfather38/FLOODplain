@@ -112,10 +112,25 @@ test('Santa Cruz in big flood: every river bridge flagged, least-bad suggested, 
   assert.equal(r.clear, false);
   assert.ok(['caution', 'danger'].includes(r.best.level));
 });
-test('rain data missing: dips are unknown, never clear', () => {
+test('rain data missing: still a number, from the sources that answered', () => {
   const r = choose(data({ alert: null }));
-  assert.equal(r.res['brawley-dip'].level, 'unknown');
-  assert.equal(r.order.find((x) => x.id === 'avra').level, 'unknown');
+  assert.equal(r.res['brawley-dip'].level, 'ok');
+  assert.ok(r.res['brawley-dip'].checks.some((c) => c.level === 'unknown' && /unreachable/.test(c.why)));
+  assert.notEqual(r.order.find((x) => x.id === 'avra').level, 'unknown');
+});
+test('everything unreachable: still a number, and it says there are no live readings', () => {
+  const none = { now: NOW, flows: {}, closures: null, alert: null, nws: null };
+  const r = choose(none);
+  assert.ok(r.order.every((x) => x.level !== 'unknown'));
+  assert.match(r.res['elpaso-dip'].why, /No live readings/);
+});
+test('old rain readings are used, and labeled with their time', () => {
+  const s = snapshot({ '6460': { h1: 0.45 } });
+  s.fetched_at = new Date(NOW - 2 * 3600e3).toISOString();
+  s.rain.forEach((g) => { g.last_rpt = new Date(NOW - 2 * 3600e3).toISOString(); });
+  const r = checkRain(s, ['6460'], cfg.RAIN.local, cfg.RAIN_GAUGES, NOW, cfg.STALE_MS);
+  assert.equal(r.level, 'caution');
+  assert.match(r.why, /rain readings from/);
 });
 test('heavy basin rain is only a heads-up at the Los Robles bridge', () => {
   const r = choose(data({ alert: snapshot({ '6460': { h1: 0.6, h3: 0.9, h6: 0.95 } }) }));

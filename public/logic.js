@@ -79,8 +79,11 @@ export function checkRiverEarly(flows, siteIds, names, R) {
 // 2. Rain in inches at ALERT gauges against a rule set; the heaviest gauge wins.
 export function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
   const gauges = (snapshot?.rain ?? []).filter((g) => gaugeIds.includes(g.site));
-  const fresh = gauges.filter((g) => g.last_rpt && !g.maintenance && now - Date.parse(g.last_rpt) <= staleMs);
+  // Use the latest readings we have, up to a day old, and say how old they are.
+  const fresh = gauges.filter((g) => g.last_rpt && !g.maintenance && now - Date.parse(g.last_rpt) <= Math.max(staleMs, 24 * 3_600_000));
   if (!fresh.length) return { level: 'unknown', why: 'no rain gauge reading' };
+  const ageMin = snapshot.fetched_at ? (now - Date.parse(snapshot.fetched_at)) / 60_000 : 0;
+  const asOf = ageMin > 45 ? ` (rain readings from ${new Date(Date.parse(snapshot.fetched_at)).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Phoenix' })})` : '';
   const most = (w) => Math.max(...fresh.map((g) => g.in?.[w] ?? 0));
   const detail = `last 1 h ${fmtIn(most('h1'))} · 3 h ${fmtIn(most('h3'))} · 6 h ${fmtIn(most('h6'))} · 24 h ${fmtIn(most('d1'))}`
     + ` (wettest of ${fresh.map((g) => names[g.site] ?? g.name).join(', ')})`;
@@ -89,11 +92,11 @@ export function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
       const hit = fresh
         .filter((g) => g.in?.[win] != null && g.in[win] >= limit)
         .sort((a, b) => b.in[win] - a.in[win])[0];
-      if (hit) return { level, detail, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${names[hit.site] ?? hit.name}` };
+      if (hit) return { level, detail, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${names[hit.site] ?? hit.name}${asOf}` };
     }
   }
   const h6 = most('h6');
-  return { level: 'ok', detail, why: h6 > 0 ? `light rain only (${fmtIn(h6)} in the last 6 hours)` : 'no rain in the last 6 hours' };
+  return { level: 'ok', detail, why: (h6 > 0 ? `light rain only (${fmtIn(h6)} in the last 6 hours)` : 'no rain in the last 6 hours') + asOf };
 }
 
 // 3. A wash's own flow sensors (ALERT stream sensors + USGS).
@@ -171,11 +174,10 @@ export function rateFailurePoint(fp, d, cfg) {
     if (early) checks.push({ src: 'river-early', ...early });
   }
   if (fp.wash) checks.push({ src: 'wash', ...checkWash(d.alert, d.flows, fp.wash, fp.kind, now, cfg.STALE_MS, cfg.USGS_SITES) });
-  const snapFresh = d.alert && now - Date.parse(d.alert.fetched_at) <= cfg.SNAPSHOT_STALE_MS;
   for (const [ruleName, ids] of Object.entries(fp.rain ?? {})) {
-    const c = snapFresh
+    const c = d.alert
       ? checkRain(d.alert, ids, cfg.RAIN[ruleName], cfg.RAIN_GAUGES, now, cfg.STALE_MS)
-      : { level: 'unknown', why: 'rain data unavailable or out of date' };
+      : { level: 'unknown', why: 'rain gauges unreachable right now' };
     // Rain upstream of a bridge means water will pass *under* it. That's a heads-up,
     // not a reason to avoid the road. The wash flow sensors decide anything worse.
     if (fp.kind === 'bridge' && rank(c.level) > rank('watch') && c.level !== 'unknown') {
@@ -184,13 +186,11 @@ export function rateFailurePoint(fp, d, cfg) {
     }
     checks.push({ src: `rain-${ruleName}`, ...c });
   }
-  // A county "Closed" or a gauge reading decides. "unknown" pieces only matter
-  // when nothing else could be checked for this spot.
+  // Always a rating: it comes from whatever sources answered. A source that didn't
+  // answer is listed in the details ("unreachable"), but never turns the rating into "?".
   const known = checks.filter((c) => c.level !== 'unknown');
-  let level = known.length ? worst(known.map((c) => c.level)) : 'unknown';
-  // Dips: without local rain data we can't call them safe. A county "Open" or a
-  // dry gauge 20 miles away isn't enough, because a storm right overhead floods them.
-  if (fp.kind === 'dip' && rank(level) < rank('unknown') && !known.some((c) => c.src === 'rain-local')) level = 'unknown';
+  let level = known.length ? worst(known.map((c) => c.level)) : 'ok';
+  if (!known.length) checks.unshift({ src: 'none', level: 'ok', why: 'No live readings right now, and nothing reported against it' });
   if (fp.kind === 'road' && level === 'danger') level = 'caution'; // shallow per local knowledge
   // Lead with a measurement when one exists; the county "Open" flag is often days old.
   // Lead with the most specific source at that level: county closure, then local measurements, then NWS.

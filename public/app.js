@@ -9,7 +9,7 @@ const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
 const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62828' };
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
 const SRC = {
-  county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
+  none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
   wash: ['〰️', 'Wash flow'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
 };
 const KIND_ICON = { dip: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
@@ -46,6 +46,13 @@ async function loadClosures() {
   if (j.error) throw new Error(j.error.message);
   return j.features.map((f) => ({ location: f.attributes.Location?.trim(), status: f.attributes.Status ?? '', updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x }));
 }
+// County rain/stream feed: live through the alert service when it's connected, else GitHub's copy.
+async function loadAlert() {
+  if (cfg.TEXT_API) {
+    try { const a = await getJson(`${cfg.TEXT_API}?feed=alert`); if (a && a.rain) return a; } catch { /* fall back */ }
+  }
+  return getJson(SOURCES.alert);
+}
 async function loadNws() {
   const j = await getJson(SOURCES.nws, { headers: { Accept: 'application/geo+json' } });
   return (j.features ?? []).map((f) => ({ event: f.properties.event, headline: f.properties.headline }));
@@ -58,7 +65,7 @@ async function gather() {
   const [flowsArr, closures, alert, nws] = await Promise.all([
     Promise.all(sites.map((s) => settle('river gauges', loadUsgs(s)))),
     settle('county barricades', loadClosures()),
-    settle('rain gauges', getJson(SOURCES.alert)),
+    settle('rain gauges', loadAlert()),
     settle('weather service', loadNws()),
   ]);
   const flows = Object.fromEntries(sites.map((s, i) => [s, summarizeFlow(flowsArr[i], now, STALE_MS)]));

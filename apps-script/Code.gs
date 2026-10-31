@@ -46,8 +46,14 @@ const C = { phone: 1, times: 2, days: 3, mode: 4, verified: 5, code: 6, codeSent
 function setup() { ensureTrigger_(); sheet_(); keysSheet_(); return 'ok'; }
 
 // ---------- web endpoints ----------
-function doGet() {
+function doGet(e) {
   ensureTrigger_();
+  // The app asks for the county rain/stream feed through here (the county site blocks browsers).
+  if (e && e.parameter && e.parameter.feed === 'alert') {
+    computeVerdict_();
+    const snap = CacheService.getScriptCache().get('alert');
+    return json_(snap ? JSON.parse(snap) : { error: 'unavailable' });
+  }
   return json_({ ok: true, service: 'wash-watch-alerts', sender: twilio_() ? 'any' : 'verizon', freePerDay: CONFIG.FREE_PER_DAY });
 }
 
@@ -209,7 +215,40 @@ function tick() {
   });
 }
 
+// The verdict, computed here with the app's own rules (bundled in WashWatch.gs).
+// Cached 4 minutes. Falls back to the copy GitHub publishes if computing fails.
+function computeVerdict_() {
+  const cache = CacheService.getScriptCache();
+  const hit = cache.get('verdict2');
+  if (hit) return JSON.parse(hit);
+  if (typeof evaluate !== 'function') return null; // Code.gs on its own, without the bundled engine
+  const urls = sourceUrls(PropertiesService.getScriptProperties().getProperty('USGS_API_KEY'));
+  const sites = Object.keys(urls.usgs);
+  const ua = { 'User-Agent': 'WashWatch/1.0 (github.com/godfather38/floodplain)' };
+  const reqs = [
+    ...sites.map((s) => ({ url: urls.usgs[s], muteHttpExceptions: true, headers: ua })),
+    { url: urls.closures, muteHttpExceptions: true, headers: ua },
+    { url: urls.rain, muteHttpExceptions: true, headers: ua },
+    { url: urls.stream, muteHttpExceptions: true, headers: ua },
+    { url: urls.nws, muteHttpExceptions: true, headers: { ...ua, Accept: 'application/geo+json' } },
+  ];
+  const res = UrlFetchApp.fetchAll(reqs).map((r) => {
+    if (r.getResponseCode() !== 200) return null;
+    try { return JSON.parse(r.getContentText()); } catch (err) { return null; }
+  });
+  const now = Date.now();
+  const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
+  const [closures, rain, stream, nws] = res.slice(sites.length);
+  const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
+  const v = evaluate({ now, usgs, closures, alert, nws, routes: ROUTE_FEATURES });
+  const out = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title };
+  cache.put('verdict2', JSON.stringify(out), 240);
+  if (alert) cache.put('alert', JSON.stringify(alert), 300);
+  return out;
+}
+
 function verdict_() {
+  try { const v = computeVerdict_(); if (v) return v; } catch (err) { /* fall back below */ }
   const cache = CacheService.getScriptCache();
   const hit = cache.get('verdict');
   if (hit) return JSON.parse(hit);

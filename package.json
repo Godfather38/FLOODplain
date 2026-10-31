@@ -6,6 +6,7 @@
   "description": "Morning flood check for the roads out of Avra Valley, AZ.",
   "scripts": {
     "test": "node --test test/*.test.js",
+    "build:gas": "node tools/build_gas.mjs",
     "serve": "python3 -m http.server -d public 8080"
   }
 }
