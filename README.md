@@ -4,6 +4,7 @@ A check of the roads between Avra Valley, AZ and I-10, either direction. It read
 
 - `public/`: the static web app (no server). `logic.js` holds the route-rating rules and `config.js` the gauge-to-route mapping.
 - `tools/`: rebuilds the route and crossing data from OpenStreetMap (via Overture Maps).
+- Alerts: the app's Alerts screen gives you a free ntfy topic for the time and days you pick.
 - `docs/SCOPE.md`: existing tools, legality, and limitations. `docs/PLAN.md`: what's next.
 
 ## Run locally

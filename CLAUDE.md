@@ -16,4 +16,6 @@
 - The static app is in `public/`. It's published by `.github/workflows/pages.yml` to https://godfather38.github.io/FLOODplain/.
 - GitHub Pages only deploys from the repo's **default branch**, which is still `ccr-ae06b197-a01a6o`. To publish: `git push origin main && git push origin main:ccr-ae06b197-a01a6o`. Once the default branch is `main`, pushing `main` is enough.
 - Pima ALERT rain/stream data is copied every ~10 min to the `data` branch by `.github/workflows/alert-snapshot.yml`.
+- Alerts: `.github/workflows/notify.yml` runs every 15 min (4:00 AM to 9:45 PM Arizona) and posts `tools/notify.mjs` output to free ntfy topics `washwatch-HHMM-{wd|all}-{all|off}`. People pick time, days and mode on the app's Alerts screen. No phone numbers are stored. Real SMS needs a paid sender: carrier email-to-text is shutting down (AT&T gone, Verizon ends Mar 2027).
+- The valley-side point is Trico & El Tiro ("the heart of the valley"). There's no home-address setting. Map pins: Trico & El Tiro, Marana exit, Avra Valley exit.
 - Tests: `npm test`. The plain-language failure points are in `docs/FAILURE-POINTS.md`; the permission emails are in `docs/PERMISSION.md`.

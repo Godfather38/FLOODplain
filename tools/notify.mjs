@@ -56,4 +56,6 @@ const text = lines.join(' ');
 const spoken = text.replace(/ https:\S+/, '').replace(/(\d)\/5/g, '$1 out of 5').replace(/–/g, ' and ');
 // Text message version: no link, fits in one 160-character SMS where possible.
 const sms = text.replace(/^Wash Watch: /, '').replace(/ https:\S+/, '');
-console.log(JSON.stringify({ text, sms, spoken, title: `Wash Watch: ${name(best)} ${sc(best)}/5` }));
+// "Something's off" = any route at 2 or higher, or missing data.
+const off = rated.some((r) => r.score == null || r.score >= 2);
+console.log(JSON.stringify({ text, sms, spoken, off, title: `Wash Watch: ${name(best)} ${sc(best)}/5` }));

@@ -1,4 +1,4 @@
-// Everything the morning check knows about your routes, failure points and data.
+// Everything Wash Watch knows about the routes, failure points and data.
 // Plain-language definitions of each failure point: docs/FAILURE-POINTS.md
 
 export const SOURCES = {
@@ -129,6 +129,17 @@ export const ROUTE_INFO = {
   avra: { name: 'Avra Valley Rd', via: 'Trico Rd · Avra Valley Rd' },
   'silverbell-south': { name: 'Silverbell–Sanders south', via: 'Trico Rd · Silverbell Rd · Sanders Rd · Avra Valley Rd' },
 };
+
+// Fixed places shown on the map. Trico & El Tiro is where the routes meet on the valley side.
+export const PLACES = [
+  { name: 'Trico & El Tiro', lat: 32.4295, lon: -111.3045, side: 'below' },
+  { name: 'Marana exit (I-10)', lat: 32.4611, lon: -111.2170, side: 'right' },
+  { name: 'Avra Valley exit (I-10)', lat: 32.4006, lon: -111.1313, side: 'above-left' },
+];
+
+// Free text-style alerts through the ntfy app: one topic per time slot, day set and mode.
+export const ALERTS = { server: 'https://ntfy.sh', prefix: 'washwatch' };
+export const alertTopic = (hhmm, days, mode) => `${ALERTS.prefix}-${hhmm.replace(':', '')}-${days}-${mode}`;
 
 export const NAV = {
   trico: { via: [[32.4537, -111.2799]], ramp: [32.4611, -111.2170] },

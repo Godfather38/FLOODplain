@@ -166,8 +166,8 @@ test('dry morning: angel lists the good signs, nothing against', () => {
   assert.equal(againstIt(r.best).length, 0);
 });
 
-test('Google Maps home direction: off I-10 at the route ramp, back along it', () => {
-  const u = new URL(googleMapsUrl(cfg.NAV['silverbell-north'], '', 'home'));
+test('Google Maps into the valley: off I-10 at the route ramp, back along it to Trico & El Tiro', () => {
+  const u = new URL(googleMapsUrl(cfg.NAV['silverbell-north'], '', 'valley'));
   const wp = u.searchParams.get('waypoints').split('|');
   assert.equal(wp[0], cfg.NAV['silverbell-north'].ramp.join(','));
   assert.equal(wp[1], cfg.NAV['silverbell-north'].via.at(-1).join(','));

@@ -4,7 +4,7 @@ import {
   riskScore, routeScore, goodSigns, againstIt,
 } from './logic.js';
 
-const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY } = cfg;
+const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, ALERTS, alertTopic } = cfg;
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
 const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62828' };
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
@@ -72,9 +72,9 @@ let view = null;
 let openSource = null; // index of the source row expanded on the stretch screen
 // Direction is never a setting: the risk is the same both ways. Navigate works out
 // which way you're headed when tapped. In Avra Valley (west of the Santa Cruz) means
-// toward I-10; anywhere else means home. If location isn't available, before noon = toward I-10.
+// toward I-10; anywhere else means into the valley, to Trico & El Tiro. No location: before noon = toward I-10.
 const viaText = (rid) => ROUTE_INFO[rid].via;
-function headingHome() {
+function headingIntoValley() {
   const byClock = () => new Date().getHours() >= 12;
   if (!navigator.geolocation) return Promise.resolve(byClock());
   return new Promise((done) => {
@@ -86,8 +86,8 @@ function headingHome() {
   });
 }
 async function navigate(rid) {
-  const home = await headingHome();
-  const url = googleMapsUrl(NAV[rid], store.get(home ? 'homeAddr' : 'dest'), home ? 'home' : 'toI10');
+  const intoValley = await headingIntoValley();
+  const url = googleMapsUrl(NAV[rid], intoValley ? null : store.get('dest'), intoValley ? 'valley' : 'toI10');
   location.href = url;
 }
 
@@ -106,7 +106,7 @@ function compute(d) {
 function where() {
   const p = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   if (p[0] === 'r' && view?.byId[p[1]]) return { screen: p[2] ? 'stretch' : 'route', route: p[1], fp: p[2] };
-  if (['how', 'settings', 'sources'].includes(p[0])) return { screen: p[0] };
+  if (['how', 'settings', 'sources', 'alerts'].includes(p[0])) return { screen: p[0] };
   return { screen: 'home' };
 }
 
@@ -153,6 +153,7 @@ function homeScreen() {
     </div>
     <h3 class="section">More</h3>
     <div class="list">
+      <a class="row small" href="#/alerts"><span class="lead-icon">🔔</span><span class="text"><div class="t">Alerts</div><div class="st">Get this sent to your phone at a time you pick</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/how"><span class="lead-icon">❓</span><span class="text"><div class="t">How to read this</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/settings"><span class="lead-icon">⚙️</span><span class="text"><div class="t">Settings</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/sources"><span class="lead-icon">ℹ️</span><span class="text"><div class="t">Sources</div></span><span class="chev">›</span></a>
@@ -211,7 +212,7 @@ function howScreen() {
       <li>${badge(null)}<span><b>No data.</b> Not the same as fine.</span></li>
     </ul>
     <h4>Using it</h4>
-    <p>The top card is the route with the least going against it. The numbers are the same whichever way you're driving. Tap <b>Navigate</b> to drive it in Google Maps; it heads for I-10 when you're in Avra Valley and home when you're not. Tap <b>Details</b> or any route to see its stretches, then any stretch to see what each source says. The map follows along.</p>
+    <p>The top card is the route with the least going against it. The numbers are the same whichever way you're driving. Tap <b>Navigate</b> to drive it in Google Maps; it heads for I-10 when you're in Avra Valley, and back to Trico &amp; El Tiro when you're not. Tap <b>Details</b> or any route to see its stretches, then any stretch to see what each source says. The map follows along.</p>
     <p>A route's number is its worst stretch. The map only marks stretches that aren't normal.</p>
     <h4>Limits</h4>
     <p>Built from public, provisional data that can be late or wrong. What you see at the crossing comes first.</p>
@@ -222,13 +223,36 @@ function settingsScreen() {
     <label class="field">Where you go in town, e.g. work (blank = stop at I-10)
       <input id="dest" type="text" autocomplete="off" placeholder="Address" value="${esc(store.get('dest') ?? '')}">
     </label>
-    <label class="field">Home (blank = El Tiro &amp; Trico)
-      <input id="homeAddr" type="text" autocomplete="off" placeholder="Your address" value="${esc(store.get('homeAddr') ?? '')}">
-    </label>
     <label class="field">USGS key (optional; free at api.waterdata.usgs.gov/signup)
       <input id="apikey" type="password" autocomplete="off" placeholder="Paste key" value="${esc(store.get('apiKey') ?? '')}">
     </label>
     <p class="fine" style="text-align:left;margin:0">Saved only on this phone.</p>
+  </div>`;
+}
+function alertsScreen() {
+  const a = store.get('alert') ?? { time: '05:45', days: 'wd', mode: 'all' };
+  const topic = alertTopic(a.time, a.days, a.mode);
+  const times = [];
+  for (let m = 4 * 60; m <= 21 * 60 + 45; m += 15) times.push(`${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`);
+  const label = (t) => new Date(`2000-01-01T${t}:00`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  return `<div class="page">
+    <p>Pick when you want the check sent to your phone. It comes as a notification with the best route and its number.</p>
+    <label class="field">Time (Arizona)
+      <select id="a-time">${times.map((t) => `<option value="${t}" ${t === a.time ? 'selected' : ''}>${label(t)}</option>`).join('')}</select>
+    </label>
+    <label class="field">Days
+      <select id="a-days"><option value="wd" ${a.days === 'wd' ? 'selected' : ''}>Weekdays</option><option value="all" ${a.days === 'all' ? 'selected' : ''}>Every day</option></select>
+    </label>
+    <label class="field">Send it
+      <select id="a-mode"><option value="all" ${a.mode === 'all' ? 'selected' : ''}>Every time</option><option value="off" ${a.mode === 'off' ? 'selected' : ''}>Only when something's off (any route 2 or higher)</option></select>
+    </label>
+    <h4>Turn it on</h4>
+    <ol class="steps">
+      <li>Install the free <b>ntfy</b> app: <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a> · <a href="https://apps.apple.com/us/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a></li>
+      <li>Tap <b>Subscribe</b> below, or in ntfy tap + and enter this topic: <code>${esc(topic)}</code></li>
+    </ol>
+    <a class="btn btn-primary" href="ntfy://ntfy.sh/${esc(topic)}">Subscribe in ntfy</a>
+    <p class="fine" style="text-align:left">No account and no phone number. The check runs every 15 minutes, and GitHub's free scheduler can be a few minutes late. To stop, unsubscribe in ntfy. Pick another time and subscribe again to get more than one.</p>
   </div>`;
 }
 function sourcesScreen() {
@@ -249,14 +273,14 @@ function render() {
     home: ['Wash Watch', subtitle()],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
-    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''],
+    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Free, no sign-up'],
   }[w.screen];
   $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
-  $('#map').hidden = ['how', 'settings', 'sources'].includes(w.screen);
+  $('#map').hidden = ['how', 'settings', 'sources', 'alerts'].includes(w.screen);
   $('#screen').innerHTML = {
     home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
-    how: howScreen, settings: settingsScreen, sources: sourcesScreen,
+    how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen,
   }[w.screen]();
   wire(w);
   drawMap(w);
@@ -275,7 +299,11 @@ function wire(w) {
     drawMap(where());
   }));
   document.querySelectorAll('[data-nav]').forEach((b) => b.addEventListener('click', () => navigate(b.dataset.nav)));
-  for (const [id, key] of [['#apikey', 'apiKey'], ['#dest', 'dest'], ['#homeAddr', 'homeAddr']]) {
+  for (const id of ['#a-time', '#a-days', '#a-mode']) {
+    const el = $(id);
+    if (el) el.addEventListener('change', () => { store.set('alert', { time: $('#a-time').value, days: $('#a-days').value, mode: $('#a-mode').value }); render(); });
+  }
+  for (const [id, key] of [['#apikey', 'apiKey'], ['#dest', 'dest']]) {
     const el = $(id);
     if (el) el.addEventListener('change', (e) => { store.set(key, e.target.value.trim() || null); if (key === 'apiKey') check(); });
   }
@@ -308,6 +336,11 @@ function drawMap(w) {
     const on = f.properties.id === focus;
     L.geoJSON(f, { style: { color: on ? '#3c3b38' : '#9b9a94', weight: on ? 6 : 3, opacity: on ? 0.9 : 0.5 }, interactive: false }).addTo(layer);
   }
+  // The fixed places: valley hub and the two I-10 exits.
+  for (const pl of PLACES) {
+    L.circleMarker([pl.lat, pl.lon], { radius: 6, color: '#fff', weight: 2, fillColor: '#3c3b38', fillOpacity: 1, interactive: false }).addTo(layer);
+    L.marker([pl.lat, pl.lon], { icon: L.divIcon({ className: 'place-pin', html: `<span class="place ${pl.side ?? 'right'}">${esc(pl.name)}</span>`, iconSize: [0, 0] }), interactive: false }).addTo(layer);
+  }
   // Pins only where something is off, plus the stretch being viewed.
   const visible = FAILURE_POINTS.filter((fp) => {
     const s = riskScore(view.fpResults[fp.id]);
@@ -329,7 +362,7 @@ function drawMap(w) {
       .addTo(layer);
   }
   // Fit to what's on screen: everything, a route, a stretch, or a source's own gauges.
-  const opts = { padding: [24, 24], animate: false };
+  const opts = { paddingTopLeft: [24, 30], paddingBottomRight: [24, 30], animate: false };
   if (w.screen === 'stretch') {
     const fp = FAILURE_POINTS.find((f) => f.id === w.fp);
     const pts = [[fp.lat, fp.lon]];

@@ -118,3 +118,11 @@ details.src .more p:first-child { color: var(--on); }
 .gauge-pin { overflow: visible; }
 .gauge-pin::after { content: ""; position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: #1a73e8; border: 2px solid #fff; }
 .leaflet-control-attribution { font-size: 10px; background: rgba(255,255,255,.7) !important; }
+.place { position: absolute; left: 8px; top: -9px; white-space: nowrap; font-size: 11.5px; font-weight: 600; color: #2b2a27; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff; }
+.field select { font: inherit; font-size: 16px; color: var(--on); padding: 14px 12px; border-radius: 12px; border: 1px solid var(--divider); background: var(--bg); }
+.steps { padding-left: 20px; } .steps li { margin: 6px 0; }
+.page code { background: var(--surface-2); padding: 2px 6px; border-radius: 6px; font-size: 14px; word-break: break-all; }
+.page .btn { margin: 8px 0; }
+.place.below { left: 0; top: 7px; transform: translateX(-30%); }
+.place.above-left { left: auto; right: 8px; top: -22px; }
+.field select, .field input { width: 100%; max-width: 100%; min-width: 0; }
