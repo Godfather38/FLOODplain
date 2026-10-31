@@ -260,7 +260,7 @@ function alertsScreen() {
       : textFlow.step === 'done'
         ? `<p>Texts are on for ${esc(textFlow.phone)}. A confirmation text is on its way.</p>`
         : `<label class="field">Mobile number<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
-           <p class="consent">By tapping <b>Text me a code</b>, you agree to get Wash Watch road-flooding texts at the times you pick, up to 2 a day (more only if you're given an access key). Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. No marketing; your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
+           <p class="consent">By tapping <b>Text me a code</b>, you agree to get recurring Wash Watch road-flooding texts: one text at each time you pick, at most 4 msgs/day, plus a one-time sign-up code. Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. No marketing; your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
            <button type="button" class="btn btn-primary" id="t-signup">Text me a code</button>
            <button type="button" class="btn btn-text" id="t-stop">Stop texts for this number</button>`;
   return `<div class="page">
@@ -323,7 +323,7 @@ function wireAlerts() {
 function privacyScreen() {
   return `<div class="page">
     <h4>What you get</h4>
-    <p>Wash Watch is a free, non-commercial road-flooding guide for Avra Valley, AZ. If you sign up for texts, you get a short message with the current flood risk for the routes between Avra Valley and I-10, at the times you choose: up to 2 texts a day unless you're given an access key. No marketing.</p>
+    <p>Wash Watch is a free, non-commercial road-flooding guide for Avra Valley, AZ. If you sign up for texts, you get a short message with the current flood risk for the routes between Avra Valley and I-10, one text at each time you choose, at most 4 texts a day, plus a one-time sign-up code. No marketing.</p>
     <h4>Signing up and stopping</h4>
     <p>You sign up on the Alerts page and confirm with a 4-digit code we text you. To stop, reply <b>STOP</b> to any message or use <b>Stop texts</b> on the Alerts page. Reply <b>HELP</b> for help. Message and data rates may apply. Carriers aren't liable for delayed or undelivered messages.</p>
     <h4>Your information</h4>
