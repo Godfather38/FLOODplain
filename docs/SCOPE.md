@@ -92,8 +92,8 @@ Routed on OpenStreetMap road geometry via **Overture Maps release 2026-10-21.0**
 - **Silverbell → Sanders south** joins Avra Valley Rd east of the Brawley Wash crossing and the 2 untagged dips, so it skips them. It still uses the Avra Valley Rd Santa Cruz bridge.
 - **Silverbell → Sanders north** avoids Avra Valley Rd entirely and crosses the Santa Cruz on the **Sanders Rd bridge** instead (built 1975, rated satisfactory, ~3,300 vehicles/day). No report was found of it closing for flooding. However, one past storm closed *all* Northwest Side Santa Cruz bridges for hours, and Trico-Marana stayed closed the longest.
 - Every route still crosses the Santa Cruz once, and **each Santa Cruz crossing has its own USGS gauge**. That gives one gauge per route for the river.
+- **Local knowledge:** W Silverbell is paved. It sometimes washes out from poor road drainage with no clear dip, but never deep enough to be life-threatening.
 - **Unconfirmed:**
-  - OSM has no pavement tag for W Silverbell between Trico and Sanders.
   - News lists past Silverbell closures (Blanco Wash crossing, Avra Valley Rd to Sasco Rd), but those appear to be other stretches.
 
 ### Data limitations of the routing
