@@ -122,6 +122,7 @@ function compute(d) {
 function where() {
   const p = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   if (p[0] === 'r' && view?.byId[p[1]]) return { screen: p[2] ? 'stretch' : 'route', route: p[1], fp: p[2] };
+  if (p[0] === 'report') return { screen: 'report', fp: p[1] };
   if (['how', 'settings', 'sources', 'alerts', 'privacy'].includes(p[0])) return { screen: p[0] };
   return { screen: 'home' };
 }
@@ -172,6 +173,7 @@ function homeScreen() {
     <h3 class="section">More</h3>
     <div class="list">
       <a class="row small" href="#/alerts"><span class="lead-icon">🔔</span><span class="text"><div class="t">Alerts</div><div class="st">Get this sent to your phone at a time you pick</div></span><span class="chev">›</span></a>
+      <a class="row small" href="#/report"><span class="lead-icon">✍️</span><span class="text"><div class="t">Help fill the gaps</div><div class="st">Tell us what a crossing is really like in the rain</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/how"><span class="lead-icon">❓</span><span class="text"><div class="t">How to read this</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/settings"><span class="lead-icon">⚙️</span><span class="text"><div class="t">Settings</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/sources"><span class="lead-icon">ℹ️</span><span class="text"><div class="t">Sources</div></span><span class="chev">›</span></a>
@@ -220,7 +222,43 @@ function stretchScreen(rid, fpId) {
         </details>`;
       }).join('')}
     </div>
+    <a class="btn btn-text" style="margin-top:12px" href="#/report/${fpId}">Drive this one? Tell us what it's really like</a>
     <div class="bottom-bar">${navBtn(view.byId[rid])}</div>`;
+}
+
+let reportMsg = '';
+function reportScreen(fpId) {
+  const ids = new Set(routeFeatures.map((f) => f.properties.id));
+  const here = FAILURE_POINTS.filter((fp) => fp.routes.some((r) => ids.has(r)));
+  const others = FAILURE_POINTS.filter((fp) => !here.includes(fp));
+  const sel = FAILURE_POINTS.find((f) => f.id === fpId);
+  const opt = (fp) => `<option value="${fp.id}" ${fp.id === fpId ? 'selected' : ''}>${esc(fp.short)}</option>`;
+  return `<div class="page">
+    ${reportMsg ? `<p class="note">${esc(reportMsg)}</p>` : ''}
+    <p>You drive these roads in the rain; the maps don't. A minute of your answers makes the ratings better for everyone.</p>
+    <label class="field">Which crossing?
+      <select id="rp-fp">
+        <option value="" ${fpId ? '' : 'selected'}>Pick one…</option>
+        <optgroup label="${esc(areaInfo().name)}">${here.map(opt).join('')}</optgroup>
+        <optgroup label="Other area">${others.map(opt).join('')}</optgroup>
+        <option value="other" ${fpId === 'other' ? 'selected' : ''}>Somewhere not on this list</option>
+      </select>
+    </label>
+    ${sel ? `<p class="fine" style="text-align:left;margin:0 0 6px">${esc(sel.name)}, ${esc(sel.where)}.${/not confirmed/.test(sel.name) ? ' <b>We\'re not sure this one floods at all, so any answer helps.</b>' : ''}</p>` : ''}
+    ${fpId === 'other' ? '<label class="field">Where is it? (road and nearest cross street)<input id="rp-where" type="text" autocomplete="off"></label>' : ''}
+    ${cfg.REPORT_QUESTIONS.map((q) => `
+      <label class="field">${esc(q.q)}
+        <select data-q="${q.id}"><option value="">Skip</option>${q.a.map((a) => `<option>${esc(a)}</option>`).join('')}</select>
+      </label>`).join('')}
+    <label class="field">Last time you saw water here (if you remember)
+      <input id="rp-date" type="date">
+    </label>
+    <label class="field">Anything else? (e.g. "floods before the river does", "the edge washes out", "worse at night")
+      <textarea id="rp-note" rows="3"></textarea>
+    </label>
+    <button type="button" class="btn btn-primary" id="rp-send">Send</button>
+    <p class="fine" style="text-align:left">No name or number needed. Please don't include personal details.</p>
+  </div>`;
 }
 
 function howScreen() {
@@ -399,6 +437,32 @@ function wireAlerts() {
   $('#t-confirm')?.addEventListener('click', () => run({ action: 'confirm', phone: textFlow.phone, code: $('#t-code').value.trim() }, 'done'));
 }
 
+function wireReport() {
+  $('#rp-fp')?.addEventListener('change', (e) => { reportMsg = ''; location.replace(`#/report/${e.target.value}`); });
+  $('#rp-send')?.addEventListener('click', async () => {
+    const fpId = $('#rp-fp').value;
+    if (!fpId) { reportMsg = 'Pick a crossing first.'; render(); return; }
+    const fp = FAILURE_POINTS.find((f) => f.id === fpId);
+    const answers = Object.fromEntries(Array.from(document.querySelectorAll('select[data-q]')).filter((x) => x.value).map((x) => [x.dataset.q, x.value]));
+    const report = { fp: fpId, crossing: fp ? fp.short : ($('#rp-where')?.value || 'not on the list'), area, answers, lastSeen: $('#rp-date').value, note: $('#rp-note').value.slice(0, 1500) };
+    if (!Object.keys(answers).length && !report.note) { reportMsg = 'Answer at least one question.'; render(); return; }
+    try {
+      if (cfg.TEXT_API) {
+        const r = await textApi({ action: 'report', ...report });
+        if (!r.ok) throw new Error(r.error);
+      } else {
+        const body = [`${report.crossing} (${areaInfo().name})`, ...cfg.REPORT_QUESTIONS.filter((q) => answers[q.id]).map((q) => `${q.q} ${answers[q.id]}`),
+          report.lastSeen && `Last saw water: ${report.lastSeen}`, report.note && `Note: ${report.note}`].filter(Boolean).join('\n');
+        const r = await fetch(`https://ntfy.sh/${cfg.REPORT_TOPIC}`, { method: 'POST', body, headers: { Title: `Crossing report: ${report.crossing}` } });
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      }
+      reportMsg = 'Thanks! Sent. It goes straight to the person who runs Wash Watch.';
+      location.replace('#/report');
+    } catch (e) { reportMsg = 'Couldn’t send just now. Try again in a minute.'; }
+    render();
+  });
+}
+
 function privacyScreen() {
   return `<div class="page">
     <h4>What you get</h4>
@@ -431,14 +495,14 @@ function render() {
     home: ['Wash Watch', subtitle()],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
-    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], privacy: ['Privacy & terms', 'Wash Watch texts'],
+    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', 'Wash Watch texts'],
   }[w.screen];
   $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
-  $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy'].includes(w.screen);
+  $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy', 'report'].includes(w.screen);
   $('#screen').innerHTML = {
     home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
-    how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen,
+    how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, report: () => reportScreen(w.fp),
   }[w.screen]();
   wire(w);
   drawMap(w);
@@ -463,6 +527,7 @@ function wire(w) {
   }));
   document.querySelectorAll('[data-nav]').forEach((b) => b.addEventListener('click', () => navigate(b.dataset.nav)));
   if (w.screen === 'alerts') wireAlerts();
+  if (w.screen === 'report') wireReport();
   for (const [id, key] of [['#apikey', 'apiKey'], ['#dest', 'dest']]) {
     const el = $(id);
     if (el) el.addEventListener('change', (e) => { store.set(key, e.target.value.trim() || null); if (key === 'apiKey') check(); });

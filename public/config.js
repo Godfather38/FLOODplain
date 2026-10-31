@@ -244,6 +244,21 @@ export const ALERTS = { server: 'https://ntfy.sh', prefix: 'washwatch' };
 export const TEXT_API = '';
 export const alertTopic = (hhmm, days, mode) => `${ALERTS.prefix}-${hhmm.replace(':', '')}-${days}-${mode}`;
 
+// Where crossing reports go before the alert service is connected: an ntfy topic the
+// owner subscribes to. Reports carry no contact details on this path (topics are public).
+export const REPORT_TOPIC = 'washwatch-reports-1o6j4d6';
+
+// Plain questions for drivers, asked about any crossing. Answers fill the gaps in the map data.
+export const REPORT_QUESTIONS = [
+  { id: 'kind', q: 'What is it?', a: ['A dip: the road goes down through the wash', 'A bridge or big culvert: water goes under the road', 'Flat road, no wash here', 'Not sure'] },
+  { id: 'often', q: 'When it rains hard, does water run across the road here?', a: ['Almost every big storm', 'Sometimes', 'Rarely', 'Never seen it'] },
+  { id: 'depth', q: 'The deepest you have seen it:', a: ['Just wet pavement', 'A few inches, up to the curb', 'Up to a car tire (6 to 12 inches)', 'Deeper than a tire', 'Never seen water here'] },
+  { id: 'cars', q: 'When water is running, who gets through?', a: ['Any car', 'Trucks and SUVs, most cars', 'Only trucks', 'Nobody, people turn around'] },
+  { id: 'lasts', q: 'After the rain stops, how long until it is dry enough to drive?', a: ['Under an hour', 'A few hours', 'Half a day or more', 'Not sure'] },
+  { id: 'barricade', q: 'Does the county put up barricades or signs here?', a: ['Yes, often', 'Sometimes', 'Never seen them', 'Not sure'] },
+  { id: 'damage', q: 'Does the road get damaged here (washed-out edges, sand, rocks, potholes)?', a: ['Yes, after most storms', 'Sometimes', 'No', 'Not sure'] },
+];
+
 export const NAV = {
   trico: { via: [[32.4537, -111.2799]], ramp: [32.4611, -111.2170] },
   avra: { via: [[32.3933, -111.2766]], ramp: [32.4006, -111.1313] },

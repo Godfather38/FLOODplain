@@ -64,6 +64,7 @@ function doPost(e) {
   let body = {};
   try { body = JSON.parse(e.postData.contents); } catch (err) { return json_({ ok: false, error: 'bad request' }); }
   if (body.action === 'request') return json_(request_(body));
+  if (body.action === 'report') return json_(report_(body));
   if (body.action === 'push' || body.action === 'pushstop') {
     const lock = LockService.getScriptLock();
     lock.waitLock(20000);
@@ -132,6 +133,26 @@ function request_(b) {
   MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'Wash Watch: request for more texts',
     `From: ${contact}\n\n${message}\n\nTo give them a key, add a row to the "keys" tab of "Wash Watch text subscribers (private)": key | texts_per_day | note.`);
   return { ok: true, step: 'sent' };
+}
+
+// A driver's report about a crossing: saved to the "reports" tab and emailed to the owner.
+function report_(b) {
+  const props = PropertiesService.getScriptProperties();
+  const today = today_();
+  const [day, n] = String(props.getProperty('reports') || '').split(' ');
+  const count = day === today ? Number(n) || 0 : 0;
+  if (count >= 60) return { ok: false, error: 'Lots of reports today. Try tomorrow.' };
+  props.setProperty('reports', `${today} ${count + 1}`);
+  const answers = b.answers && typeof b.answers === 'object' ? b.answers : {};
+  const clip = (x, k) => String(x || '').slice(0, k);
+  const ss = sheet_().getParent();
+  let rs = ss.getSheetByName('reports');
+  if (!rs) { rs = ss.insertSheet('reports'); rs.appendRow(['when', 'area', 'crossing_id', 'crossing', 'answers', 'last_seen_water', 'note']); }
+  rs.appendRow([new Date(), clip(b.area, 20), clip(b.fp, 40), clip(b.crossing, 120), JSON.stringify(answers).slice(0, 1500), clip(b.lastSeen, 10), clip(b.note, 1500)]);
+  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), `Wash Watch: crossing report, ${clip(b.crossing, 80)}`,
+    Object.entries(answers).map(([k, v]) => `${k}: ${v}`).join('\n') + (b.lastSeen ? `\nLast saw water: ${b.lastSeen}` : '') + (b.note ? `\nNote: ${clip(b.note, 1500)}` : '')
+    + '\n\nAll reports: the "reports" tab of "Wash Watch text subscribers (private)".');
+  return { ok: true, step: 'saved' };
 }
 
 function keyLimit_(key) {

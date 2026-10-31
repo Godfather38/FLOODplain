@@ -146,3 +146,12 @@ test('Picture Rocks sign-ups get the Picture Rocks verdict', () => {
   const rows = t.api.sheet_().getParent().getSheetByName('push').getDataRange().getValues();
   assert.equal(rows[1][6], 'picture-rocks');
 });
+
+test('crossing reports are saved and emailed to the owner', () => {
+  const t = setup();
+  const r = t.post({ action: 'report', fp: 'pr-ina-flat', crossing: 'Ina Rd flat dip', area: 'picture-rocks', answers: { kind: 'A dip', cars: 'Trucks and SUVs, most cars' }, note: 'washes out at the edge' });
+  assert.equal(r.ok, true);
+  const rows = t.api.sheet_().getParent().getSheetByName('reports').getDataRange().getValues();
+  assert.equal(rows[1][2], 'pr-ina-flat');
+  assert.match(t.mails.at(-1).subject, /Ina Rd flat dip/);
+});
