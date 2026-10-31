@@ -108,3 +108,9 @@ a { color: var(--accent); }
   #map { order: -1; height: 36vh; position: sticky; top: 0; z-index: 1; border-bottom: 1px solid var(--line); }
   .panel { border-right: 0; overflow: visible; }
 }
+details.normals { border-top: 1px solid var(--line); margin-top: 4px; }
+details.normals > summary { list-style: none; cursor: pointer; padding: 9px 2px; font-size: 13.5px; color: var(--muted); display: flex; justify-content: space-between; }
+details.normals > summary::-webkit-details-marker { display: none; }
+details.normals[open] > summary .chev { transform: rotate(90deg); }
+details.normals > summary .chev { transition: transform .15s; }
+.stretch-body .history { font-size: 12.5px; margin: 0 0 6px; padding: 6px 8px; border-left: 3px solid var(--line); }

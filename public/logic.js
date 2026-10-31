@@ -48,8 +48,16 @@ export function summarizeFlow(series, now, staleMs) {
   if (!last || now - last.t > staleMs) return { fresh: false };
   const rate = ratePerHour(q);
   const risingFast = rate != null && last.v >= 50 && rate > Math.max(last.v * 0.5, 100);
-  return { fresh: true, cfs: last.v, rate, risingFast, time: last.t };
+  const top = q.reduce((a, b) => (b.v > a.v ? b : a), last); // highest in the window (last 6 h)
+  return { fresh: true, cfs: last.v, peak: top.v, peakHoursAgo: (last.t - top.t) / 3_600_000, rate, risingFast, time: last.t };
 }
+
+// Score on the 6-hour peak, not only the latest reading: water that just went
+// through can still be on or near the road while it drains.
+const effCfs = (f) => Math.max(f.cfs, f.peak ?? f.cfs);
+const flowWords = (f, where) => (f.peak != null && f.peak >= f.cfs * 1.5 && f.peak >= 20
+  ? `${fmtCfs(f.cfs)} cfs ${where} now, down from ${fmtCfs(f.peak)} about ${Math.max(1, Math.round(f.peakHoursAgo))} h ago`
+  : `${fmtCfs(f.cfs)} cfs ${where}`);
 
 // ---------- the four checks ----------
 
@@ -57,13 +65,14 @@ export function summarizeFlow(series, now, staleMs) {
 export function checkRiver(flows, siteIds, names, R) {
   const parts = siteIds.map((id) => ({ id, f: flows[id] })).filter((p) => p.f?.fresh);
   if (!parts.length) return { level: 'unknown', why: 'no live river gauge reading' };
-  let out = { level: 'ok', why: `river at normal level (${parts.map((p) => `${fmtCfs(p.f.cfs)} cfs`).join(', ')})` };
+  let out = { level: 'ok', why: `river at its everyday level over the last 6 h (${parts.map((p) => `${fmtCfs(effCfs(p.f))} cfs max`).join(', ')})` };
   for (const { id, f } of parts) {
-    const at = `${fmtCfs(f.cfs)} cfs at ${siteName(names, id)}`;
+    const at = flowWords(f, `at ${siteName(names, id)}`);
+    const q = effCfs(f);
     let c;
-    if (f.cfs >= R.dangerCfs) c = { level: 'danger', why: `${at}: the 2014 flood that went over the Trico bridge was 12,000-21,000 cfs` };
-    else if (f.cfs >= R.cautionCfs || (f.risingFast && f.cfs >= R.watchCfs)) c = { level: 'caution', why: `${at}${f.risingFast ? ' and rising fast' : ''}: big flood flow. Bridges get closed at levels like this` };
-    else if (f.cfs >= R.watchCfs || f.risingFast) c = { level: 'watch', why: `${at}${f.risingFast ? ' and rising' : ''}: storm water under the bridge` };
+    if (q >= R.dangerCfs) c = { level: 'danger', why: `${at}: the 2014 flood that went over the Trico bridge was 12,000-21,000 cfs` };
+    else if (q >= R.cautionCfs || (f.risingFast && f.cfs >= R.watchCfs)) c = { level: 'caution', why: `${at}${f.risingFast ? ' and rising fast' : ''}: big flood flow. Bridges get closed at levels like this` };
+    else if (q >= R.watchCfs || f.risingFast) c = { level: 'watch', why: `${at}${f.risingFast ? ' and rising' : ''}: storm water under the bridge` };
     if (c && rank(c.level) > rank(out.level)) out = c;
   }
   return out;
@@ -71,9 +80,9 @@ export function checkRiver(flows, siteIds, names, R) {
 
 // Upstream creeks that reach the river bridges hours later.
 export function checkRiverEarly(flows, siteIds, names, R) {
-  const running = siteIds.filter((id) => flows[id]?.fresh && flows[id].cfs >= R.earlyCfs);
+  const running = siteIds.filter((id) => flows[id]?.fresh && effCfs(flows[id]) >= R.earlyCfs);
   if (!running.length) return null;
-  return { level: 'watch', why: `${running.map((id) => `${siteName(names, id)} at ${fmtCfs(flows[id].cfs)} cfs`).join(', ')}: that water reaches the Santa Cruz bridges in a few hours` };
+  return { level: 'watch', why: `${running.map((id) => flowWords(flows[id], `in ${siteName(names, id)}`)).join(', ')}: that water reaches the Santa Cruz bridges in a few hours` };
 }
 
 // 2. Rain in inches at ALERT gauges against a rule set; the heaviest gauge wins.
@@ -82,14 +91,18 @@ export function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
   const fresh = gauges.filter((g) => g.last_rpt && !g.maintenance && now - Date.parse(g.last_rpt) <= staleMs);
   if (!fresh.length) return { level: 'unknown', why: 'no rain gauge reading' };
   const most = (w) => Math.max(...fresh.map((g) => g.in?.[w] ?? 0));
-  const detail = `last 1 h ${fmtIn(most('h1'))} · 3 h ${fmtIn(most('h3'))} · 6 h ${fmtIn(most('h6'))} · 24 h ${fmtIn(most('d1'))}`
+  // Ground already soaked from the last 3 days runs off sooner, so the same storm counts for more.
+  const wet = most('d3') >= 0.75;
+  const k = wet ? 0.75 : 1;
+  const wetNote = wet ? ` (ground already wet: ${fmtIn(most('d3'))} in 3 days)` : '';
+  const detail = `last 1 h ${fmtIn(most('h1'))} · 3 h ${fmtIn(most('h3'))} · 6 h ${fmtIn(most('h6'))} · 24 h ${fmtIn(most('d1'))} · 3 days ${fmtIn(most('d3'))}`
     + ` (wettest of ${fresh.map((g) => names[g.site] ?? g.name).join(', ')})`;
   for (const level of ['danger', 'caution', 'watch']) {
     for (const [win, limit] of Object.entries(rules[level] ?? {})) {
       const hit = fresh
-        .filter((g) => g.in?.[win] != null && g.in[win] >= limit)
+        .filter((g) => g.in?.[win] != null && g.in[win] >= limit * k)
         .sort((a, b) => b.in[win] - a.in[win])[0];
-      if (hit) return { level, detail, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${names[hit.site] ?? hit.name}` };
+      if (hit) return { level, detail, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${names[hit.site] ?? hit.name}${wetNote}` };
     }
   }
   const h6 = most('h6');
@@ -104,12 +117,12 @@ export function checkWash(snapshot, flows, wash, kind, now, staleMs, names) {
     if (s && s.flow_cfs != null && s.last_rpt && now - Date.parse(s.last_rpt) <= staleMs) readings.push({ name: s.name.replace(/ \(PT\)$/, ''), cfs: s.flow_cfs });
   }
   for (const id of wash.usgs ?? []) {
-    if (flows[id]?.fresh) readings.push({ name: siteName(names, id), cfs: flows[id].cfs, risingFast: flows[id].risingFast });
+    if (flows[id]?.fresh) readings.push({ name: siteName(names, id), cfs: effCfs(flows[id]), f: flows[id], risingFast: flows[id].risingFast });
   }
   if (!readings.length) return { level: 'unknown', why: 'no wash flow sensor reading' };
   const top = readings.sort((a, b) => b.cfs - a.cfs)[0];
   if (top.cfs < 1) return { level: 'ok', why: 'Brawley Wash upstream is dry' };
-  const at = `${fmtCfs(top.cfs)} cfs in ${top.name}`;
+  const at = top.f ? flowWords(top.f, `in ${top.name}`) : `${fmtCfs(top.cfs)} cfs in ${top.name}`;
   if (kind === 'dip') {
     return top.cfs >= 500 || top.risingFast
       ? { level: 'danger', why: `${at}: a flood is coming down the wash toward this crossing` }
@@ -142,15 +155,16 @@ export function checkClosures(points) {
 
 // NWS warnings in effect for Avra Valley.
 export function checkNws(alerts, kind) {
+  // NWS alerts cover the whole county, so they only nudge the spots that flood
+  // first (dips). A Flood Watch ("possible later") changes nothing; it's shown as a note.
   if (!alerts) return null;
   const names = alerts.map((a) => a.event);
   if (names.some((e) => /Flash Flood Warning/i.test(e))) {
-    return { level: kind === 'dip' ? 'danger' : 'caution', why: 'NWS Flash Flood Warning in effect: flooding is happening or about to' };
+    return { level: kind === 'dip' ? 'caution' : 'watch', why: 'NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area' };
   }
-  if (names.some((e) => /Flood (Warning|Advisory)|Flash Flood Statement/i.test(e))) {
-    return { level: kind === 'dip' ? 'caution' : 'watch', why: `NWS ${names.find((e) => /Flood/i.test(e))} in effect` };
+  if (kind === 'dip' && names.some((e) => /Flood (Warning|Advisory)|Flash Flood Statement/i.test(e))) {
+    return { level: 'watch', why: `NWS ${names.find((e) => /Flood/i.test(e))} in effect for the area` };
   }
-  if (names.some((e) => /Flood Watch/i.test(e))) return { level: 'watch', why: 'NWS Flood Watch: flooding possible later' };
   return null;
 }
 

@@ -76,10 +76,30 @@ test('county: Closed beats everything, Proceed with Caution is caution', () => {
   assert.equal(checkClosures([{ status: 'Closed', location: 'x' }]).level, 'danger');
   assert.equal(checkClosures([{ status: 'Proceed with Caution', location: 'x' }]).level, 'caution');
 });
-test('NWS: flash flood warning is avoid for dips, caution for bridges', () => {
-  const a = [{ event: 'Flash Flood Warning' }];
-  assert.equal(checkNws(a, 'dip').level, 'danger');
-  assert.equal(checkNws(a, 'river').level, 'caution');
+test('NWS: county-wide Flood Watch changes no score', () => {
+  assert.equal(checkNws([{ event: 'Flood Watch' }], 'dip'), null);
+  const r = choose(data({ nws: [{ event: 'Flood Watch' }] }));
+  assert.ok(r.order.every((x) => x.level === 'ok'), 'every route stays at 1/5');
+});
+test('NWS: advisory nudges dips only; flash flood warning: dips caution, bridges watch', () => {
+  assert.equal(checkNws([{ event: 'Flood Advisory' }], 'dip').level, 'watch');
+  assert.equal(checkNws([{ event: 'Flood Advisory' }], 'bridge'), null);
+  assert.equal(checkNws([{ event: 'Flash Flood Warning' }], 'dip').level, 'caution');
+  assert.equal(checkNws([{ event: 'Flash Flood Warning' }], 'river').level, 'watch');
+});
+test('river: a peak 3 h ago still counts while it drains', () => {
+  const f = { '09486500': flow([200, 1500, 4200, 3500, 2200, 1200, 600, 300, 200, 150, 120, 100, 90]) };
+  const r = checkRiver(f, ['09486500'], cfg.USGS_SITES, cfg.RIVER);
+  assert.equal(r.level, 'caution');
+  assert.match(r.why, /down from 4,200/);
+});
+test('rain: wet ground from the last 3 days lowers the bar', () => {
+  const dry = snapshot({ '6460': { h1: 0.32 } });
+  const wet = snapshot({ '6460': { h1: 0.32, d3: 1.1 } });
+  const f = (s) => checkRain(s, ['6460'], cfg.RAIN.local, cfg.RAIN_GAUGES, NOW, cfg.STALE_MS);
+  assert.equal(f(dry).level, 'watch');
+  assert.equal(f(wet).level, 'caution');
+  assert.match(f(wet).why, /ground already wet/);
 });
 
 // ---- whole-morning scenarios ----

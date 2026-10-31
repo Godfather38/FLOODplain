@@ -141,23 +141,38 @@ function routeCard(r, { hero, nwsQuiet, dest }) {
     <div class="card-body">
       <div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(r, nwsQuiet))}</p></div>
       ${against.length ? `<ul class="against">${against.slice(0, 3).map((a) => `<li><span class="dot ${a.level}"></span><span><b>${esc(a.short)}:</b> ${esc(a.why)}</span></li>`).join('')}</ul>` : ''}
-      <div class="stretches-h">Stretches on this route</div>
-      ${r.points.map((p) => {
-        const s = riskScore(p);
-        const fp = FAILURE_POINTS.find((f) => f.id === p.id);
-        return `
-        <details class="stretch" data-route="${r.id}" data-fp="${p.id}" ${ui.openStretch === `${r.id}|${p.id}` ? 'open' : ''}>
-          <summary><span class="k" aria-hidden="true">${KIND_ICON[p.kind]}</span><span class="n">${esc(p.short)}</span>${pips(s)}<span class="chev">›</span></summary>
-          <div class="stretch-body">
-            <p class="lead">${cap(LEVEL_WORD[p.level])}: ${esc(p.why)}.</p>
-            <p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p>
-            ${evidenceHtml(p, r)}
-          </div>
-        </details>`;
-      }).join('')}
+      ${stretchList(r)}
       <a class="gmaps ${hero ? '' : 'secondary'}" href="${googleMapsUrl(NAV[r.id], dest)}" target="_blank" rel="noopener">Drive this in Google Maps</a>
     </div>
   </article>`;
+}
+
+function stretchHtml(r, p) {
+  const fp = FAILURE_POINTS.find((f) => f.id === p.id);
+  return `
+    <details class="stretch" data-route="${r.id}" data-fp="${p.id}" ${ui.openStretch === `${r.id}|${p.id}` ? 'open' : ''}>
+      <summary><span class="k" aria-hidden="true">${KIND_ICON[p.kind]}</span><span class="n">${esc(p.short)}</span>${pips(riskScore(p))}<span class="chev">›</span></summary>
+      <div class="stretch-body">
+        <p class="lead">${cap(LEVEL_WORD[p.level])}: ${esc(p.why)}.</p>
+        <p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p>
+        ${fp.history ? `<p class="history"><b>Track record:</b> ${esc(fp.history)}</p>` : ''}
+        ${evidenceHtml(p, r)}
+      </div>
+    </details>`;
+}
+
+// Only stretches with something going on are listed; normal ones fold into one line.
+function stretchList(r) {
+  const flagged = r.points.filter((p) => riskScore(p) !== 1);
+  const normal = r.points.filter((p) => riskScore(p) === 1);
+  const normalOpen = normal.some((p) => ui.openStretch === `${r.id}|${p.id}`);
+  return `
+    ${flagged.length ? `<div class="stretches-h">Worth a look</div>${flagged.map((p) => stretchHtml(r, p)).join('')}` : ''}
+    ${normal.length ? `
+      <details class="normals" ${normalOpen ? 'open' : ''}>
+        <summary>${flagged.length ? `${normal.length} more` : `All ${normal.length}`} ${normal.length > 1 ? 'stretches look' : 'stretch looks'} normal <span class="chev">›</span></summary>
+        ${normal.map((p) => stretchHtml(r, p)).join('')}
+      </details>` : ''}`;
 }
 
 function renderPanel() {
@@ -205,11 +220,13 @@ function renderBase() {
     routeLines[id] = L.geoJSON(f, { style: { color: isFocus ? '#2b2b2b' : '#8d8b84', weight: isFocus ? 6 : 3.5, opacity: isFocus ? 0.85 : 0.45 } })
       .bindTooltip(ROUTE_INFO[id].name).addTo(baseLayer);
   }
-  // Colored stretches around each failure point, numbered dots on top.
+  // Colored stretches + numbered dots, only where something is off (or the stretch you opened).
   const coordsOf = (id) => lineCoords(routeFeatures.find((f) => f.properties.id === id).geometry);
   for (const fp of FAILURE_POINTS) {
     const res = fpResults[fp.id];
     const s = riskScore(res);
+    const sel = ui.openStretch?.endsWith(`|${fp.id}`);
+    if (s === 1 && !sel) continue; // normal: no dot, no color
     for (const rid of fp.routes) {
       for (const line of coordsOf(rid)) {
         for (const run of stretchAround(line, fp.lat, fp.lon, fp.kind === 'road' ? 2500 : 450)) {
@@ -217,7 +234,6 @@ function renderBase() {
         }
       }
     }
-    const sel = ui.openStretch?.endsWith(`|${fp.id}`);
     L.marker([fp.lat, fp.lon], { icon: L.divIcon({ className: '', html: `<div class="fp-icon ${s ? `s${s}` : 'sq'} ${sel ? 'sel' : ''}">${s ?? '?'}</div>`, iconSize: [22, 22], iconAnchor: [11, 11] }), zIndexOffset: sel ? 1000 : 0 })
       .bindTooltip(`${fp.short}: ${s ?? '?'}/5`)
       .on('click', () => openStretchFromMap(fp.id))

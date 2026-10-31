@@ -63,6 +63,7 @@ const BRAWLEY_BASIN = ['6440', '6420', '6460', '6480'];
 export const FAILURE_POINTS = [
   {
     id: 'brawley-dip', short: 'Brawley Wash dip', kind: 'dip', lat: 32.39322, lon: -111.29459, routes: ['avra'],
+    history: "A county flood barricade point. Avra Valley Rd at Brawley Wash shows up on past county flood-closure lists.",
     name: 'Brawley Wash dip on Avra Valley Rd',
     where: '0.55 mi east of Trico Rd',
     rain: { local: LOCAL, basin: BRAWLEY_BASIN },
@@ -70,18 +71,21 @@ export const FAILURE_POINTS = [
   },
   {
     id: 'elpaso-dip', short: 'El Paso Gas Rd dip', kind: 'dip', lat: 32.39329, lon: -111.27659, routes: ['avra'],
+    history: "A county flood barricade point (\"Avra Valley Rd west of El Paso Gas Rd\"). Older county lists name closures near El Paso Gas Rd.",
     name: 'Wash dip on Avra Valley Rd near El Paso Gas Rd',
     where: '0.4 mi west of El Paso Gas Rd',
     rain: { local: LOCAL },
   },
   {
     id: 'clayton-dip', short: 'Clayton Rd dip', kind: 'dip', lat: 32.40131, lon: -111.24501, routes: ['avra'],
+    history: "County flood barricade points nearby (\"east of Clayton Rd\", \"west of Sanders Rd\").",
     name: 'Wash dip on Avra Valley Rd near Clayton Rd',
     where: '0.55 mi east of Clayton Rd, 0.65 mi west of Sanders Rd',
     rain: { local: LOCAL },
   },
   {
     id: 'losrobles-bridge', short: 'Los Robles bridge', kind: 'bridge', lat: 32.43882, lon: -111.30426,
+    history: "No county barricade point here, and no reported closures found.",
     routes: ['trico', 'silverbell-north', 'silverbell-south'],
     name: 'Los Robles Wash bridge on Trico Rd',
     where: 'between El Tiro Rd and Silverbell Rd',
@@ -90,24 +94,28 @@ export const FAILURE_POINTS = [
   },
   {
     id: 'sc-trico-marana', short: 'Trico-Marana river bridge', kind: 'river', lat: 32.45369, lon: -111.27985, routes: ['trico'],
+    history: "Floodwater went over this bridge in Sept 2014 (12,000 cfs at Trico Rd). After one storm that closed every Northwest-side Santa Cruz bridge, this one stayed closed longest.",
     name: 'Santa Cruz bridge on Trico-Marana Rd',
     where: 'the river crossing on Trico-Marana Rd',
     river: ['09486520', '09486500'],
   },
   {
     id: 'sc-sanders', short: 'Sanders Rd river bridge', kind: 'river', lat: 32.43488, lon: -111.23395, routes: ['silverbell-north'],
+    history: "Built 1975. No flood closure of this bridge found, apart from one storm that closed every Northwest-side Santa Cruz bridge for a few hours.",
     name: 'Santa Cruz bridge on Sanders Rd',
     where: 'Sanders Rd north of Silverbell (Town of Marana road: no county status)',
     river: ['09486500', '09486520'],
   },
   {
     id: 'sc-avra', short: 'Avra Valley Rd river bridge', kind: 'river', lat: 32.40256, lon: -111.14614, routes: ['avra', 'silverbell-south'],
+    history: "Has been closed in past floods, stranding residents on the west side.",
     name: 'Santa Cruz bridge on Avra Valley Rd',
     where: 'just west of I-10',
     river: ['09486500'],
   },
   {
     id: 'silverbell-drainage', short: 'Silverbell drainage', kind: 'road', lat: 32.43062, lon: -111.2725,
+    history: "Puddles and washes out from poor road drainage after rain; shallow (your report).",
     routes: ['silverbell-north', 'silverbell-south'],
     name: 'Silverbell Rd puddling / washouts',
     where: 'Silverbell between Trico Rd and Sanders Rd',
