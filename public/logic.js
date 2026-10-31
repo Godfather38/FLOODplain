@@ -80,16 +80,19 @@ export function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
   const gauges = (snapshot?.rain ?? []).filter((g) => gaugeIds.includes(g.site));
   const fresh = gauges.filter((g) => g.last_rpt && !g.maintenance && now - Date.parse(g.last_rpt) <= staleMs);
   if (!fresh.length) return { level: 'unknown', why: 'no rain gauge reading' };
+  const most = (w) => Math.max(...fresh.map((g) => g.in?.[w] ?? 0));
+  const detail = `last 1 h ${fmtIn(most('h1'))} · 3 h ${fmtIn(most('h3'))} · 6 h ${fmtIn(most('h6'))} · 24 h ${fmtIn(most('d1'))}`
+    + ` (wettest of ${fresh.map((g) => names[g.site] ?? g.name).join(', ')})`;
   for (const level of ['danger', 'caution', 'watch']) {
     for (const [win, limit] of Object.entries(rules[level] ?? {})) {
       const hit = fresh
         .filter((g) => g.in?.[win] != null && g.in[win] >= limit)
         .sort((a, b) => b.in[win] - a.in[win])[0];
-      if (hit) return { level, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${names[hit.site] ?? hit.name}` };
+      if (hit) return { level, detail, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${names[hit.site] ?? hit.name}` };
     }
   }
-  const h6 = Math.max(...fresh.map((g) => g.in?.h6 ?? 0));
-  return { level: 'ok', why: h6 > 0 ? `only ${fmtIn(h6)} of rain in the last 6 hours nearby` : 'no rain in the last 6 hours nearby' };
+  const h6 = most('h6');
+  return { level: 'ok', detail, why: h6 > 0 ? `light rain only (${fmtIn(h6)} in the last 6 hours)` : 'no rain in the last 6 hours' };
 }
 
 // 3. A wash's own flow sensors (ALERT stream sensors + USGS).
@@ -127,11 +130,13 @@ export function nearbyClosures(fp, closures, radiusM) {
 }
 export function checkClosures(points) {
   if (!points.length) return null;
+  const when = (p) => (p.updated ? ` (updated ${p.updated})` : '');
+  const detail = points.map((p) => `${p.location}: ${p.status}${when(p)}`).join(' · ');
   const closed = points.find((p) => /clos/i.test(p.status));
-  if (closed) return { level: 'danger', why: `County says CLOSED: ${closed.location}` };
+  if (closed) return { level: 'danger', detail, why: `County says CLOSED: ${closed.location}${when(closed)}` };
   const careful = points.find((p) => /caution/i.test(p.status));
-  if (careful) return { level: 'caution', why: `County says PROCEED WITH CAUTION: ${careful.location}` };
-  return { level: 'ok', why: 'county barricade point(s) here are marked Open', official: true };
+  if (careful) return { level: 'caution', detail, why: `County says Proceed with Caution: ${careful.location}${when(careful)}` };
+  return { level: 'ok', detail, why: 'county barricade point marked Open', official: true };
 }
 
 // NWS warnings in effect for Avra Valley.

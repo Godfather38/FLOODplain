@@ -50,10 +50,16 @@ test('river: no live gauge -> unknown', () => {
   assert.equal(checkRiver({}, ['09486500'], cfg.USGS_SITES, cfg.RIVER).level, 'unknown');
 });
 test('rain: inches against dip thresholds, heaviest gauge named', () => {
-  const s = snapshot({ '6460': { h1: 0.3, h3: 0.4 }, '6110': { h1: 0.1 } });
+  const s = snapshot({ '6460': { h1: 0.45, h3: 0.5 }, '6110': { h1: 0.1 } });
   const r = checkRain(s, ['6110', '6460', '6480'], cfg.RAIN.local, cfg.RAIN_GAUGES, NOW, cfg.STALE_MS);
   assert.equal(r.level, 'caution');
-  assert.equal(r.why, '0.30" of rain in the last 1 hour at Picture Rocks Community Ctr');
+  assert.equal(r.why, '0.45" of rain in the last 1 hour at Picture Rocks Community Ctr');
+  assert.match(r.detail, /last 1 h 0.45" · 3 h 0.50"/);
+});
+test('rain: Oct 31 2026 light rain (0.20" in 6 h, roads drove fine) is Low', () => {
+  const s = snapshot({ '6110': { h6: 0.2, d1: 0.2 } });
+  assert.equal(checkRain(s, ['6110', '6460', '6480'], cfg.RAIN.local, cfg.RAIN_GAUGES, NOW, cfg.STALE_MS).level, 'ok');
+  assert.equal(checkRain(s, ['6110', '6480'], cfg.RAIN.road, cfg.RAIN_GAUGES, NOW, cfg.STALE_MS).level, 'ok');
 });
 test('rain: a gauge under maintenance or silent is ignored', () => {
   const s = snapshot();
@@ -82,7 +88,7 @@ test('dry morning: fastest route (Trico) and nothing flagged', () => {
   assert.equal(r.best.level, 'ok');
 });
 test('storm over Picture Rocks: Avra Valley Rd dips flagged, Trico still fine', () => {
-  const r = choose(data({ alert: snapshot({ '6460': { h1: 0.6, h3: 0.8, h6: 0.8 } }) }));
+  const r = choose(data({ alert: snapshot({ '6460': { h1: 0.8, h3: 1.3, h6: 1.3 } }) }));
   assert.equal(r.res['brawley-dip'].level, 'danger');
   assert.equal(r.res['elpaso-dip'].level, 'danger');
   assert.notEqual(r.order.find((x) => x.id === 'avra').level, 'ok');

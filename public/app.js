@@ -3,7 +3,9 @@ import { parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend
 
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS } = cfg;
 const COLORS = { ok: '#2e7d32', watch: '#1565c0', caution: '#ef8f00', danger: '#c62828', unknown: '#757575' };
-const LABEL = { ok: 'Clear', watch: 'Heads up', caution: 'Caution', danger: 'Avoid', unknown: 'Unknown' };
+const LABEL = { ok: 'Low risk', watch: 'Some risk', caution: 'Elevated risk', danger: 'High risk', unknown: 'Unknown' };
+const SRC = { county: 'County', nws: 'NWS', river: 'River', 'river-early': 'Upstream creeks', wash: 'Wash flow', 'rain-local': 'Rain here', 'rain-basin': 'Rain upstream', 'rain-road': 'Rain' };
+const evidence = (p) => `<ul class="ev">${p.checks.map((c) => `<li><span class="dot ${c.level}"></span><b>${SRC[c.src] ?? c.src}:</b> ${esc(c.why)}${c.detail ? `<br><small>${esc(c.detail)}</small>` : ''}</li>`).join('')}</ul>`;
 const KIND = { dip: 'dip (water crosses the road)', bridge: 'bridge', river: 'river bridge', road: 'road drainage' };
 const REFRESH_MS = 5 * 60 * 1000;
 const $ = (s) => document.querySelector(s);
@@ -79,22 +81,22 @@ function render(d) {
 
   // The brief
   const head = clear ? `Take ${esc(best.name)}`
-    : best.level === 'unknown' ? 'The sensors can’t tell right now' : 'No route is clear';
+    : best.level === 'unknown' ? 'The sensors can’t tell right now' : `Lowest risk: ${esc(best.name)}`;
   const sub = clear
-    ? `~${Math.round(best.minutes)} min${problems.length ? ' · read the heads-up below' : ' · nothing flagged on this route'}`
+    ? `~${Math.round(best.minutes)} min · ${LABEL[best.level]}${problems.length ? ': see below' : ''}`
     : best.level === 'unknown'
       ? 'Check the ALERT rain map and county closures below before you leave'
-      : `Least bad: ${esc(best.name)} (${LABEL[best.level]}). Consider waiting. Never drive into water crossing the road.`;
+      : `Every route has ${LABEL[best.level].toLowerCase()} right now. Look before each crossing, or wait. Never drive into water crossing the road.`;
   // Explain every route that is faster than the pick, or that is dangerous today.
   const faster = order.filter((r) => r.id !== best.id && (r.minutes < best.minutes || r.level === 'danger'));
   const whyNot = faster.map((r) => {
     const p = r.points.find((x) => x.level === r.level);
-    return `<li><b>${r.level === 'danger' ? 'Avoid' : 'Not'} ${esc(short(r))}:</b> ${esc(p.name)}: ${esc(p.why)}</li>`;
+    return `<li><b>${esc(short(r))}: ${LABEL[r.level]}.</b> ${esc(p.name)}: ${esc(p.why)}</li>`;
   }).join('');
-  const watch = problems.map((p) => `<li><b>${esc(p.name)}</b> (${LABEL[p.level]}): ${esc(p.why)}</li>`).join('');
+  const watch = problems.map((p) => `<li><b>${esc(p.name)}</b>: ${LABEL[p.level]}${evidence(p)}</li>`).join('');
   $('#verdict').className = `verdict ${best.level}`;
   $('#verdict').innerHTML = `<b>${head}</b><span>${sub}</span>`;
-  $('#brief').innerHTML = (whyNot ? `<ul>${whyNot}</ul>` : '') + (watch ? `<p class="h">On this route, watch for:</p><ul>${watch}</ul>` : '');
+  $('#brief').innerHTML = (whyNot ? `<ul>${whyNot}</ul>` : '') + (watch ? `<p class="h">On this route:</p><ul>${watch}</ul>` : '');
   const dest = store.get('dest');
   $('#gmaps').href = googleMapsUrl(NAV[best.id], dest);
   $('#gmaps').textContent = `Open ${short(best)} route in Google Maps`;
@@ -103,7 +105,7 @@ function render(d) {
   $('#routes').innerHTML = order.map((r) => `
     <li class="route ${r.level}" data-id="${r.id}">
       <div class="head"><b>${esc(r.name)}</b><span class="meta">${r.km} km · ~${Math.round(r.minutes)} min</span><span class="badge">${LABEL[r.level]}</span></div>
-      <ul class="pts">${r.points.map((p) => `<li><span class="dot ${p.level}"></span><b>${esc(p.name)}</b> <span class="kind">${KIND[p.kind]}</span><br><i>${esc(p.why)}</i></li>`).join('')}</ul>
+      <ul class="pts">${r.points.map((p) => `<li><span class="dot ${p.level}"></span><b>${esc(p.name)}</b> <span class="kind">${KIND[p.kind]} · ${LABEL[p.level]}</span>${evidence(p)}</li>`).join('')}</ul>
       <a class="nav" href="${googleMapsUrl(NAV[r.id], dest)}" target="_blank" rel="noopener">Google Maps →</a>
     </li>`).join('');
   document.querySelectorAll('#routes > li').forEach((li) => {
@@ -117,7 +119,7 @@ function render(d) {
   for (const fp of FAILURE_POINTS) {
     const r = fpResults[fp.id];
     L.circleMarker([fp.lat, fp.lon], { radius: fp.kind === 'dip' ? 9 : 7, color: '#000', weight: 1.5, fillColor: COLORS[r.level], fillOpacity: 1 })
-      .bindPopup(`<b>${esc(fp.name)}</b><br>${esc(fp.where)}<br><b>${LABEL[r.level]}</b>: ${esc(r.why)}<ul>${r.checks.map((c) => `<li>${esc(c.why)}</li>`).join('')}</ul>`)
+      .bindPopup(`<b>${esc(fp.name)}</b><br>${esc(fp.where)}<br><b>${LABEL[r.level]}</b>${evidence(r)}`)
       .addTo(dynamic);
   }
   for (const g of d.alert?.rain ?? []) {

@@ -33,19 +33,20 @@ export const RIVER = { watchCfs: 300, cautionCfs: 3000, dangerCfs: 10000, earlyC
 // against what you see at the crossings. Windows: h1 = last hour, h3 = 3 hours, etc.
 export const RAIN = {
   local: { // rain right over a small wash that crosses the road at grade (a dip)
-    danger: { h1: 0.5, h3: 1.0 },
-    caution: { h1: 0.25, h3: 0.5, h6: 0.75 },
-    watch: { h6: 0.1, d1: 0.25 },
+    danger: { h1: 0.75, h3: 1.25 },
+    caution: { h1: 0.4, h3: 0.6, h6: 0.9 },
+    watch: { h1: 0.15, h3: 0.3, h6: 0.5 },
   },
   basin: { // rain over a whole upstream watershed (water arrives hours later)
-    caution: { h3: 0.5, h6: 0.75, d1: 1.0 },
-    watch: { h6: 0.25, d1: 0.5 },
+    caution: { h3: 0.6, h6: 0.9, d1: 1.25 },
+    watch: { h3: 0.3, h6: 0.5, d1: 0.75 },
   },
-  road: { // poor road drainage (Silverbell): shallow, never "avoid"
-    caution: { h1: 0.25, h3: 0.5 },
-    watch: { h6: 0.1 },
+  road: { // poor road drainage (Silverbell): shallow, never "high"
+    caution: { h1: 0.4, h3: 0.6 },
+    watch: { h1: 0.2, h3: 0.35 },
   },
 };
+// Checked against Oct 31, 2026: 0.20" over 6 h at Avra Valley Air Park, roads drove fine -> Low.
 
 // ALERT rain gauges (site id -> short name), by area.
 export const RAIN_GAUGES = {

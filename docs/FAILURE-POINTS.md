@@ -29,21 +29,28 @@ Distances come from the map data and are approximate.
   - If the app says Brawley Wash is flowing, **don't take Avra Valley Rd**.
   - If it rained in Avra Valley in the last ~12 hours, **assume this crossing could be running even if the app says clear**. Take Silverbell instead. "Silverbell → Sanders south" rejoins Avra Valley Rd east of this crossing.
 
-### 3. Two unnamed wash crossings on Avra Valley Rd
+### 3. Two more wash dips on Avra Valley Rd (confirmed dips by driving them)
 - **Where:** (a) about 0.4 mi west of El Paso Gas Rd; (b) about 0.65 mi west of Sanders Rd (0.55 mi east of Clayton Rd). Old county closure lists name Avra Valley Rd "on either side of Trico Rd and El Paso Gas Rd," which fits these spots.
 - **Who uses them:** only the Avra Valley Rd route. Both Silverbell routes reach Avra Valley Rd at Sanders, east of them.
-- **What the app can't see:** no gauge on either wash, and we don't know whether they're bridges or dips.
-- **What you do:** treat them like failure point 2. Next time you drive past, tell me whether each one is a bridge or a dip, and I'll update the map.
+- **What the app can't see:** no gauge on either wash. The app judges them from rain in inches at the nearby county rain gauges (Avra Valley Air Park, Picture Rocks, Trico Rd north of Manville), plus the county's barricade status at "Avra Valley Rd west of El Paso Gas Rd" and "east of Clayton Rd".
+- **What you do:** follow the app's rating, and look before you cross.
 
 ### 4. Rain falling on the valley itself
-- **Who it affects:** every route, especially the small washes.
-- **What the app can't see:** the 4 gauges only measure water that has already collected in the Santa Cruz River or in Brawley Wash at Three Points. A storm parked over Avra Valley can flood the small crossings first, before any gauge shows anything.
-- **What you do:** until the county's rain gauges are wired in (next step), check the **Pima ALERT map** link on the page after any storm. It shows how much rain fell where.
+- **Now covered by county rain gauges.** The app reads inches of rain in the last 1, 3, 6 and 24 hours at Avra Valley Air Park, Picture Rocks, Trico Rd north of Manville, and Brawley Wash at Milewide Rd and Three Points.
+- **Rain thresholds for the dips:**
+  - **Some:** 0.15" in 1 hour, 0.3" in 3 hours, or 0.5" in 6 hours.
+  - **Elevated:** 0.4" in 1 hour or 0.6" in 3 hours.
+  - **High:** 0.75" in 1 hour or 1.25" in 3 hours.
+- **Check:** these are starting values, checked against Oct 31, 2026, when 0.20" fell over 6 hours and the roads were fine. Tell me when the app's rating doesn't match what you see, and I'll adjust them.
 
 ### 5. The Santa Cruz River bridges (Trico-Marana, Sanders Rd, Avra Valley Rd)
-- **What the app CAN see:** each bridge has its own gauge, so the app knows when the river is running under it.
-- **What it can't tell:** how much flow gets each bridge closed. Nobody has set that level yet. So when water is under a bridge, the app says "Water under bridge" (blue), or "Caution" (orange) if it's rising fast, but it never says "Avoid" for these bridges yet.
-- **What you do:** if the app shows water under the bridge on your chosen route, check the **Pima road closures** link before leaving. In one past storm the county closed *every* Santa Cruz bridge in this area for hours.
+- **Correction:** the gauges named for the Avra Valley Rd and Sanders Rd bridges don't report anymore. The Sanders Rd gauge stopped in 1993. The app uses the live gauges at **Cortaro Rd** (upstream of all three bridges) and **Trico Rd** (just past the Trico-Marana bridge), plus Rillito Creek and Cañada del Oro, which reach the river hours ahead.
+- **What "normal" is:** about 30–40 cfs every day. That's treated wastewater, not rain.
+- **The levels:**
+  - **Some:** 300 cfs.
+  - **Elevated:** 3,000 cfs.
+  - **High:** 10,000 cfs. In Sept 2014, when the Trico bridge was overtopped, Cortaro hit 21,200 cfs and Trico Rd hit 12,000.
+- **The county's barricade status** at the Trico-Marana bridge is shown too. Sanders Rd is a Town of Marana road, so there's no county status for it.
 
 ### 6. Silverbell Rd drainage washouts
 - **Where:** along Silverbell Rd between Trico Rd and Sanders Rd. The road is paved but drains badly.
@@ -55,20 +62,19 @@ Distances come from the map data and are approximate.
 - **What you do:** gray means *unknown*, not safe. Use the ALERT map and closures links.
 
 ## The morning routine
-1. Open the page. The big box names a route.
-2. **Green, "Clear":** the gauges see no water at the crossings they cover. Before you go, ask yourself: *did it rain in the valley overnight?* If yes, skip Avra Valley Rd (failure points 2–3) and glance at the ALERT map (failure point 4).
-3. **Blue, "Water under bridge":** the river is running under a bridge on that route. Check the closures link (failure point 5).
-4. **Orange or red:** take the route it suggests instead, or wait.
-5. **Gray:** the gauges can't tell. Use the ALERT map and closures links.
-6. Any time: **if you see water across the road, don't drive into it.**
+1. Open the page. The big box names the lowest-risk route and its rating.
+2. Under each spot you'll see the evidence side by side: the county's barricade status (with when it was last updated), rain in inches, and river or wash flow. Weigh them yourself. A county "Open" from weeks ago means less than an inch of rain an hour ago.
+3. **Low:** no sign of water. **Some:** rain or flow nearby; usually passable, so look as you go. **Elevated:** water likely at or near the road; cross only if you can see it's fine. **High:** the county closed it, or a flood is running. **Unknown:** missing data, which is not the same as safe.
+4. Tap **Open in Google Maps**. It opens Google Maps with stops that force the chosen roads.
+5. Any time: **if you see water across the road, don't drive into it.**
 
 ## What fixes each one
 | Failure point | Fix | Who |
 |---|---|---|
-| 1 Los Robles bridge | A sensor on the bridge (needs county permission), or a county ALERT stream gauge if one exists nearby | You + me |
-| 2 Brawley dip | A sensor on a post beside the crossing, on a willing neighbor's land | You + me |
-| 3 Unnamed crossings | You look at them once, then I update the map | You |
-| 4 Valley rain | Wire in the county's ALERT rain gauges (needs network access, see the chat) | Me |
-| 5 Bridge closure levels | Look up past flood peaks at each gauge and set the flow where the bridge closed | Me |
+| 1 Los Robles bridge | Ask Flood Control for an ALERT stream sensor; else a sensor on the bridge (DOT permit). See PERMISSION.md | You |
+| 2 Brawley dip | Same ask to Flood Control; else a post on a neighbor's land beside it | You |
+| 3 More Avra Valley Rd dips | Confirmed dips. A sensor, or a county ALERT gauge (see PERMISSION.md) | You + county |
+| 4 Valley rain | Done: county rain gauges in inches | Done (tune thresholds over time) |
+| 5 Bridge closure levels | Done: set from USGS flood peaks (2014) | Done |
 | 6 Silverbell washouts | A "washed out" button you or family can tap so the others see it | Me |
 | 7 Dead gauge | Already handled (shows gray) | Done |
