@@ -132,3 +132,9 @@ details.src .more p:first-child { color: var(--on); }
 .page .btn-text { width: 100%; }
 .note { background: var(--angel); padding: 8px 12px; border-radius: 10px; }
 .consent { font-size: 13px; color: var(--muted); margin: 4px 0 10px; }
+.field textarea { font: inherit; font-size: 16px; color: var(--on); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--divider); background: var(--bg); width: 100%; }
+.field select[multiple] { padding: 6px; }
+.field small { font-weight: 400; }
+.steps .btn { margin: 8px 0 4px; width: 100%; }
+.steps .fine { display: block; text-align: left; margin: 0; }
+.btn[disabled] { opacity: .45; cursor: default; }

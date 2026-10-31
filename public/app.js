@@ -4,7 +4,7 @@ import {
   riskScore, routeScore, goodSigns, againstIt,
 } from './logic.js';
 
-const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, ALERTS, alertTopic } = cfg;
+const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES } = cfg;
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
 const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62828' };
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
@@ -242,11 +242,36 @@ function snapTime(t) {
   const m = /^(\d{1,2}):(\d{2})/.exec(t || '');
   return m && Number(m[1]) < 24 && Number(m[2]) < 60 ? `${m[1].padStart(2, '0')}:${m[2]}` : null;
 }
+// Days: "w:1,2,3,4,5" (weekdays, 1 = Monday) or "m:1,15" (dates of the month).
+const DAY_NAMES = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const daysKind = (d) => (String(d).startsWith('m:') ? 'm' : 'w');
+const daysList = (d) => (/^[wm]:/.test(d) ? d.slice(2).split(',').map(Number).filter(Boolean) : d === 'all' ? [1, 2, 3, 4, 5, 6, 7] : [1, 2, 3, 4, 5]);
+const daysOptions = (d) => (daysKind(d) === 'w'
+  ? [1, 2, 3, 4, 5, 6, 7].map((n) => `<option value="${n}" ${daysList(d).includes(n) ? 'selected' : ''}>${DAY_NAMES[n]}</option>`).join('')
+  : Array.from({ length: 31 }, (_, i) => i + 1).map((n) => `<option value="${n}" ${daysList(d).includes(n) ? 'selected' : ''}>${n}</option>`).join(''));
+function daysSummary(d) {
+  const l = daysList(d);
+  const ord = (n) => n + (n % 10 === 1 && n !== 11 ? 'st' : n % 10 === 2 && n !== 12 ? 'nd' : n % 10 === 3 && n !== 13 ? 'rd' : 'th');
+  const and = (xs) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}` : xs[0]);
+  if (daysKind(d) === 'm') return l.length ? `the ${and(l.map(ord))} of each month` : 'none picked';
+  if (l.join() === '1,2,3,4,5') return 'weekdays';
+  if (l.length === 7) return 'every day';
+  return l.map((n) => DAY_NAMES[n].slice(0, 3)).join(', ') || 'none picked';
+}
+function pushTopic() {
+  let t = store.get('pushTopic');
+  if (!t) {
+    const r = new Uint8Array(8); crypto.getRandomValues(r);
+    t = `washwatch-${Array.from(r, (b) => (b % 36).toString(36)).join('')}`;
+    store.set('pushTopic', t);
+  }
+  return t;
+}
 const clock = (t) => new Date(`2000-01-01T${t}:00`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 let textFlow = { step: 'start', phone: '', msg: '' };
 
 function alertsScreen() {
-  const a = { times: ['05:45'], days: 'wd', mode: 'all', ...(store.get('alerts') ?? {}) };
+  const a = { times: ['05:45'], days: 'w:1,2,3,4,5', mode: 'all', ...(store.get('alerts') ?? {}) };
   const timeRows = a.times.map((t, i) => `
     <div class="time-row">
       <input type="time" data-ti="${i}" value="${t}" aria-label="Alert time ${i + 1}">
@@ -260,6 +285,7 @@ function alertsScreen() {
       : textFlow.step === 'done'
         ? `<p>Texts are on for ${esc(textFlow.phone)}. A confirmation text is on its way.</p>`
         : `<label class="field">Mobile number<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
+           <label class="field">Access key (optional, for more than 2 texts a day)<input id="t-key" type="text" autocomplete="off" value="${esc(textFlow.key ?? '')}"></label>
            <p class="consent">By tapping <b>Text me a code</b>, you agree to get recurring Wash Watch road-flooding texts: one text at each time you pick, at most 4 msgs/day, plus a one-time sign-up code. Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. No marketing; your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
            <button type="button" class="btn btn-primary" id="t-signup">Text me a code</button>
            <button type="button" class="btn btn-text" id="t-stop">Stop texts for this number</button>`;
@@ -267,8 +293,11 @@ function alertsScreen() {
     <h4>When</h4>
     ${timeRows}
     ${a.times.length < 4 ? '<button type="button" class="btn btn-text" id="add-time">+ Add another time</button>' : ''}
-    <label class="field">Days
-      <select id="a-days"><option value="wd" ${a.days === 'wd' ? 'selected' : ''}>Weekdays</option><option value="all" ${a.days === 'all' ? 'selected' : ''}>Every day</option></select>
+    <label class="field">Repeat on
+      <select id="a-rep"><option value="w" ${daysKind(a.days) === 'w' ? 'selected' : ''}>Days of the week</option><option value="m" ${daysKind(a.days) === 'm' ? 'selected' : ''}>Days of the month</option></select>
+    </label>
+    <label class="field">${daysKind(a.days) === 'w' ? 'Days' : 'Dates'} <small>(${esc(daysSummary(a.days))})</small>
+      <select id="a-dsel" multiple size="${daysKind(a.days) === 'w' ? 7 : 8}">${daysOptions(a.days)}</select>
     </label>
     <label class="field">Send it
       <select id="a-mode"><option value="all" ${a.mode === 'all' ? 'selected' : ''}>Every time</option><option value="off" ${a.mode === 'off' ? 'selected' : ''}>Only when something's off (any route 2 or higher)</option></select>
@@ -281,11 +310,24 @@ function alertsScreen() {
     ${textCard}
     <p class="fine" style="text-align:left">Texts start once the paid text sender is connected.</p>
   </div>
-  <h3 class="section">Phone notification (any carrier, free)</h3>
+  ${cfg.TEXT_API ? `<h3 class="section">Need more texts?</h3>
   <div class="page">
-    <p>Install the free <b>ntfy</b> app (<a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a> · <a href="https://apps.apple.com/us/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a>), then subscribe${a.times.length > 1 ? ' to each time' : ''}:</p>
-    ${a.times.map((t) => `<a class="btn btn-primary" href="ntfy://ntfy.sh/${alertTopic(t, a.days, a.mode)}">Subscribe for ${clock(t)}</a><p class="fine" style="text-align:left;margin:0 0 8px">Topic: <code>${alertTopic(t, a.days, a.mode)}</code></p>`).join('')}
-    <p class="fine" style="text-align:left">No account, no phone number. Until the alert service is fully connected, these can arrive up to about 15 minutes off.</p>
+    ${textFlow.reqMsg ? `<p class="note">${esc(textFlow.reqMsg)}</p>` : ''}
+    <p>Without a key, texts are limited to 2 a day. Ask the person who runs Wash Watch for an access key:</p>
+    <label class="field">How to reach you<input id="r-contact" type="text" autocomplete="off" placeholder="Name, phone or email"></label>
+    <label class="field">Message<textarea id="r-msg" rows="3" placeholder="How many texts a day, and why"></textarea></label>
+    <button type="button" class="btn btn-primary" id="r-send">Send request</button>
+  </div>` : ''}
+  <h3 class="section">Push notification (any phone, free)</h3>
+  <div class="page">
+    ${textFlow.pushMsg ? `<p class="note">${esc(textFlow.pushMsg)}</p>` : ''}
+    <ol class="steps">
+      <li>Install the free <b>ntfy</b> app: <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a> · <a href="https://apps.apple.com/us/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a></li>
+      <li>Subscribe to your private channel: <a class="btn btn-primary" href="ntfy://ntfy.sh/${pushTopic()}">Subscribe in ntfy</a><span class="fine">Or add this topic in ntfy: <code>${pushTopic()}</code></span></li>
+      <li>Save your times and days: <button type="button" class="btn btn-primary" id="p-save" ${cfg.TEXT_API ? '' : 'disabled'}>Save schedule</button></li>
+    </ol>
+    ${cfg.TEXT_API ? '<button type="button" class="btn btn-text" id="p-stop">Stop push notifications</button>' : '<p class="fine" style="text-align:left">Push notifications start once the alert service is connected.</p>'}
+    <p class="fine" style="text-align:left">No account and no phone number. The channel name is private to this phone; don't share it.</p>
   </div>`;
 }
 
@@ -296,7 +338,7 @@ async function textApi(body) {
 function wireAlerts() {
   // Wakes the alert service (it starts its own every-minute timer on first contact).
   if (cfg.TEXT_API && !wireAlerts.pinged) { wireAlerts.pinged = true; fetch(cfg.TEXT_API).catch(() => {}); }
-  const a = { times: ['05:45'], days: 'wd', mode: 'all', ...(store.get('alerts') ?? {}) };
+  const a = { times: ['05:45'], days: 'w:1,2,3,4,5', mode: 'all', ...(store.get('alerts') ?? {}) };
   const save = () => { store.set('alerts', a); render(); };
   document.querySelectorAll('input[data-ti]').forEach((el) => el.addEventListener('change', () => {
     const t = snapTime(el.value);
@@ -305,7 +347,22 @@ function wireAlerts() {
   }));
   document.querySelectorAll('[data-rm]').forEach((b) => b.addEventListener('click', () => { a.times.splice(Number(b.dataset.rm), 1); save(); }));
   $('#add-time')?.addEventListener('click', () => { a.times.push(snapTime('16:15')); a.times = [...new Set(a.times)].sort(); save(); });
-  $('#a-days')?.addEventListener('change', (e) => { a.days = e.target.value; save(); });
+  $('#a-rep')?.addEventListener('change', (e) => { a.days = e.target.value === 'm' ? 'm:1' : 'w:1,2,3,4,5'; save(); });
+  $('#a-dsel')?.addEventListener('change', (e) => {
+    const picked = Array.from(e.target.selectedOptions, (o) => Number(o.value));
+    if (picked.length) { a.days = `${daysKind(a.days)}:${picked.join(',')}`; save(); }
+  });
+  $('#p-save')?.addEventListener('click', async () => {
+    try {
+      const r = await textApi({ action: 'push', topic: pushTopic(), times: a.times, days: a.days, mode: a.mode });
+      textFlow.pushMsg = r.ok ? `Saved: ${a.times.map(clock).join(' & ')}, ${daysSummary(a.days)}.` : (r.error || 'Something went wrong.');
+    } catch { textFlow.pushMsg = 'Couldn’t reach the alert service. Try again in a minute.'; }
+    render();
+  });
+  $('#p-stop')?.addEventListener('click', async () => {
+    try { await textApi({ action: 'pushstop', topic: pushTopic() }); textFlow.pushMsg = 'Push notifications stopped.'; } catch { textFlow.pushMsg = 'Couldn’t reach the alert service.'; }
+    render();
+  });
   $('#a-mode')?.addEventListener('change', (e) => { a.mode = e.target.value; save(); });
   const run = async (body, next) => {
     textFlow.msg = 'Working…'; render();
@@ -315,7 +372,17 @@ function wireAlerts() {
     } catch { textFlow.msg = 'Couldn’t reach the text service. Try again in a minute.'; }
     render();
   };
-  $('#t-signup')?.addEventListener('click', () => { textFlow.phone = $('#t-phone').value.trim(); run({ action: 'signup', phone: textFlow.phone, times: a.times, days: a.days, mode: a.mode }, 'confirm'); });
+  $('#t-signup')?.addEventListener('click', () => {
+    textFlow.phone = $('#t-phone').value.trim(); textFlow.key = $('#t-key')?.value.trim() ?? '';
+    run({ action: 'signup', phone: textFlow.phone, key: textFlow.key, times: a.times, days: a.days, mode: a.mode }, 'confirm');
+  });
+  $('#r-send')?.addEventListener('click', async () => {
+    try {
+      const r = await textApi({ action: 'request', contact: $('#r-contact').value, message: $('#r-msg').value });
+      textFlow.reqMsg = r.ok ? 'Sent. You’ll hear back directly.' : (r.error || 'Something went wrong.');
+    } catch { textFlow.reqMsg = 'Couldn’t reach the text service. Try again in a minute.'; }
+    render();
+  });
   $('#t-stop')?.addEventListener('click', () => { textFlow.phone = $('#t-phone').value.trim(); run({ action: 'stop', phone: textFlow.phone }, 'start').then(() => { textFlow.msg = 'If that number was signed up, its texts are stopped.'; render(); }); });
   $('#t-confirm')?.addEventListener('click', () => run({ action: 'confirm', phone: textFlow.phone, code: $('#t-code').value.trim() }, 'done'));
 }

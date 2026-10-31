@@ -26,7 +26,7 @@ export function makeGas(clock, SRC, fetchAllImpl) {
   const fmt = (d, tz, pat) => {
     const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', weekday: 'short' }).formatToParts(d).map((x) => [x.type, x.value]));
     const dow = { Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6, Sun: 7 }[p.weekday];
-    return { 'yyyy-MM-dd': `${p.year}-${p.month}-${p.day}`, 'HH:mm': `${p.hour}:${p.minute}`, H: String(Number(p.hour)), m: String(Number(p.minute)), u: String(dow) }[pat];
+    return { 'yyyy-MM-dd': `${p.year}-${p.month}-${p.day}`, 'HH:mm': `${p.hour}:${p.minute}`, H: String(Number(p.hour)), m: String(Number(p.minute)), u: String(dow), d: String(Number(p.day)) }[pat];
   };
   const RealDate = Date;
   class FakeDate extends RealDate { constructor(...a) { super(...(a.length ? a : [clock.now])); } static now() { return clock.now; } }
@@ -49,6 +49,6 @@ export function makeGas(clock, SRC, fetchAllImpl) {
   };
   const api = new Function(...Object.keys(g), `${SRC}; return { doPost, doGet, tick, sheet_, keysSheet_, CONFIG, computeVerdict_: typeof computeVerdict_ === 'function' ? computeVerdict_ : null };`)(...Object.values(g));
   const post = (body) => api.doPost({ postData: { contents: JSON.stringify(body) } });
-  return { api, post, sent, mails, props, ss };
+  return { api, post, sent, mails, props, ss, fetches };
 }
 

@@ -62,6 +62,11 @@ function doPost(e) {
   let body = {};
   try { body = JSON.parse(e.postData.contents); } catch (err) { return json_({ ok: false, error: 'bad request' }); }
   if (body.action === 'request') return json_(request_(body));
+  if (body.action === 'push' || body.action === 'pushstop') {
+    const lock = LockService.getScriptLock();
+    lock.waitLock(20000);
+    try { return json_(body.action === 'push' ? push_(body) : pushStop_(body)); } finally { lock.releaseLock(); }
+  }
   const phone = String(body.phone || '').replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '');
   if (!/^\d{10}$/.test(phone)) return json_({ ok: false, error: 'Enter a 10-digit US number.' });
   const lock = LockService.getScriptLock();
@@ -85,7 +90,7 @@ function signup_(phone, b) {
   if (times.length > limit) {
     return { ok: false, error: `Texts are limited to ${limit} a day${key ? ' for this key' : ' without an access key'}. Pick ${limit} time${limit > 1 ? 's' : ''}, or ask for more below.` };
   }
-  const days = b.days === 'all' ? 'all' : 'wd';
+  const days = validDays_(b.days);
   const mode = b.mode === 'off' ? 'off' : 'all';
   const sh = sheet_();
   const row = findRow_(sh, phone);
@@ -139,7 +144,7 @@ function confirm_(phone, code) {
   if (!row || String(sh.getRange(row, C.code).getValue()) !== code) return { ok: false, error: 'That code doesn\'t match.' };
   sh.getRange(row, C.verified).setValue(true);
   const times = String(sh.getRange(row, C.times).getValue()).split(',').map(label_).join(' & ');
-  const days = sh.getRange(row, C.days).getValue() === 'all' ? 'every day' : 'weekdays';
+  const days = daysLabel_(String(sh.getRange(row, C.days).getValue()));
   text_(phone, `Wash Watch texts are on: ${times}, ${days}. To stop, use Stop texts in the app's Alerts screen.`);
   return { ok: true, step: 'done' };
 }
@@ -174,6 +179,8 @@ function tick() {
       hhmm: Utilities.formatDate(d, CONFIG.TZ, 'HH:mm'),
       day: Utilities.formatDate(d, CONFIG.TZ, 'yyyy-MM-dd'),
       weekday: Number(Utilities.formatDate(d, CONFIG.TZ, 'u')) <= 5,
+      dow: Number(Utilities.formatDate(d, CONFIG.TZ, 'u')),
+      dom: Number(Utilities.formatDate(d, CONFIG.TZ, 'd')),
     });
   }
 
@@ -181,15 +188,17 @@ function tick() {
   const fresh = v && Date.now() - Date.parse(v.at) < 45 * 60 * 1000;
   const msg = fresh ? v.sms : 'Wash Watch couldn\'t get fresh data just now. Check the app before you go.';
 
-  // Free phone notifications (ntfy): one post per topic variant for each minute.
-  for (const m of minutes) {
-    const topic = `${CONFIG.NTFY}-${m.hhmm.replace(':', '')}`;
-    const variants = m.weekday ? ['all', 'wd'] : ['all'];
-    for (const days of variants) {
-      ntfy_(`${topic}-${days}-all`, v, msg);
-      if (!fresh || v.off) ntfy_(`${topic}-${days}-off`, v, msg);
+  // Push notifications (ntfy): each phone has its own private topic and schedule.
+  const ps = pushSheet_();
+  ps.getDataRange().getValues().slice(1).forEach((r, i) => {
+    const [topic, times, days, mode, lastSent] = r;
+    for (const m of minutes) {
+      const key = `${m.day} ${m.hhmm}`;
+      if (lastSent === key || !String(times).split(',').includes(m.hhmm) || !dueOn_(String(days), m)) continue;
+      ps.getRange(i + 2, 5).setValue(key);
+      if (!(mode === 'off' && fresh && !v.off)) ntfy_(String(topic), v, msg);
     }
-  }
+  });
 
   // Texts, within each person's daily limit and the overall daily budget.
   const sh = sheet_();
@@ -201,7 +210,7 @@ function tick() {
     for (const m of minutes) {
       const key = `${m.day} ${m.hhmm}`;
       if (r[C.lastSent - 1] === key || !String(r[C.times - 1]).split(',').includes(m.hhmm)) continue;
-      if (r[C.days - 1] === 'wd' && !m.weekday) continue;
+      if (!dueOn_(String(r[C.days - 1]), m)) continue;
       sh.getRange(i + 2, C.lastSent).setValue(key);
       r[C.lastSent - 1] = key;
       if (r[C.mode - 1] === 'off' && fresh && !v.off) continue;
@@ -377,6 +386,67 @@ function ensureTrigger_() {
     ScriptApp.newTrigger('tick').timeBased().everyMinutes(1).create();
   }
 }
+// Days are "w:1,2,3,4,5" (ISO weekdays, 1 = Monday) or "m:1,15" (days of the month).
+// Older values "wd" and "all" still work.
+function validDays_(d) {
+  const m = /^([wm]):([\d,]+)$/.exec(String(d || ''));
+  if (!m) return d === 'all' ? 'w:1,2,3,4,5,6,7' : 'w:1,2,3,4,5';
+  const max = m[1] === 'w' ? 7 : 31;
+  const list = [...new Set(m[2].split(',').map(Number))].filter((n) => n >= 1 && n <= max).sort((a, b) => a - b);
+  return list.length ? `${m[1]}:${list.join(',')}` : 'w:1,2,3,4,5';
+}
+function dueOn_(days, m) {
+  if (days === 'all') return true;
+  if (days === 'wd' || !days) return m.weekday;
+  const [kind, list] = days.split(':');
+  const nums = String(list || '').split(',').map(Number);
+  return kind === 'm' ? nums.includes(m.dom) : nums.includes(m.dow);
+}
+function daysLabel_(days) {
+  const d = validDays_(days);
+  const [kind, list] = d.split(':');
+  const nums = list.split(',').map(Number);
+  const ord = (n) => n + (n % 10 === 1 && n !== 11 ? 'st' : n % 10 === 2 && n !== 12 ? 'nd' : n % 10 === 3 && n !== 13 ? 'rd' : 'th');
+  if (kind === 'm') return 'on the ' + nums.map(ord).join(', ') + ' of each month';
+  const names = ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  if (nums.join() === '1,2,3,4,5') return 'weekdays';
+  if (nums.length === 7) return 'every day';
+  return nums.map((n) => names[n]).join(', ');
+}
+
+// ---------- push notifications (ntfy) ----------
+function pushSheet_() {
+  const ss = sheet_().getParent();
+  let p = ss.getSheetByName('push');
+  if (!p) { p = ss.insertSheet('push'); p.appendRow(['topic', 'times', 'days', 'mode', 'last_sent', 'created']); }
+  return p;
+}
+function push_(b) {
+  const topic = String(b.topic || '');
+  if (!/^washwatch-[a-z0-9]{8,32}$/.test(topic)) return { ok: false, error: 'bad topic' };
+  const times = [...new Set((b.times || []).map(String))].filter(validTime_).slice(0, CONFIG.MAX_TIMES);
+  if (!times.length) return { ok: false, error: 'Pick at least one time.' };
+  const values = [topic, times.join(','), validDays_(b.days), b.mode === 'off' ? 'off' : 'all'];
+  const ps = pushSheet_();
+  const rows = ps.getDataRange().getValues();
+  const i = rows.findIndex((r, k) => k > 0 && r[0] === topic);
+  if (i > 0) ps.getRange(i + 1, 1, 1, 4).setValues([values]);
+  else {
+    const today = today_();
+    const added = rows.slice(1).filter((r) => r[5] instanceof Date && Utilities.formatDate(r[5], CONFIG.TZ, 'yyyy-MM-dd') === today).length;
+    if (added >= 300) return { ok: false, error: 'Too many new sign-ups today. Try tomorrow.' };
+    ps.appendRow([...values, '', new Date()]);
+  }
+  return { ok: true, step: 'saved', days: daysLabel_(values[2]) };
+}
+function pushStop_(b) {
+  const ps = pushSheet_();
+  const rows = ps.getDataRange().getValues();
+  const i = rows.findIndex((r, k) => k > 0 && r[0] === String(b.topic || ''));
+  if (i > 0) ps.deleteRow(i + 1);
+  return { ok: true, step: 'stopped' };
+}
+
 function validTime_(t) {
   const m = /^(\d{2}):(\d{2})$/.exec(t);
   return !!m && Number(m[1]) < 24 && Number(m[2]) < 60;

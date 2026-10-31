@@ -107,3 +107,35 @@ test('stale data still sends, saying so, so nobody is left guessing', () => {
   t.clock.now = AZ('2026-11-02T06:00:30'); t.api.tick(); // verdict is from 5:00, an hour old
   assert.match(t.sent.at(-1).body, /couldn't get fresh data/);
 });
+
+test('days of the week and days of the month', () => {
+  const t = setup();
+  t.post({ action: 'signup', phone: '5205550177', times: ['07:00'], days: 'w:2,4' }); // Tue, Thu
+  t.post({ action: 'confirm', phone: '5205550177', code: codeFrom(t.sent) });
+  assert.match(t.sent.at(-1).body, /Tue, Thu/);
+  const before = t.sent.length;
+  t.clock.verdict.at = new Date(AZ('2026-11-02T06:59:00')).toISOString();
+  t.clock.now = AZ('2026-11-02T07:00:20'); t.api.tick(); // Monday: no
+  assert.equal(t.sent.length, before);
+  t.clock.verdict.at = new Date(AZ('2026-11-03T06:59:00')).toISOString();
+  t.clock.now = AZ('2026-11-03T07:00:20'); t.api.tick(); // Tuesday: yes
+  assert.equal(t.sent.length, before + 1);
+  const m = setup();
+  m.post({ action: 'signup', phone: '5205550188', times: ['07:00'], days: 'm:3,15' });
+  m.post({ action: 'confirm', phone: '5205550188', code: codeFrom(m.sent) });
+  assert.match(m.sent.at(-1).body, /3rd, 15th of each month/);
+});
+
+test('private push topic gets its own schedule', () => {
+  const t = setup();
+  assert.equal(t.post({ action: 'push', topic: 'washwatch-abc12345xy', times: ['06:30'], days: 'w:1' }).ok, true);
+  assert.equal(t.post({ action: 'push', topic: 'not-ours', times: ['06:30'] }).ok, false);
+  t.clock.verdict.at = new Date(AZ('2026-11-02T06:29:00')).toISOString();
+  t.clock.now = AZ('2026-11-02T06:30:10'); t.api.tick(); // Monday 6:30
+  t.api.tick();
+  const pushes = t.fetches.filter((f) => f.url.includes('ntfy.sh/washwatch-abc12345xy'));
+  assert.equal(pushes.length, 1, 'exactly one push, no duplicates');
+  t.post({ action: 'pushstop', topic: 'washwatch-abc12345xy' });
+  t.clock.now = AZ('2026-11-09T06:30:10'); t.api.tick();
+  assert.equal(t.fetches.filter((f) => f.url.includes('washwatch-abc12345xy')).length, 1, 'stopped');
+});
