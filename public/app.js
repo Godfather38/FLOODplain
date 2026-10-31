@@ -5,11 +5,16 @@ import {
 } from './logic.js';
 
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY } = cfg;
-const COLOR = { 1: '#3f8f4a', 2: '#5b8fd0', 3: '#e0a030', 4: '#e06a2c', 5: '#c8372d', null: '#9a9890' };
-const LEVEL_WORD = { ok: 'nothing pointing at water', watch: 'some water around', caution: 'water likely near the road', danger: 'closed or flooding', unknown: 'missing data' };
+const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
+const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62828' };
+const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
+const SRC = {
+  county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
+  wash: ['〰️', 'Wash flow'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
+};
 const KIND_ICON = { dip: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
-const SRC = { county: 'County barricade', nws: 'Weather service', river: 'River flow', 'river-early': 'Creeks upstream', wash: 'Wash flow', 'rain-local': 'Rain right here', 'rain-basin': 'Rain upstream', 'rain-road': 'Rain' };
 const REFRESH_MS = 5 * 60 * 1000;
+const NAV_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4.5 20.3l.7.7L12 18l6.8 3 .7-.7z"/></svg>';
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -17,31 +22,8 @@ const store = {
   get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode */ } },
 };
-const pips = (n) => `<span class="pips" data-n="${n ?? '?'}" role="img" aria-label="Risk factor ${n ?? 'unknown'} of 5"><i></i><i></i><i></i><i></i><i></i></span><span class="score">${n ?? '?'}/5</span>`;
-
-// ---------------- map ----------------
-const map = L.map('map', { zoomSnap: 0.25, zoomControl: false }).setView([32.42, -111.22], 12);
-L.control.zoom({ position: 'bottomright' }).addTo(map);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
-const baseLayer = L.layerGroup().addTo(map); // routes, neutral
-const stretchLayer = L.layerGroup().addTo(map); // colored stretches + numbered dots
-const scopeLayer = L.layerGroup().addTo(map); // whatever evidence is open
-const routeLines = {};
-let allBounds;
-
-// Pieces of a route line within `m` metres of a point: the "stretch" around a failure point.
-function stretchAround(coords, lat, lon, m = 450) {
-  const near = ([x, y]) => Math.hypot((x - lon) * 94_000, (y - lat) * 111_000) <= m;
-  const runs = [];
-  let cur = [];
-  for (const c of coords) {
-    if (near(c)) cur.push([c[1], c[0]]);
-    else if (cur.length) { runs.push(cur); cur = []; }
-  }
-  if (cur.length) runs.push(cur);
-  return runs.filter((r) => r.length > 1);
-}
-const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
+const badge = (n, lg) => `<span class="badge ${lg ? 'lg' : ''} ${n ? `s${n}` : 'sq'}" role="img" aria-label="Risk factor ${n ?? 'unknown'} of 5">${n ?? '?'}</span>`;
+const badgeWithWord = (n) => `<span class="badge-wrap">${badge(n, true)}<span class="badge-word">${n ? WORD[n] : 'No data'}</span></span>`;
 
 // ---------------- data ----------------
 async function getJson(url, opts) {
@@ -86,243 +68,295 @@ async function gather() {
 // ---------------- state ----------------
 let routeFeatures = [];
 let data = null;
-let view = null; // computed per check
-const ui = { openRoute: null, openStretch: null, openEv: null }; // what the user has opened
+let view = null;
+let openSource = null; // index of the source row expanded on the stretch screen
 
 function compute(d) {
   const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
   const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
-  const rec = recommend(rated);
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
-  return { fpResults, rated, rec, nwsQuiet };
+  return { fpResults, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
 }
 
-// ---------------- panel ----------------
-function angelText(r, nwsQuiet) {
-  const good = goodSigns(r, nwsQuiet);
-  if (r.level === 'unknown' && !good.length) return 'I can’t vouch for this one: too much data is missing.';
-  if (!good.length) return 'Honestly, not much going for it right now.';
+// Screens are addressed by the URL hash so the phone's back button works:
+//   #/               home
+//   #/r/<route>      one route
+//   #/r/<route>/<fp> one stretch on that route
+//   #/how  #/settings  #/sources
+function where() {
+  const p = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  if (p[0] === 'r' && view?.byId[p[1]]) return { screen: p[2] ? 'stretch' : 'route', route: p[1], fp: p[2] };
+  if (['how', 'settings', 'sources'].includes(p[0])) return { screen: p[0] };
+  return { screen: 'home' };
+}
+
+// ---------------- words ----------------
+function angelText(r) {
+  const good = goodSigns(r, view.nwsQuiet);
+  if (r.level === 'unknown' && !good.length) return 'I can’t vouch for this one. Too much data is missing.';
+  if (!good.length) return 'Not much going for it right now.';
   const list = good.length > 1 ? `${good.slice(0, -1).join(', ')} and ${good.at(-1)}` : good[0];
   return `${cap(list)}.`;
 }
+const topIssue = (r) => {
+  const a = againstIt(r)[0];
+  return a ? `${a.short}: ${a.why}` : 'Nothing working against it';
+};
+const minutes = (r) => `${Math.round(r.minutes)} min`;
+const navBtn = (r, cls = 'btn btn-primary') => `<a class="${cls}" href="${esc(googleMapsUrl(NAV[r.id], store.get('dest')))}" target="_blank" rel="noopener">${NAV_ICON}Navigate</a>`;
 
-function evidenceHtml(fpRes, r) {
-  return fpRes.checks.map((c, i) => `
-    <details class="ev" data-route="${r.id}" data-fp="${fpRes.id}" data-ev="${i}">
-      <summary><span class="dot ${c.level}"></span><span class="src">${SRC[c.src] ?? c.src}</span><span class="s">${esc(shortWhy(c))}</span><span class="chev">›</span></summary>
-      <div class="detail"><p>${esc(c.why)}</p>${c.detail ? `<p>${esc(c.detail)}</p>` : ''}<p class="fine">${scopeNote(c.src)}</p></div>
-    </details>`).join('');
-}
-const shortWhy = (c) => (c.why.length > 46 ? `${c.why.slice(0, 44).replace(/[ ,:;]+\S*$/, '')}…` : c.why);
-const scopeNote = (src) => ({
-  county: 'Map: the county’s barricade point(s) at this spot.',
-  'rain-local': 'Map: the rain gauges nearest this spot, with inches in the last 6 hours.',
-  'rain-basin': 'Map: rain gauges across the watershed that drains here.',
-  'rain-road': 'Map: the rain gauges nearest this road.',
-  river: 'Map: the river gauges used for this bridge.',
-  'river-early': 'Map: creeks that feed the Santa Cruz upstream.',
-  wash: 'Map: the wash flow sensors upstream.',
-  nws: 'Covers all of Avra Valley.',
-}[src] ?? '');
-
-function routeCard(r, { hero, nwsQuiet, dest }) {
-  const info = ROUTE_INFO[r.id];
-  const against = againstIt(r);
-  const open = hero ? ui.openRoute !== `-${r.id}` : ui.openRoute === r.id;
-  const teaser = against.length ? `${esc(against[0].short)}: ${esc(LEVEL_WORD[against[0].level])}` : 'Nothing working against it';
+// ---------------- screens ----------------
+function homeScreen() {
+  const { rec } = view;
+  const best = rec.best;
+  const info = ROUTE_INFO[best.id];
+  const against = againstIt(best).slice(0, 2);
+  const others = rec.order.filter((r) => r.id !== best.id);
+  const overline = best.score == null ? 'Can’t tell right now' : best.score <= 2 ? 'Best route this morning' : 'Least going against it';
   return `
-  <article class="card ${hero ? 'hero' : ''} ${open ? 'open' : ''}" data-route="${r.id}">
-    <button class="plain card-head" data-toggle="${r.id}" aria-expanded="${open}">
-      ${hero ? `<div class="pick">${r.score != null && r.score <= 2 ? 'Suggested this morning' : 'Lowest risk right now'}</div>` : ''}
-      <div class="top"><span class="name">${esc(info.name)}</span>${pips(r.score)}</div>
-      <div class="via">${esc(info.via)} · <span class="time">~${Math.round(r.minutes)} min</span></div>
-      <div class="teaser">${teaser}</div>
-    </button>
-    <div class="card-body">
-      <div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(r, nwsQuiet))}</p></div>
-      ${against.length ? `<ul class="against">${against.slice(0, 3).map((a) => `<li><span class="dot ${a.level}"></span><span><b>${esc(a.short)}:</b> ${esc(a.why)}</span></li>`).join('')}</ul>` : ''}
-      ${stretchList(r)}
-      <a class="gmaps ${hero ? '' : 'secondary'}" href="${googleMapsUrl(NAV[r.id], dest)}" target="_blank" rel="noopener">Drive this in Google Maps</a>
+    <article class="hero">
+      <p class="overline">${overline}</p>
+      <div class="hero-top"><h2>${esc(info.name)}</h2>${badgeWithWord(best.score)}</div>
+      <p class="meta">${minutes(best)} · ${esc(info.via)}</p>
+      <div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(best))}</p></div>
+      ${against.length ? `<ul class="against">${against.map((a) => `<li><span class="dot ${a.level}"></span><span>${esc(a.short)}: ${esc(a.why)}</span></li>`).join('')}</ul>` : ''}
+      <div class="actions">${navBtn(best)}<a class="btn btn-text" href="#/r/${best.id}">Details</a></div>
+    </article>
+    <h3 class="section">Other routes</h3>
+    <div class="list">
+      ${others.map((r) => `
+        <a class="row" href="#/r/${r.id}">
+          ${badge(r.score)}
+          <span class="text"><div class="t">${esc(ROUTE_INFO[r.id].name)}</div><div class="st">${minutes(r)} · ${esc(topIssue(r))}</div></span>
+          <span class="chev">›</span>
+        </a>`).join('')}
     </div>
-  </article>`;
+    <h3 class="section">More</h3>
+    <div class="list">
+      <a class="row small" href="#/how"><span class="lead-icon">❓</span><span class="text"><div class="t">How to read this</div></span><span class="chev">›</span></a>
+      <a class="row small" href="#/settings"><span class="lead-icon">⚙️</span><span class="text"><div class="t">Settings</div></span><span class="chev">›</span></a>
+      <a class="row small" href="#/sources"><span class="lead-icon">ℹ️</span><span class="text"><div class="t">Sources</div></span><span class="chev">›</span></a>
+    </div>
+    <p class="fine">A guide built from public data, not a safety guarantee. Water over the road: turn around.</p>`;
 }
 
-function stretchHtml(r, p) {
-  const fp = FAILURE_POINTS.find((f) => f.id === p.id);
-  return `
-    <details class="stretch" data-route="${r.id}" data-fp="${p.id}" ${ui.openStretch === `${r.id}|${p.id}` ? 'open' : ''}>
-      <summary><span class="k" aria-hidden="true">${KIND_ICON[p.kind]}</span><span class="n">${esc(p.short)}</span>${pips(riskScore(p))}<span class="chev">›</span></summary>
-      <div class="stretch-body">
-        <p class="lead">${cap(LEVEL_WORD[p.level])}: ${esc(p.why)}.</p>
-        <p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p>
-        ${evidenceHtml(p, r)}
-      </div>
-    </details>`;
-}
-
-// Only stretches with something going on are listed; normal ones fold into one line.
-function stretchList(r) {
+function routeScreen(rid) {
+  const r = view.byId[rid];
+  const info = ROUTE_INFO[rid];
   const flagged = r.points.filter((p) => riskScore(p) !== 1);
   const normal = r.points.filter((p) => riskScore(p) === 1);
-  const normalOpen = normal.some((p) => ui.openStretch === `${r.id}|${p.id}`);
+  const row = (p) => `
+    <a class="row" href="#/r/${rid}/${p.id}">
+      ${badge(riskScore(p))}
+      <span class="text"><div class="t">${esc(p.short)}</div><div class="st">${esc(p.why)}</div></span>
+      <span class="chev">›</span>
+    </a>`;
   return `
-    ${flagged.length ? `<div class="stretches-h">Worth a look</div>${flagged.map((p) => stretchHtml(r, p)).join('')}` : ''}
-    ${normal.length ? `
-      <details class="normals" ${normalOpen ? 'open' : ''}>
-        <summary>${flagged.length ? `${normal.length} more` : `All ${normal.length}`} ${normal.length > 1 ? 'stretches look' : 'stretch looks'} normal <span class="chev">›</span></summary>
-        ${normal.map((p) => stretchHtml(r, p)).join('')}
-      </details>` : ''}`;
+    <article class="hero">
+      <div class="hero-top"><div style="flex:1"><p class="meta" style="margin:0">${minutes(r)} · ${esc(info.via)}</p></div>${badgeWithWord(r.score)}</div>
+      <div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(r))}</p></div>
+    </article>
+    ${flagged.length ? `<h3 class="section">Working against it</h3><div class="list">${flagged.map(row).join('')}</div>` : ''}
+    ${normal.length ? `<h3 class="section">${flagged.length ? 'Looks normal' : 'Every stretch looks normal'}</h3><div class="list">${normal.map(row).join('')}</div>` : ''}
+    <div class="bottom-bar">${navBtn(r)}</div>`;
 }
 
-function renderPanel() {
-  const { rated, rec, nwsQuiet } = view;
-  const dest = store.get('dest');
-  const others = rec.order.filter((r) => r.id !== rec.best.id);
-  $('#hero').innerHTML = routeCard(rec.best, { hero: true, nwsQuiet, dest });
-  $('#others').innerHTML = others.map((r) => routeCard(r, { hero: false, nwsQuiet, dest })).join('');
-  void rated;
-
-  document.querySelectorAll('[data-toggle]').forEach((b) => b.addEventListener('click', () => {
-    const id = b.dataset.toggle;
-    const isHero = id === rec.best.id;
-    const isOpen = b.closest('.card').classList.contains('open');
-    ui.openRoute = isOpen ? (isHero ? `-${id}` : null) : id;
-    ui.openStretch = null; ui.openEv = null;
-    renderPanel(); renderScope();
-  }));
-  document.querySelectorAll('details.stretch').forEach((d) => d.addEventListener('toggle', () => {
-    const key = `${d.dataset.route}|${d.dataset.fp}`;
-    if (d.open) {
-      document.querySelectorAll('details.stretch[open]').forEach((o) => { if (o !== d) o.open = false; });
-      ui.openStretch = key; ui.openEv = null;
-    } else if (ui.openStretch === key) { ui.openStretch = null; ui.openEv = null; }
-    renderScope();
-  }));
-  document.querySelectorAll('details.ev').forEach((d) => d.addEventListener('toggle', () => {
-    if (d.open) {
-      d.parentElement.querySelectorAll('details.ev[open]').forEach((o) => { if (o !== d) o.open = false; });
-      ui.openEv = { fp: d.dataset.fp, i: Number(d.dataset.ev) };
-    } else if (ui.openEv?.fp === d.dataset.fp && ui.openEv.i === Number(d.dataset.ev)) ui.openEv = null;
-    renderScope();
-  }));
+function stretchScreen(rid, fpId) {
+  const p = view.fpResults[fpId];
+  const fp = FAILURE_POINTS.find((f) => f.id === fpId);
+  const s = riskScore(p);
+  return `
+    <div class="summary">${badgeWithWord(s)}<div><p>${esc(LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
+    <h3 class="section">What each source says</h3>
+    <div class="list">
+      ${p.checks.map((c, i) => {
+        const [icon, label] = SRC[c.src] ?? ['•', c.src];
+        return `
+        <details class="src" data-i="${i}" ${openSource === i ? 'open' : ''}>
+          <summary class="row"><span class="lead-icon">${icon}</span>
+            <span class="text"><div class="t">${label}</div><div class="st"><span class="dot ${c.level}" style="display:inline-block;margin-right:6px"></span>${esc(c.why)}</div></span>
+            <span class="chev">›</span></summary>
+          <div class="more"><p>${esc(c.why)}</p>${c.detail ? `<p>${esc(c.detail)}</p>` : ''}</div>
+        </details>`;
+      }).join('')}
+    </div>
+    <div class="bottom-bar">${navBtn(view.byId[rid])}</div>`;
 }
 
-// ---------------- map rendering ----------------
-function renderBase() {
-  const { fpResults, rec } = view;
-  baseLayer.clearLayers();
-  stretchLayer.clearLayers();
-  const focus = activeRouteId();
-  for (const f of routeFeatures) {
-    const id = f.properties.id;
-    const isFocus = id === focus;
-    routeLines[id] = L.geoJSON(f, { style: { color: isFocus ? '#2b2b2b' : '#8d8b84', weight: isFocus ? 6 : 3.5, opacity: isFocus ? 0.85 : 0.45 } })
-      .bindTooltip(ROUTE_INFO[id].name).addTo(baseLayer);
+function howScreen() {
+  return `<div class="page">
+    <h4>The number</h4>
+    <ul class="legend">
+      ${[1, 2, 3, 4, 5].map((n) => `<li>${badge(n)}<span><b>${WORD[n]}.</b> ${['Nothing in the data points to water.', 'Some water around; usually passable. Look as you go.', 'Water likely at or near the road.', 'Several signs agree water is at the road.', 'The county closed it, or a flood is running.'][n - 1]}</span></li>`).join('')}
+      <li>${badge(null)}<span><b>No data.</b> Not the same as fine.</span></li>
+    </ul>
+    <h4>Using it</h4>
+    <p>The top card is the route with the least going against it. Tap <b>Navigate</b> to drive it in Google Maps. Tap <b>Details</b> or any route to see its stretches, then any stretch to see what each source says. The map follows along.</p>
+    <p>A route's number is its worst stretch. The map only marks stretches that aren't normal.</p>
+    <h4>Limits</h4>
+    <p>Built from public, provisional data that can be late or wrong. What you see at the crossing comes first.</p>
+  </div>`;
+}
+function settingsScreen() {
+  return `<div class="page">
+    <label class="field">Where you're driving to (used by Navigate)
+      <input id="dest" type="text" autocomplete="off" placeholder="Work address, or blank to stop at I-10" value="${esc(store.get('dest') ?? '')}">
+    </label>
+    <label class="field">USGS key (optional; free at api.waterdata.usgs.gov/signup)
+      <input id="apikey" type="password" autocomplete="off" placeholder="Paste key" value="${esc(store.get('apiKey') ?? '')}">
+    </label>
+    <p class="fine" style="text-align:left;margin:0">Saved only on this phone.</p>
+  </div>`;
+}
+function sourcesScreen() {
+  return `<div class="list">${LINKS.map(([t, u]) => `<a class="row small" href="${u}" target="_blank" rel="noopener"><span class="text"><div class="t">${esc(t)}</div></span><span class="chev">↗</span></a>`).join('')}</div>
+    <p class="fine">River gauges: USGS. Rain and stream sensors: Pima County Regional Flood Control District. Barricades: Pima County DOT. Alerts: National Weather Service. Roads © OpenStreetMap contributors. All provisional.</p>`;
+}
+
+// ---------------- render ----------------
+function render() {
+  if (!view) return;
+  const w = where();
+  const sub = w.screen !== 'home';
+  $('.appbar').classList.toggle('sub', sub);
+  $('#back').hidden = !sub;
+  $('#refresh').hidden = sub && !['route', 'stretch'].includes(w.screen);
+  const titles = {
+    home: ['Morning check', subtitle()],
+    route: [ROUTE_INFO[w.route]?.name, 'Route'],
+    stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
+    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''],
+  }[w.screen];
+  $('#title').textContent = titles[0] ?? '';
+  $('#subtitle').textContent = titles[1] ?? '';
+  $('#map').hidden = ['how', 'settings', 'sources'].includes(w.screen);
+  $('#screen').innerHTML = {
+    home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
+    how: howScreen, settings: settingsScreen, sources: sourcesScreen,
+  }[w.screen]();
+  wire(w);
+  drawMap(w);
+}
+function subtitle() {
+  const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  return `Avra Valley → I-10 · ${t(data.now)}${data.errors.length ? ` · no ${data.errors.join(', ')}` : ''}`;
+}
+function wire(w) {
+  document.querySelectorAll('details.src').forEach((d) => d.addEventListener('toggle', () => {
+    const i = Number(d.dataset.i);
+    if (d.open) {
+      document.querySelectorAll('details.src[open]').forEach((o) => { if (o !== d) o.open = false; });
+      openSource = i;
+    } else if (openSource === i) openSource = null;
+    drawMap(where());
+  }));
+  for (const [id, key] of [['#apikey', 'apiKey'], ['#dest', 'dest']]) {
+    const el = $(id);
+    if (el) el.addEventListener('change', (e) => { store.set(key, e.target.value.trim() || null); if (key === 'apiKey') check(); });
   }
-  // Colored stretches + numbered dots, only where something is off (or the stretch you opened).
-  const coordsOf = (id) => lineCoords(routeFeatures.find((f) => f.properties.id === id).geometry);
-  for (const fp of FAILURE_POINTS) {
-    const res = fpResults[fp.id];
-    const s = riskScore(res);
-    const sel = ui.openStretch?.endsWith(`|${fp.id}`);
-    if (s === 1 && !sel) continue; // normal: no dot, no color
+  void w;
+}
+
+// ---------------- map ----------------
+const map = L.map('map', { zoomSnap: 0.25, zoomControl: false, attributionControl: true });
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
+map.attributionControl.setPrefix(false);
+const layer = L.layerGroup().addTo(map);
+let allBounds;
+const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
+function stretchAround(coords, lat, lon, m) {
+  const runs = [];
+  let cur = [];
+  for (const [x, y] of coords) {
+    if (Math.hypot((x - lon) * 94_000, (y - lat) * 111_000) <= m) cur.push([y, x]);
+    else if (cur.length) { runs.push(cur); cur = []; }
+  }
+  if (cur.length) runs.push(cur);
+  return runs.filter((r) => r.length > 1);
+}
+function drawMap(w) {
+  if ($('#map').hidden) return;
+  map.invalidateSize();
+  layer.clearLayers();
+  const focus = w.route ?? view.rec.best.id;
+  for (const f of routeFeatures) {
+    const on = f.properties.id === focus;
+    L.geoJSON(f, { style: { color: on ? '#3c3b38' : '#9b9a94', weight: on ? 6 : 3, opacity: on ? 0.9 : 0.5 }, interactive: false }).addTo(layer);
+  }
+  // Pins only where something is off, plus the stretch being viewed.
+  const visible = FAILURE_POINTS.filter((fp) => {
+    const s = riskScore(view.fpResults[fp.id]);
+    const onRoute = w.screen === 'home' || fp.routes.includes(focus);
+    return (onRoute && s !== 1) || fp.id === w.fp;
+  });
+  for (const fp of visible) {
+    const s = riskScore(view.fpResults[fp.id]);
     for (const rid of fp.routes) {
-      for (const line of coordsOf(rid)) {
+      for (const line of lineCoords(routeFeatures.find((f) => f.properties.id === rid).geometry)) {
         for (const run of stretchAround(line, fp.lat, fp.lon, fp.kind === 'road' ? 2500 : 450)) {
-          L.polyline(run, { color: COLOR[s], weight: rid === focus ? 9 : 6, opacity: 0.9, lineCap: 'round' }).addTo(stretchLayer);
+          L.polyline(run, { color: COLOR[s] ?? '#8e8d88', weight: rid === focus ? 9 : 5, opacity: 0.95, lineCap: 'round', interactive: false }).addTo(layer);
         }
       }
     }
-    L.marker([fp.lat, fp.lon], { icon: L.divIcon({ className: '', html: `<div class="fp-icon ${s ? `s${s}` : 'sq'} ${sel ? 'sel' : ''}">${s ?? '?'}</div>`, iconSize: [22, 22], iconAnchor: [11, 11] }), zIndexOffset: sel ? 1000 : 0 })
-      .bindTooltip(`${fp.short}: ${s ?? '?'}/5`)
-      .on('click', () => openStretchFromMap(fp.id))
-      .addTo(stretchLayer);
+    const rid = fp.routes.includes(focus) ? focus : fp.routes[0];
+    L.marker([fp.lat, fp.lon], { icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${s}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
+      .on('click', () => { location.hash = `#/r/${rid}/${fp.id}`; })
+      .addTo(layer);
   }
-  void rec;
-}
-const activeRouteId = () => {
-  if (ui.openStretch) return ui.openStretch.split('|')[0];
-  if (ui.openRoute && !ui.openRoute.startsWith('-')) return ui.openRoute;
-  return view.rec.best.id;
-};
-
-function openStretchFromMap(fpId) {
-  const fp = FAILURE_POINTS.find((f) => f.id === fpId);
-  const rid = fp.routes.includes(activeRouteId()) ? activeRouteId() : fp.routes[0];
-  if (rid !== view.rec.best.id) ui.openRoute = rid;
-  ui.openStretch = `${rid}|${fpId}`; ui.openEv = null;
-  renderPanel(); renderScope();
-  document.querySelector(`details.stretch[data-route="${rid}"][data-fp="${fpId}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-// Fit the map to whatever is open: route -> whole route, stretch -> that spot, evidence -> its sensors.
-function renderScope() {
-  renderBase();
-  scopeLayer.clearLayers();
-  const pad = { padding: [28, 28], maxZoom: 15, animate: false };
-  if (!ui.openStretch) {
-    const rid = activeRouteId();
-    const b = ui.openRoute && !ui.openRoute.startsWith('-') ? routeLines[rid].getBounds() : allBounds;
-    map.fitBounds(b, pad);
-    return;
-  }
-  const fpId = ui.openStretch.split('|')[1];
-  const fp = FAILURE_POINTS.find((f) => f.id === fpId);
-  const res = view.fpResults[fpId];
-  const pts = [[fp.lat, fp.lon]];
-  if (ui.openEv && ui.openEv.fp === fpId) {
-    const c = res.checks[ui.openEv.i];
-    for (const s of scopePoints(fp, res, c)) {
-      pts.push([s.lat, s.lon]);
-      L.marker([s.lat, s.lon], { icon: L.divIcon({ className: 'scope-pin', html: `<span class="scope-label">${esc(s.label)}</span>`, iconSize: [0, 0] }) }).addTo(scopeLayer);
+  // Fit to what's on screen: everything, a route, a stretch, or a source's own gauges.
+  const opts = { padding: [24, 24], animate: false };
+  if (w.screen === 'stretch') {
+    const fp = FAILURE_POINTS.find((f) => f.id === w.fp);
+    const pts = [[fp.lat, fp.lon]];
+    if (openSource != null) {
+      for (const g of gaugesFor(fp, view.fpResults[fp.id].checks[openSource])) {
+        pts.push([g.lat, g.lon]);
+        L.marker([g.lat, g.lon], { icon: L.divIcon({ className: 'gauge-pin', html: `<span class="gauge">${esc(g.label)}</span>`, iconSize: [0, 0] }), interactive: false }).addTo(layer);
+      }
     }
+    if (pts.length > 1) map.fitBounds(pts, { padding: [40, 40], maxZoom: 14, animate: false });
+    else map.setView(pts[0], 15, { animate: false });
+  } else if (w.screen === 'route') {
+    map.fitBounds(L.geoJSON(routeFeatures.find((f) => f.properties.id === w.route)).getBounds(), opts);
+  } else {
+    map.fitBounds(allBounds, opts);
   }
-  if (pts.length === 1) map.setView(pts[0], 15, { animate: false });
-  else map.fitBounds(pts, { paddingTopLeft: [24, 24], paddingBottomRight: [24, 34], maxZoom: 14, animate: false }); // room for labels
 }
-
-function scopePoints(fp, res, c) {
-  const rainIds = { 'rain-local': fp.rain?.local, 'rain-basin': fp.rain?.basin, 'rain-road': fp.rain?.road }[c.src];
-  if (rainIds) {
-    return (data.alert?.rain ?? []).filter((g) => rainIds.includes(g.site)).map((g) => ({ lat: g.lat, lon: g.lon, label: `☂ ${g.in?.h6 == null ? '–' : g.in.h6.toFixed(2)}" · ${cfg.RAIN_GAUGES[g.site] ?? g.name}` }));
-  }
-  const usgs = (ids) => ids.map((id) => ({ lat: USGS_SITES[id].lat, lon: USGS_SITES[id].lon, label: `${data.flows[id]?.fresh ? `${Math.round(data.flows[id].cfs).toLocaleString()} cfs` : 'no data'} · ${USGS_SITES[id].name}` }));
+function gaugesFor(fp, c) {
+  if (!c) return [];
+  const rain = { 'rain-local': fp.rain?.local, 'rain-basin': fp.rain?.basin, 'rain-road': fp.rain?.road }[c.src];
+  if (rain) return (data.alert?.rain ?? []).filter((g) => rain.includes(g.site)).map((g) => ({ lat: g.lat, lon: g.lon, label: `${g.in?.h6 == null ? '–' : g.in.h6.toFixed(2)}″ in 6 h` }));
+  const usgs = (ids) => ids.map((id) => ({ lat: USGS_SITES[id].lat, lon: USGS_SITES[id].lon, label: data.flows[id]?.fresh ? `${Math.round(data.flows[id].cfs).toLocaleString()} cfs` : 'no data' }));
   if (c.src === 'river') return usgs(fp.river);
   if (c.src === 'river-early') return usgs(RIVER_EARLY);
   if (c.src === 'wash') {
-    const a = (data.alert?.stream ?? []).filter((s) => fp.wash.alert?.includes(s.site)).map((s) => ({ lat: s.lat, lon: s.lon, label: `${s.flow_cfs ?? '–'} cfs · ${s.name.replace(/ \(PT\)$/, '')}` }));
-    return [...a, ...usgs(fp.wash.usgs ?? [])];
+    return [...(data.alert?.stream ?? []).filter((s) => fp.wash.alert?.includes(s.site)).map((s) => ({ lat: s.lat, lon: s.lon, label: `${s.flow_cfs ?? '–'} cfs` })), ...usgs(fp.wash.usgs ?? [])];
   }
-  if (c.src === 'county') return res.closurePts.map((p) => ({ lat: p.lat, lon: p.lon, label: `⛔ ${p.status}` }));
+  if (c.src === 'county') return view.fpResults[fp.id].closurePts.map((p) => ({ lat: p.lat, lon: p.lon, label: p.status }));
   return [];
 }
 
 // ---------------- run ----------------
 async function check() {
-  $('#status').textContent = 'Checking…';
+  $('#refresh').classList.add('spin');
   data = await gather();
   view = compute(data);
-  renderPanel();
-  renderScope();
-  const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-  const bits = [`Checked ${t(data.now)}`];
-  if (data.alert?.fetched_at) bits.push(`rain as of ${t(Date.parse(data.alert.fetched_at))}`);
-  if (data.errors.length) bits.push(`no ${data.errors.join(', ')}`);
-  $('#status').textContent = bits.join(' · ');
+  $('#refresh').classList.remove('spin');
+  render();
 }
-
 async function init() {
   routeFeatures = (await getJson('data/routes.geojson')).features;
   allBounds = L.geoJSON({ type: 'FeatureCollection', features: routeFeatures }).getBounds();
-  map.fitBounds(allBounds, { padding: [10, 10], animate: false });
-  $('#links').innerHTML = LINKS.map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join('');
-  for (const [id, key] of [['#apikey', 'apiKey'], ['#dest', 'dest']]) {
-    $(id).value = store.get(key) ?? '';
-    $(id).addEventListener('change', (e) => { store.set(key, e.target.value.trim() || null); check(); });
-  }
+  map.fitBounds(allBounds, { animate: false });
+  window.addEventListener('hashchange', () => { openSource = null; render(); window.scrollTo(0, 0); });
+  $('#back').addEventListener('click', () => {
+    const w = where();
+    // Go back through the app's own history; if the app was opened deep, go to the parent screen.
+    if (history.length > 1) history.back();
+    else location.replace(w.screen === 'stretch' ? `#/r/${w.route}` : '#/');
+  });
   $('#refresh').addEventListener('click', check);
   await check();
   setInterval(check, REFRESH_MS);
 }
-
-init().catch((e) => { $('#status').textContent = `Couldn't load: ${e.message}`; });
+init().catch((e) => { $('#screen').innerHTML = `<p class="loading">Couldn’t load: ${esc(e.message)}</p>`; });
