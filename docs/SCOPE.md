@@ -57,6 +57,21 @@ Avra Valley has a Marana mailing address, but it is mostly **unincorporated Pima
 | NWS Tucson flash-flood warnings (they name specific crossings) | NWS | Map layer and banner. |
 | Pima County road closures (pima.gov/898); Marana PD/Town posts near I-10; AZ 511 for I-10 | County / Town / ADOT | Closures, which the map links to rather than duplicates. |
 
+### Limitations of the public tooling (researched Oct 31, 2026)
+| Tool | Limitation | What it means for us |
+|---|---|---|
+| **Pima ALERT** | No documented API, bulk export, or terms for programmatic use. The public map runs on undocumented internal endpoints (e.g. `dss_stream.php?id=`). Data is provisional and unverified. | Ask RFCD for a feed and permission before building on it. Until then, link out to the map and don't scrape. Station IDs near the routes are still unconfirmed. |
+| **MyAlerts** | Only covers addresses inside mapped inundation areas of certain watersheds. Alerts describe the wash, not road status. | It may cover home, but not the crossings you drive. Useful as a supplement only. |
+| **USGS WaterServices** (legacy `waterservices.usgs.gov`) | Being degraded starting Nov 2026; shuts down **Feb 22, 2027**. | Build only on `api.waterdata.usgs.gov` (new OGC API). It needs a free API key beyond a few requests/hour. |
+| **USGS gauges here** | Desert washes read near zero most of the year. A river stage reading isn't water depth on a road. The parameters for 09486509 (Avra Valley Rd) are unconfirmed. | Gauges show whether a river is rising, not whether a dip is passable. Confirm each site reports gage height in real time. |
+| **USGS WaterAlert** | Subscriptions now expire (feature added May 2026). | Renew them, or a silent expiry looks like "no flooding". |
+| **NWS NWPS** | Only 2 forecast points nearby: CSCA3 (Santa Cruz at Cortaro, flood stage 18.5 ft) and BWTA3 (Brawley Wash near Three Points). Flood stages are for the river, not road crossings. | No official forecast exists at any Avra Valley dip. |
+| **Road closures** | Pima County posts closures on a web page (pima.gov/898); no data feed was found. AZ511 has an API (free key, 10 calls/min), but it mainly covers state highways like I-10. Closures go up after flooding starts. | Link out to closures rather than ingest them. Use AZ511 only for I-10. |
+| **ThingSpeak free tier** | 3M messages/yr, 15 s minimum interval, **4 channels**, non-commercial only. | Fine for a pilot of up to 4 sensors on one account. |
+| **This dev environment** | Its network blocks pima.gov, USGS, and NOAA. | Live API checks have to happen from your machine or GitHub Pages, or after those hosts are allowed. |
+
+**Bottom line:** no public tool reports real-time water depth at a specific county dip. The public data can only say "rain upstream" and "river rising". The homemade sensors are what fill that gap.
+
 ### Where homemade sensors add value
 There's a gap between "rain fell upstream" (ALERT) and "the road is closed" (a barricade goes up). Nobody publishes **water depth at the specific dips on these routes**. A sensor on a post beside a crossing, **on a willing neighbor's land** with no right-of-way permit needed, fills that gap.
 
