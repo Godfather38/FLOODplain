@@ -1,7 +1,6 @@
 name: Deploy morning check to GitHub Pages
 on:
   push:
-    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,6 +19,8 @@ jobs:
           node-version: 22
       - run: npm test
   deploy:
+    # GitHub Pages only accepts deploys from the repo's default branch.
+    if: github.ref_name == github.event.repository.default_branch || github.event_name == 'workflow_dispatch'
     needs: test
     runs-on: ubuntu-latest
     environment:

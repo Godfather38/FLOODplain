@@ -259,11 +259,11 @@ function renderScope() {
     const c = res.checks[ui.openEv.i];
     for (const s of scopePoints(fp, res, c)) {
       pts.push([s.lat, s.lon]);
-      L.marker([s.lat, s.lon], { icon: L.divIcon({ className: 'scope-label', html: esc(s.label), iconSize: null }) }).addTo(scopeLayer);
+      L.marker([s.lat, s.lon], { icon: L.divIcon({ className: 'scope-pin', html: `<span class="scope-label">${esc(s.label)}</span>`, iconSize: [0, 0] }) }).addTo(scopeLayer);
     }
   }
   if (pts.length === 1) map.setView(pts[0], 15, { animate: false });
-  else map.fitBounds(pts, { paddingTopLeft: [24, 24], paddingBottomRight: [170, 34], maxZoom: 14, animate: false }); // room for labels
+  else map.fitBounds(pts, { paddingTopLeft: [24, 24], paddingBottomRight: [24, 34], maxZoom: 14, animate: false }); // room for labels
 }
 
 function scopePoints(fp, res, c) {

@@ -99,7 +99,9 @@ a { color: var(--accent); }
 .fp-icon.s1 { background: var(--r1); } .fp-icon.s2 { background: var(--r2); } .fp-icon.s3 { background: var(--r3); }
 .fp-icon.s4 { background: var(--r4); } .fp-icon.s5 { background: var(--r5); } .fp-icon.sq { background: var(--rq); }
 .fp-icon.sel { outline: 3px solid var(--accent); outline-offset: 1px; }
-.scope-label { background: rgba(255,255,255,.96); border: 1px solid #889; border-radius: 6px; padding: 1px 6px; font-size: 11.5px; white-space: nowrap; color: #123; box-shadow: 0 1px 2px rgba(0,0,0,.25); }
+.scope-pin { overflow: visible; }
+.scope-pin::after { content: ""; position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: #1a73e8; border: 1.5px solid #fff; }
+.scope-label { position: absolute; left: 0; bottom: 8px; transform: translateX(-50%); background: rgba(255,255,255,.96); border: 1px solid #889; border-radius: 6px; padding: 1px 6px; font-size: 11.5px; white-space: nowrap; color: #123; box-shadow: 0 1px 2px rgba(0,0,0,.25); }
 
 @media (max-width: 760px) {
   main { display: flex; flex-direction: column; height: auto; }
