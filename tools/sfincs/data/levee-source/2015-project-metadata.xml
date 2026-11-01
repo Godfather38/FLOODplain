@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<metadata>
+	<idinfo>
+		<citation>
+			<citeinfo>
+				<origin>Sanborn Map Company</origin>
+				<pubdate>2015</pubdate>
+				<title>Pima Association of Governments Classified LiDAR Metadata Record</title>
+				<edition>1.0</edition>
+				<geoform>point digital data (LAS)</geoform>
+				<pubinfo>
+					<pubplace>Colorado Springs, CO</pubplace>
+					<publish>Sanborn</publish>
+				</pubinfo>
+				<onlink>N/A</onlink>
+			</citeinfo>
+		</citation>
+		<descript>
+			<abstract>This metadata record includes information regarding the DEM and DEM creation derived from the QL2 classified point cloud product for the Pima Association of Governments 2015 LiDAR project that was collected, processed, and delivered by Sanborn Map Company. The record includes the intended use of the collected LiDAR data, the type(s) of data collected by Sanborn, project-wide deliverables requested by the client, as well as acquisition, accuracy, and processing statistics encompassing 2,203 square miles, in which the client defined AOI/Boundary extents cover the citiy of Tucson in  Pima County, Arizona.</abstract>
+			<lidar>
+				<ldrinfo>
+					<ldrspec>USGS Base LiDAR Specification v1.2</ldrspec>
+					<ldrsens>Leica ALS70</ldrsens>
+					<ldrmaxnr>4</ldrmaxnr>
+					<ldrnps>0.7</ldrnps>
+					<ldrdens>2</ldrdens>
+					<ldradens>2</ldradens>
+					<ldranps>0.71</ldranps>
+					<ldrfltht>3200</ldrfltht>
+					<ldrfltsp>130</ldrfltsp>
+					<ldrscana>32</ldrscana>
+					<ldrscanr>35.0</ldrscanr>
+					<ldrpulsr>228</ldrpulsr>
+					<ldrpulsd>10</ldrpulsd>
+					<ldrpulsw>0.5</ldrpulsw>
+					<ldrwavel>1064</ldrwavel>
+					<ldrmpia>1</ldrmpia>
+					<ldrbmdiv>0.3</ldrbmdiv>
+					<ldrswatw>1414</ldrswatw>
+					<ldrswato>30</ldrswato>
+					<ldrcrs>NAD_1983_2011_StatePlane_Arizona_Central_FIPS_0202_Feet_Intl</ldrcrs>
+					<ldrgeoid>NGS Geoid12a</ldrgeoid>
+				</ldrinfo>
+				<ldraccur>
+					<ldrchacc>0.10</ldrchacc>
+					<rawnva>0.106</rawnva>
+					<rawnvan>115</rawnvan>
+					<clsnva>0.09</clsnva>
+					<clsnvan>115</clsnvan>
+					<clsvva>0</clsvva>
+					<clsvvan>0</clsvvan>
+				</ldraccur>
+				<lasinfo>
+					<lasver>1.4</lasver>
+					<lasprf>6</lasprf>
+					<laswheld>Withheld (ignore) points were identified in these files using class 10.</laswheld>
+					<lasolap>Swath "overage" points were identified in these files by classifying to class 11.</lasolap>
+					<lasintr>10</lasintr>
+					<lasclass>
+						<clascode>1</clascode>
+						<clasitem>Unclassified</clasitem>
+					</lasclass>
+					<lasclass>
+						<clascode>2</clascode>
+						<clasitem>Bare-earth</clasitem>
+					</lasclass>
+					<lasclass>
+						<clascode>7</clascode>
+						<clasitem>All noise</clasitem>
+					</lasclass>
+					<lasclass>
+						<clascode>9</clascode>
+						<clasitem>Water</clasitem>
+					</lasclass>
+					<lasclass>
+						<clascode>10</clascode>
+						<clasitem>Ignored Ground (Breakline Proximity)</clasitem>
+					</lasclass>
+					<lasclass>
+						<clascode>17</clascode>
+						<clasitem>Bridges</clasitem>
+					</lasclass>
+					<lasclass>
+						<clascode>18</clascode>
+						<clasitem>High Noise</clasitem>
+					</lasclass>
+				</lasinfo>
+			</lidar>
+			<purpose>Pima Association of Governments chose Sanborn to plan, implement, and collect Light Detection and Ranging (LiDAR) data to acquire detailed surface elevation data for use in conservation planning, design, research, floodplain mapping, and to update their previous LiDAR surface.</purpose>
+			<supplinf>Project Projection, Datums and Units.  Projection - State Plane Arizona Central.  Horizontal datum - North American Datum of 1983 (NAD83), 2011.  Vertical datum - North American Vertical Datum of 1988 (NAVD88) using the latest geoid (Geoid12a) for converting ellipsoidal heights to orthometric heights.  Units - intl feet
+
+Note: Checkpoints and surveys for the PAG LiDAR project were completed by:
+
+Patrick McGarrity AZ RLS 49459, CP R1245
+Psomas
+333 E. Wetmore Rd. Ste. 450
+Tucson, AZ 85705
+520-292-2300</supplinf>
+			<langdata>en</langdata></descript>
+		<timeperd>
+			<timeinfo>
+				<rngdates><begdate>20150220</begdate><enddate>20150226</enddate></rngdates></timeinfo>
+			<current>ground condition</current>
+		</timeperd>
+		<status>
+			<progress>Complete</progress>
+			<update>Unknown</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc>-111.382024</westbc>
+				<eastbc>-110.452276</eastbc>
+				<northbc>32.598578</northbc>
+				<southbc>31.727997</southbc>
+			</bounding>
+			<lbounding>
+				<leftbc>865112</leftbc>
+				<rightbc>1155331</rightbc>
+				<topbc>583427</topbc>
+				<bottombc>265063</bottombc>
+			</lbounding>
+		</spdom>
+		<keywords>
+			<theme>
+				<themekt>AZ</themekt>
+				<themekey>LiDAR</themekey>
+				<themekey>mapping</themekey>
+				<themekey>point cloud</themekey>
+				<themekey>ground points</themekey>
+				<themekey>Unclassified points</themekey>
+				<themekey>Water points</themekey>
+				<themekey>Overlap points</themekey>
+				<themekey>ALS70</themekey>
+				<themekey>Intensity return</themekey>
+				<themekey>LAS</themekey>
+				<themekey>Digital Elevation Model (DEM)</themekey>
+				<themekey>Digital Terrain Model (DTM)</themekey>
+				<themekey>Digital Surface Model (DSM)</themekey>
+				<themekey>Bare Earth</themekey>
+				<themekey>First Return</themekey>
+			</theme>
+			<place>
+				<placekt>AZ</placekt>
+				<placekey>Tucson, AZ</placekey>
+				<placekey>Pima County</placekey><placekey>United States</placekey></place>
+			<temporal>
+				<tempkt>none</tempkt>
+				<tempkey>2015</tempkey>
+			</temporal>
+		</keywords>
+		<accconst>This data may be used by the requested party for stated purposes and should not be re-distributed.</accconst>
+		<useconst>This data is for planning purposes only and should not be used for legal or cadastral purposes. Any conclusions drawn from analysis of this information are not the responsibility of Sanborn Map Company. Users should be aware that temporal changes may have occurred since this dataset was collected and some parts of this dataset may no longer represent actual surface conditions. Users should not use these data for critical applications without a full awareness of its limitations.
+
+Contact:
+Pima Association of Governments</useconst>
+		<ptcontac>
+			<cntinfo>
+				<cntperp>
+					<cntper>Josh Pope</cntper>
+					<cntorg>Pima Association of Governments</cntorg>
+				</cntperp>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>1 E. Broadway, Suite 401</address>
+					<city>Tucson</city>
+					<state>AZ</state>
+					<postal>85701</postal>
+					<country>U.S.A.</country>
+					<address>#300</address></cntaddr>
+				<cntvoice>520.792.1093</cntvoice>
+				<cntfax>N/A</cntfax>
+				<cntemail>jpope@pagnet.org</cntemail>
+				<hours>8:00 AM - 5:00 PM</hours>
+				<cntvoice>Ext. 12</cntvoice></cntinfo>
+		</ptcontac>
+		<native>Microsoft Windows 7; ESRI ArcCatalog 9.3.1.1850</native>
+		<secinfo><secsys>unknown</secsys><secclass>Unclassified</secclass><sechandl>unknown</sechandl></secinfo><natvform>DEM- QL2</natvform></idinfo>
+	<dataqual>
+		<attracc>
+			<attraccr>DEM NVA
+RMSE	= 0.093m
+Mean	= 0.066m
+SDEV	= 0.065m
+95%	= 0.181m</attraccr><qattracc><attraccv>0.093m</attraccv><attracce>NVA</attracce></qattracc></attracc>
+		<logic>LiDAR data is collected within the project area and processed. During the calibration process, control (calibration) points were used to assess and adjust the LiDAR data. After data products have been produced from the LiDAR, accuracy tests were completed on all appropriate data using NVA class checkpoints and reporting. 
+
+Note: Due to the lack of vegetated areas in PIMA, VVA checkpoints are not required.</logic>
+		<complete>LiDAR data is collected for the project area.  Post processing of the simultaneously acquired GPS/INS is performed and applied to the laser returns to output a point cloud in the specified project coordinate system and datum's.  The point cloud data is then subjected to an analysis against the collected calibration control points used for an internal quality check. Once the data products were available, NVA checkpoints were compared to each data product and reported.</complete>
+		<posacc>
+			<horizpa>
+				<qhorizpa>
+					<horizpav>0.5</horizpav><horizpae>N/A</horizpae></qhorizpa>
+				<horizpar>Horizontal positional accuracy for LiDAR is dependent upon the quality of the GPS/INS solution, sensor calibration and ground conditions at the time of data capture.  The standard system results for horizontal accuracy meet or exceed the project specified 0.5 meter RMSE.</horizpar></horizpa>
+			<vertacc>
+				<qvertpa>
+					<vertaccv>0.093m or 0.181m @ 95% CL</vertaccv><vertacce>NVA, DEM
+The classified point cloud was evaluated using a collection of 115 NVA class checkpoints. For detailed information about these points, please refer to the survey report(s).</vertacce></qvertpa>
+				<vertaccr>Vertical accuracy was tested to meet USGS Specification v1.2 for QL2 LiDAR</vertaccr></vertacc>
+		</posacc>
+		<lineage>
+			<srcinfo>
+				<srccite>
+					<citeinfo>
+						<origin>Sanborn Map Company Inc.</origin>
+						<pubdate>Unpublished Material</pubdate>
+						<title>LiDAR Data</title>
+						<edition>1.0</edition>
+						<geoform>Remote sensing image</geoform>
+						<pubinfo>
+							<pubplace>None</pubplace>
+							<publish>None</publish>
+						</pubinfo>
+					</citeinfo>
+				</srccite>
+				<typesrc>disc</typesrc>
+				<srctime>
+					<timeinfo>
+						<sngdate><caldate>2015</caldate></sngdate></timeinfo>
+					<srccurr>ground condition</srccurr>
+				</srctime>
+				<srccitea>LIDAR and GPS_RAW</srccitea>
+				<srccontr>Aerial LiDAR and GPS/IMU data are recorded for the defined project area at an altitude, flight speed, scanner swath width and scanner pulse frequency to achieve the design goals of the project.</srccontr>
+			</srcinfo>
+			<srcinfo>
+				<srccite>
+					<citeinfo>
+						<origin>Sanborn Map Company Inc.</origin>
+						<pubdate>2010</pubdate>
+						<title>Ground control</title>
+						<edition>1.0</edition>
+						<geoform>tabular digital data</geoform>
+						<pubinfo>
+							<pubplace>None</pubplace>
+							<publish>None</publish>
+						</pubinfo>
+					</citeinfo>
+				</srccite>
+				<typesrc>disc</typesrc>
+				<srctime>
+					<timeinfo>
+						<sngdate>
+							<caldate>2015</caldate>
+						</sngdate>
+					</timeinfo>
+					<srccurr>Ground condition</srccurr>
+				</srctime>
+				<srccitea>CONT</srccitea>
+				<srccontr>Targeted ground control is used to create a digital control file and control report as well as QC check of LiDAR accuracy.  Predefined points (NGS when available) within the project area are targeted.</srccontr>
+			</srcinfo>
+			<srcinfo>
+				<srccite>
+					<citeinfo>
+						<origin>Sanborn Map Company Inc.</origin>
+						<pubdate>Unpublished material</pubdate>
+						<title>Post processed GPS/INS</title>
+						<edition>1.0</edition>
+						<geoform>Tabular digital data</geoform>
+					</citeinfo>
+				</srccite>
+				<srcscale>1200</srcscale>
+				<typesrc>disk</typesrc>
+				<srctime>
+					<timeinfo>
+						<sngdate>
+							<caldate>2015</caldate>
+						</sngdate>
+					</timeinfo>
+					<srccurr>Ground condition</srccurr>
+				</srctime>
+				<srccitea>GPS</srccitea>
+				<srccontr>Post processed GPS/INS is applied to the lidar point data to georeference each point in the project coordinate system</srccontr>
+			</srcinfo>
+			<srcinfo>
+				<srccite>
+					<citeinfo>
+						<origin>Sanborn Map Company Inc.</origin>
+						<pubdate>Unpublished material</pubdate>
+						<title>Post processed lidar</title>
+						<edition>1.0</edition>
+						<geoform>Point digital data</geoform>
+					</citeinfo>
+				</srccite>
+				<srcscale>1200</srcscale>
+				<typesrc>Disk</typesrc>
+				<srctime>
+					<timeinfo>
+						<sngdate>
+							<caldate>2015</caldate>
+						</sngdate>
+					</timeinfo>
+					<srccurr>Ground condition</srccurr>
+				</srctime>
+				<srccitea>LAS</srccitea>
+				<srccontr>The post processed lidar data has been projected and oriented in the specified coordinate system as an un-classified point cloud. The LAS v1.2 point cloud is then classified according to specifications and manually QC'd.</srccontr>
+			</srcinfo>
+			<srcinfo>
+				<srccite>
+					<citeinfo>
+						<origin>Pima Association of Governments</origin>
+						<pubdate>Unpublished Material</pubdate>
+						<title>Tile Definition</title>
+						<edition>1.0</edition>
+						<geoform>vector digital data</geoform>
+					</citeinfo>
+				</srccite>
+				<srcscale>1200</srcscale>
+				<typesrc>disk</typesrc>
+				<srctime>
+					<timeinfo>
+						<sngdate>
+							<caldate>2015</caldate>
+						</sngdate>
+					</timeinfo>
+					<srccurr>ground condition</srccurr>
+				</srctime>
+				<srccitea>TLDEF</srccitea>
+				<srccontr>The tile definition defines discreet non-overlapping rectangular areas used as cut lines to break up the large classified lidar dataset into smaller, more manageable data tiles.</srccontr>
+			</srcinfo>
+			<procstep>
+				<procdesc>Using a Leica Light Detection And Ranging (LiDAR) system data was collected over the PAG Tucson AOI. Multiple returns were recorded for each laser pulse along with an intensity value for each return.  The data acquisition occurred in 14 missions from February 20th, 2015 to February 26th, 2015.  During the LIDAR campaign, the Sanborn field crew conducted a GPS field survey to establish final coordinates of the ground base stations for final processing of the base-remote GPS solutions.</procdesc>
+				<srcused>None</srcused>
+				<procdate>201502</procdate>
+				<srcprod>CONT</srcprod>
+			</procstep>
+			<procstep>
+				<procdesc>Airborne GPS data was differentially processed and integrated with the post processed IMU data to derive a Smoothed Best Estimate of Trajectory (SBET). IMU data provides information concerning roll, pitch and yaw of collection platform during collection event.  IMU information allows the pulse vector to be properly placed in 3D space allowing the distance from the aircraft reference point to be properly positioned on the elevation model surface. The SBET was used to reduce the LiDAR slant range measurements to a raw reflective surface for each flight line.
+
+Airborne GPS is differentially processed using the Inertial Explorer 8.X software by Leica Geosystems.</procdesc>
+				<srcused>None</srcused>
+				<procdate>201503</procdate>
+				<srcprod>LIDAR, GPS_RAW</srcprod>
+			</procstep>
+			<procstep>
+				<procdesc>The combined SBET and Raw Laser (.scn) files to produced a raw point cloud swath dataset in LAS v1.2 format using Leica CloudPro V1.X.</procdesc>
+				<srcused>GPS_RAW</srcused>
+				<procdate>201503</procdate>
+				<srcprod>GPS_SOL</srcprod>
+			</procstep>
+			<procstep>
+				<procdesc>The raw swath point cloud data was then calibrated using TerraMatch, a TerraSolid software, to correct relative bias in conjoining swaths that include roll, pitch, heading, Scale, and elevation. The swath data is then compared against the calibration control points and adjusted vertically to exceed the vertical accuracy requirements for the project.</procdesc>
+				<srcused>LIDAR, GPS_SOL</srcused>
+				<procdate>201504</procdate>
+				<srcprod>LAS</srcprod>
+			</procstep>
+			<procstep>
+				<procdesc>The georeferenced lidar data is then classified and edited in Terrasolid (Terrascan) software. Data is classified to produce:  Class 1:  unclassified points,  Class 2:  ground points,  Class 7:  low point,  Class 9:  water points,  Class 10:  ignored ground,  Class 11:  overlap (withheld),  Class 17:  bridges,  Class 18: high noise</procdesc>
+				<srcused>CONT, GPS_SOL, LIDAR</srcused>
+				<procdate>201504</procdate>
+				<srcprod>LAS</srcprod>
+			</procstep>
+			<procstep>
+				<procdesc>The bare earth points of the processed lidar data are manually checked for quality- removing bridges, structures, filling culverts, and manually analyzing the Bare Earth surface by classifying features that belong in non-erroneous classification codes.</procdesc>
+				<srcused>LAS</srcused>
+				<procdate>201505</procdate>
+				<srcprod>LAS</srcprod>
+			</procstep>
+			<procstep><procdesc>The bare earth points from the classified lidar were then used to create tiled hydro-flattened Digital Elevation Models (DEMs) in Imagine Image (.img) format using the breaklines created for the project. The DEMs contain a cell size of 2ft per minimum QL2 specification as required by USGS v1.2. </procdesc><srcused>DEM</srcused><procdate>201506</procdate><srcprod>IMG</srcprod></procstep></lineage>
+	</dataqual>
+	<spdoinfo>
+		<direct>Point</direct>
+	</spdoinfo>
+	<spref>
+		<horizsys>
+			<planar>
+				<planci>
+					<plance>coordinate pair</plance>
+					<coordrep>
+						<absres>2.0</absres>
+						<ordres>2.0</ordres>
+					</coordrep>
+					<plandu>intl feet</plandu>
+				</planci>
+				<mapproj><mapprojn>Transverse Mercator</mapprojn><transmer><sfctrmer>0.9999</sfctrmer><longcm>-111.916666666667</longcm><latprjo>31</latprjo><feast>700000</feast><fnorth>0</fnorth></transmer></mapproj></planar>
+			<geodetic>
+				<horizdn>North American Datum of 1983</horizdn>
+				<ellips>Geodetic Reference System 80</ellips>
+				<semiaxis>6378137.000000</semiaxis>
+				<denflat>298.257222101004</denflat>
+			</geodetic>
+			<cordsysn><geogcsn>GCS_NAD_1983</geogcsn><projcsn>NAD_1983_2011_StatePlane_Arizona_Central_FIPS_0202_Ft_Intl</projcsn></cordsysn></horizsys>
+		<vertdef>
+			<altsys>
+				<altdatum>North American Vertical Datum of 1988 (GEOID12a)</altdatum>
+				<altres>0.1</altres>
+				<altunits>intl feet</altunits>
+				<altenc>Explicit elevation coordinate included with horizontal coordinates</altenc>
+			</altsys>
+		</vertdef>
+	</spref>
+	<distinfo>
+		<distrib>
+			<cntinfo>
+				<cntperp>
+					<cntper>Josh Pope</cntper>
+					<cntorg>Pima Association of Governments</cntorg>
+				</cntperp>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>1 E. Broadway Blvd., Suite 401</address>
+					<city>Tucson</city>
+					<state>AZ</state>
+					<postal>85701</postal>
+					<country>U.S.A.</country>
+					<address>#300</address></cntaddr>
+				<cntvoice>520.792.1093</cntvoice>
+				<cntemail>jpope@pagnet.org</cntemail>
+				<hours>8:00 AM - 5:00 PM</hours>
+				<cntvoice>Ext. 12</cntvoice></cntinfo>
+		</distrib>
+		<resdesc>Pima Association of Governments 2015 LiDAR project</resdesc>
+		<distliab>Pima Association of Governments digital data have been tested and their documentation carefully reviewed.  However, Pima Association of Governments and its representatives make no warranty or representation, either expressed or implied, with respect to the digital data and their documentation, their quality, performance, merchantability, or fitness for a particular purpose.  The digital data are distributed on "as is" basis, and the user assumes all risk to their quality, the results obtained from their use, and the performance of the data.</distliab>
+		<stdorder>
+			<digform>
+				<digtinfo>
+					<formname>LAS</formname>
+					<formvern>1.4</formvern><transize>2000</transize><dssize>2000</dssize></digtinfo>
+				<digtopt>
+					<onlinopt>
+						<computer>
+							<networka>
+								<networkr>N/A</networkr>
+							</networka>
+						</computer>
+						<accinstr>N/A</accinstr>
+					</onlinopt>
+					<offoptn><offmedia>5 - 1/2 inch hard drive</offmedia><recfmt>LAS</recfmt></offoptn></digtopt>
+			</digform>
+			<fees>N/A</fees>
+			<ordering>N/A</ordering>
+			<turnarnd>unknown</turnarnd></stdorder>
+		<availabl>
+			<timeinfo>
+				<sngdate>
+					<caldate>2015</caldate>
+				</sngdate>
+			</timeinfo>
+		</availabl>
+	</distinfo>
+	<metainfo>
+		<metd>20150708</metd>
+		<metc>
+			<cntinfo>
+				<cntperp>
+					<cntper>Kris Andersen</cntper>
+					<cntorg>Sanborn Map Co</cntorg>
+				</cntperp>
+				<cntpos>Project Manager</cntpos>
+				<cntaddr>
+					<addrtype>mailing address</addrtype>
+					<address>1935 Jamboree Dr</address>
+					<city>Colorado Springs</city>
+					<state>CO</state>
+					<postal>80920</postal>
+					<country>U.S.A.</country>
+				</cntaddr>
+				<cntvoice>719.264.5490</cntvoice>
+				<cntemail>kandersen@sanborn.com</cntemail>
+				<hours>8:00 AM - 5:00 PM MST</hours>
+			</cntinfo>
+		</metc>
+		<metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+		<metstdv>FGDC-STD-001-1998</metstdv>
+		<metac>None</metac>
+		<metuc>None</metuc>
+		<metsi>
+			<metscs>None</metscs>
+			<metsc>Unclassified</metsc>
+			<metshd>None</metshd>
+		</metsi>
+		<metextns>
+			<onlink>None</onlink>
+			<metprof>None</metprof>
+		</metextns>
+	</metainfo>
+	<eainfo><overview><dsoverv>DEM- Tiled
+2ft cell size</dsoverv><eaover>IMG format</eaover><eadetcit>USGS NGP Lidar Guidelines and Base Specification Version 1.2</eadetcit></overview></eainfo><Esri><ModDate>20151218</ModDate><ModTime>13283600</ModTime></Esri><mdDateSt Sync="TRUE">20151218</mdDateSt></metadata>

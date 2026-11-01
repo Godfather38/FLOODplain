@@ -1,0 +1,38 @@
+{
+  "sourceGeometryUrl": "https://ciroh-owp-hand-fim.s3.amazonaws.com/15050303/3d_nld_subset_levees_burned.gpkg",
+  "sourceSystemId": "1905023008",
+  "sourceSystemName": "Lower Santa Cruz Levee",
+  "sourceGeometrySha256": "666bb66104cba059a913a816ec117c0bfb5a1749b33d6cf783af181b1f7a97e8",
+  "outputSha256": "3919707aaf63ef09e69e1ed3b498b4dd5469c4c63235abaf292fb055e39c8486",
+  "crs": "EPSG:32612",
+  "verticalDatum": "NAVD88, standard USGS 1 m DEM elevations in metres; mirrored NLD Z values not used",
+  "crestSourceTiles": {
+    "USGS_one_meter_x47y359_AZ_Eastern_PimaCO_2015.tif": {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x47y359_AZ_Eastern_PimaCO_2015.tif",
+      "crs": "EPSG:26912",
+      "resolutionM": 1,
+      "nodata": -999999.0
+    },
+    "USGS_one_meter_x48y359_AZ_Eastern_PimaCO_2015.tif": {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x48y359_AZ_Eastern_PimaCO_2015.tif",
+      "crs": "EPSG:26912",
+      "resolutionM": 1,
+      "nodata": -999999.0
+    }
+  },
+  "acquisition": "February 20-26, 2015 per project metadata; after benchmark event",
+  "metadataUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/Eastern_Pima_County_Lidar/AZ_Eastern-PimaCO_2015/best_use_xml/PAG_LiDAR-DEM_2015-QL2_USGS.xml",
+  "parts": 1,
+  "vertices": 540,
+  "heightAdjustmentM": 0,
+  "weirCoefficient": 0.6,
+  "coefficientBasis": "HydroMT default, not calibrated",
+  "limitations": [
+    "2015 crest geometry is not proven identical to September 2014",
+    "Original multipart gaps preserved; undocumented culverts/openings not invented",
+    "No crest raising, extension, target fitting or DEM carving"
+  ],
+  "standardProductUnitsSource": "https://data.usgs.gov/datacatalog/data/USGS%3A77ae0551-c61e-4979-aedd-d797abdcde0e",
+  "projectMetadataSha256": "4c5fa051da7be6f51bb7926b103250e6667c10de5994cee94981b1bcc0253f00",
+  "unitsClarification": "Original project metadata describes international feet; sampled standard USGS one-meter GeoTIFF products contain metres NAVD88. No second feet-to-metres conversion is applied."
+}

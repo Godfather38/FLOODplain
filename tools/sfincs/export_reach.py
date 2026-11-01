@@ -117,7 +117,7 @@ def export(root, target):
                         "flowM3s":float(flow),"flowLocation":case["flowLocation"]} for t,d,flow in zip(times,depth,frame_flow)],
              "provenance":{"solverVersion":"source@"+case["sourceCommit"],"runId":root.name+"-"+hashlib.sha256((root/"sfincs_map.nc").read_bytes()).hexdigest()[:16],
                            "inputArtifacts":case["inputArtifacts"],"projectedCrs":case["crs"],"verticalDatum":case["verticalDatum"],
-                           "upstream":case["upstream"],"geometryIntegration":case.get("geometryIntegration"),"forcingProvenance":case.get("forcingProvenance"),"forcingSha256":case.get("forcingSha256"),"initialState":case.get("initialState"),"rainfallStatus":case["rainfallStatus"],"qualityChecks":checks},
+                           "upstream":case["upstream"],"geometryIntegration":case.get("geometryIntegration"),"structureIntegration":case.get("structureIntegration"),"forcingProvenance":case.get("forcingProvenance"),"forcingSha256":case.get("forcingSha256"),"initialState":case.get("initialState"),"rainfallStatus":case["rainfallStatus"],"qualityChecks":checks},
              "support":{"domainDescription":"Cortaro-to-Trico observed-inflow reach; displayed cells cropped to Trico window",
                         "limitations":case["limitations"]},"uncertainty":{"status":"not_quantified","plusMinus":None}}
     (root/"checks.json").write_text(json.dumps(checks,indent=2)+"\n")

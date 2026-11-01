@@ -45,18 +45,18 @@ jobs:
           test -x engine-reused/sfincs
           ldd engine-reused/sfincs | tee engine-reused/current-runtime-libraries.txt
           ! grep -q 'not found' engine-reused/current-runtime-libraries.txt
-      - name: Retrieve unchanged prepared geometry case
+      - name: Retrieve unchanged prepared section-diagnostic case
         uses: actions/download-artifact@v4
         with:
           name: sfincs-verification
           path: reference-download
-          run-id: '41291800062'
+          run-id: '41292962868'
           github-token: ${{ github.token }}
-      - name: Measure complete Trico section and reach flow with unchanged physics
+      - name: Run documented levee with independently sampled 2015 crest heights
         run: |
-          python tools/sfincs/prepare_sections.py reference-download/runs/reach-geometry runs/reach-section-check
-          (cd runs/reach-section-check && timeout 600 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
-          python tools/sfincs/export_reach.py runs/reach-section-check --target tools/sfincs/data/gauges/trico-benchmark-2014-09.json
+          python tools/sfincs/prepare_levee.py reference-download/runs/reach-section-check runs/reach-levee --structures tools/sfincs/data/levee-source
+          (cd runs/reach-levee && timeout 600 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
+          python tools/sfincs/export_reach.py runs/reach-levee --target tools/sfincs/data/gauges/trico-benchmark-2014-09.json
           (cd engine-reused && sha256sum -c SHA256SUMS)
       - uses: actions/upload-artifact@v4
         if: always()
