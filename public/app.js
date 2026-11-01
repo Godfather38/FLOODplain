@@ -124,6 +124,7 @@ async function navigate(rid) {
 function compute(d) {
   const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
   const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
+  try { sessionStorage.setItem('floodplain-route-evidence', JSON.stringify({now:d.now,area,rated,errors:d.errors})); } catch { /* optional experimental evidence handoff */ }
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
   return { fpResults, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
 }
