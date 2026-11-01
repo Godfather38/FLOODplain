@@ -1,11 +1,18 @@
-name: SFINCS experimental source verification
+name: SFINCS real reach execution
 on:
-  push:
-    branches: [experiment/sfincs-engine]
-    paths: ['tools/sfincs/**', '.github/workflows/sfincs.yml']
   workflow_dispatch:
+    inputs:
+      build_engine:
+        description: 'Explicitly build once and retain the pinned engine (never automatic)'
+        type: boolean
+        default: false
+      engine_run_id:
+        description: 'Existing run containing sfincs-engine artifact; required unless build_engine=true'
+        type: string
+        default: ''
 permissions:
   contents: read
+  actions: read
 jobs:
   solver:
     runs-on: ubuntu-24.04
@@ -17,22 +24,71 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install source-build dependencies
+      - name: Require explicit existing engine or authorized build
+        if: ${{ !inputs.build_engine }}
+        run: test -n '${{ inputs.engine_run_id }}'
+      - name: Install runtime dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends gfortran build-essential autoconf automake libtool pkg-config libnetcdf-dev
+          sudo apt-get install -y --no-install-recommends libnetcdf-dev libgfortran5 libgomp1
           python -m pip install -r tools/sfincs/requirements.txt
-      - name: Build pinned official GPL source
-        run: bash tools/sfincs/build-source.sh "$RUNNER_TEMP/sfincs-source" > source-build.log 2>&1
-      - name: Run observed Cortaro inflow through real terrain
+      - name: Build pinned official GPL source once
+        if: ${{ inputs.build_engine }}
         run: |
-          python tools/sfincs/prepare_reach.py runs/reach-stage4 --terrain tools/sfincs/data/reach-terrain --upstream tools/sfincs/data/gauges/cortaro-benchmark-2014-09.json --forcing tools/sfincs/data/reach-stage4-2014.json --initial-map tools/sfincs/data/reach-result/sfincs_map.nc
-          (cd runs/reach-stage4 && timeout 300 "$RUNNER_TEMP/sfincs-source/source/src/sfincs" > solver.log 2>&1)
+          sudo apt-get install -y --no-install-recommends gfortran build-essential autoconf automake libtool pkg-config
+          bash tools/sfincs/build-source.sh "$RUNNER_TEMP/sfincs-source" > source-build.log 2>&1
+          mkdir engine-package
+          cp "$RUNNER_TEMP/sfincs-source/source/src/sfincs" engine-package/sfincs
+          cp "$RUNNER_TEMP/sfincs-source/LICENSE" engine-package/LICENSE
+          git -C "$RUNNER_TEMP/sfincs-source" rev-parse HEAD > engine-package/SOURCE_COMMIT
+          git -C "$RUNNER_TEMP/sfincs-source" archive --format=tar.gz -o "$GITHUB_WORKSPACE/engine-package/corresponding-source.tar.gz" HEAD
+          cp tools/sfincs/build-source.sh engine-package/
+          ldd engine-package/sfincs > engine-package/runtime-libraries.txt
+          dpkg-query -W -f='${Package}=${Version}\n' libnetcdf-dev libnetcdf19t64 libgfortran5 libgomp1 libc6 > engine-package/runtime-packages.txt
+          printf '%s\n' 'Official GPL source build; not the separately licensed downloadable binary.' 'Target: Ubuntu 24.04 x86_64. Install the recorded Ubuntu runtime packages; no compiler is needed to reuse.' 'Source: https://github.com/Deltares/SFINCS/tree/f3647fc0289bb15cb2512d60686cef74cb853c78' > engine-package/NOTICE
+          (cd engine-package && sha256sum sfincs corresponding-source.tar.gz > SHA256SUMS)
+          tar -czf sfincs-engine.tar.gz -C engine-package .
+      - name: Persist reusable engine before any case runs
+        if: ${{ inputs.build_engine }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: sfincs-engine
+          path: sfincs-engine.tar.gz
+          retention-days: 90
+          if-no-files-found: error
+      - name: Retrieve persisted engine (also for the first invocation)
+        uses: actions/download-artifact@v4
+        with:
+          name: sfincs-engine
+          path: engine-download
+          run-id: ${{ inputs.build_engine && github.run_id || inputs.engine_run_id }}
+          github-token: ${{ github.token }}
+      - name: Verify retrieved executable and source
+        run: |
+          mkdir engine-reused
+          tar -xzf engine-download/sfincs-engine.tar.gz -C engine-reused
+          (cd engine-reused && sha256sum -c SHA256SUMS)
+          test "$(cat engine-reused/SOURCE_COMMIT)" = f3647fc0289bb15cb2512d60686cef74cb853c78
+          test -x engine-reused/sfincs
+          ldd engine-reused/sfincs | tee engine-reused/current-runtime-libraries.txt
+          ! grep -q 'not found' engine-reused/current-runtime-libraries.txt
+      - name: Run complete 96-hour event and river-location comparison using same retrieved binary
+        run: |
+          for placement in gauge channel; do
+            extra=()
+            if [ "$placement" = channel ]; then extra=(--flowline tools/sfincs/data/cortaro-downstream-flowlines.json); fi
+            python tools/sfincs/prepare_reach.py "runs/reach-96h-$placement" --terrain tools/sfincs/data/reach-terrain --upstream tools/sfincs/data/gauges/cortaro-benchmark-2014-09.json --forcing tools/sfincs/data/reach-stage4-2014-96h.json --dry-start "${extra[@]}"
+            (cd "runs/reach-96h-$placement" && timeout 300 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
+            python tools/sfincs/export_reach.py "runs/reach-96h-$placement" --target tools/sfincs/data/gauges/trico-benchmark-2014-09.json
+          done
+          (cd engine-reused && sha256sum -c SHA256SUMS)
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: sfincs-verification
           path: |
             source-build.log
+            engine-reused/SHA256SUMS
+            engine-reused/current-runtime-libraries.txt
             runs/
           retention-days: 7
