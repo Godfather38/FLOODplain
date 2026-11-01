@@ -36,18 +36,22 @@ export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{
         feature.bbox=bbox;feature._coordinateCount=count;feature.properties={...feature.properties,_sourceLayer:name,_featureId:name+':'+z+'/'+x+'/'+y+':'+(item.id??i)};result.push(feature);}}
     return {features:result,coordinates};
   }
-  function install(list){vector.clear();labels.clear();const geometries=[],labelGeometries=[],occupied=new Set(),named=new Set();
+  function installLabels(list){labels.clear();const labelGeometries=[],occupied=[],named=new Set();
     for(const f of list){const name=f.properties._sourceLayer,p=f.properties;if((name==='place'||name==='transportation_name')&&!p.name)continue;
       if(name==='place'||name==='transportation_name'){
         if(named.has(p.name))continue;
         const g=f.geometry,coordinate=g.type==='Point'?g.coordinates:g.type==='LineString'?g.coordinates[Math.floor(g.coordinates.length/2)]:null;
-        if(!coordinate)continue;const screen=map.coordinateToContainerPoint(new maptalks.Coordinate(coordinate)),key=Math.floor(screen.x/140)+','+Math.floor(screen.y/45);
-        if(occupied.has(key))continue;occupied.add(key);named.add(p.name);
+        if(!coordinate)continue;const screen=map.coordinateToContainerPoint(new maptalks.Coordinate(coordinate)),size=map.getSize(),width=Math.min(240,p.name.length*(name==='place'?7.8:6)+10),box={left:screen.x-width/2,right:screen.x+width/2,top:screen.y-12,bottom:screen.y+12};
+        if(box.right<0||box.left>size.width||box.bottom<0||box.top>size.height||occupied.some(b=>box.left<b.right+8&&box.right>b.left-8&&box.top<b.bottom+8&&box.bottom>b.top-8))continue;occupied.push(box);named.add(p.name);
         const label=new maptalks.Marker(coordinate,{id:p._featureId,symbol:featureStyle(name,p)});labelGeometries.push(label);continue;
       }
+    }labels.addGeometry(labelGeometries);
+  }
+  function install(list){vector.clear();installLabels(list);const geometries=[];
+    for(const f of list){const name=f.properties._sourceLayer,p=f.properties;if(name==='place'||name==='transportation_name')continue;
       const geometry=maptalks.GeoJSON.toGeometry(f);if(!geometry||Array.isArray(geometry))continue;
       geometry.setId(p._featureId);geometry.setSymbol(featureStyle(name,p));geometry.setProperties(p);geometry.on('click',()=>{onPick({kind:'geographic-feature',id:p._featureId,layer:name,properties:p});});geometries.push(geometry);}
-    vector.addGeometry(geometries);labels.addGeometry(labelGeometries);
+    vector.addGeometry(geometries);
   }
   function texture(list,bounds){if(!onTexture||!textureFactory)return;const sw=project([bounds.west,bounds.south]).sub(origin),ne=project([bounds.east,bounds.north]).sub(origin);
     const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=2048;const ctx=canvas.getContext('2d');ctx.fillStyle='#eeeee7';ctx.fillRect(0,0,2048,2048);
@@ -67,7 +71,7 @@ export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{
   function update(extent,zoom){
     const view={west:extent.xmin,east:extent.xmax,south:extent.ymin,north:extent.ymax},requestedZoom=Math.floor(zoom),requestKey=[requestedZoom,view.west,view.east,view.south,view.north].join('/');
     if(dead)return Promise.resolve();if(requestKey===lastKey&&pending)return pending;
-    if(installedZoom===requestedZoom&&contains(installedBounds,view)){if(pending){generation++;controller?.abort();pending=null;lastKey='';}return Promise.resolve();}
+    if(installedZoom===requestedZoom&&contains(installedBounds,view)){if(pending){generation++;controller?.abort();pending=null;lastKey='';}installLabels(features);return Promise.resolve();}
     lastKey=requestKey;const token=++generation;controller?.abort();controller=new AbortController();const signal=controller.signal;
     const dx=(view.east-view.west)*.2,dy=(view.north-view.south)*.2,bounds={west:view.west-dx,east:view.east+dx,south:Math.max(-85,view.south-dy),north:Math.min(85,view.north+dy)};
     pending=(async()=>{try{const info=await metadata;if(dead||signal.aborted||token!==generation)return;let z=Math.min(info.maxzoom??14,Math.max(0,requestedZoom));

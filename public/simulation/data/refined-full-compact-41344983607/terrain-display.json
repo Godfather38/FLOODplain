@@ -1,15 +1,15 @@
 {
   "status": "available",
   "artifact": {
-    "path": "terrain-index-overview.json.gz",
-    "sha256": "0f7a92538e26925393b6aaba5e47fa559c6c0cb0f72939c6e6987d0eff3a88b6",
-    "bytes": 426634
+    "path": "terrain-index-water-aware.json.gz",
+    "sha256": "4e88aa2965ec924830c26d2ae48329c561da627c70fd3b90d5f3d92da25d6de0",
+    "bytes": 402028
   },
   "kind": "native_face_terrain_tiles",
   "runId": "refined-full-41344983607",
   "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
   "verticalDatum": "NAVD88",
-  "note": "Display terrain reused from identical native mesh; water and time come exclusively from the completed target run. Coarse terrain omits interior detail; no new hydraulics.",
+  "note": "Native terrain retained under every face reaching the existing 0.01 m display threshold in any completed frame; coarse dry-display remainder. No water, hydraulic resolution or road-safety tolerance changed.",
   "geometryEquivalence": {
     "method": "exact-native-geometry",
     "runId": "refined-full-41344983607",
@@ -44,7 +44,14 @@
       "sha256": "0f7a92538e26925393b6aaba5e47fa559c6c0cb0f72939c6e6987d0eff3a88b6",
       "bytes": 426634
     },
-    "method": "Unchanged terrain bytes reused after exact ordered native geometry and mesh/datum comparison"
+    "method": "Unchanged terrain bytes reused after exact ordered native geometry and mesh/datum comparison",
+    "waterAwareGround": [
+      {
+        "path": "terrain-water-aware-400m.json.gz",
+        "sha256": "e671d471cb37b5286ce0bc75a168980a1bace101d1f1ce37591c1dd2ef878f8b",
+        "bytes": 3954234
+      }
+    ]
   },
   "artifactBase": "../refined-partial-41339621278/"
 }

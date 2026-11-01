@@ -1,0 +1,36 @@
+{
+  "kind": "completed_water_aware_ground_verification",
+  "runId": "refined-full-41344983607",
+  "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+  "displayThresholdM": 0.01,
+  "frameCount": 57,
+  "nativeWetFaceCount": 71009,
+  "nativeWetAreaM2": 131922265.625,
+  "outputs": [
+    {
+      "samplingM": 400,
+      "triangles": 250702,
+      "vertices": 127340,
+      "artifact": {
+        "path": "terrain-water-aware-400m.json.gz",
+        "sha256": "e671d471cb37b5286ce0bc75a168980a1bace101d1f1ce37591c1dd2ef878f8b",
+        "bytes": 3954234
+      },
+      "nativeGroundTriangles": 143859,
+      "coarseRemainderTriangles": 106843,
+      "coverageSymmetricDifferenceM2": 0.0,
+      "nativeCoarseOverlapM2": 0.0
+    }
+  ],
+  "limits": [
+    "250702 total ground triangles exceeds original approximately200k target; exact fragmented native boundaries retained.",
+    "Optional200m tier not delivered: clipped polygon constrained triangulation failed;400m tier completed with exact coverage checks.",
+    "This is a static completed57-frame display-threshold union, not altered hydraulic output or a claim that belowthreshold is dry."
+  ],
+  "nativeBoundaryCostAudit": {
+    "nativeUnionBoundaryVertices": 92417,
+    "planCollinearVertices": 34013,
+    "collinearWithTerrainDeviationOver1mm": 33067,
+    "planTurningVertices": 55488
+  }
+}

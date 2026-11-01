@@ -19,19 +19,19 @@ Technical milestones were allowed to stand in for the full visual request while 
 - [ ] Attractive, geographically recognizable terrain overview based on actual terrain and map features, with familiar roads/routes and readable geographic context.
 - [ ] Contiguous terrain and water surfaces. The earlier voxel request does not justify large square swathes, independent block caps, gratuitous grid outlines or semi-opaque columns. Keep a raw computational grid diagnostic optional.
 - [ ] Convincing animated water appearance: coherent material, lighting and restrained surface highlights, while native selected-frame water level remains fixed. Cosmetic animation must not imply simulated velocities or new physics.
-- [ ] Native water surfaces intersect source-bound terrain; exact cell IDs, depth in metres/feet, datum, missing values and selected time stay truthful. Do not bridge dry barriers, missing cells or outside-domain gaps to make prettier water.
-- [ ] Actual model results are visibly different at two native frames in the same geographic view; exact selected-cell values agree with source data.
-- [ ] Same place, route, selection, time and range survive entry/exit and mode changes. This remains an alternate geographic view, never a detached analytics viewer.
-- [ ] Flat-first product stays with the 2D owner. Explicit 3D entry loads bounded assets lazily; inactive work stops; cancellation, cleanup and fallback work.
-- [ ] Useful whole-area overview and close terrain detail with bounded LOD; missing visible tiles must not be mistaken for dry/safe terrain. Avoid visual holes caused only by an arbitrary tile budget where a coarser complete view is feasible.
-- [ ] Inspect integrated desktop and phone-size output for water quality, terrain continuity, road legibility, selection, time switching and geographic alignment. Record real-device limitations honestly.
+- [x] Native water surfaces intersect source-bound terrain; exact cell IDs, depth in metres/feet, datum, missing values and selected time stay truthful. Do not bridge dry barriers, missing cells or outside-domain gaps to make prettier water.
+- [x] Actual model results are visibly different at two native frames in the same geographic view; exact selected-cell values agree with source data.
+- [x] Same place, route, selection, time and range survive entry/exit and mode changes. This remains an alternate geographic view, never a detached analytics viewer.
+- [x] Flat-first product stays with the 2D owner. Explicit 3D entry loads bounded assets lazily; inactive work stops; cancellation, cleanup and fallback work.
+- [x] Useful whole-area overview and close terrain detail with bounded LOD; missing visible tiles must not be mistaken for dry/safe terrain. Avoid visual holes caused only by an arbitrary tile budget where a coarser complete view is feasible.
+- [x] Inspect integrated desktop and phone-size output for water quality, terrain continuity, road legibility, selection, time switching and geographic alignment. Record real-device limitations honestly.
 - [ ] Parent/user visual review of the integrated result remains outstanding. Do not label the full visual goal complete based on module tests.
 
 ## Current upgraded integration evidence
 
 See [UPGRADED-3D-INTEGRATION.md](UPGRADED-3D-INTEGRATION.md) for completed 57-frame binding, complete overview/phone terrain coverage, exact native values, lifecycle checks and measurements. The earlier compact binding and missing phone tiles are resolved in this isolated upgraded branch. Native frames visibly change and state persists. The historical 21-frame restriction below describes the earlier checkpoint, not the current completed package.
 
-The full visual checklist intentionally remains open: water remains subtle at overview scale after correcting the gray terrain lighting, and physical-device/user visual acceptance is outstanding. Do not equate the successful integrated functional test with approval of the overall appearance.
+The latest integration carries safety behavior through f6d65fb, compact phone controls, and corrected overview ground. The previous false coarse-terrain obstruction is removed without moving or widening native water. Some real water features remain subpixel at whole-domain scale. Physical-device/user visual acceptance is outstanding; do not equate functional verification with approval of the overall appearance.
 
 Parent authorized this owner to combine completed 3D and solver artifacts with existing safety app changes on the isolated upgraded branch. The dedicated 2D release branch remains untouched and independent.
 

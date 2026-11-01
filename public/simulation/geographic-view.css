@@ -7,3 +7,13 @@
 .voxel-cell-info button{min-height:44px;margin-top:8px;padding:6px 14px;border:1px solid #849b9c;border-radius:7px;background:#edf3ed;color:#213b42}
 .voxel-geographic .maptalks-attribution{position:absolute;right:0;bottom:0;padding:3px 6px;background:#fffD;font:11px/1.4 system-ui;z-index:25}
 @media(max-width:600px){.voxel-cell-info{top:60px;left:8px;right:8px;max-width:none}.voxel-map-note{font-size:10px;bottom:22px}}
+
+.voxel-cell-info .cell-depth-readout{min-height:44px;font-weight:650;line-height:1.35;padding-right:48px}
+.voxel-cell-info .cell-close{position:absolute;top:4px;right:4px;min-width:44px;min-height:44px;margin:0;padding:5px;border:0;background:transparent;font-size:11px}
+.voxel-cell-info details{margin-top:2px}
+.voxel-cell-info details summary{min-height:44px;display:flex;align-items:center;gap:5px;cursor:pointer;color:#506369;font-size:12px}
+.voxel-cell-info details summary::before{content:'+'}
+.voxel-cell-info details[open] summary::before{content:'-'}
+.voxel-cell-info details strong{font-size:12px}
+.voxel-cell-info details small{font-size:11px;line-height:1.4}
+@media(max-width:899px){.voxel-cell-info .cell-depth-readout{font-size:12px}.voxel-cell-info details[open]{padding-bottom:2px}}

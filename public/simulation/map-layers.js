@@ -107,6 +107,15 @@ export function mountFloodLayers(map,{routeLayer,streetTiles}){
  window.addEventListener('flood-exit-3d',()=>{++viewTransition;requestedView='flat';if(terrainView?.active){terrainView.hide();Promise.resolve(terrainView.setViewMode('flat')).catch(()=>{});syncViewButton();render()}});
  window.addEventListener('hashchange',()=>{if(location.hash==='#/map')enterMap()});
  mountMapShell(host,map,{load,findWater,sharedState,state:()=>({frames:loaded?.run?.frames??[],start:windowStart,end:windowEnd??0,publication:refinedCase?.manifest}),applyWindow:(start,end)=>{sharedState.setRange(start,end);windowStart=start;windowEnd=end;index=Math.max(start,Math.min(end,index));q('[data-time]').min=start;q('[data-time]').max=end;q('[data-time]').value=index;const labels=document.querySelector('.flood-time-ends');labels.textContent='Selected window: '+((Date.parse(loaded.run.frames[end].time)-Date.parse(loaded.run.frames[start].time))/3600000)+' hours · native frames';if(q('[data-model]').value==='off'){q('[data-model]').value=caseChoice==='refined'?'2d':'aggregate';q('[data-model]').dispatchEvent(new Event('change'))}else render()}});
+ // Keep phone map controls compact; the original source nodes retain their live updates.
+ const phoneSources=document.createElement('details');phoneSources.className='phone-source-details';
+ const sourceSummary=document.createElement('summary');sourceSummary.textContent='Source dates & model details';phoneSources.append(sourceSummary);
+ document.querySelector('[data-panel-content=time]').append(phoneSources);
+ const sourcePlacements=[...document.querySelectorAll('.map-dock > .source-age,.map-dock .flood-time-ends')].map(node=>{const marker=document.createComment('source detail position');node.before(marker);return {node,marker};});
+ function placePhoneSources(){const compact=innerWidth<900&&location.hash==='#/map';phoneSources.hidden=!compact;
+  for(const {node,marker} of sourcePlacements){if(compact){if(node.parentNode!==phoneSources)phoneSources.append(node);}else if(node.previousSibling!==marker)marker.after(node);}
+ }
+ window.addEventListener('resize',placePhoneSources);window.addEventListener('hashchange',placePhoneSources);placePhoneSources();
  if(caseChoice==='refined'){document.querySelector('.flood-time-ends').textContent='No native frame timestamps available yet';document.querySelector('.flood-tag').textContent='REFINED CASE · requires completed output';q('[data-prev]').setAttribute('aria-label','Previous native frame');q('[data-next]').setAttribute('aria-label','Next native frame');q('[data-3d]').disabled=true;for(const selector of ['[data-rain]','[data-flow]']){q(selector).checked=false;q(selector).disabled=true}}
  q('[data-case]').value=caseChoice;q('[data-case]').onchange=e=>{const url=new URL(location.href);url.searchParams.set('case',e.target.value==='refined'?'refined':'coarse');location.href=url.href};
  if(location.hash==='#/map')enterMap();

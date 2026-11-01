@@ -24,6 +24,12 @@ test('SYNTHETIC: broad native coverage selects complete ground and global native
  const same=await loader.load({extent,center:{x:2.8,y:.3},zoom:18,budget:4,maxTiles:1});assert.equal(same,broad);assert.equal(reads.length,3);
  const close=await loader.load({extent:{xmin:.01,ymin:.01,xmax:.99,ymax:.99},zoom:18,budget:4,maxTiles:1});assert.equal(close.kind,'native_face_triangle_terrain');assert.equal(close.stats.loadedTiles,1);assert.equal(loader.stats.waterSupportLoaded,true);loader.dispose();assert.equal(loader.stats.waterSupportLoaded,false);assert.equal(loader.stats.groundLevels,0);
 });
+test('SYNTHETIC: complete overview has a separate fixed cap without increasing close tile work',async()=>{
+ const f=overviewFixture(),loader=createTerrainTileLoader({manifest:f.manifest,geometry:{cells:Array(3)},readArtifact:async a=>f.assets[a.path]});
+ const broad=await loader.load({extent,zoom:18,budget:2,overviewBudget:4,maxTiles:1});assert.equal(broad.overviewGround.triangles.length,4);
+ const close=await loader.load({extent:{xmin:.01,ymin:.01,xmax:.99,ymax:.99},zoom:18,budget:2,overviewBudget:4,maxTiles:1});assert.equal(close.kind,'native_face_triangle_terrain');assert.equal(close.stats.triangles,2);
+ const limited=await loader.load({extent,zoom:18,budget:2,overviewBudget:2,maxTiles:1});assert.equal(limited.overviewGround.triangles.length,2);await assert.rejects(loader.load({extent,overviewBudget:0}),/budgets/);loader.dispose();
+});
 test('SYNTHETIC: hierarchy respects ground budget and source-bound support checks',async()=>{
  const f=overviewFixture(),loader=createTerrainTileLoader({manifest:f.manifest,geometry:{cells:Array(3)},readArtifact:async a=>f.assets[a.path]});const coarse=await loader.load({extent,zoom:18,budget:2,maxTiles:1});assert.equal(coarse.overviewGround.triangles.length,2);assert.equal(coarse.stats.groundSamplingM,400);loader.dispose();
  const wrong=overviewFixture();wrong.assets['water-support.json.gz'].runId='other';const denied=createTerrainTileLoader({manifest:wrong.manifest,geometry:{cells:Array(3)},readArtifact:async a=>wrong.assets[a.path]});await assert.rejects(denied.load({extent,budget:4,maxTiles:1}),/mismatch/);denied.dispose();

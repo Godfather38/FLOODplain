@@ -181,6 +181,13 @@ const topIssue = (r) => {
   const a = againstIt(r)[0];
   return a ? `${a.short}: ${a.why}` : 'Nothing working against it';
 };
+function bridgeCardEvidence(p) {
+  const c=p.checks.find(c=>c.heightComparison?.status==='estimated'),h=c?.heightComparison;
+  if(!h)return '';
+  const time=new Date(h.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+  return `<div class="st"><strong>${esc(p.short)}: estimated road ${h.roadM.toFixed(2)} m; modeled water ${h.waterM.toFixed(2)} m.</strong> Water is ${Math.abs(h.differenceM).toFixed(2)} m ${h.differenceM>=0?'below':'above'} the estimated roadway at ${esc(time)} Arizona. ${c.modeledRoadConcern?'Modeled roadway concern contributes to the rating.':'This comparison adds no bridge-flooding penalty; other hazards still apply.'}</div><div class="meta">Both NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.</div>`;
+}
+const routeBridgeEvidence=r=>r.points.map(bridgeCardEvidence).join('');
 const minutes = (r) => `${Math.round(r.minutes)} min`;
 const navBtn = (r, cls = 'btn btn-primary') => `<button type="button" class="${cls}" data-nav="${r.id}">${NAV_ICON}Navigate</button>`;
 
@@ -201,17 +208,18 @@ function homeScreen() {
       <p class="meta">${minutes(best)} · ${esc(viaText(best.id))}</p>
       <div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(best))}</p></div>
       ${against.length ? `<ul class="against">${against.map((a) => `<li><span class="dot ${a.level}"></span><span>${esc(a.short)}: ${esc(a.why)}</span></li>`).join('')}</ul>` : ''}
+      ${routeBridgeEvidence(best)}
       <div class="actions">${navBtn(best)}<a class="btn btn-text" href="#/r/${best.id}">Details</a></div>
     </article>
     <section class="saved-routes" aria-labelledby="saved-title"><h3 id="saved-title" class="section">Your saved routes</h3>
-    ${favorites.some((id) => view.byId[id]) ? `<div class="list">${favorites.filter((id) => view.byId[id]).map((id) => `<a class="row" href="#/r/${id}">${badge(view.byId[id].score)}<span class="text"><span class="t">${esc(ROUTE_INFO[id].name)}</span><span class="st">${esc(topIssue(view.byId[id]))}</span></span><span class="chev" aria-hidden="true">›</span></a>`).join('')}</div>` : '<p class="meta">Open a route and choose Save route to keep it here for this area.</p>'}
+    ${favorites.some((id) => view.byId[id]) ? `<div class="list">${favorites.filter((id) => view.byId[id]).map((id) => `<a class="row" href="#/r/${id}">${badge(view.byId[id].score)}<span class="text"><span class="t">${esc(ROUTE_INFO[id].name)}</span><span class="st">${esc(topIssue(view.byId[id]))}</span>${routeBridgeEvidence(view.byId[id])}</span><span class="chev" aria-hidden="true">›</span></a>`).join('')}</div>` : '<p class="meta">Open a route and choose Save route to keep it here for this area.</p>'}
     <p class="meta">Saved on this browser. Ratings still use the current check.</p></section>
     <h3 class="section">Other routes</h3>
     <div class="list">
       ${others.map((r) => `
         <a class="row" href="#/r/${r.id}">
           ${badge(r.score)}
-          <span class="text"><div class="t">${esc(ROUTE_INFO[r.id].name)}</div><div class="st">${minutes(r)} · ${esc(topIssue(r))}</div></span>
+          <span class="text"><div class="t">${esc(ROUTE_INFO[r.id].name)}</div><div class="st">${minutes(r)} · ${esc(topIssue(r))}</div>${routeBridgeEvidence(r)}</span>
           <span class="chev">›</span>
         </a>`).join('')}
     </div>
@@ -237,7 +245,7 @@ function routeScreen(rid) {
   const row = (p) => `
     <a class="row" href="#/r/${rid}/${p.id}">
       ${badge(pointScore(p))}
-      <span class="text"><div class="t">${esc(p.short)}</div><div class="st">${esc(p.why)}</div></span>
+      <span class="text"><div class="t">${esc(p.short)}</div>${bridgeCardEvidence(p)}<div class="st">${esc(p.why)}</div></span>
       <span class="chev">›</span>
     </a>`;
   return `
@@ -259,7 +267,7 @@ function bridgeEvidencePlaceholder(fp){
  const heightHtml=road?`<dt>Estimated roadway height</dt><dd>About ${road.elevationM.toFixed(2)} m ${esc(road.verticalDatum)}. Approach samples: ${road.approachElevationsM.map(v=>v.toFixed(3)).join(' and ')} m. <a href="${esc(road.source)}" target="_blank" rel="noopener noreferrer">Road profile source</a>. ${esc(road.method)}</dd>`:'<dt>Roadway height</dt><dd>No site-linked estimate available.</dd>';
  const waterHtml=height.status==='estimated'?`<dt>Highest remaining modeled water elevation</dt><dd>${height.waterM.toFixed(2)} m ${esc(height.datum)} at ${esc(new Date(height.time).toLocaleString('en-US',{timeZone:'America/Phoenix'}))} Arizona time. Estimated road is ${Math.abs(height.differenceM).toFixed(2)} m ${height.differenceM>=0?'above':'below'} that modeled water surface. This is roadway height difference, not under-bridge clearance.</dd><dt>Water source and period</dt><dd>Native SFINCS water surface, 100 m cell ${water.cellIndex} containing this bridge. Issued ${esc(water.issuedAt)}; forecast ${esc(water.validFrom)} through ${esc(water.validTo)}. ${esc(water.method)} <a href="simulation/data/current-sfincs-manifest.json">Model source</a>.</dd>`:`<dt>Water elevation comparison</dt><dd>${esc(height.reason)}</dd>`;
  const historyHtml=history.length?history.map(h=>`<p><a href="${esc(h.source)}" target="_blank" rel="noopener noreferrer">${esc(h.date)} report and photographs</a>: ${esc(h.summary)}</p><p>${esc(h.siteMatch||'')}</p><p>${esc(h.interpretationLimit||'')}</p>`).join(''):'No confirmed structure-specific flooding history linked. '+esc(record?.historyLimit||'This does not mean it has never flooded.');
- return `<section class="bridge-evidence" data-bridge-evidence data-crossing-id="${esc(fp.id)}"><h3>${esc(fp.short)}: height & history</h3>${bridgeEvidence?.status==='unavailable'?`<p role="status">Evidence package unavailable: ${esc(bridgeEvidence.reason)}. Missing fields below are not proof of no flood history.</p>`:''}<dl>${heightHtml}${waterHtml}<dt>Under-bridge clearance</dt><dd>Underside elevation is unavailable. Roadway height is not underside height; gauge flow in cfs is not water elevation.</dd><dt>Documented flooding or overtopping</dt><dd>${historyHtml}</dd></dl><p>Current readings and official barricade reports are shown below. Existing flow thresholds are warning indicators, not a measured bridge-clearance calculation.</p>${record?`<details><summary>Evidence source</summary><p>Structure matched by its recorded coordinates; map tag, not survey confirmation. Registry ${esc(bridgeEvidence.source.sourceCommit)}. Structure evidence is separate from model coverage and current official closures.</p></details>`:''}</section>`;
+ return `<section class="bridge-evidence" data-bridge-evidence data-crossing-id="${esc(fp.id)}"><h3>${esc(fp.short)}: height & history</h3>${bridgeEvidence?.status==='unavailable'?`<p role="status">Evidence package unavailable: ${esc(bridgeEvidence.reason)}. Missing fields below are not proof of no flood history.</p>`:''}<dl>${heightHtml}${waterHtml}<dt>Under-bridge clearance</dt><dd>Underside elevation is unavailable. Roadway height is not underside height; gauge flow in cfs is not water elevation.</dd><dt>Documented flooding or overtopping</dt><dd>${historyHtml}</dd></dl><p>Current readings and official barricade reports are shown below. Bridge ratings use site-matched roadway/water comparisons and reported hazards; flow cutoffs do not determine bridge inundation.</p>${record?`<details><summary>Evidence source</summary><p>Structure matched by its recorded coordinates; map tag, not survey confirmation. Registry ${esc(bridgeEvidence.source.sourceCommit)}. Structure evidence is separate from model coverage and current official closures.</p></details>`:''}</section>`;
 }
 
 function stretchScreen(rid, fpId) {

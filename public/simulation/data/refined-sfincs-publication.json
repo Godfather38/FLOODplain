@@ -1,7 +1,7 @@
 {
   "status": "complete",
   "path": "data/refined-full-compact-41344983607/manifest.json",
-  "sha256": "9d2213c5032f4c779d269b3b6d088f3c5325468952452b946f32ef141479353c",
+  "sha256": "6b017b3c2ba0d78fdf760fee07cd2aca186fb99064232a050125ec84a1d7d720",
   "runId": "refined-full-41344983607",
   "executionMode": "simulated_live_frozen_inputs",
   "validFrom": "2026-11-01T17:00:00Z",

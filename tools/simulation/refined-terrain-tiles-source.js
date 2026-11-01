@@ -18,8 +18,8 @@ export function createTerrainTileLoader({manifest,geometry,readArtifact,cacheTil
   }
   async function getIndex(signal){if(index)return index;if(!indexTask){const descriptor=manifest.terrainDisplay;if(descriptor?.status!=='available'||!descriptor.artifact)throw Error('Source-bound terrain unavailable');indexTask=readArtifact(descriptor.artifact,{signal}).then(validateIndex).then(data=>index=data).finally(()=>{indexTask=null;});}try{return await indexTask;}catch(error){if(error.name==='AbortError'&&!signal.aborted)return getIndex(signal);throw error;}}
   function remember(key,value,size){if(cache.has(key)){bytes-=cache.get(key).size;cachedTriangles-=cache.get(key).value.triangles.length;cache.delete(key);}cache.set(key,{value,size});bytes+=size;cachedTriangles+=value.triangles.length;while(cache.size>cacheTiles||bytes>cacheBytes||cachedTriangles>cacheTriangles){const first=cache.keys().next().value;bytes-=cache.get(first).size;cachedTriangles-=cache.get(first).value.triangles.length;cache.delete(first);}}
-  async function load({extent,center,zoom=14,signal,budget=160000,maxTiles=9}={}){
-    const loadStarted=performance.now();if(disposed)throw Error('Terrain loader disposed');if(!Number.isInteger(budget)||budget<1||!Number.isInteger(maxTiles)||maxTiles<1)throw Error('Positive terrain budgets required');
+  async function load({extent,center,zoom=14,signal,budget=160000,overviewBudget=budget,maxTiles=9}={}){
+    const loadStarted=performance.now();if(disposed)throw Error('Terrain loader disposed');if(!Number.isInteger(budget)||budget<1||!Number.isInteger(overviewBudget)||overviewBudget<1||!Number.isInteger(maxTiles)||maxTiles<1)throw Error('Positive terrain budgets required');
     const token=++generation;controller?.abort();const request=controller=new AbortController(),abort=()=>request.abort();signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();
     const check=()=>{if(disposed||request.signal.aborted||token!==generation)throw new DOMException('Terrain request superseded','AbortError');};
     try{const data=await getIndex(request.signal),indexMs=performance.now()-loadStarted;check();if(data.kind==='native_face_triangle_terrain')return retarget(data);
@@ -33,7 +33,7 @@ export function createTerrainTileLoader({manifest,geometry,readArtifact,cacheTil
       const coarseFor=tile=>tile.levels.find(l=>l.coarseFallback===true)||tile.levels.find(l=>l.level===0);
       const coarseCoverageTriangles=visible.reduce((sum,t)=>sum+(coarseFor(t)?.triangles||0),0);
       if(data.overviewLevels?.length&&(visible.length>maxTiles||coarseCoverageTriangles>budget)){
-        const fitting=data.overviewLevels.filter(l=>l.triangles<=budget).sort((a,b)=>a.samplingM-b.samplingM),pixelM=156543.03392*Math.cos(cy*Math.PI/180)/2**zoom;
+        const fitting=data.overviewLevels.filter(l=>l.triangles<=overviewBudget).sort((a,b)=>a.samplingM-b.samplingM),pixelM=156543.03392*Math.cos(cy*Math.PI/180)/2**zoom;
         const lod=fitting.find(l=>l.samplingM>=pixelM*2)||fitting[0];
         if(lod){const support=data.waterSupport,key='overview:'+lod.artifact.sha256+':'+support.artifact.sha256;
           const selectionStats={visibleTiles:visible.length,loadedTiles:0,omittedTiles:0,completeVisibleCoverage:true,overviewMode:true,nativeWaterSupport:true,coarseCoverageTriangles,coverageLimitedBy:null,groundSamplingM:lod.samplingM,groundTriangles:lod.triangles,waterSupportFaces:support.faceCount,waterSupportTriangles:support.triangles,waterSupportDecodedBytes:support.decodedBytes};

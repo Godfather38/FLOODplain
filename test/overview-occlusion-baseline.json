@@ -1,0 +1,107 @@
+{
+  "runId": "refined-full-41344983607",
+  "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+  "method": "Approximate area test, NOT camera footprint or road-safety evidence. Ground-height versus exact native clipped water; four barycentric samples per water triangle, area weighted; >5cm counted as occluded. Measures false local occlusion, not legitimate camera foreground terrain. Pixel coverage clips triangles to a nominal plan-view pixel grid at zoom11.25/latitude32.44; actual tilted-camera perspective varies. Source water geometry, heights, colors, depth testing and picking are unchanged.",
+  "results": [
+    {
+      "time": "2026-11-01T22:00:00Z",
+      "frameSha256": "51ff42b6a3fa03ac4eb3ab67c22ad73a675af87c255a39e7372e496119f5a594",
+      "waterTriangles": 77909,
+      "visibleWetFaces": 41224,
+      "estimatedWetAreaKm2": 4.28911916053842,
+      "areaWithCellMeanBelowPoint1M": 0.8641176668075242,
+      "widthMetresP50": 2.5389165550560624,
+      "widthMetresP90": 8.851090364401928,
+      "nominalMetresPerPixelAtZoom11Point25": 54.245646194830265,
+      "triangleWidthUnderOnePixelFraction": 0.9988701290363998,
+      "nominalPlanPixelCoverage": {
+        "touchedPixels": 14947,
+        "equivalentFullyWetPixels": 1457.599927089666,
+        "pixelCountBelow10Percent": 10867,
+        "pixelCountAbove50Percent": 517,
+        "wetAreaFractionInPixelsBelow10Percent": 0.23060628858386933,
+        "wetAreaFractionInPixelsBelow50Percent": 0.741371140967885
+      },
+      "levels": [
+        {
+          "artifact": "terrain-overview-200m.json.gz",
+          "sha256": "a5a166ca171e05ece84ad2968dcc11bb0a26d14fa00f9b158cc3b07a9209e586",
+          "samplingM": 200,
+          "groundTriangles": 26568,
+          "areaWeightedFourSampleOcclusionFraction": 0.45163249835847213,
+          "centroidOccludedTriangleFraction": 0.6043332605989038,
+          "excessGroundAboveWaterM": {
+            "median": 0.445663454197188,
+            "p95": 3.71829599289822,
+            "maximum": 34.74696285133359
+          },
+          "unknownSamples": 0
+        },
+        {
+          "artifact": "terrain-overview-100m.json.gz",
+          "sha256": "00d68b14ebe2974d8cd347cbf8c36ec73cd925c0ae8b7fe62e29bab9c2948bfb",
+          "samplingM": 100,
+          "groundTriangles": 96659,
+          "areaWeightedFourSampleOcclusionFraction": 0.21999891499022192,
+          "centroidOccludedTriangleFraction": 0.5671488531491868,
+          "excessGroundAboveWaterM": {
+            "median": 0.36118010507163945,
+            "p95": 2.3833618822667404,
+            "maximum": 30.05384634768177
+          },
+          "unknownSamples": 0
+        }
+      ]
+    },
+    {
+      "time": "2026-11-02T07:00:00Z",
+      "frameSha256": "7887e2986f9cadabf5927a1d23e22ed0025e4eb42aa68a78542906d2fa8f888d",
+      "waterTriangles": 111469,
+      "visibleWetFaces": 54231,
+      "estimatedWetAreaKm2": 6.817674313723886,
+      "areaWithCellMeanBelowPoint1M": 0.8341362865660481,
+      "widthMetresP50": 3.170093759686299,
+      "widthMetresP90": 8.850945306376213,
+      "nominalMetresPerPixelAtZoom11Point25": 54.245646194830265,
+      "triangleWidthUnderOnePixelFraction": 0.9981424315302057,
+      "nominalPlanPixelCoverage": {
+        "touchedPixels": 14758,
+        "equivalentFullyWetPixels": 2316.8956633411863,
+        "pixelCountBelow10Percent": 9007,
+        "pixelCountAbove50Percent": 1341,
+        "wetAreaFractionInPixelsBelow10Percent": 0.11641947537550541,
+        "wetAreaFractionInPixelsBelow50Percent": 0.5634631765818287
+      },
+      "levels": [
+        {
+          "artifact": "terrain-overview-200m.json.gz",
+          "sha256": "a5a166ca171e05ece84ad2968dcc11bb0a26d14fa00f9b158cc3b07a9209e586",
+          "samplingM": 200,
+          "groundTriangles": 26568,
+          "areaWeightedFourSampleOcclusionFraction": 0.40458528557318457,
+          "centroidOccludedTriangleFraction": 0.54488691923315,
+          "excessGroundAboveWaterM": {
+            "median": 0.38422455002046263,
+            "p95": 3.0012735381826587,
+            "maximum": 31.761744751073024
+          },
+          "unknownSamples": 0
+        },
+        {
+          "artifact": "terrain-overview-100m.json.gz",
+          "sha256": "00d68b14ebe2974d8cd347cbf8c36ec73cd925c0ae8b7fe62e29bab9c2948bfb",
+          "samplingM": 100,
+          "groundTriangles": 96659,
+          "areaWeightedFourSampleOcclusionFraction": 0.19467494591905488,
+          "centroidOccludedTriangleFraction": 0.5282275789681437,
+          "excessGroundAboveWaterM": {
+            "median": 0.3201905565135803,
+            "p95": 2.051497467436093,
+            "maximum": 29.78346060549427
+          },
+          "unknownSamples": 0
+        }
+      ]
+    }
+  ]
+}

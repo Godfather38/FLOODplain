@@ -69,10 +69,10 @@ test('rain: a gauge under maintenance or silent is ignored', () => {
   s.rain.forEach((g) => { g.maintenance = true; });
   assert.equal(checkRain(s, ['6110'], cfg.RAIN.local, cfg.RAIN_GAUGES, NOW, cfg.STALE_MS).level, 'unknown');
 });
-test('wash: Brawley flowing upstream is caution for a dip, watch for a bridge', () => {
+test('wash: upstream flow rates a dip but remains context for a bridge', () => {
   const s = snapshot({}, { 6443: 40 });
   assert.equal(checkWash(s, normalFlows(), FP['brawley-dip'].wash, 'dip', NOW, cfg.STALE_MS, cfg.USGS_SITES).level, 'caution');
-  assert.equal(checkWash(s, normalFlows(), FP['losrobles-bridge'].wash, 'bridge', NOW, cfg.STALE_MS, cfg.USGS_SITES).level, 'watch');
+  assert.equal(checkWash(s, normalFlows(), FP['losrobles-bridge'].wash, 'bridge', NOW, cfg.STALE_MS, cfg.USGS_SITES).level, 'unknown');
 });
 test('county: Closed beats everything, Proceed with Caution is caution', () => {
   assert.equal(checkClosures([{ status: 'Closed', location: 'x' }]).level, 'danger');
@@ -108,11 +108,11 @@ test('county closes Trico-Marana: Silverbell north is next', () => {
   assert.equal(r.res['sc-trico-marana'].level, 'danger');
   assert.equal(r.best.id, 'silverbell-north');
 });
-test('Santa Cruz in big flood: every river bridge flagged, least-bad suggested, not "clear"', () => {
+test('River discharge alone cannot establish bridge inundation or clear passage', () => {
   const flows = { ...normalFlows(), '09486500': flow([8000, 9000, 10000, 11000, 12000]), '09486520': flow([6000, 7000, 8000, 9000, 10500]) };
   const r = choose(data({ flows }));
   assert.equal(r.clear, false);
-  assert.equal(r.res['sc-trico-marana'].level,'watch');
+  assert.equal(r.res['sc-trico-marana'].level,'ok');
   assert.equal(r.res['sc-trico-marana'].checks.find(c=>c.src==='river').bridgeClearance,'unknown');
 });
 test('rain data missing: still a number, from the sources that answered', () => {
@@ -135,11 +135,11 @@ test('old rain readings are used, and labeled with their time', () => {
   assert.equal(r.level, 'caution');
   assert.match(r.why, /rain readings from/);
 });
-test('heavy basin rain is only a heads-up at the Los Robles bridge', () => {
+test('heavy basin rain stays context without a bridge-specific inundation relationship', () => {
   const r = choose(data({ alert: snapshot({ '6460': { h1: 0.6, h3: 0.9, h6: 0.95 } }) }));
-  assert.equal(r.res['losrobles-bridge'].level, 'watch');
+  assert.equal(r.res['losrobles-bridge'].level, 'ok');
   assert.equal(r.best.id, 'trico');
-  assert.equal(r.clear, true);
+  assert.equal(r.clear, false);
 });
 test('Silverbell drainage is never worse than caution', () => {
   const r = choose(data({ alert: snapshot({ '6110': { h1: 2, h3: 3 } }) }));
@@ -180,7 +180,7 @@ test('angel never praises a source that is bad elsewhere on the same route', () 
 });
 test('dry morning: angel lists the good signs, nothing against', () => {
   const r = choose(data());
-  assert.deepEqual(goodSigns(r.best, true), ['the Santa Cruz is at its everyday flow', 'Brawley Wash upstream is dry', 'no rain in the last 6 hours', 'no weather-service flood alerts']);
+  assert.deepEqual(goodSigns(r.best, true), ['Brawley Wash upstream is dry', 'no rain in the last 6 hours', 'no weather-service flood alerts']);
   assert.equal(againstIt(r.best).length, 0);
 });
 

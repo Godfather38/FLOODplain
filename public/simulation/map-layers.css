@@ -30,3 +30,27 @@
 .map-first .voxel-geographic .voxel-cell-info{left:auto;right:16px;top:70px;max-height:calc(100% - 110px);overflow:auto}
 .map-first.panel-open .voxel-geographic .voxel-cell-info{display:none}
 @media(max-width:899px){.map-first .voxel-geographic .voxel-cell-info{left:8px;right:8px;top:64px;max-height:200px;padding:10px;font-size:12px}.map-first .render-notice[data-render-status=ready]>span{display:none}.map-first .render-notice[data-render-status=ready]{padding:4px}.map-first .voxel-map-note{display:none}}
+
+/* Phone map: keep time, stepping and quantitative legend directly accessible. */
+@media(max-width:899px){
+ .map-first .map-dock{left:8px;right:8px;bottom:8px;padding:6px;border-radius:16px}
+ .map-first .flood-time{padding:0 4px 2px;margin:0}
+ .map-first .flood-time .flood-eyebrow{font-size:9px;line-height:1.1;display:block}
+ .map-first .flood-time output{font-size:17px;line-height:1.25;margin:1px 0}
+ .map-first .flood-time-controls{gap:6px}
+ .map-first .flood-time-controls button{width:44px;height:44px;min-height:44px;flex:none;border-radius:10px}
+ .map-first .flood-time-controls input{height:36px;margin:0;min-width:0}
+ .map-first .dock-status{font-size:10px;line-height:1.2;padding:2px 4px 3px}
+ .map-first .dock-key{font-size:10px;line-height:1.2;padding:0 4px 3px}
+ .map-first .dock-key .depth-key{margin:3px 0 2px;font-size:10px}
+ .map-first .dock-actions{gap:5px}
+ .map-first .dock-actions button{min-height:44px;padding:7px 6px;font-size:13px;border-radius:10px}
+ .map-first .map-camera{top:8px;left:8px;gap:5px}
+ .map-first .map-camera button{min-width:44px;min-height:44px;padding:7px}
+ .map-first .phone-source-details{margin:12px 0 0;border-top:1px solid var(--divider);font-size:12px;line-height:1.4}
+ .map-first .phone-source-details summary{min-height:44px;padding:12px 0;cursor:pointer;font-weight:600}
+ .map-first .phone-source-details .source-age{padding:6px 0;font-size:12px;line-height:1.4}
+ .map-first .phone-source-details .flood-time-ends{font-size:12px;padding:6px 0;line-height:1.4}
+ .map-first .voxel-geographic .voxel-cell-info{top:58px;max-height:min(240px,35dvh);padding:8px 10px;font-size:12px}
+}
+@media(max-width:359px){.map-first .flood-time output{font-size:16px}.map-first .dock-actions button{font-size:12px}.map-first .dock-key{font-size:9px}}

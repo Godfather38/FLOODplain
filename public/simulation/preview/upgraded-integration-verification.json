@@ -42,6 +42,7 @@
     "http://127.0.0.1:8094/simulation/data/bridge-evidence-source.json",
     "http://127.0.0.1:8094/data/routes.geojson",
     "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/manifest.json",
+    "http://127.0.0.1:8094/icons/logo.svg",
     "http://127.0.0.1:8094/simulation/data/current-sfincs-manifest.json",
     "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?hit=1&new=1",
     "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=usgs",
@@ -63,18 +64,19 @@
     "https://tile.openstreetmap.org/13/1567/3314.png",
     "https://tile.openstreetmap.org/13/1563/3316.png",
     "https://tile.openstreetmap.org/13/1567/3316.png",
-    "http://127.0.0.1:8094/icons/logo.svg",
-    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/geometry.bin.gz",
     "http://127.0.0.1:8094/icons/icon-192.png",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/geometry.bin.gz",
     "http://127.0.0.1:8094/simulation/geographic-view.js",
     "http://127.0.0.1:8094/simulation/geographic-view-observed.js",
     "http://127.0.0.1:8094/simulation/renderer-chunks/chunk-3TDQH4E2.js",
     "http://127.0.0.1:8094/simulation/geographic-view.css",
     "https://tiles.openfreemap.org/planet",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnSUSd_PkGw0GXLgtlkU7pbfYROjcHZq35_oKrVddIW4CpxNq9ZXywYdE-7vyrsFRyIrpMsdahzfmx4zw3usXiG__wERViuPdsKUldW9ZTL5gv8CvDIqp6U80rWRhfeobxFxivptMTmBw7scBccQtPX5PFZPqHgCpQrA50RuPfOc4UBwGaRQcnbxWIoMaNcu0t_e-zJIwekETIkzUhA7Z0PX-eIxrBQBYBHWB0pW-bqBO7ggphTfPG6J9dblMQaOUvaH0BYOeCF07UyTdo7sp6kR7sVJUAxxFUi4TS3B&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/781/1656.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1656.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1656.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/784/1656.pbf",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnTQjSN3O9NeW-Ubgq898hhnosWllgSLTTq8NnpEHJcTOApFw4lUoaq3L51JEJVxYn_hiql8PntXGW4VRY0U9UChaxNqOCbbWYxTdYYRoulWkAqP_wvbl_RXDCqQ3sC0N5A8YUu2orJrFu7q2Bznz2ip-XZCv8qJopHymChecHMLGX6_YDVhPmUEomgEOuboeoxHeqhcnGp5eGaDo1VUUYn-Zg1cpwb6RqD3gGN0v7jSsvYLem18uJtRNw4F17rH0U_TzBM8oDUYvIC7IvmfvIBruk08yzlempzFatqX&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/781/1657.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1657.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1657.pbf",
@@ -83,25 +85,10 @@
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1658.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1658.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/784/1658.pbf",
-    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-20.bin.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-sfincs-publication.json",
-    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-0.bin.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-56.bin.gz",
-    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRUehLJnPC6ICOot1IKqHhl658g1H0rQpnDL3U3PhRRkTGT-hE35_cuDTPokU9seStnN1ArZWpOI2arXzNBb5aQKldBJYo2_miu8fxkost1rH8Kk2rxtJvBJxlerMEgGs2sclnfXnQPty6D120fqmSnI_-iA4qC4BAgDXHiAbc7D2CkOPb-YTC8JJnWI_s_qkEx_xB_pdcdPXQxrVvkoa3EQSqbkEgo5PqlwI8Nh0G9PwXqiZ6FAO9UFb85Unt3AoH_VNDA-QYDhvcIhO_OOcToZwBZXtRS4HWDm0GH&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
-    "http://127.0.0.1:8094/simulation/renderer-chunks/geographic-3d-runtime-B3TM5TO7.js",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-index-overview.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-water-support.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-overview-100m.json.gz",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/389/827.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/390/827.pbf",
-    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnTy1kF1RHDqxXPsZgw6a_fs2D79r8BBA5YiJDGOob9dk9j16X2KCXzLIWiII2iTBN1QzTKk-VWZYQcFczCjobPfQz9G3t-t6WRod1G2Z82c0ylD0e2eIyhyILptZF9mjWtG1G0sV6fnTbspL4xlpK2VDdUm8UqVWMlXJCYBxulP6-mDACwtsmrgaA1kqlBf0kYgdNxwnrBOw9bzHquDASRdwT589TU-1QSfh3AVZ8DMK_eYpFVFa4Ow7O0rU6AA9NHwe50EaDX1Db24KhPipEQ4OT2-01dtC17_pYeB&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
-    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnSl0HlzkbISYDGTVyQENJDCmwZXfg4FiVMMol8wZyKviT__v74NkoOCy6YsnkQS2WzWimtDMP1hZtKW3Qj9MfH-eGtM-QnG9NGP9Q_7Q8b_7E5wcx_7tD3o-DfpS-eTXKyozwZcjaxhVF5cDYoViBgQwUKhatXEc2I0FdmnD7oA2VQkjxElr-GJalrJWfqtRligfnr9yM4nThegDegXxdWyOeKMt8uXEOJQlptUqEDAMFQqHdUsPJ0KlOtca0UtoSCoVHVGIj7JI0wA4apNjOE9qnbAn8QZRLko80v_&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/391/827.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/392/827.pbf",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-22.bin.gz",
     "http://127.0.0.1:8094/simulation/data/current-sfincs-manifest.json",
     "http://127.0.0.1:8094/hand-model.js?v=dev",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/389/828.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/390/828.pbf",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-22.bin.gz",
     "http://127.0.0.1:8094/inundation/data/coverage.json",
     "https://api.water.noaa.gov/nwps/v1/reaches/945050510/streamflow?series=short_range",
     "https://api.water.noaa.gov/nwps/v1/reaches/15877577/streamflow?series=short_range",
@@ -114,12 +101,22 @@
     "https://api.water.noaa.gov/nwps/v1/reaches/15902363/streamflow?series=short_range",
     "https://api.water.noaa.gov/nwps/v1/reaches/15877613/streamflow?series=short_range",
     "https://api.water.noaa.gov/nwps/v1/reaches/15904697/streamflow?series=short_range",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/391/828.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/392/828.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/389/829.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/390/829.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/391/829.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/392/829.pbf",
+    "http://127.0.0.1:8094/simulation/data/refined-sfincs-publication.json",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-0.bin.gz",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRq8d4F7Z8vHUVyYH9e9AkUr1CvZ9THqMb_9AsWXnB-nu8n95Q0zrLvA08I5-4OEa24otulyr6b9as4pLcHgvSqHpqawAAukeK6_sPh2anhOsFi89-2OlliUT4fdtZgpQecXqVKBISw-YLOT_jvbY7Tmf3tQdOSlKHbQjVBiWFFELhxA-dx725Q5dficQkkwYyaxjoSVirNZqLHs8K3P4ccZmv19SJajf6DPM1CHwz44sy806lxMZZ_m52OYaEXFQSYUE9QTXQtojaqO7WRKHVUqgfEcE78aEa58ero&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-56.bin.gz",
+    "http://127.0.0.1:8094/simulation/renderer-chunks/geographic-3d-runtime-B3TM5TO7.js",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-index-water-aware.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-water-support.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-water-aware-400m.json.gz",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/780/1655.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/781/1655.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1655.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1655.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/784/1655.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/780/1656.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/780/1657.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/780/1658.pbf",
     "https://tile.openstreetmap.org/13/1565/3313.png",
     "https://tile.openstreetmap.org/13/1564/3313.png",
     "https://tile.openstreetmap.org/13/1566/3313.png",
@@ -145,19 +142,12 @@
     "https://tile.openstreetmap.org/11/392/830.png",
     "https://tile.openstreetmap.org/11/389/830.png",
     "https://tile.openstreetmap.org/11/393/830.png",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/96/205.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/205.pbf",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-overview-200m.json.gz",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/205.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/99/205.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/96/206.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/206.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/206.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/99/206.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/96/207.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/207.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/8/48/102.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/8/49/102.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/193/412.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/194/412.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/195/412.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/196/412.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/197/412.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/193/413.pbf",
     "https://tile.openstreetmap.org/18/50134/106108.png",
     "https://tile.openstreetmap.org/18/50135/106108.png",
     "https://tile.openstreetmap.org/18/50134/106109.png",
@@ -182,22 +172,13 @@
     "https://tile.openstreetmap.org/18/50137/106107.png",
     "https://tile.openstreetmap.org/18/50132/106110.png",
     "https://tile.openstreetmap.org/18/50137/106110.png",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3132/6631.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3133/6631.pbf",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7169-lod0.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7170-lod0.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7171-lod0.json.gz",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3132/6632.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3133/6632.pbf",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7169-lod1.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7170-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7171-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7169-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7169-lod1.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7170-lod0.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7171-lod0.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7169-lod0.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7170-lod0.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7171-lod0.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-0.bin.gz",
     "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-56.bin.gz",
     "https://tile.openstreetmap.org/18/50134/106105.png",
@@ -219,13 +200,9 @@
     "https://tile.openstreetmap.org/18/50132/106104.png",
     "https://tile.openstreetmap.org/18/50137/106104.png",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7171-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7172-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7172-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7171-lod1.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7170-lod1.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7171-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7172-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7171-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7172-lod1.json.gz",
     "https://tile.openstreetmap.org/18/50134/106112.png",
     "https://tile.openstreetmap.org/18/50135/106112.png",
     "https://tile.openstreetmap.org/18/50134/106113.png",
@@ -250,16 +227,11 @@
     "https://tile.openstreetmap.org/18/50137/106111.png",
     "https://tile.openstreetmap.org/18/50132/106114.png",
     "https://tile.openstreetmap.org/18/50137/106114.png",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3133/6632.pbf",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7168-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7169-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7169-lod1.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7168-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7169-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7170-lod0.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7168-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7169-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7170-lod0.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7168-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7169-lod0.json.gz",
     "https://tile.openstreetmap.org/18/50134/106108.png",
     "https://tile.openstreetmap.org/18/50135/106108.png",
     "https://tile.openstreetmap.org/18/50134/106109.png",
@@ -284,16 +256,33 @@
     "https://tile.openstreetmap.org/18/50137/106107.png",
     "https://tile.openstreetmap.org/18/50132/106110.png",
     "https://tile.openstreetmap.org/18/50137/106110.png",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7171-lod0.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7170-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7171-lod1.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7169-lod0.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7171-lod0.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7171-lod0.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7170-coarse.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7171-coarse.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7169-lod0.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7171-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7169-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7170-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7169-lod0.json.gz",
+    "https://tile.openstreetmap.org/10/195/414.png",
+    "https://tile.openstreetmap.org/10/196/414.png",
+    "https://tile.openstreetmap.org/10/195/413.png",
+    "https://tile.openstreetmap.org/10/196/413.png",
+    "https://tile.openstreetmap.org/10/195/415.png",
+    "https://tile.openstreetmap.org/10/196/415.png",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/205.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/205.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/206.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/206.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/207.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/207.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/208.pbf",
+    "https://tile.openstreetmap.org/18/50134/106108.png",
+    "https://tile.openstreetmap.org/18/50135/106108.png",
+    "https://tile.openstreetmap.org/18/50134/106109.png",
+    "https://tile.openstreetmap.org/18/50135/106109.png",
+    "https://tile.openstreetmap.org/18/50134/106107.png",
+    "https://tile.openstreetmap.org/18/50135/106107.png",
+    "https://tile.openstreetmap.org/18/50134/106110.png",
+    "https://tile.openstreetmap.org/18/50135/106110.png",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/208.pbf",
     "https://tile.openstreetmap.org/11/390/828.png",
     "https://tile.openstreetmap.org/11/391/828.png",
     "https://tile.openstreetmap.org/11/390/829.png",
@@ -302,10 +291,16 @@
     "http://127.0.0.1:8094/icons/icon-192.png",
     "http://127.0.0.1:8094/icons/logo.svg",
     "http://127.0.0.1:8094/icons/icon-192.png",
-    "https://tile.openstreetmap.org/15/6258/13259.png",
-    "https://tile.openstreetmap.org/15/6259/13259.png",
-    "https://tile.openstreetmap.org/15/6258/13260.png",
-    "https://tile.openstreetmap.org/15/6259/13260.png",
+    "https://tile.openstreetmap.org/12/781/1656.png",
+    "https://tile.openstreetmap.org/12/782/1656.png",
+    "https://tile.openstreetmap.org/12/781/1657.png",
+    "https://tile.openstreetmap.org/12/782/1657.png",
+    "http://127.0.0.1:8094/icons/logo.svg",
+    "http://127.0.0.1:8094/icons/icon-192.png",
+    "https://tile.openstreetmap.org/15/6254/13257.png",
+    "https://tile.openstreetmap.org/15/6255/13257.png",
+    "https://tile.openstreetmap.org/15/6254/13258.png",
+    "https://tile.openstreetmap.org/15/6255/13258.png",
     "http://127.0.0.1:8094/icons/logo.svg",
     "http://127.0.0.1:8094/icons/icon-192.png"
   ],
@@ -313,16 +308,16 @@
     {
       "label": "cold flat",
       "raw": {
-        "usedSize": 215412668,
-        "totalSize": 271638528,
-        "embedderHeapUsedSize": 3501096,
-        "backingStorageSize": 87349181
+        "usedSize": 224903404,
+        "totalSize": 286986240,
+        "embedderHeapUsedSize": 5108128,
+        "backingStorageSize": 87540038
       },
       "collected": {
-        "usedSize": 134382204,
-        "totalSize": 135372800,
-        "embedderHeapUsedSize": 2293448,
-        "backingStorageSize": 17933586
+        "usedSize": 136324420,
+        "totalSize": 137469952,
+        "embedderHeapUsedSize": 2829968,
+        "backingStorageSize": 18436483
       },
       "view": "flat",
       "state": {
@@ -332,18 +327,18 @@
           "end": 56
         },
         "requested": {
-          "requestId": 1,
+          "requestId": 2,
           "model": "2d",
-          "index": 20,
+          "index": 22,
           "view": "flat",
-          "time": "2026-11-01T22:00:00Z"
+          "time": "2026-11-01T22:30:00Z"
         },
         "displayed": {
-          "requestId": 1,
+          "requestId": 2,
           "model": "2d",
-          "index": 20,
+          "index": 22,
           "view": "flat",
-          "time": "2026-11-01T22:00:00Z",
+          "time": "2026-11-01T22:30:00Z",
           "runId": "refined-full-41344983607"
         },
         "status": "ready",
@@ -392,7 +387,7 @@
         "effectiveDPR": 1.5
       },
       "model": false,
-      "frame": "2026-11-01T22:00:00Z",
+      "frame": "2026-11-01T22:30:00Z",
       "selected": null,
       "center": {
         "x": -111.2178123,
@@ -402,16 +397,16 @@
     {
       "label": "initial broad 3D",
       "raw": {
-        "usedSize": 322668456,
-        "totalSize": 371073024,
-        "embedderHeapUsedSize": 5873664,
-        "backingStorageSize": 147082360
+        "usedSize": 294900156,
+        "totalSize": 356585472,
+        "embedderHeapUsedSize": 3776976,
+        "backingStorageSize": 76512873
       },
       "collected": {
-        "usedSize": 207954876,
-        "totalSize": 218349568,
-        "embedderHeapUsedSize": 4086240,
-        "backingStorageSize": 52254780
+        "usedSize": 209667280,
+        "totalSize": 210841600,
+        "embedderHeapUsedSize": 2743152,
+        "backingStorageSize": 75458855
       },
       "view": "3d",
       "state": {
@@ -423,50 +418,50 @@
         "requested": {
           "requestId": 3,
           "model": "2d",
-          "index": 20,
+          "index": 22,
           "view": "3d",
-          "time": "2026-11-01T22:00:00Z"
+          "time": "2026-11-01T22:30:00Z"
         },
         "displayed": {
           "requestId": 3,
           "model": "2d",
-          "index": 20,
+          "index": 22,
           "view": "3d",
-          "time": "2026-11-01T22:00:00Z",
+          "time": "2026-11-01T22:30:00Z",
           "runId": "refined-full-41344983607"
         },
         "status": "ready",
         "error": null,
         "viewport": {
           "center": [
-            -111.2178123,
-            32.42659776
+            -111.2177822,
+            32.42656378
           ],
           "zoom": 13.25,
           "bounds": [
-            -111.31394267109374,
-            32.38030979804597,
-            -111.12168192890624,
-            32.4728619712065
+            -111.313912569426,
+            32.38027580708561,
+            -111.1216518272385,
+            32.47282801510904
           ]
         },
         "selection": null
       },
       "terrain": {
-        "visibleTiles": 1744,
+        "visibleTiles": 1264,
         "loadedTiles": 0,
         "omittedTiles": 0,
         "completeVisibleCoverage": true,
         "overviewMode": true,
         "nativeWaterSupport": true,
-        "coarseCoverageTriangles": 787299,
+        "coarseCoverageTriangles": 769303,
         "coverageLimitedBy": null,
-        "groundSamplingM": 100,
-        "groundTriangles": 96659,
+        "groundSamplingM": 400,
+        "groundTriangles": 250702,
         "waterSupportFaces": 398613,
         "waterSupportTriangles": 807823,
         "waterSupportDecodedBytes": 12032577,
-        "triangles": 96659,
+        "triangles": 250702,
         "downloadedBytes": 0,
         "cacheHits": 2,
         "cachedTiles": 0,
@@ -474,27 +469,27 @@
         "cachedTriangles": 0,
         "levels": [],
         "timings": {
-          "indexMs": 1188.6000000238419,
+          "indexMs": 1627.2000000476837,
           "tilesMs": 0,
           "mergeMs": 0,
-          "totalMs": 1190.300000011921,
+          "totalMs": 1628.6000000238419,
           "reused": true
         },
         "terrainKind": "native_face_water_support"
       },
       "detail": {
         "overviewMode": true,
-        "groundTriangles": 96659,
-        "waterTriangles": 76214,
-        "visibleWetFaces": 39759,
+        "groundTriangles": 250702,
+        "waterTriangles": 78979,
+        "visibleWetFaces": 38988,
         "omittedWetFaces": 0,
         "budgetLimited": false,
         "supportDecodedBytes": 12032577,
         "omittedFaces": 0,
-        "visibleFaces": 387417,
+        "visibleFaces": 378266,
         "zoomInRequired": false,
-        "sourceWaterTriangles": 80603,
-        "projectedCacheEstimatedBytes": 8388240
+        "sourceWaterTriangles": 79128,
+        "projectedCacheEstimatedBytes": 8388352
       },
       "cache": {
         "cachedTiles": 0,
@@ -503,8 +498,8 @@
         "indexLoaded": true,
         "groundLevels": 1,
         "waterSupportLoaded": true,
-        "staticCompressedBytes": 6827341,
-        "totalCompressedBytes": 6827341
+        "staticCompressedBytes": 9235124,
+        "totalCompressedBytes": 9235124
       },
       "counters": {
         "overviewStarted": 2,
@@ -524,26 +519,26 @@
         "effectiveDPR": 1.5
       },
       "model": true,
-      "frame": "2026-11-01T22:00:00Z",
+      "frame": "2026-11-01T22:30:00Z",
       "selected": null,
       "center": {
-        "x": -111.2178123,
-        "y": 32.42659776
+        "x": -111.2177822,
+        "y": 32.42656378
       }
     },
     {
       "label": "full domain fit",
       "raw": {
-        "usedSize": 377423760,
-        "totalSize": 441352192,
-        "embedderHeapUsedSize": 5771376,
-        "backingStorageSize": 87972851
+        "usedSize": 311521992,
+        "totalSize": 367558656,
+        "embedderHeapUsedSize": 4246968,
+        "backingStorageSize": 92551150
       },
       "collected": {
-        "usedSize": 197091200,
-        "totalSize": 198680576,
-        "embedderHeapUsedSize": 3312384,
-        "backingStorageSize": 47458963
+        "usedSize": 217160836,
+        "totalSize": 220598272,
+        "embedderHeapUsedSize": 3285328,
+        "backingStorageSize": 81156527
       },
       "view": "3d",
       "state": {
@@ -555,16 +550,16 @@
         "requested": {
           "requestId": 3,
           "model": "2d",
-          "index": 20,
+          "index": 22,
           "view": "3d",
-          "time": "2026-11-01T22:00:00Z"
+          "time": "2026-11-01T22:30:00Z"
         },
         "displayed": {
           "requestId": 3,
           "model": "2d",
-          "index": 20,
+          "index": 22,
           "view": "3d",
-          "time": "2026-11-01T22:00:00Z",
+          "time": "2026-11-01T22:30:00Z",
           "runId": "refined-full-41344983607"
         },
         "status": "ready",
@@ -576,10 +571,10 @@
           ],
           "zoom": 11.25,
           "bounds": [
-            -112.0254466264161,
-            32.20834641306225,
-            -110.37710353721425,
-            33.18189254922538
+            -111.7780573083774,
+            32.239876186456634,
+            -110.62449285525257,
+            32.82816738684203
           ]
         },
         "selection": null
@@ -593,39 +588,39 @@
         "nativeWaterSupport": true,
         "coarseCoverageTriangles": 807823,
         "coverageLimitedBy": null,
-        "groundSamplingM": 200,
-        "groundTriangles": 26568,
+        "groundSamplingM": 400,
+        "groundTriangles": 250702,
         "waterSupportFaces": 398613,
         "waterSupportTriangles": 807823,
         "waterSupportDecodedBytes": 12032577,
-        "triangles": 26568,
-        "downloadedBytes": 452104,
-        "cacheHits": 1,
+        "triangles": 250702,
+        "downloadedBytes": 0,
+        "cacheHits": 2,
         "cachedTiles": 0,
         "cachedCompressedBytes": 0,
         "cachedTriangles": 0,
         "levels": [],
         "timings": {
-          "indexMs": 2399.099999964237,
-          "tilesMs": 39.69999998807907,
+          "indexMs": 2567.599999964237,
+          "tilesMs": 0,
           "mergeMs": 0,
-          "totalMs": 2441.099999964237,
-          "reused": false
+          "totalMs": 2571.5,
+          "reused": true
         },
         "terrainKind": "native_face_water_support"
       },
       "detail": {
         "overviewMode": true,
-        "groundTriangles": 26568,
-        "waterTriangles": 77909,
-        "visibleWetFaces": 41224,
+        "groundTriangles": 250702,
+        "waterTriangles": 82698,
+        "visibleWetFaces": 42581,
         "omittedWetFaces": 0,
         "budgetLimited": false,
         "supportDecodedBytes": 12032577,
         "omittedFaces": 0,
         "visibleFaces": 398613,
         "zoomInRequired": false,
-        "sourceWaterTriangles": 83533,
+        "sourceWaterTriangles": 86314,
         "projectedCacheEstimatedBytes": 8388352
       },
       "cache": {
@@ -633,10 +628,10 @@
         "cachedCompressedBytes": 0,
         "cachedTriangles": 0,
         "indexLoaded": true,
-        "groundLevels": 2,
+        "groundLevels": 1,
         "waterSupportLoaded": true,
-        "staticCompressedBytes": 7279445,
-        "totalCompressedBytes": 7279445
+        "staticCompressedBytes": 9235124,
+        "totalCompressedBytes": 9235124
       },
       "counters": {
         "overviewStarted": 2,
@@ -647,8 +642,8 @@
         "refreshEvents": 8,
         "refreshRuns": 6,
         "detailQueries": 2,
-        "detailInstalls": 3,
-        "terrainInstalls": 1,
+        "detailInstalls": 2,
+        "terrainInstalls": 0,
         "overviewActive": 0,
         "overviewPending": 0,
         "refreshPending": 0,
@@ -656,7 +651,7 @@
         "effectiveDPR": 1.5
       },
       "model": true,
-      "frame": "2026-11-01T22:00:00Z",
+      "frame": "2026-11-01T22:30:00Z",
       "selected": null,
       "center": {
         "x": -111.20127508,
@@ -666,16 +661,16 @@
     {
       "label": "native close",
       "raw": {
-        "usedSize": 311827480,
-        "totalSize": 379244544,
-        "embedderHeapUsedSize": 4802424,
-        "backingStorageSize": 103452052
+        "usedSize": 305086548,
+        "totalSize": 369098752,
+        "embedderHeapUsedSize": 5776640,
+        "backingStorageSize": 129116168
       },
       "collected": {
-        "usedSize": 225614884,
-        "totalSize": 229040128,
-        "embedderHeapUsedSize": 2852848,
-        "backingStorageSize": 44725286
+        "usedSize": 207250476,
+        "totalSize": 208793600,
+        "embedderHeapUsedSize": 2867488,
+        "backingStorageSize": 55272868
       },
       "view": "3d",
       "state": {
@@ -708,10 +703,10 @@
           ],
           "zoom": 18,
           "bounds": [
-            -111.15759164108309,
-            32.39949124347076,
-            -111.14287429207256,
-            32.40821206173042
+            -111.15538280788651,
+            32.39977221440275,
+            -111.14508312526947,
+            32.40503253956295
           ]
         },
         "selection": {
@@ -720,39 +715,33 @@
         }
       },
       "terrain": {
-        "visibleTiles": 12,
-        "loadedTiles": 12,
+        "visibleTiles": 6,
+        "loadedTiles": 6,
         "omittedTiles": 0,
         "coarseFallbackTiles": 0,
-        "coarseCoverageTriangles": 46097,
+        "coarseCoverageTriangles": 31674,
         "completeVisibleCoverage": true,
-        "selectedCompressedBytes": 2213925,
+        "selectedCompressedBytes": 2123649,
         "coverageLimitedBy": null,
-        "triangles": 159140,
-        "downloadedBytes": 2213925,
+        "triangles": 152109,
+        "downloadedBytes": 2123649,
         "cacheHits": 0,
-        "cachedTiles": 12,
-        "cachedCompressedBytes": 2213925,
-        "cachedTriangles": 159140,
+        "cachedTiles": 6,
+        "cachedCompressedBytes": 2123649,
+        "cachedTriangles": 152109,
         "levels": [
           0,
           0,
-          0,
           1,
           1,
           1,
-          0,
-          0,
-          0,
-          0,
-          0,
           0
         ],
         "timings": {
-          "indexMs": 149,
-          "tilesMs": 248.70000004768372,
-          "mergeMs": 23.899999976158142,
-          "totalMs": 424.5,
+          "indexMs": 101.40000003576279,
+          "tilesMs": 322.30000001192093,
+          "mergeMs": 34.80000001192093,
+          "totalMs": 513.4000000357628,
           "reused": false
         },
         "overviewMode": false,
@@ -760,27 +749,27 @@
       },
       "detail": {
         "overviewMode": false,
-        "groundTriangles": 114679,
-        "waterTriangles": 19676,
-        "visibleWetFaces": 2951,
+        "groundTriangles": 94394,
+        "waterTriangles": 13670,
+        "visibleWetFaces": 1408,
         "omittedWetFaces": 0,
         "budgetLimited": false,
         "supportDecodedBytes": 0,
         "omittedFaces": 0,
-        "visibleFaces": 13811,
+        "visibleFaces": 7951,
         "zoomInRequired": false,
-        "sourceWaterTriangles": 22452,
+        "sourceWaterTriangles": 15432,
         "projectedCacheEstimatedBytes": 0
       },
       "cache": {
-        "cachedTiles": 12,
-        "cachedCompressedBytes": 2213925,
-        "cachedTriangles": 159140,
+        "cachedTiles": 6,
+        "cachedCompressedBytes": 2123649,
+        "cachedTriangles": 152109,
         "indexLoaded": true,
-        "groundLevels": 2,
+        "groundLevels": 1,
         "waterSupportLoaded": true,
-        "staticCompressedBytes": 7279445,
-        "totalCompressedBytes": 9493370
+        "staticCompressedBytes": 9235124,
+        "totalCompressedBytes": 11358773
       },
       "counters": {
         "overviewStarted": 2,
@@ -791,8 +780,8 @@
         "refreshEvents": 10,
         "refreshRuns": 7,
         "detailQueries": 3,
-        "detailInstalls": 5,
-        "terrainInstalls": 2,
+        "detailInstalls": 4,
+        "terrainInstalls": 1,
         "overviewActive": 0,
         "overviewPending": 0,
         "refreshPending": 0,
@@ -810,16 +799,16 @@
     {
       "label": "pan 0.004",
       "raw": {
-        "usedSize": 281269848,
-        "totalSize": 351326208,
-        "embedderHeapUsedSize": 3204032,
-        "backingStorageSize": 51882277
+        "usedSize": 265529620,
+        "totalSize": 302047232,
+        "embedderHeapUsedSize": 3103848,
+        "backingStorageSize": 61903387
       },
       "collected": {
-        "usedSize": 219540728,
-        "totalSize": 221786112,
-        "embedderHeapUsedSize": 2681824,
-        "backingStorageSize": 39339814
+        "usedSize": 204518524,
+        "totalSize": 206934016,
+        "embedderHeapUsedSize": 2895024,
+        "backingStorageSize": 49854306
       },
       "view": "3d",
       "state": {
@@ -852,10 +841,10 @@
           ],
           "zoom": 18,
           "bounds": [
-            -111.15759164108309,
-            32.40349133361421,
-            -111.14287429207256,
-            32.41221176543115
+            -111.15538280788651,
+            32.4037722920971,
+            -111.14508312526947,
+            32.40903238416755
           ]
         },
         "selection": {
@@ -864,39 +853,33 @@
         }
       },
       "terrain": {
-        "visibleTiles": 12,
-        "loadedTiles": 12,
+        "visibleTiles": 6,
+        "loadedTiles": 6,
         "omittedTiles": 0,
         "coarseFallbackTiles": 0,
-        "coarseCoverageTriangles": 27908,
+        "coarseCoverageTriangles": 21539,
         "completeVisibleCoverage": true,
-        "selectedCompressedBytes": 2060024,
+        "selectedCompressedBytes": 1809439,
         "coverageLimitedBy": null,
-        "triangles": 148088,
-        "downloadedBytes": 1006282,
-        "cacheHits": 4,
-        "cachedTiles": 16,
-        "cachedCompressedBytes": 2447062,
-        "cachedTriangles": 176064,
+        "triangles": 130292,
+        "downloadedBytes": 972116,
+        "cacheHits": 2,
+        "cachedTiles": 10,
+        "cachedCompressedBytes": 3095765,
+        "cachedTriangles": 221601,
         "levels": [
           0,
           1,
           1,
           1,
           1,
-          1,
-          1,
-          1,
-          1,
-          0,
-          1,
           1
         ],
         "timings": {
-          "indexMs": 157.5,
-          "tilesMs": 83.19999998807907,
-          "mergeMs": 82.10000002384186,
-          "totalMs": 323.10000002384186,
+          "indexMs": 97.80000001192093,
+          "tilesMs": 61.69999998807907,
+          "mergeMs": 18.5,
+          "totalMs": 178.19999998807907,
           "reused": false
         },
         "overviewMode": false,
@@ -904,27 +887,27 @@
       },
       "detail": {
         "overviewMode": false,
-        "groundTriangles": 60085,
-        "waterTriangles": 8200,
-        "visibleWetFaces": 899,
+        "groundTriangles": 37332,
+        "waterTriangles": 5276,
+        "visibleWetFaces": 528,
         "omittedWetFaces": 0,
         "budgetLimited": false,
         "supportDecodedBytes": 0,
         "omittedFaces": 0,
-        "visibleFaces": 4488,
+        "visibleFaces": 2471,
         "zoomInRequired": false,
-        "sourceWaterTriangles": 12515,
+        "sourceWaterTriangles": 7972,
         "projectedCacheEstimatedBytes": 0
       },
       "cache": {
-        "cachedTiles": 16,
-        "cachedCompressedBytes": 2447062,
-        "cachedTriangles": 176064,
+        "cachedTiles": 10,
+        "cachedCompressedBytes": 3095765,
+        "cachedTriangles": 221601,
         "indexLoaded": true,
-        "groundLevels": 2,
+        "groundLevels": 1,
         "waterSupportLoaded": true,
-        "staticCompressedBytes": 7279445,
-        "totalCompressedBytes": 9726507
+        "staticCompressedBytes": 9235124,
+        "totalCompressedBytes": 12330889
       },
       "counters": {
         "overviewStarted": 2,
@@ -935,8 +918,8 @@
         "refreshEvents": 11,
         "refreshRuns": 8,
         "detailQueries": 4,
-        "detailInstalls": 7,
-        "terrainInstalls": 3,
+        "detailInstalls": 6,
+        "terrainInstalls": 2,
         "overviewActive": 0,
         "overviewPending": 0,
         "refreshPending": 0,
@@ -954,16 +937,16 @@
     {
       "label": "pan -0.004",
       "raw": {
-        "usedSize": 317785100,
-        "totalSize": 379006976,
-        "embedderHeapUsedSize": 3489104,
-        "backingStorageSize": 79109700
+        "usedSize": 258098416,
+        "totalSize": 288882688,
+        "embedderHeapUsedSize": 3030152,
+        "backingStorageSize": 53363681
       },
       "collected": {
-        "usedSize": 229129188,
-        "totalSize": 231731200,
-        "embedderHeapUsedSize": 2728984,
-        "backingStorageSize": 42945850
+        "usedSize": 201601120,
+        "totalSize": 205893632,
+        "embedderHeapUsedSize": 2888520,
+        "backingStorageSize": 49424876
       },
       "view": "3d",
       "state": {
@@ -996,10 +979,10 @@
           ],
           "zoom": 18,
           "bounds": [
-            -111.15759164108309,
-            32.39549115333719,
-            -111.14287429207256,
-            32.40421235799698
+            -111.15538280788651,
+            32.39577213671695,
+            -111.14508312526947,
+            32.40103269494123
           ]
         },
         "selection": {
@@ -1008,39 +991,33 @@
         }
       },
       "terrain": {
-        "visibleTiles": 12,
-        "loadedTiles": 12,
+        "visibleTiles": 6,
+        "loadedTiles": 6,
         "omittedTiles": 0,
         "coarseFallbackTiles": 0,
-        "coarseCoverageTriangles": 44852,
+        "coarseCoverageTriangles": 12916,
         "completeVisibleCoverage": true,
-        "selectedCompressedBytes": 2129919,
+        "selectedCompressedBytes": 1451560,
         "coverageLimitedBy": null,
-        "triangles": 152360,
-        "downloadedBytes": 1797952,
+        "triangles": 102280,
+        "downloadedBytes": 435666,
         "cacheHits": 2,
-        "cachedTiles": 16,
-        "cachedCompressedBytes": 2944603,
-        "cachedTriangles": 210740,
+        "cachedTiles": 14,
+        "cachedCompressedBytes": 3531431,
+        "cachedTriangles": 252237,
         "levels": [
           1,
-          0,
-          0,
           1,
           1,
-          0,
           1,
           1,
-          0,
-          1,
-          0,
-          0
+          1
         ],
         "timings": {
-          "indexMs": 254.89999997615814,
-          "tilesMs": 152.9000000357628,
-          "mergeMs": 13.300000011920929,
-          "totalMs": 421.30000001192093,
+          "indexMs": 13.099999964237213,
+          "tilesMs": 41.19999998807907,
+          "mergeMs": 16.5,
+          "totalMs": 71.09999996423721,
           "reused": false
         },
         "overviewMode": false,
@@ -1048,27 +1025,27 @@
       },
       "detail": {
         "overviewMode": false,
-        "groundTriangles": 108234,
-        "waterTriangles": 12376,
-        "visibleWetFaces": 2428,
+        "groundTriangles": 45132,
+        "waterTriangles": 772,
+        "visibleWetFaces": 66,
         "omittedWetFaces": 0,
         "budgetLimited": false,
         "supportDecodedBytes": 0,
         "omittedFaces": 0,
-        "visibleFaces": 12767,
+        "visibleFaces": 2790,
         "zoomInRequired": false,
-        "sourceWaterTriangles": 13481,
+        "sourceWaterTriangles": 1076,
         "projectedCacheEstimatedBytes": 0
       },
       "cache": {
-        "cachedTiles": 16,
-        "cachedCompressedBytes": 2944603,
-        "cachedTriangles": 210740,
+        "cachedTiles": 14,
+        "cachedCompressedBytes": 3531431,
+        "cachedTriangles": 252237,
         "indexLoaded": true,
-        "groundLevels": 2,
+        "groundLevels": 1,
         "waterSupportLoaded": true,
-        "staticCompressedBytes": 7279445,
-        "totalCompressedBytes": 10224048
+        "staticCompressedBytes": 9235124,
+        "totalCompressedBytes": 12766555
       },
       "counters": {
         "overviewStarted": 2,
@@ -1079,8 +1056,8 @@
         "refreshEvents": 12,
         "refreshRuns": 9,
         "detailQueries": 5,
-        "detailInstalls": 9,
-        "terrainInstalls": 4,
+        "detailInstalls": 8,
+        "terrainInstalls": 3,
         "overviewActive": 0,
         "overviewPending": 0,
         "refreshPending": 0,
@@ -1098,16 +1075,16 @@
     {
       "label": "pan 0",
       "raw": {
-        "usedSize": 334036236,
-        "totalSize": 390746112,
-        "embedderHeapUsedSize": 3216432,
-        "backingStorageSize": 69351167
+        "usedSize": 278057428,
+        "totalSize": 329891840,
+        "embedderHeapUsedSize": 3034560,
+        "backingStorageSize": 59715620
       },
       "collected": {
-        "usedSize": 230253244,
-        "totalSize": 232980480,
-        "embedderHeapUsedSize": 2849648,
-        "backingStorageSize": 44701714
+        "usedSize": 214924284,
+        "totalSize": 217608192,
+        "embedderHeapUsedSize": 2699992,
+        "backingStorageSize": 55038922
       },
       "view": "3d",
       "state": {
@@ -1140,10 +1117,10 @@
           ],
           "zoom": 18,
           "bounds": [
-            -111.15759164108309,
-            32.39949124347076,
-            -111.14287429207256,
-            32.40821206173042
+            -111.15538280788651,
+            32.39977221440275,
+            -111.14508312526947,
+            32.40503253956295
           ]
         },
         "selection": {
@@ -1152,39 +1129,33 @@
         }
       },
       "terrain": {
-        "visibleTiles": 12,
-        "loadedTiles": 12,
+        "visibleTiles": 6,
+        "loadedTiles": 6,
         "omittedTiles": 0,
         "coarseFallbackTiles": 0,
-        "coarseCoverageTriangles": 46097,
+        "coarseCoverageTriangles": 31674,
         "completeVisibleCoverage": true,
-        "selectedCompressedBytes": 2213925,
+        "selectedCompressedBytes": 2123649,
         "coverageLimitedBy": null,
-        "triangles": 159140,
-        "downloadedBytes": 907887,
+        "triangles": 152109,
+        "downloadedBytes": 0,
         "cacheHits": 6,
-        "cachedTiles": 16,
-        "cachedCompressedBytes": 2995656,
-        "cachedTriangles": 214130,
+        "cachedTiles": 14,
+        "cachedCompressedBytes": 3531431,
+        "cachedTriangles": 252237,
         "levels": [
           0,
           0,
-          0,
           1,
           1,
           1,
-          0,
-          0,
-          0,
-          0,
-          0,
           0
         ],
         "timings": {
-          "indexMs": 223.4000000357628,
-          "tilesMs": 136.60000002384186,
-          "mergeMs": 24.299999952316284,
-          "totalMs": 384.5,
+          "indexMs": 133.19999998807907,
+          "tilesMs": 2.399999976158142,
+          "mergeMs": 12.300000011920929,
+          "totalMs": 148,
           "reused": false
         },
         "overviewMode": false,
@@ -1192,27 +1163,27 @@
       },
       "detail": {
         "overviewMode": false,
-        "groundTriangles": 114679,
-        "waterTriangles": 19676,
-        "visibleWetFaces": 2951,
+        "groundTriangles": 94394,
+        "waterTriangles": 13670,
+        "visibleWetFaces": 1408,
         "omittedWetFaces": 0,
         "budgetLimited": false,
         "supportDecodedBytes": 0,
         "omittedFaces": 0,
-        "visibleFaces": 13811,
+        "visibleFaces": 7951,
         "zoomInRequired": false,
-        "sourceWaterTriangles": 22452,
+        "sourceWaterTriangles": 15432,
         "projectedCacheEstimatedBytes": 0
       },
       "cache": {
-        "cachedTiles": 16,
-        "cachedCompressedBytes": 2995656,
-        "cachedTriangles": 214130,
+        "cachedTiles": 14,
+        "cachedCompressedBytes": 3531431,
+        "cachedTriangles": 252237,
         "indexLoaded": true,
-        "groundLevels": 2,
+        "groundLevels": 1,
         "waterSupportLoaded": true,
-        "staticCompressedBytes": 7279445,
-        "totalCompressedBytes": 10275101
+        "staticCompressedBytes": 9235124,
+        "totalCompressedBytes": 12766555
       },
       "counters": {
         "overviewStarted": 2,
@@ -1223,8 +1194,8 @@
         "refreshEvents": 13,
         "refreshRuns": 10,
         "detailQueries": 6,
-        "detailInstalls": 11,
-        "terrainInstalls": 5,
+        "detailInstalls": 10,
+        "terrainInstalls": 4,
         "overviewActive": 0,
         "overviewPending": 0,
         "refreshPending": 0,
@@ -1242,16 +1213,16 @@
     {
       "label": "phone DPR3",
       "raw": {
-        "usedSize": 265094444,
-        "totalSize": 342695936,
-        "embedderHeapUsedSize": 3347760,
-        "backingStorageSize": 49441645
+        "usedSize": 256891748,
+        "totalSize": 297922560,
+        "embedderHeapUsedSize": 3390352,
+        "backingStorageSize": 69824176
       },
       "collected": {
-        "usedSize": 201854620,
-        "totalSize": 204795904,
-        "embedderHeapUsedSize": 2890952,
-        "backingStorageSize": 35068535
+        "usedSize": 192151380,
+        "totalSize": 195358720,
+        "embedderHeapUsedSize": 2873864,
+        "backingStorageSize": 46972426
       },
       "view": "3d",
       "state": {
@@ -1284,10 +1255,10 @@
           ],
           "zoom": 18,
           "bounds": [
-            -111.15247405357401,
-            32.39951007983494,
-            -111.14798986129698,
-            32.408159221765516
+            -111.15180104970928,
+            32.39978874136223,
+            -111.14866286516161,
+            32.405005831267395
           ]
         },
         "selection": {
@@ -1296,33 +1267,31 @@
         }
       },
       "terrain": {
-        "visibleTiles": 6,
-        "loadedTiles": 6,
+        "visibleTiles": 4,
+        "loadedTiles": 4,
         "omittedTiles": 0,
         "coarseFallbackTiles": 0,
-        "coarseCoverageTriangles": 22909,
+        "coarseCoverageTriangles": 21503,
         "completeVisibleCoverage": true,
-        "selectedCompressedBytes": 746852,
+        "selectedCompressedBytes": 590426,
         "coverageLimitedBy": null,
-        "triangles": 53671,
-        "downloadedBytes": 221985,
-        "cacheHits": 4,
+        "triangles": 42775,
+        "downloadedBytes": 411991,
+        "cacheHits": 1,
         "cachedTiles": 16,
-        "cachedCompressedBytes": 2717039,
-        "cachedTriangles": 195235,
+        "cachedCompressedBytes": 3853849,
+        "cachedTriangles": 275638,
         "levels": [
           0,
           0,
-          1,
           0,
-          0,
-          1
+          0
         ],
         "timings": {
-          "indexMs": 168,
-          "tilesMs": 20.19999998807907,
-          "mergeMs": 10.199999988079071,
-          "totalMs": 198.39999997615814,
+          "indexMs": 133.5,
+          "tilesMs": 30.30000001192093,
+          "mergeMs": 9.300000011920929,
+          "totalMs": 173.19999998807907,
           "reused": false
         },
         "overviewMode": false,
@@ -1330,27 +1299,27 @@
       },
       "detail": {
         "overviewMode": false,
-        "groundTriangles": 19319,
-        "waterTriangles": 2881,
-        "visibleWetFaces": 691,
+        "groundTriangles": 10149,
+        "waterTriangles": 1491,
+        "visibleWetFaces": 381,
         "omittedWetFaces": 0,
         "budgetLimited": false,
         "supportDecodedBytes": 0,
         "omittedFaces": 0,
-        "visibleFaces": 4221,
+        "visibleFaces": 2521,
         "zoomInRequired": false,
-        "sourceWaterTriangles": 3234,
+        "sourceWaterTriangles": 1536,
         "projectedCacheEstimatedBytes": 0
       },
       "cache": {
         "cachedTiles": 16,
-        "cachedCompressedBytes": 2717039,
-        "cachedTriangles": 195235,
+        "cachedCompressedBytes": 3853849,
+        "cachedTriangles": 275638,
         "indexLoaded": true,
-        "groundLevels": 2,
+        "groundLevels": 1,
         "waterSupportLoaded": true,
-        "staticCompressedBytes": 7279445,
-        "totalCompressedBytes": 9996484
+        "staticCompressedBytes": 9235124,
+        "totalCompressedBytes": 13088973
       },
       "counters": {
         "overviewStarted": 2,
@@ -1361,8 +1330,8 @@
         "refreshEvents": 16,
         "refreshRuns": 13,
         "detailQueries": 8,
-        "detailInstalls": 14,
-        "terrainInstalls": 6,
+        "detailInstalls": 13,
+        "terrainInstalls": 5,
         "overviewActive": 0,
         "overviewPending": 0,
         "refreshPending": 0,
@@ -1378,18 +1347,153 @@
       }
     },
     {
-      "label": "returned flat",
+      "label": "phone full domain",
       "raw": {
-        "usedSize": 204102032,
-        "totalSize": 208728064,
-        "embedderHeapUsedSize": 5022544,
-        "backingStorageSize": 35070286
+        "usedSize": 407739008,
+        "totalSize": 463421440,
+        "embedderHeapUsedSize": 3147360,
+        "backingStorageSize": 75663931
       },
       "collected": {
-        "usedSize": 202661308,
-        "totalSize": 204009472,
-        "embedderHeapUsedSize": 3384248,
-        "backingStorageSize": 35068664
+        "usedSize": 217756236,
+        "totalSize": 220758016,
+        "embedderHeapUsedSize": 2982248,
+        "backingStorageSize": 72711025
+      },
+      "view": "3d",
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z"
+        },
+        "displayed": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.20127508,
+            32.43640116
+          ],
+          "zoom": 10.25,
+          "bounds": [
+            -111.55275175112658,
+            32.04616613046823,
+            -110.84979841250353,
+            33.21181526787583
+          ]
+        },
+        "selection": {
+          "kind": "cell",
+          "cellIndex": 387171
+        }
+      },
+      "terrain": {
+        "visibleTiles": 2255,
+        "loadedTiles": 0,
+        "omittedTiles": 0,
+        "completeVisibleCoverage": true,
+        "overviewMode": true,
+        "nativeWaterSupport": true,
+        "coarseCoverageTriangles": 807823,
+        "coverageLimitedBy": null,
+        "groundSamplingM": 400,
+        "groundTriangles": 250702,
+        "waterSupportFaces": 398613,
+        "waterSupportTriangles": 807823,
+        "waterSupportDecodedBytes": 12032577,
+        "triangles": 250702,
+        "downloadedBytes": 0,
+        "cacheHits": 2,
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 3853849,
+        "cachedTriangles": 275638,
+        "levels": [],
+        "timings": {
+          "indexMs": 341,
+          "tilesMs": 0.19999998807907104,
+          "mergeMs": 0,
+          "totalMs": 345,
+          "reused": false
+        },
+        "terrainKind": "native_face_water_support"
+      },
+      "detail": {
+        "overviewMode": true,
+        "groundTriangles": 250702,
+        "waterTriangles": 111469,
+        "visibleWetFaces": 54231,
+        "omittedWetFaces": 0,
+        "budgetLimited": false,
+        "supportDecodedBytes": 12032577,
+        "omittedFaces": 0,
+        "visibleFaces": 398613,
+        "zoomInRequired": false,
+        "sourceWaterTriangles": 109921,
+        "projectedCacheEstimatedBytes": 8388352
+      },
+      "cache": {
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 3853849,
+        "cachedTriangles": 275638,
+        "indexLoaded": true,
+        "groundLevels": 1,
+        "waterSupportLoaded": true,
+        "staticCompressedBytes": 9235124,
+        "totalCompressedBytes": 13088973
+      },
+      "counters": {
+        "overviewStarted": 2,
+        "overviewInstalled": 2,
+        "overviewCancelled": 0,
+        "overviewDeduped": 2,
+        "overviewMaxActive": 1,
+        "refreshEvents": 18,
+        "refreshRuns": 14,
+        "detailQueries": 9,
+        "detailInstalls": 15,
+        "terrainInstalls": 6,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1
+      },
+      "model": true,
+      "frame": "2026-11-02T07:00:00Z",
+      "selected": 387171,
+      "center": {
+        "x": -111.20127508,
+        "y": 32.43640116
+      }
+    },
+    {
+      "label": "returned flat",
+      "raw": {
+        "usedSize": 214771380,
+        "totalSize": 247816192,
+        "embedderHeapUsedSize": 5276632,
+        "backingStorageSize": 74078772
+      },
+      "collected": {
+        "usedSize": 197081536,
+        "totalSize": 198504448,
+        "embedderHeapUsedSize": 3483912,
+        "backingStorageSize": 46978351
       },
       "view": "flat",
       "state": {
@@ -1422,10 +1526,10 @@
           ],
           "zoom": 18,
           "bounds": [
-            -111.15247405357401,
-            32.39951007983494,
-            -111.14798986129698,
-            32.408159221765516
+            -111.15180104970928,
+            32.39978874136223,
+            -111.14866286516161,
+            32.405005831267395
           ]
         },
         "selection": {
@@ -1434,33 +1538,31 @@
         }
       },
       "terrain": {
-        "visibleTiles": 6,
-        "loadedTiles": 6,
+        "visibleTiles": 4,
+        "loadedTiles": 4,
         "omittedTiles": 0,
         "coarseFallbackTiles": 0,
-        "coarseCoverageTriangles": 22909,
+        "coarseCoverageTriangles": 21503,
         "completeVisibleCoverage": true,
-        "selectedCompressedBytes": 746852,
+        "selectedCompressedBytes": 590426,
         "coverageLimitedBy": null,
-        "triangles": 53671,
-        "downloadedBytes": 221985,
+        "triangles": 42775,
+        "downloadedBytes": 0,
         "cacheHits": 4,
         "cachedTiles": 16,
-        "cachedCompressedBytes": 2717039,
-        "cachedTriangles": 195235,
+        "cachedCompressedBytes": 3853849,
+        "cachedTriangles": 275638,
         "levels": [
           0,
           0,
-          1,
           0,
-          0,
-          1
+          0
         ],
         "timings": {
-          "indexMs": 168,
-          "tilesMs": 20.19999998807907,
-          "mergeMs": 10.199999988079071,
-          "totalMs": 198.39999997615814,
+          "indexMs": 31.5,
+          "tilesMs": 0,
+          "mergeMs": 7.199999988079071,
+          "totalMs": 38.80000001192093,
           "reused": false
         },
         "overviewMode": false,
@@ -1468,27 +1570,27 @@
       },
       "detail": {
         "overviewMode": false,
-        "groundTriangles": 19319,
-        "waterTriangles": 2881,
-        "visibleWetFaces": 691,
+        "groundTriangles": 10149,
+        "waterTriangles": 1491,
+        "visibleWetFaces": 381,
         "omittedWetFaces": 0,
         "budgetLimited": false,
         "supportDecodedBytes": 0,
         "omittedFaces": 0,
-        "visibleFaces": 4221,
+        "visibleFaces": 2521,
         "zoomInRequired": false,
-        "sourceWaterTriangles": 3234,
+        "sourceWaterTriangles": 1536,
         "projectedCacheEstimatedBytes": 0
       },
       "cache": {
         "cachedTiles": 16,
-        "cachedCompressedBytes": 2717039,
-        "cachedTriangles": 195235,
+        "cachedCompressedBytes": 3853849,
+        "cachedTriangles": 275638,
         "indexLoaded": true,
-        "groundLevels": 2,
+        "groundLevels": 1,
         "waterSupportLoaded": true,
-        "staticCompressedBytes": 7279445,
-        "totalCompressedBytes": 9996484
+        "staticCompressedBytes": 9235124,
+        "totalCompressedBytes": 13088973
       },
       "counters": {
         "overviewStarted": 4,
@@ -1496,11 +1598,11 @@
         "overviewCancelled": 0,
         "overviewDeduped": 5,
         "overviewMaxActive": 1,
-        "refreshEvents": 19,
-        "refreshRuns": 14,
-        "detailQueries": 8,
-        "detailInstalls": 14,
-        "terrainInstalls": 6,
+        "refreshEvents": 23,
+        "refreshRuns": 16,
+        "detailQueries": 10,
+        "detailInstalls": 17,
+        "terrainInstalls": 7,
         "overviewActive": 0,
         "overviewPending": 0,
         "refreshPending": 0,
@@ -1517,24 +1619,24 @@
     }
   ],
   "timings": {
-    "coldReadyMs": 2179,
-    "entryMs": 2931,
-    "frame0Ms": 998,
-    "frame56Ms": 726
+    "coldReadyMs": 2246,
+    "entryMs": 4095,
+    "frame0Ms": 1010,
+    "frame56Ms": 655
   },
   "cold": {
     "label": "cold flat",
     "raw": {
-      "usedSize": 215412668,
-      "totalSize": 271638528,
-      "embedderHeapUsedSize": 3501096,
-      "backingStorageSize": 87349181
+      "usedSize": 224903404,
+      "totalSize": 286986240,
+      "embedderHeapUsedSize": 5108128,
+      "backingStorageSize": 87540038
     },
     "collected": {
-      "usedSize": 134382204,
-      "totalSize": 135372800,
-      "embedderHeapUsedSize": 2293448,
-      "backingStorageSize": 17933586
+      "usedSize": 136324420,
+      "totalSize": 137469952,
+      "embedderHeapUsedSize": 2829968,
+      "backingStorageSize": 18436483
     },
     "view": "flat",
     "state": {
@@ -1544,18 +1646,18 @@
         "end": 56
       },
       "requested": {
-        "requestId": 1,
+        "requestId": 2,
         "model": "2d",
-        "index": 20,
+        "index": 22,
         "view": "flat",
-        "time": "2026-11-01T22:00:00Z"
+        "time": "2026-11-01T22:30:00Z"
       },
       "displayed": {
-        "requestId": 1,
+        "requestId": 2,
         "model": "2d",
-        "index": 20,
+        "index": 22,
         "view": "flat",
-        "time": "2026-11-01T22:00:00Z",
+        "time": "2026-11-01T22:30:00Z",
         "runId": "refined-full-41344983607"
       },
       "status": "ready",
@@ -1604,7 +1706,7 @@
       "effectiveDPR": 1.5
     },
     "model": false,
-    "frame": "2026-11-01T22:00:00Z",
+    "frame": "2026-11-01T22:30:00Z",
     "selected": null,
     "center": {
       "x": -111.2178123,
@@ -1647,16 +1749,16 @@
   "broad": {
     "label": "initial broad 3D",
     "raw": {
-      "usedSize": 322668456,
-      "totalSize": 371073024,
-      "embedderHeapUsedSize": 5873664,
-      "backingStorageSize": 147082360
+      "usedSize": 294900156,
+      "totalSize": 356585472,
+      "embedderHeapUsedSize": 3776976,
+      "backingStorageSize": 76512873
     },
     "collected": {
-      "usedSize": 207954876,
-      "totalSize": 218349568,
-      "embedderHeapUsedSize": 4086240,
-      "backingStorageSize": 52254780
+      "usedSize": 209667280,
+      "totalSize": 210841600,
+      "embedderHeapUsedSize": 2743152,
+      "backingStorageSize": 75458855
     },
     "view": "3d",
     "state": {
@@ -1668,50 +1770,50 @@
       "requested": {
         "requestId": 3,
         "model": "2d",
-        "index": 20,
+        "index": 22,
         "view": "3d",
-        "time": "2026-11-01T22:00:00Z"
+        "time": "2026-11-01T22:30:00Z"
       },
       "displayed": {
         "requestId": 3,
         "model": "2d",
-        "index": 20,
+        "index": 22,
         "view": "3d",
-        "time": "2026-11-01T22:00:00Z",
+        "time": "2026-11-01T22:30:00Z",
         "runId": "refined-full-41344983607"
       },
       "status": "ready",
       "error": null,
       "viewport": {
         "center": [
-          -111.2178123,
-          32.42659776
+          -111.2177822,
+          32.42656378
         ],
         "zoom": 13.25,
         "bounds": [
-          -111.31394267109374,
-          32.38030979804597,
-          -111.12168192890624,
-          32.4728619712065
+          -111.313912569426,
+          32.38027580708561,
+          -111.1216518272385,
+          32.47282801510904
         ]
       },
       "selection": null
     },
     "terrain": {
-      "visibleTiles": 1744,
+      "visibleTiles": 1264,
       "loadedTiles": 0,
       "omittedTiles": 0,
       "completeVisibleCoverage": true,
       "overviewMode": true,
       "nativeWaterSupport": true,
-      "coarseCoverageTriangles": 787299,
+      "coarseCoverageTriangles": 769303,
       "coverageLimitedBy": null,
-      "groundSamplingM": 100,
-      "groundTriangles": 96659,
+      "groundSamplingM": 400,
+      "groundTriangles": 250702,
       "waterSupportFaces": 398613,
       "waterSupportTriangles": 807823,
       "waterSupportDecodedBytes": 12032577,
-      "triangles": 96659,
+      "triangles": 250702,
       "downloadedBytes": 0,
       "cacheHits": 2,
       "cachedTiles": 0,
@@ -1719,27 +1821,27 @@
       "cachedTriangles": 0,
       "levels": [],
       "timings": {
-        "indexMs": 1188.6000000238419,
+        "indexMs": 1627.2000000476837,
         "tilesMs": 0,
         "mergeMs": 0,
-        "totalMs": 1190.300000011921,
+        "totalMs": 1628.6000000238419,
         "reused": true
       },
       "terrainKind": "native_face_water_support"
     },
     "detail": {
       "overviewMode": true,
-      "groundTriangles": 96659,
-      "waterTriangles": 76214,
-      "visibleWetFaces": 39759,
+      "groundTriangles": 250702,
+      "waterTriangles": 78979,
+      "visibleWetFaces": 38988,
       "omittedWetFaces": 0,
       "budgetLimited": false,
       "supportDecodedBytes": 12032577,
       "omittedFaces": 0,
-      "visibleFaces": 387417,
+      "visibleFaces": 378266,
       "zoomInRequired": false,
-      "sourceWaterTriangles": 80603,
-      "projectedCacheEstimatedBytes": 8388240
+      "sourceWaterTriangles": 79128,
+      "projectedCacheEstimatedBytes": 8388352
     },
     "cache": {
       "cachedTiles": 0,
@@ -1748,8 +1850,8 @@
       "indexLoaded": true,
       "groundLevels": 1,
       "waterSupportLoaded": true,
-      "staticCompressedBytes": 6827341,
-      "totalCompressedBytes": 6827341
+      "staticCompressedBytes": 9235124,
+      "totalCompressedBytes": 9235124
     },
     "counters": {
       "overviewStarted": 2,
@@ -1769,26 +1871,26 @@
       "effectiveDPR": 1.5
     },
     "model": true,
-    "frame": "2026-11-01T22:00:00Z",
+    "frame": "2026-11-01T22:30:00Z",
     "selected": null,
     "center": {
-      "x": -111.2178123,
-      "y": 32.42659776
+      "x": -111.2177822,
+      "y": 32.42656378
     }
   },
   "fullDomain": {
     "label": "full domain fit",
     "raw": {
-      "usedSize": 377423760,
-      "totalSize": 441352192,
-      "embedderHeapUsedSize": 5771376,
-      "backingStorageSize": 87972851
+      "usedSize": 311521992,
+      "totalSize": 367558656,
+      "embedderHeapUsedSize": 4246968,
+      "backingStorageSize": 92551150
     },
     "collected": {
-      "usedSize": 197091200,
-      "totalSize": 198680576,
-      "embedderHeapUsedSize": 3312384,
-      "backingStorageSize": 47458963
+      "usedSize": 217160836,
+      "totalSize": 220598272,
+      "embedderHeapUsedSize": 3285328,
+      "backingStorageSize": 81156527
     },
     "view": "3d",
     "state": {
@@ -1800,16 +1902,16 @@
       "requested": {
         "requestId": 3,
         "model": "2d",
-        "index": 20,
+        "index": 22,
         "view": "3d",
-        "time": "2026-11-01T22:00:00Z"
+        "time": "2026-11-01T22:30:00Z"
       },
       "displayed": {
         "requestId": 3,
         "model": "2d",
-        "index": 20,
+        "index": 22,
         "view": "3d",
-        "time": "2026-11-01T22:00:00Z",
+        "time": "2026-11-01T22:30:00Z",
         "runId": "refined-full-41344983607"
       },
       "status": "ready",
@@ -1821,10 +1923,10 @@
         ],
         "zoom": 11.25,
         "bounds": [
-          -112.0254466264161,
-          32.20834641306225,
-          -110.37710353721425,
-          33.18189254922538
+          -111.7780573083774,
+          32.239876186456634,
+          -110.62449285525257,
+          32.82816738684203
         ]
       },
       "selection": null
@@ -1838,39 +1940,39 @@
       "nativeWaterSupport": true,
       "coarseCoverageTriangles": 807823,
       "coverageLimitedBy": null,
-      "groundSamplingM": 200,
-      "groundTriangles": 26568,
+      "groundSamplingM": 400,
+      "groundTriangles": 250702,
       "waterSupportFaces": 398613,
       "waterSupportTriangles": 807823,
       "waterSupportDecodedBytes": 12032577,
-      "triangles": 26568,
-      "downloadedBytes": 452104,
-      "cacheHits": 1,
+      "triangles": 250702,
+      "downloadedBytes": 0,
+      "cacheHits": 2,
       "cachedTiles": 0,
       "cachedCompressedBytes": 0,
       "cachedTriangles": 0,
       "levels": [],
       "timings": {
-        "indexMs": 2399.099999964237,
-        "tilesMs": 39.69999998807907,
+        "indexMs": 2567.599999964237,
+        "tilesMs": 0,
         "mergeMs": 0,
-        "totalMs": 2441.099999964237,
-        "reused": false
+        "totalMs": 2571.5,
+        "reused": true
       },
       "terrainKind": "native_face_water_support"
     },
     "detail": {
       "overviewMode": true,
-      "groundTriangles": 26568,
-      "waterTriangles": 77909,
-      "visibleWetFaces": 41224,
+      "groundTriangles": 250702,
+      "waterTriangles": 82698,
+      "visibleWetFaces": 42581,
       "omittedWetFaces": 0,
       "budgetLimited": false,
       "supportDecodedBytes": 12032577,
       "omittedFaces": 0,
       "visibleFaces": 398613,
       "zoomInRequired": false,
-      "sourceWaterTriangles": 83533,
+      "sourceWaterTriangles": 86314,
       "projectedCacheEstimatedBytes": 8388352
     },
     "cache": {
@@ -1878,10 +1980,10 @@
       "cachedCompressedBytes": 0,
       "cachedTriangles": 0,
       "indexLoaded": true,
-      "groundLevels": 2,
+      "groundLevels": 1,
       "waterSupportLoaded": true,
-      "staticCompressedBytes": 7279445,
-      "totalCompressedBytes": 7279445
+      "staticCompressedBytes": 9235124,
+      "totalCompressedBytes": 9235124
     },
     "counters": {
       "overviewStarted": 2,
@@ -1892,8 +1994,8 @@
       "refreshEvents": 8,
       "refreshRuns": 6,
       "detailQueries": 2,
-      "detailInstalls": 3,
-      "terrainInstalls": 1,
+      "detailInstalls": 2,
+      "terrainInstalls": 0,
       "overviewActive": 0,
       "overviewPending": 0,
       "refreshPending": 0,
@@ -1901,7 +2003,7 @@
       "effectiveDPR": 1.5
     },
     "model": true,
-    "frame": "2026-11-01T22:00:00Z",
+    "frame": "2026-11-01T22:30:00Z",
     "selected": null,
     "center": {
       "x": -111.20127508,
@@ -1939,16 +2041,16 @@
   "near": {
     "label": "native close",
     "raw": {
-      "usedSize": 311827480,
-      "totalSize": 379244544,
-      "embedderHeapUsedSize": 4802424,
-      "backingStorageSize": 103452052
+      "usedSize": 305086548,
+      "totalSize": 369098752,
+      "embedderHeapUsedSize": 5776640,
+      "backingStorageSize": 129116168
     },
     "collected": {
-      "usedSize": 225614884,
-      "totalSize": 229040128,
-      "embedderHeapUsedSize": 2852848,
-      "backingStorageSize": 44725286
+      "usedSize": 207250476,
+      "totalSize": 208793600,
+      "embedderHeapUsedSize": 2867488,
+      "backingStorageSize": 55272868
     },
     "view": "3d",
     "state": {
@@ -1981,10 +2083,10 @@
         ],
         "zoom": 18,
         "bounds": [
-          -111.15759164108309,
-          32.39949124347076,
-          -111.14287429207256,
-          32.40821206173042
+          -111.15538280788651,
+          32.39977221440275,
+          -111.14508312526947,
+          32.40503253956295
         ]
       },
       "selection": {
@@ -1993,39 +2095,33 @@
       }
     },
     "terrain": {
-      "visibleTiles": 12,
-      "loadedTiles": 12,
+      "visibleTiles": 6,
+      "loadedTiles": 6,
       "omittedTiles": 0,
       "coarseFallbackTiles": 0,
-      "coarseCoverageTriangles": 46097,
+      "coarseCoverageTriangles": 31674,
       "completeVisibleCoverage": true,
-      "selectedCompressedBytes": 2213925,
+      "selectedCompressedBytes": 2123649,
       "coverageLimitedBy": null,
-      "triangles": 159140,
-      "downloadedBytes": 2213925,
+      "triangles": 152109,
+      "downloadedBytes": 2123649,
       "cacheHits": 0,
-      "cachedTiles": 12,
-      "cachedCompressedBytes": 2213925,
-      "cachedTriangles": 159140,
+      "cachedTiles": 6,
+      "cachedCompressedBytes": 2123649,
+      "cachedTriangles": 152109,
       "levels": [
         0,
         0,
-        0,
         1,
         1,
         1,
-        0,
-        0,
-        0,
-        0,
-        0,
         0
       ],
       "timings": {
-        "indexMs": 149,
-        "tilesMs": 248.70000004768372,
-        "mergeMs": 23.899999976158142,
-        "totalMs": 424.5,
+        "indexMs": 101.40000003576279,
+        "tilesMs": 322.30000001192093,
+        "mergeMs": 34.80000001192093,
+        "totalMs": 513.4000000357628,
         "reused": false
       },
       "overviewMode": false,
@@ -2033,27 +2129,27 @@
     },
     "detail": {
       "overviewMode": false,
-      "groundTriangles": 114679,
-      "waterTriangles": 19676,
-      "visibleWetFaces": 2951,
+      "groundTriangles": 94394,
+      "waterTriangles": 13670,
+      "visibleWetFaces": 1408,
       "omittedWetFaces": 0,
       "budgetLimited": false,
       "supportDecodedBytes": 0,
       "omittedFaces": 0,
-      "visibleFaces": 13811,
+      "visibleFaces": 7951,
       "zoomInRequired": false,
-      "sourceWaterTriangles": 22452,
+      "sourceWaterTriangles": 15432,
       "projectedCacheEstimatedBytes": 0
     },
     "cache": {
-      "cachedTiles": 12,
-      "cachedCompressedBytes": 2213925,
-      "cachedTriangles": 159140,
+      "cachedTiles": 6,
+      "cachedCompressedBytes": 2123649,
+      "cachedTriangles": 152109,
       "indexLoaded": true,
-      "groundLevels": 2,
+      "groundLevels": 1,
       "waterSupportLoaded": true,
-      "staticCompressedBytes": 7279445,
-      "totalCompressedBytes": 9493370
+      "staticCompressedBytes": 9235124,
+      "totalCompressedBytes": 11358773
     },
     "counters": {
       "overviewStarted": 2,
@@ -2064,8 +2160,8 @@
       "refreshEvents": 10,
       "refreshRuns": 7,
       "detailQueries": 3,
-      "detailInstalls": 5,
-      "terrainInstalls": 2,
+      "detailInstalls": 4,
+      "terrainInstalls": 1,
       "overviewActive": 0,
       "overviewPending": 0,
       "refreshPending": 0,
@@ -2083,16 +2179,16 @@
   "phone": {
     "label": "phone DPR3",
     "raw": {
-      "usedSize": 265094444,
-      "totalSize": 342695936,
-      "embedderHeapUsedSize": 3347760,
-      "backingStorageSize": 49441645
+      "usedSize": 256891748,
+      "totalSize": 297922560,
+      "embedderHeapUsedSize": 3390352,
+      "backingStorageSize": 69824176
     },
     "collected": {
-      "usedSize": 201854620,
-      "totalSize": 204795904,
-      "embedderHeapUsedSize": 2890952,
-      "backingStorageSize": 35068535
+      "usedSize": 192151380,
+      "totalSize": 195358720,
+      "embedderHeapUsedSize": 2873864,
+      "backingStorageSize": 46972426
     },
     "view": "3d",
     "state": {
@@ -2125,10 +2221,10 @@
         ],
         "zoom": 18,
         "bounds": [
-          -111.15247405357401,
-          32.39951007983494,
-          -111.14798986129698,
-          32.408159221765516
+          -111.15180104970928,
+          32.39978874136223,
+          -111.14866286516161,
+          32.405005831267395
         ]
       },
       "selection": {
@@ -2137,33 +2233,31 @@
       }
     },
     "terrain": {
-      "visibleTiles": 6,
-      "loadedTiles": 6,
+      "visibleTiles": 4,
+      "loadedTiles": 4,
       "omittedTiles": 0,
       "coarseFallbackTiles": 0,
-      "coarseCoverageTriangles": 22909,
+      "coarseCoverageTriangles": 21503,
       "completeVisibleCoverage": true,
-      "selectedCompressedBytes": 746852,
+      "selectedCompressedBytes": 590426,
       "coverageLimitedBy": null,
-      "triangles": 53671,
-      "downloadedBytes": 221985,
-      "cacheHits": 4,
+      "triangles": 42775,
+      "downloadedBytes": 411991,
+      "cacheHits": 1,
       "cachedTiles": 16,
-      "cachedCompressedBytes": 2717039,
-      "cachedTriangles": 195235,
+      "cachedCompressedBytes": 3853849,
+      "cachedTriangles": 275638,
       "levels": [
         0,
         0,
-        1,
         0,
-        0,
-        1
+        0
       ],
       "timings": {
-        "indexMs": 168,
-        "tilesMs": 20.19999998807907,
-        "mergeMs": 10.199999988079071,
-        "totalMs": 198.39999997615814,
+        "indexMs": 133.5,
+        "tilesMs": 30.30000001192093,
+        "mergeMs": 9.300000011920929,
+        "totalMs": 173.19999998807907,
         "reused": false
       },
       "overviewMode": false,
@@ -2171,27 +2265,27 @@
     },
     "detail": {
       "overviewMode": false,
-      "groundTriangles": 19319,
-      "waterTriangles": 2881,
-      "visibleWetFaces": 691,
+      "groundTriangles": 10149,
+      "waterTriangles": 1491,
+      "visibleWetFaces": 381,
       "omittedWetFaces": 0,
       "budgetLimited": false,
       "supportDecodedBytes": 0,
       "omittedFaces": 0,
-      "visibleFaces": 4221,
+      "visibleFaces": 2521,
       "zoomInRequired": false,
-      "sourceWaterTriangles": 3234,
+      "sourceWaterTriangles": 1536,
       "projectedCacheEstimatedBytes": 0
     },
     "cache": {
       "cachedTiles": 16,
-      "cachedCompressedBytes": 2717039,
-      "cachedTriangles": 195235,
+      "cachedCompressedBytes": 3853849,
+      "cachedTriangles": 275638,
       "indexLoaded": true,
-      "groundLevels": 2,
+      "groundLevels": 1,
       "waterSupportLoaded": true,
-      "staticCompressedBytes": 7279445,
-      "totalCompressedBytes": 9996484
+      "staticCompressedBytes": 9235124,
+      "totalCompressedBytes": 13088973
     },
     "counters": {
       "overviewStarted": 2,
@@ -2202,8 +2296,8 @@
       "refreshEvents": 16,
       "refreshRuns": 13,
       "detailQueries": 8,
-      "detailInstalls": 14,
-      "terrainInstalls": 6,
+      "detailInstalls": 13,
+      "terrainInstalls": 5,
       "overviewActive": 0,
       "overviewPending": 0,
       "refreshPending": 0,
@@ -2218,19 +2312,154 @@
       "y": 32.4015278
     }
   },
+  "phoneOverview": {
+    "label": "phone full domain",
+    "raw": {
+      "usedSize": 407739008,
+      "totalSize": 463421440,
+      "embedderHeapUsedSize": 3147360,
+      "backingStorageSize": 75663931
+    },
+    "collected": {
+      "usedSize": 217756236,
+      "totalSize": 220758016,
+      "embedderHeapUsedSize": 2982248,
+      "backingStorageSize": 72711025
+    },
+    "view": "3d",
+    "state": {
+      "clockMode": "frozen_replay",
+      "range": {
+        "start": 0,
+        "end": 56
+      },
+      "requested": {
+        "requestId": 5,
+        "model": "2d",
+        "index": 56,
+        "view": "3d",
+        "time": "2026-11-02T07:00:00Z"
+      },
+      "displayed": {
+        "requestId": 5,
+        "model": "2d",
+        "index": 56,
+        "view": "3d",
+        "time": "2026-11-02T07:00:00Z",
+        "runId": "refined-full-41344983607"
+      },
+      "status": "ready",
+      "error": null,
+      "viewport": {
+        "center": [
+          -111.20127508,
+          32.43640116
+        ],
+        "zoom": 10.25,
+        "bounds": [
+          -111.55275175112658,
+          32.04616613046823,
+          -110.84979841250353,
+          33.21181526787583
+        ]
+      },
+      "selection": {
+        "kind": "cell",
+        "cellIndex": 387171
+      }
+    },
+    "terrain": {
+      "visibleTiles": 2255,
+      "loadedTiles": 0,
+      "omittedTiles": 0,
+      "completeVisibleCoverage": true,
+      "overviewMode": true,
+      "nativeWaterSupport": true,
+      "coarseCoverageTriangles": 807823,
+      "coverageLimitedBy": null,
+      "groundSamplingM": 400,
+      "groundTriangles": 250702,
+      "waterSupportFaces": 398613,
+      "waterSupportTriangles": 807823,
+      "waterSupportDecodedBytes": 12032577,
+      "triangles": 250702,
+      "downloadedBytes": 0,
+      "cacheHits": 2,
+      "cachedTiles": 16,
+      "cachedCompressedBytes": 3853849,
+      "cachedTriangles": 275638,
+      "levels": [],
+      "timings": {
+        "indexMs": 341,
+        "tilesMs": 0.19999998807907104,
+        "mergeMs": 0,
+        "totalMs": 345,
+        "reused": false
+      },
+      "terrainKind": "native_face_water_support"
+    },
+    "detail": {
+      "overviewMode": true,
+      "groundTriangles": 250702,
+      "waterTriangles": 111469,
+      "visibleWetFaces": 54231,
+      "omittedWetFaces": 0,
+      "budgetLimited": false,
+      "supportDecodedBytes": 12032577,
+      "omittedFaces": 0,
+      "visibleFaces": 398613,
+      "zoomInRequired": false,
+      "sourceWaterTriangles": 109921,
+      "projectedCacheEstimatedBytes": 8388352
+    },
+    "cache": {
+      "cachedTiles": 16,
+      "cachedCompressedBytes": 3853849,
+      "cachedTriangles": 275638,
+      "indexLoaded": true,
+      "groundLevels": 1,
+      "waterSupportLoaded": true,
+      "staticCompressedBytes": 9235124,
+      "totalCompressedBytes": 13088973
+    },
+    "counters": {
+      "overviewStarted": 2,
+      "overviewInstalled": 2,
+      "overviewCancelled": 0,
+      "overviewDeduped": 2,
+      "overviewMaxActive": 1,
+      "refreshEvents": 18,
+      "refreshRuns": 14,
+      "detailQueries": 9,
+      "detailInstalls": 15,
+      "terrainInstalls": 6,
+      "overviewActive": 0,
+      "overviewPending": 0,
+      "refreshPending": 0,
+      "coverageBinCount": 0,
+      "effectiveDPR": 1
+    },
+    "model": true,
+    "frame": "2026-11-02T07:00:00Z",
+    "selected": 387171,
+    "center": {
+      "x": -111.20127508,
+      "y": 32.43640116
+    }
+  },
   "flat": {
     "label": "returned flat",
     "raw": {
-      "usedSize": 204102032,
-      "totalSize": 208728064,
-      "embedderHeapUsedSize": 5022544,
-      "backingStorageSize": 35070286
+      "usedSize": 214771380,
+      "totalSize": 247816192,
+      "embedderHeapUsedSize": 5276632,
+      "backingStorageSize": 74078772
     },
     "collected": {
-      "usedSize": 202661308,
-      "totalSize": 204009472,
-      "embedderHeapUsedSize": 3384248,
-      "backingStorageSize": 35068664
+      "usedSize": 197081536,
+      "totalSize": 198504448,
+      "embedderHeapUsedSize": 3483912,
+      "backingStorageSize": 46978351
     },
     "view": "flat",
     "state": {
@@ -2263,10 +2492,10 @@
         ],
         "zoom": 18,
         "bounds": [
-          -111.15247405357401,
-          32.39951007983494,
-          -111.14798986129698,
-          32.408159221765516
+          -111.15180104970928,
+          32.39978874136223,
+          -111.14866286516161,
+          32.405005831267395
         ]
       },
       "selection": {
@@ -2275,33 +2504,31 @@
       }
     },
     "terrain": {
-      "visibleTiles": 6,
-      "loadedTiles": 6,
+      "visibleTiles": 4,
+      "loadedTiles": 4,
       "omittedTiles": 0,
       "coarseFallbackTiles": 0,
-      "coarseCoverageTriangles": 22909,
+      "coarseCoverageTriangles": 21503,
       "completeVisibleCoverage": true,
-      "selectedCompressedBytes": 746852,
+      "selectedCompressedBytes": 590426,
       "coverageLimitedBy": null,
-      "triangles": 53671,
-      "downloadedBytes": 221985,
+      "triangles": 42775,
+      "downloadedBytes": 0,
       "cacheHits": 4,
       "cachedTiles": 16,
-      "cachedCompressedBytes": 2717039,
-      "cachedTriangles": 195235,
+      "cachedCompressedBytes": 3853849,
+      "cachedTriangles": 275638,
       "levels": [
         0,
         0,
-        1,
         0,
-        0,
-        1
+        0
       ],
       "timings": {
-        "indexMs": 168,
-        "tilesMs": 20.19999998807907,
-        "mergeMs": 10.199999988079071,
-        "totalMs": 198.39999997615814,
+        "indexMs": 31.5,
+        "tilesMs": 0,
+        "mergeMs": 7.199999988079071,
+        "totalMs": 38.80000001192093,
         "reused": false
       },
       "overviewMode": false,
@@ -2309,27 +2536,27 @@
     },
     "detail": {
       "overviewMode": false,
-      "groundTriangles": 19319,
-      "waterTriangles": 2881,
-      "visibleWetFaces": 691,
+      "groundTriangles": 10149,
+      "waterTriangles": 1491,
+      "visibleWetFaces": 381,
       "omittedWetFaces": 0,
       "budgetLimited": false,
       "supportDecodedBytes": 0,
       "omittedFaces": 0,
-      "visibleFaces": 4221,
+      "visibleFaces": 2521,
       "zoomInRequired": false,
-      "sourceWaterTriangles": 3234,
+      "sourceWaterTriangles": 1536,
       "projectedCacheEstimatedBytes": 0
     },
     "cache": {
       "cachedTiles": 16,
-      "cachedCompressedBytes": 2717039,
-      "cachedTriangles": 195235,
+      "cachedCompressedBytes": 3853849,
+      "cachedTriangles": 275638,
       "indexLoaded": true,
-      "groundLevels": 2,
+      "groundLevels": 1,
       "waterSupportLoaded": true,
-      "staticCompressedBytes": 7279445,
-      "totalCompressedBytes": 9996484
+      "staticCompressedBytes": 9235124,
+      "totalCompressedBytes": 13088973
     },
     "counters": {
       "overviewStarted": 4,
@@ -2337,11 +2564,11 @@
       "overviewCancelled": 0,
       "overviewDeduped": 5,
       "overviewMaxActive": 1,
-      "refreshEvents": 19,
-      "refreshRuns": 14,
-      "detailQueries": 8,
-      "detailInstalls": 14,
-      "terrainInstalls": 6,
+      "refreshEvents": 23,
+      "refreshRuns": 16,
+      "detailQueries": 10,
+      "detailInstalls": 17,
+      "terrainInstalls": 7,
       "overviewActive": 0,
       "overviewPending": 0,
       "refreshPending": 0,
@@ -2357,7 +2584,7 @@
     }
   },
   "safety": {
-    "text": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\nTrico-Marana river bridge: 5,450 cfs at Santa Cruz River at Cortaro Rd: elevated river discharge; water reaching this bridge or its approaches is not established.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n4\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,482 cfs in Brawley Wash at Milewide Road: a flood is coming down the wash toward this crossing\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
+    "text": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nTrico-Marana river bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nTrico-Marana river bridge: estimated road 590.85 m; modeled water 586.72 m. Water is 4.13 m below the estimated roadway at Nov 2, 5:00 AM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n3\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,710 cfs in Brawley Wash near Three Points: a flood is coming down the wash toward this crossing\nAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
     "links": [
       {
         "text": "Details",
@@ -2380,15 +2607,15 @@
         "href": "#/"
       },
       {
-        "text": "\n          2\n          Silverbell–Sanders north17 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n          ›\n        ",
+        "text": "\n          2\n          Silverbell–Sanders north17 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n          ›\n        ",
         "href": "#/r/silverbell-north"
       },
       {
-        "text": "\n          2\n          Silverbell–Sanders south20 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n          ›\n        ",
+        "text": "\n          2\n          Silverbell–Sanders south20 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the areaAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.Both NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n          ›\n        ",
         "href": "#/r/silverbell-south"
       },
       {
-        "text": "\n          5\n          Avra Valley Rd20 min · Brawley Wash dip: 1,482 cfs in Brawley Wash at Milewide Road: a flood is coming down the wash toward this crossing\n          ›\n        ",
+        "text": "\n          5\n          Avra Valley Rd20 min · Brawley Wash dip: 1,710 cfs in Brawley Wash near Three Points: a flood is coming down the wash toward this crossingAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.Both NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n          ›\n        ",
         "href": "#/r/avra"
       },
       {
@@ -2424,9 +2651,10 @@
         "href": "#/privacy"
       }
     ],
-    "underpasses": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\nTrico-Marana river bridge: 5,450 cfs at Santa Cruz River at Cortaro Rd: elevated river discharge; water reaching this bridge or its approaches is not established.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n4\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,482 cfs in Brawley Wash at Milewide Road: a flood is coming down the wash toward this crossing\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
+    "underpasses": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nTrico-Marana river bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nTrico-Marana river bridge: estimated road 590.85 m; modeled water 586.72 m. Water is 4.13 m below the estimated roadway at Nov 2, 5:00 AM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n3\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,710 cfs in Brawley Wash near Three Points: a flood is coming down the wash toward this crossing\nAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
+    "routeCard": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n2\nMinor\n😇\n\nCounty barricades on it are marked Open.\n\nSave route\n\nWorking against it\n2\nLos Robles bridge\nNWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\n2\nTrico-Marana river bridge\nTrico-Marana river bridge: estimated road 590.85 m; modeled water 586.72 m. Water is 4.13 m below the estimated roadway at Nov 2, 5:00 AM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\nNWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\nNavigate",
     "bridge": [
-      "Sanders Rd river bridge: height & historyRoadway heightNo site-linked estimate available.Water elevation comparisonRoadway elevation estimate is missing.Under-bridge clearanceUnderside elevation is unavailable. Roadway height is not underside height; gauge flow in cfs is not water elevation.Documented flooding or overtoppingNo confirmed structure-specific flooding history linked. This does not mean it has never flooded.Current readings and official barricade reports are shown below. Existing flow thresholds are warning indicators, not a measured bridge-clearance calculation."
+      "Trico-Marana river bridge: height & historyEstimated roadway heightAbout 590.85 m NAVD88. Approach samples: 590.844 and 590.846 m. Road profile source. Straight span roadway profile inferred between intact near-span approaches; no surveyed deck or camber measurement. Retained 1 m Pima County 2021 bare-earth terrain; acquired 2021-10-06. Total elevation uncertainty is not quantified. Sample-window spread is not an accuracy/confidence interval. Deck camber, structural clearance and changes since terrain acquisition remain unknown.Highest remaining modeled water elevation586.72 m NAVD88 at 11/2/2026, 5:00:00 AM Arizona time. Estimated road is 4.13 m above that modeled water surface. This is roadway height difference, not under-bridge clearance.Water source and periodNative SFINCS water surface, 100 m cell 15761 containing this bridge. Issued 2026-11-01T21:09:28.696154+00:00; forecast 2026-11-01T22:00:00Z through 2026-11-02T12:00:00Z. Native zs in the unchanged 100 m model cell containing this bridge coordinate. Not gauge flow or cell-average depth. Bridge opening is not explicitly modeled. Model source.Under-bridge clearanceUnderside elevation is unavailable. Roadway height is not underside height; gauge flow in cfs is not water elevation.Documented flooding or overtoppingNo confirmed structure-specific flooding history linked. Generic 2014 Trico Road photographs are not confirmed as structure 09552 and are not assigned to this bridge.Current readings and official barricade reports are shown below. Bridge ratings use site-matched roadway/water comparisons and reported hazards; flow cutoffs do not determine bridge inundation.Evidence sourceStructure matched by its recorded coordinates; map tag, not survey confirmation. Registry c10fef1864a277882faaa88d201c70dc4173c8a2. Structure evidence is separate from model coverage and current official closures."
     ]
   },
   "passed": true

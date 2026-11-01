@@ -1,0 +1,122 @@
+{
+  "environment": "Actual completed 57-frame integrated app; Chrome SwiftShader, DPR3 phone viewport, not a physical phone",
+  "errors": [],
+  "sizes": [
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "scroll": 390,
+      "popup": {
+        "top": 178,
+        "bottom": 286,
+        "width": 374,
+        "height": 108
+      },
+      "dock": {
+        "top": 617.671875,
+        "bottom": 836,
+        "width": 360,
+        "height": 218.328125
+      },
+      "openMapGap": 331.671875,
+      "clock": "Nov 1, 3:30 PM MST",
+      "readout": "Nov 1, 3:30 PM MST · 2.193 m / 7.19 ft cell-average depth",
+      "prev": {
+        "top": 657.8125,
+        "bottom": 701.8125,
+        "width": 44,
+        "height": 44
+      },
+      "next": {
+        "top": 657.8125,
+        "bottom": 701.8125,
+        "width": 44,
+        "height": 44
+      },
+      "close": {
+        "top": 183,
+        "bottom": 227,
+        "width": 44,
+        "height": 44
+      },
+      "cellDetails": {
+        "top": 233,
+        "bottom": 277,
+        "width": 352,
+        "height": 44
+      },
+      "sourceInDock": 0,
+      "selected": 387171
+    },
+    {
+      "viewport": [
+        320,
+        700
+      ],
+      "scroll": 320,
+      "popup": {
+        "top": 178,
+        "bottom": 286,
+        "width": 304,
+        "height": 108
+      },
+      "dock": {
+        "top": 478.53125,
+        "bottom": 692,
+        "width": 304,
+        "height": 213.46875
+      },
+      "openMapGap": 192.53125,
+      "clock": "Nov 1, 3:30 PM MST",
+      "readout": "Nov 1, 3:30 PM MST · 2.193 m / 7.19 ft cell-average depth",
+      "prev": {
+        "top": 517.421875,
+        "bottom": 561.421875,
+        "width": 44,
+        "height": 44
+      },
+      "next": {
+        "top": 517.421875,
+        "bottom": 561.421875,
+        "width": 44,
+        "height": 44
+      },
+      "close": {
+        "top": 183,
+        "bottom": 227,
+        "width": 44,
+        "height": 44
+      },
+      "cellDetails": {
+        "top": 233,
+        "bottom": 277,
+        "width": 282,
+        "height": 44
+      },
+      "sourceInDock": 0,
+      "selected": 387171
+    }
+  ],
+  "cellEvidence": "Cell details\nNative face 387171 · 39.1 m² · 6.25 m equivalent-square resolution\nNative water surface 630.17 m NAVD88\nCell-average depth is native volume / full face area. Polygon fill is not a resolved shoreline or road-depth measurement.",
+  "cellDisclosurePersistsAcrossFrame": true,
+  "sourceEvidence": "Source dates & model details\nRetained SFINCS issued Nov 1, 6:00 AM MST (9.6 h ago); valid Nov 1, 10:00 AM MST – Nov 2, 12:00 AM MST · NWM Nov 1, 6:00 AM MST / HRRR Nov 1, 7:00 AM MST. No automatic model refresh.",
+  "steps": {
+    "previous": "Nov 1, 10:45 PM MST",
+    "next": "Nov 1, 11:00 PM MST"
+  },
+  "persistence": {
+    "range": {
+      "start": 4,
+      "end": 52
+    },
+    "index": 52,
+    "selected": {
+      "kind": "cell",
+      "cellIndex": 387171
+    }
+  },
+  "homeSourceRestored": true,
+  "passed": true
+}
