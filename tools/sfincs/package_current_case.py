@@ -7,6 +7,7 @@ required=['sfincs.inp','sfincs.dis','sfincs.src','sfincs_subgrid.nc','precip_2d.
 required += ['sfincs.nc','infiltration.nc'] if 'qtrfile' in (a.case/'sfincs.inp').read_text() else ['sfincs.ind','sfincs.msk','sfincs.scs']
 for name in required:
  if not (a.case/name).is_file():raise FileNotFoundError(name)
+required += [name for name in ['active-mask.npy'] if (a.case/name).is_file()]
 a.archive.parent.mkdir(parents=True,exist_ok=True)
 with tarfile.open(a.archive,'w:gz') as tf:
  for name in required:tf.add(a.case/name,arcname=name)
