@@ -1,5 +1,5 @@
 // I-10 underpasses people asked about. These aren't on the Avra or Picture Rocks routes, so they
-// get their own screen and don't change route numbers. No sensor sits in any of them: the rating
+// get their own screen and don't change route numbers. No public water sensor has been found in any of them: the rating
 // comes from the nearest county rain gauges, county closures and NWS flood alerts, through the
 // same rateFailurePoint as every crossing. Locations are the midpoints of each exit's ramps.
 export const UNDERPASSES = [

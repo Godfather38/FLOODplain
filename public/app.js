@@ -569,7 +569,7 @@ function wireReport() {
 // Newest first. Add a line here whenever something people can notice changes.
 const UPDATES = [
   ['November 1, 2026', [
-    'New: I-10 underpasses at Marana, Orange Grove, Grant and Speedway. Each gets the usual 1 to 5 number from nearby rain gauges, county closures and flood alerts. No sensor sits in any of them.',
+    'New: I-10 underpasses at Marana, Orange Grove, Grant and Speedway. Each gets the usual 1 to 5 number from nearby rain gauges, county closures and flood alerts. We haven't found a public water sensor in any of them.',
     'New: the HAND flood model. Where NOAA\'s stream data matches a crossing, you can see how high forecast flow is estimated to reach, with a map of the estimated area. It\'s an estimate, not a reading.',
     'HAND adds to the number your other sources gave: 1 point on the Santa Cruz, half a point on washes, so you may see a number like 1.5. It never lowers a number, and it doesn\'t change a crossing where a river gauge is reporting.',
     'Texts and push alerts don\'t use HAND yet, so they can show a different number than the app.',
@@ -585,7 +585,7 @@ const UPDATES = [
 ];
 
 function underpassesScreen() {
-  return `<p class="note"><b>No sensor sits in any of these underpasses.</b> The number comes from the nearest county rain gauges, county closures and National Weather Service flood alerts. Water can pool from a storm the gauges miss, and a 1 doesn't confirm the underpass is clear. County closures may not include city, Marana or ADOT roads. Water over the road: turn around.</p>
+  return `<p class="note"><b>We haven't found a public water sensor in any of these underpasses.</b> The number comes from the nearest county rain gauges, county closures and National Weather Service flood alerts. Water can pool from a storm the gauges miss, and a 1 doesn't confirm the underpass is clear. County closures may not include city, Marana or ADOT roads. Water over the road: turn around.</p>
   ${view.underpasses.map(({ short, name, where: place, lat, lon, result }) => `<h3 class="section">${esc(short)}</h3>
   <div class="summary">${badgeWithWord(riskScore(result))}<div><p>${esc(LEVEL_SENTENCE[result.level])}</p><p class="where">${esc(name)}, ${esc(place)}.</p></div></div>
   <div class="list">${result.checks.map((c) => { const [icon, label] = SRC[c.src] ?? ['•', c.src]; return `<div class="row"><span class="lead-icon">${icon}</span><span class="text"><div class="t">${label}</div><div class="st" style="white-space:normal"><span class="dot ${c.level}" style="display:inline-block;margin-right:6px"></span>${esc(c.why)}</div>${c.detail ? `<div class="st" style="white-space:normal">${esc(c.detail)}</div>` : ''}</span></div>`; }).join('')}</div>
@@ -636,7 +636,7 @@ function render() {
     home: ["FLOODplain", subtitle()],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
-    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a sensor in the underpass'],
+    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
   }[w.screen];
   $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
