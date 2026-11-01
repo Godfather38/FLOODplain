@@ -1,43 +1,56 @@
 {
-  "url": "https://raw.githack.com/Godfather38/FLOODplain/0ed3a53cdec064869fd67b4803161565ee06df03/public/index.html?case=refined#/map",
+  "url": "https://raw.githack.com/Godfather38/FLOODplain/eb4e490c2919218750eb5ccadb2c0019c48501cf/public/index.html?case=refined#/map",
   "errors": [],
-  "failed": [],
+  "failed": [
+    {
+      "url": "https://srv.carbonads.net/static/30242/a719f75f8b6a44161528117f997a5d75d3ea8145",
+      "error": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "https://srv.carbonads.net/static/30242/87dfd49ab8a765a8d61c1cd4fba5639c75b2a3bd",
+      "error": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    }
+  ],
   "modelResponses": [
     {
-      "url": "https://raw.githack.com/Godfather38/FLOODplain/0ed3a53cdec064869fd67b4803161565ee06df03/public/simulation/data/refined-full-compact-41344983607/manifest.json",
+      "url": "https://raw.githack.com/Godfather38/FLOODplain/eb4e490c2919218750eb5ccadb2c0019c48501cf/public/simulation/data/refined-full-compact-41344983607/manifest.json",
       "status": 200
     },
     {
-      "url": "https://raw.githack.com/Godfather38/FLOODplain/0ed3a53cdec064869fd67b4803161565ee06df03/public/simulation/data/refined-full-compact-41344983607/geometry.bin.gz",
+      "url": "https://raw.githack.com/Godfather38/FLOODplain/eb4e490c2919218750eb5ccadb2c0019c48501cf/public/simulation/data/refined-full-compact-41344983607/geometry.bin.gz",
       "status": 301
     },
     {
-      "url": "https://raw.githubusercontent.com/Godfather38/FLOODplain/0ed3a53cdec064869fd67b4803161565ee06df03/public/simulation/data/refined-full-compact-41344983607/geometry.bin.gz",
+      "url": "https://raw.githubusercontent.com/Godfather38/FLOODplain/eb4e490c2919218750eb5ccadb2c0019c48501cf/public/simulation/data/refined-full-compact-41344983607/geometry.bin.gz",
       "status": 200
     },
     {
-      "url": "https://raw.githack.com/Godfather38/FLOODplain/0ed3a53cdec064869fd67b4803161565ee06df03/public/simulation/renderer-chunks/geographic-3d-runtime-B3TM5TO7.js",
+      "url": "https://raw.githack.com/Godfather38/FLOODplain/eb4e490c2919218750eb5ccadb2c0019c48501cf/public/simulation/renderer-chunks/geographic-3d-runtime-B3TM5TO7.js",
       "status": 200
     },
     {
-      "url": "https://raw.githack.com/Godfather38/FLOODplain/0ed3a53cdec064869fd67b4803161565ee06df03/public/simulation/data/refined-partial-41339621278/terrain-water-support.json.gz",
+      "url": "https://raw.githack.com/Godfather38/FLOODplain/eb4e490c2919218750eb5ccadb2c0019c48501cf/public/simulation/data/refined-partial-41339621278/terrain-water-support.json.gz",
       "status": 301
     },
     {
-      "url": "https://raw.githubusercontent.com/Godfather38/FLOODplain/0ed3a53cdec064869fd67b4803161565ee06df03/public/simulation/data/refined-partial-41339621278/terrain-water-support.json.gz",
+      "url": "https://raw.githubusercontent.com/Godfather38/FLOODplain/eb4e490c2919218750eb5ccadb2c0019c48501cf/public/simulation/data/refined-partial-41339621278/terrain-water-support.json.gz",
       "status": 200
     },
     {
-      "url": "https://raw.githack.com/Godfather38/FLOODplain/0ed3a53cdec064869fd67b4803161565ee06df03/public/simulation/data/refined-full-compact-41344983607/frame-22.bin.gz",
+      "url": "https://raw.githack.com/Godfather38/FLOODplain/eb4e490c2919218750eb5ccadb2c0019c48501cf/public/simulation/data/refined-full-compact-41344983607/frame-22.bin.gz",
       "status": 301
     },
     {
-      "url": "https://raw.githubusercontent.com/Godfather38/FLOODplain/0ed3a53cdec064869fd67b4803161565ee06df03/public/simulation/data/refined-full-compact-41344983607/frame-22.bin.gz",
+      "url": "https://raw.githubusercontent.com/Godfather38/FLOODplain/eb4e490c2919218750eb5ccadb2c0019c48501cf/public/simulation/data/refined-full-compact-41344983607/frame-22.bin.gz",
       "status": 200
     }
   ],
   "passed": true,
   "documentStatus": 200,
   "hostInterstitial": true,
-  "text": "Flood map\n\nLive readings and dated model forecasts\n\nRoutes & conditions\nMap\nOpenFreeMap © OpenMapTiles · OpenStreetMap · USGS 3DEP\nDomain terrain overview; native wet-face water support; 0 wet faces omitted by display budget; cosmetic highlights\nVIEWING SIMULATION TIME · ARIZONA\nNov 1, 3:30 PM MST\n←\n→\nRetained SFINCS issued Nov 1, 6:00 AM MST (9.6 h ago); valid Nov 1, 10:00 AM MST – Nov 2, 12:00 AM MST · NWM Nov 1, 6:00 AM MST / HRRR Nov 1, 7:00 AM MST. No automatic model refresh.\nFrozen Nov 1–2, 2026 · not current weather\nCell-average depth (m) · tap a cell for metres / feet\n.01–.1\n.1–.3\n.3–1\n1–2\n2–4\n4+\nGray: no result\nWhole-area terrain · native model water\nRoutes\nTime\nMap options\nFit flood area\nFit routes\n+\n−\nLocate\nExperimental: flood extent estimate"
+  "text": "Flood map\n\nLive readings and dated model forecasts\n\nRoutes & conditions\nMap\nOpenFreeMap © OpenMapTiles · OpenStreetMap · USGS 3DEP\nDomain terrain overview; native wet-face water support; 0 wet faces omitted by display budget; cosmetic highlights\nVIEWING SIMULATION TIME · ARIZONA\nNov 1, 3:30 PM MST\n←\n→\nRetained SFINCS issued Nov 1, 6:00 AM MST (9.7 h ago); valid Nov 1, 10:00 AM MST – Nov 2, 12:00 AM MST · NWM Nov 1, 6:00 AM MST / HRRR Nov 1, 7:00 AM MST. No automatic model refresh.\nFrozen Nov 1–2, 2026 · not current weather\nCell-average depth (m) · tap a cell for metres / feet\n.01–.1\n.1–.3\n.3–1\n1–2\n2–4\n4+\nGray: no result\nWhole-area terrain · native model water\nRoutes\nTime\nMap options\nFit flood area\nFit routes\n+\n−\nLocate\nExperimental: flood extent estimate"
 }
