@@ -1,8 +1,8 @@
-import * as cfg from './config.js';
+import * as cfg from './config.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
   riskScore, routeScore, goodSigns, againstIt,
-} from './logic.js';
+} from './logic.js?v=dev';
 
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
@@ -354,11 +354,22 @@ function alertsScreen() {
     <p class="fine" style="text-align:left;margin:0">Arizona time.</p>
   </div>
   <p class="fine" style="text-align:left;margin:12px 4px 0">These alerts are for <b>${esc(areaInfo().name)}</b> routes. Switch area on the home screen to sign up for the other.</p>
+  <h3 class="section">Push notification (any phone, free)</h3>
+  <div class="page">
+    ${textFlow.pushMsg ? `<p class="note">${esc(textFlow.pushMsg)}</p>` : ''}
+    ${store.get('pushOn')
+      ? `<p><b>Push alerts are on for this phone:</b> ${a.times.map(clock).join(' & ')}, ${esc(daysSummary(a.days))}. Changes above save by themselves.</p>
+         <a class="btn btn-text" href="ntfy://ntfy.sh/${pushTopic()}">Open my channel in ntfy again</a>
+         <button type="button" class="btn btn-text" id="p-stop">Turn off push alerts</button>`
+      : `<p>Needs the free <b>ntfy</b> app (<a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a> · <a href="https://apps.apple.com/us/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a>). Pick your times and days above, then:</p>
+         <a class="btn btn-primary" id="p-on" href="ntfy://ntfy.sh/${pushTopic()}">Turn on push alerts</a>
+         <p class="fine" style="text-align:left">One tap saves your schedule and opens ntfy. Tap <b>Subscribe</b> there and you're done.</p>`}
+  </div>
   <h3 class="section">Text message</h3>
   <div class="page">
     ${textFlow.msg ? `<p class="note">${esc(textFlow.msg)}</p>` : ''}
     ${textCard}
-    <p class="fine" style="text-align:left">Texts start once the paid text sender is connected.</p>
+    <p class="fine" style="text-align:left">For now texts only reach Verizon phones; all carriers once our text sender is approved. Push alerts work on any phone.</p>
   </div>
   ${cfg.TEXT_API ? `<h3 class="section">Need more texts?</h3>
   <div class="page">
@@ -368,17 +379,7 @@ function alertsScreen() {
     <label class="field">Message<textarea id="r-msg" rows="3" placeholder="How many texts a day, and why"></textarea></label>
     <button type="button" class="btn btn-primary" id="r-send">Send request</button>
   </div>` : ''}
-  <h3 class="section">Push notification (any phone, free)</h3>
-  <div class="page">
-    ${textFlow.pushMsg ? `<p class="note">${esc(textFlow.pushMsg)}</p>` : ''}
-    <ol class="steps">
-      <li>Install the free <b>ntfy</b> app: <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a> · <a href="https://apps.apple.com/us/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a></li>
-      <li>Subscribe to your private channel: <a class="btn btn-primary" href="ntfy://ntfy.sh/${pushTopic()}">Subscribe in ntfy</a><span class="fine">Or add this topic in ntfy: <code>${pushTopic()}</code></span></li>
-      <li>Save your times and days: <button type="button" class="btn btn-primary" id="p-save" ${cfg.TEXT_API ? '' : 'disabled'}>Save schedule</button></li>
-    </ol>
-    ${cfg.TEXT_API ? '<button type="button" class="btn btn-text" id="p-stop">Stop push notifications</button>' : '<p class="fine" style="text-align:left">Push notifications start once the alert service is connected.</p>'}
-    <p class="fine" style="text-align:left">No account and no phone number. The channel name is private to this phone; don't share it.</p>
-  </div>`;
+`;
 }
 
 async function textApi(body) {
@@ -389,7 +390,11 @@ function wireAlerts() {
   // Wakes the alert service (it starts its own every-minute timer on first contact).
   if (cfg.TEXT_API && !wireAlerts.pinged) { wireAlerts.pinged = true; fetch(cfg.TEXT_API).catch(() => {}); }
   const a = { times: ['05:45'], days: 'w:1,2,3,4,5', mode: 'all', ...(store.get('alerts') ?? {}) };
-  const save = () => { store.set('alerts', a); render(); };
+  // Save the push schedule to the alert service. keepalive lets it finish even
+  // while the page hands off to the ntfy app.
+  const savePush = () => fetch(cfg.TEXT_API, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ action: 'push', topic: pushTopic(), area, times: a.times, days: a.days, mode: a.mode }) }).catch(() => {});
+  const save = () => { store.set('alerts', a); if (store.get('pushOn') && cfg.TEXT_API) savePush(); render(); };
   document.querySelectorAll('input[data-ti]').forEach((el) => el.addEventListener('change', () => {
     const t = snapTime(el.value);
     if (t) { a.times[Number(el.dataset.ti)] = t; a.times = [...new Set(a.times)].sort(); }
@@ -402,15 +407,17 @@ function wireAlerts() {
     const picked = Array.from(e.target.selectedOptions, (o) => Number(o.value));
     if (picked.length) { a.days = `${daysKind(a.days)}:${picked.join(',')}`; save(); }
   });
-  $('#p-save')?.addEventListener('click', async () => {
-    try {
-      const r = await textApi({ action: 'push', topic: pushTopic(), area, times: a.times, days: a.days, mode: a.mode });
-      textFlow.pushMsg = r.ok ? `Saved: ${a.times.map(clock).join(' & ')}, ${daysSummary(a.days)}.` : (r.error || 'Something went wrong.');
-    } catch { textFlow.pushMsg = 'Couldn’t reach the alert service. Try again in a minute.'; }
-    render();
+  // One tap: save the schedule, then the link itself opens ntfy on this phone's channel.
+  $('#p-on')?.addEventListener('click', () => {
+    if (!cfg.TEXT_API) return;
+    store.set('alerts', a);
+    savePush();
+    store.set('pushOn', true);
+    textFlow.pushMsg = `Push alerts on: ${a.times.map(clock).join(' & ')}, ${daysSummary(a.days)}. Tap Subscribe in ntfy if it asks.`;
+    setTimeout(render, 300);
   });
   $('#p-stop')?.addEventListener('click', async () => {
-    try { await textApi({ action: 'pushstop', topic: pushTopic() }); textFlow.pushMsg = 'Push notifications stopped.'; } catch { textFlow.pushMsg = 'Couldn’t reach the alert service.'; }
+    try { await textApi({ action: 'pushstop', topic: pushTopic() }); store.set('pushOn', false); textFlow.pushMsg = 'Push alerts are off for this phone.'; } catch { textFlow.pushMsg = 'Couldn’t reach the alert service. Try again in a minute.'; }
     render();
   });
   $('#a-mode')?.addEventListener('change', (e) => { a.mode = e.target.value; save(); });

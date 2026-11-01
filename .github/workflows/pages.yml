@@ -17,6 +17,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: npm ci
       - run: npm test
   deploy:
     # GitHub Pages only accepts deploys from the repo's default branch.
@@ -28,6 +29,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Stamp this version so phones load it, not an old cached copy
+        run: sed -i "s/?v=dev/?v=${GITHUB_SHA::7}/g" public/index.html public/app.js
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
