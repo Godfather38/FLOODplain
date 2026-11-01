@@ -1,0 +1,398 @@
+{
+  "environment": "Actual 4aeb310 app and compact 398613-face partial package; Chrome headless SwiftShader, DPR3 emulation, not physical device",
+  "crashed": false,
+  "errors": [],
+  "panMs": [
+    277,
+    564,
+    850,
+    558,
+    382,
+    361,
+    543,
+    459,
+    397,
+    508,
+    427,
+    363,
+    582,
+    383,
+    399,
+    556,
+    414,
+    382,
+    635,
+    485,
+    1004,
+    413,
+    369,
+    730
+  ],
+  "samples": [
+    {
+      "label": "initial",
+      "usedSize": 152504712,
+      "totalSize": 153460736,
+      "embedderHeapUsedSize": 2219816,
+      "backingStorageSize": 17804979,
+      "time": "2026-11-01T17:00:00Z",
+      "counters": {
+        "overviewStarted": 1,
+        "overviewInstalled": 1,
+        "overviewCancelled": 0,
+        "overviewDeduped": 1,
+        "overviewMaxActive": 1,
+        "refreshEvents": 3,
+        "refreshRuns": 3,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "geography": {
+        "cacheTiles": 24,
+        "cacheCoordinates": 250000,
+        "cacheFeatures": 20000,
+        "drawCoordinates": 100000,
+        "drawFeatures": 1264,
+        "tileBytes": 4194304,
+        "cachedTiles": 12,
+        "cachedCoordinates": 76693,
+        "cachedFeatures": 2770
+      },
+      "canvas": [
+        {
+          "width": 1920,
+          "height": 1020,
+          "cssWidth": 1280,
+          "cssHeight": 680
+        }
+      ],
+      "overview": {
+        "visibleFaces": 364563,
+        "pixels": 43520,
+        "coveredPixels": 35457,
+        "wetPixels": 2623,
+        "missingPixels": 0,
+        "intersections": 541767,
+        "buildMs": 105.80000001192093,
+        "aggregation": "maximum native full-cell mean depth among wet contributors; fractional coverage and missing masks"
+      },
+      "model": false
+    },
+    {
+      "label": "pan 6",
+      "usedSize": 155356776,
+      "totalSize": 157138944,
+      "embedderHeapUsedSize": 2833248,
+      "backingStorageSize": 25639472,
+      "time": "2026-11-01T17:00:00Z",
+      "counters": {
+        "overviewStarted": 7,
+        "overviewInstalled": 7,
+        "overviewCancelled": 0,
+        "overviewDeduped": 7,
+        "overviewMaxActive": 1,
+        "refreshEvents": 10,
+        "refreshRuns": 9,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "geography": {
+        "cacheTiles": 24,
+        "cacheCoordinates": 250000,
+        "cacheFeatures": 20000,
+        "drawCoordinates": 100000,
+        "drawFeatures": 1264,
+        "tileBytes": 4194304,
+        "cachedTiles": 12,
+        "cachedCoordinates": 76693,
+        "cachedFeatures": 2770
+      },
+      "canvas": [
+        {
+          "width": 1920,
+          "height": 1020,
+          "cssWidth": 1280,
+          "cssHeight": 680
+        }
+      ],
+      "overview": {
+        "visibleFaces": 243503,
+        "pixels": 43520,
+        "coveredPixels": 31540,
+        "wetPixels": 2031,
+        "missingPixels": 0,
+        "intersections": 377926,
+        "buildMs": 115,
+        "aggregation": "maximum native full-cell mean depth among wet contributors; fractional coverage and missing masks"
+      },
+      "model": false
+    },
+    {
+      "label": "pan 12",
+      "usedSize": 154602236,
+      "totalSize": 156090368,
+      "embedderHeapUsedSize": 2534632,
+      "backingStorageSize": 25639472,
+      "time": "2026-11-01T17:00:00Z",
+      "counters": {
+        "overviewStarted": 13,
+        "overviewInstalled": 13,
+        "overviewCancelled": 0,
+        "overviewDeduped": 13,
+        "overviewMaxActive": 1,
+        "refreshEvents": 16,
+        "refreshRuns": 15,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "geography": {
+        "cacheTiles": 24,
+        "cacheCoordinates": 250000,
+        "cacheFeatures": 20000,
+        "drawCoordinates": 100000,
+        "drawFeatures": 1173,
+        "tileBytes": 4194304,
+        "cachedTiles": 12,
+        "cachedCoordinates": 76693,
+        "cachedFeatures": 2770
+      },
+      "canvas": [
+        {
+          "width": 1920,
+          "height": 1020,
+          "cssWidth": 1280,
+          "cssHeight": 680
+        }
+      ],
+      "overview": {
+        "visibleFaces": 246128,
+        "pixels": 43520,
+        "coveredPixels": 31625,
+        "wetPixels": 2031,
+        "missingPixels": 0,
+        "intersections": 381492,
+        "buildMs": 115.19999998807907,
+        "aggregation": "maximum native full-cell mean depth among wet contributors; fractional coverage and missing masks"
+      },
+      "model": false
+    },
+    {
+      "label": "pan 18",
+      "usedSize": 155568684,
+      "totalSize": 156876800,
+      "embedderHeapUsedSize": 2600144,
+      "backingStorageSize": 25639472,
+      "time": "2026-11-01T17:00:00Z",
+      "counters": {
+        "overviewStarted": 19,
+        "overviewInstalled": 19,
+        "overviewCancelled": 0,
+        "overviewDeduped": 19,
+        "overviewMaxActive": 1,
+        "refreshEvents": 22,
+        "refreshRuns": 21,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "geography": {
+        "cacheTiles": 24,
+        "cacheCoordinates": 250000,
+        "cacheFeatures": 20000,
+        "drawCoordinates": 100000,
+        "drawFeatures": 1173,
+        "tileBytes": 4194304,
+        "cachedTiles": 12,
+        "cachedCoordinates": 76693,
+        "cachedFeatures": 2770
+      },
+      "canvas": [
+        {
+          "width": 1920,
+          "height": 1020,
+          "cssWidth": 1280,
+          "cssHeight": 680
+        }
+      ],
+      "overview": {
+        "visibleFaces": 230904,
+        "pixels": 43520,
+        "coveredPixels": 31055,
+        "wetPixels": 1966,
+        "missingPixels": 0,
+        "intersections": 361114,
+        "buildMs": 121,
+        "aggregation": "maximum native full-cell mean depth among wet contributors; fractional coverage and missing masks"
+      },
+      "model": false
+    },
+    {
+      "label": "pan 24",
+      "usedSize": 156571668,
+      "totalSize": 157917184,
+      "embedderHeapUsedSize": 2602840,
+      "backingStorageSize": 17805829,
+      "time": "2026-11-01T17:00:00Z",
+      "counters": {
+        "overviewStarted": 26,
+        "overviewInstalled": 26,
+        "overviewCancelled": 0,
+        "overviewDeduped": 26,
+        "overviewMaxActive": 1,
+        "refreshEvents": 29,
+        "refreshRuns": 28,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "geography": {
+        "cacheTiles": 24,
+        "cacheCoordinates": 250000,
+        "cacheFeatures": 20000,
+        "drawCoordinates": 100000,
+        "drawFeatures": 1173,
+        "tileBytes": 4194304,
+        "cachedTiles": 12,
+        "cachedCoordinates": 76693,
+        "cachedFeatures": 2770
+      },
+      "canvas": [
+        {
+          "width": 1920,
+          "height": 1020,
+          "cssWidth": 1280,
+          "cssHeight": 680
+        }
+      ],
+      "overview": {
+        "visibleFaces": 356143,
+        "pixels": 43520,
+        "coveredPixels": 33879,
+        "wetPixels": 2455,
+        "missingPixels": 0,
+        "intersections": 526350,
+        "buildMs": 150.5,
+        "aggregation": "maximum native full-cell mean depth among wet contributors; fractional coverage and missing masks"
+      },
+      "model": false
+    },
+    {
+      "label": "time and zoom",
+      "usedSize": 189795108,
+      "totalSize": 191545344,
+      "embedderHeapUsedSize": 2727600,
+      "backingStorageSize": 17807063,
+      "time": "2026-11-01T22:00:00Z",
+      "counters": {
+        "overviewStarted": 32,
+        "overviewInstalled": 32,
+        "overviewCancelled": 0,
+        "overviewDeduped": 32,
+        "overviewMaxActive": 1,
+        "refreshEvents": 31,
+        "refreshRuns": 30,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "geography": {
+        "cacheTiles": 24,
+        "cacheCoordinates": 250000,
+        "cacheFeatures": 20000,
+        "drawCoordinates": 100000,
+        "drawFeatures": 1173,
+        "tileBytes": 4194304,
+        "cachedTiles": 23,
+        "cachedCoordinates": 151349,
+        "cachedFeatures": 3604
+      },
+      "canvas": [
+        {
+          "width": 1920,
+          "height": 1020,
+          "cssWidth": 1280,
+          "cssHeight": 680
+        }
+      ],
+      "overview": {
+        "visibleFaces": 356143,
+        "pixels": 43520,
+        "coveredPixels": 33879,
+        "wetPixels": 11298,
+        "missingPixels": 0,
+        "intersections": 526350,
+        "buildMs": 219,
+        "aggregation": "maximum native full-cell mean depth among wet contributors; fractional coverage and missing masks"
+      },
+      "model": false
+    },
+    {
+      "label": "phone size DPR3",
+      "usedSize": 188712288,
+      "totalSize": 190455808,
+      "embedderHeapUsedSize": 2625720,
+      "backingStorageSize": 17291464,
+      "time": "2026-11-01T22:00:00Z",
+      "counters": {
+        "overviewStarted": 34,
+        "overviewInstalled": 33,
+        "overviewCancelled": 1,
+        "overviewDeduped": 34,
+        "overviewMaxActive": 1,
+        "refreshEvents": 33,
+        "refreshRuns": 32,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1
+      },
+      "geography": {
+        "cacheTiles": 24,
+        "cacheCoordinates": 250000,
+        "cacheFeatures": 20000,
+        "drawCoordinates": 100000,
+        "drawFeatures": 1173,
+        "tileBytes": 4194304,
+        "cachedTiles": 23,
+        "cachedCoordinates": 151349,
+        "cachedFeatures": 3604
+      },
+      "canvas": [
+        {
+          "width": 390,
+          "height": 724,
+          "cssWidth": 390,
+          "cssHeight": 724
+        }
+      ],
+      "overview": {
+        "visibleFaces": 99870,
+        "pixels": 17738,
+        "coveredPixels": 16190,
+        "wetPixels": 5104,
+        "missingPixels": 0,
+        "intersections": 163206,
+        "buildMs": 56.799999952316284,
+        "aggregation": "maximum native full-cell mean depth among wet contributors; fractional coverage and missing masks"
+      },
+      "model": false
+    }
+  ],
+  "forbidden": []
+}
