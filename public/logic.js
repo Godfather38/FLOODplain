@@ -126,9 +126,7 @@ export function checkWash(snapshot, flows, wash, kind, now, staleMs, names) {
       ? { level: 'danger', why: `${at}: a flood is coming down the wash toward this crossing` }
       : { level: 'caution', why: `${at}: water is coming down the wash toward this crossing` };
   }
-  return top.cfs >= 2000 || top.risingFast
-    ? { level: 'caution', why: `${at}: a large flow is coming toward this bridge` }
-    : { level: 'watch', why: `${at}: bridge clearance is not established from this reading` };
+  return { level: 'unknown', contextOnly:true, why: `${at}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
 }
 
 // 4. Pima County's own barricade points near this spot.
@@ -180,10 +178,10 @@ export function bridgeHeightComparison(record, now) {
 
 // A discharge threshold describes the river, not water reaching a particular bridge.
 function bridgeRiverCheck(check,record,now){
- const history=record?.documentedHistory??[],elevated=['watch','caution','danger'].includes(check.level);
+ const history=record?.documentedHistory??[];
  const heightComparison=bridgeHeightComparison(record,now),modeledRoadConcern=heightComparison.status==='estimated'&&heightComparison.differenceM<=0;
- return {...check,level:modeledRoadConcern?'caution':heightComparison.status==='estimated'?'ok':elevated?'watch':check.level,modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
-  why:modeledRoadConcern?`Modeled water ${heightComparison.waterM.toFixed(2)} m reaches or exceeds the estimated roadway ${heightComparison.roadM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}; estimated roadway flooding concern, not an observed closure.`:heightComparison.status==='estimated'?`Estimated road ${heightComparison.roadM.toFixed(2)} m; modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum}, ${heightComparison.differenceM.toFixed(2)} m below road at ${heightComparison.time}. No bridge-flooding penalty from this comparison; other hazards still apply.`:elevated?check.why.split(':')[0]+': elevated river discharge; water reaching this bridge or its approaches is not established.':check.why,
+ return {...check,level:modeledRoadConcern?'caution':heightComparison.status==='estimated'?'ok':'unknown',modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
+  why:modeledRoadConcern?`Modeled water ${heightComparison.waterM.toFixed(2)} m reaches or exceeds the estimated roadway ${heightComparison.roadM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}; estimated roadway flooding concern, not an observed closure.`:heightComparison.status==='estimated'?`Estimated road ${heightComparison.roadM.toFixed(2)} m; modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum}, ${heightComparison.differenceM.toFixed(2)} m below road at ${heightComparison.time}. No bridge-flooding penalty from this comparison; other hazards still apply.`:heightComparison.reason+' Gauge discharge is shown as context, without a bridge rating penalty.',
   detail:(check.detail?check.detail+'. ':'')+(record?'Site-linked structure record '+record.id+'. ':'No exact structure record. ')+(history.length?'Historical flooding is documented for this site; it is not a current closure or measured flow-to-road threshold. ':'No site-linked flooding history establishes a current road threshold. ')+(record?.roadwayEstimate?'A provisional roadway-height comparison is shown in height & history; it is not surveyed deck or underside clearance. ':'Current roadway elevation is unavailable. ')+'Clearance is unknown, not confirmed clear.',
   heightComparison,
   bridgeEvidence:{recordId:record?.id??null,historyDates:history.map(h=>h.date),clearance:'unknown'}};
@@ -203,18 +201,19 @@ export function rateFailurePoint(fp, d, cfg) {
     const river=checkRiver(d.flows, fp.river, cfg.USGS_SITES, cfg.RIVER);
     checks.push({ src: 'river', ...(['river','bridge'].includes(fp.kind)?bridgeRiverCheck(river,d.bridgeEvidence?.[fp.id],now):river) });
     const early = checkRiverEarly(d.flows, cfg.RIVER_EARLY, cfg.USGS_SITES, cfg.RIVER);
-    if (early) checks.push({ src: 'river-early', ...early });
+    if (early) checks.push({ src: 'river-early', ...early, ...(['river','bridge'].includes(fp.kind)?{level:'unknown',contextOnly:true,why:early.why.split(':')[0]+': upstream readings; no site-specific travel time or roadway height comparison'}:{}) });
   }
   if (fp.wash) checks.push({ src: 'wash', ...checkWash(d.alert, d.flows, fp.wash, fp.kind, now, cfg.STALE_MS, cfg.USGS_SITES) });
   for (const [ruleName, ids] of Object.entries(fp.rain ?? {})) {
     const c = d.alert
       ? checkRain(d.alert, ids, cfg.RAIN[ruleName], cfg.RAIN_GAUGES, now, cfg.STALE_MS)
       : { level: 'unknown', why: 'rain gauges unreachable right now' };
-    // Preserve the existing rainfall advisory rule; it does not establish bridge clearance.
-    // Structure-specific elevation/history evidence is pending, not inferred from rainfall.
-    if (fp.kind === 'bridge' && rank(c.level) > rank('watch') && c.level !== 'unknown') {
-      c.level = 'watch';
-      c.why += ': bridge clearance is not established from this reading';
+    // Rain is context, not a bridge-height or bridge-inundation measurement.
+    if (['bridge','river'].includes(fp.kind) && c.level !== 'unknown' && c.level !== 'ok') {
+      c.sourceLevel = c.level;
+      c.level = 'unknown';
+      c.contextOnly = true;
+      c.why += ': rainfall context; no bridge-specific roadway inundation established';
     }
     checks.push({ src: `rain-${ruleName}`, ...c });
   }

@@ -83,7 +83,7 @@ export function applyHand(fpResults, hand) {
     const { raise, points, ...source } = check;
     const gauged = gaugeAnswered(p);
     p.checks = [source, ...p.checks];
-    if (!raise || gauged || p.level === 'danger') continue;
+    if (!raise || gauged || ['bridge','river'].includes(p.kind) || p.level === 'danger') continue;
     if (points < 1) { p.handAdd = points; continue; } // Half a point shows on the number; the level stands.
     // One point on the engine's scale: 1 to 2, 2 to 3, 3 to 4. riskScore reads 4 from a second
     // caution-level source, so HAND counts as that one. It can't reach 5.
