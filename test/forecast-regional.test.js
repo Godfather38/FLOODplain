@@ -19,7 +19,20 @@ test('cache is per station, and backward clock movement forces revalidation',asy
  assert.equal((await engine.predict({siteId:'CSCA3'})).delivery,'cache');assert.equal(calls,4);
  at-=60000;assert.equal((await engine.predict({siteId:'CSCA3'})).delivery,'network');assert.equal(calls,6);
 });
-test('existing app has an accessible experimental entrypoint',()=>{const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');assert.match(html,/<nav aria-label="Experimental features">/);assert.match(html,/href="simulation\/forecast.html"/);});
+test('existing app exposes advanced map navigation and retains official forecast access',()=>{
+ const app=readFileSync(new URL('../public/app.js',import.meta.url),'utf8');
+ const layers=readFileSync(new URL('../public/simulation/map-layers.js',import.meta.url),'utf8');
+ const shell=readFileSync(new URL('../public/simulation/map-shell.js',import.meta.url),'utf8');
+ assert.match(app,/mountFloodLayers\(map/,'existing app must mount the map enhancement');
+ assert.match(layers,/mountMapShell\(host,map/,'map enhancement must mount the accessible shell');
+ assert.match(shell,/entryNav=document.createElement\('nav'\)/);
+ assert.match(shell,/entryNav.setAttribute\('aria-label','Experimental features'\)/);
+ assert.match(shell,/advancedLink.href='#\/map'/);
+ assert.match(shell,/entryNav.append\(advancedLink\)/);
+ assert.match(shell,/forecastLink.href='simulation\/forecast.html'/);
+ assert.match(shell,/forecastLink.textContent='Official river forecasts'/);
+ assert.match(shell,/options.append\(forecastLink\)/,'forecast remains reachable in Map options');
+});
 test('explicit forecast withdrawal invalidates previously cached curve',async()=>{
  let withdrawn=false;const engine=createForecastEngine({enabled:true,clock:()=>now,fetchImpl:async url=>({ok:true,json:async()=>{const raw=read('SCTA3',url.endsWith('/stageflow')?'stageflow':'metadata');if(withdrawn&&raw.forecast)raw.forecast.data=[];return raw;}})});
  assert.equal((await engine.predict()).status,'ok');withdrawn=true;

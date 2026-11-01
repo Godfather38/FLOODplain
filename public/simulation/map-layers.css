@@ -19,3 +19,5 @@
 .geographic-route-pin{border:0;background:none;padding:0;color:inherit;cursor:pointer;font:inherit}.geographic-route-pin .place{white-space:nowrap}.geographic-route-pin .pin{position:static}.map-first .geographic-3d .maplibregl-ctrl-top-right{top:12px}.safety-home .map-dock .flood-eyebrow{font-size:10px}.safety-home .map-dock .flood-time output{font-size:17px}
 
 .area-warning{margin:12px 0;padding:14px 16px;border:1px solid #c88c2d;border-left:5px solid #d99a1e;background:var(--angel);border-radius:16px}.area-warning p{font-size:14px;margin:8px 0}.area-warning small{font-size:12px}.safety-home #screen>.safety-map{margin:16px 0 8px}.safety-home #screen>.safety-map>#map{height:290px}.safety-home .map-dock [data-status]{line-height:1.4}
+
+.official-forecast-link{display:block;padding:14px 12px;min-height:48px;text-align:center;font-weight:600}.map-first .map-entry-nav{display:none}
