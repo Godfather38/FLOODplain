@@ -61,3 +61,10 @@ Default viewer and historical route context now use the unchanged levee artifact
 The viewer now opens the July 2013 independent-event check and presents it alongside the September 2014 development fit. Source solver commit `76cb1e8225c93f130ba98c1864c50e0d951546d5`; the original freeze record is retained in `tools/sfincs/data/evaluation-2013-freeze.json`. The unchanged model produced peak 0.0115658 versus 30.86536 m3/s observed (99.9625% low), 11 h 12 min late, RMSE 8.0825 m3/s. This is a scientific failure, not a software execution failure. No event-specific tuning was performed. The event was previously seen in a separate simplified routing model, so this is not a blinded experiment.
 
 `public/simulation/data/sfincs-event-comparison.json` records both original artifact hashes, metrics and evaluation roles. The improved 2014 development fit does not establish transferable accuracy or a ± interval. Historical SFINCS remains context only in combined route decisions; these metrics do not alter a current route score. Numerical deficit labels are now sourced per run rather than copied from the latest 2014 case.
+
+
+## Antecedent diagnostic, not a successful correction
+
+Default viewer now includes the completed `9200dd2` antecedent run: 6,578 cells, 433 frames, July 5–23. The event-window short-section peak is 1.4899 versus 30.8654 m3/s (95.17% low), 41 h 15 min late; RMSE 7.9769 m3/s. Whole-run antecedent peaks are not substituted for the July 20–23 evaluation. At July 19 07Z the model contains 6.254 million m3 interior storage and 0.2303 m3/s short-section flow; this is time-varying antecedent forcing, not equilibrium.
+
+The six-hour allocation caveat remains explicit. This post-failure initial-state sensitivity experiment is not a new independent validation, and it did not fix the flow miss. Original `antecedent-state-check.json`, case, checks, output and run provenance are preserved under `tools/sfincs/data/reach-antecedent-2013-result`. The comparison table retains the frozen-event failure and 2014 development result. No current route score is changed by this historical diagnostic.

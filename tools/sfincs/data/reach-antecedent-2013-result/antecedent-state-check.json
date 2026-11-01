@@ -1,0 +1,87 @@
+{
+  "definition": "Same fixed 38-cell pocket mask from dry-case final storage >100m3; no changing component selection between cases",
+  "stateSnapshots": [
+    {
+      "time": "2013-07-12T07:00:00Z",
+      "interiorStorageM3": 4853564.315879941,
+      "fixedDryBaselinePocketStorageM3": 1523381.3319778442,
+      "pocketWaterSurfaceM": 643.6013793945312,
+      "nativeUpstreamM3s": 1.752953052520752,
+      "shortTricoM3s": 0.30728060007095337,
+      "fullTricoM3s": 5.2381367683410645
+    },
+    {
+      "time": "2013-07-13T07:00:00Z",
+      "interiorStorageM3": 6891624.170461774,
+      "fixedDryBaselinePocketStorageM3": 1667623.640159607,
+      "pocketWaterSurfaceM": 643.6466064453125,
+      "nativeUpstreamM3s": 1.687821626663208,
+      "shortTricoM3s": 9.511920928955078,
+      "fullTricoM3s": 34.31838607788086
+    },
+    {
+      "time": "2013-07-14T07:00:00Z",
+      "interiorStorageM3": 5376571.111677885,
+      "fixedDryBaselinePocketStorageM3": 1788725.92111969,
+      "pocketWaterSurfaceM": 643.6497192382812,
+      "nativeUpstreamM3s": 2.1888222694396973,
+      "shortTricoM3s": 1.0354712009429932,
+      "fullTricoM3s": 4.470651626586914
+    },
+    {
+      "time": "2013-07-15T07:00:00Z",
+      "interiorStorageM3": 5143060.559298754,
+      "fixedDryBaselinePocketStorageM3": 1901014.3191375732,
+      "pocketWaterSurfaceM": 643.6542358398438,
+      "nativeUpstreamM3s": 2.3417279720306396,
+      "shortTricoM3s": 0.27685385942459106,
+      "fullTricoM3s": 1.3492573499679565
+    },
+    {
+      "time": "2013-07-16T07:00:00Z",
+      "interiorStorageM3": 7523412.828146577,
+      "fixedDryBaselinePocketStorageM3": 2027017.3513183594,
+      "pocketWaterSurfaceM": 643.6854858398438,
+      "nativeUpstreamM3s": 2.3418033123016357,
+      "shortTricoM3s": 0.2765144109725952,
+      "fullTricoM3s": 13.87451171875
+    },
+    {
+      "time": "2013-07-17T07:00:00Z",
+      "interiorStorageM3": 6826373.4004455805,
+      "fixedDryBaselinePocketStorageM3": 2176995.3093719482,
+      "pocketWaterSurfaceM": 643.6639404296875,
+      "nativeUpstreamM3s": 1.7528127431869507,
+      "shortTricoM3s": 1.8604836463928223,
+      "fullTricoM3s": 10.204645156860352
+    },
+    {
+      "time": "2013-07-18T07:00:00Z",
+      "interiorStorageM3": 6382070.797930241,
+      "fixedDryBaselinePocketStorageM3": 2303530.9604034424,
+      "pocketWaterSurfaceM": 643.973388671875,
+      "nativeUpstreamM3s": 1.6252026557922363,
+      "shortTricoM3s": 0.6812580823898315,
+      "fullTricoM3s": 2.6717255115509033
+    },
+    {
+      "time": "2013-07-19T07:00:00Z",
+      "interiorStorageM3": 6253640.65734911,
+      "fixedDryBaselinePocketStorageM3": 2415761.873764038,
+      "pocketWaterSurfaceM": 644.4942016601562,
+      "nativeUpstreamM3s": 2.0133278369903564,
+      "shortTricoM3s": 0.2302783727645874,
+      "fullTricoM3s": 1.002012014389038
+    },
+    {
+      "time": "2013-07-20T07:00:00Z",
+      "interiorStorageM3": 6305545.048939705,
+      "fixedDryBaselinePocketStorageM3": 2525032.401298523,
+      "pocketWaterSurfaceM": 644.994140625,
+      "nativeUpstreamM3s": 2.0133278369903564,
+      "shortTricoM3s": 0.4304257333278656,
+      "fullTricoM3s": 1.1645686626434326
+    }
+  ],
+  "interpretation": "Time-varying observed antecedent forcing; no steady-state assumption or target-based initialization"
+}
