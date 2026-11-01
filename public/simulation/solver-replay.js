@@ -14,6 +14,6 @@ export function inspectReachSolver(run) {
   const checks=accepted.provenance.qualityChecks,comparison=checks?.comparison;
   if(!comparison || comparison.usedAsForcing!==false || !accepted.provenance.upstream)throw new Error('Missing reach boundary/comparison provenance');
   return {run:accepted,suitability:'requires_hydraulic_review',comparison,
-    warning:'Observed Cortaro-inflow scenario; Trico observations withheld. Local rainfall omitted. Poor downstream agreement and deep upstream pooling require hydraulic review. Not an operational flood prediction.',
+    warning:'Observed Cortaro-inflow scenario; Trico observations withheld. '+(accepted.provenance.rainfallStatus==='complete_stage_iv_analysis'?'Stage IV rainfall included. Initial water levels come from the earlier inflow-only run; antecedent rainfall was not included and velocities were reset. ':'Local rainfall omitted. ')+'Poor downstream agreement and deep upstream pooling require hydraulic review. Not an operational flood prediction.',
     maximumDepthM:checks.maximumDepthM,displayMaximumDepthM:checks.displayMaximumDepthM};
 }

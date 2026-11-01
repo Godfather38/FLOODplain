@@ -31,3 +31,10 @@ No HAND files were merged and no contributor was contacted. Browser interaction 
 ## Reach-result update
 
 The SFINCS viewer now defaults to the original reach artifact from solver commit `86b5293`, with an explicit run selector retaining the old rain-only artifact. This 96-hour scenario uses observed Cortaro discharge and withholds Trico observations; local rainfall was omitted. It predates the new expanded Stage IV forcing. Displayed output has 6,578 Trico-crop cells and 97 hourly frames. Native comparison peak is 81.425 versus 339.802 m3/s, 7 h 55 min late. Full-domain maximum depth 26.884 m reflects problematic upstream pooling; displayed Trico-crop maximum is 2.466 m. The app labels hydraulic review, distinguishes these domains, and preserves original checks and input hashes. No rainfall-enhanced rerun or validated flood extent is implied.
+
+
+## Latest rainfall-plus-inflow run
+
+The viewer now defaults to `reach-stage4-31abefafe5877852`, preserved from solver branch commit `1040515`, with both earlier runs still selectable. It contains 6,578 displayed cells and 73 hourly frames, September 8 07Z through September 11 07Z. Stage IV rainfall is included, but this run predates the full 96-hour rainfall input: initial water levels come from inflow-only spinup and velocities were reset. No 96-hour rainfall rerun is implied.
+
+Native model-section peak is 93.033 versus 339.802 m3/s observed, 6 h 57 min late; RMSE 88.205 m3/s. Full-domain maximum depth remains 26.884 m with problematic upstream pooling; displayed Trico-crop maximum is 2.991 m. The app labels poor fit and hydraulic review, retains original boundary/forcing hashes and assumptions, and offers the unchanged original output download. No geometry correction, solver build, or rerun was performed by the app thread.

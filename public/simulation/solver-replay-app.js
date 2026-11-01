@@ -1,8 +1,8 @@
 import {inspectRecordedSolver,inspectReachSolver} from './solver-replay.js';
 const $=id=>document.getElementById(id),status=$('status');let version=0;
-async function load(){const token=++version,reach=$('run').value==='reach';status.textContent='Loading original recorded solver output…';$('frame').disabled=true;$('details').textContent='';$('time').textContent='';$('comparison').textContent='';
+async function load(){const token=++version,reach=$('run').value!=='legacy',rain=$('run').value==='stage4';status.textContent='Loading original recorded solver output…';$('frame').disabled=true;$('details').textContent='';$('time').textContent='';$('comparison').textContent='';
  try {
-  const file=reach?'sfincs-reach-recorded.json.gz':'sfincs-recorded.json.gz';$('artifact').href='data/'+file;
+  const file=rain?'sfincs-reach-stage4-recorded.json.gz':reach?'sfincs-reach-recorded.json.gz':'sfincs-recorded.json.gz';$('artifact').href='data/'+file;
   const response=await fetch('data/'+file);if(!response.ok)throw new Error(`Recorded artifact HTTP ${response.status}`);
   const run=JSON.parse(await new Response(response.body.pipeThrough(new DecompressionStream('gzip'))).text());if(token!==version)return;
   const result=reach?inspectReachSolver(run):inspectRecordedSolver(run);status.textContent=result.warning;

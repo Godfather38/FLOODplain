@@ -1,0 +1,9 @@
+{
+  "inputCommit": "d68c19431274d912c82196e89d1da50c7126c47b",
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41289685306",
+  "artifactId": 13076518565,
+  "solverRuntimeSeconds": 61.21780014038086,
+  "jobElapsedSeconds": 276,
+  "fullInputs": "Retained in GitHub run artifact; reproducible with prepare_reach.py, committed forcing, terrain, gauges and original reach-result initial map",
+  "status": "completed_unvalidated_scenario"
+}
