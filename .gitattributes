@@ -8,3 +8,5 @@ public/simulation/data/nwps-bwta3-*.json -text
 public/simulation/data/storm-2014/*.json -text
 public/simulation/data/storm-2014-legacy/*.json -text
 test/fixtures/stage4/* -text
+public/simulation/data/stage4-forcing-2014-provenance.json -text
+public/simulation/data/sfincs-trico-stage4-2014.json -text
