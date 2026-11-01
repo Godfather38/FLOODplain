@@ -33,3 +33,4 @@
 
 /* This release exposes replay controls only inside the opt-in Map destination. */
 .safety-home .map-dock{display:none!important}
+.map-first > .exp-link{display:none!important}
