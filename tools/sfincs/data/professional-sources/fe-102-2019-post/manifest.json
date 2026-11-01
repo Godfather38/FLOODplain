@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "studyId": "FE-102-2019",
+  "exports": [
+    {
+      "name": "cross-sections",
+      "service": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCDLocalFloodplainCrossSections_C/FeatureServer/0",
+      "scope": "entire study",
+      "selection": {
+        "f": "json",
+        "where": "STUDYID = 'FE-102-2019'"
+      },
+      "featureCount": 168,
+      "objectIdField": "OBJECTID",
+      "path": "cross-sections.esri.json",
+      "sha256": "0728f8c032f7dec6fa0be14ac00de2cf502b5c653080f129353a0f509178573f",
+      "bytes": 131011,
+      "rawResponses": [
+        {
+          "path": "raw/cross-sections/metadata.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCDLocalFloodplainCrossSections_C/FeatureServer/0",
+          "method": "POST",
+          "parameters": {
+            "f": "json"
+          },
+          "bytes": 14989,
+          "sha256": "aaae951025155b58de094690134e8fbf09390dee07f073b6941b8a76be987862",
+          "retrievedUtc": "2026-11-01T14:19:05.880453+00:00"
+        },
+        {
+          "path": "raw/cross-sections/object-ids.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCDLocalFloodplainCrossSections_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "where": "STUDYID = 'FE-102-2019'",
+            "returnIdsOnly": "true"
+          },
+          "bytes": 917,
+          "sha256": "bf695cbd5a36d42ae122cb4ddc47d001b4d05228d2c690bccfc4943b590c516e",
+          "retrievedUtc": "2026-11-01T14:19:07.251821+00:00"
+        },
+        {
+          "path": "raw/cross-sections/batch-001.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCDLocalFloodplainCrossSections_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "objectIds": "39,59,89,238,293,457,465,479,520,557,648,900,1113,1138,1163,1193,1331,1343,1371,1447,1611,1718,1733,1768,1891,1928,1979,1986,2137,2150",
+            "outFields": "*",
+            "returnGeometry": "true",
+            "outSR": "4326"
+          },
+          "bytes": 26566,
+          "sha256": "8847c48257b2e8373bd12969bfe363cd72988a6c1dd696c8011cd88414847674",
+          "retrievedUtc": "2026-11-01T14:19:07.681994+00:00"
+        },
+        {
+          "path": "raw/cross-sections/batch-002.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCDLocalFloodplainCrossSections_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "objectIds": "2273,2328,2407,2461,2487,2489,2531,2702,2989,3055,3174,3252,3463,3528,3827,3857,3931,3954,4029,4093,4199,4214,4222,4326,4405,4560,4563,4568,4658,4662",
+            "outFields": "*",
+            "returnGeometry": "true",
+            "outSR": "4326"
+          },
+          "bytes": 26503,
+          "sha256": "d9f1dbcc768cfb623946b136e120b9f25b41957fdf52be030e4e14fb2939ac13",
+          "retrievedUtc": "2026-11-01T14:19:08.164000+00:00"
+        },
+        {
+          "path": "raw/cross-sections/batch-003.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCDLocalFloodplainCrossSections_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "objectIds": "4829,4880,4934,5056,5139,5201,5211,5250,5342,5371,5426,5432,5478,5550,5562,5680,5705,5770,5850,5867,5894,5970,6237,6243,6259,6410,6705,6812,6888,6891",
+            "outFields": "*",
+            "returnGeometry": "true",
+            "outSR": "4326"
+          },
+          "bytes": 26794,
+          "sha256": "4c300c3fc24e89e9814fb94993b91e7c45db3c9b9e01311d82af34446c4fe726",
+          "retrievedUtc": "2026-11-01T14:19:08.561508+00:00"
+        },
+        {
+          "path": "raw/cross-sections/batch-004.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCDLocalFloodplainCrossSections_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "objectIds": "6905,6909,7055,7141,7259,7292,7405,7407,7501,7512,7626,7763,7960,7986,8209,8214,8465,8466,8687,8708,8763,8809,8873,8997,9027,9073,9408,9511,9601,9721",
+            "outFields": "*",
+            "returnGeometry": "true",
+            "outSR": "4326"
+          },
+          "bytes": 26614,
+          "sha256": "b11df9f4f730d478e30b54797b3c1b687bb4a4049e74a821ced3fb3239c25660",
+          "retrievedUtc": "2026-11-01T14:19:09.000516+00:00"
+        },
+        {
+          "path": "raw/cross-sections/batch-005.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCDLocalFloodplainCrossSections_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "objectIds": "9796,9869,9880,9945,10003,10433,10467,10538,10551,10617,10691,10819,10913,10944,11143,11244,11619,11736,11901,11906,12012,12222,12247,12357,12372,12551,12746,12832,12930,12972",
+            "outFields": "*",
+            "returnGeometry": "true",
+            "outSR": "4326"
+          },
+          "bytes": 26416,
+          "sha256": "e4396586e337adfcfd5da52923f701858efc7edb8f8c89ff97cd714d6faed9ae",
+          "retrievedUtc": "2026-11-01T14:19:09.266517+00:00"
+        },
+        {
+          "path": "raw/cross-sections/batch-006.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCDLocalFloodplainCrossSections_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "objectIds": "13027,13074,13169,13182,13234,13268,13294,13317,13328,13363,13494,13521,13993,14060,14514,14549,14609,14666",
+            "outFields": "*",
+            "returnGeometry": "true",
+            "outSR": "4326"
+          },
+          "bytes": 17455,
+          "sha256": "5153cfd7a60129b4ede40f8ecc6144eed54c15dfb335098cf9565dbad37d0717",
+          "retrievedUtc": "2026-11-01T14:19:09.623829+00:00"
+        }
+      ]
+    },
+    {
+      "name": "bfe-contours",
+      "service": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCD_BFE_Contours_C/FeatureServer/0",
+      "scope": "domain envelope",
+      "selection": {
+        "f": "json",
+        "where": "STUDYID = 'FE-102-2019'",
+        "geometry": "467000,3577000,493500,3596000",
+        "geometryType": "esriGeometryEnvelope",
+        "inSR": "32612",
+        "spatialRel": "esriSpatialRelIntersects"
+      },
+      "featureCount": 126,
+      "objectIdField": "OBJECTID",
+      "path": "bfe-contours.esri.json",
+      "sha256": "9e27fd96e6363c2bc445236d53ef8f2fb29ee0a8ac4e8dc813cfc63131c540c5",
+      "bytes": 8868716,
+      "rawResponses": [
+        {
+          "path": "raw/bfe-contours/metadata.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCD_BFE_Contours_C/FeatureServer/0",
+          "method": "POST",
+          "parameters": {
+            "f": "json"
+          },
+          "bytes": 13687,
+          "sha256": "a51179c7224dea40d2ac13890b4672b43037691ae80cb547b0e9322df43999fa",
+          "retrievedUtc": "2026-11-01T14:19:10.005518+00:00"
+        },
+        {
+          "path": "raw/bfe-contours/object-ids.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCD_BFE_Contours_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "where": "STUDYID = 'FE-102-2019'",
+            "geometry": "467000,3577000,493500,3596000",
+            "geometryType": "esriGeometryEnvelope",
+            "inSR": "32612",
+            "spatialRel": "esriSpatialRelIntersects",
+            "returnIdsOnly": "true"
+          },
+          "bytes": 802,
+          "sha256": "09516cc8d65bf953c355aaa7707b2bd37e99d20fedfcac7b3d354134f3cb71e8",
+          "retrievedUtc": "2026-11-01T14:19:10.422533+00:00"
+        },
+        {
+          "path": "raw/bfe-contours/batch-001.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCD_BFE_Contours_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "objectIds": "16200,16201,16202,16203,16204,16205,16206,16207,16208,16209,16210,16211,16212,16213,16214,16215,16216,16217,16218,16219,16220,16221,16222,16223,16224,16225,16226,16227,16228,16229",
+            "outFields": "*",
+            "returnGeometry": "true",
+            "outSR": "4326"
+          },
+          "bytes": 2185750,
+          "sha256": "4cfe069f0403716ac46600de5ec99aa572ecfa58258196687465c5f174cc73fd",
+          "retrievedUtc": "2026-11-01T14:19:11.336402+00:00"
+        },
+        {
+          "path": "raw/bfe-contours/batch-002.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCD_BFE_Contours_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "objectIds": "16230,16231,16232,16233,16234,16235,16236,16237,16238,16239,16240,16241,16242,16243,16244,16245,16246,16247,16248,16249,16250,16251,16252,16253,16254,16255,16256,16257,16258,16259",
+            "outFields": "*",
+            "returnGeometry": "true",
+            "outSR": "4326"
+          },
+          "bytes": 2896471,
+          "sha256": "2592125d184aee4885e15919e455c9e2cad7b803a2b42fce537bfe4224ce7aec",
+          "retrievedUtc": "2026-11-01T14:19:12.336070+00:00"
+        },
+        {
+          "path": "raw/bfe-contours/batch-003.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCD_BFE_Contours_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "objectIds": "16260,16261,16262,16263,16264,16265,16266,16267,16268,16269,16270,16271,16272,16273,16274,16275,16276,16277,16278,16279,16280,16281,16282,16283,16284,16285,16286,16287,16288,16289",
+            "outFields": "*",
+            "returnGeometry": "true",
+            "outSR": "4326"
+          },
+          "bytes": 1909992,
+          "sha256": "21a40797f55a9f0f53cdbf9ab336a493afa3389e9927043c8745311f649178c7",
+          "retrievedUtc": "2026-11-01T14:19:13.237945+00:00"
+        },
+        {
+          "path": "raw/bfe-contours/batch-004.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCD_BFE_Contours_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "objectIds": "16290,16291,16292,16293,16294,16295,16296,16297,16298,16299,16300,16301,16302,16303,16304,16305,16306,16307,16308,16309,16310,16311,16312,16313,16314,16315,16316,16317,16318,16319",
+            "outFields": "*",
+            "returnGeometry": "true",
+            "outSR": "4326"
+          },
+          "bytes": 1517985,
+          "sha256": "98fee6ebc584d6bc85e5877bdfd899d613b486ca6581b51a94148325464bdaf3",
+          "retrievedUtc": "2026-11-01T14:19:14.110100+00:00"
+        },
+        {
+          "path": "raw/bfe-contours/batch-005.json",
+          "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCD_BFE_Contours_C/FeatureServer/0/query",
+          "method": "POST",
+          "parameters": {
+            "f": "json",
+            "objectIds": "16320,16321,16322,16323,16324,16325",
+            "outFields": "*",
+            "returnGeometry": "true",
+            "outSR": "4326"
+          },
+          "bytes": 371982,
+          "sha256": "a9adb75e4fe25df06841bfe1c463fd7ba4530c66c8f3399546ddcd9770b5d41b",
+          "retrievedUtc": "2026-11-01T14:19:14.568110+00:00"
+        }
+      ]
+    }
+  ],
+  "surveyAcquisitionDate": null,
+  "nativeHydraulicModel": false,
+  "limitations": [
+    "GIS study records, not full station-elevation profiles",
+    "Water surface elevations are not bed elevations",
+    "Hosted publication/edit dates are not survey dates",
+    "No null filling or geometric reconstruction performed"
+  ]
+}

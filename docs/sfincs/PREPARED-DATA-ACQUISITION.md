@@ -1,6 +1,6 @@
 # Prepared professional data acquisition contract
 
-Verified 2026-11-01 by live REST metadata requests. No feature bulk downloads, terrain changes or solver runs performed for this inspection.
+Verified 2026-11-01 by live REST metadata requests. Initial inspection read metadata only; the bounded POST archive below subsequently retrieved the professional records. No terrain changes or solver runs were performed.
 
 Service: https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/FloodControl2/MapServer
 
@@ -34,3 +34,22 @@ Before model execution, the received source manifest must identify actual survey
 The separate researcher verified domain coverage limits: Pima layer2 contains 184 sections/92 bed scalars; Tucson inventory has 11 bridges with null clearance, six box culverts with only one populated height/width, and 37 pipes with only three populated diameters. The screenshot HEC-RAS layer has zero local features. These counts are researcher-reported, not additional bulk exports here. Missing values remain missing. The 2021 prepared terrain is still a candidate, not a complete hydraulic model; no execution follows from this archive.
 
 Researcher verification additionally identifies ArcGIS item `138bec9712e34493ad097e0b50557d20` as a monthly LocalStudies pipeline publication: zero item resources, no layer attachments/relationships, and no file URLs in feature attributes. It is not the native-model archive. The concrete outstanding package is the existing Cortaro–Trico model/revisions associated with `5SCLIV / FE-102-2019`, Technical Support Data Notebook Volume 3, FEMA `21-09-1382P`, including acquisition dates. A proposed request to the county is awaiting user approval; no outreach was sent by this thread. Implementation pauses at this missing native input, not a certification requirement.
+
+
+## Runnable POST acquisition and complete local archive
+
+Run from the repository root using standard Python (no extra packages or credentials):
+
+```sh
+python tools/sfincs/export_professional_data.py --output .sfincs-runs/professional-study-export
+```
+
+The command uses the services' standard POST query operation: metadata, selected object IDs, then batches of at most 30 records. It rejects service errors, transfer-limit flags, duplicate/missing IDs, changed study membership and inconsistent batch schemas. It refuses to overwrite an existing output directory, retaining partial responses if a request fails. Raw response bytes and exact POST parameters, retrieval UTC and SHA256 are recorded beside a combined Esri JSON export. Feature attributes, nulls and coordinates are preserved; the combined file is only an assembly of returned features.
+
+**Primary committed archive:** `tools/sfincs/data/professional-sources/fe-102-2019-post/manifest.json`.
+
+- `cross-sections.esri.json`: all **168** FE-102-2019 study cross-sections, no envelope filter. Source RFCDLocalFloodplainCrossSections_C/FeatureServer/0.
+- `bfe-contours.esri.json`: **126** FE-102-2019 contours intersecting the model-domain envelope, source RFCD_BFE_Contours_C/FeatureServer/0. The query selects intersecting original features; it does not clip their geometry.
+- `raw/`: metadata, object-ID selections and each original batch response.
+
+The previous `fe-102-2019/` archive remains the earlier 85-section domain-only subset, not the complete study. Consumers should use the primary POST manifest above. Executed export counts matched the complete returned ID sets; a separate local verification confirmed all raw-response hashes and exact feature equality between batches and combined files. No hydraulic profiles, missing dimensions or modern survey dates were inferred. Study age and native-model dependency above remain unchanged.
