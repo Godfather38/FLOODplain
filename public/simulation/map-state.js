@@ -24,7 +24,7 @@ export function createCoverageIndex(rings){
 
 export function crossingCoverage(registry,{runId,sha256,crossingId}){
  if(!registry||registry.schemaVersion!==1||registry.runId!==runId||registry.artifactSha256!==sha256)return {status:'unverified',reason:'Crossing coverage registry unavailable or mismatched'};
- const record=registry.records?.find(r=>r.crossingId===crossingId);
+ const record=registry.records?.find(r=>r.crossingId===crossingId||r.appCrossingIds?.includes(crossingId));
  if(!record||!['inside_native_cell','outside_domain'].includes(record.status))return {status:'unverified',reason:'Crossing not mapped in this registry'};
  if(record.status==='inside_native_cell'&&(!Number.isInteger(record.cellIndex)||record.cellIndex<0||!record.method))return {status:'unverified',reason:'Incomplete native-cell mapping'};
  return {...record};

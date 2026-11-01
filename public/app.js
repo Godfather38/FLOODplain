@@ -1,3 +1,4 @@
+import {loadBridgeEvidence,bridgeRecordFor,bridgeHistory} from './simulation/bridge-evidence.js';
 import {mountFloodLayers} from './simulation/map-layers.js';
 import { savedRoutes, toggleSavedRoute, checkAge } from './preferences.js?v=dev';
 import * as cfg from './config.js?v=dev';
@@ -219,9 +220,12 @@ function routeScreen(rid) {
     <div class="bottom-bar">${navBtn(r)}</div>`;
 }
 
+let bridgeEvidence=null;
 function bridgeEvidencePlaceholder(fp){
  if(!['bridge','river'].includes(fp.kind))return '';
- return `<section class="bridge-evidence" data-bridge-evidence data-crossing-id="${esc(fp.id)}"><h3>${esc(fp.short)}: height & history</h3><dl><dt>Bridge deck / low-chord elevation</dt><dd>Not verified for this structure.</dd><dt>Elevation datum and gauge relationship</dt><dd>Not verified. Gauge height cannot yet be compared with bridge clearance.</dd><dt>Documented flooding or overtopping</dt><dd>No structure-specific evidence linked yet. This does not mean it has never flooded.</dd></dl><p>Current readings and official barricade reports are shown below. Existing flow thresholds are warning indicators, not a measured bridge-clearance calculation.</p></section>`;
+ const record=bridgeRecordFor(fp,bridgeEvidence?.registry),history=bridgeHistory(record);
+ const historyHtml=history.length?history.map(h=>`<p><a href="${esc(h.source)}" target="_blank" rel="noopener noreferrer">${esc(h.date)} report and photographs</a>: ${esc(h.summary)}</p><p>${esc(h.siteMatch||'')}</p><p>${esc(h.interpretationLimit||'')}</p>`).join(''):'No structure-specific evidence linked yet. This does not mean it has never flooded.';
+ return `<section class="bridge-evidence" data-bridge-evidence data-crossing-id="${esc(fp.id)}"><h3>${esc(fp.short)}: height & history</h3><dl><dt>Bridge deck / low-chord elevation</dt><dd>Not verified for this structure.</dd><dt>Elevation datum and gauge relationship</dt><dd>Not verified. Gauge height cannot yet be compared with bridge clearance.</dd><dt>Documented flooding or overtopping</dt><dd>${historyHtml}</dd></dl><p>Current readings and official barricade reports are shown below. Existing flow thresholds are warning indicators, not a measured bridge-clearance calculation.</p>${record?`<details><summary>Evidence source</summary><p>Structure matched by its recorded coordinates; map tag, not survey confirmation. Registry ${esc(bridgeEvidence.source.sourceCommit)}. The prepared expanded mesh has not run and supplies no new forecast coverage.</p></details>`:''}</section>`;
 }
 
 function stretchScreen(rid, fpId) {
@@ -764,6 +768,7 @@ async function check() {
   }
 }
 async function init() {
+  loadBridgeEvidence().then(result=>{bridgeEvidence=result;if(view&&where().screen==='stretch')render()});
   allRoutes = (await getJson('data/routes.geojson')).features;
   useArea(store.get('area') ?? 'avra');
   map.fitBounds(allBounds, { animate: false });
