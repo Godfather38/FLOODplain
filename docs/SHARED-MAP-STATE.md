@@ -36,3 +36,6 @@ Inside records require a nonnegative integer cellIndex and method. Registry run/
 ## Direct checks completed
 
 Focused tests exercise out-of-order completion, wrong-frame rejection, failed-render clearing, range/view preservation of viewport/selection, exact outside-cell distinction, zero versus null and missing registry. These validate state behavior only; the raster fallback remains temporary and is not proof of the requested vector scene.
+
+## Remote UI evidence at6497b26
+The actual GitHack page loaded verified native data. Loading state was visible before an acknowledged10AM frame appeared. At cell9344, midnight read7.737m/25.38ft; changing to8PM updated the same popup to3.368m/11.05ft. Fitmodel changed camera deliberately; tapping outside the native domain returned No model coverage, not dry/safe. Screenshot shared-state-cell-8pm.png records the temporary raster-backed fallback, not vector-renderer acceptance. A real selector collision in the new loadingnotice was found during browser inspection and fixed by separating data-render-status from the model's data-status marker.
