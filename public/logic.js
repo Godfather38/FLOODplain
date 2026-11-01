@@ -62,7 +62,7 @@ export function checkRiver(flows, siteIds, names, R) {
     const at = `${fmtCfs(f.cfs)} cfs at ${siteName(names, id)}`;
     let c;
     if (f.cfs >= R.dangerCfs) c = { level: 'danger', why: `${at}: above the configured high-flow threshold; overtopping at this bridge is not established` };
-    else if (f.cfs >= R.cautionCfs || (f.risingFast && f.cfs >= R.watchCfs)) c = { level: 'caution', why: `${at}${f.risingFast ? ' and rising fast' : ''}: above the configured flow-warning threshold; bridge-specific clearance and closure history are not linked` };
+    else if (f.cfs >= R.cautionCfs || (f.risingFast && f.cfs >= R.watchCfs)) c = { level: 'caution', why: `${at}${f.risingFast ? ' and rising fast' : ''}: above the configured flow-warning threshold; this flow threshold does not establish bridge-specific clearance` };
     else if (f.cfs >= R.watchCfs || f.risingFast) c = { level: 'watch', why: `${at}${f.risingFast ? ' and rising' : ''}: elevated river flow; water level relative to this bridge is not established` };
     if (c && rank(c.level) > rank(out.level)) out = c;
   }
