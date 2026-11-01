@@ -51,6 +51,12 @@ function setup() { ensureTrigger_(); sheet_(); keysSheet_(); return 'ok'; }
 function doGet(e) {
   ensureTrigger_();
   // The app asks for the county rain/stream feed through here (the county site blocks browsers).
+  // River gauges for the app in one request (USGS limits phones that ask often).
+  if (e && e.parameter && e.parameter.feed === 'usgs') {
+    computeVerdicts_();
+    const u = CacheService.getScriptCache().get('usgs');
+    return json_(u ? JSON.parse(u) : { error: 'unavailable' });
+  }
   if (e && e.parameter && e.parameter.feed === 'alert') {
     computeVerdicts_();
     const snap = CacheService.getScriptCache().get('alert');
@@ -284,6 +290,9 @@ function computeVerdicts_() {
   });
   const now = Date.now();
   const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
+  // Keep a trimmed copy for the app (?feed=usgs): just time, value, parameter per reading.
+  const trimmed = Object.fromEntries(sites.map((s) => [s, usgs[s] ? { features: (usgs[s].features || []).map((f) => ({ properties: f.properties })) } : null]));
+  cache.put('usgs', JSON.stringify({ fetched_at: new Date(Date.now()).toISOString(), series: trimmed }), 300);
   const [closures, rain, stream, nws] = res.slice(sites.length);
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
   const out = {};

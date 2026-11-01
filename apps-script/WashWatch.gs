@@ -770,6 +770,11 @@ function setup() {
 }
 function doGet(e) {
   ensureTrigger_();
+  if (e && e.parameter && e.parameter.feed === "usgs") {
+    computeVerdicts_();
+    const u = CacheService.getScriptCache().get("usgs");
+    return json_(u ? JSON.parse(u) : { error: "unavailable" });
+  }
   if (e && e.parameter && e.parameter.feed === "alert") {
     computeVerdicts_();
     const snap = CacheService.getScriptCache().get("alert");
@@ -1022,6 +1027,8 @@ function computeVerdicts_() {
   });
   const now = Date.now();
   const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
+  const trimmed = Object.fromEntries(sites.map((s) => [s, usgs[s] ? { features: (usgs[s].features || []).map((f) => ({ properties: f.properties })) } : null]));
+  cache.put("usgs", JSON.stringify({ fetched_at: new Date(Date.now()).toISOString(), series: trimmed }), 300);
   const [closures, rain, stream, nws] = res.slice(sites.length);
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
   const out = {};

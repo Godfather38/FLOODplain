@@ -54,3 +54,11 @@ test('bundle works out both areas', () => {
   assert.match(pr.sms, /^Picture Rocks: take /);
   assert.match(pr.title, /Picture Rocks/);
 });
+
+test('bundle serves the river gauges to the app in one request', () => {
+  const clock = { now: NOW, verdict: null };
+  const g = makeGas(clock, SRC, feeds(NOW));
+  const u = g.api.doGet({ parameter: { feed: 'usgs' } });
+  assert.ok(u.series['09486500'].features.length > 0);
+  assert.ok('time' in u.series['09486500'].features[0].properties);
+});

@@ -31,11 +31,39 @@ async function getJson(url, opts) {
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   return r.json();
 }
-async function loadUsgs(site) {
+// River gauges. USGS limits how often one phone may ask without a key, so:
+//  1. ask our alert service first (it already pulls every gauge each minute: one request),
+//  2. otherwise ask USGS directly, but reuse each gauge's reading for 10 minutes,
+//  3. if USGS refuses, fall back to the last saved reading (its age is judged like any other).
+const USGS_REUSE_MS = 10 * 60 * 1000;
+let usgsBusy = false;
+async function loadUsgsAll(sites) {
+  usgsBusy = false;
+  if (cfg.TEXT_API) {
+    try {
+      const j = await getJson(`${cfg.TEXT_API}?feed=usgs`);
+      if (j && j.series && Object.values(j.series).some((x) => x && x.features && x.features.length)) {
+        return sites.map((s) => (j.series[s] ? parseContinuous(j.series[s]) : null));
+      }
+    } catch { /* fall through to USGS directly */ }
+  }
   const key = store.get('apiKey');
-  return parseContinuous(await getJson(`${SOURCES.usgs}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
-    + '&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code'
-    + (key ? `&api_key=${encodeURIComponent(key)}` : '')));
+  return Promise.all(sites.map(async (site) => {
+    const cached = store.get(`usgs:${site}`);
+    if (cached && Date.now() - cached.at < USGS_REUSE_MS) return parseContinuous(cached.json);
+    try {
+      const r = await fetch(`${SOURCES.usgs}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
+        + '&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code'
+        + (key ? `&api_key=${encodeURIComponent(key)}` : ''), { cache: 'no-store' });
+      if (r.status === 429) usgsBusy = true;
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const json = await r.json();
+      store.set(`usgs:${site}`, { at: Date.now(), json });
+      return parseContinuous(json);
+    } catch {
+      return cached ? parseContinuous(cached.json) : null;
+    }
+  }));
 }
 async function loadClosures() {
   const q = new URLSearchParams({
@@ -60,15 +88,16 @@ async function loadNws() {
 async function gather() {
   const now = Date.now();
   const errors = [];
-  const settle = async (name, p) => { try { return await p; } catch { errors.push(name); return null; } };
+  const settle = async (name, p) => { try { return await p; } catch { errors.push(`${name} not responding`); return null; } };
   const sites = Object.keys(USGS_SITES);
   const [flowsArr, closures, alert, nws] = await Promise.all([
-    Promise.all(sites.map((s) => settle('river gauges', loadUsgs(s)))),
+    loadUsgsAll(sites),
     settle('county barricades', loadClosures()),
     settle('rain gauges', loadAlert()),
     settle('weather service', loadNws()),
   ]);
   const flows = Object.fromEntries(sites.map((s, i) => [s, summarizeFlow(flowsArr[i], now, STALE_MS)]));
+  if (!Object.values(flows).some((f) => f.fresh)) errors.push(usgsBusy ? 'river gauges busy, retrying' : 'river gauges not responding');
   return { now, flows, closures, alert, nws, errors: [...new Set(errors)] };
 }
 
@@ -542,7 +571,7 @@ function render() {
 }
 function subtitle() {
   const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-  return `${areaInfo().name} ↔ I-10 · ${t(data.now)}${data.errors.length ? ` · no ${data.errors.join(', ')}` : ''}`;
+  return `${areaInfo().name} ↔ I-10 · ${t(data.now)}${data.errors.length ? ` · public ${data.errors.join(', ')}` : ''}`;
 }
 function wire(w) {
   document.querySelectorAll('[data-area]').forEach((b) => b.addEventListener('click', () => {
