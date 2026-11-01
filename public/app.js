@@ -1,4 +1,5 @@
 import * as cfg from './config.js?v=dev';
+import { getJson } from './network.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
   riskScore, routeScore, goodSigns, againstIt,
@@ -26,11 +27,6 @@ const badge = (n, lg) => `<span class="badge ${lg ? 'lg' : ''} ${n ? `s${n}` : '
 const badgeWithWord = (n) => `<span class="badge-wrap">${badge(n, true)}<span class="badge-word">${n ? WORD[n] : 'No data'}</span></span>`;
 
 // ---------------- data ----------------
-async function getJson(url, opts) {
-  const r = await fetch(url, { cache: 'no-store', ...opts });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return r.json();
-}
 // River gauges. USGS limits how often one phone may ask without a key, so:
 //  1. ask our alert service first (it already pulls every gauge each minute: one request),
 //  2. otherwise ask USGS directly, but reuse each gauge's reading for 10 minutes,
@@ -52,15 +48,13 @@ async function loadUsgsAll(sites) {
     const cached = store.get(`usgs:${site}`);
     if (cached && Date.now() - cached.at < USGS_REUSE_MS) return parseContinuous(cached.json);
     try {
-      const r = await fetch(`${SOURCES.usgs}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
+      const json = await getJson(`${SOURCES.usgs}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
         + '&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code'
         + (key ? `&api_key=${encodeURIComponent(key)}` : ''), { cache: 'no-store' });
-      if (r.status === 429) usgsBusy = true;
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const json = await r.json();
       store.set(`usgs:${site}`, { at: Date.now(), json });
       return parseContinuous(json);
-    } catch {
+    } catch (e) {
+      if (e.status === 429) usgsBusy = true;
       return cached ? parseContinuous(cached.json) : null;
     }
   }));
@@ -68,7 +62,7 @@ async function loadUsgsAll(sites) {
 async function loadClosures() {
   const q = new URLSearchParams({
     where: '1=1', outFields: 'Location,Status,timeUpdated', returnGeometry: 'true', outSR: '4326', f: 'json',
-    geometry: '-111.45,32.25,-111.10,32.50', geometryType: 'esriGeometryEnvelope', inSR: '4326', spatialRel: 'esriSpatialRelIntersects',
+    geometry: cfg.CLOSURE_BOUNDS, geometryType: 'esriGeometryEnvelope', inSR: '4326', spatialRel: 'esriSpatialRelIntersects',
   });
   const j = await getJson(`${SOURCES.closures}/query?${q}`);
   if (j.error) throw new Error(j.error.message);
@@ -710,12 +704,19 @@ function gaugesFor(fp, c) {
 }
 
 // ---------------- run ----------------
+let checking = false;
 async function check() {
+  if (checking) return;
+  checking = true;
   $('#refresh').classList.add('spin');
-  data = await gather();
-  view = compute(data);
-  $('#refresh').classList.remove('spin');
-  render();
+  try {
+    data = await gather();
+    view = compute(data);
+    render();
+  } finally {
+    checking = false;
+    $('#refresh').classList.remove('spin');
+  }
 }
 async function init() {
   allRoutes = (await getJson('data/routes.geojson')).features;

@@ -376,6 +376,12 @@ const LINKS = [
   ["NWS Tucson", "https://www.weather.gov/twc/"],
   ["AZ 511 (I-10)", "https://az511.com/"]
 ];
+const CLOSURE_BOUNDS = [
+  Math.min(...FAILURE_POINTS.map((p) => p.lon)) - 0.01,
+  Math.min(...FAILURE_POINTS.map((p) => p.lat)) - 0.01,
+  Math.max(...FAILURE_POINTS.map((p) => p.lon)) + 0.01,
+  Math.max(...FAILURE_POINTS.map((p) => p.lat)) + 0.01
+].join(",");
 const LEVELS = ["ok", "watch", "caution", "danger"];
 const rank = (lvl) => lvl === "unknown" ? 1.5 : LEVELS.indexOf(lvl);
 const worst = (levels) => levels.reduce((a, b) => rank(b) > rank(a) ? b : a, "ok");
@@ -551,7 +557,7 @@ function rateFailurePoint(fp, d, cfg2) {
   const known = checks.filter((c) => c.level !== "unknown");
   let level = known.length ? worst(known.map((c) => c.level)) : "ok";
   if (!known.length) checks.unshift({ src: "none", level: "ok", why: "No live readings right now, and nothing reported against it" });
-  if ((fp.kind === "road" || fp.kind === "flat") && level === "danger") level = "caution";
+  if ((fp.kind === "road" || fp.kind === "flat") && level === "danger" && (closure == null ? void 0 : closure.level) !== "danger") level = "caution";
   const pref = ["county", "wash", "rain-local", "river", "rain-road", "rain-basin", "river-early", "nws"];
   const atLevel = checks.filter((c) => c.level === level && !(c.official && level === "ok"));
   atLevel.sort((a, b) => pref.indexOf(a.src) - pref.indexOf(b.src));
@@ -724,7 +730,7 @@ function sourceUrls(usgsKey) {
     returnGeometry: "true",
     outSR: "4326",
     f: "json",
-    geometry: "-111.45,32.25,-111.10,32.50",
+    geometry: CFG_.CLOSURE_BOUNDS,
     geometryType: "esriGeometryEnvelope",
     inSR: "4326",
     spatialRel: "esriSpatialRelIntersects"
@@ -737,7 +743,7 @@ function sourceUrls(usgsKey) {
     nws: CFG_.SOURCES.nws
   };
 }
-const CFG_ = { AREAS, SOURCES, USGS_SITES, STALE_MS, SNAPSHOT_STALE_MS, RIVER, RAIN, RAIN_GAUGES, FAILURE_POINTS, RIVER_EARLY, CLOSURE_RADIUS_M, ROUTE_INFO };
+const CFG_ = { AREAS, SOURCES, USGS_SITES, STALE_MS, SNAPSHOT_STALE_MS, RIVER, RAIN, RAIN_GAUGES, FAILURE_POINTS, RIVER_EARLY, CLOSURE_RADIUS_M, CLOSURE_BOUNDS, ROUTE_INFO };
 const cfg = CFG_;
 const ROUTE_FEATURES = [{ "properties": { "id": "trico", "area": "avra", "name": "Trico Rd -> Trico-Marana Rd -> Marana Rd", "minutes": 10.4, "km": 11.2 } }, { "properties": { "id": "avra", "area": "avra", "name": "Avra Valley Rd (I-10 Avra Valley exit)", "minutes": 19.5, "km": 21.1 } }, { "properties": { "id": "silverbell-north", "area": "avra", "name": "Silverbell Rd -> Sanders Rd north -> Marana Rd", "minutes": 16.5, "km": 16.5 } }, { "properties": { "id": "silverbell-south", "area": "avra", "name": "Silverbell Rd -> Sanders Rd south -> Avra Valley Rd east", "minutes": 19.7, "km": 20.2 } }, { "properties": { "id": "pr-ina", "area": "picture-rocks", "name": "Picture Rocks Rd -> Ina Rd", "minutes": 17.7, "km": 19.5 } }, { "properties": { "id": "pr-twinpeaks", "area": "picture-rocks", "name": "Sandario Rd -> Twin Peaks Rd", "minutes": 15.4, "km": 16.7 } }, { "properties": { "id": "pr-avra", "area": "picture-rocks", "name": "Sandario Rd -> Avra Valley Rd", "minutes": 15.3, "km": 16.6 } }, { "properties": { "id": "pr-gates", "area": "picture-rocks", "name": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway", "minutes": 30.4, "km": 32.3 } }];
 const CONFIG = {
