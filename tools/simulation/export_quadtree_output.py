@@ -93,19 +93,46 @@ def export(config_path, destination):
     if not c.get('inputArtifacts'): raise ValueError('Input artifact hashes required')
     for item in c['inputArtifacts']:
         if sha(base / item['path']) != item['sha256']: raise ValueError('Input hash mismatch')
-    if 'Simulation finished' not in source('logFile').read_text(errors='replace'): raise ValueError('Completed solver log required')
+    partial = None
+    if c.get('partialProof'):
+        proof_path = base / c['partialProof']['path']
+        if sha(proof_path) != c['partialProof']['sha256']: raise ValueError('Partial proof checksum mismatch')
+        partial = json.loads(proof_path.read_text())
+        if partial.get('status') != 'partial_budget_timeout' or partial['validFrom'] != c['validFrom'] or partial['validTo'] != c['validTo']: raise ValueError('Partial coverage proof mismatch')
+        for key, field in [('sfincs.nc','meshFile'),('sfincs_map.nc','mapFile'),('solver.log','logFile')]:
+            if sha(source(field)) != partial['nativeInputHashes'][key]: raise ValueError('Partial native hash mismatch')
+    elif 'Simulation finished' not in source('logFile').read_text(errors='replace'): raise ValueError('Completed solver log required')
     destination = Path(destination)
     if destination.exists(): raise ValueError('New immutable package directory required')
-    with xr.open_dataset(source('meshFile')) as mesh, xr.open_dataset(source('mapFile')) as native:
+    with xr.open_dataset(source('meshFile')) as mesh, xr.open_dataset(source('mapFile'), decode_times=False) as native:
         cells, rings, areas = geometry(mesh, c['meshTopology'], c['meshFaceIdVariable'], c['projectedCrs'])
-        mesh_ids = [x['nativeFaceId'] for x in cells]; output_ids = face_ids(native[c['outputFaceIdVariable']].values)
+        mesh_ids = [x['nativeFaceId'] for x in cells]
+        if c.get('faceMapping'):
+            mapping = c['faceMapping']; path = base / mapping['path']
+            if sha(path) != mapping['sha256']: raise ValueError('Face proof hash mismatch')
+            output_ids = face_ids(np.load(path, allow_pickle=False))
+            # Independently verify supplied IDs against exact bounds from both native connectivities.
+            def bounds(ds, topology):
+                t = ds[topology].attrs; v = ds[t['face_node_connectivity']]; a = v.values
+                good = np.isfinite(a); fill = v.encoding.get('_FillValue',v.attrs.get('_FillValue'))
+                if fill is not None: good &= a != fill
+                indices = np.where(good,a, v.attrs.get('start_index',0)).astype(int)-int(v.attrs.get('start_index',0))
+                names=t['node_coordinates'].split(); xx=np.where(good,ds[names[0]].values[indices],np.nan); yy=np.where(good,ds[names[1]].values[indices],np.nan)
+                return np.column_stack([np.nanmin(xx,axis=1),np.nanmin(yy,axis=1),np.nanmax(xx,axis=1),np.nanmax(yy,axis=1)])
+            ib=bounds(mesh,c['meshTopology']); ob=bounds(native,c['outputMeshTopology']); byid={v:i for i,v in enumerate(mesh_ids)}
+            if len(output_ids)!=len(ob) or any(v not in byid for v in output_ids):raise ValueError('Face proof does not cover output')
+            if not np.array_equal(ib[[byid[v] for v in output_ids]],ob):raise ValueError('Supplied face proof disagrees with native geometry')
+            if len(np.unique(ib,axis=0))!=len(ib):raise ValueError('Ambiguous native rectangle proof')
+            face_dim=native[native[c['outputMeshTopology']].attrs['face_node_connectivity']].dims[0]
+        else:
+            output_ids = face_ids(native[c['outputFaceIdVariable']].values)
+            face_dim = native[c['outputFaceIdVariable']].dims[0]
         if set(output_ids) != set(mesh_ids): raise ValueError('Output/mesh face IDs differ; count equality is insufficient')
         order = {v: i for i, v in enumerate(output_ids)}; reorder = [order[v] for v in mesh_ids]
-        face_dim = native[c['outputFaceIdVariable']].dims[0]
         volume, surface = native[c['volumeVariable']], native[c['surfaceVariable']]
         if volume.attrs.get('units') not in ('m3', 'm^3') or surface.attrs.get('units') != 'm': raise ValueError('Native volume m3 and surface m required; no h/zs-derived depth fallback')
         if set(volume.dims) != {'time', face_dim} or set(surface.dims) != {'time', face_dim}: raise ValueError('Explicit time/native-face variables required')
-        times = np.asarray(native.time.values, dtype='datetime64[ns]')
+        times = np.asarray(xr.decode_cf(native[['time']]).time.values, dtype='datetime64[ns]')
         if np.isnat(times).any() or not np.all(np.diff(times) > np.timedelta64(0, 'ns')): raise ValueError('Invalid native time axis')
         if c.get('nativeTimeZone') != 'UTC': raise ValueError('Native UTC convention must be explicit')
         start, end = (np.datetime64(c[k].removesuffix('Z'), 'ns') for k in ('validFrom', 'validTo'))
@@ -124,14 +151,14 @@ def export(config_path, destination):
             stamp = str(times[i])[:19] + 'Z'
             values = frame_values(volume.isel(time=int(i)).values[reorder], surface.isel(time=int(i)).values[reorder], areas, c.get('negativeVolumeToleranceM3', 0))
             frames.append({'time': stamp, **write(f'frame-{i}.json.gz', {'schemaVersion': 1, 'runId': c['runId'], 'geometrySha256': geo['sha256'], 'time': stamp, **values})})
-        manifest = {'schemaVersion': 1, 'kind': 'quadtree_output_package', 'status': 'complete', 'runId': c['runId'],
+        manifest = {'schemaVersion': 1, 'kind': 'quadtree_output_package', 'status': 'partial' if partial else 'complete', 'runId': c['runId'],
                     'executionMode': c['executionMode'], 'validFrom': c['validFrom'], 'validTo': c['validTo'], 'geometry': geo, 'frames': frames,
                     'resolution': {'minimumM': float(np.sqrt(areas.min())), 'maximumM': float(np.sqrt(areas.max())), 'cellCount': len(cells), 'uniform': bool(np.allclose(areas, areas[0]))},
                     'quantity': {'name': 'cell_average_depth', 'units': 'm', 'definition': 'Native volume divided by each full native polygon area'},
                     'coverage': {'status': 'native_geometry_only', 'crossingRegistry': None, 'roadDepthValidated': False},
                     'terrainDisplay': {'status': 'unavailable', 'reason': 'Requires separately source-bound terrain; no regular-grid DEM blocks substituted'},
                     'provenance': {'configurationSha256': sha(config_path), 'meshSha256': sha(source('meshFile')), 'nativeMapSha256': sha(source('mapFile')), 'logSha256': sha(source('logFile')), 'inputArtifacts': c['inputArtifacts'], 'verticalDatum': c['verticalDatum'], 'assumptions': c['assumptions'], 'nativeFaceOrdering': 'mesh face ID order; output reordered by exact ID', 'negativeVolumeDisplayToleranceM3': c.get('negativeVolumeToleranceM3', 0)},
-                    'uncertainty': {'status': 'not_quantified', 'plusMinus': None}}
+                    'uncertainty': {'status': 'not_quantified', 'plusMinus': None}, 'solverCompletion': partial or {'status':'complete'}, 'endSummary': None if partial else 'not_exported'}
         (destination / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
         return manifest
 

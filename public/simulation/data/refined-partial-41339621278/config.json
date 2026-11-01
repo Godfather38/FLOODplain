@@ -1,0 +1,56 @@
+{
+  "runId": "refined-partial-41339621278",
+  "executionMode": "simulated_live_frozen_inputs",
+  "meshFile": "sfincs.nc",
+  "mapFile": "sfincs_map.nc",
+  "logFile": "solver.log",
+  "meshTopology": "mesh2d",
+  "meshFaceIdVariable": "mesh2d_nFaces",
+  "outputMeshTopology": "mesh2d",
+  "faceMapping": {
+    "path": "output-to-source-face-id.npy",
+    "sha256": "21ebfca75833f9d70ea2498216184e5ef8e45429a66ecbd237eb13475f8572db"
+  },
+  "partialProof": {
+    "path": "partial-result.json",
+    "sha256": "a701d2123906da7fc2feeab84843dd99b05d6235cbb2463ac7cba1e2141be339"
+  },
+  "volumeVariable": "subgrid_volume",
+  "surfaceVariable": "zs",
+  "projectedCrs": "EPSG:32612",
+  "verticalDatum": "NAVD88",
+  "nativeTimeZone": "UTC",
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-01T22:00:00Z",
+  "negativeVolumeToleranceM3": 4.192,
+  "assumptions": [
+    "Partial budget-timeout run: 21 complete 15-minute frames only; nine requested forecast hours missing.",
+    "Frozen 2026-11-01 weather inputs; not present weather.",
+    "Cell-average depth is not measured road depth or bridge clearance.",
+    "Raw negative numerical volumes retained; only displayed depth clamped at zero, minimum area-equivalent -0.4192 mm.",
+    "No end-summary totals inferred from unwritten native variables.",
+    "No validated road-depth accuracy or calibrated uncertainty interval."
+  ],
+  "inputArtifacts": [
+    {
+      "path": "sfincs.nc",
+      "sha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb"
+    },
+    {
+      "path": "partial-result.json",
+      "sha256": "a701d2123906da7fc2feeab84843dd99b05d6235cbb2463ac7cba1e2141be339"
+    },
+    {
+      "path": "output-to-source-face-id.npy",
+      "sha256": "21ebfca75833f9d70ea2498216184e5ef8e45429a66ecbd237eb13475f8572db"
+    },
+    {
+      "path": "GCN10-NOTICE.txt",
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "GCN10-source-metadata.xml",
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    }
+  ]
+}

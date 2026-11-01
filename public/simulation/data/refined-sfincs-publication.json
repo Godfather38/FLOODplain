@@ -1,6 +1,6 @@
 {
-  "status": "unavailable",
-  "reason": "Refined case unavailable: no completed native output package has been published. The prepared mesh is not a forecast.",
-  "preparedCaseCommit": "b32d291",
-  "currentFrozenPreviewUnchanged": true
+  "status": "partial",
+  "path": "data/refined-partial-41339621278/manifest.json",
+  "sha256": "6131b2fc2f84a77b2f8597411ace3c1443785ca03fd2f4c5961998175358de02",
+  "reason": "Partial frozen run: 21 complete frames, 10 AM\u20133 PM MST; nine forecast hours missing."
 }

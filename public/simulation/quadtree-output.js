@@ -1,6 +1,6 @@
 // Opt-in reader only. The existing current/frozen publication is not changed.
 export function acceptQuadtreeGeometry(manifest, geometry) {
-  if(manifest?.kind!=='quadtree_output_package'||manifest.status!=='complete'||geometry?.runId!==manifest.runId||geometry.geometryKind!=='native_quadtree_faces')throw Error('Completed matching quadtree package required');
+  if(manifest?.kind!=='quadtree_output_package'||!['complete','partial'].includes(manifest.status)||geometry?.runId!==manifest.runId||geometry.geometryKind!=='native_quadtree_faces')throw Error('Completed matching quadtree package required');
   const cells=geometry.cells,rings=geometry.rings;
   if(!Array.isArray(cells)||!cells.length||rings?.length!==cells.length||manifest.resolution?.cellCount!==cells.length)throw Error('Geometry shape mismatch');
   const ids=new Set();

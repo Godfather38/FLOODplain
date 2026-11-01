@@ -64,3 +64,4 @@ public/simulation/data/frozen-map-context.json -text
 
 # Preserve pinned evidence bytes so published checksums match the solver source.
 public/simulation/data/bridge-evidence-registry.json -text
+public/simulation/data/refined-partial-41339621278/** -text
