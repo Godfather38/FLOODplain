@@ -13,6 +13,8 @@ This isolated branch combines the existing safety app through caeb18e with the c
 
 ## Verified evidence
 
+114 focused source, adapter and safety tests pass. The final terrain-material change also passed the eight water-module tests and a repeated complete app verification. The pinned published preview at `ee7a65b` passed `test/smoke-upgraded-remote.mjs`: actual completed geometry, native frame and lazy 3D assets loaded from the public host with no JavaScript errors. GitHack presents an initial **Open the page** interstitial; the smoke test follows that normal link. See `upgraded-remote-verification.json` and `upgraded-remote.png` beside the local evidence.
+
 `public/simulation/preview/upgraded-integration-verification.json` records the actual integrated app test, with companion screenshots. Chrome used SwiftShader and emulated DPR 3; these are not physical phone measurements.
 
 - Cold flat: 2.18 s; first 3D entry: 2.93 s; endpoint switches: 998/726 ms.
