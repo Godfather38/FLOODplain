@@ -579,6 +579,7 @@ function render() {
   $('#title').textContent = location.hash==='#/map'?'Explore map':titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
   $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy', 'report'].includes(w.screen);
+  window.dispatchEvent(new Event('flood-before-screen-render'));
   $('#screen').innerHTML = {
     home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
     how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, report: () => reportScreen(w.fp),
@@ -587,6 +588,8 @@ function render() {
     const status = document.createElement('aside');
     status.className = 'check-status';
     status.innerHTML = '<strong id="check-age"></strong><p>Check time is not the age of every reading. Open a crossing for source details.</p>' + (data.errors.length ? `<p>${esc(data.errors.join('; '))}.</p>` : '');
+    const warnings=(data.nws??[]).filter(a=>/flood/i.test(a.event));
+    if(warnings.length){const warning=document.createElement('aside');warning.className='area-warning';warning.setAttribute('role','status');warning.innerHTML='<strong>Weather alerts in the source area</strong>'+warnings.map(a=>'<p>'+esc(a.headline||a.event)+'</p>').join('')+'<small>Area alerts do not establish conditions at every crossing. Review route details and barricades.</small>';$('#screen').prepend(warning)}
     $('#screen').prepend(status);
     updateCheckAge();
   }
@@ -595,6 +598,7 @@ function render() {
   drawMap(w);
   if(render.lastHash===location.hash || location.hash==='#/map' || render.lastHash==='#/map')map.setView(retainedCenter,retainedZoom,{animate:false});
   render.lastHash=location.hash;
+  window.dispatchEvent(new Event('flood-screen-rendered'));
 }
 function subtitle() {
   const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
