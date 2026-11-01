@@ -35,3 +35,6 @@ public/simulation/data/stage4-2013-source-audit.json -text
 
 public/simulation/data/stage4-reach-2013-july05-23-432h-provenance.json -text
 public/simulation/data/sfincs-reach-stage4-2013-july05-23-432h.json -text
+
+public/simulation/data/stage4-2013-antecedent-six-hour-scenario-provenance.json -text
+public/simulation/data/sfincs-reach-stage4-2013-july05-23-432h-six-hour-scenario.json -text

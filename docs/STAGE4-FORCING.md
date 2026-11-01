@@ -47,3 +47,14 @@ July 2013 extraction completed with all 96 intervals present, zero missing value
 **Status is insufficient_data:** July 16 02:00-03:00 UTC has 726 missing exported cells. The original `ST4.2013071603.01h.grib` bitmap marks the reach missing; the file contains valid data elsewhere. This is not a decoding gap or observed zero. No interpolation, substitution or rainfall rescaling was performed. The strict solver loader should reject this until a documented source or explicit uncertainty scenario resolves the hour.
 
 Provenance: `stage4-reach-2013-july05-23-432h-provenance.json`. Compact handoff and exact source byte counts: `stage4-2013-antecedent-handoff.json`. Approximately 410 MB of new original antecedent files were cached outside Git; only cropped arrays and provenance are committed. The initial-state hypothesis cannot be declared tested merely from producing this incomplete forcing. No geometry, parameters or frozen results were changed.
+
+
+## Usable alternate scenario for the missing antecedent hour
+
+Use `public/simulation/data/sfincs-reach-stage4-2013-july05-23-432h-six-hour-scenario.json` as a separately labeled SFINCS scenario. It has 432 frames and zero missing cells, with status `requires_quality_review`, which the existing scenario loader accepts. **The original incomplete 432-hour file remains unchanged.**
+
+Actual public source: https://mesonet.agron.iastate.edu/archive/data/2013/07/16/stage4/ST4.2013071606.06h.grib (1,468,614 bytes; SHA-256 `b26119ca5282fa76b9f6e0af5e75ca22cea259fffd024e73c8831c2c7c0460c4`). Original GRIB is committed at `test/fixtures/stage4/ST4.2013071606.06h.grib`. Header reference July 15 12Z, startStep 12 h and endStep 18 h explicitly identify **July 16 00Z-06Z**; parameter tp/accum, units kg/m², same native grid, and valid bitmap across the entire reach. Cell totals range 1.25-8.13 mm.
+
+All six hourly frames in that block are replaced by each cell's six-hour total divided by six, an **explicit uniform-time allocation**, not observed hourly rainfall. This is a practical antecedent scenario several days before the target event. It is not a method for inferring the one missing hour from the other five. The six-hour total differs from the known-five-hour sum by -32.25 to +5.61 mm; products are not assumed interchangeable. The source of that cross-product difference remains unresolved. Do not hide it or describe the replacement as perfect historical recovery.
+
+Cell totals are conserved to numerical precision. All other 426 frames, including the preserved 96-hour event, are exactly unchanged; original file hash verified unchanged. Full interval/mapping/raw-hash/assumption evidence is in `stage4-2013-antecedent-six-hour-scenario-provenance.json`. Reproduce with `tools/simulation/antecedent_six_hour_scenario.py`. No downstream-flow fitting, model parameter change, automatic rescaling or zero substitution was performed.
