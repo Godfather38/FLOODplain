@@ -133,6 +133,8 @@ async function refreshHand() {
     hand = await handModel.loadHand(FAILURE_POINTS);
   } catch { /* shown below as not responding */ }
   if (run !== handRun || !data) return;
+  // The HAND row comes first in the list, so an open row would point at the wrong source.
+  if (Boolean(data.hand) !== Boolean(hand)) openSource = null;
   data.hand = hand;
   data.errors = data.errors.filter((e) => e !== HAND_DOWN);
   if (!hand) data.errors.push(HAND_DOWN);

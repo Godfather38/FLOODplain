@@ -7,7 +7,7 @@ import {applyHand,handCheck,loadHand,matchFailurePoints} from '../public/hand-mo
 const text=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const coverage=JSON.parse(text('public/inundation/data/coverage.json'));
 const byFp=matchFailurePoints(FAILURE_POINTS,coverage.points),now=Date.parse('2026-11-01T08:00:00Z');
-const forecastCfs=cfs=>({status:'ok',issueAgeHours:2,peak:{flowM3s:cfs*0.028316846592,time:'2026-11-01T12:00:00Z'}});
+const forecastCfs=(cfs,time='2026-11-01T12:00:00Z')=>{const p={flowM3s:cfs*0.028316846592,time};return{status:'ok',issueAgeHours:2,peak:p,points:[p]};};
 const point=(level,why='rain')=>({level,why,checks:[{src:'rain-local',level,why}]});
 const VERDICT=/passable|impassable|\bsafe\b|unsafe|can cross|cannot cross|drivable|turn around/i;
 
@@ -51,6 +51,19 @@ test('a possible match can only reach watch, and unusable forecasts raise nothin
  for(const f of [{status:'unavailable',reason:'down'},{status:'expired',reason:'old'},undefined]){const c=handCheck(byFp['sc-trico-marana'],f,now);assert.equal(c.raise,false);}
  const stale=handCheck(byFp['sc-trico-marana'],{...forecastCfs(5000),status:'stale'},now);assert.equal(stale.raise,false);assert.match(stale.why,/old forecast/);
  const off=handCheck(byFp['elpaso-dip'],undefined,now);assert.equal(off.raise,false);assert.match(off.detail,/^Missing coverage/);
+});
+
+test('only the next 24 hours count, and the time is shown',()=>{
+ const row=byFp['sc-trico-marana'],far=forecastCfs(5000,'2026-11-03T15:00:00Z');
+ const c=handCheck(row,far,now);assert.equal(c.raise,false);assert.match(c.why,/next 24 hours/);
+ const small=forecastCfs(100,'2026-11-01T12:00:00Z');
+ const mixed=handCheck(row,{...far,points:[small.peak,far.peak]},now);assert.equal(mixed.raise,false);assert.match(mixed.why,/100 cfs/);
+ const near=handCheck(row,forecastCfs(5000),now);assert.equal(near.level,'caution');assert.match(near.why,/5,000 cfs forecast for Sun 5 AM/);
+ assert.equal(handCheck(row,forecastCfs(5000,'2026-11-02T07:59:00Z'),now).raise,true);
+});
+
+test('an open source row resets when the HAND row appears or goes',()=>{
+ assert.match(text('public/app.js'),/Boolean\(data\.hand\) !== Boolean\(hand\)\) openSource = null/);
 });
 
 test('labels stay with every estimate, with no road verdict',()=>{

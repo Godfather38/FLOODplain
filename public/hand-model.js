@@ -8,13 +8,14 @@
 import { createForecastProvider } from './inundation/forecast-provider.js';
 import { loadCoverage, stageForFlow } from './inundation/hand-inundation.js';
 
-// Modeled water above the stream bed, in metres, at the forecast peak.
+// Modeled water above the stream bed, in metres, at the highest flow in the next 24 hours.
 // Display steps anchored to Trico: NOAA's action flow there models at about 2 m on this curve.
 export const WATCH_STAGE_M = 1;
 export const CAUTION_STAGE_M = 2;
 const MAIN_STEM_ORDER = 5;
 const onSantaCruz = (row) => row.app.order >= MAIN_STEM_ORDER && row.nearestReach?.name === 'Santa Cruz River';
 const NEAR_FP_M = 60;
+const AHEAD_MS = 24 * 3600000; // Gauge forecasts run about 6 days; a far peak says nothing about today.
 const FT = 3.28084;
 const CFS_TO_M3S = 0.028316846592;
 const rank = (level) => ['ok', 'watch', 'caution', 'danger'].indexOf(level);
@@ -50,13 +51,17 @@ export function handCheck(row, forecast, now) {
   const quiet = (why, detail) => ({ src: 'hand', level: 'unknown', why, detail, raise: false });
   if (row.status !== 'supported') return quiet('HAND model has no estimate here', `Missing coverage: ${row.evidence}`);
   if (!['ok', 'stale'].includes(forecast?.status)) return quiet('HAND model has no forecast flow right now', `${forecast?.reason ?? 'No forecast'}. ${labels(row, null, now)}`);
-  const cfs = forecast.peak.flowM3s / CFS_TO_M3S;
-  const stage = stageForFlow(row.app.crossingCurve, forecast.peak.flowM3s);
+  const soon = (forecast.points ?? []).filter((p) => Date.parse(p.time) <= now + AHEAD_MS);
+  if (!soon.length) return quiet('HAND model has no forecast flow for the next 24 hours', labels(row, forecast, now));
+  const peak = soon.reduce((a, b) => (b.flowM3s > a.flowM3s ? b : a));
+  const cfs = peak.flowM3s / CFS_TO_M3S;
+  const stage = stageForFlow(row.app.crossingCurve, peak.flowM3s);
+  const when = new Date(peak.time).toLocaleString('en-US', { timeZone: 'America/Phoenix', weekday: 'short', hour: 'numeric' });
   if (stage === null) return quiet('HAND model: flow is above its rating curve, so no level is estimated', labels(row, forecast, now));
   const detail = labels(row, forecast, now);
   const flowText = `${Math.round(cfs).toLocaleString('en-US')} cfs ${row.forecast.kind === 'gauge' ? 'forecast' : 'modeled'}`;
-  if (forecast.status === 'stale') return quiet(`HAND model: old forecast, about ${(stage * FT).toFixed(1)} ft at ${flowText}`, detail);
-  const said = `HAND model: about ${(stage * FT).toFixed(1)} ft above the stream bed at the peak, ${flowText}`;
+  if (forecast.status === 'stale') return quiet(`HAND model: old forecast, about ${(stage * FT).toFixed(1)} ft at ${flowText} for ${when}`, detail);
+  const said = `HAND model: about ${(stage * FT).toFixed(1)} ft above the stream bed, ${flowText} for ${when}`;
   const likely = row.confidence.band === 'Likely match';
   if (row.forecast.kind !== 'gauge') {
     if (onSantaCruz(row) && likely && stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true };

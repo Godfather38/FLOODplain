@@ -115,7 +115,7 @@ On live data tonight, the app showed Avra Valley Rd bridge at 3 Moderate with "8
 
 The cause was a bad curve choice. NOAA's data has two catchments on that reach at the bridge. My tool picked the nearer one, a sliver 0.84 sq km with a channel 7.5 m wide, instead of the river's own, at 13.9 sq km and 96 m wide. The tool now prefers the river's own branch and refuses slivers on big rivers. The same bridge now reads 3.0 ft at 593 cfs, under the Watch step, and stays at 2 Minor from the real Cortaro reading.
 
-The Santa Cruz at Trico gauge forecast still shows a peak of 955 cfs for Nov 2, with the gauge at 71 cfs tonight and Cortaro upstream at 384. Whether that verifies is worth checking on Nov 2.
+The Trico gauge forecast still shows a peak of 955 cfs for Nov 2, more than 24 hours out when recorded, with the gauge at 71 cfs tonight and Cortaro upstream at 384. Whether that verifies is worth checking on Nov 2.
 
 ## Should the model's high bias be corrected?
 
@@ -168,7 +168,7 @@ So these are two tracings of the same corridor, not different rivers. OpenStreet
 
 **Where they agree:**
 
-- At all 9 Santa Cruz and Los Robles or Brawley points with a FEMA zone, the crossing is in Zone AE. The estimate is 95 to 100% inside FEMA's zones, except Twin Peaks at 51%.
+- All 11 points named Santa Cruz, Los Robles or Brawley on the river or main wash are in Zone AE. The estimate is 95 to 100% inside FEMA's zones, except Twin Peaks at 51%.
 - The estimate covers 11 to 54% of the FEMA zone in the square on the Santa Cruz, as expected for a smaller flow.
 - Yuma Mine Wash is in Zone A, 85% inside. W Avra Valley -111.24501 is in Zone AO, 100% inside.
 
@@ -180,7 +180,7 @@ So these are two tracings of the same corridor, not different rivers. OpenStreet
 
 ## Names and map checks
 
-**Canal-named reaches.** OpenStreetMap's Central Arizona Project canal line is at least 1.5 km from every crossing, so NOAA's "Central Arizona Project Aqueduct" name on those reaches is wrong. They now follow the normal rules. That added back Javelina Wash on Kinney and -111.12278 on Gates Pass. The other 8 stayed out as too far.
+**Canal-named reaches.** OpenStreetMap's Central Arizona Project canal line is at least 1.5 km from every crossing, so NOAA's "Central Arizona Project Aqueduct" name on those reaches is wrong. They now follow the normal rules. That added back Javelina Wash on Kinney and -111.12278 on Gates Pass. The other 7 stayed out as too far.
 
 **"Santa Cruz River" on tiny reaches.** NOAA also uses this name on small reaches far from the river. The tool ignores it on reaches below stream order 5. That brought in Yuma Mine Wash, which OpenStreetMap also names at that spot, and removed Ina Road -111.08202, 119 m from an unnamed stream.
 
@@ -216,7 +216,7 @@ Each crossing the app rates, where it matches a point in the list, now shows **H
 
 How it weighs against other sources, in `public/hand-model.js`:
 
-| Flow source | Modeled level at the forecast peak | Effect |
+| Flow source | Modeled level at the highest flow in the next 24 hours | Effect |
 |---|---|---|
 | Official gauge forecast, Likely match | 2 m or more | Raises the crossing to Caution if it's lower |
 | Official gauge forecast | 1 m or more | Raises the crossing to Watch if it's lower |
@@ -227,7 +227,8 @@ How it weighs against other sources, in `public/hand-model.js`:
 - HAND is named on the card when it's at or above the crossing's level, so it outranks a calm rainfall outlook.
 - **HAND never lowers a level.** It leaves out local runoff, and most reaches here forecast about zero, so a zero isn't evidence of dry. Rain-driven cautions stay as they are, and both show.
 - HAND alone never reaches the top level, Danger.
-- An old or failed forecast raises nothing.
+- An old or failed forecast raises nothing. A peak more than 24 hours away raises nothing either, and the row says when its flow is expected.
+- The alerts screen's Test button sends the app's current numbers, so it can include a HAND raise. Scheduled texts and pushes don't.
 
 This is less weight than the owner asked for on washes, because the back-test doesn't support more there. That choice is the owner's to overrule.
 
@@ -246,7 +247,7 @@ HAND loads after the first screen, so it can't hold that screen up. Tested in a 
 
 Until a new result arrives, the last HAND result is kept, so a crossing's number doesn't flicker on each refresh. A failure inside HAND can't take down the ratings, and a redraw never happens over a form someone is filling in.
 
-**Download:** HAND adds 16 requests on the main page each load, at about 147 KB before compression and about 25 KB after, since GitHub Pages compresses these files. 5 are local files and 11 are small NOAA calls, finished about 0.9 seconds after they started on this connection. **I did not test on a real phone or a slow connection.** None of the 6.5 MB or so of crossing grids load on the main page. The map page loads one crossing's grid, 150 to 400 KB, only when that crossing is chosen.
+**Download:** HAND adds 16 requests on the main page each load, at about 147 KB before compression and about 25 KB after, since GitHub Pages compresses these files. 5 are local files and 11 are small NOAA calls, finished about 0.9 seconds after they started on this connection. **I did not test on a real phone or a slow connection.** None of the 6.2 MB of crossing grids load on the main page. The map page loads one crossing's grid, 150 to 400 KB, only when that crossing is chosen.
 
 ## What was checked
 
