@@ -33,7 +33,7 @@ Yes, with the limits below. All tests pass, and the PR changes no service code.
 
 **Level 2 wording: the owner restored it.** The app says "Some water around. Usually passable; look as you go." HAND-raised crossings use their own line, but the general legend carries the phrase.
 
-**Approve or overrule.** The owner's rule: HAND never overrides a gauge. Where no gauge has answered, HAND raises a level with an official gauge forecast, or to Watch at most with model flow on a Likely match. Possible matches are shown and change nothing.
+**Approve or overrule.** The owner's rule: HAND never overrides a gauge. Otherwise, on a Likely match showing water, HAND adds points to the engine's 1-5 number by how often its alarms failed: 1 point at 50% failure or better, half a point at about 68%. Possible matches are shown and change nothing.
 
 **Questions only local knowledge can answer. Avra Valley first.**
 
@@ -103,7 +103,7 @@ Other results:
 
 **What I changed because of this:**
 
-- Model flow can't raise a crossing above Watch, and only on a Likely match. An earlier ban on all washes was dropped after testing every tracked gauge (below).
+- HAND's weight follows its failure rate: the owner's rule is 1 point at 50% failure and half a point at 68%. The rating engine and 1-5 scale are unchanged. An earlier ban on all washes was dropped after testing every tracked gauge (below).
 - The 1 m and 2 m steps stay. On the Trico curve they fall at about 650 and 3,000 cfs. The back-test doesn't contradict that, but it has only 2 real events at 3,000 cfs at Trico, which is too few to tune on.
 - The rating weights stay. Model flow already scores low at 8 of 25 points. The rating is about the match, and I found no evidence for a better number.
 
@@ -231,9 +231,8 @@ How it weighs against other sources, in `public/hand-model.js`:
 
 | Flow source | Modeled level at the highest flow in the next 24 hours | Effect |
 |---|---|---|
-| Official gauge forecast, Likely match | 2 m or more | Raises the crossing to Caution if it's lower |
-| Official gauge forecast | 1 m or more | Raises the crossing to Watch if it's lower |
-| Model flow, Likely match | 1 m or more | Raises the crossing to Watch if it's lower |
+| Likely match, Santa Cruz | 1 m or more | Alarms failed 32% of the time (63 of 93 backed at Trico, Cortaro and Tucson at 650 cfs). Adds 1 point (1 to 2, 2 to 3, 3 to 4). Never reaches 5. |
+| Likely match, wash | 1 m or more | Alarms failed 62% of the time (20 of 52 backed at Rillito, Canada del Oro and Brawley). Adds half a point, shown as 1.5 and so on. The level and recommended route stay as the engine set them. |
 | Model flow elsewhere | Any | Shown, changes nothing |
 | Any | Under 1 m or zero | Changes nothing. Says low flow doesn't mean dry. |
 

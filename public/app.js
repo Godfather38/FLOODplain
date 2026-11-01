@@ -30,8 +30,10 @@ const store = {
 let favorites = savedRoutes(store.get('savedRoutes'), Object.keys(ROUTE_INFO));
 let saveNotice = '';
 const saveButton = (id) => `<button type="button" class="btn btn-text save-route" data-save-route="${esc(id)}" aria-pressed="${favorites.includes(id)}">${favorites.includes(id) ? 'Saved route' : 'Save route'}</button>`;
-const badge = (n, lg) => `<span class="badge ${lg ? 'lg' : ''} ${n ? `s${n}` : 'sq'}" role="img" aria-label="Risk factor ${n ?? 'unknown'} of 5">${n ?? '?'}</span>`;
-const badgeWithWord = (n) => `<span class="badge-wrap">${badge(n, true)}<span class="badge-word">${n ? WORD[n] : 'No data'}</span></span>`;
+// The engine's number plus any half point from HAND.
+const pointScore = (p) => { const s = riskScore(p); return s == null ? s : s + (p.handAdd ?? 0); };
+const badge = (n, lg) => `<span class="badge ${lg ? 'lg' : ''} ${n ? `s${Math.floor(n)}` : 'sq'}" role="img" aria-label="Risk factor ${n ?? 'unknown'} of 5">${n ?? '?'}</span>`;
+const badgeWithWord = (n) => `<span class="badge-wrap">${badge(n, true)}<span class="badge-word">${n ? WORD[Math.floor(n)] : 'No data'}</span></span>`;
 
 // ---------------- data ----------------
 // River gauges. USGS limits how often one phone may ask without a key, so:
@@ -147,7 +149,7 @@ function compute(d) {
   const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
   // HAND only adds to the result, so a fault in it can't take the ratings down with it.
   try { handModel?.applyHand(fpResults, d.hand); } catch { /* ratings stand without it */ }
-  const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
+  const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS).map((r) => { const score = routeScore(r); return { ...r, score: score == null ? score : Math.max(score, ...r.points.map((p) => pointScore(p) ?? 1)) }; });
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
   return { fpResults, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
 }
@@ -222,11 +224,11 @@ function homeScreen() {
 function routeScreen(rid) {
   const r = view.byId[rid];
   const info = ROUTE_INFO[rid];
-  const flagged = r.points.filter((p) => riskScore(p) !== 1);
-  const normal = r.points.filter((p) => riskScore(p) === 1);
+  const flagged = r.points.filter((p) => pointScore(p) !== 1);
+  const normal = r.points.filter((p) => pointScore(p) === 1);
   const row = (p) => `
     <a class="row" href="#/r/${rid}/${p.id}">
-      ${badge(riskScore(p))}
+      ${badge(pointScore(p))}
       <span class="text"><div class="t">${esc(p.short)}</div><div class="st">${esc(p.why)}</div></span>
       <span class="chev">›</span>
     </a>`;
@@ -244,7 +246,7 @@ function routeScreen(rid) {
 function stretchScreen(rid, fpId) {
   const p = view.fpResults[fpId];
   const fp = FAILURE_POINTS.find((f) => f.id === fpId);
-  const s = riskScore(p);
+  const s = pointScore(p);
   return `
     <div class="summary">${badgeWithWord(s)}<div><p>${esc(p.why === p.checks[0]?.why && p.checks[0]?.src === 'hand' ? 'The HAND model estimates water here. It can\'t say what the road is like; look as you go.' : p.level === 'ok' && p.checks[0]?.some ? handModel.CALM_WITH_FLOW : LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
     <h3 class="section">What each source says</h3>
@@ -307,7 +309,7 @@ function howScreen() {
       <li>${badge(null)}<span><b>No data.</b> Not the same as fine.</span></li>
     </ul>
     <h4>The HAND flood model</h4>
-    <p>Where NOAA's stream data matches a crossing, the first source shown is HAND, an estimate of how high forecast flow reaches above the stream bed. It never overrides a gauge: where a river gauge is reporting, HAND is shown but doesn't change the number. Without one, an official NOAA gauge forecast counts for more than rain, and estimated water raises a crossing's number. Elsewhere it uses a rougher model flow, which can raise a well-matched crossing to Minor at most. A low or zero flow never lowers one, because local runoff isn't included. It's an estimate, not a reading, and it isn't depth on a road.</p>
+    <p>Where NOAA's stream data matches a crossing, the first source shown is HAND, an estimate of how high forecast flow reaches above the stream bed. It never overrides a gauge: where a river gauge is reporting, HAND is shown but doesn't change the number. Without one, a well-matched estimate showing water adds to the number your other sources gave: 1 point on the Santa Cruz, half a point on washes, based on how often its alarms failed at the gauges we track. A low or zero flow never lowers one, because local runoff isn't included. It's an estimate, not a reading, and it isn't depth on a road.</p>
     <h4>Using it</h4>
     <p>The top card is the route with the least going against it. The numbers are the same whichever way you're driving. Tap <b>Navigate</b> to drive it in Google Maps; it heads for I-10 when you're in Avra Valley, and back to Trico &amp; El Tiro when you're not. Tap <b>Details</b> or any route to see its stretches, then any stretch to see what each source says. The map follows along.</p>
     <p>A route's number is its worst stretch. The map only marks stretches that aren't normal.</p>
@@ -489,7 +491,7 @@ function wireAlerts() {
     const { best, order } = view.rec;
     const word = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
     const nm = (r) => ROUTE_INFO[r.id].name;
-    const body = `Test alert. Right now: take ${nm(best)} (${best.score}/5 ${word[best.score]}, ${Math.round(best.minutes)} min). `
+    const body = `Test alert. Right now: take ${nm(best)} (${best.score}/5 ${word[Math.floor(best.score)]}, ${Math.round(best.minutes)} min). `
       + `Others: ${order.filter((r) => r !== best).map((r) => `${nm(r)} ${r.score}`).join(', ')}. Your real alerts come at ${a.times.map(clock).join(' & ')}, ${daysSummary(a.days)}.`;
     try {
       const r = await fetch(`https://ntfy.sh/${pushTopic()}`, { method: 'POST', body, headers: { Title: `FLOODplain test (${areaInfo().name})`, Tags: 'droplet', Click: location.origin + location.pathname } });
@@ -694,16 +696,16 @@ function drawMap(w) {
   const inArea = new Set(routeFeatures.map((f) => f.properties.id));
   const visible = FAILURE_POINTS.filter((fp) => {
     if (!fp.routes.some((rid) => inArea.has(rid))) return false; // other area
-    const s = riskScore(view.fpResults[fp.id]);
+    const s = pointScore(view.fpResults[fp.id]);
     const onRoute = w.screen === 'home' || fp.routes.includes(focus);
     return (onRoute && s !== 1) || fp.id === w.fp;
   });
   for (const fp of visible) {
-    const s = riskScore(view.fpResults[fp.id]);
+    const s = pointScore(view.fpResults[fp.id]);
     for (const rid of fp.routes.filter((x) => inArea.has(x))) {
       for (const line of lineCoords(routeFeatures.find((f) => f.properties.id === rid).geometry)) {
         for (const run of stretchAround(line, fp.lat, fp.lon, fp.kind === 'road' ? 2500 : 450)) {
-          L.polyline(run, { color: COLOR[s] ?? '#8e8d88', weight: rid === focus ? 9 : 5, opacity: 0.95, lineCap: 'round', interactive: false }).addTo(layer);
+          L.polyline(run, { color: COLOR[Math.floor(s)] ?? '#8e8d88', weight: rid === focus ? 9 : 5, opacity: 0.95, lineCap: 'round', interactive: false }).addTo(layer);
         }
       }
     }

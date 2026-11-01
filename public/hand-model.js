@@ -1,8 +1,8 @@
 // What the HAND model thinks at the app's rated crossings (docs/HAND-INUNDATION.md).
-// It leads the source list and can raise a crossing's level above calmer sources: to
-// Caution with an official NOAA gauge forecast, to Watch with model flow on a Likely match.
-// A 15-year back-test at the tracked gauges found it saw most big flows, with many false
-// alarms, and saw nothing at Brawley near Three Points (docs/HAND-INUNDATION.md).
+// The engine's 1-5 rating stands; HAND only adds to it. It leads the source list and, on a
+// Likely match showing water, adds points by how often its alarms failed at the tracked
+// gauges: 1 point at 50% failure or better (Santa Cruz, 32%), half a point at about 68%
+// (washes, 62%). See docs/HAND-INUNDATION.md.
 // It never lowers a level: local runoff is left out, so a low number isn't dry.
 // It never overrides a gauge: where a river or wash gauge answered, HAND is shown but moves nothing.
 import { createForecastProvider } from './inundation/forecast-provider.js';
@@ -11,13 +11,13 @@ import { loadCoverage, stageForFlow } from './inundation/hand-inundation.js';
 // Modeled water above the stream bed, in metres, at the highest flow in the next 24 hours.
 // Display steps anchored to Trico: NOAA's action flow there models at about 2 m on this curve.
 export const WATCH_STAGE_M = 1;
-export const CAUTION_STAGE_M = 2;
+const MAIN_STEM_ORDER = 5;
+const handPoints = (row) => (row.app.order >= MAIN_STEM_ORDER && row.nearestReach?.name === 'Santa Cruz River' ? 1 : 0.5);
 const SOME_WATER_M = 0.3; // About a foot: enough that "nothing points to water" would contradict the row.
 const NEAR_FP_M = 60;
 const AHEAD_MS = 24 * 3600000; // Gauge forecasts run about 6 days; a far peak says nothing about today.
 const FT = 3.28084;
 const CFS_TO_M3S = 0.028316846592;
-const rank = (level) => ['ok', 'watch', 'caution', 'danger'].indexOf(level);
 
 // Wash sources are remote (Three Points and Milewide, 10 to 25 miles off), so only a river gauge counts here.
 const gaugeAnswered = (p) => p.checks.some((c) => c.src === 'river' && c.level !== 'unknown');
@@ -39,7 +39,7 @@ function labels(row, forecast, now) {
   const age = ((now - Date.parse(row.app.sourceDate)) / (365.25 * 86400000)).toFixed(1);
   const flow = row.forecast.kind === 'gauge'
     ? `Flow: NOAA gauge forecast from ${row.forecast.station}, ${row.app.gaugeKm} km along the channel.`
-    : `Flow: modeled National Water Model flow for the whole reach (${row.app.reachLengthKm} km), not a gauge reading. In a 15-year back-test at the tracked gauges it saw most big flows on the Santa Cruz, Rillito and Canada del Oro, with many false alarms, and saw nothing at Brawley near Three Points. On a Likely match it can raise this crossing no higher than Watch.`;
+    : `Flow: modeled National Water Model flow for the whole reach (${row.app.reachLengthKm} km), not a gauge reading. In a 15-year back-test at the tracked gauges it saw most big flows on the Santa Cruz, Rillito and Canada del Oro, with many false alarms, and saw nothing at Brawley near Three Points. On a Likely match it adds ${handPoints(row)} point to this crossing's number, and never more.`;
   return [
     `${c.band}, ${c.score} of 100. This rates how well the stream data matches this crossing. It is not a probability. ${c.factors.map((f) => `${f.factor}: ${f.points} of ${f.max} (${f.detail}).`).join(' ')}`,
     flow,
@@ -66,13 +66,9 @@ export function handCheck(row, forecast, now) {
   const some = stage >= SOME_WATER_M;
   const said = `HAND model: about ${(stage * FT).toFixed(1)} ft above the stream bed, ${flowText} for ${when}`;
   const likely = row.confidence.band === 'Likely match';
-  if (row.forecast.kind !== 'gauge') {
-    if (likely && stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true };
-    return { ...quiet(`${said}. Model flow is rough${stage < WATCH_STAGE_M ? ", and low flow doesn't mean dry" : ''}`, detail), some };
-  }
-  if (stage >= CAUTION_STAGE_M && likely) return { src: 'hand', level: 'caution', why: said, detail, raise: true };
-  if (stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true };
-  return { ...quiet(`${said}. Low flow doesn't mean dry`, detail), some };
+  if (likely && stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true, points: handPoints(row) };
+  const rough = row.forecast.kind === 'gauge' ? '' : '. Model flow is rough';
+  return { ...quiet(`${said}${rough}${stage < WATCH_STAGE_M ? ". Low flow doesn't mean dry" : ''}`, detail), some };
 }
 
 // The crossing screen's line when its other sources are calm but HAND forecasts some flow.
@@ -84,13 +80,18 @@ export function applyHand(fpResults, hand) {
   for (const [id, check] of Object.entries(hand.checks)) {
     const p = fpResults[id];
     if (!p) continue;
-    const { raise, ...source } = check;
+    const { raise, points, ...source } = check;
     const gauged = gaugeAnswered(p);
     p.checks = [source, ...p.checks];
-    if (!raise || gauged) continue;
-    if (p.level === 'unknown' || rank(check.level) > rank(p.level)) p.level = check.level;
-    // Where it agrees with or tops the other sources, HAND is the one named on the card.
-    if (rank(check.level) >= rank(p.level)) p.why = check.why;
+    if (!raise || gauged || p.level === 'danger') continue;
+    if (points < 1) { p.handAdd = points; continue; } // Half a point shows on the number; the level stands.
+    // One point on the engine's scale: 1 to 2, 2 to 3, 3 to 4. riskScore reads 4 from a second
+    // caution-level source, so HAND counts as that one. It can't reach 5.
+    const calm = p.level === 'ok' || p.level === 'unknown';
+    const next = calm ? 'watch' : 'caution';
+    p.level = next;
+    source.level = next;
+    if (calm) p.why = check.why;
   }
 }
 

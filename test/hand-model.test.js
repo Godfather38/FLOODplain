@@ -29,10 +29,10 @@ test('rated crossings are matched to the HAND rows at their own location',()=>{
 
 test('modeled water outranks a calm outlook and is named on the card',()=>{
  const check=handCheck(byFp['sc-trico-marana'],forecastCfs(5000),now);
- assert.equal(check.level,'caution');assert.equal(check.raise,true);
+ assert.equal(check.level,'watch');assert.equal(check.raise,true);
  const r={'sc-trico-marana':point('ok','no rain')};applyHand(r,{checks:{'sc-trico-marana':check}});
- assert.equal(r['sc-trico-marana'].level,'caution');assert.match(r['sc-trico-marana'].why,/^HAND model/);assert.equal(r['sc-trico-marana'].checks[0].src,'hand');
- assert.equal(riskScore(r['sc-trico-marana']),3);
+ assert.equal(r['sc-trico-marana'].level,'watch');assert.match(r['sc-trico-marana'].why,/^HAND model/);assert.equal(r['sc-trico-marana'].checks[0].src,'hand');
+ assert.equal(riskScore(r['sc-trico-marana']),2);
 });
 
 test('HAND never overrides a gauge that answered, and only raises when the gauge has not',()=>{
@@ -41,8 +41,24 @@ test('HAND never overrides a gauge that answered, and only raises when the gauge
   const r={x:{level,why:'gauge',checks:[{src,level,why:'gauge'}]}};applyHand(r,{checks:{x:check}});
   assert.equal(r.x.level,level);assert.equal(r.x.why,'gauge');assert.equal(r.x.checks[0].src,'hand');
  }
- const remote={x:{level:'ok',why:'far',checks:[{src:'wash',level:'ok',why:'far'}]}};applyHand(remote,{checks:{x:check}});assert.equal(remote.x.level,'caution','a remote wash gauge does not block HAND');
- const down={x:{level:'ok',why:'none',checks:[{src:'river',level:'unknown',why:'unreachable'}]}};applyHand(down,{checks:{x:check}});assert.equal(down.x.level,'caution');
+ const remote={x:{level:'ok',why:'far',checks:[{src:'wash',level:'ok',why:'far'}]}};applyHand(remote,{checks:{x:check}});assert.equal(remote.x.level,'watch','a remote wash gauge does not block HAND');
+ const down={x:{level:'ok',why:'none',checks:[{src:'river',level:'unknown',why:'unreachable'}]}};applyHand(down,{checks:{x:check}});assert.equal(down.x.level,'watch');
+});
+
+test('HAND adds exactly 1 point to the engine rating and never reaches 5',()=>{
+ const check=handCheck(byFp['sc-trico-marana'],forecastCfs(5000),now);
+ for(const [level,before,after] of [['ok',1,2],['watch',2,3],['caution',3,4]]){
+  const r={x:point(level)};assert.equal(riskScore(r.x),before);applyHand(r,{checks:{x:check}});assert.equal(riskScore(r.x),after,level);assert.equal(r.x.checks[1].src,'rain-local');
+ }
+ const d={x:point('danger')};applyHand(d,{checks:{x:check}});assert.equal(riskScore(d.x),5);
+ const twice={x:point('caution')};twice.x.checks.push({src:'wash',level:'caution',why:'w'});applyHand(twice,{checks:{x:check}});assert.equal(riskScore(twice.x),4);
+});
+
+test('a wash adds half a point and leaves the level alone; the Santa Cruz adds a whole one',()=>{
+ const wash=handCheck(byFp['brawley-dip'],forecastCfs(5000),now);assert.equal(wash.points,0.5);
+ const r={x:point('ok','rain')};applyHand(r,{checks:{x:wash}});assert.equal(r.x.level,'ok');assert.equal(r.x.handAdd,0.5);assert.equal(r.x.why,'rain');
+ assert.equal(handCheck(byFp['sc-avra'],forecastCfs(5000),now).points,1);
+ assert.match(text('public/app.js'),/s \+ \(p\.handAdd \?\? 0\)/);
 });
 
 test('a zero or low model flow never lowers or hides a rain caution, and is not called dry',()=>{
@@ -55,7 +71,7 @@ test('a zero or low model flow never lowers or hides a rain caution, and is not 
 });
 
 test('a possible match can only reach watch, and unusable forecasts raise nothing',()=>{
- const possibleGauge={...byFp['sc-trico-marana'],confidence:{...byFp['sc-trico-marana'].confidence,band:'Possible match'}};assert.equal(handCheck(possibleGauge,forecastCfs(5000),now).level,'watch');
+ const possibleGauge={...byFp['sc-trico-marana'],confidence:{...byFp['sc-trico-marana'].confidence,band:'Possible match'}};assert.equal(handCheck(possibleGauge,forecastCfs(5000),now).raise,false);
  for(const row of Object.values(byFp).filter(p=>p.forecast?.kind==='nwm_reach')){const c=handCheck(row,forecastCfs(5000),now);assert.notEqual(c.level,'caution',row.id);if(row.confidence.band!=='Likely match')assert.equal(c.raise,false,row.id);}
  assert.equal(handCheck(byFp['sc-avra'],forecastCfs(5000),now).level,'watch');assert.equal(handCheck(byFp['brawley-dip'],forecastCfs(5000),now).level,'watch');
  for(const f of [{status:'unavailable',reason:'down'},{status:'expired',reason:'old'},undefined]){const c=handCheck(byFp['sc-trico-marana'],f,now);assert.equal(c.raise,false);}
@@ -68,7 +84,7 @@ test('only the next 24 hours count, and the time is shown',()=>{
  const c=handCheck(row,far,now);assert.equal(c.raise,false);assert.match(c.why,/next 24 hours/);
  const small=forecastCfs(100,'2026-11-01T12:00:00Z');
  const mixed=handCheck(row,{...far,points:[small.peak,far.peak]},now);assert.equal(mixed.raise,false);assert.match(mixed.why,/100 cfs/);
- const near=handCheck(row,forecastCfs(5000),now);assert.equal(near.level,'caution');assert.match(near.why,/5,000 cfs forecast for Sun 5 AM/);
+ const near=handCheck(row,forecastCfs(5000),now);assert.equal(near.level,'watch');assert.match(near.why,/5,000 cfs forecast for Sun 5 AM/);
  assert.equal(handCheck(row,forecastCfs(5000,'2026-11-02T07:59:00Z'),now).raise,true);
 });
 
