@@ -1,0 +1,340 @@
+{
+  "kind": "professional_1m_road_terrain",
+  "resolutionM": 1,
+  "verticalDatum": "NAVD88",
+  "crs": "EPSG:32612",
+  "method": "Standard GDAL bilinear horizontal reprojection of actual 1m products; no filling, burning or upscaled 10m source",
+  "windows": [
+    {
+      "path": "terrain-1m-470000-3589000.tif",
+      "sha256": "5c81ba4c4fd10d30e1dd2bd1579a00f5fcc4f4a71d60c290f9249c7db3307c17",
+      "requiredPixels": 127510,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7b0d34e63346651008d",
+          "title": "USGS 1 Meter 12 x46y359 AZ_PimaCounty_2021_B21"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-470000-3590000.tif",
+      "sha256": "76280578876e653f9f8ab12ac644cfa581d5295b69cddeaaf0afd5b3d287e098",
+      "requiredPixels": 89405,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7b0d34e63346651008d",
+          "title": "USGS 1 Meter 12 x46y359 AZ_PimaCounty_2021_B21"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y360_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7aed34e63346651008b",
+          "title": "USGS 1 Meter 12 x46y360 AZ_PimaCounty_2021_B21"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y360_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d79fd34e63346651007f",
+          "title": "USGS 1 Meter 12 x47y360 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-471000-3589000.tif",
+      "sha256": "58e28518c2d31654cf2d93f7787c8b7eb25dbf10a289f344f2c847fbffe36f6a",
+      "requiredPixels": 926420,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-471000-3590000.tif",
+      "sha256": "cc72a5c4bad32b3dcc246c0a68eac0cda84192b2030f9414006e334e13388f0a",
+      "requiredPixels": 980712,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y360_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d79fd34e63346651007f",
+          "title": "USGS 1 Meter 12 x47y360 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-472000-3588000.tif",
+      "sha256": "b4dbe019d2f9a82f380c75e4647ea26eb6243ccc2e3db0b683bda0d8d2090168",
+      "requiredPixels": 305336,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-472000-3589000.tif",
+      "sha256": "8fdd648cb011f30c0f71fbec04afdf0d56c53883de1d662a6d80a6611107854c",
+      "requiredPixels": 36440,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-472000-3590000.tif",
+      "sha256": "8988c3eb9d1ddc4a6c5aa450291b5889c6b83a4dcde8d8cdafaeeefa21973bda",
+      "requiredPixels": 1000000,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        },
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y360_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d79fd34e63346651007f",
+          "title": "USGS 1 Meter 12 x47y360 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-473000-3587000.tif",
+      "sha256": "b1ff0f37fd8c2e229a144ddf5bb1cc6808bece9be508a45717e7b3a4482faaae",
+      "requiredPixels": 49145,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-473000-3588000.tif",
+      "sha256": "452599410edba66d916ce3da80cfc7de64d328a3201ceb11566293a6225bccee",
+      "requiredPixels": 928909,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-473000-3589000.tif",
+      "sha256": "e7fa13075a53b1d50de7ee2a8ecae15d4ae1fde930551287de7ecd136f6eb84d",
+      "requiredPixels": 17500,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-474000-3587000.tif",
+      "sha256": "5f1cf89251c2bef7ff2f995fa05a15ceb13789ba06ee1f094f20f706f2e8101f",
+      "requiredPixels": 530076,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-474000-3588000.tif",
+      "sha256": "fc78bacc1b09e04bd9b6391d79b87b6edbdf615e5a90462e6ad69981accaad1d",
+      "requiredPixels": 727382,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-475000-3586000.tif",
+      "sha256": "f11805bb2102d73a72c73f1a861719021910341a9f67076a4446ec72ddda749a",
+      "requiredPixels": 225424,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-475000-3587000.tif",
+      "sha256": "64040b171dd969c9be85ad1deede120886d682310297b066b4041b0f6c363cf5",
+      "requiredPixels": 928354,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-475000-3588000.tif",
+      "sha256": "abde7da83bfe8aa3154774a89941f1b36b2122e12c2c99c600aebeceb18fe9be",
+      "requiredPixels": 115052,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-476000-3585000.tif",
+      "sha256": "afc637705451156c9691bd754b91a4c67bfca115f6b59dbdcb1f273ee5c3e164",
+      "requiredPixels": 229334,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-476000-3586000.tif",
+      "sha256": "6a79ae93d95bfbfa30b40824cde2853b837a84fb3af59b16d1991cd2c7f90f9a",
+      "requiredPixels": 842013,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-476000-3587000.tif",
+      "sha256": "df6beaeb131face4fad4d2fa40d9402a9ae0909f7b00728fd32e4e002779e1d7",
+      "requiredPixels": 384709,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-477000-3585000.tif",
+      "sha256": "ef6dcf5737d57cb8b24318efd8873af3d9c1048750d7a5dac333a4a886623662",
+      "requiredPixels": 596531,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-477000-3586000.tif",
+      "sha256": "d2ed8a2bb803f14eaef4d1fb8bce3a647fd0326cbbb01efecdf3c9458f3e5c43",
+      "requiredPixels": 803005,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-477000-3587000.tif",
+      "sha256": "9351f5909678e59ca0cd5c02a0babd9ce6ad07efa118f4e87f054bf57e19bd17",
+      "requiredPixels": 2497,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-478000-3585000.tif",
+      "sha256": "340fa15655b1f0e627c44ca1bc138d242bb5e8b326993382fa154862eaa230c9",
+      "requiredPixels": 608455,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    },
+    {
+      "path": "terrain-1m-478000-3586000.tif",
+      "sha256": "35a4e0afab0370a0081f51949ba395dd8502e934400a95be27de2bd01dcc1152",
+      "requiredPixels": 241031,
+      "missingRequiredPixels": 0,
+      "sources": [
+        {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+          "sourceId": "6610d7a1d34e633466510081",
+          "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21"
+        }
+      ]
+    }
+  ],
+  "missingRequiredPixels": 0,
+  "status": "complete"
+}

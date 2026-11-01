@@ -1,0 +1,127 @@
+{
+  "registryVersion": "silverbell-extension-v1",
+  "inlets": [
+    {
+      "reachId": "15876623",
+      "receivingReachId": "15876621",
+      "x": 468257.569063494,
+      "y": 3587202.2363541024,
+      "nativeFaceIndexZeroBased": 1343,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15876641",
+      "receivingReachId": "15876625",
+      "x": 468319.40546276764,
+      "y": 3586904.716557233,
+      "nativeFaceIndexZeroBased": 1417,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15876639",
+      "receivingReachId": "15876633",
+      "x": 468487.06371988135,
+      "y": 3585347.209937898,
+      "nativeFaceIndexZeroBased": 1484,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15876653",
+      "receivingReachId": "15876633",
+      "x": 468487.06371988135,
+      "y": 3585347.209937898,
+      "nativeFaceIndexZeroBased": 1484,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15902351",
+      "receivingReachId": "15890430",
+      "x": 488992.35115686024,
+      "y": 3583056.740318379,
+      "nativeFaceIndexZeroBased": 32298,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15902361",
+      "receivingReachId": "15902363",
+      "x": 489560.2725061931,
+      "y": 3582078.167299153,
+      "nativeFaceIndexZeroBased": 33090,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15902409",
+      "receivingReachId": "15903137",
+      "x": 491599.98452206654,
+      "y": 3578575.8380873646,
+      "nativeFaceIndexZeroBased": 35529,
+      "downstreamOffsetM": 43.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15902411",
+      "receivingReachId": "15903137",
+      "x": 491599.98452206654,
+      "y": 3578575.8380873646,
+      "nativeFaceIndexZeroBased": 35529,
+      "downstreamOffsetM": 43.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "945050481",
+      "receivingReachId": "945050482",
+      "x": 471981.35311416,
+      "y": 3588882.339718884,
+      "nativeFaceIndexZeroBased": 43722,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "945050485",
+      "receivingReachId": "945050486",
+      "x": 471986.13708197983,
+      "y": 3588800.498416278,
+      "nativeFaceIndexZeroBased": 43721,
+      "downstreamOffsetM": 18.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "945050487",
+      "receivingReachId": "945050486",
+      "x": 471986.13708197983,
+      "y": 3588800.498416278,
+      "nativeFaceIndexZeroBased": 43721,
+      "downstreamOffsetM": 18.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15876707",
+      "receivingReachId": "945050510",
+      "x": 472430.92875501385,
+      "y": 3580900.0487128533,
+      "nativeFaceIndexZeroBased": 5820,
+      "downstreamOffsetM": 6.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15876711",
+      "receivingReachId": "945050510",
+      "x": 472430.92875501385,
+      "y": 3580900.0487128533,
+      "nativeFaceIndexZeroBased": 5820,
+      "downstreamOffsetM": 6.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    }
+  ],
+  "outflowCells": 18,
+  "outflowMethod": "Official HydroMT directed outflow points, 500m corridor, official Deltares native mask builder",
+  "activeCells": 480227,
+  "solverExecuted": false,
+  "status": "Native geometry and boundary locations only; rainfall/case assembly pending"
+}

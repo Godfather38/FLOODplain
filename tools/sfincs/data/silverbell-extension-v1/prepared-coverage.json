@@ -1,0 +1,30 @@
+{
+  "roadSamples": [
+    {
+      "road": "silverbell-0",
+      "samples": 3835,
+      "outside": 0,
+      "maxCellM": 6.25
+    }
+  ],
+  "terrain500mCorridorPixels": 8451102,
+  "missingTerrainPixels": 0,
+  "candidates": 2,
+  "allCandidatesActive6_25m": true,
+  "solverExecuted": false,
+  "continuousBuffers": [
+    {
+      "bufferM": 100,
+      "maximumCellM": 6.25,
+      "uncoveredAreaM2": 0.0
+    },
+    {
+      "bufferM": 500,
+      "maximumCellM": 12.5,
+      "uncoveredAreaM2": 0.0
+    }
+  ],
+  "preBoundaryMeshSha256": "f2462ff24d135df79dec9facff5bdd09e0be762d20c9426ae86b1eb089ecd85d",
+  "nativeMeshSha256": "021431481d54347e293293cc37166c2ddfb8b168bdc3487bd4cc17b7aa807a12",
+  "faceOrdering": "Same official grid instance/order; boundary preparation changed z/mask only. Future output correspondence must be proven against this new input."
+}

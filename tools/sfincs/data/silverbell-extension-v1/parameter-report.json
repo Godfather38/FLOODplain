@@ -1,0 +1,35 @@
+{
+  "status": "parameters_prepared_not_runnable_case",
+  "cells": 480227,
+  "subgridPixelsPerCellSide": 6,
+  "finestSubgridSamplingM": 1.0416666666666667,
+  "sourceFineResolutionM": 1,
+  "terrainSources": "2021/2023 road windows;2019 only missing peripheral context",
+  "roughness": "WorldCover2021 with pinned official mapping through official quadtree builder",
+  "infiltration": "GCN10 fair ARCII undrained scenario; official HydroMT cn_to_s; retention inches",
+  "cnRange": [
+    73.0,
+    100.0
+  ],
+  "scsRangeInches": [
+    0.0,
+    3.699
+  ],
+  "nativeInput": {
+    "inffile": "infiltration.nc",
+    "inftype": "cna"
+  },
+  "solverExecuted": false,
+  "files": [
+    {
+      "name": "sfincs_subgrid.nc",
+      "bytes": 156240837,
+      "sha256": "c7ff40904017ead3144e36343db1903177a250b3bf605a76cf0177bdf71c261c"
+    },
+    {
+      "name": "infiltration.nc",
+      "bytes": 1927052,
+      "sha256": "1ca2f24c52422d84793bb759149247efe401fae08d5f6af1ff3f6a37f03c4f6b"
+    }
+  ]
+}

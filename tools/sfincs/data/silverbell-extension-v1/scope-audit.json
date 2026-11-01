@@ -1,0 +1,150 @@
+{
+  "modelVersion": "silverbell-extension-v1-preparation",
+  "baseline": "connected-v2 / run41344983607 unchanged",
+  "source": "https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/Transportation/MapServer/11",
+  "countyRoadIds": [
+    27267,
+    33616,
+    28805,
+    35468,
+    57142
+  ],
+  "roadLengthM": 7668.4497156466805,
+  "segments": [
+    {
+      "segment": "silverbell-0",
+      "lengthM": 7668.4497156466805,
+      "samples": 3835,
+      "outsideActive": 324,
+      "already6_25m": 57,
+      "coarserThan6_25m": 3454,
+      "missing1mSamples": 0
+    }
+  ],
+  "roadBuffer100mOutsideExistingDomainM2": 110561.02037290568,
+  "context500mOutsideExistingDomainM2": 459678.65638035664,
+  "terrainWindows": [
+    {
+      "x": 470000,
+      "y": 3589000,
+      "cached": true
+    },
+    {
+      "x": 470000,
+      "y": 3590000,
+      "cached": true
+    },
+    {
+      "x": 471000,
+      "y": 3589000,
+      "cached": true
+    },
+    {
+      "x": 471000,
+      "y": 3590000,
+      "cached": true
+    },
+    {
+      "x": 472000,
+      "y": 3588000,
+      "cached": true
+    },
+    {
+      "x": 472000,
+      "y": 3589000,
+      "cached": true
+    },
+    {
+      "x": 472000,
+      "y": 3590000,
+      "cached": true
+    },
+    {
+      "x": 473000,
+      "y": 3587000,
+      "cached": true
+    },
+    {
+      "x": 473000,
+      "y": 3588000,
+      "cached": true
+    },
+    {
+      "x": 473000,
+      "y": 3589000,
+      "cached": true
+    },
+    {
+      "x": 474000,
+      "y": 3587000,
+      "cached": true
+    },
+    {
+      "x": 474000,
+      "y": 3588000,
+      "cached": true
+    },
+    {
+      "x": 475000,
+      "y": 3586000,
+      "cached": true
+    },
+    {
+      "x": 475000,
+      "y": 3587000,
+      "cached": true
+    },
+    {
+      "x": 475000,
+      "y": 3588000,
+      "cached": true
+    },
+    {
+      "x": 476000,
+      "y": 3585000,
+      "cached": true
+    },
+    {
+      "x": 476000,
+      "y": 3586000,
+      "cached": true
+    },
+    {
+      "x": 476000,
+      "y": 3587000,
+      "cached": true
+    },
+    {
+      "x": 477000,
+      "y": 3585000,
+      "cached": true
+    },
+    {
+      "x": 477000,
+      "y": 3586000,
+      "cached": true
+    },
+    {
+      "x": 477000,
+      "y": 3587000,
+      "cached": true
+    },
+    {
+      "x": 478000,
+      "y": 3585000,
+      "cached": true
+    },
+    {
+      "x": 478000,
+      "y": 3586000,
+      "cached": true
+    }
+  ],
+  "newTerrainWindows": 0,
+  "terrainMinimumCandidates": 2,
+  "proposedResolutionM": {
+    "road100mBuffer": 6.25,
+    "context500mBuffer": 12.5
+  },
+  "solverExecuted": false
+}
