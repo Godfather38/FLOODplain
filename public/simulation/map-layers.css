@@ -30,3 +30,6 @@
 .map-first .voxel-geographic .voxel-cell-info{left:auto;right:16px;top:70px;max-height:calc(100% - 110px);overflow:auto}
 .map-first.panel-open .voxel-geographic .voxel-cell-info{display:none}
 @media(max-width:899px){.map-first .voxel-geographic .voxel-cell-info{left:8px;right:8px;top:64px;max-height:200px;padding:10px;font-size:12px}.map-first .render-notice[data-render-status=ready]>span{display:none}.map-first .render-notice[data-render-status=ready]{padding:4px}.map-first .voxel-map-note{display:none}}
+
+/* This release exposes replay controls only inside the opt-in Map destination. */
+.safety-home .map-dock{display:none!important}
