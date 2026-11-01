@@ -1,0 +1,76 @@
+{
+  "cortaro": {
+    "rawMatchedCount": 400,
+    "rawCount": 400,
+    "maximumConversionErrorM3s": 0.0,
+    "start": "2013-07-19T07:00:00.000Z",
+    "end": "2013-07-23T07:00:00.000Z",
+    "initialFlowM3s": 2.0133277926912
+  },
+  "nativeRiver": {
+    "dischargeFileMaxErrorM3s": 4.9888000397402266e-09,
+    "solverMaxErrorVsLinearRawM3s": 0.03335899838865686,
+    "peakM3s": 32.84649658203125,
+    "peakTime": "2013-07-21 04:15:00",
+    "rawIntegralM3": 966862.8652022216,
+    "nativeIntegralM3": 966886.7238628864
+  },
+  "trico": {
+    "rawMatchedCount": 385,
+    "rawCount": 385,
+    "maximumConversionErrorM3s": 0.0,
+    "start": "2013-07-19T07:00:00.000Z",
+    "end": "2013-07-23T07:00:00.000Z",
+    "initialFlowM3s": 1.529109715968
+  },
+  "nativeRain": {
+    "hours": 96,
+    "sourceToNativeMaxErrorMmH": 0.0,
+    "nativeUnits": "mm/hr",
+    "start": "2013-07-19T07:00:00.000000000",
+    "end": "2013-07-23T07:00:00.000000000",
+    "missingCellHours": 0,
+    "totalMinMaxMm": [
+      0.0,
+      17.76999855041504
+    ]
+  },
+  "rainMetadata": {
+    "checkedIntervals": 96,
+    "gribEdition": 1,
+    "parameter": 61,
+    "archiveYear": 2013,
+    "rawGribReDecodedHere": false,
+    "note": "Decoder provenance checked here; upstream worker verified raw GRIB hashes and bitmap. Native rainfall is byte-equivalent float32 mapping of supplied decoded frames."
+  },
+  "confirmedLimitations": [
+    "Dry initial condition despite both gauges already flowing; 24 hours does not establish antecedent storage",
+    "2015 lidar postdates 2013; historical channel/pit/levee condition not established",
+    "No stage or water-volume observation establishes initial condition"
+  ],
+  "storageEvidence": {
+    "componentDefinition": "Four-neighbor connected final cells with volume greater than 100 m3 (1 cm cell-mean depth), largest storage component",
+    "finalVolumeM3": 967179.5099945068,
+    "first24HourVolumeM3": 134776.984375,
+    "boundsEPSG32612": [
+      490150,
+      3579350,
+      491050,
+      3580750
+    ],
+    "maximumStorageCellLonLat": [
+      -111.09724828952596,
+      32.35554105369913
+    ],
+    "cellMinimumBedM": 620.3872680664062,
+    "maximumWaterSurfaceM": 643.5624389648438,
+    "distanceFromLargestStorageCellToLeveeM": 4421.726070870981,
+    "distanceToHANDRiverM": 249.8501433986952,
+    "interpretation": "Large modeled near-source storage, not direct interception by the distant added levee. Component volume is not a tracer attribution to river inflow."
+  },
+  "leveeHistory": {
+    "source": "https://oldcms.pima.gov/cms/one.aspx?pageId=63018&portalId=169",
+    "finding": "County says Lower Santa Cruz Replenishment Project completed 1998 in conjunction with flood-control levee protecting Marana",
+    "limit": "Supports levee predating 2013 in the area; does not verify each imported alignment vertex, crest elevation, openings or condition in 2013."
+  }
+}
