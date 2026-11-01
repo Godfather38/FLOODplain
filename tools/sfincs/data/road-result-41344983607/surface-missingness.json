@@ -1,0 +1,12 @@
+{
+  "undefinedNativeSurfaceSamples": 699323,
+  "nativeSurfaceFillValue": -99999,
+  "allNativeVolumeFinite": true,
+  "volumePerFullCellAreaAtUndefinedSurfaceRangeM": [
+    -0.0004191995620727539,
+    2.1917380392551422e-05
+  ],
+  "positiveVolumeBelowSubgridMinimumByMoreThan1mm": 0,
+  "handling": "Preserve undefined native surface as null; do not infer missing surface from volume or fill it with terrain/zero",
+  "pointSummaryContainsInvalidNaN": false
+}
