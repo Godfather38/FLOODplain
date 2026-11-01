@@ -141,3 +141,6 @@ details.src .more p:first-child { color: var(--on); }
 .seg { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); background: var(--surface-2); border-radius: 24px; padding: 4px; margin: 0 0 12px; }
 .seg button { border: 0; background: transparent; height: 40px; border-radius: 20px; font-weight: 500; font-size: 15px; color: var(--muted); cursor: pointer; }
 .seg button[aria-selected="true"] { background: var(--surface); color: var(--on); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+/* time rows: the time box keeps its width on phones; Remove stays small */
+.time-row input[type=time] { flex: 1 1 auto; min-width: 9.5em; min-height: 52px; }
+.time-row .btn { width: auto !important; flex: none; }

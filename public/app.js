@@ -359,6 +359,7 @@ function alertsScreen() {
     ${textFlow.pushMsg ? `<p class="note">${esc(textFlow.pushMsg)}</p>` : ''}
     ${store.get('pushOn')
       ? `<p><b>Push alerts are on for this phone:</b> ${a.times.map(clock).join(' & ')}, ${esc(daysSummary(a.days))}. Changes above save by themselves.</p>
+         <button type="button" class="btn btn-primary" id="p-test">Send a test alert now</button>
          <a class="btn btn-text" href="ntfy://ntfy.sh/${pushTopic()}">Open my channel in ntfy again</a>
          <button type="button" class="btn btn-text" id="p-stop">Turn off push alerts</button>`
       : `<p>Needs the free <b>ntfy</b> app (<a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a> · <a href="https://apps.apple.com/us/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a>). Pick your times and days above, then:</p>
@@ -415,6 +416,20 @@ function wireAlerts() {
     store.set('pushOn', true);
     textFlow.pushMsg = `Push alerts on: ${a.times.map(clock).join(' & ')}, ${daysSummary(a.days)}. Tap Subscribe in ntfy if it asks.`;
     setTimeout(render, 300);
+  });
+  // Test: send this area's current verdict to this phone's channel right now.
+  $('#p-test')?.addEventListener('click', async (e) => {
+    const btn = e.currentTarget; btn.disabled = true;
+    const { best, order } = view.rec;
+    const word = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
+    const nm = (r) => ROUTE_INFO[r.id].name;
+    const body = `Test alert. Right now: take ${nm(best)} (${best.score}/5 ${word[best.score]}, ${Math.round(best.minutes)} min). `
+      + `Others: ${order.filter((r) => r !== best).map((r) => `${nm(r)} ${r.score}`).join(', ')}. Your real alerts come at ${a.times.map(clock).join(' & ')}, ${daysSummary(a.days)}.`;
+    try {
+      const r = await fetch(`https://ntfy.sh/${pushTopic()}`, { method: 'POST', body, headers: { Title: `FLOODplain test (${areaInfo().name})`, Tags: 'droplet', Click: location.origin + location.pathname } });
+      textFlow.pushMsg = r.ok ? 'Test sent. It should pop up on your phone within a few seconds.' : 'The notification service didn’t accept it. Try again in a minute.';
+    } catch { textFlow.pushMsg = 'Couldn’t reach the notification service. Check your connection.'; }
+    render();
   });
   $('#p-stop')?.addEventListener('click', async () => {
     try { await textApi({ action: 'pushstop', topic: pushTopic() }); store.set('pushOn', false); textFlow.pushMsg = 'Push alerts are off for this phone.'; } catch { textFlow.pushMsg = 'Couldn’t reach the alert service. Try again in a minute.'; }
