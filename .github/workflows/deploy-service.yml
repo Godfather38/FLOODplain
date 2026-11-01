@@ -1,0 +1,71 @@
+# Updates the Google Apps Script alert service and redeploys it IN PLACE
+# (same web app address), every time the script code changes on main.
+# Needs one repo secret: CLASPRC_JSON (a Google sign-in for the script owner,
+# made once with `npx @google/clasp@2.4.2 login`). The Twilio line already in
+# the live script is carried over into a separate file; it never touches GitHub.
+name: Deploy alert service
+
+on:
+  push:
+    branches: [main]
+    paths: ['apps-script/**', 'public/config.js', 'public/logic.js', 'public/engine.js', 'tools/build_gas.mjs']
+  workflow_dispatch:
+
+concurrency: { group: deploy-service, cancel-in-progress: false }
+
+env:
+  SCRIPT_ID: 1THk91SFWzj6oxkXnHYxFD_CtNQdg8Saw9qS6Q9o6cRpMrbg4RlCWmlMq
+  DEPLOYMENT_ID: AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Sign-in present?
+        id: auth
+        env: { CLASPRC_JSON: '${{ secrets.CLASPRC_JSON }}' }
+        run: |
+          if [ -z "$CLASPRC_JSON" ]; then
+            echo "::warning::Not deployed: the CLASPRC_JSON secret isn't set yet."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            printf '%s' "$CLASPRC_JSON" > ~/.clasprc.json
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Build and test
+        if: steps.auth.outputs.ok == 'true'
+        run: npm ci && npm test && npm run build:gas
+      - name: Push code (keeps the live Twilio line)
+        if: steps.auth.outputs.ok == 'true'
+        env:
+          TWILIO_SID: '${{ secrets.TWILIO_SID }}'
+          TWILIO_TOKEN: '${{ secrets.TWILIO_TOKEN }}'
+        run: |
+          set -e
+          npm i -g @google/clasp@2.4.2 >/dev/null
+          mkdir -p /tmp/live /tmp/out
+          cd /tmp/live
+          printf '{"scriptId":"%s","rootDir":"."}' "$SCRIPT_ID" > .clasp.json
+          clasp pull >/dev/null
+          cd /tmp/out
+          if [ -n "$TWILIO_SID" ] && [ -n "$TWILIO_TOKEN" ]; then
+            printf "const TWILIO = { SID: '%s', TOKEN: '%s', FROM: '' };\n" "$TWILIO_SID" "$TWILIO_TOKEN" > Secrets.gs
+          else
+            grep -h -m1 -E '^\s*(const|var|let) TWILIO\s*=\s*\{' /tmp/live/*.js /tmp/live/*.gs 2>/dev/null | head -n1 > Secrets.gs || true
+          fi
+          if [ -s Secrets.gs ]; then echo "Twilio settings carried over."; else rm -f Secrets.gs; echo "No Twilio settings found (texts stay Verizon-only)."; fi
+          cp "$GITHUB_WORKSPACE/apps-script/WashWatch.gs" Code.gs
+          cp /tmp/live/appsscript.json appsscript.json   # keep the live settings so nothing needs re-approval
+          printf '{"scriptId":"%s","rootDir":"."}' "$SCRIPT_ID" > .clasp.json
+          clasp push --force
+          clasp deploy --deploymentId "$DEPLOYMENT_ID" --description "auto ${GITHUB_SHA::7}"
+      - name: Check the live service
+        if: steps.auth.outputs.ok == 'true'
+        run: |
+          sleep 10
+          URL="https://script.google.com/macros/s/$DEPLOYMENT_ID/exec"
+          curl -sSL "$URL" ; echo
+          curl -sSL "$URL?feed=usgs" | python3 -c "import json,sys; d=json.load(sys.stdin); print('river gauges via service:', 'OK, fetched ' + str(d.get('fetched_at')) if d.get('fetched_at') else d)"
