@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "kind": "current_boundary_registry",
+  "crs": "EPSG:32612",
+  "bounds": [
+    467000.0,
+    3577000.0,
+    493500.0,
+    3596000.0
+  ],
+  "sources": [
+    {
+      "sourceId": 1,
+      "x": 492831.0816385569,
+      "y": 3577000.583020341,
+      "hydroId": "27370111",
+      "reachId": "15902419",
+      "downstreamReachIds": [
+        "15902419",
+        "15902409",
+        "15903137",
+        "15902363",
+        "15890430",
+        "15886600",
+        "15886542",
+        "15888878"
+      ],
+      "forecastCrosswalk": "NOAA FIM feature_id; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition"
+    }
+  ],
+  "directionChecks": 157,
+  "topologyArtifacts": [
+    {
+      "path": "tools\\sfincs\\data\\hand-river\\demDerived_reaches_split_filtered_addedAttributes_crosswalked_1589000003.gpkg",
+      "sha256": "ed4b8b8d32d606d76662dd7b48028f9855e02ba8ba619a43faedd4ccb22a9ba9"
+    },
+    {
+      "path": "tools\\sfincs\\data\\hand-river\\demDerived_reaches_split_filtered_addedAttributes_crosswalked_1588000002.gpkg",
+      "sha256": "b8d73e7847140111a75d2cce4017c90a4878b80e65a285fe6b012b6aa1f94e2a"
+    }
+  ],
+  "method": "HydroMT-SFINCS river_source_points; NOAA NextDownID direction checks",
+  "networkCoverage": "supplied NOAA branches only; full domain completeness not established",
+  "duplicateReachSources": false,
+  "physicalRunReady": false,
+  "requiredChecks": [
+    "Complete domain inlet coverage",
+    "Provider reach-version crosswalk",
+    "Disjoint contributing-area/rainfall partition",
+    "Professional model geometry, losses, structures and initial state"
+  ]
+}
