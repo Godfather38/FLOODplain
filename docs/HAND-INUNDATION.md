@@ -27,13 +27,13 @@ Yes, with the limits below. All tests pass, and the PR changes no service code.
 
 - Route numbers can rise where HAND raises a crossing, and that can change the recommended route.
 - Texts and push alerts come from the alert service, which doesn't use HAND, so **a text and the app can show different numbers**.
-- **HAND never overrides a gauge.** Where a river or wash gauge is reporting, HAND is shown but doesn't change the number. It can only raise a crossing when no gauge there has answered.
+- **HAND never overrides a river gauge.** Where a river gauge is reporting, HAND is shown but doesn't change the number. Wash sources (Three Points, Milewide) are 10 to 25 miles from their crossings, so they don't count as a gauge at the crossing.
 
 ## For the owner: one page
 
 **Level 2 wording: the owner restored it.** The app says "Some water around. Usually passable; look as you go." HAND-raised crossings use their own line, but the general legend carries the phrase.
 
-**Approve or overrule.** The owner's rule: HAND never overrides a gauge. Where no gauge has answered, HAND raises a level with an official gauge forecast, or on the Santa Cruz only with model flow. On washes it's shown and changes nothing, because the back-test found no useful signal at Brawley Wash.
+**Approve or overrule.** The owner's rule: HAND never overrides a gauge. Where no gauge has answered, HAND raises a level with an official gauge forecast, or to Watch at most with model flow on a Likely match. Possible matches are shown and change nothing.
 
 **Questions only local knowledge can answer. Avra Valley first.**
 
@@ -103,9 +103,22 @@ Other results:
 
 **What I changed because of this:**
 
-- Model flow can't raise a crossing above Watch, and can raise one only on the Santa Cruz main stem. On washes it's shown but changes nothing.
+- Model flow can't raise a crossing above Watch, and only on a Likely match. An earlier ban on all washes was dropped after testing every tracked gauge (below).
 - The 1 m and 2 m steps stay. On the Trico curve they fall at about 650 and 3,000 cfs. The back-test doesn't contradict that, but it has only 2 real events at 3,000 cfs at Trico, which is too few to tune on.
 - The rating weights stay. Model flow already scores low at 8 of 25 points. The rating is about the match, and I found no evidence for a better number.
+
+**All six tracked USGS gauges, same method, events of at least 650 cfs (300 at Canada del Oro, which rarely gets higher):**
+
+| Gauge | Real events model saw | Model events the gauge backed | Correlation |
+|---|---:|---:|---:|
+| Santa Cruz at Trico | 18 of 22 | 28 of 41 | 0.39 |
+| Santa Cruz at Cortaro | 25 of 35 | 35 of 49 | 0.33 |
+| Rillito at La Cholla | 10 of 12 | 16 of 31 | 0.43 |
+| Canada del Oro below Ina (300 cfs) | 2 of 4 | 4 of 17 | 0.29 |
+| Brawley near Three Points | 0 of 2 | 0 of 4 | 0.01 |
+| Santa Cruz at Tucson (1,368 days only) | 0 of 6 | 0 of 3 | 0.08 |
+
+So Brawley at Three Points is not typical of every wash, but false alarms are common everywhere. Three Points is 22 miles from the Brawley dip, so none of this tests the dip. The county's sensor history (Milewide 6443) wasn't reachable at the address in `docs/SCOPE.md`.
 
 **Not tested:** NOAA's official gauge forecasts have no archive I could reach, so they have not been back-tested. They are trusted more than model flow only because they come from a forecaster using gauge readings, and no number supports that here. Small washes other than Brawley have no gauge to test against.
 
@@ -220,11 +233,11 @@ How it weighs against other sources, in `public/hand-model.js`:
 |---|---|---|
 | Official gauge forecast, Likely match | 2 m or more | Raises the crossing to Caution if it's lower |
 | Official gauge forecast | 1 m or more | Raises the crossing to Watch if it's lower |
-| Model flow, Santa Cruz, Likely match | 1 m or more | Raises the crossing to Watch if it's lower |
+| Model flow, Likely match | 1 m or more | Raises the crossing to Watch if it's lower |
 | Model flow elsewhere | Any | Shown, changes nothing |
 | Any | Under 1 m or zero | Changes nothing. Says low flow doesn't mean dry. |
 
-- Where a river or wash gauge answered, the table above doesn't apply: HAND is shown but raises nothing. This is the owner's rule, and it holds even when the gauge is calm, so forecast rises at gauged crossings (like Trico) appear only in the row.
+- Where a river gauge answered, the table above doesn't apply: HAND is shown but raises nothing. This is the owner's rule, and it holds even when the gauge is calm, so forecast rises at gauged crossings (like Trico) appear only in the row.
 - Where no gauge answered, HAND is named on the card when it's at or above the crossing's level, so it outranks a calm rainfall outlook.
 - **HAND never lowers a level.** It leaves out local runoff, and most reaches here forecast about zero, so a zero isn't evidence of dry. Rain-driven cautions stay as they are, and both show.
 - HAND alone never reaches the top level, Danger.

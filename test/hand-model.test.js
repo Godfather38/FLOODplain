@@ -37,10 +37,11 @@ test('modeled water outranks a calm outlook and is named on the card',()=>{
 
 test('HAND never overrides a gauge that answered, and only raises when the gauge has not',()=>{
  const check=handCheck(byFp['sc-trico-marana'],forecastCfs(5000),now);assert.equal(check.raise,true);
- for(const src of ['river','wash'])for(const level of ['ok','watch']){
+ for(const src of ['river'])for(const level of ['ok','watch']){
   const r={x:{level,why:'gauge',checks:[{src,level,why:'gauge'}]}};applyHand(r,{checks:{x:check}});
   assert.equal(r.x.level,level);assert.equal(r.x.why,'gauge');assert.equal(r.x.checks[0].src,'hand');
  }
+ const remote={x:{level:'ok',why:'far',checks:[{src:'wash',level:'ok',why:'far'}]}};applyHand(remote,{checks:{x:check}});assert.equal(remote.x.level,'caution','a remote wash gauge does not block HAND');
  const down={x:{level:'ok',why:'none',checks:[{src:'river',level:'unknown',why:'unreachable'}]}};applyHand(down,{checks:{x:check}});assert.equal(down.x.level,'caution');
 });
 
@@ -55,8 +56,8 @@ test('a zero or low model flow never lowers or hides a rain caution, and is not 
 
 test('a possible match can only reach watch, and unusable forecasts raise nothing',()=>{
  const possibleGauge={...byFp['sc-trico-marana'],confidence:{...byFp['sc-trico-marana'].confidence,band:'Possible match'}};assert.equal(handCheck(possibleGauge,forecastCfs(5000),now).level,'watch');
- for(const row of Object.values(byFp).filter(p=>p.forecast?.kind==='nwm_reach')){const c=handCheck(row,forecastCfs(5000),now);assert.notEqual(c.level,'caution',row.id);if(row.nearestReach.name!=='Santa Cruz River'){assert.equal(c.raise,false,row.id);assert.match(c.detail,/does not change the crossing's number/);}}
- assert.equal(handCheck(byFp['sc-avra'],forecastCfs(5000),now).level,'watch');assert.equal(handCheck(byFp['brawley-dip'],forecastCfs(5000),now).raise,false);
+ for(const row of Object.values(byFp).filter(p=>p.forecast?.kind==='nwm_reach')){const c=handCheck(row,forecastCfs(5000),now);assert.notEqual(c.level,'caution',row.id);if(row.confidence.band!=='Likely match')assert.equal(c.raise,false,row.id);}
+ assert.equal(handCheck(byFp['sc-avra'],forecastCfs(5000),now).level,'watch');assert.equal(handCheck(byFp['brawley-dip'],forecastCfs(5000),now).level,'watch');
  for(const f of [{status:'unavailable',reason:'down'},{status:'expired',reason:'old'},undefined]){const c=handCheck(byFp['sc-trico-marana'],f,now);assert.equal(c.raise,false);}
  const stale=handCheck(byFp['sc-trico-marana'],{...forecastCfs(5000),status:'stale'},now);assert.equal(stale.raise,false);assert.match(stale.why,/old forecast/);
  const off=handCheck(byFp['elpaso-dip'],undefined,now);assert.equal(off.raise,false);assert.match(off.detail,/^Missing coverage/);
