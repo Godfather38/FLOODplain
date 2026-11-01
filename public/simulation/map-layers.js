@@ -35,7 +35,7 @@ export function mountFloodLayers(map,{routeLayer,streetTiles}){
   add('h3','Simulation context');add('p',q('[data-clock]').textContent+' · frozen replay');
   const sources=route.sources.filter(s=>!crossingId||s.crossingId===crossingId),supported=sources.filter(s=>s.reliability.supported);
   const conflict=supported.some(s=>s.concern)&&supported.some(s=>!s.concern);
-  add('strong',!supported.length?'Not enough model coverage':conflict?'Mixed model signals':supported.some(s=>s.concern)?'Modeled water nearby':'No modeled water signal here');
+  add('strong',!supported.length?'Not enough model coverage':conflict?'Mixed model signals':supported.some(s=>s.concern)?'Modeled water nearby':supported.length<sources.length?'No water signal in covered cells; gaps remain':'No water signal in covered cells');
   add('p','This does not measure water on the road. Live conditions above remain separate.');
   for(const source of sources){add('p',source.source+': '+(!source.reliability.supported?'Unavailable for this location or time.':source.concern?'Water estimated near the crossing.':'No water signal in the supported model area.'))}
   const why=add('details',''),summary=document.createElement('summary');summary.textContent='Why this confidence?';why.append(summary);

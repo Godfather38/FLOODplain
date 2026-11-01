@@ -7,7 +7,7 @@ This file records Marshall's clarified intent. It overrides older experimental v
 - Preserve the existing geographic map: Leaflet/OSM, routes, crossings, saved routes, live observations, closures and navigation remain.
 - 2D flood data shades exact native model-cell footprints over that map, quantitatively by available cell-average depth. No circles, radial heatmaps, pooled blobs, smoothed contours standing in for cells, fabricated resolution or decorative waves.
 - A visible quantitative depth key is essential. Tap a cell for model, selected hour, depth in metres AND feet, and missing/zero distinction. Mean depth means water volume divided by full cell area; it is not surveyed road depth or native water-surface elevation.
-- 3D is an alternative GEOGRAPHIC MAP LAYER/VIEW, sharing viewport, time/range, selection and route context. A detached modal, analytics viewer, isolated terrain scene or chart is rejected, even if technically accurate. The prior separate Three.js viewer is disabled pending integration.
+- 3D is an alternative GEOGRAPHIC MAP LAYER/VIEW, sharing viewport, time/range, selection and route context. A detached modal, analytics viewer, isolated terrain scene or chart is rejected, even if technically accurate. The prior separate Three.js viewer is no longer called. Geographic renderer work is owned separately; first integration is not yet visually accepted.
 - Use native zs for water-surface elevation if 3D is implemented. Never derive it by adding mean depth to mean terrain. Preserve datum and actual grid geometry. A100m cell does not resolve its within-cell wet footprint.
 
 ## Interaction
@@ -18,18 +18,18 @@ This file records Marshall's clarified intent. It overrides older experimental v
 - Recent observations Today/last24hours are secondary and API-backed. Older archive browsing deferred. Do not refresh frozen model inputs or start production automation as a UI task.
 
 ## Prefab first
-Use existing Leaflet Canvas polygon renderer for native footprint shading. Reuse installed libraries and official examples before writing new effects. Three.js0.170.0+OrbitControls is already vendored under MIT; native terrain/zs exports are reusable, but a map-aligned3D implementation is still missing.
+Use existing Leaflet Canvas polygon renderer for native footprint shading. Reuse installed libraries and official examples before writing new effects. Three.js0.170.0+OrbitControls is already vendored under MIT; native terrain/zs exports are reusable, but the first map-aligned3D integration awaits the separate renderer worker's verification.
 References: https://leafletjs.com/reference.html#canvas ; https://developer.android.com/design/ui/mobile/guides/layout-and-content/adapt-layout ; https://developer.apple.com/design/human-interface-guidelines/maps ; https://www.nngroup.com/articles/progressive-disclosure/ ; https://threejs.org/manual/pages/voxel-geometry.html ; https://threejs.org/manual/pages/transparency.html . Examples must be checked against installed version and product requirements, not copied blindly.
 
 ## Acceptance ledger
 | Requirement | State and evidence |
 |---|---|
 | Original geographic app preserved | Implemented; remote routes, live feeds and navigation inspected in b79e0d9 |
-| Sparse phone / one sheet / desktop side pane | Verified390x844,360x800 default no page scroll;320px reflow; public/simulation/preview/redesign-*.png |
+| Advanced map: sparse phone / one sheet / desktop side pane | Verified390x844 and360x800 advanced map no page scroll; home intentionally scrolls through safety/route content. Old map-first HOME acceptance is superseded. |
 | Start/End and Apply/Cancel | Verified6h window restricts endpoint;12h draft Cancel preserves6h; hour stays synchronized |
 | Exact per-cell2D depth | Implemented854877c using29,685 EPSG32612 footprints,100m corners; remote854877c inspected native square cells on the street map at8PM MST |
 | Depth in metres/feet and no-data | Implemented cell popup and quantitative map key; gray missing, transparent below.01m/outside; verified cell9344 at8PM:3.368m /11.05ft with model/time/semantics in popup |
-| Map-aligned3D | MISSING. Detached scene rejected and disabled. Existing native zs export matches all15x29,685 values exactly, but that is data evidence, not completed map integration |
+| Map-aligned3D | First geographic integration committed05807c2, NOT visually accepted. Separate renderer owner completes it under docs/GEOGRAPHIC-MAP-HANDOFF.md. Detached scene rejected. Native zs export verification is data evidence only. |
 | Recent API observations | Verified93Cortaro provisional flow readings;15min cache; null/empty/429retention checks pass |
 | Automatic model updates | NOT ENABLED. Preview is frozen. Existing live refresh remains; no production schedule/trigger changes |
 
@@ -44,3 +44,6 @@ The official MapLibre Leaflet adapter explicitly lacks bearing/pitch/rotation su
 The earlier map-first HOME interpretation is rejected. Preserve the original published safety engine and visible route experience; do not hide it behind a sheet. The advanced map may remain full-screen with one contextual sheet. A two-hour shortcut browses two actual hourly intervals in the frozen case, not a live two-hour forecast. Unknown model coverage cannot clear official closures or observed hazards.
 
 Current implementation restores original screen content on home and routes, with the basic map alongside on desktop and below on phone. `#/map` is the advanced map route. Geographic 3D uses MapLibre 6.16.0 and Three.js 0.170.0 custom layer on the same map surface, with shared time and geographic camera. It is under visual verification, not yet marked accepted. Terrain is lightly drawn native 100 m block wireframes to retain street context; native water levels are elevated relative to a constant 550 m display origin, preserving physical differences (no relief exaggeration). Colors and tap values remain cell-average depth, not water-surface elevation or exact wet area.
+
+## Safety-home verification at fe4962a
+Remote GitHack inspected at390x844 and1280x720. Home exposes source freshness, current NWS area warning/watch, original recommendation/rating, route readings, navigation and saved-route entry. Mobile basic map is directly after the route hero; desktop map sits alongside safety content. Two-hour frozen shortcut selected10AM,11AM,noon and disabled next atnoon. Advanced #/map retainednoon and the same2hourwindow. Returninghome restoredroutecontent. Route details retain separate frozen simulation context and expandable heuristic-confidence explanation. No browser console errors observed. Screenshots: safety-home-phone.png, safety-home-outlook-phone.png, safety-advanced-map-phone.png, safety-route-desktop.png under public/simulation/preview/. No current model forecast is claimed; no production schedule, main deployment, Twilio or solver changes.
