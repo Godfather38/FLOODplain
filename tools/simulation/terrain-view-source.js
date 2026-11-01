@@ -1,30 +1,34 @@
 import * as THREE from '../../../map-render-runtime/node_modules/three/build/three.module.js';
 import {OrbitControls} from '../../../map-render-runtime/node_modules/three/examples/jsm/controls/OrbitControls.js';
 
-// Display only: actual mean terrain, colored by the selected mean-depth frame.
-export async function createTerrainView(loaded,get){
- const response=await get('data/frozen-terrain-display.json.gz');
- if(!response.ok)throw Error('Terrain HTTP '+response.status);
+// Coarse spatial display of actual terrain and native SFINCS water levels; no new physics.
+export async function createTerrainView(loaded,get,{getWindow=()=>({start:0,end:loaded.run.frames.length-1,index:0}),onSelect=()=>{},onError=()=>{}}={}){
+ const response=await get('data/frozen-terrain-display.json.gz');if(!response.ok)throw Error('Terrain HTTP '+response.status);
  const data=JSON.parse(await new Response(response.body.pipeThrough(new DecompressionStream('gzip'))).text());
- if(data.runId!==loaded.manifest.runId||data.sourceSha256!==loaded.manifest.artifact.sha256)throw Error('Terrain belongs to another run');
- const dialog=document.createElement('dialog');dialog.className='terrain-dialog';
- dialog.innerHTML='<header class="terrain-header"><div><h2>The shape of the floodplain</h2><p data-time></p></div><button aria-label="Close terrain view">Close</button></header><div class="terrain-stage" aria-label="Interactive 3D terrain"></div><footer class="terrain-footer"><strong>Drag to orbit · Scroll or pinch to zoom · Right-drag to pan</strong><br>Terrain relief ×3 for readability · 100 m cells<br>Blue = modeled mean depth; gray = missing. Colors are not a water-surface height. Frozen simulation.</footer>';
- document.body.append(dialog);dialog.querySelector('button').onclick=()=>dialog.close();
- const stage=dialog.querySelector('.terrain-stage'),scene=new THREE.Scene();scene.background=new THREE.Color('#10232d');
- const camera=new THREE.PerspectiveCamera(40,1,.01,200),renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});
- renderer.setPixelRatio(Math.min(devicePixelRatio,2));stage.append(renderer.domElement);
- const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.maxPolarAngle=Math.PI*.49;controls.minDistance=6;controls.maxDistance=100;
- const vertices=data.vertices,positions=new Float32Array(vertices.length*3),colors=new Float32Array(vertices.length*3),lookup=new Map();
- vertices.forEach(([x,y,z,r,c],i)=>{positions.set([(x-16000)/1000,(z-570)/1000*3,-(y-17300)/1000],i*3);lookup.set(r+','+c,i)});
- const indices=[];vertices.forEach((v,i)=>{const r=v[3],c=v[4],east=lookup.get(r+','+(c+1)),north=lookup.get((r+1)+','+c),ne=lookup.get((r+1)+','+(c+1));if(east!==undefined&&north!==undefined)indices.push(i,east,north);if(east!==undefined&&north!==undefined&&ne!==undefined)indices.push(east,ne,north)});
- const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));geometry.setAttribute('color',new THREE.BufferAttribute(colors,3));geometry.setIndex(indices);geometry.computeVertexNormals();
- const material=new THREE.MeshStandardMaterial({vertexColors:true,roughness:1,metalness:0,side:THREE.DoubleSide});scene.add(new THREE.Mesh(geometry,material));
- scene.add(new THREE.HemisphereLight('#ecf9ff','#5d6758',2));const sun=new THREE.DirectionalLight('#fff4dc',2.5);sun.position.set(-20,35,10);scene.add(sun);
- function reset(){camera.position.set(23,26,32);controls.target.set(0,.5,0);controls.update()}
- const resetButton=document.createElement('button');resetButton.textContent='Reset view';resetButton.style.cssText='position:absolute;bottom:12px;right:16px;padding:10px;border-radius:8px;border:1px solid #fff5;background:#10232d;color:white';resetButton.onclick=reset;stage.append(resetButton);
- const color=new THREE.Color(),low=new THREE.Color('#b4b38c'),high=new THREE.Color('#f0e5c8');
- function update(frame){vertices.forEach((v,i)=>{const d=frame.depthM[i];if(d===null)color.set('#667980');else if(d>=.1)color.set(d>=4?'#40317d':d>=2?'#2453a5':d>=1?'#2585bc':d>=.3?'#58b5d6':'#a8def0');else color.copy(low).lerp(high,Math.min(1,(v[2]-570)/700));color.toArray(colors,i*3)});geometry.attributes.color.needsUpdate=true;dialog.querySelector('[data-time]').textContent=new Date(frame.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+' MST · simulation';}
- function resize(){if(!dialog.open)return;const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
- new ResizeObserver(resize).observe(stage);renderer.setAnimationLoop(()=>{if(dialog.open){controls.update();renderer.render(scene,camera)}});
- reset();return {update,open(frame){update(frame);dialog.showModal();resize()}};
+ if(data.runId!==loaded.manifest.runId||data.sourceSha256!==loaded.manifest.artifact.sha256||!data.waterFrames)throw Error('Native terrain/water output mismatch');
+ let renderer;try{renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference:'low-power'})}catch{throw Error('3D unavailable on this device; the 2D map remains available')}
+ const dialog=document.createElement('dialog');dialog.className='terrain-dialog';dialog.innerHTML='<header class="terrain-header"><div><h2>Terrain &amp; water</h2><p data-time></p></div><button data-close aria-label="Close terrain view">Close</button></header><div class="terrain-stage" aria-label="Isometric terrain and modeled water"></div><div class="terrain-controls"><button data-prev aria-label="Previous terrain hour">←</button><input data-frame type="range" aria-label="Terrain hour"><button data-next aria-label="Next terrain hour">→</button><button data-reset>Fit</button><button data-pan aria-pressed="false">Pan</button><button data-plus aria-label="Zoom terrain in">+</button><button data-minus aria-label="Zoom terrain out">−</button></div><footer class="terrain-footer"><strong>Sand: land blocks · Blue: modeled water · Gray: missing</strong><br>Drag to orbit, switch to Pan; pinch or scroll to zoom.<details><summary>100 m blocks · frozen simulation</summary>Block tops are mean terrain. Water is the native model surface (NAVD88). Both use ×3 vertical relief; water thickness is not separately exaggerated. Subcell shorelines are unresolved; water below a block top can be hidden. No road-depth inference.</details></footer>';
+ document.body.append(dialog);const q=s=>dialog.querySelector(s),stage=q('.terrain-stage');stage.append(renderer.domElement);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+ const scene=new THREE.Scene();scene.background=new THREE.Color('#10232d');const camera=new THREE.OrthographicCamera(-24,24,24,-24,.1,300);
+ const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=false;controls.maxPolarAngle=Math.PI*.48;controls.minZoom=.4;controls.maxZoom=30;controls.screenSpacePanning=true;
+ const vertices=data.vertices,n=vertices.length,base=550,vertical=3,box=new THREE.BoxGeometry(1,1,1),plane=new THREE.PlaneGeometry(1,1);plane.rotateX(-Math.PI/2);
+ const landMaterial=new THREE.MeshLambertMaterial(),waterMaterial=new THREE.MeshBasicMaterial({color:'#28b8e5',side:THREE.DoubleSide,transparent:true,opacity:.88});
+ const land=new THREE.InstancedMesh(box,landMaterial,n),water=new THREE.InstancedMesh(plane,waterMaterial,n);land.instanceMatrix.setUsage(THREE.StaticDrawUsage);water.instanceMatrix.setUsage(THREE.DynamicDrawUsage);water.frustumCulled=false;
+ const transform=new THREE.Object3D(),color=new THREE.Color(),low=new THREE.Color('#a99d75'),high=new THREE.Color('#eadcc1');
+ vertices.forEach(([x,y,z],i)=>{const h=(z-base)/1000*vertical;transform.position.set((x-16000)/1000,h/2,-(y-17300)/1000);transform.scale.set(.1,h,.1);transform.updateMatrix();land.setMatrixAt(i,transform.matrix);color.copy(low).lerp(high,Math.min(1,(z-570)/700));land.setColorAt(i,color)});land.computeBoundingSphere();scene.add(land,water);
+ scene.add(new THREE.HemisphereLight('#eefaff','#554c37',2));const sun=new THREE.DirectionalLight('#fff1d9',2);sun.position.set(-20,35,10);scene.add(sun);
+ let dead=false,frame;
+ function draw(){if(dialog.open&&!dead)renderer.render(scene,camera)}controls.addEventListener('change',draw);
+ function resize(){if(!dialog.open||dead)return;const w=stage.clientWidth,h=stage.clientHeight,aspect=w/h;const half=aspect<1?23/aspect:23;camera.left=-half*aspect;camera.right=half*aspect;camera.top=half;camera.bottom=-half;camera.updateProjectionMatrix();renderer.setSize(w,h,false);draw()}
+ function fit(){camera.position.set(30,30,30);camera.zoom=1;controls.target.set(0,1,0);camera.updateProjectionMatrix();controls.update();draw()}
+ function update(next){frame=next;const native=data.waterFrames.find(f=>f.time===next.time);if(!native)throw Error('No native water surface at this hour');let count=0;
+  vertices.forEach(([x,y,z],i)=>{const surface=native.surfaceM[i],depth=next.depthM[i];color.copy(low).lerp(high,Math.min(1,(z-570)/700));if(surface===null||depth===null)color.set('#667980');land.setColorAt(i,color);if(surface===null||depth===null||depth<=.001)return;transform.position.set((x-16000)/1000,(surface-base)/1000*vertical,-(y-17300)/1000);transform.scale.set(.1,1,.1);transform.updateMatrix();water.setMatrixAt(count++,transform.matrix)});
+  land.instanceColor.needsUpdate=true;water.count=count;water.instanceMatrix.needsUpdate=true;const s=getWindow(),i=loaded.run.frames.findIndex(f=>f.time===next.time);q('[data-frame]').min=s.start;q('[data-frame]').max=s.end;q('[data-frame]').value=i;q('[data-prev]').disabled=i<=s.start;q('[data-next]').disabled=i>=s.end;
+  q('[data-time]').textContent=new Date(next.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' MST · frozen';q('[data-frame]').setAttribute('aria-valuetext',q('[data-time]').textContent);draw();
+ }
+ q('[data-close]').onclick=()=>dialog.close();q('[data-reset]').onclick=fit;q('[data-frame]').oninput=e=>onSelect(Number(e.target.value));for(const [selector,delta] of [['[data-prev]',-1],['[data-next]',1]])q(selector).onclick=()=>{const s=getWindow();onSelect(Math.max(s.start,Math.min(s.end,Number(q('[data-frame]').value)+delta)))};
+ q('[data-plus]').onclick=()=>{camera.zoom=Math.min(30,camera.zoom*1.4);camera.updateProjectionMatrix();draw()};q('[data-minus]').onclick=()=>{camera.zoom=Math.max(.4,camera.zoom/1.4);camera.updateProjectionMatrix();draw()};q('[data-pan]').onclick=()=>{const pan=q('[data-pan]').getAttribute('aria-pressed')!=='true';q('[data-pan]').setAttribute('aria-pressed',String(pan));controls.mouseButtons.LEFT=pan?THREE.MOUSE.PAN:THREE.MOUSE.ROTATE;controls.touches.ONE=pan?THREE.TOUCH.PAN:THREE.TOUCH.ROTATE};
+ const observer=new ResizeObserver(resize);observer.observe(stage);renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();dialog.close();onError('3D graphics interrupted; continue with the 2D map')});
+ function dispose(){if(dead)return;dead=true;observer.disconnect();controls.dispose();box.dispose();plane.dispose();landMaterial.dispose();waterMaterial.dispose();land.dispose();water.dispose();renderer.dispose();dialog.remove()}
+ window.addEventListener('pagehide',dispose,{once:true});fit();return {update,open(next){if(dead)throw Error('3D graphics unavailable; use the 2D map');dialog.showModal();update(next);resize()},dispose};
 }

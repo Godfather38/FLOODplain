@@ -21,6 +21,12 @@ with xr.open_dataset(root/'sfincs_map.nc') as ds,xr.open_dataset(root/'sfincs_su
         z=lookup[(row,col)]
         assert np.isfinite(z)
         vertices.append([round(x-467700,2),round(y-3572300,2),round(z,3),row,col])
-    result={'runId':manifest['runId'],'sourceSha256':manifest['artifact']['sha256'],'terrainSourceSha256':hashlib.sha256((root/'sfincs_subgrid.nc').read_bytes()).hexdigest(),'cellSizeM':100,'quantity':'Mean terrain elevation derived from z_zmax - z_volmax / cell area; NAVD88 metres. Colors show subgrid mean water depth, not a water-surface mesh.','vertices':vertices}
+    assert ds.zs.attrs['units']=='m'
+    water_frames=[]
+    for frame in run['frames']:
+        native=ds.zs.sel(time=np.datetime64(frame['time'].removesuffix('Z'))).transpose('n','m').values
+        zs=[float(native[v[3],v[4]]) if np.isfinite(native[v[3],v[4]]) else None for v in vertices]
+        water_frames.append({'time':frame['time'],'surfaceM':zs})
+    result={'nativeMapSha256':hashlib.sha256((root/'sfincs_map.nc').read_bytes()).hexdigest(),'verticalDatum':'NAVD88, inherited from the actual case terrain; native zs in metres','waterFrames':water_frames,'runId':manifest['runId'],'sourceSha256':manifest['artifact']['sha256'],'terrainSourceSha256':hashlib.sha256((root/'sfincs_subgrid.nc').read_bytes()).hexdigest(),'cellSizeM':100,'quantity':'Mean terrain elevation derived from z_zmax - z_volmax / cell area; NAVD88 metres. Water surface is native zs, independently exported, never mean terrain plus mean depth. Mean terrain blocks do not resolve subcell shoreline.','vertices':vertices}
     (out/'frozen-terrain-display.json.gz').write_bytes(gzip.compress(json.dumps(result,separators=(',',':')).encode(),mtime=0))
     print(len(vertices), 'vertices; elevation range',min(v[2] for v in vertices),max(v[2] for v in vertices))
