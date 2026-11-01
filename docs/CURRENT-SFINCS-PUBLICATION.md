@@ -38,3 +38,27 @@ Crossing mappings are optional for map display. Without them, current model outp
 ## Verification status
 
 Unavailable-state loading and rejection of a real historical artifact as current are checked. No current output was fabricated for the app. Actual produced current-run checksum, quantity, time coverage and display remain to be verified when the solver owner publishes it. Existing observations, closures, HAND and historical controls continue independently.
+
+
+## Native current-run publisher
+
+Owner: app thread; file `tools/simulation/publish_current_sfincs.py`. It does not modify model preparation or execute SFINCS. Uses existing xarray/NumPy/pyproj environment and native `sfincs_map.nc` readers, without a historical target gauge.
+
+```text
+python tools/simulation/publish_current_sfincs.py <completed-run-directory> --config <publication.json> --destination public/simulation/data
+```
+
+The solver owner supplies `publication.json` with actual values (no generated sample forecast):
+
+- `inputRole: "forecast"`, `nativeTimeZone: "UTC"`, `runId` (letters/digits/underscore/hyphen), `solverVersion`.
+- Explicit timezone timestamps `issuedAt`, `sourceAsOf`, `validFrom`, `validTo`; publication issue must follow completed source acquisition. Individual provider issues remain under `sourceMetadata` and input provenance.
+- `projectedCrs`, `verticalDatum`, positive constant `cellAreaM2`, `domainDescription`, nonempty `assumptions` documenting actual geometry/initialization/forcing/losses.
+- `inputArtifacts: [{path,sha256,...}]` relative to completed run directory, copied from real preparation records. Every file is verified. Extra provenance fields are retained.
+- `activeMaskNpy`: relative NumPy boolean mask in exactly native spatial dimension order; include its artifact hash. This avoids treating inactive/dry cells as interchangeable. Output cell ordering follows row-major active-mask order.
+- Optional `mapFile` (default sfincs_map.nc), `logFile` (default solver.log), `negativeVolumeToleranceM3` (default0; owner must justify any nonzero tolerance in assumptions), `uncertainty` (default not_quantified/null), `crossings` as above. Crossing indices refer to the exported active-cell ordering; no automatic unsupported route mapping.
+
+Native `subgrid_volume` must have m3 units. The publisher divides by full cell area to produce cell-average depth. It deliberately refuses native `h` as a substitute because subgrid h may mean depth above cell minimum. Native missing values become null; negative volumes beyond declared display tolerance reject export. Within tolerance they are clamped only for display, with raw minimum/tolerance recorded. Native output must include exact valid endpoints; historical warmup frames outside the forecast window are omitted.
+
+Outputs are immutable `<runId>.json.gz`, `<runId>-provenance.json`, then atomically replaced `current-sfincs-manifest.json` last. Raw NetCDF, preparation inputs, export config and active mask hashes are retained. Existing output filenames are never overwritten. No validation/accuracy scores are fabricated.
+
+`--diagnostic` writes `diagnostic-sfincs-manifest.json`, removes forecast provenance and marks the output diagnostic. It cannot overwrite the current manifest. Normal mode refuses expired output. The available archived regular-grid reference file lacks subgrid_volume and is correctly rejected rather than relabeled; successful native-volume export and app acceptance await the primary worker's actual current volume output. Python syntax and actual archived-file rejection were checked; no solver rerun or current artifact was fabricated.
