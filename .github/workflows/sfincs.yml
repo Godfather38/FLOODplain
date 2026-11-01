@@ -7,6 +7,11 @@ on:
         type: string
         required: true
         default: '41290378239'
+      case_archive:
+        description: 'Prepared current case archive in this branch; empty retains explicit historical replay'
+        type: string
+        required: false
+        default: ''
 permissions:
   contents: read
   actions: read
@@ -46,6 +51,7 @@ jobs:
           ldd engine-reused/sfincs | tee engine-reused/current-runtime-libraries.txt
           ! grep -q 'not found' engine-reused/current-runtime-libraries.txt
       - name: Retrieve unchanged antecedent case
+        if: inputs.case_archive == ''
         uses: actions/download-artifact@v4
         with:
           name: sfincs-verification
@@ -53,6 +59,7 @@ jobs:
           run-id: '41297523344'
           github-token: ${{ github.token }}
       - name: Retrieve preserved 2014 development case
+        if: inputs.case_archive == ''
         uses: actions/download-artifact@v4
         with:
           name: sfincs-verification
@@ -60,6 +67,7 @@ jobs:
           run-id: '41293656870'
           github-token: ${{ github.token }}
       - name: Run both events with one published channel setup
+        if: inputs.case_archive == ''
         run: |
           python tools/sfincs/stage_prefab_case.py reference-download/runs/reach-antecedent-2013 runs/prefab-2013
           python tools/sfincs/stage_prefab_case.py reference-2014/runs/reach-levee runs/prefab-2014
@@ -67,6 +75,28 @@ jobs:
           python tools/sfincs/export_reach.py runs/prefab-2013 --target tools/sfincs/data/gauges/trico-evaluation-2013-07.json
           (cd runs/prefab-2014 && timeout 600 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
           python tools/sfincs/export_reach.py runs/prefab-2014 --target tools/sfincs/data/gauges/trico-benchmark-2014-09.json
+          (cd engine-reused && sha256sum -c SHA256SUMS)
+      - name: Run prepared current case with saved engine
+        if: inputs.case_archive != ''
+        env:
+          CASE_ARCHIVE: ${{ inputs.case_archive }}
+        run: |
+          python - <<'PY'
+          import os, tarfile
+          from pathlib import Path
+          archive = Path(os.environ['CASE_ARCHIVE']).resolve()
+          root = Path('tools/sfincs/data').resolve()
+          if not archive.is_relative_to(root) or not archive.is_file():
+              raise ValueError('Require committed prepared case under tools/sfincs/data')
+          output = Path('runs/current')
+          output.mkdir(parents=True)
+          with tarfile.open(archive, 'r:gz') as tf:
+              tf.extractall(output, filter='data')
+          for name in ['sfincs.inp', 'sfincs.dis', 'sfincs.src', 'precip_2d.nc', 'current-case.json', 'GCN10-NOTICE.txt']:
+              if not (output/name).is_file():
+                  raise ValueError('Incomplete prepared case: '+name)
+          PY
+          (cd runs/current && timeout 1200 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
           (cd engine-reused && sha256sum -c SHA256SUMS)
       - uses: actions/upload-artifact@v4
         if: always()
