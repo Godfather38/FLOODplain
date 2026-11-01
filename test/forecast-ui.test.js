@@ -11,5 +11,6 @@ test('forecast UI defaults off and renders recorded official engine output',asyn
   await import('../public/simulation/forecast-app.js');assert.equal(requests,0);
   await elements.refresh.onclick();assert.match(elements['forecast-status'].textContent,/disabled/);assert.equal(requests,0);
   await elements.recorded.onclick();assert.equal(requests,3);assert.match(elements['forecast-status'].textContent,/RECORDED REPLAY/);assert.match(elements['forecast-summary'].textContent,/Forecast peak/);assert.match(elements['forecast-summary'].textContent,/Accuracy ± unavailable/);assert.match(elements['forecast-chart'].innerHTML,/<path/);assert.equal(elements['forecast-download'].disabled,false);
+  await elements['ensemble-recorded'].onclick();assert.equal(requests,5);assert.match(elements['ensemble-status'].textContent,/RECORDED REPLAY/);assert.match(elements['ensemble-context'].textContent,/90% exceedance/);assert.match(elements['ensemble-chart'].innerHTML,/<circle/);
  }finally{globalThis.document=oldDoc;globalThis.fetch=oldFetch;}
 });

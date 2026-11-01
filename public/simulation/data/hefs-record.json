@@ -1,0 +1,6 @@
+{
+  "recordedAt": "2026-11-01T07:27:06.583276+00:00",
+  "sourceUrl": "https://api.water.noaa.gov/hefs/v1/hydrograph-quantiles/?location_id=SCTA3&parameter_id=QINE",
+  "sha256": "19ab3aee32a2b428fffda6e3afd33c42ef2127ef7be0fc6865a2b308905330cf",
+  "note": "Recorded public experimental HEFS response, not a locally calibrated interval."
+}

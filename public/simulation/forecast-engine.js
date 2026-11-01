@@ -1,4 +1,5 @@
 // One app-facing provider. No routing-model fallback or road-safety inference.
+import {fetchEnsemble} from './ensemble.js';
 export const NWPS_ROOT = 'https://api.water.noaa.gov/nwps/v1/gauges/SCTA3';
 const CFS_TO_M3S = 0.028316846592;
 const units = { kcfs: 1000 * CFS_TO_M3S, 'ft3/s': CFS_TO_M3S, cfs: CFS_TO_M3S, 'm3/s': 1 };
@@ -36,7 +37,7 @@ export function normalizeForecast(metadata, stageflow, {now=Date.now(), retrieve
 // Injectable fetch and clock: use browser fetch or a server-side transport. Cache is memory-only.
 export function createForecastEngine({enabled=false,fetchImpl=globalThis.fetch,clock=Date.now,cacheMinutes=5,timeoutMs=10000}={}) {
   let cached;
-  return {async predict({siteId='SCTA3',force=false}={}) {
+  return {async ensemble(){return enabled?fetchEnsemble({fetchImpl,clock,timeoutMs}):{status:'disabled',points:[],reason:'Enable experimentalForecasts explicitly'};},async predict({siteId='SCTA3',force=false}={}) {
     if (!enabled) return unavailable('disabled','Enable experimentalForecasts explicitly');
     if (siteId!=='SCTA3') return unavailable('unsupported','Only SCTA3 is supported');
     const now=clock();

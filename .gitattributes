@@ -2,3 +2,4 @@
 test/fixtures/iem/* -text
 test/fixtures/mrms/* -text
 public/simulation/data/nwps-scta3-*.json -text
+public/simulation/data/hefs-scta3-quantiles.json -text
