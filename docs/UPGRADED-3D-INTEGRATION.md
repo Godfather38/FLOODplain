@@ -31,7 +31,7 @@ Independent checks of 757,512 barycentric samples at 3 PM and midnight find no c
 
 ## Verified evidence
 
-119 focused source, adapter and safety tests pass after the 566f2ba safety integration. Corrected overview, compact phone controls and current safety behavior pass the complete app verification. The final pinned preview at `eb4e490` passed `test/smoke-upgraded-remote.mjs`: actual completed geometry, native frame and lazy 3D assets loaded from the public host with no JavaScript errors. GitHack presents an initial **Open the page** interstitial; the smoke test follows that normal link. See `upgraded-remote-verification.json` and `upgraded-remote.png` beside the local evidence.
+122 focused source, adapter, safety and display tests pass after the 85e6417 readable-feet integration. Corrected overview, compact phone controls and current safety behavior pass the complete app verification. The final pinned preview at `06ae5d5` passed `test/smoke-upgraded-remote.mjs`: actual completed geometry, native frame and lazy 3D assets loaded from the public host with no JavaScript errors. GitHack presents an initial **Open the page** interstitial; the smoke test follows that normal link. See `upgraded-remote-verification.json` and `upgraded-remote.png` beside the local evidence.
 
 `public/simulation/preview/upgraded-integration-verification.json` records the actual integrated app test, with companion screenshots. Chrome used SwiftShader and emulated DPR 3; these are not physical phone measurements.
 
@@ -55,3 +55,5 @@ Integrated 85e6417 without replacing the newer renderer bundle. Renderer source 
 122 focused tests passed. The 390 px and 320 px phone checks passed with expandable cell/source evidence, 44 px touch targets and preserved range/selection. Updated actual-app browser evidence and screenshots accompany this integration. Browser measurements use software rendering and emulated screens, not a physical phone.
 
 Feet integration rerun: cold flat 1.59 s; first 3D entry 3.71 s; endpoint changes 814/777 ms; no JavaScript or console errors. Earlier performance figures above are historical checkpoints; the checked-in verification JSON is the latest measured sequence.
+
+Published feet preview: https://raw.githack.com/Godfather38/FLOODplain/06ae5d572601d290544f0cb82fdcbadb42eb45c9/public/index.html?case=refined#/map . Remote smoke passed with the feet legend visible, all 57 frame choices, actual lazy 3D assets, and no JavaScript errors.
