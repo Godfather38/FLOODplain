@@ -1,3 +1,5 @@
+> ACTIVE CONTRACT: [SHARED-MAP-STATE.md](SHARED-MAP-STATE.md). Existing renderer constructor now receives optional sharedState; update may return a Promise and UI owns matching request acknowledgment. Vector source/style remains renderer-owned.
+
 > CURRENT RESET: [MAP-PRODUCT-REQUIREMENTS.md](MAP-PRODUCT-REQUIREMENTS.md) and [RENDERING-RESET-SALVAGE.md](RENDERING-RESET-SALVAGE.md) supersede prior product/UX acceptance. Material below is historical context or existing interface detail, not authorization to continue the old implementation. Raster-backed MapLibre is not the required vector scene.
 
 # Geographic renderer handoff — separate worker ownership

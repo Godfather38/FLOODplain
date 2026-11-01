@@ -1,6 +1,6 @@
 # Experimental FLOODplain agent guidance
 
-Read docs/MAP-PRODUCT-REQUIREMENTS.md and docs/RENDERING-RESET-SALVAGE.md before any product work. Latest user instruction interrupted implementation to rewrite and coordinate the complete checklist. Do not continue the old brief or start another styling fix. Resume implementation only after parent coordination of this reset.
+Read docs/MAP-PRODUCT-REQUIREMENTS.md and docs/RENDERING-RESET-SALVAGE.md before any product work. Latest user instruction interrupted implementation to rewrite and coordinate the complete checklist. Parent has authorized independent UI/state/coverage implementation under the corrected brief while renderer work proceeds separately. Do not continue the obsolete raster-overlay acceptance brief or duplicate the renderer worker. Coordinate with docs/SHARED-MAP-STATE.md.
 
 Safety and route guidance are the home priority. The advanced map must render geographic feature data (roads/land/water) together with native model output in one shared flat/3D scene. Raster basemap pictures plus overlays do not satisfy that requirement. Preserve current code/data as salvage and fallback, not proof of acceptance. Never revive a detached terrain viewer, decorative pools/particles, invented resolution or missing-as-dry behavior.
 
