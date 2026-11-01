@@ -1,0 +1,25 @@
+{
+  "recordedAt": "2026-11-01T07:30:37.047570+00:00",
+  "sources": [
+    {
+      "file": "nwps-csca3-metadata.json",
+      "url": "https://api.water.noaa.gov/nwps/v1/gauges/CSCA3",
+      "sha256": "95fb64b40cba1854a9120637f2a41f1fb1593b611b14e5369fd7d091f2475948"
+    },
+    {
+      "file": "nwps-csca3-stageflow.json",
+      "url": "https://api.water.noaa.gov/nwps/v1/gauges/CSCA3/stageflow",
+      "sha256": "8b0d64dbf3533e6fe258909ec857039a484c7102d60ebdb3d7e006f8c7ce026d"
+    },
+    {
+      "file": "nwps-bwta3-metadata.json",
+      "url": "https://api.water.noaa.gov/nwps/v1/gauges/BWTA3",
+      "sha256": "581c2ee4e9b92fa8109e04e8c3993a60c6d7ec131fe49ac8641ea2ca71593a02"
+    },
+    {
+      "file": "nwps-bwta3-stageflow.json",
+      "url": "https://api.water.noaa.gov/nwps/v1/gauges/BWTA3/stageflow",
+      "sha256": "41e39ba5be2d237d8b5f031b7f53788f08e8829dcbcb02e042831c32c5d8ed9b"
+    }
+  ]
+}

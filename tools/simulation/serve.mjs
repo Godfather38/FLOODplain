@@ -2,7 +2,7 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { resolve, sep, extname } from 'node:path';
-const root = resolve('public/simulation');
+const root = resolve(process.argv.includes('--app')?'public':'public/simulation');
 createServer(async (req,res)=>{
   try {
     const path = decodeURIComponent(new URL(req.url,'http://127.0.0.1').pathname);
