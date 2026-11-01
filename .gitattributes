@@ -32,3 +32,6 @@ tools/sfincs/data/evaluation-2013-freeze.json -text
 public/simulation/data/sfincs-event-comparison.json -text
 
 public/simulation/data/stage4-2013-source-audit.json -text
+
+public/simulation/data/stage4-reach-2013-july05-23-432h-provenance.json -text
+public/simulation/data/sfincs-reach-stage4-2013-july05-23-432h.json -text

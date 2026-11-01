@@ -38,3 +38,12 @@ The 96-hour export has zero missing values across 69,696 cell-hours. All 72 over
 The intended solver configuration is frozen at `86466e74425f3ab467939602edc31c89b83368dc`. This artifact supplies rainfall only and records no predicted score. Applying contemporary terrain and 2015 levee crest evidence to 2013 retains historical-geometry uncertainty. Existing 2013 upstream-routing fits elsewhere in the repository are a different model; they must not be represented as independent evidence for the SFINCS run.
 
 July 2013 extraction completed with all 96 intervals present, zero missing values across 69,696 cell-hours, and all raw source hashes checked. Native cell mapping matches the 2014 reach exactly (62 distinct cells). Crop event totals range from 0.0 to 18.26 mm; largest hourly cell accumulation is 16.25 mm. These are rainfall inputs, not flood prediction metrics.
+
+
+## July 5-23 antecedent extension: one unresolved hour
+
+`public/simulation/data/sfincs-reach-stage4-2013-july05-23-432h.json` contains July 5 07Z through July 23 07Z, 432 contiguous intervals, same expanded reach. The final 96 event frames are exactly identical to the preserved event input. All 432 original-file hashes were verified. Reproduce with `build_stage4_forcing.py --event 2013-antecedent`.
+
+**Status is insufficient_data:** July 16 02:00-03:00 UTC has 726 missing exported cells. The original `ST4.2013071603.01h.grib` bitmap marks the reach missing; the file contains valid data elsewhere. This is not a decoding gap or observed zero. No interpolation, substitution or rainfall rescaling was performed. The strict solver loader should reject this until a documented source or explicit uncertainty scenario resolves the hour.
+
+Provenance: `stage4-reach-2013-july05-23-432h-provenance.json`. Compact handoff and exact source byte counts: `stage4-2013-antecedent-handoff.json`. Approximately 410 MB of new original antecedent files were cached outside Git; only cropped arrays and provenance are committed. The initial-state hypothesis cannot be declared tested merely from producing this incomplete forcing. No geometry, parameters or frozen results were changed.
