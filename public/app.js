@@ -703,6 +703,14 @@ async function init() {
     else location.replace(w.screen === 'stretch' ? `#/r/${w.route}` : '#/');
   });
   $('#refresh').addEventListener('click', check);
+  // Count this visit (once per visit; "new" the first time on this device). Counts only.
+  try {
+    if (cfg.TEXT_API && !sessionStorage.getItem('counted')) {
+      sessionStorage.setItem('counted', '1');
+      const isNew = !store.get('seen'); store.set('seen', true);
+      fetch(`${cfg.TEXT_API}?hit=1${isNew ? '&new=1' : ''}`).catch(() => {});
+    }
+  } catch { /* private mode */ }
   await check();
   setInterval(check, REFRESH_MS);
 }

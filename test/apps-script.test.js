@@ -155,3 +155,14 @@ test('crossing reports are saved and emailed to the owner', () => {
   assert.equal(rows[1][2], 'pr-ina-flat');
   assert.match(t.mails.at(-1).subject, /Ina Rd flat dip/);
 });
+
+test('visit counter: opens and new visitors per day in the stats tab', () => {
+  const t = setup();
+  t.api.doGet({ parameter: { hit: '1', new: '1' } });
+  t.api.doGet({ parameter: { hit: '1' } });
+  t.post({ action: 'push', topic: 'washwatch-stattest12', times: ['06:00'], days: 'w:1' });
+  t.api.doGet({ parameter: { hit: '1' } });
+  const rows = t.api.sheet_().getParent().getSheetByName('stats').getDataRange().getValues();
+  assert.equal(rows.length, 2);
+  assert.deepEqual(rows[1].slice(1, 4), [3, 1, 1]);
+});

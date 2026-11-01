@@ -51,6 +51,11 @@ function setup() { ensureTrigger_(); sheet_(); keysSheet_(); return 'ok'; }
 function doGet(e) {
   ensureTrigger_();
   // The app asks for the county rain/stream feed through here (the county site blocks browsers).
+  // Visit counter: the app sends ?hit=1 once per visit (&new=1 the first time on a device).
+  if (e && e.parameter && e.parameter.hit === '1') {
+    countVisit_(e.parameter.new === '1');
+    return json_({ ok: true });
+  }
   // River gauges for the app in one request (USGS limits phones that ask often).
   if (e && e.parameter && e.parameter.feed === 'usgs') {
     computeVerdicts_();
@@ -159,6 +164,29 @@ function report_(b) {
     Object.entries(answers).map(([k, v]) => `${k}: ${v}`).join('\n') + (b.lastSeen ? `\nLast saw water: ${b.lastSeen}` : '') + (b.note ? `\nNote: ${clip(b.note, 1500)}` : '')
     + '\n\nAll reports: the "reports" tab of "FLOODplain text subscribers (private)".');
   return { ok: true, step: 'saved' };
+}
+
+// Daily stats in the "stats" tab: date | app opens | new visitors | push channels |
+// text subscribers | crossing reports. Counts only; nothing about who visited.
+function countVisit_(isNew) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const ss = sheet_().getParent();
+    let st = ss.getSheetByName('stats');
+    if (!st) { st = ss.insertSheet('stats'); st.appendRow(['date', 'app_opens', 'new_visitors', 'push_channels', 'text_subscribers', 'crossing_reports']); }
+    const today = today_();
+    const rows = st.getDataRange().getValues();
+    let i = rows.findIndex((r, k) => k > 0 && (r[0] instanceof Date ? Utilities.formatDate(r[0], CONFIG.TZ, 'yyyy-MM-dd') : String(r[0])) === today);
+    if (i < 0) { st.appendRow([today, 0, 0, 0, 0, 0]); i = st.getLastRow() - 1; }
+    const row = i + 1;
+    const opens = Number(st.getRange(row, 2).getValue()) || 0;
+    const fresh = Number(st.getRange(row, 3).getValue()) || 0;
+    const count = (name) => { const sh = ss.getSheetByName(name); return sh ? Math.max(sh.getLastRow() - 1, 0) : 0; };
+    st.getRange(row, 2, 1, 5).setValues([[opens + 1, fresh + (isNew ? 1 : 0), count('push'), Math.max(sheet_().getLastRow() - 1, 0), count('reports')]]);
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function keyLimit_(key) {
