@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-01T07:06:01.186Z",
+  "sourceUrl": "https://mrms.ncep.noaa.gov/data/CONUS/PrecipRate/",
+  "action": "Read official directory index to select one bounded real-data fixture",
+  "httpStatus": 403,
+  "outcome": "Denied: Forbidden; retrieval stopped",
+  "realFixtureValidated": false,
+  "alternateAccessAttempted": false,
+  "defaultRainfall": "synthetic",
+  "nextStep": "Validate an authorized independently supplied public MRMS sample offline, retaining product metadata and provenance; no automatic retry or alternate access."
+}

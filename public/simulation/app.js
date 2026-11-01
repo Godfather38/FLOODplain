@@ -5,7 +5,7 @@ const fmt = n => n.toLocaleString(undefined, { maximumFractionDigits: 2 });
 function clearResult(message) {
   result=null;$('status').textContent=message;$('download').disabled=true;
   $('metrics').replaceChildren();$('chart').replaceChildren();$('balance').textContent='';
-  $('map').getContext('2d').clearRect(0,0,540,540);$('time-label').textContent='';$('legend').textContent='';$('provenance').textContent='';
+  $('map').getContext('2d').clearRect(0,0,540,540);$('time-label').textContent='';$('legend').textContent='';$('provenance').textContent='';$('terrain-quality').textContent='';
 }
 function draw() {
   if (!result) return;
@@ -32,6 +32,7 @@ function run() {
     $('status').textContent = `${rain.kind==='synthetic'?'SYNTHETIC STORM — no observed rainfall':'RADAR ESTIMATE REPLAY — not live'} · uncalibrated runoff scenario`;
     $('provenance').textContent = `Rain: ${rain.source}. First interval: ${rain.frames[0].start}. Terrain: ${terrain.source}; retrieved ${terrain.retrievedAt}. Rain multiplier: ${result.parameters.multiplier}×. ${result.network.downstream[terrain.crossingCell] === -1 ? "Crossing cell is an unresolved terrain pit: inflow is retained, not routed through a bridge." : ""}`;
     const peak=Math.max(...result.series.map(s=>s.crossingM3s)), peakFrame=result.series.find(s=>s.crossingM3s===peak);
+    $('terrain-quality').textContent = `Terrain checks: ${result.terrainQuality.contributingBoundaryCells} contributing cells touch the window edge; ${result.terrainQuality.retainedPitCells} unresolved pits. ${result.terrainQuality.warnings.join(' ')}`;
     const metrics=[['Local inflow peak',`${fmt(peak)} m³/s`],['Peak after storm start',`${fmt(peakFrame.minute)} min`],['Contributing area in window',`${fmt(result.network.accumulation[terrain.crossingCell]*terrain.cellSizeM**2/1e6)} km²`]];
     $('metrics').replaceChildren(...metrics.map(([label,value])=>{const el=document.createElement('div');el.className='metric';const s=document.createElement('strong'),l=document.createElement('span');s.textContent=value;l.textContent=label;el.append(s,l);return el;}));
     const totals=result.totals;

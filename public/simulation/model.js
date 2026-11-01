@@ -8,6 +8,17 @@ export function validateTerrain(t) {
   requireValue(t.horizontalCRS === 'EPSG:4326' && t.verticalUnits === 'm', 'Terrain must use EPSG:4326 coordinates and metre elevations');
   requireValue(t.cells?.length === t.rows * t.cols, 'Terrain size mismatch');
   t.cells.forEach(c => requireValue(finite(c.elevationM) && c.elevationM > -500 && c.elevationM < 9000 && finite(c.lat) && Math.abs(c.lat) <= 90 && finite(c.lon) && Math.abs(c.lon) <= 180, 'Invalid or missing terrain cell'));
+  // Row-major north-up, approximately square geographic samples. A transposed,
+  // duplicated or mis-scaled grid must not silently produce plausible drainage.
+  for (let i = 0; i < t.cells.length; i++) {
+    const a = t.cells[i];
+    for (const [j, axis] of [[i % t.cols < t.cols - 1 ? i + 1 : -1, 'east'], [i + t.cols < t.cells.length ? i + t.cols : -1, 'south']]) {
+      if (j < 0) continue;
+      const b = t.cells[j], dx = (b.lon - a.lon) * 111320 * Math.cos((a.lat + b.lat) * Math.PI / 360), dy = (b.lat - a.lat) * 111320;
+      const along = axis === 'east' ? dx : -dy, across = axis === 'east' ? dy : dx;
+      requireValue(Math.abs(along - t.cellSizeM) <= .1 * t.cellSizeM && Math.abs(across) <= .1 * t.cellSizeM, 'Terrain must be a north-up row-major grid with stated metre spacing');
+    }
+  }
   requireValue(Number.isInteger(t.crossingCell) && t.crossingCell >= 0 && t.crossingCell < t.cells.length, 'Invalid crossing cell');
 }
 export function drainage(t) {
@@ -51,6 +62,21 @@ export function validateRain(rain, t) {
   requireValue((previousEnd - Date.parse(rain.frames[0].start)) <= 86400000, 'Maximum storm length is 24 hours');
 }
 export function gridIdentity(t) { return t.cells.map(c => [c.lon, c.lat]); }
+export function terrainDiagnostics(t, network = drainage(t)) {
+  validateTerrain(t);
+  const isBoundary = i => i < t.cols || i >= t.cells.length - t.cols || i % t.cols === 0 || i % t.cols === t.cols - 1;
+  const contributingBoundaryCells = network.contributes.reduce((n, contributes, i) => n + Number(contributes && isBoundary(i)), 0);
+  const retainedPitCells = network.downstream.filter(j => j === -1).length;
+  const crossingRetainsWater = network.downstream[t.crossingCell] === -1;
+  const warnings = ['Clipped local window with no external upstream inflow; not a delineated basin.', 'Sample spacing does not resolve road/culvert or channel hydraulics.'];
+  if (contributingBoundaryCells) warnings.push('The crossing contributing set reaches the grid boundary; its upstream extent is truncated.');
+  if (crossingRetainsWater) warnings.push('The crossing sample is an unresolved pit: arrival flow is retained, not bridge discharge.');
+  if (isBoundary(t.crossingCell)) warnings.push('The crossing lies on the clipping boundary.');
+  return { basinStatus: 'clipped-local-window', crossingDischargeSupported: false,
+    contributingBoundaryCells, retainedPitCells, crossingRetainsWater,
+    localContributingAreaKm2: network.accumulation[t.crossingCell] * t.cellSizeM ** 2 / 1e6,
+    sampleSpacingM: t.cellSizeM, warnings };
+}
 export function syntheticRain(t) {
   return { schemaVersion: 1, units: 'mm/h', kind: 'synthetic', grid: gridIdentity(t), source: 'Invented 30-minute pulse; no radar observations',
     frames: [0, 12, 30, 45, 20, 5].map((rate, i) => ({ start: new Date(Date.UTC(2026, 6, 1, 0, i * 5)).toISOString(), durationMinutes: 5,
@@ -93,5 +119,5 @@ export function simulate(t, rain, { infiltrationMmH = 10, travelMinutes = 8, mul
   }
   totals.storedM3 = storage.reduce((a,b) => a+b, 0);
   totals.residualM3 = totals.rainfallM3 - totals.infiltrationM3 - totals.boundaryOutflowM3 - totals.storedM3;
-  return { network, series, totals, rainKind: rain.kind, parameters: { infiltrationMmH, travelMinutes, multiplier, tailMinutes } };
+  return { network, terrainQuality: terrainDiagnostics(t, network), series, totals, rainKind: rain.kind, parameters: { infiltrationMmH, travelMinutes, multiplier, tailMinutes } };
 }

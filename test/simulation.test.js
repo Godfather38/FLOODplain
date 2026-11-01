@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { drainage, simulate, syntheticRain, validateRain, gridIdentity } from '../public/simulation/model.js';
+import { drainage, simulate, syntheticRain, validateRain, gridIdentity, terrainDiagnostics } from '../public/simulation/model.js';
 import { importMrmsCsv } from '../public/simulation/radar.js';
 const terrain = (z=[4,3,2,1]) => ({schemaVersion:1,rows:2,cols:2,cellSizeM:100,horizontalCRS:'EPSG:4326',verticalUnits:'m',crossingCell:3,cells:z.map((elevationM,i)=>({elevationM,lat:32.44-Math.floor(i/2)*.0009,lon:-111.30+(i%2)*.00106}))});
 const rain = (t, rate=60) => ({schemaVersion:1,kind:'synthetic',source:'unit test fixture',units:'mm/h',grid:gridIdentity(t),frames:[{start:'2026-07-01T00:00:00Z',durationMinutes:10,rates:t.cells.map(()=>rate)}]});
@@ -16,7 +16,7 @@ test('dry and fully infiltrated rain produce no runoff',()=>{
  const t=terrain();for(const [rate,loss] of [[0,0],[10,20]]){const r=simulate(t,rain(t,rate),{infiltrationMmH:loss});assert.equal(r.totals.boundaryOutflowM3,0);assert.equal(r.totals.storedM3,0);}
 });
 test('internal depression retains water without fictitious outlet',()=>{
- const t={...terrain(),rows:3,cols:3,crossingCell:4,cells:[9,8,9,8,0,8,9,8,9].map((elevationM)=>({elevationM,lat:32,lon:-111}))};
+ const t={...terrain(),rows:3,cols:3,crossingCell:4,cells:[9,8,9,8,0,8,9,8,9].map((elevationM,i)=>({elevationM,lat:32.44-Math.floor(i/3)*.0009,lon:-111.30+(i%3)*.00106}))};
  const r=simulate(t,rain(t),{infiltrationMmH:0,travelMinutes:1});assert.equal(r.network.downstream[4],-1);assert.equal(r.totals.boundaryOutflowM3,0);assert.ok(Math.abs(r.totals.storedM3-900)<1e-7);
 });
 test('longer routing time delays outlet peak; zero-loss inflow scales linearly',()=>{
@@ -42,6 +42,12 @@ test('missing rain, mismatched grid, overlaps, gaps and wrong units rejected',()
 test('invalid parameters and terrain fail explicitly',()=>{
  const t=terrain();assert.throws(()=>simulate(t,rain(t),{travelMinutes:0}));assert.throws(()=>simulate(t,rain(t),{multiplier:NaN}));t.cells[0].elevationM=null;assert.throws(()=>drainage(t));
 });
+test('misregistered terrain is rejected and clipped drainage cannot claim a complete basin',()=>{
+ const t=terrain(),d=terrainDiagnostics(t);assert.equal(d.basinStatus,'clipped-local-window');assert.equal(d.crossingDischargeSupported,false);assert.equal(d.contributingBoundaryCells,4);
+ const swapped=structuredClone(t);[swapped.cells[0],swapped.cells[1]]=[swapped.cells[1],swapped.cells[0]];assert.throws(()=>drainage(swapped),/north-up/);
+ const duplicated=structuredClone(t);duplicated.cells[1]={...duplicated.cells[0]};assert.throws(()=>drainage(duplicated),/north-up/);
+ const wrongScale={...t,cellSizeM:250};assert.throws(()=>drainage(wrongScale),/spacing/);
+});
 const csv=(t, field='PrecipRate',rate=12,time='2026-07-01 00:00:00')=>t.cells.map(c=>`"${time}","${time}","${field}","surface",${c.lon+360},${c.lat},${rate}`).join('\n');
 test('MRMS importer maps 0–360 longitude, preserves UTC and two-minute units',()=>{
  const t=terrain(),r=importMrmsCsv(csv(t),t,'https://mrms.ncep.noaa.gov/data/');assert.equal(r.kind,'radar-estimate');assert.equal(r.frames[0].durationMinutes,2);assert.deepEqual(r.frames[0].rates,[12,12,12,12]);assert.equal(r.frames[0].start,'2026-07-01T00:00:00.000Z');
@@ -53,5 +59,5 @@ test('MRMS importer rejects wrong product, missing values, gaps, duplicate and d
 test('recorded USGS terrain and synthetic replay are finite and conservative',()=>{
  const t=JSON.parse(readFileSync(new URL('../public/simulation/data/terrain.json',import.meta.url),'utf8'));
  assert.equal(t.kind,'usgs-epqs');assert.equal(t.cells.length,81);assert.ok(t.cells.every(c=>c.raw && c.sourceUrl.startsWith('https://epqs.nationalmap.gov/')));
- const r=simulate(t,syntheticRain(t));assert.ok(Math.abs(r.totals.residualM3)<1e-6);assert.equal(r.series.length,210);assert.ok(r.series.every(s=>Number.isFinite(s.crossingM3s)));
+ const r=simulate(t,syntheticRain(t));assert.ok(Math.abs(r.totals.residualM3)<1e-6);assert.equal(r.series.length,210);assert.ok(r.series.every(s=>Number.isFinite(s.crossingM3s)));assert.equal(r.terrainQuality.crossingRetainsWater,true);assert.ok(r.terrainQuality.contributingBoundaryCells>0);
 });

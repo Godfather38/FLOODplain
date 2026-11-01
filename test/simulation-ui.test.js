@@ -15,6 +15,7 @@ test('lab loads recorded inputs, reruns, clears rejected imports, and restores d
  try {
   await import('../public/simulation/app.js');
   assert.equal(requested.length,2);assert.match(elements.status.textContent,/SYNTHETIC/);assert.match(elements.gaugeStatus?.textContent??elements['gauge-status'].textContent,/193 recorded samples/);assert.equal(elements.metrics.children.length,3);assert.ok(elements.chart.innerHTML.includes('<path'));assert.equal(elements.download.disabled,false);
+  assert.match(elements['terrain-quality'].textContent,/not a delineated basin/);assert.match(elements['terrain-quality'].textContent,/truncated/);assert.match(html,/No real radar file was retrieved/);
   elements.multiplier.value='0';elements.run.onclick();assert.match(elements.metrics.children[0].children[0].textContent,/^0 /);
   elements.file.files=[{size:5,text:async()=>'{bad'}];await elements.file.onchange();assert.match(elements.status.textContent,/Import failed/);assert.equal(elements.metrics.children.length,0);assert.equal(elements.download.disabled,true);
   elements.demo.onclick();assert.match(elements.status.textContent,/SYNTHETIC/);assert.equal(elements.download.disabled,false);
