@@ -543,7 +543,11 @@ function privacyScreen() {
   </div>`;
 }
 function sourcesScreen() {
-  return `<div class="list">${LINKS.map(([t, u]) => `<a class="row small" href="${u}" target="_blank" rel="noopener"><span class="text"><div class="t">${esc(t)}</div></span><span class="chev">↗</span></a>`).join('')}</div>
+  return `<div class="page"><h4>Where the readings come from</h4>
+    <p>These are regional gauges, not sensors at every crossing. Brawley Wash drains into Los Robles, but upstream flow does not tell us the water depth or arrival time at the Los Robles crossing on Trico Road.</p>
+    <p>County rain is reported in inches and stream flow in cubic feet per second (cfs). A sensor may report only every 12 hours when nothing changes; an older reading does not by itself mean the sensor has failed.</p>
+    <p><a href="https://www.pima.gov/about-alert-system-sensor-data" target="_blank" rel="noopener">County sensor units and reporting</a></p></div>
+    <div class="list">${LINKS.map(([t, u]) => `<a class="row small" href="${u}" target="_blank" rel="noopener"><span class="text"><div class="t">${esc(t)}</div></span><span class="chev">↗</span></a>`).join('')}</div>
     <p class="fine">River gauges: USGS. Rain and stream sensors: Pima County Regional Flood Control District. Barricades: Pima County DOT. Alerts: National Weather Service. Roads © OpenStreetMap contributors. All provisional.</p>`;
 }
 

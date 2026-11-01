@@ -5,7 +5,7 @@ A **failure point** is a spot where water can block or endanger your drive while
 ## Words used here
 - **Gauge:** a USGS measuring station beside a river or wash. Every 15–60 minutes it reports how much water is flowing past.
 - **cfs (cubic feet per second):** how much water is moving past a gauge. 0 means dry. 1 cfs is about 7.5 gallons every second, roughly a few garden hoses. A flash flood on the Santa Cruz can run thousands of cfs.
-- **Upstream:** the direction the water comes *from*. Brawley Wash flows north, from Three Points toward Avra Valley Rd and then Trico Rd. Water seen at an upstream gauge reaches the road later.
+- **Upstream:** the direction the water comes *from*. Brawley Wash flows north, from Three Points toward Avra Valley Rd and then Trico Rd. Upstream observations provide regional context; whether, when and how much water reaches a particular road is not measured by that remote gauge.
 - **Bridge:** the road goes over the wash and the water passes underneath. It's only a problem when water gets near the road surface or the county closes it.
 - **Dip (low-water crossing):** the road goes down *through* the wash bed. When the wash runs, water flows across the road. This is where people drown.
 - **"No bridge in the map data":** OpenStreetMap, the free map I routed on, doesn't mark a bridge there. It's probably a dip, but it could be a bridge nobody has marked yet.
@@ -16,7 +16,7 @@ Distances come from the map data and are approximate.
 ### 1. Los Robles Wash bridge on Trico Rd
 - **Where:** on Trico Rd, about 0.4 mi south of Silverbell Rd, between El Tiro Rd and Silverbell Rd. Los Robles Wash is what Brawley Wash becomes north of Avra Valley Rd.
 - **Who uses it:** the Trico route and both Silverbell routes. **Only the Avra Valley Rd route avoids it**, because it goes south on Trico from El Tiro.
-- **What the app can't see:** no gauge sits at this bridge. The only gauge on this wash is at Three Points, about 20 miles south. Rain that falls on Avra Valley itself can fill the wash here without that gauge ever showing it.
+- **What the app can't see:** no gauge sits at this bridge. The app uses remote readings from Three Points and the county stream sensor at Milewide Road, not a sensor on this bridge. Rain that falls on Avra Valley itself can fill the wash here without that gauge ever showing it.
 - **Why it matters:** it's a bridge, so it's not a drowning spot. But if it gets closed, 3 of your 4 routes are gone at once.
 - **What you do:** after rain in the valley, look at it as you approach. If water is near the road deck or there's a barricade, turn around. Go back south on Trico to Avra Valley Rd, and only if failure points 2–3 are clear.
 
@@ -57,9 +57,9 @@ Distances come from the map data and are approximate.
 - **What the app can't see:** water and mud sitting on the road itself, with no wash involved. Per you, it's shallow, not dangerous.
 - **What you do:** expect it after rain, slow down, and allow extra minutes.
 
-### 7. A gauge stops reporting
-- **What happens:** gauges break, lose radio contact, or shut down for the season. Once a gauge has been silent for 3 hours, the app marks it **gray, "No data"**, and never treats that as clear.
-- **What you do:** gray means *unknown*, not safe. Use the ALERT map and closures links.
+### 7. A reading is old or unavailable
+- **What happens:** river/wash flow older than three hours is excluded by the app; rain has a separate historical-reading policy. The route still receives a number based on available evidence, so a low number is not confirmation from a sensor at the crossing.
+- **County reporting:** unchanged ALERT sensors can report only every 12 hours. An old timestamp alone does not prove a broken sensor. See [the source audit](SENSOR-AUDIT.md) and the county map for source context.
 
 ## The morning routine
 1. Open the page. The big box names the lowest-risk route and its rating.
@@ -77,4 +77,4 @@ Distances come from the map data and are approximate.
 | 4 Valley rain | Done: county rain gauges in inches | Done (tune thresholds over time) |
 | 5 Bridge closure levels | Done: set from USGS flood peaks (2014) | Done |
 | 6 Silverbell washouts | A "washed out" button you or family can tap so the others see it | Me |
-| 7 Dead gauge | Already handled (shows gray) | Done |
+| 7 Old or unavailable readings | Excluded/identified by source policy; route still numbered | See source audit |
