@@ -1,3 +1,5 @@
+> Experimental map UX: [authoritative product requirements](docs/MAP-PRODUCT-REQUIREMENTS.md). This supersedes earlier standalone viewer/atlas/heatmap plans; geographic3D remains incomplete.
+
 # FLOODplain
 
 A check of the roads between Avra Valley, AZ and I-10, either direction. It combines regional USGS stream gauges, county rain/stream observations, reported barricades and weather alerts to compare routes. Gauges are not located at every crossing; remote readings do not measure road-water depth. It's a hobby tool, not an official warning.

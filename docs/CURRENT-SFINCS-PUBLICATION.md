@@ -1,3 +1,5 @@
+> Experimental map UX: [authoritative product requirements](MAP-PRODUCT-REQUIREMENTS.md). This supersedes earlier standalone viewer/atlas/heatmap plans; geographic3D remains incomplete.
+
 # Current SFINCS publication contract
 
 The existing `routes.html` now reads `data/current-sfincs-manifest.json` at opening and during its one-action five-minute refresh. The committed file deliberately says **unavailable**: no current hydraulic output has yet been published. Historical artifacts are never a fallback. This adds no page, backend, workflow or solver.

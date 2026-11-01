@@ -1,3 +1,5 @@
+> Experimental map UX: [authoritative product requirements](MAP-PRODUCT-REQUIREMENTS.md). This supersedes earlier standalone viewer/atlas/heatmap plans; geographic3D remains incomplete.
+
 # Game plan: remaining failure points
 
 The prototype (`public/`) rates 4 routes from 4 USGS gauges. **[FAILURE-POINTS.md](FAILURE-POINTS.md)** explains each blind spot in plain words, along with what to do about it each morning.

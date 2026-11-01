@@ -1,3 +1,5 @@
+> Experimental map UX: [authoritative product requirements](MAP-PRODUCT-REQUIREMENTS.md). This supersedes earlier standalone viewer/atlas/heatmap plans; geographic3D remains incomplete.
+
 # Open the experimental app
 
 From this branch's repository directory, run:
