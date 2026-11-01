@@ -14,8 +14,13 @@ def prepare(source, target, terrain, upstream, forcing, protocol):
     # This temporary regular grid is not executed or used as hydraulic geometry.
     prepare_forcing(staged, terrain, upstream, forcing=forcing, dry_start=True)
     event = json.loads((staged/'case.json').read_text())
-    if any(event[k].replace('+00:00','Z') != freeze[p] for k,p in [('start','eventStart'),('end','eventEnd'),('evaluationStart','evaluationStart')]):
+    if any(event[k].replace('+00:00','Z') != freeze[p] for k,p in [('start','eventStart'),('end','eventEnd')]):
         raise ValueError('Event window differs from preregistered protocol')
+    from pandas import Timestamp, Timedelta
+    evaluation_start = Timestamp(freeze['evaluationStart'])
+    if not Timestamp(event['start']) + Timedelta(hours=24) <= evaluation_start < Timestamp(event['end']):
+        raise ValueError('Evaluation must follow at least 24 hours initialization and precede end')
+    event['evaluationStart'] = evaluation_start.isoformat()
     case = json.loads((source/'case.json').read_text())
     if (event['upstream']['cellRow'],event['upstream']['cellColumn']) != (case['upstream']['cellRow'],case['upstream']['cellColumn']):
         raise ValueError('Gauge source cell differs from frozen configuration')
@@ -39,9 +44,12 @@ def prepare(source, target, terrain, upstream, forcing, protocol):
         case[key] = event[key]
     case['upstream']['sourceUrl'] = event['upstream']['sourceUrl']
     case['upstream']['sha256'] = event['upstream']['sha256']
+    case['initialState']['description'] = freeze.get('initialStateDescription',case['initialState']['description'])
     case['evaluationProtocol'] = freeze
     case['validationRole'] = freeze['validationRole']
     case['limitations'] = [x.replace('2014','historical event') for x in case['limitations'] if 'iterative development comparison' not in x]
+    if freeze.get('initialStateDescription'):
+        case['limitations']=[x.replace('Assumed dry initial state followed by 24 hours of observed inflow and Stage IV rainfall spinup',freeze['initialStateDescription']) for x in case['limitations']]
     case['limitations'].append('Frozen configuration evaluated on 2013; 2015 terrain and levee condition postdate this event; no event-specific tuning')
     case['inputArtifacts'] = [{'path':i['path'],'sha256':hashlib.sha256((target/i['path']).read_bytes()).hexdigest()} for i in freeze['inputArtifacts']]
     changed = [i['path'] for i,j in zip(case['inputArtifacts'],freeze['inputArtifacts']) if i['sha256'] != j['sha256']]

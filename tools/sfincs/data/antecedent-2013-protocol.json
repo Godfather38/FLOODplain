@@ -1,0 +1,60 @@
+{
+  "configurationCommit": "86466e74425f3ab467939602edc31c89b83368dc",
+  "referenceRun": 41293656870,
+  "eventStart": "2013-07-05T07:00:00Z",
+  "eventEnd": "2013-07-23T07:00:00Z",
+  "evaluationStart": "2013-07-20T07:00:00Z",
+  "inputArtifacts": [
+    {
+      "path": "rainfall.nc",
+      "sha256": "20f85d9a119e74c7da711bc4729f3ec369276534c2ba1bb37af0632b0f6f6a3d"
+    },
+    {
+      "path": "sections.crs",
+      "sha256": "5ff1750b5fc71cce4a3e738121758dd59aace22b25a4073a38555659fe2c6921"
+    },
+    {
+      "path": "sfincs.dep",
+      "sha256": "2dbbfce024d79a971963aebdc0451f9f2cabd50cebfea135e308449d72b03e31"
+    },
+    {
+      "path": "sfincs.dis",
+      "sha256": "24ec88bb3057de954c20d5a99d6af8c8f7b8ea745abdd5722b91154b798422e6"
+    },
+    {
+      "path": "sfincs.ind",
+      "sha256": "6ca18eb6743cbc450bf6782fca68d861c8eacae13285bd347ca7d0465f06a484"
+    },
+    {
+      "path": "sfincs.inp",
+      "sha256": "174bd2294b88dcaf7903e68b7264479a483267c91bf547df2e16fdf65e37fcb2"
+    },
+    {
+      "path": "sfincs.msk",
+      "sha256": "a4493c756056d22624c289ee754f9e6a76f799662e4d3757316d3193754fd2d9"
+    },
+    {
+      "path": "sfincs.src",
+      "sha256": "70336853521a1ffa5776a9684b6bb23035fd63c5b20ffdb0e7d63ea0480ce318"
+    },
+    {
+      "path": "sfincs.weir",
+      "sha256": "e98df12f2ff2323454b38b4356a35fac27726a3a7da5a8c984c6ca8e53a8a4d3"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "sha256": "f73dc18be44aa8f15aa81e702b2b1b87cdcff995fbb99ea413165b95adf30a1b"
+    }
+  ],
+  "selectionReason": "Initial-state experiment: 14 observed antecedent days supply 2.670 million m3 upstream, exceeding identified 0.967 million m3 near-source pocket storage; duration chosen without fitting downstream peak; not proof of equilibrium",
+  "validationRole": "Post-failure initial-state sensitivity experiment; same frozen hydraulic geometry and parameters, not a new independent validation",
+  "criteria": [
+    "Do not alter geometry, roughness, infiltration, source placement or timing to fit target",
+    "Preserve dry-start failed result and original July20 onward evaluation window",
+    "Before interpreting score, report storage, upstream and downstream native flow at original July19 start and during antecedent period",
+    "No assumption of equilibrium merely because antecedent input exceeds one pocket volume",
+    "No target observations used to initialize water levels"
+  ],
+  "originalEventStart": "2013-07-19T07:00:00Z",
+  "initialStateDescription": "Dry July5 initialization followed by 14 days observed Cortaro inflow and Stage IV rain before original event starts July19; original first-day exclusion retained, scoring July20 onward"
+}
