@@ -80,22 +80,30 @@ export function checkRiverEarly(flows, siteIds, names, R) {
 export function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
   const gauges = (snapshot?.rain ?? []).filter((g) => gaugeIds.includes(g.site));
   // Use the latest readings we have, up to a day old, and say how old they are.
-  const fresh = gauges.filter((g) => g.last_rpt && !g.maintenance && now - Date.parse(g.last_rpt) <= Math.max(staleMs, 24 * 3_600_000));
+  const fresh = gauges.filter((g) => g.last_rpt && !g.maintenance && now - Date.parse(g.last_rpt) <= Math.max(staleMs, 24 * 3_600_000)
+    && Object.values(g.in ?? {}).some((v) => Number.isFinite(v) && v >= 0));
   if (!fresh.length) return { level: 'unknown', why: 'no rain gauge reading' };
   const ageMin = snapshot.fetched_at ? (now - Date.parse(snapshot.fetched_at)) / 60_000 : 0;
   const asOf = ageMin > 45 ? ` (rain readings from ${new Date(Date.parse(snapshot.fetched_at)).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Phoenix' })})` : '';
-  const most = (w) => Math.max(...fresh.map((g) => g.in?.[w] ?? 0));
-  const detail = `last 1 h ${fmtIn(most('h1'))} · 3 h ${fmtIn(most('h3'))} · 6 h ${fmtIn(most('h6'))} · 24 h ${fmtIn(most('d1'))}`
+  const valid = (v) => Number.isFinite(v) && v >= 0;
+  const most = (w) => {
+    const values = fresh.map((g) => g.in?.[w]).filter(valid);
+    return values.length ? Math.max(...values) : null;
+  };
+  const amount = (w) => most(w) == null ? 'unavailable' : fmtIn(most(w));
+  const detail = `last 1 h ${amount('h1')} · 3 h ${amount('h3')} · 6 h ${amount('h6')} · 24 h ${amount('d1')}`
     + ` (wettest of ${fresh.map((g) => names[g.site] ?? g.name).join(', ')})`;
   for (const level of ['danger', 'caution', 'watch']) {
     for (const [win, limit] of Object.entries(rules[level] ?? {})) {
       const hit = fresh
-        .filter((g) => g.in?.[win] != null && g.in[win] >= limit)
+        .filter((g) => valid(g.in?.[win]) && g.in[win] >= limit)
         .sort((a, b) => b.in[win] - a.in[win])[0];
       if (hit) return { level, detail, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${names[hit.site] ?? hit.name}${asOf}` };
     }
   }
   const h6 = most('h6');
+  const required = new Set(['h6', ...Object.values(rules).flatMap((rule) => Object.keys(rule))]);
+  if ([...required].some((w) => most(w) == null)) return { level: 'unknown', detail, why: 'rain gauge readings are incomplete' + asOf };
   return { level: 'ok', detail, why: (h6 > 0 ? `light rain only (${fmtIn(h6)} in the last 6 hours)` : 'no rain in the last 6 hours') + asOf };
 }
 
@@ -104,7 +112,7 @@ export function checkWash(snapshot, flows, wash, kind, now, staleMs, names) {
   const readings = [];
   for (const id of wash.alert ?? []) {
     const s = (snapshot?.stream ?? []).find((x) => x.site === id);
-    if (s && s.flow_cfs != null && s.last_rpt && now - Date.parse(s.last_rpt) <= staleMs) readings.push({ name: s.name.replace(/ \(PT\)$/, ''), cfs: s.flow_cfs });
+    if (s && !s.maintenance && Number.isFinite(s.flow_cfs) && s.flow_cfs >= 0 && s.last_rpt && now - Date.parse(s.last_rpt) <= staleMs) readings.push({ name: s.name.replace(/ \(PT\)$/, ''), cfs: s.flow_cfs });
   }
   for (const id of wash.usgs ?? []) {
     if (flows[id]?.fresh) readings.push({ name: siteName(names, id), cfs: flows[id].cfs, risingFast: flows[id].risingFast });

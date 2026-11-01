@@ -1,5 +1,6 @@
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
+import { resolveScreen } from './routing.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
   riskScore, routeScore, goodSigns, againstIt,
@@ -143,11 +144,7 @@ function compute(d) {
 //   #/r/<route>/<fp> one stretch on that route
 //   #/how  #/settings  #/sources
 function where() {
-  const p = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
-  if (p[0] === 'r' && view?.byId[p[1]]) return { screen: p[2] ? 'stretch' : 'route', route: p[1], fp: p[2] };
-  if (p[0] === 'report') return { screen: 'report', fp: p[1] };
-  if (['how', 'settings', 'sources', 'alerts', 'privacy'].includes(p[0])) return { screen: p[0] };
-  return { screen: 'home' };
+  return resolveScreen(location.hash, view?.byId ?? {});
 }
 
 // ---------------- words ----------------
@@ -710,9 +707,16 @@ async function check() {
   checking = true;
   $('#refresh').classList.add('spin');
   try {
-    data = await gather();
-    view = compute(data);
+    const next = await gather();
+    const nextView = compute(next);
+    data = next;
+    view = nextView;
+    $('#load-status').hidden = true;
     render();
+  } catch (e) {
+    if (!view) throw e;
+    $('#load-status').textContent = 'Couldn’t update conditions. Showing the previous check. Tap Check again to retry.';
+    $('#load-status').hidden = false;
   } finally {
     checking = false;
     $('#refresh').classList.remove('spin');
@@ -740,5 +744,12 @@ async function init() {
   } catch { /* private mode */ }
   await check();
   setInterval(check, REFRESH_MS);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && (!data || Date.now() - data.now >= REFRESH_MS)) check();
+  });
+  window.addEventListener('online', check);
 }
-init().catch((e) => { $('#screen').innerHTML = `<p class="loading">Couldn’t load: ${esc(e.message)}</p>`; });
+init().catch((e) => {
+  $('#screen').innerHTML = `<p class="loading">Couldn't load: ${esc(e.message)}</p><button type="button" class="btn btn-primary" id="retry-load">Try again</button>`;
+  $('#retry-load').addEventListener('click', () => location.reload());
+});
