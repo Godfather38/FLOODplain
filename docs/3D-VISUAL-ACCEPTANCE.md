@@ -31,7 +31,7 @@ Technical milestones were allowed to stand in for the full visual request while 
 
 See [UPGRADED-3D-INTEGRATION.md](UPGRADED-3D-INTEGRATION.md) for completed 57-frame binding, complete overview/phone terrain coverage, exact native values, lifecycle checks and measurements. The earlier compact binding and missing phone tiles are resolved in this isolated upgraded branch. Native frames visibly change and state persists. The historical 21-frame restriction below describes the earlier checkpoint, not the current completed package.
 
-The latest integration carries safety behavior through f6d65fb, compact phone controls, and corrected overview ground. The previous false coarse-terrain obstruction is removed without moving or widening native water. Some real water features remain subpixel at whole-domain scale. Physical-device/user visual acceptance is outstanding; do not equate functional verification with approval of the overall appearance.
+The latest integration carries safety behavior through 566f2ba, including the approved channel-relative policy and numeric recommendation scoring, compact phone controls, and corrected overview ground. The previous false coarse-terrain obstruction is removed without moving or widening native water. Some real water features remain subpixel at whole-domain scale. Physical-device/user visual acceptance is outstanding; do not equate functional verification with approval of the overall appearance.
 
 Parent authorized this owner to combine completed 3D and solver artifacts with existing safety app changes on the isolated upgraded branch. The dedicated 2D release branch remains untouched and independent.
 

@@ -1,10 +1,12 @@
 # Upgraded experimental integration
 
-This isolated branch combines the existing safety app through f6d65fb (including b0f6e37 and caeb18e) with the completed frozen refined run and lazy 3D visualization. It does not change the dedicated 2D release branch or production. No proposed proximity/tolerance buffer or read-only 2014 analysis is implemented.
+This isolated branch combines the existing safety app through 566f2ba (including approved policy b96d334 and prior safety fixes) with the completed frozen refined run and lazy 3D visualization. It does not change the dedicated 2D release branch or production. No new solver run or read-only 2014 analysis logic is implemented.
 
 ## Safety behavior carried forward
 
-The safety app, logic and HAND bridge policy match f6d65fb exactly. Compatible site-matched roadway and water elevations affect bridge ratings and appear on route cards with readable source/time evidence. Actual closures remain decisive. Generic bridge penalties from discharge, rain and HAND stage are removed; at-grade crossing behavior remains. Missing or incompatible evidence is not clearance. The completed frozen refined visualization remains separate from the current coarse model used by those existing bridge comparisons.
+The safety app, configuration, logic and bridge presentation match 566f2ba exactly. Compatible site-matched roadway and water elevations affect bridge ratings and appear on route cards with readable source/time evidence. The user-approved warning policy uses 90%, 100% and 110% of roadway height **above the matching local channel reference**, not percentages of sea-level elevation and not a measured uncertainty bound. Warning adds 0.5 and reaching the roadway adds 1 to numeric risk scoring; recommendations now use those numeric scores. Below-warning water is not described as nearing the road.
+
+Actual closures remain decisive. Generic bridge penalties from discharge, rain and HAND stage remain removed; at-grade crossing behavior remains. Missing or incompatible evidence is not clearance. Compact warning cards, phone source disclosure, the accessible desktop evidence dialog and all-area junctions on individual route views carry forward. The completed frozen refined visualization remains separate from the current coarse model used by bridge comparisons.
 
 ## Phone controls
 
@@ -29,16 +31,16 @@ Independent checks of 757,512 barycentric samples at 3 PM and midnight find no c
 
 ## Verified evidence
 
-117 focused source, adapter and safety tests pass after the f6d65fb safety integration. Corrected overview, compact phone controls and current safety behavior pass the complete app verification. The final pinned preview at `0ed3a53` passed `test/smoke-upgraded-remote.mjs`: actual completed geometry, native frame and lazy 3D assets loaded from the public host with no JavaScript errors. GitHack presents an initial **Open the page** interstitial; the smoke test follows that normal link. See `upgraded-remote-verification.json` and `upgraded-remote.png` beside the local evidence.
+119 focused source, adapter and safety tests pass after the 566f2ba safety integration. Corrected overview, compact phone controls and current safety behavior pass the complete app verification. The final pinned preview at `0ed3a53` passed `test/smoke-upgraded-remote.mjs`: actual completed geometry, native frame and lazy 3D assets loaded from the public host with no JavaScript errors. GitHack presents an initial **Open the page** interstitial; the smoke test follows that normal link. See `upgraded-remote-verification.json` and `upgraded-remote.png` beside the local evidence.
 
 `public/simulation/preview/upgraded-integration-verification.json` records the actual integrated app test, with companion screenshots. Chrome used SwiftShader and emulated DPR 3; these are not physical phone measurements.
 
-- Cold flat: 2.25 s; first 3D entry: 4.10 s; endpoint switches: 1010/655 ms.
+- Cold flat: 1.99 s; first 3D entry: 3.90 s; endpoint switches: 882/906 ms.
 - Full-domain fit: all 398,613 faces, 250,702 ground triangles, 80,213 water triangles at the tested 3:15 PM frame, no omitted wet faces.
 - Phone close view: all 6 visible tiles, 53,671 ground triangles, DPR capped at 1.
 - Known face 387171: frame 0 depth 0.052069427490234375 m, water elevation 627.9871826171875 m; frame 56 depth 2.1348109375 m, water elevation 630.1162109375 m. Independently decoded values match picking.
-- Frame/range/selection persistence, animation and reduced motion, bridge evidence and underpass navigation passed. No JavaScript, console or shader errors.
-- Collected JS heap: 136.32 MB cold; 209.67 MB broad; 217.16 MB full domain; 214.92 MB peak after pans; 192.15 MB phone close; 217.76 MB phone full domain; 197.08 MB returned flat. This is a bounded observed test sequence, not proof against every device-specific crash or a complete GPU memory measurement.
+- Frame/range/selection persistence, animation and reduced motion, bridge evidence and underpass navigation passed. All 65 area junction markers remain present on both the home and individual route view. The desktop bridge-evidence dialog opens and closes; phone evidence expands inline. No JavaScript, console or shader errors.
+- Collected JS heap: 136.22 MB cold; 210.26 MB broad; 217.75 MB full domain; 215.14 MB peak after pans; 192.37 MB phone close; 217.99 MB phone full domain; 197.17 MB returned flat. This is a bounded observed test sequence, not proof against every device-specific crash or a complete GPU memory measurement.
 
 ## Remaining visual acceptance
 

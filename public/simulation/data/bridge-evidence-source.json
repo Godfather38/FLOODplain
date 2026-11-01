@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "sourceCommit": "c10fef1864a277882faaa88d201c70dc4173c8a2",
   "sourcePath": "tools/sfincs/data/road-dip-refinement/bridge-evidence-registry.json",
-  "sha256": "1bf8728f5b6fdb9932c03e916f42c5a7139ef37c18cfaa13fb049834ab3cd2ee",
+  "sha256": "7163f26bbcc10b30124780737894be288883d29f1159db1f2538a003e1fec394",
   "role": "structure_evidence_only",
   "expandedMeshStatus": "prepared_not_run",
   "expandedModelOutputAvailable": false,

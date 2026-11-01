@@ -32,8 +32,8 @@
     "http://127.0.0.1:8094/inundation/hand-inundation.js",
     "http://127.0.0.1:8094/inundation/forecast-provider.js",
     "http://127.0.0.1:8094/simulation/quadtree-output.js",
-    "http://127.0.0.1:8094/simulation/recent-readings.js",
     "http://127.0.0.1:8094/simulation/inundation-contract.js",
+    "http://127.0.0.1:8094/simulation/recent-readings.js",
     "http://127.0.0.1:8094/inundation/forecast-stations.js",
     "http://127.0.0.1:8094/network.js",
     "http://127.0.0.1:8094/vendor/leaflet/images/layers-2x.png",
@@ -41,9 +41,9 @@
     "http://127.0.0.1:8094/simulation/data/bridge-evidence-registry.json",
     "http://127.0.0.1:8094/simulation/data/bridge-evidence-source.json",
     "http://127.0.0.1:8094/data/routes.geojson",
-    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/manifest.json",
     "http://127.0.0.1:8094/icons/logo.svg",
     "http://127.0.0.1:8094/simulation/data/current-sfincs-manifest.json",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/manifest.json",
     "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?hit=1&new=1",
     "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=usgs",
     "https://services2.arcgis.com/UTBp78iglGpbqp1B/arcgis/rest/services/Road_Closures_viewPAG/FeatureServer/0/query?where=1%3D1&outFields=Location%2CStatus%2CtimeUpdated&returnGeometry=true&outSR=4326&f=json&geometry=-111.31426%2C32.224000000000004%2C-110.97614%2C32.46369&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects",
@@ -71,12 +71,11 @@
     "http://127.0.0.1:8094/simulation/renderer-chunks/chunk-3TDQH4E2.js",
     "http://127.0.0.1:8094/simulation/geographic-view.css",
     "https://tiles.openfreemap.org/planet",
-    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnSUSd_PkGw0GXLgtlkU7pbfYROjcHZq35_oKrVddIW4CpxNq9ZXywYdE-7vyrsFRyIrpMsdahzfmx4zw3usXiG__wERViuPdsKUldW9ZTL5gv8CvDIqp6U80rWRhfeobxFxivptMTmBw7scBccQtPX5PFZPqHgCpQrA50RuPfOc4UBwGaRQcnbxWIoMaNcu0t_e-zJIwekETIkzUhA7Z0PX-eIxrBQBYBHWB0pW-bqBO7ggphTfPG6J9dblMQaOUvaH0BYOeCF07UyTdo7sp6kR7sVJUAxxFUi4TS3B&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/781/1656.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1656.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1656.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/784/1656.pbf",
-    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnTQjSN3O9NeW-Ubgq898hhnosWllgSLTTq8NnpEHJcTOApFw4lUoaq3L51JEJVxYn_hiql8PntXGW4VRY0U9UChaxNqOCbbWYxTdYYRoulWkAqP_wvbl_RXDCqQ3sC0N5A8YUu2orJrFu7q2Bznz2ip-XZCv8qJopHymChecHMLGX6_YDVhPmUEomgEOuboeoxHeqhcnGp5eGaDo1VUUYn-Zg1cpwb6RqD3gGN0v7jSsvYLem18uJtRNw4F17rH0U_TzBM8oDUYvIC7IvmfvIBruk08yzlempzFatqX&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnSkPfz_8voLF5l84UX2noFLVQSvOj3HPruKpSjTKTEsM_8hIHQc3IpQqw0ISktChPin_RcX_puZ5gontGOxBWfOqpoj9k_xfT8676c1ltreEzq4bpdREgignRfIbaOxx01igX7lusuP-EMCDOaO7g43io7dKTpG4x5OrcN87Amn7iVm-PxIqG6o2BNaKYPjMni6hgF7hXRjDOi51FTZbrO2eobUl5ltfinXcZ1rchYzDxuoOLPX5jdNwuR6vXbCVNVK_-lBN0O90FoqqRl6t0KKzgLw3h9TxqE8o7j-&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/781/1657.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1657.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1657.pbf",
@@ -85,10 +84,11 @@
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1658.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1658.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/784/1658.pbf",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRd7YP-izLdi_kTOAK0WVmxHngQsCbIklDZni9zYYsinYZAvnYM9sOpVWoDeWH4r0UQXF40tUj-h0UxDmfKb1_shKFUmLFGyW0JlMLMzxWHXie4O3rKrgJVrQwwV2fiBKm7j9qPdjBalRDrGSLsX7q2DcpY474OuarwT4uSsfkECC8ACFKM4USlehG8kJkemoYoIk3G6Nld1IlcanR-6JPE-n3i9vYh5BO4nG-paoN9vYodlUM1aZN9XSP-GC2iFPk6m-9U5UB0RJFODttiayLO-lpdEH_goZQziYcD&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-22.bin.gz",
     "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-22.bin.gz",
     "http://127.0.0.1:8094/simulation/data/current-sfincs-manifest.json",
     "http://127.0.0.1:8094/hand-model.js?v=dev",
-    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-22.bin.gz",
     "http://127.0.0.1:8094/inundation/data/coverage.json",
     "https://api.water.noaa.gov/nwps/v1/reaches/945050510/streamflow?series=short_range",
     "https://api.water.noaa.gov/nwps/v1/reaches/15877577/streamflow?series=short_range",
@@ -103,8 +103,8 @@
     "https://api.water.noaa.gov/nwps/v1/reaches/15904697/streamflow?series=short_range",
     "http://127.0.0.1:8094/simulation/data/refined-sfincs-publication.json",
     "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-0.bin.gz",
-    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRq8d4F7Z8vHUVyYH9e9AkUr1CvZ9THqMb_9AsWXnB-nu8n95Q0zrLvA08I5-4OEa24otulyr6b9as4pLcHgvSqHpqawAAukeK6_sPh2anhOsFi89-2OlliUT4fdtZgpQecXqVKBISw-YLOT_jvbY7Tmf3tQdOSlKHbQjVBiWFFELhxA-dx725Q5dficQkkwYyaxjoSVirNZqLHs8K3P4ccZmv19SJajf6DPM1CHwz44sy806lxMZZ_m52OYaEXFQSYUE9QTXQtojaqO7WRKHVUqgfEcE78aEa58ero&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
     "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-56.bin.gz",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnQ16kux6zkTpFM1SHSBFKy6H6E5s2NsTJRnYS4Ew6CmD-R-Un4UlyhwFS5n7zx-RmryvN-u-thshaOv26yVWYlY0y9xvZ8stz4h4K4lKG6PjEDXJoxGJstfZlC5md9TUlJO__P0b-kvfdnGmYSVsScAk3XaR7oT5hk610XQwJKybA3UsEre5F1j469lb6L6KLG1vWVa3lz5_bELwbork1K1N8pQ8oMB5dEsq2kKxDhHqobcfdJjI_DVby43ylxA90GLuI25_pEE3cIxJiqqCOrMR4T4ml5Fxxwg-GDo&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
     "http://127.0.0.1:8094/simulation/renderer-chunks/geographic-3d-runtime-B3TM5TO7.js",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-index-water-aware.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-water-support.json.gz",
@@ -148,6 +148,10 @@
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/196/412.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/197/412.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/193/413.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/194/413.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/195/413.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/196/413.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/10/197/413.pbf",
     "https://tile.openstreetmap.org/18/50134/106108.png",
     "https://tile.openstreetmap.org/18/50135/106108.png",
     "https://tile.openstreetmap.org/18/50134/106109.png",
@@ -274,6 +278,7 @@
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/207.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/207.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/208.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/208.pbf",
     "https://tile.openstreetmap.org/18/50134/106108.png",
     "https://tile.openstreetmap.org/18/50135/106108.png",
     "https://tile.openstreetmap.org/18/50134/106109.png",
@@ -282,7 +287,6 @@
     "https://tile.openstreetmap.org/18/50135/106107.png",
     "https://tile.openstreetmap.org/18/50134/106110.png",
     "https://tile.openstreetmap.org/18/50135/106110.png",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/208.pbf",
     "https://tile.openstreetmap.org/11/390/828.png",
     "https://tile.openstreetmap.org/11/391/828.png",
     "https://tile.openstreetmap.org/11/390/829.png",
@@ -302,22 +306,34 @@
     "https://tile.openstreetmap.org/15/6254/13258.png",
     "https://tile.openstreetmap.org/15/6255/13258.png",
     "http://127.0.0.1:8094/icons/logo.svg",
-    "http://127.0.0.1:8094/icons/icon-192.png"
+    "http://127.0.0.1:8094/icons/icon-192.png",
+    "https://tile.openstreetmap.org/15/6254/13256.png",
+    "https://tile.openstreetmap.org/15/6255/13256.png",
+    "https://tile.openstreetmap.org/15/6253/13257.png",
+    "https://tile.openstreetmap.org/15/6256/13257.png",
+    "https://tile.openstreetmap.org/15/6253/13258.png",
+    "https://tile.openstreetmap.org/15/6256/13258.png",
+    "https://tile.openstreetmap.org/15/6254/13259.png",
+    "https://tile.openstreetmap.org/15/6255/13259.png",
+    "https://tile.openstreetmap.org/15/6253/13256.png",
+    "https://tile.openstreetmap.org/15/6256/13256.png",
+    "https://tile.openstreetmap.org/15/6253/13259.png",
+    "https://tile.openstreetmap.org/15/6256/13259.png"
   ],
   "samples": [
     {
       "label": "cold flat",
       "raw": {
-        "usedSize": 224903404,
-        "totalSize": 286986240,
-        "embedderHeapUsedSize": 5108128,
-        "backingStorageSize": 87540038
+        "usedSize": 272334988,
+        "totalSize": 321392640,
+        "embedderHeapUsedSize": 5743296,
+        "backingStorageSize": 98630027
       },
       "collected": {
-        "usedSize": 136324420,
+        "usedSize": 136222372,
         "totalSize": 137469952,
-        "embedderHeapUsedSize": 2829968,
-        "backingStorageSize": 18436483
+        "embedderHeapUsedSize": 2967232,
+        "backingStorageSize": 17956543
       },
       "view": "flat",
       "state": {
@@ -397,16 +413,16 @@
     {
       "label": "initial broad 3D",
       "raw": {
-        "usedSize": 294900156,
-        "totalSize": 356585472,
-        "embedderHeapUsedSize": 3776976,
-        "backingStorageSize": 76512873
+        "usedSize": 297540000,
+        "totalSize": 359993344,
+        "embedderHeapUsedSize": 4103408,
+        "backingStorageSize": 76517777
       },
       "collected": {
-        "usedSize": 209667280,
-        "totalSize": 210841600,
-        "embedderHeapUsedSize": 2743152,
-        "backingStorageSize": 75458855
+        "usedSize": 210258112,
+        "totalSize": 211365888,
+        "embedderHeapUsedSize": 2925232,
+        "backingStorageSize": 75463735
       },
       "view": "3d",
       "state": {
@@ -469,10 +485,10 @@
         "cachedTriangles": 0,
         "levels": [],
         "timings": {
-          "indexMs": 1627.2000000476837,
+          "indexMs": 1320.5,
           "tilesMs": 0,
           "mergeMs": 0,
-          "totalMs": 1628.6000000238419,
+          "totalMs": 1321.800000011921,
           "reused": true
         },
         "terrainKind": "native_face_water_support"
@@ -529,16 +545,16 @@
     {
       "label": "full domain fit",
       "raw": {
-        "usedSize": 311521992,
-        "totalSize": 367558656,
-        "embedderHeapUsedSize": 4246968,
-        "backingStorageSize": 92551150
+        "usedSize": 313896832,
+        "totalSize": 368541696,
+        "embedderHeapUsedSize": 4757128,
+        "backingStorageSize": 92556286
       },
       "collected": {
-        "usedSize": 217160836,
-        "totalSize": 220598272,
-        "embedderHeapUsedSize": 3285328,
-        "backingStorageSize": 81156527
+        "usedSize": 217752732,
+        "totalSize": 220860416,
+        "embedderHeapUsedSize": 3316808,
+        "backingStorageSize": 81161317
       },
       "view": "3d",
       "state": {
@@ -601,10 +617,10 @@
         "cachedTriangles": 0,
         "levels": [],
         "timings": {
-          "indexMs": 2567.599999964237,
+          "indexMs": 2395.899999976158,
           "tilesMs": 0,
           "mergeMs": 0,
-          "totalMs": 2571.5,
+          "totalMs": 2398.5,
           "reused": true
         },
         "terrainKind": "native_face_water_support"
@@ -661,16 +677,16 @@
     {
       "label": "native close",
       "raw": {
-        "usedSize": 305086548,
-        "totalSize": 369098752,
-        "embedderHeapUsedSize": 5776640,
-        "backingStorageSize": 129116168
+        "usedSize": 304781412,
+        "totalSize": 367747072,
+        "embedderHeapUsedSize": 5871528,
+        "backingStorageSize": 129121471
       },
       "collected": {
-        "usedSize": 207250476,
-        "totalSize": 208793600,
-        "embedderHeapUsedSize": 2867488,
-        "backingStorageSize": 55272868
+        "usedSize": 207425320,
+        "totalSize": 209055744,
+        "embedderHeapUsedSize": 2966192,
+        "backingStorageSize": 55278161
       },
       "view": "3d",
       "state": {
@@ -738,10 +754,10 @@
           0
         ],
         "timings": {
-          "indexMs": 101.40000003576279,
-          "tilesMs": 322.30000001192093,
-          "mergeMs": 34.80000001192093,
-          "totalMs": 513.4000000357628,
+          "indexMs": 73,
+          "tilesMs": 344.80000001192093,
+          "mergeMs": 38.59999996423721,
+          "totalMs": 459.7999999523163,
           "reused": false
         },
         "overviewMode": false,
@@ -799,16 +815,16 @@
     {
       "label": "pan 0.004",
       "raw": {
-        "usedSize": 265529620,
-        "totalSize": 302047232,
-        "embedderHeapUsedSize": 3103848,
-        "backingStorageSize": 61903387
+        "usedSize": 261872932,
+        "totalSize": 301895680,
+        "embedderHeapUsedSize": 3237712,
+        "backingStorageSize": 61908683
       },
       "collected": {
-        "usedSize": 204518524,
-        "totalSize": 206934016,
-        "embedderHeapUsedSize": 2895024,
-        "backingStorageSize": 49854306
+        "usedSize": 204695604,
+        "totalSize": 207982592,
+        "embedderHeapUsedSize": 2807808,
+        "backingStorageSize": 49859602
       },
       "view": "3d",
       "state": {
@@ -876,10 +892,10 @@
           1
         ],
         "timings": {
-          "indexMs": 97.80000001192093,
-          "tilesMs": 61.69999998807907,
-          "mergeMs": 18.5,
-          "totalMs": 178.19999998807907,
+          "indexMs": 95.69999998807907,
+          "tilesMs": 82.10000002384186,
+          "mergeMs": 18.299999952316284,
+          "totalMs": 196.39999997615814,
           "reused": false
         },
         "overviewMode": false,
@@ -937,16 +953,16 @@
     {
       "label": "pan -0.004",
       "raw": {
-        "usedSize": 258098416,
-        "totalSize": 288882688,
-        "embedderHeapUsedSize": 3030152,
-        "backingStorageSize": 53363681
+        "usedSize": 259790332,
+        "totalSize": 289931264,
+        "embedderHeapUsedSize": 3218784,
+        "backingStorageSize": 53368992
       },
       "collected": {
-        "usedSize": 201601120,
-        "totalSize": 205893632,
-        "embedderHeapUsedSize": 2888520,
-        "backingStorageSize": 49424876
+        "usedSize": 201361740,
+        "totalSize": 203534336,
+        "embedderHeapUsedSize": 2821072,
+        "backingStorageSize": 49430044
       },
       "view": "3d",
       "state": {
@@ -1014,10 +1030,10 @@
           1
         ],
         "timings": {
-          "indexMs": 13.099999964237213,
-          "tilesMs": 41.19999998807907,
-          "mergeMs": 16.5,
-          "totalMs": 71.09999996423721,
+          "indexMs": 10.600000023841858,
+          "tilesMs": 34.80000001192093,
+          "mergeMs": 20.69999998807907,
+          "totalMs": 66.19999998807907,
           "reused": false
         },
         "overviewMode": false,
@@ -1075,16 +1091,16 @@
     {
       "label": "pan 0",
       "raw": {
-        "usedSize": 278057428,
-        "totalSize": 329891840,
-        "embedderHeapUsedSize": 3034560,
-        "backingStorageSize": 59715620
+        "usedSize": 283731076,
+        "totalSize": 330977280,
+        "embedderHeapUsedSize": 3211520,
+        "backingStorageSize": 59720877
       },
       "collected": {
-        "usedSize": 214924284,
+        "usedSize": 215135468,
         "totalSize": 217608192,
-        "embedderHeapUsedSize": 2699992,
-        "backingStorageSize": 55038922
+        "embedderHeapUsedSize": 2994000,
+        "backingStorageSize": 55044187
       },
       "view": "3d",
       "state": {
@@ -1152,10 +1168,10 @@
           0
         ],
         "timings": {
-          "indexMs": 133.19999998807907,
-          "tilesMs": 2.399999976158142,
-          "mergeMs": 12.300000011920929,
-          "totalMs": 148,
+          "indexMs": 151.89999997615814,
+          "tilesMs": 2.5,
+          "mergeMs": 11.199999988079071,
+          "totalMs": 165.69999998807907,
           "reused": false
         },
         "overviewMode": false,
@@ -1213,16 +1229,16 @@
     {
       "label": "phone DPR3",
       "raw": {
-        "usedSize": 256891748,
-        "totalSize": 297922560,
-        "embedderHeapUsedSize": 3390352,
-        "backingStorageSize": 69824176
+        "usedSize": 259226212,
+        "totalSize": 298971136,
+        "embedderHeapUsedSize": 3511024,
+        "backingStorageSize": 69829433
       },
       "collected": {
-        "usedSize": 192151380,
-        "totalSize": 195358720,
-        "embedderHeapUsedSize": 2873864,
-        "backingStorageSize": 46972426
+        "usedSize": 192373352,
+        "totalSize": 195096576,
+        "embedderHeapUsedSize": 2990376,
+        "backingStorageSize": 46977676
       },
       "view": "3d",
       "state": {
@@ -1288,10 +1304,10 @@
           0
         ],
         "timings": {
-          "indexMs": 133.5,
-          "tilesMs": 30.30000001192093,
-          "mergeMs": 9.300000011920929,
-          "totalMs": 173.19999998807907,
+          "indexMs": 123.69999998807907,
+          "tilesMs": 40.80000001192093,
+          "mergeMs": 11.800000011920929,
+          "totalMs": 176.30000001192093,
           "reused": false
         },
         "overviewMode": false,
@@ -1349,16 +1365,16 @@
     {
       "label": "phone full domain",
       "raw": {
-        "usedSize": 407739008,
-        "totalSize": 463421440,
-        "embedderHeapUsedSize": 3147360,
-        "backingStorageSize": 75663931
+        "usedSize": 390973780,
+        "totalSize": 470360064,
+        "embedderHeapUsedSize": 3219360,
+        "backingStorageSize": 75669200
       },
       "collected": {
-        "usedSize": 217756236,
-        "totalSize": 220758016,
-        "embedderHeapUsedSize": 2982248,
-        "backingStorageSize": 72711025
+        "usedSize": 217992032,
+        "totalSize": 221282304,
+        "embedderHeapUsedSize": 3035400,
+        "backingStorageSize": 72716273
       },
       "view": "3d",
       "state": {
@@ -1424,10 +1440,10 @@
         "cachedTriangles": 275638,
         "levels": [],
         "timings": {
-          "indexMs": 341,
-          "tilesMs": 0.19999998807907104,
+          "indexMs": 258.80000001192093,
+          "tilesMs": 0.09999996423721313,
           "mergeMs": 0,
-          "totalMs": 345,
+          "totalMs": 262.19999998807907,
           "reused": false
         },
         "terrainKind": "native_face_water_support"
@@ -1484,16 +1500,16 @@
     {
       "label": "returned flat",
       "raw": {
-        "usedSize": 214771380,
-        "totalSize": 247816192,
-        "embedderHeapUsedSize": 5276632,
-        "backingStorageSize": 74078772
+        "usedSize": 215712532,
+        "totalSize": 254631936,
+        "embedderHeapUsedSize": 5419064,
+        "backingStorageSize": 74083541
       },
       "collected": {
-        "usedSize": 197081536,
-        "totalSize": 198504448,
-        "embedderHeapUsedSize": 3483912,
-        "backingStorageSize": 46978351
+        "usedSize": 197171576,
+        "totalSize": 198766592,
+        "embedderHeapUsedSize": 3569320,
+        "backingStorageSize": 46983058
       },
       "view": "flat",
       "state": {
@@ -1559,10 +1575,10 @@
           0
         ],
         "timings": {
-          "indexMs": 31.5,
-          "tilesMs": 0,
-          "mergeMs": 7.199999988079071,
-          "totalMs": 38.80000001192093,
+          "indexMs": 21.69999998807907,
+          "tilesMs": 0.09999996423721313,
+          "mergeMs": 10.300000011920929,
+          "totalMs": 32.30000001192093,
           "reused": false
         },
         "overviewMode": false,
@@ -1619,24 +1635,24 @@
     }
   ],
   "timings": {
-    "coldReadyMs": 2246,
-    "entryMs": 4095,
-    "frame0Ms": 1010,
-    "frame56Ms": 655
+    "coldReadyMs": 1985,
+    "entryMs": 3902,
+    "frame0Ms": 882,
+    "frame56Ms": 906
   },
   "cold": {
     "label": "cold flat",
     "raw": {
-      "usedSize": 224903404,
-      "totalSize": 286986240,
-      "embedderHeapUsedSize": 5108128,
-      "backingStorageSize": 87540038
+      "usedSize": 272334988,
+      "totalSize": 321392640,
+      "embedderHeapUsedSize": 5743296,
+      "backingStorageSize": 98630027
     },
     "collected": {
-      "usedSize": 136324420,
+      "usedSize": 136222372,
       "totalSize": 137469952,
-      "embedderHeapUsedSize": 2829968,
-      "backingStorageSize": 18436483
+      "embedderHeapUsedSize": 2967232,
+      "backingStorageSize": 17956543
     },
     "view": "flat",
     "state": {
@@ -1749,16 +1765,16 @@
   "broad": {
     "label": "initial broad 3D",
     "raw": {
-      "usedSize": 294900156,
-      "totalSize": 356585472,
-      "embedderHeapUsedSize": 3776976,
-      "backingStorageSize": 76512873
+      "usedSize": 297540000,
+      "totalSize": 359993344,
+      "embedderHeapUsedSize": 4103408,
+      "backingStorageSize": 76517777
     },
     "collected": {
-      "usedSize": 209667280,
-      "totalSize": 210841600,
-      "embedderHeapUsedSize": 2743152,
-      "backingStorageSize": 75458855
+      "usedSize": 210258112,
+      "totalSize": 211365888,
+      "embedderHeapUsedSize": 2925232,
+      "backingStorageSize": 75463735
     },
     "view": "3d",
     "state": {
@@ -1821,10 +1837,10 @@
       "cachedTriangles": 0,
       "levels": [],
       "timings": {
-        "indexMs": 1627.2000000476837,
+        "indexMs": 1320.5,
         "tilesMs": 0,
         "mergeMs": 0,
-        "totalMs": 1628.6000000238419,
+        "totalMs": 1321.800000011921,
         "reused": true
       },
       "terrainKind": "native_face_water_support"
@@ -1881,16 +1897,16 @@
   "fullDomain": {
     "label": "full domain fit",
     "raw": {
-      "usedSize": 311521992,
-      "totalSize": 367558656,
-      "embedderHeapUsedSize": 4246968,
-      "backingStorageSize": 92551150
+      "usedSize": 313896832,
+      "totalSize": 368541696,
+      "embedderHeapUsedSize": 4757128,
+      "backingStorageSize": 92556286
     },
     "collected": {
-      "usedSize": 217160836,
-      "totalSize": 220598272,
-      "embedderHeapUsedSize": 3285328,
-      "backingStorageSize": 81156527
+      "usedSize": 217752732,
+      "totalSize": 220860416,
+      "embedderHeapUsedSize": 3316808,
+      "backingStorageSize": 81161317
     },
     "view": "3d",
     "state": {
@@ -1953,10 +1969,10 @@
       "cachedTriangles": 0,
       "levels": [],
       "timings": {
-        "indexMs": 2567.599999964237,
+        "indexMs": 2395.899999976158,
         "tilesMs": 0,
         "mergeMs": 0,
-        "totalMs": 2571.5,
+        "totalMs": 2398.5,
         "reused": true
       },
       "terrainKind": "native_face_water_support"
@@ -2041,16 +2057,16 @@
   "near": {
     "label": "native close",
     "raw": {
-      "usedSize": 305086548,
-      "totalSize": 369098752,
-      "embedderHeapUsedSize": 5776640,
-      "backingStorageSize": 129116168
+      "usedSize": 304781412,
+      "totalSize": 367747072,
+      "embedderHeapUsedSize": 5871528,
+      "backingStorageSize": 129121471
     },
     "collected": {
-      "usedSize": 207250476,
-      "totalSize": 208793600,
-      "embedderHeapUsedSize": 2867488,
-      "backingStorageSize": 55272868
+      "usedSize": 207425320,
+      "totalSize": 209055744,
+      "embedderHeapUsedSize": 2966192,
+      "backingStorageSize": 55278161
     },
     "view": "3d",
     "state": {
@@ -2118,10 +2134,10 @@
         0
       ],
       "timings": {
-        "indexMs": 101.40000003576279,
-        "tilesMs": 322.30000001192093,
-        "mergeMs": 34.80000001192093,
-        "totalMs": 513.4000000357628,
+        "indexMs": 73,
+        "tilesMs": 344.80000001192093,
+        "mergeMs": 38.59999996423721,
+        "totalMs": 459.7999999523163,
         "reused": false
       },
       "overviewMode": false,
@@ -2179,16 +2195,16 @@
   "phone": {
     "label": "phone DPR3",
     "raw": {
-      "usedSize": 256891748,
-      "totalSize": 297922560,
-      "embedderHeapUsedSize": 3390352,
-      "backingStorageSize": 69824176
+      "usedSize": 259226212,
+      "totalSize": 298971136,
+      "embedderHeapUsedSize": 3511024,
+      "backingStorageSize": 69829433
     },
     "collected": {
-      "usedSize": 192151380,
-      "totalSize": 195358720,
-      "embedderHeapUsedSize": 2873864,
-      "backingStorageSize": 46972426
+      "usedSize": 192373352,
+      "totalSize": 195096576,
+      "embedderHeapUsedSize": 2990376,
+      "backingStorageSize": 46977676
     },
     "view": "3d",
     "state": {
@@ -2254,10 +2270,10 @@
         0
       ],
       "timings": {
-        "indexMs": 133.5,
-        "tilesMs": 30.30000001192093,
-        "mergeMs": 9.300000011920929,
-        "totalMs": 173.19999998807907,
+        "indexMs": 123.69999998807907,
+        "tilesMs": 40.80000001192093,
+        "mergeMs": 11.800000011920929,
+        "totalMs": 176.30000001192093,
         "reused": false
       },
       "overviewMode": false,
@@ -2315,16 +2331,16 @@
   "phoneOverview": {
     "label": "phone full domain",
     "raw": {
-      "usedSize": 407739008,
-      "totalSize": 463421440,
-      "embedderHeapUsedSize": 3147360,
-      "backingStorageSize": 75663931
+      "usedSize": 390973780,
+      "totalSize": 470360064,
+      "embedderHeapUsedSize": 3219360,
+      "backingStorageSize": 75669200
     },
     "collected": {
-      "usedSize": 217756236,
-      "totalSize": 220758016,
-      "embedderHeapUsedSize": 2982248,
-      "backingStorageSize": 72711025
+      "usedSize": 217992032,
+      "totalSize": 221282304,
+      "embedderHeapUsedSize": 3035400,
+      "backingStorageSize": 72716273
     },
     "view": "3d",
     "state": {
@@ -2390,10 +2406,10 @@
       "cachedTriangles": 275638,
       "levels": [],
       "timings": {
-        "indexMs": 341,
-        "tilesMs": 0.19999998807907104,
+        "indexMs": 258.80000001192093,
+        "tilesMs": 0.09999996423721313,
         "mergeMs": 0,
-        "totalMs": 345,
+        "totalMs": 262.19999998807907,
         "reused": false
       },
       "terrainKind": "native_face_water_support"
@@ -2450,16 +2466,16 @@
   "flat": {
     "label": "returned flat",
     "raw": {
-      "usedSize": 214771380,
-      "totalSize": 247816192,
-      "embedderHeapUsedSize": 5276632,
-      "backingStorageSize": 74078772
+      "usedSize": 215712532,
+      "totalSize": 254631936,
+      "embedderHeapUsedSize": 5419064,
+      "backingStorageSize": 74083541
     },
     "collected": {
-      "usedSize": 197081536,
-      "totalSize": 198504448,
-      "embedderHeapUsedSize": 3483912,
-      "backingStorageSize": 46978351
+      "usedSize": 197171576,
+      "totalSize": 198766592,
+      "embedderHeapUsedSize": 3569320,
+      "backingStorageSize": 46983058
     },
     "view": "flat",
     "state": {
@@ -2525,10 +2541,10 @@
         0
       ],
       "timings": {
-        "indexMs": 31.5,
-        "tilesMs": 0,
-        "mergeMs": 7.199999988079071,
-        "totalMs": 38.80000001192093,
+        "indexMs": 21.69999998807907,
+        "tilesMs": 0.09999996423721313,
+        "mergeMs": 10.300000011920929,
+        "totalMs": 32.30000001192093,
         "reused": false
       },
       "overviewMode": false,
@@ -2584,7 +2600,7 @@
     }
   },
   "safety": {
-    "text": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nTrico-Marana river bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nTrico-Marana river bridge: estimated road 590.85 m; modeled water 586.72 m. Water is 4.13 m below the estimated roadway at Nov 2, 5:00 AM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n3\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,710 cfs in Brawley Wash near Three Points: a flood is coming down the wash toward this crossing\nAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
+    "text": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nTrico-Marana river bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n😇\nTrico-Marana river bridge\nWater stays below the road\n4.13 m\nbelow roadway\nROAD\nModel estimate · Nov 2, 5:00 AM Arizona\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n3\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n😇\nAvra Valley Rd river bridge\nWater stays below the road\n6.70 m\nbelow roadway\nROAD\nModel estimate · Nov 1, 4:00 PM Arizona\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,710 cfs in Brawley Wash near Three Points: a flood is coming down the wash toward this crossing\n😇\nAvra Valley Rd river bridge\nWater stays below the road\n6.70 m\nbelow roadway\nROAD\nModel estimate · Nov 1, 4:00 PM Arizona\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
     "links": [
       {
         "text": "Details",
@@ -2611,11 +2627,11 @@
         "href": "#/r/silverbell-north"
       },
       {
-        "text": "\n          2\n          Silverbell–Sanders south20 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the areaAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.Both NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n          ›\n        ",
+        "text": "\n          2\n          Silverbell–Sanders south20 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area😇Avra Valley Rd river bridgeWater stays below the road6.70 mbelow roadwayROADModel estimate · Nov 1, 4:00 PM Arizona\n          ›\n        ",
         "href": "#/r/silverbell-south"
       },
       {
-        "text": "\n          5\n          Avra Valley Rd20 min · Brawley Wash dip: 1,710 cfs in Brawley Wash near Three Points: a flood is coming down the wash toward this crossingAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.Both NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n          ›\n        ",
+        "text": "\n          5\n          Avra Valley Rd20 min · Brawley Wash dip: 1,710 cfs in Brawley Wash near Three Points: a flood is coming down the wash toward this crossing😇Avra Valley Rd river bridgeWater stays below the road6.70 mbelow roadwayROADModel estimate · Nov 1, 4:00 PM Arizona\n          ›\n        ",
         "href": "#/r/avra"
       },
       {
@@ -2651,11 +2667,15 @@
         "href": "#/privacy"
       }
     ],
-    "underpasses": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nTrico-Marana river bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nTrico-Marana river bridge: estimated road 590.85 m; modeled water 586.72 m. Water is 4.13 m below the estimated roadway at Nov 2, 5:00 AM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n3\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,710 cfs in Brawley Wash near Three Points: a flood is coming down the wash toward this crossing\nAvra Valley Rd river bridge: estimated road 634.35 m; modeled water 627.65 m. Water is 6.70 m below the estimated roadway at Nov 1, 4:00 PM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
-    "routeCard": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n2\nMinor\n😇\n\nCounty barricades on it are marked Open.\n\nSave route\n\nWorking against it\n2\nLos Robles bridge\nNWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\n2\nTrico-Marana river bridge\nTrico-Marana river bridge: estimated road 590.85 m; modeled water 586.72 m. Water is 4.13 m below the estimated roadway at Nov 2, 5:00 AM Arizona. This comparison adds no bridge-flooding penalty; other hazards still apply.\nBoth NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.\nNWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\nNavigate",
+    "junctionCount": 65,
+    "underpasses": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\nTrico-Marana river bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n😇\nTrico-Marana river bridge\nWater stays below the road\n4.13 m\nbelow roadway\nROAD\nModel estimate · Nov 2, 5:00 AM Arizona\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n3\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n😇\nAvra Valley Rd river bridge\nWater stays below the road\n6.70 m\nbelow roadway\nROAD\nModel estimate · Nov 1, 4:00 PM Arizona\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,710 cfs in Brawley Wash near Three Points: a flood is coming down the wash toward this crossing\n😇\nAvra Valley Rd river bridge\nWater stays below the road\n6.70 m\nbelow roadway\nROAD\nModel estimate · Nov 1, 4:00 PM Arizona\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
+    "routeCard": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n2\nMinor\n😇\n\nCounty barricades on it are marked Open.\n\nSave route\n\nWorking against it\n2\nLos Robles bridge\nNWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\n2\nTrico-Marana river bridge\n😇\nTrico-Marana river bridge\nWater stays below the road\n4.13 m\nbelow roadway\nROAD\nModel estimate · Nov 2, 5:00 AM Arizona\nNWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area\n›\nNavigate",
+    "routeJunctionCount": 65,
     "bridge": [
-      "Trico-Marana river bridge: height & historyEstimated roadway heightAbout 590.85 m NAVD88. Approach samples: 590.844 and 590.846 m. Road profile source. Straight span roadway profile inferred between intact near-span approaches; no surveyed deck or camber measurement. Retained 1 m Pima County 2021 bare-earth terrain; acquired 2021-10-06. Total elevation uncertainty is not quantified. Sample-window spread is not an accuracy/confidence interval. Deck camber, structural clearance and changes since terrain acquisition remain unknown.Highest remaining modeled water elevation586.72 m NAVD88 at 11/2/2026, 5:00:00 AM Arizona time. Estimated road is 4.13 m above that modeled water surface. This is roadway height difference, not under-bridge clearance.Water source and periodNative SFINCS water surface, 100 m cell 15761 containing this bridge. Issued 2026-11-01T21:09:28.696154+00:00; forecast 2026-11-01T22:00:00Z through 2026-11-02T12:00:00Z. Native zs in the unchanged 100 m model cell containing this bridge coordinate. Not gauge flow or cell-average depth. Bridge opening is not explicitly modeled. Model source.Under-bridge clearanceUnderside elevation is unavailable. Roadway height is not underside height; gauge flow in cfs is not water elevation.Documented flooding or overtoppingNo confirmed structure-specific flooding history linked. Generic 2014 Trico Road photographs are not confirmed as structure 09552 and are not assigned to this bridge.Current readings and official barricade reports are shown below. Bridge ratings use site-matched roadway/water comparisons and reported hazards; flow cutoffs do not determine bridge inundation.Evidence sourceStructure matched by its recorded coordinates; map tag, not survey confirmation. Registry c10fef1864a277882faaa88d201c70dc4173c8a2. Structure evidence is separate from model coverage and current official closures."
-    ]
+      "Sources & warning levelsEstimated roadway heightAbout 590.85 m NAVD88. Approach samples: 590.844 and 590.846 m. Road profile source. Straight span roadway profile inferred between intact near-span approaches; no surveyed deck or camber measurement. Retained 1 m Pima County 2021 bare-earth terrain; acquired 2021-10-06. Total elevation uncertainty is not quantified. Sample-window spread is not an accuracy/confidence interval. Deck camber, structural clearance and changes since terrain acquisition remain unknown.Highest remaining modeled water elevation586.72 m NAVD88 at 11/2/2026, 5:00:00 AM Arizona time. Estimated road is 4.13 m above that modeled water surface. This is roadway height difference, not under-bridge clearance.Water source and periodNative SFINCS water surface, 100 m cell 15761 containing this bridge. Issued 2026-11-01T21:09:28.696154+00:00; forecast 2026-11-01T22:00:00Z through 2026-11-02T12:00:00Z. Native zs in the unchanged 100 m model cell containing this bridge coordinate. Not gauge flow or cell-average depth. Bridge opening is not explicitly modeled. Model source.Bridge warning policyChannel reference 586.159 m NAVD88; estimated road height above channel 4.691 m. Warning at 590.381 m; roadway concern at 590.850 m; likely closed — model estimate at 591.319 m. modeled water below the bridge warning level. Operator-selected 90% / 100% / 110% policy, not a measured error bound. Channel terrain source. Retained 1 m Pima 2021 bare-earth terrain at the mapped river crossing under this bridge (deck removed). Single channel-ground reference, not surveyed bathymetry or the lowest channel point.Under-bridge clearanceUnderside elevation is unavailable. Roadway height is not underside height; gauge flow in cfs is not water elevation.Documented flooding or overtoppingNo confirmed structure-specific flooding history linked. Generic 2014 Trico Road photographs are not confirmed as structure 09552 and are not assigned to this bridge.Current readings and official barricade reports are shown below. Bridge ratings use site-matched roadway/water comparisons and reported hazards; flow cutoffs do not determine bridge inundation.Evidence sourceStructure matched by its recorded coordinates; map tag, not survey confirmation. Registry c10fef1864a277882faaa88d201c70dc4173c8a2. Structure evidence is separate from model coverage and current official closures."
+    ],
+    "desktopEvidence": "Bridge sources & warning levels\n×\nEstimated roadway height\nAbout 590.85 m NAVD88. Approach samples: 590.844 and 590.846 m. Road profile source. Straight span roadway profile inferred between intact near-span approaches; no surveyed deck or camber measurement. Retained 1 m Pima County 2021 bare-earth terrain; acquired 2021-10-06. Total elevation uncertainty is not quantified. Sample-window spread is not an accuracy/confidence interval. Deck camber, structural clearance and changes since terrain acquisition remain unknown.\nHighest remaining modeled water elevation\n586.72 m NAVD88 at 11/2/2026, 5:00:00 AM Arizona time. Estimated road is 4.13 m above that modeled water surface. This is roadway height difference, not under-bridge clearance.\nWater source and period\nNative SFINCS water surface, 100 m cell 15761 containing this bridge. Issued 2026-11-01T21:09:28.696154+00:00; forecast 2026-11-01T22:00:00Z through 2026-11-02T12:00:00Z. Native zs in the unchanged 100 m model cell containing this bridge coordinate. Not gauge flow or cell-average depth. Bridge opening is not explicitly modeled. Model source.\nBridge warning policy\nChannel reference 586.159 m NAVD88; estimated road height above channel 4.691 m. Warning at 590.381 m; roadway concern at 590.850 m; likely closed — model estimate at 591.319 m. modeled water below the bridge warning level. Operator-selected 90% / 100% / 110% policy, not a measured error bound. Channel terrain source. Retained 1 m Pima 2021 bare-earth terrain at the mapped river crossing under this bridge (deck removed). Single channel-ground reference, not surveyed bathymetry or the lowest channel point.\nUnder-bridge clearance\nUnderside elevation is unavailable. Roadway height is not underside height; gauge flow in cfs is not water elevation.\nDocumented flooding or overtopping\nNo confirmed structure-specific flooding history linked. Generic 2014 Trico Road photographs are not confirmed as structure 09552 and are not assigned to this bridge.\n\nCurrent readings and official barricade reports are shown below. Bridge ratings use site-matched roadway/water comparisons and reported hazards; flow cutoffs do not determine bridge inundation.\n\nEvidence source",
+    "desktopEvidenceCloses": true
   },
   "passed": true
 }

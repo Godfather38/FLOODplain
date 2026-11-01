@@ -169,7 +169,23 @@
           "interpretationLimit": "Not a measured deck/soffit elevation, overtopping threshold, or current closure. Do not attach this Santa Cruz event to Los Robles."
         }
       ],
-      "historyLimit": "Generic 2014 Trico Road photographs are not confirmed as structure 09552 and are not assigned to this bridge."
+      "historyLimit": "Generic 2014 Trico Road photographs are not confirmed as structure 09552 and are not assigned to this bridge.",
+      "channelReference": {
+        "elevationM": 586.1588745117188,
+        "verticalDatum": "NAVD88",
+        "structureId": "09552",
+        "location": {
+          "type": "Point",
+          "coordinates": [
+            -111.27985,
+            32.45369
+          ]
+        },
+        "source": "simulation/data/trico-marana-09552-terrain-samples.json",
+        "sourceAnchor": "route_river_crossing",
+        "method": "Retained 1 m Pima 2021 bare-earth terrain at the mapped river crossing under this bridge (deck removed). Single channel-ground reference, not surveyed bathymetry or the lowest channel point.",
+        "terrainTile": "terrain-1m-473000-3590000.tif"
+      }
     },
     {
       "id": "bridge-3",
@@ -382,7 +398,23 @@
           }
         ]
       },
-      "structureId": "10125"
+      "structureId": "10125",
+      "channelReference": {
+        "elevationM": 627.0651245117188,
+        "verticalDatum": "NAVD88",
+        "structureId": "10125",
+        "location": {
+          "type": "Point",
+          "coordinates": [
+            -111.14628276162284,
+            32.40251301714451
+          ]
+        },
+        "source": "simulation/data/avra-valley-santa-cruz-terrain-samples.json",
+        "sourceAnchor": "ADOT_bridge_point",
+        "method": "Retained 1 m Pima 2021 bare-earth terrain at the mapped river crossing under this bridge (deck removed). Single channel-ground reference, not surveyed bathymetry or the lowest channel point.",
+        "terrainTile": "terrain-1m-486000-3585000.tif"
+      }
     }
   ],
   "policy": "Unknown measurements stay null; no generic bridge hazard multiplier",
