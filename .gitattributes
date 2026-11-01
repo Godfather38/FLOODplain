@@ -10,3 +10,7 @@ public/simulation/data/storm-2014-legacy/*.json -text
 test/fixtures/stage4/* -text
 public/simulation/data/stage4-forcing-2014-provenance.json -text
 public/simulation/data/sfincs-trico-stage4-2014.json -text
+
+public/simulation/data/stage4-reach-2014-provenance.json -text
+public/simulation/data/sfincs-reach-stage4-2014.json -text
+tools/sfincs/data/reach-result/* -text

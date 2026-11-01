@@ -15,3 +15,10 @@ Event totals across the exported crop range from **21.14 to 32.52 mm**. The Tric
 Original 72 GRIB files (88,163,146 bytes total) remain in the workspace `../rainfall-cache`, outside Git. Reproduce with `tools/simulation/build_stage4_forcing.py` using ecCodes; it reuses cached originals and otherwise retrieves only these bounded hourly files. Derived arrays and all original-file hashes are committed. No fitted scaling or blending with historical PNG rainfall occurs.
 
 This replaces the incomplete PNG forcing for a labeled rainfall scenario. It supplies neither upstream river discharge nor downstream water levels. The solver owner must specify those boundaries; the previous recorded rain-only SFINCS output has not been rerun or relabeled as a flood reconstruction.
+
+
+## Expanded Cortaro-Trico reach crop
+
+`public/simulation/data/sfincs-reach-stage4-2014.json` extends the same 72-hour source sequence to padded bounds [-111.37, 32.31, -111.05, 32.52], a 22-by-33 regular geographic grid. Its independent provenance is `stage4-reach-2014-provenance.json`; the earlier crop and its provenance are unchanged. Generate using `build_stage4_forcing.py --reach`. Native coordinates are decoded once and great-circle nearest cells are selected; ecCodes independently checks corners and center. This accelerates the same nearest-native-cell sampling. All original GRIB files are reused from cache.
+
+The reach solver starts September 7 for spinup; this rainfall sequence begins September 8 07Z. Do not silently pad the earlier 24 hours with observed-dry rainfall: choose a documented spinup policy or obtain those hours separately.
