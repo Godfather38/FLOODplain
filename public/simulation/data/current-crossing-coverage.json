@@ -1,0 +1,1073 @@
+{
+  "schemaVersion": 1,
+  "runId": "frozen-20261101-nwm13z-41327417204",
+  "artifactSha256": "6a06c140891d35214840573a73422b3461e7105492e5b60cd753c1815e5ff7ad",
+  "source": {
+    "crossingsPath": "public/data/crossings.geojson",
+    "crossingsSha256": "c89df50ef139da3b6e0e36d503c1583193882ac62afcfb928a7e00011e0afddf",
+    "footprintsPath": "data/frozen-cell-footprints.json.gz",
+    "footprintsSha256": "d70a5641f5f6d1cd92c9c064833f084aff8ab527b328b32ac78833fc754f920b"
+  },
+  "records": [
+    {
+      "crossingId": "route-crossing-0",
+      "sourceRecordIndex": 0,
+      "routeId": "trico",
+      "road": "North Trico Road",
+      "watercourse": "Los Robles Wash",
+      "location": {
+        "lon": -111.30426,
+        "lat": 32.43882
+      },
+      "appCrossingIds": [
+        "losrobles-bridge"
+      ],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-1",
+      "sourceRecordIndex": 1,
+      "routeId": "trico",
+      "road": "West Trico Marana Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "lon": -111.27985,
+        "lat": 32.45369
+      },
+      "appCrossingIds": [
+        "sc-trico-marana"
+      ],
+      "status": "inside_native_cell",
+      "cellIndex": 15761,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-2",
+      "sourceRecordIndex": 2,
+      "routeId": "avra",
+      "road": "West Avra Valley Road",
+      "watercourse": "Brawley Wash",
+      "location": {
+        "lon": -111.29459,
+        "lat": 32.39322
+      },
+      "appCrossingIds": [
+        "brawley-dip"
+      ],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-3",
+      "sourceRecordIndex": 3,
+      "routeId": "avra",
+      "road": "West Avra Valley Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.27659,
+        "lat": 32.39329
+      },
+      "appCrossingIds": [
+        "elpaso-dip"
+      ],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-4",
+      "sourceRecordIndex": 4,
+      "routeId": "avra",
+      "road": "West Avra Valley Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.26095,
+        "lat": 32.39514
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-5",
+      "sourceRecordIndex": 5,
+      "routeId": "avra",
+      "road": "West Avra Valley Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.24501,
+        "lat": 32.40131
+      },
+      "appCrossingIds": [
+        "clayton-dip"
+      ],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-6",
+      "sourceRecordIndex": 6,
+      "routeId": "avra",
+      "road": "West Avra Valley Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "lon": -111.14566,
+        "lat": 32.40271
+      },
+      "appCrossingIds": [],
+      "status": "inside_native_cell",
+      "cellIndex": 6805,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-7",
+      "sourceRecordIndex": 7,
+      "routeId": "avra",
+      "road": "West Avra Valley Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.14714,
+        "lat": 32.40224
+      },
+      "appCrossingIds": [],
+      "status": "inside_native_cell",
+      "cellIndex": 6803,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-8",
+      "sourceRecordIndex": 8,
+      "routeId": "avra",
+      "road": "West Avra Valley Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "lon": -111.14614,
+        "lat": 32.40256
+      },
+      "appCrossingIds": [
+        "sc-avra"
+      ],
+      "status": "inside_native_cell",
+      "cellIndex": 6804,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-9",
+      "sourceRecordIndex": 9,
+      "routeId": "silverbell-north",
+      "road": "North Trico Road",
+      "watercourse": "Los Robles Wash",
+      "location": {
+        "lon": -111.30426,
+        "lat": 32.43882
+      },
+      "appCrossingIds": [
+        "losrobles-bridge"
+      ],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-10",
+      "sourceRecordIndex": 10,
+      "routeId": "silverbell-north",
+      "road": "North Sanders Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.23395,
+        "lat": 32.43484
+      },
+      "appCrossingIds": [],
+      "status": "inside_native_cell",
+      "cellIndex": 12288,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-11",
+      "sourceRecordIndex": 11,
+      "routeId": "silverbell-north",
+      "road": "North Sanders Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "lon": -111.23395,
+        "lat": 32.43488
+      },
+      "appCrossingIds": [
+        "sc-sanders"
+      ],
+      "status": "inside_native_cell",
+      "cellIndex": 12288,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-12",
+      "sourceRecordIndex": 12,
+      "routeId": "silverbell-south",
+      "road": "North Trico Road",
+      "watercourse": "Los Robles Wash",
+      "location": {
+        "lon": -111.30426,
+        "lat": 32.43882
+      },
+      "appCrossingIds": [
+        "losrobles-bridge"
+      ],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-13",
+      "sourceRecordIndex": 13,
+      "routeId": "silverbell-south",
+      "road": "West Avra Valley Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "lon": -111.14566,
+        "lat": 32.40271
+      },
+      "appCrossingIds": [],
+      "status": "inside_native_cell",
+      "cellIndex": 6805,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-14",
+      "sourceRecordIndex": 14,
+      "routeId": "silverbell-south",
+      "road": "West Avra Valley Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.14714,
+        "lat": 32.40224
+      },
+      "appCrossingIds": [],
+      "status": "inside_native_cell",
+      "cellIndex": 6803,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-15",
+      "sourceRecordIndex": 15,
+      "routeId": "silverbell-south",
+      "road": "West Avra Valley Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "lon": -111.14614,
+        "lat": 32.40256
+      },
+      "appCrossingIds": [
+        "sc-avra"
+      ],
+      "status": "inside_native_cell",
+      "cellIndex": 6804,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-16",
+      "sourceRecordIndex": 16,
+      "routeId": "pr-ina",
+      "road": "West Picture Rocks Road",
+      "watercourse": "Picture Rocks Wash Trail",
+      "location": {
+        "lon": -111.12082,
+        "lat": 32.32598
+      },
+      "appCrossingIds": [
+        "pr-picture-rocks-wash"
+      ],
+      "status": "inside_native_cell",
+      "cellIndex": 685,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-17",
+      "sourceRecordIndex": 17,
+      "routeId": "pr-ina",
+      "road": "West Ina Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.10526,
+        "lat": 32.33758
+      },
+      "appCrossingIds": [
+        "pr-ina-flat"
+      ],
+      "status": "inside_native_cell",
+      "cellIndex": 1114,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-18",
+      "sourceRecordIndex": 18,
+      "routeId": "pr-ina",
+      "road": "West Ina Road",
+      "watercourse": "Yuma Mine Wash",
+      "location": {
+        "lon": -111.09519,
+        "lat": 32.33759
+      },
+      "appCrossingIds": [
+        "pr-yuma-mine"
+      ],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-19",
+      "sourceRecordIndex": 19,
+      "routeId": "pr-ina",
+      "road": "West Ina Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.08896,
+        "lat": 32.33763
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-20",
+      "sourceRecordIndex": 20,
+      "routeId": "pr-ina",
+      "road": "West Ina Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "lon": -111.08151,
+        "lat": 32.33759
+      },
+      "appCrossingIds": [
+        "sc-ina"
+      ],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-21",
+      "sourceRecordIndex": 21,
+      "routeId": "pr-ina",
+      "road": "West Ina Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.08202,
+        "lat": 32.33759
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-22",
+      "sourceRecordIndex": 22,
+      "routeId": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.1768,
+        "lat": 32.38086
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-23",
+      "sourceRecordIndex": 23,
+      "routeId": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.14869,
+        "lat": 32.37825
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-24",
+      "sourceRecordIndex": 24,
+      "routeId": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.13049,
+        "lat": 32.37543
+      },
+      "appCrossingIds": [],
+      "status": "inside_native_cell",
+      "cellIndex": 4823,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-25",
+      "sourceRecordIndex": 25,
+      "routeId": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.12718,
+        "lat": 32.37504
+      },
+      "appCrossingIds": [],
+      "status": "inside_native_cell",
+      "cellIndex": 4826,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-26",
+      "sourceRecordIndex": 26,
+      "routeId": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.12358,
+        "lat": 32.37462
+      },
+      "appCrossingIds": [],
+      "status": "inside_native_cell",
+      "cellIndex": 4760,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-27",
+      "sourceRecordIndex": 27,
+      "routeId": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "lon": -111.11538,
+        "lat": 32.37581
+      },
+      "appCrossingIds": [
+        "sc-twinpeaks"
+      ],
+      "status": "inside_native_cell",
+      "cellIndex": 4837,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-28",
+      "sourceRecordIndex": 28,
+      "routeId": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.11379,
+        "lat": 32.37655
+      },
+      "appCrossingIds": [],
+      "status": "inside_native_cell",
+      "cellIndex": 4902,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-29",
+      "sourceRecordIndex": 29,
+      "routeId": "pr-avra",
+      "road": "West Avra Valley Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "lon": -111.14566,
+        "lat": 32.40271
+      },
+      "appCrossingIds": [],
+      "status": "inside_native_cell",
+      "cellIndex": 6805,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-30",
+      "sourceRecordIndex": 30,
+      "routeId": "pr-avra",
+      "road": "West Avra Valley Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.14714,
+        "lat": 32.40224
+      },
+      "appCrossingIds": [],
+      "status": "inside_native_cell",
+      "cellIndex": 6803,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-31",
+      "sourceRecordIndex": 31,
+      "routeId": "pr-avra",
+      "road": "West Avra Valley Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "lon": -111.14614,
+        "lat": 32.40256
+      },
+      "appCrossingIds": [
+        "sc-avra"
+      ],
+      "status": "inside_native_cell",
+      "cellIndex": 6804,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-32",
+      "sourceRecordIndex": 32,
+      "routeId": "pr-gates",
+      "road": "North Sandario Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.21817,
+        "lat": 32.27528
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-33",
+      "sourceRecordIndex": 33,
+      "routeId": "pr-gates",
+      "road": "North Sandario Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.21849,
+        "lat": 32.27434
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-34",
+      "sourceRecordIndex": 34,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.20377,
+        "lat": 32.25678
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-35",
+      "sourceRecordIndex": 35,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": "Javelina Wash",
+      "location": {
+        "lon": -111.19875,
+        "lat": 32.25426
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-36",
+      "sourceRecordIndex": 36,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.18652,
+        "lat": 32.25158
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-37",
+      "sourceRecordIndex": 37,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.18349,
+        "lat": 32.24767
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-38",
+      "sourceRecordIndex": 38,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.1676,
+        "lat": 32.24705
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-39",
+      "sourceRecordIndex": 39,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.16343,
+        "lat": 32.24402
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-40",
+      "sourceRecordIndex": 40,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.16081,
+        "lat": 32.24151
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-41",
+      "sourceRecordIndex": 41,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.14537,
+        "lat": 32.23141
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-42",
+      "sourceRecordIndex": 42,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.14371,
+        "lat": 32.22917
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-43",
+      "sourceRecordIndex": 43,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.14078,
+        "lat": 32.22722
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-44",
+      "sourceRecordIndex": 44,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.13596,
+        "lat": 32.22457
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-45",
+      "sourceRecordIndex": 45,
+      "routeId": "pr-gates",
+      "road": "North Kinney Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.1326,
+        "lat": 32.22235
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-46",
+      "sourceRecordIndex": 46,
+      "routeId": "pr-gates",
+      "road": "West Gates Pass Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.12278,
+        "lat": 32.22131
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-47",
+      "sourceRecordIndex": 47,
+      "routeId": "pr-gates",
+      "road": "West Gates Pass Road",
+      "watercourse": null,
+      "location": {
+        "lon": -111.07192,
+        "lat": 32.2297
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-48",
+      "sourceRecordIndex": 48,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": null,
+      "location": {
+        "lon": -111.0604,
+        "lat": 32.23606
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-49",
+      "sourceRecordIndex": 49,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": null,
+      "location": {
+        "lon": -111.05747,
+        "lat": 32.23604
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-50",
+      "sourceRecordIndex": 50,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": null,
+      "location": {
+        "lon": -111.05195,
+        "lat": 32.23766
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-51",
+      "sourceRecordIndex": 51,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": null,
+      "location": {
+        "lon": -111.04624,
+        "lat": 32.23899
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-52",
+      "sourceRecordIndex": 52,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": null,
+      "location": {
+        "lon": -111.04501,
+        "lat": 32.23899
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-53",
+      "sourceRecordIndex": 53,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": null,
+      "location": {
+        "lon": -111.03874,
+        "lat": 32.23689
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-54",
+      "sourceRecordIndex": 54,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": "Greasewood Wash",
+      "location": {
+        "lon": -111.02886,
+        "lat": 32.23597
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-55",
+      "sourceRecordIndex": 55,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": null,
+      "location": {
+        "lon": -111.02611,
+        "lat": 32.23597
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-56",
+      "sourceRecordIndex": 56,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": "Anklam Wash",
+      "location": {
+        "lon": -111.0225,
+        "lat": 32.23595
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-57",
+      "sourceRecordIndex": 57,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": null,
+      "location": {
+        "lon": -111.0154,
+        "lat": 32.23594
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-58",
+      "sourceRecordIndex": 58,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": "Silvercroft Wash",
+      "location": {
+        "lon": -111.00225,
+        "lat": 32.23568
+      },
+      "appCrossingIds": [],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    },
+    {
+      "crossingId": "route-crossing-59",
+      "sourceRecordIndex": 59,
+      "routeId": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "lon": -110.98614,
+        "lat": 32.23567
+      },
+      "appCrossingIds": [
+        "sc-speedway"
+      ],
+      "status": "outside_domain",
+      "cellIndex": null,
+      "method": "point_in_exact_native_cell_polygon",
+      "quantitySupport": "cell_average_depth_only",
+      "roadDepthValidated": false
+    }
+  ],
+  "summary": {
+    "routeRecords": 60,
+    "insideNativeCells": 19,
+    "outsideDomain": 41
+  },
+  "scope": "Completed frozen run only. Prepared expanded mesh is not coverage. Point membership is not validated roadway or bridge clearance."
+}

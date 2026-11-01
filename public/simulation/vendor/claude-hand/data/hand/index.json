@@ -1,0 +1,19 @@
+{
+ "schemaVersion": 1,
+ "junctions": {
+  "trico-marana-santa-cruz": {
+   "name": "West Trico Marana Road at the Santa Cruz River",
+   "station": "SCTA3",
+   "file": "trico-marana-santa-cruz.json",
+   "lon": -111.27985,
+   "lat": 32.45369
+  },
+  "sanders-santa-cruz": {
+   "name": "North Sanders Road at the Santa Cruz River",
+   "station": "SCTA3",
+   "file": "sanders-santa-cruz.json",
+   "lon": -111.23395,
+   "lat": 32.43488
+  }
+ }
+}

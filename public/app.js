@@ -1,3 +1,5 @@
+import {mountFloodLayers} from './simulation/map-layers.js';
+import {mountLiveMap} from './live-map.js';
 import { savedRoutes, toggleSavedRoute, checkAge } from './preferences.js?v=dev';
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
@@ -633,7 +635,7 @@ function render() {
   $('#logo').hidden = sub;
   $('#refresh').hidden = sub && !['route', 'stretch'].includes(w.screen);
   const titles = {
-    home: ["FLOODplain", subtitle()],
+    home: ["FLOODplain", subtitle()], map: ['Flood map', 'Live readings and dated model forecasts'],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
     how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
@@ -641,8 +643,9 @@ function render() {
   $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
   $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy', 'report', 'updates', 'underpasses'].includes(w.screen);
+  window.dispatchEvent(new Event('flood-before-screen-render'));
   $('#screen').innerHTML = {
-    home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
+    map: () => '', home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
     how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, updates: updatesScreen, underpasses: underpassesScreen, report: () => reportScreen(w.fp),
   }[w.screen]();
   if (['home', 'route', 'stretch'].includes(w.screen)) {
@@ -654,6 +657,8 @@ function render() {
   }
   wire(w);
   drawMap(w);
+  liveMap.update({active:w.screen==='map',data,view});
+  window.dispatchEvent(new Event('flood-screen-rendered'));
 }
 function subtitle() {
   const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
@@ -699,9 +704,13 @@ function wire(w) {
 
 // ---------------- map ----------------
 const map = L.map('map', { zoomSnap: 0.25, zoomControl: false, attributionControl: true });
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
+const streetTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
 map.attributionControl.setPrefix(false);
 const layer = L.layerGroup().addTo(map);
+const liveObservations=L.layerGroup().addTo(map);
+const rendererRoutes=L.layerGroup([layer,liveObservations]).addTo(map);
+mountFloodLayers(map,{routeLayer:rendererRoutes,streetTiles});
+const liveMap=mountLiveMap(map,{refresh:()=>check(),observations:liveObservations,embedded:true});
 let allBounds;
 const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
 function stretchAround(coords, lat, lon, m) {
@@ -765,7 +774,7 @@ function drawMap(w) {
     else map.setView(pts[0], 15, { animate: false });
   } else if (w.screen === 'route') {
     map.fitBounds(L.geoJSON(routeFeatures.find((f) => f.properties.id === w.route)).getBounds(), opts);
-  } else {
+  } else if(w.screen!=='map'||!map._loaded) {
     map.fitBounds(allBounds, opts);
   }
 }
