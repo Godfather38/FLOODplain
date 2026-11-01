@@ -50,29 +50,30 @@
       "verticalDatum": null,
       "gaugeDatumConnection": null,
       "surveyStatus": "No site-linked measured elevation in the prepared package",
-      "documentedHistory": [
-        {
-          "date": "2014-09-09",
-          "source": "https://tucson.com/news/local/northwest/collection_2f2d6d1e-3872-11e4-9781-0019bb2963f4.html",
-          "kind": "contemporaneous_report_and_photographs",
-          "summary": "Reports road flooding and fence/debris displacement at the Santa Cruz Trico Road bridge; crews pumping and clearing the road.",
-          "siteMatch": "River and bridge name; exact surveyed station absent",
-          "interpretationLimit": "Not a measured deck/soffit elevation, overtopping threshold, or current closure. Do not attach this Santa Cruz event to Los Robles."
-        }
-      ],
+      "documentedHistory": [],
       "comparisonRule": "Only compare modeled absolute water elevation with site elevations after compatible vertical datum/units and location are established; gauge stage is not absolute deck elevation",
       "closureEvidence": [],
       "defaultRiskPenalty": null,
       "roadwayEstimate": {
-        "elevationM": 590.7,
+        "elevationM": 590.85,
         "approachElevationsM": [
-          590.841,
-          590.577
+          590.8437805175781,
+          590.8463134765625
+        ],
+        "approachCoordinates": [
+          [
+            -111.27939273267904,
+            32.45419666376329
+          ],
+          [
+            -111.28026606668152,
+            32.45324118020154
+          ]
         ],
         "verticalDatum": "NAVD88",
-        "status": "provisional_estimate",
-        "source": "https://github.com/Godfather38/FLOODplain/blob/c10fef1864a277882faaa88d201c70dc4173c8a2/tools/sfincs/data/road-dip-refinement/coverage-audit-v2/road-profiles.csv",
-        "method": "Straight roadway profile estimated between terrain-sampled approaches; exact approach points pending 1 m terrain crosscheck. Not surveyed deck or underside height."
+        "status": "approach_based_estimate",
+        "source": "simulation/data/bridge-approach-findings.json",
+        "method": "Straight span roadway profile inferred between intact near-span approaches; no surveyed deck or camber measurement. Retained 1 m Pima County 2021 bare-earth terrain; acquired 2021-10-06. Total elevation uncertainty is not quantified. Sample-window spread is not an accuracy/confidence interval. Deck camber, structural clearance and changes since terrain acquisition remain unknown."
       },
       "modelWater": {
         "runId": "sfincs-current-coarse-20261101-19z-41350254061",
@@ -156,7 +157,19 @@
             "elevationM": 586.7152709960938
           }
         ]
-      }
+      },
+      "structureId": "09552",
+      "unconfirmedHistory": [
+        {
+          "date": "2014-09-09",
+          "source": "https://tucson.com/news/local/northwest/collection_2f2d6d1e-3872-11e4-9781-0019bb2963f4.html",
+          "kind": "contemporaneous_report_and_photographs",
+          "summary": "Reports road flooding and fence/debris displacement at the Santa Cruz Trico Road bridge; crews pumping and clearing the road.",
+          "siteMatch": "River and bridge name; exact surveyed station absent",
+          "interpretationLimit": "Not a measured deck/soffit elevation, overtopping threshold, or current closure. Do not attach this Santa Cruz event to Los Robles."
+        }
+      ],
+      "historyLimit": "Generic 2014 Trico Road photographs are not confirmed as structure 09552 and are not assigned to this bridge."
     },
     {
       "id": "bridge-3",
@@ -266,15 +279,25 @@
       "closureEvidence": [],
       "defaultRiskPenalty": null,
       "roadwayEstimate": {
-        "elevationM": 633.8,
+        "elevationM": 634.35,
         "approachElevationsM": [
-          633.598,
-          633.953
+          634.3721313476562,
+          634.3700561523438
+        ],
+        "approachCoordinates": [
+          [
+            -111.14729756844964,
+            32.402190414344865
+          ],
+          [
+            -111.14526516119778,
+            32.40283375985605
+          ]
         ],
         "verticalDatum": "NAVD88",
-        "status": "provisional_estimate",
-        "source": "https://github.com/Godfather38/FLOODplain/blob/c10fef1864a277882faaa88d201c70dc4173c8a2/tools/sfincs/data/road-dip-refinement/coverage-audit-v2/road-profiles.csv",
-        "method": "Straight roadway profile estimated between terrain-sampled approaches; exact approach points pending 1 m terrain crosscheck. Not surveyed deck or underside height."
+        "status": "approach_based_estimate",
+        "source": "simulation/data/bridge-approach-findings.json",
+        "method": "Straight span roadway profile inferred between intact near-span approaches; no surveyed deck or camber measurement. Retained 1 m Pima County 2021 bare-earth terrain; acquired 2021-10-06. Total elevation uncertainty is not quantified. Sample-window spread is not an accuracy/confidence interval. Deck camber, structural clearance and changes since terrain acquisition remain unknown."
       },
       "modelWater": {
         "runId": "sfincs-current-coarse-20261101-19z-41350254061",
@@ -358,7 +381,8 @@
             "elevationM": 627.0484008789062
           }
         ]
-      }
+      },
+      "structureId": "10125"
     }
   ],
   "policy": "Unknown measurements stay null; no generic bridge hazard multiplier",
@@ -389,7 +413,7 @@
       "approachWidthM": 12.2,
       "deckElevation": null,
       "riverClearance": null,
-      "clearanceEncoding": "99.99 and N0000 are not river clearance; FHWA mtguide.pdf pp6,33\u201334",
+      "clearanceEncoding": "99.99 and N0000 are not river clearance; FHWA mtguide.pdf pp6,33–34",
       "selectedRouteMatch": "Not asserted"
     },
     {

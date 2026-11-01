@@ -1,0 +1,133 @@
+{
+  "purpose": "Approach-based planning evidence only; no rating changes",
+  "terrain": {
+    "resolutionM": 1,
+    "verticalDatum": "NAVD88",
+    "project": "AZ_PimaCounty_2021_B21",
+    "acquisitionDateFromEPQS": "2021-10-06",
+    "note": "Retained standard reprojection of prepared bare-earth terrain; bridge deck removed."
+  },
+  "bridges": [
+    {
+      "structureId": "09552",
+      "name": "trico-marana-09552",
+      "approachWindows": [
+        {
+          "routeStationRangeM": [
+            6255,
+            6270
+          ],
+          "centreMedianNAVD88M": 590.8437805175781,
+          "centreRangeNAVD88M": [
+            590.8356323242188,
+            590.8674926757812
+          ],
+          "centreAndLateral2mRangeNAVD88M": [
+            590.8080444335938,
+            590.8674926757812
+          ],
+          "midpointLonLat": [
+            -111.27939273267904,
+            32.45419666376329
+          ]
+        },
+        {
+          "routeStationRangeM": [
+            6388,
+            6405
+          ],
+          "centreMedianNAVD88M": 590.8463134765625,
+          "centreRangeNAVD88M": [
+            590.8353271484375,
+            590.8546752929688
+          ],
+          "centreAndLateral2mRangeNAVD88M": [
+            590.8252563476562,
+            590.860107421875
+          ],
+          "midpointLonLat": [
+            -111.28026606668152,
+            32.45324118020154
+          ]
+        }
+      ],
+      "estimatedRoadNAVD88M": 590.85,
+      "method": "Straight span roadway profile inferred between intact near-span approaches; no surveyed deck or camber measurement.",
+      "uncertainty": "Total elevation uncertainty is not quantified. Sample-window spread is not an accuracy/confidence interval. Deck camber, structural clearance and changes since terrain acquisition remain unknown.",
+      "lowChordNAVD88M": null,
+      "nativeForecastCentreCell": {
+        "resolutionM": 100,
+        "maximumWaterSurfaceNAVD88M": 586.7153,
+        "maximumTime": "2026-11-02T12:00:00Z",
+        "estimatedRoadMinusCellWaterM": 4.135,
+        "interpretation": "Elevation difference only, not hydraulic clearance, safe-passage determination or resolved bridge backwater."
+      }
+    },
+    {
+      "structureId": "10125",
+      "name": "avra-valley-santa-cruz",
+      "approachWindows": [
+        {
+          "routeStationRangeM": [
+            19408,
+            19412
+          ],
+          "centreMedianNAVD88M": 634.3721313476562,
+          "centreRangeNAVD88M": [
+            634.31298828125,
+            634.382568359375
+          ],
+          "centreAndLateral2mRangeNAVD88M": [
+            634.1346435546875,
+            634.4396362304688
+          ],
+          "midpointLonLat": [
+            -111.14729756844964,
+            32.402190414344865
+          ]
+        },
+        {
+          "routeStationRangeM": [
+            19612,
+            19616
+          ],
+          "centreMedianNAVD88M": 634.3700561523438,
+          "centreRangeNAVD88M": [
+            634.3253784179688,
+            634.3760375976562
+          ],
+          "centreAndLateral2mRangeNAVD88M": [
+            633.9456787109375,
+            634.4116821289062
+          ],
+          "midpointLonLat": [
+            -111.14526516119778,
+            32.40283375985605
+          ]
+        }
+      ],
+      "estimatedRoadNAVD88M": 634.35,
+      "method": "Straight span roadway profile inferred between intact near-span approaches; no surveyed deck or camber measurement.",
+      "uncertainty": "Total elevation uncertainty is not quantified. Sample-window spread is not an accuracy/confidence interval. Deck camber, structural clearance and changes since terrain acquisition remain unknown.",
+      "lowChordNAVD88M": null,
+      "nativeForecastCentreCell": {
+        "resolutionM": 100,
+        "maximumWaterSurfaceNAVD88M": 627.646,
+        "maximumTime": "2026-11-01T23:00:00Z",
+        "estimatedRoadMinusCellWaterM": 6.704,
+        "interpretation": "Elevation difference only, not hydraulic clearance, safe-passage determination or resolved bridge backwater."
+      }
+    }
+  ],
+  "nativeForecast": {
+    "run": "41350254061",
+    "NWMissue": "2026-11-01T18:00:00Z",
+    "HRRRissue": "2026-11-01T19:00:00Z",
+    "forecastWindow": [
+      "2026-11-01T22:00:00Z",
+      "2026-11-02T12:00:00Z"
+    ],
+    "quantity": "Absolute water-surface elevation zs, NAVD88 metres; nearest containing 100 m grid cell at mapped bridge centre."
+  },
+  "identityAndHistory": "Trico-Marana09552 is distinct from North Trico08262 at USGS gauge and southern wash bridge09553. Generic 2014 Trico Road photographs are not assigned to09552 without site confirmation."
+}
