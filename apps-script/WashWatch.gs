@@ -348,7 +348,7 @@ const PLACES = [
   { area: "picture-rocks", name: "Speedway exit", lat: 32.23, lon: -110.9827, side: "above-left" }
 ];
 const ALERTS = { server: "https://ntfy.sh", prefix: "washwatch" };
-const TEXT_API = "";
+const TEXT_API = "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec";
 const alertTopic = (hhmm, days, mode) => `${ALERTS.prefix}-${hhmm.replace(":", "")}-${days}-${mode}`;
 const REPORT_TOPIC = "washwatch-reports-1o6j4d6";
 const REPORT_QUESTIONS = [

@@ -1,0 +1,15 @@
+name: Check the alert service
+# Run by hand: asks the Google Apps Script alert service whether it's up and what it sees.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Service status
+        run: curl -sSL -m 60 "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec" ; echo
+      - name: County rain feed through the service
+        run: curl -sSL -m 90 "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=alert" | head -c 600 ; echo
