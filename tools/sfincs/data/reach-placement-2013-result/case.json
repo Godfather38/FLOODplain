@@ -1,0 +1,626 @@
+{
+  "fixture": "cortaro_trico_observed_inflow",
+  "sourceCommit": "f3647fc0289bb15cb2512d60686cef74cb853c78",
+  "crs": "EPSG:32612",
+  "verticalDatum": "NAVD88 per USGS terrain catalog; discharge needs no stage-datum conversion",
+  "start": "2013-07-05T07:00:00+00:00",
+  "end": "2013-07-23T07:00:00+00:00",
+  "evaluationStart": "2013-07-20T07:00:00+00:00",
+  "grid": {
+    "ny": 190,
+    "nx": 265,
+    "dxM": 100.0,
+    "dyM": 100.0
+  },
+  "terrainEvidence": {
+    "source": "USGS 3DEP dynamic raw elevation service",
+    "service": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer",
+    "requestUrl": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?f=json&bbox=467000%2C3577000%2C493500%2C3596000&bboxSR=32612&imageSR=32612&size=265%2C190&format=tiff&pixelType=F32&interpolation=RSP_BilinearInterpolation&renderingRule=%7B%22rasterFunction%22%3A+%22None%22%7D",
+    "exportResponse": {
+      "href": "https://elevation.nationalmap.gov/arcgis/rest/directories/elevation_output/3DEPElevation_ImageServer/_ags_7e24c1c9_d615_4b9e_915b_c23a08c6dae4.tif",
+      "width": 265,
+      "height": 190,
+      "extent": {
+        "xmin": 467000,
+        "ymin": 3577000,
+        "xmax": 493500,
+        "ymax": 3596000,
+        "spatialReference": {
+          "wkid": 32612,
+          "latestWkid": 32612
+        }
+      },
+      "scale": 0
+    },
+    "retrievedAt": "2026-11-01T08:11:14.194542+00:00",
+    "sha256": "6b4cd644d2dd016a879bde2d36ce577d513ab553c49fdccfb2689d39d2f3eaa3",
+    "bytes": 394385,
+    "catalogSha256": "abae961eb9d07ed61d4c3e8809b39f49e9ae4f771a1aa09c86d896cec4eff6db",
+    "crs": "EPSG:32612",
+    "requestedWgs84Bounds": [
+      -111.35,
+      32.33,
+      -111.07,
+      32.5
+    ],
+    "verticalUnits": "m",
+    "verticalDatum": "Requires review of catalog metadata; no datum conversion applied",
+    "statistics": {
+      "minM": 570.1748046875,
+      "maxM": 1301.4422607421875,
+      "width": 265,
+      "height": 190,
+      "resolutionM": 100,
+      "boundsProjected": [
+        467000.0,
+        3577000.0,
+        493500.0,
+        3596000.0
+      ]
+    },
+    "interpolation": "server bilinear, 100 m grid",
+    "limitations": [
+      "Contemporary terrain, not surveyed September 2014 geometry",
+      "100 m cells cannot resolve bridge or culvert openings",
+      "No hydrologic conditioning or missing-elevation filling"
+    ]
+  },
+  "upstream": {
+    "siteId": "USGS-09486500",
+    "lon": -111.09587499999999,
+    "lat": 32.350722222222224,
+    "x": 491030.431,
+    "y": 3579398.68,
+    "placement": {
+      "method": "Nearest point on official USGS NLDI river path; NOAA independent path agrees on same adjacent cell",
+      "shiftM": 97.74793560399405,
+      "originalGaugeX": 490978.7332495497,
+      "originalGaugeY": 3579315.722170272,
+      "actualGaugeLongitude": -111.09587499999999,
+      "actualGaugeLatitude": 32.350722222222224,
+      "sourceUrl": "https://api.water.usgs.gov/nldi/linked-data/nwissite/USGS-09486500/navigation/DM/flowlines?distance=35",
+      "NOAANearestPoint": [
+        491034.1654894415,
+        3579392.97738971
+      ],
+      "selectedWithoutTargetFitting": true
+    },
+    "cellRow": 23,
+    "cellColumn": 240,
+    "cellBedM": 649.6810302734375,
+    "cellCenterDistanceM": 52.46606675763883,
+    "sourceUrl": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09486500&parameter_code=00060&time=2013-07-05T07%3A00%3A00Z%2F2013-07-19T07%3A00%3A00Z&limit=10000",
+    "sha256": "42558507317f438f6a73e0accbdb7b331fe7ec4efb35aaadd74e152bb9bfa729",
+    "interpolation": "linear between approved 15-minute observations; no extrapolation or time shift",
+    "cellBedDefinition": "Native subgrid minimum, not original coarse terrain mean"
+  },
+  "prescribedInflowVolumeM3": 3636916.368570676,
+  "rainfallStatus": "qualified_six_hour_allocation_scenario",
+  "huthreshM": 0.01,
+  "manning": 0.04,
+  "sections": {
+    "west_out": [
+      [
+        467100.0,
+        3577100.0
+      ],
+      [
+        467100.0,
+        3595900.0
+      ]
+    ],
+    "north_out": [
+      [
+        467100.0,
+        3595900.0
+      ],
+      [
+        493400.0,
+        3595900.0
+      ]
+    ],
+    "east_out": [
+      [
+        493400.0,
+        3595900.0
+      ],
+      [
+        493400.0,
+        3577100.0
+      ]
+    ],
+    "south_out": [
+      [
+        493400.0,
+        3577100.0
+      ],
+      [
+        467100.0,
+        3577100.0
+      ]
+    ],
+    "trico_reach": [
+      [
+        471624.5312216846,
+        3591749.8586363434
+      ],
+      [
+        471624.5312216846,
+        3593749.8586363434
+      ]
+    ],
+    "trico_full": [
+      [
+        471624.5312216846,
+        3577100.0
+      ],
+      [
+        471624.5312216846,
+        3595900.0
+      ]
+    ],
+    "trico_south_tail": [
+      [
+        471624.5312216846,
+        3577100.0
+      ],
+      [
+        471624.5312216846,
+        3591749.8586363434
+      ]
+    ],
+    "trico_north_tail": [
+      [
+        471624.5312216846,
+        3593749.8586363434
+      ],
+      [
+        471624.5312216846,
+        3595900.0
+      ]
+    ],
+    "reach_x489000": [
+      [
+        489000,
+        3577100.0
+      ],
+      [
+        489000,
+        3595900.0
+      ]
+    ],
+    "reach_x485000": [
+      [
+        485000,
+        3577100.0
+      ],
+      [
+        485000,
+        3595900.0
+      ]
+    ],
+    "reach_x480000": [
+      [
+        480000,
+        3577100.0
+      ],
+      [
+        480000,
+        3595900.0
+      ]
+    ],
+    "reach_x475000": [
+      [
+        475000,
+        3577100.0
+      ],
+      [
+        475000,
+        3595900.0
+      ]
+    ],
+    "pocket_west": [
+      [
+        490000,
+        3579000
+      ],
+      [
+        490000,
+        3581500
+      ]
+    ],
+    "pocket_north": [
+      [
+        490000,
+        3581500
+      ],
+      [
+        491500,
+        3581500
+      ]
+    ],
+    "pocket_east": [
+      [
+        491500,
+        3581500
+      ],
+      [
+        491500,
+        3579000
+      ]
+    ],
+    "pocket_south": [
+      [
+        491500,
+        3579000
+      ],
+      [
+        490000,
+        3579000
+      ]
+    ]
+  },
+  "flowLocation": {
+    "name": "Illustrative 2 km transverse Trico reach section",
+    "lon": -111.30196666666666,
+    "lat": 32.47158888888889,
+    "projectedEndpoints": [
+      [
+        471624.5312216846,
+        3591749.8586363434
+      ],
+      [
+        471624.5312216846,
+        3593749.8586363434
+      ]
+    ],
+    "crs": "EPSG:32612"
+  },
+  "inputArtifacts": [
+    {
+      "path": "rainfall.nc",
+      "sha256": "423951466812072932fd47165adadc278c711da4bdd1257193257b3be4dda2bd"
+    },
+    {
+      "path": "sections.crs",
+      "sha256": "53b19a71207580aa46a9d8bfcbc5ba7009a8416e8a78e87af2ca922fee2a8ced"
+    },
+    {
+      "path": "sfincs.dep",
+      "sha256": "2dbbfce024d79a971963aebdc0451f9f2cabd50cebfea135e308449d72b03e31"
+    },
+    {
+      "path": "sfincs.dis",
+      "sha256": "125309053f681c3e2f5518e231d3b16e96113141c99ec8ca9de774ba0039822f"
+    },
+    {
+      "path": "sfincs.ind",
+      "sha256": "6ca18eb6743cbc450bf6782fca68d861c8eacae13285bd347ca7d0465f06a484"
+    },
+    {
+      "path": "sfincs.inp",
+      "sha256": "775f765950608f5cf25e8a9c1612ad1010b196b63901ed2b35dd7f066d49bd6f"
+    },
+    {
+      "path": "sfincs.msk",
+      "sha256": "a4493c756056d22624c289ee754f9e6a76f799662e4d3757316d3193754fd2d9"
+    },
+    {
+      "path": "sfincs.src",
+      "sha256": "2f0496d27f8ef5bea44099039fefa07ab3f6227a1f869d5d8e80460d2e828689"
+    },
+    {
+      "path": "sfincs.weir",
+      "sha256": "e98df12f2ff2323454b38b4356a35fac27726a3a7da5a8c984c6ca8e53a8a4d3"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "sha256": "f73dc18be44aa8f15aa81e702b2b1b87cdcff995fbb99ea413165b95adf30a1b"
+    }
+  ],
+  "limitations": [
+    "Observed upstream-flow scenario, not a forecast or complete historical event hindcast",
+    "Stage IV local rainfall included; external lateral tributary inflows omitted; local rainfall upstream of Cortaro may double count a small boundary-adjacent area",
+    "Contemporary 10 m USGS terrain represented by native subgrid tables; no surveyed submerged bathymetry, bridges, culverts or historical event morphology",
+    "Observed Cortaro discharge enters the adjacent independently mapped river cell; actual gauge coordinates retained; unresolved velocity distribution",
+    "Uniform assumed roughness and zero infiltration; not calibrated. Dry July5 initialization followed by 14 days observed Cortaro inflow and Stage IV rain before original event starts July19; original first-day exclusion retained, scoring July20 onward",
+    "Published directed river topology selects downstream open cells using HydroMT default 500 m width; other outer edges closed; omitted lateral boundary inflows remain unresolved",
+    "Trico observations are withheld from forcing and parameter selection; section comparison is approximate",
+    "No road passability, bridge failure, scour, or quantified accuracy interval",
+    "NOAA HAND geometry is DEM-derived, not survey cross sections; synthetic rating curves and relative HAND heights are not used as absolute bed elevations",
+    "Published Lower Santa Cruz levee alignment uses USGS February 2015 crest elevations as finite overtoppable weirs; post-event condition and undocumented openings remain uncertain",
+    "Qualified antecedent rainfall: July16 00-06UTC six-hour Stage IV total uniformly allocated to hours; product discrepancy -32.25 to +5.61 mm against five available hourly sums; not recovered hourly observations",
+    "Frozen configuration evaluated on 2013; 2015 terrain and levee condition postdate this event; no event-specific tuning"
+  ],
+  "forcingProvenance": {
+    "manifest": "public\\simulation\\data\\stage4-2013-antecedent-six-hour-scenario-provenance.json",
+    "manifestSha256": "d554f3109e0144622fdc317ebfd2852caeaf10315329d83c1bf0a5f412905a0f",
+    "source": "NCEP Stage IV hourly precipitation analysis, IEM archive",
+    "spatialMethod": "Nearest native cell, fixed mapping with native indices and distances retained",
+    "limitations": [
+      "Historical Stage IV radar/gauge precipitation analysis, not measured rainfall at every cell or a calibrated flood prediction.",
+      "Nearest native roughly 4 km cells mapped onto a padded 0.01 degree forcing grid; finer output spacing adds no rainfall detail.",
+      "No missing-value fill, no fitted rescaling, and no blending with obsolete IEM PNG products.",
+      "Hourly constant rates omit subhour variability. This forcing does not supply upstream river inflow or downstream hydraulic boundaries.",
+      "Six-hour total is an archived analysis; uniform hourly timing is an explicit scenario assumption, not observed hourly rainfall.",
+      "This block is several days before the event, which makes coarse timing a practical antecedent scenario; its effects on storage must still be evaluated.",
+      "All other 426 frames and the preserved 96-hour event remain exactly unchanged.",
+      "No calibration to downstream flow, no automatic rescaling and no missing-to-zero fill."
+    ],
+    "originalManifest": "public\\simulation\\data\\stage4-reach-2013-july05-23-432h-provenance.json"
+  },
+  "forcingQuality": {
+    "requestedHours": 432,
+    "availableHours": 432,
+    "nativeBitmapPreserved": "Original hourly bitmap retained in immutable source; six-hour replacement has valid native bitmap",
+    "forcingReadiness": "explicit_six_hour_uniform_allocation_scenario",
+    "fieldValidation": "not_calibrated",
+    "missingIntervals": [],
+    "temporallyAllocatedHours": 6
+  },
+  "forcingSha256": "a1e75957b90f74e46712ef889bbee1f6ed90ed840146668959b0985af526913c",
+  "rainfallVolumeM3": 15173178.900000006,
+  "initialState": {
+    "sourceSha256": null,
+    "time": "2013-07-05T07:00:00+00:00",
+    "description": "Dry July5 initialization followed by 14 days observed Cortaro inflow and Stage IV rain before original event starts July19; original first-day exclusion retained, scoring July20 onward"
+  },
+  "geometryIntegration": {
+    "method": "HydroMT-SFINCS setup_subgrid and setup_river_outflow",
+    "documentation": "https://deltares.github.io/hydromt_sfincs/stable/_modules/hydromt_sfincs/sfincs.html",
+    "terrain": {
+      "source": "USGS 3DEP raw elevation ImageServer",
+      "requestUrl": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?f=json&bbox=466900.0%2C3576900.0%2C493600.0%2C3596100.0&bboxSR=32612&imageSR=32612&size=2670%2C1920&format=tiff&pixelType=F32&interpolation=RSP_BilinearInterpolation&renderingRule=%7B%22rasterFunction%22%3A+%22None%22%7D",
+      "exportResponse": {
+        "href": "https://elevation.nationalmap.gov/arcgis/rest/directories/elevation_output/3DEPElevation_ImageServer/_ags_0653abbc_28e5_4123_94b8_08c842279e53.tif",
+        "width": 2670,
+        "height": 1920,
+        "extent": {
+          "xmin": 466900,
+          "ymin": 3576900,
+          "xmax": 493600,
+          "ymax": 3596100,
+          "spatialReference": {
+            "wkid": 32612,
+            "latestWkid": 32612
+          }
+        },
+        "scale": 0
+      },
+      "retrievedAt": "2026-11-01T08:59:58.257099+00:00",
+      "sha256": "e554ed517f8631318af528eeffda9cbd8e217ec8adfa369dfeee682620c2ffa8",
+      "bytes": 20647481,
+      "statistics": {
+        "minM": 569.3961181640625,
+        "maxM": 1334.556640625,
+        "width": 2670,
+        "height": 1920,
+        "bounds": [
+          466900.0,
+          3576900.0,
+          493600.0,
+          3596100.0
+        ],
+        "resolutionM": 10
+      },
+      "purpose": "Native SFINCS fine-terrain subgrid; no channel burning or elevation filling",
+      "verticalDatum": "NAVD88 per base reach intersecting source catalog; no datum conversion",
+      "limitations": [
+        "Contemporary composite terrain, not September 2014 morphology",
+        "No bridge-opening or submerged-bed survey inferred"
+      ]
+    },
+    "riverGeometrySha256": "e200d6d3fde5a8df09b7baf577894dd51475c4d2c413307f45a1e0ef24a63fb7",
+    "riverSource": {
+      "source": "NOAA OWP FIM DEM-derived flowlines, public CIROH copy",
+      "objects": [
+        {
+          "url": "https://ciroh-owp-hand-fim.s3.amazonaws.com/15050301/branches/1589000003/demDerived_reaches_split_filtered_addedAttributes_crosswalked_1589000003.gpkg",
+          "sha256": "ed4b8b8d32d606d76662dd7b48028f9855e02ba8ba619a43faedd4ccb22a9ba9"
+        },
+        {
+          "url": "https://ciroh-owp-hand-fim.s3.amazonaws.com/15050303/branches/1588000002/demDerived_reaches_split_filtered_addedAttributes_crosswalked_1588000002.gpkg",
+          "sha256": "b8d73e7847140111a75d2cce4017c90a4878b80e65a285fe6b012b6aa1f94e2a"
+        }
+      ],
+      "upstreamHydroId": 27370113,
+      "tricoHydroId": 27390012,
+      "orderedHydroIds": [
+        27370113,
+        27370114,
+        27370115,
+        27370116,
+        27370117,
+        27370118,
+        27370119,
+        27370120,
+        27390001,
+        27390002,
+        27390003,
+        27390004,
+        27390005,
+        27390006,
+        27390007,
+        27390008,
+        27390009,
+        27390010,
+        27390011,
+        27390012,
+        27390013,
+        27390014,
+        27390015,
+        27390016,
+        27390017,
+        27390018,
+        27390019,
+        27390020,
+        27390021,
+        27390022,
+        27390023,
+        27390024,
+        27390025,
+        27390026,
+        27390027,
+        27390028,
+        27390029,
+        27390030,
+        27390031,
+        27390032,
+        27390033,
+        27390034,
+        27390035,
+        27390036,
+        27390037,
+        27390038
+      ],
+      "nextOutsideSuppliedBranches": -1,
+      "method": "Nearest point on connected published DEM-derived river geometry; no target fitting or bed burning",
+      "limitations": [
+        "Synthetic DEM-derived river path, not surveyed cross sections",
+        "Source GPKG is EPSG5070, exported GeoJSON EPSG4326",
+        "No Z coordinates or absolute channel bathymetry supplied"
+      ]
+    },
+    "originalOutflowCells": 906,
+    "outflowCells": 5,
+    "outflowWidthM": 500,
+    "outflowWidthBasis": "Explicit HydroMT default; not a surveyed channel/bridge opening",
+    "subgridPixelsPerCell": 10,
+    "subgridLevels": 10,
+    "channelBurning": false,
+    "depthDefinition": "cell-average water depth from native subgrid volume divided by full cell area"
+  },
+  "sectionDiagnostic": {
+    "referenceInputCommit": "723817b",
+    "referenceRunId": 41291800062,
+    "purpose": "Measure flow beyond the original Trico section and along the reach; not parameter calibration",
+    "physicsInputsChanged": false,
+    "fullSectionIsGaugeMeasurement": false
+  },
+  "structureIntegration": {
+    "sourceGeometryUrl": "https://ciroh-owp-hand-fim.s3.amazonaws.com/15050303/3d_nld_subset_levees_burned.gpkg",
+    "sourceSystemId": "1905023008",
+    "sourceSystemName": "Lower Santa Cruz Levee",
+    "sourceGeometrySha256": "666bb66104cba059a913a816ec117c0bfb5a1749b33d6cf783af181b1f7a97e8",
+    "outputSha256": "3919707aaf63ef09e69e1ed3b498b4dd5469c4c63235abaf292fb055e39c8486",
+    "crs": "EPSG:32612",
+    "verticalDatum": "NAVD88, standard USGS 1 m DEM elevations in metres; mirrored NLD Z values not used",
+    "crestSourceTiles": {
+      "USGS_one_meter_x47y359_AZ_Eastern_PimaCO_2015.tif": {
+        "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x47y359_AZ_Eastern_PimaCO_2015.tif",
+        "crs": "EPSG:26912",
+        "resolutionM": 1,
+        "nodata": -999999.0
+      },
+      "USGS_one_meter_x48y359_AZ_Eastern_PimaCO_2015.tif": {
+        "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x48y359_AZ_Eastern_PimaCO_2015.tif",
+        "crs": "EPSG:26912",
+        "resolutionM": 1,
+        "nodata": -999999.0
+      }
+    },
+    "acquisition": "February 20-26, 2015 per project metadata; after benchmark event",
+    "metadataUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/Eastern_Pima_County_Lidar/AZ_Eastern-PimaCO_2015/best_use_xml/PAG_LiDAR-DEM_2015-QL2_USGS.xml",
+    "parts": 1,
+    "vertices": 540,
+    "heightAdjustmentM": 0,
+    "weirCoefficient": 0.6,
+    "coefficientBasis": "HydroMT default, not calibrated",
+    "limitations": [
+      "2015 crest geometry is not proven identical to September 2014",
+      "Original multipart gaps preserved; undocumented culverts/openings not invented",
+      "No crest raising, extension, target fitting or DEM carving"
+    ],
+    "standardProductUnitsSource": "https://data.usgs.gov/datacatalog/data/USGS%3A77ae0551-c61e-4979-aedd-d797abdcde0e",
+    "projectMetadataSha256": "4c5fa051da7be6f51bb7926b103250e6667c10de5994cee94981b1bcc0253f00",
+    "unitsClarification": "Original project metadata describes international feet; sampled standard USGS one-meter GeoTIFF products contain metres NAVD88. No second feet-to-metres conversion is applied."
+  },
+  "evaluationProtocol": {
+    "configurationCommit": "86466e74425f3ab467939602edc31c89b83368dc",
+    "referenceRun": 41293656870,
+    "eventStart": "2013-07-05T07:00:00Z",
+    "eventEnd": "2013-07-23T07:00:00Z",
+    "evaluationStart": "2013-07-20T07:00:00Z",
+    "inputArtifacts": [
+      {
+        "path": "rainfall.nc",
+        "sha256": "20f85d9a119e74c7da711bc4729f3ec369276534c2ba1bb37af0632b0f6f6a3d"
+      },
+      {
+        "path": "sections.crs",
+        "sha256": "5ff1750b5fc71cce4a3e738121758dd59aace22b25a4073a38555659fe2c6921"
+      },
+      {
+        "path": "sfincs.dep",
+        "sha256": "2dbbfce024d79a971963aebdc0451f9f2cabd50cebfea135e308449d72b03e31"
+      },
+      {
+        "path": "sfincs.dis",
+        "sha256": "24ec88bb3057de954c20d5a99d6af8c8f7b8ea745abdd5722b91154b798422e6"
+      },
+      {
+        "path": "sfincs.ind",
+        "sha256": "6ca18eb6743cbc450bf6782fca68d861c8eacae13285bd347ca7d0465f06a484"
+      },
+      {
+        "path": "sfincs.inp",
+        "sha256": "174bd2294b88dcaf7903e68b7264479a483267c91bf547df2e16fdf65e37fcb2"
+      },
+      {
+        "path": "sfincs.msk",
+        "sha256": "a4493c756056d22624c289ee754f9e6a76f799662e4d3757316d3193754fd2d9"
+      },
+      {
+        "path": "sfincs.src",
+        "sha256": "70336853521a1ffa5776a9684b6bb23035fd63c5b20ffdb0e7d63ea0480ce318"
+      },
+      {
+        "path": "sfincs.weir",
+        "sha256": "e98df12f2ff2323454b38b4356a35fac27726a3a7da5a8c984c6ca8e53a8a4d3"
+      },
+      {
+        "path": "sfincs_subgrid.nc",
+        "sha256": "f73dc18be44aa8f15aa81e702b2b1b87cdcff995fbb99ea413165b95adf30a1b"
+      }
+    ],
+    "selectionReason": "Initial-state experiment: 14 observed antecedent days supply 2.670 million m3 upstream, exceeding identified 0.967 million m3 near-source pocket storage; duration chosen without fitting downstream peak; not proof of equilibrium",
+    "validationRole": "Post-failure initial-state sensitivity experiment; same frozen hydraulic geometry and parameters, not a new independent validation",
+    "criteria": [
+      "Do not alter geometry, roughness, infiltration, source placement or timing to fit target",
+      "Preserve dry-start failed result and original July20 onward evaluation window",
+      "Before interpreting score, report storage, upstream and downstream native flow at original July19 start and during antecedent period",
+      "No assumption of equilibrium merely because antecedent input exceeds one pocket volume",
+      "No target observations used to initialize water levels"
+    ],
+    "originalEventStart": "2013-07-19T07:00:00Z",
+    "initialStateDescription": "Dry July5 initialization followed by 14 days observed Cortaro inflow and Stage IV rain before original event starts July19; original first-day exclusion retained, scoring July20 onward"
+  },
+  "validationRole": "Controlled independently mapped source-placement comparison after failed 2013 scenario; not held-out validation",
+  "frozenGeometryVerification": {
+    "referenceCommit": "86466e74425f3ab467939602edc31c89b83368dc",
+    "changedNativeFiles": [
+      "rainfall.nc",
+      "sfincs.dis",
+      "sfincs.inp"
+    ],
+    "allOtherNativeFilesIdentical": true
+  },
+  "placementComparison": {
+    "referenceRun": 41297523344,
+    "hydraulicChange": "source location only, one adjacent cell",
+    "additionalChange": "four observation-only enclosing pocket sections",
+    "geometryAndParametersUnchanged": true,
+    "changedNativeFiles": [
+      "sections.crs",
+      "sfincs.src"
+    ],
+    "sourceCellBefore": [
+      23,
+      239
+    ],
+    "sourceCellAfter": [
+      23,
+      240
+    ]
+  }
+}
