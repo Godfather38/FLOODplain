@@ -126,7 +126,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,routeL
     layer?.renderScene();
   }
   function showCell(index,notify=true){selected=index;model?.select(index);const cell=loaded.run.cells[index],depth=frame?.depthM[index];const info=(viewMode==='3d'?model?.cellInfo(index):null)|| (frame&&cell?{row:cell.row??'�',column:cell.col??'�',time:frame.time,depthM:depth,depthFt:Number.isFinite(depth)?depth*3.280839895:null,surfaceM:null}:null);if(!info)return;
-    const title=document.createElement('strong');title.textContent=`SFINCS cell ${index} · row ${info.row}, col ${info.column}`;
+    const title=document.createElement('strong');title.textContent=`SFINCS cell ${index}`+(Number.isInteger(info.row)&&Number.isInteger(info.column)?` · row ${info.row}, col ${info.column}`:'');
     const body=document.createElement('div');body.textContent=`${new Date(info.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric'})} MST · ${info.depthM===null?'No model depth result':info.depthM.toFixed(3)+' m / '+info.depthFt.toFixed(2)+' ft cell-average depth'}`;
     const level=document.createElement('div');level.textContent=info.surfaceM===null?'Native water surface unavailable':`Native water surface ${info.surfaceM.toFixed(2)} m NAVD88`;
     const caveat=document.createElement('small');caveat.textContent='Terrain intersection is a downscaled display, not surveyed road depth or a fine-grid hydraulic solution.';
