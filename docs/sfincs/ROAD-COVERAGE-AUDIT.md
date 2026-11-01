@@ -39,3 +39,7 @@ Run `python tools/sfincs/audit_road_coverage.py` in the existing prepared enviro
 Artifacts: `tools/sfincs/data/road-dip-refinement/coverage-audit-v2/coverage.json`, `road-profiles.csv`, and `terrain-low-point-candidates.geojson`. The report includes every crossing's coordinates, native face and resolution. Existing source acquisition dates, vertical datum and hashes remain in `connected-v2/fine-terrain-manifest.json` and `context-terrain-manifest.json`.
 
 A changed route, documented missing drainage connection, or new structure data should produce a separately versioned model. Prior output must remain attached to its original mesh and forcing.
+
+## Local subgrid retention check
+
+`low-point-subgrid-evidence.json` compares each of the 24 screened native cells against all retained 1 m pixel centers inside its actual footprint. Seventeen points are more than 50 m from the mapped NHD flowline network. Native minimum minus retained pixel minimum ranges from -0.02570 to +0.06360 m. These are differences between sampling footprints/interpolation, not a validated vertical error bound. This check found no omitted screened depression requiring terrain alteration. It does not test every narrow ditch, underground drainage connection, or hydraulic face conveyance. Reproduce with `python tools/sfincs/audit_lowpoint_subgrid.py` after the coverage audit.

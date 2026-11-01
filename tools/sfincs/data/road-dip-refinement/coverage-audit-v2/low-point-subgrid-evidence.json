@@ -1,0 +1,246 @@
+{
+  "modelVersion": "connected-v2",
+  "sourceMeshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+  "points": [
+    {
+      "nativeFace": 346212,
+      "route": "trico",
+      "chainageM": 610.0,
+      "distanceToMappedNhdFlowlineM": 1633.6786543819658,
+      "retained1mCellMinimumNAVD88M": 602.1029663085938,
+      "nativeSubgridMinimumNAVD88M": 602.107666015625,
+      "nativeMinusRetainedMinimumM": 0.00469970703125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 345471,
+      "route": "trico",
+      "chainageM": 694.0,
+      "distanceToMappedNhdFlowlineM": 1711.1005407068064,
+      "retained1mCellMinimumNAVD88M": 602.0811767578125,
+      "nativeSubgridMinimumNAVD88M": 602.0949096679688,
+      "nativeMinusRetainedMinimumM": 0.01373291015625,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 286582,
+      "route": "trico",
+      "chainageM": 5936.0,
+      "distanceToMappedNhdFlowlineM": 375.20390582528665,
+      "retained1mCellMinimumNAVD88M": 590.2778930664062,
+      "nativeSubgridMinimumNAVD88M": 590.2747192382812,
+      "nativeMinusRetainedMinimumM": -0.003173828125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 283506,
+      "route": "trico",
+      "chainageM": 6284.0,
+      "distanceToMappedNhdFlowlineM": 28.887583200500977,
+      "retained1mCellMinimumNAVD88M": 587.2408447265625,
+      "nativeSubgridMinimumNAVD88M": 587.2477416992188,
+      "nativeMinusRetainedMinimumM": 0.00689697265625,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 283056,
+      "route": "trico",
+      "chainageM": 6338.0,
+      "distanceToMappedNhdFlowlineM": 24.971926485072114,
+      "retained1mCellMinimumNAVD88M": 586.0748901367188,
+      "nativeSubgridMinimumNAVD88M": 586.0753784179688,
+      "nativeMinusRetainedMinimumM": 0.00048828125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 280064,
+      "route": "trico",
+      "chainageM": 6660.0,
+      "distanceToMappedNhdFlowlineM": 339.6563519969014,
+      "retained1mCellMinimumNAVD88M": 589.73779296875,
+      "nativeSubgridMinimumNAVD88M": 589.73974609375,
+      "nativeMinusRetainedMinimumM": 0.001953125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 242039,
+      "route": "trico",
+      "chainageM": 8836.0,
+      "distanceToMappedNhdFlowlineM": 1157.592478344566,
+      "retained1mCellMinimumNAVD88M": 585.5569458007812,
+      "nativeSubgridMinimumNAVD88M": 585.5562744140625,
+      "nativeMinusRetainedMinimumM": -0.00067138671875,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 240753,
+      "route": "trico",
+      "chainageM": 10108.0,
+      "distanceToMappedNhdFlowlineM": 32.55138286119782,
+      "retained1mCellMinimumNAVD88M": 584.2088012695312,
+      "nativeSubgridMinimumNAVD88M": 584.2723999023438,
+      "nativeMinusRetainedMinimumM": 0.0635986328125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 240687,
+      "route": "trico",
+      "chainageM": 10522.0,
+      "distanceToMappedNhdFlowlineM": 287.969300151692,
+      "retained1mCellMinimumNAVD88M": 587.3878173828125,
+      "nativeSubgridMinimumNAVD88M": 587.3850708007812,
+      "nativeMinusRetainedMinimumM": -0.00274658203125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 267134,
+      "route": "avra",
+      "chainageM": 5050.0,
+      "distanceToMappedNhdFlowlineM": 26.862725561266082,
+      "retained1mCellMinimumNAVD88M": 606.2408447265625,
+      "nativeSubgridMinimumNAVD88M": 606.2548217773438,
+      "nativeMinusRetainedMinimumM": 0.01397705078125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 269514,
+      "route": "avra",
+      "chainageM": 5268.0,
+      "distanceToMappedNhdFlowlineM": 178.56088160636224,
+      "retained1mCellMinimumNAVD88M": 607.1389770507812,
+      "nativeSubgridMinimumNAVD88M": 607.1461181640625,
+      "nativeMinusRetainedMinimumM": 0.00714111328125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 277337,
+      "route": "avra",
+      "chainageM": 5990.0,
+      "distanceToMappedNhdFlowlineM": 874.2781780669172,
+      "retained1mCellMinimumNAVD88M": 608.4283447265625,
+      "nativeSubgridMinimumNAVD88M": 608.455810546875,
+      "nativeMinusRetainedMinimumM": 0.0274658203125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 287351,
+      "route": "avra",
+      "chainageM": 6752.0,
+      "distanceToMappedNhdFlowlineM": 1631.5223174804987,
+      "retained1mCellMinimumNAVD88M": 609.1622314453125,
+      "nativeSubgridMinimumNAVD88M": 609.1638793945312,
+      "nativeMinusRetainedMinimumM": 0.00164794921875,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 295550,
+      "route": "avra",
+      "chainageM": 7436.0,
+      "distanceToMappedNhdFlowlineM": 1904.451502984754,
+      "retained1mCellMinimumNAVD88M": 608.716796875,
+      "nativeSubgridMinimumNAVD88M": 608.7101440429688,
+      "nativeMinusRetainedMinimumM": -0.00665283203125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 304401,
+      "route": "avra",
+      "chainageM": 8254.0,
+      "distanceToMappedNhdFlowlineM": 1162.4755822215648,
+      "retained1mCellMinimumNAVD88M": 607.258056640625,
+      "nativeSubgridMinimumNAVD88M": 607.2583618164062,
+      "nativeMinusRetainedMinimumM": 0.00030517578125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 320714,
+      "route": "avra",
+      "chainageM": 9856.0,
+      "distanceToMappedNhdFlowlineM": 16.188940944965015,
+      "retained1mCellMinimumNAVD88M": 606.7133178710938,
+      "nativeSubgridMinimumNAVD88M": 606.7195434570312,
+      "nativeMinusRetainedMinimumM": 0.0062255859375,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 378144,
+      "route": "avra",
+      "chainageM": 17466.0,
+      "distanceToMappedNhdFlowlineM": 827.4225107115843,
+      "retained1mCellMinimumNAVD88M": 629.7373657226562,
+      "nativeSubgridMinimumNAVD88M": 629.7489624023438,
+      "nativeMinusRetainedMinimumM": 0.0115966796875,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 381340,
+      "route": "avra",
+      "chainageM": 18052.0,
+      "distanceToMappedNhdFlowlineM": 666.9632559852258,
+      "retained1mCellMinimumNAVD88M": 627.2626953125,
+      "nativeSubgridMinimumNAVD88M": 627.2659301757812,
+      "nativeMinusRetainedMinimumM": 0.00323486328125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 386088,
+      "route": "avra",
+      "chainageM": 18926.0,
+      "distanceToMappedNhdFlowlineM": 274.76502277619454,
+      "retained1mCellMinimumNAVD88M": 629.8178100585938,
+      "nativeSubgridMinimumNAVD88M": 629.8235473632812,
+      "nativeMinusRetainedMinimumM": 0.0057373046875,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 389038,
+      "route": "avra",
+      "chainageM": 19462.0,
+      "distanceToMappedNhdFlowlineM": 5.454882775225174,
+      "retained1mCellMinimumNAVD88M": 626.16162109375,
+      "nativeSubgridMinimumNAVD88M": 626.16455078125,
+      "nativeMinusRetainedMinimumM": 0.0029296875,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 389183,
+      "route": "avra",
+      "chainageM": 19490.0,
+      "distanceToMappedNhdFlowlineM": 24.9762461905255,
+      "retained1mCellMinimumNAVD88M": 626.4150390625,
+      "nativeSubgridMinimumNAVD88M": 626.3893432617188,
+      "nativeMinusRetainedMinimumM": -0.02569580078125,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 389406,
+      "route": "avra",
+      "chainageM": 19532.0,
+      "distanceToMappedNhdFlowlineM": 60.24119845096677,
+      "retained1mCellMinimumNAVD88M": 626.178955078125,
+      "nativeSubgridMinimumNAVD88M": 626.1857299804688,
+      "nativeMinusRetainedMinimumM": 0.00677490234375,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 389702,
+      "route": "avra",
+      "chainageM": 19580.0,
+      "distanceToMappedNhdFlowlineM": 98.93934598609371,
+      "retained1mCellMinimumNAVD88M": 626.5054321289062,
+      "nativeSubgridMinimumNAVD88M": 626.5230712890625,
+      "nativeMinusRetainedMinimumM": 0.01763916015625,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    },
+    {
+      "nativeFace": 392206,
+      "route": "avra",
+      "chainageM": 20036.0,
+      "distanceToMappedNhdFlowlineM": 209.59312786204197,
+      "retained1mCellMinimumNAVD88M": 630.6861572265625,
+      "nativeSubgridMinimumNAVD88M": 630.6842651367188,
+      "nativeMinusRetainedMinimumM": -0.00189208984375,
+      "interpretation": "Comparison of different raster sampling footprints; not proof of road/deck elevation or culvert connectivity"
+    }
+  ]
+}
