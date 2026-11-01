@@ -1,3 +1,5 @@
+> Current 2D draft requirements and completion status: [2D-DRAFT-CHECKLIST.md](2D-DRAFT-CHECKLIST.md). Earlier scope/completion language below does not override that checklist. Full SFINCS + HAND + Combined and current coarse model refresh are required; 3D/refinement are separate.
+
 # Game plan: remaining failure points
 
 The prototype (`public/`) rates 4 routes from 4 USGS gauges. **[FAILURE-POINTS.md](FAILURE-POINTS.md)** explains each blind spot in plain words, along with what to do about it each morning.

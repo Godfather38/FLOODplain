@@ -1,3 +1,5 @@
+> Current 2D draft requirements and completion status: [2D-DRAFT-CHECKLIST.md](2D-DRAFT-CHECKLIST.md). Earlier scope/completion language below does not override that checklist. Full SFINCS + HAND + Combined and current coarse model refresh are required; 3D/refinement are separate.
+
 # FLOODplain: scope
 
 ## Context
