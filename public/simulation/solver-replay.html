@@ -1,0 +1,7 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SFINCS recorded integration — FLOODplain</title><link rel="stylesheet" href="lab.css"></head><body><main>
+<h1>SFINCS recorded integration</h1><p><a href="forecast.html">River forecasts</a> · <a href="storm.html">Corrected rainfall replay</a></p>
+<p id="status" role="status">Loading recorded output. This is not a flood forecast.</p>
+<p>The original solver artifact is preserved unchanged. Its old complete-rainfall-coverage claim is superseded: historical hourly zeros cannot distinguish dry from missing. Corrected forcing is insufficient for a complete event run.</p>
+<label for="frame">Recorded UTC output time</label><input id="frame" type="range" min="0" value="0" disabled><p id="time"></p><pre id="details"></pre>
+<p><a href="data/sfincs-recorded.json.gz" download>Download original compressed solver output</a>. No calibrated ± accuracy, road-depth or passability interpretation is available.</p>
+</main><script type="module" src="solver-replay-app.js"></script></body></html>

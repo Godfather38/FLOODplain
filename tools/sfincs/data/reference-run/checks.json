@@ -1,0 +1,12 @@
+{
+  "completed": true,
+  "timeFrames": 73,
+  "missingCells": 0,
+  "maximumDepthM": 0.00726318359375,
+  "rainfallVolumeM3": 335045.0,
+  "finalStoredVolumeM3": 318595.59375,
+  "unresolvedBoundaryAndNumericalResidualM3": 16449.40625,
+  "massBalanceStatus": "not_closed: artificial boundary loss not independently measured",
+  "fieldValidation": "none",
+  "forcingStatus": "requires_quality_review"
+}

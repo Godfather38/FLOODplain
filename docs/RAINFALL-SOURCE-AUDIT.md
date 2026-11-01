@@ -38,3 +38,8 @@ This supports using a fully decoded Stage IV sequence as the next comparable for
 `/simulation/storm.html` displays source-corrected nonzero rainfall, unknown cells, observed discharge and the independent comparison. The official forecast engine remains unchanged. `redecode_2014.py` regenerates the versioned arrays from cached original bytes; `audit_rainfall_sources.py` regenerates the source/gauge audit; `compare_stage4.py` caches and checks the bounded first-day alternative. `storm_forcing.py` rejects the obsolete palette dataset and rejects incomplete forcing by default. `--allow-missing` exports nulls with insufficient-data status for inspection only.
 
 The raw source files/headers and gauge products are not a new physics model. No SFINCS/HAND depths, roadway passability, calibrated ± accuracy or successful 2014 bridge-failure prediction are asserted.
+
+
+## Recorded SFINCS handoff
+
+Original reference artifacts from solver branch commit `6a014da5d7d6f808847153ddf3a411c665aeed06` are retained in `tools/sfincs/data/reference-run`. The experimental storm page links to `solver-replay.html`, which validates the real output contract and labels its historical forcing invalid. The original artifact is unchanged, including now-superseded coverage claims. It used the obsolete rainfall decoder, no upstream river inflow, and reached only 0.007263 m maximum depth, below the 0.01 m wetting threshold. This proves execution and interchange, not event prediction. Corrected forcing remains insufficient; a scientifically specified river boundary and replacement rainfall are pending with the solver owner.
