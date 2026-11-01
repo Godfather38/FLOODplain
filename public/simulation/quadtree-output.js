@@ -14,9 +14,35 @@ export function acceptQuadtreeFrame(manifest,geometry,frame,expectedTime){
   frame.depthM.forEach((d,i)=>{const v=frame.nativeVolumeM3[i];if((d===null)!==(v===null)||d!==null&&(d<0||Math.abs(d-Math.max(0,v)/geometry.cells[i].areaM2)>1e-8))throw Error('Depth is not native volume / actual cell area');});
   return frame;
 }
-export async function readQuadtreeArtifact(base,artifact,{fetchImpl=fetch,signal}={}){
-  if(!artifact||!/^[a-zA-Z0-9_-]+\.json\.gz$/.test(artifact.path)||!/^[a-f0-9]{64}$/.test(artifact.sha256))throw Error('Invalid package-relative artifact');
+export function decodeCompactQuadtree(buffer,geometry){
+  const view=new DataView(buffer),headerSize=view.getUint32(0,true);
+  if(headerSize>buffer.byteLength-4)throw Error('Invalid compact header');
+  const h=JSON.parse(new TextDecoder().decode(new Uint8Array(buffer,4,headerSize)));
+  if(h.format!=='floodplain-columns-v1')throw Error('Unknown compact format');
+  const column=name=>{const c=h.columns[name],width={d:8,f:4,I:4}[c?.type];
+    if(!width||!Number.isInteger(c.count)||c.count<0||!Number.isInteger(c.offset)||c.offset<0||4+headerSize+c.offset+c.count*width>buffer.byteLength)throw Error('Invalid compact column');
+    const read={d:'getFloat64',f:'getFloat32',I:'getUint32'}[c.type],start=4+headerSize+c.offset;
+    return Array.from({length:c.count},(_,i)=>view[read](start+i*width,true));};
+  const result=h.metadata;
+  if(result.geometryKind==='native_quadtree_faces'){
+    const ids=result.nativeFaceIds,lon=column('lon'),lat=column('lat'),area=column('areaM2'),resolution=column('resolutionM'),vertices=column('vertices'),offsets=column('ringOffsets'),indices=column('ringIndices'),eo=column('edgeOffsets'),edges=column('edges');
+    if([lon,lat,area,resolution].some(a=>a.length!==ids.length)||offsets.length!==ids.length+1||eo.length!==ids.length+1)throw Error('Compact geometry shape mismatch');
+    const points=Array.from({length:vertices.length/2},(_,i)=>[vertices[2*i],vertices[2*i+1]]);
+    result.cells=ids.map((nativeFaceId,i)=>({nativeFaceId,lon:lon[i],lat:lat[i],areaM2:area[i],resolutionM:resolution[i],edgeLengthsM:edges.slice(eo[i],eo[i+1])}));
+    result.rings=ids.map((_,i)=>indices.slice(offsets[i],offsets[i+1]).map(v=>{if(!points[v])throw Error('Invalid compact vertex');return points[v]}));
+    delete result.nativeFaceIds;
+  }else{
+    if(!geometry)throw Error('Compact frame requires matching geometry');
+    for(const key of ['nativeVolumeM3','waterSurfaceM'])result[key]=column(key).map(v=>Number.isNaN(v)?null:v);
+    if(result.nativeVolumeM3.length!==geometry.cells.length)throw Error('Compact frame size mismatch');
+    result.depthM=result.nativeVolumeM3.map((v,i)=>v===null?null:Math.max(0,v)/geometry.cells[i].areaM2);
+  }
+  return result;
+}
+export async function readQuadtreeArtifact(base,artifact,{fetchImpl=fetch,signal,geometry}={}){
+  if(!artifact||!/^[a-zA-Z0-9_-]+\.(json|bin)\.gz$/.test(artifact.path)||!/^[a-f0-9]{64}$/.test(artifact.sha256))throw Error('Invalid package-relative artifact');
   const r=await fetchImpl(new URL(artifact.path,base),{signal});if(!r.ok)throw Error('Quadtree artifact HTTP '+r.status);
   const bytes=await r.arrayBuffer(),hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');if(hash!==artifact.sha256)throw Error('Quadtree checksum mismatch');
-  return JSON.parse(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).text());
+  const decoded=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+  return artifact.path.endsWith('.bin.gz')?decodeCompactQuadtree(decoded,geometry):JSON.parse(new TextDecoder().decode(decoded));
 }
