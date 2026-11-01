@@ -1,0 +1,6 @@
+{
+  "status": "unavailable",
+  "reason": "Refined case unavailable: no completed native output package has been published. The prepared mesh is not a forecast.",
+  "preparedCaseCommit": "b32d291",
+  "currentFrozenPreviewUnchanged": true
+}

@@ -27,3 +27,10 @@ Package: manifest.json, geometry.json.gz, frame-N.json.gz. Each frame carries ru
 ## Remaining native-output dependency
 
 The completed connected-v2 result was not available in this preparation task. Exact native variable names, face-ID linkage and native volume availability must be checked on arrival. This adapter deliberately fails closed on absent evidence. No refined depth, water surface or expanded coverage has been fabricated or published.
+
+## Opt-in app routing prepared with renderer d51f842
+Existing index.html?case=refined#/map selects the refined path in the same app. Map options has a Case selector; the default remains Frozen replay. public/simulation/data/refined-sfincs-publication.json currently says unavailable and contains no output URL. No real refined data exists in this app checkpoint.
+
+On actual publication, replace that pointer only with status=complete, path=data/IMMUTABLE-PACKAGE/manifest.json and its exact SHA256. The opt-in loader checks that manifest hash, then geometry/frame hashes via quadtree-output.js. The renderer source validates face identity/areas and preserves raw quantities. Frame acknowledgments wait for rendering. Time presets use actual elapsed timestamps, not index counts, and native-frame controls allow15-minute output without inventing intermediate frames. No frozen HAND/rain/inlet arrays or old crossing evidence are silently joined to the refined package; those overlays remain disabled until separately source/time-bound. Native mean-depth rendering is available without a terrain artifact;3D stays disabled when source-bound terrain is absent.
+
+Current refined renderer overview cap is40,000 visible faces and requires zoom when exceeded. Its owner is improving this separately. Full398k-face performance and actual-output acceptance are unverified. Renderer-owned source imported from d51f842 retains the prior approved missing-row/column popup fix. No solver output, forecast promotion or main deployment occurs here.
