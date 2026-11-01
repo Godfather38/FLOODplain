@@ -1,0 +1,199 @@
+{
+  "environment": "Chrome headless SwiftShader, 390x844 viewport; not a physical phone or hardware GPU benchmark",
+  "cold": {
+    "view": "flat",
+    "model": false,
+    "layer": false,
+    "animation": false,
+    "readyMs": 536.8000000119209,
+    "resources": [
+      {
+        "url": "http://127.0.0.1:8094/vendor/leaflet/leaflet.css",
+        "bytes": 14806
+      },
+      {
+        "url": "http://127.0.0.1:8094/vendor/leaflet/leaflet.js",
+        "bytes": 147557
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/geographic-view.js",
+        "bytes": 33495
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/renderer-chunks/chunk-SHC5IIAK.js",
+        "bytes": 640322
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/current-sfincs-manifest.json",
+        "bytes": 1633
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/frozen-20261101-nwm13z-41327417204.json.gz",
+        "bytes": 4397911
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/frozen-cell-footprints.json.gz",
+        "bytes": 706718
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/geographic-view.css",
+        "bytes": 1162
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3126/6627.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3126/6628.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3125/6627.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3125/6628.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3127/6627.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3125/6626.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3126/6629.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3127/6628.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3126/6626.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3127/6629.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3127/6626.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tile.openstreetmap.org/14/3125/6629.png",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3125/6626.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3127/6626.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3126/6626.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3125/6627.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3126/6627.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3127/6627.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3125/6628.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3126/6628.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3127/6628.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3125/6629.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3126/6629.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3127/6629.pbf",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/water-footprints-10.json.gz",
+        "bytes": 285863
+      }
+    ],
+    "heap": 100931467
+  },
+  "first3D": {
+    "ms": 507.80000001192093,
+    "model": true,
+    "view": "3d",
+    "heap": 153115441
+  },
+  "frameTimings": [
+    26.600000023841858,
+    356.19999998807907,
+    72.19999998807907,
+    10.600000023841858
+  ],
+  "switches": {
+    "ms": [
+      19.100000023841858,
+      25.19999998807907,
+      16.400000035762787
+    ],
+    "layers": [
+      "geographic-features",
+      "native-voxel-water",
+      "native-flat-water",
+      "geographic-labels",
+      "original-route-context",
+      "original-model-context"
+    ],
+    "visible": false,
+    "animation": false,
+    "readyMs": 1599.2000000476837,
+    "resources": [
+      {
+        "url": "http://127.0.0.1:8094/simulation/renderer-chunks/geographic-3d-runtime-QOJD33U2.js",
+        "bytes": 893635
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/frozen-terrain-display.json.gz",
+        "bytes": 2608856
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/frozen-voxel-terrain.f32.gz",
+        "bytes": 8390814
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/frozen-voxel-terrain.json",
+        "bytes": 925
+      }
+    ],
+    "heap": 157646426
+  },
+  "errors": []
+}
