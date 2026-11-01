@@ -34,3 +34,9 @@ Draft PR: https://github.com/Godfather38/FLOODplain/pull/10
 Bound solver-owned existing result 81bec601b3095de8e66b73245795c335194a023a / run 41350254061. The unchanged existing adapter reuses retained terrain and native grid; it derives display frames from delivered native water levels. No solver or terrain/geometry rebuild was performed. Original retained output and original display frames remain available with ?case=coarse.
 
 Local publication verification accepted all 29,685 cells and 15 hourly frames (Nov 1 22Z to Nov 2 12Z), verified identical cell coordinates/order, CRS and area, and verified all 16 display artifact checksums. NWM 18Z and HRRR 19Z issues are preserved. This is one issuance, without automatic refresh. Remote current-publication check follows.
+
+## Narrow river-bridge engine correction
+
+The earlier bridge patch was presentation only: 4,350 cfs exceeded the shared 3,000 cfs threshold, producing bridge caution/3 and route 3 without a bridge-clearance comparison. The focused correction keeps that discharge threshold as source evidence (`dischargeLevel`) but treats discharge alone as the existing watch/advisory level for river bridges. Deck/approach clearance remains explicitly unknown. Exact-site registry matching and history are reused; historical marks, inventory dimensions and other bridges' reports are not current clearance thresholds. Official closures and independent local hazard checks retain precedence; at-grade rules and HAND weighting are unchanged. An advisory bridge with unknown clearance cannot make `recommend.clear` true.
+
+Fixtures: Cortaro 4,350 cfs -> Trico bridge/route 3 to 2, clearance unknown; Brawley at-grade 4,350 cfs stays 5; closed bridge stays 5; missing registry/height remains advisory with unknown clearance and no borrowed history. All 109 checks pass, including service bundle compatibility. Existing all-sources-missing fallback behavior is outside this focused change.

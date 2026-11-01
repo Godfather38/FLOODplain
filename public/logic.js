@@ -166,6 +166,15 @@ export function checkNws(alerts, kind) {
   return null;
 }
 
+// A discharge threshold describes the river, not water reaching a particular bridge.
+function bridgeRiverCheck(check,record){
+ const history=record?.documentedHistory??[],elevated=['watch','caution','danger'].includes(check.level);
+ return {...check,level:elevated?'watch':check.level,dischargeLevel:check.level,bridgeClearance:'unknown',
+  why:elevated?check.why.split(':')[0]+': elevated river discharge; water reaching this bridge or its approaches is not established.':check.why,
+  detail:(record?'Site-linked structure record '+record.id+'. ':'No exact structure record. ')+(history.length?'Historical flooding is documented for this site; it is not a current closure or measured flow-to-road threshold. ':'No site-linked flooding history establishes a current road threshold. ')+'Current deck/approach elevation and a compatible water-level comparison are not verified. Clearance is unknown, not confirmed clear.',
+  bridgeEvidence:{recordId:record?.id??null,historyDates:history.map(h=>h.date),clearance:'unknown'}};
+}
+
 // ---------- combine ----------
 
 export function rateFailurePoint(fp, d, cfg) {
@@ -177,7 +186,8 @@ export function rateFailurePoint(fp, d, cfg) {
   const nws = checkNws(d.nws, fp.kind);
   if (nws) checks.push({ src: 'nws', ...nws });
   if (fp.river) {
-    checks.push({ src: 'river', ...checkRiver(d.flows, fp.river, cfg.USGS_SITES, cfg.RIVER) });
+    const river=checkRiver(d.flows, fp.river, cfg.USGS_SITES, cfg.RIVER);
+    checks.push({ src: 'river', ...(['river','bridge'].includes(fp.kind)?bridgeRiverCheck(river,d.bridgeEvidence?.[fp.id]):river) });
     const early = checkRiverEarly(d.flows, cfg.RIVER_EARLY, cfg.USGS_SITES, cfg.RIVER);
     if (early) checks.push({ src: 'river-early', ...early });
   }
@@ -222,7 +232,7 @@ export function rateRoutes(routeFeatures, fpResults, fps) {
 export function recommend(rated) {
   const order = [...rated].sort((a, b) => rank(a.level) - rank(b.level) || a.minutes - b.minutes);
   const best = order[0];
-  return { best, clear: best && rank(best.level) <= rank('watch'), order };
+  return { best, clear: best && rank(best.level) <= rank('watch') && !best.points.some(p=>p.checks.some(c=>c.bridgeClearance==='unknown'&&c.level!=='ok')), order };
 }
 
 // Google Maps link that forces the chosen roads with waypoints (phones allow up to 3).
