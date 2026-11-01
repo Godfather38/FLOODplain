@@ -20,7 +20,7 @@ class ExportTests(unittest.TestCase):
         if missing:
             zs[0, 0, 0] = np.nan
         x, y = np.meshgrid(470025 + np.arange(20) * 50, 3585025 + np.arange(20) * 50)
-        ds = xr.Dataset({"zs": (("time", "n", "m"), zs, {"units": "m"}),
+        ds = xr.Dataset({"h": (("time", "n", "m"), zs, {"units": "m"}),
                          "zb": (("n", "m"), np.zeros((20, 20)), {"units": "m"}),
                          "x": (("n", "m"), x), "y": (("n", "m"), y)}, coords={"time": t})
         ds.to_netcdf(root / "sfincs_map.nc")

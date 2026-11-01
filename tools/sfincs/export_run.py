@@ -21,10 +21,10 @@ def export(root):
         if actual != artifact["sha256"]:
             raise ValueError("Input changed since case preparation: " + artifact["path"])
     with xr.open_dataset(root / "sfincs_map.nc") as ds:
-        if ds.zs.attrs.get("units") != "m" or ds.zb.attrs.get("units") != "m":
+        if ds.h.attrs.get("units") != "m" or ds.zb.attrs.get("units") != "m":
             raise ValueError("Expected water and bed elevations in metres")
-        dims = tuple(d for d in ds.zs.dims if d != "time")
-        zs = ds.zs.transpose("time", *dims).values
+        dims = tuple(d for d in ds.h.dims if d != "time")
+        depth = ds.h.transpose("time", *dims).values
         zb = ds.zb.transpose(*dims).values
         x = ds.x.transpose(*dims).values
         y = ds.y.transpose(*dims).values
@@ -34,9 +34,9 @@ def export(root):
         if times[0] != pd.Timestamp("2014-09-08T00:00") or times[-1] != pd.Timestamp("2014-09-08T01:00"):
             raise ValueError("Incomplete analytical output time coverage")
         # These fixtures have no inactive cells. Missing data must never become dry.
-        if not all(np.isfinite(a).all() for a in (zs, zb, x, y)):
+        if not all(np.isfinite(a).all() for a in (depth, zb, x, y)):
             raise ValueError("Missing/invalid values in fully active analytical domain")
-        depth = zs - zb
+        # Native regular-grid h retains dry zeros; zs deliberately masks dry cells.
         if np.min(depth) < -1e-6:
             raise ValueError("Water surface below bed beyond roundoff tolerance")
         depth = np.maximum(depth, 0)

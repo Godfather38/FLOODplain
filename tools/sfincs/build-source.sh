@@ -11,5 +11,6 @@ export FCFLAGS='-fopenmp -O3 -fallow-argument-mismatch -w'
 export FFLAGS="$FCFLAGS"
 autoreconf -vif
 ./configure --disable-openacc
-make -j2
+# Upstream Fortran module dependencies require ordered serial compilation.
+make -j1
 test -x src/sfincs
