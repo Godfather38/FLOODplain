@@ -1,3 +1,5 @@
+> CURRENT RESET: [MAP-PRODUCT-REQUIREMENTS.md](MAP-PRODUCT-REQUIREMENTS.md) and [RENDERING-RESET-SALVAGE.md](RENDERING-RESET-SALVAGE.md) supersede prior product/UX acceptance. Material below is historical context or existing interface detail, not authorization to continue the old implementation. Raster-backed MapLibre is not the required vector scene.
+
 # FLOODplain experimental branch handoff
 
 Branch: **experiment/avra-radar-runoff**. Separate from main; no experimental deployment or Twilio changes. Main saved-route UI is integrated through `24ba345`.

@@ -1,3 +1,5 @@
+> CURRENT RESET: [MAP-PRODUCT-REQUIREMENTS.md](MAP-PRODUCT-REQUIREMENTS.md) and [RENDERING-RESET-SALVAGE.md](RENDERING-RESET-SALVAGE.md) supersede prior product/UX acceptance. Material below is historical context or existing interface detail, not authorization to continue the old implementation. Raster-backed MapLibre is not the required vector scene.
+
 # Geographic renderer handoff — separate worker ownership
 
 App branch checkpoint: 05807c2. A first geographic renderer was committed before the ownership split; it is not visually accepted. Reuse or replace it; do not duplicate a detached viewer.

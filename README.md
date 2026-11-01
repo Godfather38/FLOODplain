@@ -1,3 +1,5 @@
+> Experimental UX reset: safety-first home plus a real geographic-data renderer. Read [the authoritative checklist](docs/MAP-PRODUCT-REQUIREMENTS.md) and [salvage/coordination plan](docs/RENDERING-RESET-SALVAGE.md). Current raster-overlay previews are not acceptance of the requested vector scene.
+
 > Experimental map UX: [authoritative product requirements](docs/MAP-PRODUCT-REQUIREMENTS.md). This supersedes earlier standalone viewer/atlas/heatmap plans; geographic3D remains incomplete.
 
 # FLOODplain

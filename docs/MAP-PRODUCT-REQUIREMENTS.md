@@ -1,49 +1,121 @@
-# Map product requirements — authoritative experimental UX brief
+# FLOODplain: safety home and geographic flood map
 
-This file records Marshall's clarified intent. It overrides older experimental viewer, atlas, heatmap and terrain-demo plans. Keep original app functionality. A successful render is not acceptance. Latest clarification: SAFETY AND ROUTES ARE THE HOME PRODUCT. The full-screen geographic map is an advanced view, not a replacement home.
+Authoritative product and UX checklist, reset 2026-11-01 after the user's instruction to interrupt both builds. Supersedes every earlier map-first-home, standalone-viewer, raster-overlay and decorative-effects acceptance checklist. Implementation stopped for this checklist reset; resume the corrected plan after parent/renderer interface coordination, not an indefinite hold or a new approval ritual. Preserve existing code and data; do not restart or discard working components.
 
-## Product and non-negotiable meaning
-- The home prioritizes existing closures, warnings, live readings, risk explanations, freshness, saved routes and navigation. Its basic map offers a compact aggregate cell-depth outlook; the frozen run is explicitly frozen, never current weather. Advanced controls belong to `#/map` in the same app.
-- Preserve the existing geographic map: Leaflet/OSM, routes, crossings, saved routes, live observations, closures and navigation remain.
-- 2D flood data shades exact native model-cell footprints over that map, quantitatively by available cell-average depth. No circles, radial heatmaps, pooled blobs, smoothed contours standing in for cells, fabricated resolution or decorative waves.
-- A visible quantitative depth key is essential. Tap a cell for model, selected hour, depth in metres AND feet, and missing/zero distinction. Mean depth means water volume divided by full cell area; it is not surveyed road depth or native water-surface elevation.
-- 3D is an alternative GEOGRAPHIC MAP LAYER/VIEW, sharing viewport, time/range, selection and route context. A detached modal, analytics viewer, isolated terrain scene or chart is rejected, even if technically accurate. The prior separate Three.js viewer is no longer called. Geographic renderer work is owned separately; first integration is not yet visually accepted.
-- Use native zs for water-surface elevation if 3D is implemented. Never derive it by adding mean depth to mean terrain. Preserve datum and actual grid geometry. A100m cell does not resolve its within-cell wet footprint.
+## What we are building, in human terms
 
-## Interaction
-- Advanced map phone default is sparse and map-first: labelled Routes, Time, Map options; substantial48px main controls. One contextual nonmodal sheet at a time; desktop adapts to one side pane. No universal floating Navigate button; navigation belongs to a selected route/place.
-- Start/End hour selectors,6h/12h/full available span presets, Apply/Cancel. Selected range is the browsing window; Showing time is one actual frame.15timestamps span14elapsed hours. No fake minute precision or silent maximum-depth aggregation.
-- Preserve viewport while scrubbing, changing layers or routine data refresh. Keep models/layers, sources and optional3D behind Map options. Retain explicit frozen/stale/error status.
-- Missing HAND/rain frames clear their layer, never hold an old frame beneath a new timestamp. Missing model depth is visibly distinct from0. Related NOAA forcing is not independent confirmation.
-- Recent observations Today/last24hours are secondary and API-backed. Older archive browsing deferred. Do not refresh frozen model inputs or start production automation as a UI task.
+Open FLOODplain to understand your route: what is closed, what the gauges and warnings say, what changed, and how fresh that information is. The existing safety engine stays at the center.
 
-## Prefab first
-Use existing Leaflet Canvas polygon renderer for native footprint shading. Reuse installed libraries and official examples before writing new effects. Three.js0.170.0+OrbitControls is already vendored under MIT; native terrain/zs exports are reusable, but the first map-aligned3D integration awaits the separate renderer worker's verification.
-References: https://leafletjs.com/reference.html#canvas ; https://developer.android.com/design/ui/mobile/guides/layout-and-content/adapt-layout ; https://developer.apple.com/design/human-interface-guidelines/maps ; https://www.nngroup.com/articles/progressive-disclosure/ ; https://threejs.org/manual/pages/voxel-geometry.html ; https://threejs.org/manual/pages/transparency.html . Examples must be checked against installed version and product requirements, not copied blindly.
+Open the map when you want to see the water: where the model places it, how deep it is, and how it changes over the available hours. Roads, land and permanent water are drawn from geographic data. Model water belongs in that same geographic scene. Switching between a flat map and a tilted view keeps the same place, hour, route and selected cell.
 
-## Acceptance ledger
-| Requirement | State and evidence |
-|---|---|
-| Original geographic app preserved | Implemented; remote routes, live feeds and navigation inspected in b79e0d9 |
-| Advanced map: sparse phone / one sheet / desktop side pane | Verified390x844 and360x800 advanced map no page scroll; home intentionally scrolls through safety/route content. Old map-first HOME acceptance is superseded. |
-| Start/End and Apply/Cancel | Verified6h window restricts endpoint;12h draft Cancel preserves6h; hour stays synchronized |
-| Exact per-cell2D depth | Implemented854877c using29,685 EPSG32612 footprints,100m corners; remote854877c inspected native square cells on the street map at8PM MST |
-| Depth in metres/feet and no-data | Implemented cell popup and quantitative map key; gray missing, transparent below.01m/outside; verified cell9344 at8PM:3.368m /11.05ft with model/time/semantics in popup |
-| Map-aligned3D | First geographic integration committed05807c2, NOT visually accepted. Separate renderer owner completes it under docs/GEOGRAPHIC-MAP-HANDOFF.md. Detached scene rejected. Native zs export verification is data evidence only. |
-| Recent API observations | Verified93Cortaro provisional flow readings;15min cache; null/empty/429retention checks pass |
-| Automatic model updates | NOT ENABLED. Preview is frozen. Existing live refresh remains; no production schedule/trigger changes |
+Tap a road or crossing to understand the route implications. Tap modeled water to read the depth and time. The app must make it equally clear when it does not know. It must not turn missing coverage into a clear road.
 
-Before claiming done, inspect actual phone and desktop: visible geographic location, selected time, quantitative depth, functioning cell tap and range controls. Publish non-sensitive screenshot evidence. Report missing requirements plainly. Do not replace this checklist with 'renders', test counts, architecture notes or promises of accuracy.
+This is an upgrade to the existing app, not a second dashboard or a replacement safety engine. A frozen run is a replay, even if presented with a simulated clock.
 
-## Latest visual evidence and 3D constraint
-The exact-cell layer was inspected remotely at commit 854877c on desktop and at 390x844. The phone tap returned SFINCS cell 10446, Nov 1 8 PM MST, 0.034 m / 0.11 ft mean depth. Screenshots: `public/simulation/preview/native-cell-depth-desktop.png` and `native-cell-depth-phone.png`. These captures precede b05fdbd's open-popup refresh and range-label spacing fixes; those fixes are not claimed visually verified here.
+## What the user rejected
 
-The official MapLibre Leaflet adapter explicitly lacks bearing/pitch/rotation support: https://github.com/maplibre/maplibre-gl-leaflet . It cannot supply the requested tilted map. The smallest viable path to assess is an optional MapLibre surface in the existing map container, with a geographic custom layer and shared center/zoom/time/range/selection/routes. Retain Leaflet for 2D. Existing native zs, cell footprints and Three.js instances can supply geometry, but OrbitControls on a detached scene cannot supply the shared geographic camera. This is a pending integration decision, not completed 3D.
+- Raster street-map pictures with painted graphics presented as the requested geographic renderer. That is the current implementation, not the final architecture.
+- Green land-cover areas being mistaken for modeled flooding; decorative pools, radial circles, particles or smoothed blobs standing in for real model cells.
+- A separate terrain/analytics window with its own camera, time controls and lost road context.
+- Hiding warnings, route recommendations, saved routes or navigation behind a full-screen map home.
+- A play/pause bar without a readable selected time, range or useful control.
+- Claiming completion from HTTP200, a loaded library, a screenshot of the basemap, or 'it renders'.
+- Using better graphics to imply better model resolution, road-depth accuracy, verified lowspots or calibrated confidence.
 
-## Safety-first correction (latest instruction)
-The earlier map-first HOME interpretation is rejected. Preserve the original published safety engine and visible route experience; do not hide it behind a sheet. The advanced map may remain full-screen with one contextual sheet. A two-hour shortcut browses two actual hourly intervals in the frozen case, not a live two-hour forecast. Unknown model coverage cannot clear official closures or observed hazards.
+## Home journey: decide what to do about a route
 
-Current implementation restores original screen content on home and routes, with the basic map alongside on desktop and below on phone. `#/map` is the advanced map route. Geographic 3D uses MapLibre 6.16.0 and Three.js 0.170.0 custom layer on the same map surface, with shared time and geographic camera. It is under visual verification, not yet marked accepted. Terrain is lightly drawn native 100 m block wireframes to retain street context; native water levels are elevated relative to a constant 550 m display origin, preserving physical differences (no relief exaggeration). Colors and tap values remain cell-average depth, not water-surface elevation or exact wet area.
+1. Open the existing home. See active warnings/closures and source freshness before relying on a recommendation. Keep the existing risk explanation and navigation behavior.
+2. Read the suggested route and its reasons. Other routes and saved routes remain directly reachable; closures cannot be cleared by a model.
+3. See a compact map/outlook beside the safety content on desktop, after the route summary on phone. Default model treatment is aggregate evidence, with individual sources accessible in the advanced map.
+4. Browse a convenient two-hour window only if supported by actual frames. If the only package is frozen, label its real date and 'Frozen replay — not current weather'. Do not call it 'next two hours' of today's weather.
+5. Tap a crossing for observed status, model concern, missing coverage and a short Why explanation. Simulation can add concern; an absence of modeled water is not clearance.
+6. Choose Explore map for geographic exploration. Returning restores the same route/home context.
 
-## Safety-home verification at fe4962a
-Remote GitHack inspected at390x844 and1280x720. Home exposes source freshness, current NWS area warning/watch, original recommendation/rating, route readings, navigation and saved-route entry. Mobile basic map is directly after the route hero; desktop map sits alongside safety content. Two-hour frozen shortcut selected10AM,11AM,noon and disabled next atnoon. Advanced #/map retainednoon and the same2hourwindow. Returninghome restoredroutecontent. Route details retain separate frozen simulation context and expandable heuristic-confidence explanation. No browser console errors observed. Screenshots: safety-home-phone.png, safety-home-outlook-phone.png, safety-advanced-map-phone.png, safety-route-desktop.png under public/simulation/preview/. No current model forecast is claimed; no production schedule, main deployment, Twilio or solver changes.
+Home acceptance: actual warning/closure and stale-source states remain visible; navigation and saved routes work; the model cannot replace or silently downgrade the original engine. Show this with the existing route data and a known exclusion/unknown case, not a made-up safe route.
+
+## Advanced map journey: understand where water goes
+
+1. Enter #/map within the same app. Keep the current geographic center, scale, route and selected hour. A visible Home/Routes control returns to safety content.
+2. Render roads, land use/cover, permanent water and labels from a real vector-tile or bounded GeoJSON source. The source/style, license, coverage, CORS and hosting must be verified. A raster tile source under MapLibre is still raster and does not satisfy this requirement.
+3. Render native model geometry in that coordinate system. 2D uses actual cell footprints and quantitative depth. 3D uses verified terrain and native water-surface elevation with the same cell identity. Use the geographic camera; no detached OrbitControls scene.
+4. Select HAND, 2D model or Aggregate. Explain only the active source and actual availability. Aggregate preserves differences and disagreements; it does not average incompatible depths or count shared NOAA forcing as independent evidence.
+5. Select Flat/3D independently from model choice. Preserve place, hour, range, route, selection and units. If 3D is unavailable, retain a functioning flat geographic map and show the reason.
+6. Select an hour or edit Start/End. The range limits browsing; it does not silently become maximum depth across the period. Previous/next and labeled non-drag choices must work.
+7. Tap a cell: show model, exact displayed hour, cell-average depth in metres/feet, resolution and missing state. Tap a route: show original risk, relevant model evidence, freshness and why the assessment changed or stayed unchanged.
+8. Fit route, fit model bounds, locate or reset view deliberately. Time/model changes must not jerk the camera around. A Find modeled water action is optional wayfinding to actual nonzero data, never a manufactured demonstration.
+
+## Rendering contract and states
+
+State has separate fields for geographic viewport, selected route/cell, flat/3D view, requested model/hour, displayed model/hour, range, units and source clock. One owner updates it; renderer and UI consume it.
+
+| State | What the user sees | Required behavior |
+|---|---|---|
+| Off | Geographic map and existing route markers; model explicitly off | No residual model geometry |
+| Loading | Requested source/hour and loading state | Keep old displayed time with old frame, or clear it; never relabel old graphics as the new hour |
+| Ready | Displayed source/hour, quantitative depth key, actual geometry | Cell picking and legend use the same frame values |
+| Valid but shallow/dry | Below-display-threshold/zero stated distinctly | Do not amplify tiny values into dramatic flooding; do not claim road passability |
+| Outside domain | No model coverage here | Do not treat outside bounds as dry; offer explicit fit/return |
+| Missing cell or frame | Unknown/no result | Clear stale geometry; missing is not numeric zero |
+| HAND-only | Estimated extent; no invented depth | Depth readout unavailable if provider does not supply it |
+| Source disagreement | Mixed evidence with source names | Preserve conflict; no blind average |
+| Fetch/decode/render failure | Visible failure and retained live safety content | No silent unchanged basemap presented as a successful mode switch |
+| Stale/expired live source | Original source time plus stale state | Retrieval/check time does not renew observation age |
+| Frozen replay | Original date, issue/valid time and replay label | Never mixed into real-current route recommendations |
+
+Map-data layers are semantic: quiet land background, recognizable roads/labels and permanent water; modeled depth uses a distinct quantitative palette. Missing coverage has its own treatment. Rain and flow are separate overlays with units, not alternative names for flood depth. No velocity arrows without vector output; available NWM discharge is not downstream SFINCS flow.
+
+## Time and observations
+
+- One readable Arizona-local date/time with MST. Source issuance remains distinct from displayed valid time.
+- Existing output has15hourly frames spanning14elapsed hours. No invented minute-by-minute precision or interpolated certainty.
+- Range editor: Start, End, Apply, Cancel; presets bounded by actual coverage. Cancel preserves the prior range. Layer/view switches preserve it.
+- Today/last24h observed gauges are secondary. Show observed/provisional/qualified status and actual units; gauge height is not road-water depth.
+- Current observations, issued forecasts and frozen simulations remain separate clocks/evidence. No new old-history browser or automatic model refresh as part of this UX reset.
+
+## Phone and desktop
+
+Phone home is safety-first and may scroll. Advanced map is a focused viewport: readable time, active depth key, substantial controls and one contextual sheet. Default view does not expand model settings, metadata, charts or multiple floating cards. Desktop uses one restrained contextual side panel beside the map. Touch targets aim for48px; text must reflow at320px without horizontal page scroll. Do not turn these design targets into claims of accessibility certification.
+
+Verify360x800 and390x844 phone, landscape and a desktop viewport. Controls must remain usable with larger text and keyboard focus. At a minimum, a person can find their route, identify the selected time, read a depth, move one hour and return home without hunting through expert settings.
+
+## Model limits: graphics cannot manufacture hydrology
+
+Current frozen package:29,685 computational cells at100m, 10m subgrid terrain reported by the solver owner, and15displayed hourly frames. The solver owner reports19of60route-crossing records inside the current domain; Los Robles/North Trico and Brawley/Avra Valley are outside. This is a source-owner coverage audit, not a count independently derived from the current app manifest: its crossings list is absent. The renderer/UI must consume the actual versioned coverage registry, not hardcode this count or infer support from a nearby colored cell. Basemap coverage and hydraulic-model coverage are separate. Depth is reconstructed volume divided by full cell area, not measured street depth, a cell maximum or zs minus minimum/mean terrain. Native zs is a water-surface elevation with its recorded datum. Preserve source hashes and frame/cell order.
+
+Off-channel lowspots are a REQUIRED capability question, not a finished claim. Before advertising them, identify an actual off-channel location inside the modeled active domain, confirm terrain/boundary/rainfall support, then inspect its real time series and spatial output. If absent, dry, unresolved by100m cells or unsupported, report that exact limit. The renderer may reveal existing model output; it cannot invent culverts, roadside depressions, bathymetry or missing drainage. A finer-looking basemap does not make the model finer.
+
+No calibrated ±accuracy can be inferred from these graphics. Preserve existing event-specific diagnostic evidence and geometry-vintage caveats. Official closures remain exclusions; unknowns stay unknown. Models cannot certify a road safe.
+
+## Evidence-backed acceptance checklist
+
+- [ ] REAL VECTOR BASEMAP: inspect loaded vector/GeoJSON road/land/water features and style layers. Demonstrate a geographic feature selection/style change; pre-rendered raster images are insufficient.
+- [ ] SAME SCENE: flat/3D show the same location, route, cell and hour; switching back preserves viewport and selection.
+- [ ] ACTUAL DEPTH: a known nonzero cell is visible, selectable and agrees with the recorded data in both units. Compare two real hours with differing values and show the geometry/color/readout updates.
+- [ ] NO SILENT STATES: exercise unavailable frame, outside domain and loading/error states. Basemap visibility alone is not success.
+- [ ] WATER VERSUS LAND: permanent water/landcover cannot be mistaken for model depth; legend names the actual quantity.
+- [ ] ROUTE CONTEXT: closures, warnings, source age, route details, saved routes/navigation and original risk logic remain accessible. Frozen model context stays separate.
+- [ ] TIME: hour, range endpoints, Apply/Cancel and camera preservation work on phone and desktop.
+- [ ] LOWSPOTS: record one actual supported off-channel example OR explicitly mark unresolved/unsupported. Do not fake a success fixture.
+- [ ] REMOTE DELIVERABLE: inspect the actual remote page and data, publish non-sensitive screenshots with commit and selected time. Mark unverified requirements missing.
+
+These are acceptance requirements, not claims that current code passes them. No new solver run, source refresh, main merge, production deployment or Twilio changes is authorized by this checklist.
+
+## Current evidence and screenshot limitation
+
+Earlier remote inspections verified original safety home, exact native-cell overlay values and hour controls. They did NOT verify the newly requested vector-rendered scene. Current Leaflet and initial MapLibre implementations both use OSM raster tiles, so the vector requirement is NOT MET.
+
+The supplied screenshot libfile_25c656d7f9f88191ae96a43e28cd9a28 was resolved in Library but could not be materialized: the required helper failed on Windows with AttributeError: os.setxattr unavailable. A subsequent Library read returned metadata, an image asset pointer and OCR, but no image bytes supported by the local image viewer. No user-screenshot pixels were inspected by this worker. Do not infer its contents from the user's description or substitute our earlier screenshots as if they were the attachment.
+
+## Reuse and ownership
+
+Keep the original safety/routing engine, route GeoJSON and crossing identities, live fetch/cache/freshness handling, native model/terrain/zs exports, exact cell geometry, hourly/range state, depth conversion, source provenance and remote preview tooling. Current raster overlays remain a diagnostic fallback, not accepted final renderer.
+
+UI owner: app.js, map-shell.js, map-layers.js, map-layers.css and this checklist. Renderer owner: geographic-view source/bundle, vector source/style and renderer-specific CSS. Coordinate the shared state contract before implementation resumes. No parallel edits to the same files. Coordinate the vector source, coverage-registry payload and frame-ready event next, then continue the corrected implementation; do not resume the obsolete raster-overlay brief.
+
+## Established references
+
+- MapLibre vector/GeoJSON versus raster source definitions: https://maplibre.org/maplibre-style-spec/sources/ . Use actual features; do not relabel raster tiles as vector rendering.
+- MapLibre geographic custom layer interface: https://maplibre.org/maplibre-gl-js/docs/API/interfaces/CustomLayerInterface/ . Match the pinned library's API and shared camera/context.
+- Android adaptive layout guidance: https://developer.android.com/design/ui/mobile/guides/layout-and-content/adapt-layout . Adapt content and controls to available width; do not shrink a desktop dashboard onto phone.
+
+References guide implementation. They do not prove our app meets the checklist.
