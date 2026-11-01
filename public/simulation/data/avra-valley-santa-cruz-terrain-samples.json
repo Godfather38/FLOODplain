@@ -1,0 +1,40 @@
+{
+  "structureId": "10125",
+  "verticalDatum": "NAVD88",
+  "sourceResolutionM": 1,
+  "anchors": {
+    "SW_approach_imagery": {
+      "lonLat": [
+        -111.147705,
+        32.402099
+      ],
+      "stationM": 19370.54139939375,
+      "offsetFromRouteM": 3.7124513045303136,
+      "terrainNAVD88M": 633.5728759765625,
+      "nearestRouteTerrainNAVD88M": 633.6234741210938,
+      "retainedTile": "terrain-1m-486000-3585000.tif"
+    },
+    "NE_approach_imagery": {
+      "lonLat": [
+        -111.145022,
+        32.402923
+      ],
+      "stationM": 19638.826706004747,
+      "offsetFromRouteM": 2.0711143606215328,
+      "terrainNAVD88M": 633.9579467773438,
+      "nearestRouteTerrainNAVD88M": 633.9613037109375,
+      "retainedTile": "terrain-1m-486000-3585000.tif"
+    },
+    "ADOT_bridge_point": {
+      "lonLat": [
+        -111.14628276162284,
+        32.40251301714451
+      ],
+      "stationM": 19511.91313226922,
+      "offsetFromRouteM": 0.14196590285273167,
+      "terrainNAVD88M": 627.0651245117188,
+      "nearestRouteTerrainNAVD88M": 627.2811889648438,
+      "retainedTile": "terrain-1m-486000-3585000.tif"
+    }
+  }
+}

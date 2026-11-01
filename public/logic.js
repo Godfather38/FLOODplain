@@ -165,7 +165,7 @@ export function checkNws(alerts, kind) {
 }
 
 // Compare absolute elevations only at the same bridge, in metres and the same datum.
-export function bridgeHeightComparison(record, now) {
+export function bridgeHeightComparison(record, now, policy) {
   const road = record?.roadwayEstimate, water = record?.modelWater;
   if (!road || !Number.isFinite(road.elevationM)) return { status: 'unavailable', reason: 'Roadway elevation estimate is missing.' };
   if (!water || water.quantity !== 'water_surface_elevation' || water.units !== 'm' || water.verticalDatum !== road.verticalDatum || JSON.stringify(water.location) !== JSON.stringify(record.location)) return { status: 'unavailable', reason: 'Matching water-surface elevation at this bridge in ' + road.verticalDatum + ' is missing.' };
@@ -173,15 +173,22 @@ export function bridgeHeightComparison(record, now) {
   const frames = water.frames.filter(f => Number.isFinite(f.elevationM) && Date.parse(f.time) >= now && Date.parse(f.time) >= Date.parse(water.validFrom) && Date.parse(f.time) <= Date.parse(water.validTo));
   if (!frames.length) return { status: 'unavailable', reason: 'No defined water-surface elevation remains in this forecast.' };
   const peak = frames.reduce((a,b) => b.elevationM > a.elevationM ? b : a);
-  return { status: 'estimated', roadM: road.elevationM, waterM: peak.elevationM, differenceM: road.elevationM - peak.elevationM, time: peak.time, datum: road.verticalDatum, validFrom: water.validFrom, validTo: water.validTo };
+  const channel=record.channelReference;
+  const channelValid=channel&&Number.isFinite(channel.elevationM)&&channel.verticalDatum===road.verticalDatum&&channel.structureId===record.structureId&&road.elevationM>channel.elevationM;
+  const heightAboveChannelM=channelValid?road.elevationM-channel.elevationM:null;
+  const thresholds=channelValid&&policy?{warningM:channel.elevationM+policy.warningFraction*heightAboveChannelM,roadwayM:channel.elevationM+policy.roadwayFraction*heightAboveChannelM,likelyClosedM:channel.elevationM+policy.likelyClosedFraction*heightAboveChannelM}:null;
+  const assessment=thresholds?(peak.elevationM>=thresholds.likelyClosedM?'likely_closed':peak.elevationM>=thresholds.roadwayM?'roadway_concern':peak.elevationM>=thresholds.warningM?'warning':'below_warning'):(peak.elevationM>=road.elevationM?'roadway_concern':'unavailable');
+  const assessmentLabel={likely_closed:'likely closed — model estimate',roadway_concern:'modeled water reaches estimated roadway',warning:'warning — modeled water within the lower 10% roadway margin',below_warning:'modeled water below the bridge warning level',unavailable:'channel reference unavailable; percentage thresholds not computed'}[assessment];
+  return { channelM:channelValid?channel.elevationM:null,heightAboveChannelM,thresholds,assessment,assessmentLabel,status: 'estimated', roadM: road.elevationM, waterM: peak.elevationM, differenceM: road.elevationM - peak.elevationM, time: peak.time, datum: road.verticalDatum, validFrom: water.validFrom, validTo: water.validTo };
 }
 
 // A discharge threshold describes the river, not water reaching a particular bridge.
-function bridgeRiverCheck(check,record,now){
+function bridgeRiverCheck(check,record,now,policy){
  const history=record?.documentedHistory??[];
- const heightComparison=bridgeHeightComparison(record,now),modeledRoadConcern=heightComparison.status==='estimated'&&heightComparison.differenceM<=0;
- return {...check,level:modeledRoadConcern?'caution':heightComparison.status==='estimated'?'ok':'unknown',modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
-  why:modeledRoadConcern?`Modeled water ${heightComparison.waterM.toFixed(2)} m reaches or exceeds the estimated roadway ${heightComparison.roadM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}; estimated roadway flooding concern, not an observed closure.`:heightComparison.status==='estimated'?`Estimated road ${heightComparison.roadM.toFixed(2)} m; modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum}, ${heightComparison.differenceM.toFixed(2)} m below road at ${heightComparison.time}. No bridge-flooding penalty from this comparison; other hazards still apply.`:heightComparison.reason+' Gauge discharge is shown as context, without a bridge rating penalty.',
+ const heightComparison=bridgeHeightComparison(record,now,policy),modeledRoadConcern=heightComparison.status==='estimated'&&heightComparison.differenceM<=0;
+ const assessedLevel={likely_closed:'danger',roadway_concern:'caution',warning:'watch',below_warning:'ok'}[heightComparison.assessment]??'unknown';
+ return {...check,level:assessedLevel,modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
+  why:heightComparison.status==='estimated'?`${heightComparison.assessmentLabel}: estimated road ${heightComparison.roadM.toFixed(2)} m, modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}. Official closure status is separate.`:heightComparison.reason+' Gauge discharge is context only.',
   detail:(check.detail?check.detail+'. ':'')+(record?'Site-linked structure record '+record.id+'. ':'No exact structure record. ')+(history.length?'Historical flooding is documented for this site; it is not a current closure or measured flow-to-road threshold. ':'No site-linked flooding history establishes a current road threshold. ')+(record?.roadwayEstimate?'A provisional roadway-height comparison is shown in height & history; it is not surveyed deck or underside clearance. ':'Current roadway elevation is unavailable. ')+'Clearance is unknown, not confirmed clear.',
   heightComparison,
   bridgeEvidence:{recordId:record?.id??null,historyDates:history.map(h=>h.date),clearance:'unknown'}};
@@ -199,7 +206,7 @@ export function rateFailurePoint(fp, d, cfg) {
   if (nws) checks.push({ src: 'nws', ...nws });
   if (fp.river) {
     const river=checkRiver(d.flows, fp.river, cfg.USGS_SITES, cfg.RIVER);
-    checks.push({ src: 'river', ...(['river','bridge'].includes(fp.kind)?bridgeRiverCheck(river,d.bridgeEvidence?.[fp.id],now):river) });
+    checks.push({ src: 'river', ...(['river','bridge'].includes(fp.kind)?bridgeRiverCheck(river,d.bridgeEvidence?.[fp.id],now,cfg.BRIDGE_POLICY):river) });
     const early = checkRiverEarly(d.flows, cfg.RIVER_EARLY, cfg.USGS_SITES, cfg.RIVER);
     if (early) checks.push({ src: 'river-early', ...early, ...(['river','bridge'].includes(fp.kind)?{level:'unknown',contextOnly:true,why:early.why.split(':')[0]+': upstream readings; no site-specific travel time or roadway height comparison'}:{}) });
   }

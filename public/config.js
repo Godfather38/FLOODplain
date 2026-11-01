@@ -284,3 +284,7 @@ export const CLOSURE_BOUNDS = [
   Math.max(...FAILURE_POINTS.map((p) => p.lon)) + 0.01,
   Math.max(...FAILURE_POINTS.map((p) => p.lat)) + 0.01,
 ].join(',');
+
+// Operator-selected fractions of estimated roadway height ABOVE the same-site channel.
+// Decision policy, not an uncertainty/confidence interval.
+export const BRIDGE_POLICY = { warningFraction: 0.9, roadwayFraction: 1, likelyClosedFraction: 1.1 };
