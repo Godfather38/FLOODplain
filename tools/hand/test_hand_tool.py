@@ -1,6 +1,6 @@
 import unittest
 
-from hand_tool import display_water, exclusion, forecast_for, match_confidence, name_agreement, rating_problem, reach_forecast_problem, slug, stage_for_flow
+from hand_tool import choose_reach, display_water, sliver_problem, exclusion, forecast_for, match_confidence, name_agreement, rating_problem, reach_forecast_problem, slug, stage_for_flow
 
 STATIONS = {'SCTA3': {'usgsId': '09486520', 'reachId': '15890430'}}
 
@@ -44,6 +44,23 @@ class Confidence(unittest.TestCase):
         self.assertIsNone(exclusion(90, 'no_name', ''))
         self.assertEqual(exclusion(10, 'canal', 'Central Arizona Project Aqueduct')[0], 'wrong_water')
         self.assertEqual(exclusion(15, 'conflict', 'Santa Cruz River')[0], 'wrong_water')
+
+
+class Slivers(unittest.TestCase):
+    def test_river_branch_beats_a_nearer_sliver(self):
+        sliver = {'branch': '0', 'distanceM': 22, 'name': 'Santa Cruz River', 'hydroId': 1, 'featureId': 7}
+        river = {'branch': '1589000003', 'distanceM': 86, 'name': 'Santa Cruz River', 'hydroId': 2, 'featureId': 7}
+        self.assertEqual(choose_reach([sliver, river])['hydroId'], 2)
+        self.assertEqual(choose_reach([sliver, {**river, 'distanceM': 280}], 'Santa Cruz River')['hydroId'], 2)
+        self.assertEqual(choose_reach([sliver, {**river, 'distanceM': 280}])['hydroId'], 1)
+        self.assertEqual(choose_reach([sliver, {**river, 'distanceM': 400}], 'Santa Cruz River')['hydroId'], 1)
+        other = {**river, 'featureId': 8, 'name': 'Brawley Wash', 'distanceM': 40}
+        self.assertEqual(choose_reach([{**sliver, 'name': 'Los Robles Wash'}, other], 'Los Robles Wash')['hydroId'], 1)
+
+    def test_a_narrow_big_river_is_refused(self):
+        self.assertIn('8 m wide', sliver_problem(6, 7.5, .84))
+        self.assertIsNone(sliver_problem(6, 96, 13.9))
+        self.assertIsNone(sliver_problem(1, 7.5, .84))
 
 
 class Forecast(unittest.TestCase):

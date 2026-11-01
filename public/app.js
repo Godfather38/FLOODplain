@@ -12,7 +12,7 @@ import {
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
 const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62828' };
-const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
+const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
 const SRC = {
   none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
   hand: ['🗺️', 'HAND flood model'], wash: ['〰️', 'Wash flow'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
@@ -282,11 +282,11 @@ function howScreen() {
   return `<div class="page">
     <h4>The number</h4>
     <ul class="legend">
-      ${[1, 2, 3, 4, 5].map((n) => `<li>${badge(n)}<span><b>${WORD[n]}.</b> ${['Nothing in the data points to water.', 'Some water around; usually passable. Look as you go.', 'Water likely at or near the road.', 'Several signs agree water is at the road.', 'The county closed it, or a flood is running.'][n - 1]}</span></li>`).join('')}
+      ${[1, 2, 3, 4, 5].map((n) => `<li>${badge(n)}<span><b>${WORD[n]}.</b> ${['Nothing in the data points to water.', 'Some water around. Look as you go.', 'Water likely at or near the road.', 'Several signs agree water is at the road.', 'The county closed it, or a flood is running.'][n - 1]}</span></li>`).join('')}
       <li>${badge(null)}<span><b>No data.</b> Not the same as fine.</span></li>
     </ul>
     <h4>The HAND flood model</h4>
-    <p>Where NOAA's stream data matches a crossing, the first source shown is HAND, an estimate of how high forecast flow reaches above the stream bed. It counts for more than rain: modeled water raises a crossing's number. A low or zero model flow never lowers one, because the model leaves out local runoff. It's an estimate, not a reading, and it isn't depth on a road.</p>
+    <p>Where NOAA's stream data matches a crossing, the first source shown is HAND, an estimate of how high forecast flow reaches above the stream bed. With an official NOAA gauge forecast it counts for more than rain: estimated water raises a crossing's number. Elsewhere it uses a rougher model flow, which can raise a Santa Cruz crossing to Minor at most and doesn't change the number on washes. A low or zero flow never lowers one, because local runoff isn't included. It's an estimate, not a reading, and it isn't depth on a road.</p>
     <h4>Using it</h4>
     <p>The top card is the route with the least going against it. The numbers are the same whichever way you're driving. Tap <b>Navigate</b> to drive it in Google Maps; it heads for I-10 when you're in Avra Valley, and back to Trico &amp; El Tiro when you're not. Tap <b>Details</b> or any route to see its stretches, then any stretch to see what each source says. The map follows along.</p>
     <p>A route's number is its worst stretch. The map only marks stretches that aren't normal.</p>

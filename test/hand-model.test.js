@@ -36,7 +36,7 @@ test('modeled water outranks a calm outlook and is named on the card',()=>{
 });
 
 test('a zero or low model flow never lowers or hides a rain caution, and is not called dry',()=>{
- const check=handCheck(byFp['sc-trico-marana'],forecastCfs(0),now);assert.equal(check.raise,false);assert.notEqual(check.level,'ok');assert.match(check.why,/doesn't mean dry/);
+ const check=handCheck(byFp['sc-trico-marana'],forecastCfs(0),now);assert.equal(check.raise,false);assert.notEqual(check.level,'ok');assert.match(check.why,/doesn't mean dry/i);
  for(const level of ['watch','caution','danger','ok','unknown']){
   const r={x:point(level)};applyHand(r,{checks:{x:check}});
   assert.equal(r.x.level,level);assert.equal(r.x.why,'rain');assert.equal(r.x.checks.length,2);assert.equal(r.x.checks[1].src,'rain-local');
@@ -45,8 +45,9 @@ test('a zero or low model flow never lowers or hides a rain caution, and is not 
 });
 
 test('a possible match can only reach watch, and unusable forecasts raise nothing',()=>{
- const possible=Object.values(byFp).find(p=>p.confidence?.band==='Possible match');assert.ok(possible);
- const check=handCheck(possible,forecastCfs(50000),now);assert.ok(['watch','unknown'].includes(check.level));
+ const possibleGauge={...byFp['sc-trico-marana'],confidence:{...byFp['sc-trico-marana'].confidence,band:'Possible match'}};assert.equal(handCheck(possibleGauge,forecastCfs(5000),now).level,'watch');
+ for(const row of Object.values(byFp).filter(p=>p.forecast?.kind==='nwm_reach')){const c=handCheck(row,forecastCfs(5000),now);assert.notEqual(c.level,'caution',row.id);if(row.app.order<5){assert.equal(c.raise,false,row.id);assert.match(c.detail,/does not change the crossing's number/);}}
+ assert.equal(handCheck(byFp['sc-avra'],forecastCfs(5000),now).level,'watch');assert.equal(handCheck(byFp['brawley-dip'],forecastCfs(5000),now).raise,byFp['brawley-dip'].app.order>=5);
  for(const f of [{status:'unavailable',reason:'down'},{status:'expired',reason:'old'},undefined]){const c=handCheck(byFp['sc-trico-marana'],f,now);assert.equal(c.raise,false);}
  const stale=handCheck(byFp['sc-trico-marana'],{...forecastCfs(5000),status:'stale'},now);assert.equal(stale.raise,false);assert.match(stale.why,/old forecast/);
  const off=handCheck(byFp['elpaso-dip'],undefined,now);assert.equal(off.raise,false);assert.match(off.detail,/^Missing coverage/);

@@ -22,7 +22,7 @@ test('every crossing has exactly one recorded outcome',()=>{
  assert.equal(new Set(coverage.points.map(p=>p.id)).size,keys.size);
  assert.equal(coverage.points.length,Object.values(coverage.counts).reduce((a,b)=>a+b));
  for(const p of coverage.points){assert.ok(p.evidence);assert.ok(keys.has([p.lon,p.lat].map(n=>n.toFixed(5)).join()));assert.equal(p.status==='supported',Boolean(p.file));}
- const files=readdirSync(new URL('../public/inundation/data/',import.meta.url)).filter(f=>!f.startsWith('nwps-')&&f.endsWith('.json')&&f!=='coverage.json').sort();
+ const files=readdirSync(new URL('../public/inundation/data/',import.meta.url)).filter(f=>!f.startsWith('nwps-')&&f.endsWith('.json')&&f!=='coverage.json'&&f!=='backtest.json'&&f!=='checks.json').sort();
  assert.deepEqual(files,supported.map(p=>p.file).sort());
 });
 

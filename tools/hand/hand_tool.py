@@ -23,6 +23,7 @@ STATIONS = {'SCTA3': {'usgsId': '09486520', 'reachId': '15890430'},
             'BWTA3': {'usgsId': '09487000', 'reachId': '15876941'}}
 FULL_POINTS_WITHIN_M, ZERO_POINTS_AT_M = 50, 1500
 CLOSE_REACH_M, NAMED_REACH_M = 100, 310  # Owner's rule: past 100 m only for a named stream, as at Avra Valley Rd -111.24501.
+MAIN_STEM_ORDER, MIN_MAIN_STEM_WIDTH_M = 5, 20
 MAX_GAUGE_KM = 10
 MAX_RADIUS_M = 2000
 MIN_VALID_HAND_FRACTION = 0.95
@@ -82,6 +83,25 @@ def display_water(water, noaa, agreement):
     if water:
         return water
     return f'{str(noaa).strip()} (NOAA name)' if agreement == 'one_name' else None
+
+
+def choose_reach(found, water=None):
+    best = min(found, key=lambda f: f['distanceM'])
+    rivers = sorted((f for f in found if f['branch'] != '0'), key=lambda f: f['distanceM'])
+    if best['branch'] == '0' and rivers:
+        river = rivers[0]
+        named = water and str(river.get('name') or '').strip().lower() == water.strip().lower()
+        same_reach = river['featureId'] == best['featureId'] and river['distanceM'] <= CLOSE_REACH_M
+        if same_reach or (named and river['distanceM'] <= NAMED_REACH_M):
+            return river
+    return best
+
+
+def sliver_problem(order, width_at_1m, area_km2):
+    """Reason a big river's catchment is really a sliver, or None."""
+    if (order or 0) >= MAIN_STEM_ORDER and width_at_1m < MIN_MAIN_STEM_WIDTH_M:
+        return f'This catchment models a stream-order {order} river as a channel {width_at_1m:.0f} m wide on {area_km2:.1f} sq km, so its rating curve runs too high.'
+    return None
 
 
 def forecast_for(reach, gauge, stations=STATIONS, max_km=MAX_GAUGE_KM):
@@ -213,21 +233,27 @@ def hand_key(huc, branch):
     return f'{huc}/branches/{branch}/rem_zeroed_masked_{branch}.tif'
 
 
-def nearest_reach(lon, lat, hits):
-    """Nearest HAND reach among the branches whose catchment contains the point."""
+def nearest_reach(lon, lat, hits, water=None):
+    """The HAND reach for a point, among the branches whose catchment contains it.
+
+    Normally the nearest. A river's own branch beats branch 0 when it is the same
+    reach close by, or is named as this water: branch 0 can hold a sliver of the same reach, with a tiny
+    catchment and a channel a few metres wide, whose rating curve runs far too high.
+    """
     import shapely
     from pyproj import Transformer
-    best = None
+    found = []
     for hit in hits:
         frame = reaches(hit['huc'], hit['branch'])
         x, y = Transformer.from_crs(4326, frame.crs, always_xy=True).transform(lon, lat)
         distance = frame.distance(shapely.Point(x, y))
         i = distance.idxmin()
-        if best is None or distance[i] < best['distanceM']:
-            best = {'huc': hit['huc'], 'branch': hit['branch'], 'hydroId': int(frame.loc[i, 'HydroID']), 'featureId': int(frame.loc[i, 'feature_id']), 'distanceM': round(float(distance[i]), 1)}
-    if best:
-        best['name'] = reach_name(best['featureId'])
-    return best
+        found.append({'huc': hit['huc'], 'branch': hit['branch'], 'hydroId': int(frame.loc[i, 'HydroID']), 'featureId': int(frame.loc[i, 'feature_id']), 'distanceM': round(float(distance[i]), 1)})
+    if not found:
+        return None
+    for f in found:
+        f['name'] = reach_name(f['featureId'])
+    return choose_reach(found, water)
 
 
 def catchment_hits(points):
@@ -349,7 +375,7 @@ def build_junction(row, check_flows):
     from pyproj import Geod
     reach = row['nearestReach']
     huc, branch, feature = reach['huc'], reach['branch'], str(reach['featureId'])
-    curves, calibrated = {}, set()
+    curves, calibrated, shape = {}, set(), None
     for line in hydrotable(huc, branch):
         if line['feature_id'] != feature:
             continue
@@ -359,6 +385,8 @@ def build_junction(row, check_flows):
         c['stageM'].append(round(float(line['stage']), 4))
         c['dischargeM3s'].append(round(float(line['discharge_cms']), 3))
         calibrated.add(line.get('calb_applied', 'unknown'))
+        if int(line['HydroID']) == reach['hydroId'] and abs(float(line['stage']) - 1.2192) < .01:
+            shape = (float(line['TopWidth (m)']), float(line['AREASQKM']))
     if not curves:
         raise Refused(f'No rating curve for reach {feature}.')
 
@@ -371,6 +399,8 @@ def build_junction(row, check_flows):
         if problem:
             raise Refused(f'NWM forecast for reach {feature}: {problem}.')
     stream = nwm_stream(feature)
+    if shape and sliver_problem(stream['order'], *shape):
+        raise Refused(sliver_problem(stream['order'], *shape))
 
     # Output grid: about 10 m in lon/lat, so Leaflet can place it as an image.
     geod = Geod(ellps='WGS84')
@@ -426,7 +456,7 @@ def build_junction(row, check_flows):
         'verification': {'validHandFractionOfReachCells': round(valid, 4), 'reachCellFractionOfWindow': round(float(linked.mean()), 4), 'nativeGridWetAreaM2': reference},
     }
     (DATA / f"{row['id']}.json").write_text(json.dumps(out, separators=(',', ':')) + '\n', encoding='utf-8')
-    summary = {'crossingCurve': curves[reach['hydroId']], 'calibrated': calibrated_all, 'sourceDate': out['source']['sourceDate'], 'reachLengthKm': stream['lengthKm'],
+    summary = {'crossingCurve': curves[reach['hydroId']], 'calibrated': calibrated_all, 'sourceDate': out['source']['sourceDate'], 'reachLengthKm': stream['lengthKm'], 'order': stream['order'],
                'gaugeKm': gauge['alongChannelKm'] if forecast['kind'] == 'gauge' else None}
     return forecast, confidence, summary
 
@@ -444,7 +474,7 @@ def run_all(args):
     DATA.mkdir(parents=True, exist_ok=True)
     counts = {}
     for k, row in grouped.items():
-        reach = nearest_reach(row['lon'], row['lat'], hits[k])
+        reach = nearest_reach(row['lon'], row['lat'], hits[k], row['water'])
         row['nearestReach'] = reach
         row['agreement'] = name_agreement(row['water'], reach['name']) if reach else 'no_name'
         row['displayWater'] = display_water(row['water'], reach['name'] if reach else None, row['agreement'])

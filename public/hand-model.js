@@ -1,6 +1,10 @@
 // What the HAND model thinks at the app's rated crossings (docs/HAND-INUNDATION.md).
-// It can raise a crossing's level above calmer sources and it leads the source list.
-// It never lowers one: the model leaves out local runoff, so a low number isn't dry.
+// It leads the source list and can raise a crossing's level above calmer sources: to
+// Caution with an official NOAA gauge forecast, to Watch with model flow on the Santa Cruz
+// main stem. Elsewhere model flow is shown only. A 15-year back-test found it saw most big
+// Santa Cruz flows but read too high on ordinary days, and saw nothing at Brawley Wash
+// (docs/HAND-INUNDATION.md).
+// It never lowers a level: local runoff is left out, so a low number isn't dry.
 import { createForecastProvider } from './inundation/forecast-provider.js';
 import { loadCoverage, stageForFlow } from './inundation/hand-inundation.js';
 
@@ -8,6 +12,7 @@ import { loadCoverage, stageForFlow } from './inundation/hand-inundation.js';
 // Display steps anchored to Trico: NOAA's action flow there models at about 2 m on this curve.
 export const WATCH_STAGE_M = 1;
 export const CAUTION_STAGE_M = 2;
+const MAIN_STEM_ORDER = 5;
 const NEAR_FP_M = 60;
 const FT = 3.28084;
 const CFS_TO_M3S = 0.028316846592;
@@ -30,7 +35,7 @@ function labels(row, forecast, now) {
   const age = ((now - Date.parse(row.app.sourceDate)) / (365.25 * 86400000)).toFixed(1);
   const flow = row.forecast.kind === 'gauge'
     ? `Flow: NOAA gauge forecast from ${row.forecast.station}, ${row.app.gaugeKm} km along the channel.`
-    : `Flow: modeled National Water Model flow for the whole reach (${row.app.reachLengthKm} km), not a gauge reading, and not checked against observations.`;
+    : `Flow: modeled National Water Model flow for the whole reach (${row.app.reachLengthKm} km), not a gauge reading. In a 15-year back-test it saw most big Santa Cruz flows but read too high on ordinary days, and it saw nothing at Brawley Wash.${row.app.order >= MAIN_STEM_ORDER ? ' On the Santa Cruz it can raise this crossing no higher than Watch.' : ' On a wash like this it does not change the crossing\'s number.'}`;
   return [
     `${c.band}, ${c.score} of 100. This rates how well the stream data matches this crossing. It is not a probability. ${c.factors.map((f) => `${f.factor}: ${f.points} of ${f.max} (${f.detail}).`).join(' ')}`,
     flow,
@@ -52,9 +57,13 @@ export function handCheck(row, forecast, now) {
   if (forecast.status === 'stale') return quiet(`HAND model: old forecast, about ${(stage * FT).toFixed(1)} ft at ${flowText}`, detail);
   const said = `HAND model: about ${(stage * FT).toFixed(1)} ft above the stream bed at the peak, ${flowText}`;
   const likely = row.confidence.band === 'Likely match';
+  if (row.forecast.kind !== 'gauge') {
+    if (row.app.order >= MAIN_STEM_ORDER && likely && stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true };
+    return quiet(`${said}. Model flow is rough${stage < WATCH_STAGE_M ? ", and low flow doesn't mean dry" : ''}`, detail);
+  }
   if (stage >= CAUTION_STAGE_M && likely) return { src: 'hand', level: 'caution', why: said, detail, raise: true };
   if (stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true };
-  return quiet(`${said}. Low model flow doesn't mean dry`, detail);
+  return quiet(`${said}. Low flow doesn't mean dry`, detail);
 }
 
 // Puts HAND first in each crossing's sources and lifts the level where it shows water.

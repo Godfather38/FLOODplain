@@ -43,7 +43,7 @@ const withoutMask=e=>{if(!e)return null;const {mask,...rest}=e;return rest;};
 function flowSource(j){
  if(j.forecast.kind==='gauge')return `The flow comes from the ${j.forecast.station} gauge forecast, ${j.gauge.alongChannelKm} km ${j.gauge.gaugeIs} of this point, and is assumed unchanged along the channel.`;
  const km=j.reach.lengthKm?`${j.reach.lengthKm} km`:'unknown length';
- return `Forecast flow is a National Water Model result for the whole reach (${km}), not a gauge reading, and its accuracy on this reach has not been checked.`;
+ return `Forecast flow is a National Water Model result for the whole reach (${km}), not a gauge reading. In a 15-year back-test it saw most big Santa Cruz flows but read too high on ordinary days, and saw nothing at Brawley Wash.`;
 }
 
 export const SCORE_NOTE='This score labels how good the match is. It is not a measured probability.';
