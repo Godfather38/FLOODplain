@@ -13,6 +13,7 @@ def main():
  points=[];rows=[]
  for item in registry['externalInlets']:
   line=rivers.loc[int(item['receivingReachId'])].geometry
+  if line.geom_type=='MultiLineString' and len(line.geoms)==1:line=line.geoms[0]
   if line.geom_type!='LineString':raise ValueError('Multipart receiving river requires source inspection')
   distances=np.arange(1,min(201,line.length),1);candidates=[line.interpolate(d) for d in distances];xy=np.array([[q.x,q.y] for q in candidates]);faces=grid.grid.locate_points(xy);valid=np.flatnonzero(faces>=0)
   if not len(valid):raise ValueError('No native active receiving face within 200m for '+item['reachId'])

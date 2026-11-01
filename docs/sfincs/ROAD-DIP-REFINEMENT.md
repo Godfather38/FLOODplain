@@ -48,3 +48,14 @@ All 78 road terrain windows have complete required 1 m coverage. The context ras
 The corrected native parameter preparation is separate from solver execution. The 6.25 m mesh and approximately 1.04 m subgrid sampling do not establish road-depth accuracy. The frozen precipitation package must cover [-111.41,32.26,-110.99,32.61] for Oct 30 16Z through Nov 2 07Z, using the original archived observations and forecast issues. Do not refresh or zero-fill missing coverage.
 
 Bridge guidance is a hobbyist height/history comparison, not a full bridge physics model. The evidence registry now distinguishes inventory dimensions, historical Cortaro marks, datum conversion references, and missing current elevations. Historic roadway estimates must not become current thresholds; bare-earth bridge-centre terrain is not deck height. No generic bridge penalty is introduced.
+
+
+### Completed native component
+
+The corrected official subgrid build completed in 454.6 seconds. Native boundary placement completed with 14 provider series at nine receiving locations and 16 outflow cells. Directed source placement moved 1–43 m downstream to the first active native cell; it did not relocate sources by elevation. Co-located inputs are distinct non-nested tributaries, not duplicate copies of a cumulative river flow.
+
+The assembled local component is `.sfincs-runs/road-native-case-v2/`, with 64 discharge timestamps and the original 63-hour antecedent/forecast window. `connected-v2/native-component.json` identifies the remaining expanded-rainfall dependency. No solver execution has occurred. The pinned source explicitly requires NetCDF infiltration for quadtree grids (`inffile=infiltration.nc`, `inftype=cna`); the legacy regular-grid binary retention file is not used in this case. See the pinned `source/src/sfincs_infiltration.f90` lines 301–315 and `sfincs_ncinput.F90` quadtree reader.
+
+Map output is limited to the 14-hour forecast window at 15-minute spacing; the full antecedent period still runs. `storezvolume=1` retains actual native volume. This keeps output size bounded without mistaking cell-minimum-relative water level for road depth. The existing saved executable and 20-minute first-run cap remain unchanged.
+
+Additional standard optional dependencies needed by the unmodified builders: numba-celltree 0.4.2 and datashader 0.19.1. Existing terrain and native table files are reused when present; do not rebuild unchanged tables. After the wider original-issue rainfall is supplied, serialize it with the existing HydroMT forcing adapter, produce the final `current-case.json` and archive, and use the saved-engine workflow. Do not dispatch the incomplete component.

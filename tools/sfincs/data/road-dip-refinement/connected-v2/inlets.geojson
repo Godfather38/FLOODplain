@@ -1,0 +1,21 @@
+{
+"type": "FeatureCollection",
+"name": "inlets",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32612" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 468257.569063493981957, 3587202.236354102380574 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 468487.063719881349243, 3585347.209937897976488 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 468487.063719881349243, 3585347.209937897976488 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 472430.928755013854243, 3580900.048712853342295 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 472430.928755013854243, 3580900.048712853342295 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 488992.351156860240735, 3583056.740318378899246 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 489560.272506193083245, 3582078.167299152817577 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 491599.984522066544741, 3578575.838087364565581 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 491599.984522066544741, 3578575.838087364565581 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 471981.353114160010591, 3588882.339718883857131 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 471981.353114160010591, 3588882.339718883857131 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 471986.137081979832146, 3588800.498416278045624 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 471986.137081979832146, 3588800.498416278045624 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 468319.4054627676378, 3586904.716557233128697 ] } }
+]
+}

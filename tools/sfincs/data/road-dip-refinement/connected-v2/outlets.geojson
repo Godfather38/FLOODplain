@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"name": "outlets",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32612" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 468320.728741246333811, 3586903.289052643813193 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 472604.918800925835967, 3588500.268868504557759 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 468171.693388543382753, 3589339.635907601099461 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 468180.310719111992512, 3592357.792397201061249 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 462565.674555801495444, 3600056.997225424274802 ] } }
+]
+}
