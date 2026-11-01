@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "kind": "prepared_current_case",
+  "solverExecuted": false,
+  "forecastStart": "2026-11-01T22:00:00.000Z",
+  "end": "2026-11-02T12:00:00.000Z",
+  "sourceAsOf": "2026-11-01T21:03:11.599696+00:00",
+  "boundary": {
+    "sourceCount": 4,
+    "samples": 64,
+    "units": "m3/s",
+    "interpolation": "none; common native timestamps",
+    "start": "2026-10-30T21:00:00+00:00",
+    "end": "2026-11-02T12:00:00.000Z"
+  },
+  "rainfall": {
+    "units": "mm/h",
+    "intervalSeconds": 3600,
+    "intervalLabel": "start",
+    "lastIntervalEndUtc": "2026-11-02T12:00:00.000Z",
+    "sourceArtifacts": [
+      {
+        "path": ".sfincs-runs\\current-coarse-inputs-20261101-19z\\initialization-rainfall\\resolved-analysis-precipitation.nc",
+        "sha256": "94e908c9e5e3ac4d6d7cc1a3179979a3d73f025c026b4e0ab32eef3e870748fb"
+      },
+      {
+        "path": ".sfincs-runs\\current-coarse-inputs-20261101-19z\\initialization-rainfall\\forecast-transition-precipitation.nc",
+        "sha256": "6a872a7a0cf530ac7753423a77cdf9a63d661ef28bd34f0b6c42837a5d2ba535"
+      },
+      {
+        "path": ".sfincs-runs\\current-coarse-inputs-20261101-19z\\precipitation.nc",
+        "sha256": "e7788cf364b8edde9780a24bf52fb02399a0007e928662650e51e18d21c90717"
+      }
+    ]
+  },
+  "initialization": {
+    "time": "2026-10-30T21:00:00+00:00",
+    "method": "Explicit dry assumed state at antecedent start followed by supplied analysis discharge and observed rainfall; continuous state into forecast",
+    "notMeasuredState": true,
+    "convergenceEstablished": false
+  },
+  "physicalModel": "Catchment-aligned 2021 terrain with verified 2023 edge; published roughness/CN scenario; seven directed free-outflow cells",
+  "publicationHold": [],
+  "sourceLicensing": {
+    "derivedInfiltrationLicense": "ODbL-1.0",
+    "notice": "GCN10-NOTICE.txt",
+    "sourceMetadata": "GCN10-source-metadata.xml",
+    "derivedDatabase": "sfincs.scs"
+  },
+  "artifacts": [
+    {
+      "path": "precip_2d.nc",
+      "sha256": "119e6302e578932c4a811f0ba73d5b0ba915e82ec8903a6db718549a38745ef4"
+    },
+    {
+      "path": "sfincs.dis",
+      "sha256": "bfff95c31e7e92385e1abfc357402f85e6f4e4c66e30cd6befdf2b67ff462ace"
+    },
+    {
+      "path": "sfincs.ind",
+      "sha256": "2b071b4995e0f78043d24192ffc2a3f3fb055dc82a6272b2b804a0b0012f09b1"
+    },
+    {
+      "path": "sfincs.inp",
+      "sha256": "2a06179eecc64e6e8404dc6e583a7280869727759d43a9356ff86f9996706f58"
+    },
+    {
+      "path": "sfincs.msk",
+      "sha256": "d067063bbf06471134827906c82daf073a75fac8d771b188267ae02416f5be35"
+    },
+    {
+      "path": "sfincs.scs",
+      "sha256": "0a8d95fb7aaa627bba19ffb433c32720785b93380aa7338a11582eac5a54ca10"
+    },
+    {
+      "path": "sfincs.src",
+      "sha256": "8a74b9d56b6ee772e09213988aec926f773959c7b430383491e3dd848cbcaa3f"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "sha256": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de"
+    }
+  ],
+  "executionMode": "current_forecast",
+  "inputPackageCommit": "f234d23",
+  "inputPackageArchiveSha256": "044aaa713d2da373179144e0b30be3500686cad0734668511d03f601c1ae6fcb",
+  "forecastIssues": {
+    "NWM": "2026-11-01T18:00:00Z",
+    "HRRR": "2026-11-01T19:00:00Z"
+  },
+  "physicalInputHashesUnchanged": {
+    "sfincs.ind": "2b071b4995e0f78043d24192ffc2a3f3fb055dc82a6272b2b804a0b0012f09b1",
+    "sfincs.msk": "d067063bbf06471134827906c82daf073a75fac8d771b188267ae02416f5be35",
+    "sfincs.scs": "0a8d95fb7aaa627bba19ffb433c32720785b93380aa7338a11582eac5a54ca10",
+    "sfincs_subgrid.nc": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de"
+  },
+  "activeMask": {
+    "path": "active-mask.npy",
+    "shape": [
+      346,
+      320
+    ],
+    "activeCells": 29685,
+    "sha256": "46a46903cbd4393ebc48db4d5f413d0ce16debd47840a4982246a53863b4f42a",
+    "order": "Native HydroMT regular-grid mask y,x; verify against native output coordinates before export"
+  },
+  "nativeOutputRequested": [
+    "zs",
+    "subgrid_volume",
+    "precipitation_rate"
+  ],
+  "solverBudgetSeconds": 120
+}

@@ -1,0 +1,42 @@
+{
+  "runId": "41350254061",
+  "executionMode": "current_forecast",
+  "completionMarkerPresent": true,
+  "nativeRuntimeSeconds": 23.257810592651367,
+  "nativeFrames": 64,
+  "simulationFrom": "2026-10-30T21:00:00Z",
+  "simulationTo": "2026-11-02T12:00:00Z",
+  "forecastFrames": 15,
+  "validFrom": "2026-11-01T22:00:00Z",
+  "validTo": "2026-11-02T12:00:00Z",
+  "activeCells": 29685,
+  "maskShape": [
+    346,
+    320
+  ],
+  "nativeVolumeUnits": "m3",
+  "nativeVolumeAllActiveFinite": true,
+  "nativeVolumeRangeM3": [
+    0.0,
+    161160.734375
+  ],
+  "nativeSurfaceUndefinedSamples": 105,
+  "volumePerFullCellAreaRangeM": [
+    0.0,
+    16.1160734375
+  ],
+  "physicalInputHashesUnchanged": {
+    "sfincs.ind": "2b071b4995e0f78043d24192ffc2a3f3fb055dc82a6272b2b804a0b0012f09b1",
+    "sfincs.msk": "d067063bbf06471134827906c82daf073a75fac8d771b188267ae02416f5be35",
+    "sfincs.scs": "0a8d95fb7aaa627bba19ffb433c32720785b93380aa7338a11582eac5a54ca10",
+    "sfincs_subgrid.nc": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de"
+  },
+  "forecastIssues": {
+    "NWM": "2026-11-01T18:00:00Z",
+    "HRRR": "2026-11-01T19:00:00Z"
+  },
+  "sourceAsOf": "2026-11-01T21:03:11.599696+00:00",
+  "riverSectionFlow": "Not recorded",
+  "restartStateLimitation": "Type1 restart is not full cumulative CNA state",
+  "precipitationEndWarning": "Final hourly rate11-12Z exists but timestamps are interval starts; native holds the last available rate at endpoint."
+}

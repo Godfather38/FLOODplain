@@ -1,0 +1,54 @@
+{
+  "runId": "41350254061",
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41350254061",
+  "status": "completed_current_forecast",
+  "executionCommit": "d7c41d5",
+  "nativeInputArchive": "../current-coarse-20261101-19z.tar.gz",
+  "nativeInputArchiveSha256": "d339b7c4628ba327454d22f7a0e576e7283080fc2d2674898c45718302929479",
+  "nativeResultArchive": {
+    "path": "native-result.tar.gz",
+    "bytes": 26491653,
+    "sha256": "f1b9ed6eb91acf65290cbdfee91fa9412533a5478cb44cfb898105e04811f5e5"
+  },
+  "sourceInputPackage": {
+    "branch": "experiment/current-map",
+    "commit": "f234d23",
+    "path": "tools/live/data/current-fast-inputs-20261101-19z.tar.gz",
+    "sha256": "044aaa713d2da373179144e0b30be3500686cad0734668511d03f601c1ae6fcb"
+  },
+  "currentPublicationManifest": "publication/current-sfincs-manifest.json",
+  "forecastIssues": {
+    "NWM": "2026-11-01T18:00:00Z",
+    "HRRR": "2026-11-01T19:00:00Z"
+  },
+  "sourceAsOf": "2026-11-01T21:03:11.599696+00:00",
+  "validFrom": "2026-11-01T22:00:00Z",
+  "validTo": "2026-11-02T12:00:00Z",
+  "activeCells": 29685,
+  "forecastFrames": 15,
+  "nativeRuntimeSeconds": 23.257810592651367,
+  "nativeBudgetSeconds": 120,
+  "physicalInputHashesUnchanged": {
+    "sfincs.ind": "2b071b4995e0f78043d24192ffc2a3f3fb055dc82a6272b2b804a0b0012f09b1",
+    "sfincs.msk": "d067063bbf06471134827906c82daf073a75fac8d771b188267ae02416f5be35",
+    "sfincs.scs": "0a8d95fb7aaa627bba19ffb433c32720785b93380aa7338a11582eac5a54ca10",
+    "sfincs_subgrid.nc": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de"
+  },
+  "rawOutputSha256": "388b44ae4be9a47a4eda4cffab90ed48ebb6b55481fe23e57a41dc7585184f58",
+  "activeMaskSha256": "46a46903cbd4393ebc48db4d5f413d0ce16debd47840a4982246a53863b4f42a",
+  "nativeVolume": {
+    "units": "m3",
+    "allActiveForecastSamplesFinite": true,
+    "negativeSamples": 0
+  },
+  "surfaceUndefinedSamples": 105,
+  "limitations": [
+    "Cell-average volume depth is not roadway depth or passability.",
+    "Current coarse domain remains unchanged; refined road coverage is a separate result.",
+    "Native surface missing values remain missing; raw output preserved.",
+    "Type1 restarts do not preserve full cumulative CNA state.",
+    "No downstream section discharge or current-event error margin established.",
+    "Current source-specific issues remain 18Z NWM and 19Z HRRR; not the earlier frozen replay."
+  ],
+  "uiOwnerNext": "Copy the current publication files and regenerate source-proven water footprints from this native zs and the unchanged prepared terrain; no geometry substitution."
+}
