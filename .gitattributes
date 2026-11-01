@@ -5,3 +5,4 @@ public/simulation/data/nwps-scta3-*.json -text
 public/simulation/data/hefs-scta3-quantiles.json -text
 public/simulation/data/nwps-csca3-*.json -text
 public/simulation/data/nwps-bwta3-*.json -text
+public/simulation/data/storm-2014/*.json -text
