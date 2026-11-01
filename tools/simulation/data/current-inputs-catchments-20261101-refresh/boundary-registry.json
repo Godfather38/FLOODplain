@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "kind": "current_boundary_registry",
+  "crs": "EPSG:32612",
+  "bounds": [
+    467700,
+    3572300,
+    499700,
+    3606900
+  ],
+  "sources": [
+    {
+      "sourceId": 1,
+      "reachId": "15902351",
+      "receivingReachId": "15890430",
+      "x": 488992.35115686024,
+      "y": 3583056.740318379,
+      "providerFlowLocation": "external reach outlet",
+      "placement": "1m into downstream directed receiving river, matching official HydroMT offset convention",
+      "contributingCatchmentRole": "external; no rainfall applied to this catchment",
+      "downstreamReachIds": []
+    },
+    {
+      "sourceId": 2,
+      "reachId": "15902361",
+      "receivingReachId": "15902363",
+      "x": 489560.2725061931,
+      "y": 3582078.167299153,
+      "providerFlowLocation": "external reach outlet",
+      "placement": "1m into downstream directed receiving river, matching official HydroMT offset convention",
+      "contributingCatchmentRole": "external; no rainfall applied to this catchment",
+      "downstreamReachIds": []
+    },
+    {
+      "sourceId": 3,
+      "reachId": "15902409",
+      "receivingReachId": "15903137",
+      "x": 491628.32765944157,
+      "y": 3578544.8434658353,
+      "providerFlowLocation": "external reach outlet",
+      "placement": "1m into downstream directed receiving river, matching official HydroMT offset convention",
+      "contributingCatchmentRole": "external; no rainfall applied to this catchment",
+      "downstreamReachIds": []
+    },
+    {
+      "sourceId": 4,
+      "reachId": "15902411",
+      "receivingReachId": "15903137",
+      "x": 491628.32765944157,
+      "y": 3578544.8434658353,
+      "providerFlowLocation": "external reach outlet",
+      "placement": "1m into downstream directed receiving river, matching official HydroMT offset convention",
+      "contributingCatchmentRole": "external; no rainfall applied to this catchment",
+      "downstreamReachIds": []
+    }
+  ],
+  "duplicateReachSources": false,
+  "physicalRunReady": false,
+  "activeCatchmentReachIds": [
+    15890430,
+    15902363,
+    15903137
+  ],
+  "contributingAreasDisjoint": true,
+  "localExternalPolygonOverlapM2": 0.0,
+  "method": "Existing GEB inflow_rivers external-to-active subbasin adjacency rule using official NHDPlusV2 polygons",
+  "requiredChecks": [
+    "Expanded prepared terrain/HRRR coverage",
+    "Native source cells and outlet configuration",
+    "Initial state/warm-up configuration",
+    "Localized structure limitations"
+  ],
+  "sourceNetworkSha256": "c0fbc40cf9a08531fa0a60fafb4fe9d89d0f74bb6c1e0caf34bd67cf51b36436"
+}

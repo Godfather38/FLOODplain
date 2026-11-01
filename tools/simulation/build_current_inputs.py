@@ -12,7 +12,7 @@ def get(url,maxbytes=3000000,headers=None):
  if len(b)>maxbytes:raise ValueError('Bounded download exceeded: '+url)
  return b,status,meta
 def main():
- p=argparse.ArgumentParser();p.add_argument('--out',required=True);p.add_argument('--registry',required=True);p.add_argument('--bounds',nargs=4,type=float,default=[-111.37,32.31,-111.05,32.52]);p.add_argument('--hours',type=int,default=18);a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--rainfall-only',action='store_true');p.add_argument('--out',required=True);p.add_argument('--registry',required=True);p.add_argument('--bounds',nargs=4,type=float,default=[-111.37,32.31,-111.05,32.52]);p.add_argument('--hours',type=int,default=18);a=p.parse_args()
  if not 1<=a.hours<=18:raise ValueError('Bounded product supports 1–18 forecast hours')
  registry_bytes=Path(a.registry).read_bytes();out=Path(a.out);out.mkdir(parents=True,exist_ok=False);raw=out/'raw';raw.mkdir();(out/'boundary-registry.json').write_bytes(registry_bytes);asof=dt.datetime.now(UTC);west,south,east,north=a.bounds
  if not(-112<west<east<-110 and 31<south<north<34) or east-west>.6 or north-south>.6:raise ValueError('Bounds exceed local package scope')
@@ -64,6 +64,7 @@ def main():
  (out/'rainfall-provenance.json').write_text(json.dumps(provenance,indent=2)+'\n')
  forcing=dict(schemaVersion=1,kind='spatial_hourly_rainfall_forcing',status='complete' if not missing else 'insufficient_data',dataRole='forecast',issuedAt=iso(cycle),crs='EPSG:4326',lon=lon,lat=lat,dimensions=['time','lat','lon'],units='mm/h',siUnits='m/s',timeConvention='start inclusive/end exclusive; hourly mean rate from nonoverlapping one-hour forecast accumulation',missingCellHours=missing,sourceQuality=dict(requestedHours=a.hours,availableHours=len(frames),nativeBitmapPreserved=True,forcingReadiness='source_verified_forecast',fieldValidation='not_calibrated'),frames=frames,provenance=dict(manifest='rainfall-provenance.json',manifestSha256=digest((out/'rainfall-provenance.json').read_bytes()),source='NOAA HRRR hourly forecast precipitation'))
  (out/'rainfall.json').write_text(json.dumps(forcing,separators=(',',':'))+'\n')
+ if a.rainfall_only:return
  subprocess.run(['node',str(ROOT/'tools/simulation/snapshot-current-providers.mjs'),str(out.resolve()),iso(asof)],cwd=ROOT,check=True)
  start=max(cycle,asof.replace(minute=0,second=0,microsecond=0)+dt.timedelta(hours=1));end=cycle+dt.timedelta(hours=a.hours)
  providers=json.loads((out/'providers.json').read_text());curves=[r for c in providers['boundaryCandidates'] for r in [c['official'],*c['nwm']['reaches']] if r.get('status')=='ok' and r.get('points')]

@@ -1,0 +1,68 @@
+{
+  "status": "complete",
+  "units": "mm/h",
+  "intervalSeconds": 3600,
+  "start": "2026-11-01T14:00:00Z",
+  "end": "2026-11-01T17:00:00Z",
+  "dataRole": "forecast_not_observation",
+  "sources": [
+    {
+      "start": "2026-11-01T14:00:00Z",
+      "end": "2026-11-01T15:00:00Z",
+      "issuedAt": "2026-11-01T14:00:00Z",
+      "sourceArtifact": {
+        "url": "https://noaa-hrrr-bdp-pds.s3.amazonaws.com/hrrr.20261101/conus/hrrr.t14z.wrfsfcf01.grib2",
+        "byteRange": [
+          61831970,
+          62427860
+        ],
+        "rangeStatus": 206,
+        "etag": "\"df052d70a648839b35f390b35c8bbb86\"",
+        "lastModified": "Sun, 01 Nov 2026 14:53:55 GMT",
+        "retrievedAt": "2026-11-01T15:33:03.112606Z",
+        "rawFile": "raw/retained-hrrr14z-f01-apcp.grib2",
+        "sha256": "bd811e9f3e2b0838db9b692ecb9382a32bec7fc599245fb38f6ab4a6d6c117d3",
+        "indexFile": "raw/f01.idx",
+        "indexSha256": "83fdd04c6410f01d0b9f28aa8cd0d9ce2f0ec1438cc100231e784d714e34f4b8",
+        "metadata": {
+          "edition": 2,
+          "shortName": "tp",
+          "units": "kg m**-2",
+          "stepType": "accum",
+          "stepUnits": 1,
+          "startStep": 0,
+          "endStep": 1,
+          "dataDate": 20261101,
+          "dataTime": 1400,
+          "validityDate": 20261101,
+          "validityTime": 1500,
+          "gridType": "lambert",
+          "Nx": 1799,
+          "Ny": 1059,
+          "DxInMetres": 3000.0,
+          "DyInMetres": 3000.0,
+          "bitmapPresent": 0,
+          "missingValue": 9999,
+          "md5GridSection": "78367561440d7c7b608b8532a02e4780",
+          "latitudeOfFirstGridPointInDegrees": 21.138123,
+          "longitudeOfFirstGridPointInDegrees": 237.280472,
+          "LaDInDegrees": 38.5,
+          "LoVInDegrees": 262.5,
+          "Latin1InDegrees": 38.5,
+          "Latin2InDegrees": 38.5,
+          "scanningMode": 64
+        }
+      }
+    },
+    {
+      "start": "2026-11-01T15:00:00Z",
+      "end": "2026-11-01T17:00:00Z",
+      "issuedAt": "2026-11-01T15:00:00Z",
+      "provenanceFile": "rainfall-provenance.json",
+      "forecastHours": [
+        1,
+        2
+      ]
+    }
+  ]
+}

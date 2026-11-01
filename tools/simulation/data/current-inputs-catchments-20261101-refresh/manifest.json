@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "kind": "current_forcing_package",
+  "status": "forcing_contract_ready_physical_setup_pending",
+  "asOf": "2026-11-01T16:33:36.871Z",
+  "bounds": [
+    -111.36,
+    32.27,
+    -110.99,
+    32.61
+  ],
+  "rainfallCycle": "2026-11-01T15:00:00Z",
+  "candidateWindow": {
+    "start": "2026-11-01T17:00:00Z",
+    "end": "2026-11-02T08:00:00Z",
+    "basis": "Exact verified inlet native timestamps intersected with complete HRRR accumulation intervals"
+  },
+  "rainfallFile": "rainfall.json",
+  "providerFile": "providers.json",
+  "rainfallComplete": true,
+  "sourceIssuePolicy": "Issues are bounded by issueCutoffAt; asOf is completed source acquisition, after every retained retrieval. Individual provider issue times remain distinct.",
+  "inletAssignments": [
+    {
+      "sourceId": 1,
+      "reachId": "15902351"
+    },
+    {
+      "sourceId": 2,
+      "reachId": "15902361"
+    },
+    {
+      "sourceId": 3,
+      "reachId": "15902409"
+    },
+    {
+      "sourceId": 4,
+      "reachId": "15902411"
+    }
+  ],
+  "dependencies": [
+    "Remaining solver-registry checks: Expanded prepared terrain/HRRR coverage, Native source cells and outlet configuration, Initial state/warm-up configuration, Localized structure limitations",
+    "HRRR footprint coverage is verified; terrain/native source cells/outlets/initial state remain solver-owned.",
+    "No solver run executed; recheck issue freshness at consumption."
+  ],
+  "files": {
+    "analysis-history.json": "634c7a3676073d6a0910b84963024a5837ae1496fda4d3760966b74d12d52747",
+    "boundary-registry.json": "9db8928644c021456367ae16846b5023eb7a8fd80494dfde2e9b6a7e6dd293fe",
+    "boundary-snapshot.json": "c1958b66a40a1be20da90c4debf2f9c1d5595d6935883d360640920fa628585e",
+    "initialization-context.json": "732c756b5afa38c9bc474eebcaba7c43ccf4d364923be4c6920f28bc2d7dc296",
+    "initialization-forecast-transition.nc": "a89e39e42177864c63bce3b102e7e0d821e0266acd6311ede740ba3f7567353e",
+    "initialization-rainfall-manifest.json": "eb25cf20c4b8b1a0ef40dbeca63d7105fe4ade342d2d27e1848eaa190796d961",
+    "precipitation-metadata.json": "819d12cc916eb2ca44bfb1f9f3e8539eef3e501096e20009353d030e72ba2de3",
+    "precipitation.nc": "697092fb5f555b2d8a88121a8f7cd369dba0ffdf1423490f8d3c20168349396b",
+    "providers.json": "9269fd038b02a294170bbf368e380357af83eff014faf407a7c4afabcc631bc4",
+    "rainfall-provenance.json": "318f9f3508c820ee658f5fa3b80fcf6fc14e39eceae95490ef03b97bcf3fac30",
+    "rainfall.json": "c23636364da4dd3c7d733c7942fb4247d21915747c7fb156305e0f8117e77447",
+    "retained-initialization-context.json": "a3d8fb18f2c9bdf5a240b936eea6b3aeb2de4d9b14a4039f67c9a4a6769c7945",
+    "initialization-forecast-transition-metadata.json": "8f1d59a52d0a403876dda16b8826f2ce4d443a8859bd2dcbeaa86ca76c544e21"
+  },
+  "boundarySnapshotFile": "boundary-snapshot.json",
+  "boundaryRegistryFile": "boundary-registry.json",
+  "boundaryRegistryCommit": "8c38b09",
+  "precipitationFile": "precipitation.nc",
+  "precipitationMetadataFile": "precipitation-metadata.json",
+  "acquisitionStartedAt": "2026-11-01T15:32:59.867556Z",
+  "issueCutoffAt": "2026-11-01T16:33:36.863Z",
+  "domainVersion": "catchment-coupling-8c38b09",
+  "couplingEvidence": {
+    "source": "supplied solver registry",
+    "activeCatchmentReachIds": [
+      15890430,
+      15902363,
+      15903137
+    ],
+    "contributingAreasDisjoint": true,
+    "localExternalPolygonOverlapM2": 0.0,
+    "method": "Existing GEB inflow_rivers external-to-active subbasin adjacency rule using official NHDPlusV2 polygons",
+    "remainingRegistryChecks": [
+      "Expanded prepared terrain/HRRR coverage",
+      "Native source cells and outlet configuration",
+      "Initial state/warm-up configuration",
+      "Localized structure limitations"
+    ]
+  },
+  "initializationRainfall": {
+    "manifest": "initialization-rainfall-manifest.json",
+    "sha256": "eb25cf20c4b8b1a0ef40dbeca63d7105fe4ade342d2d27e1848eaa190796d961",
+    "status": "complete_with_explicit_source_substitution",
+    "note": "Use resolved-analysis-precipitation.nc; original Stage IV gap retained. HRRR transition remains separate."
+  },
+  "refresh": {
+    "previousPackage": "current-inputs-catchments-20261101",
+    "history": "Retained original analysis and resolved observed rainfall unchanged",
+    "transitionFile": "initialization-forecast-transition.nc",
+    "rainfallTransition": "14-15Z retained HRRR14Z;15-17Z HRRR15Z",
+    "flowTransition": "Retained analysis through14Z; native NWM14Z forecast samples15Z onward; no interpolated samples",
+    "latestCompleteChecked": "HRRR16Z incomplete;15Z complete; all four NWM14Z",
+    "historyManifest": "initialization-rainfall-manifest.json"
+  }
+}

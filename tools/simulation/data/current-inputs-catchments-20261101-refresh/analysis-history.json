@@ -1,0 +1,899 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-11-01T16:33:36.871Z",
+  "status": "complete",
+  "series": [
+    {
+      "reachId": "15902351",
+      "status": "ok",
+      "provider": "NOAA NWM analysis-assimilation",
+      "dataRole": "model_analysis_not_gauge_observation",
+      "referenceTime": "2026-11-01T11:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:29.026Z",
+      "originalUnits": "ft³/s",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-30T16:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T17:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T18:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T19:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T20:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T21:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T22:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T23:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T00:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T01:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T02:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T03:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T04:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T05:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T06:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T07:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T08:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T09:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T10:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T11:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T12:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T13:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T14:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T15:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T16:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T17:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T18:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T19:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T20:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T21:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T22:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T23:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T00:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T01:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T02:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T03:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T04:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T05:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T06:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T07:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T08:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T09:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T10:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T11:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T12:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T13:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0
+        }
+      ],
+      "missingSamples": 0,
+      "maxGapHours": 1,
+      "sourceArtifact": {
+        "reachId": "15902351",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902351/streamflow?series=analysis_assimilation",
+        "rawFile": "raw/analysis_assimilation-15902351-d686206133f8a6d5c612408aeec98ebc742d11ec8d1c02af28376c559c205903.json",
+        "sha256": "d686206133f8a6d5c612408aeec98ebc742d11ec8d1c02af28376c559c205903",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:29.026Z",
+        "delivery": "existing_raw_cache"
+      },
+      "note": "Rolling analysis series; API provides a top-level referenceTime, not a separate model issue for every historical point. Not a hydraulic restart state."
+    },
+    {
+      "reachId": "15902361",
+      "status": "ok",
+      "provider": "NOAA NWM analysis-assimilation",
+      "dataRole": "model_analysis_not_gauge_observation",
+      "referenceTime": "2026-11-01T11:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:28.444Z",
+      "originalUnits": "ft³/s",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-30T16:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T17:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T18:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T19:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T20:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T21:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T22:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T23:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T00:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T01:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T02:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T03:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T04:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T05:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T06:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T07:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T08:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T09:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T10:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T11:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T12:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T13:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T14:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T15:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T16:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T17:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T18:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T19:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T20:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T21:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T22:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T23:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T00:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T01:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T02:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T03:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T04:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T05:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T06:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T07:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T08:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T09:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T10:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T11:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T12:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T13:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0
+        }
+      ],
+      "missingSamples": 0,
+      "maxGapHours": 1,
+      "sourceArtifact": {
+        "reachId": "15902361",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902361/streamflow?series=analysis_assimilation",
+        "rawFile": "raw/analysis_assimilation-15902361-c91be41fcb7d5c29eec79817fafa94f0fb8ce5dc98e97d9d0a02bfb4e67299a2.json",
+        "sha256": "c91be41fcb7d5c29eec79817fafa94f0fb8ce5dc98e97d9d0a02bfb4e67299a2",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:28.444Z",
+        "delivery": "existing_raw_cache"
+      },
+      "note": "Rolling analysis series; API provides a top-level referenceTime, not a separate model issue for every historical point. Not a hydraulic restart state."
+    },
+    {
+      "reachId": "15902409",
+      "status": "ok",
+      "provider": "NOAA NWM analysis-assimilation",
+      "dataRole": "model_analysis_not_gauge_observation",
+      "referenceTime": "2026-11-01T11:00:00Z",
+      "retrievedAt": "2026-11-01T16:08:30.574Z",
+      "originalUnits": "ft³/s",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-30T16:00:00Z",
+          "flowM3s": 9.470002798363781
+        },
+        {
+          "time": "2026-10-30T17:00:00Z",
+          "flowM3s": 19.090084538000532
+        },
+        {
+          "time": "2026-10-30T18:00:00Z",
+          "flowM3s": 7.720022024642812
+        },
+        {
+          "time": "2026-10-30T19:00:00Z",
+          "flowM3s": 5.420127277793321
+        },
+        {
+          "time": "2026-10-30T20:00:00Z",
+          "flowM3s": 4.749867570810375
+        },
+        {
+          "time": "2026-10-30T21:00:00Z",
+          "flowM3s": 4.530128996805539
+        },
+        {
+          "time": "2026-10-30T22:00:00Z",
+          "flowM3s": 4.180132755645188
+        },
+        {
+          "time": "2026-10-30T23:00:00Z",
+          "flowM3s": 3.780015575034375
+        },
+        {
+          "time": "2026-10-31T00:00:00Z",
+          "flowM3s": 3.460035338169012
+        },
+        {
+          "time": "2026-10-31T01:00:00Z",
+          "flowM3s": 3.27994017656066
+        },
+        {
+          "time": "2026-10-31T02:00:00Z",
+          "flowM3s": 3.780015575034375
+        },
+        {
+          "time": "2026-10-31T03:00:00Z",
+          "flowM3s": 5.149984751421187
+        },
+        {
+          "time": "2026-10-31T04:00:00Z",
+          "flowM3s": 5.770123518953672
+        },
+        {
+          "time": "2026-10-31T05:00:00Z",
+          "flowM3s": 5.949935667645188
+        },
+        {
+          "time": "2026-10-31T06:00:00Z",
+          "flowM3s": 5.940024598505672
+        },
+        {
+          "time": "2026-10-31T07:00:00Z",
+          "flowM3s": 5.919919879390594
+        },
+        {
+          "time": "2026-10-31T08:00:00Z",
+          "flowM3s": 5.910008810251078
+        },
+        {
+          "time": "2026-10-31T09:00:00Z",
+          "flowM3s": 5.879993021996484
+        },
+        {
+          "time": "2026-10-31T10:00:00Z",
+          "flowM3s": 5.8400661646023755
+        },
+        {
+          "time": "2026-10-31T11:00:00Z",
+          "flowM3s": 5.789945657232703
+        },
+        {
+          "time": "2026-10-31T12:00:00Z",
+          "flowM3s": 5.759929436897321
+        },
+        {
+          "time": "2026-10-31T13:00:00Z",
+          "flowM3s": 5.740107730699078
+        },
+        {
+          "time": "2026-10-31T14:00:00Z",
+          "flowM3s": 5.7100919424444845
+        },
+        {
+          "time": "2026-10-31T15:00:00Z",
+          "flowM3s": 5.729913648642727
+        },
+        {
+          "time": "2026-10-31T16:00:00Z",
+          "flowM3s": 5.989862525039297
+        },
+        {
+          "time": "2026-10-31T17:00:00Z",
+          "flowM3s": 12.160103224603782
+        },
+        {
+          "time": "2026-10-31T18:00:00Z",
+          "flowM3s": 7.270066917498375
+        },
+        {
+          "time": "2026-10-31T19:00:00Z",
+          "flowM3s": 4.399871329650024
+        },
+        {
+          "time": "2026-10-31T20:00:00Z",
+          "flowM3s": 3.930094948388133
+        },
+        {
+          "time": "2026-10-31T21:00:00Z",
+          "flowM3s": 15.67988691032475
+        },
+        {
+          "time": "2026-10-31T22:00:00Z",
+          "flowM3s": 6.779902372123781
+        },
+        {
+          "time": "2026-10-31T23:00:00Z",
+          "flowM3s": 5.119968963166594
+        },
+        {
+          "time": "2026-11-01T00:00:00Z",
+          "flowM3s": 4.449992269100484
+        },
+        {
+          "time": "2026-11-01T01:00:00Z",
+          "flowM3s": 4.0000375940368365
+        },
+        {
+          "time": "2026-11-01T02:00:00Z",
+          "flowM3s": 4.359944904336703
+        },
+        {
+          "time": "2026-11-01T03:00:00Z",
+          "flowM3s": 8.160065198486157
+        },
+        {
+          "time": "2026-11-01T04:00:00Z",
+          "flowM3s": 21.209883259080094
+        },
+        {
+          "time": "2026-11-01T05:00:00Z",
+          "flowM3s": 18.65004136415719
+        },
+        {
+          "time": "2026-11-01T06:00:00Z",
+          "flowM3s": 11.609907102720001
+        },
+        {
+          "time": "2026-11-01T07:00:00Z",
+          "flowM3s": 8.309861558923078
+        },
+        {
+          "time": "2026-11-01T08:00:00Z",
+          "flowM3s": 7.270066917498375
+        },
+        {
+          "time": "2026-11-01T09:00:00Z",
+          "flowM3s": 6.290020839666024
+        },
+        {
+          "time": "2026-11-01T10:00:00Z",
+          "flowM3s": 6.290020839666024
+        },
+        {
+          "time": "2026-11-01T11:00:00Z",
+          "flowM3s": 6.4401002130197815
+        },
+        {
+          "time": "2026-11-01T12:00:00Z",
+          "flowM3s": 7.360114282262156
+        },
+        {
+          "time": "2026-11-01T13:00:00Z",
+          "flowM3s": 9.24998121144211
+        },
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 9.099901406007563
+        }
+      ],
+      "missingSamples": 0,
+      "maxGapHours": 1,
+      "sourceArtifact": {
+        "reachId": "15902409",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902409/streamflow?series=analysis_assimilation",
+        "rawFile": "raw/analysis_assimilation-15902409-004c3dcbf357b3d0413a2be352f00946370d763d6e627e7fdbfdc982ca734848.json",
+        "sha256": "004c3dcbf357b3d0413a2be352f00946370d763d6e627e7fdbfdc982ca734848",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T16:08:30.574Z",
+        "delivery": "existing_raw_cache"
+      },
+      "note": "Rolling analysis series; API provides a top-level referenceTime, not a separate model issue for every historical point. Not a hydraulic restart state."
+    },
+    {
+      "reachId": "15902411",
+      "status": "ok",
+      "provider": "NOAA NWM analysis-assimilation",
+      "dataRole": "model_analysis_not_gauge_observation",
+      "referenceTime": "2026-11-01T11:00:00Z",
+      "retrievedAt": "2026-11-01T16:08:30.582Z",
+      "originalUnits": "ft³/s",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-30T16:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T17:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T18:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T19:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T20:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T21:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T22:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-30T23:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T00:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T01:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T02:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T03:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T04:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T05:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T06:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T07:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T08:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T09:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T10:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T11:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T12:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T13:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T14:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T15:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T16:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T17:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T18:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T19:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T20:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T21:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T22:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-10-31T23:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T00:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T01:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T02:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T03:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T04:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T05:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T06:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T07:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T08:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T09:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T10:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T11:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T12:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T13:00:00Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0
+        }
+      ],
+      "missingSamples": 0,
+      "maxGapHours": 1,
+      "sourceArtifact": {
+        "reachId": "15902411",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902411/streamflow?series=analysis_assimilation",
+        "rawFile": "raw/analysis_assimilation-15902411-e4efdd59796ab71a0018da4649aa27c4951e3904b23ab56d4e17f50a2fdabdbf.json",
+        "sha256": "e4efdd59796ab71a0018da4649aa27c4951e3904b23ab56d4e17f50a2fdabdbf",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T16:08:30.582Z",
+        "delivery": "existing_raw_cache"
+      },
+      "note": "Rolling analysis series; API provides a top-level referenceTime, not a separate model issue for every historical point. Not a hydraulic restart state."
+    }
+  ],
+  "sources": [
+    {
+      "reachId": "15902351",
+      "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902351/streamflow?series=analysis_assimilation",
+      "rawFile": "raw/analysis_assimilation-15902351-d686206133f8a6d5c612408aeec98ebc742d11ec8d1c02af28376c559c205903.json",
+      "sha256": "d686206133f8a6d5c612408aeec98ebc742d11ec8d1c02af28376c559c205903",
+      "httpStatus": 200,
+      "retrievedAt": "2026-11-01T15:56:29.026Z",
+      "delivery": "existing_raw_cache"
+    },
+    {
+      "reachId": "15902361",
+      "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902361/streamflow?series=analysis_assimilation",
+      "rawFile": "raw/analysis_assimilation-15902361-c91be41fcb7d5c29eec79817fafa94f0fb8ce5dc98e97d9d0a02bfb4e67299a2.json",
+      "sha256": "c91be41fcb7d5c29eec79817fafa94f0fb8ce5dc98e97d9d0a02bfb4e67299a2",
+      "httpStatus": 200,
+      "retrievedAt": "2026-11-01T15:56:28.444Z",
+      "delivery": "existing_raw_cache"
+    },
+    {
+      "reachId": "15902409",
+      "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902409/streamflow?series=analysis_assimilation",
+      "rawFile": "raw/analysis_assimilation-15902409-004c3dcbf357b3d0413a2be352f00946370d763d6e627e7fdbfdc982ca734848.json",
+      "sha256": "004c3dcbf357b3d0413a2be352f00946370d763d6e627e7fdbfdc982ca734848",
+      "httpStatus": 200,
+      "retrievedAt": "2026-11-01T16:08:30.574Z",
+      "delivery": "existing_raw_cache"
+    },
+    {
+      "reachId": "15902411",
+      "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902411/streamflow?series=analysis_assimilation",
+      "rawFile": "raw/analysis_assimilation-15902411-e4efdd59796ab71a0018da4649aa27c4951e3904b23ab56d4e17f50a2fdabdbf.json",
+      "sha256": "e4efdd59796ab71a0018da4649aa27c4951e3904b23ab56d4e17f50a2fdabdbf",
+      "httpStatus": 200,
+      "retrievedAt": "2026-11-01T16:08:30.582Z",
+      "delivery": "existing_raw_cache"
+    }
+  ],
+  "commonHistory": {
+    "start": "2026-10-30T16:00:00.000Z",
+    "end": "2026-11-01T14:00:00.000Z",
+    "gapToForecastStartHours": 3
+  },
+  "limitation": "Actual model-analysis discharge history, not observed flow or an initialized hydraulic state. Any gap to forecast must be treated explicitly; no zero padding or undocumented bridging."
+}

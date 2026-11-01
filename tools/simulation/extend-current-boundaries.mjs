@@ -17,7 +17,7 @@ async function acquire(id,kind,useCache=true){const url=`https://api.water.noaa.
  return {reachId:id,status:missing||!ordered?'insufficient_data':'ok',provider:'NOAA NWM analysis-assimilation',dataRole:'model_analysis_not_gauge_observation',referenceTime:series.referenceTime,retrievedAt:source.retrievedAt,originalUnits:series.units,units:'m3/s',points,missingSamples:missing,maxGapHours:Math.max(0,...gaps),sourceArtifact:source,note:'Rolling analysis series; API provides a top-level referenceTime, not a separate model issue for every historical point. Not a hydraulic restart state.'};
 }
 async function pool(jobs){let index=0;const results=new Array(jobs.length);await Promise.all(Array.from({length:3},async()=>{while(index<jobs.length){const i=index++;results[i]=await jobs[i]();console.log(`${i+1}/${jobs.length} ${results[i].reachId} ${results[i].provider??'forecast'} ${results[i].status}`)}}));return results;}
-const forecast=await pool(ids.map(id=>()=>acquire(id,'short_range')));
+const forecast=await pool(ids.map(id=>()=>acquire(id,'short_range',!process.argv.includes('--refresh-forecasts'))));
 let issues=[...new Set(forecast.filter(r=>r.status==='ok').map(r=>r.issuedAt))];if(issues.length>1){for(let i=0;i<forecast.length;i++)if(forecast[i].sourceArtifact?.delivery==='existing_raw_cache')forecast[i]=await acquire(forecast[i].reachId,'short_range',false);issues=[...new Set(forecast.filter(r=>r.status==='ok').map(r=>r.issuedAt))];}
 const history=await pool(ids.map(id=>()=>acquire(id,'analysis_assimilation',true)));
 const asOf=new Date().toISOString(),rainStart=Date.parse(rain.frames[0].start),rainEnd=Date.parse(rain.frames.at(-1).end);let start=Math.max(Math.ceil(Date.parse(asOf)/3600000)*3600000,rainStart),end=rainEnd;
