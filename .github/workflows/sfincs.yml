@@ -1,0 +1,47 @@
+name: SFINCS experimental source verification
+on:
+  push:
+    branches: [experiment/sfincs-engine]
+    paths: ['tools/sfincs/**', '.github/workflows/sfincs.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  solver:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install source-build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends gfortran build-essential autoconf automake libtool pkg-config libnetcdf-dev
+          python -m pip install -r tools/sfincs/requirements.txt
+      - name: Test output validation
+        run: python -m unittest discover -s tools/sfincs -p 'test_*.py'
+      - name: Build pinned official GPL source
+        run: bash tools/sfincs/build-source.sh "$RUNNER_TEMP/sfincs-source" > source-build.log 2>&1
+      - name: Prepare and run analytical cases
+        run: |
+          python tools/sfincs/prepare_case.py runs/dry --rain-mm-hr 0
+          python tools/sfincs/prepare_case.py runs/rain --rain-mm-hr 10
+          for case in dry rain; do
+            (cd "runs/$case" && "$RUNNER_TEMP/sfincs-source/source/src/sfincs" > solver.log 2>&1)
+          done
+      - name: Verify and export app contract
+        run: |
+          python tools/sfincs/export_run.py runs/dry
+          python tools/sfincs/export_run.py runs/rain
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sfincs-verification
+          path: |
+            source-build.log
+            runs/
+          retention-days: 7
