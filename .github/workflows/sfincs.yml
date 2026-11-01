@@ -26,10 +26,8 @@ jobs:
         run: bash tools/sfincs/build-source.sh "$RUNNER_TEMP/sfincs-source" > source-build.log 2>&1
       - name: Run observed Cortaro inflow through real terrain
         run: |
-          for threshold in 0.01 0.005; do
-            python tools/sfincs/prepare_reach.py "runs/reach-$threshold" --terrain tools/sfincs/data/reach-terrain --upstream tools/sfincs/data/gauges/cortaro-benchmark-2014-09.json --threshold "$threshold"
-            (cd "runs/reach-$threshold" && timeout 300 "$RUNNER_TEMP/sfincs-source/source/src/sfincs" > solver.log 2>&1)
-          done
+          python tools/sfincs/prepare_reach.py runs/reach-stage4 --terrain tools/sfincs/data/reach-terrain --upstream tools/sfincs/data/gauges/cortaro-benchmark-2014-09.json --forcing tools/sfincs/data/reach-stage4-2014.json --initial-map tools/sfincs/data/reach-result/sfincs_map.nc
+          (cd runs/reach-stage4 && timeout 300 "$RUNNER_TEMP/sfincs-source/source/src/sfincs" > solver.log 2>&1)
       - uses: actions/upload-artifact@v4
         if: always()
         with:

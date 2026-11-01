@@ -8,6 +8,7 @@ import geopandas as gpd
 import numpy as np
 import pandas as pd
 import rasterio
+import xarray as xr
 from hydromt_sfincs import SfincsModel
 from pyproj import Transformer
 from shapely.geometry import Point
@@ -15,7 +16,7 @@ from shapely.geometry import Point
 from prepare_case import SOURCE_COMMIT
 
 
-def prepare(root, terrain, upstream, threshold=0.01):
+def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=None):
     root, terrain, upstream = Path(root), Path(terrain), Path(upstream)
     if root.exists() and any(root.iterdir()):
         raise FileExistsError("Preserve previous run; use an empty directory")
@@ -67,6 +68,50 @@ def prepare(root, terrain, upstream, threshold=0.01):
     mask[[0,-1],:] = 3
     mask[:,[0,-1]] = 3
     model.set_grid(model.mask.copy(data=mask), name="msk")
+    rainfall_metadata = {}
+    if forcing:
+        rain = json.loads(Path(forcing).read_text())
+        if rain['status'] != 'complete' or rain['missingCellHours'] or rain['units'] != 'mm/h' or rain['crs'] != 'EPSG:4326':
+            raise ValueError('Require complete verified hourly rainfall')
+        event_start = pd.Timestamp(rain['frames'][0]['start'])
+        event_end = pd.Timestamp(rain['frames'][-1]['end'])
+        keep = (times >= event_start) & (times <= event_end)
+        times, flow = times[keep], flow[keep]
+        if times[0] != event_start or times[-1] != event_end:
+            raise ValueError('River boundary does not cover rainfall event')
+        if not initial_map:
+            raise ValueError('Event requires explicit antecedent modeled state')
+        with xr.open_dataset(initial_map) as initial:
+            if not np.array_equal(initial.zb.values, bed):
+                raise ValueError('Initial-state terrain differs')
+            initial_depth = initial.h.sel(time=event_start.tz_localize(None)).values
+            if not np.isfinite(initial_depth).all() or (initial_depth < 0).any():
+                raise ValueError('Invalid initial depths')
+            model.set_states(model.mask.copy(data=(bed+initial_depth).astype(np.float32)), name='zsini')
+        xs, ys = np.meshgrid(west+(np.arange(nx)+.5)*dx, south+(np.arange(ny)+.5)*dy)
+        lon, lat = Transformer.from_crs(32612,4326,always_xy=True).transform(xs,ys)
+        slon, slat = np.array(rain['lon']), np.array(rain['lat'])
+        if not (slon.min() <= lon.min() <= lon.max() <= slon.max() and slat.min() <= lat.min() <= lat.max() <= slat.max()):
+            raise ValueError('Rainfall does not cover terrain')
+        ix = np.abs(lon[...,None]-slon).argmin(axis=-1)
+        iy = np.abs(lat[...,None]-slat).argmin(axis=-1)
+        values, starts, previous = [], [], event_start
+        for frame in rain['frames']:
+            a,b = pd.Timestamp(frame['start']),pd.Timestamp(frame['end'])
+            source = np.asarray(frame['precipMmH'],dtype=float)
+            if a != previous or (b-a).total_seconds()!=3600 or source.shape!=(len(slat),len(slon)) or not np.isfinite(source).all() or (source<0).any():
+                raise ValueError('Invalid rainfall interval or raster')
+            starts.append(a.tz_convert('UTC').tz_localize(None)); values.append(source[iy,ix]); previous=b
+        rate=xr.DataArray(np.asarray(values+[values[-1]],dtype=np.float32),dims=('time','y','x'),
+                          coords={'time':starts+[event_end.tz_localize(None)],'y':ys[:,0],'x':xs[0]},name='precip_2d',attrs={'units':'mm/hr'})
+        rate.raster.set_crs(32612)
+        model.set_forcing(rate,name='precip_2d')
+        model.setup_config(dtwnd=60,storecumprcp=1,ampr_block=1,netamprfile='rainfall.nc')
+        rainfall_metadata={'rainfallStatus':'complete_stage_iv_analysis', 'forcingProvenance':rain['provenance'],
+            'forcingQuality':rain['sourceQuality'],'forcingSha256':hashlib.sha256(Path(forcing).read_bytes()).hexdigest(),
+            'rainfallVolumeM3':float(np.sum(np.asarray(values)[:,1:-1,1:-1])*dx*dy/1000),
+            'initialState':{'sourceSha256':hashlib.sha256(Path(initial_map).read_bytes()).hexdigest(),'time':event_start.isoformat(),
+                'description':'Water levels from prior observed-inflow-only spinup; antecedent rainfall unknown; velocities reinitialized, not a full restart'}}
     start, end = times[0].tz_localize(None), times[-1].tz_localize(None)
     model.setup_config(tref=start.strftime("%Y%m%d %H%M%S"), tstart=start.strftime("%Y%m%d %H%M%S"),
                        tstop=end.strftime("%Y%m%d %H%M%S"), dtout=3600, dthisout=60,
@@ -89,7 +134,7 @@ def prepare(root, terrain, upstream, threshold=0.01):
             stream.write(name+"\n2 2\n")
             for x,y in points:
                 stream.write(f"{x:.3f} {y:.3f}\n")
-    files = [p for p in root.iterdir() if p.is_file() and (p.name.startswith("sfincs.") or p.name=="sections.crs")]
+    files = [p for p in root.iterdir() if p.is_file() and (p.name.startswith("sfincs.") or p.name in {"sections.crs", "rainfall.nc"})]
     manifest = {"fixture":"cortaro_trico_observed_inflow", "sourceCommit":SOURCE_COMMIT,
                 "crs":"EPSG:32612", "verticalDatum":"NAVD88 per USGS terrain catalog; discharge needs no stage-datum conversion",
                 "start":times[0].isoformat(), "end":times[-1].isoformat(),
@@ -114,6 +159,11 @@ def prepare(root, terrain, upstream, threshold=0.01):
                                "Artificial zero-depth outer boundaries; sampled native section fluxes give an approximate water budget",
                                "Trico observations are withheld from forcing and parameter selection; section comparison is approximate",
                                "No road passability, bridge failure, scour, or quantified accuracy interval"]}
+    if forcing:
+        manifest.update(rainfall_metadata)
+        manifest['evaluationStart']=times[0].isoformat()
+        manifest['limitations'][1]='Stage IV local rainfall included; external lateral tributary inflows omitted; local rainfall upstream of Cortaro may double count a small boundary-adjacent area'
+        manifest['limitations'][4]='Uniform assumed roughness, zero infiltration; antecedent modeled water levels with unknown antecedent rainfall and reset velocities; not calibrated'
     (root/"case.json").write_text(json.dumps(manifest,indent=2)+"\n")
     print(json.dumps({"grid":[ny,nx],"upstreamCell":[row,col],"bedM":float(bed[row,col]),"hours":(end-start).total_seconds()/3600}))
 
@@ -122,4 +172,5 @@ if __name__=="__main__":
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root");parser.add_argument("--terrain",required=True);parser.add_argument("--upstream",required=True)
     parser.add_argument("--threshold",type=float,default=.01)
-    args=parser.parse_args();prepare(args.root,args.terrain,args.upstream,args.threshold)
+    parser.add_argument('--forcing');parser.add_argument('--initial-map')
+    args=parser.parse_args();prepare(args.root,args.terrain,args.upstream,args.threshold,args.forcing,args.initial_map)
