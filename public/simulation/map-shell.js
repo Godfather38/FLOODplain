@@ -1,5 +1,5 @@
 import {mountRecentReadings} from './recent-readings.js';
-export function mountMapShell(host,map,{load,state,applyWindow}){
+export function mountMapShell(host,map,{load,state,applyWindow,findWater}){
  document.body.classList.add('safety-home');host.open=true;
  const main=document.querySelector('main'),screen=document.getElementById('screen');
  const sheet=document.createElement('section');sheet.className='map-sheet';sheet.hidden=true;sheet.setAttribute('aria-label','Map panel');
@@ -8,6 +8,7 @@ export function mountMapShell(host,map,{load,state,applyWindow}){
  const dock=document.createElement('nav');dock.className='map-dock';dock.setAttribute('aria-label','Map tools');
  dock.innerHTML='<div class="dock-status" role="status">Live readings · checked separately from simulation</div><div class="dock-actions"><button data-panel="routes">Routes</button><button data-panel="time">Time</button><button data-panel="options">Map options</button></div>';
  const mapWrap=document.createElement('section');mapWrap.className='safety-map';mapWrap.setAttribute('aria-label','Route map and model outlook');main.insertBefore(mapWrap,screen);mapWrap.append(document.getElementById('map'),dock);const advancedLink=document.createElement('a');advancedLink.href='#/map';advancedLink.className='advanced-map-link';advancedLink.textContent='Explore full map & 3D';const entryNav=document.createElement('nav');entryNav.setAttribute('aria-label','Experimental features');entryNav.className='map-entry-nav';entryNav.append(advancedLink);mapWrap.append(entryNav);
+ const renderNotice=document.createElement('div');renderNotice.className='render-notice';renderNotice.setAttribute('role','status');renderNotice.hidden=true;const renderText=document.createElement('span'),findButton=document.createElement('button');findButton.textContent='Find modeled water';findButton.onclick=findWater;renderNotice.append(renderText,findButton);dock.prepend(renderNotice);window.addEventListener('flood-render-state',e=>{const s=e.detail;renderNotice.hidden=s.status==='off';renderNotice.dataset.status=s.status;renderText.textContent=s.message;findButton.hidden=s.status!=='ready'||s.mode==='hand'||!s.wet;});
  const time=host.querySelector('.flood-time');dock.prepend(time);time.hidden=true;const key=document.createElement('div');key.className='dock-key';key.hidden=true;dock.insertBefore(key,dock.querySelector('.dock-actions'));
  const camera=host.querySelector('.flood-viewport');camera.classList.add('map-camera');mapWrap.append(camera);const locate=document.createElement('button');locate.textContent='Locate';locate.onclick=()=>{map.locate({setView:true,maxZoom:14,timeout:10000})};map.on('locationerror',()=>{dock.querySelector('.dock-status').textContent='Location unavailable · drag or zoom the map instead'});camera.append(locate);
  const body=host.querySelector('.flood-tool-body'),options=document.createElement('div');options.dataset.panelContent='options';
