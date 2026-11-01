@@ -1,0 +1,173 @@
+{
+  "notice": "SYNTHETIC 402K-FACE PERFORMANCE/SEMANTICS CHECK - NOT A FORECAST",
+  "environment": "Chrome headless SwiftShader, local server, reduced motion; phone-size viewport, not physical phone",
+  "overview": {
+    "faces": 402453,
+    "metrics": {
+      "fixtureMs": 161.5,
+      "sourceMs": 263.10000002384186,
+      "viewReadyMs": 384.39999997615814,
+      "firstFrameMs": 343.10000002384186
+    },
+    "overview": {
+      "width": 256,
+      "height": 200,
+      "stats": {
+        "visibleFaces": 402453,
+        "pixels": 51200,
+        "coveredPixels": 13332,
+        "wetPixels": 12542,
+        "missingPixels": 610,
+        "intersections": 560347,
+        "buildMs": 304.60000002384186,
+        "aggregation": "maximum native full-cell mean depth among wet contributors; fractional coverage and missing masks"
+      }
+    },
+    "polygons": 0,
+    "model": false,
+    "heap": 278746397,
+    "note": "Overview: maximum native cell-average depth per screen bin; gray hatch means missing; not hydraulic refinement"
+  },
+  "semantics": {
+    "wet": {
+      "coverage": 1,
+      "wet": 1,
+      "missing": 0,
+      "maximum": 6.099999904632568
+    },
+    "missing": {
+      "coverage": 0.9999999403953552,
+      "wet": 0,
+      "missing": 0.9999999403953552,
+      "maximum": 0
+    },
+    "dry": {
+      "coverage": 0.9999998211860657,
+      "wet": 0,
+      "missing": 0,
+      "maximum": 0
+    },
+    "hole": {
+      "coverage": 0,
+      "wet": 0,
+      "missing": 0,
+      "maximum": 0
+    }
+  },
+  "alignment": {
+    "wet": {
+      "x": 431,
+      "y": 570,
+      "rgba": [
+        64,
+        49,
+        126,
+        199
+      ]
+    },
+    "missing": {
+      "x": 732,
+      "y": 570,
+      "rgba": [
+        140,
+        150,
+        158,
+        102
+      ]
+    },
+    "dry": {
+      "x": 431,
+      "y": 485,
+      "rgba": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "hole": {
+      "x": 600,
+      "y": 400,
+      "rgba": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "frameTimings": [
+    159.9000000357628,
+    171.5,
+    151.69999998807907
+  ],
+  "cancellation": {
+    "method": "Controlled delayed obsolete overview completion",
+    "first": {
+      "status": "rejected",
+      "name": "Error",
+      "message": "Renderer frame request superseded"
+    },
+    "time": "2026-11-01T17:00:00Z"
+  },
+  "picks": {
+    "wet": {
+      "cellIndex": 63237,
+      "nativeFaceId": "SYNTHETIC:50:50:0:0",
+      "areaM2": 10000,
+      "resolutionM": 100,
+      "time": "2026-11-01T17:00:00Z",
+      "depthM": 2.6,
+      "depthFt": 8.530183727,
+      "nativeVolumeM3": 26000,
+      "surfaceM": 602.6,
+      "datum": "NAVD88"
+    },
+    "dry": {
+      "cellIndex": 132584,
+      "nativeFaceId": "SYNTHETIC:105:50:0:0",
+      "areaM2": 2500,
+      "resolutionM": 50,
+      "time": "2026-11-01T17:00:00Z",
+      "depthM": 0,
+      "depthFt": 0,
+      "nativeVolumeM3": 0,
+      "surfaceM": 600,
+      "datum": "NAVD88"
+    },
+    "missing": {
+      "cellIndex": 64005,
+      "nativeFaceId": "SYNTHETIC:50:245:0:0",
+      "areaM2": 2500,
+      "resolutionM": 50,
+      "time": "2026-11-01T17:00:00Z",
+      "depthM": null,
+      "depthFt": null,
+      "nativeVolumeM3": null,
+      "surfaceM": null,
+      "datum": "NAVD88"
+    }
+  },
+  "mobile": {
+    "updateMs": 129.4000000357628,
+    "width": 390,
+    "scrollWidth": 390,
+    "overview": {
+      "width": 98,
+      "height": 211,
+      "stats": {
+        "visibleFaces": 402453,
+        "pixels": 20678,
+        "coveredPixels": 4026,
+        "wetPixels": 3837,
+        "missingPixels": 183,
+        "intersections": 484677,
+        "buildMs": 112.30000001192093,
+        "aggregation": "maximum native full-cell mean depth among wet contributors; fractional coverage and missing masks"
+      }
+    },
+    "polygons": 0
+  },
+  "forbidden": [],
+  "errors": []
+}

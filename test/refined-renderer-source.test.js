@@ -11,10 +11,10 @@ test('SYNTHETIC: exact faces, variable rings/areas, hourly and subhourly lazy fr
  assert.throws(()=>source.validateFrame({...frame,depthM:[7,null]},frame.time),/volume/);assert.throws(()=>source.validateFrame({...frame,geometrySha256:'b'.repeat(64)},frame.time),/identity/);
  source.dispose();await assert.rejects(source.loadFrame(f.frames[0]),/disposed/);
 });
-test('SYNTHETIC: stale frame never installs, unavailable terrain and large overview fail closed',async()=>{
+test('SYNTHETIC: stale frame never installs, unavailable terrain fails closed while large overview stays available',async()=>{
  const f=syntheticRefinedPackage();let complete;const source=createRefinedRendererSource({...f,maxVisibleFaces:1,readArtifact:artifact=>artifact.time===f.frames[0].time?new Promise(r=>complete=r):Promise.resolve(f.frames[1])});
  const stale=source.loadFrame(f.manifest.frames[0]);const next=await source.loadFrame(f.manifest.frames[1]);complete(f.frames[0]);await assert.rejects(stale,{name:'AbortError'});assert.equal(source.cachedFrames,1);
- assert.throws(()=>source.flatFeatures(next,{xmin:-112,ymin:32,xmax:-111,ymax:33}),/zoom in/);
+ const display=await source.flatDisplay(next,{xmin:-111.161,ymin:32.42,xmax:-111.1595,ymax:32.421},{width:400,height:400});assert.equal(display.kind,'overview');assert.equal(display.overview.stats.visibleFaces,2);assert.ok(display.overview.stats.coveredPixels>0);assert.ok(display.overview.stats.missingPixels>0);
  source.manifest.terrainDisplay={status:'available',artifact:{path:'terrain.json.gz',sha256:'b'.repeat(64)}};
  await assert.rejects(source.loadTerrain(),/match/);source.dispose();
 });
