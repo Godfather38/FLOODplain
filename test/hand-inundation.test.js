@@ -121,7 +121,7 @@ test('all four labels appear on every result, with no invented accuracy',()=>{
   assert.match(r.labels.estimatedExtent,/^Estimated extent, not observed water/);
   assert.match(r.labels.sourceAge,/uploaded 2024-08-17, 2\.2 years/);assert.match(r.labels.sourceAge,/no FIM version/);
   assert.match(r.labels.missingCoverage,/No estimate for \d+%/);
-  assert.match(r.labels.confidence,/of 100/);assert.match(r.labels.uncertainty,/Not measured: no ± is available/);assert.match(r.labels.uncertainty,/not calibrated/);
+  assert.match(r.labels.confidence,/of 100/);assert.match(r.labels.uncertainty,/We do not have a measured error range/);assert.match(r.labels.uncertainty,/not calibrated/);
   assert.equal(r.uncertainty.plusMinus,null);
  }
  assert.match(estimateFromFlow(trico,100,{now}).labels.estimatedExtent,/chosen flow, not a forecast/);

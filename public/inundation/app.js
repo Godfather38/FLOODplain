@@ -33,7 +33,7 @@ function render(r,note=''){
  const {masks,...shown}=r;result=shown;
  $('status').textContent=`${note}${r.status}: ${r.reason}`;
  const s=r.sensitivity;
- $('summary').textContent=r.extent?`${r.source==='forecast'?'Forecast':'Chosen'} flow ${r.flowM3s.toFixed(1)} m³/s (${Math.round(r.flowM3s/CFS_TO_M3S)} cfs)${r.flowTime?' at '+r.flowTime:''}. Estimated area ${(r.extent.wetAreaM2/1e6).toFixed(2)} km² inside this square; ${(s.halfFlow.wetAreaM2/1e6).toFixed(2)} km² at half the flow${s.doubleFlow?`, ${(s.doubleFlow.wetAreaM2/1e6).toFixed(2)} km² at double`:', double is above the rating curve'}.`:'No extent is estimated for this result.';
+ $('summary').textContent=r.extent?`${r.source==='forecast'?'Forecast':'Chosen'} flow ${Math.round(r.flowM3s/0.028316846592)} cfs${r.flowTime?' at '+r.flowTime:''}. Estimated area ${(r.extent.wetAreaM2/4046.8564224).toFixed(1)} acres inside this square; ${(s.halfFlow.wetAreaM2/4046.8564224).toFixed(1)} acres at half the flow${s.doubleFlow?`, ${(s.doubleFlow.wetAreaM2/4046.8564224).toFixed(1)} acres at double`:', double is above the rating curve'}.`:'No extent is estimated for this result.';
  showLabels(r.labels??{});
  $('download').disabled=false;
  if(junction){const bounds=paint(junction,masks);if(!fitted)fit(bounds);}

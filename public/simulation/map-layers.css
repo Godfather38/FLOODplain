@@ -30,3 +30,7 @@
 .map-first .voxel-geographic .voxel-cell-info{left:auto;right:16px;top:70px;max-height:calc(100% - 110px);overflow:auto}
 .map-first.panel-open .voxel-geographic .voxel-cell-info{display:none}
 @media(max-width:899px){.map-first .voxel-geographic .voxel-cell-info{left:8px;right:8px;top:64px;max-height:200px;padding:10px;font-size:12px}.map-first .render-notice[data-render-status=ready]>span{display:none}.map-first .render-notice[data-render-status=ready]{padding:4px}.map-first .voxel-map-note{display:none}}
+
+/* Expanded explanations should be readable on phones. Compact warnings keep their layout. */
+.bridge-evidence dd,.bridge-evidence p,.flood-tool-body .fine,.flood-tool-body details p{font-size:15px;line-height:1.5}
+.dock-key{font-size:12px;line-height:1.4}

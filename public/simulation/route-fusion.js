@@ -23,7 +23,7 @@ export function sfincsEvidence(raw,time){
   const depth=metres<=150?frame.depthM[nearest]:null;
   return {source:'SFINCS',crossingId:fp.id,status:depth===null?'unsupported':'ok',mode:'scenario',validAt:frame.time,
    concern:depth!==null&&depth>=.01,depthM:depth,distanceM:metres,
-   meaning:'Nearest computational-cell water depth within 150 m, not roadway depth; historical scenario',
+   meaning:'Water depth in the nearest model cell within 492 ft; this past scenario does not measure depth on the road',
    provenance:run.provenance,limitations:run.support,uncertainty:run.uncertainty};
  });
 }
