@@ -1,0 +1,15 @@
+{
+  "method": "SFINCS compute_initial_subgrid_volumes stage/storage relation; regular projected grid, same saved z_level/z_volmax; .001m interpolation denominator floor",
+  "notNativeVolumeOutput": true,
+  "missingWaterLevelsRemainMissing": true,
+  "nativeMapSha256": "b0b2784e29aab11c5f8433b25b72253b8b4e8a65f0e0fa1246ed0c8d1186a211",
+  "subgridSha256": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de",
+  "maximumReconstructedDepthM": 7.737062347743154,
+  "finiteCellFrames": 780381,
+  "missingCellFrames": 1119459,
+  "sourceFunction": "sfincs_subgrid.F90:compute_initial_subgrid_volumes",
+  "limitations": [
+    "Finite output precision and wet/dry masking prevent exact recovery of internal storage.",
+    "No inference of roadway depth or missing-cell dryness."
+  ]
+}

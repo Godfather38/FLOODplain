@@ -1,0 +1,30 @@
+{
+  "preview": "b5d6733",
+  "method": "Browser pageAssets inventories before and after explicit 3D selection; asset sizes measured from committed files, not wire-transfer timing.",
+  "home": [],
+  "flat": [
+    "https://raw.githack.com/Godfather38/FLOODplain/b5d6733/public/simulation/geographic-view.js",
+    "https://raw.githack.com/Godfather38/FLOODplain/b5d6733/public/simulation/renderer-chunks/chunk-SHC5IIAK.js",
+    "https://raw.githack.com/Godfather38/FLOODplain/b5d6733/public/simulation/geographic-view.css",
+    "https://raw.githack.com/Godfather38/FLOODplain/b5d6733/public/simulation/data/water-footprints-0.json.gz"
+  ],
+  "explicit3D": [
+    "https://raw.githack.com/Godfather38/FLOODplain/b5d6733/public/simulation/renderer-chunks/geographic-3d-runtime-LDRAX36D.js",
+    "https://raw.githack.com/Godfather38/FLOODplain/b5d6733/public/simulation/data/frozen-voxel-terrain.json",
+    "https://raw.githack.com/Godfather38/FLOODplain/b5d6733/public/simulation/data/frozen-terrain-display.json.gz",
+    "https://raw.githack.com/Godfather38/FLOODplain/b5d6733/public/simulation/data/frozen-voxel-terrain.f32.gz"
+  ],
+  "flatRendererFileBytes": 674267,
+  "initial10AMFootprintBytes": 33399,
+  "remoteStartupTiming": null,
+  "timingLimitation": "Browser wait tool deadline expired before first frame; no reliable cold startup timing claimed.",
+  "verified": [
+    "8 PM to 9 PM depth 3.504 to 4.168 m on cell9508",
+    "explicit flat/3D round trips",
+    "8-10 PM range retained",
+    "safety home retained",
+    "return to Map defaults flat",
+    "390x844 phone and1280x720 desktop"
+  ],
+  "javascriptErrors": []
+}

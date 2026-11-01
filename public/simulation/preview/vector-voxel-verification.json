@@ -1,0 +1,55 @@
+{
+  "first": {
+    "info": {
+      "cellIndex": 9344,
+      "row": 145,
+      "column": 172,
+      "time": "2026-11-02T03:00:00Z",
+      "depthM": 3.36806748715984,
+      "depthFt": 11.050090180926404,
+      "surfaceM": 599.6724243164062,
+      "datum": "NAVD88, inherited from the actual case terrain; native zs in metres",
+      "terrainMeanM": 596.879
+    },
+    "features": 1787,
+    "source": {
+      "kind": "geography",
+      "status": "ready",
+      "featureCount": 1787,
+      "sourceLayers": [
+        "landcover",
+        "landuse",
+        "water",
+        "building",
+        "waterway",
+        "transportation",
+        "transportation_name",
+        "place"
+      ],
+      "tileZoom": 14
+    }
+  },
+  "second": {
+    "cellIndex": 9344,
+    "row": 145,
+    "column": 172,
+    "time": "2026-11-02T04:00:00Z",
+    "depthM": 4.672212151378935,
+    "depthFt": 15.328780024147791,
+    "surfaceM": 601.2906494140625,
+    "datum": "NAVD88, inherited from the actual case terrain; native zs in metres",
+    "terrainMeanM": 596.879
+  },
+  "picked": 9344,
+  "phone": {
+    "width": 390,
+    "scrollWidth": 390,
+    "selected": 9344,
+    "time": "2026-11-02T04:00:00Z"
+  },
+  "detail": "10 m terrain near centre / 10 m far; native 100 m water, terrain intersection; cosmetic animation",
+  "missing": 0,
+  "fallback": true,
+  "removed": 0,
+  "errors": []
+}

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "status": "insufficient_data",
+  "start": "2013-07-05T07:00:00Z",
+  "end": "2013-07-23T07:00:00Z",
+  "hours": 432,
+  "missingCellHours": 726,
+  "missingIntervals": [
+    {
+      "start": "2013-07-16T02:00:00Z",
+      "end": "2013-07-16T03:00:00Z",
+      "missingCells": 726
+    }
+  ],
+  "eventOverlap": "All 96 preserved event frames exactly identical",
+  "rawHashesVerified": 432,
+  "antecedentRawBytes": 408925944,
+  "totalRawBytes": 525069952,
+  "knownAntecedentDepthMmRange": [
+    6.76,
+    88.81
+  ],
+  "knownSumWarning": "Excludes missing interval; not complete antecedent rainfall totals",
+  "forcingSha256": "d5dd1e2525e9cc46669200c80efd2542dc69d34331fa3dad5c62e4f011f38b38"
+}

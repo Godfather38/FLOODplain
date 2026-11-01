@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "sourceSha256": "6a06c140891d35214840573a73422b3461e7105492e5b60cd753c1815e5ff7ad",
+  "rasterSha256": "cb7c66ecd4e869ba7c5c78fa236349e2cf465f062e8db88ff97d233256f40f6b",
+  "artifactSha256": "e56dcf7cce87ca95114f81fa94792e324c64c6a4c7f4e087ff322a07c355b907",
+  "cellCount": 29685,
+  "subdivision": 10,
+  "resolutionM": 10,
+  "order": "native cell index, south-to-north subrow, west-to-east subcolumn",
+  "encoding": "little-endian Float32 metres NAVD88",
+  "crs": "EPSG:32612",
+  "source": "Retained actual SFINCS case subgrid/dep_subgrid.tif, derived from USGS Pima County 2021 1m lidar DEM, northern edge 2023; resampled to 10m for the model",
+  "sourceResolutionM": 1,
+  "displayResolutionM": 10,
+  "limitations": [
+    "Terrain detail is not hydraulic model resolution.",
+    "Native water levels remain 100m cells; terrain intersection is not a resolved wet footprint."
+  ]
+}

@@ -1,0 +1,5743 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-01T06:58:54.876Z",
+  "label": "Retrospective held-out 2014 routing hindcast; observed upstream forcing; not radar-runoff or bridge-failure prediction",
+  "freezeCommit": "b4c4c1b",
+  "inputSources": [
+    {
+      "path": "cortaro-benchmark-2014-09.json",
+      "sha256": "80db7a2953bafdfdfd77ceb5ba299e888ebc57956461769c57de015feb6d37ba",
+      "sourceUrl": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09486500&parameter_code=00060&time=2014-09-07T07%3A00%3A00Z%2F2014-09-11T07%3A00%3A00Z&limit=1000",
+      "quality": {
+        "approvalStatuses": [
+          "Approved"
+        ],
+        "qualifiedCount": 0,
+        "maxGapMinutes": 15
+      }
+    },
+    {
+      "path": "trico-benchmark-2014-09.json",
+      "sha256": "8e13d08918c3dd129b7e8e46581a1a4f27d3582d6c29419dc1d1ee8ea74653ed",
+      "sourceUrl": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09486520&parameter_code=00060&time=2014-09-07T07%3A00%3A00Z%2F2014-09-11T07%3A00%3A00Z&limit=1000",
+      "quality": {
+        "approvalStatuses": [
+          "Approved"
+        ],
+        "qualifiedCount": 16,
+        "maxGapMinutes": 15
+      }
+    }
+  ],
+  "scoringStart": "2014-09-08T07:00:00.000Z",
+  "scoringEnd": "2014-09-11T07:00:00.000Z",
+  "actualPeak": {
+    "time": "2014-09-09T06:45:00.000Z",
+    "valueM3s": 339.802159104,
+    "originalValueCfs": 12000,
+    "approval": "Approved",
+    "qualifier": null
+  },
+  "observed": [
+    {
+      "time": "2014-09-08T07:00:00.000Z",
+      "valueM3s": 1.4498225455104001,
+      "originalValueCfs": 51.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T07:15:00.000Z",
+      "valueM3s": 1.4215056989184,
+      "originalValueCfs": 50.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T07:30:00.000Z",
+      "valueM3s": 1.4215056989184,
+      "originalValueCfs": 50.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T07:45:00.000Z",
+      "valueM3s": 1.4215056989184,
+      "originalValueCfs": 50.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T08:00:00.000Z",
+      "valueM3s": 1.4498225455104001,
+      "originalValueCfs": 51.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T08:15:00.000Z",
+      "valueM3s": 1.4215056989184,
+      "originalValueCfs": 50.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T08:30:00.000Z",
+      "valueM3s": 1.3931888523264002,
+      "originalValueCfs": 49.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T08:45:00.000Z",
+      "valueM3s": 1.3931888523264002,
+      "originalValueCfs": 49.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T09:00:00.000Z",
+      "valueM3s": 1.3648720057344002,
+      "originalValueCfs": 48.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T09:15:00.000Z",
+      "valueM3s": 1.3365551591424,
+      "originalValueCfs": 47.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T09:30:00.000Z",
+      "valueM3s": 1.3082383125504,
+      "originalValueCfs": 46.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T09:45:00.000Z",
+      "valueM3s": 1.3082383125504,
+      "originalValueCfs": 46.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T10:00:00.000Z",
+      "valueM3s": 1.2544363040256,
+      "originalValueCfs": 44.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T10:15:00.000Z",
+      "valueM3s": 1.2544363040256,
+      "originalValueCfs": 44.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T10:30:00.000Z",
+      "valueM3s": 1.2006342955008,
+      "originalValueCfs": 42.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T10:45:00.000Z",
+      "valueM3s": 1.2006342955008,
+      "originalValueCfs": 42.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T11:00:00.000Z",
+      "valueM3s": 1.1213471250432,
+      "originalValueCfs": 39.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T11:15:00.000Z",
+      "valueM3s": 1.1496639716352002,
+      "originalValueCfs": 40.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T11:30:00.000Z",
+      "valueM3s": 1.1213471250432,
+      "originalValueCfs": 39.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T11:45:00.000Z",
+      "valueM3s": 1.175149133568,
+      "originalValueCfs": 41.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T12:00:00.000Z",
+      "valueM3s": 1.8292682898431998,
+      "originalValueCfs": 64.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T12:15:00.000Z",
+      "valueM3s": 2.97326889216,
+      "originalValueCfs": 105,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T12:30:00.000Z",
+      "valueM3s": 3.82277428992,
+      "originalValueCfs": 135,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T12:45:00.000Z",
+      "valueM3s": 4.304160681984,
+      "originalValueCfs": 152,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T13:00:00.000Z",
+      "valueM3s": 4.502378608128,
+      "originalValueCfs": 159,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T13:15:00.000Z",
+      "valueM3s": 4.502378608128,
+      "originalValueCfs": 159,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T13:30:00.000Z",
+      "valueM3s": 4.445744914944,
+      "originalValueCfs": 157,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T13:45:00.000Z",
+      "valueM3s": 4.190893295616,
+      "originalValueCfs": 148,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T14:00:00.000Z",
+      "valueM3s": 4.10594275584,
+      "originalValueCfs": 145,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T14:15:00.000Z",
+      "valueM3s": 3.851091136512,
+      "originalValueCfs": 136,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T14:30:00.000Z",
+      "valueM3s": 3.539605824,
+      "originalValueCfs": 125,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T14:45:00.000Z",
+      "valueM3s": 3.454655284224,
+      "originalValueCfs": 122,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T15:00:00.000Z",
+      "valueM3s": 3.143169971712,
+      "originalValueCfs": 111,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T15:15:00.000Z",
+      "valueM3s": 3.058219431936,
+      "originalValueCfs": 108,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T15:30:00.000Z",
+      "valueM3s": 2.7552291734016,
+      "originalValueCfs": 97.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T15:45:00.000Z",
+      "valueM3s": 2.5173676620288004,
+      "originalValueCfs": 88.9,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T16:00:00.000Z",
+      "valueM3s": 2.4012685910016,
+      "originalValueCfs": 84.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T16:15:00.000Z",
+      "valueM3s": 2.4012685910016,
+      "originalValueCfs": 84.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T16:30:00.000Z",
+      "valueM3s": 2.2880012046336,
+      "originalValueCfs": 80.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T16:45:00.000Z",
+      "valueM3s": 2.364456690432,
+      "originalValueCfs": 83.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T17:00:00.000Z",
+      "valueM3s": 2.2880012046336,
+      "originalValueCfs": 80.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T17:15:00.000Z",
+      "valueM3s": 2.1775655029248,
+      "originalValueCfs": 76.9,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T17:30:00.000Z",
+      "valueM3s": 2.364456690432,
+      "originalValueCfs": 83.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T17:45:00.000Z",
+      "valueM3s": 2.4409121762304,
+      "originalValueCfs": 86.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T18:00:00.000Z",
+      "valueM3s": 2.3248131052031997,
+      "originalValueCfs": 82.1,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T18:15:00.000Z",
+      "valueM3s": 2.2880012046336,
+      "originalValueCfs": 80.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T18:30:00.000Z",
+      "valueM3s": 2.2880012046336,
+      "originalValueCfs": 80.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T18:45:00.000Z",
+      "valueM3s": 2.1407536023552,
+      "originalValueCfs": 75.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T19:00:00.000Z",
+      "valueM3s": 2.1775655029248,
+      "originalValueCfs": 76.9,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T19:15:00.000Z",
+      "valueM3s": 2.2880012046336,
+      "originalValueCfs": 80.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T19:30:00.000Z",
+      "valueM3s": 2.4777240768,
+      "originalValueCfs": 87.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T19:45:00.000Z",
+      "valueM3s": 2.4777240768,
+      "originalValueCfs": 87.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T20:00:00.000Z",
+      "valueM3s": 2.3248131052031997,
+      "originalValueCfs": 82.1,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T20:15:00.000Z",
+      "valueM3s": 2.1407536023552,
+      "originalValueCfs": 75.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T20:30:00.000Z",
+      "valueM3s": 2.1407536023552,
+      "originalValueCfs": 75.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T20:45:00.000Z",
+      "valueM3s": 2.0359812699648003,
+      "originalValueCfs": 71.9,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T21:00:00.000Z",
+      "valueM3s": 1.9651891534848003,
+      "originalValueCfs": 69.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T21:15:00.000Z",
+      "valueM3s": 1.897228721664,
+      "originalValueCfs": 67,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T21:30:00.000Z",
+      "valueM3s": 1.8292682898431998,
+      "originalValueCfs": 64.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T21:45:00.000Z",
+      "valueM3s": 1.7613078580224002,
+      "originalValueCfs": 62.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T22:00:00.000Z",
+      "valueM3s": 1.7301593267712,
+      "originalValueCfs": 61.1,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T22:15:00.000Z",
+      "valueM3s": 1.6650305796095999,
+      "originalValueCfs": 58.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T22:30:00.000Z",
+      "valueM3s": 1.5404364546048,
+      "originalValueCfs": 54.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T22:45:00.000Z",
+      "valueM3s": 1.571584985856,
+      "originalValueCfs": 55.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T23:00:00.000Z",
+      "valueM3s": 1.5092879233536,
+      "originalValueCfs": 53.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T23:15:00.000Z",
+      "valueM3s": 1.4498225455104001,
+      "originalValueCfs": 51.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T23:30:00.000Z",
+      "valueM3s": 1.3931888523264002,
+      "originalValueCfs": 49.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-08T23:45:00.000Z",
+      "valueM3s": 1.3648720057344002,
+      "originalValueCfs": 48.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T00:00:00.000Z",
+      "valueM3s": 1.2544363040256,
+      "originalValueCfs": 44.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T00:15:00.000Z",
+      "valueM3s": 1.2006342955008,
+      "originalValueCfs": 42.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T00:30:00.000Z",
+      "valueM3s": 1.2006342955008,
+      "originalValueCfs": 42.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T00:45:00.000Z",
+      "valueM3s": 1.2261194574335998,
+      "originalValueCfs": 43.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T01:00:00.000Z",
+      "valueM3s": 1.2006342955008,
+      "originalValueCfs": 42.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T01:15:00.000Z",
+      "valueM3s": 1.2544363040256,
+      "originalValueCfs": 44.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T01:30:00.000Z",
+      "valueM3s": 1.2261194574335998,
+      "originalValueCfs": 43.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T01:45:00.000Z",
+      "valueM3s": 1.2544363040256,
+      "originalValueCfs": 44.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T02:00:00.000Z",
+      "valueM3s": 7.50396434688,
+      "originalValueCfs": 265,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T02:15:00.000Z",
+      "valueM3s": 18.604168210944,
+      "originalValueCfs": 657,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T02:30:00.000Z",
+      "valueM3s": 30.01585738752,
+      "originalValueCfs": 1060,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T02:45:00.000Z",
+      "valueM3s": 37.661405967360004,
+      "originalValueCfs": 1330,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T03:00:00.000Z",
+      "valueM3s": 45.02378608128,
+      "originalValueCfs": 1590,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T03:15:00.000Z",
+      "valueM3s": 53.8020085248,
+      "originalValueCfs": 1900,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T03:30:00.000Z",
+      "valueM3s": 79.2871704576,
+      "originalValueCfs": 2800,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T03:45:00.000Z",
+      "valueM3s": 132.23967358464,
+      "originalValueCfs": 4670,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T04:00:00.000Z",
+      "valueM3s": 178.96247046144,
+      "originalValueCfs": 6320,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T04:15:00.000Z",
+      "valueM3s": 210.96050711040002,
+      "originalValueCfs": 7450,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T04:30:00.000Z",
+      "valueM3s": 235.31299517952002,
+      "originalValueCfs": 8310,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T04:45:00.000Z",
+      "valueM3s": 238.71101677056,
+      "originalValueCfs": 8430,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T05:00:00.000Z",
+      "valueM3s": 257.6833039872,
+      "originalValueCfs": 9100,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T05:15:00.000Z",
+      "valueM3s": 263.06350483968004,
+      "originalValueCfs": 9290,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T05:30:00.000Z",
+      "valueM3s": 274.10707501056,
+      "originalValueCfs": 9680,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T05:45:00.000Z",
+      "valueM3s": 286.0001505792,
+      "originalValueCfs": 10100,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T06:00:00.000Z",
+      "valueM3s": 302.9902585344,
+      "originalValueCfs": 10700,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T06:15:00.000Z",
+      "valueM3s": 322.8120511488,
+      "originalValueCfs": 11400,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T06:30:00.000Z",
+      "valueM3s": 331.3071051264,
+      "originalValueCfs": 11700,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T06:45:00.000Z",
+      "valueM3s": 339.802159104,
+      "originalValueCfs": 12000,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T07:00:00.000Z",
+      "valueM3s": 334.1387897856,
+      "originalValueCfs": 11800,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T07:15:00.000Z",
+      "valueM3s": 319.9803664896,
+      "originalValueCfs": 11300,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T07:30:00.000Z",
+      "valueM3s": 314.3169971712,
+      "originalValueCfs": 11100,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T07:45:00.000Z",
+      "valueM3s": 300.15857387520003,
+      "originalValueCfs": 10600,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T08:00:00.000Z",
+      "valueM3s": 317.1486818304,
+      "originalValueCfs": 11200,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T08:15:00.000Z",
+      "valueM3s": 294.4952045568,
+      "originalValueCfs": 10400,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T08:30:00.000Z",
+      "valueM3s": 272.69123268096,
+      "originalValueCfs": 9630,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T08:45:00.000Z",
+      "valueM3s": 272.69123268096,
+      "originalValueCfs": 9630,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T09:00:00.000Z",
+      "valueM3s": 263.06350483968004,
+      "originalValueCfs": 9290,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T09:15:00.000Z",
+      "valueM3s": 246.92290228224002,
+      "originalValueCfs": 8720,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T09:30:00.000Z",
+      "valueM3s": 240.12685910016,
+      "originalValueCfs": 8480,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T09:45:00.000Z",
+      "valueM3s": 231.91497358848,
+      "originalValueCfs": 8190,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T10:00:00.000Z",
+      "valueM3s": 229.3664573952,
+      "originalValueCfs": 8100,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T10:15:00.000Z",
+      "valueM3s": 204.16446392832,
+      "originalValueCfs": 7210,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T10:30:00.000Z",
+      "valueM3s": 192.5545568256,
+      "originalValueCfs": 6800,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T10:45:00.000Z",
+      "valueM3s": 176.69712273408,
+      "originalValueCfs": 6240,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T11:00:00.000Z",
+      "valueM3s": 159.70701477888,
+      "originalValueCfs": 5640,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T11:15:00.000Z",
+      "valueM3s": 148.663444608,
+      "originalValueCfs": 5250,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T11:30:00.000Z",
+      "valueM3s": 143.84958068736,
+      "originalValueCfs": 5080,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T11:45:00.000Z",
+      "valueM3s": 132.23967358464,
+      "originalValueCfs": 4670,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T12:00:00.000Z",
+      "valueM3s": 126.0099673344,
+      "originalValueCfs": 4450,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T12:15:00.000Z",
+      "valueM3s": 118.9307556864,
+      "originalValueCfs": 4200,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T12:30:00.000Z",
+      "valueM3s": 111.00203864064001,
+      "originalValueCfs": 3920,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T12:45:00.000Z",
+      "valueM3s": 106.18817472,
+      "originalValueCfs": 3750,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T13:00:00.000Z",
+      "valueM3s": 101.9406477312,
+      "originalValueCfs": 3600,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T13:15:00.000Z",
+      "valueM3s": 95.42777301504,
+      "originalValueCfs": 3370,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T13:30:00.000Z",
+      "valueM3s": 84.66737131008,
+      "originalValueCfs": 2990,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T13:45:00.000Z",
+      "valueM3s": 79.85350738944,
+      "originalValueCfs": 2820,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T14:00:00.000Z",
+      "valueM3s": 78.15449659392,
+      "originalValueCfs": 2760,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T14:15:00.000Z",
+      "valueM3s": 73.05746420736,
+      "originalValueCfs": 2580,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T14:30:00.000Z",
+      "valueM3s": 67.67726335488,
+      "originalValueCfs": 2390,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T14:45:00.000Z",
+      "valueM3s": 63.42973636608,
+      "originalValueCfs": 2240,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T15:00:00.000Z",
+      "valueM3s": 59.74854630912,
+      "originalValueCfs": 2110,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T15:15:00.000Z",
+      "valueM3s": 55.501019320320005,
+      "originalValueCfs": 1960,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T15:30:00.000Z",
+      "valueM3s": 51.81982926336,
+      "originalValueCfs": 1830,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T15:45:00.000Z",
+      "valueM3s": 49.27131307008,
+      "originalValueCfs": 1740,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T16:00:00.000Z",
+      "valueM3s": 45.3069545472,
+      "originalValueCfs": 1600,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T16:15:00.000Z",
+      "valueM3s": 41.62576449024,
+      "originalValueCfs": 1470,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T16:30:00.000Z",
+      "valueM3s": 37.94457443328,
+      "originalValueCfs": 1340,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T16:45:00.000Z",
+      "valueM3s": 34.546552842240004,
+      "originalValueCfs": 1220,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T17:00:00.000Z",
+      "valueM3s": 31.1485312512,
+      "originalValueCfs": 1100,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T17:15:00.000Z",
+      "valueM3s": 28.316846592,
+      "originalValueCfs": 1000,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T17:30:00.000Z",
+      "valueM3s": 26.419617870336,
+      "originalValueCfs": 933,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T17:45:00.000Z",
+      "valueM3s": 24.465755455488,
+      "originalValueCfs": 864,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T18:00:00.000Z",
+      "valueM3s": 22.681794120192002,
+      "originalValueCfs": 801,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T18:15:00.000Z",
+      "valueM3s": 21.605753949696002,
+      "originalValueCfs": 763,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T18:30:00.000Z",
+      "valueM3s": 20.416446392832,
+      "originalValueCfs": 721,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T18:45:00.000Z",
+      "valueM3s": 19.312089375744,
+      "originalValueCfs": 682,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T19:00:00.000Z",
+      "valueM3s": 18.377633438208,
+      "originalValueCfs": 649,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T19:15:00.000Z",
+      "valueM3s": 17.69802912,
+      "originalValueCfs": 625,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T19:30:00.000Z",
+      "valueM3s": 16.933474262016002,
+      "originalValueCfs": 598,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T19:45:00.000Z",
+      "valueM3s": 16.197236250624,
+      "originalValueCfs": 572,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T20:00:00.000Z",
+      "valueM3s": 15.545948779008,
+      "originalValueCfs": 549,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T20:15:00.000Z",
+      "valueM3s": 14.922978153984001,
+      "originalValueCfs": 527,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T20:30:00.000Z",
+      "valueM3s": 14.356641222144,
+      "originalValueCfs": 507,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T20:45:00.000Z",
+      "valueM3s": 13.73367059712,
+      "originalValueCfs": 485,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T21:00:00.000Z",
+      "valueM3s": 13.110699972096,
+      "originalValueCfs": 463,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T21:15:00.000Z",
+      "valueM3s": 12.657630426624001,
+      "originalValueCfs": 447,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T21:30:00.000Z",
+      "valueM3s": 11.921392415232,
+      "originalValueCfs": 421,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T21:45:00.000Z",
+      "valueM3s": 11.355055483392,
+      "originalValueCfs": 401,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T22:00:00.000Z",
+      "valueM3s": 10.901985937920001,
+      "originalValueCfs": 385,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T22:15:00.000Z",
+      "valueM3s": 10.420599545856,
+      "originalValueCfs": 368,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T22:30:00.000Z",
+      "valueM3s": 9.939213153792,
+      "originalValueCfs": 351,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T22:45:00.000Z",
+      "valueM3s": 9.457826761728,
+      "originalValueCfs": 334,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T23:00:00.000Z",
+      "valueM3s": 8.976440369664001,
+      "originalValueCfs": 317,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T23:15:00.000Z",
+      "valueM3s": 8.523370824192,
+      "originalValueCfs": 301,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T23:30:00.000Z",
+      "valueM3s": 8.07030127872,
+      "originalValueCfs": 285,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-09T23:45:00.000Z",
+      "valueM3s": 7.673865426432,
+      "originalValueCfs": 271,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T00:00:00.000Z",
+      "valueM3s": 7.390696960512,
+      "originalValueCfs": 261,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T00:15:00.000Z",
+      "valueM3s": 6.909310568448,
+      "originalValueCfs": 244,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T00:30:00.000Z",
+      "valueM3s": 6.597825255936,
+      "originalValueCfs": 233,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T00:45:00.000Z",
+      "valueM3s": 6.342973636608,
+      "originalValueCfs": 224,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T01:00:00.000Z",
+      "valueM3s": 6.031488324096,
+      "originalValueCfs": 213,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T01:15:00.000Z",
+      "valueM3s": 5.550101932032,
+      "originalValueCfs": 196,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T01:30:00.000Z",
+      "valueM3s": 5.351884005888,
+      "originalValueCfs": 189,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T01:45:00.000Z",
+      "valueM3s": 5.266933466112,
+      "originalValueCfs": 186,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T02:00:00.000Z",
+      "valueM3s": 4.983765000192,
+      "originalValueCfs": 176,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T02:15:00.000Z",
+      "valueM3s": 4.559012301312,
+      "originalValueCfs": 161,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T02:30:00.000Z",
+      "valueM3s": 4.360794375168,
+      "originalValueCfs": 154,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T02:45:00.000Z",
+      "valueM3s": 4.190893295616,
+      "originalValueCfs": 148,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T03:00:00.000Z",
+      "valueM3s": 4.020992216064,
+      "originalValueCfs": 142,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T03:15:00.000Z",
+      "valueM3s": 3.709506903552,
+      "originalValueCfs": 131,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T03:30:00.000Z",
+      "valueM3s": 3.567922670592,
+      "originalValueCfs": 126,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T03:45:00.000Z",
+      "valueM3s": 3.454655284224,
+      "originalValueCfs": 122,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T04:00:00.000Z",
+      "valueM3s": 3.086536278528,
+      "originalValueCfs": 109,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T04:15:00.000Z",
+      "valueM3s": 2.916635198976,
+      "originalValueCfs": 103,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T04:30:00.000Z",
+      "valueM3s": 2.97326889216,
+      "originalValueCfs": 105,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T04:45:00.000Z",
+      "valueM3s": 2.6362984177152,
+      "originalValueCfs": 93.1,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T05:00:00.000Z",
+      "valueM3s": 2.6362984177152,
+      "originalValueCfs": 93.1,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T05:15:00.000Z",
+      "valueM3s": 2.4409121762304,
+      "originalValueCfs": 86.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T05:30:00.000Z",
+      "valueM3s": 2.4777240768,
+      "originalValueCfs": 87.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T05:45:00.000Z",
+      "valueM3s": 2.364456690432,
+      "originalValueCfs": 83.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T06:00:00.000Z",
+      "valueM3s": 2.1775655029248,
+      "originalValueCfs": 76.9,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T06:15:00.000Z",
+      "valueM3s": 2.1067733864448,
+      "originalValueCfs": 74.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T06:30:00.000Z",
+      "valueM3s": 2.0359812699648003,
+      "originalValueCfs": 71.9,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T06:45:00.000Z",
+      "valueM3s": 1.9312089375744002,
+      "originalValueCfs": 68.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T07:00:00.000Z",
+      "valueM3s": 1.897228721664,
+      "originalValueCfs": 67,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T07:15:00.000Z",
+      "valueM3s": 1.8632485057536,
+      "originalValueCfs": 65.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T07:30:00.000Z",
+      "valueM3s": 1.7301593267712,
+      "originalValueCfs": 61.1,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T07:45:00.000Z",
+      "valueM3s": 1.6650305796095999,
+      "originalValueCfs": 58.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T08:00:00.000Z",
+      "valueM3s": 1.6338820483584002,
+      "originalValueCfs": 57.7,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T08:15:00.000Z",
+      "valueM3s": 1.6338820483584002,
+      "originalValueCfs": 57.7,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T08:30:00.000Z",
+      "valueM3s": 1.5404364546048,
+      "originalValueCfs": 54.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T08:45:00.000Z",
+      "valueM3s": 1.3931888523264002,
+      "originalValueCfs": 49.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T09:00:00.000Z",
+      "valueM3s": 1.4215056989184,
+      "originalValueCfs": 50.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T09:15:00.000Z",
+      "valueM3s": 1.3648720057344002,
+      "originalValueCfs": 48.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T09:30:00.000Z",
+      "valueM3s": 1.3082383125504,
+      "originalValueCfs": 46.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T09:45:00.000Z",
+      "valueM3s": 1.2799214659584002,
+      "originalValueCfs": 45.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T10:00:00.000Z",
+      "valueM3s": 1.2261194574335998,
+      "originalValueCfs": 43.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T10:15:00.000Z",
+      "valueM3s": 1.175149133568,
+      "originalValueCfs": 41.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T10:30:00.000Z",
+      "valueM3s": 1.1213471250432,
+      "originalValueCfs": 39.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T10:45:00.000Z",
+      "valueM3s": 1.0732084858368,
+      "originalValueCfs": 37.9,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T11:00:00.000Z",
+      "valueM3s": 0.9967530000384001,
+      "originalValueCfs": 35.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T11:15:00.000Z",
+      "valueM3s": 0.948614360832,
+      "originalValueCfs": 33.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T11:30:00.000Z",
+      "valueM3s": 0.948614360832,
+      "originalValueCfs": 33.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T11:45:00.000Z",
+      "valueM3s": 0.8551687670784,
+      "originalValueCfs": 30.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T12:00:00.000Z",
+      "valueM3s": 0.8296836051456,
+      "originalValueCfs": 29.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T12:15:00.000Z",
+      "valueM3s": 0.8041984432128,
+      "originalValueCfs": 28.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T12:30:00.000Z",
+      "valueM3s": 0.8296836051456,
+      "originalValueCfs": 29.3,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T12:45:00.000Z",
+      "valueM3s": 0.8041984432128,
+      "originalValueCfs": 28.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T13:00:00.000Z",
+      "valueM3s": 0.7815449659392001,
+      "originalValueCfs": 27.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T13:15:00.000Z",
+      "valueM3s": 0.7588914886656001,
+      "originalValueCfs": 26.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T13:30:00.000Z",
+      "valueM3s": 0.7334063267327999,
+      "originalValueCfs": 25.9,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T13:45:00.000Z",
+      "valueM3s": 0.7107528494592,
+      "originalValueCfs": 25.1,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T14:00:00.000Z",
+      "valueM3s": 0.6626142102528,
+      "originalValueCfs": 23.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T14:15:00.000Z",
+      "valueM3s": 0.6626142102528,
+      "originalValueCfs": 23.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T14:30:00.000Z",
+      "valueM3s": 0.6371290483200001,
+      "originalValueCfs": 22.5,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T14:45:00.000Z",
+      "valueM3s": 0.5889904091136,
+      "originalValueCfs": 20.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T15:00:00.000Z",
+      "valueM3s": 0.5889904091136,
+      "originalValueCfs": 20.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T15:15:00.000Z",
+      "valueM3s": 0.56633693184,
+      "originalValueCfs": 20,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T15:30:00.000Z",
+      "valueM3s": 0.5436834545664,
+      "originalValueCfs": 19.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T15:45:00.000Z",
+      "valueM3s": 0.49837650001920003,
+      "originalValueCfs": 17.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T16:00:00.000Z",
+      "valueM3s": 0.4757230227456,
+      "originalValueCfs": 16.8,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T16:15:00.000Z",
+      "valueM3s": 0.453069545472,
+      "originalValueCfs": 16,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T16:30:00.000Z",
+      "valueM3s": 0.4304160681984,
+      "originalValueCfs": 15.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T16:45:00.000Z",
+      "valueM3s": 0.4077625909248,
+      "originalValueCfs": 14.4,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T17:00:00.000Z",
+      "valueM3s": 0.3879407983104,
+      "originalValueCfs": 13.7,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T17:15:00.000Z",
+      "valueM3s": 0.3652873210368,
+      "originalValueCfs": 12.9,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T17:30:00.000Z",
+      "valueM3s": 0.3652873210368,
+      "originalValueCfs": 12.9,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T17:45:00.000Z",
+      "valueM3s": 0.34546552842239997,
+      "originalValueCfs": 12.2,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T18:00:00.000Z",
+      "valueM3s": 0.3284754204672,
+      "originalValueCfs": 11.6,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T18:15:00.000Z",
+      "valueM3s": 0.339802159104,
+      "originalValueCfs": 12,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T18:30:00.000Z",
+      "valueM3s": 0.339802159104,
+      "originalValueCfs": 12,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T18:45:00.000Z",
+      "valueM3s": 0.3228120511488,
+      "originalValueCfs": 11.4,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T19:00:00.000Z",
+      "valueM3s": 0.30865362785280004,
+      "originalValueCfs": 10.9,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T19:15:00.000Z",
+      "valueM3s": 0.29166351989760003,
+      "originalValueCfs": 10.3,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T19:30:00.000Z",
+      "valueM3s": 0.27778826506752,
+      "originalValueCfs": 9.81,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T19:45:00.000Z",
+      "valueM3s": 0.25966548324864,
+      "originalValueCfs": 9.17,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T20:00:00.000Z",
+      "valueM3s": 0.2534357769984,
+      "originalValueCfs": 8.95,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T20:15:00.000Z",
+      "valueM3s": 0.24720607074816,
+      "originalValueCfs": 8.73,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T20:30:00.000Z",
+      "valueM3s": 0.24720607074816,
+      "originalValueCfs": 8.73,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T20:45:00.000Z",
+      "valueM3s": 0.24125953296384,
+      "originalValueCfs": 8.52,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T21:00:00.000Z",
+      "valueM3s": 0.24125953296384,
+      "originalValueCfs": 8.52,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T21:15:00.000Z",
+      "valueM3s": 0.22908328892928,
+      "originalValueCfs": 8.09,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T21:30:00.000Z",
+      "valueM3s": 0.20756248551936002,
+      "originalValueCfs": 7.33,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T21:45:00.000Z",
+      "valueM3s": 0.19850109460992,
+      "originalValueCfs": 7.01,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T22:00:00.000Z",
+      "valueM3s": 0.17386543807488,
+      "originalValueCfs": 6.14,
+      "approval": "Approved",
+      "qualifier": [
+        "ESTIMATED"
+      ]
+    },
+    {
+      "time": "2014-09-10T22:15:00.000Z",
+      "valueM3s": 0.14922978153983998,
+      "originalValueCfs": 5.27,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T22:30:00.000Z",
+      "valueM3s": 0.21096050711040001,
+      "originalValueCfs": 7.45,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T22:45:00.000Z",
+      "valueM3s": 0.16338820483584,
+      "originalValueCfs": 5.77,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T23:00:00.000Z",
+      "valueM3s": 0.19425356762112,
+      "originalValueCfs": 6.86,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T23:15:00.000Z",
+      "valueM3s": 0.14922978153983998,
+      "originalValueCfs": 5.27,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T23:30:00.000Z",
+      "valueM3s": 0.12374461960704,
+      "originalValueCfs": 4.37,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-10T23:45:00.000Z",
+      "valueM3s": 0.0891980667648,
+      "originalValueCfs": 3.15,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T00:00:00.000Z",
+      "valueM3s": 0.0594653778432,
+      "originalValueCfs": 2.1,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T00:15:00.000Z",
+      "valueM3s": 0.06852676875264,
+      "originalValueCfs": 2.42,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T00:30:00.000Z",
+      "valueM3s": 0.05153666079744,
+      "originalValueCfs": 1.82,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T00:45:00.000Z",
+      "valueM3s": 0.05153666079744,
+      "originalValueCfs": 1.82,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T01:00:00.000Z",
+      "valueM3s": 0.02067129801216,
+      "originalValueCfs": 0.73,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T01:15:00.000Z",
+      "valueM3s": 0.06852676875264,
+      "originalValueCfs": 2.42,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T01:30:00.000Z",
+      "valueM3s": 0.010760401704960001,
+      "originalValueCfs": 0.38,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T01:45:00.000Z",
+      "valueM3s": 0.008211885511679999,
+      "originalValueCfs": 0.29,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T02:00:00.000Z",
+      "valueM3s": 0.010760401704960001,
+      "originalValueCfs": 0.38,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T02:15:00.000Z",
+      "valueM3s": 0.00622970625024,
+      "originalValueCfs": 0.22,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T02:30:00.000Z",
+      "valueM3s": 0.00084950539776,
+      "originalValueCfs": 0.03,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T02:45:00.000Z",
+      "valueM3s": 0.00339802159104,
+      "originalValueCfs": 0.12,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T03:00:00.000Z",
+      "valueM3s": 0.00028316846592,
+      "originalValueCfs": 0.01,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T03:15:00.000Z",
+      "valueM3s": 0.00028316846592,
+      "originalValueCfs": 0.01,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T03:30:00.000Z",
+      "valueM3s": 0.00028316846592,
+      "originalValueCfs": 0.01,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T03:45:00.000Z",
+      "valueM3s": 0.00084950539776,
+      "originalValueCfs": 0.03,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T04:00:00.000Z",
+      "valueM3s": 0.00028316846592,
+      "originalValueCfs": 0.01,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T04:15:00.000Z",
+      "valueM3s": 0.00028316846592,
+      "originalValueCfs": 0.01,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T04:30:00.000Z",
+      "valueM3s": 0,
+      "originalValueCfs": 0,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T04:45:00.000Z",
+      "valueM3s": 0.00028316846592,
+      "originalValueCfs": 0.01,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T05:00:00.000Z",
+      "valueM3s": 0,
+      "originalValueCfs": 0,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T05:15:00.000Z",
+      "valueM3s": 0.00028316846592,
+      "originalValueCfs": 0.01,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T05:30:00.000Z",
+      "valueM3s": 0,
+      "originalValueCfs": 0,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T05:45:00.000Z",
+      "valueM3s": 0,
+      "originalValueCfs": 0,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T06:00:00.000Z",
+      "valueM3s": 0,
+      "originalValueCfs": 0,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T06:15:00.000Z",
+      "valueM3s": 0,
+      "originalValueCfs": 0,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T06:30:00.000Z",
+      "valueM3s": 0,
+      "originalValueCfs": 0,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T06:45:00.000Z",
+      "valueM3s": 0,
+      "originalValueCfs": 0,
+      "approval": "Approved",
+      "qualifier": null
+    },
+    {
+      "time": "2014-09-11T07:00:00.000Z",
+      "valueM3s": 0,
+      "originalValueCfs": 0,
+      "approval": "Approved",
+      "qualifier": null
+    }
+  ],
+  "results": [
+    {
+      "name": "Primary: 2006 fit",
+      "color": "#ea9f42",
+      "frozen": {
+        "schemaVersion": 1,
+        "frozenAt": "2026-11-01T06:57:58.436Z",
+        "model": "lag + linear reservoir",
+        "selection": "PRIMARY: July 2006 large flood brackets 2014 upstream discharge scale. Chosen before scoring 2014; retain estimated-value caveats and channel changes.",
+        "objective": "Minimum RMSE on approved unqualified exact UTC pairs after 24h warm-up",
+        "grid": {
+          "lagMinutes": [
+            0,
+            720,
+            15
+          ],
+          "kMinutes": [
+            0,
+            720,
+            15
+          ],
+          "transmission": 1
+        },
+        "inputs": [
+          {
+            "path": "cortaro-calibration-2006-07.json",
+            "sha256": "f3095ee29051b40ed1cd62163002dd110d81049ed6d60fffbc2aebdca0edb566"
+          },
+          {
+            "path": "trico-calibration-2006-07.json",
+            "sha256": "bec47f893bb1d46f626745885e4b22344e6eabf676c7e50bf25a7e367f99793d"
+          }
+        ],
+        "parameters": {
+          "lagMinutes": 225,
+          "kMinutes": 90,
+          "transmission": 1
+        },
+        "score": {
+          "siteId": "USGS-09486520",
+          "pairCount": 575,
+          "eligibleObservationCount": 575,
+          "coverageFraction": 1,
+          "biasM3s": -0.6468971174501212,
+          "rmseM3s": 54.256405515783385,
+          "nashSutcliffe": 0.9014973089590967,
+          "pairedPeakErrorM3s": 92.85110396971595,
+          "pairedPeakTimingErrorMinutes": 75,
+          "warning": "Metrics on exact matched samples only; sparse coverage can miss the event peak. A fitted event is not independent validation."
+        },
+        "warning": "Retrospective held-out event, not blinded: 2014 target peak/time were already known in research. Parameters fitted only to separate pre-2014 observations. Small-storm extrapolation / channel changes are limitations."
+      },
+      "score": {
+        "siteId": "USGS-09486520",
+        "pairCount": 273,
+        "eligibleObservationCount": 273,
+        "coverageFraction": 1,
+        "biasM3s": 13.934454594823551,
+        "rmseM3s": 71.17509906481803,
+        "nashSutcliffe": 0.26403570598824966,
+        "pairedPeakErrorM3s": 94.00811709521832,
+        "pairedPeakTimingErrorMinutes": -105,
+        "warning": "Metrics on exact matched samples only; sparse coverage can miss the event peak. A fitted event is not independent validation."
+      },
+      "points": [
+        {
+          "time": "2014-09-08T07:00:00.000Z",
+          "valueM3s": 1.8325808504412076
+        },
+        {
+          "time": "2014-09-08T07:15:00.000Z",
+          "valueM3s": 1.8068588218690287
+        },
+        {
+          "time": "2014-09-08T07:30:00.000Z",
+          "valueM3s": 1.7781301492430197
+        },
+        {
+          "time": "2014-09-08T07:45:00.000Z",
+          "valueM3s": 1.7538118528847377
+        },
+        {
+          "time": "2014-09-08T08:00:00.000Z",
+          "valueM3s": 1.7332268594369782
+        },
+        {
+          "time": "2014-09-08T08:15:00.000Z",
+          "valueM3s": 1.722757484189002
+        },
+        {
+          "time": "2014-09-08T08:30:00.000Z",
+          "valueM3s": 1.736065831941807
+        },
+        {
+          "time": "2014-09-08T08:45:00.000Z",
+          "valueM3s": 2.252035620107128
+        },
+        {
+          "time": "2014-09-08T09:00:00.000Z",
+          "valueM3s": 3.0800384264654372
+        },
+        {
+          "time": "2014-09-08T09:15:00.000Z",
+          "valueM3s": 3.807010590877934
+        },
+        {
+          "time": "2014-09-08T09:30:00.000Z",
+          "valueM3s": 4.3962963218852416
+        },
+        {
+          "time": "2014-09-08T09:45:00.000Z",
+          "valueM3s": 4.747312706780142
+        },
+        {
+          "time": "2014-09-08T10:00:00.000Z",
+          "valueM3s": 4.900985598034594
+        },
+        {
+          "time": "2014-09-08T10:15:00.000Z",
+          "valueM3s": 4.961512436967135
+        },
+        {
+          "time": "2014-09-08T10:30:00.000Z",
+          "valueM3s": 4.96927576553552
+        },
+        {
+          "time": "2014-09-08T10:45:00.000Z",
+          "valueM3s": 4.949764360620933
+        },
+        {
+          "time": "2014-09-08T11:00:00.000Z",
+          "valueM3s": 4.881082471589703
+        },
+        {
+          "time": "2014-09-08T11:15:00.000Z",
+          "valueM3s": 4.7533900525683475
+        },
+        {
+          "time": "2014-09-08T11:30:00.000Z",
+          "valueM3s": 4.580093451779581
+        },
+        {
+          "time": "2014-09-08T11:45:00.000Z",
+          "valueM3s": 4.372540897991453
+        },
+        {
+          "time": "2014-09-08T12:00:00.000Z",
+          "valueM3s": 4.162074226692698
+        },
+        {
+          "time": "2014-09-08T12:15:00.000Z",
+          "valueM3s": 3.9517491002442195
+        },
+        {
+          "time": "2014-09-08T12:30:00.000Z",
+          "valueM3s": 3.752846387882639
+        },
+        {
+          "time": "2014-09-08T12:45:00.000Z",
+          "valueM3s": 3.574480423913102
+        },
+        {
+          "time": "2014-09-08T13:00:00.000Z",
+          "valueM3s": 3.413498442146107
+        },
+        {
+          "time": "2014-09-08T13:15:00.000Z",
+          "valueM3s": 3.2672316836193875
+        },
+        {
+          "time": "2014-09-08T13:30:00.000Z",
+          "valueM3s": 3.1255962164416333
+        },
+        {
+          "time": "2014-09-08T13:45:00.000Z",
+          "valueM3s": 2.9878810527534223
+        },
+        {
+          "time": "2014-09-08T14:00:00.000Z",
+          "valueM3s": 2.8626133765603505
+        },
+        {
+          "time": "2014-09-08T14:15:00.000Z",
+          "valueM3s": 2.7483169863972523
+        },
+        {
+          "time": "2014-09-08T14:30:00.000Z",
+          "valueM3s": 2.627223121609313
+        },
+        {
+          "time": "2014-09-08T14:45:00.000Z",
+          "valueM3s": 2.5016794648096408
+        },
+        {
+          "time": "2014-09-08T15:00:00.000Z",
+          "valueM3s": 2.387584177451165
+        },
+        {
+          "time": "2014-09-08T15:15:00.000Z",
+          "valueM3s": 2.2840491562935266
+        },
+        {
+          "time": "2014-09-08T15:30:00.000Z",
+          "valueM3s": 2.1820630466277975
+        },
+        {
+          "time": "2014-09-08T15:45:00.000Z",
+          "valueM3s": 2.0753020474099655
+        },
+        {
+          "time": "2014-09-08T16:00:00.000Z",
+          "valueM3s": 1.9718893523049867
+        },
+        {
+          "time": "2014-09-08T16:15:00.000Z",
+          "valueM3s": 1.8721803661299825
+        },
+        {
+          "time": "2014-09-08T16:30:00.000Z",
+          "valueM3s": 1.7816925167019932
+        },
+        {
+          "time": "2014-09-08T16:45:00.000Z",
+          "valueM3s": 1.6990101910130695
+        },
+        {
+          "time": "2014-09-08T17:00:00.000Z",
+          "valueM3s": 1.6111977842200438
+        },
+        {
+          "time": "2014-09-08T17:15:00.000Z",
+          "valueM3s": 1.5255635876932008
+        },
+        {
+          "time": "2014-09-08T17:30:00.000Z",
+          "valueM3s": 1.4422079216941845
+        },
+        {
+          "time": "2014-09-08T17:45:00.000Z",
+          "valueM3s": 1.356433836701238
+        },
+        {
+          "time": "2014-09-08T18:00:00.000Z",
+          "valueM3s": 1.2790457724956197
+        },
+        {
+          "time": "2014-09-08T18:15:00.000Z",
+          "valueM3s": 1.2135381904209022
+        },
+        {
+          "time": "2014-09-08T18:30:00.000Z",
+          "valueM3s": 1.1533053505630069
+        },
+        {
+          "time": "2014-09-08T18:45:00.000Z",
+          "valueM3s": 1.1023193523850354
+        },
+        {
+          "time": "2014-09-08T19:00:00.000Z",
+          "valueM3s": 1.0591606367020765
+        },
+        {
+          "time": "2014-09-08T19:15:00.000Z",
+          "valueM3s": 1.0274094413965769
+        },
+        {
+          "time": "2014-09-08T19:30:00.000Z",
+          "valueM3s": 1.0005326348270387
+        },
+        {
+          "time": "2014-09-08T19:45:00.000Z",
+          "valueM3s": 0.9777819092425046
+        },
+        {
+          "time": "2014-09-08T20:00:00.000Z",
+          "valueM3s": 0.9585238358071952
+        },
+        {
+          "time": "2014-09-08T20:15:00.000Z",
+          "valueM3s": 0.9622191344361728
+        },
+        {
+          "time": "2014-09-08T20:30:00.000Z",
+          "valueM3s": 0.9705637213280247
+        },
+        {
+          "time": "2014-09-08T20:45:00.000Z",
+          "valueM3s": 0.9832785611126824
+        },
+        {
+          "time": "2014-09-08T21:00:00.000Z",
+          "valueM3s": 0.9996927401042505
+        },
+        {
+          "time": "2014-09-08T21:15:00.000Z",
+          "valueM3s": 1.0192383421286395
+        },
+        {
+          "time": "2014-09-08T21:30:00.000Z",
+          "valueM3s": 1.0596926809936449
+        },
+        {
+          "time": "2014-09-08T21:45:00.000Z",
+          "valueM3s": 1.112194584005836
+        },
+        {
+          "time": "2014-09-08T22:00:00.000Z",
+          "valueM3s": 1.1631572155956467
+        },
+        {
+          "time": "2014-09-08T22:15:00.000Z",
+          "valueM3s": 1.2262930577373228
+        },
+        {
+          "time": "2014-09-08T22:30:00.000Z",
+          "valueM3s": 1.2936472853209213
+        },
+        {
+          "time": "2014-09-08T22:45:00.000Z",
+          "valueM3s": 1.5236781151891299
+        },
+        {
+          "time": "2014-09-08T23:00:00.000Z",
+          "valueM3s": 1.7505639443295133
+        },
+        {
+          "time": "2014-09-08T23:15:00.000Z",
+          "valueM3s": 1.9426186523335023
+        },
+        {
+          "time": "2014-09-08T23:30:00.000Z",
+          "valueM3s": 2.7529153161938815
+        },
+        {
+          "time": "2014-09-08T23:45:00.000Z",
+          "valueM3s": 3.990905121449824
+        },
+        {
+          "time": "2014-09-09T00:00:00.000Z",
+          "valueM3s": 5.608317968539533
+        },
+        {
+          "time": "2014-09-09T00:15:00.000Z",
+          "valueM3s": 7.577335560661316
+        },
+        {
+          "time": "2014-09-09T00:30:00.000Z",
+          "valueM3s": 10.569954769209513
+        },
+        {
+          "time": "2014-09-09T00:45:00.000Z",
+          "valueM3s": 29.639723944879094
+        },
+        {
+          "time": "2014-09-09T01:00:00.000Z",
+          "valueM3s": 79.86361806143867
+        },
+        {
+          "time": "2014-09-09T01:15:00.000Z",
+          "valueM3s": 150.63372397866368
+        },
+        {
+          "time": "2014-09-09T01:30:00.000Z",
+          "valueM3s": 219.2336321968496
+        },
+        {
+          "time": "2014-09-09T01:45:00.000Z",
+          "valueM3s": 277.73691617725154
+        },
+        {
+          "time": "2014-09-09T02:00:00.000Z",
+          "valueM3s": 324.21586950100897
+        },
+        {
+          "time": "2014-09-09T02:15:00.000Z",
+          "valueM3s": 359.5857139124379
+        },
+        {
+          "time": "2014-09-09T02:30:00.000Z",
+          "valueM3s": 383.88848797115566
+        },
+        {
+          "time": "2014-09-09T02:45:00.000Z",
+          "valueM3s": 400.1037575432237
+        },
+        {
+          "time": "2014-09-09T03:00:00.000Z",
+          "valueM3s": 408.6696892903931
+        },
+        {
+          "time": "2014-09-09T03:15:00.000Z",
+          "valueM3s": 408.5304331139527
+        },
+        {
+          "time": "2014-09-09T03:30:00.000Z",
+          "valueM3s": 401.8918251375064
+        },
+        {
+          "time": "2014-09-09T03:45:00.000Z",
+          "valueM3s": 393.66407273952694
+        },
+        {
+          "time": "2014-09-09T04:00:00.000Z",
+          "valueM3s": 392.78544552118973
+        },
+        {
+          "time": "2014-09-09T04:15:00.000Z",
+          "valueM3s": 403.7790179402963
+        },
+        {
+          "time": "2014-09-09T04:30:00.000Z",
+          "valueM3s": 418.30146021874066
+        },
+        {
+          "time": "2014-09-09T04:45:00.000Z",
+          "valueM3s": 429.2902961746203
+        },
+        {
+          "time": "2014-09-09T05:00:00.000Z",
+          "valueM3s": 433.8102761992183
+        },
+        {
+          "time": "2014-09-09T05:15:00.000Z",
+          "valueM3s": 433.72391858610433
+        },
+        {
+          "time": "2014-09-09T05:30:00.000Z",
+          "valueM3s": 429.7383803439913
+        },
+        {
+          "time": "2014-09-09T05:45:00.000Z",
+          "valueM3s": 419.40924954564446
+        },
+        {
+          "time": "2014-09-09T06:00:00.000Z",
+          "valueM3s": 405.883960300964
+        },
+        {
+          "time": "2014-09-09T06:15:00.000Z",
+          "valueM3s": 391.3920427197438
+        },
+        {
+          "time": "2014-09-09T06:30:00.000Z",
+          "valueM3s": 375.2124612278131
+        },
+        {
+          "time": "2014-09-09T06:45:00.000Z",
+          "valueM3s": 357.8651322844289
+        },
+        {
+          "time": "2014-09-09T07:00:00.000Z",
+          "valueM3s": 340.48570022207684
+        },
+        {
+          "time": "2014-09-09T07:15:00.000Z",
+          "valueM3s": 320.38385832009504
+        },
+        {
+          "time": "2014-09-09T07:30:00.000Z",
+          "valueM3s": 300.1945944983282
+        },
+        {
+          "time": "2014-09-09T07:45:00.000Z",
+          "valueM3s": 280.53993110145615
+        },
+        {
+          "time": "2014-09-09T08:00:00.000Z",
+          "valueM3s": 262.0333417456309
+        },
+        {
+          "time": "2014-09-09T08:15:00.000Z",
+          "valueM3s": 243.84650306757192
+        },
+        {
+          "time": "2014-09-09T08:30:00.000Z",
+          "valueM3s": 227.49530273508623
+        },
+        {
+          "time": "2014-09-09T08:45:00.000Z",
+          "valueM3s": 212.9587659223572
+        },
+        {
+          "time": "2014-09-09T09:00:00.000Z",
+          "valueM3s": 200.21913782264835
+        },
+        {
+          "time": "2014-09-09T09:15:00.000Z",
+          "valueM3s": 188.3050155585532
+        },
+        {
+          "time": "2014-09-09T09:30:00.000Z",
+          "valueM3s": 178.21992879388426
+        },
+        {
+          "time": "2014-09-09T09:45:00.000Z",
+          "valueM3s": 168.98754260240128
+        },
+        {
+          "time": "2014-09-09T10:00:00.000Z",
+          "valueM3s": 160.91166720745798
+        },
+        {
+          "time": "2014-09-09T10:15:00.000Z",
+          "valueM3s": 153.24962711852996
+        },
+        {
+          "time": "2014-09-09T10:30:00.000Z",
+          "valueM3s": 145.54664724317766
+        },
+        {
+          "time": "2014-09-09T10:45:00.000Z",
+          "valueM3s": 138.50455713805084
+        },
+        {
+          "time": "2014-09-09T11:00:00.000Z",
+          "valueM3s": 131.10899592206547
+        },
+        {
+          "time": "2014-09-09T11:15:00.000Z",
+          "valueM3s": 123.89241474944905
+        },
+        {
+          "time": "2014-09-09T11:30:00.000Z",
+          "valueM3s": 116.91427998157137
+        },
+        {
+          "time": "2014-09-09T11:45:00.000Z",
+          "valueM3s": 109.83368499649706
+        },
+        {
+          "time": "2014-09-09T12:00:00.000Z",
+          "valueM3s": 103.10107465457156
+        },
+        {
+          "time": "2014-09-09T12:15:00.000Z",
+          "valueM3s": 96.18484007462662
+        },
+        {
+          "time": "2014-09-09T12:30:00.000Z",
+          "valueM3s": 89.15664246740465
+        },
+        {
+          "time": "2014-09-09T12:45:00.000Z",
+          "valueM3s": 82.12061327263609
+        },
+        {
+          "time": "2014-09-09T13:00:00.000Z",
+          "valueM3s": 74.64323943759835
+        },
+        {
+          "time": "2014-09-09T13:15:00.000Z",
+          "valueM3s": 67.66170611926253
+        },
+        {
+          "time": "2014-09-09T13:30:00.000Z",
+          "valueM3s": 61.4302763986211
+        },
+        {
+          "time": "2014-09-09T13:45:00.000Z",
+          "valueM3s": 55.568619305036876
+        },
+        {
+          "time": "2014-09-09T14:00:00.000Z",
+          "valueM3s": 49.75044446901023
+        },
+        {
+          "time": "2014-09-09T14:15:00.000Z",
+          "valueM3s": 44.6733154275083
+        },
+        {
+          "time": "2014-09-09T14:30:00.000Z",
+          "valueM3s": 40.26259248938665
+        },
+        {
+          "time": "2014-09-09T14:45:00.000Z",
+          "valueM3s": 36.44205305980402
+        },
+        {
+          "time": "2014-09-09T15:00:00.000Z",
+          "valueM3s": 33.1428289517582
+        },
+        {
+          "time": "2014-09-09T15:15:00.000Z",
+          "valueM3s": 30.263152969072053
+        },
+        {
+          "time": "2014-09-09T15:30:00.000Z",
+          "valueM3s": 27.751658267551015
+        },
+        {
+          "time": "2014-09-09T15:45:00.000Z",
+          "valueM3s": 25.58225236610044
+        },
+        {
+          "time": "2014-09-09T16:00:00.000Z",
+          "valueM3s": 23.68937692186325
+        },
+        {
+          "time": "2014-09-09T16:15:00.000Z",
+          "valueM3s": 22.047968069814196
+        },
+        {
+          "time": "2014-09-09T16:30:00.000Z",
+          "valueM3s": 20.61507393902758
+        },
+        {
+          "time": "2014-09-09T16:45:00.000Z",
+          "valueM3s": 19.363030862605623
+        },
+        {
+          "time": "2014-09-09T17:00:00.000Z",
+          "valueM3s": 18.259727745185202
+        },
+        {
+          "time": "2014-09-09T17:15:00.000Z",
+          "valueM3s": 17.286677438265905
+        },
+        {
+          "time": "2014-09-09T17:30:00.000Z",
+          "valueM3s": 16.42388375505145
+        },
+        {
+          "time": "2014-09-09T17:45:00.000Z",
+          "valueM3s": 15.667461749187304
+        },
+        {
+          "time": "2014-09-09T18:00:00.000Z",
+          "valueM3s": 14.988039963910136
+        },
+        {
+          "time": "2014-09-09T18:15:00.000Z",
+          "valueM3s": 14.382491765063072
+        },
+        {
+          "time": "2014-09-09T18:30:00.000Z",
+          "valueM3s": 13.826434746745196
+        },
+        {
+          "time": "2014-09-09T18:45:00.000Z",
+          "valueM3s": 13.31227110828854
+        },
+        {
+          "time": "2014-09-09T19:00:00.000Z",
+          "valueM3s": 12.837916603723647
+        },
+        {
+          "time": "2014-09-09T19:15:00.000Z",
+          "valueM3s": 12.384218343145832
+        },
+        {
+          "time": "2014-09-09T19:30:00.000Z",
+          "valueM3s": 11.952352369053301
+        },
+        {
+          "time": "2014-09-09T19:45:00.000Z",
+          "valueM3s": 11.552008486819163
+        },
+        {
+          "time": "2014-09-09T20:00:00.000Z",
+          "valueM3s": 11.178347479273478
+        },
+        {
+          "time": "2014-09-09T20:15:00.000Z",
+          "valueM3s": 10.822925884073774
+        },
+        {
+          "time": "2014-09-09T20:30:00.000Z",
+          "valueM3s": 10.487290771543027
+        },
+        {
+          "time": "2014-09-09T20:45:00.000Z",
+          "valueM3s": 10.172751708436758
+        },
+        {
+          "time": "2014-09-09T21:00:00.000Z",
+          "valueM3s": 9.884764372526382
+        },
+        {
+          "time": "2014-09-09T21:15:00.000Z",
+          "valueM3s": 9.619252588451609
+        },
+        {
+          "time": "2014-09-09T21:30:00.000Z",
+          "valueM3s": 9.364071641371824
+        },
+        {
+          "time": "2014-09-09T21:45:00.000Z",
+          "valueM3s": 9.126329865901804
+        },
+        {
+          "time": "2014-09-09T22:00:00.000Z",
+          "valueM3s": 8.90769718394202
+        },
+        {
+          "time": "2014-09-09T22:15:00.000Z",
+          "valueM3s": 8.696545693527195
+        },
+        {
+          "time": "2014-09-09T22:30:00.000Z",
+          "valueM3s": 8.46999112780888
+        },
+        {
+          "time": "2014-09-09T22:45:00.000Z",
+          "valueM3s": 8.24343960067507
+        },
+        {
+          "time": "2014-09-09T23:00:00.000Z",
+          "valueM3s": 8.003849185311488
+        },
+        {
+          "time": "2014-09-09T23:15:00.000Z",
+          "valueM3s": 7.753221589348514
+        },
+        {
+          "time": "2014-09-09T23:30:00.000Z",
+          "valueM3s": 7.50629268204986
+        },
+        {
+          "time": "2014-09-09T23:45:00.000Z",
+          "valueM3s": 7.253800340220932
+        },
+        {
+          "time": "2014-09-10T00:00:00.000Z",
+          "valueM3s": 6.996598652734502
+        },
+        {
+          "time": "2014-09-10T00:15:00.000Z",
+          "valueM3s": 6.748452050548825
+        },
+        {
+          "time": "2014-09-10T00:30:00.000Z",
+          "valueM3s": 6.455804571243471
+        },
+        {
+          "time": "2014-09-10T00:45:00.000Z",
+          "valueM3s": 6.182000907504138
+        },
+        {
+          "time": "2014-09-10T01:00:00.000Z",
+          "valueM3s": 5.885023808260584
+        },
+        {
+          "time": "2014-09-10T01:15:00.000Z",
+          "valueM3s": 5.616249507258526
+        },
+        {
+          "time": "2014-09-10T01:30:00.000Z",
+          "valueM3s": 5.336571131995943
+        },
+        {
+          "time": "2014-09-10T01:45:00.000Z",
+          "valueM3s": 5.0607041174809995
+        },
+        {
+          "time": "2014-09-10T02:00:00.000Z",
+          "valueM3s": 4.792410503631238
+        },
+        {
+          "time": "2014-09-10T02:15:00.000Z",
+          "valueM3s": 4.552121935954913
+        },
+        {
+          "time": "2014-09-10T02:30:00.000Z",
+          "valueM3s": 4.335586283506326
+        },
+        {
+          "time": "2014-09-10T02:45:00.000Z",
+          "valueM3s": 4.130698510006248
+        },
+        {
+          "time": "2014-09-10T03:00:00.000Z",
+          "valueM3s": 3.9482969456584227
+        },
+        {
+          "time": "2014-09-10T03:15:00.000Z",
+          "valueM3s": 3.7603573703830824
+        },
+        {
+          "time": "2014-09-10T03:30:00.000Z",
+          "valueM3s": 3.580838333335701
+        },
+        {
+          "time": "2014-09-10T03:45:00.000Z",
+          "valueM3s": 3.428878749205131
+        },
+        {
+          "time": "2014-09-10T04:00:00.000Z",
+          "valueM3s": 3.290249285392342
+        },
+        {
+          "time": "2014-09-10T04:15:00.000Z",
+          "valueM3s": 3.172901977743431
+        },
+        {
+          "time": "2014-09-10T04:30:00.000Z",
+          "valueM3s": 3.0544421511940114
+        },
+        {
+          "time": "2014-09-10T04:45:00.000Z",
+          "valueM3s": 2.945473765995534
+        },
+        {
+          "time": "2014-09-10T05:00:00.000Z",
+          "valueM3s": 2.835410690208284
+        },
+        {
+          "time": "2014-09-10T05:15:00.000Z",
+          "valueM3s": 2.733550001078444
+        },
+        {
+          "time": "2014-09-10T05:30:00.000Z",
+          "valueM3s": 2.639067197699123
+        },
+        {
+          "time": "2014-09-10T05:45:00.000Z",
+          "valueM3s": 2.5425700482297993
+        },
+        {
+          "time": "2014-09-10T06:00:00.000Z",
+          "valueM3s": 2.453062098498365
+        },
+        {
+          "time": "2014-09-10T06:15:00.000Z",
+          "valueM3s": 2.377295254818278
+        },
+        {
+          "time": "2014-09-10T06:30:00.000Z",
+          "valueM3s": 2.2975102538872134
+        },
+        {
+          "time": "2014-09-10T06:45:00.000Z",
+          "valueM3s": 2.229973708678686
+        },
+        {
+          "time": "2014-09-10T07:00:00.000Z",
+          "valueM3s": 2.1654150965403396
+        },
+        {
+          "time": "2014-09-10T07:15:00.000Z",
+          "valueM3s": 2.110767411180928
+        },
+        {
+          "time": "2014-09-10T07:30:00.000Z",
+          "valueM3s": 2.0645091442166135
+        },
+        {
+          "time": "2014-09-10T07:45:00.000Z",
+          "valueM3s": 2.02535236660621
+        },
+        {
+          "time": "2014-09-10T08:00:00.000Z",
+          "valueM3s": 1.9922068699533977
+        },
+        {
+          "time": "2014-09-10T08:15:00.000Z",
+          "valueM3s": 1.964149812774369
+        },
+        {
+          "time": "2014-09-10T08:30:00.000Z",
+          "valueM3s": 1.9404000266181103
+        },
+        {
+          "time": "2014-09-10T08:45:00.000Z",
+          "valueM3s": 1.920296266666777
+        },
+        {
+          "time": "2014-09-10T09:00:00.000Z",
+          "valueM3s": 1.9032788012663857
+        },
+        {
+          "time": "2014-09-10T09:15:00.000Z",
+          "valueM3s": 1.888873827800996
+        },
+        {
+          "time": "2014-09-10T09:30:00.000Z",
+          "valueM3s": 1.884070441872089
+        },
+        {
+          "time": "2014-09-10T09:45:00.000Z",
+          "valueM3s": 1.8800044634656725
+        },
+        {
+          "time": "2014-09-10T10:00:00.000Z",
+          "valueM3s": 1.8765626870508412
+        },
+        {
+          "time": "2014-09-10T10:15:00.000Z",
+          "valueM3s": 1.8736492862145269
+        },
+        {
+          "time": "2014-09-10T10:30:00.000Z",
+          "valueM3s": 1.8711831456493058
+        },
+        {
+          "time": "2014-09-10T10:45:00.000Z",
+          "valueM3s": 1.8690956027298347
+        },
+        {
+          "time": "2014-09-10T11:00:00.000Z",
+          "valueM3s": 1.8673285357985776
+        },
+        {
+          "time": "2014-09-10T11:15:00.000Z",
+          "valueM3s": 1.86583274593461
+        },
+        {
+          "time": "2014-09-10T11:30:00.000Z",
+          "valueM3s": 1.8571764262934052
+        },
+        {
+          "time": "2014-09-10T11:45:00.000Z",
+          "valueM3s": 1.8420241337107
+        },
+        {
+          "time": "2014-09-10T12:00:00.000Z",
+          "valueM3s": 1.837022871150858
+        },
+        {
+          "time": "2014-09-10T12:15:00.000Z",
+          "valueM3s": 1.8327893937925723
+        },
+        {
+          "time": "2014-09-10T12:30:00.000Z",
+          "valueM3s": 1.8213809563744316
+        },
+        {
+          "time": "2014-09-10T12:45:00.000Z",
+          "valueM3s": 1.8047684770778716
+        },
+        {
+          "time": "2014-09-10T13:00:00.000Z",
+          "valueM3s": 1.7833161560911304
+        },
+        {
+          "time": "2014-09-10T13:15:00.000Z",
+          "valueM3s": 1.758201712906821
+        },
+        {
+          "time": "2014-09-10T13:30:00.000Z",
+          "valueM3s": 1.729987350207954
+        },
+        {
+          "time": "2014-09-10T13:45:00.000Z",
+          "valueM3s": 1.699148962291382
+        },
+        {
+          "time": "2014-09-10T14:00:00.000Z",
+          "valueM3s": 1.666524100326905
+        },
+        {
+          "time": "2014-09-10T14:15:00.000Z",
+          "valueM3s": 1.6258662905608734
+        },
+        {
+          "time": "2014-09-10T14:30:00.000Z",
+          "valueM3s": 1.5914501976198485
+        },
+        {
+          "time": "2014-09-10T14:45:00.000Z",
+          "valueM3s": 1.5440595594327022
+        },
+        {
+          "time": "2014-09-10T15:00:00.000Z",
+          "valueM3s": 1.4978582354529024
+        },
+        {
+          "time": "2014-09-10T15:15:00.000Z",
+          "valueM3s": 1.4465776293912969
+        },
+        {
+          "time": "2014-09-10T15:30:00.000Z",
+          "valueM3s": 1.4031695335188328
+        },
+        {
+          "time": "2014-09-10T15:45:00.000Z",
+          "valueM3s": 1.3551227746926058
+        },
+        {
+          "time": "2014-09-10T16:00:00.000Z",
+          "valueM3s": 1.3088007719270347
+        },
+        {
+          "time": "2014-09-10T16:15:00.000Z",
+          "valueM3s": 1.2695900431256462
+        },
+        {
+          "time": "2014-09-10T16:30:00.000Z",
+          "valueM3s": 1.2307475782966855
+        },
+        {
+          "time": "2014-09-10T16:45:00.000Z",
+          "valueM3s": 1.1874349734004457
+        },
+        {
+          "time": "2014-09-10T17:00:00.000Z",
+          "valueM3s": 1.1455550607639617
+        },
+        {
+          "time": "2014-09-10T17:15:00.000Z",
+          "valueM3s": 1.1053226112872876
+        },
+        {
+          "time": "2014-09-10T17:30:00.000Z",
+          "valueM3s": 1.0664847092678231
+        },
+        {
+          "time": "2014-09-10T17:45:00.000Z",
+          "valueM3s": 1.028827266185379
+        },
+        {
+          "time": "2014-09-10T18:00:00.000Z",
+          "valueM3s": 0.9921690600201065
+        },
+        {
+          "time": "2014-09-10T18:15:00.000Z",
+          "valueM3s": 0.9611385584339309
+        },
+        {
+          "time": "2014-09-10T18:30:00.000Z",
+          "valueM3s": 0.9305246524817032
+        },
+        {
+          "time": "2014-09-10T18:45:00.000Z",
+          "valueM3s": 0.9089576940109634
+        },
+        {
+          "time": "2014-09-10T19:00:00.000Z",
+          "valueM3s": 0.8954835265938823
+        },
+        {
+          "time": "2014-09-10T19:15:00.000Z",
+          "valueM3s": 0.8888597589070817
+        },
+        {
+          "time": "2014-09-10T19:30:00.000Z",
+          "valueM3s": 0.883252860610284
+        },
+        {
+          "time": "2014-09-10T19:45:00.000Z",
+          "valueM3s": 0.8832885924585994
+        },
+        {
+          "time": "2014-09-10T20:00:00.000Z",
+          "valueM3s": 0.8985338758738882
+        },
+        {
+          "time": "2014-09-10T20:15:00.000Z",
+          "valueM3s": 0.9279579127680038
+        },
+        {
+          "time": "2014-09-10T20:30:00.000Z",
+          "valueM3s": 0.958516121750323
+        },
+        {
+          "time": "2014-09-10T20:45:00.000Z",
+          "valueM3s": 0.9900343866781876
+        },
+        {
+          "time": "2014-09-10T21:00:00.000Z",
+          "valueM3s": 1.0228000367633632
+        },
+        {
+          "time": "2014-09-10T21:15:00.000Z",
+          "valueM3s": 1.056621575588102
+        },
+        {
+          "time": "2014-09-10T21:30:00.000Z",
+          "valueM3s": 1.0913369049343993
+        },
+        {
+          "time": "2014-09-10T21:45:00.000Z",
+          "valueM3s": 1.1207227967995987
+        },
+        {
+          "time": "2014-09-10T22:00:00.000Z",
+          "valueM3s": 1.1516834320565792
+        },
+        {
+          "time": "2014-09-10T22:15:00.000Z",
+          "valueM3s": 1.1900630736395716
+        },
+        {
+          "time": "2014-09-10T22:30:00.000Z",
+          "valueM3s": 1.2490683748640063
+        },
+        {
+          "time": "2014-09-10T22:45:00.000Z",
+          "valueM3s": 1.3203163359043266
+        },
+        {
+          "time": "2014-09-10T23:00:00.000Z",
+          "valueM3s": 1.3875818783732219
+        },
+        {
+          "time": "2014-09-10T23:15:00.000Z",
+          "valueM3s": 1.4523458069896087
+        },
+        {
+          "time": "2014-09-10T23:30:00.000Z",
+          "valueM3s": 1.51455744985258
+        },
+        {
+          "time": "2014-09-10T23:45:00.000Z",
+          "valueM3s": 1.567218468611507
+        },
+        {
+          "time": "2014-09-11T00:00:00.000Z",
+          "valueM3s": 1.6044048977479808
+        },
+        {
+          "time": "2014-09-11T00:15:00.000Z",
+          "valueM3s": 1.6358825304259457
+        },
+        {
+          "time": "2014-09-11T00:30:00.000Z",
+          "valueM3s": 1.6625277712306625
+        },
+        {
+          "time": "2014-09-11T00:45:00.000Z",
+          "valueM3s": 1.6850824806271651
+        },
+        {
+          "time": "2014-09-11T01:00:00.000Z",
+          "valueM3s": 1.6963497537399095
+        },
+        {
+          "time": "2014-09-11T01:15:00.000Z",
+          "valueM3s": 1.6989318490066534
+        },
+        {
+          "time": "2014-09-11T01:30:00.000Z",
+          "valueM3s": 1.7011175454618788
+        },
+        {
+          "time": "2014-09-11T01:45:00.000Z",
+          "valueM3s": 1.6955775367103056
+        },
+        {
+          "time": "2014-09-11T02:00:00.000Z",
+          "valueM3s": 1.6908880205463648
+        },
+        {
+          "time": "2014-09-11T02:15:00.000Z",
+          "valueM3s": 1.686842982115479
+        },
+        {
+          "time": "2014-09-11T02:30:00.000Z",
+          "valueM3s": 1.6765389341942394
+        },
+        {
+          "time": "2014-09-11T02:45:00.000Z",
+          "valueM3s": 1.667741297236982
+        },
+        {
+          "time": "2014-09-11T03:00:00.000Z",
+          "valueM3s": 1.6534142615174268
+        },
+        {
+          "time": "2014-09-11T03:15:00.000Z",
+          "valueM3s": 1.6412866876089682
+        },
+        {
+          "time": "2014-09-11T03:30:00.000Z",
+          "valueM3s": 1.6310209179281978
+        },
+        {
+          "time": "2014-09-11T03:45:00.000Z",
+          "valueM3s": 1.6223311315014894
+        },
+        {
+          "time": "2014-09-11T04:00:00.000Z",
+          "valueM3s": 1.6149753860980782
+        },
+        {
+          "time": "2014-09-11T04:15:00.000Z",
+          "valueM3s": 1.601793436528597
+        },
+        {
+          "time": "2014-09-11T04:30:00.000Z",
+          "valueM3s": 1.5906351571196016
+        },
+        {
+          "time": "2014-09-11T04:45:00.000Z",
+          "valueM3s": 1.5811898775186637
+        },
+        {
+          "time": "2014-09-11T05:00:00.000Z",
+          "valueM3s": 1.5666738907819762
+        },
+        {
+          "time": "2014-09-11T05:15:00.000Z",
+          "valueM3s": 1.5478656431226043
+        },
+        {
+          "time": "2014-09-11T05:30:00.000Z",
+          "valueM3s": 1.5319448052017295
+        },
+        {
+          "time": "2014-09-11T05:45:00.000Z",
+          "valueM3s": 1.511947376688752
+        },
+        {
+          "time": "2014-09-11T06:00:00.000Z",
+          "valueM3s": 1.49501991890771
+        },
+        {
+          "time": "2014-09-11T06:15:00.000Z",
+          "valueM3s": 1.4806911352472005
+        },
+        {
+          "time": "2014-09-11T06:30:00.000Z",
+          "valueM3s": 1.4750828119066794
+        },
+        {
+          "time": "2014-09-11T06:45:00.000Z",
+          "valueM3s": 1.4516427088766848
+        },
+        {
+          "time": "2014-09-11T07:00:00.000Z",
+          "valueM3s": 1.425715075208764
+        }
+      ],
+      "predictedPeak": {
+        "time": "2014-09-09T05:00:00.000Z",
+        "valueM3s": 433.8102761992183
+      },
+      "peakErrorPercent": 27.665544369435914,
+      "peakTimingErrorMinutes": -105
+    },
+    {
+      "name": "Secondary: 2013 fit",
+      "color": "#78b9ff",
+      "frozen": {
+        "schemaVersion": 1,
+        "frozenAt": "2026-11-01T06:57:18.945Z",
+        "model": "lag + linear reservoir",
+        "selection": "SECONDARY: July 20–21 2013 smaller flood; independent sensitivity test. Not selected by 2014 performance.",
+        "objective": "Minimum RMSE on approved unqualified exact UTC pairs after 24h warm-up",
+        "grid": {
+          "lagMinutes": [
+            0,
+            720,
+            15
+          ],
+          "kMinutes": [
+            0,
+            720,
+            15
+          ],
+          "transmission": 1
+        },
+        "inputs": [
+          {
+            "path": "cortaro-calibration-2013-07.json",
+            "sha256": "018ad9f6c2bad0590f39764975cb6c459da42c906d26cdcf1c6110b8d3c152be"
+          },
+          {
+            "path": "trico-calibration-2013-07.json",
+            "sha256": "c16abbc50633617d9d655ea868e6358dc59c301c541b2618d625a0b3c7ad0c89"
+          }
+        ],
+        "parameters": {
+          "lagMinutes": 345,
+          "kMinutes": 75,
+          "transmission": 1
+        },
+        "score": {
+          "siteId": "USGS-09486520",
+          "pairCount": 289,
+          "eligibleObservationCount": 289,
+          "coverageFraction": 1,
+          "biasM3s": -1.148073789935528,
+          "rmseM3s": 3.0505785761218367,
+          "nashSutcliffe": 0.7982274715710164,
+          "pairedPeakErrorM3s": -6.13681288603301,
+          "pairedPeakTimingErrorMinutes": 15,
+          "warning": "Metrics on exact matched samples only; sparse coverage can miss the event peak. A fitted event is not independent validation."
+        },
+        "warning": "Retrospective held-out event, not blinded: 2014 target peak/time were already known in research. Parameters fitted only to separate pre-2014 observations. Small-storm extrapolation / channel changes are limitations."
+      },
+      "score": {
+        "siteId": "USGS-09486520",
+        "pairCount": 273,
+        "eligibleObservationCount": 273,
+        "coverageFraction": 1,
+        "biasM3s": 13.946222986245258,
+        "rmseM3s": 41.16589297901364,
+        "nashSutcliffe": 0.7538070199014791,
+        "pairedPeakErrorM3s": 103.87358616688351,
+        "pairedPeakTimingErrorMinutes": 15,
+        "warning": "Metrics on exact matched samples only; sparse coverage can miss the event peak. A fitted event is not independent validation."
+      },
+      "points": [
+        {
+          "time": "2014-09-08T07:00:00.000Z",
+          "valueM3s": 2.05993245464783
+        },
+        {
+          "time": "2014-09-08T07:15:00.000Z",
+          "valueM3s": 2.041731813103714
+        },
+        {
+          "time": "2014-09-08T07:30:00.000Z",
+          "valueM3s": 2.0175910359233087
+        },
+        {
+          "time": "2014-09-08T07:45:00.000Z",
+          "valueM3s": 1.9798608321432243
+        },
+        {
+          "time": "2014-09-08T08:00:00.000Z",
+          "valueM3s": 1.94896995398857
+        },
+        {
+          "time": "2014-09-08T08:15:00.000Z",
+          "valueM3s": 1.9144392898312812
+        },
+        {
+          "time": "2014-09-08T08:30:00.000Z",
+          "valueM3s": 1.8779552156304
+        },
+        {
+          "time": "2014-09-08T08:45:00.000Z",
+          "valueM3s": 1.8393585272077648
+        },
+        {
+          "time": "2014-09-08T09:00:00.000Z",
+          "valueM3s": 1.8077582314291845
+        },
+        {
+          "time": "2014-09-08T09:15:00.000Z",
+          "valueM3s": 1.7818860974689004
+        },
+        {
+          "time": "2014-09-08T09:30:00.000Z",
+          "valueM3s": 1.7524910282167614
+        },
+        {
+          "time": "2014-09-08T09:45:00.000Z",
+          "valueM3s": 1.7284243810311783
+        },
+        {
+          "time": "2014-09-08T10:00:00.000Z",
+          "valueM3s": 1.708720276856864
+        },
+        {
+          "time": "2014-09-08T10:15:00.000Z",
+          "valueM3s": 1.7008006783386014
+        },
+        {
+          "time": "2014-09-08T10:30:00.000Z",
+          "valueM3s": 1.7204948241100537
+        },
+        {
+          "time": "2014-09-08T10:45:00.000Z",
+          "valueM3s": 2.3325572452592622
+        },
+        {
+          "time": "2014-09-08T11:00:00.000Z",
+          "valueM3s": 3.2956391833819207
+        },
+        {
+          "time": "2014-09-08T11:15:00.000Z",
+          "valueM3s": 4.1149418245985165
+        },
+        {
+          "time": "2014-09-08T11:30:00.000Z",
+          "valueM3s": 4.75493225229893
+        },
+        {
+          "time": "2014-09-08T11:45:00.000Z",
+          "valueM3s": 5.104390999596893
+        },
+        {
+          "time": "2014-09-08T12:00:00.000Z",
+          "valueM3s": 5.221115498862883
+        },
+        {
+          "time": "2014-09-08T12:15:00.000Z",
+          "valueM3s": 5.234553860738566
+        },
+        {
+          "time": "2014-09-08T12:30:00.000Z",
+          "valueM3s": 5.194226526307797
+        },
+        {
+          "time": "2014-09-08T12:45:00.000Z",
+          "valueM3s": 5.130411456678037
+        },
+        {
+          "time": "2014-09-08T13:00:00.000Z",
+          "valueM3s": 5.016568415179082
+        },
+        {
+          "time": "2014-09-08T13:15:00.000Z",
+          "valueM3s": 4.841234040768944
+        },
+        {
+          "time": "2014-09-08T13:30:00.000Z",
+          "valueM3s": 4.620687794513603
+        },
+        {
+          "time": "2014-09-08T13:45:00.000Z",
+          "valueM3s": 4.368258171831311
+        },
+        {
+          "time": "2014-09-08T14:00:00.000Z",
+          "valueM3s": 4.120522489097942
+        },
+        {
+          "time": "2014-09-08T14:15:00.000Z",
+          "valueM3s": 3.87970966342802
+        },
+        {
+          "time": "2014-09-08T14:30:00.000Z",
+          "valueM3s": 3.657910524723145
+        },
+        {
+          "time": "2014-09-08T14:45:00.000Z",
+          "valueM3s": 3.464510909908298
+        },
+        {
+          "time": "2014-09-08T15:00:00.000Z",
+          "valueM3s": 3.2943628586749885
+        },
+        {
+          "time": "2014-09-08T15:15:00.000Z",
+          "valueM3s": 3.1432515776030323
+        },
+        {
+          "time": "2014-09-08T15:30:00.000Z",
+          "valueM3s": 2.9984869334789646
+        },
+        {
+          "time": "2014-09-08T15:45:00.000Z",
+          "valueM3s": 2.8589184762027537
+        },
+        {
+          "time": "2014-09-08T16:00:00.000Z",
+          "valueM3s": 2.7343835411571935
+        },
+        {
+          "time": "2014-09-08T16:15:00.000Z",
+          "valueM3s": 2.622670310434642
+        },
+        {
+          "time": "2014-09-08T16:30:00.000Z",
+          "valueM3s": 2.5024626015575393
+        },
+        {
+          "time": "2014-09-08T16:45:00.000Z",
+          "valueM3s": 2.3768400942210377
+        },
+        {
+          "time": "2014-09-08T17:00:00.000Z",
+          "valueM3s": 2.264749731963391
+        },
+        {
+          "time": "2014-09-08T17:15:00.000Z",
+          "valueM3s": 2.164765147728303
+        },
+        {
+          "time": "2014-09-08T17:30:00.000Z",
+          "valueM3s": 2.0659658813734247
+        },
+        {
+          "time": "2014-09-08T17:45:00.000Z",
+          "valueM3s": 1.9609509083795338
+        },
+        {
+          "time": "2014-09-08T18:00:00.000Z",
+          "valueM3s": 1.859573000084967
+        },
+        {
+          "time": "2014-09-08T18:15:00.000Z",
+          "valueM3s": 1.762199463202059
+        },
+        {
+          "time": "2014-09-08T18:30:00.000Z",
+          "valueM3s": 1.6752905911803355
+        },
+        {
+          "time": "2014-09-08T18:45:00.000Z",
+          "valueM3s": 1.5969494621011187
+        },
+        {
+          "time": "2014-09-08T19:00:00.000Z",
+          "valueM3s": 1.5117639793196656
+        },
+        {
+          "time": "2014-09-08T19:15:00.000Z",
+          "valueM3s": 1.4286742738626557
+        },
+        {
+          "time": "2014-09-08T19:30:00.000Z",
+          "valueM3s": 1.347813743098465
+        },
+        {
+          "time": "2014-09-08T19:45:00.000Z",
+          "valueM3s": 1.2636453327523303
+        },
+        {
+          "time": "2014-09-08T20:00:00.000Z",
+          "valueM3s": 1.1890877959616308
+        },
+        {
+          "time": "2014-09-08T20:15:00.000Z",
+          "valueM3s": 1.1280452477173422
+        },
+        {
+          "time": "2014-09-08T20:30:00.000Z",
+          "valueM3s": 1.0724215654208646
+        },
+        {
+          "time": "2014-09-08T20:45:00.000Z",
+          "valueM3s": 1.0268807461252991
+        },
+        {
+          "time": "2014-09-08T21:00:00.000Z",
+          "valueM3s": 0.9895950768476526
+        },
+        {
+          "time": "2014-09-08T21:15:00.000Z",
+          "valueM3s": 0.9647144235635804
+        },
+        {
+          "time": "2014-09-08T21:30:00.000Z",
+          "valueM3s": 0.9443438675632398
+        },
+        {
+          "time": "2014-09-08T21:45:00.000Z",
+          "valueM3s": 0.9276658669084639
+        },
+        {
+          "time": "2014-09-08T22:00:00.000Z",
+          "valueM3s": 0.914011074872544
+        },
+        {
+          "time": "2014-09-08T22:15:00.000Z",
+          "valueM3s": 0.9264431546077676
+        },
+        {
+          "time": "2014-09-08T22:30:00.000Z",
+          "valueM3s": 0.9427812487600385
+        },
+        {
+          "time": "2014-09-08T22:45:00.000Z",
+          "valueM3s": 0.9628306143832059
+        },
+        {
+          "time": "2014-09-08T23:00:00.000Z",
+          "valueM3s": 0.9859185120926172
+        },
+        {
+          "time": "2014-09-08T23:15:00.000Z",
+          "valueM3s": 1.0114941494652505
+        },
+        {
+          "time": "2014-09-08T23:30:00.000Z",
+          "valueM3s": 1.0606650643249558
+        },
+        {
+          "time": "2014-09-08T23:45:00.000Z",
+          "valueM3s": 1.1224812929967158
+        },
+        {
+          "time": "2014-09-09T00:00:00.000Z",
+          "valueM3s": 1.1807916006349939
+        },
+        {
+          "time": "2014-09-09T00:15:00.000Z",
+          "valueM3s": 1.2521437206218056
+        },
+        {
+          "time": "2014-09-09T00:30:00.000Z",
+          "valueM3s": 1.3269874106145205
+        },
+        {
+          "time": "2014-09-09T00:45:00.000Z",
+          "valueM3s": 1.5925565848715297
+        },
+        {
+          "time": "2014-09-09T01:00:00.000Z",
+          "valueM3s": 1.847970238486611
+        },
+        {
+          "time": "2014-09-09T01:15:00.000Z",
+          "valueM3s": 2.0570852514572855
+        },
+        {
+          "time": "2014-09-09T01:30:00.000Z",
+          "valueM3s": 2.9931071885904625
+        },
+        {
+          "time": "2014-09-09T01:45:00.000Z",
+          "valueM3s": 4.411344763108167
+        },
+        {
+          "time": "2014-09-09T02:00:00.000Z",
+          "valueM3s": 6.2449190033954345
+        },
+        {
+          "time": "2014-09-09T02:15:00.000Z",
+          "valueM3s": 8.454472959027685
+        },
+        {
+          "time": "2014-09-09T02:30:00.000Z",
+          "valueM3s": 11.82905963745505
+        },
+        {
+          "time": "2014-09-09T02:45:00.000Z",
+          "valueM3s": 34.11776856020356
+        },
+        {
+          "time": "2014-09-09T03:00:00.000Z",
+          "valueM3s": 92.60873190405653
+        },
+        {
+          "time": "2014-09-09T03:15:00.000Z",
+          "valueM3s": 173.8614098409239
+        },
+        {
+          "time": "2014-09-09T03:30:00.000Z",
+          "valueM3s": 250.65142295165435
+        },
+        {
+          "time": "2014-09-09T03:45:00.000Z",
+          "valueM3s": 314.03506556036467
+        },
+        {
+          "time": "2014-09-09T04:00:00.000Z",
+          "valueM3s": 362.336121586363
+        },
+        {
+          "time": "2014-09-09T04:15:00.000Z",
+          "valueM3s": 397.18845522335
+        },
+        {
+          "time": "2014-09-09T04:30:00.000Z",
+          "valueM3s": 419.06724022363414
+        },
+        {
+          "time": "2014-09-09T04:45:00.000Z",
+          "valueM3s": 431.83578546696435
+        },
+        {
+          "time": "2014-09-09T05:00:00.000Z",
+          "valueM3s": 436.19811049809385
+        },
+        {
+          "time": "2014-09-09T05:15:00.000Z",
+          "valueM3s": 431.0436252792066
+        },
+        {
+          "time": "2014-09-09T05:30:00.000Z",
+          "valueM3s": 419.1240295288104
+        },
+        {
+          "time": "2014-09-09T05:45:00.000Z",
+          "valueM3s": 406.2853058495406
+        },
+        {
+          "time": "2014-09-09T06:00:00.000Z",
+          "valueM3s": 402.96001078276527
+        },
+        {
+          "time": "2014-09-09T06:15:00.000Z",
+          "valueM3s": 414.09651778227084
+        },
+        {
+          "time": "2014-09-09T06:30:00.000Z",
+          "valueM3s": 429.37388669296007
+        },
+        {
+          "time": "2014-09-09T06:45:00.000Z",
+          "valueM3s": 440.3420464091773
+        },
+        {
+          "time": "2014-09-09T07:00:00.000Z",
+          "valueM3s": 443.6757452708835
+        },
+        {
+          "time": "2014-09-09T07:15:00.000Z",
+          "valueM3s": 441.78547093921907
+        },
+        {
+          "time": "2014-09-09T07:30:00.000Z",
+          "valueM3s": 435.61816910088714
+        },
+        {
+          "time": "2014-09-09T07:45:00.000Z",
+          "valueM3s": 422.35605189122936
+        },
+        {
+          "time": "2014-09-09T08:00:00.000Z",
+          "valueM3s": 405.8516778781258
+        },
+        {
+          "time": "2014-09-09T08:15:00.000Z",
+          "valueM3s": 388.74595789344016
+        },
+        {
+          "time": "2014-09-09T08:30:00.000Z",
+          "valueM3s": 370.1213027771931
+        },
+        {
+          "time": "2014-09-09T08:45:00.000Z",
+          "valueM3s": 350.56102716422237
+        },
+        {
+          "time": "2014-09-09T09:00:00.000Z",
+          "valueM3s": 331.3639844379003
+        },
+        {
+          "time": "2014-09-09T09:15:00.000Z",
+          "valueM3s": 309.28188810310513
+        },
+        {
+          "time": "2014-09-09T09:30:00.000Z",
+          "valueM3s": 287.4555261178129
+        },
+        {
+          "time": "2014-09-09T09:45:00.000Z",
+          "valueM3s": 266.5571579930484
+        },
+        {
+          "time": "2014-09-09T10:00:00.000Z",
+          "valueM3s": 247.2398427336757
+        },
+        {
+          "time": "2014-09-09T10:15:00.000Z",
+          "valueM3s": 228.44703805890055
+        },
+        {
+          "time": "2014-09-09T10:30:00.000Z",
+          "valueM3s": 211.93153677454808
+        },
+        {
+          "time": "2014-09-09T10:45:00.000Z",
+          "valueM3s": 197.5885122174397
+        },
+        {
+          "time": "2014-09-09T11:00:00.000Z",
+          "valueM3s": 185.33213957468857
+        },
+        {
+          "time": "2014-09-09T11:15:00.000Z",
+          "valueM3s": 173.96289727208062
+        },
+        {
+          "time": "2014-09-09T11:30:00.000Z",
+          "valueM3s": 164.6545489597404
+        },
+        {
+          "time": "2014-09-09T11:45:00.000Z",
+          "valueM3s": 156.2122421829558
+        },
+        {
+          "time": "2014-09-09T12:00:00.000Z",
+          "valueM3s": 148.9922875904673
+        },
+        {
+          "time": "2014-09-09T12:15:00.000Z",
+          "valueM3s": 142.1058237729521
+        },
+        {
+          "time": "2014-09-09T12:30:00.000Z",
+          "valueM3s": 135.03043149765094
+        },
+        {
+          "time": "2014-09-09T12:45:00.000Z",
+          "valueM3s": 128.6216334369389
+        },
+        {
+          "time": "2014-09-09T13:00:00.000Z",
+          "valueM3s": 121.68067213357784
+        },
+        {
+          "time": "2014-09-09T13:15:00.000Z",
+          "valueM3s": 114.8686394980655
+        },
+        {
+          "time": "2014-09-09T13:30:00.000Z",
+          "valueM3s": 108.26482419701307
+        },
+        {
+          "time": "2014-09-09T13:45:00.000Z",
+          "valueM3s": 101.47217468902122
+        },
+        {
+          "time": "2014-09-09T14:00:00.000Z",
+          "valueM3s": 95.03821815426878
+        },
+        {
+          "time": "2014-09-09T14:15:00.000Z",
+          "valueM3s": 88.33330750735722
+        },
+        {
+          "time": "2014-09-09T14:30:00.000Z",
+          "valueM3s": 81.45788813071744
+        },
+        {
+          "time": "2014-09-09T14:45:00.000Z",
+          "valueM3s": 74.54552748251966
+        },
+        {
+          "time": "2014-09-09T15:00:00.000Z",
+          "valueM3s": 67.08962453354573
+        },
+        {
+          "time": "2014-09-09T15:15:00.000Z",
+          "valueM3s": 60.21530147871525
+        },
+        {
+          "time": "2014-09-09T15:30:00.000Z",
+          "valueM3s": 54.20724175131913
+        },
+        {
+          "time": "2014-09-09T15:45:00.000Z",
+          "valueM3s": 48.59530706948396
+        },
+        {
+          "time": "2014-09-09T16:00:00.000Z",
+          "valueM3s": 42.98944779018379
+        },
+        {
+          "time": "2014-09-09T16:15:00.000Z",
+          "valueM3s": 38.22010432980033
+        },
+        {
+          "time": "2014-09-09T16:30:00.000Z",
+          "valueM3s": 34.181838856912634
+        },
+        {
+          "time": "2014-09-09T16:45:00.000Z",
+          "valueM3s": 30.77292725602772
+        },
+        {
+          "time": "2014-09-09T17:00:00.000Z",
+          "valueM3s": 27.904951892004874
+        },
+        {
+          "time": "2014-09-09T17:15:00.000Z",
+          "valueM3s": 25.454192793270586
+        },
+        {
+          "time": "2014-09-09T17:30:00.000Z",
+          "valueM3s": 23.3604204019832
+        },
+        {
+          "time": "2014-09-09T17:45:00.000Z",
+          "valueM3s": 21.59485482072121
+        },
+        {
+          "time": "2014-09-09T18:00:00.000Z",
+          "valueM3s": 20.08260332782582
+        },
+        {
+          "time": "2014-09-09T18:15:00.000Z",
+          "valueM3s": 18.79827976309183
+        },
+        {
+          "time": "2014-09-09T18:30:00.000Z",
+          "valueM3s": 17.695434829171994
+        },
+        {
+          "time": "2014-09-09T18:45:00.000Z",
+          "valueM3s": 16.746305004783125
+        },
+        {
+          "time": "2014-09-09T19:00:00.000Z",
+          "valueM3s": 15.91789349432307
+        },
+        {
+          "time": "2014-09-09T19:15:00.000Z",
+          "valueM3s": 15.193450753393199
+        },
+        {
+          "time": "2014-09-09T19:30:00.000Z",
+          "valueM3s": 14.554130441437366
+        },
+        {
+          "time": "2014-09-09T19:45:00.000Z",
+          "valueM3s": 13.999901400230087
+        },
+        {
+          "time": "2014-09-09T20:00:00.000Z",
+          "valueM3s": 13.49994027883232
+        },
+        {
+          "time": "2014-09-09T20:15:00.000Z",
+          "valueM3s": 13.054675919202046
+        },
+        {
+          "time": "2014-09-09T20:30:00.000Z",
+          "valueM3s": 12.638794560153785
+        },
+        {
+          "time": "2014-09-09T20:45:00.000Z",
+          "valueM3s": 12.246969967299727
+        },
+        {
+          "time": "2014-09-09T21:00:00.000Z",
+          "valueM3s": 11.879974362205406
+        },
+        {
+          "time": "2014-09-09T21:15:00.000Z",
+          "valueM3s": 11.517908092586966
+        },
+        {
+          "time": "2014-09-09T21:30:00.000Z",
+          "valueM3s": 11.165010594971804
+        },
+        {
+          "time": "2014-09-09T21:45:00.000Z",
+          "valueM3s": 10.835018773334504
+        },
+        {
+          "time": "2014-09-09T22:00:00.000Z",
+          "valueM3s": 10.523780533040316
+        },
+        {
+          "time": "2014-09-09T22:15:00.000Z",
+          "valueM3s": 10.222763453065147
+        },
+        {
+          "time": "2014-09-09T22:30:00.000Z",
+          "valueM3s": 9.935247724832236
+        },
+        {
+          "time": "2014-09-09T22:45:00.000Z",
+          "valueM3s": 9.663918941935773
+        },
+        {
+          "time": "2014-09-09T23:00:00.000Z",
+          "valueM3s": 9.416108855898528
+        },
+        {
+          "time": "2014-09-09T23:15:00.000Z",
+          "valueM3s": 9.187554250252244
+        },
+        {
+          "time": "2014-09-09T23:30:00.000Z",
+          "valueM3s": 8.964498751653455
+        },
+        {
+          "time": "2014-09-09T23:45:00.000Z",
+          "valueM3s": 8.756211488022792
+        },
+        {
+          "time": "2014-09-10T00:00:00.000Z",
+          "valueM3s": 8.565148405986156
+        },
+        {
+          "time": "2014-09-10T00:15:00.000Z",
+          "valueM3s": 8.377921344203271
+        },
+        {
+          "time": "2014-09-10T00:30:00.000Z",
+          "valueM3s": 8.168170082886872
+        },
+        {
+          "time": "2014-09-10T00:45:00.000Z",
+          "valueM3s": 7.955376487094735
+        },
+        {
+          "time": "2014-09-10T01:00:00.000Z",
+          "valueM3s": 7.724693118135347
+        },
+        {
+          "time": "2014-09-10T01:15:00.000Z",
+          "valueM3s": 7.479362841718341
+        },
+        {
+          "time": "2014-09-10T01:30:00.000Z",
+          "valueM3s": 7.237439612099112
+        },
+        {
+          "time": "2014-09-10T01:45:00.000Z",
+          "valueM3s": 6.9880398895565214
+        },
+        {
+          "time": "2014-09-10T02:00:00.000Z",
+          "valueM3s": 6.732518932332405
+        },
+        {
+          "time": "2014-09-10T02:15:00.000Z",
+          "valueM3s": 6.48738525239853
+        },
+        {
+          "time": "2014-09-10T02:30:00.000Z",
+          "valueM3s": 6.189160274339667
+        },
+        {
+          "time": "2014-09-10T02:45:00.000Z",
+          "valueM3s": 5.91419647272524
+        },
+        {
+          "time": "2014-09-10T03:00:00.000Z",
+          "valueM3s": 5.612080550506203
+        },
+        {
+          "time": "2014-09-10T03:15:00.000Z",
+          "valueM3s": 5.344197060163209
+        },
+        {
+          "time": "2014-09-10T03:30:00.000Z",
+          "valueM3s": 5.0632769268942734
+        },
+        {
+          "time": "2014-09-10T03:45:00.000Z",
+          "valueM3s": 4.787082213515788
+        },
+        {
+          "time": "2014-09-10T04:00:00.000Z",
+          "valueM3s": 4.519889320179757
+        },
+        {
+          "time": "2014-09-10T04:15:00.000Z",
+          "valueM3s": 4.285561629739167
+        },
+        {
+          "time": "2014-09-10T04:30:00.000Z",
+          "valueM3s": 4.078198268712448
+        },
+        {
+          "time": "2014-09-10T04:45:00.000Z",
+          "valueM3s": 3.8829283719852534
+        },
+        {
+          "time": "2014-09-10T05:00:00.000Z",
+          "valueM3s": 3.7124608083065405
+        },
+        {
+          "time": "2014-09-10T05:15:00.000Z",
+          "valueM3s": 3.5332978799147576
+        },
+        {
+          "time": "2014-09-10T05:30:00.000Z",
+          "valueM3s": 3.3624867053812872
+        },
+        {
+          "time": "2014-09-10T05:45:00.000Z",
+          "valueM3s": 3.2226383438213646
+        },
+        {
+          "time": "2014-09-10T06:00:00.000Z",
+          "valueM3s": 3.0963343504937297
+        },
+        {
+          "time": "2014-09-10T06:15:00.000Z",
+          "valueM3s": 2.992925386919839
+        },
+        {
+          "time": "2014-09-10T06:30:00.000Z",
+          "valueM3s": 2.8856762050874454
+        },
+        {
+          "time": "2014-09-10T06:45:00.000Z",
+          "valueM3s": 2.7876020547649363
+        },
+        {
+          "time": "2014-09-10T07:00:00.000Z",
+          "valueM3s": 2.686260540640459
+        },
+        {
+          "time": "2014-09-10T07:15:00.000Z",
+          "valueM3s": 2.593023179549386
+        },
+        {
+          "time": "2014-09-10T07:30:00.000Z",
+          "valueM3s": 2.506934235120106
+        },
+        {
+          "time": "2014-09-10T07:45:00.000Z",
+          "valueM3s": 2.4169452696794678
+        },
+        {
+          "time": "2014-09-10T08:00:00.000Z",
+          "valueM3s": 2.334029184013057
+        },
+        {
+          "time": "2014-09-10T08:15:00.000Z",
+          "valueM3s": 2.266143234753118
+        },
+        {
+          "time": "2014-09-10T08:30:00.000Z",
+          "valueM3s": 2.192084215947137
+        },
+        {
+          "time": "2014-09-10T08:45:00.000Z",
+          "valueM3s": 2.1314498197078997
+        },
+        {
+          "time": "2014-09-10T09:00:00.000Z",
+          "valueM3s": 2.0730805199357256
+        },
+        {
+          "time": "2014-09-10T09:15:00.000Z",
+          "valueM3s": 2.025291779176619
+        },
+        {
+          "time": "2014-09-10T09:30:00.000Z",
+          "valueM3s": 1.986165667466267
+        },
+        {
+          "time": "2014-09-10T09:45:00.000Z",
+          "valueM3s": 1.9541319165606374
+        },
+        {
+          "time": "2014-09-10T10:00:00.000Z",
+          "valueM3s": 1.9279048995577588
+        },
+        {
+          "time": "2014-09-10T10:15:00.000Z",
+          "valueM3s": 1.906432034176003
+        },
+        {
+          "time": "2014-09-10T10:30:00.000Z",
+          "valueM3s": 1.888851538931256
+        },
+        {
+          "time": "2014-09-10T10:45:00.000Z",
+          "valueM3s": 1.8744578468200404
+        },
+        {
+          "time": "2014-09-10T11:00:00.000Z",
+          "valueM3s": 1.8626732884382522
+        },
+        {
+          "time": "2014-09-10T11:15:00.000Z",
+          "valueM3s": 1.8530249080796393
+        },
+        {
+          "time": "2014-09-10T11:30:00.000Z",
+          "valueM3s": 1.8538515372394442
+        },
+        {
+          "time": "2014-09-10T11:45:00.000Z",
+          "valueM3s": 1.8545283239539674
+        },
+        {
+          "time": "2014-09-10T12:00:00.000Z",
+          "valueM3s": 1.8550824300504223
+        },
+        {
+          "time": "2014-09-10T12:15:00.000Z",
+          "valueM3s": 1.8555360937520577
+        },
+        {
+          "time": "2014-09-10T12:30:00.000Z",
+          "valueM3s": 1.855907522176142
+        },
+        {
+          "time": "2014-09-10T12:45:00.000Z",
+          "valueM3s": 1.856211622049507
+        },
+        {
+          "time": "2014-09-10T13:00:00.000Z",
+          "valueM3s": 1.8564605979678381
+        },
+        {
+          "time": "2014-09-10T13:15:00.000Z",
+          "valueM3s": 1.8566644422089515
+        },
+        {
+          "time": "2014-09-10T13:30:00.000Z",
+          "valueM3s": 1.8481052808811942
+        },
+        {
+          "time": "2014-09-10T13:45:00.000Z",
+          "valueM3s": 1.8318582800591148
+        },
+        {
+          "time": "2014-09-10T14:00:00.000Z",
+          "valueM3s": 1.8277957130632838
+        },
+        {
+          "time": "2014-09-10T14:15:00.000Z",
+          "valueM3s": 1.8244695645273574
+        },
+        {
+          "time": "2014-09-10T14:30:00.000Z",
+          "valueM3s": 1.8125069922092005
+        },
+        {
+          "time": "2014-09-10T14:45:00.000Z",
+          "valueM3s": 1.794500108835305
+        },
+        {
+          "time": "2014-09-10T15:00:00.000Z",
+          "valueM3s": 1.7710312647732132
+        },
+        {
+          "time": "2014-09-10T15:15:00.000Z",
+          "valueM3s": 1.743603842869286
+        },
+        {
+          "time": "2014-09-10T15:30:00.000Z",
+          "valueM3s": 1.712935411547795
+        },
+        {
+          "time": "2014-09-10T15:45:00.000Z",
+          "valueM3s": 1.6796134661451294
+        },
+        {
+          "time": "2014-09-10T16:00:00.000Z",
+          "valueM3s": 1.6446323045061744
+        },
+        {
+          "time": "2014-09-10T16:15:00.000Z",
+          "valueM3s": 1.6005932313231557
+        },
+        {
+          "time": "2014-09-10T16:30:00.000Z",
+          "valueM3s": 1.5645370877711664
+        },
+        {
+          "time": "2014-09-10T16:45:00.000Z",
+          "valueM3s": 1.513458325688618
+        },
+        {
+          "time": "2014-09-10T17:00:00.000Z",
+          "valueM3s": 1.464452409502769
+        },
+        {
+          "time": "2014-09-10T17:15:00.000Z",
+          "valueM3s": 1.4099574331592253
+        },
+        {
+          "time": "2014-09-10T17:30:00.000Z",
+          "valueM3s": 1.365340720138509
+        },
+        {
+          "time": "2014-09-10T17:45:00.000Z",
+          "valueM3s": 1.3154659140991547
+        },
+        {
+          "time": "2014-09-10T18:00:00.000Z",
+          "valueM3s": 1.267959011096916
+        },
+        {
+          "time": "2014-09-10T18:15:00.000Z",
+          "valueM3s": 1.2290636486254907
+        },
+        {
+          "time": "2014-09-10T18:30:00.000Z",
+          "valueM3s": 1.1905459537239997
+        },
+        {
+          "time": "2014-09-10T18:45:00.000Z",
+          "valueM3s": 1.1466911960738226
+        },
+        {
+          "time": "2014-09-10T19:00:00.000Z",
+          "valueM3s": 1.1046263891685149
+        },
+        {
+          "time": "2014-09-10T19:15:00.000Z",
+          "valueM3s": 1.0645403673302205
+        },
+        {
+          "time": "2014-09-10T19:30:00.000Z",
+          "valueM3s": 1.0260744376800213
+        },
+        {
+          "time": "2014-09-10T19:45:00.000Z",
+          "valueM3s": 0.9889349273270371
+        },
+        {
+          "time": "2014-09-10T20:00:00.000Z",
+          "valueM3s": 0.9528813972441589
+        },
+        {
+          "time": "2014-09-10T20:15:00.000Z",
+          "valueM3s": 0.9233632634082843
+        },
+        {
+          "time": "2014-09-10T20:30:00.000Z",
+          "valueM3s": 0.8940628860064439
+        },
+        {
+          "time": "2014-09-10T20:45:00.000Z",
+          "valueM3s": 0.8752067394077042
+        },
+        {
+          "time": "2014-09-10T21:00:00.000Z",
+          "valueM3s": 0.8654149031054013
+        },
+        {
+          "time": "2014-09-10T21:15:00.000Z",
+          "valueM3s": 0.8630442963982323
+        },
+        {
+          "time": "2014-09-10T21:30:00.000Z",
+          "valueM3s": 0.8611034077836203
+        },
+        {
+          "time": "2014-09-10T21:45:00.000Z",
+          "valueM3s": 0.8651606133891704
+        },
+        {
+          "time": "2014-09-10T22:00:00.000Z",
+          "valueM3s": 0.8864477794892782
+        },
+        {
+          "time": "2014-09-10T22:15:00.000Z",
+          "valueM3s": 0.9233815361576806
+        },
+        {
+          "time": "2014-09-10T22:30:00.000Z",
+          "valueM3s": 0.9602932040628201
+        },
+        {
+          "time": "2014-09-10T22:45:00.000Z",
+          "valueM3s": 0.9971867872181791
+        },
+        {
+          "time": "2014-09-10T23:00:00.000Z",
+          "valueM3s": 1.0345788611784248
+        },
+        {
+          "time": "2014-09-10T23:15:00.000Z",
+          "valueM3s": 1.0723790648907576
+        },
+        {
+          "time": "2014-09-10T23:30:00.000Z",
+          "valueM3s": 1.1105134169823705
+        },
+        {
+          "time": "2014-09-10T23:45:00.000Z",
+          "valueM3s": 1.1417351837884775
+        },
+        {
+          "time": "2014-09-11T00:00:00.000Z",
+          "valueM3s": 1.17448356727778
+        },
+        {
+          "time": "2014-09-11T00:15:00.000Z",
+          "valueM3s": 1.2156680016334902
+        },
+        {
+          "time": "2014-09-11T00:30:00.000Z",
+          "valueM3s": 1.280698102675954
+        },
+        {
+          "time": "2014-09-11T00:45:00.000Z",
+          "valueM3s": 1.359091816214185
+        },
+        {
+          "time": "2014-09-11T01:00:00.000Z",
+          "valueM3s": 1.4314879178670212
+        },
+        {
+          "time": "2014-09-11T01:15:00.000Z",
+          "valueM3s": 1.5000001849156468
+        },
+        {
+          "time": "2014-09-11T01:30:00.000Z",
+          "valueM3s": 1.5648193397882426
+        },
+        {
+          "time": "2014-09-11T01:45:00.000Z",
+          "valueM3s": 1.6178887752709612
+        },
+        {
+          "time": "2014-09-11T02:00:00.000Z",
+          "valueM3s": 1.652612299272356
+        },
+        {
+          "time": "2014-09-11T02:15:00.000Z",
+          "valueM3s": 1.6810415162275394
+        },
+        {
+          "time": "2014-09-11T02:30:00.000Z",
+          "valueM3s": 1.704317390434674
+        },
+        {
+          "time": "2014-09-11T02:45:00.000Z",
+          "valueM3s": 1.7233740644528297
+        },
+        {
+          "time": "2014-09-11T03:00:00.000Z",
+          "valueM3s": 1.7297369973003873
+        },
+        {
+          "time": "2014-09-11T03:15:00.000Z",
+          "valueM3s": 1.7267337685713517
+        },
+        {
+          "time": "2014-09-11T03:30:00.000Z",
+          "valueM3s": 1.724274932852363
+        },
+        {
+          "time": "2014-09-11T03:45:00.000Z",
+          "valueM3s": 1.7135357535556652
+        },
+        {
+          "time": "2014-09-11T04:00:00.000Z",
+          "valueM3s": 1.7047432572026404
+        },
+        {
+          "time": "2014-09-11T04:15:00.000Z",
+          "valueM3s": 1.6974540466865287
+        },
+        {
+          "time": "2014-09-11T04:30:00.000Z",
+          "valueM3s": 1.6833639116957921
+        },
+        {
+          "time": "2014-09-11T04:45:00.000Z",
+          "valueM3s": 1.6717373615082913
+        },
+        {
+          "time": "2014-09-11T05:00:00.000Z",
+          "valueM3s": 1.6540961131420433
+        },
+        {
+          "time": "2014-09-11T05:15:00.000Z",
+          "valueM3s": 1.6396526805819094
+        },
+        {
+          "time": "2014-09-11T05:30:00.000Z",
+          "valueM3s": 1.6278273981649198
+        },
+        {
+          "time": "2014-09-11T05:45:00.000Z",
+          "valueM3s": 1.6181456757862982
+        },
+        {
+          "time": "2014-09-11T06:00:00.000Z",
+          "valueM3s": 1.6102189519321572
+        },
+        {
+          "time": "2014-09-11T06:15:00.000Z",
+          "valueM3s": 1.5955163418105143
+        },
+        {
+          "time": "2014-09-11T06:30:00.000Z",
+          "valueM3s": 1.5834788627534095
+        },
+        {
+          "time": "2014-09-11T06:45:00.000Z",
+          "valueM3s": 1.5736234084598257
+        },
+        {
+          "time": "2014-09-11T07:00:00.000Z",
+          "valueM3s": 1.5578549847587069
+        }
+      ],
+      "predictedPeak": {
+        "time": "2014-09-09T07:00:00.000Z",
+        "valueM3s": 443.6757452708835
+      },
+      "peakErrorPercent": 30.568842305410993,
+      "peakTimingErrorMinutes": 15
+    },
+    {
+      "name": "Baseline: unchanged upstream",
+      "color": "#909ca7",
+      "frozen": {
+        "parameters": {
+          "lagMinutes": 0,
+          "kMinutes": 0,
+          "transmission": 1
+        }
+      },
+      "score": {
+        "siteId": "USGS-09486520",
+        "pairCount": 273,
+        "eligibleObservationCount": 273,
+        "coverageFraction": 1,
+        "biasM3s": 13.716849560446663,
+        "rmseM3s": 149.30606532323105,
+        "nashSutcliffe": -2.238586381398535,
+        "pairedPeakErrorM3s": 260.51498864640007,
+        "pairedPeakTimingErrorMinutes": -540,
+        "warning": "Metrics on exact matched samples only; sparse coverage can miss the event peak. A fitted event is not independent validation."
+      },
+      "points": [
+        {
+          "time": "2014-09-08T07:00:00.000Z",
+          "valueM3s": 4.502378608128
+        },
+        {
+          "time": "2014-09-08T07:15:00.000Z",
+          "valueM3s": 4.049309062656
+        },
+        {
+          "time": "2014-09-08T07:30:00.000Z",
+          "valueM3s": 3.624556363776
+        },
+        {
+          "time": "2014-09-08T07:45:00.000Z",
+          "valueM3s": 3.228120511488
+        },
+        {
+          "time": "2014-09-08T08:00:00.000Z",
+          "valueM3s": 3.001585738752
+        },
+        {
+          "time": "2014-09-08T08:15:00.000Z",
+          "valueM3s": 2.7920410739712
+        },
+        {
+          "time": "2014-09-08T08:30:00.000Z",
+          "valueM3s": 2.6561202103296
+        },
+        {
+          "time": "2014-09-08T08:45:00.000Z",
+          "valueM3s": 2.590991463168
+        },
+        {
+          "time": "2014-09-08T09:00:00.000Z",
+          "valueM3s": 2.5258627160064
+        },
+        {
+          "time": "2014-09-08T09:15:00.000Z",
+          "valueM3s": 2.4607339688448002
+        },
+        {
+          "time": "2014-09-08T09:30:00.000Z",
+          "valueM3s": 2.3446348978176
+        },
+        {
+          "time": "2014-09-08T09:45:00.000Z",
+          "valueM3s": 2.2285358267904
+        },
+        {
+          "time": "2014-09-08T10:00:00.000Z",
+          "valueM3s": 2.1719021336064
+        },
+        {
+          "time": "2014-09-08T10:15:00.000Z",
+          "valueM3s": 2.1181001250816
+        },
+        {
+          "time": "2014-09-08T10:30:00.000Z",
+          "valueM3s": 1.9595257841664002
+        },
+        {
+          "time": "2014-09-08T10:45:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-08T11:00:00.000Z",
+          "valueM3s": 1.7584761733632002
+        },
+        {
+          "time": "2014-09-08T11:15:00.000Z",
+          "valueM3s": 1.7131692188160001
+        },
+        {
+          "time": "2014-09-08T11:30:00.000Z",
+          "valueM3s": 1.6197236250624
+        },
+        {
+          "time": "2014-09-08T11:45:00.000Z",
+          "valueM3s": 1.48663444608
+        },
+        {
+          "time": "2014-09-08T12:00:00.000Z",
+          "valueM3s": 1.401683906304
+        },
+        {
+          "time": "2014-09-08T12:15:00.000Z",
+          "valueM3s": 1.3223967358464002
+        },
+        {
+          "time": "2014-09-08T12:30:00.000Z",
+          "valueM3s": 1.2827531506176
+        },
+        {
+          "time": "2014-09-08T12:45:00.000Z",
+          "valueM3s": 1.2431095653888
+        },
+        {
+          "time": "2014-09-08T13:00:00.000Z",
+          "valueM3s": 1.1270104943616
+        },
+        {
+          "time": "2014-09-08T13:15:00.000Z",
+          "valueM3s": 1.0533866932224
+        },
+        {
+          "time": "2014-09-08T13:30:00.000Z",
+          "valueM3s": 0.9825945767424001
+        },
+        {
+          "time": "2014-09-08T13:45:00.000Z",
+          "valueM3s": 0.8834856136704
+        },
+        {
+          "time": "2014-09-08T14:00:00.000Z",
+          "valueM3s": 0.8523370824192
+        },
+        {
+          "time": "2014-09-08T14:15:00.000Z",
+          "valueM3s": 0.8523370824192
+        },
+        {
+          "time": "2014-09-08T14:30:00.000Z",
+          "valueM3s": 0.821188551168
+        },
+        {
+          "time": "2014-09-08T14:45:00.000Z",
+          "valueM3s": 0.821188551168
+        },
+        {
+          "time": "2014-09-08T15:00:00.000Z",
+          "valueM3s": 0.821188551168
+        },
+        {
+          "time": "2014-09-08T15:15:00.000Z",
+          "valueM3s": 0.8523370824192
+        },
+        {
+          "time": "2014-09-08T15:30:00.000Z",
+          "valueM3s": 0.8523370824192
+        },
+        {
+          "time": "2014-09-08T15:45:00.000Z",
+          "valueM3s": 0.8523370824192
+        },
+        {
+          "time": "2014-09-08T16:00:00.000Z",
+          "valueM3s": 0.8523370824192
+        },
+        {
+          "time": "2014-09-08T16:15:00.000Z",
+          "valueM3s": 0.9825945767424001
+        },
+        {
+          "time": "2014-09-08T16:30:00.000Z",
+          "valueM3s": 1.0165747926528
+        },
+        {
+          "time": "2014-09-08T16:45:00.000Z",
+          "valueM3s": 1.0533866932224
+        },
+        {
+          "time": "2014-09-08T17:00:00.000Z",
+          "valueM3s": 1.090198593792
+        },
+        {
+          "time": "2014-09-08T17:15:00.000Z",
+          "valueM3s": 1.1270104943616
+        },
+        {
+          "time": "2014-09-08T17:30:00.000Z",
+          "valueM3s": 1.2827531506176
+        },
+        {
+          "time": "2014-09-08T17:45:00.000Z",
+          "valueM3s": 1.401683906304
+        },
+        {
+          "time": "2014-09-08T18:00:00.000Z",
+          "valueM3s": 1.444159176192
+        },
+        {
+          "time": "2014-09-08T18:15:00.000Z",
+          "valueM3s": 1.5744166705152
+        },
+        {
+          "time": "2014-09-08T18:30:00.000Z",
+          "valueM3s": 1.6650305796095999
+        },
+        {
+          "time": "2014-09-08T18:45:00.000Z",
+          "valueM3s": 2.7920410739712
+        },
+        {
+          "time": "2014-09-08T19:00:00.000Z",
+          "valueM3s": 3.001585738752
+        },
+        {
+          "time": "2014-09-08T19:15:00.000Z",
+          "valueM3s": 3.001585738752
+        },
+        {
+          "time": "2014-09-08T19:30:00.000Z",
+          "valueM3s": 7.22079588096
+        },
+        {
+          "time": "2014-09-08T19:45:00.000Z",
+          "valueM3s": 10.817035398144
+        },
+        {
+          "time": "2014-09-08T20:00:00.000Z",
+          "valueM3s": 14.526542301696
+        },
+        {
+          "time": "2014-09-08T20:15:00.000Z",
+          "valueM3s": 18.434267131392
+        },
+        {
+          "time": "2014-09-08T20:30:00.000Z",
+          "valueM3s": 27.070905341952002
+        },
+        {
+          "time": "2014-09-08T20:45:00.000Z",
+          "valueM3s": 134.78818977792
+        },
+        {
+          "time": "2014-09-08T21:00:00.000Z",
+          "valueM3s": 356.7922670592
+        },
+        {
+          "time": "2014-09-08T21:15:00.000Z",
+          "valueM3s": 540.8517699072
+        },
+        {
+          "time": "2014-09-08T21:30:00.000Z",
+          "valueM3s": 597.4854630912
+        },
+        {
+          "time": "2014-09-08T21:45:00.000Z",
+          "valueM3s": 600.3171477504001
+        },
+        {
+          "time": "2014-09-08T22:00:00.000Z",
+          "valueM3s": 580.4953551360001
+        },
+        {
+          "time": "2014-09-08T22:15:00.000Z",
+          "valueM3s": 555.0101932032001
+        },
+        {
+          "time": "2014-09-08T22:30:00.000Z",
+          "valueM3s": 518.1982926336
+        },
+        {
+          "time": "2014-09-08T22:45:00.000Z",
+          "valueM3s": 489.8814460416
+        },
+        {
+          "time": "2014-09-08T23:00:00.000Z",
+          "valueM3s": 455.9012301312
+        },
+        {
+          "time": "2014-09-08T23:15:00.000Z",
+          "valueM3s": 407.7625909248
+        },
+        {
+          "time": "2014-09-08T23:30:00.000Z",
+          "valueM3s": 365.2873210368
+        },
+        {
+          "time": "2014-09-08T23:45:00.000Z",
+          "valueM3s": 348.29721308160003
+        },
+        {
+          "time": "2014-09-09T00:00:00.000Z",
+          "valueM3s": 387.9407983104
+        },
+        {
+          "time": "2014-09-09T00:15:00.000Z",
+          "valueM3s": 464.3962841088
+        },
+        {
+          "time": "2014-09-09T00:30:00.000Z",
+          "valueM3s": 498.3765000192
+        },
+        {
+          "time": "2014-09-09T00:45:00.000Z",
+          "valueM3s": 489.8814460416
+        },
+        {
+          "time": "2014-09-09T01:00:00.000Z",
+          "valueM3s": 458.7329147904
+        },
+        {
+          "time": "2014-09-09T01:15:00.000Z",
+          "valueM3s": 433.2477528576
+        },
+        {
+          "time": "2014-09-09T01:30:00.000Z",
+          "valueM3s": 407.7625909248
+        },
+        {
+          "time": "2014-09-09T01:45:00.000Z",
+          "valueM3s": 362.4556363776
+        },
+        {
+          "time": "2014-09-09T02:00:00.000Z",
+          "valueM3s": 331.3071051264
+        },
+        {
+          "time": "2014-09-09T02:15:00.000Z",
+          "valueM3s": 311.485312512
+        },
+        {
+          "time": "2014-09-09T02:30:00.000Z",
+          "valueM3s": 286.0001505792
+        },
+        {
+          "time": "2014-09-09T02:45:00.000Z",
+          "valueM3s": 262.21399944192
+        },
+        {
+          "time": "2014-09-09T03:00:00.000Z",
+          "valueM3s": 244.65755455488
+        },
+        {
+          "time": "2014-09-09T03:15:00.000Z",
+          "valueM3s": 209.54466478080002
+        },
+        {
+          "time": "2014-09-09T03:30:00.000Z",
+          "valueM3s": 188.87336676864
+        },
+        {
+          "time": "2014-09-09T03:45:00.000Z",
+          "valueM3s": 172.16642727936
+        },
+        {
+          "time": "2014-09-09T04:00:00.000Z",
+          "valueM3s": 159.9901832448
+        },
+        {
+          "time": "2014-09-09T04:15:00.000Z",
+          "valueM3s": 143.56641222144
+        },
+        {
+          "time": "2014-09-09T04:30:00.000Z",
+          "valueM3s": 137.3367059712
+        },
+        {
+          "time": "2014-09-09T04:45:00.000Z",
+          "valueM3s": 132.80601051648
+        },
+        {
+          "time": "2014-09-09T05:00:00.000Z",
+          "valueM3s": 129.97432585728
+        },
+        {
+          "time": "2014-09-09T05:15:00.000Z",
+          "valueM3s": 122.61194574336001
+        },
+        {
+          "time": "2014-09-09T05:30:00.000Z",
+          "valueM3s": 122.61194574336001
+        },
+        {
+          "time": "2014-09-09T05:45:00.000Z",
+          "valueM3s": 118.08125028864
+        },
+        {
+          "time": "2014-09-09T06:00:00.000Z",
+          "valueM3s": 116.38223949312
+        },
+        {
+          "time": "2014-09-09T06:15:00.000Z",
+          "valueM3s": 111.00203864064001
+        },
+        {
+          "time": "2014-09-09T06:30:00.000Z",
+          "valueM3s": 103.07332159488
+        },
+        {
+          "time": "2014-09-09T06:45:00.000Z",
+          "valueM3s": 99.67530000384001
+        },
+        {
+          "time": "2014-09-09T07:00:00.000Z",
+          "valueM3s": 90.33074062848
+        },
+        {
+          "time": "2014-09-09T07:15:00.000Z",
+          "valueM3s": 84.10103437824
+        },
+        {
+          "time": "2014-09-09T07:30:00.000Z",
+          "valueM3s": 78.43766505984
+        },
+        {
+          "time": "2014-09-09T07:45:00.000Z",
+          "valueM3s": 70.79211648
+        },
+        {
+          "time": "2014-09-09T08:00:00.000Z",
+          "valueM3s": 65.97825255936
+        },
+        {
+          "time": "2014-09-09T08:15:00.000Z",
+          "valueM3s": 58.0495355136
+        },
+        {
+          "time": "2014-09-09T08:30:00.000Z",
+          "valueM3s": 50.40398693376
+        },
+        {
+          "time": "2014-09-09T08:45:00.000Z",
+          "valueM3s": 43.32477528576
+        },
+        {
+          "time": "2014-09-09T09:00:00.000Z",
+          "valueM3s": 33.41387897856
+        },
+        {
+          "time": "2014-09-09T09:15:00.000Z",
+          "valueM3s": 29.166351989760003
+        },
+        {
+          "time": "2014-09-09T09:30:00.000Z",
+          "valueM3s": 27.070905341952002
+        },
+        {
+          "time": "2014-09-09T09:45:00.000Z",
+          "valueM3s": 23.248131052032
+        },
+        {
+          "time": "2014-09-09T10:00:00.000Z",
+          "valueM3s": 17.669712273408
+        },
+        {
+          "time": "2014-09-09T10:15:00.000Z",
+          "valueM3s": 16.678622642688
+        },
+        {
+          "time": "2014-09-09T10:30:00.000Z",
+          "valueM3s": 15.942384631296001
+        },
+        {
+          "time": "2014-09-09T10:45:00.000Z",
+          "valueM3s": 15.376047699456
+        },
+        {
+          "time": "2014-09-09T11:00:00.000Z",
+          "valueM3s": 14.951295000576
+        },
+        {
+          "time": "2014-09-09T11:15:00.000Z",
+          "valueM3s": 14.384958068736001
+        },
+        {
+          "time": "2014-09-09T11:30:00.000Z",
+          "valueM3s": 13.903571676672
+        },
+        {
+          "time": "2014-09-09T11:45:00.000Z",
+          "valueM3s": 13.620403210752
+        },
+        {
+          "time": "2014-09-09T12:00:00.000Z",
+          "valueM3s": 13.252284205056
+        },
+        {
+          "time": "2014-09-09T12:15:00.000Z",
+          "valueM3s": 12.997432585728001
+        },
+        {
+          "time": "2014-09-09T12:30:00.000Z",
+          "valueM3s": 12.714264119808
+        },
+        {
+          "time": "2014-09-09T12:45:00.000Z",
+          "valueM3s": 12.459412500480001
+        },
+        {
+          "time": "2014-09-09T13:00:00.000Z",
+          "valueM3s": 12.17624403456
+        },
+        {
+          "time": "2014-09-09T13:15:00.000Z",
+          "valueM3s": 11.921392415232
+        },
+        {
+          "time": "2014-09-09T13:30:00.000Z",
+          "valueM3s": 11.666540795904
+        },
+        {
+          "time": "2014-09-09T13:45:00.000Z",
+          "valueM3s": 11.496639716352
+        },
+        {
+          "time": "2014-09-09T14:00:00.000Z",
+          "valueM3s": 11.241788097024001
+        },
+        {
+          "time": "2014-09-09T14:15:00.000Z",
+          "valueM3s": 11.04357017088
+        },
+        {
+          "time": "2014-09-09T14:30:00.000Z",
+          "valueM3s": 10.76040170496
+        },
+        {
+          "time": "2014-09-09T14:45:00.000Z",
+          "valueM3s": 10.47723323904
+        },
+        {
+          "time": "2014-09-09T15:00:00.000Z",
+          "valueM3s": 10.222381619712
+        },
+        {
+          "time": "2014-09-09T15:15:00.000Z",
+          "valueM3s": 9.882579460608
+        },
+        {
+          "time": "2014-09-09T15:30:00.000Z",
+          "valueM3s": 9.571094148096
+        },
+        {
+          "time": "2014-09-09T15:45:00.000Z",
+          "valueM3s": 9.344559375360001
+        },
+        {
+          "time": "2014-09-09T16:00:00.000Z",
+          "valueM3s": 9.118024602624
+        },
+        {
+          "time": "2014-09-09T16:15:00.000Z",
+          "valueM3s": 8.863172983296
+        },
+        {
+          "time": "2014-09-09T16:30:00.000Z",
+          "valueM3s": 8.636638210560001
+        },
+        {
+          "time": "2014-09-09T16:45:00.000Z",
+          "valueM3s": 8.438420284416
+        },
+        {
+          "time": "2014-09-09T17:00:00.000Z",
+          "valueM3s": 8.296836051456001
+        },
+        {
+          "time": "2014-09-09T17:15:00.000Z",
+          "valueM3s": 8.155251818496
+        },
+        {
+          "time": "2014-09-09T17:30:00.000Z",
+          "valueM3s": 7.957033892352
+        },
+        {
+          "time": "2014-09-09T17:45:00.000Z",
+          "valueM3s": 7.815449659392001
+        },
+        {
+          "time": "2014-09-09T18:00:00.000Z",
+          "valueM3s": 7.702182273024
+        },
+        {
+          "time": "2014-09-09T18:15:00.000Z",
+          "valueM3s": 7.532281193472
+        },
+        {
+          "time": "2014-09-09T18:30:00.000Z",
+          "valueM3s": 7.22079588096
+        },
+        {
+          "time": "2014-09-09T18:45:00.000Z",
+          "valueM3s": 6.994261108224
+        },
+        {
+          "time": "2014-09-09T19:00:00.000Z",
+          "valueM3s": 6.682775795712
+        },
+        {
+          "time": "2014-09-09T19:15:00.000Z",
+          "valueM3s": 6.3712904832
+        },
+        {
+          "time": "2014-09-09T19:30:00.000Z",
+          "valueM3s": 6.1447557104640005
+        },
+        {
+          "time": "2014-09-09T19:45:00.000Z",
+          "valueM3s": 5.861587244544
+        },
+        {
+          "time": "2014-09-09T20:00:00.000Z",
+          "valueM3s": 5.578418778624
+        },
+        {
+          "time": "2014-09-09T20:15:00.000Z",
+          "valueM3s": 5.38020085248
+        },
+        {
+          "time": "2014-09-09T20:30:00.000Z",
+          "valueM3s": 4.8421807672320005
+        },
+        {
+          "time": "2014-09-09T20:45:00.000Z",
+          "valueM3s": 4.672279687680001
+        },
+        {
+          "time": "2014-09-09T21:00:00.000Z",
+          "valueM3s": 4.2475269888
+        },
+        {
+          "time": "2014-09-09T21:15:00.000Z",
+          "valueM3s": 4.134259602432
+        },
+        {
+          "time": "2014-09-09T21:30:00.000Z",
+          "valueM3s": 3.794457443328
+        },
+        {
+          "time": "2014-09-09T21:45:00.000Z",
+          "valueM3s": 3.539605824
+        },
+        {
+          "time": "2014-09-09T22:00:00.000Z",
+          "valueM3s": 3.313071051264
+        },
+        {
+          "time": "2014-09-09T22:15:00.000Z",
+          "valueM3s": 3.228120511488
+        },
+        {
+          "time": "2014-09-09T22:30:00.000Z",
+          "valueM3s": 3.143169971712
+        },
+        {
+          "time": "2014-09-09T22:45:00.000Z",
+          "valueM3s": 3.001585738752
+        },
+        {
+          "time": "2014-09-09T23:00:00.000Z",
+          "valueM3s": 2.9449520455680003
+        },
+        {
+          "time": "2014-09-09T23:15:00.000Z",
+          "valueM3s": 2.7240806421504002
+        },
+        {
+          "time": "2014-09-09T23:30:00.000Z",
+          "valueM3s": 2.590991463168
+        },
+        {
+          "time": "2014-09-09T23:45:00.000Z",
+          "valueM3s": 2.590991463168
+        },
+        {
+          "time": "2014-09-10T00:00:00.000Z",
+          "valueM3s": 2.5258627160064
+        },
+        {
+          "time": "2014-09-10T00:15:00.000Z",
+          "valueM3s": 2.5258627160064
+        },
+        {
+          "time": "2014-09-10T00:30:00.000Z",
+          "valueM3s": 2.4012685910016
+        },
+        {
+          "time": "2014-09-10T00:45:00.000Z",
+          "valueM3s": 2.3446348978176
+        },
+        {
+          "time": "2014-09-10T01:00:00.000Z",
+          "valueM3s": 2.2285358267904
+        },
+        {
+          "time": "2014-09-10T01:15:00.000Z",
+          "valueM3s": 2.1719021336064
+        },
+        {
+          "time": "2014-09-10T01:30:00.000Z",
+          "valueM3s": 2.1181001250816
+        },
+        {
+          "time": "2014-09-10T01:45:00.000Z",
+          "valueM3s": 2.010496108032
+        },
+        {
+          "time": "2014-09-10T02:00:00.000Z",
+          "valueM3s": 1.9595257841664002
+        },
+        {
+          "time": "2014-09-10T02:15:00.000Z",
+          "valueM3s": 1.9595257841664002
+        },
+        {
+          "time": "2014-09-10T02:30:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T02:45:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T03:00:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T03:15:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T03:30:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T03:45:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T04:00:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T04:15:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T04:30:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T04:45:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T05:00:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T05:15:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T05:30:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T05:45:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T06:00:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T06:15:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T06:30:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T06:45:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T07:00:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T07:15:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T07:30:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T07:45:00.000Z",
+          "valueM3s": 1.7584761733632002
+        },
+        {
+          "time": "2014-09-10T08:00:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T08:15:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T08:30:00.000Z",
+          "valueM3s": 1.7584761733632002
+        },
+        {
+          "time": "2014-09-10T08:45:00.000Z",
+          "valueM3s": 1.7131692188160001
+        },
+        {
+          "time": "2014-09-10T09:00:00.000Z",
+          "valueM3s": 1.6650305796095999
+        },
+        {
+          "time": "2014-09-10T09:15:00.000Z",
+          "valueM3s": 1.6197236250624
+        },
+        {
+          "time": "2014-09-10T09:30:00.000Z",
+          "valueM3s": 1.5744166705152
+        },
+        {
+          "time": "2014-09-10T09:45:00.000Z",
+          "valueM3s": 1.529109715968
+        },
+        {
+          "time": "2014-09-10T10:00:00.000Z",
+          "valueM3s": 1.48663444608
+        },
+        {
+          "time": "2014-09-10T10:15:00.000Z",
+          "valueM3s": 1.401683906304
+        },
+        {
+          "time": "2014-09-10T10:30:00.000Z",
+          "valueM3s": 1.401683906304
+        },
+        {
+          "time": "2014-09-10T10:45:00.000Z",
+          "valueM3s": 1.2827531506176
+        },
+        {
+          "time": "2014-09-10T11:00:00.000Z",
+          "valueM3s": 1.2431095653888
+        },
+        {
+          "time": "2014-09-10T11:15:00.000Z",
+          "valueM3s": 1.1638223949312
+        },
+        {
+          "time": "2014-09-10T11:30:00.000Z",
+          "valueM3s": 1.1638223949312
+        },
+        {
+          "time": "2014-09-10T11:45:00.000Z",
+          "valueM3s": 1.090198593792
+        },
+        {
+          "time": "2014-09-10T12:00:00.000Z",
+          "valueM3s": 1.0533866932224
+        },
+        {
+          "time": "2014-09-10T12:15:00.000Z",
+          "valueM3s": 1.0533866932224
+        },
+        {
+          "time": "2014-09-10T12:30:00.000Z",
+          "valueM3s": 1.0165747926528
+        },
+        {
+          "time": "2014-09-10T12:45:00.000Z",
+          "valueM3s": 0.948614360832
+        },
+        {
+          "time": "2014-09-10T13:00:00.000Z",
+          "valueM3s": 0.9146341449215999
+        },
+        {
+          "time": "2014-09-10T13:15:00.000Z",
+          "valueM3s": 0.8834856136704
+        },
+        {
+          "time": "2014-09-10T13:30:00.000Z",
+          "valueM3s": 0.8523370824192
+        },
+        {
+          "time": "2014-09-10T13:45:00.000Z",
+          "valueM3s": 0.821188551168
+        },
+        {
+          "time": "2014-09-10T14:00:00.000Z",
+          "valueM3s": 0.7900400199168
+        },
+        {
+          "time": "2014-09-10T14:15:00.000Z",
+          "valueM3s": 0.7900400199168
+        },
+        {
+          "time": "2014-09-10T14:30:00.000Z",
+          "valueM3s": 0.7617231733248
+        },
+        {
+          "time": "2014-09-10T14:45:00.000Z",
+          "valueM3s": 0.7900400199168
+        },
+        {
+          "time": "2014-09-10T15:00:00.000Z",
+          "valueM3s": 0.821188551168
+        },
+        {
+          "time": "2014-09-10T15:15:00.000Z",
+          "valueM3s": 0.8523370824192
+        },
+        {
+          "time": "2014-09-10T15:30:00.000Z",
+          "valueM3s": 0.8523370824192
+        },
+        {
+          "time": "2014-09-10T15:45:00.000Z",
+          "valueM3s": 0.8834856136704
+        },
+        {
+          "time": "2014-09-10T16:00:00.000Z",
+          "valueM3s": 0.9825945767424001
+        },
+        {
+          "time": "2014-09-10T16:15:00.000Z",
+          "valueM3s": 1.090198593792
+        },
+        {
+          "time": "2014-09-10T16:30:00.000Z",
+          "valueM3s": 1.1270104943616
+        },
+        {
+          "time": "2014-09-10T16:45:00.000Z",
+          "valueM3s": 1.1638223949312
+        },
+        {
+          "time": "2014-09-10T17:00:00.000Z",
+          "valueM3s": 1.20346598016
+        },
+        {
+          "time": "2014-09-10T17:15:00.000Z",
+          "valueM3s": 1.2431095653888
+        },
+        {
+          "time": "2014-09-10T17:30:00.000Z",
+          "valueM3s": 1.2827531506176
+        },
+        {
+          "time": "2014-09-10T17:45:00.000Z",
+          "valueM3s": 1.2827531506176
+        },
+        {
+          "time": "2014-09-10T18:00:00.000Z",
+          "valueM3s": 1.3223967358464002
+        },
+        {
+          "time": "2014-09-10T18:15:00.000Z",
+          "valueM3s": 1.401683906304
+        },
+        {
+          "time": "2014-09-10T18:30:00.000Z",
+          "valueM3s": 1.5744166705152
+        },
+        {
+          "time": "2014-09-10T18:45:00.000Z",
+          "valueM3s": 1.7131692188160001
+        },
+        {
+          "time": "2014-09-10T19:00:00.000Z",
+          "valueM3s": 1.7584761733632002
+        },
+        {
+          "time": "2014-09-10T19:15:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T19:30:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T19:45:00.000Z",
+          "valueM3s": 1.8575851364351998
+        },
+        {
+          "time": "2014-09-10T20:00:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T20:15:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T20:30:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T20:45:00.000Z",
+          "valueM3s": 1.8094464972288
+        },
+        {
+          "time": "2014-09-10T21:00:00.000Z",
+          "valueM3s": 1.7584761733632002
+        },
+        {
+          "time": "2014-09-10T21:15:00.000Z",
+          "valueM3s": 1.7131692188160001
+        },
+        {
+          "time": "2014-09-10T21:30:00.000Z",
+          "valueM3s": 1.7131692188160001
+        },
+        {
+          "time": "2014-09-10T21:45:00.000Z",
+          "valueM3s": 1.6650305796095999
+        },
+        {
+          "time": "2014-09-10T22:00:00.000Z",
+          "valueM3s": 1.6650305796095999
+        },
+        {
+          "time": "2014-09-10T22:15:00.000Z",
+          "valueM3s": 1.6650305796095999
+        },
+        {
+          "time": "2014-09-10T22:30:00.000Z",
+          "valueM3s": 1.6197236250624
+        },
+        {
+          "time": "2014-09-10T22:45:00.000Z",
+          "valueM3s": 1.6197236250624
+        },
+        {
+          "time": "2014-09-10T23:00:00.000Z",
+          "valueM3s": 1.5744166705152
+        },
+        {
+          "time": "2014-09-10T23:15:00.000Z",
+          "valueM3s": 1.5744166705152
+        },
+        {
+          "time": "2014-09-10T23:30:00.000Z",
+          "valueM3s": 1.5744166705152
+        },
+        {
+          "time": "2014-09-10T23:45:00.000Z",
+          "valueM3s": 1.5744166705152
+        },
+        {
+          "time": "2014-09-11T00:00:00.000Z",
+          "valueM3s": 1.5744166705152
+        },
+        {
+          "time": "2014-09-11T00:15:00.000Z",
+          "valueM3s": 1.529109715968
+        },
+        {
+          "time": "2014-09-11T00:30:00.000Z",
+          "valueM3s": 1.529109715968
+        },
+        {
+          "time": "2014-09-11T00:45:00.000Z",
+          "valueM3s": 1.529109715968
+        },
+        {
+          "time": "2014-09-11T01:00:00.000Z",
+          "valueM3s": 1.48663444608
+        },
+        {
+          "time": "2014-09-11T01:15:00.000Z",
+          "valueM3s": 1.444159176192
+        },
+        {
+          "time": "2014-09-11T01:30:00.000Z",
+          "valueM3s": 1.444159176192
+        },
+        {
+          "time": "2014-09-11T01:45:00.000Z",
+          "valueM3s": 1.401683906304
+        },
+        {
+          "time": "2014-09-11T02:00:00.000Z",
+          "valueM3s": 1.401683906304
+        },
+        {
+          "time": "2014-09-11T02:15:00.000Z",
+          "valueM3s": 1.401683906304
+        },
+        {
+          "time": "2014-09-11T02:30:00.000Z",
+          "valueM3s": 1.444159176192
+        },
+        {
+          "time": "2014-09-11T02:45:00.000Z",
+          "valueM3s": 1.3223967358464002
+        },
+        {
+          "time": "2014-09-11T03:00:00.000Z",
+          "valueM3s": 1.2827531506176
+        },
+        {
+          "time": "2014-09-11T03:15:00.000Z",
+          "valueM3s": 1.2827531506176
+        },
+        {
+          "time": "2014-09-11T03:30:00.000Z",
+          "valueM3s": 1.2431095653888
+        },
+        {
+          "time": "2014-09-11T03:45:00.000Z",
+          "valueM3s": 1.3223967358464002
+        },
+        {
+          "time": "2014-09-11T04:00:00.000Z",
+          "valueM3s": 1.3223967358464002
+        },
+        {
+          "time": "2014-09-11T04:15:00.000Z",
+          "valueM3s": 1.2827531506176
+        },
+        {
+          "time": "2014-09-11T04:30:00.000Z",
+          "valueM3s": 1.2827531506176
+        },
+        {
+          "time": "2014-09-11T04:45:00.000Z",
+          "valueM3s": 1.2827531506176
+        },
+        {
+          "time": "2014-09-11T05:00:00.000Z",
+          "valueM3s": 1.2827531506176
+        },
+        {
+          "time": "2014-09-11T05:15:00.000Z",
+          "valueM3s": 1.3223967358464002
+        },
+        {
+          "time": "2014-09-11T05:30:00.000Z",
+          "valueM3s": 1.3620403210752001
+        },
+        {
+          "time": "2014-09-11T05:45:00.000Z",
+          "valueM3s": 1.3620403210752001
+        },
+        {
+          "time": "2014-09-11T06:00:00.000Z",
+          "valueM3s": 1.401683906304
+        },
+        {
+          "time": "2014-09-11T06:15:00.000Z",
+          "valueM3s": 1.444159176192
+        },
+        {
+          "time": "2014-09-11T06:30:00.000Z",
+          "valueM3s": 1.444159176192
+        },
+        {
+          "time": "2014-09-11T06:45:00.000Z",
+          "valueM3s": 1.444159176192
+        },
+        {
+          "time": "2014-09-11T07:00:00.000Z",
+          "valueM3s": 1.444159176192
+        }
+      ],
+      "predictedPeak": {
+        "time": "2014-09-08T21:45:00.000Z",
+        "valueM3s": 600.3171477504001
+      },
+      "peakErrorPercent": 76.66666666666669,
+      "peakTimingErrorMinutes": -540
+    }
+  ]
+}

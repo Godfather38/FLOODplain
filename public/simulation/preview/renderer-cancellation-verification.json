@@ -1,0 +1,12 @@
+{
+  "cancel": {
+    "view": "flat",
+    "model": false,
+    "layer": false
+  },
+  "missing": {
+    "frame": null,
+    "count": 0
+  },
+  "errors": []
+}

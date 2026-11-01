@@ -1,0 +1,46 @@
+{
+  "environment": "Chrome headless SwiftShader 390x844 reduced motion, prior5a630f4 renderer routed into same QA page",
+  "bundleBytes": 1563459,
+  "cold": {
+    "view": "3d",
+    "model": true,
+    "layer": true,
+    "readyMs": 2791.5,
+    "heap": 103421874,
+    "resources": [
+      {
+        "url": "http://127.0.0.1:8094/simulation/geographic-view.js",
+        "bytes": 1563459
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/current-sfincs-manifest.json",
+        "bytes": 1633
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/frozen-20261101-nwm13z-41327417204.json.gz",
+        "bytes": 4397911
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/frozen-cell-footprints.json.gz",
+        "bytes": 706718
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/frozen-terrain-display.json.gz",
+        "bytes": 2608856
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/frozen-voxel-terrain.json",
+        "bytes": 925
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/data/frozen-voxel-terrain.f32.gz",
+        "bytes": 8390814
+      },
+      {
+        "url": "http://127.0.0.1:8094/simulation/geographic-view.css",
+        "bytes": 1162
+      }
+    ]
+  },
+  "errors": []
+}

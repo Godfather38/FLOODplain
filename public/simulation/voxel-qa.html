@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Geographic voxel verification</title><link rel="icon" href="data:,"><link rel="stylesheet" href="../vendor/leaflet/leaflet.css"><style>html,body,#map{height:100%;margin:0}#map{position:relative}.qa{position:absolute;z-index:1000;bottom:64px;left:10px;background:#fff;padding:10px;border-radius:8px;font:13px system-ui;max-width:calc(100vw - 50px)}button{min-height:44px}input{width:160px}.legend{display:flex;gap:8px}.legend i{display:inline-block;width:15px;height:10px}#status{max-width:600px}</style></head><body><div id="map"></div><div class="qa"><strong>Avra Valley · frozen model</strong><div><button id="toggle">Return to 2D</button><input id="time" type="range" min="0" max="14" value="10"><span id="hour"></span></div><div class="legend"><span><i style="background:#a8def0"></i>0.1 m</span><span><i style="background:#58b5d6"></i>0.3 m</span><span><i style="background:#2585bc"></i>1 m</span><span><i style="background:#2453a5"></i>2 m</span><span><i style="background:#40317d"></i>4 m+</span></div><div id="status">Loading native terrain and water…</div></div><script src="../vendor/leaflet/leaflet.js"></script><script type="module">
+import {createGeographicView} from './geographic-view.js';
+const get=(p,options)=>fetch(p,options);async function gz(p){const r=await fetch(p);return new Response(r.body.pipeThrough(new DecompressionStream('gzip'))).json()}
+const manifest=await (await fetch('data/current-sfincs-manifest.json')).json(),run=await gz(manifest.artifact.path),footprints=await gz('data/frozen-cell-footprints.json.gz');
+const map=L.map('map').setView([32.4716,-111.3020],14);L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors'}).addTo(map);
+const routeLayer=L.layerGroup().addTo(map);
+// Same real geographic road coordinates used as context; no risk assertion in this QA harness.
+L.polyline([[32.4295,-111.3045],[32.43882,-111.30426],[32.4716,-111.3020]],{color:'#ec674d',weight:4}).addTo(routeLayer).bindPopup('Trico road context · QA, no risk rating');
+L.marker([32.4716,-111.3020],{icon:L.divIcon({html:'T',className:'qa-pin'})}).addTo(routeLayer).bindPopup('Santa Cruz at Trico');
+const status=document.querySelector('#status');
+try{const view=await createGeographicView({initialView:new URLSearchParams(location.search).get('view')||'flat',leaflet:map,loaded:{manifest,run},get,footprints,routeLayer,onError:m=>status.textContent=m,onSelectCell:i=>status.textContent='Selected native cell '+i});window.qa={view,map,run,footprints};await view.ready;
+async function update(){const f=run.frames[+document.querySelector('#time').value];await view.update(f);document.querySelector('#hour').textContent=new Date(f.time).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric'});}
+await update();status.textContent='Native terrain and zs loaded · tap a cell';document.querySelector('#time').oninput=update;document.querySelector('#toggle').onclick=()=>{view.active?view.hide():view.show();document.querySelector('#toggle').textContent=view.active?'Return to 2D':'Voxel water';};window.qaReady=true;
+}catch(e){status.textContent=e.stack;window.qaError=e.message;}
+</script></body></html>
+
+

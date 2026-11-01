@@ -1,0 +1,43 @@
+{
+  "notice": "SYNTHETIC CONTRACT CHECK ONLY; no real refined output or coverage",
+  "missing": {
+    "count": 2,
+    "info": {
+      "cellIndex": 1,
+      "nativeFaceId": "small-face",
+      "areaM2": 2500,
+      "resolutionM": 50,
+      "time": "2026-11-01T17:15:00Z",
+      "depthM": null,
+      "depthFt": null,
+      "nativeVolumeM3": null,
+      "surfaceM": null,
+      "datum": "NAVD88"
+    },
+    "model": false
+  },
+  "unavailable": "3D terrain unavailable for this native run; native mean-depth map remains available.",
+  "native3D": {
+    "view": "3d",
+    "info": {
+      "cellIndex": 0,
+      "nativeFaceId": "9007199254740997",
+      "areaM2": 10000,
+      "resolutionM": 100,
+      "time": "2026-11-01T17:15:00Z",
+      "depthM": 2,
+      "depthFt": 6.56167979,
+      "nativeVolumeM3": 20000,
+      "surfaceM": 601,
+      "datum": "NAVD88"
+    },
+    "water": 3,
+    "reads": [
+      "frame-0.json.gz",
+      "frame-1.json.gz",
+      "terrain.json.gz"
+    ]
+  },
+  "errors": [],
+  "legacyRequests": []
+}

@@ -1,3 +1,4 @@
+import {mountFloodLayers} from './simulation/map-layers.js';
 import {mountLiveMap} from './live-map.js';
 import { savedRoutes, toggleSavedRoute, checkAge } from './preferences.js?v=dev';
 import * as cfg from './config.js?v=dev';
@@ -701,10 +702,13 @@ function wire(w) {
 
 // ---------------- map ----------------
 const map = L.map('map', { zoomSnap: 0.25, zoomControl: false, attributionControl: true });
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
+const streetTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
 map.attributionControl.setPrefix(false);
 const layer = L.layerGroup().addTo(map);
-const liveMap=mountLiveMap(map,{refresh:()=>check()});
+const liveObservations=L.layerGroup().addTo(map);
+const rendererRoutes=L.layerGroup([layer,liveObservations]).addTo(map);
+mountFloodLayers(map,{routeLayer:rendererRoutes,streetTiles});
+const liveMap=mountLiveMap(map,{refresh:()=>check(),observations:liveObservations,embedded:true});
 let allBounds;
 const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
 function stretchAround(coords, lat, lon, m) {

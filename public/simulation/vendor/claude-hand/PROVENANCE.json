@@ -1,0 +1,27 @@
+{
+  "repository": "https://github.com/Godfather38/FLOODplain",
+  "commit": "6a0c56ac1bfabb925fad1527c65d9908518723d9",
+  "note": "Unmodified integration snapshot. Claude owns upstream implementation; no HAND branch merge or engine edits.",
+  "files": [
+    {
+      "file": "hand-inundation.js",
+      "sha256": "728888435350c8e8d225e2f210791f21e475c8f64802a315317086ed77653829"
+    },
+    {
+      "file": "data/hand/index.json",
+      "sha256": "4a5fc1d17c03df2e2d258045bdb6c62afcaaea2d4639fc408fbd8e0c5a6893fc"
+    },
+    {
+      "file": "data/hand/trico-marana-santa-cruz.json",
+      "sha256": "407b3d23e786a37c7184ef2e993f00cc8ea656c271953e6aea00555daf0803c5"
+    },
+    {
+      "file": "data/hand/sanders-santa-cruz.json",
+      "sha256": "851fc7056acabec1755376874672aefb054bd645a045ea377a81b2675c827c04"
+    },
+    {
+      "file": "data/hand/coverage.json",
+      "sha256": "32ecaf7d26570a6ae581da2a8da0c34e3e1e6dc694988627c8d45b31b72358a7"
+    }
+  ]
+}

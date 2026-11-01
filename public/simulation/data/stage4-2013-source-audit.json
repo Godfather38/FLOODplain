@@ -1,0 +1,4702 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-11-01T10:00:41.073354+00:00",
+  "comparedCellHours": 69696,
+  "mismatches": 0,
+  "originalFileHashesVerified": 96,
+  "cacheIdentity": "Full YYYYMMDDHH filenames, every validity time checked against July 2013; no 2014 cache collision",
+  "conversion": "Raw parameter 61 accumulation kg/m2, exactly one hour; numerical value is mm and hourly mean mm/h",
+  "nearestPointChecks": {
+    "TUS": {
+      "lat": 32.107156502397736,
+      "lon": 249.08419224700503,
+      "value": 0.0,
+      "distance": 2.548972740574831,
+      "index": 253603
+    },
+    "RYN": {
+      "lat": 32.15490447936501,
+      "lon": 248.8275469759539,
+      "value": 0.0,
+      "distance": 1.4262701566780582,
+      "index": 255839
+    },
+    "Cortaro": {
+      "lat": 32.33754287020421,
+      "lon": 248.88808058538882,
+      "value": 0.0,
+      "distance": 2.101086061041217,
+      "index": 261446
+    },
+    "Trico": {
+      "lat": 32.462566428501766,
+      "lon": 248.70388651339752,
+      "value": 0.0,
+      "distance": 1.143063715889523,
+      "index": 265926
+    }
+  },
+  "rawMetadataByHour": [
+    {
+      "end": "2013-07-19T08:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 700,
+        "validityDate": 20130719,
+        "validityTime": 800,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T09:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 800,
+        "validityDate": 20130719,
+        "validityTime": 900,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T10:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 900,
+        "validityDate": 20130719,
+        "validityTime": 1000,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.25,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T11:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 1000,
+        "validityDate": 20130719,
+        "validityTime": 1100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T12:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 1100,
+        "validityDate": 20130719,
+        "validityTime": 1200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T13:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 1200,
+        "validityDate": 20130719,
+        "validityTime": 1300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T14:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 1300,
+        "validityDate": 20130719,
+        "validityTime": 1400,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T15:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 1400,
+        "validityDate": 20130719,
+        "validityTime": 1500,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T16:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 1500,
+        "validityDate": 20130719,
+        "validityTime": 1600,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T17:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 1600,
+        "validityDate": 20130719,
+        "validityTime": 1700,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T18:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 1700,
+        "validityDate": 20130719,
+        "validityTime": 1800,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T19:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 1800,
+        "validityDate": 20130719,
+        "validityTime": 1900,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T20:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 1900,
+        "validityDate": 20130719,
+        "validityTime": 2000,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T21:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 2000,
+        "validityDate": 20130719,
+        "validityTime": 2100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T22:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 2100,
+        "validityDate": 20130719,
+        "validityTime": 2200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-19T23:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 2200,
+        "validityDate": 20130719,
+        "validityTime": 2300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T00:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130719,
+        "dataTime": 2300,
+        "validityDate": 20130720,
+        "validityTime": 0,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T01:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 0,
+        "validityDate": 20130720,
+        "validityTime": 100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T02:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 100,
+        "validityDate": 20130720,
+        "validityTime": 200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T03:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 200,
+        "validityDate": 20130720,
+        "validityTime": 300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T04:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 300,
+        "validityDate": 20130720,
+        "validityTime": 400,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T05:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 400,
+        "validityDate": 20130720,
+        "validityTime": 500,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T06:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 500,
+        "validityDate": 20130720,
+        "validityTime": 600,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T07:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 600,
+        "validityDate": 20130720,
+        "validityTime": 700,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T08:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 700,
+        "validityDate": 20130720,
+        "validityTime": 800,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T09:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 800,
+        "validityDate": 20130720,
+        "validityTime": 900,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T10:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 900,
+        "validityDate": 20130720,
+        "validityTime": 1000,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T11:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 1000,
+        "validityDate": 20130720,
+        "validityTime": 1100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T12:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 1100,
+        "validityDate": 20130720,
+        "validityTime": 1200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T13:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 1200,
+        "validityDate": 20130720,
+        "validityTime": 1300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T14:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 1300,
+        "validityDate": 20130720,
+        "validityTime": 1400,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T15:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 1400,
+        "validityDate": 20130720,
+        "validityTime": 1500,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T16:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 1500,
+        "validityDate": 20130720,
+        "validityTime": 1600,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T17:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 1600,
+        "validityDate": 20130720,
+        "validityTime": 1700,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T18:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 1700,
+        "validityDate": 20130720,
+        "validityTime": 1800,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T19:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 1800,
+        "validityDate": 20130720,
+        "validityTime": 1900,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T20:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 1900,
+        "validityDate": 20130720,
+        "validityTime": 2000,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T21:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 2000,
+        "validityDate": 20130720,
+        "validityTime": 2100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.13,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-20T22:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 2100,
+        "validityDate": 20130720,
+        "validityTime": 2200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 5.75,
+        "RYN": 7.5,
+        "Cortaro": 0.0,
+        "Trico": 0.25
+      }
+    },
+    {
+      "end": "2013-07-20T23:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 2200,
+        "validityDate": 20130720,
+        "validityTime": 2300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 3.0,
+        "RYN": 51.25,
+        "Cortaro": 0.63,
+        "Trico": 0.25
+      }
+    },
+    {
+      "end": "2013-07-21T00:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130720,
+        "dataTime": 2300,
+        "validityDate": 20130721,
+        "validityTime": 0,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.75,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T01:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 0,
+        "validityDate": 20130721,
+        "validityTime": 100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T02:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 100,
+        "validityDate": 20130721,
+        "validityTime": 200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T03:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 200,
+        "validityDate": 20130721,
+        "validityTime": 300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T04:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 300,
+        "validityDate": 20130721,
+        "validityTime": 400,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T05:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 400,
+        "validityDate": 20130721,
+        "validityTime": 500,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T06:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 500,
+        "validityDate": 20130721,
+        "validityTime": 600,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T07:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 600,
+        "validityDate": 20130721,
+        "validityTime": 700,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T08:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 700,
+        "validityDate": 20130721,
+        "validityTime": 800,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T09:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 800,
+        "validityDate": 20130721,
+        "validityTime": 900,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T10:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 900,
+        "validityDate": 20130721,
+        "validityTime": 1000,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T11:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 1000,
+        "validityDate": 20130721,
+        "validityTime": 1100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T12:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 1100,
+        "validityDate": 20130721,
+        "validityTime": 1200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T13:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 1200,
+        "validityDate": 20130721,
+        "validityTime": 1300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T14:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 1300,
+        "validityDate": 20130721,
+        "validityTime": 1400,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T15:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 1400,
+        "validityDate": 20130721,
+        "validityTime": 1500,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T16:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 1500,
+        "validityDate": 20130721,
+        "validityTime": 1600,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T17:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 1600,
+        "validityDate": 20130721,
+        "validityTime": 1700,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T18:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 1700,
+        "validityDate": 20130721,
+        "validityTime": 1800,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T19:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 1800,
+        "validityDate": 20130721,
+        "validityTime": 1900,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T20:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 1900,
+        "validityDate": 20130721,
+        "validityTime": 2000,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T21:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 2000,
+        "validityDate": 20130721,
+        "validityTime": 2100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-21T22:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 2100,
+        "validityDate": 20130721,
+        "validityTime": 2200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.88
+      }
+    },
+    {
+      "end": "2013-07-21T23:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 2200,
+        "validityDate": 20130721,
+        "validityTime": 2300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T00:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130721,
+        "dataTime": 2300,
+        "validityDate": 20130722,
+        "validityTime": 0,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T01:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 0,
+        "validityDate": 20130722,
+        "validityTime": 100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T02:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 100,
+        "validityDate": 20130722,
+        "validityTime": 200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T03:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 200,
+        "validityDate": 20130722,
+        "validityTime": 300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T04:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 300,
+        "validityDate": 20130722,
+        "validityTime": 400,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T05:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 400,
+        "validityDate": 20130722,
+        "validityTime": 500,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T06:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 500,
+        "validityDate": 20130722,
+        "validityTime": 600,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T07:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 600,
+        "validityDate": 20130722,
+        "validityTime": 700,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T08:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 700,
+        "validityDate": 20130722,
+        "validityTime": 800,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T09:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 800,
+        "validityDate": 20130722,
+        "validityTime": 900,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T10:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 900,
+        "validityDate": 20130722,
+        "validityTime": 1000,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T11:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 1000,
+        "validityDate": 20130722,
+        "validityTime": 1100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T12:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 1100,
+        "validityDate": 20130722,
+        "validityTime": 1200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T13:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 1200,
+        "validityDate": 20130722,
+        "validityTime": 1300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T14:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 1300,
+        "validityDate": 20130722,
+        "validityTime": 1400,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T15:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 1400,
+        "validityDate": 20130722,
+        "validityTime": 1500,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T16:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 1500,
+        "validityDate": 20130722,
+        "validityTime": 1600,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T17:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 1600,
+        "validityDate": 20130722,
+        "validityTime": 1700,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T18:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 1700,
+        "validityDate": 20130722,
+        "validityTime": 1800,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T19:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 1800,
+        "validityDate": 20130722,
+        "validityTime": 1900,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T20:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 1900,
+        "validityDate": 20130722,
+        "validityTime": 2000,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T21:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 2000,
+        "validityDate": 20130722,
+        "validityTime": 2100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T22:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 2100,
+        "validityDate": 20130722,
+        "validityTime": 2200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-22T23:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 2200,
+        "validityDate": 20130722,
+        "validityTime": 2300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-23T00:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130722,
+        "dataTime": 2300,
+        "validityDate": 20130723,
+        "validityTime": 0,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-23T01:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130723,
+        "dataTime": 0,
+        "validityDate": 20130723,
+        "validityTime": 100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-23T02:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130723,
+        "dataTime": 100,
+        "validityDate": 20130723,
+        "validityTime": 200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-23T03:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130723,
+        "dataTime": 200,
+        "validityDate": 20130723,
+        "validityTime": 300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-23T04:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130723,
+        "dataTime": 300,
+        "validityDate": 20130723,
+        "validityTime": 400,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-23T05:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130723,
+        "dataTime": 400,
+        "validityDate": 20130723,
+        "validityTime": 500,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-23T06:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130723,
+        "dataTime": 500,
+        "validityDate": 20130723,
+        "validityTime": 600,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    },
+    {
+      "end": "2013-07-23T07:00:00+00:00",
+      "metadata": {
+        "edition": 1,
+        "dataDate": 20130723,
+        "dataTime": 600,
+        "validityDate": 20130723,
+        "validityTime": 700,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "units": "kg m**-2",
+        "indicatorOfParameter": 61,
+        "table2Version": 2,
+        "centre": "kwbc",
+        "subCentre": 4,
+        "gridType": "polar_stereographic",
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763,
+        "scanningMode": 64,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "md5GridSection": "e891df871426950c63dff0d421695285"
+      },
+      "pointDepthMm": {
+        "TUS": 0.0,
+        "RYN": 0.0,
+        "Cortaro": 0.0,
+        "Trico": 0.0
+      }
+    }
+  ],
+  "publicGaugeComparisons": [
+    {
+      "station": "TUS",
+      "localDate": "2013-07-19",
+      "timezone": "America/Phoenix",
+      "url": "https://mesonet.agron.iastate.edu/api/1/daily.json?station=TUS&network=AZ_ASOS&date=2013-07-19",
+      "responseSha256": "28ccbca4f5627269779a7a254434d1ddd5c3612f7871e7397716d2da559e8a26",
+      "rawResponse": {
+        "schema": {
+          "fields": [
+            {
+              "name": "index",
+              "type": "integer"
+            },
+            {
+              "name": "station",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "date",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "max_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "min_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "precip",
+              "type": "number"
+            },
+            {
+              "name": "max_gust",
+              "type": "number"
+            },
+            {
+              "name": "snow",
+              "type": "string"
+            },
+            {
+              "name": "snowd",
+              "type": "string"
+            },
+            {
+              "name": "min_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_feel",
+              "type": "number"
+            },
+            {
+              "name": "avg_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_drct",
+              "type": "number"
+            },
+            {
+              "name": "precip_est",
+              "type": "boolean"
+            },
+            {
+              "name": "tmpf_est",
+              "type": "boolean"
+            },
+            {
+              "name": "max_gust_localts",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "temp_hour",
+              "type": "string"
+            },
+            {
+              "name": "avg_sknt",
+              "type": "number"
+            },
+            {
+              "name": "vector_avg_drct",
+              "type": "number"
+            },
+            {
+              "name": "min_rstage",
+              "type": "string"
+            },
+            {
+              "name": "max_rstage",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "extDtype": "str"
+            }
+          ],
+          "primaryKey": [
+            "index"
+          ],
+          "pandas_version": "1.4.0"
+        },
+        "data": [
+          {
+            "index": 0,
+            "station": "TUS",
+            "date": "2013-07-19",
+            "max_tmpf": 92.0,
+            "min_tmpf": 80.0,
+            "precip": 0.0001,
+            "max_gust": 17.379524,
+            "snow": null,
+            "snowd": null,
+            "min_rh": 32.922363,
+            "max_rh": 56.2428,
+            "max_dwpf": 64.94,
+            "min_dwpf": 57.2,
+            "min_feel": 80.7273,
+            "avg_feel": 85.7134399414,
+            "max_feel": 91.04,
+            "max_drct": 350.0,
+            "precip_est": false,
+            "tmpf_est": false,
+            "max_gust_localts": "2013-07-19T01:42:00Z",
+            "temp_hour": null,
+            "avg_sknt": 5.6385207,
+            "vector_avg_drct": 135.50032,
+            "min_rstage": null,
+            "max_rstage": null,
+            "id": "TUS",
+            "name": "TUCSON INTL AIRPORT"
+          }
+        ]
+      },
+      "stage4NearestDailyMm": 0.25,
+      "stage4Sample": {
+        "lat": 32.107156502397736,
+        "lon": 249.08419224700503,
+        "value": 0.0,
+        "distance": 2.548972740574831,
+        "index": 253603
+      },
+      "gaugeUnit": "inch",
+      "gaugeValueKind": "trace",
+      "gaugeMm": null
+    },
+    {
+      "station": "TUS",
+      "localDate": "2013-07-20",
+      "timezone": "America/Phoenix",
+      "url": "https://mesonet.agron.iastate.edu/api/1/daily.json?station=TUS&network=AZ_ASOS&date=2013-07-20",
+      "responseSha256": "f1f36b82638999ab04c2735efcfe2fcab5feea197f0a5a833fb4e22cf78fe3b1",
+      "rawResponse": {
+        "schema": {
+          "fields": [
+            {
+              "name": "index",
+              "type": "integer"
+            },
+            {
+              "name": "station",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "date",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "max_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "min_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "precip",
+              "type": "number"
+            },
+            {
+              "name": "max_gust",
+              "type": "number"
+            },
+            {
+              "name": "snow",
+              "type": "string"
+            },
+            {
+              "name": "snowd",
+              "type": "string"
+            },
+            {
+              "name": "min_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_feel",
+              "type": "number"
+            },
+            {
+              "name": "avg_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_drct",
+              "type": "number"
+            },
+            {
+              "name": "precip_est",
+              "type": "boolean"
+            },
+            {
+              "name": "tmpf_est",
+              "type": "boolean"
+            },
+            {
+              "name": "max_gust_localts",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "temp_hour",
+              "type": "string"
+            },
+            {
+              "name": "avg_sknt",
+              "type": "number"
+            },
+            {
+              "name": "vector_avg_drct",
+              "type": "number"
+            },
+            {
+              "name": "min_rstage",
+              "type": "string"
+            },
+            {
+              "name": "max_rstage",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "extDtype": "str"
+            }
+          ],
+          "primaryKey": [
+            "index"
+          ],
+          "pandas_version": "1.4.0"
+        },
+        "data": [
+          {
+            "index": 0,
+            "station": "TUS",
+            "date": "2013-07-20",
+            "max_tmpf": 94.0,
+            "min_tmpf": 71.0,
+            "precip": 0.81,
+            "max_gust": 47.0,
+            "snow": null,
+            "snowd": null,
+            "min_rh": 36.0058,
+            "max_rh": 93.4658,
+            "max_dwpf": 71.6,
+            "min_dwpf": 62.6,
+            "min_feel": 72.258896,
+            "avg_feel": 82.017539978,
+            "max_feel": 95.1908,
+            "max_drct": 180.0,
+            "precip_est": false,
+            "tmpf_est": false,
+            "max_gust_localts": "2013-07-20T14:58:00Z",
+            "temp_hour": null,
+            "avg_sknt": 4.840195,
+            "vector_avg_drct": 306.42984,
+            "min_rstage": null,
+            "max_rstage": null,
+            "id": "TUS",
+            "name": "TUCSON INTL AIRPORT"
+          }
+        ]
+      },
+      "stage4NearestDailyMm": 8.75,
+      "stage4Sample": {
+        "lat": 32.107156502397736,
+        "lon": 249.08419224700503,
+        "value": 0.0,
+        "distance": 2.548972740574831,
+        "index": 253603
+      },
+      "gaugeUnit": "inch",
+      "gaugeValueKind": "numeric_summary",
+      "gaugeMm": 20.574
+    },
+    {
+      "station": "TUS",
+      "localDate": "2013-07-21",
+      "timezone": "America/Phoenix",
+      "url": "https://mesonet.agron.iastate.edu/api/1/daily.json?station=TUS&network=AZ_ASOS&date=2013-07-21",
+      "responseSha256": "640e24c40f7734663ba43dfae740179de4beafb5d03daf3c461d1c887a74cfe9",
+      "rawResponse": {
+        "schema": {
+          "fields": [
+            {
+              "name": "index",
+              "type": "integer"
+            },
+            {
+              "name": "station",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "date",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "max_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "min_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "precip",
+              "type": "number"
+            },
+            {
+              "name": "max_gust",
+              "type": "number"
+            },
+            {
+              "name": "snow",
+              "type": "string"
+            },
+            {
+              "name": "snowd",
+              "type": "string"
+            },
+            {
+              "name": "min_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_feel",
+              "type": "number"
+            },
+            {
+              "name": "avg_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_drct",
+              "type": "number"
+            },
+            {
+              "name": "precip_est",
+              "type": "boolean"
+            },
+            {
+              "name": "tmpf_est",
+              "type": "boolean"
+            },
+            {
+              "name": "max_gust_localts",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "temp_hour",
+              "type": "string"
+            },
+            {
+              "name": "avg_sknt",
+              "type": "number"
+            },
+            {
+              "name": "vector_avg_drct",
+              "type": "number"
+            },
+            {
+              "name": "min_rstage",
+              "type": "string"
+            },
+            {
+              "name": "max_rstage",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "extDtype": "str"
+            }
+          ],
+          "primaryKey": [
+            "index"
+          ],
+          "pandas_version": "1.4.0"
+        },
+        "data": [
+          {
+            "index": 0,
+            "station": "TUS",
+            "date": "2013-07-21",
+            "max_tmpf": 92.0,
+            "min_tmpf": 75.0,
+            "precip": 0.0001,
+            "max_gust": 20.85543,
+            "snow": null,
+            "snowd": null,
+            "min_rh": 37.988888,
+            "max_rh": 81.84829,
+            "max_dwpf": 70.0,
+            "min_dwpf": 60.08,
+            "min_feel": 75.92,
+            "avg_feel": 83.478805542,
+            "max_feel": 91.58148,
+            "max_drct": 270.0,
+            "precip_est": false,
+            "tmpf_est": false,
+            "max_gust_localts": "2013-07-21T15:59:00Z",
+            "temp_hour": null,
+            "avg_sknt": 6.893929,
+            "vector_avg_drct": 284.3702,
+            "min_rstage": null,
+            "max_rstage": null,
+            "id": "TUS",
+            "name": "TUCSON INTL AIRPORT"
+          }
+        ]
+      },
+      "stage4NearestDailyMm": 0.0,
+      "stage4Sample": {
+        "lat": 32.107156502397736,
+        "lon": 249.08419224700503,
+        "value": 0.0,
+        "distance": 2.548972740574831,
+        "index": 253603
+      },
+      "gaugeUnit": "inch",
+      "gaugeValueKind": "trace",
+      "gaugeMm": null
+    },
+    {
+      "station": "TUS",
+      "localDate": "2013-07-22",
+      "timezone": "America/Phoenix",
+      "url": "https://mesonet.agron.iastate.edu/api/1/daily.json?station=TUS&network=AZ_ASOS&date=2013-07-22",
+      "responseSha256": "0845522dcd9996b96e23ad4a2ca82af308bfd556c6e30ccefa5506b4a6a450d5",
+      "rawResponse": {
+        "schema": {
+          "fields": [
+            {
+              "name": "index",
+              "type": "integer"
+            },
+            {
+              "name": "station",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "date",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "max_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "min_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "precip",
+              "type": "number"
+            },
+            {
+              "name": "max_gust",
+              "type": "number"
+            },
+            {
+              "name": "snow",
+              "type": "string"
+            },
+            {
+              "name": "snowd",
+              "type": "string"
+            },
+            {
+              "name": "min_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_feel",
+              "type": "number"
+            },
+            {
+              "name": "avg_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_drct",
+              "type": "number"
+            },
+            {
+              "name": "precip_est",
+              "type": "boolean"
+            },
+            {
+              "name": "tmpf_est",
+              "type": "boolean"
+            },
+            {
+              "name": "max_gust_localts",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "temp_hour",
+              "type": "string"
+            },
+            {
+              "name": "avg_sknt",
+              "type": "number"
+            },
+            {
+              "name": "vector_avg_drct",
+              "type": "number"
+            },
+            {
+              "name": "min_rstage",
+              "type": "string"
+            },
+            {
+              "name": "max_rstage",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "extDtype": "str"
+            }
+          ],
+          "primaryKey": [
+            "index"
+          ],
+          "pandas_version": "1.4.0"
+        },
+        "data": [
+          {
+            "index": 0,
+            "station": "TUS",
+            "date": "2013-07-22",
+            "max_tmpf": 95.0,
+            "min_tmpf": 73.4,
+            "precip": 0.0,
+            "max_gust": 23.462358,
+            "snow": null,
+            "snowd": null,
+            "min_rh": 33.362804,
+            "max_rh": 78.72303,
+            "max_dwpf": 68.0,
+            "min_dwpf": 60.0,
+            "min_feel": 73.94,
+            "avg_feel": 84.0874252319,
+            "max_feel": 93.02,
+            "max_drct": 310.0,
+            "precip_est": false,
+            "tmpf_est": false,
+            "max_gust_localts": "2013-07-22T15:51:00Z",
+            "temp_hour": null,
+            "avg_sknt": 5.7536635,
+            "vector_avg_drct": 289.26276,
+            "min_rstage": null,
+            "max_rstage": null,
+            "id": "TUS",
+            "name": "TUCSON INTL AIRPORT"
+          }
+        ]
+      },
+      "stage4NearestDailyMm": 0.0,
+      "stage4Sample": {
+        "lat": 32.107156502397736,
+        "lon": 249.08419224700503,
+        "value": 0.0,
+        "distance": 2.548972740574831,
+        "index": 253603
+      },
+      "gaugeUnit": "inch",
+      "gaugeValueKind": "numeric_summary",
+      "gaugeMm": 0.0
+    },
+    {
+      "station": "RYN",
+      "localDate": "2013-07-19",
+      "timezone": "America/Phoenix",
+      "url": "https://mesonet.agron.iastate.edu/api/1/daily.json?station=RYN&network=AZ_ASOS&date=2013-07-19",
+      "responseSha256": "8ac2077b0b2560b298599e6d0556d61fcaa815325db2485a2dd55656edbf3e37",
+      "rawResponse": {
+        "schema": {
+          "fields": [
+            {
+              "name": "index",
+              "type": "integer"
+            },
+            {
+              "name": "station",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "date",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "max_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "min_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "precip",
+              "type": "number"
+            },
+            {
+              "name": "max_gust",
+              "type": "number"
+            },
+            {
+              "name": "snow",
+              "type": "string"
+            },
+            {
+              "name": "snowd",
+              "type": "string"
+            },
+            {
+              "name": "min_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_feel",
+              "type": "number"
+            },
+            {
+              "name": "avg_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_drct",
+              "type": "number"
+            },
+            {
+              "name": "precip_est",
+              "type": "boolean"
+            },
+            {
+              "name": "tmpf_est",
+              "type": "boolean"
+            },
+            {
+              "name": "max_gust_localts",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "temp_hour",
+              "type": "string"
+            },
+            {
+              "name": "avg_sknt",
+              "type": "number"
+            },
+            {
+              "name": "vector_avg_drct",
+              "type": "number"
+            },
+            {
+              "name": "min_rstage",
+              "type": "string"
+            },
+            {
+              "name": "max_rstage",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "extDtype": "str"
+            }
+          ],
+          "primaryKey": [
+            "index"
+          ],
+          "pandas_version": "1.4.0"
+        },
+        "data": [
+          {
+            "index": 0,
+            "station": "RYN",
+            "date": "2013-07-19",
+            "max_tmpf": 91.4,
+            "min_tmpf": 78.8,
+            "precip": 0.0,
+            "max_gust": 18.0,
+            "snow": null,
+            "snowd": null,
+            "min_rh": 31.720789,
+            "max_rh": 54.051514,
+            "max_dwpf": 64.4,
+            "min_dwpf": 57.2,
+            "min_feel": 78.8,
+            "avg_feel": 85.109588623,
+            "max_feel": 90.0592,
+            "max_drct": 220.0,
+            "precip_est": false,
+            "tmpf_est": false,
+            "max_gust_localts": "2013-07-19T14:50:00Z",
+            "temp_hour": null,
+            "avg_sknt": 6.6873426,
+            "vector_avg_drct": 105.69635,
+            "min_rstage": null,
+            "max_rstage": null,
+            "id": "RYN",
+            "name": "TUCSON/RYAN FLD"
+          }
+        ]
+      },
+      "stage4NearestDailyMm": 0.0,
+      "stage4Sample": {
+        "lat": 32.15490447936501,
+        "lon": 248.8275469759539,
+        "value": 0.0,
+        "distance": 1.4262701566780582,
+        "index": 255839
+      },
+      "gaugeUnit": "inch",
+      "gaugeValueKind": "numeric_summary",
+      "gaugeMm": 0.0,
+      "comparisonCaveat": "Daily zero is not independently verified dry; inspect raw METAR precipitation availability before interpreting."
+    },
+    {
+      "station": "RYN",
+      "localDate": "2013-07-20",
+      "timezone": "America/Phoenix",
+      "url": "https://mesonet.agron.iastate.edu/api/1/daily.json?station=RYN&network=AZ_ASOS&date=2013-07-20",
+      "responseSha256": "c87c087071f00631bc401e8795efe14e8e4f987cf61d1853358e79f77e6fab70",
+      "rawResponse": {
+        "schema": {
+          "fields": [
+            {
+              "name": "index",
+              "type": "integer"
+            },
+            {
+              "name": "station",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "date",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "max_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "min_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "precip",
+              "type": "number"
+            },
+            {
+              "name": "max_gust",
+              "type": "number"
+            },
+            {
+              "name": "snow",
+              "type": "string"
+            },
+            {
+              "name": "snowd",
+              "type": "string"
+            },
+            {
+              "name": "min_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_feel",
+              "type": "number"
+            },
+            {
+              "name": "avg_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_drct",
+              "type": "number"
+            },
+            {
+              "name": "precip_est",
+              "type": "boolean"
+            },
+            {
+              "name": "tmpf_est",
+              "type": "boolean"
+            },
+            {
+              "name": "max_gust_localts",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "temp_hour",
+              "type": "string"
+            },
+            {
+              "name": "avg_sknt",
+              "type": "number"
+            },
+            {
+              "name": "vector_avg_drct",
+              "type": "number"
+            },
+            {
+              "name": "min_rstage",
+              "type": "string"
+            },
+            {
+              "name": "max_rstage",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "extDtype": "str"
+            }
+          ],
+          "primaryKey": [
+            "index"
+          ],
+          "pandas_version": "1.4.0"
+        },
+        "data": [
+          {
+            "index": 0,
+            "station": "RYN",
+            "date": "2013-07-20",
+            "max_tmpf": 91.4,
+            "min_tmpf": 73.4,
+            "precip": 0.0,
+            "max_gust": 15.0,
+            "snow": null,
+            "snowd": null,
+            "min_rh": 40.958687,
+            "max_rh": 94.10022,
+            "max_dwpf": 71.6,
+            "min_dwpf": 64.4,
+            "min_feel": 74.86271,
+            "avg_feel": 79.9960632324,
+            "max_feel": 93.1853,
+            "max_drct": 90.0,
+            "precip_est": false,
+            "tmpf_est": false,
+            "max_gust_localts": "2013-07-20T11:48:00Z",
+            "temp_hour": null,
+            "avg_sknt": 4.8864775,
+            "vector_avg_drct": 297.9995,
+            "min_rstage": null,
+            "max_rstage": null,
+            "id": "RYN",
+            "name": "TUCSON/RYAN FLD"
+          }
+        ]
+      },
+      "stage4NearestDailyMm": 59.63,
+      "stage4Sample": {
+        "lat": 32.15490447936501,
+        "lon": 248.8275469759539,
+        "value": 0.0,
+        "distance": 1.4262701566780582,
+        "index": 255839
+      },
+      "gaugeUnit": "inch",
+      "gaugeValueKind": "numeric_summary",
+      "gaugeMm": 0.0,
+      "comparisonCaveat": "Daily zero is not independently verified dry; inspect raw METAR precipitation availability before interpreting."
+    },
+    {
+      "station": "RYN",
+      "localDate": "2013-07-21",
+      "timezone": "America/Phoenix",
+      "url": "https://mesonet.agron.iastate.edu/api/1/daily.json?station=RYN&network=AZ_ASOS&date=2013-07-21",
+      "responseSha256": "88ff275b5010d3feee31565fe8653a65f8ae7d538dde608e10a74d3c55caa941",
+      "rawResponse": {
+        "schema": {
+          "fields": [
+            {
+              "name": "index",
+              "type": "integer"
+            },
+            {
+              "name": "station",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "date",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "max_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "min_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "precip",
+              "type": "number"
+            },
+            {
+              "name": "max_gust",
+              "type": "number"
+            },
+            {
+              "name": "snow",
+              "type": "string"
+            },
+            {
+              "name": "snowd",
+              "type": "string"
+            },
+            {
+              "name": "min_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_feel",
+              "type": "number"
+            },
+            {
+              "name": "avg_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_drct",
+              "type": "number"
+            },
+            {
+              "name": "precip_est",
+              "type": "boolean"
+            },
+            {
+              "name": "tmpf_est",
+              "type": "boolean"
+            },
+            {
+              "name": "max_gust_localts",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "temp_hour",
+              "type": "string"
+            },
+            {
+              "name": "avg_sknt",
+              "type": "number"
+            },
+            {
+              "name": "vector_avg_drct",
+              "type": "number"
+            },
+            {
+              "name": "min_rstage",
+              "type": "string"
+            },
+            {
+              "name": "max_rstage",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "extDtype": "str"
+            }
+          ],
+          "primaryKey": [
+            "index"
+          ],
+          "pandas_version": "1.4.0"
+        },
+        "data": [
+          {
+            "index": 0,
+            "station": "RYN",
+            "date": "2013-07-21",
+            "max_tmpf": 89.6,
+            "min_tmpf": 75.2,
+            "precip": 0.0,
+            "max_gust": 16.0,
+            "snow": null,
+            "snowd": null,
+            "min_rh": 40.686,
+            "max_rh": 88.5888,
+            "max_dwpf": 71.6,
+            "min_dwpf": 62.6,
+            "min_feel": 76.58367,
+            "avg_feel": 83.4010238647,
+            "max_feel": 90.321144,
+            "max_drct": 290.0,
+            "precip_est": false,
+            "tmpf_est": false,
+            "max_gust_localts": "2013-07-21T16:56:00Z",
+            "temp_hour": null,
+            "avg_sknt": 4.9463987,
+            "vector_avg_drct": 303.65366,
+            "min_rstage": null,
+            "max_rstage": null,
+            "id": "RYN",
+            "name": "TUCSON/RYAN FLD"
+          }
+        ]
+      },
+      "stage4NearestDailyMm": 0.0,
+      "stage4Sample": {
+        "lat": 32.15490447936501,
+        "lon": 248.8275469759539,
+        "value": 0.0,
+        "distance": 1.4262701566780582,
+        "index": 255839
+      },
+      "gaugeUnit": "inch",
+      "gaugeValueKind": "numeric_summary",
+      "gaugeMm": 0.0,
+      "comparisonCaveat": "Daily zero is not independently verified dry; inspect raw METAR precipitation availability before interpreting."
+    },
+    {
+      "station": "RYN",
+      "localDate": "2013-07-22",
+      "timezone": "America/Phoenix",
+      "url": "https://mesonet.agron.iastate.edu/api/1/daily.json?station=RYN&network=AZ_ASOS&date=2013-07-22",
+      "responseSha256": "096719d55de6598f320e54ab7917121929b2e4b98741cea23d87c32d059b33a2",
+      "rawResponse": {
+        "schema": {
+          "fields": [
+            {
+              "name": "index",
+              "type": "integer"
+            },
+            {
+              "name": "station",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "date",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "max_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "min_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "precip",
+              "type": "number"
+            },
+            {
+              "name": "max_gust",
+              "type": "number"
+            },
+            {
+              "name": "snow",
+              "type": "string"
+            },
+            {
+              "name": "snowd",
+              "type": "string"
+            },
+            {
+              "name": "min_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_feel",
+              "type": "number"
+            },
+            {
+              "name": "avg_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_drct",
+              "type": "number"
+            },
+            {
+              "name": "precip_est",
+              "type": "boolean"
+            },
+            {
+              "name": "tmpf_est",
+              "type": "boolean"
+            },
+            {
+              "name": "max_gust_localts",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "temp_hour",
+              "type": "string"
+            },
+            {
+              "name": "avg_sknt",
+              "type": "number"
+            },
+            {
+              "name": "vector_avg_drct",
+              "type": "number"
+            },
+            {
+              "name": "min_rstage",
+              "type": "string"
+            },
+            {
+              "name": "max_rstage",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "extDtype": "str"
+            }
+          ],
+          "primaryKey": [
+            "index"
+          ],
+          "pandas_version": "1.4.0"
+        },
+        "data": [
+          {
+            "index": 0,
+            "station": "RYN",
+            "date": "2013-07-22",
+            "max_tmpf": 87.8,
+            "min_tmpf": 73.4,
+            "precip": 0.0,
+            "max_gust": 21.0,
+            "snow": null,
+            "snowd": null,
+            "min_rh": 43.067974,
+            "max_rh": 88.507805,
+            "max_dwpf": 69.8,
+            "min_dwpf": 62.6,
+            "min_feel": 74.59987,
+            "avg_feel": 83.5811767578,
+            "max_feel": 89.3313,
+            "max_drct": 290.0,
+            "precip_est": false,
+            "tmpf_est": false,
+            "max_gust_localts": "2013-07-22T15:45:00Z",
+            "temp_hour": null,
+            "avg_sknt": 5.778903,
+            "vector_avg_drct": 331.28308,
+            "min_rstage": null,
+            "max_rstage": null,
+            "id": "RYN",
+            "name": "TUCSON/RYAN FLD"
+          }
+        ]
+      },
+      "stage4NearestDailyMm": 0.0,
+      "stage4Sample": {
+        "lat": 32.15490447936501,
+        "lon": 248.8275469759539,
+        "value": 0.0,
+        "distance": 1.4262701566780582,
+        "index": 255839
+      },
+      "gaugeUnit": "inch",
+      "gaugeValueKind": "numeric_summary",
+      "gaugeMm": 0.0,
+      "comparisonCaveat": "Daily zero is not independently verified dry; inspect raw METAR precipitation availability before interpreting."
+    }
+  ],
+  "limitations": [
+    "ASOS point gauges differ from Stage IV native-cell averages and may contribute to the analysis; not independent validation of all rainfall cells.",
+    "TUS and RYN are outside or south of the local reach; differences do not imply a correction factor for the reach.",
+    "No scaling, time shifting, missing fill or model parameter changes were applied."
+  ],
+  "rawMetarCheck": {
+    "url": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?station=RYN&station=TUS&data=p01i&data=metar&year1=2013&month1=7&day1=20&year2=2013&month2=7&day2=21&tz=America%2FPhoenix&format=onlycomma&latlon=no&elev=no&missing=M&trace=T&direct=no&report_type=3&report_type=4",
+    "sha256": "1de8abccae6b142f649a86c17d36e9b1c121970f753ce9c7928de1eae8effb95",
+    "rawCsv": "station,valid,p01i,metar\nTUS,2013-07-20 00:53,0.00,KTUS 200753Z 34004KT 10SM SCT100 27/18 A2995 RMK AO2 SLP091 T02720178\nTUS,2013-07-20 01:53,0.00,KTUS 200853Z 00000KT 10SM SCT100 27/18 A2994 RMK AO2 SLP088 T02670183 58006\nTUS,2013-07-20 02:53,0.00,KTUS 200953Z 00000KT 10SM SCT090 BKN110 26/18 A2995 RMK AO2 SLP090 T02610183\nTUS,2013-07-20 03:53,0.00,KTUS 201053Z 30006KT 10SM BKN100 26/18 A2994 RMK AO2 SLP088 T02610183\nTUS,2013-07-20 04:53,0.00,KTUS 201153Z 26003KT 10SM CLR 25/18 A2993 RMK AO2 SLP088 T02500183 10289 20250 58002\nRYN,2013-07-20 05:50,0.00,KRYN 201250Z 28003KT 10SM CLR 24/19 A2993\nTUS,2013-07-20 05:53,0.00,KTUS 201253Z 25004KT 10SM CLR 24/19 A2995 RMK AO2 SLP092 T02440189\nTUS,2013-07-20 06:53,0.00,KTUS 201353Z 30003KT 10SM CLR 26/19 A2998 RMK AO2 SLP101 T02560189\nRYN,2013-07-20 06:53,0.00,KRYN 201353Z 27003KT 10SM CLR 25/19 A2996\nRYN,2013-07-20 07:50,0.00,KRYN 201450Z 29006KT 10SM BKN050 27/19 A2998\nTUS,2013-07-20 07:53,0.00,KTUS 201453Z 34009KT 10SM FEW050 28/19 A2999 RMK AO2 SLP103 T02780189 52016\nRYN,2013-07-20 08:50,0.00,KRYN 201550Z 29005KT 10SM SCT060 28/19 A2998\nTUS,2013-07-20 08:53,0.00,KTUS 201553Z VRB06KT 10SM SCT033 29/18 A2998 RMK AO2 SLP101 T02890183\nTUS,2013-07-20 09:53,0.00,KTUS 201653Z 31004KT 10SM BKN036 BKN044 29/18 A2997 RMK AO2 SLP098 T02890183\nRYN,2013-07-20 09:55,0.00,KRYN 201655Z 35007KT 10SM SCT035 29/19 A2996\nTUS,2013-07-20 10:53,0.00,KTUS 201753Z 32006KT 10SM BKN042 BKN050 31/18 A2996 RMK AO2 SLP093 T03110183 10311 20244 58009\nRYN,2013-07-20 11:48,0.00,KRYN 201848Z 30009G15KT 10SM CLR 31/19 A2992\nTUS,2013-07-20 11:53,0.00,KTUS 201853Z VRB04KT 10SM CLR 32/18 A2993 RMK AO2 LTG DSNT E SLP082 T03220178\nRYN,2013-07-20 12:45,0.00,KRYN 201945Z 29007KT 10SM SCT049 32/18 A2990\nTUS,2013-07-20 12:53,0.00,KTUS 201953Z 32006KT 10SM FEW055 33/18 A2990 RMK AO2 SLP072 T03280178\nRYN,2013-07-20 13:45,0.00,KRYN 202045Z 28007KT 10SM FEW055 SCT100 33/18 A2986\nTUS,2013-07-20 13:53,0.00,KTUS 202053Z 34010KT 10SM FEW055 SCT070 34/17 A2986 RMK AO2 LTG DSNT ALQDS SLP056 T03440172 58031\nTUS,2013-07-20 14:26,0.00,KTUS 202126Z 31009KT 10SM VCTS SCT065 BKN085 33/17 A2985 RMK AO2 LTG DSNT ALQDS T03330172\nTUS,2013-07-20 14:53,T,KTUS 202153Z 31009KT 7SM -TSRA FEW042 OVC060 27/19 A2986 RMK AO2 PK WND 17034/2152 LTG DSNT ALQDS RAB53 TSB48 SLP066 P0000 T02720194\nTUS,2013-07-20 14:59,T,KTUS 202159Z 18037G47KT 1 3/4SM TSRA FEW031 SCT044 OVC060 24/20 A2989 RMK AO2 PK WND 18047/2158 LTG DSNT ALQDS P0000 T02390200\nTUS,2013-07-20 15:07,0.24,KTUS 202207Z 19024G47KT 1/4SM +TSRA FG SCT013 BKN042 OVC055 22/20 A2990 RMK AO2 PK WND 18047/2158 LTG DSNT ALQDS P0024 T02220200\nTUS,2013-07-20 15:14,0.67,KTUS 202214Z 23023G37KT 1/4SM +TSRA FG BKN011 BKN042 BKN055 22/21 A2991 RMK AO2 PK WND 18047/2158 LTG DSNT ALQDS P0067 T02170206\nTUS,2013-07-20 15:19,0.80,KTUS 202219Z 24019G31KT 10SM +TSRA SCT014 BKN048 BKN065 22/21 A2992 RMK AO2 PK WND 18047/2158 WSHFT 2205 LTG DSNT ALQDS P0080 T02170206\nTUS,2013-07-20 15:53,0.81,KTUS 202253Z 24009KT 10SM VCTS -RA FEW017 SCT080 BKN100 22/20 A2992 RMK AO2 PK WND 18047/2158 WSHFT 2205 LTG DSNT SW-NW TSE51 SLP091 P0081 T02220200\nTUS,2013-07-20 16:09,T,KTUS 202309Z 22007KT 10SM -RA BKN080 BKN100 22/20 A2992 RMK AO2 LTG DSNT ALQDS P0000 T02220200\nRYN,2013-07-20 16:48,0.00,KRYN 202348Z AUTO 13004KT 10SM CLR 23/22 A2989\nTUS,2013-07-20 16:53,T,KTUS 202353Z 32004KT 10SM FEW065 FEW080 SCT100 23/19 A2990 RMK AO2 LTG DSNT NE AND W RAE32 SLP084 P0000 60081 T02330194 10344 20217 50015\nTUS,2013-07-20 17:53,0.00,KTUS 210053Z 08005KT 10SM CLR 24/21 A2990 RMK AO2 SLP083 T02440206\nTUS,2013-07-20 18:53,0.00,KTUS 210153Z 00000KT 10SM SCT100 25/21 A2990 RMK AO2 SLP079 T02500211\nTUS,2013-07-20 19:53,0.00,KTUS 210253Z 06003KT 10SM BKN060 BKN075 OVC090 26/21 A2992 RMK AO2 SLP086 T02560211 53005\nRYN,2013-07-20 19:58,0.00,KRYN 210258Z 09005KT 10SM SCT060 SCT070 BKN100 24/22 A2991\nTUS,2013-07-20 20:53,0.00,KTUS 210353Z 09005KT 10SM SCT070 BKN095 26/21 A2994 RMK AO2 SLP090 T02560211\nTUS,2013-07-20 21:53,0.00,KTUS 210453Z 15004KT 10SM SCT030 26/21 A2995 RMK AO2 SLP093 T02560211\nTUS,2013-07-20 22:53,0.00,KTUS 210553Z 00000KT 10SM BKN070 OVC080 25/21 A2996 RMK AO2 SLP095 T02500211 10256 20233 51011\nTUS,2013-07-20 23:53,0.00,KTUS 210653Z AUTO 18004KT 10SM CLR 24/22 A2994 RMK AO2 SLP090 T02440217 403440217\n",
+    "interpretation": "Raw report precipitation is not summed: specials overlap and missing reports are not dry observations."
+  },
+  "gaugeDocumentation": [
+    "https://mesonet.agron.iastate.edu/request/hourlyprecip.phtml",
+    "https://mesonet.agron.iastate.edu/request/download.phtml"
+  ]
+}

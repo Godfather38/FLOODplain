@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-11-01T06:57:58.436Z",
+  "model": "lag + linear reservoir",
+  "selection": "PRIMARY: July 2006 large flood brackets 2014 upstream discharge scale. Chosen before scoring 2014; retain estimated-value caveats and channel changes.",
+  "objective": "Minimum RMSE on approved unqualified exact UTC pairs after 24h warm-up",
+  "grid": {
+    "lagMinutes": [
+      0,
+      720,
+      15
+    ],
+    "kMinutes": [
+      0,
+      720,
+      15
+    ],
+    "transmission": 1
+  },
+  "inputs": [
+    {
+      "path": "cortaro-calibration-2006-07.json",
+      "sha256": "f3095ee29051b40ed1cd62163002dd110d81049ed6d60fffbc2aebdca0edb566"
+    },
+    {
+      "path": "trico-calibration-2006-07.json",
+      "sha256": "bec47f893bb1d46f626745885e4b22344e6eabf676c7e50bf25a7e367f99793d"
+    }
+  ],
+  "parameters": {
+    "lagMinutes": 225,
+    "kMinutes": 90,
+    "transmission": 1
+  },
+  "score": {
+    "siteId": "USGS-09486520",
+    "pairCount": 575,
+    "eligibleObservationCount": 575,
+    "coverageFraction": 1,
+    "biasM3s": -0.6468971174501212,
+    "rmseM3s": 54.256405515783385,
+    "nashSutcliffe": 0.9014973089590967,
+    "pairedPeakErrorM3s": 92.85110396971595,
+    "pairedPeakTimingErrorMinutes": 75,
+    "warning": "Metrics on exact matched samples only; sparse coverage can miss the event peak. A fitted event is not independent validation."
+  },
+  "warning": "Retrospective held-out event, not blinded: 2014 target peak/time were already known in research. Parameters fitted only to separate pre-2014 observations. Small-storm extrapolation / channel changes are limitations."
+}

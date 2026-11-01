@@ -1,0 +1,406 @@
+{
+  "lid": "CSCA3",
+  "usgsId": "09486500",
+  "reachId": "15903137",
+  "name": "Santa Cruz River at Cortaro",
+  "description": "",
+  "rfc": {
+    "abbreviation": "CBRFC",
+    "name": "Colorado Basin River Forecast Center"
+  },
+  "wfo": {
+    "abbreviation": "TWC",
+    "name": "Tucson"
+  },
+  "state": {
+    "abbreviation": "AZ",
+    "name": "Arizona"
+  },
+  "county": "Pima",
+  "timeZone": "MST7MST",
+  "latitude": 32.3511849,
+  "longitude": -111.0945447,
+  "pedts": {
+    "observed": "HGIRG",
+    "forecast": "HGIFE"
+  },
+  "status": {
+    "observed": {
+      "primary": 10.57,
+      "primaryUnit": "ft",
+      "secondary": 0.367,
+      "secondaryUnit": "kcfs",
+      "floodCategory": "no_flooding",
+      "validTime": "2026-11-01T05:45:00Z"
+    },
+    "forecast": {
+      "primary": 11.83,
+      "primaryUnit": "ft",
+      "secondary": 1.08,
+      "secondaryUnit": "kcfs",
+      "floodCategory": "no_flooding",
+      "validTime": "2026-11-02T11:00:00Z"
+    }
+  },
+  "flood": {
+    "stageUnits": "ft",
+    "flowUnits": "cfs",
+    "categories": {
+      "major": {
+        "stage": 20.7,
+        "flow": 56000
+      },
+      "moderate": {
+        "stage": 19.5,
+        "flow": 40000
+      },
+      "minor": {
+        "stage": 18.5,
+        "flow": 30000
+      },
+      "action": {
+        "stage": 17.2,
+        "flow": 20000
+      }
+    },
+    "lro": null,
+    "crests": {
+      "historic": [
+        {
+          "occurredTime": "2010-07-31T00:00:00Z",
+          "stage": 16.69,
+          "flow": 16800,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "1983-10-02T00:00:00Z",
+          "stage": 16.57,
+          "flow": 65000,
+          "preliminary": "R",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "2006-07-31T00:00:00Z",
+          "stage": 15.06,
+          "flow": 40900,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "1993-01-19T00:00:00Z",
+          "stage": 14.6,
+          "flow": 45000,
+          "preliminary": "P",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2009-07-04T00:00:00Z",
+          "stage": 13.26,
+          "flow": 2130,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "1990-07-24T00:00:00Z",
+          "stage": 12.8,
+          "flow": 27500,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1977-10-10T00:00:00Z",
+          "stage": 12.2,
+          "flow": 23000,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1978-12-18T00:00:00Z",
+          "stage": 11.6,
+          "flow": 18800,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1940-08-14T00:00:00Z",
+          "stage": 11.22,
+          "flow": 17000,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1965-12-22T00:00:00Z",
+          "stage": 11.2,
+          "flow": 16800,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1955-08-03T00:00:00Z",
+          "stage": 11.2,
+          "flow": 16600,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1967-12-21T00:00:00Z",
+          "stage": 11.1,
+          "flow": 15800,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "2000-10-23T13:15:00Z",
+          "stage": 10.64,
+          "flow": 9070,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2003-08-26T20:30:00Z",
+          "stage": 10.62,
+          "flow": 9000,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2002-08-05T21:15:00Z",
+          "stage": 10.41,
+          "flow": 8340,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2008-01-28T00:00:00Z",
+          "stage": 10.01,
+          "flow": 4270,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2000-07-23T00:00:00Z",
+          "stage": 8.13,
+          "flow": 1560,
+          "preliminary": "O",
+          "olddatum": false
+        }
+      ],
+      "recent": [
+        {
+          "occurredTime": "2010-07-31T00:00:00Z",
+          "stage": 16.69,
+          "flow": 16800,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2009-07-04T00:00:00Z",
+          "stage": 13.26,
+          "flow": 2130,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2008-01-28T00:00:00Z",
+          "stage": 10.01,
+          "flow": 4270,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2006-07-31T00:00:00Z",
+          "stage": 15.06,
+          "flow": 40900,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2003-08-26T20:30:00Z",
+          "stage": 10.62,
+          "flow": 9000,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2002-08-05T21:15:00Z",
+          "stage": 10.41,
+          "flow": 8340,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2000-10-23T13:15:00Z",
+          "stage": 10.64,
+          "flow": 9070,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "2000-07-23T00:00:00Z",
+          "stage": 8.13,
+          "flow": 1560,
+          "preliminary": "O",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "1993-01-19T00:00:00Z",
+          "stage": 14.6,
+          "flow": 45000,
+          "preliminary": "P",
+          "olddatum": false
+        },
+        {
+          "occurredTime": "1990-07-24T00:00:00Z",
+          "stage": 12.8,
+          "flow": 27500,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1983-10-02T00:00:00Z",
+          "stage": 16.57,
+          "flow": 65000,
+          "preliminary": "R",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1978-12-18T00:00:00Z",
+          "stage": 11.6,
+          "flow": 18800,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1977-10-10T00:00:00Z",
+          "stage": 12.2,
+          "flow": 23000,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1967-12-21T00:00:00Z",
+          "stage": 11.1,
+          "flow": 15800,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1965-12-22T00:00:00Z",
+          "stage": 11.2,
+          "flow": 16800,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1955-08-03T00:00:00Z",
+          "stage": 11.2,
+          "flow": 16600,
+          "preliminary": "O",
+          "olddatum": true
+        },
+        {
+          "occurredTime": "1940-08-14T00:00:00Z",
+          "stage": 11.22,
+          "flow": 17000,
+          "preliminary": "O",
+          "olddatum": true
+        }
+      ]
+    },
+    "lowWaters": {
+      "historic": []
+    },
+    "impacts": [
+      {
+        "stage": 20.7,
+        "statement": "Major flood stage. Homes in far northwest marana downstream of raised levees could see major damage."
+      },
+      {
+        "stage": 19.5,
+        "statement": "Moderate flood stage. Far northwest marana downstream of raised levees threatened. Homes in this area may be evacuated as a precaution. Bridges on Sanders Road, Trico Road, and Trico-marana Road will be closed due to overtopping."
+      },
+      {
+        "stage": 18.5,
+        "statement": "Minor flood stage. Water reaches gravel pits between rillito river and Cortaro Road in northwest tucson. Ina Road bridge closed as a precaution."
+      }
+    ]
+  },
+  "images": {
+    "probability": {
+      "weekint": {
+        "stage": "",
+        "flow": "",
+        "volume": ""
+      },
+      "entperiod": {
+        "stage": "",
+        "flow": "",
+        "volume": ""
+      },
+      "shortrange": ""
+    },
+    "hydrograph": {
+      "default": "https://water.noaa.gov/resources/hydrographs/csca3_hg.png",
+      "floodcat": "https://water.noaa.gov/resources/hydrographs/csca3_record.png"
+    },
+    "photos": []
+  },
+  "dataAttribution": [
+    {
+      "abbrev": "US Geological Survey",
+      "text": "USGS--Water Resources of the United States",
+      "title": "US Geological Survey",
+      "url": "http://waterdata.usgs.gov/nwis"
+    },
+    {
+      "abbrev": "USGS",
+      "text": "09486500",
+      "title": "Observations courtesy of U.S. Geological Survey",
+      "url": "https://waterdata.usgs.gov/nwis/inventory/?site_no=09486500"
+    },
+    {
+      "abbrev": "COE",
+      "text": "Website",
+      "title": "Observations courtesy of U.S. Army Corps of Engineers",
+      "url": "http://www.spk.usace.army.mil/"
+    }
+  ],
+  "impactsLowWaters": [],
+  "normalThreshold": {
+    "value": 0,
+    "units": "ft"
+  },
+  "hydronotes": [],
+  "datums": {
+    "vertical": {
+      "value": []
+    },
+    "horizontal": {
+      "value": []
+    },
+    "notes": {
+      "value": []
+    }
+  },
+  "inundation": {
+    "enabled": false,
+    "url": "",
+    "zeroDatum": null,
+    "downloads": null,
+    "siteSpecificInfo": "",
+    "dataAttribution": []
+  },
+  "upstreamLid": "TSCA3",
+  "downstreamLid": "SCTA3",
+  "inService": {
+    "enabled": true,
+    "message": ""
+  },
+  "lowThreshold": null,
+  "forecastReliability": "Forecasts are issued routinely year-round.",
+  "TruncateObs": "-1",
+  "TruncateFcst": "5",
+  "ObservedFloodCategory": "no_flooding",
+  "ForecastFloodCategory": "no_flooding"
+}

@@ -1,0 +1,433 @@
+{
+  "provenance": {
+    "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+    "nativeMapSha256": "1e11c45c57c37ada6fa0be98da62cf616e7d0b9e9a85f7c4cc7795091c3ce633",
+    "geometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+    "sourceCommit": "85d6af1",
+    "verticalDatum": "NAVD88",
+    "terrain": {
+      "selection": "Same retained hierarchy as prepare_road_parameters.py: sorted 1m road windows first, retained 10m context fallback; bilinear valid-sample interpolation, never zero fill",
+      "fineManifestSha256": "afad466947c9f72704c9d336f8342099cd20d78465601715b755235fb7fdc13a",
+      "contextManifestSha256": "f208e578d322b416a78fd71443b085ca0478f2e7faea7bb127bb2841cd8123db",
+      "acquisitionWindow": "2021-09-27/2021-11-17; northern edge 2023-06-01/2023-08-11; missing western context only 2019-03-05/2019-06-01",
+      "sources": [
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-470000-3583000.tif",
+          "sha256": "c65b8d170912896e8b5692d258861388afc9197144b8e03be210b22efbaf3f2c",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-470000-3584000.tif",
+          "sha256": "0119f3df5cb29c55560380f0e56dd283ae7e6f72fb7c74427c3b88b8ef16a990",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-470000-3585000.tif",
+          "sha256": "425e30634e49d93bce0bfc7158e640fb59da9af2033d62485fe6da29caa70a57",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-470000-3586000.tif",
+          "sha256": "e90e17fe0ae8f7650db5822afc9ac313c8498107e95fcb120bb5766e921ad05f",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-470000-3587000.tif",
+          "sha256": "d8ef3d26a0b727b8c7ccbad305e9c259fbd09ca8c31b752fc3fa08f715e21d9b",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-470000-3588000.tif",
+          "sha256": "f343c35d77ac9b7156c4afaf0515e8c01112ac34708694a6f45c92a4d8b47032",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-470000-3589000.tif",
+          "sha256": "5c81ba4c4fd10d30e1dd2bd1579a00f5fcc4f4a71d60c290f9249c7db3307c17",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-470000-3590000.tif",
+          "sha256": "76280578876e653f9f8ab12ac644cfa581d5295b69cddeaaf0afd5b3d287e098",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-471000-3583000.tif",
+          "sha256": "7a61c5f2cabb681ef03c56d62bb317c727bd7b987f1aa0fac0488db540849653",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-471000-3584000.tif",
+          "sha256": "ee0ceb225d1cc4f0a1807aa66c109868f35ec2b990d4e382d4624238cc4eae1e",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-471000-3585000.tif",
+          "sha256": "32be352cb1e49abfaa6d0967be90dec2ac39d9a74a21ed7ed8d8f1a13438f5a4",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-471000-3586000.tif",
+          "sha256": "bbc0a48ef9041af4925c11e87fc860c60da2dc5d21bcf3645832efcb9763f92d",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-471000-3587000.tif",
+          "sha256": "18eef8174557457b20bff66b1a2e8dcdb2512254e6a0b95a34b840602da22569",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-471000-3588000.tif",
+          "sha256": "f6ee30985bcaffc2602659e195384107c017b273053a50c493c3ac2c5c1aa0ab",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-471000-3589000.tif",
+          "sha256": "58e28518c2d31654cf2d93f7787c8b7eb25dbf10a289f344f2c847fbffe36f6a",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-471000-3590000.tif",
+          "sha256": "cc72a5c4bad32b3dcc246c0a68eac0cda84192b2030f9414006e334e13388f0a",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-471000-3591000.tif",
+          "sha256": "52cc39ea8e879e9b809e448e1de92537bf99434f4b88ee3f389a21c4809937ce",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-472000-3583000.tif",
+          "sha256": "b48d67d2a18bddb20d0391d42fa38384fe943414ebfabbabcbba40c01e65c1ac",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-472000-3584000.tif",
+          "sha256": "13c9b93c0a987c39eafe3d0d4ef43c88daeab53c5a27f81b6a44261dab95f162",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-472000-3589000.tif",
+          "sha256": "8fdd648cb011f30c0f71fbec04afdf0d56c53883de1d662a6d80a6611107854c",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-472000-3590000.tif",
+          "sha256": "8988c3eb9d1ddc4a6c5aa450291b5889c6b83a4dcde8d8cdafaeeefa21973bda",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-472000-3591000.tif",
+          "sha256": "972c28466b51d8df1dde20eeccf0fdad7825dd1e03eb2c8d4ac66b7abaf3c27e",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-473000-3583000.tif",
+          "sha256": "7be162d9b1f6cfb83e29c8ea8de92a81239144c9e0e9177266faca2925494c8c",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-473000-3584000.tif",
+          "sha256": "36e7541fec46d7faddf0e39419264c350ed1fcdaea4c663bc45319ec49153b41",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-473000-3589000.tif",
+          "sha256": "e7fa13075a53b1d50de7ee2a8ecae15d4ae1fde930551287de7ecd136f6eb84d",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-473000-3590000.tif",
+          "sha256": "d83f5aba7c9b6d63e8123f737cb16e5ba5f4dcda3e2005dd59a33412239656a7",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-473000-3591000.tif",
+          "sha256": "e520b77f4e0dfe162c8a1ef33a8d04ec82463753fc0ea1fa0b976bb93bdbbe61",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-474000-3583000.tif",
+          "sha256": "13e03dde553b640b718b8566f8f1b76ad448df5b68d9930b7faa3099fcdd58ac",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-474000-3584000.tif",
+          "sha256": "91d59e83f0acbb2fa2ba965befa53c7e642d280715f1fdedc19f2dca0e33668a",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-474000-3590000.tif",
+          "sha256": "6e0bad731f83b4ebd8bef868de5bd4ba3677d4d2805e8037105c141bb3c66c05",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-474000-3591000.tif",
+          "sha256": "01c2ea0c526fb7174efe3f2ad16c343553599119aed84869f63108e3ecbf3a05",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-474000-3592000.tif",
+          "sha256": "4b16ba65bec4f228ebc67604555031b9401b547cba9b88eb2d6d87c3bd423caa",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-475000-3583000.tif",
+          "sha256": "d9ba7f06d1dce69cf3aa91ffa4766e5f562eda31700f552a52e65cbcd1d10ad5",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-475000-3584000.tif",
+          "sha256": "c9c4d8fdc77c6fad82c6221e7407f82fdade3e901474da4fbe2ee24892ebbd06",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-475000-3590000.tif",
+          "sha256": "e6348f11d0cebfaaf06d504c3878c99d6093899921dc5d6200b335b4a42fd124",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-475000-3591000.tif",
+          "sha256": "ab3f03adf022450959c60c45b3770a0cb1b0e63ee151d2956db736125c8cfe53",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-475000-3592000.tif",
+          "sha256": "fc4de1162924b0c9d61fdf75b8c937732787d609d49d1da36ea4ecbf0d96479d",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-476000-3583000.tif",
+          "sha256": "43e22733c55589bf3b1b0a67d4453bce9fa8c77cfdb5bc7d569f9b86ee22b8f6",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-476000-3584000.tif",
+          "sha256": "42fde737502ad1ee4d2d65b384699a226660179b0e433408b207a09fdae5c99c",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-476000-3585000.tif",
+          "sha256": "afc637705451156c9691bd754b91a4c67bfca115f6b59dbdcb1f273ee5c3e164",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-476000-3590000.tif",
+          "sha256": "4e27cd954afc03b1e3f9fc3e03f796476172ed7938181bc3835508b1f22ce7b2",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-476000-3591000.tif",
+          "sha256": "11f3fc6c88d86e7d969010dfa949cccffcfda6618123cf72840412009f74687e",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-476000-3592000.tif",
+          "sha256": "3ada98a0ccdaaced6aa440f3e488aa5353a91dfcb700f0430d0c853a72b2aba2",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-477000-3583000.tif",
+          "sha256": "ef67209cd626845e5537dd5b203f902a0831d7bea4edf297593c682ba4092b88",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-477000-3584000.tif",
+          "sha256": "1e2295595c57c2d025c39b0919292e03ad2a204c5504bf23ecf013f5b2f10daa",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-477000-3585000.tif",
+          "sha256": "ef6dcf5737d57cb8b24318efd8873af3d9c1048750d7a5dac333a4a886623662",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-477000-3590000.tif",
+          "sha256": "b85a18aada35ffed1d545dd9de2885ea52efc8d8fc41741e7cf458530e9c633e",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-477000-3591000.tif",
+          "sha256": "aa8ef216b83f6659fe18045e48c9b140a69ebcc60ba9f9057cd054710e058c75",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-477000-3592000.tif",
+          "sha256": "a2e213b134be7d9a98f1f3d4cdefc8c2c24f3577b9ab4487a9c43c88642ba8fb",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-478000-3584000.tif",
+          "sha256": "112fe9c2d668e7d630db81577d17956c3c3fc247721bee9cc31f7f4604748fb5",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-478000-3585000.tif",
+          "sha256": "340fa15655b1f0e627c44ca1bc138d242bb5e8b326993382fa154862eaa230c9",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-478000-3590000.tif",
+          "sha256": "21598d6e6beacfc9c5acba75db6f0495b046a2c2cfcfb7d8bfaea30bb8baa3b5",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-478000-3591000.tif",
+          "sha256": "83a11a7af19a20e5c0c5c696a20be73767776177c573e6c9cf2ea871911d983a",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-478000-3592000.tif",
+          "sha256": "b9430059276ec1494fd4c01c8598598eda72fae08bb3224973263971847913ab",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-479000-3584000.tif",
+          "sha256": "075dd9fde778f41e3800486629e02ea7236813f9266b1bb38a9876bac4d1a6ea",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-479000-3585000.tif",
+          "sha256": "9ed3e5e533c961b1ece1ef8c52f4222bd0e3b05a6f1361b7cd5f8e1d881388a0",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-479000-3590000.tif",
+          "sha256": "168ee7e323775781b68d5485592c7c71aebdd8cd65f17361865b44e8be0098a6",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-479000-3591000.tif",
+          "sha256": "4444c6c8925ca44837f8db4735e141da8b72ae04a593c0715f17dd59bb4ab0cf",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-479000-3592000.tif",
+          "sha256": "7a7a05b417b2123cd86640afd4f87959468bfd85d4b156bed5cd3f865cf119ad",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-480000-3584000.tif",
+          "sha256": "964d07993ee01f9ec37fca4b62bd501e8c9fa4b7f31a9666f7b8de3df069a785",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-480000-3585000.tif",
+          "sha256": "c0a87a08522563809ddfa9a62ffe3348b99da583bdaa54f99dae01a709ec2a93",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-480000-3591000.tif",
+          "sha256": "d203d89f5ef3bf5da89fdd7a128a50efd598eb1809c5ae82e876976af6aa05dd",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-481000-3584000.tif",
+          "sha256": "8567b330ff2ff446775ca82f73fcd1e5e9dcf8b8e1d0d3dd74b639219951c9e0",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-481000-3585000.tif",
+          "sha256": "831225a60cfd0accf6c395902d30529d92a314b5801ee6fad4bd93744c6a4632",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-482000-3584000.tif",
+          "sha256": "69696d155fe3c14a48c8986d953b4cf1a18b05ed649b765d9927cc9b6387e406",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-482000-3585000.tif",
+          "sha256": "6653a548c0caf7b25b2196a967d0886219c00bb0bf161d0ea334f919694e1750",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-483000-3584000.tif",
+          "sha256": "d24572a66adb625bd172f0a9a43a98b3e415830c105a2471736a66ed2b12be40",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-483000-3585000.tif",
+          "sha256": "a30e129f850bf2b6abf76596002958847b0210dc4411f1ac6aecbe889c44c537",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-484000-3584000.tif",
+          "sha256": "5ed974762a90b5e96a46ccfef20b5491819bb326fa377fb85bdd6d66bbd9473d",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-484000-3585000.tif",
+          "sha256": "a28652ee464efd4dc97084dc7dfdac081085ba120516184d114b2b4a0a41d5a7",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-485000-3584000.tif",
+          "sha256": "8471905fbcc6402035b19449f7c3b2cf0d4003acb5fb92a9e7c2e5d1a4ea4f78",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-485000-3585000.tif",
+          "sha256": "0e934bbbbbb0f2a13bb1bbfd42f23674a539ba9448ebaa3607ac9b61aacf826f",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-486000-3584000.tif",
+          "sha256": "5a2177e36f6bb4ee03efa1389c8550f9713b6266358f1cacc181633bf51702ad",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-486000-3585000.tif",
+          "sha256": "9c3f82c919b6d4f4a9788de0e846a1c0529eac9a11924fe0a1bc242f25437b19",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-487000-3584000.tif",
+          "sha256": "6775356377d7b0eac667d0fac2e1a8975da023e2856fa17993382aaa9c52b6c0",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-487000-3585000.tif",
+          "sha256": "5152b31c548c1cdcf27e5b9f23b83f66591a19cc88e8bc70ce7bba5e8327df2a",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-488000-3584000.tif",
+          "sha256": "aa4858193c59bb63e1ccb5421ce0b674b7f2ea2a40a69938c280064c1b1be0ec",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-terrain-1m-v1/terrain-1m-488000-3585000.tif",
+          "sha256": "c2148a4d41eb7d9b03915c7a7b7876366d9608c21280f8eadc6ec3fdeef765ed",
+          "resolutionM": 1
+        },
+        {
+          "path": "road-context-rasters-v1/terrain.tif",
+          "sha256": "91f8e86dd7d2a10629920cf84d8efce68834f96d2108042baf4e0122d8408c7a",
+          "resolutionM": 10
+        }
+      ]
+    },
+    "method": "L0: native polygon boundary including hanging nodes plus centroid fan. L1: split every L0 triangle into four. Interior midpoints sample retained DEM; native-boundary midpoint position/elevation interpolate shared L0 edge endpoints to preserve mixed-LOD continuity. No new hydraulic grid or output."
+  },
+  "coverage": {
+    "nativeFaceCount": 398613,
+    "terrainFaceCount": 398613,
+    "missingTerrainFaceIds": [],
+    "outsideNativeGeometry": "never triangulated"
+  },
+  "totals": {
+    "tiles": 2255,
+    "trianglesByLevel": [
+      1605049,
+      6420196
+    ],
+    "compressedTileBytes": 114282726
+  },
+  "index": {
+    "path": "terrain-index.json.gz",
+    "sha256": "1dcaf6060f95c7809c290418fe7915cba4c7eccec30cf1d5d99be1fba6b4d124",
+    "bytes": 302369
+  },
+  "elapsedSeconds": 64.89623630000278
+}

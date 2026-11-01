@@ -1,0 +1,13 @@
+{
+  "status": "available",
+  "artifact": {
+    "path": "terrain-index.json.gz",
+    "sha256": "1dcaf6060f95c7809c290418fe7915cba4c7eccec30cf1d5d99be1fba6b4d124",
+    "bytes": 302369
+  },
+  "kind": "native_face_terrain_tiles",
+  "runId": "refined-partial-41339621278",
+  "geometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+  "verticalDatum": "NAVD88",
+  "note": "Lazy native-geometry terrain tiles; partial output remains17:00\u201322:00UTC only;1m/10m source terrain is not hydraulic refinement."
+}
