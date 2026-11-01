@@ -1,0 +1,74 @@
+{
+  "method": "Existing GEB inflow_rivers rule: external reach whose downstream_ID belongs to active subbasins",
+  "sourceImplementation": "GEB geb/hazards/floods/sfincs.py inflow_rivers; inspected local pinned source34d5edc",
+  "activeReachIds": [
+    15890430,
+    15902363,
+    15903137
+  ],
+  "boundsEPSG32612": [
+    467770.419257893,
+    3572306.7481593066,
+    499690.4216498282,
+    3606869.8901913418
+  ],
+  "areaKm2": 296.7831297871003,
+  "inlets": [
+    {
+      "reachId": "15902351",
+      "receivingReachId": "15890430",
+      "endpointXY": [
+        488992.5460692309,
+        3583055.7594977184
+      ],
+      "insideOriginalForecastRegistry": true
+    },
+    {
+      "reachId": "15902361",
+      "receivingReachId": "15902363",
+      "endpointXY": [
+        489560.3954360115,
+        3582077.174883786
+      ],
+      "insideOriginalForecastRegistry": true
+    },
+    {
+      "reachId": "15902409",
+      "receivingReachId": "15903137",
+      "endpointXY": [
+        491629.0024960457,
+        3578544.105498656
+      ],
+      "insideOriginalForecastRegistry": false
+    },
+    {
+      "reachId": "15902411",
+      "receivingReachId": "15903137",
+      "endpointXY": [
+        491629.0024960457,
+        3578544.105498656
+      ],
+      "insideOriginalForecastRegistry": false
+    }
+  ],
+  "localUpstreamOverlapM2": 0.0,
+  "status": "candidate geometry partition; not adopted or executed",
+  "remaining": [
+    "Prepared2021terrain crop and cached HRRR crop must cover these complete catchments",
+    "First hydraulic state and localized structures remain explicit"
+  ],
+  "expandedNetworkCount": 161,
+  "expandedQueryBoundsWGS84": [
+    -111.34446528705772,
+    32.286064275734695,
+    -111.00228781169243,
+    32.60032847817076
+  ],
+  "inletReachIdsVerified": [
+    15902351,
+    15902361,
+    15902409,
+    15902411
+  ],
+  "expectedInletsMatchExpandedQuery": true
+}
