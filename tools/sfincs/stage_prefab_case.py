@@ -23,8 +23,13 @@ def stage(source,target,geometry):
  case['geometryIntegration']['publishedEstimatedChannel']=meta
  case['validationRole']='Published estimated-channel setup evaluation after prior failures; not blind validation'
  case['limitations']+=meta['limitations']
+ original_hashes={i['path']:i['sha256'] for i in case['inputArtifacts']}
  case['inputArtifacts']=[{'path':i['path'],'sha256':hashlib.sha256((target/i['path']).read_bytes()).hexdigest()} for i in case['inputArtifacts']]
- case['prefabChangedNativeFiles']=['sfincs_subgrid.nc','sfincs.src']
+ changed=sorted(i['path'] for i in case['inputArtifacts'] if original_hashes[i['path']]!=i['sha256'])
+ if changed!=['sfincs.src','sfincs_subgrid.nc']:raise ValueError('Unexpected native changes: '+repr(changed))
+ case['prefabChangedNativeFiles']=changed
+ case['baselineFrozenGeometryVerification']=case.pop('frozenGeometryVerification',None)
+ case['prefabInputVerification']={'changedNativeFiles':changed,'allOtherNativeFilesIdentical':True,'baselineCaseSha256':hashlib.sha256((source/'case.json').read_bytes()).hexdigest()}
  (target/'case.json').write_text(json.dumps(case,indent=2)+'\n')
  print(json.dumps({'case':str(target),'start':case['start'],'end':case['end'],'sourceBedM':bed,'changed':case['prefabChangedNativeFiles']}))
 if __name__=='__main__':

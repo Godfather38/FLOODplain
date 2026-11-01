@@ -1,0 +1,10 @@
+{
+  "cellCount": 50350,
+  "faceCount": 100245,
+  "maxCellMinimumDifferenceM": 0.0,
+  "maxFaceThresholdDifferenceM": 9.765625009094947e-06,
+  "medianFaceThresholdDifferenceM": 9.765625009094947e-06,
+  "xCoordinateMaxDifferenceM": 0.0,
+  "yCoordinateMaxDifferenceM": 0.0,
+  "method": "Independent direct 10m DEM block minima and east/north half-block minima +0.01m against native original subgrid arrays, column-major order. This checks indexing and threshold serialization, not hydraulic connectivity."
+}

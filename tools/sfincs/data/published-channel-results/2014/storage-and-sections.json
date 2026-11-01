@@ -1,0 +1,39 @@
+{
+  "boxBoundsEPSG32612": [
+    490000,
+    3579000,
+    491500,
+    3581500
+  ],
+  "eventStart": "2014-09-07T07:00:00Z",
+  "initialStorageM3": 9.647048495355082e-07,
+  "finalStorageM3": 3144785.2572194077,
+  "storageGainM3": 3144785.257218443,
+  "scoringWindowSectionPeaks": {
+    "reach_x489000": {
+      "peakM3s": 373.6778259277344,
+      "peakTime": "2014-09-09 01:16:00Z"
+    },
+    "reach_x485000": {
+      "peakM3s": 374.2087097167969,
+      "peakTime": "2014-09-09 02:16:00Z"
+    },
+    "reach_x480000": {
+      "peakM3s": 387.2259826660156,
+      "peakTime": "2014-09-09 02:58:00Z"
+    },
+    "reach_x475000": {
+      "peakM3s": 401.27130126953125,
+      "peakTime": "2014-09-09 04:18:00Z"
+    },
+    "trico_full": {
+      "peakM3s": 367.7849426269531,
+      "peakTime": "2014-09-09 05:42:00Z"
+    },
+    "trico_reach": {
+      "peakM3s": 306.0354309082031,
+      "peakTime": "2014-09-09 05:44:00Z"
+    }
+  },
+  "note": "Full valley section is not gauge-equivalent; do not substitute its score. Box export not observed in this run."
+}
