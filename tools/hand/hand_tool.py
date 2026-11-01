@@ -21,8 +21,10 @@ HUCS = ['15050301', '15050302', '15050303', '15050304']
 STATIONS = {'SCTA3': {'usgsId': '09486520', 'reachId': '15890430'},
             'CSCA3': {'usgsId': '09486500', 'reachId': '15903137'},
             'BWTA3': {'usgsId': '09487000', 'reachId': '15876941'}}
-MAX_REACH_DISTANCE_M = 100
+FULL_POINTS_WITHIN_M, ZERO_POINTS_AT_M = 50, 1500
+CLOSE_REACH_M, NAMED_REACH_M = 100, 310  # Owner's rule: past 100 m only for a named stream, as at Avra Valley Rd -111.24501.
 MAX_GAUGE_KM = 10
+MAX_RADIUS_M = 2000
 MIN_VALID_HAND_FRACTION = 0.95
 HAND_NODATA_CM, CATCHMENT_NONE = 65535, 255
 ROOT = Path(__file__).resolve().parents[2]
@@ -31,18 +33,55 @@ CACHE = Path(os.environ.get('HAND_CACHE', ROOT / '.hand-cache'))
 
 
 # ---- Pure checks (tested without network or geo libraries) ----
-def classify_point(reach, water=None, max_distance=MAX_REACH_DISTANCE_M):
-    """Whether the HAND data can describe one crossing. reach: nearest HAND reach or None."""
-    if not reach:
-        return 'no_hand_catchment', 'No NOAA HAND catchment at this point.'
-    if reach['distanceM'] > max_distance:
-        return 'not_on_modeled_reach', f"The nearest HAND stream is {reach['distanceM']:.0f} m away, so its rating curve does not describe the water here."
-    name = str(reach.get('name') or '').strip()
-    if 'aqueduct' in name.lower():
-        return 'needs_review', f"NOAA calls the nearest reach {name}, a canal name, so it may not be this water."
-    if water and name and water.strip().lower() != name.lower():
-        return 'needs_review', f"Our map data says {water}; NOAA calls the nearest reach {name}."
-    return 'eligible', f"Within {reach['distanceM']:.0f} m of HAND reach {reach['featureId']}."
+def name_agreement(water, noaa):
+    """How our map's water name and NOAA's reach name compare."""
+    noaa = str(noaa or '').strip()
+    if 'aqueduct' in noaa.lower():
+        return 'canal'
+    if water and noaa:
+        return 'agree' if water.strip().lower() == noaa.lower() else 'conflict'
+    return 'one_name' if water or noaa else 'no_name'
+
+
+def exclusion(distance_m, agreement, noaa_name):
+    """Why a crossing gets no estimate, or None. Too far or wrong water is left out, not scored low."""
+    if agreement == 'canal':
+        return 'wrong_water', f"NOAA calls the nearest reach {noaa_name}, a canal name, so its flow may not describe the water here."
+    if agreement == 'conflict':
+        return 'wrong_water', f"Our map data and NOAA name different water here; NOAA says {noaa_name}."
+    if distance_m > NAMED_REACH_M:
+        return 'too_far', f"The nearest HAND stream is {distance_m:.0f} m away, over the {NAMED_REACH_M} m limit."
+    if distance_m > CLOSE_REACH_M and agreement == 'no_name':
+        return 'too_far', f"The nearest HAND stream is {distance_m:.0f} m away and has no name, so it can't be matched past {CLOSE_REACH_M} m."
+    return None
+
+
+def match_confidence(distance_m, agreement, forecast, gauge_km, calibrated):
+    """A label of how good the match is, from factors that can be shown. Not a probability."""
+    if distance_m <= FULL_POINTS_WITHIN_M:
+        near = 40.0
+    else:
+        near = max(0.0, 40.0 * (1 - (distance_m - FULL_POINTS_WITHIN_M) / (ZERO_POINTS_AT_M - FULL_POINTS_WITHIN_M)))
+    name = {'agree': 25, 'one_name': 10, 'no_name': 5, 'conflict': 0, 'canal': 0}[agreement]
+    flow = 25 * max(0.0, 1 - gauge_km / 40) if forecast['kind'] == 'gauge' else 8.0
+    name_words = {'agree': 'our map and NOAA name the same water', 'one_name': 'only one source names this water', 'no_name': 'neither source names this water',
+                  'conflict': 'our map and NOAA name different water', 'canal': 'NOAA gives a canal name, so it may be different water'}[agreement]
+    flow_words = f"gauge forecast, {gauge_km} km along the channel" if forecast['kind'] == 'gauge' else 'model flow for the reach, no gauge'
+    factors = [
+        {'factor': 'Distance to modeled stream', 'detail': f'{distance_m:.0f} m', 'points': round(near), 'max': 40},
+        {'factor': 'Water name', 'detail': name_words, 'points': name, 'max': 25},
+        {'factor': 'Flow source', 'detail': flow_words, 'points': round(flow), 'max': 25},
+        {'factor': 'Rating curve', 'detail': 'calibrated to gauge readings' if calibrated else 'not calibrated to gauge readings', 'points': 10 if calibrated else 0, 'max': 10},
+    ]
+    score = sum(f['points'] for f in factors)
+    return {'score': score, 'band': 'Likely match' if score >= 65 else 'Possible match', 'factors': factors}
+
+
+def display_water(water, noaa, agreement):
+    """Name unnamed points from NOAA's nearest reach, unless that name is a canal."""
+    if water:
+        return water
+    return f'{str(noaa).strip()} (NOAA name)' if agreement == 'one_name' else None
 
 
 def forecast_for(reach, gauge, stations=STATIONS, max_km=MAX_GAUGE_KM):
@@ -335,7 +374,8 @@ def build_junction(row, check_flows):
 
     # Output grid: about 10 m in lon/lat, so Leaflet can place it as an image.
     geod = Geod(ellps='WGS84')
-    r = 1500 if (stream['order'] or 0) >= 5 else 1000
+    # Far points get a wider square, so the stream they are matched to can show.
+    r = max(1500 if (stream['order'] or 0) >= 5 else 1000, min(int(reach['distanceM'] + 500) // 100 * 100, MAX_RADIUS_M))
     lon, lat = row['lon'], row['lat']
     lon_min, lon_max = geod.fwd(lon, lat, 270, r)[0], geod.fwd(lon, lat, 90, r)[0]
     lat_min, lat_max = geod.fwd(lon, lat, 180, r)[1], geod.fwd(lon, lat, 0, r)[1]
@@ -347,13 +387,14 @@ def build_junction(row, check_flows):
         hand = clip(hand_src, lons, lats)
         catchment = clip(catch_src, lons, lats)
         hand_nodata = hand == hand_src.nodata
-        ordered = sorted(h for h in curves if (catchment == h).any())
+        present = sorted(h for h in curves if (catchment == h).any())
+        # A broken curve leaves its own catchment without an estimate, not the whole square.
+        dropped = [{'hydroId': h, 'reason': rating_problem(curves[h]['stageM'], curves[h]['dischargeM3s'])} for h in present if rating_problem(curves[h]['stageM'], curves[h]['dischargeM3s'])]
+        ordered = [h for h in present if h not in {d['hydroId'] for d in dropped}]
+        if reach['hydroId'] in {d['hydroId'] for d in dropped}:
+            raise Refused(f"The rating curve for this crossing's own catchment can't be used: {dropped[0]['reason']}.")
         if not ordered or len(ordered) > 250:
             raise Refused(f'{len(ordered)} usable catchments in the map square.')
-        for hydro in ordered:
-            problem = rating_problem(curves[hydro]['stageM'], curves[hydro]['dischargeM3s'])
-            if problem:
-                raise Refused(f'Rating curve for HydroID {hydro}, in this map square: {problem}.')
         index = np.full(hand.shape, CATCHMENT_NONE, 'u1')
         for i, h in enumerate(ordered):
             index[catchment == h] = i
@@ -367,22 +408,27 @@ def build_junction(row, check_flows):
 
     objects = [object_record(k) for k in (hand_key(huc, branch), catchment_key(huc, branch), f'{huc}/branches/{branch}/hydroTable_{branch}.csv')]
     water = row['water']
+    agreement = row['agreement']
+    calibrated_all = calibrated == {'True'}
+    confidence = match_confidence(reach['distanceM'], agreement, forecast, gauge['alongChannelKm'] if forecast['kind'] == 'gauge' else 0, calibrated_all)
     out = {
         'schemaVersion': 1, 'kind': 'hand_junction', 'id': row['id'], 'name': row['name'],
-        'crossing': {'lon': lon, 'lat': lat, 'water': water}, 'forecast': forecast,
-        'reach': {'huc8': huc, 'branch': branch, 'featureId': feature, 'name': reach['name'], 'nameConfirmed': bool(water and reach['name']), 'crossingHydroId': reach['hydroId'], 'crossingDistanceM': reach['distanceM'], **stream},
+        'crossing': {'lon': lon, 'lat': lat, 'water': water, 'displayWater': row['displayWater']}, 'forecast': forecast, 'confidence': confidence, 'droppedHydroIds': dropped,
+        'reach': {'huc8': huc, 'branch': branch, 'featureId': feature, 'name': reach['name'], 'nameAgreement': agreement, 'crossingHydroId': reach['hydroId'], 'crossingDistanceM': reach['distanceM'], **stream},
         'grid': {'cols': int(cols), 'rows': int(rows_n), 'lonMin': lon_min, 'latMax': lat_max, 'dLon': d_lon, 'dLat': d_lat, 'radiusM': r, 'handNodata': HAND_NODATA_CM, 'catchmentNone': CATCHMENT_NONE,
                  'handCm': base64.b64encode(cm.tobytes()).decode(), 'catchment': base64.b64encode(index.tobytes()).decode(), 'sha256': hashlib.sha256(cm.tobytes() + index.tobytes()).hexdigest()},
         'hydroIds': ordered, 'rating': {str(h): used[h] for h in ordered},
         'source': {'bucket': BUCKET, 'publisher': 'NOAA OWP HAND FIM, public copy hosted by CIROH', 'objects': objects, 'version': None,
                    'versionNote': 'The bucket states no FIM version. Age comes from the upload date of these files.',
                    'sourceDate': max(o['lastModified'] for o in objects), 'retrievedAt': now()},
-        'calibration': {'calbApplied': sorted(calibrated), 'calibrated': calibrated == {'True'}},
+        'calibration': {'calbApplied': sorted(calibrated), 'calibrated': calibrated_all},
         'gauge': gauge if forecast['kind'] == 'gauge' else None,
         'verification': {'validHandFractionOfReachCells': round(valid, 4), 'reachCellFractionOfWindow': round(float(linked.mean()), 4), 'nativeGridWetAreaM2': reference},
     }
     (DATA / f"{row['id']}.json").write_text(json.dumps(out, separators=(',', ':')) + '\n', encoding='utf-8')
-    return forecast
+    summary = {'crossingCurve': curves[reach['hydroId']], 'calibrated': calibrated_all, 'sourceDate': out['source']['sourceDate'], 'reachLengthKm': stream['lengthKm'],
+               'gaugeKm': gauge['alongChannelKm'] if forecast['kind'] == 'gauge' else None}
+    return forecast, confidence, summary
 
 
 def run_all(args):
@@ -394,23 +440,29 @@ def run_all(args):
         row = grouped.setdefault(f'{lon:.5f},{lat:.5f}', {'id': slug(p['road'], lon, lat), 'lon': lon, 'lat': lat, 'road': p['road'], 'water': p['water'], 'routes': []})
         row['routes'] = sorted({*row['routes'], p['route']})
         row['water'] = row['water'] or p['water']
-        row['name'] = f"{row['road']} at {row['water']}" if row['water'] else f"{row['road']} ({lat:.4f}, {lon:.4f})"
     hits = catchment_hits({k: (r['lon'], r['lat']) for k, r in grouped.items()})
     DATA.mkdir(parents=True, exist_ok=True)
     counts = {}
     for k, row in grouped.items():
         reach = nearest_reach(row['lon'], row['lat'], hits[k])
         row['nearestReach'] = reach
-        row['status'], row['evidence'] = classify_point(reach, water=row['water'])
-        if row['status'] == 'eligible':
+        row['agreement'] = name_agreement(row['water'], reach['name']) if reach else 'no_name'
+        row['displayWater'] = display_water(row['water'], reach['name'] if reach else None, row['agreement'])
+        row['name'] = f"{row['road']} at {row['displayWater']}" if row['displayWater'] else f"{row['road']} ({row['lat']:.4f}, {row['lon']:.4f})"
+        if not reach:
+            row['status'], row['evidence'] = 'no_hand_catchment', 'No NOAA HAND catchment at this point.'
+        elif exclusion(reach['distanceM'], row['agreement'], reach['name']):
+            row['status'], row['evidence'] = exclusion(reach['distanceM'], row['agreement'], reach['name'])
+        else:
             try:
-                forecast = build_junction(row, args.check_flows)
-                row['status'], row['file'], row['forecast'] = 'supported', row['id'] + '.json', forecast
+                row['forecast'], row['confidence'], row['app'] = build_junction(row, args.check_flows)
+                row['status'], row['file'] = 'supported', row['id'] + '.json'
+                row['evidence'] = f"{reach['distanceM']:.0f} m from HAND reach {reach['featureId']}. {row['confidence']['band']}, {row['confidence']['score']} of 100."
             except Refused as e:
                 row['status'], row['evidence'] = 'build_refused', str(e)
         counts[row['status']] = counts.get(row['status'], 0) + 1
         print(row['status'], row['id'], row['evidence'], flush=True)
-    out = {'schemaVersion': 1, 'checkedAt': now(), 'source': BUCKET, 'maxReachDistanceM': MAX_REACH_DISTANCE_M, 'counts': counts, 'points': sorted(grouped.values(), key=lambda r: (r['status'] != 'supported', r['road'], r['lon']))}
+    out = {'schemaVersion': 1, 'checkedAt': now(), 'source': BUCKET, 'scoreNote': 'The score labels how good the match is. It is not a measured probability.', 'counts': counts, 'points': sorted(grouped.values(), key=lambda r: (r['status'] != 'supported', -(r.get('confidence') or {}).get('score', 0), r['road'], r['lon']))}
     (DATA / 'coverage.json').write_text(json.dumps(out, indent=1) + '\n', encoding='utf-8')
     print(counts)
 

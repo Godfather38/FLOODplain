@@ -1,6 +1,6 @@
 import unittest
 
-from hand_tool import classify_point, forecast_for, rating_problem, reach_forecast_problem, slug, stage_for_flow
+from hand_tool import display_water, exclusion, forecast_for, match_confidence, name_agreement, rating_problem, reach_forecast_problem, slug, stage_for_flow
 
 STATIONS = {'SCTA3': {'usgsId': '09486520', 'reachId': '15890430'}}
 
@@ -9,16 +9,41 @@ def reach(distance=20, feature=15890430, name='Santa Cruz River'):
     return {'distanceM': distance, 'featureId': feature, 'name': name}
 
 
-class Classify(unittest.TestCase):
-    def test_each_outcome(self):
-        status = lambda *a, **k: classify_point(*a, **k)[0]
-        self.assertEqual(status(None), 'no_hand_catchment')
-        self.assertEqual(status(reach(distance=101), water='Santa Cruz River'), 'not_on_modeled_reach')
-        self.assertEqual(status(reach(), water='Los Robles Wash'), 'needs_review')
-        self.assertEqual(status(reach(name='Central Arizona Project Aqueduct')), 'needs_review')
-        self.assertEqual(status(reach(), water='santa cruz river'), 'eligible')
-        self.assertEqual(status(reach()), 'eligible')
-        self.assertEqual(status(reach(name=''), water='Silvercroft Wash'), 'eligible')
+class Confidence(unittest.TestCase):
+    GAUGE, MODEL = {'kind': 'gauge', 'station': 'SCTA3'}, {'kind': 'nwm_reach', 'reachId': '1'}
+
+    def test_names(self):
+        self.assertEqual(name_agreement('Santa Cruz River', 'santa cruz river'), 'agree')
+        self.assertEqual(name_agreement('Yuma Mine Wash', 'Santa Cruz River'), 'conflict')
+        self.assertEqual(name_agreement(None, 'Los Robles Wash'), 'one_name')
+        self.assertEqual(name_agreement('Silvercroft Wash', ''), 'one_name')
+        self.assertEqual(name_agreement(None, ''), 'no_name')
+        self.assertEqual(name_agreement(None, 'Central Arizona Project Aqueduct'), 'canal')
+        self.assertEqual(display_water(None, 'Los Robles Wash', 'one_name'), 'Los Robles Wash (NOAA name)')
+        self.assertIsNone(display_water(None, 'Central Arizona Project Aqueduct', 'canal'))
+
+    def test_score_is_the_sum_of_shown_factors(self):
+        c = match_confidence(21, 'agree', self.GAUGE, 3.01, False)
+        self.assertEqual(c['score'], sum(f['points'] for f in c['factors']))
+        self.assertEqual(c['band'], 'Likely match')
+        self.assertEqual(sum(f['max'] for f in c['factors']), 100)
+
+    def test_score_falls_as_the_match_weakens(self):
+        score = lambda *a: match_confidence(*a)['score']
+        self.assertGreater(score(20, 'agree', self.GAUGE, 3, False), score(20, 'agree', self.GAUGE, 9, False))
+        self.assertGreater(score(20, 'agree', self.GAUGE, 9, False), score(20, 'agree', self.MODEL, 0, False))
+        self.assertGreater(score(20, 'agree', self.MODEL, 0, False), score(20, 'one_name', self.MODEL, 0, False))
+        self.assertGreater(score(20, 'one_name', self.MODEL, 0, False), score(800, 'one_name', self.MODEL, 0, False))
+        self.assertGreater(score(800, 'one_name', self.MODEL, 0, False), score(3300, 'one_name', self.MODEL, 0, False))
+
+    def test_too_far_or_wrong_water_is_left_out(self):
+        self.assertEqual(exclusion(1157, 'one_name', 'Los Robles Wash')[0], 'too_far')
+        self.assertEqual(exclusion(353, 'no_name', '')[0], 'too_far')
+        self.assertEqual(exclusion(198, 'no_name', '')[0], 'too_far')
+        self.assertIsNone(exclusion(304, 'one_name', 'Los Robles Wash'))
+        self.assertIsNone(exclusion(90, 'no_name', ''))
+        self.assertEqual(exclusion(10, 'canal', 'Central Arizona Project Aqueduct')[0], 'wrong_water')
+        self.assertEqual(exclusion(15, 'conflict', 'Santa Cruz River')[0], 'wrong_water')
 
 
 class Forecast(unittest.TestCase):

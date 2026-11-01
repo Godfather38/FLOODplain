@@ -1,5 +1,5 @@
 import {createForecastProvider,normalizeForecast,normalizeReachForecast} from './forecast-provider.js';
-import {estimateFromFlow,estimateFromForecast,loadCoverage,loadJunction,missingCoverageResult} from './hand-inundation.js';
+import {confidenceText,estimateFromFlow,estimateFromForecast,loadCoverage,loadJunction,missingCoverageResult} from './hand-inundation.js';
 const $=id=>document.getElementById(id);
 const CFS_TO_M3S=0.028316846592,COLORS={half:[31,111,209,210],flow:[95,168,234,200],double:[195,224,247,170],none:[138,143,148,110]};
 let provider=createForecastProvider(),points=[],junction=null,forecast=null,result=null,version=0,overlay=null,marker=null,fitted=false,lastBounds=null;
@@ -27,7 +27,7 @@ function paint(j,masks){
 // A map first drawn while its pane is hidden has no size, so measure again before fitting.
 function fit(bounds){map.invalidateSize();map.fitBounds(bounds);fitted=map.getZoom()>0;lastBounds=bounds;}
 
-function showLabels(l){$('label-extent').textContent=l.estimatedExtent??'No estimate.';$('label-age').textContent=l.sourceAge??'';$('label-missing').textContent=l.missingCoverage??'';$('label-uncertainty').textContent=l.uncertainty??'';}
+function showLabels(l){$('label-confidence').textContent=l.confidence??'';$('label-extent').textContent=l.estimatedExtent??'No estimate.';$('label-age').textContent=l.sourceAge??'';$('label-missing').textContent=l.missingCoverage??'';$('label-uncertainty').textContent=l.uncertainty??'';}
 
 function render(r,note=''){
  const {masks,...shown}=r;result=shown;
@@ -58,7 +58,7 @@ async function selectCrossing(id){
  }
  const j=await loadJunction(row.file);if(v!==version)return;
  junction=j;fit(paint(j,null));
- $('status').textContent='Choose a forecast or a flow.';$('summary').textContent='';showLabels({estimatedExtent:'Nothing shown yet.'});
+ $('status').textContent='Choose a forecast or a flow.';$('summary').textContent='';showLabels({confidence:confidenceText(j.confidence),estimatedExtent:'Nothing shown yet.'});
 }
 
 async function recorded(j){
@@ -92,5 +92,8 @@ $('junction').onchange=()=>selectCrossing($('junction').value);
 new ResizeObserver(()=>{if(lastBounds&&!fitted)fit(lastBounds);else map.invalidateSize();}).observe($('map'));
 points=(await loadCoverage()).points;
 const options=rows=>rows.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
-$('junction').innerHTML=`<optgroup label="Estimate available">${options(points.filter(p=>p.status==='supported'))}</optgroup><optgroup label="Missing coverage">${options(points.filter(p=>p.status!=='supported'))}</optgroup>`;
+const group=(label,rows)=>rows.length?`<optgroup label="${label}">${options(rows)}</optgroup>`:'';
+$('junction').innerHTML=['Likely match','Possible match'].map(b=>group(b,points.filter(p=>p.confidence?.band===b))).join('')+group('Missing coverage',points.filter(p=>p.status!=='supported'));
+const wanted=decodeURIComponent(location.hash.slice(1));
+if(points.some(p=>p.id===wanted))$('junction').value=wanted;
 await selectCrossing($('junction').value);

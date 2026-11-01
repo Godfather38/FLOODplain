@@ -46,26 +46,30 @@ function flowSource(j){
  return `Forecast flow is a National Water Model result for the whole reach (${km}), not a gauge reading, and its accuracy on this reach has not been checked.`;
 }
 
+export const SCORE_NOTE='This score labels how good the match is. It is not a measured probability.';
+export const confidenceText=c=>`${c.band}, ${c.score} of 100. ${SCORE_NOTE} `+c.factors.map(f=>`${f.factor}: ${f.points} of ${f.max} (${f.detail}).`).join(' ');
+
 export function buildLabels(j,{extent,now,forecast,source}){
  const age=now-Date.parse(j.source.sourceDate),missing=extent?(extent.noEstimateCells+extent.noHandCells)/extent.totalCells*100:100,km=(2*j.grid.radiusM/1000).toFixed(0);
  const forecastAge=source==='forecast'&&Number.isFinite(forecast?.issueAgeHours)?` Forecast issued ${forecast.issuedAt}, ${forecast.issueAgeHours.toFixed(1)} hours before this view.`:'';
  return {
+  confidence:confidenceText(j.confidence),
   estimatedExtent:`Estimated extent, not observed water. ${source==='forecast'?`From ${forecast?.provider??'a NOAA forecast'}`:'From a chosen flow, not a forecast'}, a computed rating curve and terrain height above the channel.`,
   sourceAge:`NOAA HAND files uploaded ${j.source.sourceDate.slice(0,10)}, ${(age/YEAR_MS).toFixed(1)} years before this view. The files state no FIM version.${forecastAge}`,
   missingCoverage:`No estimate for ${missing.toFixed(0)}% of this ${km} km square (grey): outside the catchments of NWM reach ${j.reach.featureId}. Side washes, local runoff and anything past the square are not included.${extent?.touchesWindowEdge?' The estimated area reaches the edge of the square, so it continues beyond what is shown.':''}`,
-  uncertainty:`Not measured: no ± is available. ${j.calibration.calibrated?'':'This rating curve is not calibrated to gauge readings. '}${flowSource(j)} ${j.reach.nameConfirmed?'':'NOAA and our map data do not both name this water, so this reach is matched by location only. '}Bridges, culverts and berms are not modeled. The half and double flow shading shows sensitivity, not a confidence range.`
+  uncertainty:`Not measured: no ± is available. ${j.calibration.calibrated?'':'This rating curve is not calibrated to gauge readings. '}${flowSource(j)} ${j.reach.crossingDistanceM>100?`The modeled stream is ${Math.round(j.reach.crossingDistanceM)} m from this crossing. `:''}${j.reach.nameAgreement==='agree'?'':'The water name is not confirmed by both our map data and NOAA, so this reach is matched mainly by location. '}${j.droppedHydroIds?.length?`${j.droppedHydroIds.length} catchment(s) in this square have an unusable rating curve and show no estimate. `:''}Bridges, culverts and berms are not modeled. The half and double flow shading shows sensitivity, not a confidence range.`
  };
 }
 
 // What the page says for a crossing with no verified coverage. Never carries an extent.
 export function missingCoverageResult(row){
  return {schemaVersion:1,kind:'hand_inundation_estimate',status:'missing_coverage',reason:row.evidence,junctionId:row.id,name:row.name,crossing:{lon:row.lon,lat:row.lat},
-  labels:{estimatedExtent:'No estimate at this crossing.',sourceAge:'No NOAA HAND files are used here.',missingCoverage:`Missing coverage: ${row.evidence}`,uncertainty:'Not applicable: nothing is estimated here. Missing coverage does not mean water is absent.'},uncertainty:{status:'not_quantified',plusMinus:null}};
+  labels:{confidence:'None: nothing is estimated here.',estimatedExtent:'No estimate at this crossing.',sourceAge:'No NOAA HAND files are used here.',missingCoverage:`Missing coverage: ${row.evidence}`,uncertainty:'Not applicable: nothing is estimated here. Missing coverage does not mean water is absent.'},uncertainty:{status:'not_quantified',plusMinus:null}};
 }
 
 function result(j,fields,{now,forecast,source}){
  const extent=fields.extent??null,labels=buildLabels(j,{extent,now,forecast,source});
- return {schemaVersion:1,kind:'hand_inundation_estimate',junctionId:j.id,name:j.name,forecastSource:j.forecast,crossing:j.crossing,source,
+ return {schemaVersion:1,kind:'hand_inundation_estimate',junctionId:j.id,name:j.name,forecastSource:j.forecast,crossing:j.crossing,confidence:j.confidence,source,
   provenance:{...j.source},calibration:j.calibration,gauge:j.gauge,asOf:new Date(now).toISOString(),labels,
   uncertainty:{status:'not_quantified',plusMinus:null,reason:labels.uncertainty},
   limitations:['Estimated extent only, not observed water.','No passability, closure or bridge condition is inferred.'],...fields};

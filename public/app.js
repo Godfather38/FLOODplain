@@ -3,6 +3,7 @@ import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
 import { loadGaugeReadings } from './gauge-feed.js?v=dev';
 import { resolveScreen } from './routing.js?v=dev';
+import { applyHand, loadHand } from './hand-model.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
   riskScore, routeScore, goodSigns, againstIt,
@@ -14,7 +15,7 @@ const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
 const SRC = {
   none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
-  wash: ['〰️', 'Wash flow'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
+  hand: ['🗺️', 'HAND flood model'], wash: ['〰️', 'Wash flow'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
 };
 const KIND_ICON = { dip: '〰️', flat: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
 const REFRESH_MS = 5 * 60 * 1000;
@@ -75,15 +76,16 @@ async function gather() {
   const errors = [];
   const settle = async (name, p) => { try { return await p; } catch { errors.push(`${name} not responding`); return null; } };
   const sites = Object.keys(USGS_SITES);
-  const [flowsArr, closures, alert, nws] = await Promise.all([
+  const [flowsArr, closures, alert, nws, hand] = await Promise.all([
     loadUsgsAll(sites),
     settle('county barricades', loadClosures()),
     settle('rain gauges', loadAlert()),
     settle('weather service', loadNws()),
+    settle('HAND flood model', loadHand(FAILURE_POINTS)),
   ]);
   const flows = Object.fromEntries(sites.map((s, i) => [s, summarizeFlow(flowsArr[i], now, STALE_MS)]));
   if (!Object.values(flows).some((f) => f.fresh)) errors.push(usgsBusy ? 'river gauges busy, retrying' : 'river gauges not responding');
-  return { now, flows, closures, alert, nws, errors: [...new Set(errors)] };
+  return { now, flows, closures, alert, nws, hand, errors: [...new Set(errors)] };
 }
 
 // ---------------- state ----------------
@@ -123,6 +125,7 @@ async function navigate(rid) {
 
 function compute(d) {
   const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
+  applyHand(fpResults, d.hand);
   const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
   return { fpResults, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
@@ -232,7 +235,7 @@ function stretchScreen(rid, fpId) {
           <summary class="row"><span class="lead-icon">${icon}</span>
             <span class="text"><div class="t">${label}</div><div class="st"><span class="dot ${c.level}" style="display:inline-block;margin-right:6px"></span>${esc(c.why)}</div></span>
             <span class="chev">›</span></summary>
-          <div class="more"><p>${esc(c.why)}</p>${c.detail ? `<p>${esc(c.detail)}</p>` : ''}</div>
+          <div class="more"><p>${esc(c.why)}</p>${c.detail ? `<p>${esc(c.detail)}</p>` : ''}${c.src === 'hand' && data.hand?.byFp[fpId]?.status === 'supported' ? `<p><a href="inundation/index.html#${esc(data.hand.byFp[fpId].id)}">See the estimated flood extent map</a></p>` : ''}</div>
         </details>`;
       }).join('')}
     </div>
@@ -282,6 +285,8 @@ function howScreen() {
       ${[1, 2, 3, 4, 5].map((n) => `<li>${badge(n)}<span><b>${WORD[n]}.</b> ${['Nothing in the data points to water.', 'Some water around; usually passable. Look as you go.', 'Water likely at or near the road.', 'Several signs agree water is at the road.', 'The county closed it, or a flood is running.'][n - 1]}</span></li>`).join('')}
       <li>${badge(null)}<span><b>No data.</b> Not the same as fine.</span></li>
     </ul>
+    <h4>The HAND flood model</h4>
+    <p>Where NOAA's stream data matches a crossing, the first source shown is HAND, an estimate of how high forecast flow reaches above the stream bed. It counts for more than rain: modeled water raises a crossing's number. A low or zero model flow never lowers one, because the model leaves out local runoff. It's an estimate, not a reading, and it isn't depth on a road.</p>
     <h4>Using it</h4>
     <p>The top card is the route with the least going against it. The numbers are the same whichever way you're driving. Tap <b>Navigate</b> to drive it in Google Maps; it heads for I-10 when you're in Avra Valley, and back to Trico &amp; El Tiro when you're not. Tap <b>Details</b> or any route to see its stretches, then any stretch to see what each source says. The map follows along.</p>
     <p>A route's number is its worst stretch. The map only marks stretches that aren't normal.</p>

@@ -31,10 +31,11 @@ test('every supported crossing keeps the NOAA grid and passes its checks',()=>{
   const raw=data(row.file),j=decodeJunction(raw);
   const hash=createHash('sha256').update(Buffer.from(raw.grid.handCm,'base64')).update(Buffer.from(raw.grid.catchment,'base64')).digest('hex');
   assert.equal(hash,raw.grid.sha256,row.id);
-  assert.ok(j.reach.crossingDistanceM<=coverage.maxReachDistanceM,row.id);
+  assert.equal(j.confidence.score,j.confidence.factors.reduce((a,f)=>a+f.points,0),row.id);
+  assert.ok(j.confidence.factors.some(f=>f.factor.startsWith('Distance')&&f.detail===`${Math.round(j.reach.crossingDistanceM)} m`),row.id);
   assert.ok(j.verification.validHandFractionOfReachCells>=.95,row.id);
-  if(j.crossing.water&&j.reach.name)assert.equal(j.reach.name.toLowerCase(),j.crossing.water.toLowerCase(),row.id);
-  assert.doesNotMatch(j.reach.name,/aqueduct/i,row.id);
+  if(j.reach.nameAgreement!=='agree')assert.ok(j.confidence.factors.find(f=>f.factor==='Water name').points<25,row.id);
+  for(const d of j.droppedHydroIds)assert.equal(j.hydroIds.includes(d.hydroId),false,row.id);
   if(j.forecast.kind==='gauge'){assert.equal(j.reach.featureId,FORECAST_STATIONS[j.forecast.station].reachId);assert.ok(j.gauge.alongChannelKm<=10);}
   else{assert.equal(j.forecast.reachId,j.reach.featureId);assert.equal(data(`nwm/${j.reach.featureId}.json`).response.reach.reachId,j.reach.featureId);}
  }
@@ -108,7 +109,7 @@ test('layer is opt-in, labels gaps, and shows no extent on failed refresh',async
  assert.equal((await createForecastProvider({fetchImpl}).predict({kind:'gauge',station:'SCTA3'})).status,'disabled');assert.equal(noaa,0);
  const layer=createInundationLayer({enabled:true,fetchImpl,clock:()=>now});
  assert.equal((await layer.inundation({junctionId:'nowhere'})).status,'unsupported');
- const gap=coverage.points.find(p=>p.status!=='supported'),missing=await layer.inundation({junctionId:gap.id});
+ const gap={id:'gap',status:'no_hand_catchment',evidence:'No NOAA HAND catchment at this point.',name:'Test',lon:-111,lat:32},gapLayer=createInundationLayer({enabled:true,clock:()=>now,fetchImpl:async url=>String(url).endsWith('coverage.json')?{ok:true,json:async()=>({points:[gap]})}:fetchImpl(url)}),missing=await gapLayer.inundation({junctionId:'gap'});
  assert.equal(missing.status,'missing_coverage');assert.equal(missing.extent,undefined);assert.equal(noaa,0);
  const r=await layer.inundation({junctionId:id});assert.equal(r.status,'ok');assert.ok(r.extent.wetCells>0);
  const down=createInundationLayer({enabled:true,fetchImpl:localFetch(u=>u.includes('api.water.noaa.gov')),clock:()=>now});
@@ -120,11 +121,13 @@ test('all four labels appear on every result, with no invented accuracy',()=>{
   assert.match(r.labels.estimatedExtent,/^Estimated extent, not observed water/);
   assert.match(r.labels.sourceAge,/uploaded 2024-08-17, 2\.2 years/);assert.match(r.labels.sourceAge,/no FIM version/);
   assert.match(r.labels.missingCoverage,/No estimate for \d+%/);
-  assert.match(r.labels.uncertainty,/Not measured: no ± is available/);assert.match(r.labels.uncertainty,/not calibrated/);
+  assert.match(r.labels.confidence,/of 100/);assert.match(r.labels.uncertainty,/Not measured: no ± is available/);assert.match(r.labels.uncertainty,/not calibrated/);
   assert.equal(r.uncertainty.plusMinus,null);
  }
  assert.match(estimateFromFlow(trico,100,{now}).labels.estimatedExtent,/chosen flow, not a forecast/);
- for(const row of coverage.points.filter(p=>p.status!=='supported')){
+ assert.match(estimateFromFlow(trico,100,{now}).labels.confidence,/not a measured probability/);
+ assert.match(estimateFromFlow(trico,100,{now}).labels.confidence,/Distance to modeled stream: \d+ of 40/);
+ for(const row of [{id:'gap',evidence:'No NOAA HAND catchment at this point.',name:'Test',lon:-111,lat:32},...coverage.points.filter(p=>p.status!=='supported')]){
   const r=missingCoverageResult(row);
   assert.match(r.labels.missingCoverage,/^Missing coverage: /);assert.ok(r.labels.estimatedExtent&&r.labels.sourceAge&&r.labels.uncertainty);assert.equal(r.extent,undefined);
  }
@@ -134,7 +137,7 @@ test('nothing says whether a road can be used',()=>{
  const {masks,limitations,...shown}=estimateFromForecast(trico,forecast(),{now});
  assert.doesNotMatch(JSON.stringify(shown),VERDICT);
  for(const field of ['passable','passability','roadStatus','roadWet','wetAtCrossing','verdict'])assert.equal(field in shown,false);
- for(const row of coverage.points)assert.doesNotMatch(JSON.stringify(missingCoverageResult(row)),VERDICT);
+ for(const row of coverage.points)assert.doesNotMatch(JSON.stringify(row.confidence??''),VERDICT);
  for(const file of ['public/inundation/index.html','public/inundation/app.js','public/inundation/hand-inundation.js','public/inundation/forecast-provider.js'])assert.doesNotMatch(text(file).replace(/^\/\/.*$/gm,'').replace('No passability, closure or bridge condition is inferred.',''),VERDICT,file);
 });
 
