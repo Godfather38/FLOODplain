@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "conclusion": "The July 2013 event failed despite the improved 2014 development fit. These results do not establish general accuracy or an accuracy interval.",
+  "events": [
+    {
+      "event": "September 2014 \u2014 iterative development",
+      "runId": "reach-levee-ba6b8864723e92ce",
+      "artifact": "sfincs-reach-levee-recorded.json.gz",
+      "sha256": "4bf6f4c2d8cd65a5fbae266227546d4cb50a0fed9c3793df1613793f9f9f8e2a",
+      "comparison": {
+        "siteId": "USGS-09486520",
+        "usedAsForcing": false,
+        "parameterFitting": false,
+        "validationRole": "Iterative development benchmark, not independent held-out validation",
+        "sourceUrl": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09486520&parameter_code=00060&time=2014-09-07T07%3A00%3A00Z%2F2014-09-11T07%3A00%3A00Z&limit=1000",
+        "observedQuality": {
+          "approvalStatuses": [
+            "Approved"
+          ],
+          "qualifiedCount": 16,
+          "maxGapMinutes": 15
+        },
+        "evaluationStart": "2014-09-08T07:00:00+00:00",
+        "pairs": 289,
+        "rmseM3s": 26.164611388584444,
+        "modelPeakM3s": 301.3056640625,
+        "modelPeakTime": "2014-09-09T05:39:00+00:00",
+        "observedPeakM3s": 339.802159104,
+        "observedPeakTime": "2014-09-09T06:45:00+00:00",
+        "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
+      },
+      "peakErrorPercent": -11.329090769466754,
+      "timingErrorMinutes": -66.0
+    },
+    {
+      "event": "July 2013 \u2014 frozen SFINCS, independent event",
+      "runId": "reach-evaluation-2013-5ada5abc93681a3f",
+      "artifact": "sfincs-reach-2013-recorded.json.gz",
+      "sha256": "12479b1b217f4fc83a87c1df434f7de7a72aa6fc2ea653b0e11bfa0a90043ae0",
+      "comparison": {
+        "siteId": "USGS-09486520",
+        "usedAsForcing": false,
+        "parameterFitting": false,
+        "validationRole": "Independent-event check of frozen SFINCS configuration; event previously used by separate simplified routing model; not blinded",
+        "sourceUrl": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09486520&parameter_code=00060&time=2013-07-19T07%3A00%3A00Z%2F2013-07-23T07%3A00%3A00Z&limit=1000",
+        "observedQuality": {
+          "approvalStatuses": [
+            "Approved"
+          ],
+          "qualifiedCount": 0,
+          "maxGapMinutes": 15
+        },
+        "evaluationStart": "2013-07-20T07:00:00+00:00",
+        "pairs": 289,
+        "rmseM3s": 8.082505236955276,
+        "modelPeakM3s": 0.011565825901925564,
+        "modelPeakTime": "2013-07-21T21:57:00+00:00",
+        "observedPeakM3s": 30.865362785280002,
+        "observedPeakTime": "2013-07-21T10:45:00+00:00",
+        "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
+      },
+      "peakErrorPercent": -99.96252813879953,
+      "timingErrorMinutes": 672.0
+    }
+  ]
+}

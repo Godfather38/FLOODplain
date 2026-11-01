@@ -54,3 +54,10 @@ The solver completed in 104.011 seconds using the saved executable on a fresh ru
 Default viewer and historical route context now use the unchanged levee artifact from solver commit `86466e7`. All prior runs remain selectable. Native short-section peak is 301.306 versus 339.802 m3/s observed (11.33% low), 66 minutes early, RMSE 26.165 m3/s. The full-valley peak is a different spatial measurement and is not substituted for the gauge comparison. This is iterative development against the 2014 event, not held-out validation. Levee geometry is published and crest samples come from February 2015 USGS 1 m NAVD88 data; exact September 2014 condition remains uncertain.
 
 `docs/sfincs/LEVEE-CASE.md` and original run provenance preserve source details, the approximate signed water budget, and export handling. Negative native dry-cell storage is clamped for display only; signed storage remains in the budget. No solver rerun, model parameter change, main deployment or HAND branch merge occurred in the app thread.
+
+
+## Frozen July 2013 failure
+
+The viewer now opens the July 2013 independent-event check and presents it alongside the September 2014 development fit. Source solver commit `76cb1e8225c93f130ba98c1864c50e0d951546d5`; the original freeze record is retained in `tools/sfincs/data/evaluation-2013-freeze.json`. The unchanged model produced peak 0.0115658 versus 30.86536 m3/s observed (99.9625% low), 11 h 12 min late, RMSE 8.0825 m3/s. This is a scientific failure, not a software execution failure. No event-specific tuning was performed. The event was previously seen in a separate simplified routing model, so this is not a blinded experiment.
+
+`public/simulation/data/sfincs-event-comparison.json` records both original artifact hashes, metrics and evaluation roles. The improved 2014 development fit does not establish transferable accuracy or a ± interval. Historical SFINCS remains context only in combined route decisions; these metrics do not alter a current route score. Numerical deficit labels are now sourced per run rather than copied from the latest 2014 case.

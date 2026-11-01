@@ -1,0 +1,15 @@
+{
+  "workflowRun": 41295025856,
+  "workflowUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41295025856",
+  "inputCommit": "523a34e",
+  "frozenConfigurationCommit": "86466e74425f3ab467939602edc31c89b83368dc",
+  "engineRun": 41290378239,
+  "solverTotalSeconds": 69.13,
+  "solverSimulationSeconds": 69.001,
+  "workflowConclusion": "success",
+  "parameterChangesAfterScoring": false,
+  "result": "Failed independent-event prediction; preserved without tuning",
+  "peakErrorPercent": -99.96252813879953,
+  "peakTimingErrorMinutes": 672,
+  "appArtifactSha256": "12479b1b217f4fc83a87c1df434f7de7a72aa6fc2ea653b0e11bfa0a90043ae0"
+}
