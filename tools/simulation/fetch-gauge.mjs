@@ -1,0 +1,12 @@
+import { writeFile } from 'node:fs/promises';
+import { normalizeUsgs } from '../../public/simulation/observations.js';
+const [siteId,start,end,output]=process.argv.slice(2);
+if(!/^USGS-\d{8,15}$/.test(siteId??'') || !output || !start?.endsWith('Z') || !end?.endsWith('Z') || !(Date.parse(end)>Date.parse(start)) || Date.parse(end)-Date.parse(start)>48*3600000)throw new Error('Usage: node tools/simulation/fetch-gauge.mjs USGS-09486520 startUTC endUTC output.json (maximum 48 hours)');
+const url=new URL('https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items');
+url.search=new URLSearchParams({f:'json',monitoring_location_id:siteId,parameter_code:'00060',time:`${start}/${end}`,limit:'1000'});
+const response=await fetch(url,{signal:AbortSignal.timeout(45000)});
+if(!response.ok)throw new Error(`USGS HTTP ${response.status}; no retries or authentication fallback`);
+const raw=await response.json(),retrievedAt=new Date().toISOString();
+const normalized=normalizeUsgs(raw,{siteId,retrievedAt,sourceUrl:url.href});
+await writeFile(output,JSON.stringify({raw,normalized},null,2)+'\n');
+console.log(`${normalized.points.length} observations, ${normalized.quality.maxGapMinutes} min max gap; ${normalized.quality.approvalStatuses.join(', ')}`);
