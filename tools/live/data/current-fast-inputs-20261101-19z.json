@@ -1,0 +1,19 @@
+{
+  "kind": "original_fast_sfincs_current_inputs",
+  "archive": "current-fast-inputs-20261101-19z.tar.gz",
+  "sha256": "044aaa713d2da373179144e0b30be3500686cad0734668511d03f601c1ae6fcb",
+  "bytes": 11694702,
+  "rainfallIssue": "2026-11-01T19:00:00Z",
+  "nwmIssue": "2026-11-01T18:00:00Z",
+  "forecastStart": "2026-11-01T22:00:00Z",
+  "forecastEnd": "2026-11-02T12:00:00Z",
+  "analysisStart": "2026-10-30T21:00:00Z",
+  "analysisEnd": "2026-11-01T19:00:00Z",
+  "observedRainfallHours": 46,
+  "missingCellHours": 0,
+  "transitionHours": 3,
+  "transitionRole": "HRRR forecast, not observations",
+  "solverExecuted": false,
+  "target": "Original 29685-cell aligned model; no refined geometry dependency",
+  "sources": "NOAA HRRR, NOAA NWPS NWM, NCEP Stage IV via IEM; raw bytes, query metadata and hashes inside archive"
+}
