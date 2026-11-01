@@ -1,3 +1,4 @@
+import { savedRoutes, toggleSavedRoute, checkAge } from './preferences.js?v=dev';
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
 import { loadGaugeReadings } from './gauge-feed.js?v=dev';
@@ -25,6 +26,9 @@ const store = {
   get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode */ } },
 };
+let favorites = savedRoutes(store.get('savedRoutes'), Object.keys(ROUTE_INFO));
+let saveNotice = '';
+const saveButton = (id) => `<button type="button" class="btn btn-text save-route" data-save-route="${esc(id)}" aria-pressed="${favorites.includes(id)}">${favorites.includes(id) ? 'Saved route' : 'Save route'}</button>`;
 const badge = (n, lg) => `<span class="badge ${lg ? 'lg' : ''} ${n ? `s${n}` : 'sq'}" role="img" aria-label="Risk factor ${n ?? 'unknown'} of 5">${n ?? '?'}</span>`;
 const badgeWithWord = (n) => `<span class="badge-wrap">${badge(n, true)}<span class="badge-word">${n ? WORD[n] : 'No data'}</span></span>`;
 
@@ -167,6 +171,9 @@ function homeScreen() {
       ${against.length ? `<ul class="against">${against.map((a) => `<li><span class="dot ${a.level}"></span><span>${esc(a.short)}: ${esc(a.why)}</span></li>`).join('')}</ul>` : ''}
       <div class="actions">${navBtn(best)}<a class="btn btn-text" href="#/r/${best.id}">Details</a></div>
     </article>
+    <section class="saved-routes" aria-labelledby="saved-title"><h3 id="saved-title" class="section">Your saved routes</h3>
+    ${favorites.some((id) => view.byId[id]) ? `<div class="list">${favorites.filter((id) => view.byId[id]).map((id) => `<a class="row" href="#/r/${id}">${badge(view.byId[id].score)}<span class="text"><span class="t">${esc(ROUTE_INFO[id].name)}</span><span class="st">${esc(topIssue(view.byId[id]))}</span></span><span class="chev" aria-hidden="true">›</span></a>`).join('')}</div>` : '<p class="meta">Open a route and choose Save route to keep it here for this area.</p>'}
+    <p class="meta">Saved on this browser. Ratings still use the current check.</p></section>
     <h3 class="section">Other routes</h3>
     <div class="list">
       ${others.map((r) => `
@@ -204,6 +211,7 @@ function routeScreen(rid) {
       <div class="hero-top"><div style="flex:1"><p class="meta" style="margin:0">${minutes(r)} · ${esc(viaText(rid))}</p></div>${badgeWithWord(r.score)}</div>
       <div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(r))}</p></div>
     </article>
+    ${saveButton(rid)}<p id="save-notice" class="meta" role="status">${esc(saveNotice)}</p>
     ${flagged.length ? `<h3 class="section">Working against it</h3><div class="list">${flagged.map(row).join('')}</div>` : ''}
     ${normal.length ? `<h3 class="section">${flagged.length ? 'Looks normal' : 'Every stretch looks normal'}</h3><div class="list">${normal.map(row).join('')}</div>` : ''}
     <div class="bottom-bar">${navBtn(r)}</div>`;
@@ -573,6 +581,13 @@ function render() {
     home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
     how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, report: () => reportScreen(w.fp),
   }[w.screen]();
+  if (['home', 'route', 'stretch'].includes(w.screen)) {
+    const status = document.createElement('aside');
+    status.className = 'check-status';
+    status.innerHTML = '<strong id="check-age"></strong><p>Check time is not the age of every reading. Open a crossing for source details.</p>' + (data.errors.length ? `<p>${esc(data.errors.join('; '))}.</p>` : '');
+    $('#screen').prepend(status);
+    updateCheckAge();
+  }
   wire(w);
   drawMap(w);
 }
@@ -580,7 +595,21 @@ function subtitle() {
   const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   return `${areaInfo().name} ↔ I-10 · ${t(data.now)}${data.errors.length ? ` · public ${data.errors.join(', ')}` : ''}`;
 }
+function updateCheckAge() {
+  const el = $('#check-age');
+  if (el && data) el.textContent = checkAge(data.now, Date.now(), navigator.onLine);
+}
 function wire(w) {
+  document.querySelectorAll('[data-save-route]').forEach((b) => b.addEventListener('click', () => {
+    favorites = toggleSavedRoute(favorites, b.dataset.saveRoute, Object.keys(ROUTE_INFO));
+    try {
+      localStorage.setItem('savedRoutes', JSON.stringify(favorites));
+      saveNotice = favorites.includes(b.dataset.saveRoute) ? 'Saved on this browser. Find it on the home screen.' : 'Removed from your saved routes.';
+    } catch { saveNotice = 'This change applies to this visit only. Browser storage is unavailable.'; }
+    b.setAttribute('aria-pressed', String(favorites.includes(b.dataset.saveRoute)));
+    b.textContent = favorites.includes(b.dataset.saveRoute) ? 'Saved route' : 'Save route';
+    $('#save-notice').textContent = saveNotice;
+  }));
   document.querySelectorAll('[data-area]').forEach((b) => b.addEventListener('click', () => {
     useArea(b.dataset.area);
     view = compute(data);
@@ -696,6 +725,8 @@ async function check() {
   if (checking) return;
   checking = true;
   $('#refresh').classList.add('spin');
+  $('#refresh').disabled = true;
+  $('#refresh').setAttribute('aria-label', 'Checking conditions');
   try {
     const next = await gather();
     const nextView = compute(next);
@@ -710,13 +741,15 @@ async function check() {
   } finally {
     checking = false;
     $('#refresh').classList.remove('spin');
+    $('#refresh').disabled = false;
+    $('#refresh').setAttribute('aria-label', 'Check again');
   }
 }
 async function init() {
   allRoutes = (await getJson('data/routes.geojson')).features;
   useArea(store.get('area') ?? 'avra');
   map.fitBounds(allBounds, { animate: false });
-  window.addEventListener('hashchange', () => { openSource = null; render(); window.scrollTo(0, 0); });
+  window.addEventListener('hashchange', () => { saveNotice = ''; openSource = null; render(); window.scrollTo(0, 0); });
   $('#back').addEventListener('click', () => {
     const w = where();
     // Go back through the app's own history; if the app was opened deep, go to the parent screen.
@@ -734,6 +767,8 @@ async function init() {
   } catch { /* private mode */ }
   await check();
   setInterval(check, REFRESH_MS);
+  setInterval(updateCheckAge, 30000);
+  window.addEventListener('offline', updateCheckAge);
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && (!data || Date.now() - data.now >= REFRESH_MS)) check();
   });
