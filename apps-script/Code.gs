@@ -416,8 +416,11 @@ function sunset_(today, props) {
 // TWILIO_FROM) or from a private Secrets.gs file in the same Apps Script project that
 // defines `const TWILIO = { SID, TOKEN, FROM }`. Neither is ever committed to GitHub.
 // Without a FROM number, the account's first Twilio number is looked up and remembered.
+// Beta: texts stay on Verizon's email-to-text until the Script property TWILIO_APPROVED
+// is "yes". Carriers block an unapproved sender, and Twilio's refusal never reaches us.
 function twilio_() {
   const p = PropertiesService.getScriptProperties();
+  if (p.getProperty('TWILIO_APPROVED') !== 'yes') return null;
   const file = typeof TWILIO === 'object' && TWILIO ? TWILIO : {};
   const sid = p.getProperty('TWILIO_SID') || file.SID;
   const token = p.getProperty('TWILIO_TOKEN') || file.TOKEN;

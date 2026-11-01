@@ -70,7 +70,7 @@ export function message(best, order, rated, missing, now, area = 'avra') {
 export function sourceUrls(usgsKey) {
   const q = new URLSearchParams({
     where: '1=1', outFields: 'Location,Status,timeUpdated', returnGeometry: 'true', outSR: '4326', f: 'json',
-    geometry: '-111.45,32.25,-111.10,32.50', geometryType: 'esriGeometryEnvelope', inSR: '4326', spatialRel: 'esriSpatialRelIntersects',
+    geometry: cfg.CLOSURE_BOUNDS, geometryType: 'esriGeometryEnvelope', inSR: '4326', spatialRel: 'esriSpatialRelIntersects',
   });
   return {
     usgs: Object.fromEntries(Object.keys(cfg.USGS_SITES).map((s) => [s, `${cfg.SOURCES.usgs}/collections/continuous/items?f=json&monitoring_location_id=USGS-${s}`

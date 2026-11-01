@@ -276,3 +276,11 @@ export const LINKS = [
   ['NWS Tucson', 'https://www.weather.gov/twc/'],
   ['AZ 511 (I-10)', 'https://az511.com/'],
 ];
+
+// Include every rated crossing plus enough margin for nearby barricades.
+export const CLOSURE_BOUNDS = [
+  Math.min(...FAILURE_POINTS.map((p) => p.lon)) - 0.01,
+  Math.min(...FAILURE_POINTS.map((p) => p.lat)) - 0.01,
+  Math.max(...FAILURE_POINTS.map((p) => p.lon)) + 0.01,
+  Math.max(...FAILURE_POINTS.map((p) => p.lat)) + 0.01,
+].join(',');

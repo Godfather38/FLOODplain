@@ -1,4 +1,5 @@
 import * as cfg from './config.js?v=dev';
+import { getJson } from './network.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
   riskScore, routeScore, goodSigns, againstIt,
@@ -26,11 +27,6 @@ const badge = (n, lg) => `<span class="badge ${lg ? 'lg' : ''} ${n ? `s${n}` : '
 const badgeWithWord = (n) => `<span class="badge-wrap">${badge(n, true)}<span class="badge-word">${n ? WORD[n] : 'No data'}</span></span>`;
 
 // ---------------- data ----------------
-async function getJson(url, opts) {
-  const r = await fetch(url, { cache: 'no-store', ...opts });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return r.json();
-}
 // River gauges. USGS limits how often one phone may ask without a key, so:
 //  1. ask our alert service first (it already pulls every gauge each minute: one request),
 //  2. otherwise ask USGS directly, but reuse each gauge's reading for 10 minutes,
@@ -52,15 +48,13 @@ async function loadUsgsAll(sites) {
     const cached = store.get(`usgs:${site}`);
     if (cached && Date.now() - cached.at < USGS_REUSE_MS) return parseContinuous(cached.json);
     try {
-      const r = await fetch(`${SOURCES.usgs}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
+      const json = await getJson(`${SOURCES.usgs}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
         + '&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code'
         + (key ? `&api_key=${encodeURIComponent(key)}` : ''), { cache: 'no-store' });
-      if (r.status === 429) usgsBusy = true;
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const json = await r.json();
       store.set(`usgs:${site}`, { at: Date.now(), json });
       return parseContinuous(json);
-    } catch {
+    } catch (e) {
+      if (e.status === 429) usgsBusy = true;
       return cached ? parseContinuous(cached.json) : null;
     }
   }));
@@ -68,7 +62,7 @@ async function loadUsgsAll(sites) {
 async function loadClosures() {
   const q = new URLSearchParams({
     where: '1=1', outFields: 'Location,Status,timeUpdated', returnGeometry: 'true', outSR: '4326', f: 'json',
-    geometry: '-111.45,32.25,-111.10,32.50', geometryType: 'esriGeometryEnvelope', inSR: '4326', spatialRel: 'esriSpatialRelIntersects',
+    geometry: cfg.CLOSURE_BOUNDS, geometryType: 'esriGeometryEnvelope', inSR: '4326', spatialRel: 'esriSpatialRelIntersects',
   });
   const j = await getJson(`${SOURCES.closures}/query?${q}`);
   if (j.error) throw new Error(j.error.message);
@@ -362,7 +356,7 @@ function alertsScreen() {
          <button type="button" class="btn btn-primary" id="t-confirm">Start texts</button>`
       : textFlow.step === 'done'
         ? `<p>Texts are on for ${esc(textFlow.phone)}. A confirmation text is on its way.</p>`
-        : `<label class="field">${textFlow.sender === 'any' ? 'Mobile number' : 'Verizon mobile number'}<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
+        : `<label class="field">${textFlow.sender === 'any' ? 'Mobile number' : 'Mobile number on Verizon’s towers'}<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
            <label class="field">Access key (optional, for more than 2 texts a day)<input id="t-key" type="text" autocomplete="off" value="${esc(textFlow.key ?? '')}"></label>
            <p class="consent">By tapping <b>Text me a code</b>, you agree to get recurring FLOODplain road-flooding texts: one text at each time you pick, at most 4 msgs/day, plus a one-time sign-up code. Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. No marketing; your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
            <button type="button" class="btn btn-primary" id="t-signup">Text me a code</button>
@@ -400,12 +394,20 @@ function alertsScreen() {
     <p class="note">${textFlow.sender === 'any'
       ? '<b>Texts are on</b> for any US mobile number.'
       : textFlow.sender === 'verizon'
-        ? '<b>Texts aren’t fully set up yet.</b> Right now they only reach <b>Verizon</b> phones. Other carriers: coming once our text sender is approved. Until then, use push alerts above. They work on any phone.'
+        ? '<b>Texts are in beta.</b> Right now they only reach phones on <b>Verizon’s towers</b>. Other carriers: coming once our text sender is approved. Until then, use push alerts above. They work on any phone.'
         : 'Checking whether texts are available…'}</p>
+    ${textFlow.sender === 'verizon' ? `<details class="beta-phones">
+      <summary>Whose phones work in beta?</summary>
+      <p><b>Tested and working:</b> Xfinity Mobile.</p>
+      <p><b>Should work, not tested yet:</b> Verizon, Visible, Spectrum Mobile, Total Wireless.</p>
+      <p><b>Depends on your SIM:</b> Straight Talk, Tracfone, US Mobile and others that use more than one network. They need to be on Verizon’s towers.</p>
+      <p><b>Not yet:</b> AT&amp;T, T-Mobile, Metro, Cricket, Boost.</p>
+      <p>To check yours, tap <b>Text me a code</b>. If the code arrives, your phone works.</p>
+    </details>` : ''}
     ${textFlow.msg ? `<p class="note">${esc(textFlow.msg)}</p>` : ''}
     ${textCard}
   </div>
-  ${cfg.TEXT_API && textFlow.sender === 'verizon' ? `<h3 class="section">Not on Verizon? Join the text waitlist</h3>
+  ${cfg.TEXT_API && textFlow.sender === 'verizon' ? `<h3 class="section">Not on Verizon’s towers? Join the text waitlist</h3>
   <div class="page">
     ${textFlow.waitMsg ? `<p class="note">${esc(textFlow.waitMsg)}</p>` : ''}
     ${textFlow.waitDone ? '' : `<p>Leave your number and we'll send <b>one text</b> when texts work on every carrier. Then you sign up here like anyone else.</p>
@@ -702,12 +704,19 @@ function gaugesFor(fp, c) {
 }
 
 // ---------------- run ----------------
+let checking = false;
 async function check() {
+  if (checking) return;
+  checking = true;
   $('#refresh').classList.add('spin');
-  data = await gather();
-  view = compute(data);
-  $('#refresh').classList.remove('spin');
-  render();
+  try {
+    data = await gather();
+    view = compute(data);
+    render();
+  } finally {
+    checking = false;
+    $('#refresh').classList.remove('spin');
+  }
 }
 async function init() {
   allRoutes = (await getJson('data/routes.geojson')).features;

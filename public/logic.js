@@ -192,7 +192,7 @@ export function rateFailurePoint(fp, d, cfg) {
   let level = known.length ? worst(known.map((c) => c.level)) : 'ok';
   if (!known.length) checks.unshift({ src: 'none', level: 'ok', why: 'No live readings right now, and nothing reported against it' });
   // Shallow spots per local knowledge: Silverbell drainage, the big flat dip on Ina.
-  if ((fp.kind === 'road' || fp.kind === 'flat') && level === 'danger') level = 'caution';
+  if ((fp.kind === 'road' || fp.kind === 'flat') && level === 'danger' && closure?.level !== 'danger') level = 'caution';
   // Lead with a measurement when one exists; the county "Open" flag is often days old.
   // Lead with the most specific source at that level: county closure, then local measurements, then NWS.
   const pref = ['county', 'wash', 'rain-local', 'river', 'rain-road', 'rain-basin', 'river-early', 'nws'];

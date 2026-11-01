@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 // The single-file Apps Script bundle computes the same verdict the app does, from raw feeds.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -5,7 +6,7 @@ import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { makeGas } from './gas-mock.js';
 
-execFileSync(process.execPath, [new URL('../tools/build_gas.mjs', import.meta.url).pathname]);
+execFileSync(process.execPath, [fileURLToPath(new URL('../tools/build_gas.mjs', import.meta.url))]);
 const SRC = readFileSync(new URL('../apps-script/WashWatch.gs', import.meta.url), 'utf8');
 const fx = (n) => readFileSync(new URL(`./fixtures/${n}`, import.meta.url), 'utf8');
 
