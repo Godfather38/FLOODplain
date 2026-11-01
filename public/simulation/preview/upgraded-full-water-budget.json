@@ -1,0 +1,358 @@
+{
+  "runId": "refined-full-41344983607",
+  "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+  "frames": 57,
+  "phoneBudget": 120000,
+  "allFramesFitPhone": true,
+  "maximum": {
+    "time": "2026-11-02T07:00:00Z",
+    "wetFaces": 54231,
+    "waterTriangles": 111469,
+    "missingSurfaceWetFaces": 0
+  },
+  "frameCounts": [
+    {
+      "time": "2026-11-01T17:00:00Z",
+      "wetFaces": 5658,
+      "waterTriangles": 8942,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T17:15:00Z",
+      "wetFaces": 5671,
+      "waterTriangles": 8974,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T17:30:00Z",
+      "wetFaces": 5676,
+      "waterTriangles": 8984,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T17:45:00Z",
+      "wetFaces": 5961,
+      "waterTriangles": 9395,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T18:00:00Z",
+      "wetFaces": 7064,
+      "waterTriangles": 11148,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T18:15:00Z",
+      "wetFaces": 8885,
+      "waterTriangles": 13908,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T18:30:00Z",
+      "wetFaces": 11133,
+      "waterTriangles": 17499,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T18:45:00Z",
+      "wetFaces": 13740,
+      "waterTriangles": 21527,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T19:00:00Z",
+      "wetFaces": 16518,
+      "waterTriangles": 26181,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T19:15:00Z",
+      "wetFaces": 19636,
+      "waterTriangles": 31492,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T19:30:00Z",
+      "wetFaces": 23203,
+      "waterTriangles": 37861,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T19:45:00Z",
+      "wetFaces": 26784,
+      "waterTriangles": 44406,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T20:00:00Z",
+      "wetFaces": 29561,
+      "waterTriangles": 49932,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T20:15:00Z",
+      "wetFaces": 31810,
+      "waterTriangles": 54707,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T20:30:00Z",
+      "wetFaces": 34207,
+      "waterTriangles": 59806,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T20:45:00Z",
+      "wetFaces": 36379,
+      "waterTriangles": 64682,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T21:00:00Z",
+      "wetFaces": 37787,
+      "waterTriangles": 68058,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T21:15:00Z",
+      "wetFaces": 38543,
+      "waterTriangles": 70203,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T21:30:00Z",
+      "wetFaces": 39558,
+      "waterTriangles": 72761,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T21:45:00Z",
+      "wetFaces": 40439,
+      "waterTriangles": 75175,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T22:00:00Z",
+      "wetFaces": 41224,
+      "waterTriangles": 77909,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T22:15:00Z",
+      "wetFaces": 41871,
+      "waterTriangles": 80213,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T22:30:00Z",
+      "wetFaces": 42581,
+      "waterTriangles": 82698,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T22:45:00Z",
+      "wetFaces": 43177,
+      "waterTriangles": 84377,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T23:00:00Z",
+      "wetFaces": 43553,
+      "waterTriangles": 85748,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T23:15:00Z",
+      "wetFaces": 43742,
+      "waterTriangles": 86485,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T23:30:00Z",
+      "wetFaces": 43715,
+      "waterTriangles": 86498,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-01T23:45:00Z",
+      "wetFaces": 43558,
+      "waterTriangles": 86142,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T00:00:00Z",
+      "wetFaces": 43392,
+      "waterTriangles": 85848,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T00:15:00Z",
+      "wetFaces": 43162,
+      "waterTriangles": 85348,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T00:30:00Z",
+      "wetFaces": 42934,
+      "waterTriangles": 84834,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T00:45:00Z",
+      "wetFaces": 42649,
+      "waterTriangles": 84286,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T01:00:00Z",
+      "wetFaces": 42372,
+      "waterTriangles": 83810,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T01:15:00Z",
+      "wetFaces": 42131,
+      "waterTriangles": 83351,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T01:30:00Z",
+      "wetFaces": 41905,
+      "waterTriangles": 83109,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T01:45:00Z",
+      "wetFaces": 41658,
+      "waterTriangles": 82989,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T02:00:00Z",
+      "wetFaces": 41490,
+      "waterTriangles": 82702,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T02:15:00Z",
+      "wetFaces": 41289,
+      "waterTriangles": 82305,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T02:30:00Z",
+      "wetFaces": 41107,
+      "waterTriangles": 82065,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T02:45:00Z",
+      "wetFaces": 40968,
+      "waterTriangles": 81954,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T03:00:00Z",
+      "wetFaces": 40816,
+      "waterTriangles": 81674,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T03:15:00Z",
+      "wetFaces": 40656,
+      "waterTriangles": 81478,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T03:30:00Z",
+      "wetFaces": 40574,
+      "waterTriangles": 81395,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T03:45:00Z",
+      "wetFaces": 40492,
+      "waterTriangles": 81335,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T04:00:00Z",
+      "wetFaces": 40421,
+      "waterTriangles": 81318,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T04:15:00Z",
+      "wetFaces": 40550,
+      "waterTriangles": 81854,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T04:30:00Z",
+      "wetFaces": 40749,
+      "waterTriangles": 82407,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T04:45:00Z",
+      "wetFaces": 41124,
+      "waterTriangles": 83116,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T05:00:00Z",
+      "wetFaces": 41809,
+      "waterTriangles": 84418,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T05:15:00Z",
+      "wetFaces": 42776,
+      "waterTriangles": 86215,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T05:30:00Z",
+      "wetFaces": 43764,
+      "waterTriangles": 88185,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T05:45:00Z",
+      "wetFaces": 44950,
+      "waterTriangles": 90953,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T06:00:00Z",
+      "wetFaces": 46547,
+      "waterTriangles": 94344,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T06:15:00Z",
+      "wetFaces": 48380,
+      "waterTriangles": 98348,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T06:30:00Z",
+      "wetFaces": 50295,
+      "waterTriangles": 102624,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T06:45:00Z",
+      "wetFaces": 52227,
+      "waterTriangles": 106930,
+      "missingSurfaceWetFaces": 0
+    },
+    {
+      "time": "2026-11-02T07:00:00Z",
+      "wetFaces": 54231,
+      "waterTriangles": 111469,
+      "missingSurfaceWetFaces": 0
+    }
+  ],
+  "method": "Native depth threshold0.01m, finite native zs, original face-local support triangles clipped by retained boundary elevations; no interpolation between times."
+}

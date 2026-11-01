@@ -68,3 +68,4 @@ public/simulation/data/refined-partial-41339621278/** -text
 public/simulation/data/refined-compact-41339621278/** -text
 # Preserve source-bound refined terrain evidence bytes.
 public/simulation/data/refined-partial-41339621278/terrain-* -text
+public/simulation/data/refined-full-compact-41344983607/** -text

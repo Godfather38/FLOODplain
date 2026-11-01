@@ -1,0 +1,13 @@
+{
+  "status": "available",
+  "artifact": {
+    "path": "terrain-index-overview.json.gz",
+    "sha256": "0f7a92538e26925393b6aaba5e47fa559c6c0cb0f72939c6e6987d0eff3a88b6",
+    "bytes": 426634
+  },
+  "kind": "native_face_terrain_tiles",
+  "runId": "refined-partial-41339621278",
+  "geometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+  "verticalDatum": "NAVD88",
+  "note": "Lazy source-bound terrain overview and native water support for wide 3D views; native quantities and time interval unchanged."
+}

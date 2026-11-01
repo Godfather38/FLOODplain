@@ -1,6 +1,11 @@
 {
-  "status": "partial",
-  "path": "data/refined-compact-41339621278/manifest.json",
-  "sha256": "a11c8bb480747d141e616d9a36041020c9d92a4e4fa797a8ed527e8bc1abf56b",
-  "reason": "Partial frozen run: 21 complete frames, 10 AM–3 PM MST; nine forecast hours missing."
+  "status": "complete",
+  "path": "data/refined-full-compact-41344983607/manifest.json",
+  "sha256": "9d2213c5032f4c779d269b3b6d088f3c5325468952452b946f32ef141479353c",
+  "runId": "refined-full-41344983607",
+  "executionMode": "simulated_live_frozen_inputs",
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "frames": 57,
+  "note": "Completed native output using original frozen model inputs; not an automatic current-weather refresh."
 }

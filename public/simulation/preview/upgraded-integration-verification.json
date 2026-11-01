@@ -1,0 +1,2433 @@
+{
+  "environment": "Actual integrated app, completed frozen 57-frame compact run; Chrome SwiftShader, DPR3 emulation, not physical phone",
+  "errors": [],
+  "consoleErrors": [],
+  "requests": [
+    "http://127.0.0.1:8094/index.html?case=refined",
+    "http://127.0.0.1:8094/vendor/leaflet/leaflet.css",
+    "http://127.0.0.1:8094/style.css?v=dev",
+    "http://127.0.0.1:8094/simulation/map-layers.css",
+    "http://127.0.0.1:8094/live-map.css",
+    "http://127.0.0.1:8094/vendor/leaflet/leaflet.js",
+    "http://127.0.0.1:8094/app.js?v=dev",
+    "http://127.0.0.1:8094/icons/logo.svg",
+    "http://127.0.0.1:8094/simulation/bridge-evidence.js",
+    "http://127.0.0.1:8094/simulation/map-layers.js",
+    "http://127.0.0.1:8094/live-map.js",
+    "http://127.0.0.1:8094/preferences.js?v=dev",
+    "http://127.0.0.1:8094/config.js?v=dev",
+    "http://127.0.0.1:8094/network.js?v=dev",
+    "http://127.0.0.1:8094/gauge-feed.js?v=dev",
+    "http://127.0.0.1:8094/routing.js?v=dev",
+    "http://127.0.0.1:8094/underpasses.js?v=dev",
+    "http://127.0.0.1:8094/logic.js?v=dev",
+    "http://127.0.0.1:8094/simulation/current-map-publication.js",
+    "http://127.0.0.1:8094/simulation/map-case.js",
+    "http://127.0.0.1:8094/simulation/map-state.js",
+    "http://127.0.0.1:8094/simulation/map-shell.js",
+    "http://127.0.0.1:8094/simulation/current-inundation.js",
+    "http://127.0.0.1:8094/simulation/vendor/claude-hand/hand-inundation.js",
+    "http://127.0.0.1:8094/simulation/route-fusion.js",
+    "http://127.0.0.1:8094/config.js",
+    "http://127.0.0.1:8094/inundation/hand-inundation.js",
+    "http://127.0.0.1:8094/inundation/forecast-provider.js",
+    "http://127.0.0.1:8094/simulation/quadtree-output.js",
+    "http://127.0.0.1:8094/simulation/recent-readings.js",
+    "http://127.0.0.1:8094/simulation/inundation-contract.js",
+    "http://127.0.0.1:8094/inundation/forecast-stations.js",
+    "http://127.0.0.1:8094/network.js",
+    "http://127.0.0.1:8094/vendor/leaflet/images/layers-2x.png",
+    "http://127.0.0.1:8094/simulation/data/refined-sfincs-publication.json",
+    "http://127.0.0.1:8094/simulation/data/bridge-evidence-registry.json",
+    "http://127.0.0.1:8094/simulation/data/bridge-evidence-source.json",
+    "http://127.0.0.1:8094/data/routes.geojson",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/manifest.json",
+    "http://127.0.0.1:8094/icons/logo.svg",
+    "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?hit=1&new=1",
+    "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=usgs",
+    "https://services2.arcgis.com/UTBp78iglGpbqp1B/arcgis/rest/services/Road_Closures_viewPAG/FeatureServer/0/query?where=1%3D1&outFields=Location%2CStatus%2CtimeUpdated&returnGeometry=true&outSR=4326&f=json&geometry=-111.31426%2C32.224000000000004%2C-110.97614%2C32.46369&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects",
+    "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=alert",
+    "https://api.weather.gov/alerts/active?point=32.41,-111.27",
+    "https://tile.openstreetmap.org/13/1565/3315.png",
+    "https://tile.openstreetmap.org/13/1565/3314.png",
+    "https://tile.openstreetmap.org/13/1564/3315.png",
+    "https://tile.openstreetmap.org/13/1566/3315.png",
+    "https://tile.openstreetmap.org/13/1565/3316.png",
+    "https://tile.openstreetmap.org/13/1564/3314.png",
+    "https://tile.openstreetmap.org/13/1566/3314.png",
+    "https://tile.openstreetmap.org/13/1564/3316.png",
+    "https://tile.openstreetmap.org/13/1566/3316.png",
+    "https://tile.openstreetmap.org/13/1563/3315.png",
+    "https://tile.openstreetmap.org/13/1567/3315.png",
+    "https://tile.openstreetmap.org/13/1563/3314.png",
+    "https://tile.openstreetmap.org/13/1567/3314.png",
+    "https://tile.openstreetmap.org/13/1563/3316.png",
+    "https://tile.openstreetmap.org/13/1567/3316.png",
+    "http://127.0.0.1:8094/simulation/data/current-sfincs-manifest.json",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/geometry.bin.gz",
+    "http://127.0.0.1:8094/icons/icon-192.png",
+    "http://127.0.0.1:8094/simulation/geographic-view.js",
+    "http://127.0.0.1:8094/simulation/geographic-view-observed.js",
+    "http://127.0.0.1:8094/simulation/renderer-chunks/chunk-3TDQH4E2.js",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnT3Qbt3JQOvNXZ2tlxVjrmlK_X88k9C0jYhrR-XrLiFlPxJmFpC343RAqa8BTje3tGX3OX2ULrPGC-9LZ5Z_qmfZNHO-u84xv9iBvpILD1ejzNtOor4ZopN0A9xZ1BHxzhShWQlDsh2zYvnFMNiU6whUQltN2718xRwk_RsIDxkR7jao4uEfm5bQzMAxnJbKslOIa4z75sb-1yn2euIjiCMH_azHGGAhDBsyL2J6ddKGQzh7UZktbF3fjdp9RxBhA5UObd_DfxShKklALuZu3jMcSIt1WLJ48ynEJBN&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
+    "http://127.0.0.1:8094/simulation/geographic-view.css",
+    "https://tiles.openfreemap.org/planet",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/781/1656.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1656.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1656.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/784/1656.pbf",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnTkUDxJ0WdjcGtVtzKkG4mAzK56WytZaZUKzAa68CkxTlttBIZdlOHI3jAO8Dapnx1Y7QHbS1U1dAPBgLNV9R1HK7OiszXLHHSjG_PxVxrdeaECWtvMm_QfcCMrvRG1ua37KO9Un3Wax3BSW6MwJro_cJMr31oZDoEFiFymR31vcBYzHN-w1a2Xa0MKWzD1vRUztIJDxhopsfyAzGstPBcKZo3izGzuYrP5STtR_Y8M-BwvfbP9uMBu43dcycc12Y78uQtC7lypdORqKLaofeipwFOWuJ_u54SQsiHg&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/781/1657.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1657.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1657.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/784/1657.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/781/1658.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1658.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1658.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/784/1658.pbf",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-20.bin.gz",
+    "http://127.0.0.1:8094/simulation/data/current-sfincs-manifest.json",
+    "http://127.0.0.1:8094/hand-model.js?v=dev",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-20.bin.gz",
+    "http://127.0.0.1:8094/inundation/data/coverage.json",
+    "https://api.water.noaa.gov/nwps/v1/reaches/945050510/streamflow?series=short_range",
+    "https://api.water.noaa.gov/nwps/v1/reaches/15877577/streamflow?series=short_range",
+    "https://api.water.noaa.gov/nwps/v1/reaches/945050482/streamflow?series=short_range",
+    "https://api.water.noaa.gov/nwps/v1/gauges/SCTA3",
+    "https://api.water.noaa.gov/nwps/v1/gauges/SCTA3/stageflow",
+    "https://api.water.noaa.gov/nwps/v1/reaches/15890430/streamflow?series=short_range",
+    "https://api.water.noaa.gov/nwps/v1/reaches/15902411/streamflow?series=short_range",
+    "https://api.water.noaa.gov/nwps/v1/reaches/15902409/streamflow?series=short_range",
+    "https://api.water.noaa.gov/nwps/v1/reaches/15902363/streamflow?series=short_range",
+    "https://api.water.noaa.gov/nwps/v1/reaches/15877613/streamflow?series=short_range",
+    "https://api.water.noaa.gov/nwps/v1/reaches/15904697/streamflow?series=short_range",
+    "http://127.0.0.1:8094/simulation/data/refined-sfincs-publication.json",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-0.bin.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-56.bin.gz",
+    "http://127.0.0.1:8094/simulation/renderer-chunks/geographic-3d-runtime-YEGS6ZHD.js",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-index-overview.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-water-support.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-overview-100m.json.gz",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/389/827.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/390/827.pbf",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRN49fJJP4-foZrDUfi2g3_RbZKaQky_CldRFu8zju-UC835eUksJh8hOh2rRxijLbO6cofP9k_2p4zNc-cP4PG-tuO8YxYF4QuzObnrXn3WBSRrZbjj29_SFfF1S2EbPZ189iUQEg3AaA1VV4GCQZEcFK2SZzWCa4jvme0Z32GPrM2qQ4BjEovBH-pY3RD1P_Gz0iukP6nxZB7IPxTIs8TvVTYx-UdGrb36Fgsh443oBBqg5tkkpdl5xeesbEL_LOBs9miT99jZTC_DKbOGDDs8A393DTr_musVR5-&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/391/827.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/392/827.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/389/828.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/390/828.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/391/828.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/392/828.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/389/829.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/390/829.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/391/829.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/392/829.pbf",
+    "https://tile.openstreetmap.org/13/1565/3313.png",
+    "https://tile.openstreetmap.org/13/1564/3313.png",
+    "https://tile.openstreetmap.org/13/1566/3313.png",
+    "https://tile.openstreetmap.org/13/1563/3313.png",
+    "https://tile.openstreetmap.org/13/1567/3313.png",
+    "https://tile.openstreetmap.org/11/391/828.png",
+    "https://tile.openstreetmap.org/11/391/827.png",
+    "https://tile.openstreetmap.org/11/390/828.png",
+    "https://tile.openstreetmap.org/11/392/828.png",
+    "https://tile.openstreetmap.org/11/391/829.png",
+    "https://tile.openstreetmap.org/11/390/827.png",
+    "https://tile.openstreetmap.org/11/392/827.png",
+    "https://tile.openstreetmap.org/11/390/829.png",
+    "https://tile.openstreetmap.org/11/392/829.png",
+    "https://tile.openstreetmap.org/11/389/828.png",
+    "https://tile.openstreetmap.org/11/393/828.png",
+    "https://tile.openstreetmap.org/11/389/827.png",
+    "https://tile.openstreetmap.org/11/393/827.png",
+    "https://tile.openstreetmap.org/11/389/829.png",
+    "https://tile.openstreetmap.org/11/393/829.png",
+    "https://tile.openstreetmap.org/11/391/830.png",
+    "https://tile.openstreetmap.org/11/390/830.png",
+    "https://tile.openstreetmap.org/11/392/830.png",
+    "https://tile.openstreetmap.org/11/389/830.png",
+    "https://tile.openstreetmap.org/11/393/830.png",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/96/205.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/205.pbf",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-overview-200m.json.gz",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/205.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/99/205.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/96/206.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/206.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/206.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/99/206.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/96/207.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/207.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/207.pbf",
+    "https://tile.openstreetmap.org/18/50134/106108.png",
+    "https://tile.openstreetmap.org/18/50135/106108.png",
+    "https://tile.openstreetmap.org/18/50134/106109.png",
+    "https://tile.openstreetmap.org/18/50135/106109.png",
+    "https://tile.openstreetmap.org/18/50134/106107.png",
+    "https://tile.openstreetmap.org/18/50135/106107.png",
+    "https://tile.openstreetmap.org/18/50133/106108.png",
+    "https://tile.openstreetmap.org/18/50136/106108.png",
+    "https://tile.openstreetmap.org/18/50133/106109.png",
+    "https://tile.openstreetmap.org/18/50136/106109.png",
+    "https://tile.openstreetmap.org/18/50134/106110.png",
+    "https://tile.openstreetmap.org/18/50135/106110.png",
+    "https://tile.openstreetmap.org/18/50133/106107.png",
+    "https://tile.openstreetmap.org/18/50136/106107.png",
+    "https://tile.openstreetmap.org/18/50133/106110.png",
+    "https://tile.openstreetmap.org/18/50136/106110.png",
+    "https://tile.openstreetmap.org/18/50132/106108.png",
+    "https://tile.openstreetmap.org/18/50137/106108.png",
+    "https://tile.openstreetmap.org/18/50132/106109.png",
+    "https://tile.openstreetmap.org/18/50137/106109.png",
+    "https://tile.openstreetmap.org/18/50132/106107.png",
+    "https://tile.openstreetmap.org/18/50137/106107.png",
+    "https://tile.openstreetmap.org/18/50132/106110.png",
+    "https://tile.openstreetmap.org/18/50137/106110.png",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3132/6631.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3133/6631.pbf",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7169-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7170-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7171-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7169-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7170-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7171-lod1.json.gz",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3132/6632.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3133/6632.pbf",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7169-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7170-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7171-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7169-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7170-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7171-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-0.bin.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-56.bin.gz",
+    "https://tile.openstreetmap.org/18/50134/106105.png",
+    "https://tile.openstreetmap.org/18/50135/106105.png",
+    "https://tile.openstreetmap.org/18/50134/106106.png",
+    "https://tile.openstreetmap.org/18/50135/106106.png",
+    "https://tile.openstreetmap.org/18/50134/106104.png",
+    "https://tile.openstreetmap.org/18/50135/106104.png",
+    "https://tile.openstreetmap.org/18/50133/106105.png",
+    "https://tile.openstreetmap.org/18/50136/106105.png",
+    "https://tile.openstreetmap.org/18/50133/106106.png",
+    "https://tile.openstreetmap.org/18/50136/106106.png",
+    "https://tile.openstreetmap.org/18/50133/106104.png",
+    "https://tile.openstreetmap.org/18/50136/106104.png",
+    "https://tile.openstreetmap.org/18/50132/106105.png",
+    "https://tile.openstreetmap.org/18/50137/106105.png",
+    "https://tile.openstreetmap.org/18/50132/106106.png",
+    "https://tile.openstreetmap.org/18/50137/106106.png",
+    "https://tile.openstreetmap.org/18/50132/106104.png",
+    "https://tile.openstreetmap.org/18/50137/106104.png",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7171-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7172-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7172-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7170-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7171-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7172-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7171-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7172-lod1.json.gz",
+    "https://tile.openstreetmap.org/18/50134/106112.png",
+    "https://tile.openstreetmap.org/18/50135/106112.png",
+    "https://tile.openstreetmap.org/18/50134/106113.png",
+    "https://tile.openstreetmap.org/18/50135/106113.png",
+    "https://tile.openstreetmap.org/18/50134/106111.png",
+    "https://tile.openstreetmap.org/18/50135/106111.png",
+    "https://tile.openstreetmap.org/18/50133/106112.png",
+    "https://tile.openstreetmap.org/18/50136/106112.png",
+    "https://tile.openstreetmap.org/18/50133/106113.png",
+    "https://tile.openstreetmap.org/18/50136/106113.png",
+    "https://tile.openstreetmap.org/18/50134/106114.png",
+    "https://tile.openstreetmap.org/18/50135/106114.png",
+    "https://tile.openstreetmap.org/18/50133/106111.png",
+    "https://tile.openstreetmap.org/18/50136/106111.png",
+    "https://tile.openstreetmap.org/18/50133/106114.png",
+    "https://tile.openstreetmap.org/18/50136/106114.png",
+    "https://tile.openstreetmap.org/18/50132/106112.png",
+    "https://tile.openstreetmap.org/18/50137/106112.png",
+    "https://tile.openstreetmap.org/18/50132/106113.png",
+    "https://tile.openstreetmap.org/18/50137/106113.png",
+    "https://tile.openstreetmap.org/18/50132/106111.png",
+    "https://tile.openstreetmap.org/18/50137/106111.png",
+    "https://tile.openstreetmap.org/18/50132/106114.png",
+    "https://tile.openstreetmap.org/18/50137/106114.png",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7168-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7169-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7168-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7169-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7170-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7168-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7169-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7170-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7168-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7169-lod0.json.gz",
+    "https://tile.openstreetmap.org/18/50134/106108.png",
+    "https://tile.openstreetmap.org/18/50135/106108.png",
+    "https://tile.openstreetmap.org/18/50134/106109.png",
+    "https://tile.openstreetmap.org/18/50135/106109.png",
+    "https://tile.openstreetmap.org/18/50134/106107.png",
+    "https://tile.openstreetmap.org/18/50135/106107.png",
+    "https://tile.openstreetmap.org/18/50133/106108.png",
+    "https://tile.openstreetmap.org/18/50136/106108.png",
+    "https://tile.openstreetmap.org/18/50133/106109.png",
+    "https://tile.openstreetmap.org/18/50136/106109.png",
+    "https://tile.openstreetmap.org/18/50134/106110.png",
+    "https://tile.openstreetmap.org/18/50135/106110.png",
+    "https://tile.openstreetmap.org/18/50133/106107.png",
+    "https://tile.openstreetmap.org/18/50136/106107.png",
+    "https://tile.openstreetmap.org/18/50133/106110.png",
+    "https://tile.openstreetmap.org/18/50136/106110.png",
+    "https://tile.openstreetmap.org/18/50132/106108.png",
+    "https://tile.openstreetmap.org/18/50137/106108.png",
+    "https://tile.openstreetmap.org/18/50132/106109.png",
+    "https://tile.openstreetmap.org/18/50137/106109.png",
+    "https://tile.openstreetmap.org/18/50132/106107.png",
+    "https://tile.openstreetmap.org/18/50137/106107.png",
+    "https://tile.openstreetmap.org/18/50132/106110.png",
+    "https://tile.openstreetmap.org/18/50137/106110.png",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7171-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7170-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7171-lod1.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7169-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7171-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-973-7171-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7170-coarse.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7171-coarse.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7169-lod0.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7171-lod1.json.gz",
+    "https://tile.openstreetmap.org/11/390/828.png",
+    "https://tile.openstreetmap.org/11/391/828.png",
+    "https://tile.openstreetmap.org/11/390/829.png",
+    "https://tile.openstreetmap.org/11/391/829.png",
+    "http://127.0.0.1:8094/icons/logo.svg",
+    "http://127.0.0.1:8094/icons/icon-192.png",
+    "http://127.0.0.1:8094/icons/logo.svg",
+    "http://127.0.0.1:8094/icons/icon-192.png",
+    "https://tile.openstreetmap.org/15/6258/13259.png",
+    "https://tile.openstreetmap.org/15/6259/13259.png",
+    "https://tile.openstreetmap.org/15/6258/13260.png",
+    "https://tile.openstreetmap.org/15/6259/13260.png",
+    "http://127.0.0.1:8094/icons/logo.svg",
+    "http://127.0.0.1:8094/icons/icon-192.png"
+  ],
+  "samples": [
+    {
+      "label": "cold flat",
+      "raw": {
+        "usedSize": 224874016,
+        "totalSize": 289345536,
+        "embedderHeapUsedSize": 5100024,
+        "backingStorageSize": 87525154
+      },
+      "collected": {
+        "usedSize": 135840496,
+        "totalSize": 136945664,
+        "embedderHeapUsedSize": 2890744,
+        "backingStorageSize": 17959491
+      },
+      "view": "flat",
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 2,
+          "model": "2d",
+          "index": 20,
+          "view": "flat",
+          "time": "2026-11-01T22:00:00Z"
+        },
+        "displayed": {
+          "requestId": 2,
+          "model": "2d",
+          "index": 20,
+          "view": "flat",
+          "time": "2026-11-01T22:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.21781229999998,
+            32.426597756502815
+          ],
+          "zoom": 13.25,
+          "bounds": [
+            -111.31016583770337,
+            32.382080349723694,
+            -111.12539855896108,
+            32.47102528725105
+          ]
+        },
+        "selection": null
+      },
+      "detail": null,
+      "cache": {
+        "cachedTiles": 0,
+        "cachedCompressedBytes": 0,
+        "cachedTriangles": 0,
+        "indexLoaded": false,
+        "groundLevels": 0,
+        "waterSupportLoaded": false,
+        "staticCompressedBytes": 0,
+        "totalCompressedBytes": 0
+      },
+      "counters": {
+        "overviewStarted": 1,
+        "overviewInstalled": 1,
+        "overviewCancelled": 0,
+        "overviewDeduped": 1,
+        "overviewMaxActive": 1,
+        "refreshEvents": 3,
+        "refreshRuns": 3,
+        "detailQueries": 0,
+        "detailInstalls": 0,
+        "terrainInstalls": 0,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "model": false,
+      "frame": "2026-11-01T22:00:00Z",
+      "selected": null,
+      "center": {
+        "x": -111.2178123,
+        "y": 32.42659776
+      }
+    },
+    {
+      "label": "initial broad 3D",
+      "raw": {
+        "usedSize": 344254624,
+        "totalSize": 405004288,
+        "embedderHeapUsedSize": 8064960,
+        "backingStorageSize": 161795424
+      },
+      "collected": {
+        "usedSize": 190410188,
+        "totalSize": 191610880,
+        "embedderHeapUsedSize": 2716856,
+        "backingStorageSize": 51764524
+      },
+      "view": "3d",
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 3,
+          "model": "2d",
+          "index": 20,
+          "view": "3d",
+          "time": "2026-11-01T22:00:00Z"
+        },
+        "displayed": {
+          "requestId": 3,
+          "model": "2d",
+          "index": 20,
+          "view": "3d",
+          "time": "2026-11-01T22:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.2177822,
+            32.42656378
+          ],
+          "zoom": 13.25,
+          "bounds": [
+            -111.313912569426,
+            32.38027580708561,
+            -111.1216518272385,
+            32.47282801510904
+          ]
+        },
+        "selection": null
+      },
+      "terrain": {
+        "visibleTiles": 1744,
+        "loadedTiles": 0,
+        "omittedTiles": 0,
+        "completeVisibleCoverage": true,
+        "overviewMode": true,
+        "nativeWaterSupport": true,
+        "coarseCoverageTriangles": 787299,
+        "coverageLimitedBy": null,
+        "groundSamplingM": 100,
+        "groundTriangles": 96659,
+        "waterSupportFaces": 398613,
+        "waterSupportTriangles": 807823,
+        "waterSupportDecodedBytes": 12032577,
+        "triangles": 96659,
+        "downloadedBytes": 0,
+        "cacheHits": 2,
+        "cachedTiles": 0,
+        "cachedCompressedBytes": 0,
+        "cachedTriangles": 0,
+        "levels": [],
+        "timings": {
+          "indexMs": 1202.199999988079,
+          "tilesMs": 0,
+          "mergeMs": 0,
+          "totalMs": 1204.199999988079,
+          "reused": true
+        },
+        "terrainKind": "native_face_water_support"
+      },
+      "detail": {
+        "overviewMode": true,
+        "groundTriangles": 96659,
+        "waterTriangles": 76214,
+        "visibleWetFaces": 39759,
+        "omittedWetFaces": 0,
+        "budgetLimited": false,
+        "supportDecodedBytes": 12032577,
+        "omittedFaces": 0,
+        "visibleFaces": 387417,
+        "zoomInRequired": false,
+        "sourceWaterTriangles": 80603,
+        "projectedCacheEstimatedBytes": 8388240
+      },
+      "cache": {
+        "cachedTiles": 0,
+        "cachedCompressedBytes": 0,
+        "cachedTriangles": 0,
+        "indexLoaded": true,
+        "groundLevels": 1,
+        "waterSupportLoaded": true,
+        "staticCompressedBytes": 6827341,
+        "totalCompressedBytes": 6827341
+      },
+      "counters": {
+        "overviewStarted": 2,
+        "overviewInstalled": 2,
+        "overviewCancelled": 0,
+        "overviewDeduped": 2,
+        "overviewMaxActive": 1,
+        "refreshEvents": 6,
+        "refreshRuns": 5,
+        "detailQueries": 1,
+        "detailInstalls": 1,
+        "terrainInstalls": 0,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "model": true,
+      "frame": "2026-11-01T22:00:00Z",
+      "selected": null,
+      "center": {
+        "x": -111.2177822,
+        "y": 32.42656378
+      }
+    },
+    {
+      "label": "full domain fit",
+      "raw": {
+        "usedSize": 363459724,
+        "totalSize": 421933056,
+        "embedderHeapUsedSize": 4622352,
+        "backingStorageSize": 87972183
+      },
+      "collected": {
+        "usedSize": 197092772,
+        "totalSize": 198418432,
+        "embedderHeapUsedSize": 3038424,
+        "backingStorageSize": 47360883
+      },
+      "view": "3d",
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 3,
+          "model": "2d",
+          "index": 20,
+          "view": "3d",
+          "time": "2026-11-01T22:00:00Z"
+        },
+        "displayed": {
+          "requestId": 3,
+          "model": "2d",
+          "index": 20,
+          "view": "3d",
+          "time": "2026-11-01T22:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.20127508,
+            32.43640116
+          ],
+          "zoom": 11.25,
+          "bounds": [
+            -112.0254466264161,
+            32.20834641306225,
+            -110.37710353721425,
+            33.18189254922538
+          ]
+        },
+        "selection": null
+      },
+      "terrain": {
+        "visibleTiles": 2255,
+        "loadedTiles": 0,
+        "omittedTiles": 0,
+        "completeVisibleCoverage": true,
+        "overviewMode": true,
+        "nativeWaterSupport": true,
+        "coarseCoverageTriangles": 807823,
+        "coverageLimitedBy": null,
+        "groundSamplingM": 200,
+        "groundTriangles": 26568,
+        "waterSupportFaces": 398613,
+        "waterSupportTriangles": 807823,
+        "waterSupportDecodedBytes": 12032577,
+        "triangles": 26568,
+        "downloadedBytes": 452104,
+        "cacheHits": 1,
+        "cachedTiles": 0,
+        "cachedCompressedBytes": 0,
+        "cachedTriangles": 0,
+        "levels": [],
+        "timings": {
+          "indexMs": 1945.800000011921,
+          "tilesMs": 32.5,
+          "mergeMs": 0,
+          "totalMs": 1981.3999999761581,
+          "reused": false
+        },
+        "terrainKind": "native_face_water_support"
+      },
+      "detail": {
+        "overviewMode": true,
+        "groundTriangles": 26568,
+        "waterTriangles": 77909,
+        "visibleWetFaces": 41224,
+        "omittedWetFaces": 0,
+        "budgetLimited": false,
+        "supportDecodedBytes": 12032577,
+        "omittedFaces": 0,
+        "visibleFaces": 398613,
+        "zoomInRequired": false,
+        "sourceWaterTriangles": 83533,
+        "projectedCacheEstimatedBytes": 8388352
+      },
+      "cache": {
+        "cachedTiles": 0,
+        "cachedCompressedBytes": 0,
+        "cachedTriangles": 0,
+        "indexLoaded": true,
+        "groundLevels": 2,
+        "waterSupportLoaded": true,
+        "staticCompressedBytes": 7279445,
+        "totalCompressedBytes": 7279445
+      },
+      "counters": {
+        "overviewStarted": 2,
+        "overviewInstalled": 2,
+        "overviewCancelled": 0,
+        "overviewDeduped": 2,
+        "overviewMaxActive": 1,
+        "refreshEvents": 8,
+        "refreshRuns": 6,
+        "detailQueries": 2,
+        "detailInstalls": 3,
+        "terrainInstalls": 1,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "model": true,
+      "frame": "2026-11-01T22:00:00Z",
+      "selected": null,
+      "center": {
+        "x": -111.20127508,
+        "y": 32.43640116
+      }
+    },
+    {
+      "label": "native close",
+      "raw": {
+        "usedSize": 325060516,
+        "totalSize": 392331264,
+        "embedderHeapUsedSize": 4949680,
+        "backingStorageSize": 88483584
+      },
+      "collected": {
+        "usedSize": 225463348,
+        "totalSize": 229302272,
+        "embedderHeapUsedSize": 2853320,
+        "backingStorageSize": 44725019
+      },
+      "view": "3d",
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z"
+        },
+        "displayed": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.15023297,
+            32.40152569
+          ],
+          "zoom": 18,
+          "bounds": [
+            -111.15759164108309,
+            32.39949124347076,
+            -111.14287429207256,
+            32.40821206173042
+          ]
+        },
+        "selection": {
+          "kind": "cell",
+          "cellIndex": 387171
+        }
+      },
+      "terrain": {
+        "visibleTiles": 12,
+        "loadedTiles": 12,
+        "omittedTiles": 0,
+        "coarseFallbackTiles": 0,
+        "coarseCoverageTriangles": 46097,
+        "completeVisibleCoverage": true,
+        "selectedCompressedBytes": 2213925,
+        "coverageLimitedBy": null,
+        "triangles": 159140,
+        "downloadedBytes": 2213925,
+        "cacheHits": 0,
+        "cachedTiles": 12,
+        "cachedCompressedBytes": 2213925,
+        "cachedTriangles": 159140,
+        "levels": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "timings": {
+          "indexMs": 136.30000001192093,
+          "tilesMs": 257.89999997615814,
+          "mergeMs": 49.40000003576279,
+          "totalMs": 444.30000001192093,
+          "reused": false
+        },
+        "overviewMode": false,
+        "terrainKind": "native_face_triangle_terrain"
+      },
+      "detail": {
+        "overviewMode": false,
+        "groundTriangles": 114679,
+        "waterTriangles": 19676,
+        "visibleWetFaces": 2951,
+        "omittedWetFaces": 0,
+        "budgetLimited": false,
+        "supportDecodedBytes": 0,
+        "omittedFaces": 0,
+        "visibleFaces": 13811,
+        "zoomInRequired": false,
+        "sourceWaterTriangles": 22452,
+        "projectedCacheEstimatedBytes": 0
+      },
+      "cache": {
+        "cachedTiles": 12,
+        "cachedCompressedBytes": 2213925,
+        "cachedTriangles": 159140,
+        "indexLoaded": true,
+        "groundLevels": 2,
+        "waterSupportLoaded": true,
+        "staticCompressedBytes": 7279445,
+        "totalCompressedBytes": 9493370
+      },
+      "counters": {
+        "overviewStarted": 2,
+        "overviewInstalled": 2,
+        "overviewCancelled": 0,
+        "overviewDeduped": 2,
+        "overviewMaxActive": 1,
+        "refreshEvents": 10,
+        "refreshRuns": 7,
+        "detailQueries": 3,
+        "detailInstalls": 5,
+        "terrainInstalls": 2,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "model": true,
+      "frame": "2026-11-02T07:00:00Z",
+      "selected": 387171,
+      "center": {
+        "x": -111.15023297,
+        "y": 32.40152569
+      }
+    },
+    {
+      "label": "pan 0.004",
+      "raw": {
+        "usedSize": 290403564,
+        "totalSize": 349306880,
+        "embedderHeapUsedSize": 3159352,
+        "backingStorageSize": 51882154
+      },
+      "collected": {
+        "usedSize": 220785940,
+        "totalSize": 224407552,
+        "embedderHeapUsedSize": 2858072,
+        "backingStorageSize": 39339547
+      },
+      "view": "3d",
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z"
+        },
+        "displayed": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.15023297,
+            32.40552569
+          ],
+          "zoom": 18,
+          "bounds": [
+            -111.15759164108309,
+            32.40349133361421,
+            -111.14287429207256,
+            32.41221176543115
+          ]
+        },
+        "selection": {
+          "kind": "cell",
+          "cellIndex": 387171
+        }
+      },
+      "terrain": {
+        "visibleTiles": 12,
+        "loadedTiles": 12,
+        "omittedTiles": 0,
+        "coarseFallbackTiles": 0,
+        "coarseCoverageTriangles": 27908,
+        "completeVisibleCoverage": true,
+        "selectedCompressedBytes": 2060024,
+        "coverageLimitedBy": null,
+        "triangles": 148088,
+        "downloadedBytes": 1006282,
+        "cacheHits": 4,
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 2447062,
+        "cachedTriangles": 176064,
+        "levels": [
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "timings": {
+          "indexMs": 229.80000001192093,
+          "tilesMs": 264.60000002384186,
+          "mergeMs": 20.899999976158142,
+          "totalMs": 515.5,
+          "reused": false
+        },
+        "overviewMode": false,
+        "terrainKind": "native_face_triangle_terrain"
+      },
+      "detail": {
+        "overviewMode": false,
+        "groundTriangles": 60085,
+        "waterTriangles": 8200,
+        "visibleWetFaces": 899,
+        "omittedWetFaces": 0,
+        "budgetLimited": false,
+        "supportDecodedBytes": 0,
+        "omittedFaces": 0,
+        "visibleFaces": 4488,
+        "zoomInRequired": false,
+        "sourceWaterTriangles": 12515,
+        "projectedCacheEstimatedBytes": 0
+      },
+      "cache": {
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 2447062,
+        "cachedTriangles": 176064,
+        "indexLoaded": true,
+        "groundLevels": 2,
+        "waterSupportLoaded": true,
+        "staticCompressedBytes": 7279445,
+        "totalCompressedBytes": 9726507
+      },
+      "counters": {
+        "overviewStarted": 2,
+        "overviewInstalled": 2,
+        "overviewCancelled": 0,
+        "overviewDeduped": 2,
+        "overviewMaxActive": 1,
+        "refreshEvents": 11,
+        "refreshRuns": 8,
+        "detailQueries": 4,
+        "detailInstalls": 7,
+        "terrainInstalls": 3,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "model": true,
+      "frame": "2026-11-02T07:00:00Z",
+      "selected": 387171,
+      "center": {
+        "x": -111.15023297,
+        "y": 32.40552569
+      }
+    },
+    {
+      "label": "pan -0.004",
+      "raw": {
+        "usedSize": 316861604,
+        "totalSize": 385253376,
+        "embedderHeapUsedSize": 3492048,
+        "backingStorageSize": 79109577
+      },
+      "collected": {
+        "usedSize": 230346616,
+        "totalSize": 233304064,
+        "embedderHeapUsedSize": 2898672,
+        "backingStorageSize": 42945583
+      },
+      "view": "3d",
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z"
+        },
+        "displayed": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.15023297,
+            32.39752569
+          ],
+          "zoom": 18,
+          "bounds": [
+            -111.15759164108309,
+            32.39549115333719,
+            -111.14287429207256,
+            32.40421235799698
+          ]
+        },
+        "selection": {
+          "kind": "cell",
+          "cellIndex": 387171
+        }
+      },
+      "terrain": {
+        "visibleTiles": 12,
+        "loadedTiles": 12,
+        "omittedTiles": 0,
+        "coarseFallbackTiles": 0,
+        "coarseCoverageTriangles": 44852,
+        "completeVisibleCoverage": true,
+        "selectedCompressedBytes": 2129919,
+        "coverageLimitedBy": null,
+        "triangles": 152360,
+        "downloadedBytes": 1797952,
+        "cacheHits": 2,
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 2944603,
+        "cachedTriangles": 210740,
+        "levels": [
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0
+        ],
+        "timings": {
+          "indexMs": 300.19999998807907,
+          "tilesMs": 121.89999997615814,
+          "mergeMs": 15.800000011920929,
+          "totalMs": 438,
+          "reused": false
+        },
+        "overviewMode": false,
+        "terrainKind": "native_face_triangle_terrain"
+      },
+      "detail": {
+        "overviewMode": false,
+        "groundTriangles": 108234,
+        "waterTriangles": 12376,
+        "visibleWetFaces": 2428,
+        "omittedWetFaces": 0,
+        "budgetLimited": false,
+        "supportDecodedBytes": 0,
+        "omittedFaces": 0,
+        "visibleFaces": 12767,
+        "zoomInRequired": false,
+        "sourceWaterTriangles": 13481,
+        "projectedCacheEstimatedBytes": 0
+      },
+      "cache": {
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 2944603,
+        "cachedTriangles": 210740,
+        "indexLoaded": true,
+        "groundLevels": 2,
+        "waterSupportLoaded": true,
+        "staticCompressedBytes": 7279445,
+        "totalCompressedBytes": 10224048
+      },
+      "counters": {
+        "overviewStarted": 2,
+        "overviewInstalled": 2,
+        "overviewCancelled": 0,
+        "overviewDeduped": 2,
+        "overviewMaxActive": 1,
+        "refreshEvents": 12,
+        "refreshRuns": 9,
+        "detailQueries": 5,
+        "detailInstalls": 9,
+        "terrainInstalls": 4,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "model": true,
+      "frame": "2026-11-02T07:00:00Z",
+      "selected": 387171,
+      "center": {
+        "x": -111.15023297,
+        "y": 32.39752569
+      }
+    },
+    {
+      "label": "pan 0",
+      "raw": {
+        "usedSize": 332896312,
+        "totalSize": 396865536,
+        "embedderHeapUsedSize": 3274216,
+        "backingStorageSize": 69351044
+      },
+      "collected": {
+        "usedSize": 231331688,
+        "totalSize": 233766912,
+        "embedderHeapUsedSize": 2885144,
+        "backingStorageSize": 44701447
+      },
+      "view": "3d",
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z"
+        },
+        "displayed": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.15023297,
+            32.40152569
+          ],
+          "zoom": 18,
+          "bounds": [
+            -111.15759164108309,
+            32.39949124347076,
+            -111.14287429207256,
+            32.40821206173042
+          ]
+        },
+        "selection": {
+          "kind": "cell",
+          "cellIndex": 387171
+        }
+      },
+      "terrain": {
+        "visibleTiles": 12,
+        "loadedTiles": 12,
+        "omittedTiles": 0,
+        "coarseFallbackTiles": 0,
+        "coarseCoverageTriangles": 46097,
+        "completeVisibleCoverage": true,
+        "selectedCompressedBytes": 2213925,
+        "coverageLimitedBy": null,
+        "triangles": 159140,
+        "downloadedBytes": 907887,
+        "cacheHits": 6,
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 2995656,
+        "cachedTriangles": 214130,
+        "levels": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "timings": {
+          "indexMs": 260.30000001192093,
+          "tilesMs": 89.90000003576279,
+          "mergeMs": 29.399999976158142,
+          "totalMs": 380,
+          "reused": false
+        },
+        "overviewMode": false,
+        "terrainKind": "native_face_triangle_terrain"
+      },
+      "detail": {
+        "overviewMode": false,
+        "groundTriangles": 114679,
+        "waterTriangles": 19676,
+        "visibleWetFaces": 2951,
+        "omittedWetFaces": 0,
+        "budgetLimited": false,
+        "supportDecodedBytes": 0,
+        "omittedFaces": 0,
+        "visibleFaces": 13811,
+        "zoomInRequired": false,
+        "sourceWaterTriangles": 22452,
+        "projectedCacheEstimatedBytes": 0
+      },
+      "cache": {
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 2995656,
+        "cachedTriangles": 214130,
+        "indexLoaded": true,
+        "groundLevels": 2,
+        "waterSupportLoaded": true,
+        "staticCompressedBytes": 7279445,
+        "totalCompressedBytes": 10275101
+      },
+      "counters": {
+        "overviewStarted": 2,
+        "overviewInstalled": 2,
+        "overviewCancelled": 0,
+        "overviewDeduped": 2,
+        "overviewMaxActive": 1,
+        "refreshEvents": 13,
+        "refreshRuns": 10,
+        "detailQueries": 6,
+        "detailInstalls": 11,
+        "terrainInstalls": 5,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1.5
+      },
+      "model": true,
+      "frame": "2026-11-02T07:00:00Z",
+      "selected": 387171,
+      "center": {
+        "x": -111.15023297,
+        "y": 32.40152569
+      }
+    },
+    {
+      "label": "phone DPR3",
+      "raw": {
+        "usedSize": 261070768,
+        "totalSize": 336486400,
+        "embedderHeapUsedSize": 3284864,
+        "backingStorageSize": 49441522
+      },
+      "collected": {
+        "usedSize": 201859744,
+        "totalSize": 204795904,
+        "embedderHeapUsedSize": 2881368,
+        "backingStorageSize": 35068268
+      },
+      "view": "3d",
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z"
+        },
+        "displayed": {
+          "requestId": 5,
+          "model": "2d",
+          "index": 56,
+          "view": "3d",
+          "time": "2026-11-02T07:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.15023196,
+            32.4015278
+          ],
+          "zoom": 18,
+          "bounds": [
+            -111.15247405357401,
+            32.39951007983494,
+            -111.14798986129698,
+            32.408159221765516
+          ]
+        },
+        "selection": {
+          "kind": "cell",
+          "cellIndex": 387171
+        }
+      },
+      "terrain": {
+        "visibleTiles": 6,
+        "loadedTiles": 6,
+        "omittedTiles": 0,
+        "coarseFallbackTiles": 0,
+        "coarseCoverageTriangles": 22909,
+        "completeVisibleCoverage": true,
+        "selectedCompressedBytes": 746852,
+        "coverageLimitedBy": null,
+        "triangles": 53671,
+        "downloadedBytes": 221985,
+        "cacheHits": 4,
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 2717039,
+        "cachedTriangles": 195235,
+        "levels": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "timings": {
+          "indexMs": 212.0999999642372,
+          "tilesMs": 26.100000023841858,
+          "mergeMs": 12.599999964237213,
+          "totalMs": 250.89999997615814,
+          "reused": false
+        },
+        "overviewMode": false,
+        "terrainKind": "native_face_triangle_terrain"
+      },
+      "detail": {
+        "overviewMode": false,
+        "groundTriangles": 19319,
+        "waterTriangles": 2881,
+        "visibleWetFaces": 691,
+        "omittedWetFaces": 0,
+        "budgetLimited": false,
+        "supportDecodedBytes": 0,
+        "omittedFaces": 0,
+        "visibleFaces": 4221,
+        "zoomInRequired": false,
+        "sourceWaterTriangles": 3234,
+        "projectedCacheEstimatedBytes": 0
+      },
+      "cache": {
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 2717039,
+        "cachedTriangles": 195235,
+        "indexLoaded": true,
+        "groundLevels": 2,
+        "waterSupportLoaded": true,
+        "staticCompressedBytes": 7279445,
+        "totalCompressedBytes": 9996484
+      },
+      "counters": {
+        "overviewStarted": 2,
+        "overviewInstalled": 2,
+        "overviewCancelled": 0,
+        "overviewDeduped": 2,
+        "overviewMaxActive": 1,
+        "refreshEvents": 16,
+        "refreshRuns": 13,
+        "detailQueries": 8,
+        "detailInstalls": 14,
+        "terrainInstalls": 6,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1
+      },
+      "model": true,
+      "frame": "2026-11-02T07:00:00Z",
+      "selected": 387171,
+      "center": {
+        "x": -111.15023196,
+        "y": 32.4015278
+      }
+    },
+    {
+      "label": "returned flat",
+      "raw": {
+        "usedSize": 203957164,
+        "totalSize": 208728064,
+        "embedderHeapUsedSize": 5030280,
+        "backingStorageSize": 35070019
+      },
+      "collected": {
+        "usedSize": 202689184,
+        "totalSize": 204009472,
+        "embedderHeapUsedSize": 3399240,
+        "backingStorageSize": 35068397
+      },
+      "view": "flat",
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 4,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 7,
+          "model": "2d",
+          "index": 56,
+          "view": "flat",
+          "time": "2026-11-02T07:00:00Z"
+        },
+        "displayed": {
+          "requestId": 7,
+          "model": "2d",
+          "index": 56,
+          "view": "flat",
+          "time": "2026-11-02T07:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.15023196,
+            32.4015278
+          ],
+          "zoom": 18,
+          "bounds": [
+            -111.15247405357401,
+            32.39951007983494,
+            -111.14798986129698,
+            32.408159221765516
+          ]
+        },
+        "selection": {
+          "kind": "cell",
+          "cellIndex": 387171
+        }
+      },
+      "terrain": {
+        "visibleTiles": 6,
+        "loadedTiles": 6,
+        "omittedTiles": 0,
+        "coarseFallbackTiles": 0,
+        "coarseCoverageTriangles": 22909,
+        "completeVisibleCoverage": true,
+        "selectedCompressedBytes": 746852,
+        "coverageLimitedBy": null,
+        "triangles": 53671,
+        "downloadedBytes": 221985,
+        "cacheHits": 4,
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 2717039,
+        "cachedTriangles": 195235,
+        "levels": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "timings": {
+          "indexMs": 212.0999999642372,
+          "tilesMs": 26.100000023841858,
+          "mergeMs": 12.599999964237213,
+          "totalMs": 250.89999997615814,
+          "reused": false
+        },
+        "overviewMode": false,
+        "terrainKind": "native_face_triangle_terrain"
+      },
+      "detail": {
+        "overviewMode": false,
+        "groundTriangles": 19319,
+        "waterTriangles": 2881,
+        "visibleWetFaces": 691,
+        "omittedWetFaces": 0,
+        "budgetLimited": false,
+        "supportDecodedBytes": 0,
+        "omittedFaces": 0,
+        "visibleFaces": 4221,
+        "zoomInRequired": false,
+        "sourceWaterTriangles": 3234,
+        "projectedCacheEstimatedBytes": 0
+      },
+      "cache": {
+        "cachedTiles": 16,
+        "cachedCompressedBytes": 2717039,
+        "cachedTriangles": 195235,
+        "indexLoaded": true,
+        "groundLevels": 2,
+        "waterSupportLoaded": true,
+        "staticCompressedBytes": 7279445,
+        "totalCompressedBytes": 9996484
+      },
+      "counters": {
+        "overviewStarted": 4,
+        "overviewInstalled": 4,
+        "overviewCancelled": 0,
+        "overviewDeduped": 5,
+        "overviewMaxActive": 1,
+        "refreshEvents": 19,
+        "refreshRuns": 14,
+        "detailQueries": 8,
+        "detailInstalls": 14,
+        "terrainInstalls": 6,
+        "overviewActive": 0,
+        "overviewPending": 0,
+        "refreshPending": 0,
+        "coverageBinCount": 0,
+        "effectiveDPR": 1
+      },
+      "model": true,
+      "frame": "2026-11-02T07:00:00Z",
+      "selected": 387171,
+      "center": {
+        "x": -111.15023196,
+        "y": 32.4015278
+      }
+    }
+  ],
+  "timings": {
+    "coldReadyMs": 2003,
+    "entryMs": 3495,
+    "frame0Ms": 974,
+    "frame56Ms": 951
+  },
+  "cold": {
+    "label": "cold flat",
+    "raw": {
+      "usedSize": 224874016,
+      "totalSize": 289345536,
+      "embedderHeapUsedSize": 5100024,
+      "backingStorageSize": 87525154
+    },
+    "collected": {
+      "usedSize": 135840496,
+      "totalSize": 136945664,
+      "embedderHeapUsedSize": 2890744,
+      "backingStorageSize": 17959491
+    },
+    "view": "flat",
+    "state": {
+      "clockMode": "frozen_replay",
+      "range": {
+        "start": 0,
+        "end": 56
+      },
+      "requested": {
+        "requestId": 2,
+        "model": "2d",
+        "index": 20,
+        "view": "flat",
+        "time": "2026-11-01T22:00:00Z"
+      },
+      "displayed": {
+        "requestId": 2,
+        "model": "2d",
+        "index": 20,
+        "view": "flat",
+        "time": "2026-11-01T22:00:00Z",
+        "runId": "refined-full-41344983607"
+      },
+      "status": "ready",
+      "error": null,
+      "viewport": {
+        "center": [
+          -111.21781229999998,
+          32.426597756502815
+        ],
+        "zoom": 13.25,
+        "bounds": [
+          -111.31016583770337,
+          32.382080349723694,
+          -111.12539855896108,
+          32.47102528725105
+        ]
+      },
+      "selection": null
+    },
+    "detail": null,
+    "cache": {
+      "cachedTiles": 0,
+      "cachedCompressedBytes": 0,
+      "cachedTriangles": 0,
+      "indexLoaded": false,
+      "groundLevels": 0,
+      "waterSupportLoaded": false,
+      "staticCompressedBytes": 0,
+      "totalCompressedBytes": 0
+    },
+    "counters": {
+      "overviewStarted": 1,
+      "overviewInstalled": 1,
+      "overviewCancelled": 0,
+      "overviewDeduped": 1,
+      "overviewMaxActive": 1,
+      "refreshEvents": 3,
+      "refreshRuns": 3,
+      "detailQueries": 0,
+      "detailInstalls": 0,
+      "terrainInstalls": 0,
+      "overviewActive": 0,
+      "overviewPending": 0,
+      "refreshPending": 0,
+      "coverageBinCount": 0,
+      "effectiveDPR": 1.5
+    },
+    "model": false,
+    "frame": "2026-11-01T22:00:00Z",
+    "selected": null,
+    "center": {
+      "x": -111.2178123,
+      "y": 32.42659776
+    }
+  },
+  "package": {
+    "frames": 57,
+    "runId": "refined-full-41344983607",
+    "values": [
+      {
+        "index": 0,
+        "time": "2026-11-01T17:00:00Z",
+        "depthM": 0.052069427490234375,
+        "surfaceM": 627.9871826171875,
+        "nativeVolumeM3": 2.0339620113372803
+      },
+      {
+        "index": 56,
+        "time": "2026-11-02T07:00:00Z",
+        "depthM": 2.1348109375,
+        "surfaceM": 630.1162109375,
+        "nativeVolumeM3": 83.39105224609375
+      }
+    ],
+    "cell": {
+      "nativeFaceId": "387171",
+      "lon": -111.15023296657797,
+      "lat": 32.401525690180215,
+      "areaM2": 39.0625,
+      "resolutionM": 6.25,
+      "edgeLengthsM": [
+        6.25,
+        6.25,
+        6.25,
+        6.25
+      ]
+    }
+  },
+  "broad": {
+    "label": "initial broad 3D",
+    "raw": {
+      "usedSize": 344254624,
+      "totalSize": 405004288,
+      "embedderHeapUsedSize": 8064960,
+      "backingStorageSize": 161795424
+    },
+    "collected": {
+      "usedSize": 190410188,
+      "totalSize": 191610880,
+      "embedderHeapUsedSize": 2716856,
+      "backingStorageSize": 51764524
+    },
+    "view": "3d",
+    "state": {
+      "clockMode": "frozen_replay",
+      "range": {
+        "start": 0,
+        "end": 56
+      },
+      "requested": {
+        "requestId": 3,
+        "model": "2d",
+        "index": 20,
+        "view": "3d",
+        "time": "2026-11-01T22:00:00Z"
+      },
+      "displayed": {
+        "requestId": 3,
+        "model": "2d",
+        "index": 20,
+        "view": "3d",
+        "time": "2026-11-01T22:00:00Z",
+        "runId": "refined-full-41344983607"
+      },
+      "status": "ready",
+      "error": null,
+      "viewport": {
+        "center": [
+          -111.2177822,
+          32.42656378
+        ],
+        "zoom": 13.25,
+        "bounds": [
+          -111.313912569426,
+          32.38027580708561,
+          -111.1216518272385,
+          32.47282801510904
+        ]
+      },
+      "selection": null
+    },
+    "terrain": {
+      "visibleTiles": 1744,
+      "loadedTiles": 0,
+      "omittedTiles": 0,
+      "completeVisibleCoverage": true,
+      "overviewMode": true,
+      "nativeWaterSupport": true,
+      "coarseCoverageTriangles": 787299,
+      "coverageLimitedBy": null,
+      "groundSamplingM": 100,
+      "groundTriangles": 96659,
+      "waterSupportFaces": 398613,
+      "waterSupportTriangles": 807823,
+      "waterSupportDecodedBytes": 12032577,
+      "triangles": 96659,
+      "downloadedBytes": 0,
+      "cacheHits": 2,
+      "cachedTiles": 0,
+      "cachedCompressedBytes": 0,
+      "cachedTriangles": 0,
+      "levels": [],
+      "timings": {
+        "indexMs": 1202.199999988079,
+        "tilesMs": 0,
+        "mergeMs": 0,
+        "totalMs": 1204.199999988079,
+        "reused": true
+      },
+      "terrainKind": "native_face_water_support"
+    },
+    "detail": {
+      "overviewMode": true,
+      "groundTriangles": 96659,
+      "waterTriangles": 76214,
+      "visibleWetFaces": 39759,
+      "omittedWetFaces": 0,
+      "budgetLimited": false,
+      "supportDecodedBytes": 12032577,
+      "omittedFaces": 0,
+      "visibleFaces": 387417,
+      "zoomInRequired": false,
+      "sourceWaterTriangles": 80603,
+      "projectedCacheEstimatedBytes": 8388240
+    },
+    "cache": {
+      "cachedTiles": 0,
+      "cachedCompressedBytes": 0,
+      "cachedTriangles": 0,
+      "indexLoaded": true,
+      "groundLevels": 1,
+      "waterSupportLoaded": true,
+      "staticCompressedBytes": 6827341,
+      "totalCompressedBytes": 6827341
+    },
+    "counters": {
+      "overviewStarted": 2,
+      "overviewInstalled": 2,
+      "overviewCancelled": 0,
+      "overviewDeduped": 2,
+      "overviewMaxActive": 1,
+      "refreshEvents": 6,
+      "refreshRuns": 5,
+      "detailQueries": 1,
+      "detailInstalls": 1,
+      "terrainInstalls": 0,
+      "overviewActive": 0,
+      "overviewPending": 0,
+      "refreshPending": 0,
+      "coverageBinCount": 0,
+      "effectiveDPR": 1.5
+    },
+    "model": true,
+    "frame": "2026-11-01T22:00:00Z",
+    "selected": null,
+    "center": {
+      "x": -111.2177822,
+      "y": 32.42656378
+    }
+  },
+  "fullDomain": {
+    "label": "full domain fit",
+    "raw": {
+      "usedSize": 363459724,
+      "totalSize": 421933056,
+      "embedderHeapUsedSize": 4622352,
+      "backingStorageSize": 87972183
+    },
+    "collected": {
+      "usedSize": 197092772,
+      "totalSize": 198418432,
+      "embedderHeapUsedSize": 3038424,
+      "backingStorageSize": 47360883
+    },
+    "view": "3d",
+    "state": {
+      "clockMode": "frozen_replay",
+      "range": {
+        "start": 0,
+        "end": 56
+      },
+      "requested": {
+        "requestId": 3,
+        "model": "2d",
+        "index": 20,
+        "view": "3d",
+        "time": "2026-11-01T22:00:00Z"
+      },
+      "displayed": {
+        "requestId": 3,
+        "model": "2d",
+        "index": 20,
+        "view": "3d",
+        "time": "2026-11-01T22:00:00Z",
+        "runId": "refined-full-41344983607"
+      },
+      "status": "ready",
+      "error": null,
+      "viewport": {
+        "center": [
+          -111.20127508,
+          32.43640116
+        ],
+        "zoom": 11.25,
+        "bounds": [
+          -112.0254466264161,
+          32.20834641306225,
+          -110.37710353721425,
+          33.18189254922538
+        ]
+      },
+      "selection": null
+    },
+    "terrain": {
+      "visibleTiles": 2255,
+      "loadedTiles": 0,
+      "omittedTiles": 0,
+      "completeVisibleCoverage": true,
+      "overviewMode": true,
+      "nativeWaterSupport": true,
+      "coarseCoverageTriangles": 807823,
+      "coverageLimitedBy": null,
+      "groundSamplingM": 200,
+      "groundTriangles": 26568,
+      "waterSupportFaces": 398613,
+      "waterSupportTriangles": 807823,
+      "waterSupportDecodedBytes": 12032577,
+      "triangles": 26568,
+      "downloadedBytes": 452104,
+      "cacheHits": 1,
+      "cachedTiles": 0,
+      "cachedCompressedBytes": 0,
+      "cachedTriangles": 0,
+      "levels": [],
+      "timings": {
+        "indexMs": 1945.800000011921,
+        "tilesMs": 32.5,
+        "mergeMs": 0,
+        "totalMs": 1981.3999999761581,
+        "reused": false
+      },
+      "terrainKind": "native_face_water_support"
+    },
+    "detail": {
+      "overviewMode": true,
+      "groundTriangles": 26568,
+      "waterTriangles": 77909,
+      "visibleWetFaces": 41224,
+      "omittedWetFaces": 0,
+      "budgetLimited": false,
+      "supportDecodedBytes": 12032577,
+      "omittedFaces": 0,
+      "visibleFaces": 398613,
+      "zoomInRequired": false,
+      "sourceWaterTriangles": 83533,
+      "projectedCacheEstimatedBytes": 8388352
+    },
+    "cache": {
+      "cachedTiles": 0,
+      "cachedCompressedBytes": 0,
+      "cachedTriangles": 0,
+      "indexLoaded": true,
+      "groundLevels": 2,
+      "waterSupportLoaded": true,
+      "staticCompressedBytes": 7279445,
+      "totalCompressedBytes": 7279445
+    },
+    "counters": {
+      "overviewStarted": 2,
+      "overviewInstalled": 2,
+      "overviewCancelled": 0,
+      "overviewDeduped": 2,
+      "overviewMaxActive": 1,
+      "refreshEvents": 8,
+      "refreshRuns": 6,
+      "detailQueries": 2,
+      "detailInstalls": 3,
+      "terrainInstalls": 1,
+      "overviewActive": 0,
+      "overviewPending": 0,
+      "refreshPending": 0,
+      "coverageBinCount": 0,
+      "effectiveDPR": 1.5
+    },
+    "model": true,
+    "frame": "2026-11-01T22:00:00Z",
+    "selected": null,
+    "center": {
+      "x": -111.20127508,
+      "y": 32.43640116
+    }
+  },
+  "frame0": {
+    "cellIndex": 387171,
+    "nativeFaceId": "387171",
+    "areaM2": 39.0625,
+    "resolutionM": 6.25,
+    "time": "2026-11-01T17:00:00Z",
+    "depthM": 0.052069427490234375,
+    "depthFt": 0.17083145501977068,
+    "nativeVolumeM3": 2.0339620113372803,
+    "surfaceM": 627.9871826171875,
+    "datum": "NAVD88"
+  },
+  "frame56": {
+    "cellIndex": 387171,
+    "nativeFaceId": "387171",
+    "areaM2": 39.0625,
+    "resolutionM": 6.25,
+    "time": "2026-11-02T07:00:00Z",
+    "depthM": 2.1348109375,
+    "depthFt": 7.003972892032352,
+    "nativeVolumeM3": 83.39105224609375,
+    "surfaceM": 630.1162109375,
+    "datum": "NAVD88"
+  },
+  "animation": {
+    "advances": true,
+    "reducedMotionStops": true
+  },
+  "near": {
+    "label": "native close",
+    "raw": {
+      "usedSize": 325060516,
+      "totalSize": 392331264,
+      "embedderHeapUsedSize": 4949680,
+      "backingStorageSize": 88483584
+    },
+    "collected": {
+      "usedSize": 225463348,
+      "totalSize": 229302272,
+      "embedderHeapUsedSize": 2853320,
+      "backingStorageSize": 44725019
+    },
+    "view": "3d",
+    "state": {
+      "clockMode": "frozen_replay",
+      "range": {
+        "start": 0,
+        "end": 56
+      },
+      "requested": {
+        "requestId": 5,
+        "model": "2d",
+        "index": 56,
+        "view": "3d",
+        "time": "2026-11-02T07:00:00Z"
+      },
+      "displayed": {
+        "requestId": 5,
+        "model": "2d",
+        "index": 56,
+        "view": "3d",
+        "time": "2026-11-02T07:00:00Z",
+        "runId": "refined-full-41344983607"
+      },
+      "status": "ready",
+      "error": null,
+      "viewport": {
+        "center": [
+          -111.15023297,
+          32.40152569
+        ],
+        "zoom": 18,
+        "bounds": [
+          -111.15759164108309,
+          32.39949124347076,
+          -111.14287429207256,
+          32.40821206173042
+        ]
+      },
+      "selection": {
+        "kind": "cell",
+        "cellIndex": 387171
+      }
+    },
+    "terrain": {
+      "visibleTiles": 12,
+      "loadedTiles": 12,
+      "omittedTiles": 0,
+      "coarseFallbackTiles": 0,
+      "coarseCoverageTriangles": 46097,
+      "completeVisibleCoverage": true,
+      "selectedCompressedBytes": 2213925,
+      "coverageLimitedBy": null,
+      "triangles": 159140,
+      "downloadedBytes": 2213925,
+      "cacheHits": 0,
+      "cachedTiles": 12,
+      "cachedCompressedBytes": 2213925,
+      "cachedTriangles": 159140,
+      "levels": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "timings": {
+        "indexMs": 136.30000001192093,
+        "tilesMs": 257.89999997615814,
+        "mergeMs": 49.40000003576279,
+        "totalMs": 444.30000001192093,
+        "reused": false
+      },
+      "overviewMode": false,
+      "terrainKind": "native_face_triangle_terrain"
+    },
+    "detail": {
+      "overviewMode": false,
+      "groundTriangles": 114679,
+      "waterTriangles": 19676,
+      "visibleWetFaces": 2951,
+      "omittedWetFaces": 0,
+      "budgetLimited": false,
+      "supportDecodedBytes": 0,
+      "omittedFaces": 0,
+      "visibleFaces": 13811,
+      "zoomInRequired": false,
+      "sourceWaterTriangles": 22452,
+      "projectedCacheEstimatedBytes": 0
+    },
+    "cache": {
+      "cachedTiles": 12,
+      "cachedCompressedBytes": 2213925,
+      "cachedTriangles": 159140,
+      "indexLoaded": true,
+      "groundLevels": 2,
+      "waterSupportLoaded": true,
+      "staticCompressedBytes": 7279445,
+      "totalCompressedBytes": 9493370
+    },
+    "counters": {
+      "overviewStarted": 2,
+      "overviewInstalled": 2,
+      "overviewCancelled": 0,
+      "overviewDeduped": 2,
+      "overviewMaxActive": 1,
+      "refreshEvents": 10,
+      "refreshRuns": 7,
+      "detailQueries": 3,
+      "detailInstalls": 5,
+      "terrainInstalls": 2,
+      "overviewActive": 0,
+      "overviewPending": 0,
+      "refreshPending": 0,
+      "coverageBinCount": 0,
+      "effectiveDPR": 1.5
+    },
+    "model": true,
+    "frame": "2026-11-02T07:00:00Z",
+    "selected": 387171,
+    "center": {
+      "x": -111.15023297,
+      "y": 32.40152569
+    }
+  },
+  "phone": {
+    "label": "phone DPR3",
+    "raw": {
+      "usedSize": 261070768,
+      "totalSize": 336486400,
+      "embedderHeapUsedSize": 3284864,
+      "backingStorageSize": 49441522
+    },
+    "collected": {
+      "usedSize": 201859744,
+      "totalSize": 204795904,
+      "embedderHeapUsedSize": 2881368,
+      "backingStorageSize": 35068268
+    },
+    "view": "3d",
+    "state": {
+      "clockMode": "frozen_replay",
+      "range": {
+        "start": 0,
+        "end": 56
+      },
+      "requested": {
+        "requestId": 5,
+        "model": "2d",
+        "index": 56,
+        "view": "3d",
+        "time": "2026-11-02T07:00:00Z"
+      },
+      "displayed": {
+        "requestId": 5,
+        "model": "2d",
+        "index": 56,
+        "view": "3d",
+        "time": "2026-11-02T07:00:00Z",
+        "runId": "refined-full-41344983607"
+      },
+      "status": "ready",
+      "error": null,
+      "viewport": {
+        "center": [
+          -111.15023196,
+          32.4015278
+        ],
+        "zoom": 18,
+        "bounds": [
+          -111.15247405357401,
+          32.39951007983494,
+          -111.14798986129698,
+          32.408159221765516
+        ]
+      },
+      "selection": {
+        "kind": "cell",
+        "cellIndex": 387171
+      }
+    },
+    "terrain": {
+      "visibleTiles": 6,
+      "loadedTiles": 6,
+      "omittedTiles": 0,
+      "coarseFallbackTiles": 0,
+      "coarseCoverageTriangles": 22909,
+      "completeVisibleCoverage": true,
+      "selectedCompressedBytes": 746852,
+      "coverageLimitedBy": null,
+      "triangles": 53671,
+      "downloadedBytes": 221985,
+      "cacheHits": 4,
+      "cachedTiles": 16,
+      "cachedCompressedBytes": 2717039,
+      "cachedTriangles": 195235,
+      "levels": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "timings": {
+        "indexMs": 212.0999999642372,
+        "tilesMs": 26.100000023841858,
+        "mergeMs": 12.599999964237213,
+        "totalMs": 250.89999997615814,
+        "reused": false
+      },
+      "overviewMode": false,
+      "terrainKind": "native_face_triangle_terrain"
+    },
+    "detail": {
+      "overviewMode": false,
+      "groundTriangles": 19319,
+      "waterTriangles": 2881,
+      "visibleWetFaces": 691,
+      "omittedWetFaces": 0,
+      "budgetLimited": false,
+      "supportDecodedBytes": 0,
+      "omittedFaces": 0,
+      "visibleFaces": 4221,
+      "zoomInRequired": false,
+      "sourceWaterTriangles": 3234,
+      "projectedCacheEstimatedBytes": 0
+    },
+    "cache": {
+      "cachedTiles": 16,
+      "cachedCompressedBytes": 2717039,
+      "cachedTriangles": 195235,
+      "indexLoaded": true,
+      "groundLevels": 2,
+      "waterSupportLoaded": true,
+      "staticCompressedBytes": 7279445,
+      "totalCompressedBytes": 9996484
+    },
+    "counters": {
+      "overviewStarted": 2,
+      "overviewInstalled": 2,
+      "overviewCancelled": 0,
+      "overviewDeduped": 2,
+      "overviewMaxActive": 1,
+      "refreshEvents": 16,
+      "refreshRuns": 13,
+      "detailQueries": 8,
+      "detailInstalls": 14,
+      "terrainInstalls": 6,
+      "overviewActive": 0,
+      "overviewPending": 0,
+      "refreshPending": 0,
+      "coverageBinCount": 0,
+      "effectiveDPR": 1
+    },
+    "model": true,
+    "frame": "2026-11-02T07:00:00Z",
+    "selected": 387171,
+    "center": {
+      "x": -111.15023196,
+      "y": 32.4015278
+    }
+  },
+  "flat": {
+    "label": "returned flat",
+    "raw": {
+      "usedSize": 203957164,
+      "totalSize": 208728064,
+      "embedderHeapUsedSize": 5030280,
+      "backingStorageSize": 35070019
+    },
+    "collected": {
+      "usedSize": 202689184,
+      "totalSize": 204009472,
+      "embedderHeapUsedSize": 3399240,
+      "backingStorageSize": 35068397
+    },
+    "view": "flat",
+    "state": {
+      "clockMode": "frozen_replay",
+      "range": {
+        "start": 4,
+        "end": 56
+      },
+      "requested": {
+        "requestId": 7,
+        "model": "2d",
+        "index": 56,
+        "view": "flat",
+        "time": "2026-11-02T07:00:00Z"
+      },
+      "displayed": {
+        "requestId": 7,
+        "model": "2d",
+        "index": 56,
+        "view": "flat",
+        "time": "2026-11-02T07:00:00Z",
+        "runId": "refined-full-41344983607"
+      },
+      "status": "ready",
+      "error": null,
+      "viewport": {
+        "center": [
+          -111.15023196,
+          32.4015278
+        ],
+        "zoom": 18,
+        "bounds": [
+          -111.15247405357401,
+          32.39951007983494,
+          -111.14798986129698,
+          32.408159221765516
+        ]
+      },
+      "selection": {
+        "kind": "cell",
+        "cellIndex": 387171
+      }
+    },
+    "terrain": {
+      "visibleTiles": 6,
+      "loadedTiles": 6,
+      "omittedTiles": 0,
+      "coarseFallbackTiles": 0,
+      "coarseCoverageTriangles": 22909,
+      "completeVisibleCoverage": true,
+      "selectedCompressedBytes": 746852,
+      "coverageLimitedBy": null,
+      "triangles": 53671,
+      "downloadedBytes": 221985,
+      "cacheHits": 4,
+      "cachedTiles": 16,
+      "cachedCompressedBytes": 2717039,
+      "cachedTriangles": 195235,
+      "levels": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "timings": {
+        "indexMs": 212.0999999642372,
+        "tilesMs": 26.100000023841858,
+        "mergeMs": 12.599999964237213,
+        "totalMs": 250.89999997615814,
+        "reused": false
+      },
+      "overviewMode": false,
+      "terrainKind": "native_face_triangle_terrain"
+    },
+    "detail": {
+      "overviewMode": false,
+      "groundTriangles": 19319,
+      "waterTriangles": 2881,
+      "visibleWetFaces": 691,
+      "omittedWetFaces": 0,
+      "budgetLimited": false,
+      "supportDecodedBytes": 0,
+      "omittedFaces": 0,
+      "visibleFaces": 4221,
+      "zoomInRequired": false,
+      "sourceWaterTriangles": 3234,
+      "projectedCacheEstimatedBytes": 0
+    },
+    "cache": {
+      "cachedTiles": 16,
+      "cachedCompressedBytes": 2717039,
+      "cachedTriangles": 195235,
+      "indexLoaded": true,
+      "groundLevels": 2,
+      "waterSupportLoaded": true,
+      "staticCompressedBytes": 7279445,
+      "totalCompressedBytes": 9996484
+    },
+    "counters": {
+      "overviewStarted": 4,
+      "overviewInstalled": 4,
+      "overviewCancelled": 0,
+      "overviewDeduped": 5,
+      "overviewMaxActive": 1,
+      "refreshEvents": 19,
+      "refreshRuns": 14,
+      "detailQueries": 8,
+      "detailInstalls": 14,
+      "terrainInstalls": 6,
+      "overviewActive": 0,
+      "overviewPending": 0,
+      "refreshPending": 0,
+      "coverageBinCount": 0,
+      "effectiveDPR": 1
+    },
+    "model": true,
+    "frame": "2026-11-02T07:00:00Z",
+    "selected": 387171,
+    "center": {
+      "x": -111.15023196,
+      "y": 32.4015278
+    }
+  },
+  "safety": {
+    "text": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\nTrico-Marana river bridge: 4,350 cfs at Santa Cruz River at Cortaro Rd: elevated river discharge; water reaching this bridge or its approaches is not established.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n4\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,482 cfs in Brawley Wash at Milewide Road: a flood is coming down the wash toward this crossing\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
+    "links": [
+      {
+        "text": "Details",
+        "href": "#/r/trico"
+      },
+      {
+        "text": "",
+        "href": "#"
+      },
+      {
+        "text": "OpenStreetMap",
+        "href": "https://www.openstreetmap.org/copyright"
+      },
+      {
+        "text": "Open map",
+        "href": "#/map"
+      },
+      {
+        "text": "← Routes & live conditions",
+        "href": "#/"
+      },
+      {
+        "text": "\n          2\n          Silverbell–Sanders north17 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n          ›\n        ",
+        "href": "#/r/silverbell-north"
+      },
+      {
+        "text": "\n          2\n          Silverbell–Sanders south20 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n          ›\n        ",
+        "href": "#/r/silverbell-south"
+      },
+      {
+        "text": "\n          5\n          Avra Valley Rd20 min · Brawley Wash dip: 1,482 cfs in Brawley Wash at Milewide Road: a flood is coming down the wash toward this crossing\n          ›\n        ",
+        "href": "#/r/avra"
+      },
+      {
+        "text": "🔔AlertsGet this sent to your phone at a time you pick›",
+        "href": "#/alerts"
+      },
+      {
+        "text": "✍️Help fill the gapsTell us what a crossing is really like in the rain›",
+        "href": "#/report"
+      },
+      {
+        "text": "🛣️I-10 underpassesMarana, Orange Grove, Grant, Speedway›",
+        "href": "#/underpasses"
+      },
+      {
+        "text": "❓How to read this›",
+        "href": "#/how"
+      },
+      {
+        "text": "📝What's new›",
+        "href": "#/updates"
+      },
+      {
+        "text": "⚙️Settings›",
+        "href": "#/settings"
+      },
+      {
+        "text": "ℹ️Sources›",
+        "href": "#/sources"
+      },
+      {
+        "text": "🔒Privacy & terms›",
+        "href": "#/privacy"
+      }
+    ],
+    "underpasses": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\nTrico-Marana river bridge: 4,350 cfs at Santa Cruz River at Cortaro Rd: elevated river discharge; water reaching this bridge or its approaches is not established.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n4\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,482 cfs in Brawley Wash at Milewide Road: a flood is coming down the wash toward this crossing\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
+    "bridge": [
+      "Sanders Rd river bridge: height & historyRoadway heightNo site-linked estimate available.Water elevation comparisonRoadway elevation estimate is missing.Under-bridge clearanceUnderside elevation is unavailable. Roadway height is not underside height; gauge flow in cfs is not water elevation.Documented flooding or overtoppingNo confirmed structure-specific flooding history linked. This does not mean it has never flooded.Current readings and official barricade reports are shown below. Existing flow thresholds are warning indicators, not a measured bridge-clearance calculation."
+    ]
+  },
+  "passed": true
+}

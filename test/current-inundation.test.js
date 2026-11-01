@@ -7,7 +7,7 @@ test('current manifest checks explicit time, expiry, quantity and artifact path'
 test('real historical solver output cannot be republished as current by changing a manifest',async()=>{const raw=JSON.parse(gunzipSync(await readFile(new URL('../public/simulation/data/published-channel-2014.json.gz',import.meta.url))));const r=acceptCurrentRun({...manifest,runId:raw.provenance.runId},raw,{now});assert.equal(r.status,'unsupported');assert.equal(r.run,null)});
 
 test('published frozen2026 output loads as simulated live and never as live ranking',async()=>{
- const m=JSON.parse(await readFile(new URL('../public/simulation/data/current-sfincs-manifest.json',import.meta.url)));
+ const m=JSON.parse(await readFile(new URL('../public/simulation/data/retained-sfincs-manifest.json',import.meta.url)));
  const raw=JSON.parse(gunzipSync(await readFile(new URL('../public/simulation/'+m.artifact.path,import.meta.url))));
  const clock=Math.max(Date.parse(m.issuedAt),Date.parse(m.validFrom));
  const result=acceptCurrentRun(m,raw,{now:clock});

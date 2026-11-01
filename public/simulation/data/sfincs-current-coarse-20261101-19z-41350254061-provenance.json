@@ -1,0 +1,98 @@
+{
+  "solverVersion": "SFINCS source f3647fc0289bb15cb2512d60686cef74cb853c78",
+  "runId": "sfincs-current-coarse-20261101-19z-41350254061",
+  "inputArtifacts": [
+    {
+      "path": "sfincs.inp",
+      "sha256": "2a06179eecc64e6e8404dc6e583a7280869727759d43a9356ff86f9996706f58"
+    },
+    {
+      "path": "sfincs.ind",
+      "sha256": "2b071b4995e0f78043d24192ffc2a3f3fb055dc82a6272b2b804a0b0012f09b1"
+    },
+    {
+      "path": "sfincs.msk",
+      "sha256": "d067063bbf06471134827906c82daf073a75fac8d771b188267ae02416f5be35"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "sha256": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de"
+    },
+    {
+      "path": "sfincs.scs",
+      "sha256": "0a8d95fb7aaa627bba19ffb433c32720785b93380aa7338a11582eac5a54ca10"
+    },
+    {
+      "path": "sfincs.dis",
+      "sha256": "bfff95c31e7e92385e1abfc357402f85e6f4e4c66e30cd6befdf2b67ff462ace"
+    },
+    {
+      "path": "sfincs.src",
+      "sha256": "8a74b9d56b6ee772e09213988aec926f773959c7b430383491e3dd848cbcaa3f"
+    },
+    {
+      "path": "precip_2d.nc",
+      "sha256": "119e6302e578932c4a811f0ba73d5b0ba915e82ec8903a6db718549a38745ef4"
+    },
+    {
+      "path": "current-case.json",
+      "sha256": "bdb99b82c533f2d66dee21a97f34352ff349feae8a1ec91a90539be2562ad5ba"
+    },
+    {
+      "path": "active-mask.npy",
+      "sha256": "46a46903cbd4393ebc48db4d5f413d0ce16debd47840a4982246a53863b4f42a"
+    },
+    {
+      "path": "GCN10-NOTICE.txt",
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    }
+  ],
+  "projectedCrs": "EPSG:32612",
+  "verticalDatum": "NAVD88",
+  "sourceAsOf": "2026-11-01T21:03:11.599696+00:00",
+  "sourceMetadata": {
+    "forecastIssues": {
+      "NWM": "2026-11-01T18:00:00Z",
+      "HRRR": "2026-11-01T19:00:00Z"
+    },
+    "inputPackageCommit": "f234d23",
+    "inputPackageArchiveSha256": "044aaa713d2da373179144e0b30be3500686cad0734668511d03f601c1ae6fcb",
+    "analysisHistory": "NWM model-analysis discharge, not gauge observations; Stage IV precipitation analysis from Oct 30 21Z to Nov 1 19Z; 46 complete hours, no MRMS substitution.",
+    "forecastTransition": "Explicit HRRR forecast from Nov 1 19Z to 22Z, not observations.",
+    "nativeRunId": "41350254061"
+  },
+  "assumptions": [
+    "Current provider package acquired independently of retained replay; NWM 18Z and HRRR 19Z source issues remain explicit.",
+    "Existing 2021 professional terrain with verified 2023 edge; 100 m computational cells and 10 m terrain subgrid; unchanged geometry.",
+    "WorldCover 2021 published roughness mapping; GCN10 fair ARCII undrained soil-retention scenario, not observed soil moisture.",
+    "Assumed dry state before 46 hours of analysis and 3 hours of forecast transition; continuous state into forecast, not measured or convergence-proven.",
+    "Seven directed free-outflow cells; no prescribed downstream tailwater or explicit bridge/culvert structural openings.",
+    "Water volume divided by 10,000 m2 full cell area is not road depth, bridge clearance or actual wet-area depth.",
+    "Native undefined water surface remains missing in raw output.",
+    "The final 11-12Z precipitation rate is supplied; the native endpoint warning reflects left-labeled intervals.",
+    "No negative active-cell forecast volumes were recorded; display tolerance is zero."
+  ],
+  "nativeOutput": {
+    "path": "sfincs_map.nc",
+    "sha256": "388b44ae4be9a47a4eda4cffab90ed48ebb6b55481fe23e57a41dc7585184f58"
+  },
+  "exportConfigurationSha256": "3c3976188d17973743839b24f5e17fb01a9fd32d70aa1be135d333b2283900d9",
+  "activeMaskSha256": "46a46903cbd4393ebc48db4d5f413d0ce16debd47840a4982246a53863b4f42a",
+  "outputQuantity": {
+    "name": "cell_average_depth",
+    "units": "m",
+    "definition": "Water volume divided by full grid-cell area; not road or channel depth"
+  },
+  "cellAreaM2": 10000.0,
+  "negativeVolumeDisplayPolicy": {
+    "toleranceM3": 0.0,
+    "minimumRawVolumeM3": 0.0,
+    "clampedForDisplayOnly": true
+  },
+  "forecast": {
+    "inputRole": "forecast",
+    "issuedAt": "2026-11-01T21:09:28.696154+00:00",
+    "validFrom": "2026-11-01T22:00:00Z",
+    "validTo": "2026-11-02T12:00:00Z"
+  }
+}

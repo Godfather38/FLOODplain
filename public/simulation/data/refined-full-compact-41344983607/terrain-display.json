@@ -1,0 +1,50 @@
+{
+  "status": "available",
+  "artifact": {
+    "path": "terrain-index-overview.json.gz",
+    "sha256": "0f7a92538e26925393b6aaba5e47fa559c6c0cb0f72939c6e6987d0eff3a88b6",
+    "bytes": 426634
+  },
+  "kind": "native_face_terrain_tiles",
+  "runId": "refined-full-41344983607",
+  "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+  "verticalDatum": "NAVD88",
+  "note": "Display terrain reused from identical native mesh; water and time come exclusively from the completed target run. Coarse terrain omits interior detail; no new hydraulics.",
+  "geometryEquivalence": {
+    "method": "exact-native-geometry",
+    "runId": "refined-full-41344983607",
+    "sourceRunId": "refined-partial-41339621278",
+    "targetRunId": "refined-full-41344983607",
+    "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+    "targetGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+    "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+    "verticalDatum": "NAVD88",
+    "cellCount": 398613,
+    "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+    "verifiedFields": [
+      "ordered nativeFaceId",
+      "lon",
+      "lat",
+      "areaM2",
+      "resolutionM",
+      "edgeLengthsM",
+      "all native ring vertices",
+      "projectedCrs",
+      "native mesh SHA256",
+      "vertical datum"
+    ]
+  },
+  "sourceRunId": "refined-partial-41339621278",
+  "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+  "provenance": {
+    "sourceManifestSha256": "6131b2fc2f84a77b2f8597411ace3c1443785ca03fd2f4c5961998175358de02",
+    "targetManifestSha256": "5100663c8848b8aa00d5bf6bb700568a3e8c6a912af38059b8524cb85b182a23",
+    "sourceTerrainIndex": {
+      "path": "terrain-index-overview.json.gz",
+      "sha256": "0f7a92538e26925393b6aaba5e47fa559c6c0cb0f72939c6e6987d0eff3a88b6",
+      "bytes": 426634
+    },
+    "method": "Unchanged terrain bytes reused after exact ordered native geometry and mesh/datum comparison"
+  },
+  "artifactBase": "../refined-partial-41339621278/"
+}

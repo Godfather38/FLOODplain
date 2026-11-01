@@ -1,0 +1,16 @@
+{
+  "recordedAt": "2026-11-01T07:22:17.019766+00:00",
+  "note": "Public responses retrieved during this build; recorded replay only.",
+  "sources": [
+    {
+      "file": "nwps-scta3-metadata.json",
+      "url": "https://api.water.noaa.gov/nwps/v1/gauges/SCTA3",
+      "sha256": "d3698703c4cd8caa4cf92edfc28545c6d5740188d8cdf5631c65b61adc96390e"
+    },
+    {
+      "file": "nwps-scta3-stageflow.json",
+      "url": "https://api.water.noaa.gov/nwps/v1/gauges/SCTA3/stageflow",
+      "sha256": "b33dfbe51887159ac3349c2c8fc04b2fafd9d9465bdc260f1f8e368b5a1277b4"
+    }
+  ]
+}

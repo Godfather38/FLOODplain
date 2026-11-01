@@ -1,0 +1,60 @@
+{
+  "kind": "actual_refined_terrain_overview_verification",
+  "runId": "refined-partial-41339621278",
+  "geometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+  "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+  "verticalDatum": "NAVD88",
+  "coverage": {
+    "exactNativeDomain": true,
+    "areaM2": 483277500.0,
+    "components": 2,
+    "holes": 3,
+    "domainProjectedWkbSha256": "6568a0be7f799e2e72780f5918d65ad9c11877c1d0f1b207be68f2b7189bc44d",
+    "nativeFaceCount": 398613,
+    "method": "Exact union of axis-aligned native polygons on their existing finest coordinate lattice; no domain dilation or hole filling."
+  },
+  "waterSupport": {
+    "kind": "native_face_water_support",
+    "faceCount": 398613,
+    "triangles": 807823,
+    "decodedBytes": 12032577,
+    "artifact": {
+      "path": "terrain-water-support.json.gz",
+      "sha256": "006f97cdb1bad8840fe62f2ff8c31d7ba7d68fe4decf2fa22510f18daf192f2a",
+      "bytes": 5280890
+    }
+  },
+  "maximumBoundaryElevationFloat32ErrorM": 6.1031249970255885e-05,
+  "overviewLevels": [
+    {
+      "samplingM": 400,
+      "triangles": 8875,
+      "vertices": 5995,
+      "domainSymmetricDifferenceM2": 0.0,
+      "bytes": 174940,
+      "seconds": 2.5351488000014797
+    },
+    {
+      "samplingM": 200,
+      "triangles": 26568,
+      "vertices": 15012,
+      "domainSymmetricDifferenceM2": 0.0,
+      "bytes": 452104,
+      "seconds": 5.460564500011969
+    },
+    {
+      "samplingM": 100,
+      "triangles": 96659,
+      "vertices": 50390,
+      "domainSymmetricDifferenceM2": 0.0,
+      "bytes": 1546451,
+      "seconds": 17.009777200000826
+    }
+  ],
+  "index": {
+    "path": "terrain-index-overview.json.gz",
+    "sha256": "0f7a92538e26925393b6aaba5e47fa559c6c0cb0f72939c6e6987d0eff3a88b6",
+    "bytes": 426634
+  },
+  "elapsedSeconds": 50.37396270001773
+}

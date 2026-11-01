@@ -66,7 +66,7 @@ export function checkRiver(flows, siteIds, names, R) {
     else if (f.cfs >= R.watchCfs || f.risingFast) c = { level: 'watch', why: `${at}${f.risingFast ? ' and rising' : ''}: elevated river flow; water level relative to this bridge is not established` };
     if (c && rank(c.level) > rank(out.level)) out = c;
   }
-  return out;
+  return {...out, observations:parts.map(({id,f})=>({siteId:id,cfs:f.cfs,time:f.time})), detail:parts.map(({id,f})=>siteName(names,id)+': '+fmtCfs(f.cfs)+' cfs; observed '+(Number.isFinite(f.time)?new Date(f.time).toISOString():'time unavailable')).join('; ')};
 }
 
 // Upstream creeks that reach the river bridges hours later.
@@ -166,6 +166,29 @@ export function checkNws(alerts, kind) {
   return null;
 }
 
+// Compare absolute elevations only at the same bridge, in metres and the same datum.
+export function bridgeHeightComparison(record, now) {
+  const road = record?.roadwayEstimate, water = record?.modelWater;
+  if (!road || !Number.isFinite(road.elevationM)) return { status: 'unavailable', reason: 'Roadway elevation estimate is missing.' };
+  if (!water || water.quantity !== 'water_surface_elevation' || water.units !== 'm' || water.verticalDatum !== road.verticalDatum || JSON.stringify(water.location) !== JSON.stringify(record.location)) return { status: 'unavailable', reason: 'Matching water-surface elevation at this bridge in ' + road.verticalDatum + ' is missing.' };
+  if (now > Date.parse(water.validTo)) return { status: 'expired', reason: 'The model water forecast expired at ' + water.validTo + '; a new water elevation is needed.' };
+  const frames = water.frames.filter(f => Number.isFinite(f.elevationM) && Date.parse(f.time) >= now && Date.parse(f.time) >= Date.parse(water.validFrom) && Date.parse(f.time) <= Date.parse(water.validTo));
+  if (!frames.length) return { status: 'unavailable', reason: 'No defined water-surface elevation remains in this forecast.' };
+  const peak = frames.reduce((a,b) => b.elevationM > a.elevationM ? b : a);
+  return { status: 'estimated', roadM: road.elevationM, waterM: peak.elevationM, differenceM: road.elevationM - peak.elevationM, time: peak.time, datum: road.verticalDatum, validFrom: water.validFrom, validTo: water.validTo };
+}
+
+// A discharge threshold describes the river, not water reaching a particular bridge.
+function bridgeRiverCheck(check,record,now){
+ const history=record?.documentedHistory??[],elevated=['watch','caution','danger'].includes(check.level);
+ const heightComparison=bridgeHeightComparison(record,now),modeledRoadConcern=heightComparison.status==='estimated'&&heightComparison.differenceM<=0;
+ return {...check,level:modeledRoadConcern?'caution':elevated?'watch':check.level,modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
+  why:modeledRoadConcern?`Modeled water ${heightComparison.waterM.toFixed(2)} m reaches or exceeds the estimated roadway ${heightComparison.roadM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}; estimated roadway flooding concern, not an observed closure.`:elevated?check.why.split(':')[0]+': elevated river discharge; water reaching this bridge or its approaches is not established.':check.why,
+  detail:(check.detail?check.detail+'. ':'')+(record?'Site-linked structure record '+record.id+'. ':'No exact structure record. ')+(history.length?'Historical flooding is documented for this site; it is not a current closure or measured flow-to-road threshold. ':'No site-linked flooding history establishes a current road threshold. ')+(record?.roadwayEstimate?'A provisional roadway-height comparison is shown in height & history; it is not surveyed deck or underside clearance. ':'Current roadway elevation is unavailable. ')+'Clearance is unknown, not confirmed clear.',
+  heightComparison,
+  bridgeEvidence:{recordId:record?.id??null,historyDates:history.map(h=>h.date),clearance:'unknown'}};
+}
+
 // ---------- combine ----------
 
 export function rateFailurePoint(fp, d, cfg) {
@@ -177,7 +200,8 @@ export function rateFailurePoint(fp, d, cfg) {
   const nws = checkNws(d.nws, fp.kind);
   if (nws) checks.push({ src: 'nws', ...nws });
   if (fp.river) {
-    checks.push({ src: 'river', ...checkRiver(d.flows, fp.river, cfg.USGS_SITES, cfg.RIVER) });
+    const river=checkRiver(d.flows, fp.river, cfg.USGS_SITES, cfg.RIVER);
+    checks.push({ src: 'river', ...(['river','bridge'].includes(fp.kind)?bridgeRiverCheck(river,d.bridgeEvidence?.[fp.id],now):river) });
     const early = checkRiverEarly(d.flows, cfg.RIVER_EARLY, cfg.USGS_SITES, cfg.RIVER);
     if (early) checks.push({ src: 'river-early', ...early });
   }
@@ -198,7 +222,7 @@ export function rateFailurePoint(fp, d, cfg) {
   // answer is listed in the details ("unreachable"), but never turns the rating into "?".
   const known = checks.filter((c) => c.level !== 'unknown');
   let level = known.length ? worst(known.map((c) => c.level)) : 'ok';
-  if (!known.length) checks.unshift({ src: 'none', level: 'ok', why: 'No live readings right now, and nothing reported against it' });
+  if (!known.length) checks.unshift({ src: 'none', level: 'ok', why: 'No live readings right now; current road conditions are not established' });
   // Shallow spots per local knowledge: Silverbell drainage, the big flat dip on Ina.
   if ((fp.kind === 'road' || fp.kind === 'flat') && level === 'danger' && closure?.level !== 'danger') level = 'caution';
   // Lead with a measurement when one exists; the county "Open" flag is often days old.
@@ -207,7 +231,7 @@ export function rateFailurePoint(fp, d, cfg) {
   const atLevel = checks.filter((c) => c.level === level && !(c.official && level === 'ok'));
   atLevel.sort((a, b) => pref.indexOf(a.src) - pref.indexOf(b.src));
   const lead = atLevel[0] ?? checks.find((c) => c.level === level) ?? checks[0];
-  return { id: fp.id, name: fp.name, short: fp.short, where: fp.where, kind: fp.kind, level, why: lead?.why ?? 'no data', checks, closurePts };
+  return { evidenceAvailable: known.length > 0, id: fp.id, name: fp.name, short: fp.short, where: fp.where, kind: fp.kind, level, why: lead?.why ?? 'no data', checks, closurePts };
 }
 
 export function rateRoutes(routeFeatures, fpResults, fps) {
@@ -222,7 +246,7 @@ export function rateRoutes(routeFeatures, fpResults, fps) {
 export function recommend(rated) {
   const order = [...rated].sort((a, b) => rank(a.level) - rank(b.level) || a.minutes - b.minutes);
   const best = order[0];
-  return { best, clear: best && rank(best.level) <= rank('watch'), order };
+  return { best, clear: best && rank(best.level) <= rank('watch') && !best.points.some(p=>p.evidenceAvailable===false || p.checks.some(c=>c.bridgeClearance==='unknown'&&c.level!=='ok')), order };
 }
 
 // Google Maps link that forces the chosen roads with waypoints (phones allow up to 3).

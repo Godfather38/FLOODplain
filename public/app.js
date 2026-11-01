@@ -1,13 +1,15 @@
 import {loadBridgeEvidence,bridgeRecordFor,bridgeHistory} from './simulation/bridge-evidence.js';
 import {mountFloodLayers} from './simulation/map-layers.js';
+import {mountLiveMap} from './live-map.js';
 import { savedRoutes, toggleSavedRoute, checkAge } from './preferences.js?v=dev';
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
 import { loadGaugeReadings } from './gauge-feed.js?v=dev';
 import { resolveScreen } from './routing.js?v=dev';
+import { UNDERPASSES } from './underpasses.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
-  riskScore, routeScore, goodSigns, againstIt,
+  riskScore, routeScore, goodSigns, againstIt, bridgeHeightComparison,
 } from './logic.js?v=dev';
 
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
@@ -16,10 +18,11 @@ const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
 const SRC = {
   none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
-  wash: ['〰️', 'Wash flow'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
+  hand: ['🗺️', 'HAND flood model'], wash: ['〰️', 'Wash flow'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
 };
 const KIND_ICON = { dip: '〰️', flat: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
 const REFRESH_MS = 5 * 60 * 1000;
+const HAND_DOWN = 'HAND flood model not responding';
 const NAV_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4.5 20.3l.7.7L12 18l6.8 3 .7-.7z"/></svg>';
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -31,8 +34,10 @@ const store = {
 let favorites = savedRoutes(store.get('savedRoutes'), Object.keys(ROUTE_INFO));
 let saveNotice = '';
 const saveButton = (id) => `<button type="button" class="btn btn-text save-route" data-save-route="${esc(id)}" aria-pressed="${favorites.includes(id)}">${favorites.includes(id) ? 'Saved route' : 'Save route'}</button>`;
-const badge = (n, lg) => `<span class="badge ${lg ? 'lg' : ''} ${n ? `s${n}` : 'sq'}" role="img" aria-label="Risk factor ${n ?? 'unknown'} of 5">${n ?? '?'}</span>`;
-const badgeWithWord = (n) => `<span class="badge-wrap">${badge(n, true)}<span class="badge-word">${n ? WORD[n] : 'No data'}</span></span>`;
+// The engine's number plus any half point from HAND.
+const pointScore = (p) => { const s = riskScore(p); return s == null ? s : s + (p.handAdd ?? 0); };
+const badge = (n, lg) => `<span class="badge ${lg ? 'lg' : ''} ${n ? `s${Math.floor(n)}` : 'sq'}" role="img" aria-label="Risk factor ${n ?? 'unknown'} of 5">${n ?? '?'}</span>`;
+const badgeWithWord = (n) => `<span class="badge-wrap">${badge(n, true)}<span class="badge-word">${n ? WORD[Math.floor(n)] : 'No data'}</span></span>`;
 
 // ---------------- data ----------------
 // River gauges. USGS limits how often one phone may ask without a key, so:
@@ -123,12 +128,36 @@ async function navigate(rid) {
   location.href = url;
 }
 
+// HAND loads after the first screen, so slow or failing NOAA calls can't hold it up.
+let handModel = null;
+let handRun = 0;
+async function refreshHand() {
+  const run = ++handRun;
+  let hand = null;
+  try {
+    handModel ??= await import('./hand-model.js?v=dev');
+    hand = await handModel.loadHand(FAILURE_POINTS);
+  } catch { /* shown below as not responding */ }
+  if (run !== handRun || !data) return;
+  // The HAND row comes first in the list, so an open row would point at the wrong source.
+  if (Boolean(data.hand) !== Boolean(hand)) openSource = null;
+  data.hand = hand;
+  data.errors = data.errors.filter((e) => e !== HAND_DOWN);
+  if (!hand) data.errors.push(HAND_DOWN);
+  view = compute(data);
+  // Redrawing would clear a form someone is typing in; the next check picks it up.
+  if (!['report', 'alerts'].includes(where().screen)) render();
+}
+
 function compute(d) {
-  const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
-  const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
-  try { sessionStorage.setItem('floodplain-route-evidence', JSON.stringify({now:d.now,area,rated,errors:d.errors})); } catch { /* optional experimental evidence handoff */ }
+  const structureRecords=Object.fromEntries(FAILURE_POINTS.map(fp=>[fp.id,bridgeRecordFor(fp,bridgeEvidence?.registry)]));
+  const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, {...d,bridgeEvidence:structureRecords}, cfg)]));
+  // HAND only adds to the result, so a fault in it can't take the ratings down with it.
+  try { handModel?.applyHand(fpResults, d.hand); } catch { /* ratings stand without it */ }
+  const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS).map((r) => { const score = routeScore(r); return { ...r, score: score == null ? score : Math.max(score, ...r.points.map((p) => pointScore(p) ?? 1)) }; });
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
-  return { fpResults, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
+  const underpasses = UNDERPASSES.map((up) => ({ ...up, result: rateFailurePoint(up, d, cfg) }));
+  return { fpResults, underpasses, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
 }
 
 // Screens are addressed by the URL hash so the phone's back button works:
@@ -190,7 +219,9 @@ function homeScreen() {
     <div class="list">
       <a class="row small" href="#/alerts"><span class="lead-icon">🔔</span><span class="text"><div class="t">Alerts</div><div class="st">Get this sent to your phone at a time you pick</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/report"><span class="lead-icon">✍️</span><span class="text"><div class="t">Help fill the gaps</div><div class="st">Tell us what a crossing is really like in the rain</div></span><span class="chev">›</span></a>
+      <a class="row small" href="#/underpasses"><span class="lead-icon">🛣️</span><span class="text"><div class="t">I-10 underpasses</div><div class="st">Marana, Orange Grove, Grant, Speedway</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/how"><span class="lead-icon">❓</span><span class="text"><div class="t">How to read this</div></span><span class="chev">›</span></a>
+      <a class="row small" href="#/updates"><span class="lead-icon">📝</span><span class="text"><div class="t">What's new</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/settings"><span class="lead-icon">⚙️</span><span class="text"><div class="t">Settings</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/sources"><span class="lead-icon">ℹ️</span><span class="text"><div class="t">Sources</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/privacy"><span class="lead-icon">🔒</span><span class="text"><div class="t">Privacy &amp; terms</div></span><span class="chev">›</span></a>
@@ -201,11 +232,11 @@ function homeScreen() {
 function routeScreen(rid) {
   const r = view.byId[rid];
   const info = ROUTE_INFO[rid];
-  const flagged = r.points.filter((p) => riskScore(p) !== 1);
-  const normal = r.points.filter((p) => riskScore(p) === 1);
+  const flagged = r.points.filter((p) => pointScore(p) !== 1);
+  const normal = r.points.filter((p) => pointScore(p) === 1);
   const row = (p) => `
     <a class="row" href="#/r/${rid}/${p.id}">
-      ${badge(riskScore(p))}
+      ${badge(pointScore(p))}
       <span class="text"><div class="t">${esc(p.short)}</div><div class="st">${esc(p.why)}</div></span>
       <span class="chev">›</span>
     </a>`;
@@ -224,16 +255,19 @@ let bridgeEvidence=null;
 function bridgeEvidencePlaceholder(fp){
  if(!['bridge','river'].includes(fp.kind))return '';
  const record=bridgeRecordFor(fp,bridgeEvidence?.registry),history=bridgeHistory(record);
- const historyHtml=history.length?history.map(h=>`<p><a href="${esc(h.source)}" target="_blank" rel="noopener noreferrer">${esc(h.date)} report and photographs</a>: ${esc(h.summary)}</p><p>${esc(h.siteMatch||'')}</p><p>${esc(h.interpretationLimit||'')}</p>`).join(''):'No structure-specific evidence linked yet. This does not mean it has never flooded.';
- return `<section class="bridge-evidence" data-bridge-evidence data-crossing-id="${esc(fp.id)}"><h3>${esc(fp.short)}: height & history</h3>${bridgeEvidence?.status==='unavailable'?`<p role="status">Evidence package unavailable: ${esc(bridgeEvidence.reason)}. Missing fields below are not proof of no flood history.</p>`:''}<dl><dt>Bridge deck / low-chord elevation</dt><dd>Not verified for this structure.</dd><dt>Elevation datum and gauge relationship</dt><dd>Not verified. Gauge height cannot yet be compared with bridge clearance.</dd><dt>Documented flooding or overtopping</dt><dd>${historyHtml}</dd></dl><p>Current readings and official barricade reports are shown below. Existing flow thresholds are warning indicators, not a measured bridge-clearance calculation.</p>${record?`<details><summary>Evidence source</summary><p>Structure matched by its recorded coordinates; map tag, not survey confirmation. Registry ${esc(bridgeEvidence.source.sourceCommit)}. The prepared expanded mesh has not run and supplies no new forecast coverage.</p></details>`:''}</section>`;
+ const height=bridgeHeightComparison(record,Date.now()),road=record?.roadwayEstimate,water=record?.modelWater;
+ const heightHtml=road?`<dt>Estimated roadway height</dt><dd>About ${road.elevationM.toFixed(2)} m ${esc(road.verticalDatum)}. Approach samples: ${road.approachElevationsM.map(v=>v.toFixed(3)).join(' and ')} m. <a href="${esc(road.source)}" target="_blank" rel="noopener noreferrer">Road profile source</a>. ${esc(road.method)}</dd>`:'<dt>Roadway height</dt><dd>No site-linked estimate available.</dd>';
+ const waterHtml=height.status==='estimated'?`<dt>Highest remaining modeled water elevation</dt><dd>${height.waterM.toFixed(2)} m ${esc(height.datum)} at ${esc(new Date(height.time).toLocaleString('en-US',{timeZone:'America/Phoenix'}))} Arizona time. Estimated road is ${Math.abs(height.differenceM).toFixed(2)} m ${height.differenceM>=0?'above':'below'} that modeled water surface. This is roadway height difference, not under-bridge clearance.</dd><dt>Water source and period</dt><dd>Native SFINCS water surface, 100 m cell ${water.cellIndex} containing this bridge. Issued ${esc(water.issuedAt)}; forecast ${esc(water.validFrom)} through ${esc(water.validTo)}. ${esc(water.method)} <a href="simulation/data/current-sfincs-manifest.json">Model source</a>.</dd>`:`<dt>Water elevation comparison</dt><dd>${esc(height.reason)}</dd>`;
+ const historyHtml=history.length?history.map(h=>`<p><a href="${esc(h.source)}" target="_blank" rel="noopener noreferrer">${esc(h.date)} report and photographs</a>: ${esc(h.summary)}</p><p>${esc(h.siteMatch||'')}</p><p>${esc(h.interpretationLimit||'')}</p>`).join(''):'No confirmed structure-specific flooding history linked. '+esc(record?.historyLimit||'This does not mean it has never flooded.');
+ return `<section class="bridge-evidence" data-bridge-evidence data-crossing-id="${esc(fp.id)}"><h3>${esc(fp.short)}: height & history</h3>${bridgeEvidence?.status==='unavailable'?`<p role="status">Evidence package unavailable: ${esc(bridgeEvidence.reason)}. Missing fields below are not proof of no flood history.</p>`:''}<dl>${heightHtml}${waterHtml}<dt>Under-bridge clearance</dt><dd>Underside elevation is unavailable. Roadway height is not underside height; gauge flow in cfs is not water elevation.</dd><dt>Documented flooding or overtopping</dt><dd>${historyHtml}</dd></dl><p>Current readings and official barricade reports are shown below. Existing flow thresholds are warning indicators, not a measured bridge-clearance calculation.</p>${record?`<details><summary>Evidence source</summary><p>Structure matched by its recorded coordinates; map tag, not survey confirmation. Registry ${esc(bridgeEvidence.source.sourceCommit)}. Structure evidence is separate from model coverage and current official closures.</p></details>`:''}</section>`;
 }
 
 function stretchScreen(rid, fpId) {
   const p = view.fpResults[fpId];
   const fp = FAILURE_POINTS.find((f) => f.id === fpId);
-  const s = riskScore(p);
+  const s = pointScore(p);
   return `
-    <div class="summary">${badgeWithWord(s)}<div><p>${esc(['bridge','river'].includes(fp.kind)?'Review the observed sources below. Bridge clearance is not established by this rating.':LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
+    <div class="summary">${badgeWithWord(s)}<div><p>${esc(['bridge','river'].includes(fp.kind)?'Review the observed sources below. Bridge clearance is not established by this rating.':p.why === p.checks[0]?.why && p.checks[0]?.src === 'hand' ? 'The HAND model estimates water here. It can\'t say what the road is like; look as you go.' : p.level === 'ok' && p.checks[0]?.some ? handModel.CALM_WITH_FLOW : LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
     ${bridgeEvidencePlaceholder(fp)}
     <h3 class="section">What each source says</h3>
     <div class="list">
@@ -244,7 +278,7 @@ function stretchScreen(rid, fpId) {
           <summary class="row"><span class="lead-icon">${icon}</span>
             <span class="text"><div class="t">${label}</div><div class="st"><span class="dot ${c.level}" style="display:inline-block;margin-right:6px"></span>${esc(c.why)}</div></span>
             <span class="chev">›</span></summary>
-          <div class="more"><p>${esc(c.why)}</p>${c.detail ? `<p>${esc(c.detail)}</p>` : ''}</div>
+          <div class="more"><p>${esc(c.why)}</p>${c.detail ? `<p>${esc(c.detail)}</p>` : ''}${c.src === 'hand' && data.hand?.byFp[fpId]?.status === 'supported' ? `<p><a href="inundation/index.html#${esc(data.hand.byFp[fpId].id)}">See the estimated flood extent map</a></p>` : ''}</div>
         </details>`;
       }).join('')}
     </div>
@@ -294,6 +328,8 @@ function howScreen() {
       ${[1, 2, 3, 4, 5].map((n) => `<li>${badge(n)}<span><b>${WORD[n]}.</b> ${['Nothing in the data points to water.', 'Some water around; usually passable. Look as you go.', 'Water likely at or near the road.', 'Several signs agree water is at the road.', 'The county closed it, or a flood is running.'][n - 1]}</span></li>`).join('')}
       <li>${badge(null)}<span><b>No data.</b> Not the same as fine.</span></li>
     </ul>
+    <h4>The HAND flood model</h4>
+    <p>Where NOAA's stream data matches a crossing, the first source shown is HAND, an estimate of how high forecast flow reaches above the stream bed. It never overrides a gauge: where a river gauge is reporting, HAND is shown but doesn't change the number. Without one, a well-matched estimate showing water adds to the number your other sources gave: 1 point on the Santa Cruz, half a point on washes, based on how often its alarms failed at the gauges we track. A low or zero flow never lowers one, because local runoff isn't included. It's an estimate, not a reading, and it isn't depth on a road.</p>
     <h4>Using it</h4>
     <p>The top card is the route with the least going against it. The numbers are the same whichever way you're driving. Tap <b>Navigate</b> to drive it in Google Maps; it heads for I-10 when you're in Avra Valley, and back to Trico &amp; El Tiro when you're not. Tap <b>Details</b> or any route to see its stretches, then any stretch to see what each source says. The map follows along.</p>
     <p>A route's number is its worst stretch. The map only marks stretches that aren't normal.</p>
@@ -475,7 +511,7 @@ function wireAlerts() {
     const { best, order } = view.rec;
     const word = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
     const nm = (r) => ROUTE_INFO[r.id].name;
-    const body = `Test alert. Right now: take ${nm(best)} (${best.score}/5 ${word[best.score]}, ${Math.round(best.minutes)} min). `
+    const body = `Test alert. Right now: take ${nm(best)} (${best.score}/5 ${word[Math.floor(best.score)]}, ${Math.round(best.minutes)} min). `
       + `Others: ${order.filter((r) => r !== best).map((r) => `${nm(r)} ${r.score}`).join(', ')}. Your real alerts come at ${a.times.map(clock).join(' & ')}, ${daysSummary(a.days)}.`;
     try {
       const r = await fetch(`https://ntfy.sh/${pushTopic()}`, { method: 'POST', body, headers: { Title: `FLOODplain test (${areaInfo().name})`, Tags: 'droplet', Click: location.origin + location.pathname } });
@@ -546,6 +582,38 @@ function wireReport() {
   });
 }
 
+// Newest first. Add a line here whenever something people can notice changes.
+const UPDATES = [
+  ['November 1, 2026', [
+    'New: I-10 underpasses at Marana, Orange Grove, Grant and Speedway. Each gets the usual 1 to 5 number from nearby rain gauges, county closures and flood alerts. We have not found a public water sensor in any of them.',
+    'New: the HAND flood model. Where NOAA\'s stream data matches a crossing, you can see how high forecast flow is estimated to reach, with a map of the estimated area. It\'s an estimate, not a reading.',
+    'HAND adds to the number your other sources gave: 1 point on the Santa Cruz, half a point on washes, so you may see a number like 1.5. It never lowers a number, and it doesn\'t change a crossing where a river gauge is reporting.',
+    'Texts and push alerts don\'t use HAND yet, so they can show a different number than the app.',
+    'Saved routes: keep your favorites on this phone.',
+    'The app now shows when it last checked, and it recovers better when one gauge or source stops answering.',
+    'What\'s new: this page.',
+  ]],
+  ['October 31, 2026', [
+    'Text alerts are in beta and reach phones on Verizon\'s towers. Everyone else can join the waitlist or use free push alerts.',
+    'Fixed gaps in county closure coverage and stuck data feeds.',
+    'Picture Rocks routes, custom alert times and days, the Help fill the gaps form, and the FLOODplain name.',
+  ]],
+];
+
+function underpassesScreen() {
+  return `<p class="note"><b>We haven't found a public water sensor in any of these underpasses.</b> The number comes from the nearest county rain gauges, county closures and National Weather Service flood alerts. Water can pool from a storm the gauges miss, and a 1 doesn't confirm the underpass is clear. County closures may not include city, Marana or ADOT roads. Water over the road: turn around.</p>
+  ${view.underpasses.map(({ short, name, where: place, lat, lon, result }) => `<h3 class="section">${esc(short)}</h3>
+  <div class="summary">${badgeWithWord(riskScore(result))}<div><p>${esc(LEVEL_SENTENCE[result.level])}</p><p class="where">${esc(name)}, ${esc(place)}.</p></div></div>
+  <div class="list">${result.checks.map((c) => { const [icon, label] = SRC[c.src] ?? ['•', c.src]; return `<div class="row"><span class="lead-icon">${icon}</span><span class="text"><div class="t">${label}</div><div class="st" style="white-space:normal"><span class="dot ${c.level}" style="display:inline-block;margin-right:6px"></span>${esc(c.why)}</div>${c.detail ? `<div class="st" style="white-space:normal">${esc(c.detail)}</div>` : ''}</span></div>`; }).join('')}</div>
+  <a class="btn btn-text" href="https://www.google.com/maps/search/?api=1&query=${lat},${lon}" target="_blank" rel="noopener">Open in Google Maps</a>`).join('')}
+  <a class="btn btn-text" href="https://az511.gov/map" target="_blank" rel="noopener">State road conditions and cameras (AZ 511)</a>`;
+}
+
+function updatesScreen() {
+  return UPDATES.map(([date, items]) => `<h3 class="section">${esc(date)}</h3>
+  <div class="page"><ul>${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>`).join('');
+}
+
 function privacyScreen() {
   return `<div class="page">
     <h4>What you get</h4>
@@ -575,39 +643,35 @@ function sourcesScreen() {
 function render() {
   if (!view) return;
   const w = where();
-  const sub = w.screen !== 'home' || location.hash==='#/map';
+  const sub = w.screen !== 'home';
   $('.appbar').classList.toggle('sub', sub);
   $('#back').hidden = !sub;
   $('#logo').hidden = sub;
   $('#refresh').hidden = sub && !['route', 'stretch'].includes(w.screen);
   const titles = {
-    home: ["FLOODplain", subtitle()],
+    home: ["FLOODplain", subtitle()], map: ['Flood map', 'Live readings and dated model forecasts'],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
-    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"],
+    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
   }[w.screen];
-  $('#title').textContent = location.hash==='#/map'?'Explore map':titles[0] ?? '';
+  $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
-  $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy', 'report'].includes(w.screen);
+  $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy', 'report', 'updates', 'underpasses'].includes(w.screen);
   window.dispatchEvent(new Event('flood-before-screen-render'));
   $('#screen').innerHTML = {
-    home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
-    how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, report: () => reportScreen(w.fp),
+    map: () => '', home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
+    how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, updates: updatesScreen, underpasses: underpassesScreen, report: () => reportScreen(w.fp),
   }[w.screen]();
   if (['home', 'route', 'stretch'].includes(w.screen)) {
     const status = document.createElement('aside');
     status.className = 'check-status';
     status.innerHTML = '<strong id="check-age"></strong><p>Check time is not the age of every reading. Open a crossing for source details.</p>' + (data.errors.length ? `<p>${esc(data.errors.join('; '))}.</p>` : '');
-    const warnings=(data.nws??[]).filter(a=>/flood/i.test(a.event));
-    if(warnings.length){const warning=document.createElement('aside');warning.className='area-warning';warning.setAttribute('role','status');warning.innerHTML='<strong>Weather alerts in the source area</strong>'+warnings.map(a=>'<p>'+esc(a.headline||a.event)+'</p>').join('')+'<small>Area alerts do not establish conditions at every crossing. Review route details and barricades.</small>';$('#screen').prepend(warning)}
     $('#screen').prepend(status);
     updateCheckAge();
   }
   wire(w);
-  const retainedCenter=map.getCenter(),retainedZoom=map.getZoom();
   drawMap(w);
-  if(render.lastHash===location.hash || location.hash==='#/map' || render.lastHash==='#/map')map.setView(retainedCenter,retainedZoom,{animate:false});
-  render.lastHash=location.hash;
+  liveMap.update({active:w.screen==='map',data,view});
   window.dispatchEvent(new Event('flood-screen-rendered'));
 }
 function subtitle() {
@@ -654,10 +718,13 @@ function wire(w) {
 
 // ---------------- map ----------------
 const map = L.map('map', { zoomSnap: 0.25, zoomControl: false, attributionControl: true });
-const streetTiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
+const streetTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
 map.attributionControl.setPrefix(false);
 const layer = L.layerGroup().addTo(map);
-mountFloodLayers(map,{routeLayer:layer,streetTiles});
+const liveObservations=L.layerGroup().addTo(map);
+const rendererRoutes=L.layerGroup([layer,liveObservations]).addTo(map);
+mountFloodLayers(map,{routeLayer:rendererRoutes,streetTiles});
+const liveMap=mountLiveMap(map,{refresh:()=>check(),observations:liveObservations,embedded:true});
 let allBounds;
 const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
 function stretchAround(coords, lat, lon, m) {
@@ -688,16 +755,16 @@ function drawMap(w) {
   const inArea = new Set(routeFeatures.map((f) => f.properties.id));
   const visible = FAILURE_POINTS.filter((fp) => {
     if (!fp.routes.some((rid) => inArea.has(rid))) return false; // other area
-    const s = riskScore(view.fpResults[fp.id]);
+    const s = pointScore(view.fpResults[fp.id]);
     const onRoute = w.screen === 'home' || fp.routes.includes(focus);
     return (onRoute && s !== 1) || fp.id === w.fp;
   });
   for (const fp of visible) {
-    const s = riskScore(view.fpResults[fp.id]);
+    const s = pointScore(view.fpResults[fp.id]);
     for (const rid of fp.routes.filter((x) => inArea.has(x))) {
       for (const line of lineCoords(routeFeatures.find((f) => f.properties.id === rid).geometry)) {
         for (const run of stretchAround(line, fp.lat, fp.lon, fp.kind === 'road' ? 2500 : 450)) {
-          L.polyline(run, { color: COLOR[s] ?? '#8e8d88', weight: rid === focus ? 9 : 5, opacity: 0.95, lineCap: 'round', interactive: false }).addTo(layer);
+          L.polyline(run, { color: COLOR[Math.floor(s)] ?? '#8e8d88', weight: rid === focus ? 9 : 5, opacity: 0.95, lineCap: 'round', interactive: false }).addTo(layer);
         }
       }
     }
@@ -721,7 +788,7 @@ function drawMap(w) {
     else map.setView(pts[0], 15, { animate: false });
   } else if (w.screen === 'route') {
     map.fitBounds(L.geoJSON(routeFeatures.find((f) => f.properties.id === w.route)).getBounds(), opts);
-  } else {
+  } else if(w.screen!=='map'||!map._loaded) {
     map.fitBounds(allBounds, opts);
   }
 }
@@ -749,14 +816,14 @@ async function check() {
   $('#refresh').setAttribute('aria-label', 'Checking conditions');
   try {
     const next = await gather();
+    next.hand = data?.hand ?? null; // Keep the last HAND result until the new one arrives.
     const nextView = compute(next);
     data = next;
     view = nextView;
     $('#load-status').hidden = true;
-    window.dispatchEvent(new CustomEvent('flood-check-status',{detail:next.nws?.some(a=>/flood warning/i.test(a.event))?'Area flood warning · open Routes for details':next.errors.length?'Live check incomplete · '+next.errors.join('; '):'Live check completed · readings have their own timestamps'}));
     render();
+    refreshHand();
   } catch (e) {
-    window.dispatchEvent(new CustomEvent('flood-check-status',{detail:'Refresh failed · retained readings, not a fresh check'}));
     if (!view) throw e;
     $('#load-status').textContent = 'Couldn’t update conditions. Showing the previous check. Tap Check again to retry.';
     $('#load-status').hidden = false;
@@ -768,7 +835,7 @@ async function check() {
   }
 }
 async function init() {
-  loadBridgeEvidence().then(result=>{bridgeEvidence=result;if(view&&where().screen==='stretch')render()});
+  loadBridgeEvidence().then(result=>{bridgeEvidence=result;if(data&&view){view=compute(data);if(!['report','alerts'].includes(where().screen))render()}});
   allRoutes = (await getJson('data/routes.geojson')).features;
   useArea(store.get('area') ?? 'avra');
   map.fitBounds(allBounds, { animate: false });

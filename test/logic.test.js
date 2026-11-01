@@ -112,7 +112,8 @@ test('Santa Cruz in big flood: every river bridge flagged, least-bad suggested, 
   const flows = { ...normalFlows(), '09486500': flow([8000, 9000, 10000, 11000, 12000]), '09486520': flow([6000, 7000, 8000, 9000, 10500]) };
   const r = choose(data({ flows }));
   assert.equal(r.clear, false);
-  assert.ok(['caution', 'danger'].includes(r.best.level));
+  assert.equal(r.res['sc-trico-marana'].level,'watch');
+  assert.equal(r.res['sc-trico-marana'].checks.find(c=>c.src==='river').bridgeClearance,'unknown');
 });
 test('rain data missing: still a number, from the sources that answered', () => {
   const r = choose(data({ alert: null }));

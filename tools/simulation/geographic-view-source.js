@@ -1,12 +1,12 @@
-import {createMapClickGuard} from './map-click-guard.js';
 import * as maptalks from 'maptalks';
 import { createVectorGeography } from './geographic-vector-source.js';
+import {createMapClickGuard} from '../../public/simulation/map-click-guard.js';
 export {createRefinedRendererSource} from './refined-renderer-source.js';
 
 export async function createGeographicView({leaflet,loaded,get,footprints,source,routeLayer,sharedState,initialView='flat',onError=()=>{},onSelectCell=()=>{},onStatus=()=>{},onPick=()=>{}}){
   if(source){if(source.kind!=='refined-native')throw Error('Unsupported renderer source');loaded=source.loaded;footprints=source.footprints;}
   const flatLabel=source?'Native full-cell mean depth; footprint is not resolved wet extent; gray means missing':'10 m terrain-intersected display; 100 m hydraulic grid';
-  let restoreSelectedPopup=false,dataGeneration=0,runtime3D,origin3D,altitude3D,terrainSelectionKey,terrainInfo,terrainViewKey='',terrainTask=null,terrainGeneration=0;
+  let restoreSelectedPopup=false,dataGeneration=0,runtime3D,origin3D,altitude3D,terrainSelectionKey,terrainInfo,terrainViewKey='',terrainTask=null,terrainGeneration=0,terrainReadyKey='',terrainModelBudgetKey='',lastDetailIndices=null,detailQueryKey='',detailQueryIndices=null,modelDetailInfo=null;
   async function read(path,gzip=false,signal=assetController.signal){
     if(signal.aborted)throw new DOMException('Cancelled','AbortError');
     let abort;const pending=get(path,{signal});
@@ -33,7 +33,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   const flatWater=new maptalks.VectorLayer('native-flat-water',[],{zIndex:1,geometryEvents:false});
   const overview={layer:source?new maptalks.CanvasLayer('native-screen-overview',{zIndex:1,animation:false}):null,data:null,canvas:null};
   let overviewKey='',overviewInstalledKey='',overviewTask=null,overviewController=null,overviewPending=null,overviewActiveKey='';
-  const counters={overviewStarted:0,overviewInstalled:0,overviewCancelled:0,overviewDeduped:0,overviewMaxActive:0,refreshEvents:0,refreshRuns:0};
+  const counters={overviewStarted:0,overviewInstalled:0,overviewCancelled:0,overviewDeduped:0,overviewMaxActive:0,refreshEvents:0,refreshRuns:0,detailQueries:0,detailInstalls:0,terrainInstalls:0};
   let overviewActive=0,refreshRAF=0,textureFactory=null,textureOrigin=null;
   function count(key){counters[key]=Math.min(Number.MAX_SAFE_INTEGER,counters[key]+1);}
   function cancelOverview(){overviewKey='';overviewInstalledKey='';overviewPending=null;overviewController?.abort();}
@@ -85,15 +85,35 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   }catch(error){surface.remove();map?.remove();throw error;}
   timeout=setTimeout(()=>{if(!cameraReady||!geographyReady)fail('Geographic renderer initialization timed out');},30000);
   function terrainOptions(){return {extent:map.getExtent(),center:map.getCenter(),zoom:map.getZoom(),budget:innerWidth<600?60000:160000,maxTiles:12,signal:assetController.signal};}
+  function terrainKey(options=terrainOptions()){const e=options.extent;return [e.xmin,e.ymin,e.xmax,e.ymax,options.zoom,options.budget].join(':');}
+  function waterBudget(){return innerWidth<600?120000:240000;}
+  function reportTerrain(){
+    if(!source||!model)return;
+    const detail=model.detailStats||modelDetailInfo||{},ground=terrainInfo||{},omitted=detail.omittedWetFaces??detail.omittedFaces??0;
+    if(ground.overviewMode){
+      note.textContent=`Domain terrain overview; native wet-face water support; ${omitted} wet faces omitted by display budget${detail.budgetLimited?'; zoom in for native detail':''}; cosmetic highlights`;
+    }else{
+      note.textContent=`Source-bound terrain; ${ground.loadedTiles??'native'} / ${ground.visibleTiles??'native'} visible detail tiles; ${detail.omittedFaces||0} faces outside loaded detail; cosmetic highlights`;
+    }
+    onStatus({kind:'terrain-tiles',status:detail.budgetLimited||omitted||ground.completeVisibleCoverage===false||(!ground.overviewMode&&ground.omittedTiles)?'partial':'ready',...ground,water:detail});
+  }
   function refreshTerrain(){
     if(!source||!model||!active||dead||viewMode!=='3d')return Promise.resolve();
-    const options=terrainOptions(),e=options.extent,key=[e.xmin,e.ymin,e.xmax,e.ymax,options.zoom,options.budget].join(':');if(key===terrainViewKey)return terrainTask||Promise.resolve();terrainViewKey=key;const token=++terrainGeneration;
+    const options=terrainOptions(),key=terrainKey(options);if(key===terrainViewKey)return terrainTask||Promise.resolve();terrainViewKey=key;const token=++terrainGeneration;
     onStatus({kind:'terrain-tiles',status:'loading'});
-    terrainTask=source.loadTerrain(options).then(terrain=>{if(dead||!active||viewMode!=='3d'||token!==terrainGeneration)return;terrainInfo=terrain.stats;
-      if(terrain.tileSelectionKey!==terrainSelectionKey){const next=runtime3D.createRefinedWater({loaded,geometry:source.geometry,terrain,origin:origin3D,project:p=>layer.coordinateToVector3(p),altitude:altitude3D,geometryBudget:options.budget});layer.removeMesh(model.group,false);model.dispose();model=next;layer.addMesh(model.group,false);terrainSelectionKey=terrain.tileSelectionKey;
-        mapTexture.setTextureFactory((canvas,bounds)=>{const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;return [texture,new THREE.Vector4(...bounds)];},origin3D);lastDetail='';}
-      applyDetail();if(selected!==null)model.select(selected);layer.renderScene();onStatus({kind:'terrain-tiles',status:terrainInfo?.omittedTiles?'partial':'ready',...terrainInfo});
-    }).catch(error=>{if(error.name==='AbortError')return;terrainViewKey='';throw error;});return terrainTask;
+    const task=source.loadTerrain(options).then(terrain=>{if(dead||!active||viewMode!=='3d'||token!==terrainGeneration)return;terrainInfo={...terrain.stats,overviewMode:terrain.overviewMode===true||terrain.stats?.overviewMode===true,terrainKind:terrain.kind};const budgetKey=options.budget+':'+waterBudget();
+      if(terrain.tileSelectionKey!==terrainSelectionKey||terrainModelBudgetKey!==budgetKey){const next=runtime3D.createRefinedWater({loaded,geometry:source.geometry,terrain,origin:origin3D,project:p=>layer.coordinateToVector3(p),altitude:altitude3D,geometryBudget:options.budget,waterGeometryBudget:waterBudget()});layer.removeMesh(model.group,false);model.dispose();model=next;layer.addMesh(model.group,false);terrainSelectionKey=terrain.tileSelectionKey;terrainModelBudgetKey=budgetKey;
+        if(active&&viewMode==='3d')mapTexture.setTextureFactory(textureFactory,textureOrigin);lastDetail='';lastDetailIndices=null;modelDetailInfo=null;count('terrainInstalls');}
+      applyDetail();terrainReadyKey=key;if(selected!==null)model.select(selected);layer.renderScene();reportTerrain();
+    }).catch(error=>{if(token===terrainGeneration)terrainViewKey='';if(error.name==='AbortError')return;throw error;}).finally(()=>{if(terrainTask===task)terrainTask=null;});terrainTask=task;return task;
+  }
+  async function awaitCurrentTerrain(){
+    if(!source)return;
+    while(active&&!dead&&viewMode==='3d'){
+      await refreshTerrain();
+      if(terrainReadyKey===terrainViewKey&&terrainViewKey===terrainKey())return;
+    }
+    throw new DOMException('Terrain display superseded','AbortError');
   }
   async function ensure3D(token=modeGeneration){
     if(model)return;
@@ -107,7 +127,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
         read('data/frozen-voxel-terrain.json').then(r=>r.json())]));
       if(dead||!active||token!==modeGeneration)return false;
       if(!source&&detailMeta.sourceSha256!==loaded.manifest.artifact.sha256)throw Error('Terrain detail provenance mismatch');
-      THREE=runtime.THREE;runtime3D=runtime;terrainSelectionKey=terrain.tileSelectionKey;terrainInfo=terrain.stats;
+      THREE=runtime.THREE;runtime3D=runtime;terrainSelectionKey=terrain.tileSelectionKey;terrainInfo={...terrain.stats,overviewMode:terrain.overviewMode===true||terrain.stats?.overviewMode===true,terrainKind:terrain.kind};terrainModelBudgetKey=terrainOptions().budget+':'+waterBudget();
       await new Promise((resolve,reject)=>{
         layer=new runtime.ThreeLayer('native-voxel-water',{forceRenderOnMoving:true,forceRenderOnRotating:true,forceRenderOnZooming:true,geometryEvents:false});
         layer.prepareToDraw=function(gl,scene){try{
@@ -116,10 +136,10 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
           const anchor=source?[source.geometry.cells[0].lon,source.geometry.cells[0].lat]:[-111.2,32.44];
           const origin=layer.coordinateToVector3(anchor);
           const altitude=m=>map.altitudeToPoint(m,map.getGLRes(),new maptalks.Coordinate(...anchor));origin3D=origin;altitude3D=altitude;
-          const args={loaded,terrain,footprints,geometry:source?.geometry,origin,project:p=>layer.coordinateToVector3(p),altitude,geometryBudget:source?(innerWidth<600?60000:160000):(innerWidth<600?30000:80000)};
+          const args={loaded,terrain,footprints,geometry:source?.geometry,origin,project:p=>layer.coordinateToVector3(p),altitude,geometryBudget:source?(innerWidth<600?60000:160000):(innerWidth<600?30000:80000),waterGeometryBudget:waterBudget()};
           model=source?runtime.createRefinedWater(args):runtime.createVoxelWater({...args,detail:new Float32Array(detailBuffer)});
-          scene.add(new THREE.HemisphereLight(0xffffff,0x777777,1.2));
-          const sun=new THREE.DirectionalLight(0xffffff,1.2);sun.position.set(-1,-2,4);scene.add(sun);
+          scene.add(new THREE.HemisphereLight(0xe9f3ff,0x777267,.75));
+          const sun=new THREE.DirectionalLight(0xfff4df,.85);sun.position.set(-1,-2,4);scene.add(sun);
           layer.addMesh(model.group);
           textureFactory=(canvas,bounds)=>{const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=2;return [texture,new THREE.Vector4(...bounds)];};textureOrigin=origin;if(active&&viewMode==='3d')mapTexture.setTextureFactory(textureFactory,textureOrigin);
           (gl.canvas||gl.domElement).addEventListener('webglcontextlost',lost);
@@ -185,17 +205,24 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     applyDetail();
   }
   function applyDetail(){if(!model||!active||dead||viewMode!=='3d')return;const zoom=map.getZoom(),extent=map.getExtent();
-    const indices=source?source.visibleIndices(extent):[],pad=.002;
-    if(!source)loaded.run.cells.forEach((c,i)=>{if(c.lon>=extent.xmin-pad&&c.lon<=extent.xmax+pad&&c.lat>=extent.ymin-pad&&c.lat<=extent.ymax+pad)indices.push(i);});
-    const centre=map.getCenter(),distance=i=>{const c=loaded.run.cells[i];return (c.lon-centre.x)**2*Math.cos(centre.y*Math.PI/180)**2+(c.lat-centre.y)**2;};indices.sort((a,b)=>distance(a)-distance(b));
+    const centre=map.getCenter(),queryKey=[extent.xmin,extent.ymin,extent.xmax,extent.ymax,centre.x,centre.y].join(':');
+    if(queryKey!==detailQueryKey){
+      detailQueryKey=queryKey;detailQueryIndices=source?source.visibleIndices(extent):[];const pad=.002;
+      if(!source)loaded.run.cells.forEach((c,i)=>{if(c.lon>=extent.xmin-pad&&c.lon<=extent.xmax+pad&&c.lat>=extent.ymin-pad&&c.lat<=extent.ymax+pad)detailQueryIndices.push(i);});
+      const cosine=Math.cos(centre.y*Math.PI/180)**2,distance=i=>{const c=loaded.run.cells[i];return (c.lon-centre.x)**2*cosine+(c.lat-centre.y)**2;};detailQueryIndices.sort((a,b)=>distance(a)-distance(b));count('detailQueries');
+    }
+    const indices=detailQueryIndices;
     if(!source&&zoom>=18&&!highDetailTask)highDetailTask=Promise.all([read('data/voxel-detail-1m.json').then(r=>r.json()),read('data/voxel-detail-1m.f32.gz',true).then(r=>r.arrayBuffer())]).then(([metadata,buffer])=>{if(dead)return;model.setHighDetail({metadata,values:new Float32Array(buffer)});lastDetail='';refreshDetail();}).catch(error=>onStatus({kind:'terrain-detail',status:'error',message:error.message}));
-    const sub=zoom>=18?100:zoom>=14?10:zoom>=12?5:zoom>=10?2:1,key=sub+':'+indices.join(',');
-    if(key!==lastDetail){lastDetail=key;const detail=model.setDetail(indices,sub);if(frame){model.update(frame,mode);last3DMode=mode;}note.textContent=source?`Source-bound terrain; ${terrainInfo?.loadedTiles??'native'} / ${terrainInfo?.visibleTiles??'native'} visible tiles; ${detail.omittedFaces||0} faces outside loaded detail; cosmetic highlights`:`${detail.resolutionM} m terrain near centre / ${detail.farResolutionM} m far; native 100 m water, terrain intersection; cosmetic animation`;if(source&&detail.omittedFaces)onStatus({kind:'terrain-detail',status:'partial',omittedFaces:detail.omittedFaces});}
-    if(frame&&(model.frame?.time!==frame.time||last3DMode!==mode)){model.update(frame,mode);last3DMode=mode;}
+    const sub=zoom>=18?100:zoom>=14?10:zoom>=12?5:zoom>=10?2:1,key=String(sub);
+    const sameIndices=lastDetailIndices===indices||(lastDetailIndices?.length===indices.length&&indices.every((value,i)=>value===lastDetailIndices[i]));
+    if(key!==lastDetail||!sameIndices){lastDetail=key;lastDetailIndices=indices;modelDetailInfo=model.setDetail(indices,sub);count('detailInstalls');if(frame){model.update(frame,mode);last3DMode=mode;}
+      if(source)reportTerrain();else note.textContent=`${modelDetailInfo.resolutionM} m terrain near centre / ${modelDetailInfo.farResolutionM} m far; native 100 m water, terrain intersection; cosmetic animation`;
+    }
+    if(frame&&(model.frame!==frame||last3DMode!==mode)){model.update(frame,mode);last3DMode=mode;if(source)reportTerrain();}
     layer?.renderScene();
   }
   function showCell(index,notify=true){selected=index;model?.select(index);const cell=loaded.run.cells[index],depth=frame?.depthM[index];const info=(viewMode==='3d'?model?.cellInfo(index):null)||source?.cellInfo(index,frame)|| (frame&&cell?{row:cell.row??'�',column:cell.col??'�',time:frame.time,depthM:depth,depthFt:Number.isFinite(depth)?depth*3.280839895:null,surfaceM:null}:null);if(!info)return;
-    const title=document.createElement('strong');title.textContent=source?`Native face ${info.nativeFaceId} · ${info.areaM2.toFixed(1)} m² · ${info.resolutionM.toFixed(2)} m equivalent-square resolution`:`SFINCS cell ${index}`+(Number.isInteger(info.row)&&Number.isInteger(info.column)?` · row ${info.row}, col ${info.column}`:'');
+    const title=document.createElement('strong');title.textContent=source?`Native face ${info.nativeFaceId} · ${info.areaM2.toFixed(1)} m² · ${info.resolutionM.toFixed(2)} m equivalent-square resolution`:`SFINCS cell ${index} · row ${info.row}, col ${info.column}`;
     const body=document.createElement('div');body.textContent=`${new Date(info.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric',minute:source?'2-digit':undefined})} MST · ${info.depthM===null?'No model depth result':info.depthM.toFixed(3)+' m / '+info.depthFt.toFixed(2)+' ft cell-average depth'}`;
     const level=document.createElement('div');level.textContent=info.surfaceM===null?'Native water surface unavailable':`Native water surface ${info.surfaceM.toFixed(2)} m ${info.datum||'NAVD88'}`;
     const caveat=document.createElement('small');caveat.textContent=source?'Cell-average depth is native volume / full face area. Polygon fill is not a resolved shoreline or road-depth measurement.':'Terrain intersection is a downscaled display, not surveyed road depth or a fine-grid hydraulic solution.';
@@ -204,20 +231,21 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   }
   async function update(next,nextMode='aggregate',contextGroup){const request=sharedState?.snapshot().requested;
     if(request&&(!sharedState.isCurrent(request.requestId)||request.time!==next.time||request.model!==nextMode))return Promise.reject(Error('Renderer request no longer matches selected frame'));
-    if(source){restoreSelectedPopup=restoreSelectedPopup||!popup.hidden;const token=++dataGeneration;frame=null;clearFlat();cancelOverview();model?.clearFrame?.();popup.hidden=true;layer?.renderScene();next=await source.loadFrame(next);if(dead||!active||token!==dataGeneration||(request&&!sharedState.isCurrent(request.requestId)))throw new DOMException('Superseded native frame','AbortError');}
+    const updateToken=++dataGeneration;
+    if(source){restoreSelectedPopup=restoreSelectedPopup||!popup.hidden;const token=updateToken;frame=null;clearFlat();cancelOverview();model?.clearFrame?.();popup.hidden=true;layer?.renderScene();next=await source.loadFrame(next);if(dead||!active||token!==dataGeneration||(request&&!sharedState.isCurrent(request.requestId)))throw new DOMException('Superseded native frame','AbortError');}
     if(!loaded.run.frames.some(f=>f.time===next?.time)||!Array.isArray(next?.depthM)||next.depthM.length!==loaded.run.cells.length){flatGeneration++;flatController.abort();flatTime=null;flatTask=null;flatWater.clear();frame=null;popup.hidden=true;if(model){try{model.update(next,nextMode);}catch{}}layer?.renderScene();throw Error('Native depth unavailable for selected hour');}
     frame=next;mode=nextMode;context=contextGroup??context;
-    if(viewMode==='3d'&&!model)return ensure3D().then(()=>{if(!model||!active||dead)throw new DOMException('3D request cancelled','AbortError');return update(next,nextMode,contextGroup);});
-    try{if(viewMode==='3d'){model.update(next,nextMode);last3DMode=nextMode;}else await renderFlat();}catch(error){if(frame===next){frame=null;popup.hidden=true;layer?.renderScene();}throw error;}
+    try{if(viewMode==='3d'){if(!model)await ensure3D();if(!model||!active||dead)throw new DOMException('3D request cancelled','AbortError');await awaitCurrentTerrain();if(updateToken!==dataGeneration||frame!==next||mode!==nextMode)throw new DOMException('Frame superseded during terrain load','AbortError');if(model.frame!==next||last3DMode!==nextMode){model.update(next,nextMode);last3DMode=nextMode;}if(source)reportTerrain();}else await renderFlat();}catch(error){if(error.name!=='AbortError'&&updateToken===dataGeneration&&frame===next){frame=null;popup.hidden=true;layer?.renderScene();}throw error;}
     syncGroup(context,extraContext);syncRoutes();if(selected!==null){model?.select(selected);if(!popup.hidden||restoreSelectedPopup){showCell(selected,false);restoreSelectedPopup=false;}}layer?.renderScene();
-    if(!active||dead||frame?.time!==next.time||mode!==nextMode||(request&&!sharedState.isCurrent(request.requestId)))throw Error('Renderer frame request superseded');
+    if(!active||dead||updateToken!==dataGeneration||frame?.time!==next.time||mode!==nextMode||(request&&!sharedState.isCurrent(request.requestId)))throw Error('Renderer frame request superseded');
     return {time:next.time,model:nextMode,view:viewMode};
   }
   // Use the browser click emitted by the geographic host before its time-threshold
   // filter. A slow GPU/vector hit-test must not turn an ordinary completed tap into
   // a missing selection. Browser click still excludes a drag gesture.
-  const clickGuard=createMapClickGuard();
-  mapNode.addEventListener('pointerdown',e=>clickGuard.down(e),true);mapNode.addEventListener('pointermove',e=>clickGuard.move(e),true);mapNode.addEventListener('pointerup',e=>clickGuard.move(e),true);mapNode.addEventListener('pointercancel',()=>clickGuard.cancel(),true);map.on('dragstart',()=>clickGuard.cancel());
+  const clickGuard=createMapClickGuard(),guardNode=map.getContainer();
+  const guardDown=e=>clickGuard.down(e),guardMove=e=>clickGuard.move(e),guardCancel=()=>clickGuard.cancel();
+  guardNode.addEventListener('pointerdown',guardDown,true);guardNode.addEventListener('pointermove',guardMove,true);guardNode.addEventListener('pointerup',guardMove,true);guardNode.addEventListener('pointercancel',guardCancel,true);map.on('dragstart',guardCancel);
   map.on('dom:click',event=>{if(!clickGuard.allow(event.domEvent)||!frame||mode==='off'||mode==='hand'||map.isInteracting())return;const p=event.containerPoint,size=map.getSize();
     let picked=null;if(viewMode==='3d'&&model){const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(p.x/size.width*2-1,1-p.y/size.height*2),layer.getCamera());picked=model.pick(ray);}
     const index=picked??findNativeCell(event.coordinate.y,event.coordinate.x);if(index!==null)showCell(index);else{popup.textContent='No native model coverage at this location. This is not a dry or safe-road result.';popup.hidden=false;sharedState?.select({kind:'location',lat:event.coordinate.y,lon:event.coordinate.x});}});
@@ -226,29 +254,30 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   map.on('moveend zoomend',()=>{if(!active||dead||syncing)return;const c=map.getCenter(),e=map.getExtent();syncing=true;
     try{leaflet.setView([c.y,c.x],map.getZoom(),{animate:false});sharedState?.setViewport({center:[c.x,c.y],zoom:map.getZoom(),bounds:[e.xmin,e.ymin,e.xmax,e.ymax]});}finally{syncing=false;}});
   const routesChanged=()=>{if(active)syncRoutes();};leaflet.on('moveend',syncFromLeaflet);leaflet.on('layeradd layerremove',routesChanged);routeLayer.on?.('layeradd layerremove',routesChanged);
-  function startAnimation(){clearInterval(timer);if(!active||dead||viewMode!=='3d'||motion.matches||document.hidden)return;
-    timer=setInterval(()=>{if(model&&active){model.animate(performance.now()/1000);layer?.renderScene();}},1000/15);}
+  function startAnimation(){clearInterval(timer);timer=null;if(!active||dead||viewMode!=='3d'||motion.matches||document.hidden)return;
+    timer=setInterval(()=>{if(!active||dead||viewMode!=='3d'||motion.matches||document.hidden){clearInterval(timer);timer=null;return;}if(model){model.animate(performance.now()/1000);layer?.renderScene();}},1000/15);}
   function visibility(){startAnimation();}document.addEventListener('visibilitychange',visibility);motion.addEventListener('change',visibility);
-  function hide(){if(!active||dead)return;active=false;restoreSelectedPopup=false;cancelAnimationFrame(refreshRAF);refreshRAF=0;mapTexture?.setTextureFactory(null);modeGeneration++;dataGeneration++;source?.cancel();source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';cancelOverview();flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(!model){assetController.abort();assetController=new AbortController();}mapTexture?.suspend();clearInterval(timer);const c=map.getCenter(),z=map.getZoom();surface.hidden=true;parent.classList.remove('map-has-3d');leaflet.invalidateSize();leaflet.setView([c.y,c.x],z,{animate:false});popup.hidden=true;}
+  function hide(){if(!active||dead)return;active=false;cancelAnimationFrame(refreshRAF);refreshRAF=0;mapTexture?.setTextureFactory(null);restoreSelectedPopup=false;modeGeneration++;dataGeneration++;source?.cancel();source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';terrainReadyKey='';cancelOverview();flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(!model){assetController.abort();assetController=new AbortController();}mapTexture?.suspend();clearInterval(timer);const c=map.getCenter(),z=map.getZoom();surface.hidden=true;parent.classList.remove('map-has-3d');leaflet.invalidateSize();leaflet.setView([c.y,c.x],z,{animate:false});popup.hidden=true;}
   function show(){if(dead)throw Error('3D map disposed');active=true;surface.hidden=false;parent.classList.add('map-has-3d');map.checkSize();if(viewMode==='3d'&&textureFactory)mapTexture?.setTextureFactory(textureFactory,textureOrigin);syncFromLeaflet();refreshDetail();if(selected!==null)model?.select(selected);startAnimation();}
   const resize=new ResizeObserver(()=>{if(active&&!dead){map.setDevicePixelRatio(Math.min(globalThis.devicePixelRatio||1,innerWidth<600?1:1.5));map.checkSize();refreshDetail();}});resize.observe(parent);
   const unsubscribe=sharedState?.subscribe(state=>{const i=state.selection?.kind==='cell'?state.selection.cellIndex:null;if(i!==selected){selected=i;model?.select(i);if(i!==null&&frame&&!popup.hidden)showCell(i,false);}});
-  function dispose(){if(dead)return;hide();clearFlat();dead=true;source?.dispose();assetController.abort();clearInterval(timer);clearTimeout(timeout);resize.disconnect();
+  function dispose(){if(dead)return;hide();clearFlat();dead=true;detailQueryIndices=null;lastDetailIndices=null;source?.dispose();assetController.abort();clearInterval(timer);clearTimeout(timeout);resize.disconnect();
     leaflet.off('moveend',syncFromLeaflet);leaflet.off('layeradd layerremove',routesChanged);routeLayer.off?.('layeradd layerremove',routesChanged);
+    guardNode.removeEventListener('pointerdown',guardDown,true);guardNode.removeEventListener('pointermove',guardMove,true);guardNode.removeEventListener('pointerup',guardMove,true);guardNode.removeEventListener('pointercancel',guardCancel,true);map.off('dragstart',guardCancel);
     unsubscribe?.();document.removeEventListener('visibilitychange',visibility);motion.removeEventListener('change',visibility);window.removeEventListener('pagehide',dispose);
     layer?.getThreeRenderer?.()?.domElement?.removeEventListener('webglcontextlost',lost);mapTexture?.dispose();model?.dispose();map.remove();surface.remove();}
   window.addEventListener('pagehide',dispose);
   async function setViewMode(value){if(!['flat','3d'].includes(value))throw Error('Unknown geographic view');const token=++modeGeneration;
-    if(value==='flat'){source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';}if(value==='flat'&&!model){assetController.abort();assetController=new AbortController();}
+    if(value==='flat'){source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';terrainReadyKey='';}if(value==='flat'&&!model){assetController.abort();assetController=new AbortController();}
     if(value==='3d'){await ensure3D(token);if(dead||!active||token!==modeGeneration)return;if(!model)await ensure3D(token);if(dead||!active||token!==modeGeneration)return;}
     viewMode=value;mapTexture?.setTextureFactory(value==='3d'?textureFactory:null,textureOrigin);value==='flat'?flatWater.show():flatWater.hide();if(overview.layer){value==='flat'?overview.layer.show():overview.layer.hide();if(value!=='flat')cancelOverview();}
     if(model)model.group.visible=value==='3d';
-    map.setPitch(value==='flat'?0:58);cancelAnimationFrame(refreshRAF);refreshRAF=0;runRefreshDetail();if(value==='flat')await renderFlat();else{flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(source)await refreshTerrain();}startAnimation();
+    map.setPitch(value==='flat'?0:58);cancelAnimationFrame(refreshRAF);refreshRAF=0;runRefreshDetail();if(value==='flat')await renderFlat();else{flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(source)await awaitCurrentTerrain();}if(token!==modeGeneration||dead||!active)return;startAnimation();
     if(value==='flat'&&!overview.data)note.textContent=flatLabel;
   }
   if(initialView==='3d')await ready.then(()=>setViewMode('3d'));
   return {ready,update,show,hide,dispose,get active(){return active;},zoom(delta){map.setZoom(map.getZoom()+delta);},select:showCell,
     get viewMode(){return viewMode;},
     setViewMode,
-    inspect(){return {map,layer,model,selected,frame,active,dead,geography:mapTexture,flatWater,overview,terrainInfo,terrainLoading:terrainTask,counters:{...counters,overviewActive,overviewPending:overviewPending?1:0,refreshPending:refreshRAF?1:0,coverageBinCount:coverageBins.size,effectiveDPR:map.getDevicePixelRatio?.()??map.options.devicePixelRatio},animationActive:!!timer&&active&&viewMode==='3d'&&!motion.matches};}};
+    inspect(){return {map,layer,model,selected,frame,active,dead,geography:mapTexture,flatWater,overview,terrainInfo,modelDetailInfo:model?.detailStats||modelDetailInfo,terrainLoading:terrainTask,counters:{...counters,overviewActive,overviewPending:overviewPending?1:0,refreshPending:refreshRAF?1:0,coverageBinCount:coverageBins.size,effectiveDPR:map.getDevicePixelRatio?.()??map.options.devicePixelRatio},animationActive:!!timer&&active&&viewMode==='3d'&&!motion.matches};}};
 }

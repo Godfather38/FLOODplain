@@ -1,0 +1,456 @@
+{
+ "schemaVersion": 1,
+ "checkedAt": "2026-11-01T08:40:09Z",
+ "model": "NWM v3.0 retrospective, daily mean of hourly flow",
+ "observed": "USGS daily mean discharge",
+ "period": [
+  "2008-01-01",
+  "2022-12-31"
+ ],
+ "gauges": {
+  "SCTA3": {
+   "name": "Santa Cruz at Trico Road",
+   "usgsSite": "09486520",
+   "reach": 15890430,
+   "days": 5479,
+   "correlationAllDays": 0.389,
+   "correlationLogAllDays": 0.139,
+   "meanObservedCfs": 39.2,
+   "meanModelCfs": 214.6,
+   "medianModelOverObservedWhenFlowing": 1.28,
+   "thresholds": [
+    {
+     "thresholdCfs": 100,
+     "observedDays": 209,
+     "modelDays": 5201,
+     "hits": 208,
+     "misses": 1,
+     "falseAlarms": 4993
+    },
+    {
+     "thresholdCfs": 300,
+     "observedDays": 106,
+     "modelDays": 709,
+     "hits": 81,
+     "misses": 25,
+     "falseAlarms": 628
+    },
+    {
+     "thresholdCfs": 1000,
+     "observedDays": 28,
+     "modelDays": 46,
+     "hits": 13,
+     "misses": 15,
+     "falseAlarms": 33
+    },
+    {
+     "thresholdCfs": 3000,
+     "observedDays": 4,
+     "modelDays": 5,
+     "hits": 0,
+     "misses": 4,
+     "falseAlarms": 5
+    },
+    {
+     "thresholdCfs": 5000,
+     "observedDays": 1,
+     "modelDays": 2,
+     "hits": 0,
+     "misses": 1,
+     "falseAlarms": 2
+    }
+   ],
+   "eventsWithinOneDay": [
+    {
+     "thresholdCfs": 300,
+     "observedEvents": 55,
+     "observedEventsModelSaw": 46,
+     "modelEvents": 66,
+     "modelEventsBackedByGauge": 40
+    },
+    {
+     "thresholdCfs": 650,
+     "observedEvents": 22,
+     "observedEventsModelSaw": 18,
+     "modelEvents": 41,
+     "modelEventsBackedByGauge": 28
+    },
+    {
+     "thresholdCfs": 1000,
+     "observedEvents": 17,
+     "observedEventsModelSaw": 11,
+     "modelEvents": 27,
+     "modelEventsBackedByGauge": 16
+    },
+    {
+     "thresholdCfs": 3000,
+     "observedEvents": 2,
+     "observedEventsModelSaw": 2,
+     "modelEvents": 8,
+     "modelEventsBackedByGauge": 6
+    },
+    {
+     "thresholdCfs": 5000,
+     "observedEvents": 1,
+     "observedEventsModelSaw": 0,
+     "modelEvents": 2,
+     "modelEventsBackedByGauge": 0
+    }
+   ],
+   "biggestEvents": [
+    {
+     "date": "2021-07-25",
+     "observedCfs": 6020.0,
+     "modelCfsSameDay": 1429.2,
+     "modelCfsBestWithinOneDay": 2201.9,
+     "modelHourlyPeakCfsWithinOneDay": 3030.7
+    },
+    {
+     "date": "2021-08-11",
+     "observedCfs": 3510.0,
+     "modelCfsSameDay": 1940.7,
+     "modelCfsBestWithinOneDay": 1940.7,
+     "modelHourlyPeakCfsWithinOneDay": 4933.1
+    },
+    {
+     "date": "2010-07-31",
+     "observedCfs": 2720.0,
+     "modelCfsSameDay": 779.2,
+     "modelCfsBestWithinOneDay": 985.4,
+     "modelHourlyPeakCfsWithinOneDay": 2038.7
+    },
+    {
+     "date": "2014-09-09",
+     "observedCfs": 2450.0,
+     "modelCfsSameDay": 1363.5,
+     "modelCfsBestWithinOneDay": 1363.5,
+     "modelHourlyPeakCfsWithinOneDay": 3460.1
+    },
+    {
+     "date": "2022-08-21",
+     "observedCfs": 2330.0,
+     "modelCfsSameDay": 3353.1,
+     "modelCfsBestWithinOneDay": 3353.1,
+     "modelHourlyPeakCfsWithinOneDay": 4730.1
+    },
+    {
+     "date": "2008-01-28",
+     "observedCfs": 2020.0,
+     "modelCfsSameDay": 330.0,
+     "modelCfsBestWithinOneDay": 698.0,
+     "modelHourlyPeakCfsWithinOneDay": 780.1
+    },
+    {
+     "date": "2019-02-15",
+     "observedCfs": 2000.0,
+     "modelCfsSameDay": 1857.8,
+     "modelCfsBestWithinOneDay": 1940.0,
+     "modelHourlyPeakCfsWithinOneDay": 4452.8
+    },
+    {
+     "date": "2015-01-31",
+     "observedCfs": 1840.0,
+     "modelCfsSameDay": 2430.8,
+     "modelCfsBestWithinOneDay": 4321.9,
+     "modelHourlyPeakCfsWithinOneDay": 5187.0
+    }
+   ]
+  },
+  "CSCA3": {
+   "name": "Santa Cruz at Cortaro",
+   "usgsSite": "09486500",
+   "reach": 15903137,
+   "days": 5479,
+   "correlationAllDays": 0.326,
+   "correlationLogAllDays": 0.346,
+   "meanObservedCfs": 71.4,
+   "meanModelCfs": 210.8,
+   "medianModelOverObservedWhenFlowing": 1.29,
+   "thresholds": [
+    {
+     "thresholdCfs": 100,
+     "observedDays": 265,
+     "modelDays": 5143,
+     "hits": 262,
+     "misses": 3,
+     "falseAlarms": 4881
+    },
+    {
+     "thresholdCfs": 300,
+     "observedDays": 112,
+     "modelDays": 691,
+     "hits": 73,
+     "misses": 39,
+     "falseAlarms": 618
+    },
+    {
+     "thresholdCfs": 1000,
+     "observedDays": 26,
+     "modelDays": 46,
+     "hits": 10,
+     "misses": 16,
+     "falseAlarms": 36
+    },
+    {
+     "thresholdCfs": 3000,
+     "observedDays": 6,
+     "modelDays": 4,
+     "hits": 0,
+     "misses": 6,
+     "falseAlarms": 4
+    },
+    {
+     "thresholdCfs": 5000,
+     "observedDays": 1,
+     "modelDays": 2,
+     "hits": 0,
+     "misses": 1,
+     "falseAlarms": 2
+    }
+   ],
+   "eventsWithinOneDay": [
+    {
+     "thresholdCfs": 300,
+     "observedEvents": 62,
+     "observedEventsModelSaw": 53,
+     "modelEvents": 78,
+     "modelEventsBackedByGauge": 48
+    },
+    {
+     "thresholdCfs": 650,
+     "observedEvents": 35,
+     "observedEventsModelSaw": 25,
+     "modelEvents": 49,
+     "modelEventsBackedByGauge": 35
+    },
+    {
+     "thresholdCfs": 1000,
+     "observedEvents": 22,
+     "observedEventsModelSaw": 12,
+     "modelEvents": 31,
+     "modelEventsBackedByGauge": 19
+    },
+    {
+     "thresholdCfs": 3000,
+     "observedEvents": 5,
+     "observedEventsModelSaw": 4,
+     "modelEvents": 9,
+     "modelEventsBackedByGauge": 7
+    },
+    {
+     "thresholdCfs": 5000,
+     "observedEvents": 1,
+     "observedEventsModelSaw": 0,
+     "modelEvents": 6,
+     "modelEventsBackedByGauge": 4
+    }
+   ],
+   "biggestEvents": [
+    {
+     "date": "2021-07-25",
+     "observedCfs": 7280.0,
+     "modelCfsSameDay": 1540.3,
+     "modelCfsBestWithinOneDay": 2048.6,
+     "modelHourlyPeakCfsWithinOneDay": 3221.4
+    },
+    {
+     "date": "2014-09-08",
+     "observedCfs": 4840.0,
+     "modelCfsSameDay": 1018.3,
+     "modelCfsBestWithinOneDay": 1106.8,
+     "modelHourlyPeakCfsWithinOneDay": 5198.3
+    },
+    {
+     "date": "2019-02-15",
+     "observedCfs": 3800.0,
+     "modelCfsSameDay": 2248.5,
+     "modelCfsBestWithinOneDay": 2248.5,
+     "modelHourlyPeakCfsWithinOneDay": 5177.1
+    },
+    {
+     "date": "2015-01-31",
+     "observedCfs": 3690.0,
+     "modelCfsSameDay": 2952.0,
+     "modelCfsBestWithinOneDay": 4083.6,
+     "modelHourlyPeakCfsWithinOneDay": 5382.3
+    },
+    {
+     "date": "2010-07-31",
+     "observedCfs": 3350.0,
+     "modelCfsSameDay": 990.4,
+     "modelCfsBestWithinOneDay": 990.4,
+     "modelHourlyPeakCfsWithinOneDay": 2355.5
+    },
+    {
+     "date": "2021-08-11",
+     "observedCfs": 2950.0,
+     "modelCfsSameDay": 1997.5,
+     "modelCfsBestWithinOneDay": 1997.5,
+     "modelHourlyPeakCfsWithinOneDay": 6867.6
+    },
+    {
+     "date": "2022-08-20",
+     "observedCfs": 2390.0,
+     "modelCfsSameDay": 1395.2,
+     "modelCfsBestWithinOneDay": 3388.3,
+     "modelHourlyPeakCfsWithinOneDay": 5402.8
+    },
+    {
+     "date": "2016-08-09",
+     "observedCfs": 2240.0,
+     "modelCfsSameDay": 1054.3,
+     "modelCfsBestWithinOneDay": 1054.3,
+     "modelHourlyPeakCfsWithinOneDay": 3810.1
+    }
+   ]
+  },
+  "BWTA3": {
+   "name": "Brawley Wash near Three Points",
+   "usgsSite": "09487000",
+   "reach": 15876941,
+   "days": 5479,
+   "correlationAllDays": 0.013,
+   "correlationLogAllDays": 0.033,
+   "meanObservedCfs": 2.5,
+   "meanModelCfs": 8.4,
+   "medianModelOverObservedWhenFlowing": 0.04,
+   "thresholds": [
+    {
+     "thresholdCfs": 100,
+     "observedDays": 31,
+     "modelDays": 11,
+     "hits": 0,
+     "misses": 31,
+     "falseAlarms": 11
+    },
+    {
+     "thresholdCfs": 300,
+     "observedDays": 12,
+     "modelDays": 5,
+     "hits": 0,
+     "misses": 12,
+     "falseAlarms": 5
+    },
+    {
+     "thresholdCfs": 1000,
+     "observedDays": 1,
+     "modelDays": 0,
+     "hits": 0,
+     "misses": 1,
+     "falseAlarms": 0
+    },
+    {
+     "thresholdCfs": 3000,
+     "observedDays": 0,
+     "modelDays": 0,
+     "hits": 0,
+     "misses": 0,
+     "falseAlarms": 0
+    },
+    {
+     "thresholdCfs": 5000,
+     "observedDays": 0,
+     "modelDays": 0,
+     "hits": 0,
+     "misses": 0,
+     "falseAlarms": 0
+    }
+   ],
+   "eventsWithinOneDay": [
+    {
+     "thresholdCfs": 300,
+     "observedEvents": 11,
+     "observedEventsModelSaw": 0,
+     "modelEvents": 6,
+     "modelEventsBackedByGauge": 0
+    },
+    {
+     "thresholdCfs": 650,
+     "observedEvents": 2,
+     "observedEventsModelSaw": 0,
+     "modelEvents": 4,
+     "modelEventsBackedByGauge": 0
+    },
+    {
+     "thresholdCfs": 1000,
+     "observedEvents": 1,
+     "observedEventsModelSaw": 0,
+     "modelEvents": 3,
+     "modelEventsBackedByGauge": 0
+    },
+    {
+     "thresholdCfs": 3000,
+     "observedEvents": 0,
+     "observedEventsModelSaw": 0,
+     "modelEvents": 0,
+     "modelEventsBackedByGauge": 0
+    },
+    {
+     "thresholdCfs": 5000,
+     "observedEvents": 0,
+     "observedEventsModelSaw": 0,
+     "modelEvents": 0,
+     "modelEventsBackedByGauge": 0
+    }
+   ],
+   "biggestEvents": [
+    {
+     "date": "2021-08-17",
+     "observedCfs": 1670.0,
+     "modelCfsSameDay": 12.1,
+     "modelCfsBestWithinOneDay": 15.8,
+     "modelHourlyPeakCfsWithinOneDay": 24.0
+    },
+    {
+     "date": "2013-09-10",
+     "observedCfs": 750.0,
+     "modelCfsSameDay": 19.2,
+     "modelCfsBestWithinOneDay": 29.7,
+     "modelHourlyPeakCfsWithinOneDay": 66.4
+    },
+    {
+     "date": "2010-07-31",
+     "observedCfs": 645.0,
+     "modelCfsSameDay": 19.4,
+     "modelCfsBestWithinOneDay": 19.4,
+     "modelHourlyPeakCfsWithinOneDay": 31.1
+    },
+    {
+     "date": "2022-08-18",
+     "observedCfs": 541.0,
+     "modelCfsSameDay": 20.9,
+     "modelCfsBestWithinOneDay": 20.9,
+     "modelHourlyPeakCfsWithinOneDay": 59.7
+    },
+    {
+     "date": "2018-09-19",
+     "observedCfs": 540.0,
+     "modelCfsSameDay": 4.9,
+     "modelCfsBestWithinOneDay": 5.2,
+     "modelHourlyPeakCfsWithinOneDay": 5.7
+    },
+    {
+     "date": "2012-09-04",
+     "observedCfs": 433.0,
+     "modelCfsSameDay": 5.0,
+     "modelCfsBestWithinOneDay": 5.6,
+     "modelHourlyPeakCfsWithinOneDay": 6.0
+    },
+    {
+     "date": "2010-08-26",
+     "observedCfs": 379.0,
+     "modelCfsSameDay": 9.5,
+     "modelCfsBestWithinOneDay": 9.8,
+     "modelHourlyPeakCfsWithinOneDay": 9.9
+    },
+    {
+     "date": "2015-07-01",
+     "observedCfs": 351.0,
+     "modelCfsSameDay": 15.5,
+     "modelCfsBestWithinOneDay": 17.4,
+     "modelHourlyPeakCfsWithinOneDay": 18.4
+    }
+   ]
+  }
+ }
+}

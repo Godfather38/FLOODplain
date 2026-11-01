@@ -16,7 +16,7 @@ export function featureStyle(layer,p={}){
 
 // Geographic geometry is decoded locally. There is no raster basemap source.
 export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{},onStatus=()=>{}}){
-  let dead=false,generation=0,lastKey='',features=[],controller,lastBounds,textureFactory,status={status:'idle'},installedStatus,installedBounds,installedZoom,pending=null,cacheCoordinates=0,cacheFeatures=0;
+  let dead=false,generation=0,lastKey='',features=[],controller,lastBounds,textureFactory,status={status:'idle'},installedBounds,installedZoom,pending=null,cacheCoordinates=0,cacheFeatures=0;
   const limits={cacheTiles:24,cacheCoordinates:250000,cacheFeatures:20000,drawCoordinates:100000,drawFeatures:5000,tileBytes:4*1024*1024};
   class Complexity extends Error {}
   const intersects=(a,b)=>a[2]>=b.west&&a[0]<=b.east&&a[3]>=b.south&&a[1]<=b.north;
@@ -67,7 +67,7 @@ export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{
   function update(extent,zoom){
     const view={west:extent.xmin,east:extent.xmax,south:extent.ymin,north:extent.ymax},requestedZoom=Math.floor(zoom),requestKey=[requestedZoom,view.west,view.east,view.south,view.north].join('/');
     if(dead)return Promise.resolve();if(requestKey===lastKey&&pending)return pending;
-    if(installedZoom===requestedZoom&&contains(installedBounds,view)){if(pending){generation++;controller?.abort();pending=null;lastKey='';if(installedStatus)report(installedStatus);}return Promise.resolve();}
+    if(installedZoom===requestedZoom&&contains(installedBounds,view)){if(pending){generation++;controller?.abort();pending=null;lastKey='';}return Promise.resolve();}
     lastKey=requestKey;const token=++generation;controller?.abort();controller=new AbortController();const signal=controller.signal;
     const dx=(view.east-view.west)*.2,dy=(view.north-view.south)*.2,bounds={west:view.west-dx,east:view.east+dx,south:Math.max(-85,view.south-dy),north:Math.min(85,view.north+dy)};
     pending=(async()=>{try{const info=await metadata;if(dead||signal.aborted||token!==generation)return;let z=Math.min(info.maxzoom??14,Math.max(0,requestedZoom));
@@ -79,7 +79,7 @@ export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{
           if(entry){cache.delete(id);cache.set(id,entry);}else{const url=info.tiles[0].replace('{z}',z).replace('{x}',x).replace('{y}',y),r=await fetch(url,{signal:attempt.signal});if(!r.ok)throw Error('Vector tile HTTP '+r.status);const buffer=await r.arrayBuffer();if(stale())return;entry=decode(new Uint8Array(buffer),x,y,z);if(stale())return;remember(id,entry);}
           for(const f of entry.features){if(!intersects(f.bbox,bounds))continue;drawCoordinates+=f._coordinateCount;if(drawCoordinates>limits.drawCoordinates||out.length>=limits.drawFeatures)throw new Complexity('Visible vector geometry budget');out.push(f);}
         }}
-        try{await Promise.all([worker(),worker()]);if(stale())return;features=out.sort((a,b)=>order[a.properties._sourceLayer]-order[b.properties._sourceLayer]);install(features);lastBounds=bounds;installedBounds=bounds;installedZoom=requestedZoom;texture(features,lastBounds);report(installedStatus={kind:'geography',status:'ready',featureCount:features.length,coordinateCount:drawCoordinates,cachedTiles:cache.size,cachedCoordinates:cacheCoordinates,cachedFeatures:cacheFeatures,sourceLayers:[...new Set(features.map(f=>f.properties._sourceLayer))],tileZoom:z});return;
+        try{await Promise.all([worker(),worker()]);if(stale())return;features=out.sort((a,b)=>order[a.properties._sourceLayer]-order[b.properties._sourceLayer]);install(features);lastBounds=bounds;installedBounds=bounds;installedZoom=requestedZoom;texture(features,lastBounds);report({kind:'geography',status:'ready',featureCount:features.length,coordinateCount:drawCoordinates,cachedTiles:cache.size,cachedCoordinates:cacheCoordinates,cachedFeatures:cacheFeatures,sourceLayers:[...new Set(features.map(f=>f.properties._sourceLayer))],tileZoom:z});return;
         }catch(error){attempt.abort();if(signal.aborted||dead||token!==generation)return;if(!(error instanceof Complexity))throw error;if(z===0)throw Error('Vector geography exceeds safe draw budget at lowest detail');}
         finally{signal.removeEventListener('abort',cancel);}
       }

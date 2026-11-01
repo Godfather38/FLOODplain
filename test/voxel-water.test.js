@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {gunzipSync} from 'node:zlib';import * as THREE from 'three';
 import {createVoxelWater,validateVoxelData} from '../tools/simulation/voxel-water-source.js';
 const dir=new URL('../public/simulation/data/',import.meta.url),read=name=>JSON.parse(readFileSync(new URL(name,dir))),gz=name=>JSON.parse(gunzipSync(readFileSync(new URL(name,dir))));
-const manifest=read('current-sfincs-manifest.json'),run=gz(manifest.artifact.path.replace('data/','')),terrain=gz('frozen-terrain-display.json.gz'),footprints=gz('frozen-cell-footprints.json.gz');
+const manifest=read('retained-sfincs-manifest.json'),run=gz(manifest.artifact.path.replace('data/','')),terrain=gz('frozen-terrain-display.json.gz'),footprints=gz('frozen-cell-footprints.json.gz');
 const raw=gunzipSync(readFileSync(new URL('frozen-voxel-terrain.f32.gz',dir))),detail=new Float32Array(raw.buffer.slice(raw.byteOffset,raw.byteOffset+raw.byteLength));
 test('all 15 native frames and 2,968,500 retained terrain samples match source',()=>{
   const frames=validateVoxelData({manifest,run},terrain,footprints);assert.equal(frames.size,15);assert.equal(run.cells.length,29685);assert.equal(detail.length,2968500);assert.ok(detail.every(Number.isFinite));
@@ -21,3 +21,4 @@ test('continuous mesh clips terrain, keeps source picks and never animates heigh
  view.update(frame);view.setViewMode('flat');assert.equal(view.land.visible,false);view.setViewMode('3d');assert.equal(view.land.visible,true);view.update(frame,'off');assert.equal(view.water.visible,false);
  view.dispose();view.dispose();assert.throws(()=>view.update(frame),/disposed/);
 });
+

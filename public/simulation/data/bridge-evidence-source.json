@@ -1,10 +1,12 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "d5ab319",
+  "sourceCommit": "c10fef1864a277882faaa88d201c70dc4173c8a2",
   "sourcePath": "tools/sfincs/data/road-dip-refinement/bridge-evidence-registry.json",
-  "sha256": "dba5fe7cf483384d57f6101a58207fdb85e63a2facc910e462f4bcc819ecd235",
+  "sha256": "1bf8728f5b6fdb9932c03e916f42c5a7139ef37c18cfaa13fb049834ab3cd2ee",
   "role": "structure_evidence_only",
   "expandedMeshStatus": "prepared_not_run",
   "expandedModelOutputAvailable": false,
-  "currentForecastUnchanged": true
+  "currentForecastUnchanged": true,
+  "derivedEvidence": "Approach estimates crosschecked against retained 1 m Pima 2021 terrain and bridge identities; bridge-approach-findings.json. Native zs extracted from current original-grid output by containing cell, NAVD88.",
+  "approachEvidenceSha256": "f0d6fdef9658ecc0dd747103271fb308a351e4dd9ec868e8f1f6db5d62b0f69c"
 }

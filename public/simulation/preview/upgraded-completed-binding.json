@@ -1,0 +1,42 @@
+{
+  "written": true,
+  "sourceModelManifestSha256": "5100663c8848b8aa00d5bf6bb700568a3e8c6a912af38059b8524cb85b182a23",
+  "integratedManifestSha256": "9d2213c5032f4c779d269b3b6d088f3c5325468952452b946f32ef141479353c",
+  "pointer": {
+    "status": "complete",
+    "path": "data/refined-full-compact-41344983607/manifest.json",
+    "sha256": "9d2213c5032f4c779d269b3b6d088f3c5325468952452b946f32ef141479353c",
+    "runId": "refined-full-41344983607",
+    "executionMode": "simulated_live_frozen_inputs",
+    "validFrom": "2026-11-01T17:00:00Z",
+    "validTo": "2026-11-02T07:00:00Z",
+    "frames": 57,
+    "note": "Completed native output using original frozen model inputs; not an automatic current-weather refresh."
+  },
+  "verifiedArtifacts": 6770,
+  "verifiedTerrainBytes": 136171503,
+  "geometryEquivalence": {
+    "method": "exact-native-geometry",
+    "runId": "refined-full-41344983607",
+    "sourceRunId": "refined-partial-41339621278",
+    "targetRunId": "refined-full-41344983607",
+    "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+    "targetGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+    "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+    "verticalDatum": "NAVD88",
+    "cellCount": 398613,
+    "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+    "verifiedFields": [
+      "ordered nativeFaceId",
+      "lon",
+      "lat",
+      "areaM2",
+      "resolutionM",
+      "edgeLengthsM",
+      "all native ring vertices",
+      "projectedCrs",
+      "native mesh SHA256",
+      "vertical datum"
+    ]
+  }
+}
