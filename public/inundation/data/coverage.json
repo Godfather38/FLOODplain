@@ -1,0 +1,1209 @@
+{
+ "schemaVersion": 1,
+ "checkedAt": "2026-11-01T08:09:40Z",
+ "source": "https://ciroh-owp-hand-fim.s3.amazonaws.com",
+ "maxReachDistanceM": 100,
+ "counts": {
+  "supported": 19,
+  "not_on_modeled_reach": 28,
+  "build_refused": 2,
+  "needs_review": 3
+ },
+ "points": [
+  {
+   "id": "north-kinney-road-32-25678-111-20377",
+   "lon": -111.20377,
+   "lat": 32.25678,
+   "road": "North Kinney Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road (32.2568, -111.2038)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401964,
+    "featureId": 15876809,
+    "distanceM": 16.9,
+    "name": "Brawley Wash"
+   },
+   "status": "supported",
+   "evidence": "Within 17 m of HAND reach 15876809.",
+   "file": "north-kinney-road-32-25678-111-20377.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15876809"
+   }
+  },
+  {
+   "id": "north-kinney-road-32-24151-111-16081",
+   "lon": -111.16081,
+   "lat": 32.24151,
+   "road": "North Kinney Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road (32.2415, -111.1608)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401938,
+    "featureId": 15876825,
+    "distanceM": 10.8,
+    "name": ""
+   },
+   "status": "supported",
+   "evidence": "Within 11 m of HAND reach 15876825.",
+   "file": "north-kinney-road-32-24151-111-16081.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15876825"
+   }
+  },
+  {
+   "id": "north-kinney-road-32-23141-111-14537",
+   "lon": -111.14537,
+   "lat": 32.23141,
+   "road": "North Kinney Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road (32.2314, -111.1454)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401943,
+    "featureId": 15877617,
+    "distanceM": 15.9,
+    "name": ""
+   },
+   "status": "supported",
+   "evidence": "Within 16 m of HAND reach 15877617.",
+   "file": "north-kinney-road-32-23141-111-14537.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15877617"
+   }
+  },
+  {
+   "id": "north-sanders-road-32-43484-111-23395",
+   "lon": -111.23395,
+   "lat": 32.43484,
+   "road": "North Sanders Road",
+   "water": null,
+   "routes": [
+    "silverbell-north"
+   ],
+   "name": "North Sanders Road (32.4348, -111.2339)",
+   "nearestReach": {
+    "huc": "15050303",
+    "branch": "1588000002",
+    "hydroId": 27390006,
+    "featureId": 15890430,
+    "distanceM": 45.0,
+    "name": "Santa Cruz River"
+   },
+   "status": "supported",
+   "evidence": "Within 45 m of HAND reach 15890430.",
+   "file": "north-sanders-road-32-43484-111-23395.json",
+   "forecast": {
+    "kind": "gauge",
+    "station": "SCTA3"
+   }
+  },
+  {
+   "id": "north-sanders-road-32-43488-111-23395",
+   "lon": -111.23395,
+   "lat": 32.43488,
+   "road": "North Sanders Road",
+   "water": "Santa Cruz River",
+   "routes": [
+    "silverbell-north"
+   ],
+   "name": "North Sanders Road at Santa Cruz River",
+   "nearestReach": {
+    "huc": "15050303",
+    "branch": "1588000002",
+    "hydroId": 27390006,
+    "featureId": 15890430,
+    "distanceM": 49.2,
+    "name": "Santa Cruz River"
+   },
+   "status": "supported",
+   "evidence": "Within 49 m of HAND reach 15890430.",
+   "file": "north-sanders-road-32-43488-111-23395.json",
+   "forecast": {
+    "kind": "gauge",
+    "station": "SCTA3"
+   }
+  },
+  {
+   "id": "north-trico-road-32-43882-111-30426",
+   "lon": -111.30426,
+   "lat": 32.43882,
+   "road": "North Trico Road",
+   "water": "Los Robles Wash",
+   "routes": [
+    "silverbell-north",
+    "silverbell-south",
+    "trico"
+   ],
+   "name": "North Trico Road at Los Robles Wash",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27400214,
+    "featureId": 945050482,
+    "distanceM": 27.8,
+    "name": "Los Robles Wash"
+   },
+   "status": "supported",
+   "evidence": "Within 28 m of HAND reach 945050482.",
+   "file": "north-trico-road-32-43882-111-30426.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "945050482"
+   }
+  },
+  {
+   "id": "west-avra-valley-road-32-39322-111-29459",
+   "lon": -111.29459,
+   "lat": 32.39322,
+   "road": "West Avra Valley Road",
+   "water": "Brawley Wash",
+   "routes": [
+    "avra"
+   ],
+   "name": "West Avra Valley Road at Brawley Wash",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "1587000003",
+    "hydroId": 27400086,
+    "featureId": 945050510,
+    "distanceM": 31.6,
+    "name": "Brawley Wash"
+   },
+   "status": "supported",
+   "evidence": "Within 32 m of HAND reach 945050510.",
+   "file": "west-avra-valley-road-32-39322-111-29459.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "945050510"
+   }
+  },
+  {
+   "id": "west-avra-valley-road-32-40271-111-14566",
+   "lon": -111.14566,
+   "lat": 32.40271,
+   "road": "West Avra Valley Road",
+   "water": "Santa Cruz River",
+   "routes": [
+    "avra",
+    "pr-avra",
+    "silverbell-south"
+   ],
+   "name": "West Avra Valley Road at Santa Cruz River",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "1589000003",
+    "hydroId": 27370119,
+    "featureId": 15890430,
+    "distanceM": 85.9,
+    "name": "Santa Cruz River"
+   },
+   "status": "supported",
+   "evidence": "Within 86 m of HAND reach 15890430.",
+   "file": "west-avra-valley-road-32-40271-111-14566.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15890430"
+   }
+  },
+  {
+   "id": "west-gates-pass-road-32-22970-111-07192",
+   "lon": -111.07192,
+   "lat": 32.2297,
+   "road": "West Gates Pass Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Gates Pass Road (32.2297, -111.0719)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373185,
+    "featureId": 15902505,
+    "distanceM": 0.8,
+    "name": ""
+   },
+   "status": "supported",
+   "evidence": "Within 1 m of HAND reach 15902505.",
+   "file": "west-gates-pass-road-32-22970-111-07192.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15902505"
+   }
+  },
+  {
+   "id": "west-ina-road-32-33759-111-08151",
+   "lon": -111.08151,
+   "lat": 32.33759,
+   "road": "West Ina Road",
+   "water": "Santa Cruz River",
+   "routes": [
+    "pr-ina"
+   ],
+   "name": "West Ina Road at Santa Cruz River",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373259,
+    "featureId": 15902439,
+    "distanceM": 80.2,
+    "name": "Santa Cruz River"
+   },
+   "status": "supported",
+   "evidence": "Within 80 m of HAND reach 15902439.",
+   "file": "west-ina-road-32-33759-111-08151.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15902439"
+   }
+  },
+  {
+   "id": "west-speedway-boulevard-32-23606-111-06040",
+   "lon": -111.0604,
+   "lat": 32.23606,
+   "road": "West Speedway Boulevard",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard (32.2361, -111.0604)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27371042,
+    "featureId": 15903149,
+    "distanceM": 1.0,
+    "name": "Santa Cruz River"
+   },
+   "status": "supported",
+   "evidence": "Within 1 m of HAND reach 15903149.",
+   "file": "west-speedway-boulevard-32-23606-111-06040.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15903149"
+   }
+  },
+  {
+   "id": "west-speedway-boulevard-32-23604-111-05747",
+   "lon": -111.05747,
+   "lat": 32.23604,
+   "road": "West Speedway Boulevard",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard (32.2360, -111.0575)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373176,
+    "featureId": 15903143,
+    "distanceM": 2.0,
+    "name": ""
+   },
+   "status": "supported",
+   "evidence": "Within 2 m of HAND reach 15903143.",
+   "file": "west-speedway-boulevard-32-23604-111-05747.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15903143"
+   }
+  },
+  {
+   "id": "west-speedway-boulevard-32-23766-111-05195",
+   "lon": -111.05195,
+   "lat": 32.23766,
+   "road": "West Speedway Boulevard",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard (32.2377, -111.0520)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373176,
+    "featureId": 15903143,
+    "distanceM": 2.1,
+    "name": ""
+   },
+   "status": "supported",
+   "evidence": "Within 2 m of HAND reach 15903143.",
+   "file": "west-speedway-boulevard-32-23766-111-05195.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15903143"
+   }
+  },
+  {
+   "id": "west-speedway-boulevard-32-23899-111-04624",
+   "lon": -111.04624,
+   "lat": 32.23899,
+   "road": "West Speedway Boulevard",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard (32.2390, -111.0462)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373177,
+    "featureId": 15903143,
+    "distanceM": 6.6,
+    "name": ""
+   },
+   "status": "supported",
+   "evidence": "Within 7 m of HAND reach 15903143.",
+   "file": "west-speedway-boulevard-32-23899-111-04624.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15903143"
+   }
+  },
+  {
+   "id": "west-speedway-boulevard-32-23899-111-04501",
+   "lon": -111.04501,
+   "lat": 32.23899,
+   "road": "West Speedway Boulevard",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard (32.2390, -111.0450)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373177,
+    "featureId": 15903143,
+    "distanceM": 19.4,
+    "name": ""
+   },
+   "status": "supported",
+   "evidence": "Within 19 m of HAND reach 15903143.",
+   "file": "west-speedway-boulevard-32-23899-111-04501.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15903143"
+   }
+  },
+  {
+   "id": "west-speedway-boulevard-32-23597-111-02886",
+   "lon": -111.02886,
+   "lat": 32.23597,
+   "road": "West Speedway Boulevard",
+   "water": "Greasewood Wash",
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard at Greasewood Wash",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373173,
+    "featureId": 15903151,
+    "distanceM": 5.8,
+    "name": ""
+   },
+   "status": "supported",
+   "evidence": "Within 6 m of HAND reach 15903151.",
+   "file": "west-speedway-boulevard-32-23597-111-02886.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15903151"
+   }
+  },
+  {
+   "id": "west-speedway-boulevard-32-23568-111-00225",
+   "lon": -111.00225,
+   "lat": 32.23568,
+   "road": "West Speedway Boulevard",
+   "water": "Silvercroft Wash",
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard at Silvercroft Wash",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373158,
+    "featureId": 15903147,
+    "distanceM": 13.0,
+    "name": ""
+   },
+   "status": "supported",
+   "evidence": "Within 13 m of HAND reach 15903147.",
+   "file": "west-speedway-boulevard-32-23568-111-00225.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15903147"
+   }
+  },
+  {
+   "id": "west-speedway-boulevard-32-23567-110-98614",
+   "lon": -110.98614,
+   "lat": 32.23567,
+   "road": "West Speedway Boulevard",
+   "water": "Santa Cruz River",
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard at Santa Cruz River",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "1589000003",
+    "hydroId": 27370101,
+    "featureId": 15904697,
+    "distanceM": 9.6,
+    "name": "Santa Cruz River"
+   },
+   "status": "supported",
+   "evidence": "Within 10 m of HAND reach 15904697.",
+   "file": "west-speedway-boulevard-32-23567-110-98614.json",
+   "forecast": {
+    "kind": "nwm_reach",
+    "reachId": "15904697"
+   }
+  },
+  {
+   "id": "west-trico-marana-road-32-45369-111-27985",
+   "lon": -111.27985,
+   "lat": 32.45369,
+   "road": "West Trico Marana Road",
+   "water": "Santa Cruz River",
+   "routes": [
+    "trico"
+   ],
+   "name": "West Trico Marana Road at Santa Cruz River",
+   "nearestReach": {
+    "huc": "15050303",
+    "branch": "1588000002",
+    "hydroId": 27390010,
+    "featureId": 15890430,
+    "distanceM": 20.8,
+    "name": "Santa Cruz River"
+   },
+   "status": "supported",
+   "evidence": "Within 21 m of HAND reach 15890430.",
+   "file": "west-trico-marana-road-32-45369-111-27985.json",
+   "forecast": {
+    "kind": "gauge",
+    "station": "SCTA3"
+   }
+  },
+  {
+   "id": "north-kinney-road-32-25426-111-19875",
+   "lon": -111.19875,
+   "lat": 32.25426,
+   "road": "North Kinney Road",
+   "water": "Javelina Wash",
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road at Javelina Wash",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401951,
+    "featureId": 15877613,
+    "distanceM": 10.4,
+    "name": "Central Arizona Project Aqueduct"
+   },
+   "status": "needs_review",
+   "evidence": "NOAA calls the nearest reach Central Arizona Project Aqueduct, a canal name, so it may not be this water."
+  },
+  {
+   "id": "north-kinney-road-32-25158-111-18652",
+   "lon": -111.18652,
+   "lat": 32.25158,
+   "road": "North Kinney Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road (32.2516, -111.1865)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401950,
+    "featureId": 15877613,
+    "distanceM": 577.3,
+    "name": "Central Arizona Project Aqueduct"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 577 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "north-kinney-road-32-24767-111-18349",
+   "lon": -111.18349,
+   "lat": 32.24767,
+   "road": "North Kinney Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road (32.2477, -111.1835)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401932,
+    "featureId": 15876821,
+    "distanceM": 519.8,
+    "name": "Central Arizona Project Aqueduct"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 520 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "north-kinney-road-32-24705-111-16760",
+   "lon": -111.1676,
+   "lat": 32.24705,
+   "road": "North Kinney Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road (32.2471, -111.1676)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401957,
+    "featureId": 15877615,
+    "distanceM": 163.3,
+    "name": "Central Arizona Project Aqueduct"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 163 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "north-kinney-road-32-24402-111-16343",
+   "lon": -111.16343,
+   "lat": 32.24402,
+   "road": "North Kinney Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road (32.2440, -111.1634)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401938,
+    "featureId": 15876825,
+    "distanceM": 347.1,
+    "name": ""
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 347 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "north-kinney-road-32-22917-111-14371",
+   "lon": -111.14371,
+   "lat": 32.22917,
+   "road": "North Kinney Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road (32.2292, -111.1437)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401943,
+    "featureId": 15877617,
+    "distanceM": 204.4,
+    "name": ""
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 204 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "north-kinney-road-32-22722-111-14078",
+   "lon": -111.14078,
+   "lat": 32.22722,
+   "road": "North Kinney Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road (32.2272, -111.1408)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401943,
+    "featureId": 15877617,
+    "distanceM": 449.1,
+    "name": ""
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 449 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "north-kinney-road-32-22457-111-13596",
+   "lon": -111.13596,
+   "lat": 32.22457,
+   "road": "North Kinney Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road (32.2246, -111.1360)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401943,
+    "featureId": 15877617,
+    "distanceM": 960.5,
+    "name": ""
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 960 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "north-kinney-road-32-22235-111-13260",
+   "lon": -111.1326,
+   "lat": 32.22235,
+   "road": "North Kinney Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Kinney Road (32.2223, -111.1326)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401920,
+    "featureId": 15876845,
+    "distanceM": 783.5,
+    "name": "Central Arizona Project Aqueduct"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 784 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "north-sandario-road-32-27434-111-21849",
+   "lon": -111.21849,
+   "lat": 32.27434,
+   "road": "North Sandario Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Sandario Road (32.2743, -111.2185)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27402000,
+    "featureId": 15876791,
+    "distanceM": 434.2,
+    "name": "Central Arizona Project Aqueduct"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 434 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "north-sandario-road-32-27528-111-21817",
+   "lon": -111.21817,
+   "lat": 32.27528,
+   "road": "North Sandario Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "North Sandario Road (32.2753, -111.2182)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27402000,
+    "featureId": 15876791,
+    "distanceM": 535.4,
+    "name": "Central Arizona Project Aqueduct"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 535 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-avra-valley-road-32-39329-111-27659",
+   "lon": -111.27659,
+   "lat": 32.39329,
+   "road": "West Avra Valley Road",
+   "water": null,
+   "routes": [
+    "avra"
+   ],
+   "name": "West Avra Valley Road (32.3933, -111.2766)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "1587000003",
+    "hydroId": 27400086,
+    "featureId": 945050510,
+    "distanceM": 1610.0,
+    "name": "Brawley Wash"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 1610 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-avra-valley-road-32-39514-111-26095",
+   "lon": -111.26095,
+   "lat": 32.39514,
+   "road": "West Avra Valley Road",
+   "water": null,
+   "routes": [
+    "avra"
+   ],
+   "name": "West Avra Valley Road (32.3951, -111.2609)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27400209,
+    "featureId": 15877577,
+    "distanceM": 1156.6,
+    "name": "Los Robles Wash"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 1157 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-avra-valley-road-32-40131-111-24501",
+   "lon": -111.24501,
+   "lat": 32.40131,
+   "road": "West Avra Valley Road",
+   "water": null,
+   "routes": [
+    "avra"
+   ],
+   "name": "West Avra Valley Road (32.4013, -111.2450)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27400209,
+    "featureId": 15877577,
+    "distanceM": 303.5,
+    "name": "Los Robles Wash"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 304 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-avra-valley-road-32-40224-111-14714",
+   "lon": -111.14714,
+   "lat": 32.40224,
+   "road": "West Avra Valley Road",
+   "water": null,
+   "routes": [
+    "avra",
+    "pr-avra",
+    "silverbell-south"
+   ],
+   "name": "West Avra Valley Road (32.4022, -111.1471)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27370004,
+    "featureId": 15890430,
+    "distanceM": 21.9,
+    "name": "Santa Cruz River"
+   },
+   "status": "build_refused",
+   "evidence": "Rating curve for HydroID 27370003, in this map square: discharge falls as stage rises."
+  },
+  {
+   "id": "west-avra-valley-road-32-40256-111-14614",
+   "lon": -111.14614,
+   "lat": 32.40256,
+   "road": "West Avra Valley Road",
+   "water": "Santa Cruz River",
+   "routes": [
+    "avra",
+    "pr-avra",
+    "silverbell-south"
+   ],
+   "name": "West Avra Valley Road at Santa Cruz River",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27370004,
+    "featureId": 15890430,
+    "distanceM": 54.7,
+    "name": "Santa Cruz River"
+   },
+   "status": "build_refused",
+   "evidence": "Rating curve for HydroID 27370003, in this map square: discharge falls as stage rises."
+  },
+  {
+   "id": "west-gates-pass-road-32-22131-111-12278",
+   "lon": -111.12278,
+   "lat": 32.22131,
+   "road": "West Gates Pass Road",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Gates Pass Road (32.2213, -111.1228)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27401920,
+    "featureId": 15876845,
+    "distanceM": 5.0,
+    "name": "Central Arizona Project Aqueduct"
+   },
+   "status": "needs_review",
+   "evidence": "NOAA calls the nearest reach Central Arizona Project Aqueduct, a canal name, so it may not be this water."
+  },
+  {
+   "id": "west-ina-road-32-33758-111-10526",
+   "lon": -111.10526,
+   "lat": 32.33758,
+   "road": "West Ina Road",
+   "water": null,
+   "routes": [
+    "pr-ina"
+   ],
+   "name": "West Ina Road (32.3376, -111.1053)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27370909,
+    "featureId": 15902429,
+    "distanceM": 353.3,
+    "name": ""
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 353 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-ina-road-32-33759-111-09519",
+   "lon": -111.09519,
+   "lat": 32.33759,
+   "road": "West Ina Road",
+   "water": "Yuma Mine Wash",
+   "routes": [
+    "pr-ina"
+   ],
+   "name": "West Ina Road at Yuma Mine Wash",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27370689,
+    "featureId": 15902411,
+    "distanceM": 14.9,
+    "name": "Santa Cruz River"
+   },
+   "status": "needs_review",
+   "evidence": "Our map data says Yuma Mine Wash; NOAA calls the nearest reach Santa Cruz River."
+  },
+  {
+   "id": "west-ina-road-32-33763-111-08896",
+   "lon": -111.08896,
+   "lat": 32.33763,
+   "road": "West Ina Road",
+   "water": null,
+   "routes": [
+    "pr-ina"
+   ],
+   "name": "West Ina Road (32.3376, -111.0890)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27370689,
+    "featureId": 15902411,
+    "distanceM": 469.8,
+    "name": "Santa Cruz River"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 470 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-ina-road-32-33759-111-08202",
+   "lon": -111.08202,
+   "lat": 32.33759,
+   "road": "West Ina Road",
+   "water": null,
+   "routes": [
+    "pr-ina"
+   ],
+   "name": "West Ina Road (32.3376, -111.0820)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373259,
+    "featureId": 15902439,
+    "distanceM": 119.0,
+    "name": "Santa Cruz River"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 119 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-picture-rocks-road-32-32598-111-12082",
+   "lon": -111.12082,
+   "lat": 32.32598,
+   "road": "West Picture Rocks Road",
+   "water": "Picture Rocks Wash Trail",
+   "routes": [
+    "pr-ina"
+   ],
+   "name": "West Picture Rocks Road at Picture Rocks Wash Trail",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27370908,
+    "featureId": 15902429,
+    "distanceM": 775.0,
+    "name": ""
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 775 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-speedway-boulevard-32-23689-111-03874",
+   "lon": -111.03874,
+   "lat": 32.23689,
+   "road": "West Speedway Boulevard",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard (32.2369, -111.0387)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373172,
+    "featureId": 15903151,
+    "distanceM": 401.9,
+    "name": ""
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 402 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-speedway-boulevard-32-23597-111-02611",
+   "lon": -111.02611,
+   "lat": 32.23597,
+   "road": "West Speedway Boulevard",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard (32.2360, -111.0261)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373173,
+    "featureId": 15903151,
+    "distanceM": 198.8,
+    "name": ""
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 199 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-speedway-boulevard-32-23595-111-02250",
+   "lon": -111.0225,
+   "lat": 32.23595,
+   "road": "West Speedway Boulevard",
+   "water": "Anklam Wash",
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard at Anklam Wash",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373173,
+    "featureId": 15903151,
+    "distanceM": 461.1,
+    "name": ""
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 461 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-speedway-boulevard-32-23594-111-01540",
+   "lon": -111.0154,
+   "lat": 32.23594,
+   "road": "West Speedway Boulevard",
+   "water": null,
+   "routes": [
+    "pr-gates"
+   ],
+   "name": "West Speedway Boulevard (32.2359, -111.0154)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27373173,
+    "featureId": 15903151,
+    "distanceM": 895.6,
+    "name": ""
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 896 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-twin-peaks-road-32-38086-111-17680",
+   "lon": -111.1768,
+   "lat": 32.38086,
+   "road": "West Twin Peaks Road",
+   "water": null,
+   "routes": [
+    "pr-twinpeaks"
+   ],
+   "name": "West Twin Peaks Road (32.3809, -111.1768)",
+   "nearestReach": {
+    "huc": "15050304",
+    "branch": "0",
+    "hydroId": 27400509,
+    "featureId": 15876687,
+    "distanceM": 1473.2,
+    "name": "Central Arizona Project Aqueduct"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 1473 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-twin-peaks-road-32-37825-111-14869",
+   "lon": -111.14869,
+   "lat": 32.37825,
+   "road": "West Twin Peaks Road",
+   "water": null,
+   "routes": [
+    "pr-twinpeaks"
+   ],
+   "name": "West Twin Peaks Road (32.3783, -111.1487)",
+   "nearestReach": {
+    "huc": "15050303",
+    "branch": "1588000002",
+    "hydroId": 27390001,
+    "featureId": 15890430,
+    "distanceM": 3330.4,
+    "name": "Santa Cruz River"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 3330 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-twin-peaks-road-32-37543-111-13049",
+   "lon": -111.13049,
+   "lat": 32.37543,
+   "road": "West Twin Peaks Road",
+   "water": null,
+   "routes": [
+    "pr-twinpeaks"
+   ],
+   "name": "West Twin Peaks Road (32.3754, -111.1305)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27370006,
+    "featureId": 15902363,
+    "distanceM": 1190.8,
+    "name": "Santa Cruz River"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 1191 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-twin-peaks-road-32-37504-111-12718",
+   "lon": -111.12718,
+   "lat": 32.37504,
+   "road": "West Twin Peaks Road",
+   "water": null,
+   "routes": [
+    "pr-twinpeaks"
+   ],
+   "name": "West Twin Peaks Road (32.3750, -111.1272)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27370006,
+    "featureId": 15902363,
+    "distanceM": 950.0,
+    "name": "Santa Cruz River"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 950 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-twin-peaks-road-32-37462-111-12358",
+   "lon": -111.12358,
+   "lat": 32.37462,
+   "road": "West Twin Peaks Road",
+   "water": null,
+   "routes": [
+    "pr-twinpeaks"
+   ],
+   "name": "West Twin Peaks Road (32.3746, -111.1236)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27370006,
+    "featureId": 15902363,
+    "distanceM": 726.4,
+    "name": "Santa Cruz River"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 726 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-twin-peaks-road-32-37581-111-11538",
+   "lon": -111.11538,
+   "lat": 32.37581,
+   "road": "West Twin Peaks Road",
+   "water": "Santa Cruz River",
+   "routes": [
+    "pr-twinpeaks"
+   ],
+   "name": "West Twin Peaks Road at Santa Cruz River",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27370005,
+    "featureId": 15902363,
+    "distanceM": 280.2,
+    "name": "Santa Cruz River"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 280 m away, so its rating curve does not describe the water here."
+  },
+  {
+   "id": "west-twin-peaks-road-32-37655-111-11379",
+   "lon": -111.11379,
+   "lat": 32.37655,
+   "road": "West Twin Peaks Road",
+   "water": null,
+   "routes": [
+    "pr-twinpeaks"
+   ],
+   "name": "West Twin Peaks Road (32.3766, -111.1138)",
+   "nearestReach": {
+    "huc": "15050301",
+    "branch": "0",
+    "hydroId": 27370005,
+    "featureId": 15902363,
+    "distanceM": 154.7,
+    "name": "Santa Cruz River"
+   },
+   "status": "not_on_modeled_reach",
+   "evidence": "The nearest HAND stream is 155 m away, so its rating curve does not describe the water here."
+  }
+ ]
+}
