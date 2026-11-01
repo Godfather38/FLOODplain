@@ -10,7 +10,7 @@ The requested appearance is detailed solid voxel terrain with attractive water, 
 
 Safety-first home and route/navigation UX remain owned by the UI worker. This plan owns the renderer and its geographic/data adapters. The existing safety engine is not replaced by a renderer, and renderer work does not establish missing hydraulic capability.
 
-The parent referenced a user screenshot, but the screenshot itself was not supplied to this worker. This plan follows the transmitted textual requirements; matching that visual reference is an outstanding review item, not a claimed completed comparison.
+The parent has now inspected the user's screenshot: it is a small crop of green OSM landcover around North Trico, West Trico Marana and West Silverbell. It illustrates the unchanged basemap concern; it is not a target 3D visual design or proof of a frame-fetch failure. The screenshot pixels were not directly supplied to this worker. The corrected vector-data scene addresses the source/rendering requirement; user visual acceptance remains pending.
 
 ## One scene, explicitly separated data products
 
@@ -100,7 +100,7 @@ The solver owner must establish whether each required unmarked dip/off-channel d
 - [ ] Off-channel active model cells render without an OSM-water mask; unsupported dips/coverage are explicitly reported from solver evidence.
 - [ ] 2D/3D share scene features, viewport, time/range, route/cell selection and route actions; camera transitions do not reset them.
 - [ ] Route/closure/live context remains legible and interactive; model absence cannot clear an official hazard.
-- [ ] Real phone and desktop visual review matches the user's reference, including attractive voxel water; render completion alone is insufficient.
+- [ ] Real phone and desktop visual review demonstrates recognizable geographic features and attractive voxel water; the screenshot's green basemap concern is addressed without treating it as a target 3D design. Render completion alone is insufficient.
 - [ ] Reduced motion, hidden state, failure/fallback, repeated transitions, cancellation and disposal pass behavior checks.
 - [ ] Measured performance/memory and source/license/provider records are attached.
 
@@ -116,7 +116,7 @@ Observed prototype failure: desktop screenshot `public/simulation/preview/voxel-
 
 ## Next handoff and implementation sequence
 
-1. Parent aligns this plan with the rewritten UI contract and supplies the actual visual reference to the renderer owner. The user's latest direction is to execute the corrected coordinated plan after that rewrite; this is a short coordination gate, not an indefinite approval pause.
+1. Parent aligns this plan with the rewritten UI contract. This coordination is complete: use SHARED-MAP-STATE.md and the renderer integration document. The parent has inspected the screenshot and clarified its meaning above. The user's latest direction is to execute the corrected coordinated plan, not wait for another approval ritual.
 2. Solver owner supplies the required dip/domain coverage table independently; renderer does not wait to establish its vector-data pipeline.
 3. Build the bounded vector + solid terrain + known native-water vertical slice and inspect actual output before expanding the architecture.
 4. Implement common-state 2D/3D, model/source switches, selection and real route actions; then high-resolution terrain streaming and water visual refinement.

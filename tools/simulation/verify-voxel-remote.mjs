@@ -5,6 +5,7 @@ let page;const errors=[],failed=[];
 try{page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
   page.on('pageerror',e=>{errors.push(e.message);console.log('Page error:',e.message);});page.on('requestfailed',r=>failed.push({url:r.url(),error:r.failure()?.errorText}));
   page.on('response',r=>{if(r.status()>=400)failed.push({url:r.url(),status:r.status()});});await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
+  const interstitial=page.getByText('Open the page',{exact:true});if(await interstitial.count())await interstitial.click();
   await page.waitForFunction(()=>window.qaReady||window.qaError,null,{timeout:45000});
   assert.equal(await page.evaluate(()=>window.qaError),undefined);
   await page.evaluate(()=>{const c=qa.run.cells[9344];qa.map.setView([c.lat,c.lon],16,{animate:false});});

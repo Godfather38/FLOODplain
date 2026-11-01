@@ -47,12 +47,14 @@ Local evidence in `public/simulation/preview/`:
 
 An independent browser audit additionally verified actual Trico route/marker rendering and all four combinations of the two hours × flat/3D. Those temporary audit screenshots are supporting diagnostics, not a remote production acceptance claim.
 
+The commit-pinned remote renderer harness at `https://raw.githack.com/Godfather38/FLOODplain/5a630f4/public/simulation/voxel-qa.html` was also loaded and visually inspected. GitHack first presented its normal “Open the page” interstitial; following it reached the actual renderer. Remote evidence: `remote-vector-voxel-8pm.png` and `remote-vector-voxel-verification.json`. The remote scene showed actual vector roads/labels and native water at cell 9344, 8 PM MST, 3.368 m / 11.05 ft, native zs 599.672 m NAVD88, with 1,787 geographic features across eight source layers and no JavaScript errors. This verifies the published renderer harness, not the separately owned integrated app.
+
 ## Remaining limits and integration work
 
 1. UI owner must mount this renderer for both advanced flat and 3D, call `setViewMode`, and use `viewMode` rather than `active` for requested/displayed state. `hide` is the lifecycle transition out of advanced map. Until that is wired, the original app's flat mode remains its diagnostic raster fallback. No integration edits to the UI worker's files were made here.
 2. Final whole-app remote verification, shared-state integration under rapid UI requests, saved-route actions, phone gestures/larger text, and real-device GPU/memory measurements remain. The standalone QA page is only a renderer harness and is NOT the proposed product UI.
 3. Fine terrain exists for model-active cells, with a single additional 1 m patch. Terrain outside that native area is not invented. The vector map itself extends farther, while hydraulic coverage stays separate. A general 1 m streaming terrain pyramid is not implemented.
-4. The water and terrain appearance has functional evidence but not user approval against the original screenshot, whose pixels were unavailable to both workers. Do not mark the entire visual checklist accepted.
+4. The water and terrain appearance has functional evidence but not user visual acceptance. The parent has now inspected the original screenshot: green OSM landcover around North Trico/West Trico Marana/West Silverbell, illustrating unchanged basemap rather than a target 3D appearance. Its pixels were not directly inspected by this worker. Do not mark the entire visual checklist accepted.
 5. Current model support remains 100 m hydraulics with 10 m subgrid and separately approximately 10 m HAND windows. Key required crossings are outside the retained model domain per solver-owner audit; graphics do not repair that. The actual versioned crossing registry is a solver/UI dependency.
 6. Full region 1 m terrain, off-channel hydraulic refinement, culvert/depression resolution, calibration, velocities, exact shoreline and measured road depth are not supplied by this module. The new 1 m patch is display data only.
 
