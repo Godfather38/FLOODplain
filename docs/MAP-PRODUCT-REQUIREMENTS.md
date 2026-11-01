@@ -33,3 +33,8 @@ References: https://leafletjs.com/reference.html#canvas ; https://developer.andr
 | Automatic model updates | NOT ENABLED. Preview is frozen. Existing live refresh remains; no production schedule/trigger changes |
 
 Before claiming done, inspect actual phone and desktop: visible geographic location, selected time, quantitative depth, functioning cell tap and range controls. Publish non-sensitive screenshot evidence. Report missing requirements plainly. Do not replace this checklist with 'renders', test counts, architecture notes or promises of accuracy.
+
+## Latest visual evidence and 3D constraint
+The exact-cell layer was inspected remotely at commit 854877c on desktop and at 390x844. The phone tap returned SFINCS cell 10446, Nov 1 8 PM MST, 0.034 m / 0.11 ft mean depth. Screenshots: `public/simulation/preview/native-cell-depth-desktop.png` and `native-cell-depth-phone.png`. These captures precede b05fdbd's open-popup refresh and range-label spacing fixes; those fixes are not claimed visually verified here.
+
+The official MapLibre Leaflet adapter explicitly lacks bearing/pitch/rotation support: https://github.com/maplibre/maplibre-gl-leaflet . It cannot supply the requested tilted map. The smallest viable path to assess is an optional MapLibre surface in the existing map container, with a geographic custom layer and shared center/zoom/time/range/selection/routes. Retain Leaflet for 2D. Existing native zs, cell footprints and Three.js instances can supply geometry, but OrbitControls on a detached scene cannot supply the shared geographic camera. This is a pending integration decision, not completed 3D.
