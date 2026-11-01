@@ -17,7 +17,7 @@ export function mountMapShell(host,map,{load,state,applyWindow}){
  body.append(editor);const fitRow=document.createElement('div');fitRow.className='sheet-actions';for(const [selector,label] of [['[data-fit]','Fit flood area'],['[data-home]','Fit routes']]){const b=document.createElement('button');b.textContent=label;b.onclick=()=>{camera.querySelector(selector).click();close()};fitRow.append(b)}options.prepend(fitRow);
  const recent=document.createElement('section');recent.hidden=true;recent.dataset.panelContent='recent';body.append(recent);mountRecentReadings(recent);
  const historyButton=document.createElement('button');historyButton.textContent='Recent gauge readings';historyButton.onclick=()=>open('recent');options.append(historyButton);
- let panel=null,previousFocus=null;
+ let panel=null,previousFocus=null,liveStatus='Live readings · see Routes for source freshness';
  const format=t=>new Date(t).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' MST';
  function close(){sheet.hidden=true;panel=null;document.body.classList.remove('panel-open');previousFocus?.focus();map.invalidateSize()}
  async function open(which){previousFocus=document.activeElement;panel=which;sheet.hidden=false;document.body.classList.add('panel-open');sheet.querySelector('h2').textContent=({routes:'Routes & conditions',options:'Map options',time:'Time range',recent:'Recent observations'})[which];host.hidden=which==='routes';screen.hidden=which!=='routes';body.querySelectorAll('[data-panel-content]').forEach(el=>el.hidden=el.dataset.panelContent!==which);sheet.querySelector('[data-close]').focus();
@@ -26,9 +26,9 @@ export function mountMapShell(host,map,{load,state,applyWindow}){
  dock.querySelectorAll('[data-panel]').forEach(b=>b.onclick=()=>panel===b.dataset.panel?close():open(b.dataset.panel));sheet.querySelector('[data-close]').onclick=close;editor.querySelector('[data-cancel]').onclick=close;
  editor.querySelectorAll('[data-hours]').forEach(b=>b.onclick=()=>{const s=state();if(!s.frames?.length)return;const start=Number(editor.querySelector('[data-start]').value);editor.querySelector('[data-start]').value=b.dataset.hours==='all'?0:start;editor.querySelector('[data-end]').value=b.dataset.hours==='all'?s.frames.length-1:Math.min(s.frames.length-1,start+Number(b.dataset.hours))});
  editor.querySelector('[data-apply]').onclick=()=>{const start=Number(editor.querySelector('[data-start]').value),end=Number(editor.querySelector('[data-end]').value);if(end<=start){editor.querySelector('[data-range-message]').textContent='End must be later than start.';return}applyWindow(start,end);close()};
- const model=host.querySelector('[data-model]');model.addEventListener('change',()=>{time.hidden=model.value==='off';key.hidden=model.value==='off';key.textContent=({hand:'HAND: amber flood estimate','2d':'2D: blue mean depth bands (m)',aggregate:'Blue: 2D depth (m) / amber: HAND estimate'})[model.value]??'';dock.querySelector('.dock-status').textContent=model.value==='off'?'Live readings · see Routes for source freshness':'Frozen Nov 1–2, 2026 · not current weather'});
+ const model=host.querySelector('[data-model]');model.addEventListener('change',()=>{time.hidden=model.value==='off';key.hidden=model.value==='off';key.textContent=({hand:'HAND: amber flood estimate','2d':'2D: blue mean depth bands (m)',aggregate:'Blue: 2D depth (m) / amber: HAND estimate'})[model.value]??'';dock.querySelector('.dock-status').textContent=model.value==='off'?liveStatus:'Frozen Nov 1–2, 2026 · not current weather'});
  window.addEventListener('hashchange',()=>open('routes'));if(location.hash&&location.hash!=='#/')open('routes');
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sheet.hidden)close()});
- window.addEventListener('flood-check-status',e=>{if(model.value==='off')dock.querySelector('.dock-status').textContent=e.detail});
+ window.addEventListener('flood-check-status',e=>{liveStatus=e.detail;if(model.value==='off')dock.querySelector('.dock-status').textContent=e.detail});
  return {open,close};
 }

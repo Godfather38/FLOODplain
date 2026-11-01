@@ -739,7 +739,7 @@ async function check() {
     data = next;
     view = nextView;
     $('#load-status').hidden = true;
-    window.dispatchEvent(new CustomEvent('flood-check-status',{detail:next.errors.length?'Live check incomplete · '+next.errors.join('; '):'Live check completed · readings have their own timestamps'}));
+    window.dispatchEvent(new CustomEvent('flood-check-status',{detail:next.nws?.some(a=>/flood warning/i.test(a.event))?'Area flood warning · open Routes for details':next.errors.length?'Live check incomplete · '+next.errors.join('; '):'Live check completed · readings have their own timestamps'}));
     render();
   } catch (e) {
     window.dispatchEvent(new CustomEvent('flood-check-status',{detail:'Refresh failed · retained readings, not a fresh check'}));
