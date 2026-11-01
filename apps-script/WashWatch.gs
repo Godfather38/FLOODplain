@@ -813,6 +813,7 @@ function doPost(e) {
     if (body.action === "signup") return json_(signup_(phone, body));
     if (body.action === "confirm") return json_(confirm_(phone, String(body.code || "")));
     if (body.action === "stop") return json_(stop_(phone));
+    if (body.action === "waitlist") return json_(waitlist_(phone, body));
     return json_({ ok: false, error: "unknown action" });
   } finally {
     lock.releaseLock();
@@ -920,13 +921,13 @@ function countVisit_(isNew) {
     let st = ss.getSheetByName("stats");
     if (!st) {
       st = ss.insertSheet("stats");
-      st.appendRow(["date", "app_opens", "new_visitors", "push_channels", "text_subscribers", "crossing_reports"]);
+      st.appendRow(["date", "app_opens", "new_visitors", "push_channels", "text_subscribers", "crossing_reports", "waitlist"]);
     }
     const today = today_();
     const rows = st.getDataRange().getValues();
     let i = rows.findIndex((r, k) => k > 0 && (r[0] instanceof Date ? Utilities.formatDate(r[0], CONFIG.TZ, "yyyy-MM-dd") : String(r[0])) === today);
     if (i < 0) {
-      st.appendRow([today, 0, 0, 0, 0, 0]);
+      st.appendRow([today, 0, 0, 0, 0, 0, 0]);
       i = st.getLastRow() - 1;
     }
     const row = i + 1;
@@ -936,7 +937,7 @@ function countVisit_(isNew) {
       const sh = ss.getSheetByName(name);
       return sh ? Math.max(sh.getLastRow() - 1, 0) : 0;
     };
-    st.getRange(row, 2, 1, 5).setValues([[opens + 1, fresh + (isNew ? 1 : 0), count("push"), Math.max(sheet_().getLastRow() - 1, 0), count("reports")]]);
+    st.getRange(row, 2, 1, 6).setValues([[opens + 1, fresh + (isNew ? 1 : 0), count("push"), Math.max(sheet_().getLastRow() - 1, 0), count("reports"), count("waitlist")]]);
   } finally {
     lock.releaseLock();
   }
@@ -957,6 +958,9 @@ function confirm_(phone, code) {
   return { ok: true, step: "done" };
 }
 function stop_(phone) {
+  const ws = waitSheet_();
+  const wrow = findRow_(ws, phone);
+  if (wrow) ws.deleteRow(wrow);
   const sh = sheet_();
   const row = findRow_(sh, phone);
   if (row) {
@@ -965,11 +969,45 @@ function stop_(phone) {
   }
   return { ok: true, step: "stopped" };
 }
+function waitSheet_() {
+  const ss = sheet_().getParent();
+  let w = ss.getSheetByName("waitlist");
+  if (!w) {
+    w = ss.insertSheet("waitlist");
+    w.appendRow(["phone", "area", "joined", "texted"]);
+  }
+  return w;
+}
+function waitlist_(phone, b) {
+  const ws = waitSheet_();
+  if (findRow_(ws, phone)) return { ok: true, step: "waitlisted" };
+  const today = today_();
+  const props = PropertiesService.getScriptProperties();
+  const [day, n] = String(props.getProperty("waitlist") || "").split(" ");
+  const count = day === today ? Number(n) || 0 : 0;
+  if (count >= 100) return { ok: false, error: "Lots of sign-ups today. Try tomorrow." };
+  props.setProperty("waitlist", `${today} ${count + 1}`);
+  ws.appendRow([phone, validArea_(b.area), /* @__PURE__ */ new Date(), ""]);
+  return { ok: true, step: "waitlisted" };
+}
+function notifyWaitlist_() {
+  const ws = waitSheet_();
+  const rows = ws.getDataRange().getValues().slice(1);
+  let sent = 0;
+  for (let i = 0; i < rows.length && sent < 30; i++) {
+    if (rows[i][3]) continue;
+    const phone = String(rows[i][0]);
+    if (!text_(phone, `FLOODplain: texts now work on every carrier. You asked to hear when. Sign up here: ${CONFIG.APP_URL}#/alerts . This is the only waitlist text; nothing more unless you sign up.`)) return;
+    ws.getRange(i + 2, 4).setValue(/* @__PURE__ */ new Date());
+    sent += 1;
+  }
+}
 function tick() {
   const now = /* @__PURE__ */ new Date();
   const today = Utilities.formatDate(now, CONFIG.TZ, "yyyy-MM-dd");
   const props = PropertiesService.getScriptProperties();
   if (!twilio_()) sunset_(today, props);
+  else notifyWaitlist_();
   const nowMin = Math.floor(now.getTime() / 6e4);
   const last = Number(props.getProperty("last_min")) || nowMin - 1;
   const from = Math.max(last + 1, nowMin - CONFIG.CATCH_UP_MIN + 1);

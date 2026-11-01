@@ -166,3 +166,21 @@ test('visit counter: opens and new visitors per day in the stats tab', () => {
   assert.equal(rows.length, 2);
   assert.deepEqual(rows[1].slice(1, 4), [3, 1, 1]);
 });
+
+test('waitlist: no text while Twilio is off; one text each once it is on; stop removes', () => {
+  const t = setup(false);
+  assert.equal(t.post({ action: 'waitlist', phone: '520-555-0177', area: 'avra' }).ok, true);
+  assert.equal(t.post({ action: 'waitlist', phone: '5205550177' }).ok, true, 'joining twice is fine');
+  assert.equal(t.post({ action: 'waitlist', phone: '5205550188' }).ok, true);
+  assert.equal(t.post({ action: 'waitlist', phone: '123' }).ok, false);
+  t.post({ action: 'stop', phone: '5205550188' });
+  t.api.tick();
+  assert.equal(t.sent.length, 0, 'nothing sent before Twilio');
+  t.props.set('TWILIO_SID', 'AC1'); t.props.set('TWILIO_TOKEN', 't'); t.props.set('TWILIO_FROM', '+15205550000');
+  minute(t.clock); t.api.tick();
+  assert.equal(t.sent.length, 1);
+  assert.equal(t.sent[0].to, '+15205550177');
+  assert.match(t.sent[0].body, /every carrier/);
+  minute(t.clock); t.api.tick();
+  assert.equal(t.sent.length, 1, 'only once');
+});

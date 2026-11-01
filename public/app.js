@@ -404,8 +404,15 @@ function alertsScreen() {
         : 'Checking whether texts are available…'}</p>
     ${textFlow.msg ? `<p class="note">${esc(textFlow.msg)}</p>` : ''}
     ${textCard}
-
   </div>
+  ${cfg.TEXT_API && textFlow.sender === 'verizon' ? `<h3 class="section">Not on Verizon? Join the text waitlist</h3>
+  <div class="page">
+    ${textFlow.waitMsg ? `<p class="note">${esc(textFlow.waitMsg)}</p>` : ''}
+    ${textFlow.waitDone ? '' : `<p>Leave your number and we'll send <b>one text</b> when texts work on every carrier. Then you sign up here like anyone else.</p>
+    <label class="field">Mobile number<input id="w-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123"></label>
+    <p class="consent">By tapping <b>Join the waitlist</b>, you agree to get one FLOODplain text when texts open to all carriers. No other texts unless you sign up. Msg &amp; data rates may apply. Your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
+    <button type="button" class="btn btn-primary" id="w-join">Join the waitlist</button>`}
+  </div>` : ''}
   ${cfg.TEXT_API ? `<h3 class="section">Need more texts?</h3>
   <div class="page">
     ${textFlow.reqMsg ? `<p class="note">${esc(textFlow.reqMsg)}</p>` : ''}
@@ -495,6 +502,15 @@ function wireAlerts() {
     } catch { textFlow.reqMsg = 'Couldn’t reach the text service. Try again in a minute.'; }
     render();
   });
+  $('#w-join')?.addEventListener('click', async () => {
+    const phone = $('#w-phone').value.trim();
+    try {
+      const r = await textApi({ action: 'waitlist', phone, area });
+      textFlow.waitMsg = r.ok ? `You're on the waitlist (${phone}). One text when texts work on every carrier.` : (r.error || 'Something went wrong.');
+      textFlow.waitDone = !!r.ok;
+    } catch { textFlow.waitMsg = 'Couldn’t reach the text service. Try again in a minute.'; }
+    render();
+  });
   $('#t-stop')?.addEventListener('click', () => { textFlow.phone = $('#t-phone').value.trim(); run({ action: 'stop', phone: textFlow.phone }, 'start').then(() => { textFlow.msg = 'If that number was signed up, its texts are stopped.'; render(); }); });
   $('#t-confirm')?.addEventListener('click', () => run({ action: 'confirm', phone: textFlow.phone, code: $('#t-code').value.trim() }, 'done'));
 }
@@ -533,6 +549,8 @@ function privacyScreen() {
     <p>You sign up on the Alerts page and confirm with a 4-digit code we text you. To stop, reply <b>STOP</b> to any message or use <b>Stop texts</b> on the Alerts page. Reply <b>HELP</b> for help. Message and data rates may apply. Carriers aren't liable for delayed or undelivered messages.</p>
     <h4>Your information</h4>
     <p>We keep only your phone number, the times and days you chose, and when we last texted you. It's stored privately by the person who runs FLOODplain and used only to send these texts. It's never sold, shared or used for marketing. Stopping texts deletes your number.</p>
+    <h4>Text waitlist</h4>
+    <p>If you join the waitlist, we keep your number and the date you joined, and send you exactly one text when texts work on every carrier. Nothing else unless you then sign up. To leave the waitlist, use <b>Stop texts for this number</b> on the Alerts page.</p>
     <h4>No guarantee</h4>
     <p>Ratings come from public, provisional data (USGS, Pima County, National Weather Service) and can be late or wrong. What you see at the crossing comes first. Never drive into water crossing the road.</p>
     <h4>Contact</h4>

@@ -89,6 +89,7 @@ function doPost(e) {
     if (body.action === 'signup') return json_(signup_(phone, body));
     if (body.action === 'confirm') return json_(confirm_(phone, String(body.code || '')));
     if (body.action === 'stop') return json_(stop_(phone));
+    if (body.action === 'waitlist') return json_(waitlist_(phone, body));
     return json_({ ok: false, error: 'unknown action' });
   } finally {
     lock.releaseLock();
@@ -167,23 +168,23 @@ function report_(b) {
 }
 
 // Daily stats in the "stats" tab: date | app opens | new visitors | push channels |
-// text subscribers | crossing reports. Counts only; nothing about who visited.
+// text subscribers | crossing reports | waitlist. Counts only; nothing about who visited.
 function countVisit_(isNew) {
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     const ss = sheet_().getParent();
     let st = ss.getSheetByName('stats');
-    if (!st) { st = ss.insertSheet('stats'); st.appendRow(['date', 'app_opens', 'new_visitors', 'push_channels', 'text_subscribers', 'crossing_reports']); }
+    if (!st) { st = ss.insertSheet('stats'); st.appendRow(['date', 'app_opens', 'new_visitors', 'push_channels', 'text_subscribers', 'crossing_reports', 'waitlist']); }
     const today = today_();
     const rows = st.getDataRange().getValues();
     let i = rows.findIndex((r, k) => k > 0 && (r[0] instanceof Date ? Utilities.formatDate(r[0], CONFIG.TZ, 'yyyy-MM-dd') : String(r[0])) === today);
-    if (i < 0) { st.appendRow([today, 0, 0, 0, 0, 0]); i = st.getLastRow() - 1; }
+    if (i < 0) { st.appendRow([today, 0, 0, 0, 0, 0, 0]); i = st.getLastRow() - 1; }
     const row = i + 1;
     const opens = Number(st.getRange(row, 2).getValue()) || 0;
     const fresh = Number(st.getRange(row, 3).getValue()) || 0;
     const count = (name) => { const sh = ss.getSheetByName(name); return sh ? Math.max(sh.getLastRow() - 1, 0) : 0; };
-    st.getRange(row, 2, 1, 5).setValues([[opens + 1, fresh + (isNew ? 1 : 0), count('push'), Math.max(sheet_().getLastRow() - 1, 0), count('reports')]]);
+    st.getRange(row, 2, 1, 6).setValues([[opens + 1, fresh + (isNew ? 1 : 0), count('push'), Math.max(sheet_().getLastRow() - 1, 0), count('reports'), count('waitlist')]]);
   } finally {
     lock.releaseLock();
   }
@@ -207,6 +208,9 @@ function confirm_(phone, code) {
 }
 
 function stop_(phone) {
+  const ws = waitSheet_();
+  const wrow = findRow_(ws, phone);
+  if (wrow) ws.deleteRow(wrow);
   const sh = sheet_();
   const row = findRow_(sh, phone);
   if (row) {
@@ -216,12 +220,47 @@ function stop_(phone) {
   return { ok: true, step: 'stopped' };
 }
 
+// Waitlist: people (any carrier) who want one text when texts work for every carrier.
+// Kept in the "waitlist" tab: phone | area | joined | texted. Nothing is texted now;
+// once Twilio is set up, tick() sends each person one text and marks them texted.
+function waitSheet_() {
+  const ss = sheet_().getParent();
+  let w = ss.getSheetByName('waitlist');
+  if (!w) { w = ss.insertSheet('waitlist'); w.appendRow(['phone', 'area', 'joined', 'texted']); }
+  return w;
+}
+function waitlist_(phone, b) {
+  const ws = waitSheet_();
+  if (findRow_(ws, phone)) return { ok: true, step: 'waitlisted' };
+  const today = today_();
+  const props = PropertiesService.getScriptProperties();
+  const [day, n] = String(props.getProperty('waitlist') || '').split(' ');
+  const count = day === today ? Number(n) || 0 : 0;
+  if (count >= 100) return { ok: false, error: 'Lots of sign-ups today. Try tomorrow.' };
+  props.setProperty('waitlist', `${today} ${count + 1}`);
+  ws.appendRow([phone, validArea_(b.area), new Date(), '']);
+  return { ok: true, step: 'waitlisted' };
+}
+function notifyWaitlist_() {
+  const ws = waitSheet_();
+  const rows = ws.getDataRange().getValues().slice(1);
+  let sent = 0;
+  for (let i = 0; i < rows.length && sent < 30; i++) {
+    if (rows[i][3]) continue;
+    const phone = String(rows[i][0]);
+    if (!text_(phone, `FLOODplain: texts now work on every carrier. You asked to hear when. Sign up here: ${CONFIG.APP_URL}#/alerts . This is the only waitlist text; nothing more unless you sign up.`)) return;
+    ws.getRange(i + 2, 4).setValue(new Date());
+    sent += 1;
+  }
+}
+
 // ---------- every minute ----------
 function tick() {
   const now = new Date();
   const today = Utilities.formatDate(now, CONFIG.TZ, 'yyyy-MM-dd');
   const props = PropertiesService.getScriptProperties();
   if (!twilio_()) sunset_(today, props);
+  else notifyWaitlist_();
 
   // Minutes to handle: everything since the last run, at most CATCH_UP_MIN back.
   const nowMin = Math.floor(now.getTime() / 60000);
