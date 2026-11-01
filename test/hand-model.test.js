@@ -62,11 +62,20 @@ test('labels stay with every estimate, with no road verdict',()=>{
 });
 
 test('app reaches HAND through its own layer, and service files do not import it',async()=>{
- assert.match(text('public/app.js'),/applyHand\(fpResults, d\.hand\)/);
+ const app=text('public/app.js');
+ assert.match(app,/handModel\?\.applyHand\(fpResults, d\.hand\)/);
+ assert.match(app,/import\('\.\/hand-model\.js\?v=dev'\)/);assert.doesNotMatch(app,/^import .*hand-model/m);assert.doesNotMatch(app.slice(app.indexOf('async function gather'),app.indexOf('// ---------------- state')),/[Hh]and/);
  for(const f of ['public/engine.js','public/logic.js','public/config.js','apps-script/Code.gs'])assert.doesNotMatch(text(f),/hand-model/,f);
  const calls=[];const fetchImpl=async url=>{const u=String(url);calls.push(u);
   if(u.includes('coverage.json'))return{ok:true,json:async()=>coverage};
   throw Error('offline');};
  const hand=await loadHand(FAILURE_POINTS,{fetchImpl,clock:()=>now});
  assert.equal(hand.checks['sc-trico-marana'].raise,false);assert.match(hand.checks['sc-trico-marana'].why,/no forecast flow/);
+ const junkReply=async url=>String(url).includes('coverage.json')?{ok:true,json:async()=>coverage}:{ok:true,json:async()=>({nonsense:true,shortRange:{series:{units:'ft\u00b3/s',data:'x',referenceTime:'y'}}})};
+ const junk=await loadHand(FAILURE_POINTS,{fetchImpl:junkReply,clock:()=>now});
+ for(const c of Object.values(junk.checks))assert.equal(c.raise,false);
+ const partial=await loadHand(FAILURE_POINTS,{clock:()=>now,fetchImpl:async url=>{const u=String(url);if(u.includes('coverage.json'))return{ok:true,json:async()=>coverage};if(u.includes('/gauges/'))throw Error('down');return{ok:false,status:500};}});
+ for(const c of Object.values(partial.checks))assert.equal(c.raise,false);
+ await assert.rejects(loadHand(FAILURE_POINTS,{fetchImpl:async()=>({ok:true,json:async()=>({oops:1})}),clock:()=>now}));
+ const r={x:point('caution','rain')};applyHand(r,null);assert.equal(r.x.level,'caution');assert.equal(r.x.checks.length,1);
 });

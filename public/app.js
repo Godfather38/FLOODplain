@@ -3,7 +3,6 @@ import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
 import { loadGaugeReadings } from './gauge-feed.js?v=dev';
 import { resolveScreen } from './routing.js?v=dev';
-import { applyHand, loadHand } from './hand-model.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
   riskScore, routeScore, goodSigns, againstIt,
@@ -19,6 +18,7 @@ const SRC = {
 };
 const KIND_ICON = { dip: '〰️', flat: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
 const REFRESH_MS = 5 * 60 * 1000;
+const HAND_DOWN = 'HAND flood model not responding';
 const NAV_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4.5 20.3l.7.7L12 18l6.8 3 .7-.7z"/></svg>';
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -76,16 +76,15 @@ async function gather() {
   const errors = [];
   const settle = async (name, p) => { try { return await p; } catch { errors.push(`${name} not responding`); return null; } };
   const sites = Object.keys(USGS_SITES);
-  const [flowsArr, closures, alert, nws, hand] = await Promise.all([
+  const [flowsArr, closures, alert, nws] = await Promise.all([
     loadUsgsAll(sites),
     settle('county barricades', loadClosures()),
     settle('rain gauges', loadAlert()),
     settle('weather service', loadNws()),
-    settle('HAND flood model', loadHand(FAILURE_POINTS)),
   ]);
   const flows = Object.fromEntries(sites.map((s, i) => [s, summarizeFlow(flowsArr[i], now, STALE_MS)]));
   if (!Object.values(flows).some((f) => f.fresh)) errors.push(usgsBusy ? 'river gauges busy, retrying' : 'river gauges not responding');
-  return { now, flows, closures, alert, nws, hand, errors: [...new Set(errors)] };
+  return { now, flows, closures, alert, nws, errors: [...new Set(errors)] };
 }
 
 // ---------------- state ----------------
@@ -123,9 +122,29 @@ async function navigate(rid) {
   location.href = url;
 }
 
+// HAND loads after the first screen, so slow or failing NOAA calls can't hold it up.
+let handModel = null;
+let handRun = 0;
+async function refreshHand() {
+  const run = ++handRun;
+  let hand = null;
+  try {
+    handModel ??= await import('./hand-model.js?v=dev');
+    hand = await handModel.loadHand(FAILURE_POINTS);
+  } catch { /* shown below as not responding */ }
+  if (run !== handRun || !data) return;
+  data.hand = hand;
+  data.errors = data.errors.filter((e) => e !== HAND_DOWN);
+  if (!hand) data.errors.push(HAND_DOWN);
+  view = compute(data);
+  // Redrawing would clear a form someone is typing in; the next check picks it up.
+  if (!['report', 'alerts'].includes(where().screen)) render();
+}
+
 function compute(d) {
   const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
-  applyHand(fpResults, d.hand);
+  // HAND only adds to the result, so a fault in it can't take the ratings down with it.
+  try { handModel?.applyHand(fpResults, d.hand); } catch { /* ratings stand without it */ }
   const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
   return { fpResults, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
@@ -734,11 +753,13 @@ async function check() {
   $('#refresh').setAttribute('aria-label', 'Checking conditions');
   try {
     const next = await gather();
+    next.hand = data?.hand ?? null; // Keep the last HAND result until the new one arrives.
     const nextView = compute(next);
     data = next;
     view = nextView;
     $('#load-status').hidden = true;
     render();
+    refreshHand();
   } catch (e) {
     if (!view) throw e;
     $('#load-status').textContent = 'Couldn’t update conditions. Showing the previous check. Tap Check again to retry.';
