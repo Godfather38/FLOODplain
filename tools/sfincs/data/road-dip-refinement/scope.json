@@ -1,0 +1,124 @@
+{
+  "sourceRouteCommit": "929ff13994f68565f88931feb79de1b58cda6317",
+  "routes": [
+    "trico",
+    "avra"
+  ],
+  "routeLengthKm": 32.25881810645532,
+  "catchmentSource": "https://api.water.usgs.gov/fabric/pygeoapi/collections/catchmentsp/items",
+  "catchmentQueryBounds": [
+    -111.31429150000001,
+    32.382070199999994,
+    -111.1213331,
+    32.471112100000006
+  ],
+  "catchmentCount": 11,
+  "catchmentAreaKm2": 423.04730084410977,
+  "selectedProperties": [
+    {
+      "objectid": 2155374,
+      "gridcode": 2425155,
+      "featureid": 15890430,
+      "sourcefc": "NHDFlowline",
+      "areasqkm": 236.890413,
+      "shape_length": 1.52701511690496,
+      "shape_area": 0.0227216371949903
+    },
+    {
+      "objectid": 2155731,
+      "gridcode": 2425512,
+      "featureid": 945050512,
+      "sourcefc": "NHDFlowline",
+      "areasqkm": 3.534044,
+      "shape_length": 0.0857379597685214,
+      "shape_area": 0.000338832843766579
+    },
+    {
+      "objectid": 2155734,
+      "gridcode": 2425515,
+      "featureid": 15876633,
+      "sourcefc": "NHDFlowline",
+      "areasqkm": 11.260956,
+      "shape_length": 0.235872233442996,
+      "shape_area": 0.00107931129593816
+    },
+    {
+      "objectid": 2155752,
+      "gridcode": 2425533,
+      "featureid": 945050510,
+      "sourcefc": "NHDFlowline",
+      "areasqkm": 16.068629,
+      "shape_length": 0.272535023053246,
+      "shape_area": 0.00154003523592986
+    },
+    {
+      "objectid": 2155798,
+      "gridcode": 2425579,
+      "featureid": 945050511,
+      "sourcefc": "NHDFlowline",
+      "areasqkm": 6.904689,
+      "shape_length": 0.130675883011863,
+      "shape_area": 0.000662158117591489
+    },
+    {
+      "objectid": 2155808,
+      "gridcode": 2425589,
+      "featureid": 15886600,
+      "sourcefc": "NHDFlowline",
+      "areasqkm": 16.034878,
+      "shape_length": 0.344619403989878,
+      "shape_area": 0.00153831848691435
+    },
+    {
+      "objectid": 2155983,
+      "gridcode": 2425764,
+      "featureid": 15877577,
+      "sourcefc": "NHDFlowline",
+      "areasqkm": 119.702974,
+      "shape_length": 0.947159643287017,
+      "shape_area": 0.0114686442593353
+    },
+    {
+      "objectid": 2156248,
+      "gridcode": 2426029,
+      "featureid": 945050480,
+      "sourcefc": "NHDFlowline",
+      "areasqkm": 4.717666,
+      "shape_length": 0.150342499369954,
+      "shape_area": 0.00045226769859873
+    },
+    {
+      "objectid": 2156348,
+      "gridcode": 2426129,
+      "featureid": 15876621,
+      "sourcefc": "NHDFlowline",
+      "areasqkm": 7.306532,
+      "shape_length": 0.142891113046618,
+      "shape_area": 0.000700455292692207
+    },
+    {
+      "objectid": 2156409,
+      "gridcode": 2426190,
+      "featureid": 945050486,
+      "sourcefc": "NHDFlowline",
+      "areasqkm": 0.038336,
+      "shape_length": 0.0106420676793575,
+      "shape_area": 3.67598039661954e-06
+    },
+    {
+      "objectid": 2156545,
+      "gridcode": 2426326,
+      "featureid": 945050482,
+      "sourcefc": "NHDFlowline",
+      "areasqkm": 0.922032,
+      "shape_length": 0.0444283354545238,
+      "shape_area": 8.84163612601595e-05
+    }
+  ],
+  "refinementAreasKm2": {
+    "100mCorridor": 6.473075022720114,
+    "500mNeighborhood": 32.83820545674822
+  },
+  "status": "Prepared scope, not runnable physical model; inlet topology and terrain coverage pending",
+  "solverRun": false
+}

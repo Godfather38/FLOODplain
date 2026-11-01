@@ -1,0 +1,10 @@
+{
+  "storezvolume": 1,
+  "storemeteo": 1,
+  "dtout": 900,
+  "dthisout": 300,
+  "purpose": "Native cell volume and weather fields; section locations must be explicit in prepared model",
+  "runEnabled": false,
+  "wallTimeBudgetMinutes": 20,
+  "budgetPolicy": "No expansion run until required inputs are present; first execution bounded, no automatic repeat or resolution downgrade"
+}

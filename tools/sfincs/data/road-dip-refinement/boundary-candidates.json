@@ -1,0 +1,78 @@
+{
+  "activeCatchmentReachIds": [
+    15876621,
+    15876633,
+    15877577,
+    15886600,
+    15890430,
+    15902363,
+    15903137,
+    945050480,
+    945050482,
+    945050486,
+    945050510,
+    945050511,
+    945050512
+  ],
+  "externalInlets": [
+    {
+      "reachId": "15876623",
+      "receivingReachId": "15876621"
+    },
+    {
+      "reachId": "15876625",
+      "receivingReachId": "15876621"
+    },
+    {
+      "reachId": "15876639",
+      "receivingReachId": "15876633"
+    },
+    {
+      "reachId": "15876653",
+      "receivingReachId": "15876633"
+    },
+    {
+      "reachId": "15876707",
+      "receivingReachId": "945050510"
+    },
+    {
+      "reachId": "15876711",
+      "receivingReachId": "945050510"
+    },
+    {
+      "reachId": "15902351",
+      "receivingReachId": "15890430"
+    },
+    {
+      "reachId": "15902361",
+      "receivingReachId": "15902363"
+    },
+    {
+      "reachId": "15902409",
+      "receivingReachId": "15903137"
+    },
+    {
+      "reachId": "15902411",
+      "receivingReachId": "15903137"
+    },
+    {
+      "reachId": "945050481",
+      "receivingReachId": "945050482"
+    },
+    {
+      "reachId": "945050483",
+      "receivingReachId": "945050482"
+    },
+    {
+      "reachId": "945050485",
+      "receivingReachId": "945050486"
+    },
+    {
+      "reachId": "945050487",
+      "receivingReachId": "945050486"
+    }
+  ],
+  "count": 14,
+  "method": "Existing external-to-active catchment adjacency; no cumulative-flow subtraction",
+  "status": "Topology candidates; native placement and frozen forecast coverage pending"
+}

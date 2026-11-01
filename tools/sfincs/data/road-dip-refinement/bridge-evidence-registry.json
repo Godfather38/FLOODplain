@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "bridges": [
+    {
+      "id": "bridge-1",
+      "road": "North Trico Road",
+      "watercourse": "Los Robles Wash",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -111.30426,
+          32.43882
+        ]
+      },
+      "identification": {
+        "status": "map_tag_not_survey_confirmation",
+        "source": "public/data/crossings.geojson",
+        "commit": "929ff13994f68565f88931feb79de1b58cda6317"
+      },
+      "deckElevation": null,
+      "lowChordElevation": null,
+      "approachElevations": null,
+      "verticalDatum": null,
+      "gaugeDatumConnection": null,
+      "surveyStatus": "No site-linked measured elevation in the prepared package",
+      "documentedHistory": [],
+      "comparisonRule": "Only compare modeled absolute water elevation with site elevations after compatible vertical datum/units and location are established; gauge stage is not absolute deck elevation",
+      "closureEvidence": [],
+      "defaultRiskPenalty": null
+    },
+    {
+      "id": "bridge-2",
+      "road": "West Trico Marana Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -111.27985,
+          32.45369
+        ]
+      },
+      "identification": {
+        "status": "map_tag_not_survey_confirmation",
+        "source": "public/data/crossings.geojson",
+        "commit": "929ff13994f68565f88931feb79de1b58cda6317"
+      },
+      "deckElevation": null,
+      "lowChordElevation": null,
+      "approachElevations": null,
+      "verticalDatum": null,
+      "gaugeDatumConnection": null,
+      "surveyStatus": "No site-linked measured elevation in the prepared package",
+      "documentedHistory": [
+        {
+          "date": "2014-09-09",
+          "source": "https://tucson.com/news/local/northwest/collection_2f2d6d1e-3872-11e4-9781-0019bb2963f4.html",
+          "kind": "contemporaneous_report_and_photographs",
+          "summary": "Reports road flooding and fence/debris displacement at the Santa Cruz Trico Road bridge; crews pumping and clearing the road.",
+          "siteMatch": "River and bridge name; exact surveyed station absent",
+          "interpretationLimit": "Not a measured deck/soffit elevation, overtopping threshold, or current closure. Do not attach this Santa Cruz event to Los Robles."
+        }
+      ],
+      "comparisonRule": "Only compare modeled absolute water elevation with site elevations after compatible vertical datum/units and location are established; gauge stage is not absolute deck elevation",
+      "closureEvidence": [],
+      "defaultRiskPenalty": null
+    },
+    {
+      "id": "bridge-3",
+      "road": "West Avra Valley Road",
+      "watercourse": null,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -111.26095,
+          32.39514
+        ]
+      },
+      "identification": {
+        "status": "map_tag_not_survey_confirmation",
+        "source": "public/data/crossings.geojson",
+        "commit": "929ff13994f68565f88931feb79de1b58cda6317"
+      },
+      "deckElevation": null,
+      "lowChordElevation": null,
+      "approachElevations": null,
+      "verticalDatum": null,
+      "gaugeDatumConnection": null,
+      "surveyStatus": "No site-linked measured elevation in the prepared package",
+      "documentedHistory": [],
+      "comparisonRule": "Only compare modeled absolute water elevation with site elevations after compatible vertical datum/units and location are established; gauge stage is not absolute deck elevation",
+      "closureEvidence": [],
+      "defaultRiskPenalty": null
+    },
+    {
+      "id": "bridge-4",
+      "road": "West Avra Valley Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -111.14566,
+          32.40271
+        ]
+      },
+      "identification": {
+        "status": "map_tag_not_survey_confirmation",
+        "source": "public/data/crossings.geojson",
+        "commit": "929ff13994f68565f88931feb79de1b58cda6317"
+      },
+      "deckElevation": null,
+      "lowChordElevation": null,
+      "approachElevations": null,
+      "verticalDatum": null,
+      "gaugeDatumConnection": null,
+      "surveyStatus": "No site-linked measured elevation in the prepared package",
+      "documentedHistory": [],
+      "comparisonRule": "Only compare modeled absolute water elevation with site elevations after compatible vertical datum/units and location are established; gauge stage is not absolute deck elevation",
+      "closureEvidence": [],
+      "defaultRiskPenalty": null
+    },
+    {
+      "id": "bridge-5",
+      "road": "West Avra Valley Road",
+      "watercourse": null,
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -111.14714,
+          32.40224
+        ]
+      },
+      "identification": {
+        "status": "map_tag_not_survey_confirmation",
+        "source": "public/data/crossings.geojson",
+        "commit": "929ff13994f68565f88931feb79de1b58cda6317"
+      },
+      "deckElevation": null,
+      "lowChordElevation": null,
+      "approachElevations": null,
+      "verticalDatum": null,
+      "gaugeDatumConnection": null,
+      "surveyStatus": "No site-linked measured elevation in the prepared package",
+      "documentedHistory": [],
+      "comparisonRule": "Only compare modeled absolute water elevation with site elevations after compatible vertical datum/units and location are established; gauge stage is not absolute deck elevation",
+      "closureEvidence": [],
+      "defaultRiskPenalty": null
+    },
+    {
+      "id": "bridge-6",
+      "road": "West Avra Valley Road",
+      "watercourse": "Santa Cruz River",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -111.14614,
+          32.40256
+        ]
+      },
+      "identification": {
+        "status": "map_tag_not_survey_confirmation",
+        "source": "public/data/crossings.geojson",
+        "commit": "929ff13994f68565f88931feb79de1b58cda6317"
+      },
+      "deckElevation": null,
+      "lowChordElevation": null,
+      "approachElevations": null,
+      "verticalDatum": null,
+      "gaugeDatumConnection": null,
+      "surveyStatus": "No site-linked measured elevation in the prepared package",
+      "documentedHistory": [],
+      "comparisonRule": "Only compare modeled absolute water elevation with site elevations after compatible vertical datum/units and location are established; gauge stage is not absolute deck elevation",
+      "closureEvidence": [],
+      "defaultRiskPenalty": null
+    }
+  ],
+  "policy": "Unknown measurements stay null; no generic bridge hazard multiplier"
+}
