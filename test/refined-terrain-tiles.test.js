@@ -39,3 +39,10 @@ test('SYNTHETIC: partial run and empty streamed selection preserve explicit nati
  const view=createRefinedWater({loaded:{manifest:f.manifest},geometry,terrain,origin:new THREE.Vector3(),project:([x,y])=>new THREE.Vector3(x,y,0),altitude:z=>z});
  assert.equal(view.setDetail([0]).omittedFaces,1);view.update({runId:f.manifest.runId,geometrySha256:f.manifest.geometry.sha256,time,depthM:[1],nativeVolumeM3:[100],waterSurfaceM:[5]});view.select(0);assert.equal(view.water.count,0);assert.equal(view.cellInfo(0).surfaceM,5);assert.equal(view.cellInfo(0).depthM,1);view.dispose();
 });
+test('SYNTHETIC: compact geometry retains original terrain identity without changing frame identity',async()=>{
+ const f=fixture(),original=f.manifest.geometry.sha256;
+ f.manifest.compactSource={geometry:{sha256:original}};f.manifest.geometry.sha256='c'.repeat(64);
+ const loader=createTerrainTileLoader({manifest:f.manifest,geometry:{},readArtifact:async a=>f.assets[a.path]});
+ const result=await loader.load({extent,center:{x:.1,y:.5},budget:6,maxTiles:3});
+ assert.equal(result.geometrySha256,original);assert.equal(f.manifest.geometry.sha256,'c'.repeat(64));loader.dispose();
+});
