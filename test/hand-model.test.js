@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {FAILURE_POINTS} from '../public/config.js';
 import {riskScore} from '../public/logic.js';
-import {applyHand,handCheck,loadHand,matchFailurePoints} from '../public/hand-model.js';
+import {CALM_WITH_FLOW,applyHand,handCheck,loadHand,matchFailurePoints} from '../public/hand-model.js';
 const text=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const coverage=JSON.parse(text('public/inundation/data/coverage.json'));
 const byFp=matchFailurePoints(FAILURE_POINTS,coverage.points),now=Date.parse('2026-11-01T08:00:00Z');
@@ -60,6 +60,14 @@ test('only the next 24 hours count, and the time is shown',()=>{
  const mixed=handCheck(row,{...far,points:[small.peak,far.peak]},now);assert.equal(mixed.raise,false);assert.match(mixed.why,/100 cfs/);
  const near=handCheck(row,forecastCfs(5000),now);assert.equal(near.level,'caution');assert.match(near.why,/5,000 cfs forecast for Sun 5 AM/);
  assert.equal(handCheck(row,forecastCfs(5000,'2026-11-02T07:59:00Z'),now).raise,true);
+});
+
+test('a calm crossing does not say nothing points to water when HAND forecasts flow',()=>{
+ const row=byFp['sc-trico-marana'],some=handCheck(row,forecastCfs(400),now),none=handCheck(row,forecastCfs(0),now);
+ assert.equal(some.raise,false);assert.equal(some.some,true);assert.equal(none.some,false);
+ const r={x:point('ok','no rain')};applyHand(r,{checks:{x:some}});assert.equal(r.x.checks[0].some,true);assert.equal(r.x.level,'ok');
+ assert.match(text('public/app.js'),/p\.level === 'ok' && p\.checks\[0\]\?\.some \? handModel\.CALM_WITH_FLOW/);
+ assert.doesNotMatch(CALM_WITH_FLOW,VERDICT);
 });
 
 test('an open source row resets when the HAND row appears or goes',()=>{

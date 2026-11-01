@@ -246,7 +246,7 @@ function stretchScreen(rid, fpId) {
   const fp = FAILURE_POINTS.find((f) => f.id === fpId);
   const s = riskScore(p);
   return `
-    <div class="summary">${badgeWithWord(s)}<div><p>${esc(p.why === p.checks[0]?.why && p.checks[0]?.src === 'hand' ? 'The HAND model estimates water here. It can\'t say what the road is like; look as you go.' : LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
+    <div class="summary">${badgeWithWord(s)}<div><p>${esc(p.why === p.checks[0]?.why && p.checks[0]?.src === 'hand' ? 'The HAND model estimates water here. It can\'t say what the road is like; look as you go.' : p.level === 'ok' && p.checks[0]?.some ? handModel.CALM_WITH_FLOW : LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
     <h3 class="section">What each source says</h3>
     <div class="list">
       ${p.checks.map((c, i) => {

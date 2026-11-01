@@ -12,6 +12,7 @@ import { loadCoverage, stageForFlow } from './inundation/hand-inundation.js';
 // Display steps anchored to Trico: NOAA's action flow there models at about 2 m on this curve.
 export const WATCH_STAGE_M = 1;
 export const CAUTION_STAGE_M = 2;
+const SOME_WATER_M = 0.3; // About a foot: enough that "nothing points to water" would contradict the row.
 const MAIN_STEM_ORDER = 5;
 const onSantaCruz = (row) => row.app.order >= MAIN_STEM_ORDER && row.nearestReach?.name === 'Santa Cruz River';
 const NEAR_FP_M = 60;
@@ -61,16 +62,20 @@ export function handCheck(row, forecast, now) {
   const detail = labels(row, forecast, now);
   const flowText = `${Math.round(cfs).toLocaleString('en-US')} cfs ${row.forecast.kind === 'gauge' ? 'forecast' : 'modeled'}`;
   if (forecast.status === 'stale') return quiet(`HAND model: old forecast, about ${(stage * FT).toFixed(1)} ft at ${flowText} for ${when}`, detail);
+  const some = stage >= SOME_WATER_M;
   const said = `HAND model: about ${(stage * FT).toFixed(1)} ft above the stream bed, ${flowText} for ${when}`;
   const likely = row.confidence.band === 'Likely match';
   if (row.forecast.kind !== 'gauge') {
     if (onSantaCruz(row) && likely && stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true };
-    return quiet(`${said}. Model flow is rough${stage < WATCH_STAGE_M ? ", and low flow doesn't mean dry" : ''}`, detail);
+    return { ...quiet(`${said}. Model flow is rough${stage < WATCH_STAGE_M ? ", and low flow doesn't mean dry" : ''}`, detail), some };
   }
   if (stage >= CAUTION_STAGE_M && likely) return { src: 'hand', level: 'caution', why: said, detail, raise: true };
   if (stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true };
-  return quiet(`${said}. Low flow doesn't mean dry`, detail);
+  return { ...quiet(`${said}. Low flow doesn't mean dry`, detail), some };
 }
+
+// The crossing screen's line when its other sources are calm but HAND forecasts some flow.
+export const CALM_WITH_FLOW = 'Current readings show no water here. The HAND model forecasts some flow; see below.';
 
 // Puts HAND first in each crossing's sources and lifts the level where it shows water.
 export function applyHand(fpResults, hand) {
