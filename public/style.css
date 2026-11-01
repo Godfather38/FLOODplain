@@ -147,3 +147,15 @@ details.beta-phones p { margin: 6px 0 0; }
 /* time rows: the time box keeps its width on phones; Remove stays small */
 .time-row input[type=time] { flex: 1 1 auto; min-width: 9.5em; min-height: 52px; }
 .time-row .btn { width: auto !important; flex: none; }
+
+/* Saved routes and check context retain the existing light/dark palette. */
+.check-status { border: 1px solid var(--divider); border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; font-size: 14px; }
+.check-status p { margin: 4px 0 0; color: var(--muted); }
+.saved-routes { margin: 0 0 20px; }
+.saved-routes h3.section { margin-top: 12px; }
+.saved-routes .st { display: block; white-space: normal; }
+.save-route { margin-top: 12px; border: 1px solid var(--divider); width: 100%; }
+.save-route[aria-pressed="true"] { background: var(--surface-2); }
+:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+.icon-btn:disabled { opacity: .5; cursor: wait; }
+@media (prefers-reduced-motion: reduce) { .icon-btn.spin svg { animation: none; } }
