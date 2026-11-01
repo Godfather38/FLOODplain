@@ -1,3 +1,19 @@
+# Native geometry result: faster arrival, peak still too small
+
+Actual solver execution [41291800062](https://github.com/Godfather38/FLOODplain/actions/runs/41291800062) reused the saved executable on a fresh runner, without compilation. Runtime: **104.01 seconds**. [Input methods and source provenance](NATIVE-GEOMETRY.md) describe the official HydroMT subgrid/outflow setup, 10 m USGS terrain, and connected NOAA river geometry. No channel burning or target fitting occurred.
+
+The modeled Trico-section peak is **96.725 m3/s at September 9 07:24 UTC**, versus observed **339.802 m3/s at 06:45 UTC**: **39 minutes late**. RMSE is **62.990 m3/s** across 289 comparison times. The complete-rainfall coarse reference was 93.061 m3/s at 13:41 UTC, RMSE 88.197. The generalized river-line relocation was worse: 76.867 m3/s at 15:36 UTC. Both references remain preserved. Better arrival timing does not cure the large peak underestimate.
+
+Native inputs: river 13,277,279 m3 and rain 11,502,125 m3; net outward interior-control-section flux 11,977,106 m3; final interior storage 12,812,791 m3. Residual: **-10,493 m3 (-0.0423%)**. Changing outlet sampling from 60 to 120 seconds changes its integral by 4,489 m3; this is approximate accounting.
+
+Native maximum water level above the subgrid cell minimum is 29.617 m. The maximum full-cell mean depth is 25.268 m (3.007 m within the displayed Trico crop). These depth definitions differ from the uniform-bed reference. Significant pooling remains unresolved; neither value is a roadway measurement.
+
+The first export incorrectly compared cubic-metre volumes with a metre-scale tolerance. The largest negative native cell volume was -0.04347 m3, equivalent to -0.00000435 m over a 100 m cell. The corrected check uses a 0.00001 m equivalent tolerance, records the observed roundoff, clamps only displayed negative depths, and retains raw volumes in the budget. Maximum total negative volume in any frame was 0.0512 m3. The solver was **not rerun** for this export correction. The GitHub job retains its original export-failure status; the completed native output and corrected local export are both preserved honestly.
+
+App artifact: `tools/sfincs/data/reach-geometry-result/inundation.json.gz`. It contains 97 hourly frames, explicit cell-average depth semantics, source provenance, native flow comparison, and unquantified uncertainty. Companion native maps/history, checks and run provenance are retained. The engine-retention blocker described in older entries below is resolved.
+
+---
+
 # Latest complete-rainfall reach result
 
 Run [41289685306](https://github.com/Godfather38/FLOODplain/actions/runs/41289685306), input commit `d68c194`, completed the 72-hour September 8-11 event with Stage IV rainfall and observed Cortaro inflow. Native solver time was **61.22 seconds**; total job time was **4 minutes 36 seconds**, including a redundant source rebuild. No subsequent rebuild was launched. Original baseline outputs are unchanged.

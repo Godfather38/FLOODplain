@@ -43,12 +43,14 @@ def export(root, target):
         applied_in=float(np.trapz(river,seconds))
         cell_area=case['grid']['dxM']*case['grid']['dyM']
         native_max_depth=float(depth.max())
+        subgrid_roundoff=None
         if case.get('geometryIntegration'):
             if ds.subgrid_volume.attrs.get('units')!='m3':
                 raise ValueError('Expected native subgrid cell volumes')
             cell_volume=ds.subgrid_volume.transpose('time',*dims).values
-            if not np.isfinite(cell_volume).all() or cell_volume.min() < -1e-5:
+            if not np.isfinite(cell_volume).all() or cell_volume.min() < -1e-5*cell_area:
                 raise ValueError('Invalid native subgrid volume')
+            subgrid_roundoff={'minimumRawCellVolumeM3':float(cell_volume.min()),'equivalentDepthToleranceM':1e-5,'maximumNegativeVolumeSumPerFrameM3':float((-np.minimum(cell_volume,0)).sum(axis=(1,2)).max()),'displayPolicy':'Clamp negative roundoff only; budget uses raw native volumes'}
             volume=cell_volume[:,1:-1,1:-1].sum(axis=(1,2),dtype=np.float64)
             depth=np.maximum(cell_volume,0)/cell_area
         else:
@@ -81,7 +83,7 @@ def export(root, target):
                     "modelPeakM3s":float(trico[peak_index]),"modelPeakTime":history[peak_index].isoformat(),
                     "observedPeakM3s":float(ov[observed_index]),"observedPeakTime":ot[observed_index].isoformat(),
                     "caveat":"Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"}
-        checks={"completed":True,"maximumDepthM":float(depth.max()),"nativeMaximumDepthAboveCellMinimumM":native_max_depth,"depthDefinition":case.get("geometryIntegration",{}).get("depthDefinition","uniform computational-cell depth"),"initialStorageM3":float(volume[0]),
+        checks={"completed":True,"subgridRoundoff":subgrid_roundoff,"maximumDepthM":float(depth.max()),"nativeMaximumDepthAboveCellMinimumM":native_max_depth,"depthDefinition":case.get("geometryIntegration",{}).get("depthDefinition","uniform computational-cell depth"),"initialStorageM3":float(volume[0]),
                 "finalStorageM3":float(volume[-1]),"nativeInflowIntegralM3":applied_in,
                 "nativeRainfallVolumeM3":rainfall_volume,"prescribedRainfallVolumeM3":case.get("rainfallVolumeM3"),
                 "prescribedInflowIntegralM3":case["prescribedInflowVolumeM3"],"nativeNetOutflowIntegralM3":net_out,
@@ -96,6 +98,8 @@ def export(root, target):
         checks["displayMaximumDepthM"]=float(depth[:,select].max())
         checks["hydraulicReadiness"]="requires_channel_geometry_and_rainfall_review"
         case["limitations"].append("Large modeled pooling in a deep DEM depression near 32.36185,-111.10363 needs reviewed channel/bank connectivity")
+        if case.get('geometryIntegration'):
+            case['limitations'].append('Displayed depth is a mean over each 100 m computational cell, derived from native water volume; it is not local channel or roadway depth')
         frame_flow=np.interp((times.asi8-history.asi8[0])/1e9,seconds,trico)
         run={"schemaVersion":1,"model":"SFINCS","kind":"inundation_scenario","status":"complete","crs":"EPSG:4326",
              "cells":[{"lon":float(a),"lat":float(b)} for a,b in zip(lon[select],lat[select])],

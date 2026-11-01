@@ -1,0 +1,49 @@
+{
+  "completed": true,
+  "subgridRoundoff": {
+    "minimumRawCellVolumeM3": -0.043467599898576736,
+    "equivalentDepthToleranceM": 1e-05,
+    "maximumNegativeVolumeSumPerFrameM3": 0.051184751093387604,
+    "displayPolicy": "Clamp negative roundoff only; budget uses raw native volumes"
+  },
+  "maximumDepthM": 25.268098831176758,
+  "nativeMaximumDepthAboveCellMinimumM": 29.6168212890625,
+  "depthDefinition": "cell-average water depth from native subgrid volume divided by full cell area",
+  "initialStorageM3": 1.1330277671917077e-06,
+  "finalStorageM3": 12812791.074455082,
+  "nativeInflowIntegralM3": 13277279.493473768,
+  "nativeRainfallVolumeM3": 11502125.269807875,
+  "prescribedRainfallVolumeM3": 11506375.499999998,
+  "prescribedInflowIntegralM3": 13276939.45543304,
+  "nativeNetOutflowIntegralM3": 11977106.25905768,
+  "storageBudgetResidualM3": -10492.570229986683,
+  "relativeBudgetResidual": -0.0004234391556303512,
+  "outflowIntegral60vs120SecondDifferenceM3": -4488.607254009694,
+  "budgetStatus": "approximate_flux_accounted",
+  "budgetMethod": "Native enclosing section flows integrated at 60-second output; interior-cell storage and native cumulative rainfall; no inferred outlet residual",
+  "huthreshM": 0.01,
+  "rainfallStatus": "complete_stage_iv_analysis",
+  "comparison": {
+    "siteId": "USGS-09486520",
+    "usedAsForcing": false,
+    "parameterFitting": false,
+    "sourceUrl": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09486520&parameter_code=00060&time=2014-09-07T07%3A00%3A00Z%2F2014-09-11T07%3A00%3A00Z&limit=1000",
+    "observedQuality": {
+      "approvalStatuses": [
+        "Approved"
+      ],
+      "qualifiedCount": 16,
+      "maxGapMinutes": 15
+    },
+    "evaluationStart": "2014-09-08T07:00:00+00:00",
+    "pairs": 289,
+    "rmseM3s": 62.990319150443696,
+    "modelPeakM3s": 96.72461700439453,
+    "modelPeakTime": "2014-09-09T07:24:00+00:00",
+    "observedPeakM3s": 339.802159104,
+    "observedPeakTime": "2014-09-09T06:45:00+00:00",
+    "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
+  },
+  "displayMaximumDepthM": 3.0072286128997803,
+  "hydraulicReadiness": "requires_channel_geometry_and_rainfall_review"
+}
