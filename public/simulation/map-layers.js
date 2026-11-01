@@ -55,23 +55,24 @@ export function mountFloodLayers(map,{routeLayer,streetTiles}){
  const screen=document.getElementById('screen');if(screen)new MutationObserver(syncDetails).observe(screen,{childList:true});window.addEventListener('hashchange',()=>setTimeout(syncDetails,0));
  async function change(){const requestId=sharedState.request({model:q('[data-model]').value,index,view:terrainView?.active?terrainView.viewMode:'flat'});try{if(q('[data-model]').value!=='off')await load();render(requestId)}catch(e){if(sharedState.isCurrent(requestId))renderFailure(e,requestId)}}
  q('[data-model]').onchange=change;q('[data-rain]').onchange=change;q('[data-flow]').onchange=change;q('[data-routes]').onchange=()=>{q('[data-routes]').checked?map.addLayer(routeLayer):map.removeLayer(routeLayer);render()};q('[data-time]').oninput=e=>{index=Number(e.target.value);try{render()}catch(error){renderFailure(error)}};q('[data-prev]').onclick=()=>step(-1);q('[data-next]').onclick=()=>step(1);function step(n){index=Math.max(windowStart,Math.min(windowEnd,index+n));q('[data-time]').value=index;try{render()}catch(e){renderFailure(e)}}q('[data-in]').onclick=()=>terrainView?.active?terrainView.zoom(1):map.zoomIn();q('[data-out]').onclick=()=>terrainView?.active?terrainView.zoom(-1):map.zoomOut();let originalBounds;map.whenReady(()=>{originalBounds=map.getBounds()});q('[data-home]').onclick=()=>{if(originalBounds)map.fitBounds(originalBounds)};q('[data-fit]').onclick=async()=>{try{await load();map.fitBounds(L.latLngBounds(loaded.run.cells.map(c=>[c.lat,c.lon])),{paddingTopLeft:window.innerWidth>=900&&document.body.classList.contains('panel-open')?[420,24]:[24,24],paddingBottomRight:[24,24]})}catch{}};let terrainView,selectedCell=null;
- let rendererLoading;
+ let rendererLoading,viewTransition=0,requestedView='flat';
+ function syncViewButton(){const is3d=terrainView?.active&&terrainView.viewMode==='3d';q('[data-3d]').textContent=is3d?'Flat map':'3D map';q('[data-3d]').setAttribute('aria-pressed',String(!!is3d))}
  async function ensureRenderer(){
-  if(terrainView){terrainView.show();return terrainView}
+  if(terrainView){await terrainView.ready;if(location.hash==='#/map')terrainView.show();return terrainView}
   if(rendererLoading)return rendererLoading;
   rendererLoading=(async()=>{await load();const {createGeographicView}=await import('./geographic-view.js');
-   terrainView=await createGeographicView({leaflet:map,loaded,get,footprints,routeLayer,sharedState,
+   terrainView=await createGeographicView({leaflet:map,loaded,get,footprints,routeLayer,sharedState,initialView:'flat',
     onSelectCell:i=>{selectedCell=i;sharedState.select({kind:'cell',cellIndex:i})},
     onStatus:s=>{if(s.status==='error')q('[data-status]').textContent='Geographic map unavailable: '+(s.message??'source error')},
     onError:message=>{q('[data-status]').textContent=message;notifyRender({status:'error',message})}});
-   await terrainView.ready;terrainView.setViewMode('flat');
+   await terrainView.ready;await terrainView.setViewMode('flat');syncViewButton();
    if(location.hash!=='#/map')terrainView.hide();return terrainView;
   })().catch(e=>{rendererLoading=null;terrainView?.dispose();terrainView=null;throw e});return rendererLoading;
  }
- async function enterMap(){if(location.hash!=='#/map')return;try{notifyRender({status:'loading',message:'Loading geographic map and retained model.'});await ensureRenderer();if(location.hash!=='#/map')return;if(q('[data-model]').value==='off')q('[data-model]').value='aggregate';render()}catch(e){renderFailure(e)}}
- async function toggle3d(){const button=q('[data-3d]');try{button.disabled=true;await ensureRenderer();const next=terrainView.viewMode==='3d'?'flat':'3d';terrainView.setViewMode(next);button.textContent=next==='3d'?'Flat map':'3D map';button.setAttribute('aria-pressed',String(next==='3d'));render();document.querySelector('.map-sheet [data-close]')?.click()}catch(e){renderFailure(e)}finally{button.disabled=false}}
+ async function enterMap(){if(location.hash!=='#/map')return;const transition=++viewTransition;requestedView='flat';try{notifyRender({status:'loading',message:'Loading flat geographic map and retained model.'});await ensureRenderer();if(transition!==viewTransition||location.hash!=='#/map')return;await terrainView.setViewMode('flat');syncViewButton();if(q('[data-model]').value==='off')q('[data-model]').value='aggregate';render()}catch(e){if(transition===viewTransition)renderFailure(e)}}
+ async function toggle3d(){const button=q('[data-3d]'),transition=++viewTransition;try{button.disabled=true;await ensureRenderer();if(location.hash!=='#/map'||transition!==viewTransition)return;const next=terrainView.viewMode==='3d'?'flat':'3d';requestedView=next;button.textContent=next==='3d'?'Loading 3D…':'Switching to flat…';await terrainView.setViewMode(next);if(location.hash!=='#/map'||transition!==viewTransition){await terrainView.setViewMode(requestedView);if(location.hash!=='#/map')terrainView.hide();return}syncViewButton();render();document.querySelector('.map-sheet [data-close]')?.click()}catch(e){if(transition===viewTransition){await terrainView?.setViewMode('flat');syncViewButton();renderFailure(e)}}finally{button.disabled=false}}
  q('[data-3d]').onclick=toggle3d;
- window.addEventListener('flood-exit-3d',()=>{if(terrainView?.active){terrainView.hide();render()}});
+ window.addEventListener('flood-exit-3d',()=>{++viewTransition;requestedView='flat';if(terrainView?.active){terrainView.hide();Promise.resolve(terrainView.setViewMode('flat')).catch(()=>{});syncViewButton();render()}});
  window.addEventListener('hashchange',()=>{if(location.hash==='#/map')enterMap()});
  mountMapShell(host,map,{load,findWater,sharedState,state:()=>({frames:loaded?.run?.frames??[],start:windowStart,end:windowEnd??0}),applyWindow:(start,end)=>{sharedState.setRange(start,end);windowStart=start;windowEnd=end;index=Math.max(start,Math.min(end,index));q('[data-time]').min=start;q('[data-time]').max=end;q('[data-time]').value=index;const labels=document.querySelector('.flood-time-ends');labels.textContent='Selected window: '+(end-start)+' hours · hourly frames';if(q('[data-model]').value==='off'){q('[data-model]').value='aggregate';q('[data-model]').dispatchEvent(new Event('change'))}else render()}});
  if(location.hash==='#/map')enterMap();
