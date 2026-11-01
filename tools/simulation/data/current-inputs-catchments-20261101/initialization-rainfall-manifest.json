@@ -33,6 +33,18 @@
       "sha256": "66df7591848fb86dee8aa3d60b4ccbb39628916aa0b274237901432466f7e552",
       "bytes": 275797
     },
+    "resolved-analysis-metadata.json": {
+      "sha256": "f3f9f0a393d765bca442fe79ee5cb21360a840b8173ef5e8466055cef95c5d69",
+      "bytes": 223221
+    },
+    "resolved-analysis-precipitation.nc": {
+      "sha256": "2bd3f767330489e571aff247e3ee5363228bbad49008ed6664894e27fc766498",
+      "bytes": 511125
+    },
+    "raw/MRMS_MultiSensor_QPE_01H_Pass2_00.00_20261101-130000.grib2.gz": {
+      "sha256": "2a1fd770a4f40fdbfea2ad571388c6884e4d4fcc584f0a278883e6d3562bdb46",
+      "bytes": 981712
+    },
     "raw/ST4.2026103017.01h.grib": {
       "sha256": "97b9cdf98093a454528bb184f968507aed172463052f3cc1fa0fb2b0d773109c",
       "bytes": 237746
@@ -216,6 +228,35 @@
     "raw/ST4.2026110114.01h.grib": {
       "sha256": "09ad3e58fb08ea761aa6ba10a202b54c8b76ea203883e1a699c5db1ab8a71ce7",
       "bytes": 319271
+    },
+    "raw/UserTable_MRMS_v12.2.csv": {
+      "sha256": "ce73a09305c90a329c1087a6e7519e54e29d7885518b9a687f676ccb1fbc2738",
+      "bytes": 15476
     }
+  },
+  "resolvedAnalysis": {
+    "schemaVersion": 1,
+    "status": "complete",
+    "dataRole": "observation_based_analysis_mixed_sources",
+    "file": "resolved-analysis-precipitation.nc",
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-01T14:00:00Z",
+    "intervalSeconds": 3600,
+    "units": "mm/h",
+    "issuedAt": null,
+    "createdAt": "2026-11-01T16:24:02.884292+00:00",
+    "missingCellHours": 0,
+    "replacementRangeMm": [
+      0.0,
+      0.8
+    ],
+    "originalStageIV": "analysis-precipitation.nc",
+    "forecastTransition": "forecast-transition-precipitation.nc",
+    "limitations": [
+      "Stage IV and MRMS are distinct observation-based estimates; this substitution is explicit, not homogeneous product history.",
+      "A zero value is decoded source evidence, not gap filling.",
+      "Original Stage IV missing interval remains immutable.",
+      "Forecast transition remains separate; no initialized hydraulic state is claimed."
+    ]
   }
 }

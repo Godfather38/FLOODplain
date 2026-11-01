@@ -80,8 +80,8 @@
   },
   "initializationRainfall": {
     "manifest": "initialization-rainfall-manifest.json",
-    "sha256": "9cd3cae2b5e502d59b43a6147c26f10207f760e05453cea4d27830dabbf55940",
-    "status": "insufficient_data",
-    "note": "One native-masked hour; see manifest. Forecast package unchanged."
+    "sha256": "eb25cf20c4b8b1a0ef40dbeca63d7105fe4ade342d2d27e1848eaa190796d961",
+    "status": "complete_with_explicit_source_substitution",
+    "note": "Use resolved-analysis-precipitation.nc; original Stage IV gap retained. HRRR transition remains separate."
   }
 }
