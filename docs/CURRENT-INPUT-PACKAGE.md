@@ -49,3 +49,33 @@ For local inspection: `python tools/simulation/current_inputs.py tools/simulatio
 This closes current precipitation acquisition and the discovered inlet's data transport, not the whole hydraulic forecast. Registry owner must finish full inlet/network coverage, provider network-version crosswalk and disjoint contributing-area/rainfall accounting. Current professional geometry/structures, specified losses and compatible initial state remain required by that model. No default zero inflow, guessed structures, old2015 current terrain or invented runoff model was supplied. Recheck issue age at future use; this is an immutable acquired snapshot, not permanently live data. No accuracy margin follows from successful acquisition.
 
 Sources: [NOAA HRRR](https://rapidrefresh.noaa.gov/hrrr/), [NCEP system documentation](https://www.emc.ncep.noaa.gov/emc/pages/numerical_forecast_systems/hrrr.php), [NOAA Open Data distribution and public reuse terms](https://registry.opendata.aws/noaa-hrrr-pds/), [NWPS API](https://water.noaa.gov/about/api). ecCodes performs standard GRIB decoding; no custom weather model or hand-written GRIB decoder was introduced.
+
+## Full 29-inlet package (latest handoff)
+
+Use **`tools/simulation/data/current-inputs-full-20261101/manifest.json`** for solver registry **`91fd540`**. The original single-inlet package remains unchanged.
+
+All **29/29** registry reaches returned actual NWM short-range series, all from the same **2026-11-01 13:00 UTC** issue. Snapshot completed **15:56:29.507 UTC**. Each has the same 16 native timestamps, **November1 16:00 through November2 07:00 UTC**, in m³/s. None is missing; no unavailable series became zero. Requests used three concurrent workers. The previously acquired inlet15902419 raw response was reused because its cycle matched. Raw response bodies, retrieval times and hashes are retained.
+
+**No HRRR redownload:** rainfall JSON, provenance and all 18 original precipitation messages are byte-identical to the original package. The final NetCDF still contains the common15 hourly intervals and covers the full registry domain. `boundary-snapshot.json` and the supplied full registry now contain all29 inlets.
+
+### Initialization inputs actually available
+
+`analysis-history.json` retains the real `analysis_assimilation` endpoint response for every inlet, with units converted to m³/s and no missing-value fill:
+
+- 29/29 series available,47–48 hourly readings each, maximum gap1hour.
+- Common overlap: **2026-10-30 16:00 through2026-11-01 14:00 UTC** (46hours between endpoints).
+- API top-level `referenceTime` is **2026-11-01 11:00 UTC**. The endpoint returns rolling history with later valid timestamps; it does not provide a separate model issue for each historical point. Both fields are retained rather than treating every point as one11Z issuance.
+- This is assimilated **model analysis**, not direct gauge observations or an initialized hydraulic state.
+
+There are two hours between the common analysis endpoint and the requested forecast start. `initialization-context.json` separately supplies actual native13Z forecast values at **14Z,15Z,16Z for all29 reaches**. They were recovered from the already downloaded raw forecast responses, not interpolated or downloaded again. Analysis and forecast lead-in remain separate; the solver owner must document the transition and warmup rather than silently stitching inconsistent source roles. No claim of hydraulic equilibrium is made.
+
+### Repeat the boundary extension without fetching rain again
+
+Copy an issued package to a new output directory and place the solver owner's exact full registry at `boundary-registry.json`, then:
+
+```text
+node tools/simulation/extend-current-boundaries.mjs <new-output-directory>
+python tools/simulation/finalize_current_inputs.py <new-output-directory>
+```
+
+The extension checks a common forecast cycle and exact native timestamp coverage, writes explicit unavailable records if a source fails, and keeps initialization history separate. The finalizer refuses incomplete boundary snapshots and verifies registry/series identity before exporting the existing solver contract. It does not change topology, build a model or execute SFINCS. Verified: all29 series, exact time grids, source/package hashes, unchanged HRRR bytes and full-domain precipitation coverage.

@@ -1,0 +1,539 @@
+{
+  "schemaVersion": 1,
+  "kind": "current_boundary_registry",
+  "crs": "EPSG:32612",
+  "bounds": [
+    467000.0,
+    3577000.0,
+    493500.0,
+    3596000.0
+  ],
+  "sources": [
+    {
+      "sourceId": 1,
+      "x": 484106.2567317493,
+      "y": 3577000.99999927,
+      "reachId": "15876773",
+      "downstreamReachIds": [
+        "15876773",
+        "15876687"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095631",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 2,
+      "x": 484471.7597228327,
+      "y": 3577000.999218883,
+      "reachId": "15876759",
+      "downstreamReachIds": [
+        "15876759",
+        "15876689",
+        "15876687"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095634",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 3,
+      "x": 492435.9947337757,
+      "y": 3577000.74558305,
+      "reachId": "15902447",
+      "downstreamReachIds": [
+        "15902447",
+        "15902413",
+        "15902409",
+        "15903137",
+        "15902363",
+        "15890430",
+        "15886600"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720094859",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 4,
+      "x": 490950.61549270793,
+      "y": 3577000.634813052,
+      "reachId": "15902431",
+      "downstreamReachIds": [
+        "15902431",
+        "15902411",
+        "15903137",
+        "15902363",
+        "15890430",
+        "15886600"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720094862",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 5,
+      "x": 489843.72839950735,
+      "y": 3577000.517312925,
+      "reachId": "15902429",
+      "downstreamReachIds": [
+        "15902429",
+        "15902411",
+        "15903137",
+        "15902363",
+        "15890430",
+        "15886600"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720059208",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 6,
+      "x": 485295.18279627094,
+      "y": 3577000.814419217,
+      "reachId": "15876715",
+      "downstreamReachIds": [
+        "15876715",
+        "15876689",
+        "15876687"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095639",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 7,
+      "x": 492036.67491286865,
+      "y": 3577000.925956403,
+      "reachId": "15902439",
+      "downstreamReachIds": [
+        "15902439",
+        "15902409",
+        "15903137",
+        "15902363",
+        "15890430",
+        "15886600"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720094861",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 8,
+      "x": 492809.70716909564,
+      "y": 3577000.226037805,
+      "reachId": "15902419",
+      "downstreamReachIds": [
+        "15902419",
+        "15902413",
+        "15902409",
+        "15903137",
+        "15902363",
+        "15890430",
+        "15886600"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720003850",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 9,
+      "x": 493499.01070005796,
+      "y": 3581158.739157717,
+      "reachId": "15902375",
+      "downstreamReachIds": [
+        "15902375"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720059210",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 10,
+      "x": 493499.20170213503,
+      "y": 3584492.781255758,
+      "reachId": "15902361",
+      "downstreamReachIds": [
+        "15902361",
+        "15902363",
+        "15890430",
+        "15886600"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720094865",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 11,
+      "x": 493499.5005308019,
+      "y": 3586621.6830405863,
+      "reachId": "15902351",
+      "downstreamReachIds": [
+        "15902351",
+        "15890430",
+        "15886600"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720094868",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 12,
+      "x": 493499.1829852075,
+      "y": 3593699.0212768125,
+      "reachId": "15889800",
+      "downstreamReachIds": [
+        "15889800",
+        "15889840"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095190",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 13,
+      "x": 493499.00400823506,
+      "y": 3595118.8888400365,
+      "reachId": "15889750",
+      "downstreamReachIds": [
+        "15889750",
+        "15890422",
+        "15889840"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720030550",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 14,
+      "x": 490198.856236886,
+      "y": 3595999.3330798093,
+      "reachId": "15886616",
+      "downstreamReachIds": [
+        "15886616",
+        "15889764",
+        "15889762",
+        "15889770",
+        "15889810"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095194",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 15,
+      "x": 487945.02740137227,
+      "y": 3595999.038879463,
+      "reachId": "15886614",
+      "downstreamReachIds": [
+        "15886614",
+        "15889760",
+        "15889762",
+        "15889770",
+        "15889810"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095195",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 16,
+      "x": 485089.4000372698,
+      "y": 3595999.1280742344,
+      "reachId": "15886610",
+      "downstreamReachIds": [
+        "15886610",
+        "15889766",
+        "15889810"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720025600",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 17,
+      "x": 483000.42518506164,
+      "y": 3595999.000000611,
+      "reachId": "15886608",
+      "downstreamReachIds": [
+        "15886608",
+        "15889788",
+        "945050090"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720023796",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 18,
+      "x": 481957.72202380735,
+      "y": 3577000.9383232296,
+      "reachId": "15876777",
+      "downstreamReachIds": [
+        "15876777",
+        "15876665",
+        "15876667"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095630",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 19,
+      "x": 481026.6762361822,
+      "y": 3577000.7802153076,
+      "reachId": "15876737",
+      "downstreamReachIds": [
+        "15876737",
+        "15876665",
+        "15876667"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095636",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 20,
+      "x": 473586.1098558214,
+      "y": 3577000.9921294493,
+      "reachId": "15876711",
+      "downstreamReachIds": [
+        "15876711",
+        "945050510",
+        "945050512",
+        "945050511",
+        "15876595",
+        "15876593",
+        "15876585",
+        "15876581",
+        "15874319"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720005734",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 21,
+      "x": 471934.3921923026,
+      "y": 3577000.9516135696,
+      "reachId": "15876707",
+      "downstreamReachIds": [
+        "15876707",
+        "945050510",
+        "945050512",
+        "945050511",
+        "15876595",
+        "15876593",
+        "15876585",
+        "15876581",
+        "15874319"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095641",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 22,
+      "x": 480220.3520422495,
+      "y": 3577000.4239311237,
+      "reachId": "15876697",
+      "downstreamReachIds": [
+        "15876697",
+        "15876667"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095645",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 23,
+      "x": 467000.1892155998,
+      "y": 3580147.7908580555,
+      "reachId": "945050513",
+      "downstreamReachIds": [
+        "945050513",
+        "15876661",
+        "15876639",
+        "15876633",
+        "15876625",
+        "15876621",
+        "15876605",
+        "15876595",
+        "15876593",
+        "15876585",
+        "15876581",
+        "15874319"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720028208",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 24,
+      "x": 467000.93793187244,
+      "y": 3580592.2977305455,
+      "reachId": "15876663",
+      "downstreamReachIds": [
+        "15876663",
+        "15876661",
+        "15876639",
+        "15876633",
+        "15876625",
+        "15876621",
+        "15876605",
+        "15876595",
+        "15876593",
+        "15876585",
+        "15876581",
+        "15874319"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095652",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 25,
+      "x": 467000.7210070396,
+      "y": 3583773.6521180654,
+      "reachId": "15876653",
+      "downstreamReachIds": [
+        "15876653",
+        "15876633",
+        "15876625",
+        "15876621",
+        "15876605",
+        "15876595",
+        "15876593",
+        "15876585",
+        "15876581",
+        "15874319"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095654",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 26,
+      "x": 467000.96894301445,
+      "y": 3585877.164996771,
+      "reachId": "15876641",
+      "downstreamReachIds": [
+        "15876641",
+        "15876625",
+        "15876621",
+        "15876605",
+        "15876595",
+        "15876593",
+        "15876585",
+        "15876581",
+        "15874319"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095657",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 27,
+      "x": 467000.99678303365,
+      "y": 3587133.0632843697,
+      "reachId": "15876623",
+      "downstreamReachIds": [
+        "15876623",
+        "15876621",
+        "15876605",
+        "15876595",
+        "15876593",
+        "15876585",
+        "15876581",
+        "15874319"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720034176",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 28,
+      "x": 467000.7261394494,
+      "y": 3588935.5916385604,
+      "reachId": "15876613",
+      "downstreamReachIds": [
+        "15876613",
+        "15876605",
+        "15876595",
+        "15876593",
+        "15876585",
+        "15876581",
+        "15874319"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720034177",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    },
+    {
+      "sourceId": 29,
+      "x": 467000.7390051426,
+      "y": 3592265.8265976124,
+      "reachId": "15876627",
+      "downstreamReachIds": [
+        "15876627",
+        "15876593",
+        "15876585",
+        "15876581",
+        "15874319"
+      ],
+      "forecastCrosswalk": "USGS NHDPlusV2 COMID; confirm provider network version",
+      "accountingStatus": "needs_contributing_area_partition",
+      "topologyId": "720095661",
+      "topologyIdKind": "NHDPlusV2 hydroseq"
+    }
+  ],
+  "directionChecks": 113,
+  "topologyArtifacts": [
+    {
+      "path": "tools/sfincs/data/current-network/network-page1.geojson",
+      "sha256": "c4666b1d8536ff7c58491ca9045710d95d4a608b87e98f274aa4b5ff5a58110b"
+    }
+  ],
+  "method": "HydroMT-SFINCS river_source_points; published downstream-link direction checks",
+  "selectionBufferM": 2,
+  "selectionReason": "Keep native boundary-crossing reach; avoid default 200m relocation to another cumulative reach",
+  "networkCoverage": "USGS NHDPlusV2 complete returned bounding-box network",
+  "domainInletCoverageVerified": false,
+  "duplicateReachSources": false,
+  "physicalRunReady": false,
+  "requiredChecks": [
+    "Complete domain inlet coverage",
+    "Provider reach-version crosswalk",
+    "Disjoint contributing-area/rainfall partition",
+    "Professional model geometry, losses, structures and initial state"
+  ]
+}

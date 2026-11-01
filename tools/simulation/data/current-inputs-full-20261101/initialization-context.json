@@ -1,0 +1,850 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-11-01T15:56:29.507Z",
+  "analysisHistoryFile": "analysis-history.json",
+  "commonAnalysisEnd": "2026-11-01T14:00:00.000Z",
+  "forecastStart": "2026-11-01T16:00:00.000Z",
+  "forecastLeadInSeries": [
+    {
+      "reachId": "15876773",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:25.153Z",
+      "sourceArtifact": {
+        "reachId": "15876773",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876773/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876773-866295eb61115d096c986760cc15c58479aafa63e53234112ddc213347e4e989.json",
+        "sha256": "866295eb61115d096c986760cc15c58479aafa63e53234112ddc213347e4e989",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.153Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876759",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:25.152Z",
+      "sourceArtifact": {
+        "reachId": "15876759",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876759/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876759-495342ed515c3c7c9ceffe46e5dbb6a434d4bcbdb2f2a304fc8de6fc4f1d74dd.json",
+        "sha256": "495342ed515c3c7c9ceffe46e5dbb6a434d4bcbdb2f2a304fc8de6fc4f1d74dd",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.152Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15902447",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:25.176Z",
+      "sourceArtifact": {
+        "reachId": "15902447",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902447/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15902447-248731516b518a7290f78623c2b08c4709dde875991e116428af0888804daacc.json",
+        "sha256": "248731516b518a7290f78623c2b08c4709dde875991e116428af0888804daacc",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.176Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15902431",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:25.408Z",
+      "sourceArtifact": {
+        "reachId": "15902431",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902431/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15902431-8d5ffed033d8b38979ad0f4d5829521df2811f4ae076a04d70a7484178587e86.json",
+        "sha256": "8d5ffed033d8b38979ad0f4d5829521df2811f4ae076a04d70a7484178587e86",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.408Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15902429",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:25.270Z",
+      "sourceArtifact": {
+        "reachId": "15902429",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902429/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15902429-6f315848630fd274815402093fd83ebfdd0bf21d4d2fee6942cb52ff05e6d08d.json",
+        "sha256": "6f315848630fd274815402093fd83ebfdd0bf21d4d2fee6942cb52ff05e6d08d",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.270Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876715",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:25.979Z",
+      "sourceArtifact": {
+        "reachId": "15876715",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876715/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876715-1fff570140ae1937b29569e327726db5117e160b7b6b02e0b2911d20b78481f9.json",
+        "sha256": "1fff570140ae1937b29569e327726db5117e160b7b6b02e0b2911d20b78481f9",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.979Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15902439",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:26.041Z",
+      "sourceArtifact": {
+        "reachId": "15902439",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902439/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15902439-eac256527b589e9512eaf301191ff699ba906e3ef35d1616658e19360f581850.json",
+        "sha256": "eac256527b589e9512eaf301191ff699ba906e3ef35d1616658e19360f581850",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:26.041Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15902419",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:36:53.028Z",
+      "sourceArtifact": {
+        "reachId": "15902419",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902419/streamflow?series=short_range",
+        "rawFile": "raw/boundary-15902419-fe133f18fb443274c087d1eae702c2e192d9ed71eb607bea13b5f595f467b802.json",
+        "sha256": "fe133f18fb443274c087d1eae702c2e192d9ed71eb607bea13b5f595f467b802",
+        "retrievedAt": "2026-11-01T15:36:53.028Z",
+        "delivery": "existing_raw_cache"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 8.499867357590157
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 6.769991735065055
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 6.26000505141143
+        }
+      ]
+    },
+    {
+      "reachId": "15902375",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:25.531Z",
+      "sourceArtifact": {
+        "reachId": "15902375",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902375/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15902375-41cd8f3112276f14457a0856474fb349851468698d2374162608bf10b4d26856.json",
+        "sha256": "41cd8f3112276f14457a0856474fb349851468698d2374162608bf10b4d26856",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.531Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.009910896138418442
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.009910896138418442
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.009910896138418442
+        }
+      ]
+    },
+    {
+      "reachId": "15902361",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:25.628Z",
+      "sourceArtifact": {
+        "reachId": "15902361",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902361/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15902361-13562bea7314d8958b1f60d0f5efc1fe23970923b0daae1dec7ace3b86346f58.json",
+        "sha256": "13562bea7314d8958b1f60d0f5efc1fe23970923b0daae1dec7ace3b86346f58",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.628Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15902351",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:25.713Z",
+      "sourceArtifact": {
+        "reachId": "15902351",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902351/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15902351-1fdf3b9c2755ea1b03284260f35cf6773e4e41a7519db01f584c9f58308fc1d6.json",
+        "sha256": "1fdf3b9c2755ea1b03284260f35cf6773e4e41a7519db01f584c9f58308fc1d6",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.713Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15889800",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:25.813Z",
+      "sourceArtifact": {
+        "reachId": "15889800",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15889800/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15889800-ea521f9f3c6f3447efb8154c246bce89bc1a483e592cd45552f25f0363ca5574.json",
+        "sha256": "ea521f9f3c6f3447efb8154c246bce89bc1a483e592cd45552f25f0363ca5574",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.813Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15889750",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:25.917Z",
+      "sourceArtifact": {
+        "reachId": "15889750",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15889750/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15889750-5143331aaf4fc7b1162b90e9c5e3686642439a7724543b88d5523768808c5d1e.json",
+        "sha256": "5143331aaf4fc7b1162b90e9c5e3686642439a7724543b88d5523768808c5d1e",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.917Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15886616",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:26.041Z",
+      "sourceArtifact": {
+        "reachId": "15886616",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15886616/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15886616-ad4cde69c6f41d47aa9a2e840344b2faa58870fc56b232770afb3e0261721169.json",
+        "sha256": "ad4cde69c6f41d47aa9a2e840344b2faa58870fc56b232770afb3e0261721169",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:26.041Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15886614",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:26.949Z",
+      "sourceArtifact": {
+        "reachId": "15886614",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15886614/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15886614-049df0114a4c8f5b08e5aa5f477c7b3f39c776ae9acfb01265522aff2bef4dd3.json",
+        "sha256": "049df0114a4c8f5b08e5aa5f477c7b3f39c776ae9acfb01265522aff2bef4dd3",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:26.949Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15886610",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:26.687Z",
+      "sourceArtifact": {
+        "reachId": "15886610",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15886610/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15886610-a10841c2c9e505c5d7fd3b7669f105a35c0aecbb5b17ea9eccac54227d157d76.json",
+        "sha256": "a10841c2c9e505c5d7fd3b7669f105a35c0aecbb5b17ea9eccac54227d157d76",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:26.687Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.09995846765960853
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.09995846765960853
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.10986936126630359
+        }
+      ]
+    },
+    {
+      "reachId": "15886608",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:26.151Z",
+      "sourceArtifact": {
+        "reachId": "15886608",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15886608/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15886608-6794baa9d5956fd9bf467159170fc5392ea0940c4c65a14f90aa0b5494b4bd32.json",
+        "sha256": "6794baa9d5956fd9bf467159170fc5392ea0940c4c65a14f90aa0b5494b4bd32",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:26.151Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.13988522378478296
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.12006342306886816
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.12006342306886816
+        }
+      ]
+    },
+    {
+      "reachId": "15876777",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:26.259Z",
+      "sourceArtifact": {
+        "reachId": "15876777",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876777/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876777-1df1b6780e8975bef2364657883498510323997cf4633187e03541dc8fa6cb62.json",
+        "sha256": "1df1b6780e8975bef2364657883498510323997cf4633187e03541dc8fa6cb62",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:26.259Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876737",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:27.049Z",
+      "sourceArtifact": {
+        "reachId": "15876737",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876737/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876737-63fa95c67fec5dad55c733320258f57cb3e56cb9559bef4f4a9afe8cd2404fba.json",
+        "sha256": "63fa95c67fec5dad55c733320258f57cb3e56cb9559bef4f4a9afe8cd2404fba",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:27.049Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876711",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:26.793Z",
+      "sourceArtifact": {
+        "reachId": "15876711",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876711/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876711-d466855b4bf9bb804a2b86be27cea09253487ff974792d2c0f946073604c45b8.json",
+        "sha256": "d466855b4bf9bb804a2b86be27cea09253487ff974792d2c0f946073604c45b8",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:26.793Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.2698595404603462
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.2698595404603462
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.2698595404603462
+        }
+      ]
+    },
+    {
+      "reachId": "15876707",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:26.881Z",
+      "sourceArtifact": {
+        "reachId": "15876707",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876707/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876707-87a78c20b3160ac417c5319f24caf5be2978dc40ada70aca1dd63f09c44ef9ac.json",
+        "sha256": "87a78c20b3160ac417c5319f24caf5be2978dc40ada70aca1dd63f09c44ef9ac",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:26.881Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876697",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:26.987Z",
+      "sourceArtifact": {
+        "reachId": "15876697",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876697/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876697-1c4d378abc57f5561eeb714795937f88c443b03c48fedb6e20b53cded8939dec.json",
+        "sha256": "1c4d378abc57f5561eeb714795937f88c443b03c48fedb6e20b53cded8939dec",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:26.987Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "945050513",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:27.193Z",
+      "sourceArtifact": {
+        "reachId": "945050513",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/945050513/streamflow?series=short_range",
+        "rawFile": "raw/short_range-945050513-7f2178a24be932e1a1e2807ecbc33deeba62728d8489d075dc454c61fbadbbea.json",
+        "sha256": "7f2178a24be932e1a1e2807ecbc33deeba62728d8489d075dc454c61fbadbbea",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:27.193Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876663",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:27.084Z",
+      "sourceArtifact": {
+        "reachId": "15876663",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876663/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876663-7078a3846653adcdc717680699e30bb879780eb3c1d462beee1ed99d7feea89e.json",
+        "sha256": "7078a3846653adcdc717680699e30bb879780eb3c1d462beee1ed99d7feea89e",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:27.084Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876653",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:27.144Z",
+      "sourceArtifact": {
+        "reachId": "15876653",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876653/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876653-3633d84b01bfb9e4b2558ce34ff4eb0410cdc19bdb0ab3eca283ddaa4762fa2b.json",
+        "sha256": "3633d84b01bfb9e4b2558ce34ff4eb0410cdc19bdb0ab3eca283ddaa4762fa2b",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:27.144Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876641",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:27.192Z",
+      "sourceArtifact": {
+        "reachId": "15876641",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876641/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876641-69ff90aebcca766f7c3e1300233132df877a0a637f5357ccc5e55fd466ff8fce.json",
+        "sha256": "69ff90aebcca766f7c3e1300233132df877a0a637f5357ccc5e55fd466ff8fce",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:27.192Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876623",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:27.830Z",
+      "sourceArtifact": {
+        "reachId": "15876623",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876623/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876623-04744adc75e60b48f561e4096d5b0df6f21f76e01cb25e14720e795bc514d3e7.json",
+        "sha256": "04744adc75e60b48f561e4096d5b0df6f21f76e01cb25e14720e795bc514d3e7",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:27.830Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876613",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:27.789Z",
+      "sourceArtifact": {
+        "reachId": "15876613",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876613/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876613-f208808b02524654053384b5095c42dfbd2d701e53f8728ab54e05c777a46102.json",
+        "sha256": "f208808b02524654053384b5095c42dfbd2d701e53f8728ab54e05c777a46102",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:27.789Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876627",
+      "dataRole": "forecast_not_analysis",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "retrievedAt": "2026-11-01T15:56:27.303Z",
+      "sourceArtifact": {
+        "reachId": "15876627",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15876627/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15876627-11924234bb60780d5b3e43e4cd403d6ef3a774d0dc8c9da3d02a40870eaeb30f.json",
+        "sha256": "11924234bb60780d5b3e43e4cd403d6ef3a774d0dc8c9da3d02a40870eaeb30f",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:27.303Z",
+        "delivery": "network"
+      },
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    }
+  ],
+  "interpretation": "Separate published forecast points covering the analysis-to-run lead-in. Not interpolated, not automatically stitched to analyses, not an initialized hydraulic state. Solver owner must document its chosen transition and warmup."
+}

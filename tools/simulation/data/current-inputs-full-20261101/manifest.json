@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "kind": "current_forcing_package",
+  "status": "forcing_contract_ready_physical_setup_pending",
+  "asOf": "2026-11-01T15:56:29.507Z",
+  "bounds": [
+    -111.37,
+    32.31,
+    -111.05,
+    32.52
+  ],
+  "rainfallCycle": "2026-11-01T14:00:00Z",
+  "candidateWindow": {
+    "start": "2026-11-01T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "basis": "Exact verified inlet native timestamps intersected with complete HRRR accumulation intervals"
+  },
+  "rainfallFile": "rainfall.json",
+  "providerFile": "providers.json",
+  "rainfallComplete": true,
+  "sourceIssuePolicy": "Issues are bounded by issueCutoffAt; asOf is completed source acquisition, after every retained retrieval. Individual provider issue times remain distinct.",
+  "inletAssignments": [
+    {
+      "sourceId": 1,
+      "reachId": "15876773"
+    },
+    {
+      "sourceId": 2,
+      "reachId": "15876759"
+    },
+    {
+      "sourceId": 3,
+      "reachId": "15902447"
+    },
+    {
+      "sourceId": 4,
+      "reachId": "15902431"
+    },
+    {
+      "sourceId": 5,
+      "reachId": "15902429"
+    },
+    {
+      "sourceId": 6,
+      "reachId": "15876715"
+    },
+    {
+      "sourceId": 7,
+      "reachId": "15902439"
+    },
+    {
+      "sourceId": 8,
+      "reachId": "15902419"
+    },
+    {
+      "sourceId": 9,
+      "reachId": "15902375"
+    },
+    {
+      "sourceId": 10,
+      "reachId": "15902361"
+    },
+    {
+      "sourceId": 11,
+      "reachId": "15902351"
+    },
+    {
+      "sourceId": 12,
+      "reachId": "15889800"
+    },
+    {
+      "sourceId": 13,
+      "reachId": "15889750"
+    },
+    {
+      "sourceId": 14,
+      "reachId": "15886616"
+    },
+    {
+      "sourceId": 15,
+      "reachId": "15886614"
+    },
+    {
+      "sourceId": 16,
+      "reachId": "15886610"
+    },
+    {
+      "sourceId": 17,
+      "reachId": "15886608"
+    },
+    {
+      "sourceId": 18,
+      "reachId": "15876777"
+    },
+    {
+      "sourceId": 19,
+      "reachId": "15876737"
+    },
+    {
+      "sourceId": 20,
+      "reachId": "15876711"
+    },
+    {
+      "sourceId": 21,
+      "reachId": "15876707"
+    },
+    {
+      "sourceId": 22,
+      "reachId": "15876697"
+    },
+    {
+      "sourceId": 23,
+      "reachId": "945050513"
+    },
+    {
+      "sourceId": 24,
+      "reachId": "15876663"
+    },
+    {
+      "sourceId": 25,
+      "reachId": "15876653"
+    },
+    {
+      "sourceId": 26,
+      "reachId": "15876641"
+    },
+    {
+      "sourceId": 27,
+      "reachId": "15876623"
+    },
+    {
+      "sourceId": 28,
+      "reachId": "15876613"
+    },
+    {
+      "sourceId": 29,
+      "reachId": "15876627"
+    }
+  ],
+  "dependencies": [
+    "Solver owner retains full-inlet coverage and provider network-version verification.",
+    "Disjoint contributing areas/rainfall accounting, professional geometry/structures, losses and initial state remain explicit physical dependencies.",
+    "No solver run executed; immutable snapshots require freshness rechecking before a later current run."
+  ],
+  "files": {
+    "analysis-history.json": "2dc02508a7f3d8058aa2649e068343963e66ae543d2d67b1a7c7f41b4cf50b29",
+    "boundary-registry.json": "e0c9838013cfca384628f90b452ada0d081f7af6e79ba8e74098ca8e93b5a37a",
+    "boundary-snapshot.json": "d2c3d3b2b6ac60111a42268a8df7bcc6975fe6e94b8ab0ba50d751c45fe01227",
+    "initialization-context.json": "c30712c14f0f222d629f50a72afdcb988ea01493c3e9029f8c040b0578d18445",
+    "precipitation-metadata.json": "fe3d9ea913caee780a7a4b8fb54799c461f837bc9ed9d470b58ff6910bdb6d29",
+    "precipitation.nc": "9cd151fff375ad9f0c1aa000ab3260c50b36972c2c87d601f1b13363470cd877",
+    "providers.json": "9269fd038b02a294170bbf368e380357af83eff014faf407a7c4afabcc631bc4",
+    "rainfall-provenance.json": "21242c80657db3e196d72a16afd089c96be0b3e306c8391891a76b93170d8f72",
+    "rainfall.json": "84a057cb4203c117b427110f91a81065169b73b3641ab2480e7629903aedfd10"
+  },
+  "boundarySnapshotFile": "boundary-snapshot.json",
+  "boundaryRegistryFile": "boundary-registry.json",
+  "boundaryRegistryCommit": "91fd540",
+  "precipitationFile": "precipitation.nc",
+  "precipitationMetadataFile": "precipitation-metadata.json",
+  "acquisitionStartedAt": "2026-11-01T15:32:59.867556Z",
+  "issueCutoffAt": "2026-11-01T15:56:24.507Z"
+}
