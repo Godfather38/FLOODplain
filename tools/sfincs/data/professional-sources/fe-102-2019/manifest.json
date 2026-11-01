@@ -1,0 +1,27 @@
+{
+  "retrievedUtc": "2026-11-01T14:07:19.203447+00:00",
+  "studyId": "FE-102-2019",
+  "featureCount": 85,
+  "sourceRecords": [
+    {
+      "path": "layer-metadata.json",
+      "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCDLocalFloodplainCrossSections_C/FeatureServer/0?f=pjson",
+      "sha256": "10703d59fcc38161bd9fbb6f4a2844c2a7b151bcc13fa61a9158c34f7b717192",
+      "bytes": 21340
+    },
+    {
+      "path": "cross-sections.esri.json",
+      "url": "https://services3.arcgis.com/9coHY2fvuFjG9HQX/arcgis/rest/services/RFCDLocalFloodplainCrossSections_C/FeatureServer/0/query?f=json&where=STUDYID+%3D+%27FE-102-2019%27&geometry=467000%2C3577000%2C493500%2C3596000&geometryType=esriGeometryEnvelope&inSR=32612&outSR=4326&spatialRel=esriSpatialRelIntersects&outFields=%2A&returnGeometry=true&orderByFields=OBJECTID&resultRecordCount=1000",
+      "sha256": "521761130c4b977b369324bd07fe07edecd23e83180775c898772270f82979c7",
+      "bytes": 67783
+    }
+  ],
+  "role": "Professional study GIS reference; not native hydraulic geometry",
+  "surveyAcquisitionDate": null,
+  "limitations": [
+    "Study vintage is not hosted layer edit time",
+    "No complete transverse station-elevation profiles established",
+    "Water surface values are not channel bed elevations",
+    "No solver input generated"
+  ]
+}
