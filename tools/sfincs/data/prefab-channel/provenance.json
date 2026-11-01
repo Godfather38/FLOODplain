@@ -1,0 +1,23 @@
+{
+  "url": "https://conus-channel-geometry.onrender.com/extract",
+  "request": {
+    "dataset": "reach",
+    "request_type": "ids",
+    "ids": [
+      15886542,
+      15886600,
+      15888878,
+      15890430,
+      15902363,
+      15903137
+    ],
+    "format": "geojson"
+  },
+  "retrievedAt": "2026-11-01T13:24:39.354472+00:00",
+  "sha256": "9a7a339a2add84f687c48793189fa05cc4dddccf4166f41e6ec3d629198e7616",
+  "datasetDoi": "10.5281/zenodo.19208847",
+  "methodPaper": "10.1029/2024WR037997",
+  "license": "CC-BY-4.0",
+  "coordinateReference": "NAD83 EPSG4269 per provider",
+  "interpretation": "Published machine-learning channel width/depth estimates, not local bathymetric survey or historical reconstruction; no Trico-target tuning"
+}

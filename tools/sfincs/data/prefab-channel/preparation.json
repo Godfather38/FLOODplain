@@ -1,0 +1,24 @@
+{
+  "method": "Official HydroMT-SFINCS 1.2.2 setup_subgrid(datasets_riv), internal burn_river_rect; no custom terrain surgery",
+  "documentation": "https://deltares.github.io/hydromt_sfincs/stable/_modules/hydromt_sfincs/workflows/bathymetry.html",
+  "publishedStudyFramework": "https://doi.org/10.5281/zenodo.16759100",
+  "widthField": "HydroGeom bnk_width in metres",
+  "depthField": "HydroGeom bnk_depth in metres",
+  "riverSegments": 46,
+  "distinctComids": 6,
+  "roughness": 0.04,
+  "bankQuantile": 0.5,
+  "segmentLengthM": 500,
+  "subgridSha256": "8d87ad240fa70193f46e5068a32cbde393745aa36344ec75a9b7d89f3979e470",
+  "riverVectorSha256": "0e74d7f30f477e80201d369e82c5ed3d530e3a1277d97650be87b6c258d02c04",
+  "sourcePointEPSG32612": [
+    491030.431,
+    3579398.68
+  ],
+  "limitations": [
+    "Published ML estimates, not surveyed bed geometry; bankfull depth approximated as rectangular depth",
+    "Modern data may contain training observations after 2013; not independent historical geometry",
+    "Official workflow estimates bank level from terrain outside river mask; no absolute bed observations",
+    "No target-flow fitting; same geometry and placement for both events; lateral boundary flows remain absent"
+  ]
+}

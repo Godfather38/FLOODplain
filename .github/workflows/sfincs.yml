@@ -52,11 +52,21 @@ jobs:
           path: reference-download
           run-id: '41297523344'
           github-token: ${{ github.token }}
-      - name: Compare independently mapped source cell with unchanged hydraulics
+      - name: Retrieve preserved 2014 development case
+        uses: actions/download-artifact@v4
+        with:
+          name: sfincs-verification
+          path: reference-2014
+          run-id: '41293656870'
+          github-token: ${{ github.token }}
+      - name: Run both events with one published channel setup
         run: |
-          python tools/sfincs/prepare_placement.py reference-download/runs/reach-antecedent-2013 runs/reach-placement-2013
-          (cd runs/reach-placement-2013 && timeout 600 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
-          python tools/sfincs/export_reach.py runs/reach-placement-2013 --target tools/sfincs/data/gauges/trico-evaluation-2013-07.json
+          python tools/sfincs/stage_prefab_case.py reference-download/runs/reach-antecedent-2013 runs/prefab-2013
+          python tools/sfincs/stage_prefab_case.py reference-2014/runs/reach-levee runs/prefab-2014
+          (cd runs/prefab-2013 && timeout 1200 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
+          python tools/sfincs/export_reach.py runs/prefab-2013 --target tools/sfincs/data/gauges/trico-evaluation-2013-07.json
+          (cd runs/prefab-2014 && timeout 600 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
+          python tools/sfincs/export_reach.py runs/prefab-2014 --target tools/sfincs/data/gauges/trico-benchmark-2014-09.json
           (cd engine-reused && sha256sum -c SHA256SUMS)
       - uses: actions/upload-artifact@v4
         if: always()
