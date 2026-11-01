@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "kind": "current_forcing_package",
+  "status": "forcing_contract_ready_physical_setup_pending",
+  "asOf": "2026-11-01T16:08:30.582Z",
+  "bounds": [
+    -111.36,
+    32.27,
+    -110.99,
+    32.61
+  ],
+  "rainfallCycle": "2026-11-01T14:00:00Z",
+  "candidateWindow": {
+    "start": "2026-11-01T17:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "basis": "Exact verified inlet native timestamps intersected with complete HRRR accumulation intervals"
+  },
+  "rainfallFile": "rainfall.json",
+  "providerFile": "providers.json",
+  "rainfallComplete": true,
+  "sourceIssuePolicy": "Issues are bounded by issueCutoffAt; asOf is completed source acquisition, after every retained retrieval. Individual provider issue times remain distinct.",
+  "inletAssignments": [
+    {
+      "sourceId": 1,
+      "reachId": "15902351"
+    },
+    {
+      "sourceId": 2,
+      "reachId": "15902361"
+    },
+    {
+      "sourceId": 3,
+      "reachId": "15902409"
+    },
+    {
+      "sourceId": 4,
+      "reachId": "15902411"
+    }
+  ],
+  "dependencies": [
+    "Remaining solver-registry checks: Expanded prepared terrain/HRRR coverage, Native source cells and outlet configuration, Initial state/warm-up configuration, Localized structure limitations",
+    "HRRR footprint coverage is verified; terrain/native source cells/outlets/initial state remain solver-owned.",
+    "No solver run executed; recheck issue freshness at consumption."
+  ],
+  "files": {
+    "analysis-history.json": "b4c31b6fa0157e428651b623d5b5d5bf05c14d81af70258ad0229b26a3c8c6aa",
+    "boundary-registry.json": "9db8928644c021456367ae16846b5023eb7a8fd80494dfde2e9b6a7e6dd293fe",
+    "boundary-snapshot.json": "7948e2587cb6f9aa754376428ce2108285404250cbad575980ca03866ea3a01e",
+    "initialization-context.json": "a3d8fb18f2c9bdf5a240b936eea6b3aeb2de4d9b14a4039f67c9a4a6769c7945",
+    "precipitation-metadata.json": "e1ccc679d0723bc16000829afd13bc5d5ccc81b78cd401d3f7667bab2ba65715",
+    "precipitation.nc": "2f4e6cf312b953117bb61987ee4d3ace4b9956e99046e49fc46d5cff45098d56",
+    "providers.json": "9269fd038b02a294170bbf368e380357af83eff014faf407a7c4afabcc631bc4",
+    "rainfall-provenance.json": "60e65e5fd0cbbc916faffc22e8a7d74f1aa3cbdd4904f4e637f96154ffc93bb2",
+    "rainfall.json": "adcb94d0aa8fe81fc05bbfbe08bcf7274a3a6e99f75504c57c725a83dd83ed0b"
+  },
+  "boundarySnapshotFile": "boundary-snapshot.json",
+  "boundaryRegistryFile": "boundary-registry.json",
+  "boundaryRegistryCommit": "8c38b09",
+  "precipitationFile": "precipitation.nc",
+  "precipitationMetadataFile": "precipitation-metadata.json",
+  "acquisitionStartedAt": "2026-11-01T15:32:59.867556Z",
+  "issueCutoffAt": "2026-11-01T16:08:30.072Z",
+  "domainVersion": "catchment-coupling-8c38b09",
+  "couplingEvidence": {
+    "source": "supplied solver registry",
+    "activeCatchmentReachIds": [
+      15890430,
+      15902363,
+      15903137
+    ],
+    "contributingAreasDisjoint": true,
+    "localExternalPolygonOverlapM2": 0.0,
+    "method": "Existing GEB inflow_rivers external-to-active subbasin adjacency rule using official NHDPlusV2 polygons",
+    "remainingRegistryChecks": [
+      "Expanded prepared terrain/HRRR coverage",
+      "Native source cells and outlet configuration",
+      "Initial state/warm-up configuration",
+      "Localized structure limitations"
+    ]
+  }
+}

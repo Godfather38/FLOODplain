@@ -54,3 +54,4 @@ tools/sfincs/data/published-channel-results/** -text
 public/simulation/data/published-channel-* -text
 tools/simulation/data/current-inputs-20261101/** -text
 tools/simulation/data/current-inputs-full-20261101/** -text
+tools/simulation/data/current-inputs-catchments-20261101/** -text

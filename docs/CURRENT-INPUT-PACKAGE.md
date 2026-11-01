@@ -79,3 +79,23 @@ python tools/simulation/finalize_current_inputs.py <new-output-directory>
 ```
 
 The extension checks a common forecast cycle and exact native timestamp coverage, writes explicit unavailable records if a source fails, and keeps initialization history separate. The finalizer refuses incomplete boundary snapshots and verifies registry/series identity before exporting the existing solver contract. It does not change topology, build a model or execute SFINCS. Verified: all29 series, exact time grids, source/package hashes, unchanged HRRR bytes and full-domain precipitation coverage.
+
+## Catchment-coupled package (supersedes rectangle-boundary inputs)
+
+Latest solver handoff: **`tools/simulation/data/current-inputs-catchments-20261101/manifest.json`**, domain/registry version **`catchment-coupling-8c38b09`**. This is a distinct package; earlier rectangle-domain packages remain unchanged.
+
+The solver owner's GEB external-to-active-catchment registry contains active reaches15890430,15902363,15903137 and four external inlet reaches **15902351,15902361,15902409,15902411**. Its reported local/external polygon overlap is0m². That topology/accounting evidence is carried from the supplied registry, not independently reconstructed by this worker.
+
+All four inlet forecasts use the actual **13Z November1 NWM issue**, with15 common native timestamps **17Z November1 through07Z November2**. Snapshot completed **16:08:30.582 UTC**. The two additional forecasts already existed in the retained Cortaro upstream-provider responses and were reused with their original hashes/retrieval times. Only their two missing analysis histories required network requests; no new forecast/model was created.
+
+The retained18 HRRR14Z one-hour GRIB messages were **recropped, not redownloaded**. New regular output is35×38, sampled from176 native3-km cells with no missing cells. Raster outer bounds `[-111.365,32.265,-110.985,32.615]` cover the full new EPSG32612 domain `[467700,3572300,499700,3606900]`. Final `precipitation.nc` is **14×35×38**, covering the exact17Z–07Z interval. Original raw rainfall hashes are unchanged; crop mapping, provenance, registry and NetCDF are independently versioned for this domain.
+
+Initialization context is explicit:
+
+- All four analysis-assimilation histories are available; common overlap **Oct30 16Z–Nov1 14Z**, hourly, top-level referenceTime11Z as supplied by the API.
+- `initialization-context.json` separately retains actual13Z forecast samples at **14Z,15Z,16Z,17Z** for each inlet.
+- Analysis and forecast values are not automatically blended or stitched. Solver owner chooses/documents its transition and warmup; these data do not assert an initialized/equilibrated hydraulic state.
+
+Consumer files retain the same interface: `boundary-registry.json`, `boundary-snapshot.json`, `precipitation.nc`, `precipitation-metadata.json`, `analysis-history.json`, `initialization-context.json`. Native source cells/outlets, terrain, initialization and localized structure handling remain solver-owned. No hydraulic run occurred here.
+
+For another supplied domain, copy an issued package to a new directory, replace only its registry with the solver owner's version, run `recrop_current_inputs.py <directory>` using the existing decoder environment, then `extend-current-boundaries.mjs <directory> <registry-commit>` and `finalize_current_inputs.py <directory>`. Recropping reads only retained messages and verifies native mapping/coverage. Old and new domains are never silently mixed.

@@ -1,0 +1,462 @@
+{
+  "schemaVersion": 1,
+  "status": "complete",
+  "asOf": "2026-11-01T16:08:30.582Z",
+  "issueCutoffAt": "2026-11-01T16:08:30.072Z",
+  "start": "2026-11-01T17:00:00.000Z",
+  "end": "2026-11-02T07:00:00.000Z",
+  "series": [
+    {
+      "provider": "NOAA NWM short-range guidance",
+      "reachId": "15902351",
+      "sourceUrl": "https://api.water.noaa.gov/nwps/v1/reaches/15902351/streamflow?series=short_range",
+      "retrievedAt": "2026-11-01T15:56:25.713Z",
+      "points": [
+        {
+          "time": "2026-11-01T17:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T18:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T19:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T20:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T21:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T22:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T23:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T00:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T01:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T02:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T03:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T04:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T05:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T06:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T07:00:00.000Z",
+          "flowM3s": 0
+        }
+      ],
+      "peak": {
+        "time": "2026-11-01T17:00:00.000Z",
+        "flowM3s": 0
+      },
+      "uncertainty": {
+        "status": "not_provided",
+        "plusMinus": null
+      },
+      "status": "ok",
+      "reason": "Model guidance, separate from the official RFC forecast",
+      "issuedAt": "2026-11-01T13:00:00.000Z",
+      "originalUnits": "ft³/s",
+      "name": "Santa Cruz River",
+      "upstream": [],
+      "downstream": [
+        "15890430"
+      ],
+      "role": "guidance",
+      "limitations": [
+        "Do not sum upstream and downstream reach flows.",
+        "No lateral inflow inferred by subtracting routed flows.",
+        "Not an observed hydrograph or official RFC forecast."
+      ],
+      "sourceArtifact": {
+        "reachId": "15902351",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902351/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15902351-1fdf3b9c2755ea1b03284260f35cf6773e4e41a7519db01f584c9f58308fc1d6.json",
+        "sha256": "1fdf3b9c2755ea1b03284260f35cf6773e4e41a7519db01f584c9f58308fc1d6",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.713Z",
+        "delivery": "existing_raw_cache"
+      }
+    },
+    {
+      "provider": "NOAA NWM short-range guidance",
+      "reachId": "15902361",
+      "sourceUrl": "https://api.water.noaa.gov/nwps/v1/reaches/15902361/streamflow?series=short_range",
+      "retrievedAt": "2026-11-01T15:56:25.628Z",
+      "points": [
+        {
+          "time": "2026-11-01T17:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T18:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T19:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T20:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T21:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T22:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T23:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T00:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T01:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T02:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T03:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T04:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T05:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T06:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T07:00:00.000Z",
+          "flowM3s": 0
+        }
+      ],
+      "peak": {
+        "time": "2026-11-01T17:00:00.000Z",
+        "flowM3s": 0
+      },
+      "uncertainty": {
+        "status": "not_provided",
+        "plusMinus": null
+      },
+      "status": "ok",
+      "reason": "Model guidance, separate from the official RFC forecast",
+      "issuedAt": "2026-11-01T13:00:00.000Z",
+      "originalUnits": "ft³/s",
+      "name": "",
+      "upstream": [],
+      "downstream": [
+        "15902363"
+      ],
+      "role": "guidance",
+      "limitations": [
+        "Do not sum upstream and downstream reach flows.",
+        "No lateral inflow inferred by subtracting routed flows.",
+        "Not an observed hydrograph or official RFC forecast."
+      ],
+      "sourceArtifact": {
+        "reachId": "15902361",
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902361/streamflow?series=short_range",
+        "rawFile": "raw/short_range-15902361-13562bea7314d8958b1f60d0f5efc1fe23970923b0daae1dec7ace3b86346f58.json",
+        "sha256": "13562bea7314d8958b1f60d0f5efc1fe23970923b0daae1dec7ace3b86346f58",
+        "httpStatus": 200,
+        "retrievedAt": "2026-11-01T15:56:25.628Z",
+        "delivery": "existing_raw_cache"
+      }
+    },
+    {
+      "provider": "NOAA NWM short-range guidance",
+      "reachId": "15902409",
+      "sourceUrl": "https://api.water.noaa.gov/nwps/v1/reaches/15902409/streamflow?series=short_range",
+      "retrievedAt": "2026-11-01T15:33:25.574Z",
+      "points": [
+        {
+          "time": "2026-11-01T17:00:00.000Z",
+          "flowM3s": 6.150135980449407
+        },
+        {
+          "time": "2026-11-01T18:00:00.000Z",
+          "flowM3s": 6.150135980449407
+        },
+        {
+          "time": "2026-11-01T19:00:00.000Z",
+          "flowM3s": 8.199992055880266
+        },
+        {
+          "time": "2026-11-01T20:00:00.000Z",
+          "flowM3s": 17.709921711638156
+        },
+        {
+          "time": "2026-11-01T21:00:00.000Z",
+          "flowM3s": 32.35001311637662
+        },
+        {
+          "time": "2026-11-01T22:00:00.000Z",
+          "flowM3s": 30.240124600275
+        },
+        {
+          "time": "2026-11-01T23:00:00.000Z",
+          "flowM3s": 28.590103124618906
+        },
+        {
+          "time": "2026-11-02T00:00:00.000Z",
+          "flowM3s": 32.09997660536194
+        },
+        {
+          "time": "2026-11-02T01:00:00.000Z",
+          "flowM3s": 39.279994429773375
+        },
+        {
+          "time": "2026-11-02T02:00:00.000Z",
+          "flowM3s": 53.23991635463175
+        },
+        {
+          "time": "2026-11-02T03:00:00.000Z",
+          "flowM3s": 65.910004534566
+        },
+        {
+          "time": "2026-11-02T04:00:00.000Z",
+          "flowM3s": 70.74001099348537
+        },
+        {
+          "time": "2026-11-02T05:00:00.000Z",
+          "flowM3s": 66.26991746191612
+        },
+        {
+          "time": "2026-11-02T06:00:00.000Z",
+          "flowM3s": 58.729990166800874
+        },
+        {
+          "time": "2026-11-02T07:00:00.000Z",
+          "flowM3s": 52.500000471563254
+        }
+      ],
+      "peak": {
+        "time": "2026-11-02T04:00:00.000Z",
+        "flowM3s": 70.74001099348537
+      },
+      "uncertainty": {
+        "status": "not_provided",
+        "plusMinus": null
+      },
+      "status": "ok",
+      "reason": "Model guidance, separate from the official RFC forecast",
+      "issuedAt": "2026-11-01T13:00:00.000Z",
+      "originalUnits": "ft³/s",
+      "name": "Santa Cruz River",
+      "upstream": [
+        "15902413",
+        "15902439"
+      ],
+      "downstream": [
+        "15903137"
+      ],
+      "role": "guidance",
+      "limitations": [
+        "Do not sum upstream and downstream reach flows.",
+        "No lateral inflow inferred by subtracting routed flows.",
+        "Not an observed hydrograph or official RFC forecast."
+      ],
+      "sourceArtifact": {
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902409/streamflow?series=short_range",
+        "status": 200,
+        "rawFile": "raw/provider-98368f03e0b39bf4ee97a0aaa180216c85af242509b952e4a4128e2e5c69b351.json",
+        "sha256": "98368f03e0b39bf4ee97a0aaa180216c85af242509b952e4a4128e2e5c69b351",
+        "retrievedAt": "2026-11-01T15:33:25.574Z",
+        "reachId": "15902409",
+        "delivery": "existing_raw_cache"
+      }
+    },
+    {
+      "provider": "NOAA NWM short-range guidance",
+      "reachId": "15902411",
+      "sourceUrl": "https://api.water.noaa.gov/nwps/v1/reaches/15902411/streamflow?series=short_range",
+      "retrievedAt": "2026-11-01T15:33:25.664Z",
+      "points": [
+        {
+          "time": "2026-11-01T17:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T18:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T19:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T20:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T21:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T22:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-01T23:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T00:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T01:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T02:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T03:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T04:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T05:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T06:00:00.000Z",
+          "flowM3s": 0
+        },
+        {
+          "time": "2026-11-02T07:00:00.000Z",
+          "flowM3s": 0
+        }
+      ],
+      "peak": {
+        "time": "2026-11-01T17:00:00.000Z",
+        "flowM3s": 0
+      },
+      "uncertainty": {
+        "status": "not_provided",
+        "plusMinus": null
+      },
+      "status": "ok",
+      "reason": "Model guidance, separate from the official RFC forecast",
+      "issuedAt": "2026-11-01T13:00:00.000Z",
+      "originalUnits": "ft³/s",
+      "name": "Santa Cruz River",
+      "upstream": [
+        "15902429",
+        "15902431"
+      ],
+      "downstream": [
+        "15903137"
+      ],
+      "role": "guidance",
+      "limitations": [
+        "Do not sum upstream and downstream reach flows.",
+        "No lateral inflow inferred by subtracting routed flows.",
+        "Not an observed hydrograph or official RFC forecast."
+      ],
+      "sourceArtifact": {
+        "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902411/streamflow?series=short_range",
+        "status": 200,
+        "rawFile": "raw/provider-014125fce52be451a02a342239be68831f60c9672c4c9e7cbd97dd0d5fac20ff.json",
+        "sha256": "014125fce52be451a02a342239be68831f60c9672c4c9e7cbd97dd0d5fac20ff",
+        "retrievedAt": "2026-11-01T15:33:25.664Z",
+        "reachId": "15902411",
+        "delivery": "existing_raw_cache"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "reachId": "15902351",
+      "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902351/streamflow?series=short_range",
+      "rawFile": "raw/short_range-15902351-1fdf3b9c2755ea1b03284260f35cf6773e4e41a7519db01f584c9f58308fc1d6.json",
+      "sha256": "1fdf3b9c2755ea1b03284260f35cf6773e4e41a7519db01f584c9f58308fc1d6",
+      "httpStatus": 200,
+      "retrievedAt": "2026-11-01T15:56:25.713Z",
+      "delivery": "existing_raw_cache"
+    },
+    {
+      "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902409/streamflow?series=short_range",
+      "status": 200,
+      "rawFile": "raw/provider-98368f03e0b39bf4ee97a0aaa180216c85af242509b952e4a4128e2e5c69b351.json",
+      "sha256": "98368f03e0b39bf4ee97a0aaa180216c85af242509b952e4a4128e2e5c69b351",
+      "retrievedAt": "2026-11-01T15:33:25.574Z",
+      "reachId": "15902409",
+      "delivery": "existing_raw_cache"
+    },
+    {
+      "reachId": "15902361",
+      "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902361/streamflow?series=short_range",
+      "rawFile": "raw/short_range-15902361-13562bea7314d8958b1f60d0f5efc1fe23970923b0daae1dec7ace3b86346f58.json",
+      "sha256": "13562bea7314d8958b1f60d0f5efc1fe23970923b0daae1dec7ace3b86346f58",
+      "httpStatus": 200,
+      "retrievedAt": "2026-11-01T15:56:25.628Z",
+      "delivery": "existing_raw_cache"
+    },
+    {
+      "url": "https://api.water.noaa.gov/nwps/v1/reaches/15902411/streamflow?series=short_range",
+      "status": 200,
+      "rawFile": "raw/provider-014125fce52be451a02a342239be68831f60c9672c4c9e7cbd97dd0d5fac20ff.json",
+      "sha256": "014125fce52be451a02a342239be68831f60c9672c4c9e7cbd97dd0d5fac20ff",
+      "retrievedAt": "2026-11-01T15:33:25.664Z",
+      "reachId": "15902411",
+      "delivery": "existing_raw_cache"
+    }
+  ],
+  "registryCommit": "8c38b09",
+  "requestedSourceCount": 4,
+  "uniqueReachCount": 4,
+  "issueTimes": [
+    "2026-11-01T13:00:00.000Z"
+  ],
+  "unavailable": [],
+  "sourcePolicy": "Three concurrent requests maximum. Existing raw inlet cache reused only when cycle matches. No unavailable series replaced by zero."
+}
