@@ -15,13 +15,14 @@ SERVICE = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/
 BOUNDS = [-111.34, 32.40, -111.27, 32.49]
 
 
-def fetch(root):
+def fetch(root, bounds=None):
+    bounds = BOUNDS if bounds is None else bounds
     root = Path(root)
     root.mkdir(parents=True, exist_ok=True)
     if (root / "terrain.tif").exists():
         raise FileExistsError("Terrain already exists; retain cached evidence or use a new directory")
     transform = Transformer.from_crs(4326, 32612, always_xy=True)
-    corners = [transform.transform(x, y) for x in BOUNDS[::2] for y in BOUNDS[1::2]]
+    corners = [transform.transform(x, y) for x in bounds[::2] for y in bounds[1::2]]
     resolution = 100
     xmin, ymin = [math.floor(min(p[i] for p in corners) / resolution) * resolution for i in (0, 1)]
     xmax, ymax = [math.ceil(max(p[i] for p in corners) / resolution) * resolution for i in (0, 1)]
@@ -56,11 +57,11 @@ def fetch(root):
             raise ValueError("Unexpected terrain grid dimensions/resolution")
         if np.ma.getmaskarray(z).any() or not np.isfinite(z.data).all():
             raise ValueError("Terrain contains missing elevation; no automatic filling")
-        if z.min() < 400 or z.max() > 1000:
+        if z.min() < 400 or z.max() > 3000:
             raise ValueError("Elevation outside broad local plausibility bounds")
         stats = {"minM": float(z.min()), "maxM": float(z.max()), "width": width, "height": height,
                  "resolutionM": resolution, "boundsProjected": list(raster.bounds)}
-    query = {"f": "json", "geometry": ",".join(map(str, BOUNDS)), "geometryType": "esriGeometryEnvelope",
+    query = {"f": "json", "geometry": ",".join(map(str, bounds)), "geometryType": "esriGeometryEnvelope",
              "inSR": 4326, "spatialRel": "esriSpatialRelIntersects", "returnGeometry": "false",
              "outFields": "OBJECTID,Name,VerticalDatum,AcquisitionDate,Source,URL,Resolution_X,Resolution_Y",
              "where": "Category=1", "orderByFields": "OBJECTID", "resultRecordCount": 100}
@@ -73,7 +74,7 @@ def fetch(root):
                 "retrievedAt": dt.datetime.now(dt.timezone.utc).isoformat(),
                 "sha256": hashlib.sha256(content).hexdigest(), "bytes": len(content),
                 "catalogSha256": hashlib.sha256((root / "catalog.json").read_bytes()).hexdigest(),
-                "crs": "EPSG:32612", "requestedWgs84Bounds": BOUNDS,
+                "crs": "EPSG:32612", "requestedWgs84Bounds": bounds,
                 "verticalUnits": "m", "verticalDatum": "Requires review of catalog metadata; no datum conversion applied",
                 "statistics": stats, "interpolation": "server bilinear, 100 m grid",
                 "limitations": ["Contemporary terrain, not surveyed September 2014 geometry",
@@ -86,4 +87,6 @@ def fetch(root):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root")
-    fetch(parser.parse_args().root)
+    parser.add_argument("--bbox", nargs=4, type=float)
+    args = parser.parse_args()
+    fetch(args.root, args.bbox)

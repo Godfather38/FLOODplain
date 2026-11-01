@@ -1,3 +1,7 @@
+# Rainfall correction
+
+The recorded Trico rainfall run below used a now-obsolete historical palette interpretation. Retain it only as execution/audit evidence, not a valid historical rainfall scenario. Corrected hourly zeros are unknown; active runs now use independent Cortaro inflow while complete rainfall is sourced.
+
 # Verified SFINCS milestones
 
 The official GPL-3.0 source at `f3647fc0289bb15cb2512d60686cef74cb853c78`

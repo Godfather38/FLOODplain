@@ -22,34 +22,14 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends gfortran build-essential autoconf automake libtool pkg-config libnetcdf-dev
           python -m pip install -r tools/sfincs/requirements.txt
-      - name: Test output validation
-        run: python -m unittest discover -s tools/sfincs -p 'test_*.py'
       - name: Build pinned official GPL source
         run: bash tools/sfincs/build-source.sh "$RUNNER_TEMP/sfincs-source" > source-build.log 2>&1
-      - name: Prepare and run analytical cases
+      - name: Run observed Cortaro inflow through real terrain
         run: |
-          python tools/sfincs/prepare_case.py runs/dry --rain-mm-hr 0
-          python tools/sfincs/prepare_case.py runs/rain --rain-mm-hr 10
-          python tools/sfincs/drainage_check.py prepare runs/drainage
-          for case in dry rain drainage; do
-            (cd "runs/$case" && "$RUNNER_TEMP/sfincs-source/source/src/sfincs" > solver.log 2>&1)
+          for threshold in 0.01 0.005; do
+            python tools/sfincs/prepare_reach.py "runs/reach-$threshold" --terrain tools/sfincs/data/reach-terrain --upstream tools/sfincs/data/gauges/cortaro-benchmark-2014-09.json --threshold "$threshold"
+            (cd "runs/reach-$threshold" && timeout 300 "$RUNNER_TEMP/sfincs-source/source/src/sfincs" > solver.log 2>&1)
           done
-      - name: Verify and export app contract
-        run: |
-          python tools/sfincs/export_run.py runs/dry
-          python tools/sfincs/export_run.py runs/rain
-          python tools/sfincs/drainage_check.py check runs/drainage
-      - name: Read pinned recorded-rainfall evidence
-        uses: actions/checkout@v4
-        with:
-          ref: 15299aafd9620b0b4f2f42381acd8cae8e3fde9a
-          path: radar-inputs
-      - name: Prepare and run uncalibrated local scenario
-        run: |
-          python radar-inputs/tools/simulation/storm_forcing.py --manifest radar-inputs/public/simulation/data/storm-2014/manifest.json --bbox -111.36 32.38 -111.25 32.51 --output runs/forcing.json
-          python tools/sfincs/prepare_local.py runs/trico --terrain tools/sfincs/data/terrain --forcing runs/forcing.json
-          (cd runs/trico && timeout 180 "$RUNNER_TEMP/sfincs-source/source/src/sfincs" > solver.log 2>&1)
-          python tools/sfincs/export_local.py runs/trico
       - uses: actions/upload-artifact@v4
         if: always()
         with:

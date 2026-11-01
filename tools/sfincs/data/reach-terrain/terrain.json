@@ -1,0 +1,53 @@
+{
+  "source": "USGS 3DEP dynamic raw elevation service",
+  "service": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer",
+  "requestUrl": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?f=json&bbox=467000%2C3577000%2C493500%2C3596000&bboxSR=32612&imageSR=32612&size=265%2C190&format=tiff&pixelType=F32&interpolation=RSP_BilinearInterpolation&renderingRule=%7B%22rasterFunction%22%3A+%22None%22%7D",
+  "exportResponse": {
+    "href": "https://elevation.nationalmap.gov/arcgis/rest/directories/elevation_output/3DEPElevation_ImageServer/_ags_7e24c1c9_d615_4b9e_915b_c23a08c6dae4.tif",
+    "width": 265,
+    "height": 190,
+    "extent": {
+      "xmin": 467000,
+      "ymin": 3577000,
+      "xmax": 493500,
+      "ymax": 3596000,
+      "spatialReference": {
+        "wkid": 32612,
+        "latestWkid": 32612
+      }
+    },
+    "scale": 0
+  },
+  "retrievedAt": "2026-11-01T08:11:14.194542+00:00",
+  "sha256": "6b4cd644d2dd016a879bde2d36ce577d513ab553c49fdccfb2689d39d2f3eaa3",
+  "bytes": 394385,
+  "catalogSha256": "abae961eb9d07ed61d4c3e8809b39f49e9ae4f771a1aa09c86d896cec4eff6db",
+  "crs": "EPSG:32612",
+  "requestedWgs84Bounds": [
+    -111.35,
+    32.33,
+    -111.07,
+    32.5
+  ],
+  "verticalUnits": "m",
+  "verticalDatum": "Requires review of catalog metadata; no datum conversion applied",
+  "statistics": {
+    "minM": 570.1748046875,
+    "maxM": 1301.4422607421875,
+    "width": 265,
+    "height": 190,
+    "resolutionM": 100,
+    "boundsProjected": [
+      467000.0,
+      3577000.0,
+      493500.0,
+      3596000.0
+    ]
+  },
+  "interpolation": "server bilinear, 100 m grid",
+  "limitations": [
+    "Contemporary terrain, not surveyed September 2014 geometry",
+    "100 m cells cannot resolve bridge or culvert openings",
+    "No hydrologic conditioning or missing-elevation filling"
+  ]
+}
