@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "conclusion": "Frozen July 2013 evaluation failed. Longer antecedent forcing also fails to reproduce event flow; it is a post-failure sensitivity diagnostic, not another independent validation. Improved 2014 development fit does not establish general accuracy.",
+  "conclusion": "Frozen July 2013 evaluation failed. Longer antecedent forcing also fails to reproduce event flow; it is a post-failure sensitivity diagnostic, not another independent validation. Improved 2014 development fit does not establish general accuracy. Source-placement comparison also failed; it is retained as a rejected diagnostic, not promoted as the best model.",
   "events": [
     {
       "event": "September 2014 \u2014 iterative development",
@@ -91,6 +91,36 @@
       },
       "peakErrorPercent": -95.17285682952533,
       "timingErrorMinutes": 2475.0
+    },
+    {
+      "event": "July 2013 \u2014 source-placement diagnostic, hypothesis rejected",
+      "runId": "reach-placement-2013-6c7a47ccb7224d43",
+      "artifact": "sfincs-reach-2013-placement-recorded.json.gz",
+      "sha256": "8ccd3371ebfc2a8611a99c19390f93b5e8ba5030a9bed34c743ed7f1611562dc",
+      "comparison": {
+        "siteId": "USGS-09486520",
+        "usedAsForcing": false,
+        "parameterFitting": false,
+        "validationRole": "Controlled independently mapped source-placement comparison after failed 2013 scenario; not held-out validation",
+        "sourceUrl": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09486520&parameter_code=00060&time=2013-07-19T07%3A00%3A00Z%2F2013-07-23T07%3A00%3A00Z&limit=1000",
+        "observedQuality": {
+          "approvalStatuses": [
+            "Approved"
+          ],
+          "qualifiedCount": 0,
+          "maxGapMinutes": 15
+        },
+        "evaluationStart": "2013-07-20T07:00:00+00:00",
+        "pairs": 289,
+        "rmseM3s": 7.976413395760771,
+        "modelPeakM3s": 1.4102116823196411,
+        "modelPeakTime": "2013-07-23T05:18:00+00:00",
+        "observedPeakM3s": 30.865362785280002,
+        "observedPeakTime": "2013-07-21T10:45:00+00:00",
+        "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
+      },
+      "peakErrorPercent": -95.43108664514973,
+      "timingErrorMinutes": 2553.0
     }
   ]
 }

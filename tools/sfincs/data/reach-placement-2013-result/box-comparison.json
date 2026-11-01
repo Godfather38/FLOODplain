@@ -1,0 +1,27 @@
+{
+  "eventStart": "2013-07-19T07:00:00Z",
+  "eventEnd": "2013-07-23T07:00:00Z",
+  "boxBoundsEPSG32612": [
+    490000,
+    3579000,
+    491500,
+    3581500
+  ],
+  "boxOutwardVolumeM3": {
+    "pocket_west": 126457.425262701,
+    "pocket_north": -13964.13396666554,
+    "pocket_east": -43077.14553040112,
+    "pocket_south": -2416.776815475896
+  },
+  "boxNetExportM3": 66999.36895015844,
+  "boxInitialStorageM3": 2899941.2843642235,
+  "boxFinalStorageM3": 3808389.4016923904,
+  "boxStorageGainM3": 908448.117328167,
+  "baseline": {
+    "boxInitialStorageM3": 2900413.1592,
+    "boxFinalStorageM3": 3807645.4252,
+    "boxStorageGainM3": 907232.266,
+    "boxNetExportM3": 68209.6263
+  },
+  "method": "Native instantaneous section flows integrated at 60-second intervals; native subgrid volume; outward-positive box boundary."
+}

@@ -1,0 +1,10 @@
+{
+  "runId": 41300122434,
+  "inputCommit": "d72ff5b",
+  "engineBuildRun": 41290378239,
+  "engineRecompiled": false,
+  "solverRuntimeSeconds": 560.337,
+  "nativeMapLocation": "GitHub run artifact sfincs-verification, runs/reach-placement-2013/sfincs_map.nc",
+  "nativeMapSha256": "6c7a47ccb7224d43867985821f34f995b947cc4504cd38c147c5f4ae1ddb62ad",
+  "result": "Mapped source placement does not resolve the failed 2013 event. Peak and timing worsen; no 2014 rerun triggered."
+}
