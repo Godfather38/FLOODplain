@@ -89,3 +89,10 @@ The same `/simulation/routes.html` opens with a responsive HAND / 2D model / Agg
 Aggregate displays separate estimates and existing closure/observation fusion. Saved observations become stale at playback time; no fresh route recommendation is fabricated. 2D lacks explicit verified crossing mappings and remains map/context evidence. Route markers are configured crossings, not invented road polylines. Comparison describes spatial disagreements rather than averaging unlike depths. Live-source controls are collapsed separately and are never automatically refreshed by this map.
 
 Actual-data checks: both HAND windows produce masks at all15 playback times; rainfall has14 nonoverlapping intervals; four existing routes load; actual2D contract accepts29685cells/15frames. Module imports bundle successfully. Browser visual QA remains restricted and was not claimed.
+
+
+## Confidence-weighted route guidance
+
+The existing `fuseRoutes` engine now accepts HAND/2D/Aggregate selection and explicit live/simulated_live clock mode. Reliability is freshness x spatial support x source-quality x model-limit factors, shown on demand as decimals, never accuracy percentages. A0.20 policy threshold permits raising concern only. These are transparent product heuristics, not fitted probabilities. Sources sharing NOAA hydrometeorology are grouped and the strongest concern counts once rather than summed independent confirmation. Closures exclude and models never lower known hazards. Missing coverage stays unknown.
+
+Frozen-map guidance uses its explicit playback clock and retained observations. HAND uses its original RFC issue; 2D uses original NWM issue for freshness. Model neighborhood evidence is labeled rather than asserted as road intersection. Human badges summarize support/disagreement, not calibrated confidence. Existing closure/known-hazard tests passed; targeted simulated-clock checks verify frozen evidence cannot enter live ranking.

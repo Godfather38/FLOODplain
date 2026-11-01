@@ -29,7 +29,7 @@ export function sfincsEvidence(raw,time){
 }
 
 // Max-concern precedence, never an average of unrelated scores/depths.
-export function fuseRoutes(snapshot,evidence=[],{now=Date.now(),maxSnapshotAgeMs=10*60000}={}){
+export function fuseRoutes(snapshot,evidence=[],{now=Date.now(),maxSnapshotAgeMs=10*60000,modelMode='aggregate',clockMode='live'}={}){
  if(!snapshot||!Array.isArray(snapshot.rated))return {status:'insufficient_data',recommendation:null,routes:[],reason:'Open the main app and refresh observations first'};
  const age=now-snapshot.now,stale=!Number.isFinite(age)||age< -300000||age>maxSnapshotAgeMs;
  const routes=snapshot.rated.map(route=>{
@@ -39,15 +39,21 @@ export function fuseRoutes(snapshot,evidence=[],{now=Date.now(),maxSnapshotAgeMs
   if(unobserved&&rank[level]<rank.unknown)level='unknown';
   if(stale)reasons.push('Original observation snapshot is stale; refresh the main app');
   if(unobserved)reasons.push('At least one crossing has no usable observations');
-  for(const e of evidence.filter(e=>route.points.some(p=>p.id===e.crossingId))){
-   const valid=Date.parse(e.validAt),asOf=Date.parse(e.asOf),future=valid>=now-3600000&&valid<=now+24*3600000;
-   const usable=e.status==='ok'&&e.mode==='forecast'&&future&&Number.isFinite(asOf)&&asOf<=now+300000&&now-asOf<=24*3600000;
-   sources.push({...e,usedForRanking:usable&&e.concern===true,contextOnly:!usable});
-   if(usable&&e.concern){if(rank[level]<rank.caution)level='caution';reasons.push(`${e.source}: modeled water near ${e.crossingId}; inspect conflicting observation/model evidence`);}
-   else if(!usable)reasons.push(`${e.source}: ${e.status}/${e.mode}; outside current decision coverage or freshness, retained as context`);
+  const groups=new Map();
+  for(const e of evidence.filter(e=>route.points.some(p=>p.id===e.crossingId)&& (modelMode==='aggregate'||(modelMode==='hand'?e.source==='HAND':e.source==='SFINCS')))){
+   const rating=simulationReliability(e,{now,clockMode});
+   const used=rating.weight>=.2&&e.concern===true;
+   const group=e.correlationGroup??'shared_NOAA_hydrometeorology';
+   const source={...e,reliability:rating,usedForRanking:used,contextOnly:!used,correlationGroup:group};sources.push(source);
+   if(used){const prior=groups.get(group);if(!prior||rating.weight>prior.reliability.weight)groups.set(group,source);}
+   else if(!rating.supported)reasons.push(`${e.source}: unknown or incompatible coverage/time; no model clearance`);
+  }
+  for(const e of groups.values()){
+   if(rank[level]<rank.caution)level='caution';
+   reasons.push(`${e.source} modeled water near ${e.crossingId}: reliability weight ${e.reliability.weight.toFixed(2)} raised concern; ${e.reliability.explanation}. Shared-forcing evidence counted once.`);
   }
   const conflicts=sources.some(e=>e.usedForRanking)&&['ok','watch'].includes(route.level);
-  return {...route,originalLevel:route.level,level,evidenceAdequate:!stale&&!unobserved,excluded:closed,decision:closed?'excluded_official_closure':level==='danger'?'avoid':level==='unknown'?'unknown':'candidate',conflicts,reasons,sources};
+  return {...route,originalLevel:route.level,level,evidenceAdequate:!stale&&!unobserved,excluded:closed,decision:closed?'excluded_official_closure':level==='danger'?'avoid':level==='unknown'?'unknown':'candidate',conflicts,reasons,sources,simulationGuidance:{modelMode,clockMode,weightMeaning:'Heuristic reliability, not probability or accuracy',independentEvidenceGroups:groups.size}};
  });
  const order=[...routes].sort((a,b)=>Number(a.excluded)-Number(b.excluded)||rank[a.level]-rank[b.level]||a.minutes-b.minutes);
  const best=order.find(r=>!r.excluded&&r.evidenceAdequate&&!['danger','unknown'].includes(r.level));
@@ -55,4 +61,19 @@ export function fuseRoutes(snapshot,evidence=[],{now=Date.now(),maxSnapshotAgeMs
   recommendation:best?{routeId:best.id,text:`Prefer ${best.name} among evaluated routes${best.level==='caution'?' with caution':''}; ${best.conflicts?'model and observation evidence conflict':'lowest combined concern'}. This is not confirmation that the road is passable.`}:null,
   reason:best?null:'No nonclosed route with adequate observations and below-danger concern; review listed alternatives and current closures',routes:order,
   policy:'Official closures exclude. Existing observed danger is never reduced. Current model wet-area evidence can raise concern; model dry output cannot clear observations or unknowns. Historical SFINCS is context only. No calibrated probability or depth-to-passability conversion.'};
+}
+
+
+// Transparent product policy, not fitted error or probability. Related sources use max, never summed confirmation.
+export function simulationReliability(e,{now=Date.now(),clockMode='live'}={}){
+ const issue=Date.parse(e.sourceAsOf??e.asOf),valid=Date.parse(e.validAt),ageHours=(now-issue)/3600000;
+ const modeOK=e.mode==='forecast'||(clockMode==='simulated_live'&&e.mode==='simulated_forecast');
+ const statusOK=['ok','simulated_live'].includes(e.status)&&!(e.status==='simulated_live'&&clockMode!=='simulated_live');
+ const supported=modeOK&&statusOK&&Number.isFinite(valid)&&valid>=now-3600000&&valid<=now+24*3600000&&Number.isFinite(ageHours)&&ageHours>=-5/60&&ageHours<=24&&e.spatialSupport!==false;
+ const freshness=supported?Math.max(.25,1-Math.max(0,ageHours)/32):0;
+ const spatial=supported?Math.max(0,Math.min(1,e.spatialWeight??.5)):0;
+ const quality=e.source==='HAND'?.7:.65;
+ const limits=e.source==='HAND'?.65:.6;
+ const weight=Number((freshness*spatial*quality*limits).toFixed(3));
+ return {weight,supported,factors:{freshness,spatial,sourceQuality:quality,modelLimits:limits},explanation:'freshness x spatial support x source quality x model limits',meaning:'Uncalibrated heuristic reliability; not a probability, confidence interval or measured accuracy',policy:'Weight >=0.20 can raise concern only; no model can clear observed hazards or official closures'};
 }
