@@ -61,3 +61,6 @@ public/simulation/data/frozen-20261101* -text
 public/simulation/data/frozen-20261101-attribution/** -text
 
 public/simulation/data/frozen-map-context.json -text
+
+# Preserve source-bound refined terrain evidence bytes.
+public/simulation/data/refined-partial-41339621278/terrain-* -text

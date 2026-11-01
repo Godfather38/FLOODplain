@@ -1,0 +1,238 @@
+{
+  "kind": "actual_refined_terrain_export_verification",
+  "runId": "refined-partial-41339621278",
+  "status": "partial",
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-01T22:00:00Z",
+  "frames": 21,
+  "geometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+  "nativeMapSha256": "1e11c45c57c37ada6fa0be98da62cf616e7d0b9e9a85f7c4cc7795091c3ce633",
+  "verifiedTiles": 2255,
+  "verifiedFaces": 398613,
+  "verifiedMixedLodBoundaryMidpoints": 1605049,
+  "maximumTileBytesByLevel": [
+    217138,
+    895489
+  ],
+  "maximumTileTrianglesByLevel": [
+    16062,
+    64248
+  ],
+  "totalTileBytes": 114282726,
+  "knownNativeCells": {
+    "266577": {
+      "tileId": "944-7167",
+      "tileArtifacts": [
+        {
+          "level": 0,
+          "triangles": 7900,
+          "vertices": 4043,
+          "artifact": {
+            "path": "terrain-tile-944-7167-lod0.json.gz",
+            "sha256": "5ad131509af69ac894a9f9cc02ce534cdcf812ec324f2abb39372ce9a514021a",
+            "bytes": 108495
+          }
+        },
+        {
+          "level": 1,
+          "triangles": 31600,
+          "vertices": 15985,
+          "artifact": {
+            "path": "terrain-tile-944-7167-lod1.json.gz",
+            "sha256": "e49d7258cde43b489de4b46521b9ffb1bbbbe74a90ad1d56945a7c1e5cd1987c",
+            "bytes": 441252
+          }
+        }
+      ],
+      "terrainCentreM": 605.230895,
+      "fineTerrainVertexRangeM": [
+        605.230895,
+        606.799549
+      ],
+      "fineTriangles": 16,
+      "cellIndex": 266577,
+      "cell": {
+        "nativeFaceId": "266577",
+        "lon": -111.29508604212693,
+        "lat": 32.392474121202326,
+        "areaM2": 39.0625,
+        "resolutionM": 6.25,
+        "edgeLengthsM": [
+          6.25,
+          6.25,
+          6.25,
+          6.25
+        ]
+      },
+      "nativeFrames": [
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "depthM": 0.65317763671875,
+          "nativeVolumeM3": 25.514751434326172,
+          "waterSurfaceM": 606.3710327148438
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "depthM": 0.71841923828125,
+          "nativeVolumeM3": 28.063251495361328,
+          "waterSurfaceM": 606.4476318359375
+        }
+      ],
+      "nativeSubgridTerrainCheck": {
+        "sampled6x6RangeM": [
+          605.0886927710092,
+          606.7579801612376
+        ],
+        "nativeSubgridRangeM": [
+          605.0886840820312,
+          606.7579956054688
+        ],
+        "maximumDifferenceM": 1.5444231166839018e-05,
+        "toleranceM": 5e-05
+      }
+    },
+    "283056": {
+      "tileId": "947-7181",
+      "tileArtifacts": [
+        {
+          "level": 0,
+          "triangles": 16062,
+          "vertices": 8137,
+          "artifact": {
+            "path": "terrain-tile-947-7181-lod0.json.gz",
+            "sha256": "d0ea682e0513d7861e62ef015ba19df579be0599f9c4f7746c04019fb902ddd0",
+            "bytes": 217138
+          }
+        },
+        {
+          "level": 1,
+          "triangles": 64248,
+          "vertices": 32335,
+          "artifact": {
+            "path": "terrain-tile-947-7181-lod1.json.gz",
+            "sha256": "0e86c8dd8250dac3651f913b898cd48eabe91ad55b994ae4a281234612c61aa6",
+            "bytes": 895489
+          }
+        }
+      ],
+      "terrainCentreM": 586.128764,
+      "fineTerrainVertexRangeM": [
+        586.08706,
+        586.178678
+      ],
+      "fineTriangles": 16,
+      "cellIndex": 283056,
+      "cell": {
+        "nativeFaceId": "283056",
+        "lon": -111.27985785592324,
+        "lat": 32.453683613231085,
+        "areaM2": 39.0625,
+        "resolutionM": 6.25,
+        "edgeLengthsM": [
+          6.25,
+          6.25,
+          6.25,
+          6.25
+        ]
+      },
+      "nativeFrames": [
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "depthM": 0.0016146963119506837,
+          "nativeVolumeM3": 0.06307407468557358,
+          "waterSurfaceM": 586.0853881835938
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "depthM": 0.004997209548950195,
+          "nativeVolumeM3": 0.195203498005867,
+          "waterSurfaceM": 586.1064453125
+        }
+      ],
+      "nativeSubgridTerrainCheck": {
+        "sampled6x6RangeM": [
+          586.0753919283549,
+          586.1882207393629
+        ],
+        "nativeSubgridRangeM": [
+          586.0753784179688,
+          586.188232421875
+        ],
+        "maximumDifferenceM": 1.3510386111192929e-05,
+        "toleranceM": 5e-05
+      }
+    },
+    "387171": {
+      "tileId": "971-7169",
+      "tileArtifacts": [
+        {
+          "level": 0,
+          "triangles": 9589,
+          "vertices": 4898,
+          "artifact": {
+            "path": "terrain-tile-971-7169-lod0.json.gz",
+            "sha256": "c28c61f5bfc6b8fac87f0a2bc41d1e924f3b94e88dec978b9efebe97f5b49b15",
+            "bytes": 133045
+          }
+        },
+        {
+          "level": 1,
+          "triangles": 38356,
+          "vertices": 19384,
+          "artifact": {
+            "path": "terrain-tile-971-7169-lod1.json.gz",
+            "sha256": "370cbef7750591fa39225751cbe54d280c75c3652d2b4b85d703d8abcbfacc84",
+            "bytes": 538659
+          }
+        }
+      ],
+      "terrainCentreM": 627.942359,
+      "fineTerrainVertexRangeM": [
+        627.838054,
+        628.71962
+      ],
+      "fineTriangles": 16,
+      "cellIndex": 387171,
+      "cell": {
+        "nativeFaceId": "387171",
+        "lon": -111.15023296657797,
+        "lat": 32.401525690180215,
+        "areaM2": 39.0625,
+        "resolutionM": 6.25,
+        "edgeLengthsM": [
+          6.25,
+          6.25,
+          6.25,
+          6.25
+        ]
+      },
+      "nativeFrames": [
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "depthM": 0.052069427490234375,
+          "nativeVolumeM3": 2.0339620113372803,
+          "waterSurfaceM": 627.9871826171875
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "depthM": 2.2035794921875,
+          "nativeVolumeM3": 86.07732391357422,
+          "waterSurfaceM": 630.1849975585938
+        }
+      ],
+      "nativeSubgridTerrainCheck": {
+        "sampled6x6RangeM": [
+          627.7997614807562,
+          628.4788820478277
+        ],
+        "nativeSubgridRangeM": [
+          627.7997436523438,
+          628.4788818359375
+        ],
+        "maximumDifferenceM": 1.7828412410381134e-05,
+        "toleranceM": 5e-05
+      }
+    }
+  },
+  "elapsedSeconds": 16.646069399954285
+}
