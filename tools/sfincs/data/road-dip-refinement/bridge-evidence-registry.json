@@ -173,5 +173,61 @@
       "defaultRiskPenalty": null
     }
   ],
-  "policy": "Unknown measurements stay null; no generic bridge hazard multiplier"
+  "policy": "Unknown measurements stay null; no generic bridge hazard multiplier",
+  "assessmentScope": {
+    "purpose": "Hobbyist approximation from site-linked deck/approach elevation and compatible modeled water elevation, plus documented site history",
+    "fullBridgePhysicsRequired": false,
+    "unknownHeightBehavior": "Unknown; no generic bridge penalty or inferred bare-earth deck",
+    "estimatedProfileRule": "An approach-to-approach road profile must be labeled estimated with source, date, datum, and defensible uncertainty; no invented numerical error band"
+  },
+  "referenceEvidence": [
+    {
+      "kind": "structure_inventory",
+      "source": "https://services6.arcgis.com/clPWQMwZfdWn4MQZ/arcgis/rest/services/viewADOT_NBIStructures/FeatureServer/0",
+      "limitations": "No deck, soffit or approach elevations; mixed submission-year units require year-specific schema."
+    },
+    {
+      "kind": "nearby_structure_dimensions",
+      "structureId": "08263",
+      "name": "Sanders Road / Santa Cruz River",
+      "coordinates": [
+        -111.233958,
+        32.434477
+      ],
+      "source": "https://www.fhwa.dot.gov/bridge/nbi/2025/delimited/AZ25.txt",
+      "submissionYear": 2025,
+      "lengthM": 91.7,
+      "deckWidthM": 14.6,
+      "approachWidthM": 12.2,
+      "deckElevation": null,
+      "riverClearance": null,
+      "clearanceEncoding": "99.99 and N0000 are not river clearance; FHWA mtguide.pdf pp6,33\u201334",
+      "selectedRouteMatch": "Not asserted"
+    },
+    {
+      "kind": "historical_only",
+      "site": "Cortaro",
+      "sources": [
+        "https://www.ngs.noaa.gov/cgi-bin/ds_mark.prl?PidBox=CZ0703",
+        "https://www.ngs.noaa.gov/cgi-bin/ds_mark.prl?PidBox=CZ0705"
+      ],
+      "approximateOldRoadElevationFtNAVD88": 2153.6,
+      "marksEstablished": 1948,
+      "lastRecovered": 1980,
+      "notFound": 1997,
+      "currentThresholdUsable": false,
+      "reason": "Marks predate current bridges; no current elevation established"
+    },
+    {
+      "kind": "datum_conversion_reference",
+      "source": "https://www.ngs.noaa.gov/web_services/geoid.shtml",
+      "separationM": -29.619,
+      "coordinate": [
+        -111.2264,
+        32.4361
+      ],
+      "model": "GEOID18",
+      "usage": "Not a bridge elevation; do not apply again to existing NAVD88 terrain"
+    }
+  ]
 }

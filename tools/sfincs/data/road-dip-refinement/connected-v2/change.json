@@ -1,0 +1,16 @@
+{
+  "parentVersion": "road-dip-refinement-v1",
+  "addedCatchment": 15876625,
+  "addedAreaKm2": 0.20801748332600858,
+  "areaKm2": 483.3355073616624,
+  "boundsEPSG32612": [
+    462548.5230169563,
+    3570654.8561591003,
+    499690.4216498282,
+    3606869.8901913418
+  ],
+  "removedCumulativeInlet": 15876625,
+  "replacementExternalInlet": 15876641,
+  "nestedSelectedInletPairs": [],
+  "solverExecuted": false
+}

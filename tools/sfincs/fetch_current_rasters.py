@@ -47,6 +47,9 @@ def main():
     tiles = [i for i in catalog['items'] if 'AZ_PimaCounty_2021_B21' in i['title']]
     # Preserve cached 2021 indices; append the verified 2023 edge product only.
     tiles += [i for i in catalog['items'] if i['title']=='USGS 1 Meter 12 x49y361 AZ_NorthCentral_B23']
+    tiles += [i for i in catalog['items'] if 'AZ_NorthCentral_B23' in i['title'] and 'x49y361' not in i['title']]
+    if bounds[0]<467000:
+        tiles += [i for i in catalog['items'] if 'AZ_BrawleyRillito_2018_D19' in i['title'] and any(t in i['title'] for t in ['x46y359','x46y360','x46y361'])]
     if not tiles:
         raise ValueError('Unexpected 2021 tile catalog; inspect before import')
     xmin,ymin,xmax,ymax = bounds
@@ -89,7 +92,7 @@ def main():
             with rasterio.open(path) as part:
                 arr=part.read(1,masked=True);take=(out==-9999)&~np.ma.getmaskarray(arr);out[take]=arr.data[take]
             source_records.append({'url':url,'title':tile['title'],'publicationDate':tile['publicationDate'],
-                                   'catalogSourceId':tile['sourceId'],'acquisitionWindow':('2023-06-01/2023-08-11' if 'NorthCentral' in tile['title'] else '2021-09-27/2021-11-17'),'derivedWindowSha256':digest(path)})
+                                   'catalogSourceId':tile['sourceId'],'acquisitionWindow':('2019-03-05/2019-06-01' if 'BrawleyRillito' in tile['title'] else ('2023-06-01/2023-08-11' if 'NorthCentral' in tile['title'] else '2021-09-27/2021-11-17')),'derivedWindowSha256':digest(path)})
         required=np.ones(out.shape,dtype=bool)
         if a.active_domain:
             import geopandas as gpd
@@ -117,7 +120,7 @@ def main():
     manifest={'schemaVersion':1,'retrievedUtc':datetime.now(timezone.utc).isoformat(),
               'crs':'EPSG:32612','sourceTerrainCrs':'EPSG:26912','verticalDatum':'NAVD88',
               'geoid':'2021 GEOID18 per project report; 2023 edge product NAVD88 per USGS metadata','elevationUnits':'m',
-              'acquisitionWindow':'2021-09-27/2021-11-17; northern edge 2023-06-01/2023-08-11','acquisitionEvidence':REPORT,
+              'acquisitionWindow':'2021-09-27/2021-11-17; northern edge 2023-06-01/2023-08-11; source_records identifies any 2019-03-05/2019-06-01 peripheral coverage','acquisitionEvidence':REPORT,
               'edgeMetadata':'https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_NorthCentral_B23/USGS_1M_12_x49y361_AZ_NorthCentral_B23.xml',
               'metadataCaveat':'Vendor XML includes inconsistent 2022 date; flight-log window retained',
               'terrainMethod':'Rasterio/GDAL standard bilinear overview reprojection to 10m; no filling/burning',
@@ -126,7 +129,7 @@ def main():
               'terrainRangeM':[float(out[out!=-9999].min()),float(out[out!=-9999].max())],
               'missingTerrainCells':int((out==-9999).sum()),'missingRequiredTerrainCells':0,
               'requiredCoverage':'every 10m pixel in centre-selected 100m active cells' if a.active_domain else 'whole rectangle',
-              'sources':source_records,'worldcoverUrl':WORLDCOVER,'mappingUrl':MAPPING,
+              'peripheralOlderSource': '2019 BrawleyRillito only where newer terrain is absent; not used for 1m road-detail windows' if bounds[0]<467000 else None,'sources':source_records,'worldcoverUrl':WORLDCOVER,'mappingUrl':MAPPING,
               'artifacts':[{'path':p.name,'sha256':digest(p)} for p in [terrain,lulc,mapping,catalog_path]],
               'limitations':['2021 survey is not 2026 construction geometry',
                              '10m resampling may lose small channel/structure detail',

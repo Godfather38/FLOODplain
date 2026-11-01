@@ -1,0 +1,138 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 2155698,
+        "gridcode": 2425479,
+        "featureid": 15876625,
+        "sourcefc": "NHDFlowline",
+        "areasqkm": 0.208179,
+        "shape_length": 0.0353943138408372,
+        "shape_area": 1.99578326857929e-05
+      },
+      "id": 2155698,
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -111.32691410263766,
+                32.41480256819102
+              ],
+              [
+                -111.32924011943541,
+                32.41599923242133
+              ],
+              [
+                -111.33150384829086,
+                32.417594097555714
+              ],
+              [
+                -111.33547522648132,
+                32.42002907980796
+              ],
+              [
+                -111.33686015373509,
+                32.4188858036013
+              ],
+              [
+                -111.3370715135448,
+                32.41859497701826
+              ],
+              [
+                -111.33770453669146,
+                32.41850850584868
+              ],
+              [
+                -111.337653005947,
+                32.4182429403663
+              ],
+              [
+                -111.34081809082228,
+                32.41781053251135
+              ],
+              [
+                -111.34041375289539,
+                32.41852599552019
+              ],
+              [
+                -111.33807348512282,
+                32.42037059634142
+              ],
+              [
+                -111.33795487484568,
+                32.42147295424098
+              ],
+              [
+                -111.33776546996029,
+                32.42136678446917
+              ],
+              [
+                -111.33740816924836,
+                32.421134468377666
+              ],
+              [
+                -111.33519245420159,
+                32.42108357109947
+              ],
+              [
+                -111.32954676211482,
+                32.41739065440031
+              ],
+              [
+                -111.32764213359071,
+                32.41715659088124
+              ],
+              [
+                -111.32667900004218,
+                32.415056150875536
+              ],
+              [
+                -111.32691410263766,
+                32.41480256819102
+              ]
+            ]
+          ]
+        ]
+      }
+    }
+  ],
+  "numberReturned": 1,
+  "numberMatched": 1,
+  "links": [
+    {
+      "type": "application/geo+json",
+      "rel": "self",
+      "title": "This document as GeoJSON",
+      "href": "https://api.water.usgs.gov:443/fabric/pygeoapi/collections/catchmentsp/items?f=json&featureid=15876625&limit=100"
+    },
+    {
+      "rel": "alternate",
+      "type": "application/ld+json",
+      "title": "This document as RDF (JSON-LD)",
+      "href": "https://api.water.usgs.gov:443/fabric/pygeoapi/collections/catchmentsp/items?f=jsonld&featureid=15876625&limit=100"
+    },
+    {
+      "type": "text/html",
+      "rel": "alternate",
+      "title": "This document as HTML",
+      "href": "https://api.water.usgs.gov:443/fabric/pygeoapi/collections/catchmentsp/items?f=html&featureid=15876625&limit=100"
+    },
+    {
+      "type": "text/csv; charset=utf-8",
+      "rel": "alternate",
+      "title": "This document as CSV",
+      "href": "https://api.water.usgs.gov:443/fabric/pygeoapi/collections/catchmentsp/items?f=csv&featureid=15876625&limit=100"
+    },
+    {
+      "type": "application/json",
+      "title": "NHDPlusV2 Catchmentsp Features",
+      "rel": "collection",
+      "href": "https://api.water.usgs.gov:443/fabric/pygeoapi/collections/catchmentsp"
+    }
+  ],
+  "timeStamp": "2026-11-01T18:41:01.282508Z"
+}

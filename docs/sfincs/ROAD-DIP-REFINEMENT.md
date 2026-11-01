@@ -35,3 +35,16 @@ The baseline13.59s is not an ETA for this mesh. Active cells increase13.4times a
 Completion means target routes and off-channel cells lie inside active coverage; actual1m terrain supports fine zones; every external inflow and local rain area is accounted once; native model loads with sourced parameters; a bounded run finishes; native volume/water-surface outputs and road-support masks reach the app with precise missing-structure labels. A successful process exit alone is not completion of the road-dip objective.
 
 Sources: https://github.com/Deltares-research/cht_sfincs/blob/8d29dcc7d4138e75001ecce1708137791cc3eb6f/cht_sfincs/quadtree_builder.py ; https://api.water.usgs.gov/fabric/pygeoapi/collections/catchmentsp/items ; https://tnmaccess.nationalmap.gov/api/v1/products ; https://tucson.com/news/local/northwest/collection_2f2d6d1e-3872-11e4-9781-0019bb2963f4.html
+
+
+## Connected domain update
+
+The original candidate boundary list contained cumulative-flow overlap: external reaches 15876639 and 15876653 drain through active 15876633, then external 15876625, then active 15876621. Injecting all three would count upstream flow twice. `connected-v2` adds the official 0.208 km² intervening catchment 15876625 and replaces that cumulative inlet with its external tributary 15876641. A directed-network traversal finds no nested selected inlets after this correction. No flow subtraction or rescaling is used.
+
+The updated domain is 483.336 km² with 398,613 active cells. The existing rectangular mesh is reused; only its active selection changes (22 additional 100 m cells). The original v1 mesh and parameter table remain preserved. All 14 corrected inlets have 47 archived analysis timestamps and 18 forecast timestamps from the original fixed issue. See `tools/sfincs/data/road-dip-refinement/connected-v2/frozen-analysis.json` and `frozen-forecast.json`.
+
+All 78 road terrain windows have complete required 1 m coverage. The context raster uses 2021/2023 professional terrain, with 1.3337 km² of otherwise missing peripheral context from the 2019 Brawley/Rillito acquisition. This is not 2015 terrain and not a claim of a 2026 survey. Native roughness uses the official WorldCover mapping and native retention uses the official HydroMT CN transformation; fair ARCII remains an explicit soil-state assumption.
+
+The corrected native parameter preparation is separate from solver execution. The 6.25 m mesh and approximately 1.04 m subgrid sampling do not establish road-depth accuracy. The frozen precipitation package must cover [-111.41,32.26,-110.99,32.61] for Oct 30 16Z through Nov 2 07Z, using the original archived observations and forecast issues. Do not refresh or zero-fill missing coverage.
+
+Bridge guidance is a hobbyist height/history comparison, not a full bridge physics model. The evidence registry now distinguishes inventory dimensions, historical Cortaro marks, datum conversion references, and missing current elevations. Historic roadway estimates must not become current thresholds; bare-earth bridge-centre terrain is not deck height. No generic bridge penalty is introduced.

@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "retrievedUtc": "2026-11-01T18:30:39.384743+00:00",
+  "crs": "EPSG:32612",
+  "sourceTerrainCrs": "EPSG:26912",
+  "verticalDatum": "NAVD88",
+  "geoid": "2021 GEOID18 per project report; 2023 edge product NAVD88 per USGS metadata",
+  "elevationUnits": "m",
+  "acquisitionWindow": "2021-09-27/2021-11-17; northern edge 2023-06-01/2023-08-11; missing western context only 2019-03-05/2019-06-01",
+  "acquisitionEvidence": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021/reports/Final_37174_AZ_PimaCounty_D2_Report.pdf",
+  "edgeMetadata": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_NorthCentral_B23/USGS_1M_12_x49y361_AZ_NorthCentral_B23.xml",
+  "metadataCaveat": "Vendor XML includes inconsistent 2022 date; flight-log window retained",
+  "terrainMethod": "Rasterio/GDAL standard bilinear overview reprojection to 10m; no filling/burning",
+  "roughnessMethod": "WorldCover2021 nearest-neighbor crop; official HydroMT-SFINCS1.2.2 class mapping",
+  "bounds": [
+    462500.0,
+    3570600.0,
+    499700.0,
+    3606900.0
+  ],
+  "baseCacheManifestSha256": "9c26855ae63df1019177ffbbdc9733bb51be3097630f8b7b65f5373d464f7922",
+  "resolutionM": 10,
+  "shape": [
+    3630,
+    3720
+  ],
+  "terrainRangeM": [
+    542.0098876953125,
+    1431.3812255859375
+  ],
+  "missingTerrainCells": 514219,
+  "missingRequiredTerrainCells": 0,
+  "requiredCoverage": "every 10m pixel in centre-selected 100m active cells",
+  "peripheralOlderSource": "2019 BrawleyRillito only where newer terrain is absent; not used for 1m road-detail windows",
+  "sources": [
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y358_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x46y358 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d7b2d34e63346651008f",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "83b5e009ed7e2af0f5c776c471f96d47018adcfa3316293095abb65f7b9486f7"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y359_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x46y359 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d7b0d34e63346651008d",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "037275b3c5c827144913cfdefb2869491ebc3f32450020aae80d71e974aaba52"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y360_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x46y360 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d7aed34e63346651008b",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "6dc808c522a459ac774e743e5a2afee13a0b60b639850335e3049076842bc3de"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y361_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x46y361 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d7acd34e633466510089",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "9857376a7f265e0f3dc6ca3825194a5beddb78ca7d556f06595797141563a493"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y358_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x47y358 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d7a3d34e633466510083",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "979cd6f8129a908fe2e23c028143fcec473655b7b6783a5b30065de06af203ef"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d7a1d34e633466510081",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "c2c87f8387a9fc392eb1870419ac82f00ec74bf4a406130ee9bb58100f5401b0"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y360_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x47y360 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d79fd34e63346651007f",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "728d56815914a66a22bba4ce249e52ec180445a36d49131df960832aff6936bf"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y361_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x47y361 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d79ed34e63346651007d",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "4bbc6830d215e3f80dafb713a3dfefd70d7d9f5062013bf860fe8af7ada3bf28"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y358_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x48y358 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d795d34e633466510073",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "ef1af1827e9e17d5796b589061217e50cd19a8a2231c89d836423b077bd5ac06"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y359_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x48y359 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d793d34e633466510071",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "c2c87f8387a9fc392eb1870419ac82f00ec74bf4a406130ee9bb58100f5401b0"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y360_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x48y360 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d792d34e63346651006f",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "6fc2bc7165af94d6fc0e42aef65259e29a65b13088275772a1425f40512b4058"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y361_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x48y361 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d790d34e63346651006d",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "3336924877c54d4ea83b9b5d3203721265c3c694e02099d6a0b6f8d535c5a0e5"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y358_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x49y358 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d785d34e633466510063",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "5f63aa31966b28d9f0dd422eebda2d9b89c3b4bc9ea840269fc77d36da05db0f"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y359_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x49y359 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d783d34e633466510061",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "c2c87f8387a9fc392eb1870419ac82f00ec74bf4a406130ee9bb58100f5401b0"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y360_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x49y360 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d77fd34e63346651005f",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "3bf04a944c47c3b957e0317539952130a6d0b57a6027e9987010b37da4d0629a"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y361_AZ_PimaCounty_2021_B21.tif",
+      "title": "USGS 1 Meter 12 x49y361 AZ_PimaCounty_2021_B21",
+      "publicationDate": "2024-03-29",
+      "catalogSourceId": "6610d77ad34e63346651005d",
+      "acquisitionWindow": "2021-09-27/2021-11-17",
+      "derivedWindowSha256": "00707f3c20cc1be06a1522e25606e9798c6623768c9e7ab85a8e3cbd44a5aee6"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_NorthCentral_B23/TIFF/USGS_1M_12_x49y361_AZ_NorthCentral_B23.tif",
+      "title": "USGS 1 Meter 12 x49y361 AZ_NorthCentral_B23",
+      "publicationDate": "2026-05-15",
+      "catalogSourceId": "6a1e3baab66b019f32f2b391",
+      "acquisitionWindow": "2023-06-01/2023-08-11",
+      "derivedWindowSha256": "28ff889ebe6f4667289e0e10ea1e3d8d8c865476272d94af8081ff27662f083e"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_NorthCentral_B23/TIFF/USGS_1M_12_x47y361_AZ_NorthCentral_B23.tif",
+      "title": "USGS 1 Meter 12 x47y361 AZ_NorthCentral_B23",
+      "publicationDate": "2026-05-15",
+      "catalogSourceId": "6a1e3bb3b66b019f32f2b3b7",
+      "acquisitionWindow": "2023-06-01/2023-08-11",
+      "derivedWindowSha256": "c2c87f8387a9fc392eb1870419ac82f00ec74bf4a406130ee9bb58100f5401b0"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_NorthCentral_B23/TIFF/USGS_1M_12_x48y361_AZ_NorthCentral_B23.tif",
+      "title": "USGS 1 Meter 12 x48y361 AZ_NorthCentral_B23",
+      "publicationDate": "2026-05-15",
+      "catalogSourceId": "6a1e3bafb66b019f32f2b3a5",
+      "acquisitionWindow": "2023-06-01/2023-08-11",
+      "derivedWindowSha256": "c2c87f8387a9fc392eb1870419ac82f00ec74bf4a406130ee9bb58100f5401b0"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x46y359_AZ_BrawleyRillito_2018_D19.tif",
+      "title": "USGS 1 Meter 12 x46y359 AZ_BrawleyRillito_2018_D19",
+      "publicationDate": "2025-12-23",
+      "catalogSourceId": "6954942cd4be0262ea3572e7",
+      "acquisitionWindow": "2019-03-05/2019-06-01",
+      "derivedWindowSha256": "9ec8cb7ccde72a0024a7dda89ca1cd25a8fb045ddea686c37d9b3e5b9cc651a8"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x46y360_AZ_BrawleyRillito_2018_D19.tif",
+      "title": "USGS 1 Meter 12 x46y360 AZ_BrawleyRillito_2018_D19",
+      "publicationDate": "2025-12-23",
+      "catalogSourceId": "6954942cd4be0262ea3572e5",
+      "acquisitionWindow": "2019-03-05/2019-06-01",
+      "derivedWindowSha256": "b4a0a1280d21cdfece8327dfb6cb4ab6975fafaf58a6d354acbc3ee1937863cb"
+    },
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x46y361_AZ_BrawleyRillito_2018_D19.tif",
+      "title": "USGS 1 Meter 12 x46y361 AZ_BrawleyRillito_2018_D19",
+      "publicationDate": "2025-12-23",
+      "catalogSourceId": "6954942cd4be0262ea3572e3",
+      "acquisitionWindow": "2019-03-05/2019-06-01",
+      "derivedWindowSha256": "6114621934c2200f513fdfb817ec71536d7f21255802d70af9c36b71561ba712"
+    }
+  ],
+  "worldcoverUrl": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N30W114_Map.tif",
+  "mappingUrl": "https://raw.githubusercontent.com/Deltares/hydromt_sfincs/v1.2.2/hydromt_sfincs/data/lulc/esa_worldcover_mapping.csv",
+  "artifacts": [
+    {
+      "path": "terrain.tif",
+      "sha256": "91f8e86dd7d2a10629920cf84d8efce68834f96d2108042baf4e0122d8408c7a"
+    },
+    {
+      "path": "lulc.tif",
+      "sha256": "9b25aa3288f5858d897ec1a5e34578faa69b27fba1c22fc5520bb72848002e65"
+    },
+    {
+      "path": "esa_worldcover_mapping.csv",
+      "sha256": "b240dd2b5724f2622e17a3597c7393d20e0895f1e5b48294921ec5efc20ceb45"
+    },
+    {
+      "path": "tnm-catalog.json",
+      "sha256": "64a6face3c94be6b93378acf22bd96524b1ef0f4d531acfa7db6e054695c082c"
+    }
+  ],
+  "limitations": [
+    "2021 survey is not 2026 construction geometry",
+    "10m resampling may lose small channel/structure detail",
+    "WorldCover roughness is a published class mapping, not measured channel friction",
+    "No infiltration or initial state supplied by these rasters"
+  ]
+}
