@@ -1,8 +1,25 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T07:04:58.574Z",
+  "generatedAt": "2026-11-01T07:12:48.088Z",
+  "firstScoredAt": "2026-11-01T07:04:58.574Z",
   "event": "August 16–23, 2014 UTC/MST-boundary window",
-  "selection": "Additional event selected from highest Cortaro daily mean in August 2014 (August 19), before evaluating it with frozen models. Not used in fitting. Chosen after viewing September benchmark, so not a blinded evaluation program.",
+  "selection": "Not used in fitting. The stated selection rule is the highest Cortaro daily mean in August 2014 (August 19, 442 ft3/s). No contemporaneous full monthly response or committed pre-evaluation selection record was retained. The retained monthly source was retrieved after scoring and reproduces the rule, not the timing of the original choice. Selection history is therefore not independently documented; this is not a blinded evaluation program.",
+  "selectionEvidence": {
+    "path": "cortaro-selection-2014-08.json",
+    "sha256": "3c36948aecddc5ec621eaf0b0abf1773c724d1dd13d0146bed3a7b637ba719ca",
+    "retrievedAt": "2026-11-01T07:11:51.187Z",
+    "evidenceStatus": "Retrospective source retrieval after event scoring",
+    "contemporaneousSelectionRecordRetained": false,
+    "checkedSelection": {
+      "station": "USGS-09486500",
+      "statistic": "daily mean discharge",
+      "units": "ft^3/s",
+      "dayCount": 31,
+      "rule": "Maximum approved unqualified daily mean across all August 2014 dates; ties choose earliest date",
+      "selectedDate": "2014-08-19",
+      "selectedDailyMeanCfs": 442
+    }
+  },
   "method": "Same fixed models, unit transmission, 24h warm-up and quality/exact-time pairing rules as September benchmark; no retuning.",
   "freezeCommit": "b4c4c1b",
   "frozenFiles": [

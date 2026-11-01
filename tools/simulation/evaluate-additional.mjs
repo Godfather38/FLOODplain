@@ -3,8 +3,17 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { routeGauge } from '../../public/simulation/routing.js';
 import { compareDischarge } from '../../public/simulation/observations.js';
+import { selectAugust2014 } from './selection.mjs';
 const root = 'public/simulation/data/';
 const hash = s => createHash('sha256').update(s.replace(/\r\n/g, '\n')).digest('hex');
+const selectionPath = 'cortaro-selection-2014-08.json';
+const selectionText = await readFile(root + selectionPath, 'utf8');
+const selectionRecord = JSON.parse(selectionText);
+const checkedSelection = selectAugust2014(selectionRecord.raw);
+if (JSON.stringify(checkedSelection) !== JSON.stringify(selectionRecord.selection)) throw new Error('Monthly selection summary differs from source');
+let firstScoredAt;
+try { const previous = JSON.parse(await readFile(root + 'routing-evaluation-2014-08.json', 'utf8')); firstScoredAt = previous.firstScoredAt ?? previous.generatedAt; }
+catch (error) { if (error.code !== 'ENOENT') throw error; }
 const frozenFiles = ['routing-frozen-2006.json', 'routing-frozen-2013.json'];
 const frozenTexts = await Promise.all(frozenFiles.map(p => readFile(root + p, 'utf8')));
 const frozen = frozenTexts.map(JSON.parse);
@@ -33,8 +42,10 @@ const results = candidates.map(c => {
     peakTimingErrorMinutes: (Date.parse(predictedPeak.time) - Date.parse(actualPeak.time)) / 60000 };
 });
 const report = {
-  schemaVersion: 1, generatedAt: new Date().toISOString(), event: 'August 16–23, 2014 UTC/MST-boundary window',
-  selection: 'Additional event selected from highest Cortaro daily mean in August 2014 (August 19), before evaluating it with frozen models. Not used in fitting. Chosen after viewing September benchmark, so not a blinded evaluation program.',
+  schemaVersion: 1, generatedAt: new Date().toISOString(), firstScoredAt: firstScoredAt ?? new Date().toISOString(), event: 'August 16–23, 2014 UTC/MST-boundary window',
+  selection: 'Not used in fitting. The stated selection rule is the highest Cortaro daily mean in August 2014 (August 19, 442 ft3/s). No contemporaneous full monthly response or committed pre-evaluation selection record was retained. The retained monthly source was retrieved after scoring and reproduces the rule, not the timing of the original choice. Selection history is therefore not independently documented; this is not a blinded evaluation program.',
+  selectionEvidence: { path: selectionPath, sha256: hash(selectionText), retrievedAt: selectionRecord.retrievedAt,
+    evidenceStatus: selectionRecord.evidenceStatus, contemporaneousSelectionRecordRetained: false, checkedSelection },
   method: 'Same fixed models, unit transmission, 24h warm-up and quality/exact-time pairing rules as September benchmark; no retuning.',
   freezeCommit: 'b4c4c1b', frozenFiles: frozenFiles.map((path, i) => ({ path, sha256: hash(frozenTexts[i]) })),
   inputSources: paths.map((path, i) => ({ path, sha256: hash(texts[i]), sourceUrl: [up, down][i].sourceUrl, quality: [up, down][i].quality })),
