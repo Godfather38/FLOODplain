@@ -1,0 +1,117 @@
+{
+  "reach": {
+    "reachId": "15902409",
+    "name": "Santa Cruz River",
+    "latitude": 32.3418,
+    "longitude": -111.084,
+    "streamflow": [
+      "analysis_assimilation",
+      "short_range",
+      "long_range",
+      "medium_range_blend",
+      "medium_range"
+    ],
+    "route": {
+      "upstream": [
+        {
+          "reachId": "15902413",
+          "streamOrder": "6"
+        },
+        {
+          "reachId": "15902439",
+          "streamOrder": "6"
+        }
+      ],
+      "downstream": [
+        {
+          "reachId": "15903137",
+          "streamOrder": "6"
+        }
+      ]
+    }
+  },
+  "analysisAssimilation": {},
+  "shortRange": {
+    "series": {
+      "referenceTime": "2026-11-01T13:00:00Z",
+      "units": "ft³/s",
+      "data": [
+        {
+          "validTime": "2026-11-01T14:00:00Z",
+          "flow": 319.239990234375
+        },
+        {
+          "validTime": "2026-11-01T15:00:00Z",
+          "flow": 257.44000244140625
+        },
+        {
+          "validTime": "2026-11-01T16:00:00Z",
+          "flow": 227.42999267578125
+        },
+        {
+          "validTime": "2026-11-01T17:00:00Z",
+          "flow": 217.19000244140625
+        },
+        {
+          "validTime": "2026-11-01T18:00:00Z",
+          "flow": 217.19000244140625
+        },
+        {
+          "validTime": "2026-11-01T19:00:00Z",
+          "flow": 289.5799865722656
+        },
+        {
+          "validTime": "2026-11-01T20:00:00Z",
+          "flow": 625.4199829101562
+        },
+        {
+          "validTime": "2026-11-01T21:00:00Z",
+          "flow": 1142.429931640625
+        },
+        {
+          "validTime": "2026-11-01T22:00:00Z",
+          "flow": 1067.919921875
+        },
+        {
+          "validTime": "2026-11-01T23:00:00Z",
+          "flow": 1009.6499633789062
+        },
+        {
+          "validTime": "2026-11-02T00:00:00Z",
+          "flow": 1133.5999755859375
+        },
+        {
+          "validTime": "2026-11-02T01:00:00Z",
+          "flow": 1387.159912109375
+        },
+        {
+          "validTime": "2026-11-02T02:00:00Z",
+          "flow": 1880.14990234375
+        },
+        {
+          "validTime": "2026-11-02T03:00:00Z",
+          "flow": 2327.58984375
+        },
+        {
+          "validTime": "2026-11-02T04:00:00Z",
+          "flow": 2498.159912109375
+        },
+        {
+          "validTime": "2026-11-02T05:00:00Z",
+          "flow": 2340.300048828125
+        },
+        {
+          "validTime": "2026-11-02T06:00:00Z",
+          "flow": 2074.030029296875
+        },
+        {
+          "validTime": "2026-11-02T07:00:00Z",
+          "flow": 1854.02001953125
+        }
+      ]
+    }
+  },
+  "mediumRange": {},
+  "longRange": {},
+  "mediumRangeBlend": {}
+}
