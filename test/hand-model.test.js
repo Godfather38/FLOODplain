@@ -126,3 +126,5 @@ test('app reaches HAND through its own layer, and service files do not import it
  await assert.rejects(loadHand(FAILURE_POINTS,{fetchImpl:async()=>({ok:true,json:async()=>({oops:1})}),clock:()=>now}));
  const r={x:point('caution','rain')};applyHand(r,null);assert.equal(r.x.level,'caution');assert.equal(r.x.checks.length,1);
 });
+
+test('a generic HAND stage does not add bridge risk without roadway elevation comparison',()=>{const p={...point('ok'),kind:'bridge'};applyHand({bridge:p},{checks:{bridge:{src:'hand',level:'watch',why:'modeled water above stream bed',raise:true,points:1}}});assert.equal(riskScore(p),1);assert.equal(p.handAdd,undefined);assert.equal(p.checks[0].src,'hand')});

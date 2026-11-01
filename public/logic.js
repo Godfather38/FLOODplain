@@ -61,12 +61,12 @@ export function checkRiver(flows, siteIds, names, R) {
   for (const { id, f } of parts) {
     const at = `${fmtCfs(f.cfs)} cfs at ${siteName(names, id)}`;
     let c;
-    if (f.cfs >= R.dangerCfs) c = { level: 'danger', why: `${at}: the 2014 flood that went over the Trico bridge was 12,000-21,000 cfs` };
-    else if (f.cfs >= R.cautionCfs || (f.risingFast && f.cfs >= R.watchCfs)) c = { level: 'caution', why: `${at}${f.risingFast ? ' and rising fast' : ''}: big flood flow. Bridges get closed at levels like this` };
-    else if (f.cfs >= R.watchCfs || f.risingFast) c = { level: 'watch', why: `${at}${f.risingFast ? ' and rising' : ''}: storm water under the bridge` };
+    if (f.cfs >= R.dangerCfs) c = { level: 'danger', why: `${at}: above the configured high-flow threshold; overtopping at this bridge is not established` };
+    else if (f.cfs >= R.cautionCfs || (f.risingFast && f.cfs >= R.watchCfs)) c = { level: 'caution', why: `${at}${f.risingFast ? ' and rising fast' : ''}: above the configured flow-warning threshold; this flow threshold does not establish bridge-specific clearance` };
+    else if (f.cfs >= R.watchCfs || f.risingFast) c = { level: 'watch', why: `${at}${f.risingFast ? ' and rising' : ''}: elevated river flow; water level relative to this bridge is not established` };
     if (c && rank(c.level) > rank(out.level)) out = c;
   }
-  return out;
+  return {...out, observations:parts.map(({id,f})=>({siteId:id,cfs:f.cfs,time:f.time})), detail:parts.map(({id,f})=>siteName(names,id)+': '+fmtCfs(f.cfs)+' cfs; observed '+(Number.isFinite(f.time)?new Date(f.time).toISOString():'time unavailable')).join('; ')};
 }
 
 // Upstream creeks that reach the river bridges hours later.
@@ -126,9 +126,7 @@ export function checkWash(snapshot, flows, wash, kind, now, staleMs, names) {
       ? { level: 'danger', why: `${at}: a flood is coming down the wash toward this crossing` }
       : { level: 'caution', why: `${at}: water is coming down the wash toward this crossing` };
   }
-  return top.cfs >= 2000 || top.risingFast
-    ? { level: 'caution', why: `${at}: a large flow is coming toward this bridge` }
-    : { level: 'watch', why: `${at}: water will pass under this bridge` };
+  return { level: 'unknown', contextOnly:true, why: `${at}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
 }
 
 // 4. Pima County's own barricade points near this spot.
@@ -166,6 +164,36 @@ export function checkNws(alerts, kind) {
   return null;
 }
 
+// Compare absolute elevations only at the same bridge, in metres and the same datum.
+export function bridgeHeightComparison(record, now, policy) {
+  const road = record?.roadwayEstimate, water = record?.modelWater;
+  if (!road || !Number.isFinite(road.elevationM)) return { status: 'unavailable', reason: 'Roadway elevation estimate is missing.' };
+  if (!water || water.quantity !== 'water_surface_elevation' || water.units !== 'm' || water.verticalDatum !== road.verticalDatum || JSON.stringify(water.location) !== JSON.stringify(record.location)) return { status: 'unavailable', reason: 'Matching water-surface elevation at this bridge in ' + road.verticalDatum + ' is missing.' };
+  if (now > Date.parse(water.validTo)) return { status: 'expired', reason: 'The model water forecast expired at ' + water.validTo + '; a new water elevation is needed.' };
+  const frames = water.frames.filter(f => Number.isFinite(f.elevationM) && Date.parse(f.time) >= now && Date.parse(f.time) >= Date.parse(water.validFrom) && Date.parse(f.time) <= Date.parse(water.validTo));
+  if (!frames.length) return { status: 'unavailable', reason: 'No defined water-surface elevation remains in this forecast.' };
+  const peak = frames.reduce((a,b) => b.elevationM > a.elevationM ? b : a);
+  const channel=record.channelReference;
+  const channelValid=channel&&Number.isFinite(channel.elevationM)&&channel.verticalDatum===road.verticalDatum&&channel.structureId===record.structureId&&road.elevationM>channel.elevationM;
+  const heightAboveChannelM=channelValid?road.elevationM-channel.elevationM:null;
+  const thresholds=channelValid&&policy?{warningM:channel.elevationM+policy.warningFraction*heightAboveChannelM,roadwayM:channel.elevationM+policy.roadwayFraction*heightAboveChannelM,likelyClosedM:channel.elevationM+policy.likelyClosedFraction*heightAboveChannelM}:null;
+  const assessment=thresholds?(peak.elevationM>=thresholds.likelyClosedM?'likely_closed':peak.elevationM>=thresholds.roadwayM?'roadway_concern':peak.elevationM>=thresholds.warningM?'warning':'below_warning'):(peak.elevationM>=road.elevationM?'roadway_concern':'unavailable');
+  const assessmentLabel={likely_closed:'likely closed — model estimate',roadway_concern:'modeled water reaches estimated roadway',warning:'warning — modeled water within the lower 10% roadway margin',below_warning:'modeled water below the bridge warning level',unavailable:'channel reference unavailable; percentage thresholds not computed'}[assessment];
+  return { channelM:channelValid?channel.elevationM:null,heightAboveChannelM,thresholds,assessment,assessmentLabel,status: 'estimated', roadM: road.elevationM, waterM: peak.elevationM, differenceM: road.elevationM - peak.elevationM, time: peak.time, datum: road.verticalDatum, validFrom: water.validFrom, validTo: water.validTo };
+}
+
+// A discharge threshold describes the river, not water reaching a particular bridge.
+function bridgeRiverCheck(check,record,now,policy){
+ const history=record?.documentedHistory??[];
+ const heightComparison=bridgeHeightComparison(record,now,policy),modeledRoadConcern=heightComparison.status==='estimated'&&heightComparison.differenceM<=0;
+ const assessedLevel={likely_closed:'danger',roadway_concern:'caution',warning:'watch',below_warning:'ok'}[heightComparison.assessment]??'unknown';
+ return {...check,level:assessedLevel,bridgePoints:heightComparison.assessment==='warning'?policy.warningPoints:heightComparison.assessment==='roadway_concern'?policy.roadwayPoints:0,modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
+  why:heightComparison.status==='estimated'?`${heightComparison.assessmentLabel}: estimated road ${heightComparison.roadM.toFixed(2)} m, modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}. Official closure status is separate.`:heightComparison.reason+' Gauge discharge is context only.',
+  detail:(check.detail?check.detail+'. ':'')+(record?'Site-linked structure record '+record.id+'. ':'No exact structure record. ')+(history.length?'Historical flooding is documented for this site; it is not a current closure or measured flow-to-road threshold. ':'No site-linked flooding history establishes a current road threshold. ')+(record?.roadwayEstimate?'A provisional roadway-height comparison is shown in height & history; it is not surveyed deck or underside clearance. ':'Current roadway elevation is unavailable. ')+'Clearance is unknown, not confirmed clear.',
+  heightComparison,
+  bridgeEvidence:{recordId:record?.id??null,historyDates:history.map(h=>h.date),clearance:'unknown'}};
+}
+
 // ---------- combine ----------
 
 export function rateFailurePoint(fp, d, cfg) {
@@ -177,20 +205,22 @@ export function rateFailurePoint(fp, d, cfg) {
   const nws = checkNws(d.nws, fp.kind);
   if (nws) checks.push({ src: 'nws', ...nws });
   if (fp.river) {
-    checks.push({ src: 'river', ...checkRiver(d.flows, fp.river, cfg.USGS_SITES, cfg.RIVER) });
+    const river=checkRiver(d.flows, fp.river, cfg.USGS_SITES, cfg.RIVER);
+    checks.push({ src: 'river', ...(['river','bridge'].includes(fp.kind)?bridgeRiverCheck(river,d.bridgeEvidence?.[fp.id],now,cfg.BRIDGE_POLICY):river) });
     const early = checkRiverEarly(d.flows, cfg.RIVER_EARLY, cfg.USGS_SITES, cfg.RIVER);
-    if (early) checks.push({ src: 'river-early', ...early });
+    if (early) checks.push({ src: 'river-early', ...early, ...(['river','bridge'].includes(fp.kind)?{level:'unknown',contextOnly:true,why:early.why.split(':')[0]+': upstream readings; no site-specific travel time or roadway height comparison'}:{}) });
   }
   if (fp.wash) checks.push({ src: 'wash', ...checkWash(d.alert, d.flows, fp.wash, fp.kind, now, cfg.STALE_MS, cfg.USGS_SITES) });
   for (const [ruleName, ids] of Object.entries(fp.rain ?? {})) {
     const c = d.alert
       ? checkRain(d.alert, ids, cfg.RAIN[ruleName], cfg.RAIN_GAUGES, now, cfg.STALE_MS)
       : { level: 'unknown', why: 'rain gauges unreachable right now' };
-    // Rain upstream of a bridge means water will pass *under* it. That's a heads-up,
-    // not a reason to avoid the road. The wash flow sensors decide anything worse.
-    if (fp.kind === 'bridge' && rank(c.level) > rank('watch') && c.level !== 'unknown') {
-      c.level = 'watch';
-      c.why += ': water will pass under this bridge';
+    // Rain is context, not a bridge-height or bridge-inundation measurement.
+    if (['bridge','river'].includes(fp.kind) && c.level !== 'unknown' && c.level !== 'ok') {
+      c.sourceLevel = c.level;
+      c.level = 'unknown';
+      c.contextOnly = true;
+      c.why += ': rainfall context; no bridge-specific roadway inundation established';
     }
     checks.push({ src: `rain-${ruleName}`, ...c });
   }
@@ -198,7 +228,7 @@ export function rateFailurePoint(fp, d, cfg) {
   // answer is listed in the details ("unreachable"), but never turns the rating into "?".
   const known = checks.filter((c) => c.level !== 'unknown');
   let level = known.length ? worst(known.map((c) => c.level)) : 'ok';
-  if (!known.length) checks.unshift({ src: 'none', level: 'ok', why: 'No live readings right now, and nothing reported against it' });
+  if (!known.length) checks.unshift({ src: 'none', level: 'ok', why: 'No live readings right now; current road conditions are not established' });
   // Shallow spots per local knowledge: Silverbell drainage, the big flat dip on Ina.
   if ((fp.kind === 'road' || fp.kind === 'flat') && level === 'danger' && closure?.level !== 'danger') level = 'caution';
   // Lead with a measurement when one exists; the county "Open" flag is often days old.
@@ -207,7 +237,7 @@ export function rateFailurePoint(fp, d, cfg) {
   const atLevel = checks.filter((c) => c.level === level && !(c.official && level === 'ok'));
   atLevel.sort((a, b) => pref.indexOf(a.src) - pref.indexOf(b.src));
   const lead = atLevel[0] ?? checks.find((c) => c.level === level) ?? checks[0];
-  return { id: fp.id, name: fp.name, short: fp.short, where: fp.where, kind: fp.kind, level, why: lead?.why ?? 'no data', checks, closurePts };
+  return { evidenceAvailable: known.length > 0, id: fp.id, name: fp.name, short: fp.short, where: fp.where, kind: fp.kind, level, why: lead?.why ?? 'no data', checks, closurePts };
 }
 
 export function rateRoutes(routeFeatures, fpResults, fps) {
@@ -220,9 +250,10 @@ export function rateRoutes(routeFeatures, fpResults, fps) {
 
 // Fastest route that is ok/watch, otherwise the least-bad. Unknown never counts as clear.
 export function recommend(rated) {
-  const order = [...rated].sort((a, b) => rank(a.level) - rank(b.level) || a.minutes - b.minutes);
+  const score=r=>r.score??routeScore(r)??5;
+  const order = [...rated].sort((a, b) => score(a)-score(b) || rank(a.level)-rank(b.level) || a.minutes-b.minutes);
   const best = order[0];
-  return { best, clear: best && rank(best.level) <= rank('watch'), order };
+  return { best, clear: best && score(best)<=2 && rank(best.level) <= rank('watch') && !best.points.some(p=>p.evidenceAvailable===false || p.checks.some(c=>c.bridgeClearance==='unknown'&&c.level!=='ok')), order };
 }
 
 // Google Maps link that forces the chosen roads with waypoints (phones allow up to 3).
@@ -251,7 +282,7 @@ export function googleMapsUrl(nav, destination, direction = 'toI10') {
 // A small 1-5 "risk factor" for display. It summarizes the level; it is not a probability.
 //   1 nothing pointing at water · 2 some water around · 3 water likely near the road
 //   4 several signs agree water is at the road · 5 closed or flood running · null unknown
-export function riskScore(result) {
+function baseRiskScore(result) {
   switch (result.level) {
     case 'ok': return 1;
     case 'watch': return 2;
@@ -260,10 +291,16 @@ export function riskScore(result) {
     default: return null;
   }
 }
+const bridgePoints = p => p.checks.reduce((sum,c)=>sum+(c.bridgePoints??0),0);
+export function riskScore(result) {
+  const base=baseRiskScore(result);
+  return base==null?null:Math.min(5,base+bridgePoints(result));
+}
 export function routeScore(route) {
-  const scores = route.points.map(riskScore);
   if (route.level === 'unknown') return null;
-  return Math.max(...scores.filter((x) => x != null), 1);
+  // Count each crossing's bridge contribution once, even if another warning already sets the baseline.
+  const baseline=Math.max(...route.points.map(p=>(baseRiskScore(p)??1)+(p.handAdd??0)),1);
+  return Math.min(5,baseline+route.points.reduce((sum,p)=>sum+bridgePoints(p),0));
 }
 
 // The angel: plain "good signs" for a route, from every check that came back clear.
@@ -275,7 +312,7 @@ export function goodSigns(route, nwsQuiet) {
   const ok = checks.filter((c) => c.level === 'ok' && !bad.has(kind(c.src)));
   const out = [];
   const add = (t) => { if (!out.includes(t)) out.push(t); };
-  if (ok.some((c) => c.src === 'river')) add('the Santa Cruz is at its everyday flow');
+  if (ok.some((c) => c.src === 'river' && c.heightComparison?.status !== 'estimated')) add('the Santa Cruz is at its everyday flow');
   if (ok.some((c) => c.src === 'wash')) add('Brawley Wash upstream is dry');
   const rain = ok.filter((c) => c.src.startsWith('rain'));
   if (rain.length) add(rain.every((c) => /^no rain/.test(c.why)) ? 'no rain in the last 6 hours' : 'only light rain lately');

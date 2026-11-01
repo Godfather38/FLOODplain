@@ -1,0 +1,65 @@
+{
+  "site": "Trico-Marana Road / Santa Cruz River",
+  "structureId": "09552",
+  "crs": "EPSG:32612",
+  "verticalDatum": "NAVD88",
+  "sourceResolutionM": 1,
+  "method": "Retained professional bare-earth DEM samples along actual selected route; bridge deck pixels are not used as deck heights",
+  "anchors": {
+    "SW_approach_imagery": {
+      "lonLat": [
+        -111.280446,
+        32.452981
+      ],
+      "x": 473641.39207980706,
+      "y": 3590681.6346747405,
+      "stationM": 6430.152370809207,
+      "offsetFromRouteM": 4.329902772952549,
+      "terrainNAVD88M": 590.84716796875,
+      "nearestRouteTerrainNAVD88M": 590.84619140625,
+      "retainedTile": "terrain-1m-473000-3590000.tif"
+    },
+    "NE_approach_imagery": {
+      "lonLat": [
+        -111.279454,
+        32.454104
+      ],
+      "x": 473734.95448374585,
+      "y": 3590805.8758705426,
+      "stationM": 6274.637720504274,
+      "offsetFromRouteM": 1.7984187028612182,
+      "terrainNAVD88M": 590.3817749023438,
+      "nearestRouteTerrainNAVD88M": 590.545166015625,
+      "retainedTile": "terrain-1m-473000-3590000.tif"
+    },
+    "route_river_crossing": {
+      "lonLat": [
+        -111.27985,
+        32.45369
+      ],
+      "x": 473697.6152162998,
+      "y": 3590760.081044348,
+      "stationM": 6333.720475120131,
+      "offsetFromRouteM": 0.45563709791527135,
+      "terrainNAVD88M": 586.1588745117188,
+      "nearestRouteTerrainNAVD88M": 586.1588745117188,
+      "retainedTile": "terrain-1m-473000-3590000.tif"
+    },
+    "ADOT_inventory_point": {
+      "lonLat": [
+        -111.2802097921318,
+        32.45330501841428
+      ],
+      "x": 473663.6871630968,
+      "y": 3590717.4941460085,
+      "stationM": 6388.166737944138,
+      "offsetFromRouteM": 0.16220713613042193,
+      "terrainNAVD88M": 590.8353271484375,
+      "nearestRouteTerrainNAVD88M": 590.8353271484375,
+      "retainedTile": "terrain-1m-473000-3590000.tif"
+    }
+  },
+  "identitySource": "https://services6.arcgis.com/clPWQMwZfdWn4MQZ/arcgis/rest/services/viewADOT_NBIStructures/FeatureServer/0/query?f=json&where=Year_FHWASub%3D2026+AND+%28N7+LIKE+%27%25TRICO%25%27+OR+StructureName+LIKE+%27%25TRICO%25%27%29&outFields=%2A&returnGeometry=true&outSR=4326",
+  "identitySourceSha256": "a2fecc22801a9397743f6cb9a8ac69097496d839e876b4acddce64bb5566d358",
+  "imageryTiePointSource": "Parent research worker Google Maps2D satellite; imagery acquisition date unknown"
+}
