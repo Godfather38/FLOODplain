@@ -1,5 +1,7 @@
 # Geographic scene renderer: replacement architecture and acceptance checklist
 
+**Current ownership and acceptance:** [3D-VISUAL-ACCEPTANCE.md](3D-VISUAL-ACCEPTANCE.md) supersedes this historical plan wherever scope or completion criteria conflict. This worker owns attractive 3D model visualization; the separate UI owner owns the complete 2D renderer/shading/UX, and the solver owner owns geometry/SFINCS. Technical checkpoints below do not complete the full visual goal.
+
 Status: architecture reset after the user's explicit interruption, then implementation resumed on parent coordination with the rewritten UI plan and verified vector source. This replaces this worker's previous raster-host, downloaded-map-texture and semi-transparent-block plans. The preserved prototype is NOT accepted. The corrected module's actual status and remaining limits are recorded in [GEOGRAPHIC-RENDERER-VERIFICATION.md](GEOGRAPHIC-RENDERER-VERIFICATION.md).
 
 ## Product definition
