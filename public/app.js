@@ -1,5 +1,6 @@
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
+import { loadGaugeReadings } from './gauge-feed.js?v=dev';
 import { resolveScreen } from './routing.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
@@ -32,33 +33,18 @@ const badgeWithWord = (n) => `<span class="badge-wrap">${badge(n, true)}<span cl
 //  1. ask our alert service first (it already pulls every gauge each minute: one request),
 //  2. otherwise ask USGS directly, but reuse each gauge's reading for 10 minutes,
 //  3. if USGS refuses, fall back to the last saved reading (its age is judged like any other).
-const USGS_REUSE_MS = 10 * 60 * 1000;
 let usgsBusy = false;
 async function loadUsgsAll(sites) {
-  usgsBusy = false;
-  if (cfg.TEXT_API) {
-    try {
-      const j = await getJson(`${cfg.TEXT_API}?feed=usgs`);
-      if (j && j.series && Object.values(j.series).some((x) => x && x.features && x.features.length)) {
-        return sites.map((s) => (j.series[s] ? parseContinuous(j.series[s]) : null));
-      }
-    } catch { /* fall through to USGS directly */ }
-  }
   const key = store.get('apiKey');
-  return Promise.all(sites.map(async (site) => {
-    const cached = store.get(`usgs:${site}`);
-    if (cached && Date.now() - cached.at < USGS_REUSE_MS) return parseContinuous(cached.json);
-    try {
-      const json = await getJson(`${SOURCES.usgs}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
-        + '&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code'
-        + (key ? `&api_key=${encodeURIComponent(key)}` : ''), { cache: 'no-store' });
-      store.set(`usgs:${site}`, { at: Date.now(), json });
-      return parseContinuous(json);
-    } catch (e) {
-      if (e.status === 429) usgsBusy = true;
-      return cached ? parseContinuous(cached.json) : null;
-    }
-  }));
+  const result = await loadGaugeReadings(sites, {
+    fetchJson: getJson, store, parse: parseContinuous,
+    proxyUrl: cfg.TEXT_API ? `${cfg.TEXT_API}?feed=usgs` : null,
+    directUrl: (site) => `${SOURCES.usgs}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
+      + '&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code'
+      + (key ? `&api_key=${encodeURIComponent(key)}` : ''),
+  });
+  usgsBusy = result.busy;
+  return result.series;
 }
 async function loadClosures() {
   const q = new URLSearchParams({
