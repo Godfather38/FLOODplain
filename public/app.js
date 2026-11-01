@@ -35,7 +35,7 @@ let favorites = savedRoutes(store.get('savedRoutes'), Object.keys(ROUTE_INFO));
 let saveNotice = '';
 const saveButton = (id) => `<button type="button" class="btn btn-text save-route" data-save-route="${esc(id)}" aria-pressed="${favorites.includes(id)}">${favorites.includes(id) ? 'Saved route' : 'Save route'}</button>`;
 // The engine's number plus any half point from HAND.
-const pointScore = (p) => { const s = riskScore(p); return s == null ? s : s + (p.handAdd ?? 0); };
+const pointScore = (p) => { const s = riskScore(p); return s == null ? s : Math.min(5,s + (p.handAdd ?? 0)); };
 const badge = (n, lg) => `<span class="badge ${lg ? 'lg' : ''} ${n ? `s${Math.floor(n)}` : 'sq'}" role="img" aria-label="Risk factor ${n ?? 'unknown'} of 5">${n ?? '?'}</span>`;
 const badgeWithWord = (n) => `<span class="badge-wrap">${badge(n, true)}<span class="badge-word">${n ? WORD[Math.floor(n)] : 'No data'}</span></span>`;
 
@@ -188,7 +188,7 @@ function bridgeCardEvidence(p) {
   const label={below_warning:'Water stays below the road',warning:'Water is nearing the road',roadway_concern:'Water reaches the road',likely_closed:'Likely closed',unavailable:'Height comparison unavailable'}[h.assessment];
   const tone=h.assessment==='below_warning'?'calm':h.assessment==='warning'?'watch':'concern';
   const ratio=h.heightAboveChannelM>0?Math.max(0,Math.min(1.1,(h.waterM-h.channelM)/h.heightAboveChannelM)):0;
-  return `<div class="angel bridge-angel ${tone}"><span class="face" aria-hidden="true">${tone==='calm'?'&#128519;':'!'}</span><div class="bridge-bubble"><div class="bridge-kicker">${esc(p.short)}</div><strong class="bridge-status">${esc(label)}</strong><div class="bridge-reading"><div><span class="bridge-gap">${Math.abs(h.differenceM).toFixed(2)} <small>m</small></span><span class="bridge-relation">${h.differenceM>=0?'below':'above'} roadway</span></div><div class="bridge-diagram" aria-hidden="true" style="--water:${Math.min(100,ratio/1.1*100).toFixed(1)}%"><span class="bridge-road">ROAD</span><span class="bridge-water"></span></div></div><div class="bridge-time">Model estimate · ${esc(time)} Arizona</div></div></div>`;
+  return `<div class="angel bridge-angel ${tone}"><span class="face" aria-hidden="true">${tone==='calm'?'&#128519;':'!'}</span><div class="bridge-bubble"><div class="bridge-kicker">${esc(p.short)}</div><strong class="bridge-status">${esc(label)}</strong><div class="bridge-reading"><div><span class="bridge-gap">${Math.abs(h.differenceM).toFixed(2)} <small>m</small></span><span class="bridge-relation">${h.differenceM>=0?'below':'above'} roadway</span></div><div class="bridge-diagram" aria-hidden="true" style="--water:${Math.min(100,ratio/1.1*100).toFixed(1)}%"><span class="bridge-road">ROAD</span><span class="bridge-water"></span></div></div><div class="bridge-time">Model estimate · ${esc(time)} Arizona${c.bridgePoints>0?` · +${c.bridgePoints} route risk`: ''}</div></div></div>`;
 
 }
 const routeBridgeEvidence=r=>r.points.map(bridgeCardEvidence).join('');

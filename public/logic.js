@@ -187,7 +187,7 @@ function bridgeRiverCheck(check,record,now,policy){
  const history=record?.documentedHistory??[];
  const heightComparison=bridgeHeightComparison(record,now,policy),modeledRoadConcern=heightComparison.status==='estimated'&&heightComparison.differenceM<=0;
  const assessedLevel={likely_closed:'danger',roadway_concern:'caution',warning:'watch',below_warning:'ok'}[heightComparison.assessment]??'unknown';
- return {...check,level:assessedLevel,modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
+ return {...check,level:assessedLevel,bridgePoints:heightComparison.assessment==='warning'?policy.warningPoints:heightComparison.assessment==='roadway_concern'?policy.roadwayPoints:0,modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
   why:heightComparison.status==='estimated'?`${heightComparison.assessmentLabel}: estimated road ${heightComparison.roadM.toFixed(2)} m, modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}. Official closure status is separate.`:heightComparison.reason+' Gauge discharge is context only.',
   detail:(check.detail?check.detail+'. ':'')+(record?'Site-linked structure record '+record.id+'. ':'No exact structure record. ')+(history.length?'Historical flooding is documented for this site; it is not a current closure or measured flow-to-road threshold. ':'No site-linked flooding history establishes a current road threshold. ')+(record?.roadwayEstimate?'A provisional roadway-height comparison is shown in height & history; it is not surveyed deck or underside clearance. ':'Current roadway elevation is unavailable. ')+'Clearance is unknown, not confirmed clear.',
   heightComparison,
@@ -250,9 +250,10 @@ export function rateRoutes(routeFeatures, fpResults, fps) {
 
 // Fastest route that is ok/watch, otherwise the least-bad. Unknown never counts as clear.
 export function recommend(rated) {
-  const order = [...rated].sort((a, b) => rank(a.level) - rank(b.level) || a.minutes - b.minutes);
+  const score=r=>r.score??routeScore(r)??5;
+  const order = [...rated].sort((a, b) => score(a)-score(b) || rank(a.level)-rank(b.level) || a.minutes-b.minutes);
   const best = order[0];
-  return { best, clear: best && rank(best.level) <= rank('watch') && !best.points.some(p=>p.evidenceAvailable===false || p.checks.some(c=>c.bridgeClearance==='unknown'&&c.level!=='ok')), order };
+  return { best, clear: best && score(best)<=2 && rank(best.level) <= rank('watch') && !best.points.some(p=>p.evidenceAvailable===false || p.checks.some(c=>c.bridgeClearance==='unknown'&&c.level!=='ok')), order };
 }
 
 // Google Maps link that forces the chosen roads with waypoints (phones allow up to 3).
@@ -281,7 +282,7 @@ export function googleMapsUrl(nav, destination, direction = 'toI10') {
 // A small 1-5 "risk factor" for display. It summarizes the level; it is not a probability.
 //   1 nothing pointing at water · 2 some water around · 3 water likely near the road
 //   4 several signs agree water is at the road · 5 closed or flood running · null unknown
-export function riskScore(result) {
+function baseRiskScore(result) {
   switch (result.level) {
     case 'ok': return 1;
     case 'watch': return 2;
@@ -290,10 +291,16 @@ export function riskScore(result) {
     default: return null;
   }
 }
+const bridgePoints = p => p.checks.reduce((sum,c)=>sum+(c.bridgePoints??0),0);
+export function riskScore(result) {
+  const base=baseRiskScore(result);
+  return base==null?null:Math.min(5,base+bridgePoints(result));
+}
 export function routeScore(route) {
-  const scores = route.points.map(riskScore);
   if (route.level === 'unknown') return null;
-  return Math.max(...scores.filter((x) => x != null), 1);
+  // Count each crossing's bridge contribution once, even if another warning already sets the baseline.
+  const baseline=Math.max(...route.points.map(p=>(baseRiskScore(p)??1)+(p.handAdd??0)),1);
+  return Math.min(5,baseline+route.points.reduce((sum,p)=>sum+bridgePoints(p),0));
 }
 
 // The angel: plain "good signs" for a route, from every check that came back clear.

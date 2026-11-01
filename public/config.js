@@ -287,4 +287,4 @@ export const CLOSURE_BOUNDS = [
 
 // Operator-selected fractions of estimated roadway height ABOVE the same-site channel.
 // Decision policy, not an uncertainty/confidence interval.
-export const BRIDGE_POLICY = { warningFraction: 0.9, roadwayFraction: 1, likelyClosedFraction: 1.1 };
+export const BRIDGE_POLICY = { warningFraction: 0.9, roadwayFraction: 1, likelyClosedFraction: 1.1, warningPoints: 0.5, roadwayPoints: 1 };
