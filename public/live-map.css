@@ -3,3 +3,5 @@
 .embedded-live{position:static!important;width:auto!important;max-height:none!important;padding:0;margin:16px 0}.embedded-live [data-mode],.embedded-live label:has([data-mode]){display:none}.embedded-live [data-key]{font-size:12px}
 
 .source-age{font-size:11px;line-height:1.3;padding:4px 6px}.flood-time-ends{display:none}.map-first .map-dock{max-width:360px}.map-first .map-dock .dock-status{font-size:11px}.map-first .flood-time{padding:0}.map-first .map-dock .render-notice[hidden]{display:none}
+
+.safety-home .map-dock,.safety-home .home-outlook{display:none!important}
