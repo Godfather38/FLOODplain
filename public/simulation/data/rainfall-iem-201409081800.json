@@ -3,7 +3,7 @@
   "kind": "radar-estimate",
   "units": "mm/h",
   "source": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/GIS/mrms/p1h_201409081800.png",
-  "product": "IEM MRMS p1h",
+  "product": "IEM legacy MRMS p1h integer-mm reconstruction",
   "grid": [
     [
       -111.31490394264742,
@@ -335,87 +335,87 @@
       "start": "2014-09-08T17:00:00Z",
       "durationMinutes": 60,
       "rates": [
-        2.5,
-        2.5,
-        2.5,
-        2.5,
-        3.0,
-        3.0,
-        3.0,
-        3.0,
-        3.75,
-        2.5,
-        2.5,
-        2.5,
-        2.5,
-        3.0,
-        3.0,
-        3.0,
-        3.0,
-        3.75,
-        3.75,
-        3.75,
-        3.75,
-        3.75,
-        4.0,
-        4.0,
-        4.0,
-        4.0,
-        3.5,
-        3.75,
-        3.75,
-        3.75,
-        3.75,
-        4.0,
-        4.0,
-        4.0,
-        4.0,
-        3.5,
-        3.75,
-        3.75,
-        3.75,
-        3.75,
-        4.0,
-        4.0,
-        4.0,
-        4.0,
-        3.5,
-        3.75,
-        3.75,
-        3.75,
-        3.75,
-        4.0,
-        4.0,
-        4.0,
-        4.0,
-        3.5,
-        4.5,
-        4.5,
-        4.5,
-        4.5,
-        4.0,
-        4.0,
-        4.0,
-        4.0,
-        4.0,
-        4.5,
-        4.5,
-        4.5,
-        4.5,
-        4.0,
-        4.0,
-        4.0,
-        4.0,
-        4.0,
-        4.5,
-        4.5,
-        4.5,
-        4.5,
-        4.0,
-        4.0,
-        4.0,
-        4.0,
-        4.0
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        12.0,
+        12.0,
+        12.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        12.0,
+        12.0,
+        12.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        12.0,
+        12.0,
+        12.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        12.0,
+        12.0,
+        12.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        16.0,
+        16.0,
+        16.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        16.0,
+        16.0,
+        16.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        16.0,
+        16.0,
+        16.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        15.0,
+        16.0,
+        16.0,
+        16.0,
+        19.0,
+        19.0,
+        18.0,
+        18.0,
+        18.0,
+        18.0,
+        16.0,
+        16.0,
+        16.0
       ]
     }
   ],
@@ -433,6 +433,15 @@
       "bytes": 77
     },
     "decoder": "Pillow indexed PNG",
+    "profile": "iem-september-2014-integer-mm-zero-ambiguous-v1",
+    "profileSources": {
+      "hourlyWriter": "https://github.com/akrherz/iem/blob/d592553cfd01baac8cb8ebc10f9217e21d7c5def/scripts/mrms/mrms_raster_p1h.py",
+      "dailyWriter": "https://github.com/akrherz/iem/blob/d592553cfd01baac8cb8ebc10f9217e21d7c5def/scripts/mrms/mrms_raster_pXXh.py",
+      "reader": "https://github.com/akrherz/iem/blob/d592553cfd01baac8cb8ebc10f9217e21d7c5def/scripts/mrms/util.py",
+      "scheduler": "https://github.com/akrherz/iem/blob/d592553cfd01baac8cb8ebc10f9217e21d7c5def/scripts/RUN_10_AFTER.sh",
+      "historicalMissingWarning": "https://github.com/akrherz/iem/blob/d592553cfd01baac8cb8ebc10f9217e21d7c5def/htdocs/rainfall/index.phtml",
+      "gridFix": "https://github.com/akrherz/pyIEM/commit/fbaa69a08233574c5727e87bdd22fd73df088041"
+    },
     "worldTransform": [
       0.01,
       0.0,
@@ -440,6 +449,14 @@
       -0.01,
       -130.0,
       55.0
+    ],
+    "effectiveNativeCenterTransform": [
+      0.01,
+      0,
+      0,
+      -0.01,
+      -129.995,
+      54.995
     ],
     "imageSize": [
       7000,
@@ -450,38 +467,49 @@
       10,
       10,
       10,
-      12,
-      12,
-      12,
-      12,
-      15,
-      10,
-      10,
       10,
       10,
       12,
       12,
       12,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      12,
+      12,
+      12,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      12,
+      12,
+      12,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      12,
+      12,
       12,
       15,
       15,
       15,
       15,
       15,
-      16,
-      16,
-      16,
-      16,
-      14,
-      15,
-      15,
-      15,
       15,
       16,
       16,
       16,
-      16,
-      14,
+      15,
+      15,
       15,
       15,
       15,
@@ -489,41 +517,30 @@
       16,
       16,
       16,
-      16,
-      14,
       15,
       15,
       15,
       15,
+      15,
+      15,
       16,
       16,
       16,
+      15,
+      15,
+      15,
+      15,
+      15,
+      15,
       16,
-      14,
+      16,
+      16,
+      19,
+      19,
       18,
       18,
       18,
       18,
-      16,
-      16,
-      16,
-      16,
-      16,
-      18,
-      18,
-      18,
-      18,
-      16,
-      16,
-      16,
-      16,
-      16,
-      18,
-      18,
-      18,
-      18,
-      16,
-      16,
       16,
       16,
       16
@@ -531,39 +548,11 @@
     "pixelRowsCols": [
       [
         2255,
-        1869
+        1868
       ],
       [
         2255,
-        1869
-      ],
-      [
-        2255,
-        1869
-      ],
-      [
-        2255,
-        1869
-      ],
-      [
-        2255,
-        1870
-      ],
-      [
-        2255,
-        1870
-      ],
-      [
-        2255,
-        1870
-      ],
-      [
-        2255,
-        1870
-      ],
-      [
-        2255,
-        1871
+        1868
       ],
       [
         2255,
@@ -595,11 +584,119 @@
       ],
       [
         2255,
+        1868
+      ],
+      [
+        2255,
+        1868
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
         1870
       ],
       [
         2255,
-        1871
+        1870
+      ],
+      [
+        2255,
+        1870
+      ],
+      [
+        2255,
+        1868
+      ],
+      [
+        2255,
+        1868
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
+        1870
+      ],
+      [
+        2255,
+        1870
+      ],
+      [
+        2255,
+        1870
+      ],
+      [
+        2255,
+        1868
+      ],
+      [
+        2255,
+        1868
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
+        1869
+      ],
+      [
+        2255,
+        1870
+      ],
+      [
+        2255,
+        1870
+      ],
+      [
+        2255,
+        1870
+      ],
+      [
+        2256,
+        1868
+      ],
+      [
+        2256,
+        1868
       ],
       [
         2256,
@@ -631,47 +728,11 @@
       ],
       [
         2256,
-        1870
+        1868
       ],
       [
         2256,
-        1871
-      ],
-      [
-        2256,
-        1869
-      ],
-      [
-        2256,
-        1869
-      ],
-      [
-        2256,
-        1869
-      ],
-      [
-        2256,
-        1869
-      ],
-      [
-        2256,
-        1870
-      ],
-      [
-        2256,
-        1870
-      ],
-      [
-        2256,
-        1870
-      ],
-      [
-        2256,
-        1870
-      ],
-      [
-        2256,
-        1871
+        1868
       ],
       [
         2256,
@@ -703,11 +764,47 @@
       ],
       [
         2256,
+        1868
+      ],
+      [
+        2256,
+        1868
+      ],
+      [
+        2256,
+        1869
+      ],
+      [
+        2256,
+        1869
+      ],
+      [
+        2256,
+        1869
+      ],
+      [
+        2256,
+        1869
+      ],
+      [
+        2256,
         1870
       ],
       [
         2256,
-        1871
+        1870
+      ],
+      [
+        2256,
+        1870
+      ],
+      [
+        2256,
+        1868
+      ],
+      [
+        2256,
+        1868
       ],
       [
         2256,
@@ -738,12 +835,12 @@
         1870
       ],
       [
-        2256,
-        1870
+        2257,
+        1868
       ],
       [
-        2256,
-        1871
+        2257,
+        1868
       ],
       [
         2257,
@@ -772,94 +869,15 @@
       [
         2257,
         1870
-      ],
-      [
-        2257,
-        1870
-      ],
-      [
-        2257,
-        1871
-      ],
-      [
-        2257,
-        1869
-      ],
-      [
-        2257,
-        1869
-      ],
-      [
-        2257,
-        1869
-      ],
-      [
-        2257,
-        1869
-      ],
-      [
-        2257,
-        1870
-      ],
-      [
-        2257,
-        1870
-      ],
-      [
-        2257,
-        1870
-      ],
-      [
-        2257,
-        1870
-      ],
-      [
-        2257,
-        1871
-      ],
-      [
-        2257,
-        1869
-      ],
-      [
-        2257,
-        1869
-      ],
-      [
-        2257,
-        1869
-      ],
-      [
-        2257,
-        1869
-      ],
-      [
-        2257,
-        1870
-      ],
-      [
-        2257,
-        1870
-      ],
-      [
-        2257,
-        1870
-      ],
-      [
-        2257,
-        1870
-      ],
-      [
-        2257,
-        1871
       ]
     ],
-    "mappingSource": "https://mesonet.agron.iastate.edu/GIS/rasters.php?rid=5",
+    "mappingSource": "https://github.com/akrherz/iem/blob/d592553cfd01baac8cb8ebc10f9217e21d7c5def/scripts/mrms/mrms_raster_p1h.py",
     "intervalSource": "https://mesonet.agron.iastate.edu/rainfall/",
     "sourceUnits": "mm accumulated over preceding hour",
     "intervalEnd": "2014-09-08T18:00:00Z",
     "timeMethod": "One non-overlapping hour; divide accumulation by 1 h to form a constant hourly mean rate; subhour timing unknown",
-    "cellMethod": "Nearest pixel using world-file pixel CENTERS; preserve 255 as missing; quantized estimate, not exact rainfall"
+    "cellMethod": "Nearest native pixel center after explicit legacy half-cell correction; original world file retained",
+    "historicalWarning": "Historical p1h writer stored integer mm, bypassing its palette conversion. Zero cannot distinguish dry, sub-mm truncation, or missing data: retained as null. Raw NSSL headers were not obtained, so other cast/wrap artifacts cannot be ruled out. Not calibrated or complete rainfall forcing."
   },
-  "warning": "Recorded radar-derived estimate, not gauge truth or live data. Partial event only; no full-basin or bridge prediction."
+  "warning": "Historical p1h writer stored integer mm, bypassing its palette conversion. Zero cannot distinguish dry, sub-mm truncation, or missing data: retained as null. Raw NSSL headers were not obtained, so other cast/wrap artifacts cannot be ruled out. Not calibrated or complete rainfall forcing."
 }

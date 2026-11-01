@@ -15,5 +15,11 @@
   "realFixtureValidated": true,
   "validation": "Official NOAA OpenData GRIB2 decoded with ecCodes; independent raw PNG packing checks. Historical IEM indexed PNG decoded with documented scale and world file.",
   "defaultRainfall": "synthetic",
-  "recordedAt": "2026-11-01T07:22:17.017759+00:00"
+  "recordedAt": "2026-11-01T07:22:17.017759+00:00",
+  "historicalCorrection": {
+    "profile": "iem-september-2014-integer-mm-zero-ambiguous-v1",
+    "audit": "rainfall-source-audit.json",
+    "obsoleteInterpretation": "2014 p1h modern-palette decoding superseded; old derived values retained as obsolete only",
+    "eventForcingStatus": "insufficient_data due to historical zero/missing ambiguity"
+  }
 }

@@ -1,0 +1,926 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-01T07:55:42.067995+00:00",
+  "profile": "iem-september-2014-integer-mm-zero-ambiguous-v1",
+  "sourceChain": {
+    "hourlyWriter": {
+      "url": "https://github.com/akrherz/iem/blob/d592553cfd01baac8cb8ebc10f9217e21d7c5def/scripts/mrms/mrms_raster_p1h.py",
+      "sha256": "6b2b51c4942e7d5f33e794448d4669ce55002523b735df7846684347f5d1ef38",
+      "bytes": 4679
+    },
+    "dailyWriter": {
+      "url": "https://github.com/akrherz/iem/blob/d592553cfd01baac8cb8ebc10f9217e21d7c5def/scripts/mrms/mrms_raster_pXXh.py",
+      "sha256": "c591c98f6e29b8c3170a3c4f3bbc403423b829e4d450f855e2a61b0671bed055",
+      "bytes": 4751
+    },
+    "reader": {
+      "url": "https://github.com/akrherz/iem/blob/d592553cfd01baac8cb8ebc10f9217e21d7c5def/scripts/mrms/util.py",
+      "sha256": "8beb38dad15b19c7a87508b3cf253ef29da7d6f08fc1deb12e57c7dab6930f78",
+      "bytes": 3871
+    },
+    "scheduler": {
+      "url": "https://github.com/akrherz/iem/blob/d592553cfd01baac8cb8ebc10f9217e21d7c5def/scripts/RUN_10_AFTER.sh",
+      "sha256": "e383e843c9871e65eeb9f7aeb26482e53801797cbff552de7d49b11395aa834e",
+      "bytes": 1217
+    },
+    "historicalMissingWarning": {
+      "url": "https://github.com/akrherz/iem/blob/d592553cfd01baac8cb8ebc10f9217e21d7c5def/htdocs/rainfall/index.phtml",
+      "sha256": "d1bdbd70cacc5e30f02b91a49de457bc95010a4abe2db3bd31106ae03f17aedd",
+      "bytes": 8642
+    },
+    "gridFix": {
+      "url": "https://github.com/akrherz/pyIEM/commit/fbaa69a08233574c5727e87bdd22fd73df088041",
+      "sha256": "0d0c6aab59e59b76a6c8320ea8cffa71e58e725194378ea99c455128e9a86514",
+      "bytes": 13310
+    }
+  },
+  "findings": {
+    "encoding": "Scheduled September 2014 p1h writer computes nonlinear image but stores val.astype(int) in uint8 output. Reader has already divided by header var_scale. Nonzero byte is truncated integer mm, not the current palette. p24h writes its encoded image.",
+    "missing": "Historical p1h writer stored integer mm, bypassing its palette conversion. Zero cannot distinguish dry, sub-mm truncation, or missing data: retained as null. Raw NSSL headers were not obtained, so other cast/wrap artifacts cannot be ruled out. Not calibrated or complete rainfall forcing.",
+    "geometry": "Original world-file centers (-130,55) differ from corrected native centers (-129.995,54.995). Both sampling interpretations are reported; correction shifts coordinates, not rainfall values.",
+    "repetition": {
+      "hourlyRawFiles": 72,
+      "uniqueRawHashes": 72,
+      "embeddedPngTimestamps": "No timestamp metadata in inspected 18Z PNG; archive filenames and scheduled UTC process provide timing evidence, not raw-header verification."
+    },
+    "timeWindow": "2014-09-08 07Z to 2014-09-09 07Z, same interval as Arizona Sep 8 and p24h endpoint. No timezone shift or overlapping sum.",
+    "unavailableEvidence": {
+      "rawNsslHeadersObtained": false,
+      "hourlyJsonSidecar": {
+        "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/GIS/mrms/p1h_201409081800.json",
+        "outcome": "HTTP 404; not retried"
+      }
+    }
+  },
+  "trico": {
+    "legacyWorldSampling": {
+      "sourceRow": 2253,
+      "sourceCol": 1870,
+      "hourlyRawIndices": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        10,
+        1,
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "knownNonzeroIntegerSumMm": 15,
+      "unknownZeroOrMissingHours": 19,
+      "obsoletePaletteSumMm": 3.75,
+      "dailyMm": 17.5,
+      "sumMeaning": "Known positive samples only; not a complete accumulation because zeros are ambiguous"
+    },
+    "nativeCenterSampling": {
+      "sourceRow": 2252,
+      "sourceCol": 1869,
+      "hourlyRawIndices": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        14,
+        1,
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "knownNonzeroIntegerSumMm": 18,
+      "unknownZeroOrMissingHours": 20,
+      "obsoletePaletteSumMm": 4.5,
+      "dailyMm": 20.75,
+      "sumMeaning": "Known positive samples only; not a complete accumulation because zeros are ambiguous"
+    }
+  },
+  "gauges": [
+    {
+      "stationId": "TUS",
+      "stationMetadata": {
+        "type": "Feature",
+        "id": "TUS",
+        "properties": {
+          "elevation": 779.0,
+          "sname": "TUCSON INTL AIRPORT",
+          "time_domain": "(1928-Now)",
+          "archive_begin": "1928-05-01",
+          "archive_end": null,
+          "state": "AZ",
+          "country": "US",
+          "climate_site": "AZ8865",
+          "wfo": "TWC",
+          "tzname": "America/Phoenix",
+          "ncdc81": "USW00023160",
+          "ncei91": "USW00023160",
+          "ugc_county": "AZC019",
+          "ugc_zone": "AZZ033",
+          "county": "Pima",
+          "sid": "TUS",
+          "network": "AZ_ASOS",
+          "online": true,
+          "synop": 23160,
+          "attributes": {
+            "GHCNH_ID": "USW00023160",
+            "HAS1MIN": "1",
+            "METAR_RESET_MINUTE": "53",
+            "HAS_PHOUR": "1",
+            "HASTAF": "1"
+          }
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -110.938,
+            32.1203
+          ]
+        }
+      },
+      "rawDailyResponse": {
+        "schema": {
+          "fields": [
+            {
+              "name": "index",
+              "type": "integer"
+            },
+            {
+              "name": "station",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "date",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "max_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "min_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "precip",
+              "type": "number"
+            },
+            {
+              "name": "max_gust",
+              "type": "number"
+            },
+            {
+              "name": "snow",
+              "type": "string"
+            },
+            {
+              "name": "snowd",
+              "type": "string"
+            },
+            {
+              "name": "min_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_feel",
+              "type": "number"
+            },
+            {
+              "name": "avg_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_drct",
+              "type": "number"
+            },
+            {
+              "name": "precip_est",
+              "type": "boolean"
+            },
+            {
+              "name": "tmpf_est",
+              "type": "boolean"
+            },
+            {
+              "name": "max_gust_localts",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "temp_hour",
+              "type": "string"
+            },
+            {
+              "name": "avg_sknt",
+              "type": "number"
+            },
+            {
+              "name": "vector_avg_drct",
+              "type": "number"
+            },
+            {
+              "name": "min_rstage",
+              "type": "string"
+            },
+            {
+              "name": "max_rstage",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "extDtype": "str"
+            }
+          ],
+          "primaryKey": [
+            "index"
+          ],
+          "pandas_version": "1.4.0"
+        },
+        "data": [
+          {
+            "index": 0,
+            "station": "TUS",
+            "date": "2014-09-08",
+            "max_tmpf": 80.0,
+            "min_tmpf": 71.0,
+            "precip": 1.84,
+            "max_gust": 13.034643,
+            "snow": null,
+            "snowd": null,
+            "min_rh": 64.2645,
+            "max_rh": 93.518,
+            "max_dwpf": 71.6,
+            "min_dwpf": 66.92,
+            "min_feel": 72.2589,
+            "avg_feel": 78.026550293,
+            "max_feel": 82.9544,
+            "max_drct": 150.0,
+            "precip_est": false,
+            "tmpf_est": false,
+            "max_gust_localts": "2014-09-08T10:46:00Z",
+            "temp_hour": null,
+            "avg_sknt": 4.2309837,
+            "vector_avg_drct": 92.38589,
+            "min_rstage": null,
+            "max_rstage": null,
+            "id": "TUS",
+            "name": "TUCSON INTL AIRPORT"
+          }
+        ]
+      },
+      "source": {
+        "url": "https://mesonet.agron.iastate.edu/api/1/daily.json?station=TUS&network=AZ_ASOS&date=2014-09-08",
+        "sha256": "f5a67320804bbcc1ec35f91a6cd2b253643a8e003c9787070f6aba1dbeb2ba83",
+        "bytes": 1635
+      },
+      "gaugeDay": "2014-09-08 America/Phoenix local calendar day",
+      "gaugeMm": 46.736,
+      "gaugeInches": 1.84,
+      "estimatedFlag": false,
+      "legacyWorldSampling": {
+        "sourceRow": 2288,
+        "sourceCol": 1906,
+        "hourlyRawIndices": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          24,
+          32,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "knownNonzeroIntegerSumMm": 59,
+        "unknownZeroOrMissingHours": 21,
+        "obsoletePaletteSumMm": 14.75,
+        "dailyMm": 61.25,
+        "sumMeaning": "Known positive samples only; not a complete accumulation because zeros are ambiguous"
+      },
+      "nativeCenterSampling": {
+        "sourceRow": 2287,
+        "sourceCol": 1906,
+        "hourlyRawIndices": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          22,
+          49,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "knownNonzeroIntegerSumMm": 73,
+        "unknownZeroOrMissingHours": 21,
+        "obsoletePaletteSumMm": 18.25,
+        "dailyMm": 75.0,
+        "sumMeaning": "Known positive samples only; not a complete accumulation because zeros are ambiguous"
+      },
+      "limitation": "Current station metadata positions used; historical station-location changes not independently checked. Point gauge is not identical to radar-grid area mean."
+    },
+    {
+      "stationId": "RYN",
+      "stationMetadata": {
+        "type": "Feature",
+        "id": "RYN",
+        "properties": {
+          "elevation": 737.0,
+          "sname": "TUCSON/RYAN FLD",
+          "time_domain": "(2007-Now)",
+          "archive_begin": "2007-11-15",
+          "archive_end": null,
+          "state": "AZ",
+          "country": "US",
+          "climate_site": "AZ4675",
+          "wfo": "TWC",
+          "tzname": "America/Phoenix",
+          "ncdc81": "USW00053131",
+          "ncei91": "USW00053131",
+          "ugc_county": "AZC019",
+          "ugc_zone": "AZZ033",
+          "county": "Cochise",
+          "sid": "RYN",
+          "network": "AZ_ASOS",
+          "online": true,
+          "synop": 121,
+          "attributes": {
+            "HAS_PHOUR": "1",
+            "METAR_RESET_MINUTE": "45",
+            "GHCNH_ID": "USW00000121"
+          }
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -111.1746,
+            32.1422
+          ]
+        }
+      },
+      "rawDailyResponse": {
+        "schema": {
+          "fields": [
+            {
+              "name": "index",
+              "type": "integer"
+            },
+            {
+              "name": "station",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "date",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "max_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "min_tmpf",
+              "type": "number"
+            },
+            {
+              "name": "precip",
+              "type": "string"
+            },
+            {
+              "name": "max_gust",
+              "type": "string"
+            },
+            {
+              "name": "snow",
+              "type": "string"
+            },
+            {
+              "name": "snowd",
+              "type": "string"
+            },
+            {
+              "name": "min_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_rh",
+              "type": "number"
+            },
+            {
+              "name": "max_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_dwpf",
+              "type": "number"
+            },
+            {
+              "name": "min_feel",
+              "type": "number"
+            },
+            {
+              "name": "avg_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_feel",
+              "type": "number"
+            },
+            {
+              "name": "max_drct",
+              "type": "number"
+            },
+            {
+              "name": "precip_est",
+              "type": "boolean"
+            },
+            {
+              "name": "tmpf_est",
+              "type": "boolean"
+            },
+            {
+              "name": "max_gust_localts",
+              "type": "string"
+            },
+            {
+              "name": "temp_hour",
+              "type": "string"
+            },
+            {
+              "name": "avg_sknt",
+              "type": "number"
+            },
+            {
+              "name": "vector_avg_drct",
+              "type": "number"
+            },
+            {
+              "name": "min_rstage",
+              "type": "string"
+            },
+            {
+              "name": "max_rstage",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "extDtype": "str"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "extDtype": "str"
+            }
+          ],
+          "primaryKey": [
+            "index"
+          ],
+          "pandas_version": "1.4.0"
+        },
+        "data": [
+          {
+            "index": 0,
+            "station": "RYN",
+            "date": "2014-09-08",
+            "max_tmpf": 80.6,
+            "min_tmpf": 73.4,
+            "precip": null,
+            "max_gust": null,
+            "snow": null,
+            "snowd": null,
+            "min_rh": 69.7103,
+            "max_rh": 100.0,
+            "max_dwpf": 73.4,
+            "min_dwpf": 69.8,
+            "min_feel": 75.14,
+            "avg_feel": 79.0332717896,
+            "max_feel": 83.8968,
+            "max_drct": 100.0,
+            "precip_est": false,
+            "tmpf_est": false,
+            "max_gust_localts": null,
+            "temp_hour": null,
+            "avg_sknt": 6.395956,
+            "vector_avg_drct": 24.400074,
+            "min_rstage": null,
+            "max_rstage": null,
+            "id": "RYN",
+            "name": "TUCSON/RYAN FLD"
+          }
+        ]
+      },
+      "source": {
+        "url": "https://mesonet.agron.iastate.edu/api/1/daily.json?station=RYN&network=AZ_ASOS&date=2014-09-08",
+        "sha256": "f215fb61a0b3166995c82f00186af504f1458e35970f45d7a150f6d680d39d19",
+        "bytes": 1589
+      },
+      "gaugeDay": "2014-09-08 America/Phoenix local calendar day",
+      "gaugeMm": null,
+      "gaugeInches": null,
+      "estimatedFlag": false,
+      "legacyWorldSampling": {
+        "sourceRow": 2286,
+        "sourceCol": 1883,
+        "hourlyRawIndices": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "knownNonzeroIntegerSumMm": 4,
+        "unknownZeroOrMissingHours": 21,
+        "obsoletePaletteSumMm": 1.0,
+        "dailyMm": 6.25,
+        "sumMeaning": "Known positive samples only; not a complete accumulation because zeros are ambiguous"
+      },
+      "nativeCenterSampling": {
+        "sourceRow": 2285,
+        "sourceCol": 1882,
+        "hourlyRawIndices": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "knownNonzeroIntegerSumMm": 3,
+        "unknownZeroOrMissingHours": 22,
+        "obsoletePaletteSumMm": 0.75,
+        "dailyMm": 5.0,
+        "sumMeaning": "Known positive samples only; not a complete accumulation because zeros are ambiguous"
+      },
+      "limitation": "Current station metadata positions used; historical station-location changes not independently checked. Point gauge is not identical to radar-grid area mean."
+    },
+    {
+      "stationId": "AVQ",
+      "stationMetadata": {
+        "type": "Feature",
+        "id": "AVQ",
+        "properties": {
+          "elevation": 615.81744,
+          "sname": "Tucson - Marana",
+          "time_domain": "(2014-Now)",
+          "archive_begin": "2014-11-17",
+          "archive_end": null,
+          "state": "AZ",
+          "country": "US",
+          "climate_site": "AZ4675",
+          "wfo": "TWC",
+          "tzname": "America/Phoenix",
+          "ncdc81": "USC00028795",
+          "ncei91": "USC00028795",
+          "ugc_county": "AZC019",
+          "ugc_zone": "AZZ504",
+          "county": "Pima",
+          "sid": "AVQ",
+          "network": "AZ_ASOS",
+          "online": true,
+          "synop": null,
+          "attributes": {
+            "HAS_PHOUR": "1",
+            "METAR_RESET_MINUTE": "55",
+            "GHCNH_ID": "USI0000KAVQ",
+            "IS_AWOS": "1"
+          }
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -111.2184,
+            32.4096
+          ]
+        }
+      },
+      "rawDailyResponse": {
+        "schema": {
+          "fields": [
+            {
+              "name": "index",
+              "type": "integer"
+            },
+            {
+              "name": "station",
+              "type": "string"
+            },
+            {
+              "name": "date",
+              "type": "string"
+            },
+            {
+              "name": "max_tmpf",
+              "type": "string"
+            },
+            {
+              "name": "min_tmpf",
+              "type": "string"
+            },
+            {
+              "name": "precip",
+              "type": "string"
+            },
+            {
+              "name": "max_gust",
+              "type": "string"
+            },
+            {
+              "name": "snow",
+              "type": "string"
+            },
+            {
+              "name": "snowd",
+              "type": "string"
+            },
+            {
+              "name": "min_rh",
+              "type": "string"
+            },
+            {
+              "name": "max_rh",
+              "type": "string"
+            },
+            {
+              "name": "max_dwpf",
+              "type": "string"
+            },
+            {
+              "name": "min_dwpf",
+              "type": "string"
+            },
+            {
+              "name": "min_feel",
+              "type": "string"
+            },
+            {
+              "name": "avg_feel",
+              "type": "string"
+            },
+            {
+              "name": "max_feel",
+              "type": "string"
+            },
+            {
+              "name": "max_drct",
+              "type": "string"
+            },
+            {
+              "name": "precip_est",
+              "type": "string"
+            },
+            {
+              "name": "tmpf_est",
+              "type": "string"
+            },
+            {
+              "name": "max_gust_localts",
+              "type": "string"
+            },
+            {
+              "name": "temp_hour",
+              "type": "string"
+            },
+            {
+              "name": "avg_sknt",
+              "type": "string"
+            },
+            {
+              "name": "vector_avg_drct",
+              "type": "string"
+            },
+            {
+              "name": "min_rstage",
+              "type": "string"
+            },
+            {
+              "name": "max_rstage",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            }
+          ],
+          "primaryKey": [
+            "index"
+          ],
+          "pandas_version": "1.4.0"
+        },
+        "data": []
+      },
+      "source": {
+        "url": "https://mesonet.agron.iastate.edu/api/1/daily.json?station=AVQ&network=AZ_ASOS&date=2014-09-08",
+        "sha256": "31db915c40757ba62a634b03d003b74cae39b8f32fbaa7373ea15d9205cd2314",
+        "bytes": 1045
+      },
+      "gaugeDay": "2014-09-08 America/Phoenix local calendar day",
+      "gaugeMm": null,
+      "gaugeInches": null,
+      "estimatedFlag": null,
+      "legacyWorldSampling": {
+        "sourceRow": 2259,
+        "sourceCol": 1878,
+        "hourlyRawIndices": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          14,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "knownNonzeroIntegerSumMm": 20,
+        "unknownZeroOrMissingHours": 20,
+        "obsoletePaletteSumMm": 5.0,
+        "dailyMm": 23.5,
+        "sumMeaning": "Known positive samples only; not a complete accumulation because zeros are ambiguous"
+      },
+      "nativeCenterSampling": {
+        "sourceRow": 2259,
+        "sourceCol": 1878,
+        "hourlyRawIndices": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          14,
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "knownNonzeroIntegerSumMm": 20,
+        "unknownZeroOrMissingHours": 20,
+        "obsoletePaletteSumMm": 5.0,
+        "dailyMm": 23.5,
+        "sumMeaning": "Known positive samples only; not a complete accumulation because zeros are ambiguous"
+      },
+      "limitation": "Current station metadata positions used; historical station-location changes not independently checked. Point gauge is not identical to radar-grid area mean."
+    }
+  ],
+  "stationMetadataSource": {
+    "url": "https://mesonet.agron.iastate.edu/geojson/network/AZ_ASOS.geojson",
+    "sha256": "de0e49f44e4612a9990e05e52c29b3bd2363959ac5d2f0a65eaed8afb8b39e67",
+    "bytes": 31640
+  },
+  "independentGaugeCorroboration": "https://www.ncei.noaa.gov/stormevents/eventdetails.jsp?id=543215",
+  "stageIVComparison": "stage4-comparison-20140908.json",
+  "decision": "Use versioned nonzero integer-mm reconstruction for transparent scenarios; zeros remain unknown. Do not supply it as complete SFINCS forcing. Stage IV first-day comparison is an independently encoded alternative; no automatic blending, rescaling or accuracy interval."
+}

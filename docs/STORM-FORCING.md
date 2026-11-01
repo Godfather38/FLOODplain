@@ -1,3 +1,9 @@
+# CURRENT SOURCE CORRECTION
+
+The original documented-palette interpretation below is **obsolete audit history**. The active dataset is `public/simulation/data/storm-2014-legacy/manifest.json`: nonzero integer mm, zero/missing null, explicit native-center correction. Only 56,378 of 967,032 cell-hours are provisionally decoded; 910,654 are unknown. The previous complete-valid-coverage claim is retracted. See [RAINFALL-SOURCE-AUDIT.md](RAINFALL-SOURCE-AUDIT.md) for source history, independent gauge/Stage IV evidence, and exact SFINCS domain export. `storm_forcing.py` now defaults to the legacy dataset and rejects incomplete data unless `--allow-missing` is specified; that option does not make the forcing usable as a complete hindcast input.
+
+---
+
 # September 2014 rainfall handoff
 
 The committed forcing has **72 consecutive one-hour intervals**, September 8 00:00 through September 11 00:00 Arizona local time: `2014-09-08T07:00Z`–`2014-09-11T07:00Z`. Each file is the preceding hour's IEM archived MRMS p1h accumulation. Hourly snapshots do not overlap. Depth in mm divided by one hour gives constant mean mm/h; subhour timing is unknown.

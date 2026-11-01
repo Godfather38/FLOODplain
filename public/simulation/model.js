@@ -44,6 +44,7 @@ export function drainage(t) {
   return { downstream, accumulation, contributes };
 }
 export function validateRain(rain, t) {
+  requireValue(!rain?.obsoleteInterpretation, 'Obsolete rainfall source interpretation; select the versioned corrected data');
   requireValue(rain?.schemaVersion === 1 && rain.units === 'mm/h', 'Rainfall must be schema 1 in mm/h');
   requireValue(['synthetic', 'radar-estimate'].includes(rain.kind), 'Rainfall provenance must be synthetic or radar-estimate');
   requireValue(typeof rain.source === 'string' && rain.source.length > 0, 'Rainfall source required');

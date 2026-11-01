@@ -30,7 +30,7 @@ function run() {
   try {
     result = simulate(terrain, rain, { infiltrationMmH:Number($('infiltration').value),travelMinutes:Number($('travel').value),multiplier:Number($('multiplier').value) });
     $('status').textContent = `${rain.kind==='synthetic'?'SYNTHETIC STORM — no observed rainfall':'RADAR ESTIMATE REPLAY — not live'} · uncalibrated runoff scenario`;
-    $('provenance').textContent = `Rain: ${rain.source}. First interval: ${rain.frames[0].start}. Terrain: ${terrain.source}; retrieved ${terrain.retrievedAt}. Rain multiplier: ${result.parameters.multiplier}×. ${result.network.downstream[terrain.crossingCell] === -1 ? "Crossing cell is an unresolved terrain pit: inflow is retained, not routed through a bridge." : ""}`;
+    $('provenance').textContent = `Rain: ${rain.source}. ${rain.warning??""} First interval: ${rain.frames[0].start}. Terrain: ${terrain.source}; retrieved ${terrain.retrievedAt}. Rain multiplier: ${result.parameters.multiplier}×. ${result.network.downstream[terrain.crossingCell] === -1 ? "Crossing cell is an unresolved terrain pit: inflow is retained, not routed through a bridge." : ""}`;
     const peak=Math.max(...result.series.map(s=>s.crossingM3s)), peakFrame=result.series.find(s=>s.crossingM3s===peak);
     $('terrain-quality').textContent = `Terrain checks: ${result.terrainQuality.contributingBoundaryCells} contributing cells touch the window edge; ${result.terrainQuality.retainedPitCells} unresolved pits. ${result.terrainQuality.warnings.join(' ')}`;
     const metrics=[['Local inflow peak',`${fmt(peak)} m³/s`],['Peak after storm start',`${fmt(peakFrame.minute)} min`],['Contributing area in window',`${fmt(result.network.accumulation[terrain.crossingCell]*terrain.cellSizeM**2/1e6)} km²`]];

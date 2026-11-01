@@ -6,6 +6,7 @@ const read = name => JSON.parse(readFileSync(new URL('../public/simulation/data/
 test('real decoded 2014 accumulation enters runoff model with correct volume and source time', () => {
   const terrain = read('terrain.json'), rain = read('rainfall-iem-201409081800.json');
   validateRain(rain, terrain);assert.equal(rain.kind, 'radar-estimate');
+  assert.throws(()=>validateRain(read('rainfall-iem-201409081800-obsolete-palette.json'),terrain),/Obsolete/);
   assert.equal(rain.frames[0].start, '2014-09-08T17:00:00Z');
   const result = simulate(terrain, rain, { infiltrationMmH: 0 });
   const expected = rain.frames[0].rates.reduce((a, b) => a + b, 0) * terrain.cellSizeM ** 2 / 1000;

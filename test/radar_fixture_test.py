@@ -5,7 +5,9 @@ import io
 import json
 import struct
 import unittest
+import sys
 from pathlib import Path
+sys.path.insert(0,'tools/simulation')
 
 import eccodes as ec
 from PIL import Image
@@ -67,11 +69,14 @@ class RadarFixtureTests(unittest.TestCase):
         frame = decoded["frames"][0]
         self.assertEqual(frame["start"], "2014-09-08T17:00:00Z")
         self.assertEqual(frame["durationMinutes"], 60)
-        self.assertEqual((min(frame["rates"]), max(frame["rates"])), (2.5, 4.5))
+        self.assertEqual((min(frame["rates"]), max(frame["rates"])), (10, 19))
+        self.assertEqual(decoded['provenance']['effectiveNativeCenterTransform'],[.01,0,0,-.01,-129.995,54.995])
         with Image.open("test/fixtures/iem/p1h_201409081800.png") as image:
             self.assertEqual(image.mode, "P")
             self.assertEqual(image.getpixel((1870, 2253)), 10)
             self.assertEqual(decoder.iem_mm(10), 2.5)
+            self.assertEqual(decoder.legacy2014_mm(10),10)
+            self.assertIsNone(decoder.legacy2014_mm(0))
 
     def test_quantization_breakpoints_and_missing_are_not_zero(self):
         for index, expected in [(0, 0), (100, 25), (101, 26.25), (180, 125), (181, 130), (254, 495), (255, None)]:
@@ -88,6 +93,19 @@ class RadarFixtureTests(unittest.TestCase):
             decoder.nearest_pixel(-140, 32, -130, 55, .01, -.01, 7000, 3500)
         with self.assertRaises(ValueError):
             decoder.nearest_pixel(-111, 32, -130, 55, .01, .01, 7000, 3500)
+
+    def test_independent_stage4_binary_has_real_interval_units_and_bitmap(self):
+        with open('test/fixtures/stage4/ST4.2014090818.01h.grib','rb') as f:handle=ec.codes_grib_new_from_file(f)
+        try:
+            self.assertEqual(ec.codes_get(handle,'units'),'kg m**-2')
+            self.assertEqual(ec.codes_get(handle,'stepType'),'accum')
+            self.assertEqual(ec.codes_get(handle,'endStep')-ec.codes_get(handle,'startStep'),1)
+            self.assertEqual(ec.codes_get(handle,'validityDate'),20140908)
+            self.assertEqual(ec.codes_get(handle,'validityTime'),1800)
+            self.assertEqual(ec.codes_get(handle,'bitmapPresent'),1)
+            sample=ec.codes_grib_find_nearest(handle,32.4715888889,-111.3019666667,npoints=1)[0]
+            self.assertAlmostEqual(sample['value'],16.25)
+        finally:ec.codes_release(handle)
 
 
 if __name__ == "__main__":

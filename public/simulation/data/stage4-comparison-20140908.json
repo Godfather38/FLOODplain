@@ -1,0 +1,1219 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_rainfall_comparison",
+  "source": "NCEP Stage IV hourly analysis, independently archived GRIB via IEM",
+  "sourceDocumentation": "https://mesonet.agron.iastate.edu/iemre/",
+  "conversion": "1 kg/m2 liquid water is 1 mm; ecCodes verifies tp/accum and the one-hour GRIB interval",
+  "sampling": "Nearest native polar-stereographic grid cell; grid spacing and offset retained, not 1 km radar or point-gauge truth",
+  "hours": [
+    {
+      "start": "2014-09-08T07:00:00Z",
+      "end": "2014-09-08T08:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090808.01h.grib",
+      "sha256": "a79a585a7be9a6841caca9016845a7b2d9533a88ce0a2b0d8c14d44e068e98b6",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T07:59:55.640450+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 700,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 800,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T08:00:00Z",
+      "end": "2014-09-08T09:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090809.01h.grib",
+      "sha256": "0d4fec673f04273bbb20e11cc2e269ac46b2d9edb774a8ed437721565f976c74",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T07:59:56.082957+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 800,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 900,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T09:00:00Z",
+      "end": "2014-09-08T10:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090810.01h.grib",
+      "sha256": "a4d38939e10394a8da3ba6eecaf519dd21fdaf58203d222ee123fa62dfac95b0",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T07:59:56.589463+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 900,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 1000,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T10:00:00Z",
+      "end": "2014-09-08T11:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090811.01h.grib",
+      "sha256": "af1fb6ad3710438a9ef6106d58c02a0b60552f6723075a3e5e5054a4d9810609",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T07:59:57.167969+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 1000,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 1100,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T11:00:00Z",
+      "end": "2014-09-08T12:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090812.01h.grib",
+      "sha256": "a9377fcdeedd9db3e216a2156e7404be597dbcd1a0109794af22e58e9f67c950",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T07:59:57.737485+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 1100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 1200,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T12:00:00Z",
+      "end": "2014-09-08T13:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090813.01h.grib",
+      "sha256": "a9f11a13d5f9e593f6469ede3282a0ca96a06bbfcaa07fe9a632a126c0d5f663",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T07:59:58.309491+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 1200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 1300,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T13:00:00Z",
+      "end": "2014-09-08T14:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090814.01h.grib",
+      "sha256": "ec392f45a46370df27d0a8aff51e0e78bbf0427df9c2a8c3407ab0f4d681bbd3",
+      "bytes": 1283130,
+      "recordedAt": "2026-11-01T07:59:58.893501+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 1300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 1400,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T14:00:00Z",
+      "end": "2014-09-08T15:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090815.01h.grib",
+      "sha256": "2ad6209d4903406d27bf0d8c1f98e289b469191adce3296a7b1b5531023c59ef",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T07:59:59.460008+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 1400,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 1500,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.5,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.5,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.38,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.38,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T15:00:00Z",
+      "end": "2014-09-08T16:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090816.01h.grib",
+      "sha256": "af51c634df408bcaec106a95eb8595d12ba39ddde5e7a524d2172b076cb01bc2",
+      "bytes": 1283130,
+      "recordedAt": "2026-11-01T08:00:00.038012+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 1500,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 1600,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 3.88,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 3.88,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 1.3800000000000001,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 1.3800000000000001,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T16:00:00Z",
+      "end": "2014-09-08T17:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090817.01h.grib",
+      "sha256": "6fc07b4e7dca95033085916536b72aedc5069c38bf6a2dbeaa03d8997c4da8e2",
+      "bytes": 1283130,
+      "recordedAt": "2026-11-01T08:00:00.612537+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 1600,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 1700,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 3.13,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 3.13,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 2.38,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 2.38,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T17:00:00Z",
+      "end": "2014-09-08T18:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090818.01h.grib",
+      "sha256": "a51a00f0f6d7279850ec8980add10d95eb0bc806b691d79d70c5fbdd410e1155",
+      "bytes": 1283130,
+      "recordedAt": "2026-11-01T08:00:01.186543+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 1700,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 1800,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 16.25,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 16.25,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 6.75,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 6.75,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T18:00:00Z",
+      "end": "2014-09-08T19:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090819.01h.grib",
+      "sha256": "0bbbf61c17146878991fc00b15aef5922120b7f21f070107d9f04058c02854ca",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T08:00:01.757064+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 1800,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 1900,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 2.63,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 2.63,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 16.38,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 16.38,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T19:00:00Z",
+      "end": "2014-09-08T20:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090820.01h.grib",
+      "sha256": "243ee8555cdcc7fb3be8c1a09d988569e262ff2bce7a2a9bc22fc0fc0e4fdaa7",
+      "bytes": 1283130,
+      "recordedAt": "2026-11-01T08:00:02.346561+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 1900,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 2000,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 2.25,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 2.25,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 12.38,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 12.38,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T20:00:00Z",
+      "end": "2014-09-08T21:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090821.01h.grib",
+      "sha256": "e85c06922eeb1dce5dc8e1ed3701440525311cf1e57b6a75e083fcaf63e46672",
+      "bytes": 1283130,
+      "recordedAt": "2026-11-01T08:00:02.925984+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 2000,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 2100,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 1.3800000000000001,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 1.3800000000000001,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 2.25,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 2.25,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T21:00:00Z",
+      "end": "2014-09-08T22:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090822.01h.grib",
+      "sha256": "13d37d161678d298536b00b8ba13a41ee26d705d11afb584cff463bf1fc4e243",
+      "bytes": 1283130,
+      "recordedAt": "2026-11-01T08:00:03.495085+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 2100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 2200,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T22:00:00Z",
+      "end": "2014-09-08T23:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/08/stage4/ST4.2014090823.01h.grib",
+      "sha256": "08dc37117e2b4146c4e3f94348ad52e3f434cd76096f624684256a22f757ab8e",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T08:00:04.071594+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 2200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140908,
+        "validityTime": 2300,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-08T23:00:00Z",
+      "end": "2014-09-09T00:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/09/stage4/ST4.2014090900.01h.grib",
+      "sha256": "70ccd3a740f3b9e536c1707013f1a52e908e233a5fe69f6a4489fb74a748d543",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T08:00:04.642606+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140908,
+        "dataTime": 2300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140909,
+        "validityTime": 0,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-09T00:00:00Z",
+      "end": "2014-09-09T01:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/09/stage4/ST4.2014090901.01h.grib",
+      "sha256": "ae859f18686026281a66897b85c1159f3e10b5241ad40451851f148bccdd7985",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T08:00:05.210105+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140909,
+        "dataTime": 0,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140909,
+        "validityTime": 100,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-09T01:00:00Z",
+      "end": "2014-09-09T02:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/09/stage4/ST4.2014090902.01h.grib",
+      "sha256": "1100b5d5a97625698149cc94b6d173886d3a7d1484ae206eb1fdc5a8419f57a7",
+      "bytes": 1200416,
+      "recordedAt": "2026-11-01T08:00:05.784099+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140909,
+        "dataTime": 100,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140909,
+        "validityTime": 200,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-09T02:00:00Z",
+      "end": "2014-09-09T03:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/09/stage4/ST4.2014090903.01h.grib",
+      "sha256": "31850c8a27952c22edd74c6c96c95b576853793291c64a0b042f79e361248e28",
+      "bytes": 1283252,
+      "recordedAt": "2026-11-01T08:00:06.355626+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140909,
+        "dataTime": 200,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140909,
+        "validityTime": 300,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-09T03:00:00Z",
+      "end": "2014-09-09T04:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/09/stage4/ST4.2014090904.01h.grib",
+      "sha256": "3f2772de068c0676fd09cef58686470057ada512bb309b879bfa69ddece505da",
+      "bytes": 1283252,
+      "recordedAt": "2026-11-01T08:00:06.944625+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140909,
+        "dataTime": 300,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140909,
+        "validityTime": 400,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.25,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.25,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-09T04:00:00Z",
+      "end": "2014-09-09T05:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/09/stage4/ST4.2014090905.01h.grib",
+      "sha256": "3d6b7a753338f690dae225a18e3568fd591f5c3392935e33cb5b1903a7c47183",
+      "bytes": 1283252,
+      "recordedAt": "2026-11-01T08:00:07.527467+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140909,
+        "dataTime": 400,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140909,
+        "validityTime": 500,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-09T05:00:00Z",
+      "end": "2014-09-09T06:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/09/stage4/ST4.2014090906.01h.grib",
+      "sha256": "e80d0ce0c2cbb5a003a5f32b69374a52e2cf60430a36f5233d0c981f5cd305b7",
+      "bytes": 1200416,
+      "recordedAt": "2026-11-01T08:00:08.111445+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140909,
+        "dataTime": 500,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140909,
+        "validityTime": 600,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    },
+    {
+      "start": "2014-09-09T06:00:00Z",
+      "end": "2014-09-09T07:00:00Z",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2014/09/09/stage4/ST4.2014090907.01h.grib",
+      "sha256": "fdbea824d0407c17b973c57ee55d3c62dac91523799df0982e18919b3787704c",
+      "bytes": 1200302,
+      "recordedAt": "2026-11-01T08:00:08.683164+00:00",
+      "metadata": {
+        "edition": 1,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "gridType": "polar_stereographic",
+        "dataDate": 20140909,
+        "dataTime": 600,
+        "startStep": 0,
+        "endStep": 1,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "validityDate": 20140909,
+        "validityTime": 700,
+        "bitmapPresent": 1,
+        "missingValue": 9999,
+        "Nx": 1121,
+        "Ny": 881,
+        "DxInMetres": 4763,
+        "DyInMetres": 4763
+      },
+      "points": {
+        "Trico": {
+          "lat": 32.462566428501766,
+          "lon": 248.70388651339752,
+          "value": 0.0,
+          "distance": 1.143063715889523,
+          "index": 265926,
+          "depthMm": 0.0,
+          "requestedLat": 32.4715888889,
+          "requestedLon": -111.3019666667
+        },
+        "TUS": {
+          "lat": 32.107156502397736,
+          "lon": 249.08419224700503,
+          "value": 0.0,
+          "distance": 2.548972740574831,
+          "index": 253603,
+          "depthMm": 0.0,
+          "requestedLat": 32.1203,
+          "requestedLon": -110.938
+        }
+      }
+    }
+  ],
+  "totalsMm": {
+    "Trico": 30.27,
+    "TUS": 41.9
+  },
+  "limitations": [
+    "Stage IV is another radar/gauge analysis, not an independent physical rain gauge.",
+    "Only the first 24 hours are compared here; not a full 72-hour alternative forcing.",
+    "No adjustment to other rainfall products or calibration to this comparison."
+  ]
+}

@@ -7,6 +7,7 @@ from pathlib import Path
 
 def load_forcing(manifest_path,bbox=None,require_complete=True):
     path=Path(manifest_path);manifest=json.loads(path.read_text(encoding='utf-8'));g=manifest['grid']
+    if manifest.get('quality',{}).get('obsoleteInterpretation'):raise ValueError('Obsolete historical palette interpretation; use storm-2014-legacy')
     if manifest['kind']!='radar_rainfall_forcing' or not g or g['crs']!='EPSG:4326' or g['pixelReference']!='center':raise ValueError('Unsupported grid/forcing')
     lon=[g['west']+i*g['dx'] for i in range(g['cols'])];lat=[g['north']+i*g['dy'] for i in range(g['rows'])]
     if bbox:
@@ -34,7 +35,7 @@ def load_forcing(manifest_path,bbox=None,require_complete=True):
     return {'schemaVersion':1,'kind':'spatial_hourly_rainfall_forcing','status':'requires_quality_review' if missing==0 and manifest.get('quality',{}).get('forcingReadiness')=='unverified_cross_product_difference' else ('complete' if missing==0 else 'insufficient_data'),'crs':'EPSG:4326','lon':[lon[c] for c in cols],'lat':[lat[r] for r in rows],'dimensions':['time','lat','lon'],'units':'mm/h','timeConvention':'Frame start inclusive, end exclusive; constant mean rate for exactly one hour','missingCellHours':missing,'sourceQuality':manifest.get('quality',{}),'frames':frames,'provenance':{'manifest':str(path),'manifestSha256':hashlib.sha256(path.read_bytes()).hexdigest(),'source':'IEM MRMS radar estimates','spatialMethod':'Source cell centers selected inside requested bbox; no interpolation/reprojection','limitations':manifest['limitations']}}
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--manifest',default='public/simulation/data/storm-2014/manifest.json');p.add_argument('--bbox',nargs=4,type=float);p.add_argument('--allow-missing',action='store_true');p.add_argument('--output',required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--manifest',default='public/simulation/data/storm-2014-legacy/manifest.json');p.add_argument('--bbox',nargs=4,type=float);p.add_argument('--allow-missing',action='store_true');p.add_argument('--output',required=True);a=p.parse_args()
     result=load_forcing(a.manifest,a.bbox,not a.allow_missing)
     Path(a.output).write_text(json.dumps(result,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
     print(result['status'],len(result['frames']),'hours',len(result['lat']),'rows',len(result['lon']),'cols',result['missingCellHours'],'missing cell-hours')

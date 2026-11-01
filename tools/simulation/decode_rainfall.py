@@ -13,6 +13,7 @@ from pathlib import Path
 
 import eccodes as ec
 from PIL import Image
+from iem_profiles import PROFILE, SOURCES, WARNING, legacy2014_mm, native_centers
 
 UTC = dt.timezone.utc
 MRMS_SOURCE = "https://noaa-mrms-pds.s3.amazonaws.com/CONUS/PrecipRate_00.00/20201014/MRMS_PrecipRate_00.00_20201014-000000.grib2.gz"
@@ -115,12 +116,15 @@ def decode_iem_hour(png_path, world_path, terrain):
     if not stem.startswith("p1h_"):
         raise ValueError("Only p1h accumulation supported; never reuse this scale for a2m")
     end = dt.datetime.strptime(stem[4:], "%Y%m%d%H%M").replace(tzinfo=UTC)
+    if not (dt.datetime(2014,9,8,tzinfo=UTC)<=end<dt.datetime(2014,9,12,tzinfo=UTC)):
+        raise ValueError('Historical p1h decoder is limited to the audited September 2014 event; select a verified profile for other dates')
     if end.minute != 0:
         raise ValueError("Hourly snapshots must end on the hour to avoid overlapping hourly accumulations")
     world = [float(x) for x in Path(world_path).read_text().split()]
     if len(world) != 6 or not all(math.isfinite(x) for x in world):
         raise ValueError("Invalid world file")
-    dx, rotation_y, rotation_x, dy, west, north = world
+    effective_world=native_centers(world)
+    dx, rotation_y, rotation_x, dy, west, north = effective_world
     if rotation_y or rotation_x:
         raise ValueError("Rotated raster not supported")
     with Image.open(png_path) as image:
@@ -128,19 +132,21 @@ def decode_iem_hour(png_path, world_path, terrain):
             raise ValueError("Require bounded indexed PNG, never RGB image colors")
         pixels = [nearest_pixel(c["lon"], c["lat"], west, north, dx, dy, image.width, image.height) for c in terrain["cells"]]
         palette_indices = [image.getpixel((col, row)) for row, col in pixels]
-        depths = [iem_mm(i) for i in palette_indices]
+        depths = [legacy2014_mm(i) for i in palette_indices]
         if any(value is None for value in depths):
-            raise ValueError("IEM index 255 means missing; cannot simulate this window")
+            raise ValueError("Historical zero/missing rainfall is ambiguous; cannot simulate this window")
         evidence = {"original": provenance(png_path, IEM_ROOT + Path(png_path).name),
                     "worldFile": provenance(world_path, IEM_ROOT + Path(world_path).name),
-                    "decoder": "Pillow indexed PNG", "worldTransform": world, "imageSize": [image.width, image.height],
+                    "decoder": "Pillow indexed PNG", "profile":PROFILE,"profileSources":SOURCES,"worldTransform": world,"effectiveNativeCenterTransform":effective_world, "imageSize": [image.width, image.height],
                     "paletteIndices": palette_indices, "pixelRowsCols": [list(p) for p in pixels],
-                    "mappingSource": "https://mesonet.agron.iastate.edu/GIS/rasters.php?rid=5",
+                    "mappingSource": SOURCES['hourlyWriter'],
                     "intervalSource": "https://mesonet.agron.iastate.edu/rainfall/",
                     "sourceUnits": "mm accumulated over preceding hour", "intervalEnd": iso(end),
                     "timeMethod": "One non-overlapping hour; divide accumulation by 1 h to form a constant hourly mean rate; subhour timing unknown",
-                    "cellMethod": "Nearest pixel using world-file pixel CENTERS; preserve 255 as missing; quantized estimate, not exact rainfall"}
-    return rain_envelope(terrain, IEM_ROOT + Path(png_path).name, "IEM MRMS p1h", end - dt.timedelta(hours=1), 60, depths, evidence)
+                    "cellMethod": "Nearest native pixel center after explicit legacy half-cell correction; original world file retained",'historicalWarning':WARNING}
+    result=rain_envelope(terrain, IEM_ROOT + Path(png_path).name, "IEM legacy MRMS p1h integer-mm reconstruction", end - dt.timedelta(hours=1), 60, depths, evidence)
+    result['warning']=WARNING
+    return result
 
 
 def main():
