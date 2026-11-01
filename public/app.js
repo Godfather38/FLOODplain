@@ -775,14 +775,9 @@ function drawMap(w) {
     L.circleMarker([pl.lat, pl.lon], { radius: 6, color: '#fff', weight: 2, fillColor: '#3c3b38', fillOpacity: 1, interactive: false }).addTo(layer);
     L.marker([pl.lat, pl.lon], { icon: L.divIcon({ className: 'place-pin', html: `<span class="place ${pl.side ?? 'right'}">${esc(pl.name)}</span>`, iconSize: [0, 0] }), interactive: false }).addTo(layer);
   }
-  // Pins only where something is off, plus the stretch being viewed.
+  // Keep every mapped junction in the selected area visible across route views.
   const inArea = new Set(routeFeatures.map((f) => f.properties.id));
-  const visible = FAILURE_POINTS.filter((fp) => {
-    if (!fp.routes.some((rid) => inArea.has(rid))) return false; // other area
-    const s = pointScore(view.fpResults[fp.id]);
-    const onRoute = w.screen === 'home' || fp.routes.includes(focus);
-    return (onRoute && s !== 1) || fp.id === w.fp;
-  });
+  const visible = FAILURE_POINTS.filter(fp => fp.routes.some(rid => inArea.has(rid)));
   for (const fp of visible) {
     const s = pointScore(view.fpResults[fp.id]);
     for (const rid of fp.routes.filter((x) => inArea.has(x))) {
@@ -793,7 +788,7 @@ function drawMap(w) {
       }
     }
     const rid = fp.routes.includes(focus) ? focus : fp.routes.find((x) => inArea.has(x));
-    L.marker([fp.lat, fp.lon], { icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${s}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
+    L.marker([fp.lat, fp.lon], { title: fp.short, alt: fp.short, icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${s}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
       .on('click', () => { location.hash = `#/r/${rid}/${fp.id}`; })
       .addTo(layer);
   }
