@@ -1,7 +1,11 @@
 import * as maptalks from 'maptalks';
 import { createVectorGeography } from './geographic-vector-source.js';
+export {createRefinedRendererSource} from './refined-renderer-source.js';
 
-export async function createGeographicView({leaflet,loaded,get,footprints,routeLayer,sharedState,initialView='flat',onError=()=>{},onSelectCell=()=>{},onStatus=()=>{},onPick=()=>{}}){
+export async function createGeographicView({leaflet,loaded,get,footprints,source,routeLayer,sharedState,initialView='flat',onError=()=>{},onSelectCell=()=>{},onStatus=()=>{},onPick=()=>{}}){
+  if(source){if(source.kind!=='refined-native')throw Error('Unsupported renderer source');loaded=source.loaded;footprints=source.footprints;}
+  const flatLabel=source?'Native full-cell mean depth; footprint is not resolved wet extent; gray means missing':'10 m terrain-intersected display; 100 m hydraulic grid';
+  let dataGeneration=0;
   async function read(path,gzip=false,signal=assetController.signal){const pending=get(path,{signal});const r=await Promise.race([pending,new Promise((_,reject)=>signal.addEventListener('abort',()=>reject(new DOMException('Cancelled','AbortError')),{once:true}))]);if(signal.aborted){r.body?.cancel();throw new DOMException('Cancelled','AbortError');}if(!r.ok)throw Error(path+' HTTP '+r.status);
     return gzip?new Response(r.body.pipeThrough(new DecompressionStream('gzip'))):r;}
   if(!document.querySelector('[data-voxel-style]')){const link=document.createElement('link');link.rel='stylesheet';
@@ -9,7 +13,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,routeL
   const parent=leaflet.getContainer(),surface=document.createElement('div');surface.className='geographic-3d voxel-geographic';
   surface.setAttribute('aria-label','Voxel terrain and model water map');parent.append(surface);
   const stop=e=>e.stopPropagation();for(const type of ['mousedown','pointerdown','touchstart','dblclick','wheel','click'])surface.addEventListener(type,stop);
-  const note=document.createElement('div');note.className='voxel-map-note';note.textContent='10 m terrain-intersected display; 100 m hydraulic grid';surface.append(note);
+  const note=document.createElement('div');note.className='voxel-map-note';note.textContent=flatLabel;surface.append(note);
   const popup=document.createElement('div');popup.className='voxel-cell-info';popup.hidden=true;surface.append(popup);
   const mapNode=document.createElement('div');mapNode.className='voxel-map-surface';surface.prepend(mapNode);
   let active=true,dead=false,model=null,frame=null,mode='aggregate',context=null,map,layer,timer,timeout,selected=null,lastDetail='',last3DMode=null,mapTexture,viewMode=initialView==='3d'?'3d':'flat',syncing=false,highDetailTask,THREE,threeTask,modeGeneration=0,assetController=new AbortController();
@@ -18,7 +22,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,routeL
   const c=leaflet.getCenter(),motion=matchMedia('(prefers-reduced-motion: reduce)');
   const coverageBins=new Map(),binKey=(lat,lon)=>Math.floor(lat/.01)+','+Math.floor(lon/.01);
   footprints.rings.forEach((ring,i)=>{const ys=ring.map(p=>p[0]),xs=ring.map(p=>p[1]);for(let y=Math.floor(Math.min(...ys)/.01);y<=Math.floor(Math.max(...ys)/.01);y++)for(let x=Math.floor(Math.min(...xs)/.01);x<=Math.floor(Math.max(...xs)/.01);x++){const key=y+','+x;if(!coverageBins.has(key))coverageBins.set(key,[]);coverageBins.get(key).push(i);}});
-  function findNativeCell(lat,lon){for(const index of coverageBins.get(binKey(lat,lon))||[]){const ring=footprints.rings[index];let inside=false;for(let i=0,j=3;i<4;j=i++){const [yi,xi]=ring[i],[yj,xj]=ring[j];if((yi>lat)!==(yj>lat)&&lon<(xj-xi)*(lat-yi)/(yj-yi)+xi)inside=!inside;}if(inside)return index;}return null;}
+  function findNativeCell(lat,lon){for(const index of coverageBins.get(binKey(lat,lon))||[]){const ring=footprints.rings[index];let inside=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const [yi,xi]=ring[i],[yj,xj]=ring[j];if((yi>lat)!==(yj>lat)&&lon<(xj-xi)*(lat-yi)/(yj-yi)+xi)inside=!inside;}if(inside)return index;}return null;}
   const flatWater=new maptalks.VectorLayer('native-flat-water',[],{zIndex:1,geometryEvents:false});
   const routeContext=new maptalks.VectorLayer('original-route-context',[],{zIndex:20,enableAltitude:false});
   const extraContext=new maptalks.VectorLayer('original-model-context',[],{zIndex:21});
@@ -37,24 +41,27 @@ export async function createGeographicView({leaflet,loaded,get,footprints,routeL
   timeout=setTimeout(()=>{if(!cameraReady||!geographyReady)fail('Geographic renderer initialization timed out');},30000);
   async function ensure3D(token=modeGeneration){
     if(model)return;
+    if(source&&source.manifest.terrainDisplay?.status!=='available')throw Error('3D terrain unavailable for this native run; native mean-depth map remains available.');
     if(threeTask)return threeTask;
     threeTask=(async()=>{
-      const [runtime,terrain,detailBuffer,detailMeta]=await Promise.all([
+      const [runtime,terrain,detailBuffer,detailMeta]=await (source?Promise.all([import('./geographic-3d-runtime.js'),source.loadTerrain({signal:assetController.signal})]):Promise.all([
         import('./geographic-3d-runtime.js'),
         read('data/frozen-terrain-display.json.gz',true).then(r=>r.json()),
         read('data/frozen-voxel-terrain.f32.gz',true).then(r=>r.arrayBuffer()),
-        read('data/frozen-voxel-terrain.json').then(r=>r.json())]);
+        read('data/frozen-voxel-terrain.json').then(r=>r.json())]));
       if(dead||!active||token!==modeGeneration)return false;
-      if(detailMeta.sourceSha256!==loaded.manifest.artifact.sha256)throw Error('Terrain detail provenance mismatch');
+      if(!source&&detailMeta.sourceSha256!==loaded.manifest.artifact.sha256)throw Error('Terrain detail provenance mismatch');
       THREE=runtime.THREE;
       await new Promise((resolve,reject)=>{
         layer=new runtime.ThreeLayer('native-voxel-water',{forceRenderOnMoving:true,forceRenderOnRotating:true,forceRenderOnZooming:true,geometryEvents:false});
         layer.prepareToDraw=function(gl,scene){try{
           if(model)return;
           if(dead||!active||token!==modeGeneration){layer.remove();resolve();return;}
-          const origin=layer.coordinateToVector3([-111.2,32.44]);
-          const altitude=m=>map.altitudeToPoint(m,map.getGLRes(),new maptalks.Coordinate(-111.2,32.44));
-          model=runtime.createVoxelWater({loaded,terrain,footprints,detail:new Float32Array(detailBuffer),origin,project:p=>layer.coordinateToVector3(p),altitude,geometryBudget:innerWidth<600?30000:80000});
+          const anchor=source?[source.geometry.cells[0].lon,source.geometry.cells[0].lat]:[-111.2,32.44];
+          const origin=layer.coordinateToVector3(anchor);
+          const altitude=m=>map.altitudeToPoint(m,map.getGLRes(),new maptalks.Coordinate(...anchor));
+          const args={loaded,terrain,footprints,geometry:source?.geometry,origin,project:p=>layer.coordinateToVector3(p),altitude,geometryBudget:innerWidth<600?30000:80000};
+          model=source?runtime.createRefinedWater(args):runtime.createVoxelWater({...args,detail:new Float32Array(detailBuffer)});
           scene.add(new THREE.HemisphereLight(0xffffff,0x777777,1.2));
           const sun=new THREE.DirectionalLight(0xffffff,1.2);sun.position.set(-1,-2,4);scene.add(sun);
           layer.addMesh(model.group);
@@ -76,6 +83,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,routeL
     if(!frame||['off','hand'].includes(mode)){flatGeneration++;flatController.abort();flatTime=null;flatTask=null;flatWater.clear();return;}
     if(flatTime!==time){flatController.abort();flatController=new AbortController();flatTime=time;flatTask=null;flatGeneration++;flatWater.clear();}
     const token=flatGeneration,signal=flatController.signal;
+    if(source){flatWater.clear();const features=source.flatFeatures(frame,map.getExtent());flatWater.addGeometry(features.map(f=>new maptalks.Polygon(f.geometry.coordinates,{symbol:{polygonFill:f.properties.missing?'#8d969d':colors[f.properties.depthClass],polygonOpacity:f.properties.missing?.25:.78,lineOpacity:0}})));return;}
     if(!flatCache.has(time)&&!flatTask){
       const index=loaded.run.frames.findIndex(f=>f.time===time);
       flatTask=read(`data/water-footprints-${index}.json.gz`,true,signal).then(r=>r.json()).then(data=>{
@@ -116,25 +124,26 @@ export async function createGeographicView({leaflet,loaded,get,footprints,routeL
     mapTexture?.update(extent,zoom).catch(error=>fail('Vector geography: '+error.message));
     if(viewMode==='flat'){renderFlat().catch(error=>onError(error.message));return;}
     if(!model)return;
-    const indices=[],pad=.002;
-    loaded.run.cells.forEach((c,i)=>{if(c.lon>=extent.xmin-pad&&c.lon<=extent.xmax+pad&&c.lat>=extent.ymin-pad&&c.lat<=extent.ymax+pad)indices.push(i);});
+    const indices=source?source.visibleIndices(extent):[],pad=.002;
+    if(!source)loaded.run.cells.forEach((c,i)=>{if(c.lon>=extent.xmin-pad&&c.lon<=extent.xmax+pad&&c.lat>=extent.ymin-pad&&c.lat<=extent.ymax+pad)indices.push(i);});
     const centre=map.getCenter(),distance=i=>{const c=loaded.run.cells[i];return (c.lon-centre.x)**2*Math.cos(centre.y*Math.PI/180)**2+(c.lat-centre.y)**2;};indices.sort((a,b)=>distance(a)-distance(b));
-    if(zoom>=18&&!highDetailTask)highDetailTask=Promise.all([read('data/voxel-detail-1m.json').then(r=>r.json()),read('data/voxel-detail-1m.f32.gz',true).then(r=>r.arrayBuffer())]).then(([metadata,buffer])=>{if(dead)return;model.setHighDetail({metadata,values:new Float32Array(buffer)});lastDetail='';refreshDetail();}).catch(error=>onStatus({kind:'terrain-detail',status:'error',message:error.message}));
+    if(!source&&zoom>=18&&!highDetailTask)highDetailTask=Promise.all([read('data/voxel-detail-1m.json').then(r=>r.json()),read('data/voxel-detail-1m.f32.gz',true).then(r=>r.arrayBuffer())]).then(([metadata,buffer])=>{if(dead)return;model.setHighDetail({metadata,values:new Float32Array(buffer)});lastDetail='';refreshDetail();}).catch(error=>onStatus({kind:'terrain-detail',status:'error',message:error.message}));
     const sub=zoom>=18?100:zoom>=14?10:zoom>=12?5:zoom>=10?2:1,key=sub+':'+indices.join(',');
-    if(key!==lastDetail){lastDetail=key;const detail=model.setDetail(indices,sub);if(frame){model.update(frame,mode);last3DMode=mode;}note.textContent=`${detail.resolutionM} m terrain near centre / ${detail.farResolutionM} m far; native 100 m water, terrain intersection; cosmetic animation`;}
+    if(key!==lastDetail){lastDetail=key;const detail=model.setDetail(indices,sub);if(frame){model.update(frame,mode);last3DMode=mode;}note.textContent=source?`Source-bound terrain; native variable-size faces; ${detail.omittedFaces||0} faces omitted by geometry budget; cosmetic highlights`:`${detail.resolutionM} m terrain near centre / ${detail.farResolutionM} m far; native 100 m water, terrain intersection; cosmetic animation`;if(source&&detail.omittedFaces)onStatus({kind:'terrain-detail',status:'partial',omittedFaces:detail.omittedFaces});}
     if(frame&&(model.frame?.time!==frame.time||last3DMode!==mode)){model.update(frame,mode);last3DMode=mode;}
     layer?.renderScene();
   }
-  function showCell(index,notify=true){selected=index;model?.select(index);const cell=loaded.run.cells[index],depth=frame?.depthM[index];const info=(viewMode==='3d'?model?.cellInfo(index):null)|| (frame&&cell?{row:cell.row??'�',column:cell.col??'�',time:frame.time,depthM:depth,depthFt:Number.isFinite(depth)?depth*3.280839895:null,surfaceM:null}:null);if(!info)return;
-    const title=document.createElement('strong');title.textContent=`SFINCS cell ${index} · row ${info.row}, col ${info.column}`;
-    const body=document.createElement('div');body.textContent=`${new Date(info.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric'})} MST · ${info.depthM===null?'No model depth result':info.depthM.toFixed(3)+' m / '+info.depthFt.toFixed(2)+' ft cell-average depth'}`;
-    const level=document.createElement('div');level.textContent=info.surfaceM===null?'Native water surface unavailable':`Native water surface ${info.surfaceM.toFixed(2)} m NAVD88`;
-    const caveat=document.createElement('small');caveat.textContent='Terrain intersection is a downscaled display, not surveyed road depth or a fine-grid hydraulic solution.';
+  function showCell(index,notify=true){selected=index;model?.select(index);const cell=loaded.run.cells[index],depth=frame?.depthM[index];const info=(viewMode==='3d'?model?.cellInfo(index):null)||source?.cellInfo(index,frame)|| (frame&&cell?{row:cell.row??'�',column:cell.col??'�',time:frame.time,depthM:depth,depthFt:Number.isFinite(depth)?depth*3.280839895:null,surfaceM:null}:null);if(!info)return;
+    const title=document.createElement('strong');title.textContent=source?`Native face ${info.nativeFaceId} · ${info.areaM2.toFixed(1)} m² · ${info.resolutionM.toFixed(1)} m equivalent-square resolution`:`SFINCS cell ${index} · row ${info.row}, col ${info.column}`;
+    const body=document.createElement('div');body.textContent=`${new Date(info.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric',minute:source?'2-digit':undefined})} MST · ${info.depthM===null?'No model depth result':info.depthM.toFixed(3)+' m / '+info.depthFt.toFixed(2)+' ft cell-average depth'}`;
+    const level=document.createElement('div');level.textContent=info.surfaceM===null?'Native water surface unavailable':`Native water surface ${info.surfaceM.toFixed(2)} m ${info.datum||'NAVD88'}`;
+    const caveat=document.createElement('small');caveat.textContent=source?'Cell-average depth is native volume / full face area. Polygon fill is not a resolved shoreline or road-depth measurement.':'Terrain intersection is a downscaled display, not surveyed road depth or a fine-grid hydraulic solution.';
     const close=document.createElement('button');close.type='button';close.textContent='Close';close.onclick=()=>{popup.hidden=true;};
     popup.replaceChildren(title,body,level,caveat,close);popup.hidden=false;if(notify)onSelectCell(index);layer?.renderScene();
   }
   async function update(next,nextMode='aggregate',contextGroup){const request=sharedState?.snapshot().requested;
     if(request&&(!sharedState.isCurrent(request.requestId)||request.time!==next.time||request.model!==nextMode))return Promise.reject(Error('Renderer request no longer matches selected frame'));
+    if(source){const token=++dataGeneration;frame=null;flatWater.clear();model?.clearFrame?.();popup.hidden=true;layer?.renderScene();next=await source.loadFrame(next);if(dead||!active||token!==dataGeneration||(request&&!sharedState.isCurrent(request.requestId)))throw new DOMException('Superseded native frame','AbortError');}
     if(!loaded.run.frames.some(f=>f.time===next?.time)||!Array.isArray(next?.depthM)||next.depthM.length!==loaded.run.cells.length){flatGeneration++;flatController.abort();flatTime=null;flatTask=null;flatWater.clear();frame=null;popup.hidden=true;if(model){try{model.update(next,nextMode);}catch{}}layer?.renderScene();throw Error('Native depth unavailable for selected hour');}
     frame=next;mode=nextMode;context=contextGroup??context;
     if(viewMode==='3d'&&!model)return ensure3D().then(()=>{if(!model||!active||dead)throw new DOMException('3D request cancelled','AbortError');return update(next,nextMode,contextGroup);});
@@ -157,11 +166,11 @@ export async function createGeographicView({leaflet,loaded,get,footprints,routeL
   function startAnimation(){clearInterval(timer);if(!active||dead||viewMode!=='3d'||motion.matches||document.hidden)return;
     timer=setInterval(()=>{if(model&&active){model.animate(performance.now()/1000);layer?.renderScene();}},1000/15);}
   function visibility(){startAnimation();}document.addEventListener('visibilitychange',visibility);motion.addEventListener('change',visibility);
-  function hide(){if(!active||dead)return;active=false;modeGeneration++;flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(!model){assetController.abort();assetController=new AbortController();}mapTexture?.suspend();clearInterval(timer);const c=map.getCenter(),z=map.getZoom();surface.hidden=true;parent.classList.remove('map-has-3d');leaflet.invalidateSize();leaflet.setView([c.y,c.x],z,{animate:false});popup.hidden=true;}
+  function hide(){if(!active||dead)return;active=false;modeGeneration++;dataGeneration++;source?.cancel();flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(!model){assetController.abort();assetController=new AbortController();}mapTexture?.suspend();clearInterval(timer);const c=map.getCenter(),z=map.getZoom();surface.hidden=true;parent.classList.remove('map-has-3d');leaflet.invalidateSize();leaflet.setView([c.y,c.x],z,{animate:false});popup.hidden=true;}
   function show(){if(dead)throw Error('3D map disposed');active=true;surface.hidden=false;parent.classList.add('map-has-3d');map.checkSize();syncFromLeaflet();refreshDetail();if(selected!==null)model?.select(selected);startAnimation();}
   const resize=new ResizeObserver(()=>{if(active&&!dead){map.checkSize();refreshDetail();}});resize.observe(parent);
   const unsubscribe=sharedState?.subscribe(state=>{const i=state.selection?.kind==='cell'?state.selection.cellIndex:null;if(i!==selected){selected=i;model?.select(i);if(i!==null&&frame&&!popup.hidden)showCell(i,false);}});
-  function dispose(){if(dead)return;hide();dead=true;assetController.abort();clearInterval(timer);clearTimeout(timeout);resize.disconnect();
+  function dispose(){if(dead)return;hide();dead=true;source?.dispose();assetController.abort();clearInterval(timer);clearTimeout(timeout);resize.disconnect();
     leaflet.off('moveend',syncFromLeaflet);leaflet.off('layeradd layerremove',routesChanged);routeLayer.off?.('layeradd layerremove',routesChanged);
     unsubscribe?.();document.removeEventListener('visibilitychange',visibility);motion.removeEventListener('change',visibility);window.removeEventListener('pagehide',dispose);
     layer?.getThreeRenderer?.()?.domElement?.removeEventListener('webglcontextlost',lost);mapTexture?.dispose();model?.dispose();map.remove();surface.remove();}
@@ -172,7 +181,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,routeL
     viewMode=value;value==='flat'?flatWater.show():flatWater.hide();
     if(model)model.group.visible=value==='3d';
     map.setPitch(value==='flat'?0:58);refreshDetail();if(value==='flat')await renderFlat();else{flatGeneration++;flatController.abort();flatTime=null;flatTask=null;}startAnimation();
-    note.textContent=value==='flat'?'10 m terrain-intersected display; 100 m hydraulic grid':note.textContent;
+    note.textContent=value==='flat'?flatLabel:note.textContent;
   }
   if(initialView==='3d')await ready.then(()=>setViewMode('3d'));
   return {ready,update,show,hide,dispose,get active(){return active;},zoom(delta){map.setZoom(map.getZoom()+delta);},select:showCell,
