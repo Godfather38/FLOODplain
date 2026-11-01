@@ -1,0 +1,41 @@
+{
+  "sources": [
+    {
+      "url": "https://ciroh-owp-hand-fim.s3.amazonaws.com/15050301/branches/1589000003/hydroTable_1589000003.csv",
+      "sha256": "7a879446683ea19c58326cc530b6c93958de3526b51af3ad5a991c307c634a12",
+      "huc": "15050301",
+      "branch": "1589000003",
+      "pathReachCount": 8,
+      "tableReachCount": 8,
+      "bathymetrySourceFields": {
+        "Bathymetry_source_x": 0,
+        "Bathymetry_source_y": 0
+      },
+      "calibratedRows": 0,
+      "zeroStageWidthRangeM": [
+        8.531945470203514,
+        172.39269282546067
+      ],
+      "zeroStageDepthOrAbsoluteBedAvailable": false
+    },
+    {
+      "url": "https://ciroh-owp-hand-fim.s3.amazonaws.com/15050303/branches/1588000002/hydroTable_1588000002.csv",
+      "sha256": "21979a63c5dd393bc9d1b5664963fcded8fa2bb9e7615a5e3184b81bd6ed0a26",
+      "huc": "15050303",
+      "branch": "1588000002",
+      "pathReachCount": 38,
+      "tableReachCount": 38,
+      "bathymetrySourceFields": {
+        "Bathymetry_source_x": 0,
+        "Bathymetry_source_y": 0
+      },
+      "calibratedRows": 0,
+      "zeroStageWidthRangeM": [
+        9.550230565114996,
+        148.31284139795522
+      ],
+      "zeroStageDepthOrAbsoluteBedAvailable": false
+    }
+  ],
+  "conclusion": "Reach-averaged synthetic stage/width tables provide no surveyed absolute bed elevation or bankfull depth; zero-stage width is not established physical bank-to-bank width. Not passed to datasets_riv as bathymetry."
+}
