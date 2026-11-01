@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "mode": "simulated_live",
+  "freshCurrentForecast": false,
+  "runId": "41327417204",
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41327417204",
+  "inputCommit": "6285d6f",
+  "solverSeconds": 13.59,
+  "forecastIssueTimes": {
+    "NWM": "2026-11-01T13:00:00Z",
+    "HRRR": "2026-11-01T14:00:00Z"
+  },
+  "simulationStart": "2026-10-30T16:00:00Z",
+  "forecastStart": "2026-11-01T17:00:00Z",
+  "simulationEnd": "2026-11-02T07:00:00Z",
+  "nativeMapFrames": 64,
+  "initialState": "Assumed dry before observed-history warm-up; continuous evolved state at forecast start; not measured or convergence-proven",
+  "archive": {
+    "path": "native-result.tar.gz",
+    "bytes": 11005396,
+    "sha256": "011932ac0d4d577ff904ee6b9f0e7b624ed2b07157718af7c7fcb9b924b02dae"
+  },
+  "retainedRestartTimes": [
+    "2026-11-01T17:00:00Z",
+    "2026-11-02T07:00:00Z"
+  ],
+  "sourceLicenseNotice": "GCN10-NOTICE.txt inside archive; preserve attribution",
+  "validationScope": "Native run completed; no measured current-event accuracy claim",
+  "files": [
+    {
+      "path": "current-case.json",
+      "sha256": "27b47fef000490e1d8567139537b9b6db527c90eb79d2b9275bba9319fd2e229"
+    },
+    {
+      "path": "GCN10-NOTICE.txt",
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "GCN10-source-metadata.xml",
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    },
+    {
+      "path": "precip_2d.nc",
+      "sha256": "d92934e829d59f4fdb205c821eac83db0f1b3afb9ff6e9c5805d16ebd6888002"
+    },
+    {
+      "path": "sfincs.20261101.170000.rst",
+      "sha256": "6115011e3e0517400a105bdd152fed8ef280d4fc83110aaa25075379f58817c6"
+    },
+    {
+      "path": "sfincs.20261102.070000.rst",
+      "sha256": "fa95f3ce1d690a77345e11536e5d984be861e3b0d6b3c58519e664ad862e1d25"
+    },
+    {
+      "path": "sfincs.dis",
+      "sha256": "1312b17b35732d3c5453ccb15b6cd239bd2178f80a9cf2c227bf44eb3813fa48"
+    },
+    {
+      "path": "sfincs.ind",
+      "sha256": "2b071b4995e0f78043d24192ffc2a3f3fb055dc82a6272b2b804a0b0012f09b1"
+    },
+    {
+      "path": "sfincs.inp",
+      "sha256": "0f002b42ba6303569a3ef3abc4c5cda3cadce2cf1fb8fe558cd18150515b5ee4"
+    },
+    {
+      "path": "sfincs.log",
+      "sha256": "e32ee862df729bb4d5d0f2316a15932cde8053401b0ddc024f9f924cb912f974"
+    },
+    {
+      "path": "sfincs.msk",
+      "sha256": "d067063bbf06471134827906c82daf073a75fac8d771b188267ae02416f5be35"
+    },
+    {
+      "path": "sfincs.scs",
+      "sha256": "0a8d95fb7aaa627bba19ffb433c32720785b93380aa7338a11582eac5a54ca10"
+    },
+    {
+      "path": "sfincs.src",
+      "sha256": "ce688a650e3fd5926441e3714d205860918d197e08dab3c52fd69387a97ee750"
+    },
+    {
+      "path": "sfincs_map.nc",
+      "sha256": "b0b2784e29aab11c5f8433b25b72253b8b4e8a65f0e0fa1246ed0c8d1186a211"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "sha256": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de"
+    },
+    {
+      "path": "solver.log",
+      "sha256": "94b5508619ab912bab07eb353fc073dcf02df90a8fc48bc4311d9736f805c55b"
+    }
+  ]
+}
