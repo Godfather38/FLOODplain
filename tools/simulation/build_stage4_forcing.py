@@ -1,4 +1,4 @@
-"""Bounded 72-hour Stage IV forcing for Trico; preserve native bitmap and mapping."""
+"""Bounded 72/96-hour Stage IV forcing for Trico; preserve native bitmap and mapping."""
 import datetime as dt
 import argparse
 import hashlib
@@ -13,13 +13,15 @@ import numpy as np
 UTC=dt.timezone.utc
 CACHE=Path('../rainfall-cache');CACHE.mkdir(exist_ok=True)
 OUT=Path('public/simulation/data')
-p=argparse.ArgumentParser();p.add_argument('--reach',action='store_true');args=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--reach',action='store_true');p.add_argument('--spinup',action='store_true');args=p.parse_args()
+if args.spinup and not args.reach:p.error('--spinup requires --reach')
+hours=96 if args.spinup else 72
 west,south,east,north=(-111.37,32.31,-111.05,32.52) if args.reach else (-111.36,32.38,-111.25,32.51)
 lon=[round(west+i*.01,3) for i in range(round((east-west)/.01)+1)]
 lat=[round(north-i*.01,3) for i in range(round((north-south)/.01)+1)]
 frames=[];sources=[];mapping=None;grid=None;missing=0
-for i in range(72):
-    end=dt.datetime(2014,9,8,8,tzinfo=UTC)+dt.timedelta(hours=i)
+for i in range(hours):
+    end=dt.datetime(2014,9,7 if args.spinup else 8,8,tzinfo=UTC)+dt.timedelta(hours=i)
     name=f'ST4.{end:%Y%m%d%H}.01h.grib'
     url=f'https://mesonet.agron.iastate.edu/archive/data/{end:%Y/%m/%d}/stage4/{name}'
     path=CACHE/name
@@ -66,12 +68,12 @@ for i in range(72):
         start=(end-dt.timedelta(hours=1)).isoformat().replace('+00:00','Z');finish=end.isoformat().replace('+00:00','Z')
         frames.append({'start':start,'end':finish,'precipMmH':rain})
         sources.append({'start':start,'end':finish,'url':url,'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),'metadata':meta})
-        print(f'{i+1}/72 {name}: cumulative missing={missing}',flush=True)
+        print(f'{i+1}/{hours} {name}: cumulative missing={missing}',flush=True)
     finally:ec.codes_release(h)
 limitations=['Historical Stage IV radar/gauge precipitation analysis, not measured rainfall at every cell or a calibrated flood prediction.','Nearest native roughly 4 km cells mapped onto a padded 0.01 degree forcing grid; finer output spacing adds no rainfall detail.','No missing-value fill, no fitted rescaling, and no blending with obsolete IEM PNG products.','Hourly constant rates omit subhour variability. This forcing does not supply upstream river inflow or downstream hydraulic boundaries.']
 manifest={'schemaVersion':1,'source':'NCEP Stage IV hourly precipitation analysis, IEM archive','retrievedAt':dt.datetime.now(UTC).isoformat(),'sourceDocumentation':'https://mesonet.agron.iastate.edu/iemre/','historicalProductDocumentation':'https://gdex.ucar.edu/datasets/d507005/','conversion':'GRIB tp/accum kg m**-2: 1 kg/m2 water = 1 mm; exactly one hour gives mm/h numerically','sources':sources,'mapping':mapping,'mappingDimensions':['lat','lon'],'mappingDistanceUnits':'km','nativeGridHash':grid,'limitations':limitations}
-manifest_path=OUT/('stage4-reach-2014-provenance.json' if args.reach else 'stage4-forcing-2014-provenance.json')
+manifest_path=OUT/('stage4-reach-2014-96h-provenance.json' if args.spinup else 'stage4-reach-2014-provenance.json' if args.reach else 'stage4-forcing-2014-provenance.json')
 manifest_path.write_text(json.dumps(manifest,indent=2,allow_nan=False)+'\n',encoding='utf-8')
-result={'schemaVersion':1,'kind':'spatial_hourly_rainfall_forcing','status':'complete' if not missing else 'insufficient_data','crs':'EPSG:4326','lon':lon,'lat':lat,'dimensions':['time','lat','lon'],'units':'mm/h','timeConvention':'Frame start inclusive, end exclusive; constant mean rate for exactly one hour','missingCellHours':missing,'sourceQuality':{'requestedHours':72,'availableHours':len(frames),'nativeBitmapPreserved':True,'forcingReadiness':'source_verified_historical_analysis','fieldValidation':'not_calibrated'},'frames':frames,'provenance':{'manifest':str(manifest_path),'manifestSha256':hashlib.sha256(manifest_path.read_bytes()).hexdigest(),'source':manifest['source'],'spatialMethod':'Nearest native cell, fixed mapping with native indices and distances retained','limitations':limitations}}
-(OUT/('sfincs-reach-stage4-2014.json' if args.reach else 'sfincs-trico-stage4-2014.json')).write_text(json.dumps(result,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
+result={'schemaVersion':1,'kind':'spatial_hourly_rainfall_forcing','status':'complete' if not missing else 'insufficient_data','crs':'EPSG:4326','lon':lon,'lat':lat,'dimensions':['time','lat','lon'],'units':'mm/h','timeConvention':'Frame start inclusive, end exclusive; constant mean rate for exactly one hour','missingCellHours':missing,'sourceQuality':{'requestedHours':hours,'availableHours':len(frames),'nativeBitmapPreserved':True,'forcingReadiness':'source_verified_historical_analysis','fieldValidation':'not_calibrated'},'frames':frames,'provenance':{'manifest':str(manifest_path),'manifestSha256':hashlib.sha256(manifest_path.read_bytes()).hexdigest(),'source':manifest['source'],'spatialMethod':'Nearest native cell, fixed mapping with native indices and distances retained','limitations':limitations}}
+(OUT/('sfincs-reach-stage4-2014-96h.json' if args.spinup else 'sfincs-reach-stage4-2014.json' if args.reach else 'sfincs-trico-stage4-2014.json')).write_text(json.dumps(result,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
 print(result['status'],missing,'missing cell-hours;',len(set(p['index'] for row in mapping for p in row)),'distinct native cells',flush=True)

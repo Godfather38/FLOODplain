@@ -22,3 +22,10 @@ This replaces the incomplete PNG forcing for a labeled rainfall scenario. It sup
 `public/simulation/data/sfincs-reach-stage4-2014.json` extends the same 72-hour source sequence to padded bounds [-111.37, 32.31, -111.05, 32.52], a 22-by-33 regular geographic grid. Its independent provenance is `stage4-reach-2014-provenance.json`; the earlier crop and its provenance are unchanged. Generate using `build_stage4_forcing.py --reach`. Native coordinates are decoded once and great-circle nearest cells are selected; ecCodes independently checks corners and center. This accelerates the same nearest-native-cell sampling. All original GRIB files are reused from cache.
 
 The reach solver starts September 7 for spinup; this rainfall sequence begins September 8 07Z. Do not silently pad the earlier 24 hours with observed-dry rainfall: choose a documented spinup policy or obtain those hours separately.
+
+
+## Full run including September 7 spinup
+
+Use `public/simulation/data/sfincs-reach-stage4-2014-96h.json` for the complete September 7 07Z to September 11 07Z reach run. It retains the same expanded bounds and SFINCS-compatible hourly contract. The first 24 hours are actual archived Stage IV analyses, not zero-filled spinup. Original 72-hour artifacts remain unchanged. Source metadata and hashes for all 96 files are in `stage4-reach-2014-96h-provenance.json`. Reproduce using `build_stage4_forcing.py --reach --spinup`. This only supplies rainfall; it does not change hydraulic parameters or imply the reach output has been rerun.
+
+The 96-hour export has zero missing values across 69,696 cell-hours. All 72 overlapping frames are identical to the preserved earlier artifact; all 96 raw-file hashes were checked. September 7 spinup totals range from 0.0 to 9.629999999999999 mm across the crop.
