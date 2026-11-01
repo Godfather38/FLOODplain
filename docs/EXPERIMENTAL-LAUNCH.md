@@ -47,3 +47,10 @@ Latest default is `reach-geometry-b0530ca20c3f3643` from solver commit `39afc29`
 Peak timing improves to 39 minutes late from 6 h 57 min; peak flow remains only 96.725 versus 339.802 m3/s observed, with RMSE 62.990 m3/s. The viewer presents timing and magnitude separately and retains hydraulic-review warnings. Full-domain cell-average maximum 25.268 m remains problematic; displayed-crop maximum is 3.007 m.
 
 The solver completed in 104.011 seconds using the saved executable on a fresh runner. Its workflow initially failed during export because a volume tolerance was compared with depth units; the solver owner corrected export locally against unchanged native outputs. `tools/sfincs/data/reach-geometry-result/run-provenance.json` preserves this outcome and native hashes. The app thread did not rerun/build the solver or merge the HAND branch. All prior outputs remain selectable and unchanged.
+
+
+## Latest documented-levee development benchmark
+
+Default viewer and historical route context now use the unchanged levee artifact from solver commit `86466e7`. All prior runs remain selectable. Native short-section peak is 301.306 versus 339.802 m3/s observed (11.33% low), 66 minutes early, RMSE 26.165 m3/s. The full-valley peak is a different spatial measurement and is not substituted for the gauge comparison. This is iterative development against the 2014 event, not held-out validation. Levee geometry is published and crest samples come from February 2015 USGS 1 m NAVD88 data; exact September 2014 condition remains uncertain.
+
+`docs/sfincs/LEVEE-CASE.md` and original run provenance preserve source details, the approximate signed water budget, and export handling. Negative native dry-cell storage is clamped for display only; signed storage remains in the budget. No solver rerun, model parameter change, main deployment or HAND branch merge occurred in the app thread.
