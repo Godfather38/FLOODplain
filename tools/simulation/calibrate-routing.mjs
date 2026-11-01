@@ -22,6 +22,6 @@ for(let lagMinutes=0;lagMinutes<=720;lagMinutes+=15)for(let kMinutes=0;kMinutes<
 }
 const frozen={schemaVersion:1,frozenAt:new Date().toISOString(),model:'lag + linear reservoir',selection:year==='2006'?'PRIMARY: July 2006 large flood brackets 2014 upstream discharge scale. Chosen before scoring 2014; retain estimated-value caveats and channel changes.':'SECONDARY: July 20–21 2013 smaller flood; independent sensitivity test. Not selected by 2014 performance.',
  objective:'Minimum RMSE on approved unqualified exact UTC pairs after 24h warm-up',grid:{lagMinutes:[0,720,15],kMinutes:[0,720,15],transmission:1},
- inputs:paths.map((path,i)=>({path,sha256:createHash('sha256').update(texts[i]).digest('hex')})),...best,
+ inputs:paths.map((path,i)=>({path,sha256:createHash('sha256').update(texts[i].replace(/\r\n/g,'\n')).digest('hex')})),...best,
  warning:'Retrospective held-out event, not blinded: 2014 target peak/time were already known in research. Parameters fitted only to separate pre-2014 observations. Small-storm extrapolation / channel changes are limitations.'};
 await writeFile(root+`routing-frozen-${year}.json`,JSON.stringify(frozen,null,2)+'\n');console.log(JSON.stringify(frozen,null,2));

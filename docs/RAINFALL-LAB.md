@@ -13,6 +13,12 @@ node tools/simulation/demo.mjs
 node --test test/simulation.test.js
 ```
 
+First quantitative routing result: open **http://127.0.0.1:8081/routing-result.html**. Reproduce with `node tools/simulation/score-routing.mjs`. The overlay is also `public/simulation/routing-benchmark.svg`; full curves and scores are in `data/routing-benchmark.json`.
+
+This separate gauge-to-gauge milestone uses observed Cortaro input and parameters fitted to earlier floods, frozen in commit `b4c4c1b` before September 2014 scoring. It is not a completed radar-runoff hindcast. The predeclared primary 2006 fit predicts a 15,320 ft³/s peak (+27.7%), 105 minutes early, RMSE 2,514 ft³/s and NSE 0.264. The secondary 2013 fit predicts 15,668 ft³/s (+30.6%), 15 minutes late, RMSE 1,454 ft³/s and NSE 0.754. The unchanged-upstream baseline peaks at 21,200 ft³/s (+76.7%), 540 minutes early, RMSE 5,273 ft³/s and NSE −2.239. All use 273 approved unqualified exact-time samples after a 24-hour warm-up; 16 qualified target samples are excluded. Both frozen models are retained without selecting the better one after scoring. See [the protocol](ROUTING-PROTOCOL.md) for assumptions, event selection and non-blinded retrospective status.
+
+Calibration can be independently rerun with `node tools/simulation/calibrate-routing.mjs 2006` and `node tools/simulation/calibrate-routing.mjs 2013`, but those commands rewrite freeze timestamps. The checked-in frozen files preserve the original pre-scoring decision. The fetch utility supports at most seven days/1,000 samples per request and fails on pagination. Do not extend intervals silently.
+
 The browser opens a synthetic storm over recorded real terrain. Change infiltration, cell travel time or rainfall multiplier, then Run scenario. Inspect elevation, contributing cells or stored volume; move the time slider; download the inputs, parameters and result as JSON. The local preview server binds only to loopback. No external scripts, tiles, application APIs or alert services are requested by the lab.
 
 ## What is real, and what is invented
