@@ -1,8 +1,56 @@
 {
   "reportedBuild": "4aeb310",
   "userReport": "Hard crash after brief panning; exact process failure not captured",
-  "browserReproduction": {"surface":"in-app browser, desktop viewport", "pans":9,"zoomOuts":2,"frames":[0,20],"tabCrashed":false,"jsErrors":0,"userDeviceEquivalent":false},
-  "baselineNodeWorkload":{"nativeFaces":398613,"overviewMs":[1531,1475,1545,1505],"intersections":[483270,482769,482828,481388],"retainedHeapAfterGcMB":[225,225,225,225],"retainedLeakDemonstrated":false},
-  "loaderEdgeSharing":{"nativeEdgeArraysBefore":398613,"exactImmutableSequencesAfter":40,"retainedHeapAfterGcMB":193,"valuesChanged":false},
-  "limits":"Node heap excludes browser/GPU/basemap memory. No Chrome/Edge process telemetry available on this executor. A non-reproduction does not resolve the user's crash. Renderer stability fix and repeated integrated candidate checks remain required."
+  "browserReproduction": {
+    "surface": "in-app browser, desktop viewport",
+    "pans": 9,
+    "zoomOuts": 2,
+    "frames": [
+      0,
+      20
+    ],
+    "tabCrashed": false,
+    "jsErrors": 0,
+    "userDeviceEquivalent": false
+  },
+  "baselineNodeWorkload": {
+    "nativeFaces": 398613,
+    "overviewMs": [
+      1531,
+      1475,
+      1545,
+      1505
+    ],
+    "intersections": [
+      483270,
+      482769,
+      482828,
+      481388
+    ],
+    "retainedHeapAfterGcMB": [
+      225,
+      225,
+      225,
+      225
+    ],
+    "retainedLeakDemonstrated": false
+  },
+  "loaderEdgeSharing": {
+    "nativeEdgeArraysBefore": 398613,
+    "exactImmutableSequencesAfter": 40,
+    "retainedHeapAfterGcMB": 193,
+    "valuesChanged": false
+  },
+  "limits": "Node heap excludes browser/GPU/basemap memory. No Chrome/Edge process telemetry available on this executor. A non-reproduction does not resolve the user's crash. Renderer stability fix and repeated integrated candidate checks remain required.",
+  "precompactComparison": {
+    "commit": "aff0d19",
+    "sameRendererAsCompact": true,
+    "browserPans": 5,
+    "browserZoomOuts": 2,
+    "tabCrashed": false,
+    "jsErrors": 0,
+    "nodeGeometryFrameSourceHeapMB": 301,
+    "nodeRssMB": 525,
+    "conclusion": "Neither build reproduced the reported crash here; compact transport lowers measured retained heap, so no evidence-based transport rollback selected."
+  }
 }
