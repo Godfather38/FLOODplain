@@ -59,3 +59,5 @@ tools/simulation/data/current-inputs-catchments-20261101-refresh/** -text
 
 public/simulation/data/frozen-20261101* -text
 public/simulation/data/frozen-20261101-attribution/** -text
+
+public/simulation/data/frozen-map-context.json -text

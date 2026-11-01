@@ -80,3 +80,12 @@ Actual native output omitted time-varying volume. `reconstruct_sfincs_display.py
 Attribution and the ODbL derived retention database/grid are included under `public/simulation/data/frozen-20261101-attribution/`. The app reader accepted the actual gzip as simulated_live with15frames/29685cells. Browser interaction remains unavailable under the earlier restriction; no visual success is claimed.
 
 Launch `npm run start:experimental`, open `/simulation/routes.html`, expand the SFINCS map and move its simulated clock slider. It loads the frozen output without acquiring new weather. Original live assessment is a separate explicit button. No main merge or production deployment.
+
+
+## Map-mode test interface
+
+The same `/simulation/routes.html` opens with a responsive HAND / 2D model / Aggregate map, independent rain/river-flow/flooding/route-crossing controls, playback, local inspection and full-domain/HAND-window framing. It uses the existing canvas map approach and unchanged pinned HAND engine. HAND uses retained RFC points at the selected frame; 2D uses actual2026 output. Rain is retained HRRR14Z; river symbols show four NWM13Z inlet discharge magnitudes in m3/s, not velocity arrows. The final07Z frame has no following rainfall interval and says unavailable.
+
+Aggregate displays separate estimates and existing closure/observation fusion. Saved observations become stale at playback time; no fresh route recommendation is fabricated. 2D lacks explicit verified crossing mappings and remains map/context evidence. Route markers are configured crossings, not invented road polylines. Comparison describes spatial disagreements rather than averaging unlike depths. Live-source controls are collapsed separately and are never automatically refreshed by this map.
+
+Actual-data checks: both HAND windows produce masks at all15 playback times; rainfall has14 nonoverlapping intervals; four existing routes load; actual2D contract accepts29685cells/15frames. Module imports bundle successfully. Browser visual QA remains restricted and was not claimed.
