@@ -1,0 +1,112 @@
+
+------------ Welcome to SFINCS ------------
+
+  @@@@@  @@@@@@@ @@ @@  @@   @@@@   @@@@@
+ @@@ @@@ @@@@@@@ @@ @@@ @@ @@@@@@@ @@@ @@@
+ @@@     @@      @@ @@@ @@ @@   @@ @@@
+  @@@@@  @@@@@@  @@ @@@@@@ @@       @@@@@
+     @@@ @@      @@ @@ @@@ @@   @@     @@@
+ @@@ @@@ @@      @@ @@  @@  @@@@@@ @@@ @@@
+  @@@@@  @@      @@ @@   @   @@@@   @@@@@
+
+              ..............
+          ......:@@@@@@@@:......
+       ..::::..@@........@@.:::::..
+     ..:::::..@@..::..::..@@.::::::..
+    .::::::..@@............@@.:::::::.
+   .::::::..@@..............@@.:::::::.
+  .::::::::..@@............@@..::::::::.
+ .:::::::::...@@.@..@@..@.@@..::::::::::.
+ .:::::::::...:@@@..@@..@@@:..:::::::::..
+ ............@@.@@..@@..@@.@@............
+ ^^^~~^^~~^^@@..............@@^^^~^^^~~^^
+ .::::::::::@@..............@@.:::::::::.
+  .......:.@@.....@.....@....@@.:.......
+   .::....@@......@.@@@.@....@@.....::.
+    .:::~@@.:...:.@@...@@.:.:.@@~::::.
+     .::~@@@@@@@@@@.....@@@@@@@@@~::.
+       ..:~~~~~~~:.......:~~~~~~~:..
+          ......................
+              ..............
+
+------------------------------------------
+
+By running a SFINCS pre-compiled executable
+provided by Deltares, you accept the
+conditions of the Deltares SFINCS FreeWare
+Software License Agreement, see:
+https://download.deltares.nl/sfincs
+
+------------------------------------------
+
+Build-Revision: $Rev: v2.5.0-beta Hautacam
+Build-Date: $Date: 2026-10-08
+
+------ Preparing model simulation --------
+
+ Warning : sfincs.inp keyword "dtout" is deprecated, use "dtmapout" instead
+------------------------------------------
+Computational mesh
+------------------------------------------
+Number of active z points      :     50350
+Number of active u/v points    :    100245
+
+------------------------------------------
+Processes
+------------------------------------------
+Subgrid topography   : yes
+Quadtree refinement  : no
+Advection            : yes
+Viscosity            : yes
+Coriolis             : no
+Wind                 : no
+Atmospheric pressure : no
+Precipitation        : yes
+Infiltration         : no
+SnapWave             : no
+Wave paddles         : no
+------------------------------------------
+
+
+---------- Starting simulation -----------
+---- Using 2 of 4 available threads ----
+
+   0% complete,       - s remaining ...
+   5% complete,    69.4 s remaining ...
+  10% complete,   112.6 s remaining ...
+  15% complete,   192.4 s remaining ...
+  20% complete,   212.4 s remaining ...
+  25% complete,   213.0 s remaining ...
+  30% complete,   209.4 s remaining ...
+  35% complete,   218.3 s remaining ...
+  40% complete,   211.6 s remaining ...
+  45% complete,   204.3 s remaining ...
+  50% complete,   187.0 s remaining ...
+  55% complete,   167.1 s remaining ...
+  60% complete,   147.5 s remaining ...
+  65% complete,   136.9 s remaining ...
+  70% complete,   117.4 s remaining ...
+  75% complete,    98.0 s remaining ...
+  80% complete,    77.2 s remaining ...
+  85% complete,    57.8 s remaining ...
+  90% complete,    39.1 s remaining ...
+  95% complete,    19.7 s remaining ...
+ 100% complete,     0.0 s remaining ...
+
+---------- Simulation finished -----------
+
+ Total time                   :    393.175
+ Time in input                :      0.219
+ Time in simulation           :    392.955 (100.0%)
+ Time in meteo fields         :     23.341 (  5.9%)
+ Time in meteo forcing        :     13.827 (  3.5%)
+ Time in boundaries           :      0.711 (  0.2%)
+ Time in momentum             :    240.192 ( 61.1%)
+ Time in structures           :      0.278 (  0.1%)
+ Time in discharges           :      0.438 (  0.1%)
+ Time in continuity           :     99.107 ( 25.2%)
+ Time in output               :     14.830 (  3.8%)
+
+ Average time step (s)  :      3.684
+
+----------- Closing off SFINCS -----------

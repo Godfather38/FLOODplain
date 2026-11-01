@@ -1,0 +1,17 @@
+{
+  "runId": 41297523344,
+  "url": "https://github.com/Godfather38/FLOODplain/actions/runs/41297523344",
+  "inputCommit": "38d9a2f",
+  "frozenGeometryCommit": "86466e7",
+  "engineRun": 41290378239,
+  "solverTotalSeconds": 393.175,
+  "solverSimulationSeconds": 392.955,
+  "conclusion": "success",
+  "peakErrorPercent": -95.17285682952533,
+  "timingErrorMinutes": 2475,
+  "validationRole": "Post-failure initial-state scenario, not independent validation",
+  "nativeMapSha256": "72cd2d1da12f479818bb76232b3d262ae5ddea56664b1cf5e9fa37aa35e8739f",
+  "rainfallQualification": "One six-hour block uses uniformly allocated six-hour Stage IV analysis; source product discrepancy preserved; no fitted rescaling",
+  "hydraulicParametersChanged": false,
+  "nativeMapLocation": "GitHub run 41297523344 sfincs-verification artifact: runs/reach-antecedent-2013/sfincs_map.nc; also retained locally"
+}
