@@ -36,6 +36,7 @@ test('SYNTHETIC: partial run and empty streamed selection preserve explicit nati
  const f=fixture(),time='2026-11-01T17:15:00Z';f.manifest.frames=[{time}];
  const geometry={runId:f.manifest.runId,geometryKind:'native_quadtree_faces',cells:[{nativeFaceId:'0',areaM2:100,resolutionM:10}],rings:[[[0,0],[0,1],[1,1],[1,0]]]};
  const terrain={kind:'native_face_triangle_terrain',runId:f.manifest.runId,geometrySha256:f.manifest.geometry.sha256,verticalDatum:'NAVD88',vertices:[],triangles:[],triangleFaceId:[],tileSelectionKey:''};
+ f.manifest.compactSource={geometry:{sha256:f.manifest.geometry.sha256}};f.manifest.geometry.sha256='d'.repeat(64);
  const view=createRefinedWater({loaded:{manifest:f.manifest},geometry,terrain,origin:new THREE.Vector3(),project:([x,y])=>new THREE.Vector3(x,y,0),altitude:z=>z});
  assert.equal(view.setDetail([0]).omittedFaces,1);view.update({runId:f.manifest.runId,geometrySha256:f.manifest.geometry.sha256,time,depthM:[1],nativeVolumeM3:[100],waterSurfaceM:[5]});view.select(0);assert.equal(view.water.count,0);assert.equal(view.cellInfo(0).surfaceM,5);assert.equal(view.cellInfo(0).depthM,1);view.dispose();
 });
