@@ -16,11 +16,21 @@ from prepare_case import SOURCE_COMMIT
 
 def prepare(root, terrain, forcing):
     root, terrain, forcing = Path(root), Path(terrain), Path(forcing)
+    if root.exists() and any(root.iterdir()):
+        raise FileExistsError("Use a new empty run directory; preserve earlier inputs and outputs")
     root.mkdir(parents=True, exist_ok=True)
     evidence = json.loads((terrain / "terrain.json").read_text())
     if hashlib.sha256((terrain / "terrain.tif").read_bytes()).hexdigest() != evidence["sha256"]:
         raise ValueError("Terrain hash mismatch")
+    catalog_path = terrain / "catalog.json"
+    if hashlib.sha256(catalog_path.read_bytes()).hexdigest() != evidence.get("catalogSha256"):
+        raise ValueError("Terrain catalog provenance hash missing or changed")
+    datums = {f["attributes"].get("VerticalDatum") for f in json.loads(catalog_path.read_text())["features"]}
+    if datums != {"North American Vertical Datum of 1988 (NAVD 88)"}:
+        raise ValueError("Terrain vertical datum is not consistently documented as NAVD88")
     rain = json.loads(forcing.read_text())
+    if rain.get("status") not in {"complete", "requires_quality_review"}:
+        raise ValueError("Forcing is not complete enough for a labeled scenario")
     if rain["kind"] != "spatial_hourly_rainfall_forcing" or rain["units"] != "mm/h" or rain["missingCellHours"]:
         raise ValueError("Require complete hourly rate forcing; no missing-to-zero fill")
     if rain["crs"] != "EPSG:4326" or not rain["frames"]:

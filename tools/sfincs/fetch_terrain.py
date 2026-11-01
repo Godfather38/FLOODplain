@@ -72,6 +72,7 @@ def fetch(root):
                 "requestUrl": response.url, "exportResponse": result,
                 "retrievedAt": dt.datetime.now(dt.timezone.utc).isoformat(),
                 "sha256": hashlib.sha256(content).hexdigest(), "bytes": len(content),
+                "catalogSha256": hashlib.sha256((root / "catalog.json").read_bytes()).hexdigest(),
                 "crs": "EPSG:32612", "requestedWgs84Bounds": BOUNDS,
                 "verticalUnits": "m", "verticalDatum": "Requires review of catalog metadata; no datum conversion applied",
                 "statistics": stats, "interpolation": "server bilinear, 100 m grid",

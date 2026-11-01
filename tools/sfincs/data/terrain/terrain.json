@@ -29,7 +29,7 @@
     32.49
   ],
   "verticalUnits": "m",
-  "verticalDatum": "Requires review of catalog metadata; no datum conversion applied",
+  "verticalDatum": "NAVD88: all 15 overlapping USGS source-catalog entries agree; no conversion",
   "statistics": {
     "minM": 572.6481323242188,
     "maxM": 623.3432006835938,
@@ -48,5 +48,6 @@
     "Contemporary terrain, not surveyed September 2014 geometry",
     "100 m cells cannot resolve bridge or culvert openings",
     "No hydrologic conditioning or missing-elevation filling"
-  ]
+  ],
+  "catalogSha256": "9ba5809e767e3d0b159e6d6c105e686430448698cef56d4ac2b3bcaa484a8f83"
 }

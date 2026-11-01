@@ -1,0 +1,121 @@
+{
+  "fixture": "trico_local_rainfall_scenario",
+  "sourceCommit": "f3647fc0289bb15cb2512d60686cef74cb853c78",
+  "crs": "EPSG:32612",
+  "verticalDatum": "NAVD88 per overlapping USGS source catalog; no conversion",
+  "terrainEvidence": {
+    "source": "USGS 3DEP dynamic raw elevation service",
+    "service": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer",
+    "requestUrl": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?f=json&bbox=468000%2C3584800%2C474700%2C3594900&bboxSR=32612&imageSR=32612&size=67%2C101&format=tiff&pixelType=F32&interpolation=RSP_BilinearInterpolation&renderingRule=%7B%22rasterFunction%22%3A+%22None%22%7D",
+    "exportResponse": {
+      "href": "https://elevation.nationalmap.gov/arcgis/rest/directories/elevation_output/3DEPElevation_ImageServer/_ags_f350e582_a831_4d12_836e_c8a1c7cf3dd7.tif",
+      "width": 67,
+      "height": 101,
+      "extent": {
+        "xmin": 468000,
+        "ymin": 3584800,
+        "xmax": 474700,
+        "ymax": 3594900,
+        "spatialReference": {
+          "wkid": 32612,
+          "latestWkid": 32612
+        }
+      },
+      "scale": 0
+    },
+    "retrievedAt": "2026-11-01T07:40:42.665480+00:00",
+    "sha256": "bc44f8c511f4a4dfae570a12e1bce8104e4631029076c1eedc13afd410b84117",
+    "bytes": 66657,
+    "crs": "EPSG:32612",
+    "requestedWgs84Bounds": [
+      -111.34,
+      32.4,
+      -111.27,
+      32.49
+    ],
+    "verticalUnits": "m",
+    "verticalDatum": "Requires review of catalog metadata; no datum conversion applied",
+    "statistics": {
+      "minM": 572.6481323242188,
+      "maxM": 623.3432006835938,
+      "width": 67,
+      "height": 101,
+      "resolutionM": 100,
+      "boundsProjected": [
+        468000.0,
+        3584800.0,
+        474700.0,
+        3594900.0
+      ]
+    },
+    "interpolation": "server bilinear, 100 m grid",
+    "limitations": [
+      "Contemporary terrain, not surveyed September 2014 geometry",
+      "100 m cells cannot resolve bridge or culvert openings",
+      "No hydrologic conditioning or missing-elevation filling"
+    ]
+  },
+  "forcingProvenance": {
+    "manifest": "radar-inputs/public/simulation/data/storm-2014/manifest.json",
+    "manifestSha256": "b7fb8c6d26d7763858ba1941e55f515ad303e0857a7b076028b087f49badd0b8",
+    "source": "IEM MRMS radar estimates",
+    "spatialMethod": "Source cell centers selected inside requested bbox; no interpolation/reprojection",
+    "limitations": [
+      "Quantized radar estimates; beam blockage and QPE uncertainty remain.",
+      "Subhour timing unknown; hourly constant-rate forcing.",
+      "Missing rain prevents complete forcing at affected cells; no interpolation or zero fill.",
+      "Rainfall replay is not simulated inundation or bridge-failure evidence."
+    ]
+  },
+  "forcingStatus": "requires_quality_review",
+  "forcingQuality": {
+    "requestedHours": 72,
+    "availableHours": 72,
+    "completeHours": 72,
+    "missingHours": [],
+    "forcingReadiness": "unverified_cross_product_difference",
+    "reviewNote": "Hourly sums and matching 24-hour products differ substantially. Product comparability/history and independent gauge rainfall require review; no rescaling applied. Complete coverage is not a validated rainfall reconstruction."
+  },
+  "forcingSha256": "637ebbc0c8cc0000736375041d13e4a0e95378e4534882cdfd81b288fc674e73",
+  "start": "2014-09-08T07:00:00Z",
+  "end": "2014-09-11T07:00:00Z",
+  "grid": {
+    "nx": 67,
+    "ny": 101,
+    "dxM": 100.0,
+    "dyM": 100.0
+  },
+  "rainfallVolumeM3": 335045.0,
+  "inputArtifacts": [
+    {
+      "path": "rainfall.nc",
+      "sha256": "0004052316fb06a3da334470e64f6c5d89e160d23c592841b5e60617df9449d6"
+    },
+    {
+      "path": "sfincs.dep",
+      "sha256": "34daf7c7803b415eb7bf4ea096e632515ae2396d51fdde84af3e926085e8cf6e"
+    },
+    {
+      "path": "sfincs.ind",
+      "sha256": "981fb09b7e7c225f7c7823b438a3073a6f51fab1edfeb638c74ebdfdc4b49e90"
+    },
+    {
+      "path": "sfincs.inp",
+      "sha256": "a39e6a56d9f9984acc98a3c2f9083067671886fa6b4e95a051b2f1697ecde013"
+    },
+    {
+      "path": "sfincs.msk",
+      "sha256": "bfb80a9fa911283ee986177e838d59196f6972a36553f845e221d83943e19e89"
+    }
+  ],
+  "boundary": "All edge cells mask=3: artificial zero-depth outflow; no upstream inflow",
+  "rainMapping": "Nearest original radar pixel at each model cell center; no additional spatial information",
+  "limitations": [
+    "Uncalibrated local rain-only scenario; upstream Santa Cruz inflow omitted",
+    "Rainfall product discrepancy requires review; do not treat as verified 2014 forcing",
+    "100 m contemporary DEM cannot resolve bridges, culverts, or historical channel geometry",
+    "Uniform assumed Manning 0.04; zero infiltration; no soil or roughness calibration",
+    "Artificial edge sinks affect depths and omit incoming water; not a field forecast",
+    "No passability, scour, or independently quantified uncertainty"
+  ]
+}

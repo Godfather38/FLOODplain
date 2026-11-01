@@ -30,13 +30,15 @@ jobs:
         run: |
           python tools/sfincs/prepare_case.py runs/dry --rain-mm-hr 0
           python tools/sfincs/prepare_case.py runs/rain --rain-mm-hr 10
-          for case in dry rain; do
+          python tools/sfincs/drainage_check.py prepare runs/drainage
+          for case in dry rain drainage; do
             (cd "runs/$case" && "$RUNNER_TEMP/sfincs-source/source/src/sfincs" > solver.log 2>&1)
           done
       - name: Verify and export app contract
         run: |
           python tools/sfincs/export_run.py runs/dry
           python tools/sfincs/export_run.py runs/rain
+          python tools/sfincs/drainage_check.py check runs/drainage
       - name: Read pinned recorded-rainfall evidence
         uses: actions/checkout@v4
         with:

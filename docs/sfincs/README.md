@@ -74,3 +74,7 @@ Existing Docker Desktop fails opening its `sailor-ingest.sock` reparse point wit
 socket also failed. No factory reset, security setting change or binary license
 acceptance was performed. Linux CI is the reproducible solver execution route;
 the local Windows solver is not yet operational.
+
+## Completed runs
+
+See [RESULTS.md](RESULTS.md) for actual solver checks, the recorded Trico scenario, durable output paths, and outstanding validation limits. The workflow also includes a synthetic inclined-bed outlet case to check wet-to-dry behavior. Use a new empty directory for each run; preparation refuses to overwrite previous evidence.

@@ -1,0 +1,12 @@
+{
+  "commit": "2e858344e088df730ff490118820b78a72ac754a",
+  "run": "https://github.com/Godfather38/FLOODplain/actions/runs/41286213548",
+  "purpose": "Recorded uncalibrated scenario; not a forecast or validated flood reconstruction",
+  "files": {
+    "case.json": "4e41b73b21d50442b7b29a8c239366ea3919f94facad215fe3b17c1fabb7cb68",
+    "checks.json": "24e0e26fc0785ee1e30eae922fb522fef126870cc07f6527d7a89546ea85712c",
+    "inundation.json.gz": "6d632f45733a8014d5b77a2797a9ed8b433aef1c881e0c28fc202eeac8a8c70c",
+    "sfincs_map.nc": "5cdf6ee4dc9c57a3b6b430ef6881ab0089e69dfcb9affb432ffbd5d21f01bfe5",
+    "solver.log": "b688242cf04f8e9a2d158c0ca7bda0dfbebb5e39270b523c23041315c7641f15"
+  }
+}

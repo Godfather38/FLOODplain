@@ -13,6 +13,8 @@ SOURCE_COMMIT = "f3647fc0289bb15cb2512d60686cef74cb853c78"
 
 def prepare(root, rain_mm_hr):
     root = Path(root)
+    if root.exists() and any(root.iterdir()):
+        raise FileExistsError("Use a new empty run directory; preserve earlier inputs and outputs")
     root.mkdir(parents=True, exist_ok=True)
     model = SfincsModel(root=str(root), mode="w", write_gis=False)
     model.setup_grid(x0=470000, y0=3585000, dx=50, dy=50,
