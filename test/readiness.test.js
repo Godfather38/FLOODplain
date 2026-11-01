@@ -30,6 +30,7 @@ test('maintenance and invalid wash readings are excluded', () => {
 });
 test('invalid and unrelated crossing links fall back to their route', () => {
   const routes = { trico: { points: [{ id: 'bridge' }] } };
+  assert.deepEqual(resolveScreen('#/updates', routes), { screen: 'updates' });
   assert.deepEqual(resolveScreen('#/r/trico/missing', routes), { screen: 'route', route: 'trico' });
   assert.deepEqual(resolveScreen('#/r/trico/bridge', routes), { screen: 'stretch', route: 'trico', fp: 'bridge' });
   assert.deepEqual(resolveScreen('#/r/deleted/bridge', routes), { screen: 'home' });

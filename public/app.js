@@ -214,6 +214,7 @@ function homeScreen() {
       <a class="row small" href="#/alerts"><span class="lead-icon">🔔</span><span class="text"><div class="t">Alerts</div><div class="st">Get this sent to your phone at a time you pick</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/report"><span class="lead-icon">✍️</span><span class="text"><div class="t">Help fill the gaps</div><div class="st">Tell us what a crossing is really like in the rain</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/how"><span class="lead-icon">❓</span><span class="text"><div class="t">How to read this</div></span><span class="chev">›</span></a>
+      <a class="row small" href="#/updates"><span class="lead-icon">📝</span><span class="text"><div class="t">What's new</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/settings"><span class="lead-icon">⚙️</span><span class="text"><div class="t">Settings</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/sources"><span class="lead-icon">ℹ️</span><span class="text"><div class="t">Sources</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/privacy"><span class="lead-icon">🔒</span><span class="text"><div class="t">Privacy &amp; terms</div></span><span class="chev">›</span></a>
@@ -562,6 +563,28 @@ function wireReport() {
   });
 }
 
+// Newest first. Add a line here whenever something people can notice changes.
+const UPDATES = [
+  ['November 1, 2026', [
+    'New: the HAND flood model. Where NOAA\'s stream data matches a crossing, you can see how high forecast flow is estimated to reach, with a map of the estimated area. It\'s an estimate, not a reading.',
+    'HAND adds to the number your other sources gave: 1 point on the Santa Cruz, half a point on washes, so you may see a number like 1.5. It never lowers a number, and it doesn\'t change a crossing where a river gauge is reporting.',
+    'Texts and push alerts don\'t use HAND yet, so they can show a different number than the app.',
+    'Saved routes: keep your favorites on this phone.',
+    'The app now shows when it last checked, and it recovers better when one gauge or source stops answering.',
+    'What\'s new: this page.',
+  ]],
+  ['October 31, 2026', [
+    'Text alerts are in beta and reach phones on Verizon\'s towers. Everyone else can join the waitlist or use free push alerts.',
+    'Fixed gaps in county closure coverage and stuck data feeds.',
+    'Picture Rocks routes, custom alert times and days, the Help fill the gaps form, and the FLOODplain name.',
+  ]],
+];
+
+function updatesScreen() {
+  return UPDATES.map(([date, items]) => `<h3 class="section">${esc(date)}</h3>
+  <div class="page"><ul>${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>`).join('');
+}
+
 function privacyScreen() {
   return `<div class="page">
     <h4>What you get</h4>
@@ -600,14 +623,14 @@ function render() {
     home: ["FLOODplain", subtitle()],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
-    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"],
+    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''],
   }[w.screen];
   $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
-  $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy', 'report'].includes(w.screen);
+  $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy', 'report', 'updates'].includes(w.screen);
   $('#screen').innerHTML = {
     home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
-    how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, report: () => reportScreen(w.fp),
+    how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, updates: updatesScreen, report: () => reportScreen(w.fp),
   }[w.screen]();
   if (['home', 'route', 'stretch'].includes(w.screen)) {
     const status = document.createElement('aside');
