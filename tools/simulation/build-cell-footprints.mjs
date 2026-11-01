@@ -1,0 +1,5 @@
+import proj4 from '../../../map-render-runtime/node_modules/proj4/dist/proj4.js';
+import {readFile,writeFile} from 'node:fs/promises';import {gunzipSync,gzipSync} from 'node:zlib';
+const dir='public/simulation/',m=JSON.parse(await readFile(dir+'data/current-sfincs-manifest.json','utf8')),run=JSON.parse(gunzipSync(await readFile(dir+m.artifact.path))),utm='+proj=utm +zone=12 +datum=WGS84 +units=m +no_defs';
+const rings=run.cells.map(c=>{const [x,y]=proj4('EPSG:4326',utm,[c.lon,c.lat]);const col=Math.floor((x-467700)/100),row=Math.floor((y-3572300)/100),west=467700+col*100,south=3572300+row*100;return [[west,south],[west+100,south],[west+100,south+100],[west,south+100]].map(p=>{const [lon,lat]=proj4(utm,'EPSG:4326',p);return [lat,lon]})});
+await writeFile(dir+'data/frozen-cell-footprints.json.gz',gzipSync(JSON.stringify({runId:m.runId,sourceSha256:m.artifact.sha256,crs:'EPSG:32612',cellSizeM:100,coordinates:'Leaflet latitude,longitude; exact projected cell corners',rings}),{mtime:0}));console.log(rings.length+' exact native cell footprints');

@@ -12,7 +12,7 @@ export async function createTerrainView(loaded,get,{getWindow=()=>({start:0,end:
  const scene=new THREE.Scene();scene.background=new THREE.Color('#10232d');const camera=new THREE.OrthographicCamera(-24,24,24,-24,.1,300);
  const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=false;controls.maxPolarAngle=Math.PI*.48;controls.minZoom=.4;controls.maxZoom=30;controls.screenSpacePanning=true;
  const vertices=data.vertices,n=vertices.length,base=550,vertical=3,box=new THREE.BoxGeometry(1,1,1),plane=new THREE.PlaneGeometry(1,1);plane.rotateX(-Math.PI/2);
- const landMaterial=new THREE.MeshLambertMaterial(),waterMaterial=new THREE.MeshBasicMaterial({color:'#28b8e5',side:THREE.DoubleSide,transparent:true,opacity:.88});
+ const landMaterial=new THREE.MeshLambertMaterial(),waterMaterial=new THREE.MeshBasicMaterial({color:'#28b8e5',side:THREE.DoubleSide,transparent:false,opacity:1});
  const land=new THREE.InstancedMesh(box,landMaterial,n),water=new THREE.InstancedMesh(plane,waterMaterial,n);land.instanceMatrix.setUsage(THREE.StaticDrawUsage);water.instanceMatrix.setUsage(THREE.DynamicDrawUsage);water.frustumCulled=false;
  const transform=new THREE.Object3D(),color=new THREE.Color(),low=new THREE.Color('#a99d75'),high=new THREE.Color('#eadcc1');
  vertices.forEach(([x,y,z],i)=>{const h=(z-base)/1000*vertical;transform.position.set((x-16000)/1000,h/2,-(y-17300)/1000);transform.scale.set(.1,h,.1);transform.updateMatrix();land.setMatrixAt(i,transform.matrix);color.copy(low).lerp(high,Math.min(1,(z-570)/700));land.setColorAt(i,color)});land.computeBoundingSphere();scene.add(land,water);
