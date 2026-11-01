@@ -11,12 +11,13 @@ import rasterio
 import xarray as xr
 from hydromt_sfincs import SfincsModel
 from pyproj import Transformer
-from shapely.geometry import Point
+from shapely.geometry import Point, shape
+from shapely.ops import transform, unary_union, nearest_points
 
 from prepare_case import SOURCE_COMMIT
 
 
-def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=None):
+def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=None, dry_start=False, flowline=None):
     root, terrain, upstream = Path(root), Path(terrain), Path(upstream)
     if root.exists() and any(root.iterdir()):
         raise FileExistsError("Preserve previous run; use an empty directory")
@@ -48,6 +49,19 @@ def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=N
     gauge_lon, gauge_lat = coordinates.pop()
     tx = Transformer.from_crs(4326, 32612, always_xy=True)
     gx, gy = tx.transform(gauge_lon, gauge_lat)
+    placement = {'method':'containing gauge-coordinate cell','shiftM':0.0}
+    if flowline:
+        network=json.loads(Path(flowline).read_text())
+        river=unary_union([transform(tx.transform,shape(f['geometry'])) for f in network['features']])
+        point=nearest_points(Point(gx,gy),river)[1]
+        distance=point.distance(Point(gx,gy))
+        if distance>150:
+            raise ValueError('River placement exceeds bounded one-cell-diagonal offset')
+        placement={'method':'nearest point on official USGS downstream NLDI flowline; not elevation optimization',
+                   'shiftM':distance,'originalX':gx,'originalY':gy,
+                   'sourceUrl':'https://api.water.usgs.gov/nldi/linked-data/nwissite/USGS-09486500/navigation/DM/flowlines?distance=35',
+                   'sha256':hashlib.sha256(Path(flowline).read_bytes()).hexdigest()}
+        gx,gy=point.x,point.y
     with rasterio.open(terrain/"terrain.tif") as raster:
         if raster.crs.to_epsg() != 32612 or raster.transform.b or raster.transform.d:
             raise ValueError("Require north-up metric terrain")
@@ -79,15 +93,18 @@ def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=N
         times, flow = times[keep], flow[keep]
         if times[0] != event_start or times[-1] != event_end:
             raise ValueError('River boundary does not cover rainfall event')
-        if not initial_map:
-            raise ValueError('Event requires explicit antecedent modeled state')
-        with xr.open_dataset(initial_map) as initial:
-            if not np.array_equal(initial.zb.values, bed):
-                raise ValueError('Initial-state terrain differs')
-            initial_depth = initial.h.sel(time=event_start.tz_localize(None)).values
-            if not np.isfinite(initial_depth).all() or (initial_depth < 0).any():
-                raise ValueError('Invalid initial depths')
-            model.set_states(model.mask.copy(data=(bed+initial_depth).astype(np.float32)), name='zsini')
+        if initial_map and dry_start:
+            raise ValueError('Choose one initial-state policy')
+        if not initial_map and not dry_start:
+            raise ValueError('Explicit initial-state policy required')
+        if initial_map:
+            with xr.open_dataset(initial_map) as initial:
+                if not np.array_equal(initial.zb.values, bed):
+                    raise ValueError('Initial-state terrain differs')
+                initial_depth = initial.h.sel(time=event_start.tz_localize(None)).values
+                if not np.isfinite(initial_depth).all() or (initial_depth < 0).any():
+                    raise ValueError('Invalid initial depths')
+                model.set_states(model.mask.copy(data=(bed+initial_depth).astype(np.float32)), name='zsini')
         xs, ys = np.meshgrid(west+(np.arange(nx)+.5)*dx, south+(np.arange(ny)+.5)*dy)
         lon, lat = Transformer.from_crs(32612,4326,always_xy=True).transform(xs,ys)
         slon, slat = np.array(rain['lon']), np.array(rain['lat'])
@@ -110,8 +127,8 @@ def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=N
         rainfall_metadata={'rainfallStatus':'complete_stage_iv_analysis', 'forcingProvenance':rain['provenance'],
             'forcingQuality':rain['sourceQuality'],'forcingSha256':hashlib.sha256(Path(forcing).read_bytes()).hexdigest(),
             'rainfallVolumeM3':float(np.sum(np.asarray(values)[:,1:-1,1:-1])*dx*dy/1000),
-            'initialState':{'sourceSha256':hashlib.sha256(Path(initial_map).read_bytes()).hexdigest(),'time':event_start.isoformat(),
-                'description':'Water levels from prior observed-inflow-only spinup; antecedent rainfall unknown; velocities reinitialized, not a full restart'}}
+            'initialState':{'sourceSha256':hashlib.sha256(Path(initial_map).read_bytes()).hexdigest() if initial_map else None,'time':event_start.isoformat(),
+                'description':('Water levels from prior observed-inflow-only spinup; antecedent rainfall unknown; velocities reinitialized, not a full restart' if initial_map else 'Assumed dry initial state followed by 24 hours of observed inflow and Stage IV rainfall spinup')}}
     start, end = times[0].tz_localize(None), times[-1].tz_localize(None)
     model.setup_config(tref=start.strftime("%Y%m%d %H%M%S"), tstart=start.strftime("%Y%m%d %H%M%S"),
                        tstop=end.strftime("%Y%m%d %H%M%S"), dtout=3600, dthisout=60,
@@ -141,7 +158,7 @@ def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=N
                 "evaluationStart":(times[0]+pd.Timedelta(hours=24)).isoformat(),
                 "grid":{"ny":ny,"nx":nx,"dxM":dx,"dyM":dy}, "terrainEvidence":evidence,
                 "upstream":{"siteId":obs["siteId"],"lon":gauge_lon,"lat":gauge_lat,"x":gx,"y":gy,
-                            "cellRow":row,"cellColumn":col,"cellBedM":float(bed[row,col]),
+                            "placement":placement,"cellRow":row,"cellColumn":col,"cellBedM":float(bed[row,col]),
                             "cellCenterDistanceM":float(np.hypot(west+(col+.5)*dx-gx,south+(row+.5)*dy-gy)),
                             "sourceUrl":obs["sourceUrl"],"sha256":hashlib.sha256(upstream.read_bytes()).hexdigest(),
                             "interpolation":"linear between approved 15-minute observations; no extrapolation or time shift"},
@@ -159,11 +176,13 @@ def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=N
                                "Artificial zero-depth outer boundaries; sampled native section fluxes give an approximate water budget",
                                "Trico observations are withheld from forcing and parameter selection; section comparison is approximate",
                                "No road passability, bridge failure, scour, or quantified accuracy interval"]}
+    if flowline:
+        manifest['limitations'][3]='Inflow placed on official USGS flowline near Cortaro; unresolved cross-channel velocity distribution and 100 m channel geometry'
     if forcing:
         manifest.update(rainfall_metadata)
-        manifest['evaluationStart']=times[0].isoformat()
+        manifest['evaluationStart']=(times[0]+pd.Timedelta(hours=24) if dry_start else times[0]).isoformat()
         manifest['limitations'][1]='Stage IV local rainfall included; external lateral tributary inflows omitted; local rainfall upstream of Cortaro may double count a small boundary-adjacent area'
-        manifest['limitations'][4]='Uniform assumed roughness, zero infiltration; antecedent modeled water levels with unknown antecedent rainfall and reset velocities; not calibrated'
+        manifest['limitations'][4]='Uniform assumed roughness and zero infiltration; not calibrated. '+rainfall_metadata['initialState']['description']
     (root/"case.json").write_text(json.dumps(manifest,indent=2)+"\n")
     print(json.dumps({"grid":[ny,nx],"upstreamCell":[row,col],"bedM":float(bed[row,col]),"hours":(end-start).total_seconds()/3600}))
 
@@ -172,5 +191,5 @@ if __name__=="__main__":
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root");parser.add_argument("--terrain",required=True);parser.add_argument("--upstream",required=True)
     parser.add_argument("--threshold",type=float,default=.01)
-    parser.add_argument('--forcing');parser.add_argument('--initial-map')
-    args=parser.parse_args();prepare(args.root,args.terrain,args.upstream,args.threshold,args.forcing,args.initial_map)
+    parser.add_argument('--forcing');parser.add_argument('--initial-map');parser.add_argument('--dry-start',action='store_true');parser.add_argument('--flowline')
+    args=parser.parse_args();prepare(args.root,args.terrain,args.upstream,args.threshold,args.forcing,args.initial_map,args.dry_start,args.flowline)

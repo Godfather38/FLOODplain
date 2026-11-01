@@ -1,3 +1,19 @@
+# Latest complete-rainfall reach result
+
+Run [41289685306](https://github.com/Godfather38/FLOODplain/actions/runs/41289685306), input commit `d68c194`, completed the 72-hour September 8-11 event with Stage IV rainfall and observed Cortaro inflow. Native solver time was **61.22 seconds**; total job time was **4 minutes 36 seconds**, including a redundant source rebuild. No subsequent rebuild was launched. Original baseline outputs are unchanged.
+
+Trico-section peak: **93.033 m3/s at September 9 13:42 UTC**, versus observed **339.802 m3/s at 06:45 UTC** (6 h 57 min late). RMSE is **88.205 m3/s** over 289 observation times. Rainfall improves the prior 81.425 m3/s peak only modestly; this remains a poor event reconstruction, not a usable forecast accuracy claim.
+
+Initial storage 271,436 m3; final storage 17,511,898 m3; native river input 13,006,005 m3; native rainfall 11,328,912 m3; net outward flux 7,211,599 m3. Residual is -117,143 m3 (-0.481%). Outlet integration changes by 203,942 m3 when sampled at 120 instead of 60 seconds, so this is an approximate budget rather than an exact numerical conservation proof. Native rainfall differs from prescribed rainfall by only 55 m3.
+
+Maximum depth remains 26.884 m in the unresolved upstream depression; displayed Trico-window maximum is 2.991 m. No terrain correction or roughness calibration was made. See [geometry evidence](GEOMETRY-EVIDENCE.md) for exactly which study information was used and which is unavailable.
+
+App artifact: `tools/sfincs/data/reach-stage4-result/inundation.json.gz`; companion checks, case metadata, native maps/history and run provenance are retained alongside it. The 72-hour run uses modeled antecedent water levels and reset velocities, not observed initialization. Complete 96-hour rainfall and optional official-flowline inflow placement are prepared but **not executed**. Their input generation succeeded; do not present them as model results.
+
+The completed runner did not retain its executable in the artifact. No local executable was found in existing run folders. A further run therefore needs a retained compatible executable or explicit resolution of the no-rebuild constraint. This is a workflow limitation, not a solver limitation.
+
+---
+
 # Rainfall correction
 
 The recorded Trico rainfall run below used a now-obsolete historical palette interpretation. Retain it only as execution/audit evidence, not a valid historical rainfall scenario. Corrected hourly zeros are unknown; active runs now use independent Cortaro inflow while complete rainfall is sourced.
