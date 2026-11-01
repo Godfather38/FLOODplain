@@ -591,7 +591,10 @@ function render() {
     updateCheckAge();
   }
   wire(w);
+  const retainedCenter=map.getCenter(),retainedZoom=map.getZoom();
   drawMap(w);
+  if(render.lastHash===location.hash)map.setView(retainedCenter,retainedZoom,{animate:false});
+  render.lastHash=location.hash;
 }
 function subtitle() {
   const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
@@ -736,8 +739,10 @@ async function check() {
     data = next;
     view = nextView;
     $('#load-status').hidden = true;
+    window.dispatchEvent(new CustomEvent('flood-check-status',{detail:next.errors.length?'Live check incomplete · '+next.errors.join('; '):'Live check completed · readings have their own timestamps'}));
     render();
   } catch (e) {
+    window.dispatchEvent(new CustomEvent('flood-check-status',{detail:'Refresh failed · retained readings, not a fresh check'}));
     if (!view) throw e;
     $('#load-status').textContent = 'Couldn’t update conditions. Showing the previous check. Tap Check again to retry.';
     $('#load-status').hidden = false;
