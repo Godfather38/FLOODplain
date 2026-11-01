@@ -12,7 +12,7 @@ Yes, with the limits below. All tests pass, and the PR changes no service code.
 
 **What a merge into `main` brings in:** this PR's own commits only, listed here. It brings in nothing from `experiment/avra-radar-runoff` or `experiment/sfincs-engine`.
 
-- `public/inundation/`: the extent map page, forecast code, clipped NOAA data and check results, about 6.5 MB.
+- `public/inundation/`: the extent map page, forecast code, clipped NOAA data and check results, about 6.8 MB.
 - `public/hand-model.js` and small changes to `public/app.js`, `public/index.html` and `public/style.css`.
 - `tools/hand/`, this doc, two test files, and one line each in `.gitignore` and `.gitattributes`.
 
@@ -152,7 +152,7 @@ The county or Town of Marana may hold archived 1983 mapping that isn't public.
 | 843 | none | 3, within 114 m of the gauge's river crossing |
 | 3,000 | "Overbank flow begins on Trico Road just south of bridge" | 3, the same ones |
 | 5,000 | "Extensive flooding south of Trico Rd Bridge" | 20, reaching about 480 m or more |
-| 8,600 | "Bridges overtopped", paraphrased | 33 |
+| 8,600 | The Trico and Marana Rd bridges overtopped | 33 |
 
 **What agrees:** the estimate spreads south along Trico Rd as flow rises, which is the direction and order NOAA describes, and most of the growth is between 3,000 and 5,000 cfs. **What doesn't:** NOAA has overbank flow starting at 3,000 cfs, and the estimate doesn't change until somewhere between 3,000 and 5,000. Bridges aren't modeled, so overtopping can't be compared. This comparison stays in this doc; the app doesn't report a value for the road.
 
@@ -246,7 +246,7 @@ HAND loads after the first screen, so it can't hold that screen up. Tested in a 
 
 Until a new result arrives, the last HAND result is kept, so a crossing's number doesn't flicker on each refresh. A failure inside HAND can't take down the ratings, and a redraw never happens over a form someone is filling in.
 
-**Download:** HAND adds 16 requests on the main page each load, at about 147 KB before compression and about 25 KB after, since GitHub Pages compresses these files. 5 are local files and 11 are small NOAA calls, finished about 0.9 seconds after they started on this connection. **I did not test on a real phone or a slow connection.** None of the 6.5 MB of crossing grids load on the main page. The map page loads one crossing's grid, 150 to 400 KB, only when that crossing is chosen.
+**Download:** HAND adds 16 requests on the main page each load, at about 147 KB before compression and about 25 KB after, since GitHub Pages compresses these files. 5 are local files and 11 are small NOAA calls, finished about 0.9 seconds after they started on this connection. **I did not test on a real phone or a slow connection.** None of the 6.5 MB or so of crossing grids load on the main page. The map page loads one crossing's grid, 150 to 400 KB, only when that crossing is chosen.
 
 ## What was checked
 
