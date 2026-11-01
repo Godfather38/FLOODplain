@@ -27,13 +27,13 @@ Yes, with the limits below. All tests pass, and the PR changes no service code.
 
 - Route numbers can rise where HAND raises a crossing, and that can change the recommended route.
 - Texts and push alerts come from the alert service, which doesn't use HAND, so **a text and the app can show different numbers**.
-- The phrase "usually passable" is gone from the app's level 2 wording, on every crossing, because HAND can appear on any of them. It's now "Some water around. Look as you go." The owner may want to review this, since it was the owner's existing copy.
+- **HAND never overrides a gauge.** Where a river or wash gauge is reporting, HAND is shown but doesn't change the number. It can only raise a crossing when no gauge there has answered.
 
 ## For the owner: one page
 
-**Approve or restore.** The app's level 2 line used to say "Some water around. Usually passable; look as you go." It now says "Some water around. Look as you go." everywhere. To restore it, put the old wording back in `LEVEL_SENTENCE.watch` near the top of `public/app.js`, and in the level 2 line of the legend in `howScreen()`. HAND-raised crossings already use their own line, so restoring it wouldn't attach "passable" to a HAND result on the crossing screen, but the legend would say it.
+**Level 2 wording: the owner restored it.** The app says "Some water around. Usually passable; look as you go." HAND-raised crossings use their own line, but the general legend carries the phrase.
 
-**Approve or overrule.** HAND raises a level with an official gauge forecast, or on the Santa Cruz only with model flow. On washes it's shown and changes nothing, because the back-test found no useful signal at Brawley Wash.
+**Approve or overrule.** The owner's rule: HAND never overrides a gauge. Where no gauge has answered, HAND raises a level with an official gauge forecast, or on the Santa Cruz only with model flow. On washes it's shown and changes nothing, because the back-test found no useful signal at Brawley Wash.
 
 **Questions only local knowledge can answer. Avra Valley first.**
 
@@ -224,7 +224,8 @@ How it weighs against other sources, in `public/hand-model.js`:
 | Model flow elsewhere | Any | Shown, changes nothing |
 | Any | Under 1 m or zero | Changes nothing. Says low flow doesn't mean dry. |
 
-- HAND is named on the card when it's at or above the crossing's level, so it outranks a calm rainfall outlook.
+- Where a river or wash gauge answered, the table above doesn't apply: HAND is shown but raises nothing. This is the owner's rule, and it holds even when the gauge is calm, so forecast rises at gauged crossings (like Trico) appear only in the row.
+- Where no gauge answered, HAND is named on the card when it's at or above the crossing's level, so it outranks a calm rainfall outlook.
 - **HAND never lowers a level.** It leaves out local runoff, and most reaches here forecast about zero, so a zero isn't evidence of dry. Rain-driven cautions stay as they are, and both show.
 - HAND alone never reaches the top level, Danger.
 - An old or failed forecast raises nothing. A peak more than 24 hours away raises nothing either, and the row says when its flow is expected.

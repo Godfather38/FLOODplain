@@ -35,6 +35,15 @@ test('modeled water outranks a calm outlook and is named on the card',()=>{
  assert.equal(riskScore(r['sc-trico-marana']),3);
 });
 
+test('HAND never overrides a gauge that answered, and only raises when the gauge has not',()=>{
+ const check=handCheck(byFp['sc-trico-marana'],forecastCfs(5000),now);assert.equal(check.raise,true);
+ for(const src of ['river','wash'])for(const level of ['ok','watch']){
+  const r={x:{level,why:'gauge',checks:[{src,level,why:'gauge'}]}};applyHand(r,{checks:{x:check}});
+  assert.equal(r.x.level,level);assert.equal(r.x.why,'gauge');assert.equal(r.x.checks[0].src,'hand');
+ }
+ const down={x:{level:'ok',why:'none',checks:[{src:'river',level:'unknown',why:'unreachable'}]}};applyHand(down,{checks:{x:check}});assert.equal(down.x.level,'caution');
+});
+
 test('a zero or low model flow never lowers or hides a rain caution, and is not called dry',()=>{
  const check=handCheck(byFp['sc-trico-marana'],forecastCfs(0),now);assert.equal(check.raise,false);assert.notEqual(check.level,'ok');assert.match(check.why,/doesn't mean dry/i);
  for(const level of ['watch','caution','danger','ok','unknown']){

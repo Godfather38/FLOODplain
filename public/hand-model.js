@@ -5,6 +5,7 @@
 // Santa Cruz flows but read too high on ordinary days, and saw nothing at Brawley Wash
 // (docs/HAND-INUNDATION.md).
 // It never lowers a level: local runoff is left out, so a low number isn't dry.
+// It never overrides a gauge: where a river or wash gauge answered, HAND is shown but moves nothing.
 import { createForecastProvider } from './inundation/forecast-provider.js';
 import { loadCoverage, stageForFlow } from './inundation/hand-inundation.js';
 
@@ -20,6 +21,8 @@ const AHEAD_MS = 24 * 3600000; // Gauge forecasts run about 6 days; a far peak s
 const FT = 3.28084;
 const CFS_TO_M3S = 0.028316846592;
 const rank = (level) => ['ok', 'watch', 'caution', 'danger'].indexOf(level);
+
+const gaugeAnswered = (p) => p.checks.some((c) => ['river', 'wash'].includes(c.src) && c.level !== 'unknown');
 
 const metres = (a, b) => Math.hypot((a.lat - b.lat) * 110574, (a.lon - b.lon) * 111320 * Math.cos(a.lat * Math.PI / 180));
 
@@ -84,8 +87,9 @@ export function applyHand(fpResults, hand) {
     const p = fpResults[id];
     if (!p) continue;
     const { raise, ...source } = check;
+    const gauged = gaugeAnswered(p);
     p.checks = [source, ...p.checks];
-    if (!raise) continue;
+    if (!raise || gauged) continue;
     if (p.level === 'unknown' || rank(check.level) > rank(p.level)) p.level = check.level;
     // Where it agrees with or tops the other sources, HAND is the one named on the card.
     if (rank(check.level) >= rank(p.level)) p.why = check.why;
