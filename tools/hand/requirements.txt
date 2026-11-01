@@ -1,0 +1,7 @@
+geopandas
+numpy
+pyarrow
+pyogrio==0.13.0
+pyproj
+rasterio==1.5.2
+shapely
