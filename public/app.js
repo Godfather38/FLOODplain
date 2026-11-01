@@ -11,13 +11,14 @@ import {
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
 const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62828' };
-const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
+const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
 const SRC = {
   none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
-  wash: ['〰️', 'Wash flow'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
+  hand: ['🗺️', 'HAND flood model'], wash: ['〰️', 'Wash flow'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
 };
 const KIND_ICON = { dip: '〰️', flat: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
 const REFRESH_MS = 5 * 60 * 1000;
+const HAND_DOWN = 'HAND flood model not responding';
 const NAV_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4.5 20.3l.7.7L12 18l6.8 3 .7-.7z"/></svg>';
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -121,8 +122,31 @@ async function navigate(rid) {
   location.href = url;
 }
 
+// HAND loads after the first screen, so slow or failing NOAA calls can't hold it up.
+let handModel = null;
+let handRun = 0;
+async function refreshHand() {
+  const run = ++handRun;
+  let hand = null;
+  try {
+    handModel ??= await import('./hand-model.js?v=dev');
+    hand = await handModel.loadHand(FAILURE_POINTS);
+  } catch { /* shown below as not responding */ }
+  if (run !== handRun || !data) return;
+  // The HAND row comes first in the list, so an open row would point at the wrong source.
+  if (Boolean(data.hand) !== Boolean(hand)) openSource = null;
+  data.hand = hand;
+  data.errors = data.errors.filter((e) => e !== HAND_DOWN);
+  if (!hand) data.errors.push(HAND_DOWN);
+  view = compute(data);
+  // Redrawing would clear a form someone is typing in; the next check picks it up.
+  if (!['report', 'alerts'].includes(where().screen)) render();
+}
+
 function compute(d) {
   const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
+  // HAND only adds to the result, so a fault in it can't take the ratings down with it.
+  try { handModel?.applyHand(fpResults, d.hand); } catch { /* ratings stand without it */ }
   const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
   return { fpResults, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
@@ -222,7 +246,7 @@ function stretchScreen(rid, fpId) {
   const fp = FAILURE_POINTS.find((f) => f.id === fpId);
   const s = riskScore(p);
   return `
-    <div class="summary">${badgeWithWord(s)}<div><p>${esc(LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
+    <div class="summary">${badgeWithWord(s)}<div><p>${esc(p.why === p.checks[0]?.why && p.checks[0]?.src === 'hand' ? 'The HAND model estimates water here. It can\'t say what the road is like; look as you go.' : p.level === 'ok' && p.checks[0]?.some ? handModel.CALM_WITH_FLOW : LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
     <h3 class="section">What each source says</h3>
     <div class="list">
       ${p.checks.map((c, i) => {
@@ -232,7 +256,7 @@ function stretchScreen(rid, fpId) {
           <summary class="row"><span class="lead-icon">${icon}</span>
             <span class="text"><div class="t">${label}</div><div class="st"><span class="dot ${c.level}" style="display:inline-block;margin-right:6px"></span>${esc(c.why)}</div></span>
             <span class="chev">›</span></summary>
-          <div class="more"><p>${esc(c.why)}</p>${c.detail ? `<p>${esc(c.detail)}</p>` : ''}</div>
+          <div class="more"><p>${esc(c.why)}</p>${c.detail ? `<p>${esc(c.detail)}</p>` : ''}${c.src === 'hand' && data.hand?.byFp[fpId]?.status === 'supported' ? `<p><a href="inundation/index.html#${esc(data.hand.byFp[fpId].id)}">See the estimated flood extent map</a></p>` : ''}</div>
         </details>`;
       }).join('')}
     </div>
@@ -279,9 +303,11 @@ function howScreen() {
   return `<div class="page">
     <h4>The number</h4>
     <ul class="legend">
-      ${[1, 2, 3, 4, 5].map((n) => `<li>${badge(n)}<span><b>${WORD[n]}.</b> ${['Nothing in the data points to water.', 'Some water around; usually passable. Look as you go.', 'Water likely at or near the road.', 'Several signs agree water is at the road.', 'The county closed it, or a flood is running.'][n - 1]}</span></li>`).join('')}
+      ${[1, 2, 3, 4, 5].map((n) => `<li>${badge(n)}<span><b>${WORD[n]}.</b> ${['Nothing in the data points to water.', 'Some water around. Look as you go.', 'Water likely at or near the road.', 'Several signs agree water is at the road.', 'The county closed it, or a flood is running.'][n - 1]}</span></li>`).join('')}
       <li>${badge(null)}<span><b>No data.</b> Not the same as fine.</span></li>
     </ul>
+    <h4>The HAND flood model</h4>
+    <p>Where NOAA's stream data matches a crossing, the first source shown is HAND, an estimate of how high forecast flow reaches above the stream bed. With an official NOAA gauge forecast it counts for more than rain: estimated water raises a crossing's number. Elsewhere it uses a rougher model flow, which can raise a Santa Cruz crossing to Minor at most and doesn't change the number on washes. A low or zero flow never lowers one, because local runoff isn't included. It's an estimate, not a reading, and it isn't depth on a road.</p>
     <h4>Using it</h4>
     <p>The top card is the route with the least going against it. The numbers are the same whichever way you're driving. Tap <b>Navigate</b> to drive it in Google Maps; it heads for I-10 when you're in Avra Valley, and back to Trico &amp; El Tiro when you're not. Tap <b>Details</b> or any route to see its stretches, then any stretch to see what each source says. The map follows along.</p>
     <p>A route's number is its worst stretch. The map only marks stretches that aren't normal.</p>
@@ -729,11 +755,13 @@ async function check() {
   $('#refresh').setAttribute('aria-label', 'Checking conditions');
   try {
     const next = await gather();
+    next.hand = data?.hand ?? null; // Keep the last HAND result until the new one arrives.
     const nextView = compute(next);
     data = next;
     view = nextView;
     $('#load-status').hidden = true;
     render();
+    refreshHand();
   } catch (e) {
     if (!view) throw e;
     $('#load-status').textContent = 'Couldn’t update conditions. Showing the previous check. Tap Check again to retry.';

@@ -159,3 +159,5 @@ details.beta-phones p { margin: 6px 0 0; }
 :focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
 .icon-btn:disabled { opacity: .5; cursor: wait; }
 @media (prefers-reduced-motion: reduce) { .icon-btn.spin svg { animation: none; } }
+.exp-link { padding: 8px 16px 16px; font-size: 13px; }
+@media (min-width: 900px) { .exp-link { position: fixed; right: 8px; bottom: 26px; z-index: 1000; padding: 4px 8px; font-size: 12px; background: var(--surface); border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,.3); } }
