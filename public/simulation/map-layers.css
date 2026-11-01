@@ -22,4 +22,4 @@
 
 .official-forecast-link{display:block;padding:14px 12px;min-height:48px;text-align:center;font-weight:600}.map-first .map-entry-nav{display:none}
 
-.render-notice{padding:8px;margin:4px 0;background:var(--surface-2);border-radius:10px;font-size:12px;line-height:1.4}.render-notice button{display:block;border:0;background:var(--primary);color:var(--on-primary);border-radius:10px;min-height:44px;margin-top:6px;padding:8px 12px;font-weight:600;cursor:pointer}.render-notice[data-status=error]{border:2px solid #d99a1e}.map-first .render-notice{max-height:130px;overflow:auto}
+.render-notice{padding:8px;margin:4px 0;background:var(--surface-2);border-radius:10px;font-size:12px;line-height:1.4}.render-notice button{display:block;border:0;background:var(--primary);color:var(--on-primary);border-radius:10px;min-height:44px;margin-top:6px;padding:8px 12px;font-weight:600;cursor:pointer}.render-notice[data-render-status=error]{border:2px solid #d99a1e}.map-first .render-notice{max-height:130px;overflow:auto}
