@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-11-01T06:57:18.945Z",
+  "model": "lag + linear reservoir",
+  "selection": "SECONDARY: July 20–21 2013 smaller flood; independent sensitivity test. Not selected by 2014 performance.",
+  "objective": "Minimum RMSE on approved unqualified exact UTC pairs after 24h warm-up",
+  "grid": {
+    "lagMinutes": [
+      0,
+      720,
+      15
+    ],
+    "kMinutes": [
+      0,
+      720,
+      15
+    ],
+    "transmission": 1
+  },
+  "inputs": [
+    {
+      "path": "cortaro-calibration-2013-07.json",
+      "sha256": "018ad9f6c2bad0590f39764975cb6c459da42c906d26cdcf1c6110b8d3c152be"
+    },
+    {
+      "path": "trico-calibration-2013-07.json",
+      "sha256": "c16abbc50633617d9d655ea868e6358dc59c301c541b2618d625a0b3c7ad0c89"
+    }
+  ],
+  "parameters": {
+    "lagMinutes": 345,
+    "kMinutes": 75,
+    "transmission": 1
+  },
+  "score": {
+    "siteId": "USGS-09486520",
+    "pairCount": 289,
+    "eligibleObservationCount": 289,
+    "coverageFraction": 1,
+    "biasM3s": -1.148073789935528,
+    "rmseM3s": 3.0505785761218367,
+    "nashSutcliffe": 0.7982274715710164,
+    "pairedPeakErrorM3s": -6.13681288603301,
+    "pairedPeakTimingErrorMinutes": 15,
+    "warning": "Metrics on exact matched samples only; sparse coverage can miss the event peak. A fitted event is not independent validation."
+  },
+  "warning": "Retrospective held-out event, not blinded: 2014 target peak/time were already known in research. Parameters fitted only to separate pre-2014 observations. Small-storm extrapolation / channel changes are limitations."
+}

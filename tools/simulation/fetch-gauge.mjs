@@ -1,7 +1,7 @@
 import { writeFile } from 'node:fs/promises';
 import { normalizeUsgs } from '../../public/simulation/observations.js';
 const [siteId,start,end,output]=process.argv.slice(2);
-if(!/^USGS-\d{8,15}$/.test(siteId??'') || !output || !start?.endsWith('Z') || !end?.endsWith('Z') || !(Date.parse(end)>Date.parse(start)) || Date.parse(end)-Date.parse(start)>48*3600000)throw new Error('Usage: node tools/simulation/fetch-gauge.mjs USGS-09486520 startUTC endUTC output.json (maximum 48 hours)');
+if(!/^USGS-\d{8,15}$/.test(siteId??'') || !output || !start?.endsWith('Z') || !end?.endsWith('Z') || !(Date.parse(end)>Date.parse(start)) || Date.parse(end)-Date.parse(start)>7*24*3600000)throw new Error('Usage: node tools/simulation/fetch-gauge.mjs USGS-09486520 startUTC endUTC output.json (maximum 7 days / 1000 samples)');
 const url=new URL('https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items');
 url.search=new URLSearchParams({f:'json',monitoring_location_id:siteId,parameter_code:'00060',time:`${start}/${end}`,limit:'1000'});
 const response=await fetch(url,{signal:AbortSignal.timeout(45000)});
