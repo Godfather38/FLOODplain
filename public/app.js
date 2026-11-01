@@ -695,6 +695,18 @@ function updateCheckAge() {
   if (el && data) el.textContent = checkAge(data.now, Date.now(), navigator.onLine);
 }
 function wire(w) {
+  document.querySelectorAll('.bridge-evidence > summary').forEach(summary=>summary.addEventListener('click',event=>{
+    if(!matchMedia('(min-width: 900px)').matches)return;
+    event.preventDefault();
+    const dialog=document.createElement('dialog');
+    dialog.className='bridge-evidence-dialog';
+    dialog.setAttribute('aria-label','Bridge sources and warning levels');
+    dialog.innerHTML='<header><h2>Bridge sources &amp; warning levels</h2><button type="button" aria-label="Close bridge details">&times;</button></header><div class="bridge-evidence-body">'+summary.parentElement.querySelector('.bridge-evidence-body').innerHTML+'</div>';
+    document.body.append(dialog);
+    dialog.querySelector('button').addEventListener('click',()=>dialog.close());
+    dialog.addEventListener('close',()=>{dialog.remove();summary.focus();});
+    dialog.showModal();
+  }));
   document.querySelectorAll('[data-save-route]').forEach((b) => b.addEventListener('click', () => {
     favorites = toggleSavedRoute(favorites, b.dataset.saveRoute, Object.keys(ROUTE_INFO));
     try {

@@ -198,3 +198,11 @@ details.beta-phones p { margin: 6px 0 0; }
 .bridge-angel.concern .face { color: #c62828; font-weight: 800; }
 .row .bridge-bubble { padding: 12px; }
 @media(max-width:600px) { .bridge-evidence > summary { min-height: 52px; } .row .bridge-angel { margin-left: -4px; } }
+
+.bridge-evidence-dialog { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: var(--bg); color: var(--on); overflow-y: auto; }
+.bridge-evidence-dialog > header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 24px; background: var(--surface); border-bottom: 1px solid var(--divider); }
+.bridge-evidence-dialog h2 { margin: 0; font-size: 22px; }
+.bridge-evidence-dialog header button { width: 48px; height: 48px; border: 1px solid var(--divider); border-radius: 50%; background: var(--surface-2); font-size: 32px; cursor: pointer; }
+.bridge-evidence-dialog > .bridge-evidence-body { max-width: 760px; padding: 24px; margin: 0 auto; font-size: 16px; line-height: 1.6; }
+.bridge-evidence-dialog dt { margin-top: 24px; font-weight: 650; }
+.bridge-evidence-dialog dd { margin: 8px 0 0; }
