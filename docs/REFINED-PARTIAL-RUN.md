@@ -15,3 +15,9 @@ Near the Trico–Santa Cruz bridge, native face283056 at approximately(-111.2798
 The renderer01d0408 uses bounded overview aggregation above4096 visible faces. Overview colors show the maximum contributing native mean depth, with explicit wet/missing coverage fractions; exact native picking remains available. This is display aggregation, not finer hydraulics. Flat mode loads geometry and the selected frame only. The refined case has no verified terrain-display artifact, so3D stays unavailable rather than reusing old terrain. Original official closure and live risk guidance remain separate.
 
 GCN10 attribution/source metadata accompany the package. The original native archive/input release remain the source of record. Package hashes bind each compressed artifact. No main deployment, solver rerun, or source refresh is part of this publication.
+
+## Published preview verification
+
+Commit aff0d19 was opened through raw.githack.com on the actual app Map route with ?case=refined. The 10 AM frame rendered a picked native face 266577 at 0.653 m; the 3 PM frame rendered face 387171 at 2.204 m. During loading the UI retained the old displayed timestamp and explicitly named the requested timestamp. Observed resource inventory contained geometry.json.gz, frame-0.json.gz and frame-20.json.gz only, confirming lazy frame requests in this interaction. No JavaScript errors were reported.
+
+A 390 x 844 browser viewport was visually inspected. The selected depth/time/model semantics, quantitative legend and partial-run warning were visible; screenshot: public/simulation/preview/refined-partial-phone.png. This is browser viewport evidence, not physical-phone performance measurement. Local native/export comparisons verified face 283056 across both endpoint frames, and exact coverage lookup returned no cell at latitude33/longitude-112. Browser outside-domain tapping was not separately exercised. Refined 3D remains unavailable without matching terrain-display data.
