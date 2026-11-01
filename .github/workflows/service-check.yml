@@ -12,6 +12,15 @@ jobs:
       - name: Service status
         run: curl -sSL -m 60 "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec" ; echo
       - name: River gauges through the service
-        run: curl -sSL -m 90 "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=usgs" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('fetched_at'), {k: (v['features'][-1]['properties'] if v and v.get('features') else None) for k, v in d.get('series', {}).items()} if 'series' in d else d)"
+        run: |
+          curl -sSL -m 90 "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=usgs" > usgs.json
+          python3 - <<'PY'
+          import json
+          d = json.load(open('usgs.json'))
+          print('fetched_at', d.get('fetched_at'))
+          for k, v in (d.get('series') or {}).items():
+              print(k, v['features'][-1]['properties'] if v and v.get('features') else None)
+          if 'series' not in d: print(d)
+          PY
       - name: County rain feed through the service
         run: curl -sSL -m 90 "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=alert" | head -c 600 ; echo
