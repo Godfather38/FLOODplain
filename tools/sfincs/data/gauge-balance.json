@@ -1,0 +1,91 @@
+{
+  "method": "Original USGS approved discharge; common UTC window; trapezoidal integration; exact 0.028316846592 cfs-to-m3/s; no travel-time adjustment",
+  "events": {
+    "2013": {
+      "start": "2013-07-19 07:00:00+00:00",
+      "end": "2013-07-23 07:00:00+00:00",
+      "stations": {
+        "cortaro": {
+          "volumeM3": 966862.8652022216,
+          "peakM3s": 32.84754204672,
+          "peakTime": "2013-07-21 04:15:00+00:00",
+          "initialM3s": 2.0133277926912,
+          "finalM3s": 1.3705353750528,
+          "maxNativeGapMinutes": 15.0,
+          "qualifiedSamples": 0,
+          "approvalStatuses": [
+            "Approved"
+          ]
+        },
+        "trico": {
+          "volumeM3": 1243520.44283285,
+          "peakM3s": 30.865362785280002,
+          "peakTime": "2013-07-21 10:45:00+00:00",
+          "initialM3s": 1.529109715968,
+          "finalM3s": 1.642377102336,
+          "maxNativeGapMinutes": 15.0,
+          "qualifiedSamples": 0,
+          "approvalStatuses": [
+            "Approved"
+          ]
+        }
+      },
+      "sourceFiles": {
+        "cortaro": {
+          "path": "cortaro-evaluation-2013-07.json",
+          "sha256": "018ad9f6c2bad0590f39764975cb6c459da42c906d26cdcf1c6110b8d3c152be"
+        },
+        "trico": {
+          "path": "trico-evaluation-2013-07.json",
+          "sha256": "c16abbc50633617d9d655ea868e6358dc59c301c541b2618d625a0b3c7ad0c89"
+        }
+      },
+      "tricoMinusCortaroVolumeM3": 276657.57763062837,
+      "tricoToCortaroVolumeRatio": 1.2861394180991375,
+      "peakLagMinutes": 390.0
+    },
+    "2014": {
+      "start": "2014-09-07 07:00:00+00:00",
+      "end": "2014-09-11 07:00:00+00:00",
+      "stations": {
+        "cortaro": {
+          "volumeM3": 13276939.45543304,
+          "peakM3s": 600.3171477504001,
+          "peakTime": "2014-09-08 21:45:00+00:00",
+          "initialM3s": 1.9085554603008001,
+          "finalM3s": 1.444159176192,
+          "maxNativeGapMinutes": 15.0,
+          "qualifiedSamples": 0,
+          "approvalStatuses": [
+            "Approved"
+          ]
+        },
+        "trico": {
+          "volumeM3": 9769843.100064142,
+          "peakM3s": 339.802159104,
+          "peakTime": "2014-09-09 06:45:00+00:00",
+          "initialM3s": 0.3284754204672,
+          "finalM3s": 0.0,
+          "maxNativeGapMinutes": 15.0,
+          "qualifiedSamples": 16,
+          "approvalStatuses": [
+            "Approved"
+          ]
+        }
+      },
+      "sourceFiles": {
+        "cortaro": {
+          "path": "cortaro-benchmark-2014-09.json",
+          "sha256": "5fdb628667f8467bf91c54c037bce0d06b08e424b01e1d5acdb411c467958aa2"
+        },
+        "trico": {
+          "path": "trico-benchmark-2014-09.json",
+          "sha256": "5092410e44aa604bbdc8b4c27da55bcc2d00ebae199cc89968d1aef3ba929753"
+        }
+      },
+      "tricoMinusCortaroVolumeM3": -3507096.355368899,
+      "tricoToCortaroVolumeRatio": 0.7358505424280017,
+      "peakLagMinutes": 540.0
+    }
+  }
+}

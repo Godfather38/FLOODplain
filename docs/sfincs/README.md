@@ -1,3 +1,7 @@
+# Current status
+
+See [TECHNICAL-HANDOFF.md](TECHNICAL-HANDOFF.md) for current results, limitations and saved-engine replay instructions. The workflow now reuses the persisted executable and never compiles. The instructions below record the initial bootstrap only; do not repeat the build or analytical cases for an input change.
+
 # Experimental SFINCS execution
 
 Branch: `experiment/sfincs-engine`. This does not deploy or alter the general site.
@@ -78,3 +82,4 @@ the local Windows solver is not yet operational.
 ## Completed runs
 
 See [RESULTS.md](RESULTS.md) for actual solver checks, the recorded Trico scenario, durable output paths, and outstanding validation limits. The workflow also includes a synthetic inclined-bed outlet case to check wet-to-dry behavior. Use a new empty directory for each run; preparation refuses to overwrite previous evidence.
+
