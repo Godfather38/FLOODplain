@@ -1,6 +1,7 @@
 import {FORECAST_STATIONS,stationUrl,zonedTime} from './forecast-stations.js';
 // One app-facing provider. No routing-model fallback or road-safety inference.
 import {fetchEnsemble} from './ensemble.js';
+import {estimateFromForecast,loadJunction} from './hand-inundation.js';
 export const NWPS_ROOT = 'https://api.water.noaa.gov/nwps/v1/gauges/SCTA3';
 const CFS_TO_M3S = 0.028316846592;
 const units = { kcfs: 1000 * CFS_TO_M3S, 'ft3/s': CFS_TO_M3S, cfs: CFS_TO_M3S, 'm3/s': 1 };
@@ -8,7 +9,7 @@ const unavailable = (status, reason) => ({schemaVersion:1,status,reason,provider
 
 export function normalizeForecast(metadata, stageflow, {now=Date.now(), retrievedAt=new Date(now).toISOString(), maxIssueAgeHours=24,siteId=metadata?.lid}={}) {
   if (!Number.isFinite(now) || !Number.isFinite(maxIssueAgeHours) || maxIssueAgeHours <= 0) throw new Error('Invalid clock/freshness policy');
-  const station=FORECAST_STATIONS[siteId],context={siteId,geography:station??null,inundation:{status:metadata?.inundation?.enabled===true?'provider_available':'unavailable',reason:'No local inundation prediction supplied by this engine'}};
+  const station=FORECAST_STATIONS[siteId],context={siteId,geography:station??null,inundation:{status:metadata?.inundation?.enabled===true?'provider_available':'unavailable',reason:'NOAA supplies no inundation map for this gauge. Separate HAND estimate, where supported: engine.inundation()'}};
   const fail=(status,reason)=>({...unavailable(status,reason),...context});
   if (!station || metadata?.lid!==siteId || metadata?.usgsId!==station.usgsId || String(metadata?.reachId)!==station.reachId) return fail('unsupported','Station identity mismatch');
   if(!Number.isFinite(zonedTime(retrievedAt)) || zonedTime(retrievedAt)>now+300000)return fail('insufficient_data','Invalid retrieval clock');
@@ -39,9 +40,15 @@ export function normalizeForecast(metadata, stageflow, {now=Date.now(), retrieve
 }
 
 // Injectable fetch and clock: use browser fetch or a server-side transport. Cache is memory-only.
-export function createForecastEngine({enabled=false,fetchImpl=globalThis.fetch,clock=Date.now,cacheMinutes=5,timeoutMs=10000}={}) {
+export function createForecastEngine({enabled=false,fetchImpl=globalThis.fetch,clock=Date.now,cacheMinutes=5,timeoutMs=10000,junctionLoader=loadJunction}={}) {
   const cache=new Map();
-  return {async ensemble({siteId='SCTA3'}={}){return enabled?fetchEnsemble({fetchImpl,clock,timeoutMs,siteId}):{status:'disabled',points:[],reason:'Enable experimentalForecasts explicitly'};},async predict({siteId='SCTA3',force=false}={}) {
+  return {async inundation({junctionId,time=null,force=false}={}){
+    if (!enabled) return {status:'disabled',reason:'Enable experimentalForecasts explicitly',junctionId};
+    let junction;
+    try {junction=await junctionLoader(junctionId);} catch(error) {return {status:'unavailable',reason:`HAND data failed to load: ${error.message}`,junctionId};}
+    if (!junction) return {status:'unsupported',reason:'No verified HAND coverage for this junction',junctionId};
+    return estimateFromForecast(junction,await this.predict({siteId:junction.station,force}),{now:clock(),time});
+  },async ensemble({siteId='SCTA3'}={}){return enabled?fetchEnsemble({fetchImpl,clock,timeoutMs,siteId}):{status:'disabled',points:[],reason:'Enable experimentalForecasts explicitly'};},async predict({siteId='SCTA3',force=false}={}) {
     if (!enabled) return {...unavailable('disabled','Enable experimentalForecasts explicitly'),siteId};
     if (!FORECAST_STATIONS[siteId]) return {...unavailable('unsupported','Station not supported'),siteId};
     const cached=cache.get(siteId),root=stationUrl(siteId);

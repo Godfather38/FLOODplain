@@ -1,0 +1,4 @@
+{
+  "trico-marana-santa-cruz": {"name": "West Trico Marana Road at the Santa Cruz River", "lon": -111.27985, "lat": 32.45369, "station": "SCTA3", "water": "Santa Cruz River", "radiusM": 1500},
+  "sanders-santa-cruz": {"name": "North Sanders Road at the Santa Cruz River", "lon": -111.23395, "lat": 32.43488, "station": "SCTA3", "water": "Santa Cruz River", "radiusM": 1500}
+}
