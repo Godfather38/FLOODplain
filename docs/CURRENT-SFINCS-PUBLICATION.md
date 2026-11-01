@@ -62,3 +62,10 @@ Native `subgrid_volume` must have m3 units. The publisher divides by full cell a
 Outputs are immutable `<runId>.json.gz`, `<runId>-provenance.json`, then atomically replaced `current-sfincs-manifest.json` last. Raw NetCDF, preparation inputs, export config and active mask hashes are retained. Existing output filenames are never overwritten. No validation/accuracy scores are fabricated.
 
 `--diagnostic` writes `diagnostic-sfincs-manifest.json`, removes forecast provenance and marks the output diagnostic. It cannot overwrite the current manifest. Normal mode refuses expired output. The available archived regular-grid reference file lacks subgrid_volume and is correctly rejected rather than relabeled; successful native-volume export and app acceptance await the primary worker's actual current volume output. Python syntax and actual archived-file rejection were checked; no solver rerun or current artifact was fabricated.
+
+
+## Frozen-input simulated live operation
+
+User-selected mode: retain the completed2026 forecast package permanently and stop source refreshes. Publish its real solver output with `--simulated-live`. This preserves original source/issue/valid timestamps, sets matching `executionMode: simulated_live_frozen_inputs` on manifest/output and starts the existing time slider at validFrom. Moving the slider is the explicit simulated clock; the frame label states frozen inputs/not current weather. This is the new2026 run, not the2013/2014 diagnostics. Expired validity is allowed only in this explicitly labeled mode. No dates are shifted to today. Its evidence status is simulated_live, so it is not silently mixed into current route ranking. Existing live observation controls remain separate and user-triggered.
+
+The retained input package is `current-inputs-catchments-20261101-refresh`, commit c65fa35. No further acquisition is required to replay it. The normal current manifest remains unavailable until actual native output is exported; no fabricated replay artifact is included.
