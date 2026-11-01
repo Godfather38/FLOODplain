@@ -333,7 +333,7 @@ function alertsScreen() {
          <button type="button" class="btn btn-primary" id="t-confirm">Start texts</button>`
       : textFlow.step === 'done'
         ? `<p>Texts are on for ${esc(textFlow.phone)}. A confirmation text is on its way.</p>`
-        : `<label class="field">Mobile number<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
+        : `<label class="field">${textFlow.sender === 'any' ? 'Mobile number' : 'Verizon mobile number'}<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
            <label class="field">Access key (optional, for more than 2 texts a day)<input id="t-key" type="text" autocomplete="off" value="${esc(textFlow.key ?? '')}"></label>
            <p class="consent">By tapping <b>Text me a code</b>, you agree to get recurring FLOODplain road-flooding texts: one text at each time you pick, at most 4 msgs/day, plus a one-time sign-up code. Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. No marketing; your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
            <button type="button" class="btn btn-primary" id="t-signup">Text me a code</button>
@@ -368,9 +368,14 @@ function alertsScreen() {
   </div>
   <h3 class="section">Text message</h3>
   <div class="page">
+    <p class="note">${textFlow.sender === 'any'
+      ? '<b>Texts are on</b> for any US mobile number.'
+      : textFlow.sender === 'verizon'
+        ? '<b>Texts aren’t fully set up yet.</b> Right now they only reach <b>Verizon</b> phones. Other carriers: coming once our text sender is approved. Until then, use push alerts above. They work on any phone.'
+        : 'Checking whether texts are available…'}</p>
     ${textFlow.msg ? `<p class="note">${esc(textFlow.msg)}</p>` : ''}
     ${textCard}
-    <p class="fine" style="text-align:left">For now texts only reach Verizon phones; all carriers once our text sender is approved. Push alerts work on any phone.</p>
+
   </div>
   ${cfg.TEXT_API ? `<h3 class="section">Need more texts?</h3>
   <div class="page">
@@ -389,7 +394,13 @@ async function textApi(body) {
 }
 function wireAlerts() {
   // Wakes the alert service (it starts its own every-minute timer on first contact).
-  if (cfg.TEXT_API && !wireAlerts.pinged) { wireAlerts.pinged = true; fetch(cfg.TEXT_API).catch(() => {}); }
+  // Ask the alert service how it sends texts ('any' = Twilio, 'verizon' = Verizon only). This also
+  // wakes it (it starts its own every-minute timer on first contact).
+  if (cfg.TEXT_API && !wireAlerts.pinged) {
+    wireAlerts.pinged = true;
+    fetch(cfg.TEXT_API).then((r) => r.json()).then((j) => { textFlow.sender = j.sender; if (where().screen === 'alerts') render(); })
+      .catch(() => { textFlow.sender = 'verizon'; if (where().screen === 'alerts') render(); });
+  }
   const a = { times: ['05:45'], days: 'w:1,2,3,4,5', mode: 'all', ...(store.get('alerts') ?? {}) };
   // Save the push schedule to the alert service. keepalive lets it finish even
   // while the page hands off to the ntfy app.
