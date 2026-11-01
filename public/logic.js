@@ -181,10 +181,11 @@ export function bridgeHeightComparison(record, now) {
 // A discharge threshold describes the river, not water reaching a particular bridge.
 function bridgeRiverCheck(check,record,now){
  const history=record?.documentedHistory??[],elevated=['watch','caution','danger'].includes(check.level);
- return {...check,level:elevated?'watch':check.level,dischargeLevel:check.level,bridgeClearance:'unknown',
-  why:elevated?check.why.split(':')[0]+': elevated river discharge; water reaching this bridge or its approaches is not established.':check.why,
+ const heightComparison=bridgeHeightComparison(record,now),modeledRoadConcern=heightComparison.status==='estimated'&&heightComparison.differenceM<=0;
+ return {...check,level:modeledRoadConcern?'caution':elevated?'watch':check.level,modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
+  why:modeledRoadConcern?`Modeled water ${heightComparison.waterM.toFixed(2)} m reaches or exceeds the estimated roadway ${heightComparison.roadM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}; estimated roadway flooding concern, not an observed closure.`:elevated?check.why.split(':')[0]+': elevated river discharge; water reaching this bridge or its approaches is not established.':check.why,
   detail:(check.detail?check.detail+'. ':'')+(record?'Site-linked structure record '+record.id+'. ':'No exact structure record. ')+(history.length?'Historical flooding is documented for this site; it is not a current closure or measured flow-to-road threshold. ':'No site-linked flooding history establishes a current road threshold. ')+(record?.roadwayEstimate?'A provisional roadway-height comparison is shown in height & history; it is not surveyed deck or underside clearance. ':'Current roadway elevation is unavailable. ')+'Clearance is unknown, not confirmed clear.',
-  heightComparison:bridgeHeightComparison(record,now),
+  heightComparison,
   bridgeEvidence:{recordId:record?.id??null,historyDates:history.map(h=>h.date),clearance:'unknown'}};
 }
 
