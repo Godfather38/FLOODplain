@@ -1,5 +1,3 @@
-import {loadBridgeEvidence,bridgeRecordFor,bridgeHistory} from './simulation/bridge-evidence.js';
-import {mountFloodLayers} from './simulation/map-layers.js';
 import { savedRoutes, toggleSavedRoute, checkAge } from './preferences.js?v=dev';
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
@@ -249,21 +247,12 @@ function routeScreen(rid) {
     <div class="bottom-bar">${navBtn(r)}</div>`;
 }
 
-let bridgeEvidence=null;
-function bridgeEvidencePlaceholder(fp){
- if(!['bridge','river'].includes(fp.kind))return '';
- const record=bridgeRecordFor(fp,bridgeEvidence?.registry),history=bridgeHistory(record);
- const historyHtml=history.length?history.map(h=>`<p><a href="${esc(h.source)}" target="_blank" rel="noopener noreferrer">${esc(h.date)} report and photographs</a>: ${esc(h.summary)}</p><p>${esc(h.siteMatch||'')}</p><p>${esc(h.interpretationLimit||'')}</p>`).join(''):'No structure-specific evidence linked yet. This does not mean it has never flooded.';
- return `<section class="bridge-evidence" data-bridge-evidence data-crossing-id="${esc(fp.id)}"><h3>${esc(fp.short)}: height & history</h3>${bridgeEvidence?.status==='unavailable'?`<p role="status">Evidence package unavailable: ${esc(bridgeEvidence.reason)}. Missing fields below are not proof of no flood history.</p>`:''}<dl><dt>Bridge deck / low-chord elevation</dt><dd>Not verified for this structure.</dd><dt>Elevation datum and gauge relationship</dt><dd>Not verified. Gauge height cannot yet be compared with bridge clearance.</dd><dt>Documented flooding or overtopping</dt><dd>${historyHtml}</dd></dl><p>Current readings and official barricade reports are shown below. Existing flow thresholds are warning indicators, not a measured bridge-clearance calculation.</p>${record?`<details><summary>Evidence source</summary><p>Structure matched by its recorded coordinates; map tag, not survey confirmation. Registry ${esc(bridgeEvidence.source.sourceCommit)}. This structure evidence is separate from model coverage and does not establish bridge clearance.</p></details>`:''}</section>`;
-}
-
 function stretchScreen(rid, fpId) {
   const p = view.fpResults[fpId];
   const fp = FAILURE_POINTS.find((f) => f.id === fpId);
   const s = pointScore(p);
   return `
     <div class="summary">${badgeWithWord(s)}<div><p>${esc(p.why === p.checks[0]?.why && p.checks[0]?.src === 'hand' ? 'The HAND model estimates water here. It can\'t say what the road is like; look as you go.' : p.level === 'ok' && p.checks[0]?.some ? handModel.CALM_WITH_FLOW : LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
-    ${bridgeEvidencePlaceholder(fp)}
     <h3 class="section">What each source says</h3>
     <div class="list">
       ${p.checks.map((c, i) => {
@@ -638,7 +627,7 @@ function sourcesScreen() {
 function render() {
   if (!view) return;
   const w = where();
-  const sub = w.screen !== 'home' || location.hash==='#/map';
+  const sub = w.screen !== 'home';
   $('.appbar').classList.toggle('sub', sub);
   $('#back').hidden = !sub;
   $('#logo').hidden = sub;
@@ -649,10 +638,9 @@ function render() {
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
     how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
   }[w.screen];
-  $('#title').textContent = location.hash==='#/map'?'Explore map':titles[0] ?? '';
+  $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
   $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy', 'report', 'updates', 'underpasses'].includes(w.screen);
-  window.dispatchEvent(new Event('flood-before-screen-render'));
   $('#screen').innerHTML = {
     home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
     how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, updates: updatesScreen, underpasses: underpassesScreen, report: () => reportScreen(w.fp),
@@ -661,17 +649,11 @@ function render() {
     const status = document.createElement('aside');
     status.className = 'check-status';
     status.innerHTML = '<strong id="check-age"></strong><p>Check time is not the age of every reading. Open a crossing for source details.</p>' + (data.errors.length ? `<p>${esc(data.errors.join('; '))}.</p>` : '');
-    const warnings=(data.nws??[]).filter(a=>/flood/i.test(a.event));
-    if(warnings.length){const warning=document.createElement('aside');warning.className='area-warning';warning.setAttribute('role','status');warning.innerHTML='<strong>Weather alerts in the source area</strong>'+warnings.map(a=>'<p>'+esc(a.headline||a.event)+'</p>').join('')+'<small>Area alerts do not establish conditions at every crossing. Review route details and barricades.</small>';$('#screen').prepend(warning)}
     $('#screen').prepend(status);
     updateCheckAge();
   }
   wire(w);
-  const retainedCenter=map.getCenter(),retainedZoom=map.getZoom();
   drawMap(w);
-  if(render.lastHash===location.hash || location.hash==='#/map' || render.lastHash==='#/map')map.setView(retainedCenter,retainedZoom,{animate:false});
-  render.lastHash=location.hash;
-  window.dispatchEvent(new Event('flood-screen-rendered'));
 }
 function subtitle() {
   const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
@@ -717,10 +699,9 @@ function wire(w) {
 
 // ---------------- map ----------------
 const map = L.map('map', { zoomSnap: 0.25, zoomControl: false, attributionControl: true });
-const streetTiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
 map.attributionControl.setPrefix(false);
 const layer = L.layerGroup().addTo(map);
-mountFloodLayers(map,{routeLayer:layer,streetTiles});
 let allBounds;
 const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
 function stretchAround(coords, lat, lon, m) {
@@ -817,11 +798,9 @@ async function check() {
     data = next;
     view = nextView;
     $('#load-status').hidden = true;
-    window.dispatchEvent(new CustomEvent('flood-check-status',{detail:next.nws?.some(a=>/flood warning/i.test(a.event))?'Area flood warning · open Routes for details':next.errors.length?'Live check incomplete · '+next.errors.join('; '):'Live check completed · readings have their own timestamps'}));
     render();
     refreshHand();
   } catch (e) {
-    window.dispatchEvent(new CustomEvent('flood-check-status',{detail:'Refresh failed · retained readings, not a fresh check'}));
     if (!view) throw e;
     $('#load-status').textContent = 'Couldn’t update conditions. Showing the previous check. Tap Check again to retry.';
     $('#load-status').hidden = false;
@@ -833,7 +812,6 @@ async function check() {
   }
 }
 async function init() {
-  loadBridgeEvidence().then(result=>{bridgeEvidence=result;if(view&&where().screen==='stretch')render()});
   allRoutes = (await getJson('data/routes.geojson')).features;
   useArea(store.get('area') ?? 'avra');
   map.fitBounds(allBounds, { animate: false });
