@@ -57,3 +57,7 @@ The next useful scientific steps are resolving the rainfall discrepancy, adding
 observed upstream inflow and appropriate downstream boundary conditions, testing
 grid/roughness/infiltration sensitivity, and independently checking the local
 water budget against gauges and mapped flood evidence. These are still outstanding.
+
+## Wet-to-dry regression
+
+[Run 41286691365](https://github.com/Godfather38/FLOODplain/actions/runs/41286691365) passed all eight exporter tests, the dry/rain analytical cases, a synthetic inclined-bed outlet case, and the real-terrain scenario. Outlet-case storage decreased monotonically from 475,000 to 53,892.125 m3; dry cells increased from 20 to 40 at the 0.01 m threshold. Depths remained finite and nonnegative. This checks wet-to-dry stability; it does not independently close the outlet mass balance. The Trico output reproduced the figures above.

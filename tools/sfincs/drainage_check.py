@@ -29,6 +29,7 @@ def setup(root):
     # This is not an analytical uniform-rain case; do not allow the other exporter.
     case = json.loads((root / "case.json").read_text())
     case.update(fixture="synthetic_inclined_drainage", inputArtifacts=artifacts,
+                expectedFinalDepthM=None, expectedFinalVolumeM3=None,
                 boundary="one downhill zero-depth outflow edge; remaining edges closed",
                 limitations=["Synthetic wet-to-dry regression, not a local hazard scenario"])
     (root / "case.json").write_text(json.dumps(case, indent=2)+"\n")
