@@ -1,9 +1,0 @@
-.voxel-geographic{position:absolute;inset:0;z-index:450;background:#e4e5da;isolation:isolate}
-.voxel-geographic[hidden]{display:none!important}
-.voxel-map-surface{position:absolute;inset:0}
-.voxel-map-note{position:absolute;z-index:30;bottom:24px;left:8px;max-width:calc(100% - 16px);padding:5px 9px;border-radius:5px;background:#f7f8f1eb;color:#263c42;font:11px/1.4 system-ui;pointer-events:none}
-.voxel-cell-info{position:absolute;z-index:31;left:12px;top:70px;max-width:310px;padding:14px;background:#f9fcf8;color:#193039;border:1px solid #ccd8cf;border-radius:12px;box-shadow:0 6px 24px #0d263433;font:13px/1.5 system-ui}
-.voxel-cell-info strong,.voxel-cell-info small{display:block}.voxel-cell-info small{margin-top:8px;color:#506369}
-.voxel-cell-info button{min-height:44px;margin-top:8px;padding:6px 14px;border:1px solid #849b9c;border-radius:7px;background:#edf3ed;color:#213b42}
-.voxel-geographic .maptalks-attribution{position:absolute;right:0;bottom:0;padding:3px 6px;background:#fffD;font:11px/1.4 system-ui;z-index:25}
-@media(max-width:600px){.voxel-cell-info{top:60px;left:8px;right:8px;max-width:none}.voxel-map-note{font-size:10px;bottom:22px}}
