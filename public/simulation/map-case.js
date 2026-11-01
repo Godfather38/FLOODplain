@@ -1,5 +1,5 @@
 import {acceptQuadtreeGeometry,readQuadtreeArtifact} from './quadtree-output.js';
-export function selectedMapCase(search=''){return new URLSearchParams(search).get('case')==='coarse'?'frozen':'refined';}
+export function selectedMapCase(search=''){return new URLSearchParams(search).get('case')==='refined'?'refined':'frozen';}
 export async function loadRefinedMapCase({base,fetchImpl=fetch,signal}={}){
  const pointerURL=new URL('data/refined-sfincs-publication.json',base),response=await fetchImpl(pointerURL,{signal,cache:'no-store'});
  if(!response.ok)return {status:'unavailable',reason:'No completed refined model output has been published.'};

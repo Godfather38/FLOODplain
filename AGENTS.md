@@ -11,3 +11,5 @@ For the 2D release, follow docs/2D-DRAFT-CHECKLIST.md. Do not redefine completio
 - No production merge/deployment without specific approval. Preserve Twilio/compliance/notifications work.
 
 Current user authorization permits uploading non-sensitive FLOODplain code, model inputs, simulation results and generated app assets to public Godfather38/FLOODplain experimental branches without merging main or deploying the published app.
+
+The 2D release defaults to the original approximately 29,685-cell faster/lower-resolution SFINCS model. “Coarse” means this existing model. The new approximately 398k-cell refinement is optional, never a completion dependency. Do not redo existing visuals/layout/model while connecting the original fast model.

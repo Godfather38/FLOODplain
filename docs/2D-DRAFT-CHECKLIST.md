@@ -14,6 +14,10 @@ This checklist supersedes narrower current-HAND/replay-only completion claims. T
 | Source age, valid time, missing domain and unavailable frames | Current APIs verified; retained output labelled separately. Outside-domain is unknown, never dry/safe. No fake current water depths. |
 | Preserve production/Twilio/notifications | No main merge or deployment; existing risk and notifications code unmodified. |
 
+## Scope clarification
+
+The release default is the ORIGINAL faster, lower-resolution, approximately 29,685-cell SFINCS case and its existing visual adapter. “Coarse” means this original lower-resolution model, not the new 398k-cell refined road case. The refined case is optional only. Its output, expanded geometry, export and expensive runs are NOT 2D release dependencies. Current-input handoff is for the original fast model only; do not redo the renderer or layout while waiting.
+
 ## User journeys / acceptance
 
 1. Home: see current route ratings, closures, warnings and observation freshness. Map is a primary destination, not a separate tiny demo link.
