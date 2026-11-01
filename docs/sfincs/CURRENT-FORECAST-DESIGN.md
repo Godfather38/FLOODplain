@@ -8,7 +8,7 @@ Status: design only, 2026-11-01. Solver branch `fec8846`; app interfaces inspect
 |---|---|---|
 | Observations and forecasts | App `observations.js`; `forecast-engine.js:createForecastEngine().predict()/ensemble()` for RFC/HEFS; `nwm-context.js:normalizeNwm()/fetchNwmContext()` | Export one immutable issue-consistent boundary package for the solver; current helpers are app context, not all domain boundary inputs |
 | Topology | Verified NHD/NOAA river paths and reach identifiers; official HydroMT river-source selection | Map every actual domain inlet to its forecast reach and contributing area; establish direction, reach-version crosswalk and no duplicated inflow |
-| Terrain/model | Professionally prepared 2021 terrain candidate; complete study GIS POST archive: 168 cross-sections, 126 domain BFE contours | Obtain adequate professional channel/structure package, dates, datums, losses/roughness and boundary definitions. GIS water-surface/bed scalars are not full geometry. County native package remains pending |
+| Terrain/model | Professionally prepared 2021 terrain candidate; complete study GIS POST archive: 168 cross-sections, 126 domain BFE contours | Obtain adequate professional channel/structure package, dates, datums, losses/roughness and boundary definitions. GIS water-surface/bed scalars are not full geometry. County native package is optional; sufficient professional public layers are the alternative |
 | Rainfall | Historical Stage IV import; `storm_forcing.py:load_forcing`; live `qpf-context.js` handles one NWS cell | Complete spatial future-rainfall coverage with interval semantics; one cell must not become uniform whole-domain rainfall |
 | Solver | Saved pinned SFINCS executable, existing Linux workflow, HydroMT-SFINCS 1.2.2 | Adapt input preparation to current forcings and received professional geometry; no new engine/build |
 | Export and app | `export_reach.py:export`; `inundation-contract.js:acceptInundationRun`; `route-fusion.js:sfincsEvidence()/fuseRoutes`; `routes-app.js` | Remove historical-only exporter assumptions through a separate current-case entrypoint; automatic current-manifest loading and explicit output depth semantics |
@@ -29,7 +29,7 @@ The detailed references below to a professional package include this sufficient-
 ## One coherent execution path
 
 ```text
-professional model package + approved prepared terrain
+professional model package OR sufficient public layers + prepared terrain
         -> standard supported HydroMT geometry/structure inputs (versioned once)
 verified directed river topology -> unique domain inlet registry
 gauges + one selected RFC/NWM issue per inlet -> discharge series
@@ -62,7 +62,7 @@ Apply gridded rainfall only to explicitly modeled local contributing land, with 
 
 ## Concrete adapter work and dependency order
 
-1. **Model intake:** version the received native package and standard exports under a model manifest containing acquisition dates, CRS/vertical datum, structures, roughness/losses, domain and supported initial/outlet conditions. Stop at genuinely missing fields. Existing acquisition command remains the source archive entrypoint.
+1. **Model intake:** version the native package OR sufficient public professional layers and standard exports under a model manifest containing acquisition dates, CRS/vertical datum, structures, roughness/losses, domain and supported initial/outlet conditions. Stop at genuinely missing fields. Existing acquisition command remains the source archive entrypoint.
 2. **Proposed `tools/sfincs/prepare_current.py`:** `select_boundary_sources(model, topology)` writes the audited registry; `normalize_forcing(snapshot, registry)` validates UTC/m³/s and coverage; `prepare_current(model_manifest, forcing_manifest, state_manifest, output)` uses official HydroMT methods. These functions do not exist yet. Keep historical `prepare_reach.py` intact as evidence.
 3. **Proposed current snapshot export in existing app tools:** reuse `createForecastEngine`, `normalizeNwm`, observation normalizers and complete spatial QPF acquisition. Write source bytes/hashes and provider issue metadata. No new runoff model. Extend the one-cell QPF adapter only after a supported full-domain product is selected.
 4. **Existing `.github/workflows/sfincs.yml`:** add a current-case input path and reuse the pinned saved executable. Do not rebuild. Hash input/model/state/issue tuple to avoid duplicate execution; invoke for a new complete forcing issue, not every five-minute UI refresh. Confirm artifact availability before dispatch; no silent compile fallback.
@@ -73,14 +73,15 @@ Existing subgrid exports use cell-volume/full-cell-area for display. That is an 
 
 ## Minimal delivery and effort bounds
 
-Before the professional package arrives: existing one-screen live RFC/NWM/HEFS/observations/HAND display, historical solver artifacts, working professional-data acquisition and adapter development can operate. This does not complete current SFINCS inundation prediction. After the package is usable and source partition/initialization are settled: one deterministic current forecast issue, one mapped domain, complete forcing horizon, saved-engine execution, map/time series/crossing support output in the same screen. No new model stack or paid service is needed for that engineering path.
+Before a complete current case is assembled: existing one-screen live RFC/NWM/HEFS/observations/HAND display, historical solver artifacts, working professional-data acquisition and adapter development can operate. This does not complete current SFINCS inundation prediction. Once standard professional inputs support the setup and source partition/initialization are settled: one deterministic current forecast issue, one mapped domain, complete forcing horizon, saved-engine execution, map/time series/crossing support output in the same screen. No new model stack or paid service is needed for that engineering path.
 
 Conditional engineering estimates, not delivery promises: boundary/current forcing adapters 4–8 focused hours once sources and semantics are fixed; current-case runner/export and app connection 3–6 hours once a ready SFINCS-compatible model/state is supplied. Full-domain QPF acquisition and native HEC-RAS transfer cannot be bounded yet because product/format compatibility is unresolved. County delivery time is unknown. Measured historical solver runtime was 105 seconds for 96 hours and 537 seconds for 432 hours on the existing runner; queue/download/setup time is additional and a different professional grid may cost more. Do not extrapolate an exact current runtime before its model size is known.
 
-No accuracy tolerance is invented here. Define the intended decision, horizon, flow/timing errors and treatment of missed events before accepting data or presenting performance. Existing N=2 historical diagnostics with mismatched-era geometry do not give a current calibrated error margin. Provider ensemble spread is not total inundation uncertainty. These are unresolved product/performance requirements, separate from the concrete missing native model and adapter tasks.
+No accuracy tolerance is invented here. Define the intended decision, horizon, flow/timing errors and treatment of missed events before accepting data or presenting performance. Existing N=2 historical diagnostics with mismatched-era geometry do not give a current calibrated error margin. Provider ensemble spread is not total inundation uncertainty. These are unresolved product/performance requirements, separate from specific missing physical attributes and adapter tasks; absence of a native ZIP alone is not a blocker.
 
 ## References checked
 
 - Installed HydroMT-SFINCS 1.2.2: `sfincs.py` methods `setup_river_inflow`, `setup_discharge_forcing`, `setup_precip_forcing_from_grid`; semantics checked directly against the installed implementation.
 - Official [river inflow API](https://deltares.github.io/hydromt_sfincs/stable/_generated/hydromt_sfincs.SfincsModel.setup_river_inflow.html) and [discharge forcing API](https://deltares.github.io/hydromt_sfincs/stable/_generated/hydromt_sfincs.SfincsModel.setup_discharge_forcing.html).
 - Existing repo `PREPARED-DATA-ACQUISITION.md`, `PUBLISHED-CHANNEL-RESULTS.md`, `FORECAST-ENGINE.md`, `inundation-contract.js` and actual adapters named above. Some older app prose predates completed solver integration; inspected code and committed artifacts determine current availability.
+
