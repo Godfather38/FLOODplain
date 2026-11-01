@@ -1,1 +1,4 @@
 public/inundation/data/nwps-scta3-*.json -text
+
+public/simulation/data/refined-compact-41339621278/** -text
+public/simulation/data/bridge-evidence-registry.json -text

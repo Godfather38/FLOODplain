@@ -23,6 +23,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="style.css?v=dev">
+<link rel="stylesheet" href="simulation/map-layers.css">
 </head>
 <body>
   <header class="appbar">
@@ -39,12 +40,14 @@
     </button>
   </header>
   <p id="load-status" class="note" role="status" hidden></p>
+
   <main>
     <div id="map" aria-label="Map"></div>
     <section id="screen" aria-live="polite"><p class="loading">Checking conditions…</p></section>
   </main>
   <nav class="exp-link" aria-label="Experimental features"><a href="inundation/index.html">Experimental: flood extent estimate</a></nav>
   <script src="vendor/leaflet/leaflet.js"></script>
+  
   <script type="module" src="app.js?v=dev"></script>
 </body>
 </html>

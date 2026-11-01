@@ -1,0 +1,305 @@
+{
+  "schemaVersion": 1,
+  "kind": "quadtree_output_package",
+  "status": "partial",
+  "runId": "refined-partial-41339621278",
+  "executionMode": "simulated_live_frozen_inputs",
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-01T22:00:00Z",
+  "geometry": {
+    "path": "geometry.bin.gz",
+    "sha256": "faa8aa401bfb62c8e71030f5daa48bb3822fdae8ce5a6c4e62391644df4a6dd2",
+    "bytes": 12728211,
+    "decodedBytes": 45177836
+  },
+  "frames": [
+    {
+      "time": "2026-11-01T17:00:00Z",
+      "path": "frame-0.bin.gz",
+      "sha256": "bb0be5e1b6da50d12c4f9c87a5b8b9124177f0a1ef4f11019d50178cc33be5ec",
+      "bytes": 1822663,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T17:15:00Z",
+      "path": "frame-1.bin.gz",
+      "sha256": "6dbc1b8ba6f7c1f5feb686e84dd89d778034d72d5b436d376486479aa621caab",
+      "bytes": 1822517,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T17:30:00Z",
+      "path": "frame-2.bin.gz",
+      "sha256": "ca8ba03cd4ac96504190b7ed28a6685978daf6046cdb943e3f2da8c401a135d8",
+      "bytes": 1822069,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T17:45:00Z",
+      "path": "frame-3.bin.gz",
+      "sha256": "93747cad783ca74773c9c85eb757c422aecb961a48908c0735d46da4b2a268da",
+      "bytes": 1876373,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T18:00:00Z",
+      "path": "frame-4.bin.gz",
+      "sha256": "460a78e4100f4ee42678235a2ae68b85ae5302758b9eb0c347011df8464e7ceb",
+      "bytes": 1956240,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T18:15:00Z",
+      "path": "frame-5.bin.gz",
+      "sha256": "3e77ed421cf021eeabf2ad534d79429bc2252bd6e25ffeb4cc7745fdc5419fe8",
+      "bytes": 2023362,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T18:30:00Z",
+      "path": "frame-6.bin.gz",
+      "sha256": "31bf4fd952f9152a3678e504eee54cd2f6004e93271def7c717064c0e78a3c13",
+      "bytes": 2066116,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T18:45:00Z",
+      "path": "frame-7.bin.gz",
+      "sha256": "979f3043af6ee5d8bf461948652c5b30224579a63daa1f9ef073d4b8de718d74",
+      "bytes": 2127691,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T19:00:00Z",
+      "path": "frame-8.bin.gz",
+      "sha256": "0c9ed15c2a845354f876a27e23b8b60ee2e2aad943ffcebf9a3d4c4dc609d1e4",
+      "bytes": 2173148,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T19:15:00Z",
+      "path": "frame-9.bin.gz",
+      "sha256": "862b0d5d776877eb464c50810471f76c62b4ef3daa988ed057eb81cf59515116",
+      "bytes": 2235259,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T19:30:00Z",
+      "path": "frame-10.bin.gz",
+      "sha256": "0e68f1a3ec12fe17cb923fb2c41704dd0fc217d3441a5c01833bab505cfb8d5e",
+      "bytes": 2269935,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T19:45:00Z",
+      "path": "frame-11.bin.gz",
+      "sha256": "8be4c19d63c946ed2fc441579c03a825b8188fc980e5c5f3607779e05e682259",
+      "bytes": 2329188,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T20:00:00Z",
+      "path": "frame-12.bin.gz",
+      "sha256": "9ac6b625e5269af21383ea1cfc4a1fdcdad7916e461f43f89b27324d2f147982",
+      "bytes": 2345510,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T20:15:00Z",
+      "path": "frame-13.bin.gz",
+      "sha256": "b8d597ff252dae3313e679ce0db0652dc2304cc1f6111e1e1f6c74218eb3c0ee",
+      "bytes": 2358372,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T20:30:00Z",
+      "path": "frame-14.bin.gz",
+      "sha256": "b68c1744f81cf90b828f0040c6c9f4c38eb41fadc156228d28fa4fa4bcd5d7e2",
+      "bytes": 2365054,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T20:45:00Z",
+      "path": "frame-15.bin.gz",
+      "sha256": "38be6db05ae0436f1d04e4f300120ba3db8c6ba85a457321ddb1304e0fcf979f",
+      "bytes": 2373624,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T21:00:00Z",
+      "path": "frame-16.bin.gz",
+      "sha256": "53ecc3761800617bf1de6617e226567d63b8c0385e16efa58e4f02fc5a2f56bd",
+      "bytes": 2376853,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T21:15:00Z",
+      "path": "frame-17.bin.gz",
+      "sha256": "95090f792705123979872c7e0ba8c504ceb17a883e6a6b3047c79e804fe4bc82",
+      "bytes": 2378683,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T21:30:00Z",
+      "path": "frame-18.bin.gz",
+      "sha256": "341445bb589166ae8c7a5e3ce8a0d4660d72bc334f8e97bca75d9a93b678259c",
+      "bytes": 2382374,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T21:45:00Z",
+      "path": "frame-19.bin.gz",
+      "sha256": "39e597c7e2681e15ae8651c2adbe06e1a52128724aeb1580be53991394a95f9b",
+      "bytes": 2382135,
+      "decodedBytes": 3189256
+    },
+    {
+      "time": "2026-11-01T22:00:00Z",
+      "path": "frame-20.bin.gz",
+      "sha256": "2721d4336f7cf1b2d18c686cb53e14063019431325987cdc50fc90604ea12d9c",
+      "bytes": 2377099,
+      "decodedBytes": 3189256
+    }
+  ],
+  "resolution": {
+    "minimumM": 6.25,
+    "maximumM": 100.0,
+    "cellCount": 398613,
+    "uniform": false
+  },
+  "quantity": {
+    "name": "cell_average_depth",
+    "units": "m",
+    "definition": "Native volume divided by each full native polygon area"
+  },
+  "coverage": {
+    "status": "native_geometry_only",
+    "crossingRegistry": null,
+    "roadDepthValidated": false
+  },
+  "terrainDisplay": {
+    "status": "unavailable",
+    "reason": "Requires separately source-bound terrain; no regular-grid DEM blocks substituted"
+  },
+  "provenance": {
+    "configurationSha256": "66ccfdada384325419fbd604a2bd2a6fda3896554277c544003cf6bf49804e50",
+    "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+    "nativeMapSha256": "1e11c45c57c37ada6fa0be98da62cf616e7d0b9e9a85f7c4cc7795091c3ce633",
+    "logSha256": "2a0d11fa89b6d47a4fb89f92f69058fe6795c30bdd4e7cd00e7439a522918240",
+    "inputArtifacts": [
+      {
+        "path": "sfincs.nc",
+        "sha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb"
+      },
+      {
+        "path": "partial-result.json",
+        "sha256": "a701d2123906da7fc2feeab84843dd99b05d6235cbb2463ac7cba1e2141be339"
+      },
+      {
+        "path": "output-to-source-face-id.npy",
+        "sha256": "21ebfca75833f9d70ea2498216184e5ef8e45429a66ecbd237eb13475f8572db"
+      },
+      {
+        "path": "GCN10-NOTICE.txt",
+        "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+      },
+      {
+        "path": "GCN10-source-metadata.xml",
+        "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+      }
+    ],
+    "verticalDatum": "NAVD88",
+    "assumptions": [
+      "Partial budget-timeout run: 21 complete 15-minute frames only; nine requested forecast hours missing.",
+      "Frozen 2026-11-01 weather inputs; not present weather.",
+      "Cell-average depth is not measured road depth or bridge clearance.",
+      "Raw negative numerical volumes retained; only displayed depth clamped at zero, minimum area-equivalent -0.4192 mm.",
+      "No end-summary totals inferred from unwritten native variables.",
+      "No validated road-depth accuracy or calibrated uncertainty interval."
+    ],
+    "nativeFaceOrdering": "mesh face ID order; output reordered by exact ID",
+    "negativeVolumeDisplayToleranceM3": 4.192,
+    "nativeSourceRelease": {
+      "repository": "Godfather38/FLOODplain",
+      "commit": "85d6af1",
+      "path": "tools/sfincs/data/road-result-41339621278",
+      "archiveSha256": "4b8172cfb5a0fa19c873ec5b526008f16fdd2549930747b89b9a89fad0e021ce"
+    },
+    "supportingFiles": [
+      {
+        "path": "GCN10-NOTICE.txt",
+        "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+      },
+      {
+        "path": "GCN10-source-metadata.xml",
+        "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+      },
+      {
+        "path": "partial-result.json",
+        "sha256": "a701d2123906da7fc2feeab84843dd99b05d6235cbb2463ac7cba1e2141be339"
+      },
+      {
+        "path": "output-to-source-face-id.npy",
+        "sha256": "21ebfca75833f9d70ea2498216184e5ef8e45429a66ecbd237eb13475f8572db"
+      },
+      {
+        "path": "config.json",
+        "sha256": "66ccfdada384325419fbd604a2bd2a6fda3896554277c544003cf6bf49804e50"
+      }
+    ]
+  },
+  "uncertainty": {
+    "status": "not_quantified",
+    "plusMinus": null
+  },
+  "solverCompletion": {
+    "status": "partial_budget_timeout",
+    "runId": "41339621278",
+    "solverBudgetSeconds": 1200,
+    "lastLoggedProgressPercent": 85,
+    "mapFrames": 21,
+    "validFrom": "2026-11-01T17:00:00Z",
+    "validTo": "2026-11-01T22:00:00Z",
+    "requestedValidTo": "2026-11-02T07:00:00Z",
+    "restart": "sfincs.20261101.220000.rst",
+    "restartFortranRecordsIntact": true,
+    "restartExecutionTested": false,
+    "faceCorrespondence": {
+      "method": "Exact unique projected rectangle bounds matched independently from native polygon connectivity in both files; input native mesh2d_nFaces IDs retained",
+      "matchedFaces": 398613,
+      "identityOrder": true,
+      "maxBoundsDifferenceM": 0.0,
+      "maxPolygonAreaVersusBoundsAreaErrorM2": 0.0
+    },
+    "volumeUnits": "m3",
+    "negativeCellFrames": 1243,
+    "facesEverNegativeVolume": 845,
+    "minRawVolumeM3": -4.191995620727539,
+    "minRawVolumePerFullCellAreaM": -0.0004191995620727539,
+    "firstLastTotalVolumeM3": [
+      731792.25,
+      3688429.0
+    ],
+    "completionMarkerPresent": false,
+    "endSummaryFieldsUnwritten": true,
+    "nativeInputHashes": {
+      "sfincs.nc": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+      "sfincs_map.nc": "1e11c45c57c37ada6fa0be98da62cf616e7d0b9e9a85f7c4cc7795091c3ce633",
+      "solver.log": "2a0d11fa89b6d47a4fb89f92f69058fe6795c30bdd4e7cd00e7439a522918240",
+      "sfincs.20261101.220000.rst": "7793e00d65e5dd2773e483d74b4d517399708b976bfd44b84b2649035eb63643"
+    }
+  },
+  "endSummary": null,
+  "compactSource": {
+    "path": "refined-partial-41339621278",
+    "manifestSha256": "6131b2fc2f84a77b2f8597411ace3c1443785ca03fd2f4c5961998175358de02",
+    "geometry": {
+      "path": "geometry.json.gz",
+      "sha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+      "bytes": 17355685
+    },
+    "semantics": "Float64 geometry unchanged; float32 native quantities exact; depth derived from volume/full native area; NaN encodes missing only.",
+    "manifestURL": "https://raw.githubusercontent.com/Godfather38/FLOODplain/aff0d19/public/simulation/data/refined-partial-41339621278/manifest.json"
+  },
+  "supportingFilesSource": "refined-partial-41339621278"
+}
