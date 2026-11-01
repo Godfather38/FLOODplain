@@ -2,9 +2,10 @@
   "schemaVersion": 1,
   "sourceCommit": "c10fef1864a277882faaa88d201c70dc4173c8a2",
   "sourcePath": "tools/sfincs/data/road-dip-refinement/bridge-evidence-registry.json",
-  "sha256": "ca9f3acbc1a701407de8274d99681b6bd4710f6fb30088b69e476fc0095786f0",
+  "sha256": "5f15a58bd25d0f43bfe392d72d8985b2f50bf74eee3dd2b9e3a9295b80ebcdf1",
   "role": "structure_evidence_only",
   "expandedMeshStatus": "prepared_not_run",
   "expandedModelOutputAvailable": false,
-  "currentForecastUnchanged": true
+  "currentForecastUnchanged": true,
+  "derivedEvidence": "Provisional approach estimates supplied with existing road profile; native water surface extracted from current original-grid output, matched by containing cell and NAVD88."
 }

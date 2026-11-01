@@ -62,7 +62,101 @@
       ],
       "comparisonRule": "Only compare modeled absolute water elevation with site elevations after compatible vertical datum/units and location are established; gauge stage is not absolute deck elevation",
       "closureEvidence": [],
-      "defaultRiskPenalty": null
+      "defaultRiskPenalty": null,
+      "roadwayEstimate": {
+        "elevationM": 590.7,
+        "approachElevationsM": [
+          590.841,
+          590.577
+        ],
+        "verticalDatum": "NAVD88",
+        "status": "provisional_estimate",
+        "source": "https://github.com/Godfather38/FLOODplain/blob/c10fef1864a277882faaa88d201c70dc4173c8a2/tools/sfincs/data/road-dip-refinement/coverage-audit-v2/road-profiles.csv",
+        "method": "Straight roadway profile estimated between terrain-sampled approaches; exact approach points pending 1 m terrain crosscheck. Not surveyed deck or underside height."
+      },
+      "modelWater": {
+        "runId": "sfincs-current-coarse-20261101-19z-41350254061",
+        "issuedAt": "2026-11-01T21:09:28.696154+00:00",
+        "validFrom": "2026-11-01T22:00:00Z",
+        "validTo": "2026-11-02T12:00:00Z",
+        "verticalDatum": "NAVD88",
+        "quantity": "water_surface_elevation",
+        "units": "m",
+        "location": {
+          "type": "Point",
+          "coordinates": [
+            -111.27985,
+            32.45369
+          ]
+        },
+        "cellIndex": 15761,
+        "cellSizeM": 100,
+        "nativeMapSha256": "388b44ae4be9a47a4eda4cffab90ed48ebb6b55481fe23e57a41dc7585184f58",
+        "source": "current-sfincs-manifest.json",
+        "method": "Native zs in the unchanged 100 m model cell containing this bridge coordinate. Not gauge flow or cell-average depth. Bridge opening is not explicitly modeled.",
+        "frames": [
+          {
+            "time": "2026-11-01T22:00:00Z",
+            "elevationM": 585.974365234375
+          },
+          {
+            "time": "2026-11-01T23:00:00Z",
+            "elevationM": 585.9782104492188
+          },
+          {
+            "time": "2026-11-02T00:00:00Z",
+            "elevationM": 585.9823608398438
+          },
+          {
+            "time": "2026-11-02T01:00:00Z",
+            "elevationM": 585.9843139648438
+          },
+          {
+            "time": "2026-11-02T02:00:00Z",
+            "elevationM": 585.9864501953125
+          },
+          {
+            "time": "2026-11-02T03:00:00Z",
+            "elevationM": 585.986572265625
+          },
+          {
+            "time": "2026-11-02T04:00:00Z",
+            "elevationM": 585.9857788085938
+          },
+          {
+            "time": "2026-11-02T05:00:00Z",
+            "elevationM": 585.9910278320312
+          },
+          {
+            "time": "2026-11-02T06:00:00Z",
+            "elevationM": 586.0164184570312
+          },
+          {
+            "time": "2026-11-02T07:00:00Z",
+            "elevationM": 586.06494140625
+          },
+          {
+            "time": "2026-11-02T08:00:00Z",
+            "elevationM": 586.1309814453125
+          },
+          {
+            "time": "2026-11-02T09:00:00Z",
+            "elevationM": 586.17333984375
+          },
+          {
+            "time": "2026-11-02T10:00:00Z",
+            "elevationM": 586.240966796875
+          },
+          {
+            "time": "2026-11-02T11:00:00Z",
+            "elevationM": 586.5657348632812
+          },
+          {
+            "time": "2026-11-02T12:00:00Z",
+            "elevationM": 586.7152709960938
+          }
+        ]
+      }
     },
     {
       "id": "bridge-3",
@@ -170,7 +264,101 @@
       "documentedHistory": [],
       "comparisonRule": "Only compare modeled absolute water elevation with site elevations after compatible vertical datum/units and location are established; gauge stage is not absolute deck elevation",
       "closureEvidence": [],
-      "defaultRiskPenalty": null
+      "defaultRiskPenalty": null,
+      "roadwayEstimate": {
+        "elevationM": 633.8,
+        "approachElevationsM": [
+          633.598,
+          633.953
+        ],
+        "verticalDatum": "NAVD88",
+        "status": "provisional_estimate",
+        "source": "https://github.com/Godfather38/FLOODplain/blob/c10fef1864a277882faaa88d201c70dc4173c8a2/tools/sfincs/data/road-dip-refinement/coverage-audit-v2/road-profiles.csv",
+        "method": "Straight roadway profile estimated between terrain-sampled approaches; exact approach points pending 1 m terrain crosscheck. Not surveyed deck or underside height."
+      },
+      "modelWater": {
+        "runId": "sfincs-current-coarse-20261101-19z-41350254061",
+        "issuedAt": "2026-11-01T21:09:28.696154+00:00",
+        "validFrom": "2026-11-01T22:00:00Z",
+        "validTo": "2026-11-02T12:00:00Z",
+        "verticalDatum": "NAVD88",
+        "quantity": "water_surface_elevation",
+        "units": "m",
+        "location": {
+          "type": "Point",
+          "coordinates": [
+            -111.14614,
+            32.40256
+          ]
+        },
+        "cellIndex": 6804,
+        "cellSizeM": 100,
+        "nativeMapSha256": "388b44ae4be9a47a4eda4cffab90ed48ebb6b55481fe23e57a41dc7585184f58",
+        "source": "current-sfincs-manifest.json",
+        "method": "Native zs in the unchanged 100 m model cell containing this bridge coordinate. Not gauge flow or cell-average depth. Bridge opening is not explicitly modeled.",
+        "frames": [
+          {
+            "time": "2026-11-01T22:00:00Z",
+            "elevationM": 627.6260375976562
+          },
+          {
+            "time": "2026-11-01T23:00:00Z",
+            "elevationM": 627.64599609375
+          },
+          {
+            "time": "2026-11-02T00:00:00Z",
+            "elevationM": 627.5784301757812
+          },
+          {
+            "time": "2026-11-02T01:00:00Z",
+            "elevationM": 627.4937744140625
+          },
+          {
+            "time": "2026-11-02T02:00:00Z",
+            "elevationM": 627.419189453125
+          },
+          {
+            "time": "2026-11-02T03:00:00Z",
+            "elevationM": 627.3483276367188
+          },
+          {
+            "time": "2026-11-02T04:00:00Z",
+            "elevationM": 627.2852172851562
+          },
+          {
+            "time": "2026-11-02T05:00:00Z",
+            "elevationM": 627.2379150390625
+          },
+          {
+            "time": "2026-11-02T06:00:00Z",
+            "elevationM": 627.1962890625
+          },
+          {
+            "time": "2026-11-02T07:00:00Z",
+            "elevationM": 627.1556396484375
+          },
+          {
+            "time": "2026-11-02T08:00:00Z",
+            "elevationM": 627.1238403320312
+          },
+          {
+            "time": "2026-11-02T09:00:00Z",
+            "elevationM": 627.103271484375
+          },
+          {
+            "time": "2026-11-02T10:00:00Z",
+            "elevationM": 627.081298828125
+          },
+          {
+            "time": "2026-11-02T11:00:00Z",
+            "elevationM": 627.062255859375
+          },
+          {
+            "time": "2026-11-02T12:00:00Z",
+            "elevationM": 627.0484008789062
+          }
+        ]
+      }
     }
   ],
   "policy": "Unknown measurements stay null; no generic bridge hazard multiplier",
