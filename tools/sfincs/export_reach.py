@@ -66,6 +66,16 @@ def export(root, target):
         residual=applied_in+rainfall_volume-net_out-float(volume[-1]-volume[0])
         relative=residual/max(applied_in+rainfall_volume,1)
         trico=q[:,names.index("trico_reach")]
+        section_coverage=None
+        if 'trico_full' in names:
+            selected=['trico_full','trico_reach','trico_south_tail','trico_north_tail','reach_x489000','reach_x485000','reach_x480000','reach_x475000']
+            section_coverage={}
+            for name in selected:
+                values=q[:,names.index(name)];peak=int(np.argmax(values))
+                section_coverage[name]={'peakM3s':float(values[peak]),'peakTime':history[peak].isoformat(),'integralM3':float(np.trapz(values,seconds))}
+            difference=q[:,names.index('trico_full')]-trico-q[:,names.index('trico_south_tail')]-q[:,names.index('trico_north_tail')]
+            section_coverage['maximumPartitionDifferenceM3s']=float(np.abs(difference).max())
+            section_coverage['fullSectionIsGaugeMeasurement']=False
         observed=json.loads(Path(target).read_text())["normalized"]
         if observed["siteId"]!="USGS-09486520" or observed["units"]!="m3/s":
             raise ValueError("Expected withheld Trico comparison observations")
@@ -83,7 +93,7 @@ def export(root, target):
                     "modelPeakM3s":float(trico[peak_index]),"modelPeakTime":history[peak_index].isoformat(),
                     "observedPeakM3s":float(ov[observed_index]),"observedPeakTime":ot[observed_index].isoformat(),
                     "caveat":"Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"}
-        checks={"completed":True,"subgridRoundoff":subgrid_roundoff,"maximumDepthM":float(depth.max()),"nativeMaximumDepthAboveCellMinimumM":native_max_depth,"depthDefinition":case.get("geometryIntegration",{}).get("depthDefinition","uniform computational-cell depth"),"initialStorageM3":float(volume[0]),
+        checks={"completed":True,"sectionCoverage":section_coverage,"subgridRoundoff":subgrid_roundoff,"maximumDepthM":float(depth.max()),"nativeMaximumDepthAboveCellMinimumM":native_max_depth,"depthDefinition":case.get("geometryIntegration",{}).get("depthDefinition","uniform computational-cell depth"),"initialStorageM3":float(volume[0]),
                 "finalStorageM3":float(volume[-1]),"nativeInflowIntegralM3":applied_in,
                 "nativeRainfallVolumeM3":rainfall_volume,"prescribedRainfallVolumeM3":case.get("rainfallVolumeM3"),
                 "prescribedInflowIntegralM3":case["prescribedInflowVolumeM3"],"nativeNetOutflowIntegralM3":net_out,

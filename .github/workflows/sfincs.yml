@@ -45,11 +45,18 @@ jobs:
           test -x engine-reused/sfincs
           ldd engine-reused/sfincs | tee engine-reused/current-runtime-libraries.txt
           ! grep -q 'not found' engine-reused/current-runtime-libraries.txt
-      - name: Run real reach with native fine-terrain geometry and published river outflow
+      - name: Retrieve unchanged prepared geometry case
+        uses: actions/download-artifact@v4
+        with:
+          name: sfincs-verification
+          path: reference-download
+          run-id: '41291800062'
+          github-token: ${{ github.token }}
+      - name: Measure complete Trico section and reach flow with unchanged physics
         run: |
-          python tools/sfincs/prepare_geometry.py runs/reach-geometry --terrain tools/sfincs/data/reach-terrain --upstream tools/sfincs/data/gauges/cortaro-benchmark-2014-09.json --forcing tools/sfincs/data/reach-stage4-2014-96h.json --fine-terrain tools/sfincs/data/reach-terrain-10m --rivers tools/sfincs/data/hand-river/cortaro-trico-flowpath.geojson
-          (cd runs/reach-geometry && timeout 600 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
-          python tools/sfincs/export_reach.py runs/reach-geometry --target tools/sfincs/data/gauges/trico-benchmark-2014-09.json
+          python tools/sfincs/prepare_sections.py reference-download/runs/reach-geometry runs/reach-section-check
+          (cd runs/reach-section-check && timeout 600 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
+          python tools/sfincs/export_reach.py runs/reach-section-check --target tools/sfincs/data/gauges/trico-benchmark-2014-09.json
           (cd engine-reused && sha256sum -c SHA256SUMS)
       - uses: actions/upload-artifact@v4
         if: always()
