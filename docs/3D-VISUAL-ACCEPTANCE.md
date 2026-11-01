@@ -31,7 +31,7 @@ Technical milestones were allowed to stand in for the full visual request while 
 
 See [UPGRADED-3D-INTEGRATION.md](UPGRADED-3D-INTEGRATION.md) for completed 57-frame binding, complete overview/phone terrain coverage, exact native values, lifecycle checks and measurements. The earlier compact binding and missing phone tiles are resolved in this isolated upgraded branch. Native frames visibly change and state persists. The historical 21-frame restriction below describes the earlier checkpoint, not the current completed package.
 
-The full visual checklist intentionally remains open: broad terrain is still gray, water subtle at overview scale, and physical-device/user visual acceptance is outstanding. Do not equate the successful integrated functional test with approval of the overall appearance.
+The full visual checklist intentionally remains open: water remains subtle at overview scale after correcting the gray terrain lighting, and physical-device/user visual acceptance is outstanding. Do not equate the successful integrated functional test with approval of the overall appearance.
 
 Parent authorized this owner to combine completed 3D and solver artifacts with existing safety app changes on the isolated upgraded branch. The dedicated 2D release branch remains untouched and independent.
 

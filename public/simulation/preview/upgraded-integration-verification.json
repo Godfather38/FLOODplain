@@ -42,7 +42,7 @@
     "http://127.0.0.1:8094/simulation/data/bridge-evidence-source.json",
     "http://127.0.0.1:8094/data/routes.geojson",
     "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/manifest.json",
-    "http://127.0.0.1:8094/icons/logo.svg",
+    "http://127.0.0.1:8094/simulation/data/current-sfincs-manifest.json",
     "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?hit=1&new=1",
     "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=usgs",
     "https://services2.arcgis.com/UTBp78iglGpbqp1B/arcgis/rest/services/Road_Closures_viewPAG/FeatureServer/0/query?where=1%3D1&outFields=Location%2CStatus%2CtimeUpdated&returnGeometry=true&outSR=4326&f=json&geometry=-111.31426%2C32.224000000000004%2C-110.97614%2C32.46369&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects",
@@ -63,20 +63,18 @@
     "https://tile.openstreetmap.org/13/1567/3314.png",
     "https://tile.openstreetmap.org/13/1563/3316.png",
     "https://tile.openstreetmap.org/13/1567/3316.png",
-    "http://127.0.0.1:8094/simulation/data/current-sfincs-manifest.json",
+    "http://127.0.0.1:8094/icons/logo.svg",
     "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/geometry.bin.gz",
     "http://127.0.0.1:8094/icons/icon-192.png",
     "http://127.0.0.1:8094/simulation/geographic-view.js",
     "http://127.0.0.1:8094/simulation/geographic-view-observed.js",
     "http://127.0.0.1:8094/simulation/renderer-chunks/chunk-3TDQH4E2.js",
-    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnT3Qbt3JQOvNXZ2tlxVjrmlK_X88k9C0jYhrR-XrLiFlPxJmFpC343RAqa8BTje3tGX3OX2ULrPGC-9LZ5Z_qmfZNHO-u84xv9iBvpILD1ejzNtOor4ZopN0A9xZ1BHxzhShWQlDsh2zYvnFMNiU6whUQltN2718xRwk_RsIDxkR7jao4uEfm5bQzMAxnJbKslOIa4z75sb-1yn2euIjiCMH_azHGGAhDBsyL2J6ddKGQzh7UZktbF3fjdp9RxBhA5UObd_DfxShKklALuZu3jMcSIt1WLJ48ynEJBN&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
     "http://127.0.0.1:8094/simulation/geographic-view.css",
     "https://tiles.openfreemap.org/planet",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/781/1656.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1656.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1656.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/784/1656.pbf",
-    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnTkUDxJ0WdjcGtVtzKkG4mAzK56WytZaZUKzAa68CkxTlttBIZdlOHI3jAO8Dapnx1Y7QHbS1U1dAPBgLNV9R1HK7OiszXLHHSjG_PxVxrdeaECWtvMm_QfcCMrvRG1ua37KO9Un3Wax3BSW6MwJro_cJMr31oZDoEFiFymR31vcBYzHN-w1a2Xa0MKWzD1vRUztIJDxhopsfyAzGstPBcKZo3izGzuYrP5STtR_Y8M-BwvfbP9uMBu43dcycc12Y78uQtC7lypdORqKLaofeipwFOWuJ_u54SQsiHg&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/781/1657.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/782/1657.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1657.pbf",
@@ -86,9 +84,24 @@
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/783/1658.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/12/784/1658.pbf",
     "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-20.bin.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-sfincs-publication.json",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-0.bin.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-56.bin.gz",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRUehLJnPC6ICOot1IKqHhl658g1H0rQpnDL3U3PhRRkTGT-hE35_cuDTPokU9seStnN1ArZWpOI2arXzNBb5aQKldBJYo2_miu8fxkost1rH8Kk2rxtJvBJxlerMEgGs2sclnfXnQPty6D120fqmSnI_-iA4qC4BAgDXHiAbc7D2CkOPb-YTC8JJnWI_s_qkEx_xB_pdcdPXQxrVvkoa3EQSqbkEgo5PqlwI8Nh0G9PwXqiZ6FAO9UFb85Unt3AoH_VNDA-QYDhvcIhO_OOcToZwBZXtRS4HWDm0GH&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
+    "http://127.0.0.1:8094/simulation/renderer-chunks/geographic-3d-runtime-B3TM5TO7.js",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-index-overview.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-water-support.json.gz",
+    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-overview-100m.json.gz",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/389/827.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/390/827.pbf",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnTy1kF1RHDqxXPsZgw6a_fs2D79r8BBA5YiJDGOob9dk9j16X2KCXzLIWiII2iTBN1QzTKk-VWZYQcFczCjobPfQz9G3t-t6WRod1G2Z82c0ylD0e2eIyhyILptZF9mjWtG1G0sV6fnTbspL4xlpK2VDdUm8UqVWMlXJCYBxulP6-mDACwtsmrgaA1kqlBf0kYgdNxwnrBOw9bzHquDASRdwT589TU-1QSfh3AVZ8DMK_eYpFVFa4Ow7O0rU6AA9NHwe50EaDX1Db24KhPipEQ4OT2-01dtC17_pYeB&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
+    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnSl0HlzkbISYDGTVyQENJDCmwZXfg4FiVMMol8wZyKviT__v74NkoOCy6YsnkQS2WzWimtDMP1hZtKW3Qj9MfH-eGtM-QnG9NGP9Q_7Q8b_7E5wcx_7tD3o-DfpS-eTXKyozwZcjaxhVF5cDYoViBgQwUKhatXEc2I0FdmnD7oA2VQkjxElr-GJalrJWfqtRligfnr9yM4nThegDegXxdWyOeKMt8uXEOJQlptUqEDAMFQqHdUsPJ0KlOtca0UtoSCoVHVGIj7JI0wA4apNjOE9qnbAn8QZRLko80v_&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/391/827.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/392/827.pbf",
     "http://127.0.0.1:8094/simulation/data/current-sfincs-manifest.json",
     "http://127.0.0.1:8094/hand-model.js?v=dev",
-    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-20.bin.gz",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/389/828.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/390/828.pbf",
     "http://127.0.0.1:8094/inundation/data/coverage.json",
     "https://api.water.noaa.gov/nwps/v1/reaches/945050510/streamflow?series=short_range",
     "https://api.water.noaa.gov/nwps/v1/reaches/15877577/streamflow?series=short_range",
@@ -101,20 +114,6 @@
     "https://api.water.noaa.gov/nwps/v1/reaches/15902363/streamflow?series=short_range",
     "https://api.water.noaa.gov/nwps/v1/reaches/15877613/streamflow?series=short_range",
     "https://api.water.noaa.gov/nwps/v1/reaches/15904697/streamflow?series=short_range",
-    "http://127.0.0.1:8094/simulation/data/refined-sfincs-publication.json",
-    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-0.bin.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-full-compact-41344983607/frame-56.bin.gz",
-    "http://127.0.0.1:8094/simulation/renderer-chunks/geographic-3d-runtime-YEGS6ZHD.js",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-index-overview.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-water-support.json.gz",
-    "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-overview-100m.json.gz",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/389/827.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/390/827.pbf",
-    "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRN49fJJP4-foZrDUfi2g3_RbZKaQky_CldRFu8zju-UC835eUksJh8hOh2rRxijLbO6cofP9k_2p4zNc-cP4PG-tuO8YxYF4QuzObnrXn3WBSRrZbjj29_SFfF1S2EbPZ189iUQEg3AaA1VV4GCQZEcFK2SZzWCa4jvme0Z32GPrM2qQ4BjEovBH-pY3RD1P_Gz0iukP6nxZB7IPxTIs8TvVTYx-UdGrb36Fgsh443oBBqg5tkkpdl5xeesbEL_LOBs9miT99jZTC_DKbOGDDs8A393DTr_musVR5-&lib=M1J2ZokQc7QkphC8CSZvdC3aLB8sRupBQ",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/391/827.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/392/827.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/389/828.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/390/828.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/391/828.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/392/828.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/11/389/829.pbf",
@@ -157,7 +156,8 @@
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/99/206.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/96/207.pbf",
     "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/97/207.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/9/98/207.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/8/48/102.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/8/49/102.pbf",
     "https://tile.openstreetmap.org/18/50134/106108.png",
     "https://tile.openstreetmap.org/18/50135/106108.png",
     "https://tile.openstreetmap.org/18/50134/106109.png",
@@ -187,11 +187,11 @@
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7169-lod0.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7170-lod0.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-970-7171-lod0.json.gz",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3132/6632.pbf",
+    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3133/6632.pbf",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7169-lod1.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7170-lod1.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-971-7171-lod1.json.gz",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3132/6632.pbf",
-    "https://tiles.openfreemap.org/planet/20261025_080012_pt/14/3133/6632.pbf",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7169-lod0.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7170-lod0.json.gz",
     "http://127.0.0.1:8094/simulation/data/refined-partial-41339621278/terrain-tile-972-7171-lod0.json.gz",
@@ -313,16 +313,16 @@
     {
       "label": "cold flat",
       "raw": {
-        "usedSize": 224874016,
-        "totalSize": 289345536,
-        "embedderHeapUsedSize": 5100024,
-        "backingStorageSize": 87525154
+        "usedSize": 215412668,
+        "totalSize": 271638528,
+        "embedderHeapUsedSize": 3501096,
+        "backingStorageSize": 87349181
       },
       "collected": {
-        "usedSize": 135840496,
-        "totalSize": 136945664,
-        "embedderHeapUsedSize": 2890744,
-        "backingStorageSize": 17959491
+        "usedSize": 134382204,
+        "totalSize": 135372800,
+        "embedderHeapUsedSize": 2293448,
+        "backingStorageSize": 17933586
       },
       "view": "flat",
       "state": {
@@ -332,14 +332,14 @@
           "end": 56
         },
         "requested": {
-          "requestId": 2,
+          "requestId": 1,
           "model": "2d",
           "index": 20,
           "view": "flat",
           "time": "2026-11-01T22:00:00Z"
         },
         "displayed": {
-          "requestId": 2,
+          "requestId": 1,
           "model": "2d",
           "index": 20,
           "view": "flat",
@@ -402,16 +402,16 @@
     {
       "label": "initial broad 3D",
       "raw": {
-        "usedSize": 344254624,
-        "totalSize": 405004288,
-        "embedderHeapUsedSize": 8064960,
-        "backingStorageSize": 161795424
+        "usedSize": 322668456,
+        "totalSize": 371073024,
+        "embedderHeapUsedSize": 5873664,
+        "backingStorageSize": 147082360
       },
       "collected": {
-        "usedSize": 190410188,
-        "totalSize": 191610880,
-        "embedderHeapUsedSize": 2716856,
-        "backingStorageSize": 51764524
+        "usedSize": 207954876,
+        "totalSize": 218349568,
+        "embedderHeapUsedSize": 4086240,
+        "backingStorageSize": 52254780
       },
       "view": "3d",
       "state": {
@@ -439,15 +439,15 @@
         "error": null,
         "viewport": {
           "center": [
-            -111.2177822,
-            32.42656378
+            -111.2178123,
+            32.42659776
           ],
           "zoom": 13.25,
           "bounds": [
-            -111.313912569426,
-            32.38027580708561,
-            -111.1216518272385,
-            32.47282801510904
+            -111.31394267109374,
+            32.38030979804597,
+            -111.12168192890624,
+            32.4728619712065
           ]
         },
         "selection": null
@@ -474,10 +474,10 @@
         "cachedTriangles": 0,
         "levels": [],
         "timings": {
-          "indexMs": 1202.199999988079,
+          "indexMs": 1188.6000000238419,
           "tilesMs": 0,
           "mergeMs": 0,
-          "totalMs": 1204.199999988079,
+          "totalMs": 1190.300000011921,
           "reused": true
         },
         "terrainKind": "native_face_water_support"
@@ -527,23 +527,23 @@
       "frame": "2026-11-01T22:00:00Z",
       "selected": null,
       "center": {
-        "x": -111.2177822,
-        "y": 32.42656378
+        "x": -111.2178123,
+        "y": 32.42659776
       }
     },
     {
       "label": "full domain fit",
       "raw": {
-        "usedSize": 363459724,
-        "totalSize": 421933056,
-        "embedderHeapUsedSize": 4622352,
-        "backingStorageSize": 87972183
+        "usedSize": 377423760,
+        "totalSize": 441352192,
+        "embedderHeapUsedSize": 5771376,
+        "backingStorageSize": 87972851
       },
       "collected": {
-        "usedSize": 197092772,
-        "totalSize": 198418432,
-        "embedderHeapUsedSize": 3038424,
-        "backingStorageSize": 47360883
+        "usedSize": 197091200,
+        "totalSize": 198680576,
+        "embedderHeapUsedSize": 3312384,
+        "backingStorageSize": 47458963
       },
       "view": "3d",
       "state": {
@@ -606,10 +606,10 @@
         "cachedTriangles": 0,
         "levels": [],
         "timings": {
-          "indexMs": 1945.800000011921,
-          "tilesMs": 32.5,
+          "indexMs": 2399.099999964237,
+          "tilesMs": 39.69999998807907,
           "mergeMs": 0,
-          "totalMs": 1981.3999999761581,
+          "totalMs": 2441.099999964237,
           "reused": false
         },
         "terrainKind": "native_face_water_support"
@@ -666,16 +666,16 @@
     {
       "label": "native close",
       "raw": {
-        "usedSize": 325060516,
-        "totalSize": 392331264,
-        "embedderHeapUsedSize": 4949680,
-        "backingStorageSize": 88483584
+        "usedSize": 311827480,
+        "totalSize": 379244544,
+        "embedderHeapUsedSize": 4802424,
+        "backingStorageSize": 103452052
       },
       "collected": {
-        "usedSize": 225463348,
-        "totalSize": 229302272,
-        "embedderHeapUsedSize": 2853320,
-        "backingStorageSize": 44725019
+        "usedSize": 225614884,
+        "totalSize": 229040128,
+        "embedderHeapUsedSize": 2852848,
+        "backingStorageSize": 44725286
       },
       "view": "3d",
       "state": {
@@ -749,10 +749,10 @@
           0
         ],
         "timings": {
-          "indexMs": 136.30000001192093,
-          "tilesMs": 257.89999997615814,
-          "mergeMs": 49.40000003576279,
-          "totalMs": 444.30000001192093,
+          "indexMs": 149,
+          "tilesMs": 248.70000004768372,
+          "mergeMs": 23.899999976158142,
+          "totalMs": 424.5,
           "reused": false
         },
         "overviewMode": false,
@@ -810,16 +810,16 @@
     {
       "label": "pan 0.004",
       "raw": {
-        "usedSize": 290403564,
-        "totalSize": 349306880,
-        "embedderHeapUsedSize": 3159352,
-        "backingStorageSize": 51882154
+        "usedSize": 281269848,
+        "totalSize": 351326208,
+        "embedderHeapUsedSize": 3204032,
+        "backingStorageSize": 51882277
       },
       "collected": {
-        "usedSize": 220785940,
-        "totalSize": 224407552,
-        "embedderHeapUsedSize": 2858072,
-        "backingStorageSize": 39339547
+        "usedSize": 219540728,
+        "totalSize": 221786112,
+        "embedderHeapUsedSize": 2681824,
+        "backingStorageSize": 39339814
       },
       "view": "3d",
       "state": {
@@ -893,10 +893,10 @@
           1
         ],
         "timings": {
-          "indexMs": 229.80000001192093,
-          "tilesMs": 264.60000002384186,
-          "mergeMs": 20.899999976158142,
-          "totalMs": 515.5,
+          "indexMs": 157.5,
+          "tilesMs": 83.19999998807907,
+          "mergeMs": 82.10000002384186,
+          "totalMs": 323.10000002384186,
           "reused": false
         },
         "overviewMode": false,
@@ -954,16 +954,16 @@
     {
       "label": "pan -0.004",
       "raw": {
-        "usedSize": 316861604,
-        "totalSize": 385253376,
-        "embedderHeapUsedSize": 3492048,
-        "backingStorageSize": 79109577
+        "usedSize": 317785100,
+        "totalSize": 379006976,
+        "embedderHeapUsedSize": 3489104,
+        "backingStorageSize": 79109700
       },
       "collected": {
-        "usedSize": 230346616,
-        "totalSize": 233304064,
-        "embedderHeapUsedSize": 2898672,
-        "backingStorageSize": 42945583
+        "usedSize": 229129188,
+        "totalSize": 231731200,
+        "embedderHeapUsedSize": 2728984,
+        "backingStorageSize": 42945850
       },
       "view": "3d",
       "state": {
@@ -1037,10 +1037,10 @@
           0
         ],
         "timings": {
-          "indexMs": 300.19999998807907,
-          "tilesMs": 121.89999997615814,
-          "mergeMs": 15.800000011920929,
-          "totalMs": 438,
+          "indexMs": 254.89999997615814,
+          "tilesMs": 152.9000000357628,
+          "mergeMs": 13.300000011920929,
+          "totalMs": 421.30000001192093,
           "reused": false
         },
         "overviewMode": false,
@@ -1098,16 +1098,16 @@
     {
       "label": "pan 0",
       "raw": {
-        "usedSize": 332896312,
-        "totalSize": 396865536,
-        "embedderHeapUsedSize": 3274216,
-        "backingStorageSize": 69351044
+        "usedSize": 334036236,
+        "totalSize": 390746112,
+        "embedderHeapUsedSize": 3216432,
+        "backingStorageSize": 69351167
       },
       "collected": {
-        "usedSize": 231331688,
-        "totalSize": 233766912,
-        "embedderHeapUsedSize": 2885144,
-        "backingStorageSize": 44701447
+        "usedSize": 230253244,
+        "totalSize": 232980480,
+        "embedderHeapUsedSize": 2849648,
+        "backingStorageSize": 44701714
       },
       "view": "3d",
       "state": {
@@ -1181,10 +1181,10 @@
           0
         ],
         "timings": {
-          "indexMs": 260.30000001192093,
-          "tilesMs": 89.90000003576279,
-          "mergeMs": 29.399999976158142,
-          "totalMs": 380,
+          "indexMs": 223.4000000357628,
+          "tilesMs": 136.60000002384186,
+          "mergeMs": 24.299999952316284,
+          "totalMs": 384.5,
           "reused": false
         },
         "overviewMode": false,
@@ -1242,16 +1242,16 @@
     {
       "label": "phone DPR3",
       "raw": {
-        "usedSize": 261070768,
-        "totalSize": 336486400,
-        "embedderHeapUsedSize": 3284864,
-        "backingStorageSize": 49441522
+        "usedSize": 265094444,
+        "totalSize": 342695936,
+        "embedderHeapUsedSize": 3347760,
+        "backingStorageSize": 49441645
       },
       "collected": {
-        "usedSize": 201859744,
+        "usedSize": 201854620,
         "totalSize": 204795904,
-        "embedderHeapUsedSize": 2881368,
-        "backingStorageSize": 35068268
+        "embedderHeapUsedSize": 2890952,
+        "backingStorageSize": 35068535
       },
       "view": "3d",
       "state": {
@@ -1319,10 +1319,10 @@
           1
         ],
         "timings": {
-          "indexMs": 212.0999999642372,
-          "tilesMs": 26.100000023841858,
-          "mergeMs": 12.599999964237213,
-          "totalMs": 250.89999997615814,
+          "indexMs": 168,
+          "tilesMs": 20.19999998807907,
+          "mergeMs": 10.199999988079071,
+          "totalMs": 198.39999997615814,
           "reused": false
         },
         "overviewMode": false,
@@ -1380,16 +1380,16 @@
     {
       "label": "returned flat",
       "raw": {
-        "usedSize": 203957164,
+        "usedSize": 204102032,
         "totalSize": 208728064,
-        "embedderHeapUsedSize": 5030280,
-        "backingStorageSize": 35070019
+        "embedderHeapUsedSize": 5022544,
+        "backingStorageSize": 35070286
       },
       "collected": {
-        "usedSize": 202689184,
+        "usedSize": 202661308,
         "totalSize": 204009472,
-        "embedderHeapUsedSize": 3399240,
-        "backingStorageSize": 35068397
+        "embedderHeapUsedSize": 3384248,
+        "backingStorageSize": 35068664
       },
       "view": "flat",
       "state": {
@@ -1457,10 +1457,10 @@
           1
         ],
         "timings": {
-          "indexMs": 212.0999999642372,
-          "tilesMs": 26.100000023841858,
-          "mergeMs": 12.599999964237213,
-          "totalMs": 250.89999997615814,
+          "indexMs": 168,
+          "tilesMs": 20.19999998807907,
+          "mergeMs": 10.199999988079071,
+          "totalMs": 198.39999997615814,
           "reused": false
         },
         "overviewMode": false,
@@ -1517,24 +1517,24 @@
     }
   ],
   "timings": {
-    "coldReadyMs": 2003,
-    "entryMs": 3495,
-    "frame0Ms": 974,
-    "frame56Ms": 951
+    "coldReadyMs": 2179,
+    "entryMs": 2931,
+    "frame0Ms": 998,
+    "frame56Ms": 726
   },
   "cold": {
     "label": "cold flat",
     "raw": {
-      "usedSize": 224874016,
-      "totalSize": 289345536,
-      "embedderHeapUsedSize": 5100024,
-      "backingStorageSize": 87525154
+      "usedSize": 215412668,
+      "totalSize": 271638528,
+      "embedderHeapUsedSize": 3501096,
+      "backingStorageSize": 87349181
     },
     "collected": {
-      "usedSize": 135840496,
-      "totalSize": 136945664,
-      "embedderHeapUsedSize": 2890744,
-      "backingStorageSize": 17959491
+      "usedSize": 134382204,
+      "totalSize": 135372800,
+      "embedderHeapUsedSize": 2293448,
+      "backingStorageSize": 17933586
     },
     "view": "flat",
     "state": {
@@ -1544,14 +1544,14 @@
         "end": 56
       },
       "requested": {
-        "requestId": 2,
+        "requestId": 1,
         "model": "2d",
         "index": 20,
         "view": "flat",
         "time": "2026-11-01T22:00:00Z"
       },
       "displayed": {
-        "requestId": 2,
+        "requestId": 1,
         "model": "2d",
         "index": 20,
         "view": "flat",
@@ -1647,16 +1647,16 @@
   "broad": {
     "label": "initial broad 3D",
     "raw": {
-      "usedSize": 344254624,
-      "totalSize": 405004288,
-      "embedderHeapUsedSize": 8064960,
-      "backingStorageSize": 161795424
+      "usedSize": 322668456,
+      "totalSize": 371073024,
+      "embedderHeapUsedSize": 5873664,
+      "backingStorageSize": 147082360
     },
     "collected": {
-      "usedSize": 190410188,
-      "totalSize": 191610880,
-      "embedderHeapUsedSize": 2716856,
-      "backingStorageSize": 51764524
+      "usedSize": 207954876,
+      "totalSize": 218349568,
+      "embedderHeapUsedSize": 4086240,
+      "backingStorageSize": 52254780
     },
     "view": "3d",
     "state": {
@@ -1684,15 +1684,15 @@
       "error": null,
       "viewport": {
         "center": [
-          -111.2177822,
-          32.42656378
+          -111.2178123,
+          32.42659776
         ],
         "zoom": 13.25,
         "bounds": [
-          -111.313912569426,
-          32.38027580708561,
-          -111.1216518272385,
-          32.47282801510904
+          -111.31394267109374,
+          32.38030979804597,
+          -111.12168192890624,
+          32.4728619712065
         ]
       },
       "selection": null
@@ -1719,10 +1719,10 @@
       "cachedTriangles": 0,
       "levels": [],
       "timings": {
-        "indexMs": 1202.199999988079,
+        "indexMs": 1188.6000000238419,
         "tilesMs": 0,
         "mergeMs": 0,
-        "totalMs": 1204.199999988079,
+        "totalMs": 1190.300000011921,
         "reused": true
       },
       "terrainKind": "native_face_water_support"
@@ -1772,23 +1772,23 @@
     "frame": "2026-11-01T22:00:00Z",
     "selected": null,
     "center": {
-      "x": -111.2177822,
-      "y": 32.42656378
+      "x": -111.2178123,
+      "y": 32.42659776
     }
   },
   "fullDomain": {
     "label": "full domain fit",
     "raw": {
-      "usedSize": 363459724,
-      "totalSize": 421933056,
-      "embedderHeapUsedSize": 4622352,
-      "backingStorageSize": 87972183
+      "usedSize": 377423760,
+      "totalSize": 441352192,
+      "embedderHeapUsedSize": 5771376,
+      "backingStorageSize": 87972851
     },
     "collected": {
-      "usedSize": 197092772,
-      "totalSize": 198418432,
-      "embedderHeapUsedSize": 3038424,
-      "backingStorageSize": 47360883
+      "usedSize": 197091200,
+      "totalSize": 198680576,
+      "embedderHeapUsedSize": 3312384,
+      "backingStorageSize": 47458963
     },
     "view": "3d",
     "state": {
@@ -1851,10 +1851,10 @@
       "cachedTriangles": 0,
       "levels": [],
       "timings": {
-        "indexMs": 1945.800000011921,
-        "tilesMs": 32.5,
+        "indexMs": 2399.099999964237,
+        "tilesMs": 39.69999998807907,
         "mergeMs": 0,
-        "totalMs": 1981.3999999761581,
+        "totalMs": 2441.099999964237,
         "reused": false
       },
       "terrainKind": "native_face_water_support"
@@ -1939,16 +1939,16 @@
   "near": {
     "label": "native close",
     "raw": {
-      "usedSize": 325060516,
-      "totalSize": 392331264,
-      "embedderHeapUsedSize": 4949680,
-      "backingStorageSize": 88483584
+      "usedSize": 311827480,
+      "totalSize": 379244544,
+      "embedderHeapUsedSize": 4802424,
+      "backingStorageSize": 103452052
     },
     "collected": {
-      "usedSize": 225463348,
-      "totalSize": 229302272,
-      "embedderHeapUsedSize": 2853320,
-      "backingStorageSize": 44725019
+      "usedSize": 225614884,
+      "totalSize": 229040128,
+      "embedderHeapUsedSize": 2852848,
+      "backingStorageSize": 44725286
     },
     "view": "3d",
     "state": {
@@ -2022,10 +2022,10 @@
         0
       ],
       "timings": {
-        "indexMs": 136.30000001192093,
-        "tilesMs": 257.89999997615814,
-        "mergeMs": 49.40000003576279,
-        "totalMs": 444.30000001192093,
+        "indexMs": 149,
+        "tilesMs": 248.70000004768372,
+        "mergeMs": 23.899999976158142,
+        "totalMs": 424.5,
         "reused": false
       },
       "overviewMode": false,
@@ -2083,16 +2083,16 @@
   "phone": {
     "label": "phone DPR3",
     "raw": {
-      "usedSize": 261070768,
-      "totalSize": 336486400,
-      "embedderHeapUsedSize": 3284864,
-      "backingStorageSize": 49441522
+      "usedSize": 265094444,
+      "totalSize": 342695936,
+      "embedderHeapUsedSize": 3347760,
+      "backingStorageSize": 49441645
     },
     "collected": {
-      "usedSize": 201859744,
+      "usedSize": 201854620,
       "totalSize": 204795904,
-      "embedderHeapUsedSize": 2881368,
-      "backingStorageSize": 35068268
+      "embedderHeapUsedSize": 2890952,
+      "backingStorageSize": 35068535
     },
     "view": "3d",
     "state": {
@@ -2160,10 +2160,10 @@
         1
       ],
       "timings": {
-        "indexMs": 212.0999999642372,
-        "tilesMs": 26.100000023841858,
-        "mergeMs": 12.599999964237213,
-        "totalMs": 250.89999997615814,
+        "indexMs": 168,
+        "tilesMs": 20.19999998807907,
+        "mergeMs": 10.199999988079071,
+        "totalMs": 198.39999997615814,
         "reused": false
       },
       "overviewMode": false,
@@ -2221,16 +2221,16 @@
   "flat": {
     "label": "returned flat",
     "raw": {
-      "usedSize": 203957164,
+      "usedSize": 204102032,
       "totalSize": 208728064,
-      "embedderHeapUsedSize": 5030280,
-      "backingStorageSize": 35070019
+      "embedderHeapUsedSize": 5022544,
+      "backingStorageSize": 35070286
     },
     "collected": {
-      "usedSize": 202689184,
+      "usedSize": 202661308,
       "totalSize": 204009472,
-      "embedderHeapUsedSize": 3399240,
-      "backingStorageSize": 35068397
+      "embedderHeapUsedSize": 3384248,
+      "backingStorageSize": 35068664
     },
     "view": "flat",
     "state": {
@@ -2298,10 +2298,10 @@
         1
       ],
       "timings": {
-        "indexMs": 212.0999999642372,
-        "tilesMs": 26.100000023841858,
-        "mergeMs": 12.599999964237213,
-        "totalMs": 250.89999997615814,
+        "indexMs": 168,
+        "tilesMs": 20.19999998807907,
+        "mergeMs": 10.199999988079071,
+        "totalMs": 198.39999997615814,
         "reused": false
       },
       "overviewMode": false,
@@ -2357,7 +2357,7 @@
     }
   },
   "safety": {
-    "text": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\nTrico-Marana river bridge: 4,350 cfs at Santa Cruz River at Cortaro Rd: elevated river discharge; water reaching this bridge or its approaches is not established.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n4\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,482 cfs in Brawley Wash at Milewide Road: a flood is coming down the wash toward this crossing\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
+    "text": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\nTrico-Marana river bridge: 5,450 cfs at Santa Cruz River at Cortaro Rd: elevated river discharge; water reaching this bridge or its approaches is not established.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n4\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,482 cfs in Brawley Wash at Milewide Road: a flood is coming down the wash toward this crossing\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
     "links": [
       {
         "text": "Details",
@@ -2424,7 +2424,7 @@
         "href": "#/privacy"
       }
     ],
-    "underpasses": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\nTrico-Marana river bridge: 4,350 cfs at Santa Cruz River at Cortaro Rd: elevated river discharge; water reaching this bridge or its approaches is not established.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n4\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,482 cfs in Brawley Wash at Milewide Road: a flood is coming down the wash toward this crossing\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
+    "underpasses": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\nAvra Valley\nPicture Rocks\n\nBest route right now\n\nTrico-Marana\n2\nMinor\n\n10 min · Trico Rd · Trico-Marana Rd · Marana Rd\n\n😇\n\nCounty barricades on it are marked Open.\n\nLos Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\nTrico-Marana river bridge: 5,450 cfs at Santa Cruz River at Cortaro Rd: elevated river discharge; water reaching this bridge or its approaches is not established.\nNavigate\nDetails\nTrico & El Tiro\nMarana exit (I-10)\nAvra Valley exit (I-10)\n5\n4\n4\n2\n2\n2\n2\n2\n© OpenStreetMap\nOpen map\nYour saved routes\n\nOpen a route and choose Save route to keep it here for this area.\n\nSaved on this browser. Ratings still use the current check.\n\nOther routes\n2\nSilverbell–Sanders north\n17 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n2\nSilverbell–Sanders south\n20 min · Los Robles bridge: 1,482 cfs in Brawley Wash at Milewide Road: bridge clearance is not established from this reading\n›\n5\nAvra Valley Rd\n20 min · Brawley Wash dip: 1,482 cfs in Brawley Wash at Milewide Road: a flood is coming down the wash toward this crossing\n›\nMore\n🔔\nAlerts\nGet this sent to your phone at a time you pick\n›\n✍️\nHelp fill the gaps\nTell us what a crossing is really like in the rain\n›\n🛣️\nI-10 underpasses\nMarana, Orange Grove, Grant, Speedway\n›\n❓\nHow to read this\n›\n📝\nWhat's new\n›\n⚙️\nSettings\n›\nℹ️\nSources\n›\n🔒\nPrivacy & terms\n›\n\nA guide built from public data, not a safety guarantee. Water over the road: turn around.",
     "bridge": [
       "Sanders Rd river bridge: height & historyRoadway heightNo site-linked estimate available.Water elevation comparisonRoadway elevation estimate is missing.Under-bridge clearanceUnderside elevation is unavailable. Roadway height is not underside height; gauge flow in cfs is not water elevation.Documented flooding or overtoppingNo confirmed structure-specific flooding history linked. This does not mean it has never flooded.Current readings and official barricade reports are shown below. Existing flow thresholds are warning indicators, not a measured bridge-clearance calculation."
     ]

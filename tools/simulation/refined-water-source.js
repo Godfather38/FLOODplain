@@ -102,10 +102,13 @@ export function createRefinedWater({loaded,geometry,terrain,project,altitude,ori
   const vertices=ground.vertices.map(p=>{const v=project(p.slice(0,2)).sub(origin);return [v.x,v.y,p[2],keyFor(p[0],p[1])];});
   const group=new THREE.Group();group.position.copy(origin);
   const atlas={terrainAtlas:{value:null},atlasBounds:{value:new THREE.Vector4()},atlasReady:{value:0}};
-  const landMaterial=new THREE.MeshLambertMaterial({color:'#ffffff',side:THREE.DoubleSide});
-  landMaterial.onBeforeCompile=s=>{Object.assign(s.uniforms,atlas);s.vertexShader='varying vec2 terrainXY;\n'+s.vertexShader;s.vertexShader=s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nterrainXY=position.xy;');s.fragmentShader='uniform sampler2D terrainAtlas;uniform vec4 atlasBounds;uniform float atlasReady;varying vec2 terrainXY;\n'+s.fragmentShader;s.fragmentShader=s.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
+  // Preserve the vector map's readable colors with restrained cartographic relief.
+  // Full Lambert lighting made the entire model domain a dark gray silhouette.
+  const landMaterial=new THREE.MeshBasicMaterial({color:'#ffffff',side:THREE.DoubleSide});
+  landMaterial.onBeforeCompile=s=>{Object.assign(s.uniforms,atlas);s.vertexShader='varying vec2 terrainXY;varying vec3 terrainNormal;\n'+s.vertexShader;s.vertexShader=s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nterrainXY=position.xy;terrainNormal=normal;');s.fragmentShader='uniform sampler2D terrainAtlas;uniform vec4 atlasBounds;uniform float atlasReady;varying vec2 terrainXY;varying vec3 terrainNormal;\n'+s.fragmentShader;s.fragmentShader=s.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
     vec2 tex=(terrainXY-atlasBounds.xy)/atlasBounds.zw;
-    if(atlasReady>.5&&all(greaterThanEqual(tex,vec2(0.)))&&all(lessThanEqual(tex,vec2(1.))))diffuseColor.rgb=texture2D(terrainAtlas,tex).rgb;else diffuseColor.rgb=vec3(.82,.83,.79);`);};
+    if(atlasReady>.5&&all(greaterThanEqual(tex,vec2(0.)))&&all(lessThanEqual(tex,vec2(1.))))diffuseColor.rgb=texture2D(terrainAtlas,tex).rgb;else diffuseColor.rgb=vec3(.85,.85,.80);
+    diffuseColor.rgb*=.82+.18*max(0.,dot(normalize(terrainNormal),normalize(vec3(-.4,.65,1.))));`);};
   const land=new THREE.Mesh(new THREE.BufferGeometry(),landMaterial);
   const metricUnit=Math.abs(altitude(1)-altitude(0));
   const waterMaterial=new THREE.ShaderMaterial({transparent:true,depthWrite:true,side:THREE.DoubleSide,vertexColors:true,
