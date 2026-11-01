@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <!-- =========================
+       Identification Information
+       ========================= -->
+  <idinfo>
+    <citation>
+      <citeinfo>
+        <origin>Abdullah Azzam</origin>
+        <origin>Abdul Raheem Siddiqui</origin>
+        <origin>Su Zhang</origin>
+        <origin>Huidae Cho</origin>
+        <pubdate>20261013</pubdate> <!-- update to YYYYMMDD on official release -->
+        <title>GCN10 -- Global 10 m Curve Number Dataset</title>
+        <geoform>raster digital data</geoform>
+        <onlink>https://hydro.nmsu.edu/datasets/gcn10/</onlink>
+      </citeinfo>
+    </citation>
+
+    <descript>
+      <abstract>GCN10 is a global 10 m resolution Curve Number (CN) dataset constructed by combining ESA WorldCover 2021 land cover with HYSOGs250m hydrologic soil groups under USDA NRCS SCS-CN guidance. The product provides 18 Cloud Optimized GeoTIFF raster tile sets, each tile encoded as an unsigned 8-bit integer CN value (0–100; NoData = 255), covering all combinations of three hydrologic conditions (poor, fair, good), three antecedent runoff conditions (ARC I, ARC II, ARC III), and two soil drainage regimes (drained and undrained interpretations of dual A/D, B/D, C/D soil groups). All rasters preserve the native ESA WorldCover 2021 grid in EPSG:4326, apply explicit rules for special classes (open water CN=100; permanent snow and ice CN=0; mangroves set to NoData), and implement a documented lookup and quality-control procedure using deterministic tiled processing, NRCS ARC conversion formulas, monotonic wetness relationships, and checks on CN ranges, masking, grid alignment, and tile seams. GCN10 is designed to support SCS-CN based runoff estimation, flood screening, hydrologic and hydraulic modeling, recharge and land management assessments, and sensitivity and scenario analyses that require globally consistent, high-resolution CN fields.</abstract>
+
+      <purpose>The purpose of GCN10 is to provide a globally consistent, openly documented Curve Number dataset at 10 m resolution that closes the gap between existing coarse global CN products and the spatial detail required for modern hydrologic and hydraulic applications. GCN10 explicitly represents drained and undrained soil regimes, supplies a structured matrix of hydrologic conditions and antecedent runoff conditions for physically meaningful parameter selection and envelope-based calibration, and supports reproducible, tile-based workflows for large-scale and local-scale CN-based modeling. This work is supported by the New Mexico Water Resources Research Institute (NM WRRI) and the New Mexico State Legislature under account NMWRRI-SG-FALL2024.</purpose>
+    </descript>
+
+    <timeperd>
+      <timeinfo>
+        <sngdate>
+          <caldate>2021</caldate>
+        </sngdate>
+      </timeinfo>
+      <current>ground condition</current>
+    </timeperd>
+
+    <status>
+      <progress>Complete</progress>
+      <update>None planned</update>
+    </status>
+
+    <spdom>
+      <bounding>
+        <westbc>-180.0</westbc>
+        <eastbc>180.0</eastbc>
+        <northbc>90.0</northbc>
+        <southbc>-90.0</southbc>
+      </bounding>
+    </spdom>
+
+    <keywords>
+      <theme>
+        <themekt>None</themekt>
+        <themekey>Hydrology</themekey>
+        <themekey>Runoff</themekey>
+        <themekey>Curve Number</themekey>
+        <themekey>SCS-CN</themekey>
+        <themekey>Land Cover</themekey>
+        <themekey>Hydrologic Soil Group</themekey>
+        <themekey>Global dataset</themekey>
+      </theme>
+      <place>
+        <placekt>None</placekt>
+        <placekey>Global</placekey>
+      </place>
+    </keywords>
+
+    <accconst>None</accconst>
+    <useconst>This database is made available under the Open Data Commons Open Database License (ODbL) v1.0. Any public use of GCN10, or works produced from it, must attribute: "GCN10 -- Global 10 m Curve Number Dataset (Azzam et al.)" as the source, and any publicly used adapted or derivative databases must be offered under ODbL-compatible terms, as required by the ODbL. See https://opendatacommons.org/licenses/odbl/1-0/ for the full license text. A persistent identifier (DOI/URL) for this dataset will be added to this metadata record when available.</useconst>
+
+    <ptcontac>
+      <cntinfo>
+        <cntperp>
+          <cntper>Huidae Cho</cntper>
+          <cntorg>Department of Civil and Environmental Engineering, New Mexico State University</cntorg>
+        </cntperp>
+        <cntaddr>
+          <addrtype>mailing and physical</addrtype>
+          <city>Las Cruces</city>
+          <state>NM</state>
+          <postal>88003</postal>
+          <country>USA</country>
+        </cntaddr>
+        <cntemail>hcho@nmsu.edu</cntemail>
+      </cntinfo>
+    </ptcontac>
+  </idinfo>
+
+  <!-- =================
+       Data Quality
+       ================= -->
+  <dataqual>
+    <lineage>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <title>ESA WorldCover 2021 v200</title>
+          </citeinfo>
+        </srccite>
+        <srctype>remote sensing data</srctype>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <title>HYSOGs250m Hydrologic Soil Groups</title>
+          </citeinfo>
+        </srccite>
+        <srctype>gridded soil data</srctype>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <title>USDA NRCS National Engineering Handbook, Part 630, Chapter 9 (SCS-CN)</title>
+          </citeinfo>
+        </srccite>
+        <srctype>tabular reference</srctype>
+      </srcinfo>
+
+      <procstep>
+        <procdesc>Resampled HYSOGs250m hydrologic soil groups to the ESA WorldCover 2021 10 m grid using nearest-neighbor assignment to preserve categorical values and maintain exact alignment on EPSG:4326.</procdesc>
+      </procstep>
+      <procstep>
+        <procdesc>Applied a documented crosswalk from ESA WorldCover classes to USDA NRCS cover types and joined with hydrologic soil groups to assign Curve Number values for ARC II under drained and undrained interpretations of dual soil groups (A/D, B/D, C/D).</procdesc>
+      </procstep>
+      <procstep>
+        <procdesc>Computed ARC I and ARC III Curve Numbers from ARC II using standard NRCS conversion formulas, rounded results to the nearest integer, and clipped values to the interval [0,100] to ensure monotonic behavior with increasing wetness (CN(I) ≤ CN(II) ≤ CN(III)).</procdesc>
+      </procstep>
+      <procstep>
+        <procdesc>Applied fixed special-class rules globally: open water set to CN=100, permanent snow and ice set to CN=0, and mangroves set to NoData (255) due to tidal saturation outside the SCS-CN method domain; interpolated agricultural fair-condition CN values between poor and good where not explicitly tabulated, with all modifications documented.</procdesc>
+      </procstep>
+      <procstep>
+        <procdesc>Implemented tiled, windowed processing over 2,651 global tiles, each written as a Cloud Optimized GeoTIFF (uint8, NoData=255) with internal LZW compression, preserving the ESA WorldCover grid definition and WGS 84 geographic coordinates.</procdesc>
+      </procstep>
+      <procstep>
+        <procdesc>Performed internal quality assurance including verification of CN value ranges, ARC monotonicity, correct application of special-class rules, alignment with the WorldCover grid, and seam continuity across all tile boundaries; constructed virtual raster (VRT) mosaics for each hydrologic-condition/ARC combination in both drained and undrained regimes to confirm complete global coverage.</procdesc>
+      </procstep>
+    </lineage>
+  </dataqual>
+
+  <!-- =============================
+       Spatial Data Organization
+       ============================= -->
+  <spdoinfo>
+    <direct>Raster</direct>
+    <rastinfo>
+      <rasttype>Grid Cell</rasttype>
+      <!-- Tile-level geometry is documented in eainfo/TILE_GEOMETRY.
+           This record describes the collection of all tiles. -->
+    </rastinfo>
+  </spdoinfo>
+
+  <!-- =====================
+       Spatial Reference
+       ===================== -->
+  <spref>
+    <horizsys>
+      <geograph>
+        <latres>0.000083333333333</latres>
+        <longres>0.000083333333333</longres>
+        <geogunit>Decimal degrees</geogunit>
+      </geograph>
+      <geodetic>
+        <horizdn>WGS 84</horizdn>
+        <ellips>WGS 84</ellips>
+        <semiaxis>6378137.0</semiaxis>
+        <denflat>298.257223563</denflat>
+      </geodetic>
+    </horizsys>
+  </spref>
+
+  <!-- =========================
+       Entity and Attribute Info
+       ========================= -->
+  <eainfo>
+    <detailed>
+      <enttyp>
+        <enttypl>GCN10_Rasters</enttypl>
+        <enttypd>Global 10 m Curve Number raster tiles and derived mosaics representing combinations of hydrologic condition, antecedent runoff condition, and soil drainage regime on the ESA WorldCover 2021 grid.</enttypd>
+      </enttyp>
+
+      <attr>
+        <attrlabl>CN</attrlabl>
+        <attrdef>USDA NRCS SCS Curve Number for the specified hydrologic condition (poor, fair, good), antecedent runoff condition (ARC I, ARC II, ARC III), and soil drainage regime (drained or undrained dual hydrologic soil groups).</attrdef>
+        <attrunit>dimensionless</attrunit>
+        <attrdomv>
+          <rdom>
+            <rdommin>0</rdommin>
+            <rdommax>100</rdommax>
+          </rdom>
+        </attrdomv>
+        <eaover>Stored as unsigned 8-bit integer. Value 255 is reserved for NoData. Open water pixels are fixed to 100; permanent snow and ice pixels are fixed to 0; mangrove pixels are set to NoData.</eaover>
+      </attr>
+
+      <attr>
+        <attrlabl>FILENAME_SCHEME</attrlabl>
+        <attrdef>Raster tiles follow the convention: cn_[hc]_[arc]_[blockid].tif where: [hc] = hydrologic condition code (p = poor, f = fair, g = good); [arc] = antecedent runoff condition (i = ARC I, ii = ARC II, iii = ARC III); [blockid] = tile identifier (1 through 2651) consistent with the ESA WorldCover / processing tile index.</attrdef>
+      </attr>
+
+      <attr>
+        <attrlabl>DIRECTORY_STRUCTURE</attrlabl>
+        <attrdef>Within the top-level gcn10 directory, drained and undrained products are stored in separate subdirectories: "cn_rasters_drained" and "cn_rasters_undrained". Each of these contains 2,651 GeoTIFF tiles named as cn_[hc]_[arc]_[blockid].tif. Inside each of these subdirectories, a "vrt" folder contains 9 VRT files (cn_p_i.vrt, cn_p_ii.vrt, cn_p_iii.vrt, cn_f_i.vrt, cn_f_ii.vrt, cn_f_iii.vrt, cn_g_i.vrt, cn_g_ii.vrt, cn_g_iii.vrt) providing full global mosaics for each hydrologic condition and antecedent runoff condition combination.</attrdef>
+      </attr>
+
+      <attr>
+        <attrlabl>TILE_GEOMETRY</attrlabl>
+        <attrdef>Each tile is a regular grid of 36,001 rows by 36,001 columns with a pixel size of 0.000083333333333 degrees in both latitude and longitude, aligned to the ESA WorldCover 2021 grid in EPSG:4326.</attrdef>
+      </attr>
+    </detailed>
+  </eainfo>
+
+  <!-- ================
+       Distribution
+       ================ -->
+  <distinfo>
+    <distrib>
+      <cntinfo>
+        <cntperp>
+          <cntper>Abdullah Azzam</cntper>
+          <cntorg>New Mexico State University</cntorg>
+        </cntperp>
+        <cntemail>abdazzam@nmsu.edu</cntemail>
+      </cntinfo>
+    </distrib>
+    <resdesc>GCN10 global 10 m Curve Number raster tiles and VRT mosaics for drained and undrained soil regimes (18 condition combinations total).</resdesc>
+    <distliab>No warranty is expressed or implied. Users are responsible for determining the suitability of this dataset for their applications and should consult accompanying documentation for methods, assumptions, and limitations.</distliab>
+    <stdorder>
+      <digform>
+        <digtinfo>
+          <formname>GeoTIFF (Cloud Optimized) and VRT</formname>
+        </digtinfo>
+        <digtopt>
+          <onlinopt>
+            <computer>
+              <networka>
+                <networkr>https://hydro.nmsu.edu/datasets/gcn10/</networkr>
+              </networka>
+            </computer>
+          </onlinopt>
+        </digtopt>
+      </digform>
+    </stdorder>
+  </distinfo>
+
+  <!-- =====================
+       Metadata Reference
+       ===================== -->
+  <metainfo>
+    <metd>20251111</metd> <!-- metadata creation date: update as needed -->
+    <metc>
+      <cntinfo>
+        <cntperp>
+          <cntper>Abdullah Azzam</cntper>
+        </cntperp>
+        <cntemail>abdazzam@nmsu.edu</cntemail>
+      </cntinfo>
+    </metc>
+    <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+    <metstdv>FGDC-STD-001-1998</metstdv>
+  </metainfo>
+</metadata>

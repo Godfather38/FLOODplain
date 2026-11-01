@@ -1,0 +1,47 @@
+{
+  "runId": "41344983607",
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41344983607",
+  "status": "completed_full_interval",
+  "executionMode": "simulated_live_frozen_inputs",
+  "modelVersion": "connected-v2",
+  "executionCommit": "48b049e",
+  "nativeInputArchive": "../road-current-20261101-13z-v2.tar.gz",
+  "nativeInputArchiveSha256": "102fe98788b119605f9a0bd5cba38a97899ed83475fddf633c00339dbf55dc7a",
+  "engineSourceCommit": "f3647fc0289bb15cb2512d60686cef74cb853c78",
+  "engineBinarySha256": "c4917bc54158b0943d6d128b45c4346a33d059fb5d93808d05520c975e38f090",
+  "archiveSha256": "3fb916ca97003af16020bec0644bb44792fd19856f736b9e643f91b8f8871f87",
+  "archiveBytes": 156148164,
+  "parts": [
+    {
+      "path": "native-output.tar.gz.part00",
+      "bytes": 67108864,
+      "sha256": "6723aa858a34349ffdeb6e9e8f760bf3dac96b123b76eb0a295697bd6d143080"
+    },
+    {
+      "path": "native-output.tar.gz.part01",
+      "bytes": 67108864,
+      "sha256": "2fabe2ab01203c076c51a590d86203ac6b86878fe1938e0a7ff678de8249394f"
+    },
+    {
+      "path": "native-output.tar.gz.part02",
+      "bytes": 21930436,
+      "sha256": "78b61ba79bc92d90c06da7f84e9854c7de3afdf6688221595062bcdd8995aa79"
+    }
+  ],
+  "reassembly": "Concatenate parts in listed order to recover unchanged gzip-tar native outputs",
+  "forecastFrames": 57,
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "nativeRuntimeSeconds": 2368.1259765625,
+  "sourceMeshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+  "sourceMapSha256": "4f76386883e3ee1c36945b434fd1ab0fe09457153fb4162949d7c0f6a9dc2ef0",
+  "coverageAudit": "../road-dip-refinement/coverage-audit-v2/coverage.json",
+  "limitations": [
+    "Frozen original forecast issuance, not latest data",
+    "Native volume/full cell area is not road depth or actual wet area",
+    "No native river-section flow recorded",
+    "Type1 restart omits cumulative cna rainfall/infiltration history",
+    "Bridge deck/culvert opening elevations remain incomplete",
+    "Largest stored-volume cell is100m and1.77km from selected routes; hydraulic accuracy unvalidated"
+  ]
+}

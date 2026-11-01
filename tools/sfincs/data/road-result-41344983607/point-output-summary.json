@@ -1,0 +1,270 @@
+{
+  "runId": "41344983607",
+  "quantity": "Native water volume per full computational-cell area and absolute water surface; NOT road/deck depth or passability",
+  "points": [
+    {
+      "kind": "mapped_crossing",
+      "name": "Los Robles Wash / North Trico Road",
+      "nativeFace": 240753,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.04598748168945312,
+      "maxWaterSurfaceNAVD88M": 584.6541748046875
+    },
+    {
+      "kind": "mapped_crossing",
+      "name": "Santa Cruz River / West Trico Marana Road",
+      "nativeFace": 283056,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.05360400390625,
+      "maxWaterSurfaceNAVD88M": 586.1852416992188
+    },
+    {
+      "kind": "mapped_crossing",
+      "name": "Brawley Wash / West Avra Valley Road",
+      "nativeFace": 267134,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.05284794311523437,
+      "maxWaterSurfaceNAVD88M": 606.3176879882812
+    },
+    {
+      "kind": "mapped_crossing",
+      "name": "None / West Avra Valley Road",
+      "nativeFace": 287171,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.003808142852783203,
+      "maxWaterSurfaceNAVD88M": 609.2120361328125
+    },
+    {
+      "kind": "mapped_crossing",
+      "name": "None / West Avra Valley Road",
+      "nativeFace": 304469,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.4865654296875,
+      "maxWaterSurfaceNAVD88M": 607.9746704101562
+    },
+    {
+      "kind": "mapped_crossing",
+      "name": "None / West Avra Valley Road",
+      "nativeFace": 323016,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0015455582618713378,
+      "maxWaterSurfaceNAVD88M": 607.662109375
+    },
+    {
+      "kind": "mapped_crossing",
+      "name": "Santa Cruz River / West Avra Valley Road",
+      "nativeFace": 389666,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.3919746826171875,
+      "maxWaterSurfaceNAVD88M": 627.1026611328125
+    },
+    {
+      "kind": "mapped_crossing",
+      "name": "None / West Avra Valley Road",
+      "nativeFace": 388854,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0048670604705810545,
+      "maxWaterSurfaceNAVD88M": 627.321533203125
+    },
+    {
+      "kind": "mapped_crossing",
+      "name": "Santa Cruz River / West Avra Valley Road",
+      "nativeFace": 389405,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.2897768798828125,
+      "maxWaterSurfaceNAVD88M": 626.7171020507812
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "trico chainage 610.0m",
+      "nativeFace": 346212,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.000841355037689209,
+      "maxWaterSurfaceNAVD88M": 602.1177368164062
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "trico chainage 694.0m",
+      "nativeFace": 345471,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0011855210304260253,
+      "maxWaterSurfaceNAVD88M": 602.1051025390625
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "trico chainage 5936.0m",
+      "nativeFace": 286582,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0008364439010620118,
+      "maxWaterSurfaceNAVD88M": 590.2847900390625
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "trico chainage 6284.0m",
+      "nativeFace": 283506,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0914552734375,
+      "maxWaterSurfaceNAVD88M": 587.5320434570312
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "trico chainage 6338.0m",
+      "nativeFace": 283056,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.05360400390625,
+      "maxWaterSurfaceNAVD88M": 586.1852416992188
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "trico chainage 6660.0m",
+      "nativeFace": 280064,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0014566714286804198,
+      "maxWaterSurfaceNAVD88M": 589.7498168945312
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "trico chainage 8836.0m",
+      "nativeFace": 242039,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.009753451538085937,
+      "maxWaterSurfaceNAVD88M": 585.591796875
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "trico chainage 10108.0m",
+      "nativeFace": 240753,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.04598748168945312,
+      "maxWaterSurfaceNAVD88M": 584.6541748046875
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "trico chainage 10522.0m",
+      "nativeFace": 240687,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0016039749145507812,
+      "maxWaterSurfaceNAVD88M": 587.395263671875
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 5050.0m",
+      "nativeFace": 267134,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.05284794311523437,
+      "maxWaterSurfaceNAVD88M": 606.3176879882812
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 5268.0m",
+      "nativeFace": 269514,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.05136223754882813,
+      "maxWaterSurfaceNAVD88M": 607.217529296875
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 5990.0m",
+      "nativeFace": 277337,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0013137068748474122,
+      "maxWaterSurfaceNAVD88M": 608.4658203125
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 6752.0m",
+      "nativeFace": 287351,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.034243353271484374,
+      "maxWaterSurfaceNAVD88M": 609.2154541015625
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 7436.0m",
+      "nativeFace": 295550,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0014656500816345214,
+      "maxWaterSurfaceNAVD88M": 608.72021484375
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 8254.0m",
+      "nativeFace": 304401,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.548630859375,
+      "maxWaterSurfaceNAVD88M": 607.9740600585938
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 9856.0m",
+      "nativeFace": 320714,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.15106865234375,
+      "maxWaterSurfaceNAVD88M": 606.8822631835938
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 17466.0m",
+      "nativeFace": 378144,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0011904922485351562,
+      "maxWaterSurfaceNAVD88M": 629.7589721679688
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 18052.0m",
+      "nativeFace": 381340,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.008994046020507813,
+      "maxWaterSurfaceNAVD88M": 627.30078125
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 18926.0m",
+      "nativeFace": 386088,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0016112775802612305,
+      "maxWaterSurfaceNAVD88M": 629.8336181640625
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 19462.0m",
+      "nativeFace": 389038,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.017416220092773438,
+      "maxWaterSurfaceNAVD88M": 626.2520751953125
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 19490.0m",
+      "nativeFace": 389183,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.01968284454345703,
+      "maxWaterSurfaceNAVD88M": 626.4937744140625
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 19532.0m",
+      "nativeFace": 389406,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.44312060546875,
+      "maxWaterSurfaceNAVD88M": 626.7125854492188
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 19580.0m",
+      "nativeFace": 389702,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.50099482421875,
+      "maxWaterSurfaceNAVD88M": 627.1605224609375
+    },
+    {
+      "kind": "terrain_screening_candidate",
+      "name": "avra chainage 20036.0m",
+      "nativeFace": 392206,
+      "areaM2": 39.0625,
+      "maxVolumePerFullCellAreaM": 0.0030214864730834963,
+      "maxWaterSurfaceNAVD88M": 630.7169189453125
+    }
+  ]
+}

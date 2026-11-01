@@ -1,0 +1,13 @@
+{
+  "frameIndex": 56,
+  "nativeFace": 27947,
+  "cellSizeM": 100.0,
+  "lonLat": [
+    -111.16006599590631,
+    32.41862569906363
+  ],
+  "distanceFromSelectedRoutesM": 1765.6296297198576,
+  "volumePerFullCellAreaM": 11.015346875,
+  "nativeVolumeM3": 110153.46875,
+  "waterSurfaceNAVD88M": 607.8943481445312
+}

@@ -1,0 +1,256 @@
+{
+  "runId": "41344983607",
+  "completionMarkerPresent": true,
+  "frames": 57,
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "requestedValidTo": "2026-11-02T07:00:00Z",
+  "faces": 398613,
+  "faceCorrespondence": {
+    "method": "Exact unique rectangle bounds independently matched between native input/output connectivity",
+    "matchedFaces": 398613,
+    "identityOrder": true,
+    "maxBoundsDifferenceM": 0.0
+  },
+  "volumeUnits": "m3",
+  "allVolumeFinite": true,
+  "negativeCellFrames": 1414,
+  "minRawVolumeM3": -4.191995620727539,
+  "maxRawVolumeM3": 110153.46875,
+  "minRawVolumePerFullCellAreaM": -0.0004191995620727539,
+  "maxRawVolumePerFullCellAreaM": 11.015346875,
+  "firstLastTotalStoredVolumeM3": [
+    731792.2946649654,
+    4388145.073526111
+  ],
+  "surfaceElevationRangeM": [
+    554.0021362304688,
+    1377.641845703125
+  ],
+  "surfaceElevationDatum": "NAVD88, not depth",
+  "riverSectionFlow": "Not recorded; no configured observation section",
+  "restartFiles": [
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst",
+    "sfincs.20261102.070000.rst"
+  ],
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "hashes": {
+    "sfincs.nc": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+    "sfincs_map.nc": "4f76386883e3ee1c36945b434fd1ab0fe09457153fb4162949d7c0f6a9dc2ef0",
+    "solver.log": "04b7f43588dbb75a70d4499ee9878c854009b230b49765d379f2600f59d4c06c"
+  },
+  "status": "completed_full_interval",
+  "total_runtime": [
+    2368.1259765625
+  ],
+  "average_dt": [
+    1.1418157815933228
+  ],
+  "nativePrecipitationRate": {
+    "units": "mm h-1",
+    "range": [
+      0.0,
+      15.370001792907715
+    ]
+  },
+  "cellSupportAreaKm2": {
+    "quantity": "Sum of full computational-cell areas where native volume/full cell area exceeds threshold; NOT actual wet area or road depth",
+    "thresholdM": 0.01,
+    "firstLast": [
+      8.4116015625,
+      70.0471875
+    ]
+  },
+  "executionMode": "simulated_live_frozen_inputs",
+  "solverBudgetSeconds": 2400,
+  "simulationFrom": "2026-10-30T16:00:00Z",
+  "simulationTo": "2026-11-02T07:00:00Z",
+  "simulationHours": 63,
+  "executionCommit": "48b049e",
+  "modelVersion": "connected-v2",
+  "inputArchiveSha256": "102fe98788b119605f9a0bd5cba38a97899ed83475fddf633c00339dbf55dc7a",
+  "rainfallEndpointWarning": "Original left-labeled final06-07Z rate is present but final timestamp06Z precedes07Z run end; native uses nearest last rate. Unchanged executed input retained.",
+  "forecastBoundaryInputsM3s": {
+    "individualRange": [
+      0.0,
+      70.74
+    ],
+    "sumOfDisjointInletsRange": [
+      6.43,
+      71.02
+    ],
+    "source": "Original frozen NWM13Z forecasts, not downstream solver section flow"
+  },
+  "restartIntegrity": {
+    "allFortranRecordsIntact": true,
+    "files": [
+      {
+        "path": "sfincs.20261101.180000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "f4b317286a854de58ee0ff3aa6656ef54a5a985950ff5061f4186a281fa51781"
+      },
+      {
+        "path": "sfincs.20261101.190000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "dc42e41dbb659aa0797d593b27f67da0a63420e6675a6faf935b1508aec41f7b"
+      },
+      {
+        "path": "sfincs.20261101.200000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "ae7fc3d8928bd40c18f3bd25e289684c8b333c24c0706dd4fa0f51ad1e27eed5"
+      },
+      {
+        "path": "sfincs.20261101.210000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "d28c9918123b962601676c74fd8250b2eeea18efb5a998e3019326efb10d6f98"
+      },
+      {
+        "path": "sfincs.20261101.220000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "7793e00d65e5dd2773e483d74b4d517399708b976bfd44b84b2649035eb63643"
+      },
+      {
+        "path": "sfincs.20261101.230000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "e15b37f2f2c89c91f3a8dd3d4bb12f6020f1f13ed09fe553136c7b4877df1f29"
+      },
+      {
+        "path": "sfincs.20261102.000000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "9024a013fee4a194ddaae48b5adcfe0468a8d4d6832c7fa1380ccef1b5e7233c"
+      },
+      {
+        "path": "sfincs.20261102.010000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "7a27e56ae4d27977b129a50736cec3c10269963491f482f73d3698e5be25b566"
+      },
+      {
+        "path": "sfincs.20261102.020000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "96c5a43cafe5a9995552c36b20e65570e2f8433f810a571c5d24fe2ad017b3db"
+      },
+      {
+        "path": "sfincs.20261102.030000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "09322f498b8a58c2269f117084f2118cdc38957d60a63a32d543ddf316e6485d"
+      },
+      {
+        "path": "sfincs.20261102.040000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "aab90590e4ae00b11bf2d7204fe0ae1775586923d09801624ad6a88e18bb3870"
+      },
+      {
+        "path": "sfincs.20261102.050000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "8b6cca5a18355806e963b5f58ce788acf8e546681f5a44302d351116b8d2a884"
+      },
+      {
+        "path": "sfincs.20261102.060000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "c693e760faba6e8ac0d34e486838fc6e545aa6562b50278b211e25539c580da9"
+      },
+      {
+        "path": "sfincs.20261102.070000.rst",
+        "bytes": 4838804,
+        "recordLengths": [
+          4,
+          1594452,
+          3244240,
+          76
+        ],
+        "sha256": "1a89e4e620a5625c4c117b8c3c04be639784bf5cfd26564df2d876e4e21241a9"
+      }
+    ],
+    "executionResumeTested": false
+  }
+}
