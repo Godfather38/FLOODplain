@@ -1,6 +1,6 @@
 import {fuseRoutes,handEvidence,sfincsEvidence} from './route-fusion.js';
-const $=id=>document.getElementById(id);let evidence=[],result;
-function render(){let snapshot;try{snapshot=JSON.parse(sessionStorage.getItem('floodplain-route-evidence'));}catch{}
+const $=id=>document.getElementById(id);let evidence=[],result,lastAutomaticHand;
+function render(){try{const saved=JSON.parse(sessionStorage.getItem('floodplain-hand-evidence'));if(saved?.hand&&saved.asOf!==lastAutomaticHand){lastAutomaticHand=saved.asOf;evidence=evidence.filter(e=>e.source!=='HAND').concat(saved.hand.map(handEvidence));}}catch{}let snapshot;try{snapshot=JSON.parse(sessionStorage.getItem('floodplain-route-evidence'));}catch{}
  result=fuseRoutes(snapshot,evidence);$('status').textContent=`${result.status}: ${result.reason??'Combined evidence evaluated'}`;
  $('recommendation').textContent=result.recommendation?.text??'No route recommendation from the available evidence.';
  $('routes').replaceChildren();

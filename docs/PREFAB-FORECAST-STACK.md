@@ -44,3 +44,7 @@ The complete, non-event-truncated lead windows yield the following pooled matche
 | September 2014 | 110.47 / 125 | 125.83 / 166 |
 
 All partial windows and every issuance are retained in the downloadable results; this table only summarizes complete full bins. There are respectively 4, 4, 9 and 6 archived issuances per station. July's archive cannot support complete evaluation of every requested lead window. Trico's June observed flow is zero in the paired background samples; that success does not establish flood-peak skill. September's poor aggregate errors preclude presenting the later 9500 cfs forecast as proof that the whole system meets a peak goal.
+
+## Connected integration update
+
+The previously listed automatic HAND delivery and NWM context gaps are now connected through `createIntegratedEngine().evaluate()`, on the existing forecast screen. See [CONNECTED-ENGINE.md](CONNECTED-ENGINE.md). NWS QPF is also connected as a precisely scoped single-grid-cell forecast context. Full-domain future-rainfall forcing remains unsupported; no point forecast is broadcast across a basin. The unchanged pinned HAND module is vendored with hashes, not reimplemented or merged wholesale. Current live source results and offline replay are included.
