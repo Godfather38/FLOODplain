@@ -23,8 +23,8 @@ test('additional event uses exactly the original frozen parameters and reports a
   assert.equal(report.actualPeak.originalValueCfs, 1340);
   assert.match(report.selection, /Not used in fitting/);
 });
-test('radar source failure is recorded without claiming observation validation', () => {
+test('radar validation preserves the original failure and successful independent public sources', () => {
   const status = read('radar-source-status.json');
-  assert.equal(status.httpStatus, 403);assert.equal(status.realFixtureValidated, false);
-  assert.equal(status.alternateAccessAttempted, false);
+  assert.equal(status.initialAttempt.httpStatus, 403);assert.equal(status.realFixtureValidated, true);
+  assert.equal(status.initialAttempt.alternateAccessAttempted, false);
 });

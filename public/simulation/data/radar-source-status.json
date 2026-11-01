@@ -1,12 +1,19 @@
 {
-  "schemaVersion": 1,
-  "recordedAt": "2026-11-01T07:06:01.186Z",
-  "sourceUrl": "https://mrms.ncep.noaa.gov/data/CONUS/PrecipRate/",
-  "action": "Read official directory index to select one bounded real-data fixture",
-  "httpStatus": 403,
-  "outcome": "Denied: Forbidden; retrieval stopped",
-  "realFixtureValidated": false,
-  "alternateAccessAttempted": false,
+  "schemaVersion": 2,
+  "initialAttempt": {
+    "schemaVersion": 1,
+    "recordedAt": "2026-11-01T07:06:01.186Z",
+    "sourceUrl": "https://mrms.ncep.noaa.gov/data/CONUS/PrecipRate/",
+    "action": "Read official directory index to select one bounded real-data fixture",
+    "httpStatus": 403,
+    "outcome": "Denied: Forbidden; retrieval stopped",
+    "realFixtureValidated": false,
+    "alternateAccessAttempted": false,
+    "defaultRainfall": "synthetic",
+    "nextStep": "Validate an authorized independently supplied public MRMS sample offline, retaining product metadata and provenance; no automatic retry or alternate access."
+  },
+  "realFixtureValidated": true,
+  "validation": "Official NOAA OpenData GRIB2 decoded with ecCodes; independent raw PNG packing checks. Historical IEM indexed PNG decoded with documented scale and world file.",
   "defaultRainfall": "synthetic",
-  "nextStep": "Validate an authorized independently supplied public MRMS sample offline, retaining product metadata and provenance; no automatic retry or alternate access."
+  "recordedAt": "2026-11-01T07:22:17.017759+00:00"
 }

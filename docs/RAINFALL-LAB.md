@@ -27,7 +27,7 @@ The browser opens a synthetic storm over recorded real terrain. Change infiltrat
 
 **The center crossing cell is an unresolved pit in this coarse sample.** The lab deliberately retains inflow there instead of fabricating a culvert/channel connection. Gold cells show the 29-cell local contributing set (1.8125 km²), not the actual Los Robles basin. The blue hydrograph is runoff arriving in that sample cell, including its local rainfall excess. It is not bridge discharge. Exported crossing outflow is separately reported and is zero for this pit. Boundary outflow is a separate accounting location and must not be added to crossing inflow.
 
-Default rainfall is an invented 30-minute pulse with an east-west intensity gradient; its July 1 UTC timestamp is an arbitrary replay clock. It is **not a historical storm, radar measurement, forecast or live feed**. No real MRMS rainfall fixture has yet been validated. Importer tests use clearly synthetic CSV strings.
+Default rainfall is an invented 30-minute pulse with an east-west intensity gradient; its July 1 UTC timestamp is an arbitrary replay clock. It is **not a historical storm, radar measurement, forecast or live feed**. Real NOAA GRIB2 and historical IEM indexed PNG fixtures now decode offline; see RADAR-FIXTURES.md. The older CSV importer tests remain synthetic.
 
 ## Model and units
 
@@ -110,8 +110,6 @@ Observed Trico sampled peak: **1,340 ft³/s**. The unchanged primary 2006 fit gi
 
 The terrain validator now rejects reordered, duplicated and incorrectly scaled grid coordinates instead of applying D8 to a misregistered raster. Expected layout is north-up row-major with approximately square metre spacing (10% tolerance for the geographic approximation). Every runoff export includes `terrainQuality`, explicitly marking the domain as a clipped local window with `crossingDischargeSupported:false`, the count of unresolved pits, whether the crossing is a pit, and contributing cells touching the window boundary. The UI surfaces these warnings. A contributing set touching the boundary is truncated; even a set wholly inside this coarse grid is not certified as a complete basin. No depression filling, invented outlet or full-catchment claim is introduced.
 
-### Real MRMS validation attempt: blocked
+### Real radar ingestion now validated
 
-The read-only directory request to `https://mrms.ncep.noaa.gov/data/CONUS/PrecipRate/` returned **HTTP 403 Forbidden**. Retrieval stopped; no alternate access route, file download or retry was attempted. `data/radar-source-status.json` records that outcome. The adapter's synthetic CSV tests pass, but a real NOAA GRIB/CSV end-to-end fixture remains **unvalidated**. This is an access blocker, not evidence that radar rainfall is zero or unavailable everywhere. An authorized, independently supplied public sample with its source and product metadata could be checked offline next; the code does not automatically seek alternate endpoints or bypass this denial.
-
-Selection evidence: data/cortaro-selection-2014-08.json retains the complete later USGS response, exact URL, true retrieval time and explicit post-evaluation status. Run node tools/simulation/selection-check.mjs to reproduce the maximum from the retained source without network access. The check requires all 31 unique dates, correct station/parameter/daily-mean statistic and units, approved unqualified values, and no pagination; ties choose the earliest date. This confirms the numerical selection rule, not a preregistered choice. The additional report links and hashes this source and preserves its original first-scored timestamp.
+The original directory returned HTTP 403 and was not retried. Independently published NOAA OpenData and IEM archive files were retrieved successfully. See [RADAR-FIXTURES.md](RADAR-FIXTURES.md) for exact sources, decoder checks and historical coverage. The app-facing official prediction engine is documented in [FORECAST-ENGINE.md](FORECAST-ENGINE.md).

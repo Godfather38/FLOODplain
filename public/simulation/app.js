@@ -55,3 +55,5 @@ try {
   $('gauge-chart').innerHTML=`<path d="M45 25V245H580" fill="none" stroke="#879ea9"/><path d="${path}" fill="none" stroke="#edbb66" stroke-width="3"/><g fill="#c6d8e0" font-size="13"><text x="45" y="18">${fmt(peak.valueM3s)} m³/s</text><text x="10" y="248">0</text><text x="45" y="270">Sep 8 00:00 UTC</text><text x="450" y="270">Sep 10 00:00 UTC</text></g>`;
   $('gauge-status').textContent=`${g.siteId}: ${p.length} recorded samples; ${g.quality.approvalStatuses.join(', ')}; maximum gap ${g.quality.maxGapMinutes} min. Peak in this window: ${fmt(peak.valueM3s)} m³/s (${fmt(peak.originalValueCfs)} ft³/s), ${peak.time}. Retrieved ${g.retrievedAt}. Historical evidence, not live.`;
 } catch(e) {$('gauge-status').textContent=`Gauge evidence unavailable: ${e.message}`;}
+
+for (const [id,file] of [["rain2014","rainfall-iem-201409081800.json"],["rain2020","rainfall-mrms-20201014.json"]]) $(id).onclick=async()=>{try{const r=await fetch("./data/"+file);if(!r.ok)throw new Error(`Rain HTTP ${r.status}`);rain=await r.json();run();}catch(e){clearResult(`Rain unavailable: ${e.message}`);}};
