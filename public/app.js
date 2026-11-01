@@ -565,7 +565,7 @@ function sourcesScreen() {
 function render() {
   if (!view) return;
   const w = where();
-  const sub = w.screen !== 'home';
+  const sub = w.screen !== 'home' || location.hash==='#/map';
   $('.appbar').classList.toggle('sub', sub);
   $('#back').hidden = !sub;
   $('#logo').hidden = sub;
@@ -576,7 +576,7 @@ function render() {
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
     how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"],
   }[w.screen];
-  $('#title').textContent = titles[0] ?? '';
+  $('#title').textContent = location.hash==='#/map'?'Explore map':titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
   $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy', 'report'].includes(w.screen);
   $('#screen').innerHTML = {
@@ -593,7 +593,7 @@ function render() {
   wire(w);
   const retainedCenter=map.getCenter(),retainedZoom=map.getZoom();
   drawMap(w);
-  if(render.lastHash===location.hash)map.setView(retainedCenter,retainedZoom,{animate:false});
+  if(render.lastHash===location.hash || location.hash==='#/map' || render.lastHash==='#/map')map.setView(retainedCenter,retainedZoom,{animate:false});
   render.lastHash=location.hash;
 }
 function subtitle() {
