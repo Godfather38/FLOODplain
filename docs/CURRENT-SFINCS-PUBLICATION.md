@@ -69,3 +69,14 @@ Outputs are immutable `<runId>.json.gz`, `<runId>-provenance.json`, then atomica
 User-selected mode: retain the completed2026 forecast package permanently and stop source refreshes. Publish its real solver output with `--simulated-live`. This preserves original source/issue/valid timestamps, sets matching `executionMode: simulated_live_frozen_inputs` on manifest/output and starts the existing time slider at validFrom. Moving the slider is the explicit simulated clock; the frame label states frozen inputs/not current weather. This is the new2026 run, not the2013/2014 diagnostics. Expired validity is allowed only in this explicitly labeled mode. No dates are shifted to today. Its evidence status is simulated_live, so it is not silently mixed into current route ranking. Existing live observation controls remain separate and user-triggered.
 
 The retained input package is `current-inputs-catchments-20261101-refresh`, commit c65fa35. No further acquisition is required to replay it. The normal current manifest remains unavailable until actual native output is exported; no fabricated replay artifact is included.
+
+
+## Actual frozen2026 run published
+
+Workflow41327417204, input commit6285d6f: the existing viewer now loads `frozen-20261101-nwm13z-41327417204.json.gz`. Native computation covered63 hours/64 frames; display exports only the15 hourly forecast-window frames17Z November1-07Z November2 over29,685 active cells. Original NWM13Z/HRRR14Z issues remain in source metadata; publication time is separately recorded. No input refresh or solver rerun occurred.
+
+Actual native output omitted time-varying volume. `reconstruct_sfincs_display.py` applies SFINCS's existing `compute_initial_subgrid_volumes` stage/storage relationship to native zs and saved z_level/z_volmax tables, including its0.001m interpolation denominator floor and full-cell extension. This is display reconstruction, not new hydrology or an exact copy of internal native storage. The native sfincs.ind ordering was checked against the mask. Missing water levels stay null. Native maxima are not substituted for time-varying frames. Depth remains full-cell average, not road/channel depth. No explicit crossing mapping has been asserted.
+
+Attribution and the ODbL derived retention database/grid are included under `public/simulation/data/frozen-20261101-attribution/`. The app reader accepted the actual gzip as simulated_live with15frames/29685cells. Browser interaction remains unavailable under the earlier restriction; no visual success is claimed.
+
+Launch `npm run start:experimental`, open `/simulation/routes.html`, expand the SFINCS map and move its simulated clock slider. It loads the frozen output without acquiring new weather. Original live assessment is a separate explicit button. No main merge or production deployment.

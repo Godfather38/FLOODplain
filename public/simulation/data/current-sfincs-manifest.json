@@ -1,1 +1,32 @@
-{"schemaVersion":1,"kind":"current_inundation_manifest","status":"unavailable","reason":"No completed current SFINCS run has been published. Historical outputs are separate diagnostics, never substituted as current forecasts."}
+{
+  "schemaVersion": 1,
+  "kind": "current_inundation_manifest",
+  "status": "complete",
+  "runId": "frozen-20261101-nwm13z-41327417204",
+  "issuedAt": "2026-11-01T16:47:53.293587+00:00",
+  "sourceAsOf": "2026-11-01T16:24:02.884292+00:00",
+  "validFrom": "2026-11-01T17:00:00.000Z",
+  "validTo": "2026-11-02T07:00:00.000Z",
+  "artifact": {
+    "path": "data/frozen-20261101-nwm13z-41327417204.json.gz",
+    "sha256": "6a06c140891d35214840573a73422b3461e7105492e5b60cd753c1815e5ff7ad"
+  },
+  "outputQuantity": {
+    "name": "cell_average_depth",
+    "units": "m",
+    "definition": "Water volume divided by full grid-cell area; not road or channel depth"
+  },
+  "assumptions": [
+    "Catchment-aligned 2021 terrain with verified 2023 edge; published roughness/CN scenario; seven directed free-outflow cells",
+    "Explicit dry assumed state at antecedent start followed by supplied analysis discharge and observed rainfall; continuous state into forecast",
+    "Initial state is assumed; equilibrium not established.",
+    "NWM13Z and HRRR14Z original forecasts; no current-weather refresh.",
+    "Depth reconstructed using existing SFINCS stage/storage table relationship from native water levels; not native stored volume.",
+    "Missing native water levels remain null, not dry.",
+    "Cell-average depth, not roadway or bridge clearance; no calibrated plus/minus accuracy.",
+    "GCN10 derived infiltration database ODbL1.0; attribution and derived database retained."
+  ],
+  "crossings": [],
+  "executionMode": "simulated_live_frozen_inputs",
+  "simulatedClockStart": "2026-11-01T17:00:00.000Z"
+}

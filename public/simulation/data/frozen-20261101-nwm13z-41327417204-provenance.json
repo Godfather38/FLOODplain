@@ -1,0 +1,207 @@
+{
+  "solverVersion": "SFINCS saved engine used by workflow41327417204; input commit6285d6f",
+  "runId": "frozen-20261101-nwm13z-41327417204",
+  "inputArtifacts": [
+    {
+      "path": "precip_2d.nc",
+      "sha256": "d92934e829d59f4fdb205c821eac83db0f1b3afb9ff6e9c5805d16ebd6888002"
+    },
+    {
+      "path": "sfincs.dis",
+      "sha256": "1312b17b35732d3c5453ccb15b6cd239bd2178f80a9cf2c227bf44eb3813fa48"
+    },
+    {
+      "path": "sfincs.ind",
+      "sha256": "2b071b4995e0f78043d24192ffc2a3f3fb055dc82a6272b2b804a0b0012f09b1"
+    },
+    {
+      "path": "sfincs.inp",
+      "sha256": "0f002b42ba6303569a3ef3abc4c5cda3cadce2cf1fb8fe558cd18150515b5ee4"
+    },
+    {
+      "path": "sfincs.msk",
+      "sha256": "d067063bbf06471134827906c82daf073a75fac8d771b188267ae02416f5be35"
+    },
+    {
+      "path": "sfincs.scs",
+      "sha256": "0a8d95fb7aaa627bba19ffb433c32720785b93380aa7338a11582eac5a54ca10"
+    },
+    {
+      "path": "sfincs.src",
+      "sha256": "ce688a650e3fd5926441e3714d205860918d197e08dab3c52fd69387a97ee750"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "sha256": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de"
+    },
+    {
+      "path": "current-case.json",
+      "sha256": "27b47fef000490e1d8567139537b9b6db527c90eb79d2b9275bba9319fd2e229"
+    },
+    {
+      "path": "sfincs_map.nc",
+      "sha256": "b0b2784e29aab11c5f8433b25b72253b8b4e8a65f0e0fa1246ed0c8d1186a211"
+    },
+    {
+      "path": "display-reconstruction.json",
+      "sha256": "51fb38010251946c58d678a6ea7fbc19dbee5dc6e482583e1234b12a4334aa3c"
+    },
+    {
+      "path": "active-mask.npy",
+      "sha256": "3d1ce8af16a2cd37c811073bd7c32d97271305ed5228f3b0f8ee408e50b76699"
+    },
+    {
+      "path": "GCN10-NOTICE.txt",
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "GCN10-source-metadata.xml",
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    }
+  ],
+  "projectedCrs": "EPSG:32612",
+  "verticalDatum": "NAVD88 terrain source; see prepared case",
+  "sourceAsOf": "2026-11-01T16:24:02.884292+00:00",
+  "sourceMetadata": {
+    "preparedCase": {
+      "schemaVersion": 1,
+      "kind": "prepared_current_case",
+      "solverExecuted": false,
+      "forecastStart": "2026-11-01T17:00:00.000Z",
+      "end": "2026-11-02T07:00:00.000Z",
+      "sourceAsOf": "2026-11-01T16:24:02.884292+00:00",
+      "boundary": {
+        "sourceCount": 4,
+        "samples": 64,
+        "units": "m3/s",
+        "interpolation": "none; common native timestamps",
+        "start": "2026-10-30T16:00:00+00:00",
+        "end": "2026-11-02T07:00:00.000Z"
+      },
+      "rainfall": {
+        "units": "mm/h",
+        "intervalSeconds": 3600,
+        "intervalLabel": "start",
+        "lastIntervalEndUtc": "2026-11-02T07:00:00.000Z",
+        "sourceArtifacts": [
+          {
+            "path": ".sfincs-runs\\current-inputs-catchments-20261101\\initialization-rainfall\\resolved-analysis-precipitation.nc",
+            "sha256": "2bd3f767330489e571aff247e3ee5363228bbad49008ed6664894e27fc766498"
+          },
+          {
+            "path": ".sfincs-runs\\current-inputs-catchments-20261101\\initialization-rainfall\\forecast-transition-precipitation.nc",
+            "sha256": "e7feb8aa8e47ba1eb4bbab3666badb25dde614fb50e2a0dfcac18a5ab374aa81"
+          },
+          {
+            "path": ".sfincs-runs\\current-inputs-catchments-20261101\\precipitation.nc",
+            "sha256": "2f4e6cf312b953117bb61987ee4d3ace4b9956e99046e49fc46d5cff45098d56"
+          }
+        ]
+      },
+      "initialization": {
+        "time": "2026-10-30T16:00:00+00:00",
+        "method": "Explicit dry assumed state at antecedent start followed by supplied analysis discharge and observed rainfall; continuous state into forecast",
+        "notMeasuredState": true,
+        "convergenceEstablished": false
+      },
+      "physicalModel": "Catchment-aligned 2021 terrain with verified 2023 edge; published roughness/CN scenario; seven directed free-outflow cells",
+      "publicationHold": [],
+      "artifacts": [
+        {
+          "path": "precip_2d.nc",
+          "sha256": "d92934e829d59f4fdb205c821eac83db0f1b3afb9ff6e9c5805d16ebd6888002"
+        },
+        {
+          "path": "sfincs.dis",
+          "sha256": "1312b17b35732d3c5453ccb15b6cd239bd2178f80a9cf2c227bf44eb3813fa48"
+        },
+        {
+          "path": "sfincs.ind",
+          "sha256": "2b071b4995e0f78043d24192ffc2a3f3fb055dc82a6272b2b804a0b0012f09b1"
+        },
+        {
+          "path": "sfincs.inp",
+          "sha256": "0f002b42ba6303569a3ef3abc4c5cda3cadce2cf1fb8fe558cd18150515b5ee4"
+        },
+        {
+          "path": "sfincs.msk",
+          "sha256": "d067063bbf06471134827906c82daf073a75fac8d771b188267ae02416f5be35"
+        },
+        {
+          "path": "sfincs.scs",
+          "sha256": "0a8d95fb7aaa627bba19ffb433c32720785b93380aa7338a11582eac5a54ca10"
+        },
+        {
+          "path": "sfincs.src",
+          "sha256": "ce688a650e3fd5926441e3714d205860918d197e08dab3c52fd69387a97ee750"
+        },
+        {
+          "path": "sfincs_subgrid.nc",
+          "sha256": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de"
+        }
+      ],
+      "sourceLicensing": {
+        "sourceMetadataSha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156",
+        "derivedInfiltrationLicense": "ODbL-1.0",
+        "notice": "GCN10-NOTICE.txt",
+        "derivedDatabase": "sfincs.scs"
+      },
+      "mode": "simulated_live",
+      "simulatedClock": "2026-11-01T17:00:00Z",
+      "forecastIssueTimes": {
+        "NWM": "2026-11-01T13:00:00Z",
+        "HRRR": "2026-11-01T14:00:00Z"
+      },
+      "freshCurrentForecast": false
+    },
+    "reconstruction": {
+      "method": "SFINCS compute_initial_subgrid_volumes stage/storage relation; regular projected grid, same saved z_level/z_volmax; .001m interpolation denominator floor",
+      "notNativeVolumeOutput": true,
+      "missingWaterLevelsRemainMissing": true,
+      "nativeMapSha256": "b0b2784e29aab11c5f8433b25b72253b8b4e8a65f0e0fa1246ed0c8d1186a211",
+      "subgridSha256": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de",
+      "maximumReconstructedDepthM": 7.737062347743154,
+      "finiteCellFrames": 780381,
+      "missingCellFrames": 1119459,
+      "sourceFunction": "sfincs_subgrid.F90:compute_initial_subgrid_volumes",
+      "limitations": [
+        "Finite output precision and wet/dry masking prevent exact recovery of internal storage.",
+        "No inference of roadway depth or missing-cell dryness."
+      ]
+    }
+  },
+  "assumptions": [
+    "Catchment-aligned 2021 terrain with verified 2023 edge; published roughness/CN scenario; seven directed free-outflow cells",
+    "Explicit dry assumed state at antecedent start followed by supplied analysis discharge and observed rainfall; continuous state into forecast",
+    "Initial state is assumed; equilibrium not established.",
+    "NWM13Z and HRRR14Z original forecasts; no current-weather refresh.",
+    "Depth reconstructed using existing SFINCS stage/storage table relationship from native water levels; not native stored volume.",
+    "Missing native water levels remain null, not dry.",
+    "Cell-average depth, not roadway or bridge clearance; no calibrated plus/minus accuracy.",
+    "GCN10 derived infiltration database ODbL1.0; attribution and derived database retained."
+  ],
+  "nativeOutput": {
+    "path": "display-volume.nc",
+    "sha256": "ba8b93de48dd2c2b87e348e38580b6f090dbdfc0c360365ae6e90a95833fd3da"
+  },
+  "exportConfigurationSha256": "f0c103b5daba5afad404aeb7b7967f04b45b283ef2b3f5ae483f5739285af0b8",
+  "activeMaskSha256": "3d1ce8af16a2cd37c811073bd7c32d97271305ed5228f3b0f8ee408e50b76699",
+  "outputQuantity": {
+    "name": "cell_average_depth",
+    "units": "m",
+    "definition": "Water volume divided by full grid-cell area; not road or channel depth"
+  },
+  "cellAreaM2": 10000.0,
+  "negativeVolumeDisplayPolicy": {
+    "toleranceM3": 0.0,
+    "minimumRawVolumeM3": 0.017341462790013498,
+    "clampedForDisplayOnly": true
+  },
+  "forecast": {
+    "inputRole": "forecast",
+    "issuedAt": "2026-11-01T16:47:53.293587+00:00",
+    "validFrom": "2026-11-01T17:00:00.000Z",
+    "validTo": "2026-11-02T07:00:00.000Z"
+  },
+  "executionMode": "simulated_live_frozen_inputs"
+}
