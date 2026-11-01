@@ -28,3 +28,9 @@ Verified bf72901 in the browser: full original water rendered; four desktop pans
 Remote packaging check caught missing original water-footprint frame files; all 15 existing frames were copied unchanged. A stale experimental forecast link was wired to the existing forecast detail page. No new assets generated.
 
 Draft PR: https://github.com/Godfather38/FLOODplain/pull/10
+
+## Completed original-model publication
+
+Bound solver-owned existing result 81bec601b3095de8e66b73245795c335194a023a / run 41350254061. The unchanged existing adapter reuses retained terrain and native grid; it derives display frames from delivered native water levels. No solver or terrain/geometry rebuild was performed. Original retained output and original display frames remain available with ?case=coarse.
+
+Local publication verification accepted all 29,685 cells and 15 hourly frames (Nov 1 22Z to Nov 2 12Z), verified identical cell coordinates/order, CRS and area, and verified all 16 display artifact checksums. NWM 18Z and HRRR 19Z issues are preserved. This is one issuance, without automatic refresh. Remote current-publication check follows.

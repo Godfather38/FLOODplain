@@ -6,6 +6,7 @@ export async function loadFreshCoarseMap({base,fetchImpl=fetch,now=Date.now()}={
  const retained=await loadCurrentRun({fetchImpl:(p,o)=>get(p==='data/current-sfincs-manifest.json'?'data/retained-sfincs-manifest.json':p,o),now});
  if(!retained.run)throw Error('Cannot verify unchanged native grid against retained output');
  const a=current.run,b=retained.run;
+ const display=current.manifest.mapDisplay;if(!/^data\/[A-Za-z0-9_-]+\/$/.test(display?.base??'')||a.frames.some((_,i)=>!/^[a-f0-9]{64}$/.test(display.artifacts?.['water-footprints-'+i+'.json.gz']?.sha256??'')))throw Error('Current run lacks matching complete flat-display artifacts');
  if(a.cells.length!==b.cells.length||a.provenance.projectedCrs!==b.provenance.projectedCrs||a.provenance.cellAreaM2!==b.provenance.cellAreaM2||a.cells.some((c,i)=>Math.abs(c.lat-b.cells[i].lat)>1e-9||Math.abs(c.lon-b.cells[i].lon)>1e-9))throw Error('New native grid differs; matching source-proven footprints required');
  const r=await get('data/frozen-cell-footprints.json.gz');if(!r.ok)throw Error('Native footprint HTTP '+r.status);
  const footprints=JSON.parse(await new Response(r.body.pipeThrough(new DecompressionStream('gzip'))).text());

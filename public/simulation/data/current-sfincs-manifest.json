@@ -1,1 +1,102 @@
-{"schemaVersion":1,"kind":"current_inundation_manifest","status":"unavailable","reason":"No current completed SFINCS run has been published. Live readings and NOAA/HAND forecasts remain available."}
+{
+  "schemaVersion": 1,
+  "kind": "current_inundation_manifest",
+  "status": "complete",
+  "runId": "sfincs-current-coarse-20261101-19z-41350254061",
+  "issuedAt": "2026-11-01T21:09:28.696154+00:00",
+  "sourceAsOf": "2026-11-01T21:03:11.599696+00:00",
+  "validFrom": "2026-11-01T22:00:00Z",
+  "validTo": "2026-11-02T12:00:00Z",
+  "artifact": {
+    "path": "data/sfincs-current-coarse-20261101-19z-41350254061.json.gz",
+    "sha256": "28aa20d8e1bb732d83564433aec2e9fa48743dc4e66ae3ed3be748382ed0f576"
+  },
+  "outputQuantity": {
+    "name": "cell_average_depth",
+    "units": "m",
+    "definition": "Water volume divided by full grid-cell area; not road or channel depth"
+  },
+  "assumptions": [
+    "Current provider package acquired independently of retained replay; NWM 18Z and HRRR 19Z source issues remain explicit.",
+    "Existing 2021 professional terrain with verified 2023 edge; 100 m computational cells and 10 m terrain subgrid; unchanged geometry.",
+    "WorldCover 2021 published roughness mapping; GCN10 fair ARCII undrained soil-retention scenario, not observed soil moisture.",
+    "Assumed dry state before 46 hours of analysis and 3 hours of forecast transition; continuous state into forecast, not measured or convergence-proven.",
+    "Seven directed free-outflow cells; no prescribed downstream tailwater or explicit bridge/culvert structural openings.",
+    "Water volume divided by 10,000 m2 full cell area is not road depth, bridge clearance or actual wet-area depth.",
+    "Native undefined water surface remains missing in raw output.",
+    "The final 11-12Z precipitation rate is supplied; the native endpoint warning reflects left-labeled intervals.",
+    "No negative active-cell forecast volumes were recorded; display tolerance is zero."
+  ],
+  "crossings": [],
+  "mapDisplay": {
+    "base": "data/sfincs-current-coarse-20261101-19z-41350254061-map/",
+    "geometryReuse": "Every native cell coordinate/order, full-cell area and CRS matched to retained original model before terrain reuse",
+    "terrainSourceSha256": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de",
+    "artifacts": {
+      "frozen-terrain-display.json.gz": {
+        "sha256": "91b7f3cf788aeda0e542a093bffe64db2b81b941c42d3a9f5589ddefd68a30c7",
+        "bytes": 2634174
+      },
+      "water-footprints-0.json.gz": {
+        "sha256": "ffa4dccbd7066b1c6f1085f83dbdefdb9c1052ba72a630f6a37ff771643f7ceb",
+        "bytes": 493328
+      },
+      "water-footprints-1.json.gz": {
+        "sha256": "3a40b43ace21f554b23636b3ca149604277b71d671baee009b274edadcb0bdb5",
+        "bytes": 479630
+      },
+      "water-footprints-10.json.gz": {
+        "sha256": "3882bf5e283e86d07b289cff4c8bfd78d3df1a671cf97a6e5806d1e9edbe6461",
+        "bytes": 417922
+      },
+      "water-footprints-11.json.gz": {
+        "sha256": "6a91789eda8d6addb3a41efc881d7e6f7b65b3c9ac8af4691ffcf2bca1439350",
+        "bytes": 440234
+      },
+      "water-footprints-12.json.gz": {
+        "sha256": "aff08967e5d415474e44b83d3afe8e1eb2f215e5cb462c104190e3c2b28132e2",
+        "bytes": 468294
+      },
+      "water-footprints-13.json.gz": {
+        "sha256": "1ec8d195760c92a12447aecfb0f7225d4a296087a82400351aca1f1fe4cec0e1",
+        "bytes": 462908
+      },
+      "water-footprints-14.json.gz": {
+        "sha256": "f9a19582d01e66a05d404f5d3945d1f0e46c9859dbfdb69d85a3550767643609",
+        "bytes": 450802
+      },
+      "water-footprints-2.json.gz": {
+        "sha256": "ab27638d542f86873f2abf6a8bf97c937ebfdaf05782c7499cce6f8696843429",
+        "bytes": 465612
+      },
+      "water-footprints-3.json.gz": {
+        "sha256": "8a31ec50a2a5472c23674e7018e2d02e46e3c2992a7b8bda97aadea41b3db97b",
+        "bytes": 451232
+      },
+      "water-footprints-4.json.gz": {
+        "sha256": "ae579db24ccdb8caf349ee7838f9c56d38bc45305ef85834bc2c76e0e3d15914",
+        "bytes": 436252
+      },
+      "water-footprints-5.json.gz": {
+        "sha256": "8bc401b85fbde19f4d6de97581c468cfb0f06db28441faac72afcdd34e767b9b",
+        "bytes": 420552
+      },
+      "water-footprints-6.json.gz": {
+        "sha256": "5b2dd883d000336aee8383f8daefd28e9141f8014fcdb948caad8a3aab37be2d",
+        "bytes": 400560
+      },
+      "water-footprints-7.json.gz": {
+        "sha256": "fd846e5e0d8250cfc454219a68ca5b33c1f222c2813ea22a4ee61c296ae3b6b9",
+        "bytes": 381254
+      },
+      "water-footprints-8.json.gz": {
+        "sha256": "7b632206ef8bf97f5020cb059cce06f5d35e41f14ba2a4e7087b30fc81a6d3b3",
+        "bytes": 367479
+      },
+      "water-footprints-9.json.gz": {
+        "sha256": "ecf21f2bf3104677d1ab59a33c2db1f9fca80fbfbca7a27c7781db33ede80740",
+        "bytes": 366672
+      }
+    }
+  }
+}
