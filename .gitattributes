@@ -49,3 +49,4 @@ public/simulation/data/*-calibration-2013-07.json -text
 public/simulation/data/*-evaluation-2014-08.json -text
 public/simulation/vendor/claude-hand/** -text
 public/simulation/data/connected-*.json -text
+public/simulation/data/operating-*.json -text

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "conclusion": "Frozen July 2013 evaluation failed. Longer antecedent forcing also fails to reproduce event flow; it is a post-failure sensitivity diagnostic, not another independent validation. Improved 2014 development fit does not establish general accuracy. Source-placement comparison also failed; it is retained as a rejected diagnostic, not promoted as the best model.",
+  "conclusion": "Saved runs describe development and geometry-mismatch diagnostics, not valid local accuracy margins. 2013 geometry has not been verified as event-era geometry; 2014 uses post-event terrain. These do not define a calibrated \u00b1 confidence interval or a release gate.",
   "events": [
     {
       "event": "September 2014 \u2014 iterative development",
@@ -30,10 +30,11 @@
         "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
       },
       "peakErrorPercent": -11.329090769466754,
-      "timingErrorMinutes": -66.0
+      "timingErrorMinutes": -66.0,
+      "assessmentRole": "2014 development replay using post-event terrain; not independent accuracy validation"
     },
     {
-      "event": "July 2013 \u2014 frozen SFINCS, independent event",
+      "event": "July 2013 \u2014 frozen SFINCS, geometry-mismatch diagnostic",
       "runId": "reach-evaluation-2013-5ada5abc93681a3f",
       "artifact": "sfincs-reach-2013-recorded.json.gz",
       "sha256": "12479b1b217f4fc83a87c1df434f7de7a72aa6fc2ea653b0e11bfa0a90043ae0",
@@ -60,7 +61,8 @@
         "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
       },
       "peakErrorPercent": -99.96252813879953,
-      "timingErrorMinutes": 672.0
+      "timingErrorMinutes": 672.0,
+      "assessmentRole": "2013 geometry-mismatch diagnostic; not accepted as a valid local accuracy test"
     },
     {
       "event": "July 2013 \u2014 antecedent sensitivity diagnostic",
@@ -90,7 +92,8 @@
         "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
       },
       "peakErrorPercent": -95.17285682952533,
-      "timingErrorMinutes": 2475.0
+      "timingErrorMinutes": 2475.0,
+      "assessmentRole": "2013 geometry-mismatch diagnostic; not accepted as a valid local accuracy test"
     },
     {
       "event": "July 2013 \u2014 source-placement diagnostic, hypothesis rejected",
@@ -120,7 +123,8 @@
         "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
       },
       "peakErrorPercent": -95.43108664514973,
-      "timingErrorMinutes": 2553.0
+      "timingErrorMinutes": 2553.0,
+      "assessmentRole": "2013 geometry-mismatch diagnostic; not accepted as a valid local accuracy test"
     }
   ]
 }

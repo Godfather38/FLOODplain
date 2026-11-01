@@ -1,7 +1,9 @@
+import {createRouteAssessment} from './route-assessment.js';
 import {fuseRoutes,handEvidence,sfincsEvidence} from './route-fusion.js';
-const $=id=>document.getElementById(id);let evidence=[],result,lastAutomaticHand;
-function render(){try{const saved=JSON.parse(sessionStorage.getItem('floodplain-hand-evidence'));if(saved?.hand&&saved.asOf!==lastAutomaticHand){lastAutomaticHand=saved.asOf;evidence=evidence.filter(e=>e.source!=='HAND').concat(saved.hand.map(handEvidence));}}catch{}let snapshot;try{snapshot=JSON.parse(sessionStorage.getItem('floodplain-route-evidence'));}catch{}
- result=fuseRoutes(snapshot,evidence);$('status').textContent=`${result.status}: ${result.reason??'Combined evidence evaluated'}`;
+const $=id=>document.getElementById(id);let evidence=[],result,lastAutomaticHand,operating,snapshotOverride,refreshTimer,busy=false;
+const assessment=createRouteAssessment();
+function render(){try{const saved=JSON.parse(sessionStorage.getItem('floodplain-hand-evidence'));if(saved?.hand&&saved.asOf!==lastAutomaticHand){lastAutomaticHand=saved.asOf;evidence=evidence.filter(e=>e.source!=='HAND').concat(saved.hand.map(handEvidence));}}catch{}let snapshot=snapshotOverride;if(!snapshot)try{snapshot=JSON.parse(sessionStorage.getItem('floodplain-route-evidence'));}catch{}
+ result=fuseRoutes(snapshot,evidence);if(!snapshot)result.reason='Select Start / refresh live assessment to load all sources here';if(operating)result={...result,operatingContext:{asOf:operating.asOf,observations:operating.observations,connected:operating.connected,limitations:operating.limitations}};$('status').textContent=`${result.status}: ${result.reason??'Combined evidence evaluated'}`;
  $('recommendation').textContent=result.recommendation?.text??'No route recommendation from the available evidence.';
  $('routes').replaceChildren();
  for(const r of result.routes){const section=document.createElement('section'),heading=document.createElement('h2'),summary=document.createElement('p'),details=document.createElement('details'),label=document.createElement('summary'),pre=document.createElement('pre');
@@ -10,8 +12,21 @@ function render(){try{const saved=JSON.parse(sessionStorage.getItem('floodplain-
  }$('download').disabled=!result.routes.length;
  $('sources').textContent=`Loaded model evidence: ${evidence.filter(e=>e.source==='HAND').length} HAND junction estimates; ${evidence.filter(e=>e.source==='SFINCS'&&e.status==='ok').length} SFINCS crossing-neighborhood matches. Unsupported, stale and historical records remain context only.`;
 }
-$('refresh').onclick=render;
+async function refreshAll(){
+ if(busy)return;busy=true;$('refresh').disabled=true;$('area').disabled=true;$('operation').textContent='Refreshing observations, closures, official forecast, upstream guidance and HAND…';
+ try{operating=await assessment.refresh({area:$('area').value});snapshotOverride=operating.observations.snapshot;evidence=operating.connected.hand.map(handEvidence);lastAutomaticHand=operating.handTransport.asOf;
+ try{sessionStorage.setItem('floodplain-route-evidence',JSON.stringify(snapshotOverride));sessionStorage.setItem('floodplain-hand-evidence',JSON.stringify(operating.handTransport));}catch{}
+ render();const c=operating.connected;$('operation').textContent=`Updated ${operating.asOf}. Original sources missing: ${operating.observations.missing.join(', ')||'none'}. RFC ${c.official.status}; NWM ${c.nwm.status}; HEFS ${c.ensemble.status}; rainfall ${c.rainfall.status}; HAND ${c.handStatus}. ${operating.observations.errors.join(' ')} ${refreshTimer?'Next refresh in 5 minutes.':'Automatic refresh paused.'}`;
+ $('provider-context').textContent=JSON.stringify({officialPeak:c.official.peak,nwm:c.nwm.reaches.map(r=>({reachId:r.reachId,relationship:r.relationship,status:r.status,issuedAt:r.issuedAt,peak:r.peak,sourceUrl:r.sourceUrl})),rainfall:{status:c.rainfall.status,issuedAt:c.rainfall.issuedAt,intervals:c.rainfall.intervals,limitation:c.rainfall.limitation},hand:c.hand.map(({masks,...h})=>h)},null,2);
+ }catch(e){$('operation').textContent='Refresh failed: '+e.message+' Previous evidence retains its original timestamps.';render();}finally{busy=false;$('refresh').disabled=false;$('area').disabled=false;}
+}
+$('refresh').onclick=()=>{if(!refreshTimer)refreshTimer=setInterval(refreshAll,300000);$('stop').disabled=false;refreshAll();};
+$('stop').onclick=()=>{clearInterval(refreshTimer);refreshTimer=null;$('stop').disabled=true;$('operation').textContent='Automatic refresh paused; displayed evidence retains its original timestamps.';};
+$('area').onchange=()=>{snapshotOverride=null;operating=null;if(refreshTimer)refreshAll();else{$('operation').textContent='Select Start / refresh for this area.';$('routes').replaceChildren();$('recommendation').textContent='';$('download').disabled=true;$('status').textContent='No assessment loaded for selected area.';}};
+window.addEventListener('pagehide',()=>clearInterval(refreshTimer));
 $('hand').onchange=async event=>{try{const file=event.target.files[0];if(!file)return;if(file.size>5e6)throw Error('HAND export exceeds 5 MB');const e=handEvidence(JSON.parse(await file.text()));evidence=evidence.filter(x=>!(x.source==='HAND'&&x.crossingId===e.crossingId));evidence.push(e);render();}catch(error){$('status').textContent=`HAND import unavailable: ${error.message}`;}};
 $('sfincs').onclick=async()=>{try{$('status').textContent='Loading recorded SFINCS context…';const r=await fetch('data/sfincs-reach-levee-recorded.json.gz');if(!r.ok)throw Error(`HTTP ${r.status}`);const run=JSON.parse(await new Response(r.body.pipeThrough(new DecompressionStream('gzip'))).text());const peak=run.frames.reduce((a,b)=>(b.flowM3s??0)>(a.flowM3s??0)?b:a);evidence=evidence.filter(x=>x.source!=='SFINCS').concat(sfincsEvidence(run,peak.time));render();}catch(error){$('status').textContent=`SFINCS context unavailable: ${error.message}`;}};
 $('download').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(result,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='floodplain-combined-route-decision.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 render();
+
+(async()=>{try{const response=await fetch('data/sfincs-event-comparison.json');if(!response.ok)throw Error(`HTTP ${response.status}`);const data=await response.json();$('measured-errors').replaceChildren();for(const event of data.events){const p=document.createElement('p');p.textContent=`${event.event}: peak ${event.peakErrorPercent.toFixed(1)}%; timing ${event.timingErrorMinutes>0?'+':''}${event.timingErrorMinutes} minutes (${event.timingErrorMinutes<0?'early':'late'}); ${event.comparison.pairs} paired samples. ${event.assessmentRole??event.comparison.validationRole}.`;$('measured-errors').append(p);}const p=document.createElement('p');p.textContent='These are different saved configurations/diagnostics across two storms, not independent samples of one universal error range.';$('measured-errors').append(p);}catch(e){$('measured-errors').textContent='Saved error evidence unavailable: '+e.message}})();
