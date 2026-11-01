@@ -38,3 +38,12 @@ The SFINCS viewer now defaults to the original reach artifact from solver commit
 The viewer now defaults to `reach-stage4-31abefafe5877852`, preserved from solver branch commit `1040515`, with both earlier runs still selectable. It contains 6,578 displayed cells and 73 hourly frames, September 8 07Z through September 11 07Z. Stage IV rainfall is included, but this run predates the full 96-hour rainfall input: initial water levels come from inflow-only spinup and velocities were reset. No 96-hour rainfall rerun is implied.
 
 Native model-section peak is 93.033 versus 339.802 m3/s observed, 6 h 57 min late; RMSE 88.205 m3/s. Full-domain maximum depth remains 26.884 m with problematic upstream pooling; displayed Trico-crop maximum is 2.991 m. The app labels poor fit and hydraulic review, retains original boundary/forcing hashes and assumptions, and offers the unchanged original output download. No geometry correction, solver build, or rerun was performed by the app thread.
+
+
+## Geometry-result checkpoint
+
+Latest default is `reach-geometry-b0530ca20c3f3643` from solver commit `39afc29`: 6,578 displayed cells, 97 frames, full 96-hour rainfall/inflow run. Contemporary 10 m terrain is represented by native subgrid tables and directed river topology constrains outlets. Displayed depths are **cell-average water depth (native volume / full 100 m computational-cell area)**, not road or local channel depth.
+
+Peak timing improves to 39 minutes late from 6 h 57 min; peak flow remains only 96.725 versus 339.802 m3/s observed, with RMSE 62.990 m3/s. The viewer presents timing and magnitude separately and retains hydraulic-review warnings. Full-domain cell-average maximum 25.268 m remains problematic; displayed-crop maximum is 3.007 m.
+
+The solver completed in 104.011 seconds using the saved executable on a fresh runner. Its workflow initially failed during export because a volume tolerance was compared with depth units; the solver owner corrected export locally against unchanged native outputs. `tools/sfincs/data/reach-geometry-result/run-provenance.json` preserves this outcome and native hashes. The app thread did not rerun/build the solver or merge the HAND branch. All prior outputs remain selectable and unchanged.

@@ -1,0 +1,12 @@
+{
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41291800062",
+  "inputCommit": "723817b",
+  "engineArtifactRunId": 41290378239,
+  "executableSha256": "c4917bc54158b0943d6d128b45c4346a33d059fb5d93808d05520c975e38f090",
+  "freshRunnerReuse": true,
+  "solverRuntimeSeconds": 104.01133,
+  "solverCompleted": true,
+  "workflowStatus": "export initially failed due to volume/depth tolerance units; corrected export performed locally on unchanged native output",
+  "nativeMapSha256": "b0530ca20c3f36439392c57397510e1d640df53fa062152f670130bbf0e75e95",
+  "nativeHistorySha256": "fbc5e546ee818cb17403181c859ec6bab66719d3c7b169224ba0cb79bf1c31c0"
+}

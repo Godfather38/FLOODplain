@@ -19,3 +19,5 @@ public/simulation/data/stage4-reach-2014-96h-provenance.json -text
 public/simulation/data/sfincs-reach-stage4-2014-96h.json -text
 
 tools/sfincs/data/reach-stage4-result/* -text
+
+tools/sfincs/data/reach-geometry-result/* -text
