@@ -66,3 +66,5 @@ public/simulation/data/frozen-map-context.json -text
 public/simulation/data/bridge-evidence-registry.json -text
 public/simulation/data/refined-partial-41339621278/** -text
 public/simulation/data/refined-compact-41339621278/** -text
+# Preserve source-bound refined terrain evidence bytes.
+public/simulation/data/refined-partial-41339621278/terrain-* -text

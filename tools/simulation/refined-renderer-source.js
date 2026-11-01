@@ -1,3 +1,4 @@
+import {createTerrainTileLoader} from './refined-terrain-tiles-source.js';
 import {buildNativeOverview} from './refined-overview-source.js';
 // Opt-in adapter only. Never replaces the published frozen run or its manifest.
 // readArtifact must be the checksum-verifying quadtree package reader.
@@ -24,6 +25,7 @@ export function createRefinedRendererSource({manifest,geometry,readArtifact,maxV
   const seen=new Uint32Array(cells.length),validatedLoadedFrames=new WeakSet();let queryId=0,lastExtent=null,lastVisible=null;
   const descriptors=new Map();for(const f of manifest.frames||[]){if(typeof f.time!=='string'||!f.time.endsWith('Z')||!Number.isFinite(Date.parse(f.time))||descriptors.has(f.time))throw Error('Explicit unique native frame time required');descriptors.set(f.time,f);}
   if(!descriptors.size)throw Error('Native frame descriptors required');
+  const terrainLoader=createTerrainTileLoader({manifest,geometry,readArtifact});
   const cache=new Map();let controller=null,generation=0,disposed=false;
   function validateFrame(frame,time){
     if(frame?.runId!==manifest.runId||frame.geometrySha256!==manifest.geometry.sha256||frame.time!==time||!descriptors.has(time))throw Error('Native frame identity/time/geometry mismatch');
@@ -76,9 +78,8 @@ export function createRefinedRendererSource({manifest,geometry,readArtifact,maxV
   }
   function flatFeatures(frame,extent){validateFrame(frame,frame?.time);return featuresForVisible(frame,visibleIndices(extent));}
   async function flatDisplay(frame,extent,{width=1024,height=768,signal}={}){validateFrame(frame,frame?.time);const visible=visibleIndices(extent);if(visible.length>maxVisibleFaces)return {kind:'overview',overview:await buildNativeOverview({geometry,frame,visible,extent,width,height,signal})};return {kind:'native',features:featuresForVisible(frame,visible)};}
-  async function loadTerrain({signal}={}){const display=manifest.terrainDisplay;if(display?.status!=='available'||!display.artifact)throw Error('3D terrain unavailable for this native run. The full-cell mean-depth map remains available.');
-    const terrain=await readArtifact(display.artifact,{signal});if(terrain.kind!=='native_face_triangle_terrain'||terrain.runId!==manifest.runId||terrain.geometrySha256!==manifest.geometry.sha256||terrain.verticalDatum!==manifest.provenance?.verticalDatum)throw Error('Terrain does not match native run/geometry/datum');return terrain;}
-  return {kind:'refined-native',manifest,geometry,loaded:{manifest,run:{cells,frames:manifest.frames}},footprints:{rings,sourceSha256:manifest.geometry.sha256},loadFrame,validateFrame,visibleIndices,findNativeCell,flatFeatures,flatDisplay,loadTerrain,
+  async function loadTerrain(options={}){return terrainLoader.load(options);}
+  return {kind:'refined-native',manifest,geometry,loaded:{manifest,run:{cells,frames:manifest.frames}},footprints:{rings,sourceSha256:manifest.geometry.sha256},loadFrame,validateFrame,visibleIndices,findNativeCell,flatFeatures,flatDisplay,loadTerrain,cancelTerrain:()=>terrainLoader.cancel(),get terrainStats(){return terrainLoader.stats;},
     cellInfo(i,frame){if(!frame||!cells[i])return null;return {cellIndex:i,nativeFaceId:cells[i].nativeFaceId,areaM2:cells[i].areaM2,resolutionM:cells[i].resolutionM,time:frame.time,depthM:frame.depthM[i],depthFt:frame.depthM[i]===null?null:frame.depthM[i]*3.280839895,nativeVolumeM3:frame.nativeVolumeM3[i],surfaceM:frame.waterSurfaceM[i],datum:manifest.provenance.verticalDatum};},
-    cancel(){generation++;controller?.abort();},dispose(){disposed=true;generation++;controller?.abort();cache.clear();bins.clear();lastExtent=lastVisible=null;},get cachedFrames(){return cache.size;}};
+    cancel(){generation++;controller?.abort();},dispose(){disposed=true;generation++;controller?.abort();terrainLoader.dispose();cache.clear();bins.clear();lastExtent=lastVisible=null;},get cachedFrames(){return cache.size;}};
 }

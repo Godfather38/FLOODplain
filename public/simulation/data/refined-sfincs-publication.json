@@ -1,6 +1,6 @@
 {
   "status": "partial",
   "path": "data/refined-compact-41339621278/manifest.json",
-  "sha256": "380a27879e04ec822fd5692076b0ec306b743499db4de273e831b514e70be922",
-  "reason": "Partial frozen run: 21 complete frames, 10 AM\u20133 PM MST; nine forecast hours missing."
+  "sha256": "a11c8bb480747d141e616d9a36041020c9d92a4e4fa797a8ed527e8bc1abf56b",
+  "reason": "Partial frozen run: 21 complete frames, 10 AM–3 PM MST; nine forecast hours missing."
 }

@@ -163,7 +163,7 @@
   ],
   "resolution": {
     "minimumM": 6.25,
-    "maximumM": 100.0,
+    "maximumM": 100,
     "cellCount": 398613,
     "uniform": false
   },
@@ -178,8 +178,18 @@
     "roadDepthValidated": false
   },
   "terrainDisplay": {
-    "status": "unavailable",
-    "reason": "Requires separately source-bound terrain; no regular-grid DEM blocks substituted"
+    "status": "available",
+    "artifact": {
+      "path": "terrain-index.json.gz",
+      "sha256": "1dcaf6060f95c7809c290418fe7915cba4c7eccec30cf1d5d99be1fba6b4d124",
+      "bytes": 302369
+    },
+    "kind": "native_face_terrain_tiles",
+    "runId": "refined-partial-41339621278",
+    "geometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+    "verticalDatum": "NAVD88",
+    "note": "Lazy native-geometry terrain tiles; partial output remains17:00–22:00UTC only;1m/10m source terrain is not hydraulic refinement.",
+    "artifactBase": "../refined-partial-41339621278/"
   },
   "provenance": {
     "configurationSha256": "66ccfdada384325419fbd604a2bd2a6fda3896554277c544003cf6bf49804e50",
@@ -268,8 +278,8 @@
       "method": "Exact unique projected rectangle bounds matched independently from native polygon connectivity in both files; input native mesh2d_nFaces IDs retained",
       "matchedFaces": 398613,
       "identityOrder": true,
-      "maxBoundsDifferenceM": 0.0,
-      "maxPolygonAreaVersusBoundsAreaErrorM2": 0.0
+      "maxBoundsDifferenceM": 0,
+      "maxPolygonAreaVersusBoundsAreaErrorM2": 0
     },
     "volumeUnits": "m3",
     "negativeCellFrames": 1243,
@@ -278,7 +288,7 @@
     "minRawVolumePerFullCellAreaM": -0.0004191995620727539,
     "firstLastTotalVolumeM3": [
       731792.25,
-      3688429.0
+      3688429
     ],
     "completionMarkerPresent": false,
     "endSummaryFieldsUnwritten": true,
