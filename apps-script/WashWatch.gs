@@ -459,15 +459,23 @@ function checkRiverEarly(flows, siteIds, names, R) {
 function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
   var _a, _b, _c;
   const gauges = ((_a = snapshot == null ? void 0 : snapshot.rain) != null ? _a : []).filter((g) => gaugeIds.includes(g.site));
-  const fresh = gauges.filter((g) => g.last_rpt && !g.maintenance && now - Date.parse(g.last_rpt) <= Math.max(staleMs, 24 * 36e5));
+  const fresh = gauges.filter((g) => {
+    var _a2;
+    return g.last_rpt && !g.maintenance && now - Date.parse(g.last_rpt) <= Math.max(staleMs, 24 * 36e5) && Object.values((_a2 = g.in) != null ? _a2 : {}).some((v) => Number.isFinite(v) && v >= 0);
+  });
   if (!fresh.length) return { level: "unknown", why: "no rain gauge reading" };
   const ageMin = snapshot.fetched_at ? (now - Date.parse(snapshot.fetched_at)) / 6e4 : 0;
   const asOf = ageMin > 45 ? ` (rain readings from ${new Date(Date.parse(snapshot.fetched_at)).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Phoenix" })})` : "";
-  const most = (w) => Math.max(...fresh.map((g) => {
-    var _a2, _b2;
-    return (_b2 = (_a2 = g.in) == null ? void 0 : _a2[w]) != null ? _b2 : 0;
-  }));
-  const detail = `last 1 h ${fmtIn(most("h1"))} · 3 h ${fmtIn(most("h3"))} · 6 h ${fmtIn(most("h6"))} · 24 h ${fmtIn(most("d1"))} (wettest of ${fresh.map((g) => {
+  const valid = (v) => Number.isFinite(v) && v >= 0;
+  const most = (w) => {
+    const values = fresh.map((g) => {
+      var _a2;
+      return (_a2 = g.in) == null ? void 0 : _a2[w];
+    }).filter(valid);
+    return values.length ? Math.max(...values) : null;
+  };
+  const amount = (w) => most(w) == null ? "unavailable" : fmtIn(most(w));
+  const detail = `last 1 h ${amount("h1")} · 3 h ${amount("h3")} · 6 h ${amount("h6")} · 24 h ${amount("d1")} (wettest of ${fresh.map((g) => {
     var _a2;
     return (_a2 = names[g.site]) != null ? _a2 : g.name;
   }).join(", ")})`;
@@ -475,12 +483,14 @@ function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
     for (const [win, limit] of Object.entries((_b = rules[level]) != null ? _b : {})) {
       const hit = fresh.filter((g) => {
         var _a2;
-        return ((_a2 = g.in) == null ? void 0 : _a2[win]) != null && g.in[win] >= limit;
+        return valid((_a2 = g.in) == null ? void 0 : _a2[win]) && g.in[win] >= limit;
       }).sort((a, b) => b.in[win] - a.in[win])[0];
       if (hit) return { level, detail, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${(_c = names[hit.site]) != null ? _c : hit.name}${asOf}` };
     }
   }
   const h6 = most("h6");
+  const required = /* @__PURE__ */ new Set(["h6", ...Object.values(rules).flatMap((rule) => Object.keys(rule))]);
+  if ([...required].some((w) => most(w) == null)) return { level: "unknown", detail, why: "rain gauge readings are incomplete" + asOf };
   return { level: "ok", detail, why: (h6 > 0 ? `light rain only (${fmtIn(h6)} in the last 6 hours)` : "no rain in the last 6 hours") + asOf };
 }
 function checkWash(snapshot, flows, wash, kind, now, staleMs, names) {
@@ -488,7 +498,7 @@ function checkWash(snapshot, flows, wash, kind, now, staleMs, names) {
   const readings = [];
   for (const id of (_a = wash.alert) != null ? _a : []) {
     const s = ((_b = snapshot == null ? void 0 : snapshot.stream) != null ? _b : []).find((x) => x.site === id);
-    if (s && s.flow_cfs != null && s.last_rpt && now - Date.parse(s.last_rpt) <= staleMs) readings.push({ name: s.name.replace(/ \(PT\)$/, ""), cfs: s.flow_cfs });
+    if (s && !s.maintenance && Number.isFinite(s.flow_cfs) && s.flow_cfs >= 0 && s.last_rpt && now - Date.parse(s.last_rpt) <= staleMs) readings.push({ name: s.name.replace(/ \(PT\)$/, ""), cfs: s.flow_cfs });
   }
   for (const id of (_c = wash.usgs) != null ? _c : []) {
     if ((_d = flows[id]) == null ? void 0 : _d.fresh) readings.push({ name: siteName(names, id), cfs: flows[id].cfs, risingFast: flows[id].risingFast });
@@ -646,6 +656,7 @@ function alertSnapshot(rainData, streamData, fetchedAt) {
   const ours = (d) => inside(d) && (d.source === "pima" || d.source === "pinal");
   const iso = (t) => t ? `${t}-07:00` : null;
   const num = (v) => {
+    if (v == null || String(v).trim() === "") return null;
     const n = Number(v);
     return Number.isFinite(n) && n > -90 ? n : null;
   };

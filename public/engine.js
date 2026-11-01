@@ -15,7 +15,7 @@ export function alertSnapshot(rainData, streamData, fetchedAt) {
   const inside = (d) => { const x = Number(d.longitude); const y = Number(d.latitude); return x >= BOX[0] && x <= BOX[2] && y >= BOX[1] && y <= BOX[3]; };
   const ours = (d) => inside(d) && (d.source === 'pima' || d.source === 'pinal');
   const iso = (t) => (t ? `${t}-07:00` : null);
-  const num = (v) => { const n = Number(v); return Number.isFinite(n) && n > -90 ? n : null; };
+  const num = (v) => { if (v == null || String(v).trim() === '') return null; const n = Number(v); return Number.isFinite(n) && n > -90 ? n : null; };
   return {
     fetched_at: new Date(fetchedAt).toISOString(),
     rain: (rainData ?? []).filter(ours).map((d) => ({
