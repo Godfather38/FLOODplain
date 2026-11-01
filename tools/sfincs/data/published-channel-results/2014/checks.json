@@ -1,0 +1,97 @@
+{
+  "completed": true,
+  "sectionCoverage": {
+    "trico_full": {
+      "peakM3s": 367.7849426269531,
+      "peakTime": "2014-09-09T05:42:00+00:00",
+      "integralM3": 13877675.87758275
+    },
+    "trico_reach": {
+      "peakM3s": 306.0354309082031,
+      "peakTime": "2014-09-09T05:44:00+00:00",
+      "integralM3": 8622184.213963872
+    },
+    "trico_south_tail": {
+      "peakM3s": 143.126708984375,
+      "peakTime": "2014-09-08T20:38:00+00:00",
+      "integralM3": 2977853.8634366076
+    },
+    "trico_north_tail": {
+      "peakM3s": 58.698909759521484,
+      "peakTime": "2014-09-09T03:10:00+00:00",
+      "integralM3": 2277637.8045242024
+    },
+    "reach_x489000": {
+      "peakM3s": 373.6778259277344,
+      "peakTime": "2014-09-09T01:16:00+00:00",
+      "integralM3": 9628812.425609585
+    },
+    "reach_x485000": {
+      "peakM3s": 374.2087097167969,
+      "peakTime": "2014-09-09T02:16:00+00:00",
+      "integralM3": 10316845.841951061
+    },
+    "reach_x480000": {
+      "peakM3s": 387.2259826660156,
+      "peakTime": "2014-09-09T02:58:00+00:00",
+      "integralM3": 11083665.442253072
+    },
+    "reach_x475000": {
+      "peakM3s": 401.27130126953125,
+      "peakTime": "2014-09-09T04:18:00+00:00",
+      "integralM3": 13037575.86866463
+    },
+    "maximumPartitionDifferenceM3s": 0.000152587890625,
+    "fullSectionIsGaugeMeasurement": false
+  },
+  "subgridDryCellStorage": {
+    "minimumRawCellVolumeM3": -2.5225422382354736,
+    "equivalentDepthToleranceM": 0.01,
+    "minimumEquivalentDepthM": -0.00025225422382354736,
+    "toleranceBasis": "Declared wetting/drying threshold over full cell area; diagnostic export bound, not a numerical accuracy claim",
+    "maximumNegativeVolumeSumPerFrameM3": 3.2590668201446533,
+    "displayPolicy": "Clamp negative dry-cell storage for display only; budget uses raw native volumes",
+    "interpretation": "Small negative native storage in nominally dry cells; not asserted to be floating-point roundoff"
+  },
+  "maximumDepthM": 24.552583694458008,
+  "nativeMaximumDepthAboveCellMinimumM": 28.19384765625,
+  "depthDefinition": "cell-average water depth from native subgrid volume divided by full cell area",
+  "initialStorageM3": 1.1330277671917077e-06,
+  "finalStorageM3": 8460788.12307515,
+  "nativeInflowIntegralM3": 13277304.450298548,
+  "nativeRainfallVolumeM3": 11502219.893299043,
+  "prescribedRainfallVolumeM3": 11506375.499999998,
+  "prescribedInflowIntegralM3": 13276939.45543304,
+  "nativeNetOutflowIntegralM3": 16327004.004784968,
+  "storageBudgetResidualM3": -8267.784261394292,
+  "relativeBudgetResidual": -0.0003336538727197353,
+  "outflowIntegral60vs120SecondDifferenceM3": 8373.501808034256,
+  "budgetStatus": "approximate_flux_accounted",
+  "budgetMethod": "Native enclosing section flows integrated at 60-second output; interior-cell storage and native cumulative rainfall; no inferred outlet residual",
+  "huthreshM": 0.01,
+  "rainfallStatus": "complete_stage_iv_analysis",
+  "comparison": {
+    "siteId": "USGS-09486520",
+    "usedAsForcing": false,
+    "parameterFitting": false,
+    "validationRole": "Published estimated-channel setup evaluation after prior failures; not blind validation",
+    "sourceUrl": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09486520&parameter_code=00060&time=2014-09-07T07%3A00%3A00Z%2F2014-09-11T07%3A00%3A00Z&limit=1000",
+    "observedQuality": {
+      "approvalStatuses": [
+        "Approved"
+      ],
+      "qualifiedCount": 16,
+      "maxGapMinutes": 15
+    },
+    "evaluationStart": "2014-09-08T07:00:00+00:00",
+    "pairs": 289,
+    "rmseM3s": 22.61373713363667,
+    "modelPeakM3s": 306.0354309082031,
+    "modelPeakTime": "2014-09-09T05:44:00+00:00",
+    "observedPeakM3s": 339.802159104,
+    "observedPeakTime": "2014-09-09T06:45:00+00:00",
+    "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
+  },
+  "displayMaximumDepthM": 3.59616756439209,
+  "hydraulicReadiness": "requires_channel_geometry_and_rainfall_review"
+}

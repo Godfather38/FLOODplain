@@ -3,6 +3,68 @@
   "conclusion": "Saved runs describe development and geometry-mismatch diagnostics, not valid local accuracy margins. 2013 geometry has not been verified as event-era geometry; 2014 uses post-event terrain. These do not define a calibrated \u00b1 confidence interval or a release gate.",
   "events": [
     {
+      "event": "2013 \u2014 published-channel diagnostic",
+      "artifact": "published-channel-2013.json.gz",
+      "sha256": "4081ecee6b4eb381d6feac3013a754965814f2c2b64335b16ceb454068cac555",
+      "comparison": {
+        "siteId": "USGS-09486520",
+        "usedAsForcing": false,
+        "parameterFitting": false,
+        "validationRole": "Published estimated-channel setup evaluation after prior failures; not blind validation",
+        "sourceUrl": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09486520&parameter_code=00060&time=2013-07-19T07%3A00%3A00Z%2F2013-07-23T07%3A00%3A00Z&limit=1000",
+        "observedQuality": {
+          "approvalStatuses": [
+            "Approved"
+          ],
+          "qualifiedCount": 0,
+          "maxGapMinutes": 15
+        },
+        "evaluationStart": "2013-07-20T07:00:00+00:00",
+        "pairs": 289,
+        "rmseM3s": 7.145975063292334,
+        "modelPeakM3s": 11.458282470703125,
+        "modelPeakTime": "2013-07-21T16:13:00+00:00",
+        "observedPeakM3s": 30.865362785280002,
+        "observedPeakTime": "2013-07-21T10:45:00+00:00",
+        "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
+      },
+      "peakErrorPercent": -62.876566362059116,
+      "timingErrorMinutes": 328.0,
+      "assessmentRole": "Historical diagnostic with temporally mismatched geometry; not an independent accuracy validation",
+      "artifactCommit": "13a3cf63acfccbb9d6853220e40baec00530fad4"
+    },
+    {
+      "event": "2014 \u2014 published-channel development replay",
+      "artifact": "published-channel-2014.json.gz",
+      "sha256": "ebd79a64ab843222f0007c110860415a86e7d96c98ce0228411875efb3d8d08f",
+      "comparison": {
+        "siteId": "USGS-09486520",
+        "usedAsForcing": false,
+        "parameterFitting": false,
+        "validationRole": "Published estimated-channel setup evaluation after prior failures; not blind validation",
+        "sourceUrl": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09486520&parameter_code=00060&time=2014-09-07T07%3A00%3A00Z%2F2014-09-11T07%3A00%3A00Z&limit=1000",
+        "observedQuality": {
+          "approvalStatuses": [
+            "Approved"
+          ],
+          "qualifiedCount": 16,
+          "maxGapMinutes": 15
+        },
+        "evaluationStart": "2014-09-08T07:00:00+00:00",
+        "pairs": 289,
+        "rmseM3s": 22.61373713363667,
+        "modelPeakM3s": 306.0354309082031,
+        "modelPeakTime": "2014-09-09T05:44:00+00:00",
+        "observedPeakM3s": 339.802159104,
+        "observedPeakTime": "2014-09-09T06:45:00+00:00",
+        "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
+      },
+      "peakErrorPercent": -9.937172937580485,
+      "timingErrorMinutes": -61.0,
+      "assessmentRole": "Development event with post-event terrain; not independent validation",
+      "artifactCommit": "13a3cf63acfccbb9d6853220e40baec00530fad4"
+    },
+    {
       "event": "September 2014 \u2014 iterative development",
       "runId": "reach-levee-ba6b8864723e92ce",
       "artifact": "sfincs-reach-levee-recorded.json.gz",

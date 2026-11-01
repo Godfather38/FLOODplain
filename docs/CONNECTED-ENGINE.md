@@ -38,3 +38,12 @@ The original `loadGaugeReadings` cache/fallback and `engine.evaluate` rules are 
 Actual full-flow recording returned all original feeds without missing sources, both HAND estimates, four Avra routes and a combined recommendation. This records execution, not a guarantee about current road conditions. The same orchestrator was replayed for Picture Rocks and a simulated county outage; the outage remains explicit. Browser visual QA is still restricted; a local HTTP probe was also blocked by the execution sandbox (EACCES), not retried.
 
 Current scientific interpretation: 2013 runs with unverified event-era geometry are geometry-mismatch diagnostics, **not valid local accuracy estimates**. 2014 runs are development replays using post-event terrain. Original artifact numbers and provenance remain intact; displayed assessment labels are corrected. No arbitrary ±30% or timing threshold gates the hobbyist release. Event-specific errors are shown without inventing a calibrated confidence interval or road-depth margin.
+
+## Published-channel historical outputs integrated
+
+The one-screen route app now has a **Completed historical SFINCS context** section with an event selector, original artifact download, cell-average-depth view and recorded-time slider. Both outputs come unchanged from solver commit `13a3cf6` (`tools/sfincs/data/published-channel-results/manifest.json`). The original gzip SHA256 is verified before display. No model, geometry, input or solver run was changed here.
+
+- 2013: 11.4583 versus 30.8654 m³/s; signed peak error **−62.8766%**, timing **+328 minutes**, 289 matched readings. Geometry-mismatch diagnostic, not valid local accuracy validation. Rainfall includes the documented six-hour allocation scenario.
+- 2014: 306.0354 versus 339.8022 m³/s; signed peak error **−9.9372%**, timing **−61 minutes**, 289 matched readings. Development replay with post-event terrain, not independent validation.
+
+These are two historical events conditioned on measured upstream discharge, not full future rainfall forecasts. The manifest states 2015 terrain and later estimated channel geometry; event-contemporaneous geometry is not demonstrated. They are not used as current forecasts, road-depth evidence or a calibrated ± interval. Loading either attaches only historical SFINCS context to the route assessment; live feeds/HAND behavior stays intact.

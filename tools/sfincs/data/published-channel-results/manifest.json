@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "solver": "SFINCS",
+  "runId": 41311500838,
+  "inputCommit": "3a00002",
+  "engineBuildRun": 41290378239,
+  "engineRecompiled": false,
+  "operationalForecast": false,
+  "channelSetup": "Official HydroMT-SFINCS datasets_riv with unchanged HydroGeom bankfull estimates",
+  "caseSelection": "Both full events locked before scoring; no successful-case filtering",
+  "cases": [
+    {
+      "event": "2013",
+      "resultStatus": "complete_experimental",
+      "path": "tools/sfincs/data/published-channel-results/2013/inundation.json.gz",
+      "sha256": "4081ecee6b4eb381d6feac3013a754965814f2c2b64335b16ceb454068cac555",
+      "checksPath": "tools/sfincs/data/published-channel-results/2013/checks.json",
+      "peakM3s": 11.458282470703125,
+      "observedPeakM3s": 30.865362785280002,
+      "peakErrorPercent": -62.876566362059116,
+      "timingErrorMinutes": 328.0,
+      "rmseM3s": 7.145975063292334,
+      "solverRuntimeSeconds": 536.53,
+      "budgetResidualPercent": 0.007781316191465134,
+      "rainfallStatus": "qualified_six_hour_allocation_scenario",
+      "nativeMapSha256": "97f09d23aef6df40f6d7076ff5a69587761ab2a61fdbb4ba612b25f210b5d1af",
+      "nativeMapLocation": "run 41311500838 artifact sfincs-verification/runs/prefab-2013/sfincs_map.nc",
+      "evaluationRole": "Historical diagnostic with temporally mismatched geometry; not an independent accuracy validation"
+    },
+    {
+      "event": "2014",
+      "resultStatus": "complete_experimental",
+      "path": "tools/sfincs/data/published-channel-results/2014/inundation.json.gz",
+      "sha256": "ebd79a64ab843222f0007c110860415a86e7d96c98ce0228411875efb3d8d08f",
+      "checksPath": "tools/sfincs/data/published-channel-results/2014/checks.json",
+      "peakM3s": 306.0354309082031,
+      "observedPeakM3s": 339.802159104,
+      "peakErrorPercent": -9.937172937580485,
+      "timingErrorMinutes": -61.0,
+      "rmseM3s": 22.61373713363667,
+      "solverRuntimeSeconds": 104.947,
+      "budgetResidualPercent": -0.03336538727197353,
+      "rainfallStatus": "complete_stage_iv_analysis",
+      "nativeMapSha256": "028e26d7caa40192ff4931d521fc4d6414d400b4135493b3ae72b19b6548eba4",
+      "nativeMapLocation": "run 41311500838 artifact sfincs-verification/runs/prefab-2014/sfincs_map.nc",
+      "evaluationRole": "Development event with post-event terrain; not independent validation"
+    }
+  ],
+  "sampleSize": 2,
+  "conditioning": "Observed upstream discharge; historical replay, not an issued forecast",
+  "generalPredictionUncertainty": null,
+  "geometryTemporalLimitation": "2015 terrain and later published estimated channel geometry; neither event has demonstrated event-contemporaneous geometry"
+}

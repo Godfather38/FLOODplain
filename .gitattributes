@@ -50,3 +50,5 @@ public/simulation/data/*-evaluation-2014-08.json -text
 public/simulation/vendor/claude-hand/** -text
 public/simulation/data/connected-*.json -text
 public/simulation/data/operating-*.json -text
+tools/sfincs/data/published-channel-results/** -text
+public/simulation/data/published-channel-* -text
