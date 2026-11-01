@@ -119,3 +119,9 @@ UI owner: app.js, map-shell.js, map-layers.js, map-layers.css and this checklist
 - Android adaptive layout guidance: https://developer.android.com/design/ui/mobile/guides/layout-and-content/adapt-layout . Adapt content and controls to available width; do not shrink a desktop dashboard onto phone.
 
 References guide implementation. They do not prove our app meets the checklist.
+
+## Integrated navigation and bridge evidence (latest queued requirements)
+- Map is a first-class destination in the app's main navigation, visually consistent with Routes & conditions. It is not a small external-looking text link. The active destination is announced with aria-current. Route context/time/state survive movement between destinations.
+- A bridge assessment must be grounded in that identified structure's deck/low-chord height, datum/gauge relationship and documented flood/closure history when available. Do not generalize that bridges close at a given flow or claim water necessarily passes underneath.
+- Official current closures remain observed facts and hard exclusions. Missing structure evidence is explicitly unverified, not a new generic risk penalty or assumed safe clearance. Legacy flow thresholds must be described as indicators, not proven bridge-specific overtopping thresholds.
+- UI now has a bridge evidence slot keyed by crossingId for the solver owner's incoming source-backed records. Until populated it shows each missing item honestly. Do not invent a bridge height or reuse gauge stage as deck elevation.

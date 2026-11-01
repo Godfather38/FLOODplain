@@ -219,12 +219,18 @@ function routeScreen(rid) {
     <div class="bottom-bar">${navBtn(r)}</div>`;
 }
 
+function bridgeEvidencePlaceholder(fp){
+ if(!['bridge','river'].includes(fp.kind))return '';
+ return `<section class="bridge-evidence" data-bridge-evidence data-crossing-id="${esc(fp.id)}"><h3>${esc(fp.short)}: height & history</h3><dl><dt>Bridge deck / low-chord elevation</dt><dd>Not verified for this structure.</dd><dt>Elevation datum and gauge relationship</dt><dd>Not verified. Gauge height cannot yet be compared with bridge clearance.</dd><dt>Documented flooding or overtopping</dt><dd>No structure-specific evidence linked yet. This does not mean it has never flooded.</dd></dl><p>Current readings and official barricade reports are shown below. Existing flow thresholds are warning indicators, not a measured bridge-clearance calculation.</p></section>`;
+}
+
 function stretchScreen(rid, fpId) {
   const p = view.fpResults[fpId];
   const fp = FAILURE_POINTS.find((f) => f.id === fpId);
   const s = riskScore(p);
   return `
-    <div class="summary">${badgeWithWord(s)}<div><p>${esc(LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
+    <div class="summary">${badgeWithWord(s)}<div><p>${esc(['bridge','river'].includes(fp.kind)?'Review the observed sources below. Bridge clearance is not established by this rating.':LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
+    ${bridgeEvidencePlaceholder(fp)}
     <h3 class="section">What each source says</h3>
     <div class="list">
       ${p.checks.map((c, i) => {

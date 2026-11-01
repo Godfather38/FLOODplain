@@ -61,9 +61,9 @@ export function checkRiver(flows, siteIds, names, R) {
   for (const { id, f } of parts) {
     const at = `${fmtCfs(f.cfs)} cfs at ${siteName(names, id)}`;
     let c;
-    if (f.cfs >= R.dangerCfs) c = { level: 'danger', why: `${at}: the 2014 flood that went over the Trico bridge was 12,000-21,000 cfs` };
-    else if (f.cfs >= R.cautionCfs || (f.risingFast && f.cfs >= R.watchCfs)) c = { level: 'caution', why: `${at}${f.risingFast ? ' and rising fast' : ''}: big flood flow. Bridges get closed at levels like this` };
-    else if (f.cfs >= R.watchCfs || f.risingFast) c = { level: 'watch', why: `${at}${f.risingFast ? ' and rising' : ''}: storm water under the bridge` };
+    if (f.cfs >= R.dangerCfs) c = { level: 'danger', why: `${at}: above the configured high-flow threshold; overtopping at this bridge is not established` };
+    else if (f.cfs >= R.cautionCfs || (f.risingFast && f.cfs >= R.watchCfs)) c = { level: 'caution', why: `${at}${f.risingFast ? ' and rising fast' : ''}: above the configured flow-warning threshold; bridge-specific clearance and closure history are not linked` };
+    else if (f.cfs >= R.watchCfs || f.risingFast) c = { level: 'watch', why: `${at}${f.risingFast ? ' and rising' : ''}: elevated river flow; water level relative to this bridge is not established` };
     if (c && rank(c.level) > rank(out.level)) out = c;
   }
   return out;
@@ -128,7 +128,7 @@ export function checkWash(snapshot, flows, wash, kind, now, staleMs, names) {
   }
   return top.cfs >= 2000 || top.risingFast
     ? { level: 'caution', why: `${at}: a large flow is coming toward this bridge` }
-    : { level: 'watch', why: `${at}: water will pass under this bridge` };
+    : { level: 'watch', why: `${at}: bridge clearance is not established from this reading` };
 }
 
 // 4. Pima County's own barricade points near this spot.
@@ -186,11 +186,11 @@ export function rateFailurePoint(fp, d, cfg) {
     const c = d.alert
       ? checkRain(d.alert, ids, cfg.RAIN[ruleName], cfg.RAIN_GAUGES, now, cfg.STALE_MS)
       : { level: 'unknown', why: 'rain gauges unreachable right now' };
-    // Rain upstream of a bridge means water will pass *under* it. That's a heads-up,
-    // not a reason to avoid the road. The wash flow sensors decide anything worse.
+    // Preserve the existing rainfall advisory rule; it does not establish bridge clearance.
+    // Structure-specific elevation/history evidence is pending, not inferred from rainfall.
     if (fp.kind === 'bridge' && rank(c.level) > rank('watch') && c.level !== 'unknown') {
       c.level = 'watch';
-      c.why += ': water will pass under this bridge';
+      c.why += ': bridge clearance is not established from this reading';
     }
     checks.push({ src: `rain-${ruleName}`, ...c });
   }
