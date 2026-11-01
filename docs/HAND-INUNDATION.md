@@ -29,6 +29,36 @@ Yes, with the limits below. All tests pass, and the PR changes no service code.
 - Texts and push alerts come from the alert service, which doesn't use HAND, so **a text and the app can show different numbers**.
 - The phrase "usually passable" is gone from the app's level 2 wording, on every crossing, because HAND can appear on any of them. It's now "Some water around. Look as you go." The owner may want to review this, since it was the owner's existing copy.
 
+## For the owner: one page
+
+**Approve or restore.** The app's level 2 line used to say "Some water around. Usually passable; look as you go." It now says "Some water around. Look as you go." everywhere. To restore it, put the old wording back in `LEVEL_SENTENCE.watch` near the top of `public/app.js`, and in the level 2 line of the legend in `howScreen()`. HAND-raised crossings already use their own line, so restoring it wouldn't attach "passable" to a HAND result on the crossing screen, but the legend would say it.
+
+**Approve or overrule.** HAND raises a level with an official gauge forecast, or on the Santa Cruz only with model flow. On washes it's shown and changes nothing, because the back-test found no useful signal at Brawley Wash.
+
+**Questions only local knowledge can answer. Avra Valley first.**
+
+*Avra Valley*
+
+1. Avra Valley Rd, -111.24501 (Clayton Rd dip): the model's stream, which NOAA calls Los Robles Wash, is 304 m away. Does that wash really feed this dip?
+2. Avra Valley Rd, -111.27659 (El Paso Gas Rd dip) and -111.26095: these have no estimate because the nearest modeled stream is 1.2 to 1.6 km away. Is that right, or is a stream missing from NOAA's map?
+3. Trico Marana Rd, east of the bridge: NOAA's stream line and OpenStreetMap's river line run up to 175 m apart around 700 m east of the bridge. Where does the channel actually run?
+4. Trico Rd south of the gauge: NOAA says overbank flow begins here at 12.25 ft, about 3,000 cfs. Have you seen water on the road at about that flow, and where does it start?
+5. Los Robles Wash at Trico Rd: the model flow is near zero on most days. When this wash runs, how fast does it come up compared with the Santa Cruz?
+
+*Picture Rocks and west of Tucson*
+
+6. Yuma Mine Wash on Ina: the model has an estimate here, using a reach NOAA mislabels as Santa Cruz River. Does the estimate look like the real dip?
+7. Picture Rocks Wash at Picture Rocks Rd: no estimate, 775 m from a modeled stream. You've called this a dip, so the app relies on rain and other sources here. Is that enough?
+8. Kinney Rd at -111.20377 and at Javelina Wash, plus -111.16081 and -111.14537: are these real wash crossings?
+9. Gates Pass Rd at -111.12278 and -111.07192: same question.
+10. Speedway at -111.0604, -111.05747, -111.05195, -111.04624 and -111.04501: are these real crossings or side channels? Your notes call the Speedway washes unconfirmed.
+
+**Check the Nov 2 Trico forecast.** Recorded early on Nov 1, NOAA's forecast for SCTA3 peaked at 955 cfs on Nov 2 at 15:00 UTC, which is 8 AM Arizona. It may be reissued before then, and the gauge was at 71 cfs when recorded.
+
+1. Open [USGS 09486520](https://waterdata.usgs.gov/monitoring-location/09486520/) and read the discharge around 8 AM Arizona on Nov 2.
+2. Compare the peak with 955 cfs, and note how far off the timing is.
+3. Check [NOAA's page for SCTA3](https://water.noaa.gov/gauges/SCTA3) for the current forecast. One result doesn't prove the forecast right or wrong, but it's the first real check of a gauge forecast in this work.
+
 ## Results for every crossing
 
 `python tools/hand/hand_tool.py` checked all 52 distinct crossing points in `public/data/crossings.geojson` against the real NOAA files. **25 are supported. 27 are not**, and the app lists those as missing coverage with the reason. No data was filled in to raise the count.
@@ -86,6 +116,51 @@ On live data tonight, the app showed Avra Valley Rd bridge at 3 Moderate with "8
 The cause was a bad curve choice. NOAA's data has two catchments on that reach at the bridge. My tool picked the nearer one, a sliver 0.84 sq km with a channel 7.5 m wide, instead of the river's own, at 13.9 sq km and 96 m wide. The tool now prefers the river's own branch and refuses slivers on big rivers. The same bridge now reads 3.0 ft at 593 cfs, under the Watch step, and stays at 2 Minor from the real Cortaro reading.
 
 The Santa Cruz at Trico gauge forecast still shows a peak of 955 cfs for Nov 2, with the gauge at 71 cfs tonight and Cortaro upstream at 384. Whether that verifies is worth checking on Nov 2.
+
+## Should the model's high bias be corrected?
+
+No. `tools/hand/bias_test.py` fitted two simple corrections on 2008 to 2015 and checked them on 2016 to 2022, which weren't used for fitting. Brawley was left out, because there's no signal there to correct. Results are in `data/bias-test.json`. This table uses daily means, so its counts are lower than the back-test's hourly peaks.
+
+| Santa Cruz at Trico, 2016 to 2022 | No correction | Subtract base flow | Match percentiles |
+|---|---:|---:|---:|
+| Average flow, cfs (gauge: 40) | 225 | 97 | 49 |
+| Average daily error, cfs | 202 | 88 | 48 |
+| Days at 100 cfs or more (gauge: 107) | 2,367 | 650 | 134 |
+| Real events over 300 cfs seen, of 28 | 22 | 19 | 15 |
+| Real events over 650 cfs seen, of 12 | 9 | 9 | 5 |
+| Real events over 1,000 cfs seen, of 10 | 5 | 5 | 4 |
+| Real events over 3,000 cfs seen, of 2 | 0 | 0 | 0 |
+
+Cortaro shows the same pattern: average daily error fell from 171 to 92 and 44 cfs, while real events over 650 cfs seen, of 24, went from 12 to 11 and 5.
+
+Percentile matching fixes ordinary days but loses about half the real events, which are the days that matter. Subtracting base flow gives no gain at the flows that can raise a level, around 650 cfs and up. Neither clearly improves what the app uses this flow for, so neither is adopted. The app shows the model's flow as is, with a label saying it reads high.
+
+## Observed flood evidence
+
+**I found no mapped observed flood extent near a supported crossing that could be compared directly.** Where I looked:
+
+- **USGS high-water marks (STN):** the old data service now redirects to a web app, and the addresses I tried for its data either redirected or returned 404. I couldn't query it, so I can't say whether it has Arizona marks.
+- **Pima County open GIS:** I searched the layer names on `gisdata.pima.gov`. It has FEMA floodplains, sheet-flooding areas and erosion hazard layers, which are regulatory or modeled, with no observed event extent by name.
+- **Web search:** USGS map I-846-B (1974) shows flood hazards for the Marana quadrangle, but predates the 1983 flood and isn't observed extent. The county describes the 1983 flood but publishes no extent layer I could find. USGS has a 1983 inundation report for the Gila River, and I didn't confirm one for the Santa Cruz at Marana.
+
+The county or Town of Marana may hold archived 1983 mapping that isn't public.
+
+**One real comparison was possible: NOAA's written impact statements at the Trico gauge.** These describe what happens, though not as a map. I sampled the estimate along Trico Rd every 20 m, for 2.5 km south of the gauge. 92 of the 125 points south of it have no estimate, so this covers only the stretch near the river.
+
+| Flow (cfs) | NOAA's statement at that level | Estimated wet points on Trico Rd south of the gauge |
+|---|---|---|
+| 843 | none | 3, within 114 m of the gauge's river crossing |
+| 3,000 | "Overbank flow begins on Trico Road just south of bridge" | 3, the same ones |
+| 5,000 | "Extensive flooding south of Trico Rd Bridge" | 20, reaching about 480 m or more |
+| 8,600 | "Bridges overtopped", paraphrased | 33 |
+
+**What agrees:** the estimate spreads south along Trico Rd as flow rises, which is the direction and order NOAA describes, and most of the growth is between 3,000 and 5,000 cfs. **What doesn't:** NOAA has overbank flow starting at 3,000 cfs, and the estimate doesn't change until somewhere between 3,000 and 5,000. Bridges aren't modeled, so overtopping can't be compared. This comparison stays in this doc; the app doesn't report a value for the road.
+
+## The path mismatch at Trico Marana
+
+Explained, as far as the data can. In the 3 km square, NOAA's HAND stream line follows the National Water Model reach very closely, a median of 2 m apart and at most 7 m. OpenStreetMap's river line is a median of 35 m from HAND's, and at most about 175 m, around 700 m east of the bridge. Along OpenStreetMap's line the HAND value is low, a median of 0.24 m, so that line is in low ground the model treats as near the channel.
+
+So these are two tracings of the same corridor, not different rivers. OpenStreetMap appears to follow a mapped channel, and NOAA follows its own stream network on elevation data. I can't tell from this data which matches today's channel, and the channel may have moved. The difference is too small to matter for a 3 km view, but it could matter for a detail near that bend.
 
 ## FEMA flood zones
 
@@ -156,7 +231,22 @@ How it weighs against other sources, in `public/hand-model.js`:
 
 This is less weight than the owner asked for on washes, because the back-test doesn't support more there. That choice is the owner's to overrule.
 
-The app calls NOAA for each matched reach on every refresh, about a dozen reaches in all.
+## Failure behavior and download size
+
+HAND loads after the first screen, so it can't hold that screen up. Tested in a browser by intercepting requests:
+
+| Situation | What the page did |
+|---|---|
+| NOAA hanging | Main screen updated in about 1 second; HAND calls time out by 10 seconds |
+| NOAA down | Rating unchanged; HAND row says it has no forecast flow |
+| Junk replies | Same as down |
+| Half the calls failing | Crossings with a working source are unaffected; others say no forecast flow |
+| Corrupt `coverage.json` | Rating unchanged; page says HAND isn't responding |
+| Back to normal | HAND returned without a reload |
+
+Until a new result arrives, the last HAND result is kept, so a crossing's number doesn't flicker on each refresh. A failure inside HAND can't take down the ratings, and a redraw never happens over a form someone is filling in.
+
+**Download:** HAND adds 16 requests on the main page each load, at about 147 KB before compression and about 25 KB after, since GitHub Pages compresses these files. 5 are local files and 11 are small NOAA calls, finished about 0.9 seconds after they started on this connection. **I did not test on a real phone or a slow connection.** None of the 6.5 MB of crossing grids load on the main page. The map page loads one crossing's grid, 150 to 400 KB, only when that crossing is chosen.
 
 ## What was checked
 
@@ -190,9 +280,8 @@ From 843 to 3,000 cfs NOAA's stage rises 5.19 ft and HAND's rises 2.79 ft. From 
 
 **Not done:**
 
-- No estimate has been compared with an observed flood extent or photos.
-- East of the Trico Marana crossing, the estimated area and OpenStreetMap's river line appear to take different paths. The cause is unknown.
-- Medium and long-range forecasts are not used. NOAA's reach endpoint returned a medium-range series once tonight, then empty results in two checks of 4 reaches, so it isn't reliable enough to build on. Only the 18-hour short range is used.
+- No estimate has been compared with a mapped flood extent or photos. See "Observed flood evidence".
+- Medium and long-range forecasts are not used. NOAA's reach endpoint returned a medium-range series once tonight, then empty results in three later checks, while short range and analysis kept working. It isn't reliable enough to build on, so this is a dead end for now. Only the 18-hour short range is used.
 
 ## Source and age
 

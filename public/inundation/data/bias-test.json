@@ -1,0 +1,240 @@
+{
+ "schemaVersion": 1,
+ "checkedAt": "2026-11-01T08:59:31Z",
+ "fitYears": "2008-2015",
+ "checkYears": "2016-2022",
+ "gauges": {
+  "SCTA3": {
+   "name": "Santa Cruz at Trico Road",
+   "fitDays": 2922,
+   "checkDays": 2557,
+   "noCorrection": {
+    "meanObservedCfs": 40.2,
+    "meanFlowCfs": 224.7,
+    "meanAbsoluteErrorCfs": 201.7,
+    "daysFlowAtLeast100": 2367,
+    "daysObservedAtLeast100": 107,
+    "events": [
+     {
+      "thresholdCfs": 300,
+      "realEvents": 28,
+      "seenWithinOneDay": 22,
+      "modelEvents": 31,
+      "backedByGauge": 16
+     },
+     {
+      "thresholdCfs": 650,
+      "realEvents": 12,
+      "seenWithinOneDay": 9,
+      "modelEvents": 16,
+      "backedByGauge": 10
+     },
+     {
+      "thresholdCfs": 1000,
+      "realEvents": 10,
+      "seenWithinOneDay": 5,
+      "modelEvents": 7,
+      "backedByGauge": 6
+     },
+     {
+      "thresholdCfs": 3000,
+      "realEvents": 2,
+      "seenWithinOneDay": 0,
+      "modelEvents": 1,
+      "backedByGauge": 1
+     }
+    ]
+   },
+   "subtractBaseFlow": {
+    "meanObservedCfs": 40.2,
+    "meanFlowCfs": 97.1,
+    "meanAbsoluteErrorCfs": 87.6,
+    "daysFlowAtLeast100": 650,
+    "daysObservedAtLeast100": 107,
+    "events": [
+     {
+      "thresholdCfs": 300,
+      "realEvents": 28,
+      "seenWithinOneDay": 19,
+      "modelEvents": 22,
+      "backedByGauge": 14
+     },
+     {
+      "thresholdCfs": 650,
+      "realEvents": 12,
+      "seenWithinOneDay": 9,
+      "modelEvents": 18,
+      "backedByGauge": 11
+     },
+     {
+      "thresholdCfs": 1000,
+      "realEvents": 10,
+      "seenWithinOneDay": 5,
+      "modelEvents": 7,
+      "backedByGauge": 6
+     },
+     {
+      "thresholdCfs": 3000,
+      "realEvents": 2,
+      "seenWithinOneDay": 0,
+      "modelEvents": 1,
+      "backedByGauge": 1
+     }
+    ]
+   },
+   "percentileMatch": {
+    "meanObservedCfs": 40.2,
+    "meanFlowCfs": 49.0,
+    "meanAbsoluteErrorCfs": 48.0,
+    "daysFlowAtLeast100": 134,
+    "daysObservedAtLeast100": 107,
+    "events": [
+     {
+      "thresholdCfs": 300,
+      "realEvents": 28,
+      "seenWithinOneDay": 15,
+      "modelEvents": 18,
+      "backedByGauge": 15
+     },
+     {
+      "thresholdCfs": 650,
+      "realEvents": 12,
+      "seenWithinOneDay": 5,
+      "modelEvents": 6,
+      "backedByGauge": 6
+     },
+     {
+      "thresholdCfs": 1000,
+      "realEvents": 10,
+      "seenWithinOneDay": 4,
+      "modelEvents": 4,
+      "backedByGauge": 4
+     },
+     {
+      "thresholdCfs": 3000,
+      "realEvents": 2,
+      "seenWithinOneDay": 0,
+      "modelEvents": 0,
+      "backedByGauge": 0
+     }
+    ]
+   }
+  },
+  "CSCA3": {
+   "name": "Santa Cruz at Cortaro",
+   "fitDays": 2922,
+   "checkDays": 2557,
+   "noCorrection": {
+    "meanObservedCfs": 74.3,
+    "meanFlowCfs": 220.0,
+    "meanAbsoluteErrorCfs": 171.4,
+    "daysFlowAtLeast100": 2339,
+    "daysObservedAtLeast100": 134,
+    "events": [
+     {
+      "thresholdCfs": 300,
+      "realEvents": 35,
+      "seenWithinOneDay": 23,
+      "modelEvents": 30,
+      "backedByGauge": 17
+     },
+     {
+      "thresholdCfs": 650,
+      "realEvents": 24,
+      "seenWithinOneDay": 12,
+      "modelEvents": 17,
+      "backedByGauge": 12
+     },
+     {
+      "thresholdCfs": 1000,
+      "realEvents": 14,
+      "seenWithinOneDay": 6,
+      "modelEvents": 8,
+      "backedByGauge": 7
+     },
+     {
+      "thresholdCfs": 3000,
+      "realEvents": 2,
+      "seenWithinOneDay": 0,
+      "modelEvents": 1,
+      "backedByGauge": 1
+     }
+    ]
+   },
+   "subtractBaseFlow": {
+    "meanObservedCfs": 74.3,
+    "meanFlowCfs": 120.9,
+    "meanAbsoluteErrorCfs": 91.5,
+    "daysFlowAtLeast100": 852,
+    "daysObservedAtLeast100": 134,
+    "events": [
+     {
+      "thresholdCfs": 300,
+      "realEvents": 35,
+      "seenWithinOneDay": 20,
+      "modelEvents": 22,
+      "backedByGauge": 13
+     },
+     {
+      "thresholdCfs": 650,
+      "realEvents": 24,
+      "seenWithinOneDay": 11,
+      "modelEvents": 19,
+      "backedByGauge": 13
+     },
+     {
+      "thresholdCfs": 1000,
+      "realEvents": 14,
+      "seenWithinOneDay": 5,
+      "modelEvents": 7,
+      "backedByGauge": 6
+     },
+     {
+      "thresholdCfs": 3000,
+      "realEvents": 2,
+      "seenWithinOneDay": 0,
+      "modelEvents": 1,
+      "backedByGauge": 1
+     }
+    ]
+   },
+   "percentileMatch": {
+    "meanObservedCfs": 74.3,
+    "meanFlowCfs": 74.4,
+    "meanAbsoluteErrorCfs": 43.9,
+    "daysFlowAtLeast100": 151,
+    "daysObservedAtLeast100": 134,
+    "events": [
+     {
+      "thresholdCfs": 300,
+      "realEvents": 35,
+      "seenWithinOneDay": 14,
+      "modelEvents": 17,
+      "backedByGauge": 14
+     },
+     {
+      "thresholdCfs": 650,
+      "realEvents": 24,
+      "seenWithinOneDay": 5,
+      "modelEvents": 6,
+      "backedByGauge": 6
+     },
+     {
+      "thresholdCfs": 1000,
+      "realEvents": 14,
+      "seenWithinOneDay": 5,
+      "modelEvents": 5,
+      "backedByGauge": 5
+     },
+     {
+      "thresholdCfs": 3000,
+      "realEvents": 2,
+      "seenWithinOneDay": 0,
+      "modelEvents": 0,
+      "backedByGauge": 0
+     }
+    ]
+   }
+  }
+ }
+}
