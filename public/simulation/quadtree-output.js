@@ -28,7 +28,12 @@ export function decodeCompactQuadtree(buffer,geometry){
     const ids=result.nativeFaceIds,lon=column('lon'),lat=column('lat'),area=column('areaM2'),resolution=column('resolutionM'),vertices=column('vertices'),offsets=column('ringOffsets'),indices=column('ringIndices'),eo=column('edgeOffsets'),edges=column('edges');
     if([lon,lat,area,resolution].some(a=>a.length!==ids.length)||offsets.length!==ids.length+1||eo.length!==ids.length+1)throw Error('Compact geometry shape mismatch');
     const points=Array.from({length:vertices.length/2},(_,i)=>[vertices[2*i],vertices[2*i+1]]);
-    result.cells=ids.map((nativeFaceId,i)=>({nativeFaceId,lon:lon[i],lat:lat[i],areaM2:area[i],resolutionM:resolution[i],edgeLengthsM:edges.slice(eo[i],eo[i+1])}));
+    // Quadtree cells repeat a small set of exact edge-length sequences. Share
+    // immutable sequences instead of retaining one identical array per face.
+    const edgeSequences=new Map();
+    result.cells=ids.map((nativeFaceId,i)=>{const values=edges.slice(eo[i],eo[i+1]),key=values.join(',');
+      if(!edgeSequences.has(key))edgeSequences.set(key,Object.freeze(values));
+      return {nativeFaceId,lon:lon[i],lat:lat[i],areaM2:area[i],resolutionM:resolution[i],edgeLengthsM:edgeSequences.get(key)};});
     result.rings=ids.map((_,i)=>indices.slice(offsets[i],offsets[i+1]).map(v=>{if(!points[v])throw Error('Invalid compact vertex');return points[v]}));
     delete result.nativeFaceIds;
   }else{
