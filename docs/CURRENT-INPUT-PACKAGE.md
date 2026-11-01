@@ -99,3 +99,16 @@ Initialization context is explicit:
 Consumer files retain the same interface: `boundary-registry.json`, `boundary-snapshot.json`, `precipitation.nc`, `precipitation-metadata.json`, `analysis-history.json`, `initialization-context.json`. Native source cells/outlets, terrain, initialization and localized structure handling remain solver-owned. No hydraulic run occurred here.
 
 For another supplied domain, copy an issued package to a new directory, replace only its registry with the solver owner's version, run `recrop_current_inputs.py <directory>` using the existing decoder environment, then `extend-current-boundaries.mjs <directory> <registry-commit>` and `finalize_current_inputs.py <directory>`. Recropping reads only retained messages and verifies native mapping/coverage. Old and new domains are never silently mixed.
+
+
+## Initialization rainfall history
+
+`current-inputs-catchments-20261101/initialization-rainfall-manifest.json` indexes retained raw bytes and outputs for the same catchment domain. NOAA/NCEP Stage IV hourly radar/gauge precipitation analysis is delivered through the [IEM archive](https://mesonet.agron.iastate.edu/iemre/); [product documentation](https://gdex.ucar.edu/datasets/d507005/) describes the radar/gauge analysis and hourly accumulations. Actual GRIB headers, timestamps, bitmap and hashes are retained for every downloaded file.
+
+The requested window is October 30 16:00 through November 1 14:00 UTC, 46 hours. All 46 files were available, but **November 1 12:00-13:00 UTC is entirely masked over this domain** (1,330 output cells). The other 45 intervals have complete mapped coverage. Thus package status is `insufficient_data`, not complete; the continuous complete prefix ends at 12:00 UTC. No missing value was filled with zero. This is a source-data gap, not a denied operation.
+
+`initialization-rainfall/analysis-precipitation.nc` contains 46x35x38 hourly mean rates in mm/hour on exactly the retained HRRR output coordinates; interval timestamps mark starts. Native Stage IV resolution is about 4.7 km, sampled to this grid without claiming added spatial resolution. Units were checked as one-hour accumulated GRIB `tp`, kg/m2, numerically equal to mm/hour. Source reference times and retrieval/HTTP metadata are retained. Actual product publication/issue timestamps are unknown and remain null; one previously cached source also lacks its original retrieval timestamp.
+
+`initialization-rainfall/forecast-transition-precipitation.nc` separately contains the three existing HRRR14Z intervals from 14:00 through 17:00 UTC, byte-value identical to retained forecast arrays. These are **forecasts, not observations**. They do not repair the earlier masked analysis hour. No unchanged HRRR or NWM inputs were downloaded again. The solver owner must choose and document an initialization window/method or obtain replacement evidence for the gap; these files do not claim hydraulic equilibrium.
+
+Inline verification checked all46 raw hashes, native masks, exact hourly intervals, NetCDF coordinates and unchanged transition values. No solver run occurred. To acquire another package's available analysis window with the existing decoder environment: `python tools/simulation/build_initialization_rainfall.py <package-directory>` (creates a new initialization-rainfall subdirectory and refuses overwriting).
