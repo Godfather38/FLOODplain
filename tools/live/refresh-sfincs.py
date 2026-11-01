@@ -3,6 +3,9 @@ import argparse,json,subprocess,sys,datetime as dt
 from pathlib import Path
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('phase',choices=['acquire','assemble','run','publish']);p.add_argument('--inputs-repo',type=Path,required=True);p.add_argument('--solver-repo',type=Path,required=True);p.add_argument('--package',type=Path,required=True);p.add_argument('--registry',type=Path,required=True);p.add_argument('--model',type=Path);p.add_argument('--case',type=Path,required=True);p.add_argument('--binary',type=Path);p.add_argument('--config',type=Path);p.add_argument('--destination',type=Path,default=Path('public/simulation/data'));p.add_argument('--bounds',nargs=4,required=True);a=p.parse_args()
+for name in ('inputs_repo','solver_repo','package','registry','model','case','binary','config','destination'):
+ value=getattr(a,name)
+ if value is not None:setattr(a,name,value.resolve())
 run=lambda args,**kw:subprocess.run([str(x) for x in args],check=True,**kw)
 if a.phase=='acquire':
  run([sys.executable,a.inputs_repo/'tools/simulation/build_current_inputs.py','--out',a.package,'--registry',a.registry,'--bounds',*a.bounds],cwd=a.inputs_repo)
