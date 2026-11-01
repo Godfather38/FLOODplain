@@ -1,6 +1,5 @@
 import {VectorTile} from '@mapbox/vector-tile';
 import Pbf from 'pbf';
-import * as THREE from 'three';
 import * as maptalks from 'maptalks';
 
 const wanted=['landcover','landuse','water','waterway','transportation','transportation_name','place','building'];
@@ -17,7 +16,7 @@ export function featureStyle(layer,p={}){
 
 // Geographic geometry is decoded locally. There is no raster basemap source.
 export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{},onStatus=()=>{}}){
-  let dead=false,generation=0,lastKey='',features=[],controller,status={status:'idle'};
+  let dead=false,generation=0,lastKey='',features=[],controller,lastBounds,textureFactory,status={status:'idle'};
   const report=value=>{status=value;onStatus(value);};
   const cache=new Map(),vector=new maptalks.VectorLayer('geographic-features',[],{zIndex:-10,geometryEvents:true}).addTo(map);
   const labels=new maptalks.VectorLayer('geographic-labels',[],{zIndex:10,geometryEvents:true}).addTo(map);
@@ -43,7 +42,7 @@ export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{
       geometry.setId(p._featureId);geometry.setSymbol(featureStyle(name,p));geometry.setProperties(p);geometry.on('click',()=>{onPick({kind:'geographic-feature',id:p._featureId,layer:name,properties:p});});geometries.push(geometry);}
     vector.clear();vector.addGeometry(geometries);labels.clear();labels.addGeometry(labelGeometries);
   }
-  function texture(list,bounds){if(!onTexture)return;const sw=project([bounds.west,bounds.south]).sub(origin),ne=project([bounds.east,bounds.north]).sub(origin);
+  function texture(list,bounds){if(!onTexture||!textureFactory)return;const sw=project([bounds.west,bounds.south]).sub(origin),ne=project([bounds.east,bounds.north]).sub(origin);
     const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=2048;const ctx=canvas.getContext('2d');ctx.fillStyle='#eeeee7';ctx.fillRect(0,0,2048,2048);
     function point(p){const v=project(p).sub(origin);return [(v.x-sw.x)/(ne.x-sw.x)*2048,(1-(v.y-sw.y)/(ne.y-sw.y))*2048];}
     function path(rings,fill,stroke,width){ctx.beginPath();for(const ring of rings){ring.forEach((c,i)=>{const p=point(c);i?ctx.lineTo(...p):ctx.moveTo(...p);});if(fill)ctx.closePath();}
@@ -56,8 +55,7 @@ export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{
       // Labels are screen-sized vector symbols in the common geographic camera,
       // never baked into terrain material where zoom would magnify/duplicate them.
     }
-    const tex=new THREE.CanvasTexture(canvas);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=4;
-    onTexture(tex,new THREE.Vector4(sw.x,sw.y,ne.x-sw.x,ne.y-sw.y));
+    onTexture(...textureFactory(canvas,[sw.x,sw.y,ne.x-sw.x,ne.y-sw.y]));
   }
   async function update(extent,zoom){const info=await metadata;if(dead)return;
     let z=Math.min(info.maxzoom??14,Math.max(8,Math.floor(zoom))),a,b,c,d;
@@ -67,8 +65,8 @@ export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{
     async function worker(){while(cursor<jobs.length){const {x,y}=jobs[cursor++],id=`${z}/${x}/${y}`;if(dead||token!==generation)return;let list=cache.get(id);
       if(!list){const url=info.tiles[0].replace('{z}',z).replace('{x}',x).replace('{y}',y),r=await fetch(url,{signal});if(!r.ok)throw Error('Vector tile HTTP '+r.status);list=decode(new Uint8Array(await r.arrayBuffer()),x,y,z);cache.set(id,list);while(cache.size>48)cache.delete(cache.keys().next().value);}out.push(...list);}}
     try{await Promise.all([worker(),worker(),worker(),worker()]);if(dead||token!==generation)return;features=out.sort((a,b)=>order[a.properties._sourceLayer]-order[b.properties._sourceLayer]);install(features);
-      texture(features,{west:lon(a,z),east:lon(b+1,z),north:lat(c,z),south:lat(d+1,z)});report({kind:'geography',status:'ready',featureCount:features.length,sourceLayers:[...new Set(features.map(f=>f.properties._sourceLayer))],tileZoom:z});
+      lastBounds={west:lon(a,z),east:lon(b+1,z),north:lat(c,z),south:lat(d+1,z)};texture(features,lastBounds);report({kind:'geography',status:'ready',featureCount:features.length,sourceLayers:[...new Set(features.map(f=>f.properties._sourceLayer))],tileZoom:z});
     }catch(error){if(error.name!=='AbortError'&&!dead){lastKey='';report({kind:'geography',status:'error',message:error.message});}}
   }
-  return {update,get status(){return status;},get features(){return features;},get layer(){return vector;},dispose(){dead=true;generation++;controller?.abort();cache.clear();vector.remove();labels.remove();}};
+  return {update,setTextureFactory(factory,nextOrigin){textureFactory=factory;if(nextOrigin)origin=nextOrigin;if(factory&&lastBounds)texture(features,lastBounds);},suspend(){generation++;controller?.abort();lastKey='';},get status(){return status;},get features(){return features;},get layer(){return vector;},dispose(){dead=true;generation++;controller?.abort();cache.clear();vector.remove();labels.remove();}};
 }

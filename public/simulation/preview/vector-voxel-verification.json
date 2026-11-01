@@ -47,7 +47,7 @@
     "selected": 9344,
     "time": "2026-11-02T04:00:00Z"
   },
-  "detail": "1 m terrain near centre / 100 m far · overview water shows native 100 m cells · cosmetic animation",
+  "detail": "10 m terrain near centre / 10 m far; native 100 m water, terrain intersection; cosmetic animation",
   "missing": 0,
   "fallback": true,
   "removed": 0,

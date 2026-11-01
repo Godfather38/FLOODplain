@@ -1,3 +1,5 @@
+> Historical checkpoint: continuous surfaces and lazy-flat behavior supersede the block renderer below. See [current optimization and evidence](CONTINUOUS-RENDERER-OPTIMIZATION.md).
+
 # Corrected vector/voxel renderer: delivered module and verification
 
 This is the renderer module checkpoint, not a claim that the entire FLOODplain app or solver coverage is complete. UI integration is described in [GEOGRAPHIC-RENDERER-INTEGRATION.md](GEOGRAPHIC-RENDERER-INTEGRATION.md). No UI-owned files were changed by this worker. The old rejected raster prototype is preserved in commit 8d7a365; the corrected source no longer imports its raster-texture helper or requests raster basemap tiles.
