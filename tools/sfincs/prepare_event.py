@@ -4,7 +4,7 @@ from pathlib import Path
 from prepare_reach import prepare as prepare_forcing
 
 
-def prepare(source, target, terrain, upstream, forcing, protocol):
+def prepare(source, target, terrain, upstream, forcing, protocol, allow_six_hour_scenario=False):
     source, target = Path(source), Path(target)
     freeze = json.loads(Path(protocol).read_text())
     if target.exists():
@@ -12,7 +12,7 @@ def prepare(source, target, terrain, upstream, forcing, protocol):
     staged = target.with_name(target.name + '-forcing-preparation')
     # Reuse established input validation and HydroMT precipitation serialization.
     # This temporary regular grid is not executed or used as hydraulic geometry.
-    prepare_forcing(staged, terrain, upstream, forcing=forcing, dry_start=True)
+    prepare_forcing(staged, terrain, upstream, forcing=forcing, dry_start=True, allow_six_hour_scenario=allow_six_hour_scenario)
     event = json.loads((staged/'case.json').read_text())
     if any(event[k].replace('+00:00','Z') != freeze[p] for k,p in [('start','eventStart'),('end','eventEnd')]):
         raise ValueError('Event window differs from preregistered protocol')
@@ -47,6 +47,8 @@ def prepare(source, target, terrain, upstream, forcing, protocol):
     case['initialState']['description'] = freeze.get('initialStateDescription',case['initialState']['description'])
     case['evaluationProtocol'] = freeze
     case['validationRole'] = freeze['validationRole']
+    if allow_six_hour_scenario:
+        case['limitations'].append('Qualified antecedent rainfall: July16 00-06UTC six-hour Stage IV total uniformly allocated to hours; product discrepancy -32.25 to +5.61 mm against five available hourly sums; not recovered hourly observations')
     case['limitations'] = [x.replace('2014','historical event') for x in case['limitations'] if 'iterative development comparison' not in x]
     if freeze.get('initialStateDescription'):
         case['limitations']=[x.replace('Assumed dry initial state followed by 24 hours of observed inflow and Stage IV rainfall spinup',freeze['initialStateDescription']) for x in case['limitations']]
@@ -63,4 +65,5 @@ if __name__ == '__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('source');p.add_argument('target')
     for name in ('terrain','upstream','forcing','protocol'):p.add_argument('--'+name,required=True)
+    p.add_argument('--allow-six-hour-scenario',action='store_true')
     a=p.parse_args();prepare(**vars(a))

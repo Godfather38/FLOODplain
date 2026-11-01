@@ -17,7 +17,7 @@ from shapely.ops import transform, unary_union, nearest_points
 from prepare_case import SOURCE_COMMIT
 
 
-def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=None, dry_start=False, flowline=None):
+def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=None, dry_start=False, flowline=None, allow_six_hour_scenario=False):
     root, terrain, upstream = Path(root), Path(terrain), Path(upstream)
     if root.exists() and any(root.iterdir()):
         raise FileExistsError("Preserve previous run; use an empty directory")
@@ -85,7 +85,8 @@ def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=N
     rainfall_metadata = {}
     if forcing:
         rain = json.loads(Path(forcing).read_text())
-        if rain['status'] != 'complete' or rain['missingCellHours'] or rain['units'] != 'mm/h' or rain['crs'] != 'EPSG:4326':
+        qualified_scenario = (allow_six_hour_scenario and rain['status'] == 'requires_quality_review' and rain['sourceQuality'].get('forcingReadiness') == 'explicit_six_hour_uniform_allocation_scenario' and hashlib.sha256(Path(forcing).read_bytes()).hexdigest() == 'a1e75957b90f74e46712ef889bbee1f6ed90ed840146668959b0985af526913c')
+        if (rain['status'] != 'complete' and not qualified_scenario) or rain['missingCellHours'] or rain['units'] != 'mm/h' or rain['crs'] != 'EPSG:4326':
             raise ValueError('Require complete verified hourly rainfall')
         event_start = pd.Timestamp(rain['frames'][0]['start'])
         event_end = pd.Timestamp(rain['frames'][-1]['end'])
@@ -124,7 +125,7 @@ def prepare(root, terrain, upstream, threshold=0.01, forcing=None, initial_map=N
         rate.raster.set_crs(32612)
         model.set_forcing(rate,name='precip_2d')
         model.setup_config(dtwnd=60,storecumprcp=1,ampr_block=1,netamprfile='rainfall.nc')
-        rainfall_metadata={'rainfallStatus':'complete_stage_iv_analysis', 'forcingProvenance':rain['provenance'],
+        rainfall_metadata={'rainfallStatus':('qualified_six_hour_allocation_scenario' if qualified_scenario else 'complete_stage_iv_analysis'), 'forcingProvenance':rain['provenance'],
             'forcingQuality':rain['sourceQuality'],'forcingSha256':hashlib.sha256(Path(forcing).read_bytes()).hexdigest(),
             'rainfallVolumeM3':float(np.sum(np.asarray(values)[:,1:-1,1:-1])*dx*dy/1000),
             'initialState':{'sourceSha256':hashlib.sha256(Path(initial_map).read_bytes()).hexdigest() if initial_map else None,'time':event_start.isoformat(),
