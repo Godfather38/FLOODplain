@@ -42,3 +42,8 @@ public/simulation/data/sfincs-reach-stage4-2013-july05-23-432h-six-hour-scenario
 tools/sfincs/data/reach-antecedent-2013-result/* -text
 
 tools/sfincs/data/reach-placement-2013-result/* -text
+tools/simulation/data/official-forecasts/* -text
+public/simulation/data/official-forecast-*.json -text
+public/simulation/data/*-benchmark-2014-09.json -text
+public/simulation/data/*-calibration-2013-07.json -text
+public/simulation/data/*-evaluation-2014-08.json -text

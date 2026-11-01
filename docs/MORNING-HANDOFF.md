@@ -37,3 +37,5 @@ Resolve the small-event routing/storage discrepancy using the retained native fl
 Existing repository checks and actual artifact contracts have been exercised. Browser visual QA remains unperformed under the prior browser-operation prohibition. This is a usable experimental app and data/model integration, **not a field-validated flood or road-passability engine**.
 
 Details: [launch/interface notes](EXPERIMENTAL-LAUNCH.md), [route fusion](ROUTE-FUSION.md), [rainfall forcing](STAGE4-FORCING.md), [2013 source audit](STAGE4-2013-AUDIT.md), [levee provenance](sfincs/LEVEE-CASE.md).
+
+Historical issued RFC comparison is now integrated at `/simulation/official-history.html`, linked from the current forecast page. It retains all issuances across July 2013 and June/August/September 2014, with fixed lead windows, incomplete-coverage labels, observed curves and persistence baseline. See `docs/PREFAB-FORECAST-STACK.md` for the complete reuse architecture and remaining integration gaps. This evidence does not establish a general peak-flow accuracy range.
