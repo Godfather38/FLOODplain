@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "selection": "Fixed existing event windows plus June background window; no selection by forecast performance. Retrospective, not blinded.",
+  "stations": {"SCTA3":"trico", "CSCA3":"cortaro"},
+  "leadBinsHours": [[0,6],[6,12],[12,24],[24,48]],
+  "boundaries": "Lower inclusive, upper exclusive; positive leads only. Every issuance inside event window, every valid time inside event window. End exclusive.",
+  "pairing": "Exact UTC timestamps, approved unqualified USGS discharge; no interpolation. Persistence uses latest eligible observation at/before issuance, maximum age 60 minutes.",
+  "coverage": "Expected hourly slots per issue/bin clipped to event end. Report full horizon separately; missing slots never zero. Scores are matched samples only, overlapping issues are not independent observations.",
+  "events": [
+    {"id":"2013-july","start":"2013-07-19T07:00:00Z","end":"2013-07-23T07:00:00Z","fixture":"calibration-2013-07"},
+    {"id":"2014-june-background","start":"2014-06-01T07:00:00Z","end":"2014-06-05T07:00:00Z"},
+    {"id":"2014-august","start":"2014-08-16T07:00:00Z","end":"2014-08-23T07:00:00Z","fixture":"evaluation-2014-08"},
+    {"id":"2014-september","start":"2014-09-07T07:00:00Z","end":"2014-09-11T07:00:00Z","fixture":"benchmark-2014-09"}
+  ]
+}
