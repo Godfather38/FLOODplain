@@ -59,3 +59,28 @@ The assembled local component is `.sfincs-runs/road-native-case-v2/`, with 64 di
 Map output is limited to the 14-hour forecast window at 15-minute spacing; the full antecedent period still runs. `storezvolume=1` retains actual native volume. This keeps output size bounded without mistaking cell-minimum-relative water level for road depth. The existing saved executable and 20-minute first-run cap remain unchanged.
 
 Additional standard optional dependencies needed by the unmodified builders: numba-celltree 0.4.2 and datashader 0.19.1. Existing terrain and native table files are reused when present; do not rebuild unchanged tables. After the wider original-issue rainfall is supplied, serialize it with the existing HydroMT forcing adapter, produce the final `current-case.json` and archive, and use the saved-engine workflow. Do not dispatch the incomplete component.
+
+
+### Frozen execution dispatched
+
+The rainfall dependency is resolved. Original raw HRRR, Stage IV and MRMS bytes were restored from the existing app branch objects; no weather source was refreshed or redownloaded. The expanded crop has 63 hourly frames on a 36×43 EPSG:4326 reporting grid, with no missing cells after the same explicitly recorded MRMS replacement. Native precipitation serialization uses the existing HydroMT adapter. The reporting grid does not improve the native meteorological resolution.
+
+The assembled case is archived permanently at `tools/sfincs/data/road-current-20261101-13z-v2.tar.gz` (91,989,228 bytes), with its hash manifest beside it. Run 41339621278 uses input commit b32d291 and saved engine run 41290378239. Solver wall time remains capped at 1,200 seconds. Native progress is streamed to the job log and archived in solver.log. `connected-v2/current-case.json` supersedes the earlier incomplete native-component status. No result is claimed until the native run completes.
+
+
+### Result consumer handoff
+
+This case uses native quadtree output, not the baseline regular 100 m grid. Read face geometry/ordering from `sfincs.nc` or the map's UGRID topology. Retain each face's actual level/area; do not reshape the result into a rectangular 100 m raster. Expected native fields enabled in this case are `zs` (absolute water level), `subgrid_volume` (m³ per cell), and `precipitation_rate` (mm/hour). `subgrid_volume / cell_area` is water volume per total computational-cell area, not local road depth or mean wet-area depth. Use sourced terrain and a documented downscaling method for local depth; bridge deck elevations remain separate. Map times are forecast-period only. No section discharge is claimed unless a native section output was actually recorded.
+
+
+### Actual bounded outcome — partial, not completed
+
+Run 41339621278 exhausted its 1,200-second native budget. The last logged progress milestone was 85%; 21 fully populated quarter-hour maps cover November 1 17:00–22:00 UTC. Nine requested hours remain. GitHub incorrectly reported job success because the logging pipeline masked timeout status; explicit pipefail is now added. No second run was launched.
+
+Raw output includes water surface and subgrid volume. All 398,613 faces match the input mesh through exact unique projected rectangle bounds and polygon-area checks, not an assumption based on equal array lengths. `output-to-source-face-id.npy` records this verified mapping to existing input mesh IDs. The output does not carry a separate native face-ID variable. End-summary fields and timemax remain unwritten; open partial files with decode_times=False and use only actual time frames. Do not fabricate a full completion marker or endpoint.
+
+There are 1,243 negative-volume cell-frames (845 distinct cells); the worst signed volume divided by its own cell area is -0.0004192 m. Raw signed values remain unchanged. This is disclosed numerical undershoot, not negative physical water. Any display tolerance must be explicit and tied to this result.
+
+Five actual restart files (18:00–22:00 UTC) and all raw outputs are preserved in `tools/sfincs/data/road-result-41339621278/`, with archive and input hashes. The latest restart has intact Fortran records and type 1. However, the pinned official reader restores zs/q/uvmean, not the cumulative rainfall/infiltration state used by `inftype=cna`. A blind restart would reset that accounting. It has not been tested or represented as an identical continuation. Source: pinned `source/src/sfincs_initial_conditions.F90`, read_binary_restart_file, and `sfincs_infiltration.f90`, initialize_infiltration.
+
+The solver also reports a precipitation end-coverage warning: the left-labeled hourly input contains the 06:00–07:00 rate but its final timestamp is 06:00. The final interval exists; there is no absent weather hour. A future serialization should retain an explicit terminal endpoint at 07:00 without adding a new rainfall interval. The original raw input/output are preserved as executed.

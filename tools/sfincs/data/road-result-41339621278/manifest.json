@@ -1,0 +1,22 @@
+{
+  "runId": "41339621278",
+  "status": "partial_budget_timeout",
+  "archiveSha256": "4b8172cfb5a0fa19c873ec5b526008f16fdd2549930747b89b9a89fad0e021ce",
+  "archiveBytes": 57194905,
+  "parts": [
+    {
+      "path": "partial-native-output.tar.gz.part00",
+      "bytes": 57194905,
+      "sha256": "4b8172cfb5a0fa19c873ec5b526008f16fdd2549930747b89b9a89fad0e021ce"
+    }
+  ],
+  "reassembly": "Concatenate parts in listed order to recover the gzip tar; raw native files are unchanged",
+  "nativeInputArchive": "../road-current-20261101-13z-v2.tar.gz",
+  "inputCommit": "b32d2919f014a46c20e66b6b199d106f9f1eeea7",
+  "restartFiles": 5,
+  "latestRestart": "sfincs.20261101.220000.rst",
+  "remainingSimulatedHours": 9,
+  "additionalExecutionLaunched": false,
+  "restartLimitation": "Pinned type-1 binary restart restores zs/q/uvmean, not cumulative rainfall/infiltration for inftype cna; not an identical full-state continuation",
+  "restartSource": "https://raw.githubusercontent.com/Deltares/SFINCS/f3647fc0289bb15cb2512d60686cef74cb853c78/source/src/sfincs_initial_conditions.F90"
+}
