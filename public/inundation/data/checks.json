@@ -1,0 +1,445 @@
+{
+ "schemaVersion": 1,
+ "checkedAt": "2026-11-01T08:51:32Z",
+ "capCanalSegmentsFound": 23,
+ "flowCfs": 3000,
+ "points": {
+  "west-trico-marana-road-32-45369-111-27985": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Santa Cruz River",
+   "osmNearestWaterwayKind": "river",
+   "capCanalM": 6783,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 5836,
+   "shareOfEstimateInsideFemaZone": 1.0,
+   "shareOfFemaZoneCoveredByEstimate": 0.11,
+   "femaZoneCells": 78950
+  },
+  "north-sanders-road-32-43488-111-23395": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Santa Cruz River",
+   "osmNearestWaterwayKind": "river",
+   "capCanalM": 4262,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 4987,
+   "shareOfEstimateInsideFemaZone": 1.0,
+   "shareOfFemaZoneCoveredByEstimate": 0.2,
+   "femaZoneCells": 24996
+  },
+  "north-trico-road-32-43882-111-30426": {
+   "osmNearestWaterwayM": 1,
+   "osmNearestWaterwayName": "Los Robles Wash",
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 9601,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 2148,
+   "shareOfEstimateInsideFemaZone": 1.0,
+   "shareOfFemaZoneCoveredByEstimate": 0.77,
+   "femaZoneCells": 17123
+  },
+  "west-avra-valley-road-32-39322-111-29459": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Brawley Wash",
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 7780,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 6599,
+   "shareOfEstimateInsideFemaZone": 1.0,
+   "shareOfFemaZoneCoveredByEstimate": 0.18,
+   "femaZoneCells": 36594
+  },
+  "west-avra-valley-road-32-40256-111-14614": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Santa Cruz River",
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 2050,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 5519,
+   "shareOfEstimateInsideFemaZone": 1.0,
+   "shareOfFemaZoneCoveredByEstimate": 0.52,
+   "femaZoneCells": 34562
+  },
+  "west-speedway-boulevard-32-23567-110-98614": {
+   "osmNearestWaterwayM": 52,
+   "osmNearestWaterwayName": "Santa Cruz River",
+   "osmNearestWaterwayKind": "river",
+   "capCanalM": 15873,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 1297,
+   "shareOfEstimateInsideFemaZone": 0.95,
+   "shareOfFemaZoneCoveredByEstimate": 0.34,
+   "femaZoneCells": 7815
+  },
+  "west-avra-valley-road-32-40271-111-14566": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Santa Cruz River",
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 2083,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 5518,
+   "shareOfEstimateInsideFemaZone": 1.0,
+   "shareOfFemaZoneCoveredByEstimate": 0.51,
+   "femaZoneCells": 35449
+  },
+  "west-ina-road-32-33759-111-08151": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Santa Cruz River",
+   "osmNearestWaterwayKind": "river",
+   "capCanalM": 11099,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 1545,
+   "shareOfEstimateInsideFemaZone": 0.99,
+   "shareOfFemaZoneCoveredByEstimate": 0.21,
+   "femaZoneCells": 23935
+  },
+  "north-sanders-road-32-43484-111-23395": {
+   "osmNearestWaterwayM": 4,
+   "osmNearestWaterwayName": "Santa Cruz River",
+   "osmNearestWaterwayKind": "river",
+   "capCanalM": 4259,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 5001,
+   "shareOfEstimateInsideFemaZone": 1.0,
+   "shareOfFemaZoneCoveredByEstimate": 0.2,
+   "femaZoneCells": 25056
+  },
+  "west-twin-peaks-road-32-37581-111-11538": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Santa Cruz River",
+   "osmNearestWaterwayKind": "river",
+   "capCanalM": 6099,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 2785,
+   "shareOfEstimateInsideFemaZone": 0.51,
+   "shareOfFemaZoneCoveredByEstimate": 0.18,
+   "femaZoneCells": 28294
+  },
+  "north-kinney-road-32-25678-111-20377": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 1598,
+   "femaZoneAtCrossing": "D",
+   "estimatedCellsAt3000cfs": 1867,
+   "shareOfEstimateInsideFemaZone": 0.0,
+   "shareOfFemaZoneCoveredByEstimate": null,
+   "femaZoneCells": 0
+  },
+  "north-kinney-road-32-25426-111-19875": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Javelina Wash",
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 1654,
+   "femaZoneAtCrossing": "D",
+   "estimatedCellsAt3000cfs": 1421,
+   "shareOfEstimateInsideFemaZone": 0.0,
+   "shareOfFemaZoneCoveredByEstimate": null,
+   "femaZoneCells": 0
+  },
+  "west-avra-valley-road-32-40224-111-14714": {
+   "osmNearestWaterwayM": 76,
+   "osmNearestWaterwayName": "Santa Cruz River",
+   "osmNearestWaterwayKind": "river",
+   "capCanalM": 1984,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 5451,
+   "shareOfEstimateInsideFemaZone": 1.0,
+   "shareOfFemaZoneCoveredByEstimate": 0.54,
+   "femaZoneCells": 32656
+  },
+  "west-ina-road-32-33759-111-09519": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Yuma Mine Wash",
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 9916,
+   "femaZoneAtCrossing": "A",
+   "estimatedCellsAt3000cfs": 1110,
+   "shareOfEstimateInsideFemaZone": 0.85,
+   "shareOfFemaZoneCoveredByEstimate": 0.74,
+   "femaZoneCells": 6700
+  },
+  "west-speedway-boulevard-32-23597-111-02886": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Greasewood Wash",
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 12632,
+   "femaZoneAtCrossing": "X",
+   "estimatedCellsAt3000cfs": 1367,
+   "shareOfEstimateInsideFemaZone": 0.47,
+   "shareOfFemaZoneCoveredByEstimate": 0.89,
+   "femaZoneCells": 1931
+  },
+  "north-kinney-road-32-24151-111-16081": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 4059,
+   "femaZoneAtCrossing": "X",
+   "estimatedCellsAt3000cfs": 1051,
+   "shareOfEstimateInsideFemaZone": 0.0,
+   "shareOfFemaZoneCoveredByEstimate": null,
+   "femaZoneCells": 0
+  },
+  "north-kinney-road-32-23141-111-14537": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 4635,
+   "femaZoneAtCrossing": "X",
+   "estimatedCellsAt3000cfs": 1062,
+   "shareOfEstimateInsideFemaZone": 0.0,
+   "shareOfFemaZoneCoveredByEstimate": null,
+   "femaZoneCells": 0
+  },
+  "west-gates-pass-road-32-22131-111-12278": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 6046,
+   "femaZoneAtCrossing": "X",
+   "estimatedCellsAt3000cfs": 1800,
+   "shareOfEstimateInsideFemaZone": 0.0,
+   "shareOfFemaZoneCoveredByEstimate": null,
+   "femaZoneCells": 0
+  },
+  "west-gates-pass-road-32-22970-111-07192": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 9348,
+   "femaZoneAtCrossing": "X",
+   "estimatedCellsAt3000cfs": 909,
+   "shareOfEstimateInsideFemaZone": 0.03,
+   "shareOfFemaZoneCoveredByEstimate": 0.74,
+   "femaZoneCells": 335
+  },
+  "west-speedway-boulevard-32-23606-111-06040": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 10570,
+   "femaZoneAtCrossing": "AE",
+   "estimatedCellsAt3000cfs": 837,
+   "shareOfEstimateInsideFemaZone": 0.94,
+   "shareOfFemaZoneCoveredByEstimate": 0.55,
+   "femaZoneCells": 1779
+  },
+  "west-speedway-boulevard-32-23604-111-05747": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 10743,
+   "femaZoneAtCrossing": "X",
+   "estimatedCellsAt3000cfs": 923,
+   "shareOfEstimateInsideFemaZone": 0.0,
+   "shareOfFemaZoneCoveredByEstimate": null,
+   "femaZoneCells": 1766
+  },
+  "west-speedway-boulevard-32-23766-111-05195": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 11218,
+   "femaZoneAtCrossing": "X",
+   "estimatedCellsAt3000cfs": 1235,
+   "shareOfEstimateInsideFemaZone": 0.0,
+   "shareOfFemaZoneCoveredByEstimate": null,
+   "femaZoneCells": 1969
+  },
+  "west-speedway-boulevard-32-23899-111-04624": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 11687,
+   "femaZoneAtCrossing": "X",
+   "estimatedCellsAt3000cfs": 1417,
+   "shareOfEstimateInsideFemaZone": 0.0,
+   "shareOfFemaZoneCoveredByEstimate": null,
+   "femaZoneCells": 425
+  },
+  "west-speedway-boulevard-32-23899-111-04501": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 11766,
+   "femaZoneAtCrossing": "X",
+   "estimatedCellsAt3000cfs": 1268,
+   "shareOfEstimateInsideFemaZone": 0.0,
+   "shareOfFemaZoneCoveredByEstimate": null,
+   "femaZoneCells": 383
+  },
+  "west-avra-valley-road-32-40131-111-24501": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 3875,
+   "femaZoneAtCrossing": "AO",
+   "estimatedCellsAt3000cfs": 3604,
+   "shareOfEstimateInsideFemaZone": 1.0,
+   "shareOfFemaZoneCoveredByEstimate": 0.09,
+   "femaZoneCells": 38390
+  },
+  "north-kinney-road-32-25158-111-18652": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 2399
+  },
+  "north-kinney-road-32-24767-111-18349": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 2441
+  },
+  "north-kinney-road-32-24705-111-16760": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 3729
+  },
+  "north-kinney-road-32-24402-111-16343": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 3949
+  },
+  "north-kinney-road-32-22917-111-14371": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 4618
+  },
+  "north-kinney-road-32-22722-111-14078": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 4739
+  },
+  "north-kinney-road-32-22457-111-13596": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 5010
+  },
+  "north-kinney-road-32-22235-111-13260": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 5208
+  },
+  "north-sandario-road-32-27434-111-21849": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 2436
+  },
+  "north-sandario-road-32-27528-111-21817": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 2539
+  },
+  "west-avra-valley-road-32-39329-111-27659": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 6408
+  },
+  "west-avra-valley-road-32-39514-111-26095": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 5362
+  },
+  "west-ina-road-32-33758-111-10526": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 9061
+  },
+  "west-ina-road-32-33763-111-08896": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 10450
+  },
+  "west-ina-road-32-33759-111-08202": {
+   "osmNearestWaterwayM": 34,
+   "osmNearestWaterwayName": "Santa Cruz River",
+   "osmNearestWaterwayKind": "river",
+   "capCanalM": 11055
+  },
+  "west-picture-rocks-road-32-32598-111-12082": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Picture Rocks Wash Trail",
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 8510
+  },
+  "west-speedway-boulevard-32-23689-111-03874": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 12014
+  },
+  "west-speedway-boulevard-32-23597-111-02611": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 12829
+  },
+  "west-speedway-boulevard-32-23595-111-02250": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Anklam Wash",
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 13089
+  },
+  "west-speedway-boulevard-32-23594-111-01540": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 13613
+  },
+  "west-speedway-boulevard-32-23568-111-00225": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": "Silvercroft Wash",
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 14600
+  },
+  "west-twin-peaks-road-32-38086-111-17680": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 1532
+  },
+  "west-twin-peaks-road-32-37825-111-14869": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 3842
+  },
+  "west-twin-peaks-road-32-37543-111-13049": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 5089
+  },
+  "west-twin-peaks-road-32-37504-111-12718": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 5332
+  },
+  "west-twin-peaks-road-32-37462-111-12358": {
+   "osmNearestWaterwayM": 0,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 5605
+  },
+  "west-twin-peaks-road-32-37655-111-11379": {
+   "osmNearestWaterwayM": 149,
+   "osmNearestWaterwayName": null,
+   "osmNearestWaterwayKind": "stream",
+   "capCanalM": 6167
+  }
+ }
+}

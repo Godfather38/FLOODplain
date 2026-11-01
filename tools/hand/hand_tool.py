@@ -24,6 +24,8 @@ STATIONS = {'SCTA3': {'usgsId': '09486520', 'reachId': '15890430'},
 FULL_POINTS_WITHIN_M, ZERO_POINTS_AT_M = 50, 1500
 CLOSE_REACH_M, NAMED_REACH_M = 100, 310  # Owner's rule: past 100 m only for a named stream, as at Avra Valley Rd -111.24501.
 MAIN_STEM_ORDER, MIN_MAIN_STEM_WIDTH_M = 5, 20
+CANAL_NEAR_M = 1000
+MIN_STAGE_AT_3000_CFS_M = 0.3
 MAX_GAUGE_KM = 10
 MAX_RADIUS_M = 2000
 MIN_VALID_HAND_FRACTION = 0.95
@@ -95,6 +97,23 @@ def choose_reach(found, water=None):
         if same_reach or (named and river['distanceM'] <= NAMED_REACH_M):
             return river
     return best
+
+
+def trusted_name(name, order, canal_m):
+    """NOAA's name for a reach, or '' where outside evidence shows the name is wrong."""
+    text = str(name or '').strip()
+    if 'aqueduct' in text.lower() and canal_m is not None and canal_m >= CANAL_NEAR_M:
+        return ''
+    if text.lower() == 'santa cruz river' and (order or 0) < MAIN_STEM_ORDER:
+        return ''
+    return text
+
+
+def flat_curve_problem(stage_at_3000cfs):
+    """Reason a curve is too flat to mean anything, or None."""
+    if stage_at_3000cfs is not None and stage_at_3000cfs < MIN_STAGE_AT_3000_CFS_M:
+        return f'Its rating curve gives only {stage_at_3000cfs * 3.281:.1f} ft at 3,000 cfs, too flat to be believable.'
+    return None
 
 
 def sliver_problem(order, width_at_1m, area_km2):
@@ -401,6 +420,9 @@ def build_junction(row, check_flows):
     stream = nwm_stream(feature)
     if shape and sliver_problem(stream['order'], *shape):
         raise Refused(sliver_problem(stream['order'], *shape))
+    own = curves[reach['hydroId']]
+    if flat_curve_problem(stage_for_flow(3000 * 0.028316846592, own['stageM'], own['dischargeM3s'])):
+        raise Refused(flat_curve_problem(stage_for_flow(3000 * 0.028316846592, own['stageM'], own['dischargeM3s'])))
 
     # Output grid: about 10 m in lon/lat, so Leaflet can place it as an image.
     geod = Geod(ellps='WGS84')
@@ -472,10 +494,15 @@ def run_all(args):
         row['water'] = row['water'] or p['water']
     hits = catchment_hits({k: (r['lon'], r['lat']) for k, r in grouped.items()})
     DATA.mkdir(parents=True, exist_ok=True)
+    checks_file = DATA / 'checks.json'
+    checks = json.loads(checks_file.read_text(encoding='utf-8'))['points'] if checks_file.exists() else {}
     counts = {}
     for k, row in grouped.items():
         reach = nearest_reach(row['lon'], row['lat'], hits[k], row['water'])
         row['nearestReach'] = reach
+        if reach:
+            reach['noaaName'] = reach['name']
+            reach['name'] = trusted_name(reach['name'], nwm_stream(reach['featureId'])['order'], checks.get(row['id'], {}).get('capCanalM'))
         row['agreement'] = name_agreement(row['water'], reach['name']) if reach else 'no_name'
         row['displayWater'] = display_water(row['water'], reach['name'] if reach else None, row['agreement'])
         row['name'] = f"{row['road']} at {row['displayWater']}" if row['displayWater'] else f"{row['road']} ({row['lat']:.4f}, {row['lon']:.4f})"

@@ -18,13 +18,13 @@ test('owner-named crossings are in and too-far crossings are out',()=>{
  assert.equal(at(-111.24501).status,'supported');assert.match(at(-111.24501).name,/Los Robles Wash/);
  for(const lon of [-111.26095,-111.27659])assert.equal(at(lon).status,'too_far');
  for(const p of coverage.points.filter(p=>p.status==='supported')){assert.ok(p.nearestReach.distanceM<=310,p.id);assert.notEqual(p.confidence.band,'Weak match');}
- for(const p of coverage.points.filter(p=>/aqueduct/i.test(p.nearestReach?.name??'')))assert.notEqual(p.status,'supported',p.id);
+ for(const p of coverage.points.filter(p=>p.status==='supported'))assert.doesNotMatch(p.name,/aqueduct/i,p.id);
 });
 
 test('rated crossings are matched to the HAND rows at their own location',()=>{
  assert.equal(byFp['sc-trico-marana'].status,'supported');assert.equal(byFp['sc-trico-marana'].forecast.station,'SCTA3');
  assert.equal(byFp['clayton-dip'].status,'supported');assert.equal(byFp['elpaso-dip'].status,'too_far');
- assert.equal(byFp['pr-yuma-mine'].status,'wrong_water');assert.equal(byFp['pr-sandario-ina'],undefined);
+ assert.equal(byFp['pr-yuma-mine'].status,'supported');assert.match(byFp['pr-yuma-mine'].name,/Yuma Mine Wash/);assert.equal(byFp['pr-sandario-ina'],undefined);
 });
 
 test('modeled water outranks a calm outlook and is named on the card',()=>{
@@ -46,8 +46,8 @@ test('a zero or low model flow never lowers or hides a rain caution, and is not 
 
 test('a possible match can only reach watch, and unusable forecasts raise nothing',()=>{
  const possibleGauge={...byFp['sc-trico-marana'],confidence:{...byFp['sc-trico-marana'].confidence,band:'Possible match'}};assert.equal(handCheck(possibleGauge,forecastCfs(5000),now).level,'watch');
- for(const row of Object.values(byFp).filter(p=>p.forecast?.kind==='nwm_reach')){const c=handCheck(row,forecastCfs(5000),now);assert.notEqual(c.level,'caution',row.id);if(row.app.order<5){assert.equal(c.raise,false,row.id);assert.match(c.detail,/does not change the crossing's number/);}}
- assert.equal(handCheck(byFp['sc-avra'],forecastCfs(5000),now).level,'watch');assert.equal(handCheck(byFp['brawley-dip'],forecastCfs(5000),now).raise,byFp['brawley-dip'].app.order>=5);
+ for(const row of Object.values(byFp).filter(p=>p.forecast?.kind==='nwm_reach')){const c=handCheck(row,forecastCfs(5000),now);assert.notEqual(c.level,'caution',row.id);if(row.nearestReach.name!=='Santa Cruz River'){assert.equal(c.raise,false,row.id);assert.match(c.detail,/does not change the crossing's number/);}}
+ assert.equal(handCheck(byFp['sc-avra'],forecastCfs(5000),now).level,'watch');assert.equal(handCheck(byFp['brawley-dip'],forecastCfs(5000),now).raise,false);
  for(const f of [{status:'unavailable',reason:'down'},{status:'expired',reason:'old'},undefined]){const c=handCheck(byFp['sc-trico-marana'],f,now);assert.equal(c.raise,false);}
  const stale=handCheck(byFp['sc-trico-marana'],{...forecastCfs(5000),status:'stale'},now);assert.equal(stale.raise,false);assert.match(stale.why,/old forecast/);
  const off=handCheck(byFp['elpaso-dip'],undefined,now);assert.equal(off.raise,false);assert.match(off.detail,/^Missing coverage/);

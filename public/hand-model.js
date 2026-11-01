@@ -13,6 +13,7 @@ import { loadCoverage, stageForFlow } from './inundation/hand-inundation.js';
 export const WATCH_STAGE_M = 1;
 export const CAUTION_STAGE_M = 2;
 const MAIN_STEM_ORDER = 5;
+const onSantaCruz = (row) => row.app.order >= MAIN_STEM_ORDER && row.nearestReach?.name === 'Santa Cruz River';
 const NEAR_FP_M = 60;
 const FT = 3.28084;
 const CFS_TO_M3S = 0.028316846592;
@@ -35,7 +36,7 @@ function labels(row, forecast, now) {
   const age = ((now - Date.parse(row.app.sourceDate)) / (365.25 * 86400000)).toFixed(1);
   const flow = row.forecast.kind === 'gauge'
     ? `Flow: NOAA gauge forecast from ${row.forecast.station}, ${row.app.gaugeKm} km along the channel.`
-    : `Flow: modeled National Water Model flow for the whole reach (${row.app.reachLengthKm} km), not a gauge reading. In a 15-year back-test it saw most big Santa Cruz flows but read too high on ordinary days, and it saw nothing at Brawley Wash.${row.app.order >= MAIN_STEM_ORDER ? ' On the Santa Cruz it can raise this crossing no higher than Watch.' : ' On a wash like this it does not change the crossing\'s number.'}`;
+    : `Flow: modeled National Water Model flow for the whole reach (${row.app.reachLengthKm} km), not a gauge reading. In a 15-year back-test it saw most big Santa Cruz flows but read too high on ordinary days, and it saw nothing at Brawley Wash.${onSantaCruz(row) ? ' On the Santa Cruz it can raise this crossing no higher than Watch.' : ' On a wash like this it does not change the crossing\'s number.'}`;
   return [
     `${c.band}, ${c.score} of 100. This rates how well the stream data matches this crossing. It is not a probability. ${c.factors.map((f) => `${f.factor}: ${f.points} of ${f.max} (${f.detail}).`).join(' ')}`,
     flow,
@@ -58,7 +59,7 @@ export function handCheck(row, forecast, now) {
   const said = `HAND model: about ${(stage * FT).toFixed(1)} ft above the stream bed at the peak, ${flowText}`;
   const likely = row.confidence.band === 'Likely match';
   if (row.forecast.kind !== 'gauge') {
-    if (row.app.order >= MAIN_STEM_ORDER && likely && stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true };
+    if (onSantaCruz(row) && likely && stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true };
     return quiet(`${said}. Model flow is rough${stage < WATCH_STAGE_M ? ", and low flow doesn't mean dry" : ''}`, detail);
   }
   if (stage >= CAUTION_STAGE_M && likely) return { src: 'hand', level: 'caution', why: said, detail, raise: true };

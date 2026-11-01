@@ -1,6 +1,6 @@
 import unittest
 
-from hand_tool import choose_reach, display_water, sliver_problem, exclusion, forecast_for, match_confidence, name_agreement, rating_problem, reach_forecast_problem, slug, stage_for_flow
+from hand_tool import choose_reach, display_water, flat_curve_problem, sliver_problem, trusted_name, exclusion, forecast_for, match_confidence, name_agreement, rating_problem, reach_forecast_problem, slug, stage_for_flow
 
 STATIONS = {'SCTA3': {'usgsId': '09486520', 'reachId': '15890430'}}
 
@@ -61,6 +61,21 @@ class Slivers(unittest.TestCase):
         self.assertIn('8 m wide', sliver_problem(6, 7.5, .84))
         self.assertIsNone(sliver_problem(6, 96, 13.9))
         self.assertIsNone(sliver_problem(1, 7.5, .84))
+
+
+class Names(unittest.TestCase):
+    def test_names_outside_evidence_disproves_are_dropped(self):
+        self.assertEqual(trusted_name('Central Arizona Project Aqueduct', 1, 1600), '')
+        self.assertEqual(trusted_name('Central Arizona Project Aqueduct', 1, 400), 'Central Arizona Project Aqueduct')
+        self.assertEqual(trusted_name('Central Arizona Project Aqueduct', 1, None), 'Central Arizona Project Aqueduct')
+        self.assertEqual(trusted_name('Santa Cruz River', 1, 5000), '')
+        self.assertEqual(trusted_name('Santa Cruz River', 6, 5000), 'Santa Cruz River')
+        self.assertEqual(trusted_name('Brawley Wash', 1, 5000), 'Brawley Wash')
+
+    def test_flat_curves_are_refused(self):
+        self.assertIn('too flat', flat_curve_problem(.03))
+        self.assertIsNone(flat_curve_problem(.5))
+        self.assertIsNone(flat_curve_problem(None))
 
 
 class Forecast(unittest.TestCase):

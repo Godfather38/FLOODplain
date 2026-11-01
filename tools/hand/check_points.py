@@ -17,7 +17,7 @@ from pyproj import Transformer
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / 'public/inundation/data'
 NFHL = 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query'
-OVERPASS = 'https://overpass-api.de/api/interpreter'
+OVERPASS = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter', 'https://overpass.private.coffee/api/interpreter']
 FLOW = 3000 * 0.028316846592
 to_m = Transformer.from_crs(4326, 5070, always_xy=True)
 
@@ -25,8 +25,14 @@ to_m = Transformer.from_crs(4326, 5070, always_xy=True)
 def fema_polygons(lon_min, lat_min, lon_max, lat_max):
     q = {'geometry': f'{lon_min},{lat_min},{lon_max},{lat_max}', 'geometryType': 'esriGeometryEnvelope', 'inSR': 4326, 'spatialRel': 'esriSpatialRelIntersects', 'outFields': 'FLD_ZONE,ZONE_SUBTY', 'returnGeometry': 'true', 'outSR': 4326, 'f': 'geojson'}
     req = urllib.request.Request(NFHL + '?' + urllib.parse.urlencode(q), headers={'User-Agent': 'FLOODplain-check'})
-    with urllib.request.urlopen(req, timeout=120) as r:
-        return json.load(r)['features']
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                return json.load(r)['features']
+        except Exception:
+            if attempt == 3:
+                raise
+            time.sleep(20)
 
 
 def stage(curve, q):
@@ -60,9 +66,17 @@ def fema_check(row):
 
 
 def overpass(query):
-    req = urllib.request.Request(OVERPASS, data=urllib.parse.urlencode({'data': query}).encode(), headers={'User-Agent': 'FLOODplain-check'})
-    with urllib.request.urlopen(req, timeout=180) as r:
-        return json.load(r)['elements']
+    error = None
+    for attempt in range(6):
+        url = OVERPASS[attempt % len(OVERPASS)]
+        req = urllib.request.Request(url, data=urllib.parse.urlencode({'data': query}).encode(), headers={'User-Agent': 'FLOODplain-check'})
+        try:
+            with urllib.request.urlopen(req, timeout=180) as r:
+                return json.load(r)['elements']
+        except Exception as e:
+            error = e
+            time.sleep(15)
+    raise error
 
 
 def lines(elements):
