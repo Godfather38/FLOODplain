@@ -44,7 +44,7 @@ export function validateRefinedTerrain(manifest,geometry,terrain){
 
 export function validateRefinedFrame(manifest,geometry,frame){
   const n=geometry.cells.length;
-  if(frame?.runId!==manifest.runId||frame.geometrySha256!==(manifest.compactSource?.geometry?.sha256??manifest.geometry.sha256)||!manifest.frames.some(f=>f.time===frame.time))throw Error('Native frame identity/time mismatch');
+  if(frame?.runId!==manifest.runId||frame.geometrySha256!==manifest.geometry.sha256||!manifest.frames.some(f=>f.time===frame.time))throw Error('Native frame identity/time mismatch');
   for(const key of ['depthM','nativeVolumeM3','waterSurfaceM'])if(!Array.isArray(frame[key])||frame[key].length!==n||frame[key].some(v=>v!==null&&!finite(v)))throw Error('Native quantity shape/value mismatch');
   const tolerance=manifest.provenance.negativeVolumeDisplayToleranceM3??0;
   if(!finite(tolerance)||tolerance<0)throw Error('Invalid declared native-volume tolerance');
