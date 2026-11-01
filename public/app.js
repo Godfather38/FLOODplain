@@ -1,3 +1,4 @@
+import {mountFloodLayers} from './simulation/map-layers.js';
 import { savedRoutes, toggleSavedRoute, checkAge } from './preferences.js?v=dev';
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
@@ -636,9 +637,10 @@ function wire(w) {
 
 // ---------------- map ----------------
 const map = L.map('map', { zoomSnap: 0.25, zoomControl: false, attributionControl: true });
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
+const streetTiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
 map.attributionControl.setPrefix(false);
 const layer = L.layerGroup().addTo(map);
+mountFloodLayers(map,{routeLayer:layer,streetTiles});
 let allBounds;
 const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
 function stretchAround(coords, lat, lon, m) {

@@ -99,3 +99,10 @@ Frozen-map guidance uses its explicit playback clock and retained observations. 
 
 
 Actual displayed15-frame quantity audit: reconstructed subgrid mean depth (storage divided by10000m2 full cell area) ranges0.000001734-7.737062348m over439200 finite cell-frames;6075 remain null. This is neither zs minus minimum terrain nor roadway depth. No total inundated-area metric is computed from flagged full-cell footprints. Map flow is NWM inlet forecast only:15902409 ranges6.1501-70.7400m3/s; other three inlets are zero in these source series. No modeled downstream discharge was recorded or claimed. Displayed HRRR hourly rate peaks17.72mm/hour. No downscaling/rerun was added.
+
+
+## In-place map upgrade (supersedes separate dashboard delivery)
+
+The requested entrypoint is now the original `public/index.html`, not simulation/routes.html. Existing Leaflet map, OpenStreetMap tiles, actual road geometries, pins, navigation, favorites and live risk panels are preserved. `mountFloodLayers` attaches a collapsible map tool; no application rewrite. It reuses the Leaflet stack verified in019Suite/plot.html and its key-free Esri imagery pattern, plus vendored Leaflet.heat0.2.0 (license included). No private019Suite code or credentials were copied.
+
+HAND uses unchanged existing extent masks; SFINCS uses a smooth relative intensity heat layer based on actual reconstructed subgrid mean depth. Smoothing adds no resolution and is not a flood boundary. Rain uses the retained HRRR fields; flow markers are labeled NWM inlets. Playback/guidance is explicitly frozen2026, separate from the original live risk panels. Inputs, attribution and permissions remain unchanged. Main/deployment untouched.

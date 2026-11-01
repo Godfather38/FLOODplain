@@ -23,6 +23,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="style.css?v=dev">
+<link rel="stylesheet" href="simulation/map-layers.css">
 </head>
 <body>
   <header class="appbar">
@@ -39,12 +40,13 @@
     </button>
   </header>
   <p id="load-status" class="note" role="status" hidden></p>
-  <nav aria-label="Experimental features"><a class="note" href="simulation/routes.html">Combined route decision — observations + models</a> <a class="note" href="simulation/forecast.html">Experimental river forecasts — NOAA flow and ensemble outlook</a></nav>
+
   <main>
     <div id="map" aria-label="Map"></div>
     <section id="screen" aria-live="polite"><p class="loading">Checking conditions…</p></section>
   </main>
   <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="vendor/leaflet-heat/leaflet-heat.js"></script>
   <script type="module" src="app.js?v=dev"></script>
 </body>
 </html>
