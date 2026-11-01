@@ -23,3 +23,8 @@ test('SYNTHETIC: overview is screen bounded and cancellable',async()=>{
  const controller=new AbortController();controller.abort();await assert.rejects(buildNativeOverview({geometry:{rings:[ring(0,0)]},frame:{depthM:[1]},visible:[0],extent,width:16,height:16,signal:controller.signal}),{name:'AbortError'});
  const mid=new AbortController();await assert.rejects(buildNativeOverview({geometry:{rings:[ring(0,0)]},frame:{depthM:[1]},visible:Array(5000).fill(0),extent,width:16,height:16,signal:mid.signal,yieldWork:async()=>mid.abort()}),{name:'AbortError'});
 });
+test('SYNTHETIC: scratch growth and reuse preserve clipped long rings and short following rings',async()=>{
+ const points=[];for(let side=0;side<4;side++)for(let k=0;k<8;k++){const t=k/8;let x,y;if(side===0){x=-.5+2.5*t;y=-.5;}else if(side===1){x=2;y=-.5+5*t;}else if(side===2){x=2-2.5*t;y=4.5;}else{x=-.5;y=4.5-5*t;}points.push([lat(y),x]);}
+ const d=await buildNativeOverview({geometry:{rings:[points,ring(2,0,2,4)]},frame:{depthM:[2,null]},visible:[0,1],extent,width:16,height:16,yieldWork:async()=>{}});
+ for(let y=0;y<4;y++)for(let x=0;x<4;x++){const i=y*4+x;close(d.coverage[i],1);close(d.wet[i],x<2?1:0);close(d.missing[i],x<2?0:1);assert.equal(d.maximum[i],x<2?2:0);}
+});
