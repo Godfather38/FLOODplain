@@ -41,7 +41,18 @@ def export(root, target):
         river=hs.river_discharge.values.reshape(len(history),-1).sum(axis=1)
         if not np.isfinite(river).all(): raise ValueError("Invalid native river source flow")
         applied_in=float(np.trapz(river,seconds))
-        volume=depth[:,1:-1,1:-1].sum(axis=(1,2),dtype=np.float64)*case["grid"]["dxM"]*case["grid"]["dyM"]
+        cell_area=case['grid']['dxM']*case['grid']['dyM']
+        native_max_depth=float(depth.max())
+        if case.get('geometryIntegration'):
+            if ds.subgrid_volume.attrs.get('units')!='m3':
+                raise ValueError('Expected native subgrid cell volumes')
+            cell_volume=ds.subgrid_volume.transpose('time',*dims).values
+            if not np.isfinite(cell_volume).all() or cell_volume.min() < -1e-5:
+                raise ValueError('Invalid native subgrid volume')
+            volume=cell_volume[:,1:-1,1:-1].sum(axis=(1,2),dtype=np.float64)
+            depth=np.maximum(cell_volume,0)/cell_area
+        else:
+            volume=depth[:,1:-1,1:-1].sum(axis=(1,2),dtype=np.float64)*cell_area
         rainfall_volume=0.0
         if case.get('forcingSha256'):
             if ds.cumprcp.attrs.get('units') != 'm':
@@ -70,7 +81,7 @@ def export(root, target):
                     "modelPeakM3s":float(trico[peak_index]),"modelPeakTime":history[peak_index].isoformat(),
                     "observedPeakM3s":float(ov[observed_index]),"observedPeakTime":ot[observed_index].isoformat(),
                     "caveat":"Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"}
-        checks={"completed":True,"maximumDepthM":float(depth.max()),"initialStorageM3":float(volume[0]),
+        checks={"completed":True,"maximumDepthM":float(depth.max()),"nativeMaximumDepthAboveCellMinimumM":native_max_depth,"depthDefinition":case.get("geometryIntegration",{}).get("depthDefinition","uniform computational-cell depth"),"initialStorageM3":float(volume[0]),
                 "finalStorageM3":float(volume[-1]),"nativeInflowIntegralM3":applied_in,
                 "nativeRainfallVolumeM3":rainfall_volume,"prescribedRainfallVolumeM3":case.get("rainfallVolumeM3"),
                 "prescribedInflowIntegralM3":case["prescribedInflowVolumeM3"],"nativeNetOutflowIntegralM3":net_out,
@@ -92,7 +103,7 @@ def export(root, target):
                         "flowM3s":float(flow),"flowLocation":case["flowLocation"]} for t,d,flow in zip(times,depth,frame_flow)],
              "provenance":{"solverVersion":"source@"+case["sourceCommit"],"runId":root.name+"-"+hashlib.sha256((root/"sfincs_map.nc").read_bytes()).hexdigest()[:16],
                            "inputArtifacts":case["inputArtifacts"],"projectedCrs":case["crs"],"verticalDatum":case["verticalDatum"],
-                           "upstream":case["upstream"],"forcingProvenance":case.get("forcingProvenance"),"forcingSha256":case.get("forcingSha256"),"initialState":case.get("initialState"),"rainfallStatus":case["rainfallStatus"],"qualityChecks":checks},
+                           "upstream":case["upstream"],"geometryIntegration":case.get("geometryIntegration"),"forcingProvenance":case.get("forcingProvenance"),"forcingSha256":case.get("forcingSha256"),"initialState":case.get("initialState"),"rainfallStatus":case["rainfallStatus"],"qualityChecks":checks},
              "support":{"domainDescription":"Cortaro-to-Trico observed-inflow reach; displayed cells cropped to Trico window",
                         "limitations":case["limitations"]},"uncertainty":{"status":"not_quantified","plusMinus":None}}
     (root/"checks.json").write_text(json.dumps(checks,indent=2)+"\n")

@@ -1,0 +1,41 @@
+{
+  "completed": true,
+  "maximumDepthM": 29.37286376953125,
+  "initialStorageM3": 0.0,
+  "finalStorageM3": 18267753.90625,
+  "nativeInflowIntegralM3": 13277408.750367165,
+  "nativeRainfallVolumeM3": 11502431.161599234,
+  "prescribedRainfallVolumeM3": 11506375.499999998,
+  "prescribedInflowIntegralM3": 13276939.45543304,
+  "nativeNetOutflowIntegralM3": 6654526.449923515,
+  "storageBudgetResidualM3": -142440.44420711696,
+  "relativeBudgetResidual": -0.005748239081170627,
+  "outflowIntegral60vs120SecondDifferenceM3": 176311.80304527283,
+  "budgetStatus": "approximate_flux_accounted",
+  "budgetMethod": "Native enclosing section flows integrated at 60-second output; interior-cell storage and native cumulative rainfall; no inferred outlet residual",
+  "huthreshM": 0.01,
+  "rainfallStatus": "complete_stage_iv_analysis",
+  "comparison": {
+    "siteId": "USGS-09486520",
+    "usedAsForcing": false,
+    "parameterFitting": false,
+    "sourceUrl": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items?f=json&monitoring_location_id=USGS-09486520&parameter_code=00060&time=2014-09-07T07%3A00%3A00Z%2F2014-09-11T07%3A00%3A00Z&limit=1000",
+    "observedQuality": {
+      "approvalStatuses": [
+        "Approved"
+      ],
+      "qualifiedCount": 16,
+      "maxGapMinutes": 15
+    },
+    "evaluationStart": "2014-09-08T07:00:00+00:00",
+    "pairs": 289,
+    "rmseM3s": 89.28049733524995,
+    "modelPeakM3s": 76.86701965332031,
+    "modelPeakTime": "2014-09-09T15:36:00+00:00",
+    "observedPeakM3s": 339.802159104,
+    "observedPeakTime": "2014-09-09T06:45:00+00:00",
+    "caveat": "Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"
+  },
+  "displayMaximumDepthM": 2.99114990234375,
+  "hydraulicReadiness": "requires_channel_geometry_and_rainfall_review"
+}

@@ -1,0 +1,42 @@
+{
+  "source": "USGS 3DEP raw elevation ImageServer",
+  "requestUrl": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?f=json&bbox=466900.0%2C3576900.0%2C493600.0%2C3596100.0&bboxSR=32612&imageSR=32612&size=2670%2C1920&format=tiff&pixelType=F32&interpolation=RSP_BilinearInterpolation&renderingRule=%7B%22rasterFunction%22%3A+%22None%22%7D",
+  "exportResponse": {
+    "href": "https://elevation.nationalmap.gov/arcgis/rest/directories/elevation_output/3DEPElevation_ImageServer/_ags_0653abbc_28e5_4123_94b8_08c842279e53.tif",
+    "width": 2670,
+    "height": 1920,
+    "extent": {
+      "xmin": 466900,
+      "ymin": 3576900,
+      "xmax": 493600,
+      "ymax": 3596100,
+      "spatialReference": {
+        "wkid": 32612,
+        "latestWkid": 32612
+      }
+    },
+    "scale": 0
+  },
+  "retrievedAt": "2026-11-01T08:59:58.257099+00:00",
+  "sha256": "e554ed517f8631318af528eeffda9cbd8e217ec8adfa369dfeee682620c2ffa8",
+  "bytes": 20647481,
+  "statistics": {
+    "minM": 569.3961181640625,
+    "maxM": 1334.556640625,
+    "width": 2670,
+    "height": 1920,
+    "bounds": [
+      466900.0,
+      3576900.0,
+      493600.0,
+      3596100.0
+    ],
+    "resolutionM": 10
+  },
+  "purpose": "Native SFINCS fine-terrain subgrid; no channel burning or elevation filling",
+  "verticalDatum": "NAVD88 per base reach intersecting source catalog; no datum conversion",
+  "limitations": [
+    "Contemporary composite terrain, not September 2014 morphology",
+    "No bridge-opening or submerged-bed survey inferred"
+  ]
+}
