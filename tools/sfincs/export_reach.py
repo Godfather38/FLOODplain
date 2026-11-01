@@ -86,7 +86,7 @@ def export(root, target):
         peak_mask=history>=pd.Timestamp(case["evaluationStart"])
         peak_index=np.flatnonzero(peak_mask)[np.argmax(trico[peak_mask])]
         observed_index=np.flatnonzero(valid)[np.argmax(ov[valid])]
-        comparison={"siteId":observed["siteId"],"usedAsForcing":False,"parameterFitting":False,"validationRole":"Iterative development benchmark, not independent held-out validation",
+        comparison={"siteId":observed["siteId"],"usedAsForcing":False,"parameterFitting":False,"validationRole":case.get("validationRole","Iterative development benchmark, not independent held-out validation"),
                     "sourceUrl":observed["sourceUrl"],"observedQuality":observed["quality"],
                     "evaluationStart":case["evaluationStart"],"pairs":int(valid.sum()),
                     "rmseM3s":float(np.sqrt(np.mean((prediction[valid]-ov[valid])**2))),
@@ -107,7 +107,7 @@ def export(root, target):
         select=(lon>=-111.34)&(lon<=-111.27)&(lat>=32.40)&(lat<=32.49)
         checks["displayMaximumDepthM"]=float(depth[:,select].max())
         checks["hydraulicReadiness"]="requires_channel_geometry_and_rainfall_review"
-        case['limitations']=[('Trico observations are not forcing inputs; this event has been used for iterative development comparison, not independent held-out validation' if 'withheld from forcing and parameter selection' in item else item) for item in case['limitations']]
+        case['limitations']=[('Trico observations are not forcing inputs; this event has been used for iterative development comparison, not independent held-out validation' if 'withheld from forcing and parameter selection' in item and not case.get('evaluationProtocol') else item) for item in case['limitations']]
         case["limitations"].append("Large modeled pooling in a deep DEM depression near 32.36185,-111.10363 needs reviewed channel/bank connectivity")
         if case.get('geometryIntegration'):
             case['limitations'].append('Displayed depth is a mean over each 100 m computational cell, derived from native water volume; it is not local channel or roadway depth')

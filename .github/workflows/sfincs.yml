@@ -45,18 +45,18 @@ jobs:
           test -x engine-reused/sfincs
           ldd engine-reused/sfincs | tee engine-reused/current-runtime-libraries.txt
           ! grep -q 'not found' engine-reused/current-runtime-libraries.txt
-      - name: Retrieve unchanged prepared section-diagnostic case
+      - name: Retrieve frozen levee case
         uses: actions/download-artifact@v4
         with:
           name: sfincs-verification
           path: reference-download
-          run-id: '41292962868'
+          run-id: '41293656870'
           github-token: ${{ github.token }}
-      - name: Run documented levee with independently sampled 2015 crest heights
+      - name: Run frozen configuration on independent July 2013 event
         run: |
-          python tools/sfincs/prepare_levee.py reference-download/runs/reach-section-check runs/reach-levee --structures tools/sfincs/data/levee-source
-          (cd runs/reach-levee && timeout 600 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
-          python tools/sfincs/export_reach.py runs/reach-levee --target tools/sfincs/data/gauges/trico-benchmark-2014-09.json
+          python tools/sfincs/prepare_event.py reference-download/runs/reach-levee runs/reach-evaluation-2013 --terrain tools/sfincs/data/reach-terrain --upstream tools/sfincs/data/gauges/cortaro-evaluation-2013-07.json --forcing tools/sfincs/data/sfincs-reach-stage4-2013-96h.json --protocol tools/sfincs/data/evaluation-2013-freeze.json
+          (cd runs/reach-evaluation-2013 && timeout 600 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
+          python tools/sfincs/export_reach.py runs/reach-evaluation-2013 --target tools/sfincs/data/gauges/trico-evaluation-2013-07.json
           (cd engine-reused && sha256sum -c SHA256SUMS)
       - uses: actions/upload-artifact@v4
         if: always()
