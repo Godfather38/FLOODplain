@@ -1,0 +1,241 @@
+{
+  "objectIdFieldName": "OBJECTID",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    },
+    {
+      "name": "Name",
+      "type": "esriFieldTypeString",
+      "alias": "Name",
+      "domain": null,
+      "length": 200
+    },
+    {
+      "name": "VerticalDatum",
+      "type": "esriFieldTypeString",
+      "alias": "VerticalDatum",
+      "domain": null,
+      "length": 100
+    },
+    {
+      "name": "AcquisitionDate",
+      "type": "esriFieldTypeDate",
+      "alias": "AcquisitionDate",
+      "domain": null,
+      "length": 8
+    },
+    {
+      "name": "Source",
+      "type": "esriFieldTypeString",
+      "alias": "Source",
+      "domain": null,
+      "length": 32
+    },
+    {
+      "name": "URL",
+      "type": "esriFieldTypeString",
+      "alias": "URL",
+      "domain": null,
+      "length": 1000
+    },
+    {
+      "name": "Resolution_X",
+      "type": "esriFieldTypeString",
+      "alias": "Resolution_X",
+      "domain": null,
+      "length": 50
+    },
+    {
+      "name": "Resolution_Y",
+      "type": "esriFieldTypeDouble",
+      "alias": "Resolution_Y",
+      "domain": null
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "OBJECTID": 2169,
+        "Name": "n33w112",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1699401600000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/current/n33w112/USGS_1_n33w112.tif",
+        "Resolution_X": "2.77777777787015E-04",
+        "Resolution_Y": -0.000277777777786999
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 5753,
+        "Name": "n33w112",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1699401600000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n33w112/USGS_13_n33w112.tif",
+        "Resolution_X": "9.25925926922017E-05",
+        "Resolution_Y": -9.259259269220167e-05
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 8925,
+        "Name": "ned19_n32x50_w111x50_az_tucsonarea_2011",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1303689600000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/19/IMG/ned19_n32x50_w111x50_az_tucsonarea_2011.zip",
+        "Resolution_X": "0.00001",
+        "Resolution_Y": 1e-05
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 49452,
+        "Name": "AZ_PimaCounty_2021_B21",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1637366400000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 51184,
+        "Name": "AZ_BrawleyRillito_2018_D19",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1546732800000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x46y359_AZ_BrawleyRillito_2018_D19.tif",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 59114,
+        "Name": "AZ_PimaCounty_2021_B21",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1637366400000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y360_AZ_PimaCounty_2021_B21.tif",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 88519,
+        "Name": "AZ_PimaCounty_2021_B21",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1637366400000,
+        "Source": "USGS",
+        "URL": "20240329",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 94529,
+        "Name": "AZ_Eastern_PimaCO_2015",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1424908800000,
+        "Source": "USGS",
+        "URL": "20200330",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 96540,
+        "Name": "AZ_Eastern_PimaCO_2015",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1424908800000,
+        "Source": "USGS",
+        "URL": "20200330",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 108248,
+        "Name": "AZ_Eastern_PimaCO_2015",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1424908800000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x47y359_AZ_Eastern_PimaCO_2015.tif",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 108823,
+        "Name": "AZ_PimaCounty_2021_B21",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1637366400000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y359_AZ_PimaCounty_2021_B21.tif",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 109659,
+        "Name": "AZ_BrawleyRillito_FEMA_2018",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1546732800000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_FEMA_2018/TIFF/USGS_1m_x46y360_AZ_BrawleyRillito_FEMA_2018.tif",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 110895,
+        "Name": "AZ_BrawleyRillito_2018_D19",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1546732800000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x46y360_AZ_BrawleyRillito_2018_D19.tif",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 131431,
+        "Name": "AZ_Eastern_PimaCO_2015",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1424908800000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x46y359_AZ_Eastern_PimaCO_2015.tif",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 134003,
+        "Name": "AZ_BrawleyRillito_FEMA_2018",
+        "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+        "AcquisitionDate": 1546732800000,
+        "Source": "USGS",
+        "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_FEMA_2018/TIFF/USGS_1m_x46y359_AZ_BrawleyRillito_FEMA_2018.tif",
+        "Resolution_X": null,
+        "Resolution_Y": null
+      }
+    }
+  ]
+}

@@ -37,6 +37,17 @@ jobs:
         run: |
           python tools/sfincs/export_run.py runs/dry
           python tools/sfincs/export_run.py runs/rain
+      - name: Read pinned recorded-rainfall evidence
+        uses: actions/checkout@v4
+        with:
+          ref: 15299aafd9620b0b4f2f42381acd8cae8e3fde9a
+          path: radar-inputs
+      - name: Prepare and run uncalibrated local scenario
+        run: |
+          python radar-inputs/tools/simulation/storm_forcing.py --manifest radar-inputs/public/simulation/data/storm-2014/manifest.json --bbox -111.36 32.38 -111.25 32.51 --output runs/forcing.json
+          python tools/sfincs/prepare_local.py runs/trico --terrain tools/sfincs/data/terrain --forcing runs/forcing.json
+          (cd runs/trico && timeout 180 "$RUNNER_TEMP/sfincs-source/source/src/sfincs" > solver.log 2>&1)
+          python tools/sfincs/export_local.py runs/trico
       - uses: actions/upload-artifact@v4
         if: always()
         with:
