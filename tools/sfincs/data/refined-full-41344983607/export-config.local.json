@@ -1,0 +1,46 @@
+{
+  "runId": "refined-full-41344983607",
+  "executionMode": "simulated_live_frozen_inputs",
+  "meshFile": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\road-result-41344983607\\artifact\\runs\\current\\sfincs.nc",
+  "mapFile": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\road-result-41344983607\\artifact\\runs\\current\\sfincs_map.nc",
+  "logFile": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\road-result-41344983607\\artifact\\runs\\current\\solver.log",
+  "meshTopology": "mesh2d",
+  "meshFaceIdVariable": "mesh2d_nFaces",
+  "outputMeshTopology": "mesh2d",
+  "faceMapping": {
+    "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\road-result-41344983607\\artifact\\runs\\current\\output-to-source-face-id.npy",
+    "sha256": "efcf8667c7452581b8d51e835314508d2f145f61857ea71a6e0513178973b052"
+  },
+  "volumeVariable": "subgrid_volume",
+  "surfaceVariable": "zs",
+  "projectedCrs": "EPSG:32612",
+  "verticalDatum": "NAVD88",
+  "nativeTimeZone": "UTC",
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "negativeVolumeToleranceM3": 4.192,
+  "assumptions": [
+    "Complete 57-frame frozen-input forecast: NWM2026-11-01 13Z and HRRR14Z; not automatically current.",
+    "Cell-average depth is volume/full native polygon area, not measured road depth or actual wet extent.",
+    "Raw negative numerical volumes retained; display depth alone clamped tozero within declared4.192m3 tolerance.",
+    "Bridge deck/culvert openings incomplete; uncertainty unquantified."
+  ],
+  "inputArtifacts": [
+    {
+      "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\road-result-41344983607\\artifact\\runs\\current\\sfincs.nc",
+      "sha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb"
+    },
+    {
+      "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\road-result-41344983607\\artifact\\runs\\current\\output-to-source-face-id.npy",
+      "sha256": "efcf8667c7452581b8d51e835314508d2f145f61857ea71a6e0513178973b052"
+    },
+    {
+      "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\road-result-41344983607\\artifact\\runs\\current\\GCN10-NOTICE.txt",
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\road-result-41344983607\\artifact\\runs\\current\\GCN10-source-metadata.xml",
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    }
+  ]
+}

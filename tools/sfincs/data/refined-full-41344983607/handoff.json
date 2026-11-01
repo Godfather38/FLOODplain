@@ -1,0 +1,21 @@
+{
+  "runId": "refined-full-41344983607",
+  "manifest": "compact/manifest.json",
+  "manifestSha256": "5100663c8848b8aa00d5bf6bb700568a3e8c6a912af38059b8524cb85b182a23",
+  "frames": 57,
+  "nativeFaces": 398613,
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "compressedPayloadBytes": 143990619,
+  "verification": "All57 compact volume/surface arrays exactly match native float32 values after proven face-ID ordering, including NaNs; all payload hashes match; coverage native-mesh hash matches.",
+  "sourceIssues": {
+    "NWM": "2026-11-01T13:00:00Z",
+    "HRRR": "2026-11-01T14:00:00Z",
+    "mode": "frozen_replay"
+  },
+  "exporters": {
+    "compact_quadtree.py": "1ae95d42126e5c5537e10121d1b7bf21cd050d7374ff43e67418fb2d68db77d2",
+    "export_quadtree_output.py": "35531307ac7e0ef171305530cb5c9c1a9e7be990d7f96491226640bb90e2a363"
+  },
+  "productionChanged": false
+}
