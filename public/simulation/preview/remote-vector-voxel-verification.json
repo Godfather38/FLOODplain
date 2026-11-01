@@ -1,0 +1,34 @@
+{
+  "url": "https://raw.githack.com/Godfather38/FLOODplain/5a630f4/public/simulation/voxel-qa.html",
+  "state": {
+    "info": {
+      "cellIndex": 9344,
+      "row": 145,
+      "column": 172,
+      "time": "2026-11-02T03:00:00Z",
+      "depthM": 3.36806748715984,
+      "depthFt": 11.050090180926404,
+      "surfaceM": 599.6724243164062,
+      "datum": "NAVD88, inherited from the actual case terrain; native zs in metres",
+      "terrainMeanM": 596.879
+    },
+    "geography": {
+      "kind": "geography",
+      "status": "ready",
+      "featureCount": 1787,
+      "sourceLayers": [
+        "landcover",
+        "landuse",
+        "water",
+        "building",
+        "waterway",
+        "transportation",
+        "transportation_name",
+        "place"
+      ],
+      "tileZoom": 14
+    },
+    "active": true
+  },
+  "errors": []
+}
