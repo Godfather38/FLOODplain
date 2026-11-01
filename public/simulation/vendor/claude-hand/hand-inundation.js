@@ -40,13 +40,13 @@ const withoutMask=e=>{if(!e)return null;const {mask,...rest}=e;return rest;};
 const years=ms=>(ms/YEAR_MS).toFixed(1);
 
 export function buildLabels(j,{extent,now,forecast,source}){
- const age=now-Date.parse(j.source.sourceDate),missing=extent?(extent.noEstimateCells+extent.noHandCells)/extent.totalCells*100:100,km=(2*j.grid.radiusM/1000).toFixed(0),g=j.gauge;
+ const age=now-Date.parse(j.source.sourceDate),missing=extent?(extent.noEstimateCells+extent.noHandCells)/extent.totalCells*100:100,km=(2*j.grid.radiusM/0.3048).toFixed(0),g=j.gauge;
  const forecastAge=source==='forecast'&&Number.isFinite(forecast?.issueAgeHours)?` Forecast issued ${forecast.issuedAt}, ${forecast.issueAgeHours.toFixed(1)} hours before this view.`:'';
  return {
   estimatedExtent:`Estimated extent, not observed water. ${source==='forecast'?'From a NOAA gauge forecast':'From a chosen flow, not a forecast'}, a computed rating curve and terrain height above the channel.`,
   sourceAge:`NOAA HAND files uploaded ${j.source.sourceDate.slice(0,10)}, ${years(age)} years before this view. The files state no FIM version.${forecastAge}`,
-  missingCoverage:`No estimate for ${missing.toFixed(0)}% of this ${km} km square (grey): outside the catchments of NWM reach ${j.reach.featureId}. Side washes, local runoff and anything past the square are not included.${extent?.touchesWindowEdge?' The estimated area reaches the edge of the square, so it continues beyond what is shown.':''}`,
-  uncertainty:`Not measured: no ± is available. ${j.calibration.calibrated?'':'This rating curve is not calibrated to gauge readings. '}The flow comes from the ${g.station} gauge, ${g.alongChannelKm} km ${g.gaugeIs} of this point, and is assumed unchanged along the channel. Bridges, culverts and berms are not modeled. The half and double flow shading shows sensitivity, not a confidence range.`
+  missingCoverage:`No estimate for ${missing.toFixed(0)}% of this ${km} ft square (grey): outside the catchments of NWM reach ${j.reach.featureId}. Side washes, local runoff and anything past the square are not included.${extent?.touchesWindowEdge?' The estimated area reaches the edge of the square, so it continues beyond what is shown.':''}`,
+  uncertainty:`We do not have a measured error range. ${j.calibration.calibrated?'':'This rating curve is not calibrated to gauge readings. '}The flow comes from the ${g.station} gauge, ${(g.alongChannelKm*1000/0.3048).toFixed(0)} ft ${g.gaugeIs} of this point, and is assumed unchanged along the channel. Bridges, culverts and berms are not modeled. The half and double flow shading shows sensitivity, not a confidence range.`
  };
 }
 

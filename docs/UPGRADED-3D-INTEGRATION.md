@@ -4,7 +4,7 @@ This isolated branch combines the existing safety app through 566f2ba (including
 
 ## Safety behavior carried forward
 
-The safety app, configuration, logic and bridge presentation match 566f2ba exactly. Compatible site-matched roadway and water elevations affect bridge ratings and appear on route cards with readable source/time evidence. The user-approved warning policy uses 90%, 100% and 110% of roadway height **above the matching local channel reference**, not percentages of sea-level elevation and not a measured uncertainty bound. Warning adds 0.5 and reaching the roadway adds 1 to numeric risk scoring; recommendations now use those numeric scores. Below-warning water is not described as nearing the road.
+Safety behavior and configuration remain aligned with 566f2ba; the display-only readable-details patch 85e6417 is integrated on top. Compatible site-matched roadway and water elevations affect bridge ratings and appear on route cards with readable source/time evidence. The user-approved warning policy uses 90%, 100% and 110% of roadway height **above the matching local channel reference**, not percentages of sea-level elevation and not a measured uncertainty bound. Warning adds 0.5 and reaching the roadway adds 1 to numeric risk scoring; recommendations now use those numeric scores. Below-warning water is not described as nearing the road.
 
 Actual closures remain decisive. Generic bridge penalties from discharge, rain and HAND stage remain removed; at-grade crossing behavior remains. Missing or incompatible evidence is not clearance. Compact warning cards, phone source disclosure, the accessible desktop evidence dialog and all-area junctions on individual route views carry forward. The completed frozen refined visualization remains separate from the current coarse model used by bridge comparisons.
 
@@ -47,3 +47,11 @@ Independent checks of 757,512 barycentric samples at 3 PM and midnight find no c
 The close-view water is visibly rendered and changes with native frames. Restrained cartographic relief now preserves vector map colors instead of darkening the domain into a gray silhouette. The false coarse-ground obstruction is corrected. Water remains subtle at whole-area scale because much of its actual footprint is subpixel; widths are not enlarged to make flooding look more extensive. Native terrain faceting remains visible. Phone controls now leave 332 px of unobstructed map height at 390×844 and 193 px at 320×700 with a cell selected; primary touch targets are at least 44 px and provenance remains expandable. The compact-control and false-obstruction defects are closed. Source terrain faceting and subpixel features are display/model limitations, and visual acceptance remains the user's decision. Physical-device performance and parent/user visual review remain required before any launch decision.
 
 The three owners remain separate: 3D appearance/integration, full 2D release/shading/UX, and geometry/SFINCS. No new solver run was performed for this work.
+
+## Readable details and customary units
+
+Integrated 85e6417 without replacing the newer renderer bundle. Renderer source was updated and rebuilt; compact controls, source-bound terrain, all 57 frames and lazy 3D remain. Displayed lengths/elevations are feet, areas acres, flow cfs and rain inches. Internal model arrays, native elevations, thresholds and route scoring remain metric and unchanged. Third-party raster labels are outside this conversion.
+
+122 focused tests passed. The 390 px and 320 px phone checks passed with expandable cell/source evidence, 44 px touch targets and preserved range/selection. Updated actual-app browser evidence and screenshots accompany this integration. Browser measurements use software rendering and emulated screens, not a physical phone.
+
+Feet integration rerun: cold flat 1.59 s; first 3D entry 3.71 s; endpoint changes 814/777 ms; no JavaScript or console errors. Earlier performance figures above are historical checkpoints; the checked-in verification JSON is the latest measured sequence.

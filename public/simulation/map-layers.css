@@ -54,3 +54,6 @@
  .map-first .voxel-geographic .voxel-cell-info{top:58px;max-height:min(240px,35dvh);padding:8px 10px;font-size:12px}
 }
 @media(max-width:359px){.map-first .flood-time output{font-size:16px}.map-first .dock-actions button{font-size:12px}.map-first .dock-key{font-size:9px}}
+/* Expanded explanations should be readable on phones. Compact warnings keep their layout. */
+.bridge-evidence dd,.bridge-evidence p,.flood-tool-body .fine,.flood-tool-body details p{font-size:15px;line-height:1.5}
+.dock-key{font-size:12px;line-height:1.4}

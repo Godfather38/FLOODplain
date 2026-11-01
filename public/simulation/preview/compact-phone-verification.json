@@ -21,8 +21,8 @@
         "height": 218.328125
       },
       "openMapGap": 331.671875,
-      "clock": "Nov 1, 3:30 PM MST",
-      "readout": "Nov 1, 3:30 PM MST · 2.193 m / 7.19 ft cell-average depth",
+      "clock": "Nov 1, 3:45 PM MST",
+      "readout": "Nov 1, 3:45 PM MST · 7.18 ft average water depth",
       "prev": {
         "top": 657.8125,
         "bottom": 701.8125,
@@ -69,8 +69,8 @@
         "height": 213.46875
       },
       "openMapGap": 192.53125,
-      "clock": "Nov 1, 3:30 PM MST",
-      "readout": "Nov 1, 3:30 PM MST · 2.193 m / 7.19 ft cell-average depth",
+      "clock": "Nov 1, 3:45 PM MST",
+      "readout": "Nov 1, 3:45 PM MST · 7.18 ft average water depth",
       "prev": {
         "top": 517.421875,
         "bottom": 561.421875,
@@ -99,9 +99,9 @@
       "selected": 387171
     }
   ],
-  "cellEvidence": "Cell details\nNative face 387171 · 39.1 m² · 6.25 m equivalent-square resolution\nNative water surface 630.17 m NAVD88\nCell-average depth is native volume / full face area. Polygon fill is not a resolved shoreline or road-depth measurement.",
+  "cellEvidence": "Cell details\nNative face 387171 · 0.010 acres · 20.5 ft equivalent-square resolution\nNative water surface 2067.5 ft NAVD88\nAverage depth spreads the modeled water across the whole cell. The shaded area is not a resolved shoreline or a measurement of water on the road.",
   "cellDisclosurePersistsAcrossFrame": true,
-  "sourceEvidence": "Source dates & model details\nRetained SFINCS issued Nov 1, 6:00 AM MST (9.6 h ago); valid Nov 1, 10:00 AM MST – Nov 2, 12:00 AM MST · NWM Nov 1, 6:00 AM MST / HRRR Nov 1, 7:00 AM MST. No automatic model refresh.",
+  "sourceEvidence": "Source dates & model details\nRetained SFINCS issued Nov 1, 6:00 AM MST (9.9 h ago); valid Nov 1, 10:00 AM MST – Nov 2, 12:00 AM MST · NWM Nov 1, 6:00 AM MST / HRRR Nov 1, 7:00 AM MST. No automatic model refresh.",
   "steps": {
     "previous": "Nov 1, 10:45 PM MST",
     "next": "Nov 1, 11:00 PM MST"

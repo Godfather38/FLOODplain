@@ -5,7 +5,7 @@ export {createRefinedRendererSource} from './refined-renderer-source.js';
 
 export async function createGeographicView({leaflet,loaded,get,footprints,source,routeLayer,sharedState,initialView='flat',onError=()=>{},onSelectCell=()=>{},onStatus=()=>{},onPick=()=>{}}){
   if(source){if(source.kind!=='refined-native')throw Error('Unsupported renderer source');loaded=source.loaded;footprints=source.footprints;}
-  const flatLabel=source?'Native full-cell mean depth; footprint is not resolved wet extent; gray means missing':'10 m terrain-intersected display; 100 m hydraulic grid';
+  const flatLabel=source?'Native full-cell mean depth; footprint is not resolved wet extent; gray means missing':'33 ft terrain-intersected display; 328 ft hydraulic grid';
   let restoreSelectedPopup=false,dataGeneration=0,runtime3D,origin3D,altitude3D,terrainSelectionKey,terrainInfo,terrainViewKey='',terrainTask=null,terrainGeneration=0,terrainReadyKey='',terrainModelBudgetKey='',lastDetailIndices=null,detailQueryKey='',detailQueryIndices=null,modelDetailInfo=null;
   async function read(path,gzip=false,signal=assetController.signal){
     if(signal.aborted)throw new DOMException('Cancelled','AbortError');
@@ -220,16 +220,16 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     const sub=zoom>=18?100:zoom>=14?10:zoom>=12?5:zoom>=10?2:1,key=String(sub);
     const sameIndices=lastDetailIndices===indices||(lastDetailIndices?.length===indices.length&&indices.every((value,i)=>value===lastDetailIndices[i]));
     if(key!==lastDetail||!sameIndices){lastDetail=key;lastDetailIndices=indices;modelDetailInfo=model.setDetail(indices,sub);count('detailInstalls');if(frame){model.update(frame,mode);last3DMode=mode;}
-      if(source)reportTerrain();else note.textContent=`${modelDetailInfo.resolutionM} m terrain near centre / ${modelDetailInfo.farResolutionM} m far; native 100 m water, terrain intersection; cosmetic animation`;
+      if(source)reportTerrain();else note.textContent=`${(modelDetailInfo.resolutionM/.3048).toFixed(0)} ft terrain near centre / ${(modelDetailInfo.farResolutionM/.3048).toFixed(0)} ft far; native 328 ft water, terrain intersection; cosmetic animation`;
     }
     if(frame&&(model.frame!==frame||last3DMode!==mode)){model.update(frame,mode);last3DMode=mode;if(source)reportTerrain();}
     layer?.renderScene();
   }
   function showCell(index,notify=true){selected=index;model?.select(index);const cell=loaded.run.cells[index],depth=frame?.depthM[index];const info=(viewMode==='3d'?model?.cellInfo(index):null)||source?.cellInfo(index,frame)|| (frame&&cell?{row:cell.row??'�',column:cell.col??'�',time:frame.time,depthM:depth,depthFt:Number.isFinite(depth)?depth*3.280839895:null,surfaceM:null}:null);if(!info)return;
-    const title=document.createElement('strong');title.textContent=source?`Native face ${info.nativeFaceId} · ${info.areaM2.toFixed(1)} m² · ${info.resolutionM.toFixed(2)} m equivalent-square resolution`:`SFINCS cell ${index} · row ${info.row}, col ${info.column}`;
-    const body=document.createElement('div');body.textContent=`${new Date(info.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric',minute:source?'2-digit':undefined})} MST · ${info.depthM===null?'No model depth result':info.depthM.toFixed(3)+' m / '+info.depthFt.toFixed(2)+' ft cell-average depth'}`;
-    const level=document.createElement('div');level.textContent=info.surfaceM===null?'Native water surface unavailable':`Native water surface ${info.surfaceM.toFixed(2)} m ${info.datum||'NAVD88'}`;
-    const caveat=document.createElement('small');caveat.textContent=source?'Cell-average depth is native volume / full face area. Polygon fill is not a resolved shoreline or road-depth measurement.':'Terrain intersection is a downscaled display, not surveyed road depth or a fine-grid hydraulic solution.';
+    const title=document.createElement('strong');title.textContent=source?`Native face ${info.nativeFaceId} · ${(info.areaM2/4046.8564224).toFixed(3)} acres · ${(info.resolutionM/.3048).toFixed(1)} ft equivalent-square resolution`:`SFINCS cell ${index} · row ${info.row}, col ${info.column}`;
+    const body=document.createElement('div');body.textContent=`${new Date(info.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric',minute:source?'2-digit':undefined})} MST · ${info.depthM===null?'No model depth result':info.depthFt.toFixed(2)+' ft average water depth'}`;
+    const level=document.createElement('div');level.textContent=info.surfaceM===null?'Native water surface unavailable':`Native water surface ${(info.surfaceM/.3048).toFixed(1)} ft ${info.datum||'NAVD88'}`;
+    const caveat=document.createElement('small');caveat.textContent=source?'Average depth spreads the modeled water across the whole cell. The shaded area is not a resolved shoreline or a measurement of water on the road.':'Terrain intersection is a downscaled display, not surveyed road depth or a fine-grid hydraulic solution.';
     const close=document.createElement('button');close.type='button';close.textContent='Close';close.onclick=()=>{popup.hidden=true;};
     const details=document.createElement('details'),summary=document.createElement('summary');details.open=popup.querySelector('details')?.open??false;summary.textContent='Cell details';details.append(summary,title,level,caveat);
     body.className='cell-depth-readout';close.className='cell-close';close.setAttribute('aria-label','Close selected cell');

@@ -41,8 +41,8 @@ export function computeExtent(j,flow){
 const withoutMask=e=>{if(!e)return null;const {mask,...rest}=e;return rest;};
 
 function flowSource(j){
- if(j.forecast.kind==='gauge')return `The flow comes from the ${j.forecast.station} gauge forecast, ${j.gauge.alongChannelKm} km ${j.gauge.gaugeIs} of this point, and is assumed unchanged along the channel.`;
- const km=j.reach.lengthKm?`${j.reach.lengthKm} km`:'unknown length';
+ if(j.forecast.kind==='gauge')return `The flow comes from the ${j.forecast.station} gauge forecast, ${(j.gauge.alongChannelKm*1000/0.3048).toFixed(0)} ft ${j.gauge.gaugeIs} of this point, and is assumed unchanged along the channel.`;
+ const km=j.reach.lengthKm?`${(j.reach.lengthKm*1000/0.3048).toFixed(0)} ft`:'unknown length';
  return `Forecast flow is a National Water Model result for the whole reach (${km}), not a gauge reading. In a 15-year back-test it saw most big Santa Cruz flows but read too high on ordinary days, and saw nothing at Brawley Wash.`;
 }
 
@@ -50,14 +50,14 @@ export const SCORE_NOTE='This score labels how good the match is. It is not a me
 export const confidenceText=c=>`${c.band}, ${c.score} of 100. ${SCORE_NOTE} `+c.factors.map(f=>`${f.factor}: ${f.points} of ${f.max} (${f.detail}).`).join(' ');
 
 export function buildLabels(j,{extent,now,forecast,source}){
- const age=now-Date.parse(j.source.sourceDate),missing=extent?(extent.noEstimateCells+extent.noHandCells)/extent.totalCells*100:100,km=(2*j.grid.radiusM/1000).toFixed(0);
+ const age=now-Date.parse(j.source.sourceDate),missing=extent?(extent.noEstimateCells+extent.noHandCells)/extent.totalCells*100:100,km=(2*j.grid.radiusM/0.3048).toFixed(0);
  const forecastAge=source==='forecast'&&Number.isFinite(forecast?.issueAgeHours)?` Forecast issued ${forecast.issuedAt}, ${forecast.issueAgeHours.toFixed(1)} hours before this view.`:'';
  return {
   confidence:confidenceText(j.confidence),
   estimatedExtent:`Estimated extent, not observed water. ${source==='forecast'?`From ${forecast?.provider??'a NOAA forecast'}`:'From a chosen flow, not a forecast'}, a computed rating curve and terrain height above the channel.`,
   sourceAge:`NOAA HAND files uploaded ${j.source.sourceDate.slice(0,10)}, ${(age/YEAR_MS).toFixed(1)} years before this view. The files state no FIM version.${forecastAge}`,
-  missingCoverage:`No estimate for ${missing.toFixed(0)}% of this ${km} km square (grey): outside the catchments of NWM reach ${j.reach.featureId}. Side washes, local runoff and anything past the square are not included.${extent?.touchesWindowEdge?' The estimated area reaches the edge of the square, so it continues beyond what is shown.':''}`,
-  uncertainty:`Not measured: no ± is available. ${j.calibration.calibrated?'':'This rating curve is not calibrated to gauge readings. '}${flowSource(j)} ${j.reach.crossingDistanceM>100?`The modeled stream is ${Math.round(j.reach.crossingDistanceM)} m from this crossing. `:''}${j.reach.nameAgreement==='agree'?'':'The water name is not confirmed by both our map data and NOAA, so this reach is matched mainly by location. '}${j.droppedHydroIds?.length?`${j.droppedHydroIds.length} catchment(s) in this square have an unusable rating curve and show no estimate. `:''}Bridges, culverts and berms are not modeled. The half and double flow shading shows sensitivity, not a confidence range.`
+  missingCoverage:`No estimate for ${missing.toFixed(0)}% of this ${km} ft square (grey): outside the catchments of NWM reach ${j.reach.featureId}. Side washes, local runoff and anything past the square are not included.${extent?.touchesWindowEdge?' The estimated area reaches the edge of the square, so it continues beyond what is shown.':''}`,
+  uncertainty:`We do not have a measured error range. ${j.calibration.calibrated?'':'This rating curve is not calibrated to gauge readings. '}${flowSource(j)} ${j.reach.crossingDistanceM>100?`The modeled stream is ${Math.round(j.reach.crossingDistanceM/0.3048)} ft from this crossing. `:''}${j.reach.nameAgreement==='agree'?'':'The water name is not confirmed by both our map data and NOAA, so this reach is matched mainly by location. '}${j.droppedHydroIds?.length?`${j.droppedHydroIds.length} catchment(s) in this square have an unusable rating curve and show no estimate. `:''}Bridges, culverts and berms are not modeled. The half and double flow shading shows sensitivity, not a confidence range.`
  };
 }
 
