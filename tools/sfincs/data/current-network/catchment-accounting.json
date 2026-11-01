@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "networkFeatures": 125,
+  "catchmentFeatures": 128,
+  "domainAreaM2": 503500000.0,
+  "coveredFraction": 0.9999999999998871,
+  "inletCount": 29,
+  "sources": [
+    {
+      "reachId": "15876773",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 200844.17385248127,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876759",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 161817.90406183744,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15902447",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 38792.31554159373,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15902431",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 335278.4033935345,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15902429",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 802395.375341009,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876715",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 2299779.3430599286,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15902439",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 550992.4765573504,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15902419",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 309363.43469140056,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15902375",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 688546.8216337801,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15902361",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 1957756.9032555476,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15902351",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 7570166.290914482,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15889800",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 2222459.0691065863,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15889750",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 684384.6866568704,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15886616",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 505751.17902121873,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15886614",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 77075.34664621325,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15886610",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 105169.53968012333,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15886608",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 144509.50570037036,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876777",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 2791878.359649275,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876737",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 2442062.4366147844,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876711",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 3403188.982337917,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876707",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 3082484.0945800184,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876697",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 2243267.526667471,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "945050513",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 3476366.700070477,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876663",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 32967.57317881642,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876653",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 909314.174647213,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876641",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 1127019.7027912072,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876623",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 834182.2156805623,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876613",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 2286937.32438323,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    },
+    {
+      "reachId": "15876627",
+      "matchingCatchments": 1,
+      "inDomainCatchmentAreaM2": 323326.0941595419,
+      "accountingStatus": "Cannot assume whole-reach total is exclusively external when reach catchment intersects domain"
+    }
+  ],
+  "dischargeRainfallPartitionReady": false,
+  "reason": "Actual boundary-crossing reach catchments include in-domain area. Need established coupling/domain-cut choice before adding complete reach flows and rain on that same contributing area. No cumulative-flow subtraction performed.",
+  "artifacts": [
+    {
+      "path": "network-page1.geojson",
+      "sha256": "c4666b1d8536ff7c58491ca9045710d95d4a608b87e98f274aa4b5ff5a58110b"
+    },
+    {
+      "path": "catchments.geojson",
+      "sha256": "dd6e0f38a9f52df206a0e4aac6bb2f394f4a46c6b454e554128f8a041191fce1"
+    }
+  ]
+}

@@ -31,6 +31,19 @@ def utc(value):
 def build_registry(paths, bounds, crs='EPSG:32612'):
     frames = [gpd.read_file(p).to_crs(crs) for p in paths]
     rivers = gpd.GeoDataFrame(pd.concat(frames, ignore_index=True), crs=crs)
+    network_kind = 'NOAA FIM branch subset'
+    if 'comid' in rivers.columns:
+        if set(rivers.flowdir) != {'With Digitized'}:
+            raise ValueError('NHD direction must be established')
+        for path in paths:
+            raw = json.loads(Path(path).read_text())
+            if raw.get('numberMatched') != len(raw.get('features', [])):
+                raise ValueError('NHD query coverage incomplete')
+        rivers['HydroID'] = rivers.hydroseq.astype('int64').astype(str)
+        rivers['NextDownID'] = rivers.dnhydroseq.astype('int64').astype(str)
+        rivers['feature_id'] = rivers.comid
+        network_kind = 'USGS NHDPlusV2 complete returned bounding-box network'
+
     if rivers.HydroID.astype(str).duplicated().any():
         raise ValueError('Duplicate HydroID across supplied files')
     rivers['HydroID'] = rivers.HydroID.astype(str)
@@ -56,7 +69,7 @@ def build_registry(paths, bounds, crs='EPSG:32612'):
             direction_checks += 1
         rivers.at[i, 'geometry'] = line
     region = gpd.GeoDataFrame(geometry=[box(*bounds)], crs=crs)
-    points = river_source_points(rivers, region, buffer=200, river_upa=0, river_len=0)
+    points = river_source_points(rivers, region, buffer=2, river_upa=0, river_len=0)
     sources = []
     for index, point in enumerate(points.geometry, 1):
         distances = rivers.distance(point)
@@ -73,16 +86,19 @@ def build_registry(paths, bounds, crs='EPSG:32612'):
             chain.append(str(int(item.feature_id)))
             cursor = item.NextDownID
         sources.append({'sourceId': index, 'x': point.x, 'y': point.y,
-                        'hydroId': row.HydroID, 'reachId': str(int(row.feature_id)),
+                        'topologyId': row.HydroID, 'topologyIdKind': ('NHDPlusV2 hydroseq' if 'comid' in rivers.columns else 'NOAA FIM HydroID'), 'reachId': str(int(row.feature_id)),
                         'downstreamReachIds': list(dict.fromkeys(chain)),
-                        'forecastCrosswalk': 'NOAA FIM feature_id; confirm provider network version',
+                        'forecastCrosswalk': ('USGS NHDPlusV2 COMID' if 'comid' in rivers.columns else 'NOAA FIM feature_id') + '; confirm provider network version',
                         'accountingStatus': 'needs_contributing_area_partition'})
     duplicates = len({s['reachId'] for s in sources}) != len(sources)
     return {'schemaVersion': 1, 'kind': 'current_boundary_registry', 'crs': crs,
             'bounds': bounds, 'sources': sources, 'directionChecks': direction_checks,
             'topologyArtifacts': [{'path': str(p), 'sha256': sha(p)} for p in paths],
-            'method': 'HydroMT-SFINCS river_source_points; NOAA NextDownID direction checks',
-            'networkCoverage': 'supplied NOAA branches only; full domain completeness not established',
+            'method': 'HydroMT-SFINCS river_source_points; published downstream-link direction checks',
+            'selectionBufferM': 2,
+            'selectionReason': 'Keep native boundary-crossing reach; avoid default 200m relocation to another cumulative reach',
+            'networkCoverage': network_kind,
+            'domainInletCoverageVerified': False,
             'duplicateReachSources': duplicates, 'physicalRunReady': False,
             'requiredChecks': ['Complete domain inlet coverage', 'Provider reach-version crosswalk',
                                'Disjoint contributing-area/rainfall partition',

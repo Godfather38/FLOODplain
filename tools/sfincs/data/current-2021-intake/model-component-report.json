@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "loadable": true,
+  "runReady": false,
+  "solverExecuted": false,
+  "subgridDimensions": {
+    "np": 50350,
+    "levels": 10,
+    "npuv": 100245
+  },
+  "roughnessAppliedInSubgrid": true,
+  "terrainAcquisition": "2021-09-27/2021-11-17",
+  "retentionUnits": "inches",
+  "retentionRange": [
+    0.0,
+    3.6989998817443848
+  ],
+  "infiltrationScenario": "GCN10 fair cover / ARCII average / undrained; not observed moisture",
+  "publicModelRedistribution": "withheld pending GCN10 license resolution",
+  "localModelPath": ".sfincs-runs\\current-2021-model-v2",
+  "remaining": [
+    "28 additional inlet series after expanded network selection",
+    "Exact local rainfall/contributing-area overlap partition",
+    "Initial hydraulic state and outlet configuration",
+    "Localized missing structure openings/inverts and2026 Cortaro works"
+  ],
+  "artifacts": [
+    {
+      "path": "sfincs.ind",
+      "sha256": "6ca18eb6743cbc450bf6782fca68d861c8eacae13285bd347ca7d0465f06a484"
+    },
+    {
+      "path": "sfincs.inp",
+      "sha256": "473aa6be38534d699f3c21d17f7ccb4a1fa777d0bb5d3785849fded164adadf7"
+    },
+    {
+      "path": "sfincs.msk",
+      "sha256": "97f7ad91f585b6d06055a4b2754beee1a9dc2a188d383a05715ff0bffa3d0f2b"
+    },
+    {
+      "path": "sfincs.scs",
+      "sha256": "7c564b8b01e6760efa7607100d5347f524dfbfbb4bfd3dd780c43b7275e4e3af"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "sha256": "f58105dc02e3c1652d5d1781acc7f3464dcce959a4d9d81aca2b9a1f4f885580"
+    }
+  ]
+}
