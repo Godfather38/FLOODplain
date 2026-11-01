@@ -3,7 +3,8 @@ import argparse,tarfile,json
 from pathlib import Path
 p=argparse.ArgumentParser(description=__doc__);p.add_argument('case',type=Path);p.add_argument('archive',type=Path);a=p.parse_args()
 if a.archive.exists():raise FileExistsError('Preserve versioned case archive')
-required=['sfincs.inp','sfincs.dis','sfincs.src','sfincs.ind','sfincs.msk','sfincs.scs','sfincs_subgrid.nc','precip_2d.nc','current-case.json','GCN10-NOTICE.txt','GCN10-source-metadata.xml']
+required=['sfincs.inp','sfincs.dis','sfincs.src','sfincs_subgrid.nc','precip_2d.nc','current-case.json','GCN10-NOTICE.txt','GCN10-source-metadata.xml']
+required += ['sfincs.nc','infiltration.nc'] if 'qtrfile' in (a.case/'sfincs.inp').read_text() else ['sfincs.ind','sfincs.msk','sfincs.scs']
 for name in required:
  if not (a.case/name).is_file():raise FileNotFoundError(name)
 a.archive.parent.mkdir(parents=True,exist_ok=True)

@@ -1,0 +1,12 @@
+{
+  "archive": "road-current-20261101-13z-v2.tar.gz",
+  "bytes": 91989228,
+  "sha256": "102fe98788b119605f9a0bd5cba38a97899ed83475fddf633c00339dbf55dc7a",
+  "mode": "simulated-live",
+  "solverBudgetSeconds": 1200,
+  "engineRunId": "41290378239",
+  "sourceWeather": "Original frozen raw bytes from app branch; no source refresh; expanded crop",
+  "case": "road-dip connected-v2",
+  "cells": 398613,
+  "inlets": 14
+}

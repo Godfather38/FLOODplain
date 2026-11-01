@@ -1,0 +1,110 @@
+{
+  "status": "prepared_frozen_road_case",
+  "runReady": true,
+  "solverExecuted": false,
+  "mode": "simulated-live",
+  "gridCells": 398613,
+  "inlets": 14,
+  "nativeFlowTimestamps": 64,
+  "mapOutputWindow": "Forecast only, 49h after antecedent start; 15-minute maps limit artifact size without shortening initialization",
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "forecastStart": "2026-11-01T17:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "initialization": "Same explicit dry assumed antecedent start; continuous analysis-forced history, not measured initial state",
+  "missing": [],
+  "nativeInputReference": "Pinned SFINCS sfincs_infiltration.f90 requires inffile NetCDF for quadtree; scs units remain inches",
+  "knownLimits": [
+    "Current bridge elevations unknown",
+    "Published CN antecedent assumption; no measured transmission loss",
+    "Terrain dates 2019 peripheral/2021/2023, not 2026 construction survey",
+    "6.25m computational cells are not validated road-depth accuracy"
+  ],
+  "kind": "prepared_current_case",
+  "rainfall": {
+    "units": "mm/h",
+    "intervalSeconds": 3600,
+    "intervalLabel": "start",
+    "lastIntervalEndUtc": "2026-11-02T07:00:00Z",
+    "sourceArtifacts": [
+      {
+        "path": ".sfincs-runs\\road-rainfall-v2\\initialization-rainfall\\resolved-analysis-precipitation.nc",
+        "sha256": "bfcc153bf41b94ba6b8cd16bf602ccc589396591ef4afa2f0b2852dbff459fe8"
+      },
+      {
+        "path": ".sfincs-runs\\road-rainfall-v2\\initialization-rainfall\\forecast-transition-precipitation.nc",
+        "sha256": "ae25a40bc2011350b2ae4a8bb9c92e33a31e97c9a334d885311c839215e79224"
+      },
+      {
+        "path": ".sfincs-runs\\road-rainfall-v2\\precipitation.nc",
+        "sha256": "6fcccaa796b375073b49b40df5a56d9b2ab0ff23817abfc127d7cb0e8ab96b5f"
+      }
+    ]
+  },
+  "publicationHold": [],
+  "executionBudgetSeconds": 1200,
+  "sourceAsOf": "2026-11-01T16:08:30.582Z",
+  "sourceLicensing": {
+    "derivedInfiltrationLicense": "ODbL-1.0",
+    "notice": "GCN10-NOTICE.txt",
+    "sourceMetadata": "GCN10-source-metadata.xml",
+    "derivedDatabase": "infiltration.nc"
+  },
+  "artifacts": [
+    {
+      "path": "GCN10-NOTICE.txt",
+      "bytes": 1349,
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "GCN10-source-metadata.xml",
+      "bytes": 12686,
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    },
+    {
+      "path": "hydromt.log",
+      "bytes": 176,
+      "sha256": "a93fc8c9a5824b14472429c6a34c987a82f95ce170da37a2eb2f61bef3dc0ed0"
+    },
+    {
+      "path": "infiltration.nc",
+      "bytes": 1600596,
+      "sha256": "846fef570894446098e7129590464215ba40c810cc53ddb079db67b6ce9e667e"
+    },
+    {
+      "path": "native-component.json",
+      "bytes": 1181,
+      "sha256": "438c66f0bd98f419c932fd4655c2bc11647db630517708516b27edfbd6c5e99a"
+    },
+    {
+      "path": "precip_2d.nc",
+      "bytes": 804317,
+      "sha256": "1d3af384c97e473847b67d3845c7626e21eac4d2b6c42edc226761df0b2d2ee9"
+    },
+    {
+      "path": "sfincs.dis",
+      "bytes": 7808,
+      "sha256": "fe13043f3ac48576fca34d29a7ae66a65794de44ea5ec3e5f83bddbc5f191465"
+    },
+    {
+      "path": "sfincs.inp",
+      "bytes": 1424,
+      "sha256": "2c4bb839bc308542000033158de40c0aa715c925bb8cd6a28ac217a4ab7c389d"
+    },
+    {
+      "path": "sfincs.nc",
+      "bytes": 71287012,
+      "sha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb"
+    },
+    {
+      "path": "sfincs.src",
+      "bytes": 280,
+      "sha256": "7aced1c51049392610699b606185df130d601b535f55079a321063ff9f19b588"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "bytes": 129604101,
+      "sha256": "a5478d90db35af662ce96897caa285434985541c4dc4e9f89053e34f5072ea67"
+    }
+  ]
+}

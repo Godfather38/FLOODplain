@@ -96,7 +96,7 @@ jobs:
               if not (output/name).is_file():
                   raise ValueError('Incomplete prepared case: '+name)
           PY
-          (cd runs/current && timeout 1200 "$GITHUB_WORKSPACE/engine-reused/sfincs" > solver.log 2>&1)
+          (cd runs/current && date -u +%FT%TZ > execution-started.txt && GFORTRAN_UNBUFFERED_ALL=y timeout 1200 "$GITHUB_WORKSPACE/engine-reused/sfincs" 2>&1 | tee solver.log)
           (cd engine-reused && sha256sum -c SHA256SUMS)
       - uses: actions/upload-artifact@v4
         if: always()
