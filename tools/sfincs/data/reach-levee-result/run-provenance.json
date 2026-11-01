@@ -1,0 +1,11 @@
+{
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41293656870",
+  "inputCommit": "9506e1a",
+  "engineArtifactRunId": 41290378239,
+  "executableSha256": "c4917bc54158b0943d6d128b45c4346a33d059fb5d93808d05520c975e38f090",
+  "solverRuntimeSeconds": 73.4980697631836,
+  "solverCompleted": true,
+  "workflowStatus": "Solver completed; strict export dry-cell-volume check failed. Corrected diagnostic export performed locally on unchanged native output, retaining signed budget volumes.",
+  "nativeMapSha256": "ba6b8864723e92ce46ab99a039b1c14faeca3909f45a60ec09180cee9bd4ec11",
+  "nativeHistorySha256": "51e74af2279054e723e5d034036b2a279678c0009b496d621dbc03e9819e5d26"
+}

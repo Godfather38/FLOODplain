@@ -1,3 +1,11 @@
+# Latest result: documented levee restores much of the channel pulse
+
+The source-supported levee case gives **301.306 m3/s**, versus reported Trico **339.802 m3/s**: **11.33% low and 66 minutes early**. RMSE is **26.165 m3/s**. Runtime was **73.50 seconds**, reusing the saved executable and prepared inputs. No crest inflation, channel carving or numerical parameter fitting was used. See [complete source evidence, numerical limitations and comparison](LEVEE-CASE.md).
+
+App artifact: `tools/sfincs/data/reach-levee-result/inundation.json.gz`. The existing short station-comparison section remains the reference; the full-valley diagnostic is not substituted. This is an iterative development benchmark, not independent validation. The earlier cases below remain preserved.
+
+---
+
 # Native geometry result: faster arrival, peak still too small
 
 Actual solver execution [41291800062](https://github.com/Godfather38/FLOODplain/actions/runs/41291800062) reused the saved executable on a fresh runner, without compilation. Runtime: **104.01 seconds**. [Input methods and source provenance](NATIVE-GEOMETRY.md) describe the official HydroMT subgrid/outflow setup, 10 m USGS terrain, and connected NOAA river geometry. No channel burning or target fitting occurred.

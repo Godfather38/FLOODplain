@@ -43,14 +43,14 @@ def export(root, target):
         applied_in=float(np.trapz(river,seconds))
         cell_area=case['grid']['dxM']*case['grid']['dyM']
         native_max_depth=float(depth.max())
-        subgrid_roundoff=None
+        subgrid_storage_check=None
         if case.get('geometryIntegration'):
             if ds.subgrid_volume.attrs.get('units')!='m3':
                 raise ValueError('Expected native subgrid cell volumes')
             cell_volume=ds.subgrid_volume.transpose('time',*dims).values
-            if not np.isfinite(cell_volume).all() or cell_volume.min() < -1e-5*cell_area:
+            if not np.isfinite(cell_volume).all() or cell_volume.min() < -case['huthreshM']*cell_area:
                 raise ValueError('Invalid native subgrid volume')
-            subgrid_roundoff={'minimumRawCellVolumeM3':float(cell_volume.min()),'equivalentDepthToleranceM':1e-5,'maximumNegativeVolumeSumPerFrameM3':float((-np.minimum(cell_volume,0)).sum(axis=(1,2)).max()),'displayPolicy':'Clamp negative roundoff only; budget uses raw native volumes'}
+            subgrid_storage_check={'minimumRawCellVolumeM3':float(cell_volume.min()),'equivalentDepthToleranceM':case['huthreshM'],'minimumEquivalentDepthM':float(cell_volume.min()/cell_area),'toleranceBasis':'Declared wetting/drying threshold over full cell area; diagnostic export bound, not a numerical accuracy claim','maximumNegativeVolumeSumPerFrameM3':float((-np.minimum(cell_volume,0)).sum(axis=(1,2)).max()),'displayPolicy':'Clamp negative dry-cell storage for display only; budget uses raw native volumes','interpretation':'Small negative native storage in nominally dry cells; not asserted to be floating-point roundoff'}
             volume=cell_volume[:,1:-1,1:-1].sum(axis=(1,2),dtype=np.float64)
             depth=np.maximum(cell_volume,0)/cell_area
         else:
@@ -86,14 +86,14 @@ def export(root, target):
         peak_mask=history>=pd.Timestamp(case["evaluationStart"])
         peak_index=np.flatnonzero(peak_mask)[np.argmax(trico[peak_mask])]
         observed_index=np.flatnonzero(valid)[np.argmax(ov[valid])]
-        comparison={"siteId":observed["siteId"],"usedAsForcing":False,"parameterFitting":False,
+        comparison={"siteId":observed["siteId"],"usedAsForcing":False,"parameterFitting":False,"validationRole":"Iterative development benchmark, not independent held-out validation",
                     "sourceUrl":observed["sourceUrl"],"observedQuality":observed["quality"],
                     "evaluationStart":case["evaluationStart"],"pairs":int(valid.sum()),
                     "rmseM3s":float(np.sqrt(np.mean((prediction[valid]-ov[valid])**2))),
                     "modelPeakM3s":float(trico[peak_index]),"modelPeakTime":history[peak_index].isoformat(),
                     "observedPeakM3s":float(ov[observed_index]),"observedPeakTime":ot[observed_index].isoformat(),
                     "caveat":"Illustrative model section versus station discharge; see rainfallStatus; external lateral inflows and channel geometry remain unresolved"}
-        checks={"completed":True,"sectionCoverage":section_coverage,"subgridRoundoff":subgrid_roundoff,"maximumDepthM":float(depth.max()),"nativeMaximumDepthAboveCellMinimumM":native_max_depth,"depthDefinition":case.get("geometryIntegration",{}).get("depthDefinition","uniform computational-cell depth"),"initialStorageM3":float(volume[0]),
+        checks={"completed":True,"sectionCoverage":section_coverage,"subgridDryCellStorage":subgrid_storage_check,"maximumDepthM":float(depth.max()),"nativeMaximumDepthAboveCellMinimumM":native_max_depth,"depthDefinition":case.get("geometryIntegration",{}).get("depthDefinition","uniform computational-cell depth"),"initialStorageM3":float(volume[0]),
                 "finalStorageM3":float(volume[-1]),"nativeInflowIntegralM3":applied_in,
                 "nativeRainfallVolumeM3":rainfall_volume,"prescribedRainfallVolumeM3":case.get("rainfallVolumeM3"),
                 "prescribedInflowIntegralM3":case["prescribedInflowVolumeM3"],"nativeNetOutflowIntegralM3":net_out,
@@ -107,6 +107,7 @@ def export(root, target):
         select=(lon>=-111.34)&(lon<=-111.27)&(lat>=32.40)&(lat<=32.49)
         checks["displayMaximumDepthM"]=float(depth[:,select].max())
         checks["hydraulicReadiness"]="requires_channel_geometry_and_rainfall_review"
+        case['limitations']=[('Trico observations are not forcing inputs; this event has been used for iterative development comparison, not independent held-out validation' if 'withheld from forcing and parameter selection' in item else item) for item in case['limitations']]
         case["limitations"].append("Large modeled pooling in a deep DEM depression near 32.36185,-111.10363 needs reviewed channel/bank connectivity")
         if case.get('geometryIntegration'):
             case['limitations'].append('Displayed depth is a mean over each 100 m computational cell, derived from native water volume; it is not local channel or roadway depth')

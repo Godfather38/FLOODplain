@@ -1,0 +1,18 @@
+{
+  "method": "4-neighbor minimum-saddle path through unchanged USGS 10 m terrain to published HAND river line",
+  "pitElevationM": 622.2814331054688,
+  "lowestPathMaximumElevationM": 643.47705078125,
+  "pathLengthM": 470,
+  "riverEntryEPSG32612": [
+    490075.0,
+    3580775.0
+  ],
+  "crestEPSG32612": [
+    490075.0,
+    3580775.0
+  ],
+  "limitations": "Topographic connectivity screen, not a hydraulic model or surveyed bank crest",
+  "pitMaximumModeledStageM": 648.7302856445312,
+  "crestMaximumModeledStageM": 648.6627197265625,
+  "riverEntryMaximumModeledStageM": 648.6627197265625
+}

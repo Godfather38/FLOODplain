@@ -1,0 +1,60 @@
+[
+  {
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x49y358_AZ_Eastern_PimaCO_2015.tif",
+    "crs": "EPSG:26912",
+    "res": [
+      1.0,
+      1.0
+    ],
+    "nodata": -3.4028234663852886e+38,
+    "pointsEPSG32612": [
+      [
+        490978.733,
+        3579315.722
+      ],
+      [
+        491030.431,
+        3579398.68
+      ]
+    ],
+    "sampledElevationsM": [
+      653.8944702148438,
+      651.7216186523438
+    ],
+    "bounds": [
+      489994.0,
+      3569994.0,
+      500006.0,
+      3580006.0
+    ]
+  },
+  {
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x49y359_AZ_Eastern_PimaCO_2015.tif",
+    "crs": "EPSG:26912",
+    "res": [
+      1.0,
+      1.0
+    ],
+    "nodata": -999999.0,
+    "pointsEPSG32612": [
+      [
+        490250,
+        3580550
+      ],
+      [
+        490081.733,
+        3580539.092
+      ]
+    ],
+    "sampledElevationsM": [
+      622.7462768554688,
+      648.0971069335938
+    ],
+    "bounds": [
+      489994.0,
+      3579994.0,
+      500006.0,
+      3590006.0
+    ]
+  }
+]
