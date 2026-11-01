@@ -1,0 +1,35 @@
+{
+  "workflowRun": 41298883444,
+  "inputCommit": "2199165",
+  "physicsReferenceRun": 41297523344,
+  "onlyChangedNativeInput": "sections.crs",
+  "checksExactlyEqualToReference": true,
+  "solverTotalSeconds": 598.752,
+  "solverSimulationSeconds": 598.238,
+  "nativeFluxMethod": "Official cross-section routine applied to 1813 single-face observations; no solver changes",
+  "fullNativeHistoryLocation": "GitHub run artifact and local .sfincs-runs/ci-41298883444/runs/reach-face-diagnostic/sfincs_his.nc",
+  "eventSubset": "event-face-history.npz: actual native discharge m3/s, UTC numpy datetime64 time, original section names, July19 07Z through July23 07Z",
+  "conclusion": "Most original-event upstream input stored in source-adjacent box; downstream section mismatch is not the primary missing-volume explanation",
+  "sourceLocationCheck": {
+    "sourceCellIntersectsNOAAMappedRiver": false,
+    "distanceFromSourceCellToMappedRiverM": 14.2119114284,
+    "gaugePointDistanceToMappedRiverM": 95.0847103893,
+    "nearestNOAAPointEPSG32612": [
+      491034.1654894415,
+      3579392.97738971
+    ],
+    "nearestUSGSNLDIPointEPSG32612": [
+      491030.431,
+      3579398.68
+    ],
+    "bothMappedPointsCell": [
+      23,
+      240
+    ],
+    "currentSourceCell": [
+      23,
+      239
+    ],
+    "limit": "Mapped paths agree on adjacent cell but do not prove historical cross-section position or bathymetry; prior relocation trial used older geometry and is preserved"
+  }
+}

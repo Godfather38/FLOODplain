@@ -1,0 +1,82 @@
+{
+  "faceSign": "Reported source/box values are outward positive; raw u east-positive and v north-positive",
+  "method": "Trapezoidal integration of instantaneous native one-minute face discharge; no inferred flux from water levels",
+  "boxBoundsEPSG32612": [
+    490000,
+    3579000,
+    491500,
+    3581500
+  ],
+  "windows": {
+    "whole_run": {
+      "start": "2013-07-05 07:00:00Z",
+      "nativeRiverM3": 3636968.9537894726,
+      "sourceFaceNetOutM3": {
+        "east": 119421.40767039047,
+        "west": -96.66200555744581,
+        "north": 3517747.527755946,
+        "south": -227.81358055304736
+      },
+      "sourceTotalNetOutM3": 3636844.459294528,
+      "sourceStorageChangeM3": 333.8937072753906,
+      "boxFaceNetOutM3": {
+        "east": -117284.21088036693,
+        "west": 160619.17107527697,
+        "north": -38498.295264329645,
+        "south": -78905.30338325654
+      },
+      "boxTotalNetOutM3": -74068.63821901174,
+      "boxInitialStorageM3": 7.999508966349822e-07,
+      "boxFinalStorageM3": 3807645.425197363,
+      "boxStorageChangeM3": 3807645.425196563,
+      "sourceNativeRainM3": 230.784912109375,
+      "boxNativeRainM3": 96628.22285461426,
+      "sourceBudgetResidualM3": 21.385699778795242,
+      "boxBudgetResidualM3": 20.389666535891593
+    },
+    "original_event": {
+      "start": "2013-07-19 07:00:00Z",
+      "nativeRiverM3": 966860.165977478,
+      "sourceFaceNetOutM3": {
+        "east": 48220.02010587574,
+        "west": -3.418940417468548,
+        "north": 918760.0636303425,
+        "south": -6.246731663122773
+      },
+      "sourceTotalNetOutM3": 966970.4188120365,
+      "sourceStorageChangeM3": -106.379150390625,
+      "boxFaceNetOutM3": {
+        "east": -45000.59834649108,
+        "west": 129593.46533312142,
+        "north": -13968.815844806086,
+        "south": -2414.4252958829748
+      },
+      "boxTotalNetOutM3": 68209.62628589879,
+      "boxInitialStorageM3": 2900413.1591513157,
+      "boxFinalStorageM3": 3807645.425197363,
+      "boxStorageChangeM3": 907232.2660460472
+    },
+    "scoring": {
+      "start": "2013-07-20 07:00:00Z",
+      "nativeRiverM3": 832157.521122694,
+      "sourceFaceNetOutM3": {
+        "east": 48220.02010587574,
+        "west": -3.418940417468548,
+        "north": 784059.081248045,
+        "south": -6.246731663122773
+      },
+      "sourceTotalNetOutM3": 832269.436429739,
+      "sourceStorageChangeM3": -107.95123291015625,
+      "boxFaceNetOutM3": {
+        "east": -45026.100072932706,
+        "west": 129572.96024085197,
+        "north": -13948.562301320198,
+        "south": -2400.0036719284253
+      },
+      "boxTotalNetOutM3": 68198.2946348592,
+      "boxInitialStorageM3": 3035699.7158436775,
+      "boxFinalStorageM3": 3807645.425197363,
+      "boxStorageChangeM3": 771945.7093536854
+    }
+  }
+}
