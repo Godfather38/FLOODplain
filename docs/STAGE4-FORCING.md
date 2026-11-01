@@ -29,3 +29,12 @@ The reach solver starts September 7 for spinup; this rainfall sequence begins Se
 Use `public/simulation/data/sfincs-reach-stage4-2014-96h.json` for the complete September 7 07Z to September 11 07Z reach run. It retains the same expanded bounds and SFINCS-compatible hourly contract. The first 24 hours are actual archived Stage IV analyses, not zero-filled spinup. Original 72-hour artifacts remain unchanged. Source metadata and hashes for all 96 files are in `stage4-reach-2014-96h-provenance.json`. Reproduce using `build_stage4_forcing.py --reach --spinup`. This only supplies rainfall; it does not change hydraulic parameters or imply the reach output has been rerun.
 
 The 96-hour export has zero missing values across 69,696 cell-hours. All 72 overlapping frames are identical to the preserved earlier artifact; all 96 raw-file hashes were checked. September 7 spinup totals range from 0.0 to 9.629999999999999 mm across the crop.
+
+
+## July 2013 event input for the frozen model
+
+`public/simulation/data/sfincs-reach-stage4-2013-july-96h.json` is the separately versioned July 19 07Z through July 23 07Z 2013 rainfall input for the same expanded reach. Generate with `build_stage4_forcing.py --event 2013-july`. Original archived GRIB metadata, bitmap masks and native mapping follow the same decoder as 2014; no rainfall rescaling or model fitting is applied. Its provenance file is `stage4-reach-2013-july-96h-provenance.json`.
+
+The intended solver configuration is frozen at `86466e74425f3ab467939602edc31c89b83368dc`. This artifact supplies rainfall only and records no predicted score. Applying contemporary terrain and 2015 levee crest evidence to 2013 retains historical-geometry uncertainty. Existing 2013 upstream-routing fits elsewhere in the repository are a different model; they must not be represented as independent evidence for the SFINCS run.
+
+July 2013 extraction completed with all 96 intervals present, zero missing values across 69,696 cell-hours, and all raw source hashes checked. Native cell mapping matches the 2014 reach exactly (62 distinct cells). Crop event totals range from 0.0 to 18.26 mm; largest hourly cell accumulation is 16.25 mm. These are rainfall inputs, not flood prediction metrics.
