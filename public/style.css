@@ -88,6 +88,9 @@ details.src[open] > summary .chev { transform: rotate(90deg); }
 details.src .more { padding: 0 16px 16px 72px; font-size: 14px; color: var(--muted); }
 details.src .more p { margin: 0 0 6px; }
 details.src .more p:first-child { color: var(--on); }
+details.beta-phones { margin: 0 0 12px; font-size: 14px; }
+details.beta-phones > summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
+details.beta-phones p { margin: 6px 0 0; }
 
 /* stretch summary */
 .summary { background: var(--surface); border-radius: var(--radius); padding: 20px; display: flex; gap: 16px; align-items: flex-start; }

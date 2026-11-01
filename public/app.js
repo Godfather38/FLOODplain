@@ -362,7 +362,7 @@ function alertsScreen() {
          <button type="button" class="btn btn-primary" id="t-confirm">Start texts</button>`
       : textFlow.step === 'done'
         ? `<p>Texts are on for ${esc(textFlow.phone)}. A confirmation text is on its way.</p>`
-        : `<label class="field">${textFlow.sender === 'any' ? 'Mobile number' : 'Verizon mobile number'}<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
+        : `<label class="field">${textFlow.sender === 'any' ? 'Mobile number' : 'Mobile number on Verizon’s towers'}<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
            <label class="field">Access key (optional, for more than 2 texts a day)<input id="t-key" type="text" autocomplete="off" value="${esc(textFlow.key ?? '')}"></label>
            <p class="consent">By tapping <b>Text me a code</b>, you agree to get recurring FLOODplain road-flooding texts: one text at each time you pick, at most 4 msgs/day, plus a one-time sign-up code. Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. No marketing; your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
            <button type="button" class="btn btn-primary" id="t-signup">Text me a code</button>
@@ -400,12 +400,20 @@ function alertsScreen() {
     <p class="note">${textFlow.sender === 'any'
       ? '<b>Texts are on</b> for any US mobile number.'
       : textFlow.sender === 'verizon'
-        ? '<b>Texts aren’t fully set up yet.</b> Right now they only reach <b>Verizon</b> phones. Other carriers: coming once our text sender is approved. Until then, use push alerts above. They work on any phone.'
+        ? '<b>Texts are in beta.</b> Right now they only reach phones on <b>Verizon’s towers</b>. Other carriers: coming once our text sender is approved. Until then, use push alerts above. They work on any phone.'
         : 'Checking whether texts are available…'}</p>
+    ${textFlow.sender === 'verizon' ? `<details class="beta-phones">
+      <summary>Whose phones work in beta?</summary>
+      <p><b>Tested and working:</b> Xfinity Mobile.</p>
+      <p><b>Should work, not tested yet:</b> Verizon, Visible, Spectrum Mobile, Total Wireless.</p>
+      <p><b>Depends on your SIM:</b> Straight Talk, Tracfone, US Mobile and others that use more than one network. They need to be on Verizon’s towers.</p>
+      <p><b>Not yet:</b> AT&amp;T, T-Mobile, Metro, Cricket, Boost.</p>
+      <p>To check yours, tap <b>Text me a code</b>. If the code arrives, your phone works.</p>
+    </details>` : ''}
     ${textFlow.msg ? `<p class="note">${esc(textFlow.msg)}</p>` : ''}
     ${textCard}
   </div>
-  ${cfg.TEXT_API && textFlow.sender === 'verizon' ? `<h3 class="section">Not on Verizon? Join the text waitlist</h3>
+  ${cfg.TEXT_API && textFlow.sender === 'verizon' ? `<h3 class="section">Not on Verizon’s towers? Join the text waitlist</h3>
   <div class="page">
     ${textFlow.waitMsg ? `<p class="note">${esc(textFlow.waitMsg)}</p>` : ''}
     ${textFlow.waitDone ? '' : `<p>Leave your number and we'll send <b>one text</b> when texts work on every carrier. Then you sign up here like anyone else.</p>

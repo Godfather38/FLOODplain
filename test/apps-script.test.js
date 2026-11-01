@@ -13,7 +13,7 @@ const verdict = (off = false) => ({ at: new Date(AZ('2026-11-02T05:00:00')).toIS
 function setup(twilio = true) {
   const clock = { now: AZ('2026-11-02T05:00:00'), verdict: verdict() }; // a Monday
   const g = makeGas(clock);
-  if (twilio) { g.props.set('TWILIO_SID', 'AC1'); g.props.set('TWILIO_TOKEN', 't'); g.props.set('TWILIO_FROM', '+15205550000'); }
+  if (twilio) { g.props.set('TWILIO_APPROVED', 'yes'); g.props.set('TWILIO_SID', 'AC1'); g.props.set('TWILIO_TOKEN', 't'); g.props.set('TWILIO_FROM', '+15205550000'); }
   return { clock, ...g };
 }
 const codeFrom = (sent) => /code: (\d{4})/.exec(sent.at(-1).body)[1];
@@ -177,6 +177,10 @@ test('waitlist: no text while Twilio is off; one text each once it is on; stop r
   t.api.tick();
   assert.equal(t.sent.length, 0, 'nothing sent before Twilio');
   t.props.set('TWILIO_SID', 'AC1'); t.props.set('TWILIO_TOKEN', 't'); t.props.set('TWILIO_FROM', '+15205550000');
+  minute(t.clock); t.api.tick();
+  assert.equal(t.sent.length, 0, 'keys alone do not send: still waiting on approval');
+  assert.equal(t.api.doGet({ parameter: {} }).sender, 'verizon');
+  t.props.set('TWILIO_APPROVED', 'yes');
   minute(t.clock); t.api.tick();
   assert.equal(t.sent.length, 1);
   assert.equal(t.sent[0].to, '+15205550177');

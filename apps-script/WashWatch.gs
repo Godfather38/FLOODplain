@@ -1158,6 +1158,7 @@ function sunset_(today, props) {
 function twilio_() {
   var _a, _b;
   const p = PropertiesService.getScriptProperties();
+  if (p.getProperty("TWILIO_APPROVED") !== "yes") return null;
   const file = typeof TWILIO === "object" && TWILIO ? TWILIO : {};
   const sid = p.getProperty("TWILIO_SID") || file.SID;
   const token = p.getProperty("TWILIO_TOKEN") || file.TOKEN;
