@@ -8,7 +8,7 @@ The safety app, logic and HAND bridge policy match f6d65fb exactly. Compatible s
 
 ## Phone controls
 
-Existing Time and cell-detail disclosures keep source dates, native IDs, resolution, datum and interpretation limits accessible. The compact dock retains selected time, previous/next, quantitative depth legend, frozen/current status and navigation. Cell depth/time remain prominent. The original source nodes keep their update handlers and return to their original positions on desktop and Routes; no evidence is deleted.
+Existing Time and cell-detail disclosures keep source dates, native IDs, resolution, datum and interpretation limits accessible. The compact dock retains selected time, previous/next, quantitative depth legend, frozen/current status and navigation. Cell depth/time remain prominent. The original source nodes keep their update handlers and return to their original positions on desktop and Routes; no evidence is deleted. Overview labels avoid screen-space collisions while retaining every marker and its tap details; the default 45-degree 3D angle keeps more geographic context readable.
 
 ## Data and rendering
 
@@ -29,7 +29,7 @@ Independent checks of 757,512 barycentric samples at 3 PM and midnight find no c
 
 ## Verified evidence
 
-117 focused source, adapter and safety tests pass after the f6d65fb safety integration. Corrected overview, compact phone controls and current safety behavior pass the complete app verification. The earlier pinned preview at `ee7a65b` passed `test/smoke-upgraded-remote.mjs`: actual completed geometry, native frame and lazy 3D assets loaded from the public host with no JavaScript errors. GitHack presents an initial **Open the page** interstitial; the smoke test follows that normal link. See `upgraded-remote-verification.json` and `upgraded-remote.png` beside the local evidence.
+117 focused source, adapter and safety tests pass after the f6d65fb safety integration. Corrected overview, compact phone controls and current safety behavior pass the complete app verification. The final pinned preview at `0ed3a53` passed `test/smoke-upgraded-remote.mjs`: actual completed geometry, native frame and lazy 3D assets loaded from the public host with no JavaScript errors. GitHack presents an initial **Open the page** interstitial; the smoke test follows that normal link. See `upgraded-remote-verification.json` and `upgraded-remote.png` beside the local evidence.
 
 `public/simulation/preview/upgraded-integration-verification.json` records the actual integrated app test, with companion screenshots. Chrome used SwiftShader and emulated DPR 3; these are not physical phone measurements.
 
