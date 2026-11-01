@@ -10,6 +10,21 @@ function fixture(){
  assets['terrain-index.json.gz']={...bind,kind:'native_face_terrain_tiles',tiles};return {manifest,assets};
 }
 const extent={xmin:.01,ymin:.01,xmax:2.99,ymax:.99};
+function coarseFixture(){const f=fixture();for(let i=0;i<3;i++){const tile=f.assets['terrain-index.json.gz'].tiles[i],base=f.assets[`tile-${i}-0.json.gz`];
+ base.vertices.push([i+.5,.5,.25]);base.triangles=[[0,1,4],[1,2,4],[2,3,4],[3,0,4]];base.triangleFaceId=Array(4).fill(String(i));tile.levels[0].triangles=4;
+ const path=`tile-${i}-coarse.json.gz`;f.assets[path]={...base,level:2,coarseFallback:true,triangles:[[0,1,2],[0,2,3]],triangleFaceId:Array(2).fill(String(i))};tile.levels.push({level:2,coarseFallback:true,triangles:2,artifact:{path,sha256:(i+7).toString().repeat(64),bytes:75}});
+ }return f;}
+test('SYNTHETIC: explicit coarse level preserves coverage before L0 upgrades and reports huge views',async()=>{
+ const f=coarseFixture(),reads=[],loader=createTerrainTileLoader({manifest:f.manifest,geometry:{},readArtifact:async a=>{reads.push(a.path);return f.assets[a.path];}});
+ const full=await loader.load({extent,zoom:18,budget:6,maxTiles:3});assert.deepEqual(full.stats.levels,[2,2,2]);assert.equal(full.stats.completeVisibleCoverage,true);assert.equal(full.stats.coarseFallbackTiles,3);assert.equal(full.stats.coarseCoverageTriangles,6);assert.equal(full.stats.omittedTiles,0);assert.ok(reads.slice(1).every(p=>p.endsWith('-coarse.json.gz')));
+ const improved=await loader.load({extent,center:{x:.1,y:.5},zoom:14,budget:8,maxTiles:3});assert.deepEqual(improved.stats.levels,[0,2,2]);assert.equal(improved.stats.completeVisibleCoverage,true);
+ const bounded=await loader.load({extent,zoom:18,budget:4,maxTiles:3});assert.equal(bounded.stats.loadedTiles,2);assert.equal(bounded.stats.omittedTiles,1);assert.equal(bounded.stats.completeVisibleCoverage,false);assert.equal(bounded.stats.coverageLimitedBy,'triangle-budget');loader.dispose();
+});
+test('SYNTHETIC: only explicit exact compact geometry equivalence accepts immutable source terrain',async()=>{
+ const prepare=()=>{const f=fixture(),source=f.manifest.geometry.sha256;f.manifest.geometry.sha256='c'.repeat(64);f.manifest.compactSource={geometry:{sha256:source}};f.manifest.terrainDisplay.geometryEquivalence={method:'exact-native-geometry',runId:f.manifest.runId,sourceGeometrySha256:source,targetGeometrySha256:f.manifest.geometry.sha256,cellCount:3,canonicalSha256:'d'.repeat(64)};return f;};
+ const f=prepare(),loader=createTerrainTileLoader({manifest:f.manifest,geometry:{cells:Array(3)},readArtifact:async a=>f.assets[a.path]});const result=await loader.load({extent,zoom:14,maxTiles:1});assert.equal(result.geometrySha256,'c'.repeat(64));assert.equal(result.sourceGeometrySha256,'a'.repeat(64));assert.equal(f.assets['terrain-index.json.gz'].geometrySha256,'a'.repeat(64));loader.dispose();
+ for(const change of [e=>e.sourceGeometrySha256='f'.repeat(64),e=>e.targetGeometrySha256='f'.repeat(64),e=>e.method='same-count',e=>e.cellCount=4,e=>e.canonicalSha256='invalid',e=>e.runId='other']){const bad=prepare();change(bad.manifest.terrainDisplay.geometryEquivalence);const denied=createTerrainTileLoader({manifest:bad.manifest,geometry:{cells:Array(3)},readArtifact:async a=>bad.assets[a.path]});await assert.rejects(denied.load({extent}),/mismatch/);denied.dispose();}
+});
 test('SYNTHETIC: coarse coverage is reserved before nearest-tile detail upgrades',async()=>{
  const f=fixture(),loader=createTerrainTileLoader({manifest:f.manifest,geometry:{},readArtifact:async a=>f.assets[a.path]});
  const allCoarse=await loader.load({extent,center:{x:.1,y:.5},zoom:18,budget:6,maxTiles:3});assert.equal(allCoarse.stats.loadedTiles,3);assert.equal(allCoarse.stats.omittedTiles,0);assert.deepEqual(allCoarse.stats.levels,[0,0,0]);

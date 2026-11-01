@@ -1,0 +1,13 @@
+{
+  "status": "available",
+  "artifact": {
+    "path": "terrain-index-coarse.json.gz",
+    "sha256": "e1dba6141f05a2f63ba1340cbc86eccbf4522dbde69b5c361df025822d951823",
+    "bytes": 425970
+  },
+  "kind": "native_face_terrain_tiles",
+  "runId": "refined-partial-41339621278",
+  "geometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+  "verticalDatum": "NAVD88",
+  "note": "Lazy native-geometry terrain tiles with minimal native-face coarse fallback; partial output remains17:00-22:00UTC. Coarse interior terrain is approximate, not new hydraulics."
+}

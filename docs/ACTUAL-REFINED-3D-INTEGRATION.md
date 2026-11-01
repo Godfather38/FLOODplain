@@ -2,6 +2,8 @@
 
 **Technical checkpoint only:** full visual acceptance remains open under [3D-VISUAL-ACCEPTANCE.md](3D-VISUAL-ACCEPTANCE.md). This worker owns attractive 3D terrain/water visualization, not the separate 2D release or solver. In particular, the phone tile omissions below and compatibility with the later compact package remain outstanding integration issues.
 
+Update: [COMPACT-3D-VISUAL-HANDOFF.md](COMPACT-3D-VISUAL-HANDOFF.md) records the later exact compact binding, coarse coverage fallback and water presentation changes. Measurements below remain historical evidence for the earlier JSON-package checkpoint.
+
 This checkpoint enables streamed terrain for the actual `refined-partial-41339621278` output already published by UI commit `2b32e94`. It performs no solver run, input refresh, terrain download or forecast extension. The model remains **partial/frozen**, with exactly 21 native frames from 10 AM through 3 PM MST on November 1, 2026. Nine requested forecast hours remain unavailable.
 
 ## Parent integration

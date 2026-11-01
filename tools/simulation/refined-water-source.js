@@ -1,11 +1,20 @@
 import * as THREE from 'three';
-import {depthColor} from './voxel-water-source.js';
+import {DEPTH_COLORS,DEPTH_CUTS} from './voxel-water-source.js';
 
 const finite=Number.isFinite;
+const depthPalette=DEPTH_COLORS.map(value=>new THREE.Color(value));
+// 3D display transfer function only: interpolate color in linear RGB between
+// the existing quantitative palette stops. Each face keeps its own native depth;
+// no neighbouring depth, surface, geometry or wet extent is interpolated here.
+export function refinedDepthColor(depth){
+  if(!finite(depth))return new THREE.Color('#8d969d');
+  if(depth<=DEPTH_CUTS[0])return depthPalette[0].clone();
+  for(let i=1;i<DEPTH_CUTS.length;i++)if(depth<=DEPTH_CUTS[i])return depthPalette[i-1].clone().lerp(depthPalette[i],(depth-DEPTH_CUTS[i-1])/(DEPTH_CUTS[i]-DEPTH_CUTS[i-1]));
+  return depthPalette.at(-1).clone();
+}
 const geometryTables=new WeakMap();
-function nativeTables(geometry){let table=geometryTables.get(geometry);if(table)return table;const ids=new Map(),rings=[];geometry.cells.forEach((c,i)=>{if(typeof c.nativeFaceId!=='string'||ids.has(c.nativeFaceId)||!finite(c.areaM2)||c.areaM2<=0||!finite(c.resolutionM)||c.resolutionM<=0)throw Error('Invalid native face identity/area');ids.set(c.nativeFaceId,i);});
- const getRing=i=>{if(rings[i])return rings[i];const r=geometry.rings[i];if(!Array.isArray(r)||r.length<4||r.some(p=>!Array.isArray(p)||p.length!==2||!p.every(finite)||Math.abs(p[0])>90||Math.abs(p[1])>180))throw Error('Invalid variable footprint');return rings[i]=r.map(([lat,lon])=>[lon,lat]);};
- table={ids,rings,getRing};geometryTables.set(geometry,table);return table;}
+function nativeTables(geometry){let table=geometryTables.get(geometry);if(table)return table;const ids=new Map();geometry.cells.forEach((c,i)=>{if(typeof c.nativeFaceId!=='string'||ids.has(c.nativeFaceId)||!finite(c.areaM2)||c.areaM2<=0||!finite(c.resolutionM)||c.resolutionM<=0)throw Error('Invalid native face identity/area');ids.set(c.nativeFaceId,i);});
+ table={ids};geometryTables.set(geometry,table);return table;}
 
 function inside(p,ring){
   let result=false;
@@ -25,7 +34,10 @@ export function validateRefinedTerrain(manifest,geometry,terrain){
   if(!/^[a-f0-9]{64}$/.test(manifest.geometry?.sha256)||terrain?.kind!=='native_face_triangle_terrain'||terrain.runId!==manifest.runId||terrain.geometrySha256!==manifest.geometry.sha256)throw Error('Source-bound refined terrain unavailable');
   if(typeof manifest.provenance?.verticalDatum!=='string'||!manifest.provenance.verticalDatum||terrain.verticalDatum!==manifest.provenance.verticalDatum)throw Error('Refined terrain/water datum mismatch');
   if(!Array.isArray(geometry.cells)||!geometry.cells.length||geometry.rings?.length!==geometry.cells.length)throw Error('Native geometry shape mismatch');
-  const {ids,rings,getRing}=nativeTables(geometry);
+  const {ids}=nativeTables(geometry),rings=[];
+  // Converted rings belong to this bounded terrain model, not the whole dataset.
+  // Replacing a visible mesh must release rings visited on earlier pans.
+  const getRing=i=>{if(rings[i])return rings[i];const r=geometry.rings[i];if(!Array.isArray(r)||r.length<4||r.some(p=>!Array.isArray(p)||p.length!==2||!p.every(finite)||Math.abs(p[0])>90||Math.abs(p[1])>180))throw Error('Invalid variable footprint');return rings[i]=r.map(([lat,lon])=>[lon,lat]);};
   if(!Array.isArray(terrain.vertices)||terrain.vertices.some(p=>!Array.isArray(p)||p.length!==3||!p.every(finite)||Math.abs(p[0])>180||Math.abs(p[1])>90))throw Error('Invalid terrain geographic vertices');
   if(!Array.isArray(terrain.triangles)||terrain.triangleFaceId?.length!==terrain.triangles.length)throw Error('Terrain triangle/face binding required');
   if(terrain.displayResolutionM!==undefined&&(!finite(terrain.displayResolutionM)||terrain.displayResolutionM<=0))throw Error('Invalid terrain display resolution');
@@ -64,7 +76,34 @@ export function createRefinedWater({loaded,geometry,terrain,project,altitude,ori
     vec2 tex=(terrainXY-atlasBounds.xy)/atlasBounds.zw;
     if(atlasReady>.5&&all(greaterThanEqual(tex,vec2(0.)))&&all(lessThanEqual(tex,vec2(1.))))diffuseColor.rgb=texture2D(terrainAtlas,tex).rgb;else diffuseColor.rgb=vec3(.82,.83,.79);`);};
   const land=new THREE.Mesh(new THREE.BufferGeometry(),landMaterial);
-  const waterMaterial=new THREE.ShaderMaterial({transparent:true,depthWrite:true,side:THREE.DoubleSide,vertexColors:true,uniforms:{clock:{value:0}},vertexShader:'varying vec2 xy;varying vec3 tint;void main(){xy=position.xy;tint=color;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:`uniform float clock;varying vec2 xy;varying vec3 tint;void main(){float g=pow(max(0.,sin(xy.x*15.+clock*.64)*cos(xy.y*15.-clock*.48)),10.);gl_FragColor=vec4(mix(tint,vec3(.76,.94,1.),g*.2),.84);
+  const metricUnit=Math.abs(altitude(1)-altitude(0));
+  const waterMaterial=new THREE.ShaderMaterial({transparent:true,depthWrite:true,side:THREE.DoubleSide,vertexColors:true,
+    uniforms:{clock:{value:0},unitsToMetres:{value:finite(metricUnit)&&metricUnit>0?1/metricUnit:1}},
+    vertexShader:`varying vec2 xy;varying vec3 tint;varying vec3 viewDirection;
+      varying vec3 surfaceX;varying vec3 surfaceY;varying vec3 surfaceUp;varying vec3 sunlight;
+      void main(){xy=position.xy;tint=color;vec4 viewed=modelViewMatrix*vec4(position,1.);
+        viewDirection=-viewed.xyz;surfaceX=normalize(normalMatrix*vec3(1.,0.,0.));
+        surfaceY=normalize(normalMatrix*vec3(0.,1.,0.));surfaceUp=normalize(normalMatrix*vec3(0.,0.,1.));
+        sunlight=normalize(normalMatrix*normalize(vec3(-.4,.65,1.)));
+        gl_Position=projectionMatrix*viewed;}`,
+    fragmentShader:`uniform float clock;uniform float unitsToMetres;varying vec2 xy;varying vec3 tint;
+      varying vec3 viewDirection;varying vec3 surfaceX;varying vec3 surfaceY;varying vec3 surfaceUp;varying vec3 sunlight;
+      void main(){
+        // Cosmetic standing-ripple normals, continuous in geographic metres.
+        // No vertex displacement, moving wavefront, velocity or shoreline effect.
+        vec2 metres=xy*unitsToMetres,directionA=vec2(.87,.49),directionB=vec2(-.41,.91);
+        float slopeA=.07*cos(dot(metres,directionA)*.65)*cos(clock*.58);
+        float slopeB=.035*cos(dot(metres,directionB)*1.37)*cos(clock*.83+1.2);
+        vec2 slope=slopeA*directionA+slopeB*directionB;
+        vec3 normal=normalize(surfaceUp-slope.x*surfaceX-slope.y*surfaceY);
+        vec3 eye=normalize(viewDirection),light=normalize(sunlight);
+        float facing=clamp(abs(dot(normal,eye)),0.,1.);
+        float fresnel=pow(1.-facing,3.);
+        float specular=pow(max(0.,dot(normal,normalize(eye+light))),28.);
+        // Keep the native quantitative depth tint dominant, including at grazing angles.
+        vec3 waterColor=mix(tint,vec3(.69,.85,.94),.015+.12*fresnel);
+        waterColor=mix(waterColor,vec3(.91,.97,1.),.16*specular);
+        gl_FragColor=vec4(waterColor,.84);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
   }`});
@@ -87,7 +126,7 @@ export function createRefinedWater({loaded,geometry,terrain,project,altitude,ori
   function clip(points,z){const out=[];for(let j=0;j<3;j++){const a=points[j],b=points[(j+1)%3],da=z-a[2],db=z-b[2];if(da>0)out.push(a);if((da>0)!==(db>0)){const t=da/(da-db);out.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,z]);}}return out;}
   function clearFrame(){water.count=0;water.geometry.setDrawRange(0,0);waterIds=[];frame=null;selection.visible=false;}
   function update(next,nextMode='aggregate'){if(disposed)throw Error('Refined renderer disposed');clearFrame();validateRefinedFrame(manifest,geometry,next);frame=next;mode=nextMode;water.visible=!['off','hand'].includes(mode);
-    const positions=[],colors=[];if(water.visible)for(const i of visible){const depth=frame.depthM[i],z=frame.waterSurfaceM[i];if(!finite(depth)||depth<.01||!finite(z))continue;const color=new THREE.Color(depthColor(depth));for(const k of faceTriangles[i]){const poly=clip(terrain.triangles[k].map(v=>vertices[v]),z);for(let j=1;j<poly.length-1;j++){for(const p of [poly[0],poly[j],poly[j+1]]){positions.push(p[0],p[1],altitude(z-baseM)+.00001);colors.push(color.r,color.g,color.b);}waterIds.push(i);}}}
+    const positions=[],colors=[];if(water.visible)for(const i of visible){const depth=frame.depthM[i],z=frame.waterSurfaceM[i];if(!finite(depth)||depth<.01||!finite(z))continue;const color=refinedDepthColor(depth);for(const k of faceTriangles[i]){const poly=clip(terrain.triangles[k].map(v=>vertices[v]),z);for(let j=1;j<poly.length-1;j++){for(const p of [poly[0],poly[j],poly[j+1]]){positions.push(p[0],p[1],altitude(z-baseM)+.00001);colors.push(color.r,color.g,color.b);}waterIds.push(i);}}}
     write(water,positions,colors);select(selected);group.updateMatrixWorld(true);
   }
   function cellInfo(i){if(!frame||!Number.isInteger(i)||i<0||i>=cells.length)return null;const cell=cells[i],d=frame.depthM[i];return {cellIndex:i,nativeFaceId:cell.nativeFaceId,areaM2:cell.areaM2,resolutionM:cell.resolutionM,time:frame.time,depthM:d,depthFt:finite(d)?d*3.280839895:null,nativeVolumeM3:frame.nativeVolumeM3[i],surfaceM:frame.waterSurfaceM[i],datum:terrain.verticalDatum};}

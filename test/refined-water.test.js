@@ -2,7 +2,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
-import {createRefinedWater,validateRefinedTerrain,validateRefinedFrame} from '../tools/simulation/refined-water-source.js';
+import {createRefinedWater,validateRefinedTerrain,validateRefinedFrame,refinedDepthColor} from '../tools/simulation/refined-water-source.js';
+import {DEPTH_COLORS,DEPTH_CUTS} from '../tools/simulation/voxel-water-source.js';
+
+test('3D native-depth color is continuous at existing quantitative palette stops',()=>{
+  const distance=(a,b)=>Math.hypot(a.r-b.r,a.g-b.g,a.b-b.b);
+  DEPTH_CUTS.forEach((stop,i)=>{
+    assert.ok(distance(refinedDepthColor(stop),new THREE.Color(DEPTH_COLORS[i]))<1e-12,'existing key color preserved at its depth stop');
+    assert.ok(distance(refinedDepthColor(stop-1e-6),refinedDepthColor(stop+1e-6))<1e-4,'tiny native-depth change must not cause a visible class jump');
+  });
+  assert.ok(distance(refinedDepthColor(.15),refinedDepthColor(.25))>.01,'distinct values within an old class retain quantitative variation');
+});
 
 function fixture(){
   const sha='a'.repeat(64),time='2026-11-01T17:15:00Z';
@@ -23,7 +33,9 @@ test('synthetic unequal native areas, hanging edge and exact string IDs survive 
   for(let i=0;i<view.ids.length;i++)for(let j=0;j<3;j++)assert.ok(Math.abs(view.water.geometry.attributes.position.array[i*9+j*3+2]-(f.frame.waterSurfaceM[view.ids[i]]-view.baseM))<.00002);
   view.select(0);assert.equal(view.group.children[2].geometry.drawRange.count,10,'five-edge footprint selection is not truncated to four');
   const ray=new THREE.Raycaster(new THREE.Vector3(125,25,10),new THREE.Vector3(0,0,-1));assert.equal(view.pick(ray),1);
-  const before=view.water.geometry.attributes.position.array.slice();view.animate(30);assert.deepEqual(view.water.geometry.attributes.position.array,before,'animation cannot change native water height');view.dispose();
+  const before=view.water.geometry.attributes.position.array.slice(),colors=view.water.geometry.attributes.color.array.slice(),ids=[...view.ids],info=view.cellInfo(1);
+  for(const seconds of [0,1.5,30,3600]){view.animate(seconds);assert.deepEqual(view.water.geometry.attributes.position.array,before,'surface lighting cannot change water height or clipped shoreline');assert.deepEqual(view.water.geometry.attributes.color.array,colors,'native depth tint attributes remain unchanged');assert.deepEqual(view.ids,ids);assert.deepEqual(view.cellInfo(1),info);assert.equal(view.pick(ray),1);}
+  view.dispose();
 });
 
 test('synthetic source bindings reject old terrain, equal-length wrong IDs and out-of-face triangles',()=>{

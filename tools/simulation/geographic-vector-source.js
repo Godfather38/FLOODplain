@@ -16,20 +16,27 @@ export function featureStyle(layer,p={}){
 
 // Geographic geometry is decoded locally. There is no raster basemap source.
 export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{},onStatus=()=>{}}){
-  let dead=false,generation=0,lastKey='',features=[],controller,lastBounds,textureFactory,status={status:'idle'};
+  let dead=false,generation=0,lastKey='',features=[],controller,lastBounds,textureFactory,status={status:'idle'},installedBounds,installedZoom,pending=null,cacheCoordinates=0,cacheFeatures=0;
+  const limits={cacheTiles:24,cacheCoordinates:250000,cacheFeatures:20000,drawCoordinates:100000,drawFeatures:5000,tileBytes:4*1024*1024};
+  class Complexity extends Error {}
+  const intersects=(a,b)=>a[2]>=b.west&&a[0]<=b.east&&a[3]>=b.south&&a[1]<=b.north;
+  const contains=(a,b)=>a&&a.west<=b.west&&a.east>=b.east&&a.south<=b.south&&a.north>=b.north;
+  function remember(key,value){if(cache.has(key)){const old=cache.get(key);cacheCoordinates-=old.coordinates;cacheFeatures-=old.features.length;cache.delete(key);}cache.set(key,value);cacheCoordinates+=value.coordinates;cacheFeatures+=value.features.length;while(cache.size>limits.cacheTiles||cacheCoordinates>limits.cacheCoordinates||cacheFeatures>limits.cacheFeatures){const first=cache.keys().next().value,old=cache.get(first);cacheCoordinates-=old.coordinates;cacheFeatures-=old.features.length;cache.delete(first);}}
   const report=value=>{status=value;onStatus(value);};
   const cache=new Map(),vector=new maptalks.VectorLayer('geographic-features',[],{zIndex:-10,geometryEvents:true}).addTo(map);
   const labels=new maptalks.VectorLayer('geographic-labels',[],{zIndex:10,geometryEvents:true}).addTo(map);
   const metadata=fetch('https://tiles.openfreemap.org/planet').then(r=>{if(!r.ok)throw Error('Vector TileJSON HTTP '+r.status);return r.json();});
   const tileX=(lon,z)=>(lon+180)/360*2**z,tileY=(lat,z)=>(1-Math.asinh(Math.tan(lat*Math.PI/180))/Math.PI)/2*2**z;
   const lon=(x,z)=>x/2**z*360-180,lat=(y,z)=>Math.atan(Math.sinh(Math.PI*(1-2*y/2**z)))*180/Math.PI;
-  function decode(buffer,x,y,z){const tile=new VectorTile(new Pbf(buffer)),result=[];
+  function decode(buffer,x,y,z){if(buffer.byteLength>limits.tileBytes)throw new Complexity('Vector tile byte budget');const tile=new VectorTile(new Pbf(buffer)),result=[];let coordinates=0;
     for(const name of wanted){const layer=tile.layers[name];if(!layer)continue;
-      for(let i=0;i<layer.length;i++){const item=layer.feature(i),feature=item.toGeoJSON(x,y,z);
-        feature.properties={...feature.properties,_sourceLayer:name,_featureId:`${name}:${z}/${x}/${y}:${item.id??i}`};result.push(feature);}}
-    return result;
+      for(let i=0;i<layer.length;i++){const item=layer.feature(i),feature=item.toGeoJSON(x,y,z),bbox=[Infinity,Infinity,-Infinity,-Infinity];let count=0;
+        function scan(points){if(typeof points[0]==='number'){count++;bbox[0]=Math.min(bbox[0],points[0]);bbox[1]=Math.min(bbox[1],points[1]);bbox[2]=Math.max(bbox[2],points[0]);bbox[3]=Math.max(bbox[3],points[1]);}else for(const p of points)scan(p);}scan(feature.geometry.coordinates);coordinates+=count;
+        if(coordinates>limits.cacheCoordinates||result.length>=limits.cacheFeatures)throw new Complexity('Decoded vector tile budget');
+        feature.bbox=bbox;feature._coordinateCount=count;feature.properties={...feature.properties,_sourceLayer:name,_featureId:name+':'+z+'/'+x+'/'+y+':'+(item.id??i)};result.push(feature);}}
+    return {features:result,coordinates};
   }
-  function install(list){const geometries=[],labelGeometries=[],occupied=new Set(),named=new Set();
+  function install(list){vector.clear();labels.clear();const geometries=[],labelGeometries=[],occupied=new Set(),named=new Set();
     for(const f of list){const name=f.properties._sourceLayer,p=f.properties;if((name==='place'||name==='transportation_name')&&!p.name)continue;
       if(name==='place'||name==='transportation_name'){
         if(named.has(p.name))continue;
@@ -40,7 +47,7 @@ export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{
       }
       const geometry=maptalks.GeoJSON.toGeometry(f);if(!geometry||Array.isArray(geometry))continue;
       geometry.setId(p._featureId);geometry.setSymbol(featureStyle(name,p));geometry.setProperties(p);geometry.on('click',()=>{onPick({kind:'geographic-feature',id:p._featureId,layer:name,properties:p});});geometries.push(geometry);}
-    vector.clear();vector.addGeometry(geometries);labels.clear();labels.addGeometry(labelGeometries);
+    vector.addGeometry(geometries);labels.addGeometry(labelGeometries);
   }
   function texture(list,bounds){if(!onTexture||!textureFactory)return;const sw=project([bounds.west,bounds.south]).sub(origin),ne=project([bounds.east,bounds.north]).sub(origin);
     const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=2048;const ctx=canvas.getContext('2d');ctx.fillStyle='#eeeee7';ctx.fillRect(0,0,2048,2048);
@@ -57,16 +64,27 @@ export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{
     }
     onTexture(...textureFactory(canvas,[sw.x,sw.y,ne.x-sw.x,ne.y-sw.y]));
   }
-  async function update(extent,zoom){const info=await metadata;if(dead)return;
-    let z=Math.min(info.maxzoom??14,Math.max(8,Math.floor(zoom))),a,b,c,d;
-    do{a=Math.floor(tileX(extent.xmin,z));b=Math.floor(tileX(extent.xmax,z));c=Math.floor(tileY(extent.ymax,z));d=Math.floor(tileY(extent.ymin,z));if((b-a+1)*(d-c+1)<=20)break;z--;}while(z>0);
-    const key=[z,a,b,c,d].join('/');if(key===lastKey)return;lastKey=key;const token=++generation;controller?.abort();controller=new AbortController();const signal=controller.signal;
-    report({kind:'geography',status:'loading'});const jobs=[];for(let y=c;y<=d;y++)for(let x=a;x<=b;x++)jobs.push({x,y});let cursor=0;const out=[];
-    async function worker(){while(cursor<jobs.length){const {x,y}=jobs[cursor++],id=`${z}/${x}/${y}`;if(dead||token!==generation)return;let list=cache.get(id);
-      if(!list){const url=info.tiles[0].replace('{z}',z).replace('{x}',x).replace('{y}',y),r=await fetch(url,{signal});if(!r.ok)throw Error('Vector tile HTTP '+r.status);list=decode(new Uint8Array(await r.arrayBuffer()),x,y,z);cache.set(id,list);while(cache.size>48)cache.delete(cache.keys().next().value);}out.push(...list);}}
-    try{await Promise.all([worker(),worker(),worker(),worker()]);if(dead||token!==generation)return;features=out.sort((a,b)=>order[a.properties._sourceLayer]-order[b.properties._sourceLayer]);install(features);
-      lastBounds={west:lon(a,z),east:lon(b+1,z),north:lat(c,z),south:lat(d+1,z)};texture(features,lastBounds);report({kind:'geography',status:'ready',featureCount:features.length,sourceLayers:[...new Set(features.map(f=>f.properties._sourceLayer))],tileZoom:z});
-    }catch(error){if(error.name!=='AbortError'&&!dead){lastKey='';report({kind:'geography',status:'error',message:error.message});}}
+  function update(extent,zoom){
+    const view={west:extent.xmin,east:extent.xmax,south:extent.ymin,north:extent.ymax},requestedZoom=Math.floor(zoom),requestKey=[requestedZoom,view.west,view.east,view.south,view.north].join('/');
+    if(dead)return Promise.resolve();if(requestKey===lastKey&&pending)return pending;
+    if(installedZoom===requestedZoom&&contains(installedBounds,view)){if(pending){generation++;controller?.abort();pending=null;lastKey='';}return Promise.resolve();}
+    lastKey=requestKey;const token=++generation;controller?.abort();controller=new AbortController();const signal=controller.signal;
+    const dx=(view.east-view.west)*.2,dy=(view.north-view.south)*.2,bounds={west:view.west-dx,east:view.east+dx,south:Math.max(-85,view.south-dy),north:Math.min(85,view.north+dy)};
+    pending=(async()=>{try{const info=await metadata;if(dead||signal.aborted||token!==generation)return;let z=Math.min(info.maxzoom??14,Math.max(0,requestedZoom));
+      report({kind:'geography',status:'loading'});
+      for(;z>=0;z--){let a=Math.floor(tileX(bounds.west,z)),b=Math.floor(tileX(bounds.east,z)),c=Math.floor(tileY(bounds.north,z)),d=Math.floor(tileY(bounds.south,z));if((b-a+1)*(d-c+1)>20)continue;
+        const attempt=new AbortController(),cancel=()=>attempt.abort();signal.addEventListener('abort',cancel,{once:true});const stale=()=>dead||signal.aborted||attempt.signal.aborted||token!==generation;let cursor=0,drawCoordinates=0;const jobs=[],out=[];
+        for(let y=c;y<=d;y++)for(let x=a;x<=b;x++)jobs.push({x,y});
+        async function worker(){while(cursor<jobs.length){if(stale())return;const {x,y}=jobs[cursor++],id=z+'/'+x+'/'+y;let entry=cache.get(id);
+          if(entry){cache.delete(id);cache.set(id,entry);}else{const url=info.tiles[0].replace('{z}',z).replace('{x}',x).replace('{y}',y),r=await fetch(url,{signal:attempt.signal});if(!r.ok)throw Error('Vector tile HTTP '+r.status);const buffer=await r.arrayBuffer();if(stale())return;entry=decode(new Uint8Array(buffer),x,y,z);if(stale())return;remember(id,entry);}
+          for(const f of entry.features){if(!intersects(f.bbox,bounds))continue;drawCoordinates+=f._coordinateCount;if(drawCoordinates>limits.drawCoordinates||out.length>=limits.drawFeatures)throw new Complexity('Visible vector geometry budget');out.push(f);}
+        }}
+        try{await Promise.all([worker(),worker()]);if(stale())return;features=out.sort((a,b)=>order[a.properties._sourceLayer]-order[b.properties._sourceLayer]);install(features);lastBounds=bounds;installedBounds=bounds;installedZoom=requestedZoom;texture(features,lastBounds);report({kind:'geography',status:'ready',featureCount:features.length,coordinateCount:drawCoordinates,cachedTiles:cache.size,cachedCoordinates:cacheCoordinates,cachedFeatures:cacheFeatures,sourceLayers:[...new Set(features.map(f=>f.properties._sourceLayer))],tileZoom:z});return;
+        }catch(error){attempt.abort();if(signal.aborted||dead||token!==generation)return;if(!(error instanceof Complexity))throw error;if(z===0)throw Error('Vector geography exceeds safe draw budget at lowest detail');}
+        finally{signal.removeEventListener('abort',cancel);}
+      }
+    }catch(error){if(error.name!=='AbortError'&&!dead&&token===generation){lastKey='';report({kind:'geography',status:'error',message:error.message});}}
+    })().finally(()=>{if(token===generation)pending=null;});return pending;
   }
-  return {update,setTextureFactory(factory,nextOrigin){textureFactory=factory;if(nextOrigin)origin=nextOrigin;if(factory&&lastBounds)texture(features,lastBounds);},suspend(){generation++;controller?.abort();lastKey='';},get status(){return status;},get features(){return features;},get layer(){return vector;},dispose(){dead=true;generation++;controller?.abort();cache.clear();vector.remove();labels.remove();}};
+  return {update,setTextureFactory(factory,nextOrigin){textureFactory=factory;if(nextOrigin)origin=nextOrigin;if(factory&&lastBounds)texture(features,lastBounds);},suspend(){generation++;controller?.abort();lastKey='';pending=null;installedBounds=null;},get status(){return status;},get features(){return features;},get layer(){return vector;},get budgets(){return {...limits,cachedTiles:cache.size,cachedCoordinates:cacheCoordinates,cachedFeatures:cacheFeatures,drawFeatures:features.length};},dispose(){dead=true;generation++;controller?.abort();cache.clear();cacheCoordinates=0;cacheFeatures=0;features=[];pending=null;lastBounds=null;installedBounds=null;textureFactory=null;vector.remove();labels.remove();}};
 }

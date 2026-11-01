@@ -1,0 +1,31 @@
+{
+  "status": "available",
+  "artifact": {
+    "path": "terrain-index-coarse.json.gz",
+    "sha256": "e1dba6141f05a2f63ba1340cbc86eccbf4522dbde69b5c361df025822d951823",
+    "bytes": 425970
+  },
+  "kind": "native_face_terrain_tiles",
+  "runId": "refined-partial-41339621278",
+  "geometrySha256": "faa8aa401bfb62c8e71030f5daa48bb3822fdae8ce5a6c4e62391644df4a6dd2",
+  "verticalDatum": "NAVD88",
+  "note": "Lazy native-geometry terrain tiles with minimal native-face coarse fallback; partial output remains17:00-22:00UTC. Coarse interior terrain is approximate, not new hydraulics.",
+  "geometryEquivalence": {
+    "method": "exact-native-geometry",
+    "runId": "refined-partial-41339621278",
+    "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+    "targetGeometrySha256": "faa8aa401bfb62c8e71030f5daa48bb3822fdae8ce5a6c4e62391644df4a6dd2",
+    "cellCount": 398613,
+    "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+    "verifiedFields": [
+      "ordered nativeFaceId",
+      "lon",
+      "lat",
+      "areaM2",
+      "resolutionM",
+      "edgeLengthsM",
+      "all native ring vertices",
+      "projectedCrs"
+    ]
+  }
+}

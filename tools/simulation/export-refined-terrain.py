@@ -23,6 +23,74 @@ def artifact(path,value):
     path.write_bytes(data)
     return {'path':path.name,'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}
 
+def coarse_native_tiles(dest):
+    """Add a minimal native-face level, without mutating any published artifact."""
+    old_descriptor=read(dest/'terrain-display.json');old_index_path=dest/old_descriptor['artifact']['path']
+    assert sha(old_index_path)==old_descriptor['artifact']['sha256']
+    index=read(old_index_path);to_projected=Transformer.from_crs(4326,32612,always_xy=True)
+    total_triangles=total_bytes=boundary_edges=0;seen_faces=set();maximum_triangles=maximum_bytes=0;started=time.perf_counter()
+    def twice_area(ring,xy):
+        origin=xy[ring[0]];p=[xy[j]-origin for j in ring]
+        return sum(p[j-1][0]*p[j][1]-p[j][0]*p[j-1][1] for j in range(len(p)))
+    def triangulate(boundary,xy):
+        remaining=boundary.copy();result=[];signed=twice_area(remaining,xy);orientation=1 if signed>0 else -1
+        assert abs(signed)>1e-5
+        while len(remaining)>3:
+            for j in range(len(remaining)):
+                a,b,c=remaining[j-1],remaining[j],remaining[(j+1)%len(remaining)]
+                ab,ac=xy[b]-xy[a],xy[c]-xy[a];cross=ab[0]*ac[1]-ab[1]*ac[0]
+                reduced=remaining[:j]+remaining[j+1:]
+                if cross*orientation>1e-5 and twice_area(reduced,xy)*orientation>1e-5:
+                    result.append([a,b,c]);remaining=reduced;break
+            else:raise ValueError('Native polygon could not be triangulated without losing its boundary')
+        result.append(remaining)
+        assert len(result)==len(boundary)-2
+        actual=sum(abs(twice_area(t,xy)) for t in result)
+        assert abs(actual-abs(signed))<1e-5, 'Coarse triangle area differs from native polygon'
+        counts={}
+        for t in result:
+            for j in range(3):
+                edge=tuple(sorted((t[j],t[(j+1)%3])));counts[edge]=counts.get(edge,0)+1
+        expected={tuple(sorted((boundary[j],boundary[(j+1)%len(boundary)]))) for j in range(len(boundary))}
+        assert {edge for edge,count in counts.items() if count==1}==expected, 'Coarse boundary segment mismatch'
+        assert all(count in [1,2] for count in counts.values())
+        return result
+    for serial,tile in enumerate(index['tiles']):
+        entry=next(v for v in tile['levels'] if v['level']==0);path=dest/entry['artifact']['path'];assert sha(path)==entry['artifact']['sha256'];source=read(path)
+        assert source['runId']==index['runId'] and source['geometrySha256']==index['geometrySha256'] and source['verticalDatum']==index['verticalDatum']
+        v=np.asarray(source['vertices']);x,y=to_projected.transform(v[:,0],v[:,1]);xy=np.column_stack([x,y]);face_fans={}
+        for triangle,face_id in zip(source['triangles'],source['triangleFaceId']):face_fans.setdefault(face_id,[]).append(triangle)
+        assert not seen_faces.intersection(face_fans);seen_faces.update(face_fans)
+        triangles=[];ids=[]
+        for face_id,fan in face_fans.items():
+            boundary=[t[1] for t in fan]
+            assert len(set(boundary))==len(boundary) and len({t[0] for t in fan})==1
+            assert all(fan[j][2]==boundary[(j+1)%len(boundary)] for j in range(len(boundary)))
+            minimal=triangulate(boundary,xy);triangles.extend(minimal);ids.extend([face_id]*len(minimal));boundary_edges+=len(boundary)
+        used=sorted({i for t in triangles for i in t});remap={old:new for new,old in enumerate(used)}
+        value={key:source[key] for key in ['kind','runId','geometrySha256','verticalDatum','tileId']}
+        value.update({'level':2,'coarseFallback':True,'vertices':[source['vertices'][i] for i in used],
+            'triangles':[[remap[i] for i in t] for t in triangles],'triangleFaceId':ids,
+            'displayMethod':'Minimal triangulation of each native face; all original boundary/hanging vertices and L0 elevations retained exactly; centre/interior vertices omitted. No face merging or hydraulic refinement.',
+            'sourceArtifact':entry['artifact']})
+        output=artifact(dest/f"terrain-tile-{tile['id']}-coarse.json.gz",value)
+        tile['levels'].append({'level':2,'coarseFallback':True,'triangles':len(triangles),'vertices':len(used),'artifact':output})
+        total_triangles+=len(triangles);total_bytes+=output['bytes'];maximum_triangles=max(maximum_triangles,len(triangles));maximum_bytes=max(maximum_bytes,output['bytes'])
+        if serial%400==0:print(f'coarse {serial}/{len(index["tiles"])}; {total_triangles} triangles',flush=True)
+    assert len(seen_faces)==index['coverage']['terrainFaceCount']
+    assert total_triangles==index['totals']['trianglesByLevel'][0]-2*len(seen_faces)
+    provenance={'method':'Minimal native-face triangulation retaining exact L0 native boundary/hanging vertices and elevations. No interior centre samples, no face aggregation, no new solver output.',
+        'sourceIndex':old_descriptor['artifact'],'boundarySegmentsVerified':boundary_edges,'nativeFacesVerified':len(seen_faces),'nativeBoundaryHeights':'identical to L0, including all hanging-edge nodes','interiorTerrainLimit':'Interior depressions/curvature omitted at this fallback LOD; zoom/upgrades restore L0/L1.'}
+    index['provenance']['coarseFallback']=provenance
+    index['totals']['trianglesByLevel'].append(total_triangles);index['totals']['compressedTileBytes']+=total_bytes
+    descriptor=old_descriptor.copy();descriptor['artifact']=artifact(dest/'terrain-index-coarse.json.gz',index)
+    descriptor['note']='Lazy native-geometry terrain tiles with minimal native-face coarse fallback; partial output remains17:00-22:00UTC. Coarse interior terrain is approximate, not new hydraulics.'
+    (dest/'terrain-display-coarse.json').write_text(json.dumps(descriptor,indent=2)+'\n',encoding='utf-8')
+    result={'kind':'actual_refined_coarse_terrain_verification','runId':index['runId'],'geometrySha256':index['geometrySha256'],'verticalDatum':index['verticalDatum'],
+        'tiles':len(index['tiles']),'nativeFaces':len(seen_faces),'coarseTriangles':total_triangles,'l0Triangles':index['totals']['trianglesByLevel'][0],
+        'coarseCompressedBytes':total_bytes,'maximumTileTriangles':maximum_triangles,'maximumTileBytes':maximum_bytes,'provenance':provenance,'index':descriptor['artifact'],'elapsedSeconds':time.perf_counter()-started}
+    (dest/'terrain-coarse-verification.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8');print(json.dumps(result),flush=True)
+
 class RetainedSampler:
     def __init__(self,root):
         self.root=root; self.cache=OrderedDict(); self.sources=[]
@@ -66,7 +134,10 @@ def main():
     parser.add_argument('--retained-root',type=Path,default=Path(r'H:\AI\Projects\FloodPLAIN-sfincs\.sfincs-runs'))
     parser.add_argument('--package',type=Path,default=Path('public/simulation/data/refined-partial-41339621278'))
     parser.add_argument('--tile-size',type=int,default=500)
-    args=parser.parse_args();root=args.retained_root;dest=args.package;manifest=read(dest/'manifest.json');geometry=read(dest/manifest['geometry']['path'])
+    parser.add_argument('--coarse-only',action='store_true',help='Add minimal native-face fallback from existing L0; never rewrite existing index or tiles')
+    args=parser.parse_args();root=args.retained_root;dest=args.package
+    if args.coarse_only:return coarse_native_tiles(dest)
+    manifest=read(dest/'manifest.json');geometry=read(dest/manifest['geometry']['path'])
     assert manifest['status']=='partial' and len(manifest['frames'])==21 and manifest['validTo']=='2026-11-01T22:00:00Z'
     assert sha(dest/manifest['geometry']['path'])==manifest['geometry']['sha256']
     mesh=root/'road-native-case-v2/sfincs.nc';assert sha(mesh)==manifest['provenance']['meshSha256']

@@ -1,0 +1,31 @@
+{
+  "kind": "actual_refined_coarse_terrain_verification",
+  "runId": "refined-partial-41339621278",
+  "geometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+  "verticalDatum": "NAVD88",
+  "tiles": 2255,
+  "nativeFaces": 398613,
+  "coarseTriangles": 807823,
+  "l0Triangles": 1605049,
+  "coarseCompressedBytes": 14007758,
+  "maximumTileTriangles": 8086,
+  "maximumTileBytes": 122596,
+  "provenance": {
+    "method": "Minimal native-face triangulation retaining exact L0 native boundary/hanging vertices and elevations. No interior centre samples, no face aggregation, no new solver output.",
+    "sourceIndex": {
+      "path": "terrain-index.json.gz",
+      "sha256": "1dcaf6060f95c7809c290418fe7915cba4c7eccec30cf1d5d99be1fba6b4d124",
+      "bytes": 302369
+    },
+    "boundarySegmentsVerified": 1605049,
+    "nativeFacesVerified": 398613,
+    "nativeBoundaryHeights": "identical to L0, including all hanging-edge nodes",
+    "interiorTerrainLimit": "Interior depressions/curvature omitted at this fallback LOD; zoom/upgrades restore L0/L1."
+  },
+  "index": {
+    "path": "terrain-index-coarse.json.gz",
+    "sha256": "e1dba6141f05a2f63ba1340cbc86eccbf4522dbde69b5c361df025822d951823",
+    "bytes": 425970
+  },
+  "elapsedSeconds": 20.50370900001144
+}
