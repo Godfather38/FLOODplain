@@ -53,15 +53,20 @@ export function createVoxelWater({ loaded, terrain, footprints, project, altitud
       else diffuseColor.rgb=vec3(.82,.83,.79);`);
   };
   const land = new THREE.InstancedMesh(landGeometry, landMaterial, Math.max(n,80000));
-  let landIds=[];
+  let landIds=[],highDetail=null,cellDetail=new Map();
   function setDetail(visibleIndices=null, subdivision=1) {
     const indices=visibleIndices||Array.from({length:n},(_,i)=>i);
     // Limit geometry count; finer terrain appears progressively as the camera approaches.
-    const sub=[1,2,5,10].filter(s=>s<=subdivision&&indices.length*s*s<=80000).at(-1)||1;
-    const stride=10/sub;landIds=[];let k=0;
+    let budget=80000-indices.length,minSub=100,maxSub=1;landIds=[];cellDetail=new Map();let k=0;
     for(const i of indices){const b=basis[i];
+      const west=467700+terrain.vertices[i][4]*100,south=3572300+terrain.vertices[i][3]*100;
+      const hd=highDetail?.metadata,hi=hd&&west>=hd.west&&south>=hd.south&&west+100<=hd.west+hd.width&&south+100<=hd.south+hd.height;
+      const sub=(hi?[1,2,5,10,20,50,100]:[1,2,5,10]).filter(s=>s<=subdivision&&s*s-1<=budget).at(-1)||1;
+      budget-=sub*sub-1;minSub=Math.min(minSub,sub);maxSub=Math.max(maxSub,sub);const fine=sub>10,stride=(fine?100:10)/sub;
+      cellDetail.set(i,sub);
       for(let sy=0;sy<sub;sy++)for(let sx=0;sx<sub;sx++){
-        let z=0;for(let y=0;y<stride;y++)for(let x=0;x<stride;x++)z+=detail[i*100+(sy*stride+y)*10+sx*stride+x];
+        let z=0;for(let y=0;y<stride;y++)for(let x=0;x<stride;x++)z+=fine?
+          highDetail.values[(south-hd.south+sy*stride+y)*hd.width+west-hd.west+sx*stride+x]:detail[i*100+(sy*stride+y)*10+sx*stride+x];
         z/=stride*stride;
         const ox=(sx+.5)/sub-.5,oy=(sy+.5)/sub-.5;
         const small={x:b.x+b.ax*ox+b.bx*oy,y:b.y+b.ay*ox+b.by*oy,ax:b.ax/sub,ay:b.ay/sub,bx:b.bx/sub,by:b.by/sub};
@@ -70,7 +75,7 @@ export function createVoxelWater({ loaded, terrain, footprints, project, altitud
       }
     }
     land.count=k;land.instanceMatrix.needsUpdate=true;land.instanceColor.needsUpdate=true;land.boundingSphere=null;
-    return {instances:k,resolutionM:100/sub};
+    return {instances:k,resolutionM:100/maxSub,farResolutionM:100/minSub};
   }
   setDetail();
   const waterGeometry = new THREE.PlaneGeometry(1,1);
@@ -83,13 +88,13 @@ export function createVoxelWater({ loaded, terrain, footprints, project, altitud
     fragmentShader:`uniform float clock; varying vec2 tileUV; varying vec2 worldXY; varying vec3 depthTint;
       void main(){
         // Cosmetic standing glints only: no displacement, advection or velocity inference.
-        vec2 q=tileUV*24.;
+        vec2 q=worldXY*15.;
         float a=sin(q.x+sin(q.y*.71)+clock*.64);
         float b=cos(q.y*1.17+sin(q.x*.53)-clock*.48);
         float glint=pow(max(0.,a*b),10.);
         float rim=smoothstep(.012,.025,min(min(tileUV.x,1.-tileUV.x),min(tileUV.y,1.-tileUV.y)));
-        vec3 c=mix(depthTint,vec3(.76,.94,1.),glint*.48);
-        c=mix(c*.78,c,rim);
+        vec3 c=mix(depthTint,vec3(.76,.94,1.),glint*.2);
+        c=mix(c*.94,c,rim);
         gl_FragColor=vec4(c,.82);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
@@ -100,34 +105,42 @@ export function createVoxelWater({ loaded, terrain, footprints, project, altitud
   water.setColorAt(0,new THREE.Color()); water.count=0;
   water.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
   water.renderOrder=2; land.frustumCulled=false; water.frustumCulled=false;
+  // Coarse terrain LOD must not erase wet native cells. At overview scale retain
+  // an explicitly cell-supported surface cap, never a fabricated fine shoreline.
+  const overviewMaterial=waterMaterial.clone();overviewMaterial.depthTest=false;overviewMaterial.depthWrite=false;
+  overviewMaterial.uniforms.clock=waterMaterial.uniforms.clock;
+  const overviewWater=new THREE.InstancedMesh(waterGeometry,overviewMaterial,n);
+  overviewWater.setColorAt(0,new THREE.Color());overviewWater.count=0;overviewWater.frustumCulled=false;overviewWater.renderOrder=2;
   const selectionGeometry=new THREE.EdgesGeometry(new THREE.PlaneGeometry(1,1));
   const selectionMaterial=new THREE.LineBasicMaterial({color:'#fff8a6',depthTest:false});
   const selection=new THREE.LineSegments(selectionGeometry,selectionMaterial);
   selection.matrixAutoUpdate=false; selection.visible=false; selection.renderOrder=3;
-  group.add(land,water,selection);
-  let frame=null, native=null, selected=null, ids=[], disposed=false, mode='aggregate';
+  group.add(land,water,overviewWater,selection);
+  let frame=null, native=null, selected=null, ids=[], disposed=false, mode='aggregate',viewMode='3d';
   function select(index) {
     selected=Number.isInteger(index)&&index>=0&&index<n ? index : null;
     selection.visible=selected!==null && mode!=='off' && mode!=='hand';
     if(!selection.visible)return;
     const z=native?.surfaceM[selected];
-    selection.matrix.copy(setMatrix(basis[selected],altitude((Number.isFinite(z)?z:terrain.vertices[selected][2])-baseM)));
+    selection.matrix.copy(setMatrix(basis[selected],viewMode==='flat'?0:altitude((Number.isFinite(z)?z:terrain.vertices[selected][2])-baseM)));
     selection.matrixWorldNeedsUpdate=true;
   }
   function update(next,nextMode='aggregate') {
     if(disposed)throw Error('Voxel renderer disposed');
     // Clear first: never retain a preceding hour if the requested hour is absent.
-    water.count=0; ids=[]; frame=next; mode=nextMode; native=frames.get(next?.time);
-    if(!native||next.depthM.length!==n){selection.visible=false;throw Error('Native surface unavailable for selected hour');}
-    group.visible=!['off','hand'].includes(mode);
+    water.count=0;overviewWater.count=0; ids=[]; frame=next; mode=nextMode; native=frames.get(next?.time);
+    if(!native||next.depthM.length!==n){selection.visible=false;frame=null;throw Error('Native surface unavailable for selected hour');}
+    group.visible=true;water.visible=!['off','hand'].includes(mode);overviewWater.visible=water.visible&&viewMode!=='flat';land.visible=viewMode!=='flat';
     for(let i=0;i<n;i++) {
       const d=next.depthM[i],z=native.surfaceM[i];
       if(!Number.isFinite(d)||!Number.isFinite(z)||d<.01)continue;
       const k=ids.length;ids.push(i);
-      water.setMatrixAt(k,setMatrix(basis[i],altitude(z-baseM)));
+      water.setMatrixAt(k,setMatrix(basis[i],viewMode==='flat'?0:altitude(z-baseM)));
       water.setColorAt(k,color.set(depthColor(d)));
+      if((cellDetail.get(i)??10)<10){const j=overviewWater.count++;overviewWater.setMatrixAt(j,setMatrix(basis[i],altitude(z-baseM)));overviewWater.setColorAt(j,color);}
     }
     water.count=ids.length;water.instanceMatrix.needsUpdate=true;water.instanceColor.needsUpdate=true;
+    overviewWater.instanceMatrix.needsUpdate=true;overviewWater.instanceColor.needsUpdate=true;
     water.boundingSphere=null; select(selected);group.updateMatrixWorld(true);
   }
   function cellInfo(i) {
@@ -145,12 +158,15 @@ export function createVoxelWater({ loaded, terrain, footprints, project, altitud
     if(hit&&(!ground||hit.distance<=ground.distance))return ids[hit.instanceId];
     return ground?landIds[ground.instanceId]:null;
   }
-  return {group,water,land,basis,baseM,update,select,cellInfo,pick,setDetail,
+  return {group,water,land,overviewWater,basis,baseM,update,select,cellInfo,pick,setDetail,
+    setHighDetail(data){if(data.metadata.displayResolutionM!==1||data.metadata.verticalDatum!=='NAVD88'||data.values.length!==data.metadata.width*data.metadata.height)throw Error('High-resolution terrain mismatch');highDetail=data;},
+    setViewMode(value){viewMode=value;if(frame)update(frame,mode);else land.visible=value!=='flat';},
     setMapTexture(texture,bounds){atlasUniforms.terrainAtlas.value?.dispose();atlasUniforms.terrainAtlas.value=texture;atlasUniforms.atlasBounds.value.copy(bounds);atlasUniforms.atlasReady.value=1;},
     animate(seconds){if(!disposed)waterMaterial.uniforms.clock.value=seconds;},
     get frame(){return frame;},get selected(){return selected;},get ids(){return ids;},
     dispose(){if(disposed)return;disposed=true;group.removeFromParent();
       for(const o of [land,water]){o.geometry.dispose();o.material.dispose();o.dispose();}
+      overviewMaterial.dispose();overviewWater.dispose();
       atlasUniforms.terrainAtlas.value?.dispose();selectionGeometry.dispose();selectionMaterial.dispose();}
   };
 }

@@ -1,6 +1,6 @@
 # Geographic scene renderer: replacement architecture and acceptance checklist
 
-Status: implementation interrupted at the user's explicit request. This replaces this worker's previous raster-host, map-texture and semi-transparent-block plans. Preserved prototype code is NOT an accepted implementation and must not be integrated as completed work. No further renderer implementation until the parent aligns this architecture with the rewritten UI plan.
+Status: architecture reset after the user's explicit interruption, then implementation resumed on parent coordination with the rewritten UI plan and verified vector source. This replaces this worker's previous raster-host, downloaded-map-texture and semi-transparent-block plans. The preserved prototype is NOT accepted. The corrected module's actual status and remaining limits are recorded in [GEOGRAPHIC-RENDERER-VERIFICATION.md](GEOGRAPHIC-RENDERER-VERIFICATION.md).
 
 ## Product definition
 
@@ -54,7 +54,7 @@ Water: native selected-hour level determines geometry. Intersect/downscale using
 
 ## State and integration contract
 
-The legacy `createGeographicView(...)` contract can be a migration adapter but is insufficient as the final architecture because it owns a separate 3D map. Proposed renderer contract:
+The coordinated implementation retains `createGeographicView(...)` with `sharedState`, adds `setViewMode` for both flat and 3D, and uses `hide` only for leaving advanced map. See [integration contract](GEOGRAPHIC-RENDERER-INTEGRATION.md); this supersedes the proposal below. The earlier proposed contract was:
 
 ```js
 createGeographicRenderer({ container, sources, initialState, onStateChange, onPick, onStatus })

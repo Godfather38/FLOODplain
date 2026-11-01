@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "sourceUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y359_AZ_PimaCounty_2021_B21.tif",
+  "sourceResolutionM": 1,
+  "displayResolutionM": 1,
+  "crs": "EPSG:32612",
+  "verticalDatum": "NAVD88",
+  "units": "metres",
+  "width": 600,
+  "height": 600,
+  "west": 484600,
+  "south": 3586500,
+  "order": "south-to-north rows, west-to-east columns",
+  "encoding": "little-endian Float32",
+  "artifactSha256": "2b50e5b4373ed26b18796424ba65b6088888dde70288cb550f883ceb657c005e",
+  "scope": "Bounded terrain-only detail around native cell 9344; not a 1m hydraulic simulation or full model-domain 1m coverage",
+  "sourceProject": "USGS AZ_PimaCounty_2021_B21 lidar-derived bare-earth DEM, public domain",
+  "sourceHorizontalCrs": "EPSG:26912; transformed to native model EPSG:32612",
+  "sourceMetadata": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_PimaCounty_2021_B21/USGS_1M_12_x48y359_AZ_PimaCounty_2021_B21.xml"
+}

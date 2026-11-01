@@ -17,5 +17,13 @@ test('geometry uses independent native zs; animation cannot alter heights; null 
   const zero=frame.depthM.findIndex(v=>v===0),missing=frame.depthM.findIndex(v=>v===null);view.update(frame);if(zero>=0)assert.equal(view.cellInfo(zero).depthM,0);if(missing>=0)assert.equal(view.cellInfo(missing).depthM,null);
   assert.throws(()=>view.update({...frame,time:'missing'}),/unavailable/);assert.equal(view.water.count,0);
   const lod=view.setDetail([0,1],10);assert.equal(lod.instances,200);assert.equal(lod.resolutionM,10);
+  const hd=read('voxel-detail-1m.json'),hb=gunzipSync(readFileSync(new URL('voxel-detail-1m.f32.gz',dir)));
+  const hv=new Float32Array(hb.buffer.slice(hb.byteOffset,hb.byteOffset+hb.byteLength));view.setHighDetail({metadata:hd,values:hv});
+  const close=view.setDetail([9344],100);assert.equal(close.resolutionM,1);assert.equal(close.instances,10000);
+  view.setDetail([9344],1);view.update(frame);assert.equal(view.overviewWater.count,1,'coarse terrain must not hide a wet native cell');
+  view.setDetail([9344],10);view.update(frame);assert.equal(view.overviewWater.count,0,'fine terrain uses actual surface intersection');
+  view.update(frame);view.setViewMode('flat');assert.equal(view.land.visible,false);assert.equal(view.water.instanceMatrix.array[14],0);
+  view.setViewMode('3d');assert.equal(view.land.visible,true);assert.notEqual(view.water.instanceMatrix.array[14],0);
+  view.update(frame,'off');assert.equal(view.water.visible,false);assert.equal(view.land.visible,true);
   view.dispose();view.dispose();assert.throws(()=>view.update(frame),/disposed/);
 });
