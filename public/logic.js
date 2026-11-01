@@ -182,8 +182,8 @@ export function bridgeHeightComparison(record, now) {
 function bridgeRiverCheck(check,record,now){
  const history=record?.documentedHistory??[],elevated=['watch','caution','danger'].includes(check.level);
  const heightComparison=bridgeHeightComparison(record,now),modeledRoadConcern=heightComparison.status==='estimated'&&heightComparison.differenceM<=0;
- return {...check,level:modeledRoadConcern?'caution':elevated?'watch':check.level,modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
-  why:modeledRoadConcern?`Modeled water ${heightComparison.waterM.toFixed(2)} m reaches or exceeds the estimated roadway ${heightComparison.roadM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}; estimated roadway flooding concern, not an observed closure.`:elevated?check.why.split(':')[0]+': elevated river discharge; water reaching this bridge or its approaches is not established.':check.why,
+ return {...check,level:modeledRoadConcern?'caution':heightComparison.status==='estimated'?'ok':elevated?'watch':check.level,modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
+  why:modeledRoadConcern?`Modeled water ${heightComparison.waterM.toFixed(2)} m reaches or exceeds the estimated roadway ${heightComparison.roadM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}; estimated roadway flooding concern, not an observed closure.`:heightComparison.status==='estimated'?`Estimated road ${heightComparison.roadM.toFixed(2)} m; modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum}, ${heightComparison.differenceM.toFixed(2)} m below road at ${heightComparison.time}. No bridge-flooding penalty from this comparison; other hazards still apply.`:elevated?check.why.split(':')[0]+': elevated river discharge; water reaching this bridge or its approaches is not established.':check.why,
   detail:(check.detail?check.detail+'. ':'')+(record?'Site-linked structure record '+record.id+'. ':'No exact structure record. ')+(history.length?'Historical flooding is documented for this site; it is not a current closure or measured flow-to-road threshold. ':'No site-linked flooding history establishes a current road threshold. ')+(record?.roadwayEstimate?'A provisional roadway-height comparison is shown in height & history; it is not surveyed deck or underside clearance. ':'Current roadway elevation is unavailable. ')+'Clearance is unknown, not confirmed clear.',
   heightComparison,
   bridgeEvidence:{recordId:record?.id??null,historyDates:history.map(h=>h.date),clearance:'unknown'}};
@@ -299,7 +299,7 @@ export function goodSigns(route, nwsQuiet) {
   const ok = checks.filter((c) => c.level === 'ok' && !bad.has(kind(c.src)));
   const out = [];
   const add = (t) => { if (!out.includes(t)) out.push(t); };
-  if (ok.some((c) => c.src === 'river')) add('the Santa Cruz is at its everyday flow');
+  if (ok.some((c) => c.src === 'river' && c.heightComparison?.status !== 'estimated')) add('the Santa Cruz is at its everyday flow');
   if (ok.some((c) => c.src === 'wash')) add('Brawley Wash upstream is dry');
   const rain = ok.filter((c) => c.src.startsWith('rain'));
   if (rain.length) add(rain.every((c) => /^no rain/.test(c.why)) ? 'no rain in the last 6 hours' : 'only light rain lately');

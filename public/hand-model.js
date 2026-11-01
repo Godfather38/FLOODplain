@@ -20,7 +20,7 @@ const FT = 3.28084;
 const CFS_TO_M3S = 0.028316846592;
 
 // Wash sources are remote (Three Points and Milewide, 10 to 25 miles off), so only a river gauge counts here.
-const gaugeAnswered = (p) => p.checks.some((c) => c.src === 'river' && c.level !== 'unknown');
+const gaugeAnswered = (p) => p.checks.some((c) => c.src === 'river' && (c.dischargeLevel ?? c.level) !== 'unknown');
 
 const metres = (a, b) => Math.hypot((a.lat - b.lat) * 110574, (a.lon - b.lon) * 111320 * Math.cos(a.lat * Math.PI / 180));
 

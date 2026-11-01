@@ -181,6 +181,13 @@ const topIssue = (r) => {
   const a = againstIt(r)[0];
   return a ? `${a.short}: ${a.why}` : 'Nothing working against it';
 };
+function bridgeCardEvidence(p) {
+  const c=p.checks.find(c=>c.heightComparison?.status==='estimated'),h=c?.heightComparison;
+  if(!h)return '';
+  const time=new Date(h.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+  return `<div class="st"><strong>${esc(p.short)}: estimated road ${h.roadM.toFixed(2)} m; modeled water ${h.waterM.toFixed(2)} m.</strong> Water is ${Math.abs(h.differenceM).toFixed(2)} m ${h.differenceM>=0?'below':'above'} the estimated roadway at ${esc(time)} Arizona. ${c.modeledRoadConcern?'Modeled roadway concern contributes to the rating.':'This comparison adds no bridge-flooding penalty; other hazards still apply.'}</div><div class="meta">Both NAVD88. Road: 1 m Pima 2021 approach terrain. Water: SFINCS 100 m cell. Estimated roadway, not underside clearance. Open crossing for source details.</div>`;
+}
+const routeBridgeEvidence=r=>r.points.map(bridgeCardEvidence).join('');
 const minutes = (r) => `${Math.round(r.minutes)} min`;
 const navBtn = (r, cls = 'btn btn-primary') => `<button type="button" class="${cls}" data-nav="${r.id}">${NAV_ICON}Navigate</button>`;
 
@@ -201,17 +208,18 @@ function homeScreen() {
       <p class="meta">${minutes(best)} · ${esc(viaText(best.id))}</p>
       <div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(best))}</p></div>
       ${against.length ? `<ul class="against">${against.map((a) => `<li><span class="dot ${a.level}"></span><span>${esc(a.short)}: ${esc(a.why)}</span></li>`).join('')}</ul>` : ''}
+      ${routeBridgeEvidence(best)}
       <div class="actions">${navBtn(best)}<a class="btn btn-text" href="#/r/${best.id}">Details</a></div>
     </article>
     <section class="saved-routes" aria-labelledby="saved-title"><h3 id="saved-title" class="section">Your saved routes</h3>
-    ${favorites.some((id) => view.byId[id]) ? `<div class="list">${favorites.filter((id) => view.byId[id]).map((id) => `<a class="row" href="#/r/${id}">${badge(view.byId[id].score)}<span class="text"><span class="t">${esc(ROUTE_INFO[id].name)}</span><span class="st">${esc(topIssue(view.byId[id]))}</span></span><span class="chev" aria-hidden="true">›</span></a>`).join('')}</div>` : '<p class="meta">Open a route and choose Save route to keep it here for this area.</p>'}
+    ${favorites.some((id) => view.byId[id]) ? `<div class="list">${favorites.filter((id) => view.byId[id]).map((id) => `<a class="row" href="#/r/${id}">${badge(view.byId[id].score)}<span class="text"><span class="t">${esc(ROUTE_INFO[id].name)}</span><span class="st">${esc(topIssue(view.byId[id]))}</span>${routeBridgeEvidence(view.byId[id])}</span><span class="chev" aria-hidden="true">›</span></a>`).join('')}</div>` : '<p class="meta">Open a route and choose Save route to keep it here for this area.</p>'}
     <p class="meta">Saved on this browser. Ratings still use the current check.</p></section>
     <h3 class="section">Other routes</h3>
     <div class="list">
       ${others.map((r) => `
         <a class="row" href="#/r/${r.id}">
           ${badge(r.score)}
-          <span class="text"><div class="t">${esc(ROUTE_INFO[r.id].name)}</div><div class="st">${minutes(r)} · ${esc(topIssue(r))}</div></span>
+          <span class="text"><div class="t">${esc(ROUTE_INFO[r.id].name)}</div><div class="st">${minutes(r)} · ${esc(topIssue(r))}</div>${routeBridgeEvidence(r)}</span>
           <span class="chev">›</span>
         </a>`).join('')}
     </div>
@@ -237,7 +245,7 @@ function routeScreen(rid) {
   const row = (p) => `
     <a class="row" href="#/r/${rid}/${p.id}">
       ${badge(pointScore(p))}
-      <span class="text"><div class="t">${esc(p.short)}</div><div class="st">${esc(p.why)}</div></span>
+      <span class="text"><div class="t">${esc(p.short)}</div>${bridgeCardEvidence(p)}<div class="st">${esc(p.why)}</div></span>
       <span class="chev">›</span>
     </a>`;
   return `
