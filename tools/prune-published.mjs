@@ -10,14 +10,17 @@ const LIVE_DATA=new Set(['bridge-evidence-registry.json','bridge-evidence-source
 // The files Test flood mode requests, and only those.
 const TEST_FLOOD_PACKAGE=new Set(['retained-sfincs-manifest.json','frozen-map-context.json','frozen-map-polygons.json.gz','frozen-cell-footprints.json.gz','current-crossing-coverage.json','frozen-20261101-nwm13z-41327417204.json.gz','frozen-terrain-display.json.gz','frozen-voxel-terrain.f32.gz','frozen-voxel-terrain.json']);
 const isTestFloodFile=name=>TEST_FLOOD_PACKAGE.has(name)||/^water-footprints-\d+\.json\.gz$/.test(name);
+// Always-on simulated visuals (docs/LIVE-DATA-ONLY.md): not saved runs, and loaded only once 3D opens.
+// Empty until the optional 3D map layer lands. List its files here on purpose.
+const ALWAYS_ON_SIMULATED=new Set();
 const DEV_ONLY=['simulation/preview','ux-preview'];
 
-if(existsSync(dataDir))for(const name of readdirSync(dataDir))if(!LIVE_DATA.has(name)&&!isTestFloodFile(name))rmSync(join(dataDir,name),{recursive:true,force:true});
+if(existsSync(dataDir))for(const name of readdirSync(dataDir))if(!LIVE_DATA.has(name)&&!isTestFloodFile(name)&&!ALWAYS_ON_SIMULATED.has(name))rmSync(join(dataDir,name),{recursive:true,force:true});
 for(const path of DEV_ONLY)rmSync(join(root,path),{recursive:true,force:true});
 
 function walk(dir){return readdirSync(dir).flatMap(name=>{const path=join(dir,name);return statSync(path).isDirectory()?walk(path):[path]})}
 const banned=walk(root).map(path=>relative(root,path).replaceAll('\\','/')).filter(path=>{
- if(path.startsWith('simulation/data/')&&isTestFloodFile(path.slice('simulation/data/'.length)))return false;
+ if(path.startsWith('simulation/data/')){const name=path.slice('simulation/data/'.length);if(isTestFloodFile(name)||ALWAYS_ON_SIMULATED.has(name))return false}
  return /frozen|refined|retained|sfincs|silverbell|road-replay|all-route|scene-contract|frame-\d+/i.test(path.replace(/^simulation\/[a-z-]+\.(js|css)$/,''));
 });
 if(banned.length){console.error('Model data outside Test flood would be published:\n'+banned.join('\n'));process.exit(1)}

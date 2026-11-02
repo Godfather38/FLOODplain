@@ -22,20 +22,19 @@ test('the live path cannot load a saved run or offer one',()=>{
  assert.match(layers,/async function enterMap\(\)\{if\(!testFlood\)\{notifyRender\(\{status:'off'/);
  assert.match(layers,/async function load\(\)\{if\(!testFlood\)throw/);
  assert.doesNotMatch(layers,/selectedMapCase\(location/);
- assert.match(layers,/<option value="off">Off - no model water<\/option>\$\{testFlood\?/);
+ assert.match(layers,/<option value="off">Off - no simulated water<\/option>\$\{testFlood\?/);
  assert.doesNotMatch(layers,/<option value="aggregate">|<option value="hand">/);
  const shell=read('simulation/map-shell.js');
  assert.doesNotMatch(shell,/home-outlook/);
  assert.match(shell,/testFlood\?'<button data-panel="time">Time<\/button>':''/);
  assert.match(shell,/age\.hidden=!testFlood/);
 });
-test('the mode never remembers itself and always says what it is',()=>{
+test('the mode never remembers itself and always has a way back to live',()=>{
  const mode=read('simulation/test-flood.js');
  assert.doesNotMatch(mode,/localStorage|sessionStorage|store\./);
- assert.match(mode,/Not current conditions/);assert.match(mode,/Back to live/);
  const app=read('app.js');
- assert.match(app,/if\(isTestFlood\(\)\)mountTestFloodBanner\(\)/);
- assert.match(app,/testFloodHref\(\)/);
+ assert.match(app,/testFloodHref\(location\.href, !isTestFlood\(\)\)/);
+ assert.match(read('simulation/map-shell.js'),/testFlood\?testFloodHref\(location\.href,false\):lastSafetyHash/);
  assert.match(app,/active:w\.screen==='map'&&!isTestFlood\(\)/);
  assert.doesNotMatch(read('logic.js')+read('engine.js'),/isTestFlood|test-flood/);
 });

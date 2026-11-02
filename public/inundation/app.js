@@ -1,4 +1,5 @@
 import {createForecastProvider,normalizeForecast,normalizeReachForecast} from './forecast-provider.js';
+import {showAcknowledgement} from '../model-acknowledgement.js';
 import {confidenceText,estimateFromFlow,estimateFromForecast,loadCoverage,loadJunction,missingCoverageResult} from './hand-inundation.js';
 const $=id=>document.getElementById(id);
 const CFS_TO_M3S=0.028316846592,COLORS={half:[31,111,209,210],flow:[95,168,234,200],double:[195,224,247,170],none:[138,143,148,110]};
@@ -36,7 +37,7 @@ function render(r,note=''){
  $('summary').textContent=r.extent?`${r.source==='forecast'?'Forecast':'Chosen'} flow ${r.flowM3s.toFixed(1)} m³/s (${Math.round(r.flowM3s/CFS_TO_M3S)} cfs)${r.flowTime?' at '+r.flowTime:''}. Estimated area ${(r.extent.wetAreaM2/1e6).toFixed(2)} km² inside this square; ${(s.halfFlow.wetAreaM2/1e6).toFixed(2)} km² at half the flow${s.doubleFlow?`, ${(s.doubleFlow.wetAreaM2/1e6).toFixed(2)} km² at double`:', double is above the rating curve'}.`:'No extent is estimated for this result.';
  showLabels(r.labels??{});
  $('download').disabled=false;
- if(junction){const bounds=paint(junction,masks);if(!fitted)fit(bounds);}
+ if(junction){const bounds=paint(junction,masks);if(!fitted)fit(bounds);if(masks)showAcknowledgement('estimate');}
 }
 
 function showForecast(f,note,now){

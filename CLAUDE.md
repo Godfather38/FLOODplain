@@ -1,6 +1,6 @@
 # Working on FLOODplain
 
-**Saved model runs NEVER appear in the live app. They appear only in the opt-in "Test and view a flood!" mode.** See `docs/LIVE-DATA-ONLY.md`.
+**Saved model runs NEVER appear in the live app. They appear only in the opt-in "Test and view a flood!" mode.** Simulated and modeled content is identified only by one dismissible acknowledgement and the wording already on screen, never by permanent banners, tags or labels. See `docs/LIVE-DATA-ONLY.md`.
 
 ## How the owner wants to work (read first)
 - **One continuous conversation.** Every message adds to the same task. A new message, an interruption, or a stopped tool call is not a reset. Earlier instructions stay in force until the owner changes them.

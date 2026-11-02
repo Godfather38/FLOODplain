@@ -1,6 +1,6 @@
 import { RISK_COLORS, UNKNOWN_COLOR, installRiskColors } from './semantic-colors.js?v=dev';
 import './show-me-how.js?v=dev';
-import { isTestFlood, testFloodHref, mountTestFloodBanner } from './simulation/test-flood.js?v=dev';
+import { isTestFlood, testFloodHref } from './simulation/test-flood.js?v=dev';
 import {mountRouteTracking} from './simulation/route-tracking.js?v=dev';
 installRiskColors();
 import { imperialSourceText } from './display-units.js?v=dev';
@@ -404,8 +404,8 @@ function settingsScreen() {
     </label>
     <p class="fine" style="text-align:left;margin:0">Saved only on this phone.</p>
     <h4>Test and view a flood!</h4>
-    <p class="meta">Curious what a flood looks like on the map? Try a saved model run from November 2026. It is not current conditions and does not change routes or alerts.</p>
-    <a class="btn" href="${esc(testFloodHref())}">Open test flood</a>
+    <p class="meta">Curious what a flood looks like on the map? Try a simulated flood from a saved model run in November 2026. It is not real conditions and does not change routes or alerts.</p>
+    <a class="btn" href="${esc(testFloodHref(location.href, !isTestFlood()))}">${isTestFlood() ? 'Close test flood' : 'Open test flood'}</a>
   </div>`;
 }
 // Any minute of the day, as HH:MM.
@@ -715,7 +715,7 @@ function render() {
   $('#logo').hidden = sub;
   $('#refresh').hidden = sub && !['route', 'stretch'].includes(w.screen);
   const titles = {
-    home: ["FLOODplain", subtitle()], map: ['Flood map', 'Live readings and forecasts'],
+    home: ["FLOODplain", subtitle()], map: isTestFlood() ? ['Simulated flood', 'Saved model run, not real conditions'] : ['Flood map', 'Live readings and model estimates'],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
     how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
@@ -808,7 +808,6 @@ map.attributionControl.setPrefix(false);
 const layer = L.layerGroup().addTo(map);
 const liveObservations=L.layerGroup().addTo(map);
 const rendererRoutes=L.layerGroup([layer,liveObservations]).addTo(map);
-if(isTestFlood())mountTestFloodBanner();
 mountFloodLayers(map,{routeLayer:rendererRoutes,streetTiles});
 document.querySelector('[data-home]').onclick=()=>map.fitBounds(allBounds,{paddingTopLeft:[24,30],paddingBottomRight:[24,30],animate:false});
 const liveMap=mountLiveMap(map,{refresh:()=>check(),observations:liveObservations,embedded:true});

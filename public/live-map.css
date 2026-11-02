@@ -7,4 +7,3 @@
 .safety-home .map-dock,.safety-home .home-outlook{display:none!important}
 
 .hand-legend{background:#fff;color:#1b1b1a;border-radius:10px;padding:8px 10px;max-width:min(240px,calc(100vw - 80px));font-size:12px;line-height:1.35;box-shadow:0 1px 5px #0005}.hand-legend strong{display:block}.hand-legend small{display:block;font-size:11px}.hand-legend-bands{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px 8px;margin:4px 0}.hand-legend-bands span{display:flex;align-items:center;gap:4px;white-space:nowrap}.hand-legend-bands i{display:inline-block;width:14px;height:12px;border:1px solid #0003;flex:none}
-.test-flood-banner{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;padding:8px 16px;background:#3b2a6b;color:#fff;font-size:14px;line-height:1.35}.test-flood-banner a{color:#fff;font-weight:700;margin-left:auto;min-height:44px;display:inline-flex;align-items:center}
