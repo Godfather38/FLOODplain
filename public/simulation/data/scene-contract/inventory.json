@@ -1,0 +1,5272 @@
+{
+  "schema": "floodplain-tracking-v1",
+  "sourceCommit": "532d85b",
+  "modelRunId": "refined-full-41344983607",
+  "entries": [
+    {
+      "id": "brawley-dip",
+      "coordinates": [
+        -111.29459,
+        32.39322
+      ],
+      "kind": "dip",
+      "name": "Brawley Wash dip on Avra Valley Rd",
+      "routeIds": [
+        "avra"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "brawley-dip"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 2,
+          "legacyId": "route-crossing-2",
+          "route": "avra",
+          "km": 4.66,
+          "road": "West Avra Valley Road",
+          "water": "Brawley Wash",
+          "water_id": "c4ecf3c9-c405-3a86-b938-9c5297c2c7ad",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "267134",
+        "cellIndex": 267134,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.3878214501815252
+        }
+      ],
+      "gaugeAssociations": [
+        {
+          "gaugeId": "USGS-09487000",
+          "relationship": "upstream_regional",
+          "reachPath": "Brawley",
+          "evidence": "docs/SENSOR-AUDIT.md: county FEMA study; braided reach, no verified travel time",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "ALERT-6443",
+          "relationship": "upstream_regional",
+          "reachPath": "Brawley",
+          "evidence": "docs/SENSOR-AUDIT.md: county FEMA study; braided reach, no verified travel time",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        }
+      ]
+    },
+    {
+      "id": "clayton-dip",
+      "coordinates": [
+        -111.24501,
+        32.40131
+      ],
+      "kind": "dip",
+      "name": "Wash dip on Avra Valley Rd near Clayton Rd",
+      "routeIds": [
+        "avra"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "clayton-dip"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 5,
+          "legacyId": "route-crossing-5",
+          "route": "avra",
+          "km": 10.56,
+          "road": "West Avra Valley Road",
+          "water": null,
+          "water_id": "7d57adbd-11ec-3c6a-9dd0-63fd6d513206",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "323016",
+        "cellIndex": 323016,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.5677951887334886
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-028aa60d2d80",
+      "coordinates": [
+        -111.13596,
+        32.22457
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 44,
+          "legacyId": "route-crossing-44",
+          "route": "pr-gates",
+          "km": 16.4,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "a935db27-f5e2-36ff-9889-c3438626e908",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.11383459855138588
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-06a13238e2f1",
+      "coordinates": [
+        -111.04624,
+        32.23899
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 51,
+          "legacyId": "route-crossing-51",
+          "route": "pr-gates",
+          "km": 26.29,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "c207405d-e624-3a20-ae5b-fb9ed016dc83",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.08362818947495365
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-0b57cf43748e",
+      "coordinates": [
+        -111.0225,
+        32.23595
+      ],
+      "kind": "mapped_crossing",
+      "name": "Anklam Wash",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 56,
+          "legacyId": "route-crossing-56",
+          "route": "pr-gates",
+          "km": 28.51,
+          "road": "West Speedway Boulevard",
+          "water": "Anklam Wash",
+          "water_id": "3e8362a2-27f3-301e-820f-6928c2ca6b02",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.35247077311440966
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-0c91b66d4a39",
+      "coordinates": [
+        -111.13049,
+        32.37543
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 24,
+          "legacyId": "route-crossing-24",
+          "route": "pr-twinpeaks",
+          "km": 14.53,
+          "road": "West Twin Peaks Road",
+          "water": null,
+          "water_id": "e423ab31-ae5d-3d0a-9794-9c1359a05722",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "31450",
+        "cellIndex": 31450,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 0.3779227203213293
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-1352ed9a90e7",
+      "coordinates": [
+        -111.26095,
+        32.39514
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "avra"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 4,
+          "legacyId": "route-crossing-4",
+          "route": "avra",
+          "km": 8.44,
+          "road": "West Avra Valley Road",
+          "water": null,
+          "water_id": "9db8d08e-8599-3b3c-bb24-df6cbaf10b31",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "304469",
+        "cellIndex": 304469,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.4283280969201927
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-17668bc77530",
+      "coordinates": [
+        -111.21817,
+        32.27528
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 32,
+          "legacyId": "route-crossing-32",
+          "route": "pr-gates",
+          "km": 4.98,
+          "road": "North Sandario Road",
+          "water": null,
+          "water_id": "772cce66-9a9d-3f3b-b882-bb18aa2e09f3",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.049069923120367336
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-1927ae973574",
+      "coordinates": [
+        -111.18349,
+        32.24767
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 37,
+          "legacyId": "route-crossing-37",
+          "route": "pr-gates",
+          "km": 11.07,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "ebfb1057-9220-3b08-8b3d-a54d8322b7c5",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.21427655212279406
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-1d1b7d0ace35",
+      "coordinates": [
+        -111.04501,
+        32.23899
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 52,
+          "legacyId": "route-crossing-52",
+          "route": "pr-gates",
+          "km": 26.46,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "cf9cb6c6-fb76-3fec-9902-00a1524058c6",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.33961073581596807
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-1fcc081e0252",
+      "coordinates": [
+        -111.11379,
+        32.37655
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 28,
+          "legacyId": "route-crossing-28",
+          "route": "pr-twinpeaks",
+          "km": 16.02,
+          "road": "West Twin Peaks Road",
+          "water": null,
+          "water_id": "651c62a7-d6a9-3139-87de-f0b2a11f13c2",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "33549",
+        "cellIndex": 33549,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 0.13172383050376543
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-204f442f3056",
+      "coordinates": [
+        -111.02611,
+        32.23597
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 55,
+          "legacyId": "route-crossing-55",
+          "route": "pr-gates",
+          "km": 28.26,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "4fc13701-eaae-3181-b341-177335305475",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.4154853725985868
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-21680293f910",
+      "coordinates": [
+        -111.02886,
+        32.23597
+      ],
+      "kind": "mapped_crossing",
+      "name": "Greasewood Wash",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 54,
+          "legacyId": "route-crossing-54",
+          "route": "pr-gates",
+          "km": 27.98,
+          "road": "West Speedway Boulevard",
+          "water": "Greasewood Wash",
+          "water_id": "05a15d30-dc6f-31f1-a37d-c16d0e0e666d",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.4476779830392822
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-29805a11d1c0",
+      "coordinates": [
+        -111.21849,
+        32.27434
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 33,
+          "legacyId": "route-crossing-33",
+          "route": "pr-gates",
+          "km": 6.13,
+          "road": "North Sandario Road",
+          "water": null,
+          "water_id": "c51a9407-91b1-365f-a480-c3ace54e4739",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.2743635669120563
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-298e25876c2d",
+      "coordinates": [
+        -111.08202,
+        32.33759
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-ina"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 21,
+          "legacyId": "route-crossing-21",
+          "route": "pr-ina",
+          "km": 14.75,
+          "road": "West Ina Road",
+          "water": null,
+          "water_id": "651c62a7-d6a9-3139-87de-f0b2a11f13c2",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-2f1ce6018bc5",
+      "coordinates": [
+        -111.05195,
+        32.23766
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 50,
+          "legacyId": "route-crossing-50",
+          "route": "pr-gates",
+          "km": 25.66,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "336919b7-fc22-3e8c-9755-73ef629c1dca",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.08185689124507561
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-3113a92b25e7",
+      "coordinates": [
+        -111.0604,
+        32.23606
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 48,
+          "legacyId": "route-crossing-48",
+          "route": "pr-gates",
+          "km": 24.78,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "27d1d540-d403-3a3c-be4a-330ce1c66a39",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.3730548061705072
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-33c89b36268b",
+      "coordinates": [
+        -111.03874,
+        32.23689
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 53,
+          "legacyId": "route-crossing-53",
+          "route": "pr-gates",
+          "km": 27.07,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "8176530f-d4af-3b4f-96ba-29799e4ae78e",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.26318518424070053
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-441f5045cf1a",
+      "coordinates": [
+        -111.19875,
+        32.25426
+      ],
+      "kind": "mapped_crossing",
+      "name": "Javelina Wash",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 35,
+          "legacyId": "route-crossing-35",
+          "route": "pr-gates",
+          "km": 8.93,
+          "road": "North Kinney Road",
+          "water": "Javelina Wash",
+          "water_id": "25274bff-d867-3f3b-8084-1177d12a2c6d",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.641450335536798
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-45a163306e26",
+      "coordinates": [
+        -111.20377,
+        32.25678
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 34,
+          "legacyId": "route-crossing-34",
+          "route": "pr-gates",
+          "km": 7.68,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "5dbb6bee-aca7-3b0b-a691-7e9e5e184b16",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.22526179891515188
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-46e5c932bce8",
+      "coordinates": [
+        -111.07192,
+        32.2297
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 47,
+          "legacyId": "route-crossing-47",
+          "route": "pr-gates",
+          "km": 23.45,
+          "road": "West Gates Pass Road",
+          "water": null,
+          "water_id": "5c1051cc-71c4-3709-b624-b8ed2a55c204",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.10478387474909409
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-4901706bc313",
+      "coordinates": [
+        -111.14566,
+        32.40271
+      ],
+      "kind": "mapped_crossing",
+      "name": "Santa Cruz River",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 6,
+          "legacyId": "route-crossing-6",
+          "route": "avra",
+          "km": 19.48,
+          "road": "West Avra Valley Road",
+          "water": "Santa Cruz River",
+          "water_id": "cf93c986-4ccc-3126-bd28-1eacb790565e",
+          "bridge_tagged": true
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 13,
+          "legacyId": "route-crossing-13",
+          "route": "silverbell-south",
+          "km": 18.51,
+          "road": "West Avra Valley Road",
+          "water": "Santa Cruz River",
+          "water_id": "cf93c986-4ccc-3126-bd28-1eacb790565e",
+          "bridge_tagged": true
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 29,
+          "legacyId": "route-crossing-29",
+          "route": "pr-avra",
+          "km": 14.97,
+          "road": "West Avra Valley Road",
+          "water": "Santa Cruz River",
+          "water_id": "cf93c986-4ccc-3126-bd28-1eacb790565e",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "389666",
+        "cellIndex": 389666,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.12757407714373747
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.12757407714373747
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.12757407714373747
+        }
+      ],
+      "gaugeAssociations": [
+        {
+          "gaugeId": "USGS-09486500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09486520",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09482500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        }
+      ]
+    },
+    {
+      "id": "crossing-50be16e997e6",
+      "coordinates": [
+        -111.14537,
+        32.23141
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 41,
+          "legacyId": "route-crossing-41",
+          "route": "pr-gates",
+          "km": 15.21,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "dc5eeeb1-b2e0-37a9-852e-e0c073fc00f5",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.1784239319780863
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-526d8b277589",
+      "coordinates": [
+        -111.16081,
+        32.24151
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 40,
+          "legacyId": "route-crossing-40",
+          "route": "pr-gates",
+          "km": 13.27,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "58b6a1f5-7bdd-3879-9567-5c8967ed6c17",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.07488927748358942
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-53105fa361ed",
+      "coordinates": [
+        -111.0154,
+        32.23594
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 57,
+          "legacyId": "route-crossing-57",
+          "route": "pr-gates",
+          "km": 29.25,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "a063d493-886e-3225-ac60-28eab0a80f17",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.41173497893189154
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-548fc178c626",
+      "coordinates": [
+        -111.14078,
+        32.22722
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 43,
+          "legacyId": "route-crossing-43",
+          "route": "pr-gates",
+          "km": 15.79,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "5111ba11-aa64-3cc8-a71d-e954e9148a58",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.13168304294065797
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-6cb253a7ee6a",
+      "coordinates": [
+        -111.12278,
+        32.22131
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 46,
+          "legacyId": "route-crossing-46",
+          "route": "pr-gates",
+          "km": 18.12,
+          "road": "West Gates Pass Road",
+          "water": null,
+          "water_id": "e5ce653e-64dc-35e8-9d87-6dc11135c0d4",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.505866987896163
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-6d7a64bc5c66",
+      "coordinates": [
+        -111.14371,
+        32.22917
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 42,
+          "legacyId": "route-crossing-42",
+          "route": "pr-gates",
+          "km": 15.47,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "0ff20647-142a-3b3d-a7f1-7a0d535a14da",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.4188829113482108
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-6df320f447d3",
+      "coordinates": [
+        -111.18652,
+        32.25158
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 36,
+          "legacyId": "route-crossing-36",
+          "route": "pr-gates",
+          "km": 10.09,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "9b92cd16-3675-3b0d-99f1-03dc26d63bcd",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.450400737935116
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-8b034412e266",
+      "coordinates": [
+        -111.08896,
+        32.33763
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-ina"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 19,
+          "legacyId": "route-crossing-19",
+          "route": "pr-ina",
+          "km": 14.02,
+          "road": "West Ina Road",
+          "water": null,
+          "water_id": "f07a5cbb-151f-3e6c-9268-0d39844aa023",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-90dd4949cd49",
+      "coordinates": [
+        -111.1768,
+        32.38086
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 22,
+          "legacyId": "route-crossing-22",
+          "route": "pr-twinpeaks",
+          "km": 9.42,
+          "road": "West Twin Peaks Road",
+          "water": null,
+          "water_id": "68efd521-79e0-3c9e-8310-ea45fa6995d0",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "25669",
+        "cellIndex": 25669,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 0.03057430525432201
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-a3da654d8789",
+      "coordinates": [
+        -111.1676,
+        32.24705
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 38,
+          "legacyId": "route-crossing-38",
+          "route": "pr-gates",
+          "km": 11.94,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "1b1a33c5-f707-3292-b245-84110bd94326",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.35591881510068685
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-a9582216996e",
+      "coordinates": [
+        -111.12358,
+        32.37462
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 26,
+          "legacyId": "route-crossing-26",
+          "route": "pr-twinpeaks",
+          "km": 15.23,
+          "road": "West Twin Peaks Road",
+          "water": null,
+          "water_id": "651f760c-51b4-31f8-9980-83ff0c71d000",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "32297",
+        "cellIndex": 32297,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 0.11104782365108434
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-aaf584237326",
+      "coordinates": [
+        -111.14714,
+        32.40224
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 7,
+          "legacyId": "route-crossing-7",
+          "route": "avra",
+          "km": 19.48,
+          "road": "West Avra Valley Road",
+          "water": null,
+          "water_id": "651c62a7-d6a9-3139-87de-f0b2a11f13c2",
+          "bridge_tagged": true
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 14,
+          "legacyId": "route-crossing-14",
+          "route": "silverbell-south",
+          "km": 18.51,
+          "road": "West Avra Valley Road",
+          "water": null,
+          "water_id": "651c62a7-d6a9-3139-87de-f0b2a11f13c2",
+          "bridge_tagged": true
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 30,
+          "legacyId": "route-crossing-30",
+          "route": "pr-avra",
+          "km": 14.97,
+          "road": "West Avra Valley Road",
+          "water": null,
+          "water_id": "651c62a7-d6a9-3139-87de-f0b2a11f13c2",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "388854",
+        "cellIndex": 388854,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.030391742962152704
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.030391742962152704
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.030391742962152704
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-b20955816181",
+      "coordinates": [
+        -111.05747,
+        32.23604
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 49,
+          "legacyId": "route-crossing-49",
+          "route": "pr-gates",
+          "km": 25.07,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "d7bf0696-e912-3a26-a3d9-1802ae3a96d4",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.15327007585466765
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-b51d6278f743",
+      "coordinates": [
+        -111.23395,
+        32.43484
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "silverbell-north"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 10,
+          "legacyId": "route-crossing-10",
+          "route": "silverbell-north",
+          "km": 11.24,
+          "road": "North Sanders Road",
+          "water": null,
+          "water_id": "570c16a8-e792-34b1-bd61-dafaa0aa75c8",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "15161",
+        "cellIndex": 15161,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "silverbell-north",
+          "distanceM": 0.14590987945328335
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-c6eb1d37439d",
+      "coordinates": [
+        -111.16343,
+        32.24402
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 39,
+          "legacyId": "route-crossing-39",
+          "route": "pr-gates",
+          "km": 12.91,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "9baa117d-9435-311e-8917-ed06e1c2f8ce",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.06998742107022365
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-caf36db33b4e",
+      "coordinates": [
+        -111.1326,
+        32.22235
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 45,
+          "legacyId": "route-crossing-45",
+          "route": "pr-gates",
+          "km": 16.8,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "80fecaad-c1fc-37bc-b85b-8cc979bbbbb2",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.40669831416969093
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-e9669a29e4ea",
+      "coordinates": [
+        -111.14869,
+        32.37825
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 23,
+          "legacyId": "route-crossing-23",
+          "route": "pr-twinpeaks",
+          "km": 12.41,
+          "road": "West Twin Peaks Road",
+          "water": null,
+          "water_id": "7446d3ba-91ec-3db9-8307-6ada2a76168e",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "29030",
+        "cellIndex": 29030,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 0.22346642311427065
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-f94e18732e42",
+      "coordinates": [
+        -111.00225,
+        32.23568
+      ],
+      "kind": "mapped_crossing",
+      "name": "Silvercroft Wash",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 58,
+          "legacyId": "route-crossing-58",
+          "route": "pr-gates",
+          "km": 30.5,
+          "road": "West Speedway Boulevard",
+          "water": "Silvercroft Wash",
+          "water_id": "36a8f46b-3350-3fb0-b75b-4d44bc38ed7a",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.3894781877454931
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-fce9bba73e9d",
+      "coordinates": [
+        -111.12718,
+        32.37504
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 25,
+          "legacyId": "route-crossing-25",
+          "route": "pr-twinpeaks",
+          "km": 14.9,
+          "road": "West Twin Peaks Road",
+          "water": null,
+          "water_id": "e200c185-1031-31aa-938b-6b6fb3cf277e",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "31876",
+        "cellIndex": 31876,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 0.3585846540011775
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "elpaso-dip",
+      "coordinates": [
+        -111.27659,
+        32.39329
+      ],
+      "kind": "dip",
+      "name": "Wash dip on Avra Valley Rd near El Paso Gas Rd",
+      "routeIds": [
+        "avra"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "elpaso-dip"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 3,
+          "legacyId": "route-crossing-3",
+          "route": "avra",
+          "km": 6.58,
+          "road": "West Avra Valley Road",
+          "water": null,
+          "water_id": "7d687cd6-e5a4-36a0-8035-2d3747912b57",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "287171",
+        "cellIndex": 287171,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.5226109160595495
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "losrobles-bridge",
+      "coordinates": [
+        -111.30426,
+        32.43882
+      ],
+      "kind": "bridge",
+      "name": "Los Robles Wash bridge on Trico Rd",
+      "routeIds": [
+        "silverbell-north",
+        "silverbell-south",
+        "trico"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "losrobles-bridge"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 0,
+          "legacyId": "route-crossing-0",
+          "route": "trico",
+          "km": 0.98,
+          "road": "North Trico Road",
+          "water": "Los Robles Wash",
+          "water_id": "e0e7993b-7504-3f16-904b-843494d12a7b",
+          "bridge_tagged": true
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 9,
+          "legacyId": "route-crossing-9",
+          "route": "silverbell-north",
+          "km": 0.98,
+          "road": "North Trico Road",
+          "water": "Los Robles Wash",
+          "water_id": "e0e7993b-7504-3f16-904b-843494d12a7b",
+          "bridge_tagged": true
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 12,
+          "legacyId": "route-crossing-12",
+          "route": "silverbell-south",
+          "km": 0.98,
+          "road": "North Trico Road",
+          "water": "Los Robles Wash",
+          "water_id": "e0e7993b-7504-3f16-904b-843494d12a7b",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "240753",
+        "cellIndex": 240753,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "trico",
+          "distanceM": 0.34333809531137094
+        },
+        {
+          "routeId": "silverbell-north",
+          "distanceM": 0.34333809531137094
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.34333809531137094
+        }
+      ],
+      "gaugeAssociations": [
+        {
+          "gaugeId": "USGS-09487000",
+          "relationship": "upstream_regional",
+          "reachPath": "Brawley → Los Robles",
+          "evidence": "docs/SENSOR-AUDIT.md: county FEMA study; braided reach, no verified travel time",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "ALERT-6443",
+          "relationship": "upstream_regional",
+          "reachPath": "Brawley → Los Robles",
+          "evidence": "docs/SENSOR-AUDIT.md: county FEMA study; braided reach, no verified travel time",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        }
+      ]
+    },
+    {
+      "id": "pr-ina-flat",
+      "coordinates": [
+        -111.10526,
+        32.33758
+      ],
+      "kind": "flat",
+      "name": "Large flat dip on Ina Rd",
+      "routeIds": [
+        "pr-ina"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-ina-flat"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 17,
+          "legacyId": "route-crossing-17",
+          "route": "pr-ina",
+          "km": 12.53,
+          "road": "West Ina Road",
+          "water": null,
+          "water_id": "b1babc35-ec3c-3967-b70c-d55a2aa672e0",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "34524",
+        "cellIndex": 34524,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-kinney-javelina",
+      "coordinates": [
+        -111.1987,
+        32.2543
+      ],
+      "kind": "dip",
+      "name": "Kinney Rd at Javelina Wash (Tucson Mountain Park)",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-kinney-javelina"
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-kinney-washes",
+      "coordinates": [
+        -111.148,
+        32.234
+      ],
+      "kind": "dip",
+      "name": "Small washes on Kinney Rd and Gates Pass Rd (not confirmed)",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-kinney-washes"
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-picture-rocks-wash",
+      "coordinates": [
+        -111.12082,
+        32.32598
+      ],
+      "kind": "dip",
+      "name": "Picture Rocks Wash dip on Picture Rocks Rd",
+      "routeIds": [
+        "pr-ina"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-picture-rocks-wash"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 16,
+          "legacyId": "route-crossing-16",
+          "route": "pr-ina",
+          "km": 9.99,
+          "road": "West Picture Rocks Road",
+          "water": "Picture Rocks Wash Trail",
+          "water_id": "e67b81d9-1967-30d5-a110-366ad7a26046",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "32668",
+        "cellIndex": 32668,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-sandario-emigh",
+      "coordinates": [
+        -111.2167,
+        32.3659
+      ],
+      "kind": "dip",
+      "name": "Sandario Rd dip south of Emigh Rd",
+      "routeIds": [
+        "pr-avra",
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-sandario-emigh"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "18558",
+        "cellIndex": 18558,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 3.378624685130166
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 3.378624685130166
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-sandario-ina",
+      "coordinates": [
+        -111.2166,
+        32.3353
+      ],
+      "kind": "dip",
+      "name": "Sandario Rd dip south of Ina Rd",
+      "routeIds": [
+        "pr-avra",
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-sandario-ina"
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 0.7354549432375668
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.7354549432375668
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-sandario-magee",
+      "coordinates": [
+        -111.2166,
+        32.3519
+      ],
+      "kind": "dip",
+      "name": "Sandario Rd dip south of Magee Rd",
+      "routeIds": [
+        "pr-avra",
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-sandario-magee"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "18542",
+        "cellIndex": 18542,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 0.2012825244768297
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.2012825244768297
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-sandario-pr",
+      "coordinates": [
+        -111.2181,
+        32.329
+      ],
+      "kind": "dip",
+      "name": "Sandario Rd dip just north of Picture Rocks Rd",
+      "routeIds": [
+        "pr-avra",
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-sandario-pr"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "18104",
+        "cellIndex": 18104,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 3.9134705168384536
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 3.9134705168384536
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-sandario-south",
+      "coordinates": [
+        -111.2183,
+        32.2746
+      ],
+      "kind": "dip",
+      "name": "Sandario Rd dips near Golden Gate and Kinney",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-sandario-south"
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 1.4819689069180044
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-speedway-washes",
+      "coordinates": [
+        -111.025,
+        32.236
+      ],
+      "kind": "dip",
+      "name": "Greasewood and Anklam Wash crossings on Speedway (not confirmed)",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-speedway-washes"
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 4.223275961678952
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-twinpeaks-washes",
+      "coordinates": [
+        -111.1487,
+        32.3783
+      ],
+      "kind": "dip",
+      "name": "Small washes on Twin Peaks Rd (not confirmed)",
+      "routeIds": [
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-twinpeaks-washes"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "29030",
+        "cellIndex": 29030,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 4.81668913341556
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-yuma-mine",
+      "coordinates": [
+        -111.09519,
+        32.33759
+      ],
+      "kind": "dip",
+      "name": "Yuma Mine Wash dip on Ina Rd",
+      "routeIds": [
+        "pr-ina"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-yuma-mine"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 18,
+          "legacyId": "route-crossing-18",
+          "route": "pr-ina",
+          "km": 13.45,
+          "road": "West Ina Road",
+          "water": "Yuma Mine Wash",
+          "water_id": "6a435b42-5041-3f83-97c7-50192191efb4",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "sc-avra",
+      "coordinates": [
+        -111.14614,
+        32.40256
+      ],
+      "kind": "river",
+      "name": "Santa Cruz bridge on Avra Valley Rd",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "sc-avra"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 8,
+          "legacyId": "route-crossing-8",
+          "route": "avra",
+          "km": 19.48,
+          "road": "West Avra Valley Road",
+          "water": "Santa Cruz River",
+          "water_id": "e84c8725-fb73-3ff5-9042-2b245a500a9c",
+          "bridge_tagged": true
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 15,
+          "legacyId": "route-crossing-15",
+          "route": "silverbell-south",
+          "km": 18.51,
+          "road": "West Avra Valley Road",
+          "water": "Santa Cruz River",
+          "water_id": "e84c8725-fb73-3ff5-9042-2b245a500a9c",
+          "bridge_tagged": true
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 31,
+          "legacyId": "route-crossing-31",
+          "route": "pr-avra",
+          "km": 14.97,
+          "road": "West Avra Valley Road",
+          "water": "Santa Cruz River",
+          "water_id": "e84c8725-fb73-3ff5-9042-2b245a500a9c",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "389405",
+        "cellIndex": 389405,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.3298865873898316
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.3298865873898316
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.3298865873898316
+        }
+      ],
+      "gaugeAssociations": [
+        {
+          "gaugeId": "USGS-09486500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09486520",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09482500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        }
+      ]
+    },
+    {
+      "id": "sc-ina",
+      "coordinates": [
+        -111.08151,
+        32.33759
+      ],
+      "kind": "river",
+      "name": "Santa Cruz bridge on Ina Rd",
+      "routeIds": [
+        "pr-ina"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "sc-ina"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 20,
+          "legacyId": "route-crossing-20",
+          "route": "pr-ina",
+          "km": 14.75,
+          "road": "West Ina Road",
+          "water": "Santa Cruz River",
+          "water_id": "23957079-6da7-3185-9c87-95b64d0b6498",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": [
+        {
+          "gaugeId": "USGS-09486500",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09486520",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09482500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09486350",
+          "relationship": "tributary_context",
+          "reachPath": "Canada del Oro → Santa Cruz",
+          "evidence": "public/config.js sc-ina; confluence proximity does not establish road depth",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        }
+      ]
+    },
+    {
+      "id": "sc-sanders",
+      "coordinates": [
+        -111.23395,
+        32.43488
+      ],
+      "kind": "river",
+      "name": "Santa Cruz bridge on Sanders Rd",
+      "routeIds": [
+        "silverbell-north"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "sc-sanders"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 11,
+          "legacyId": "route-crossing-11",
+          "route": "silverbell-north",
+          "km": 11.24,
+          "road": "North Sanders Road",
+          "water": "Santa Cruz River",
+          "water_id": "207e648c-754d-31dd-b278-76b1aa105b45",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "15161",
+        "cellIndex": 15161,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "silverbell-north",
+          "distanceM": 0.11482427100943755
+        }
+      ],
+      "gaugeAssociations": [
+        {
+          "gaugeId": "USGS-09486500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09486520",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09482500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        }
+      ]
+    },
+    {
+      "id": "sc-speedway",
+      "coordinates": [
+        -110.98614,
+        32.23567
+      ],
+      "kind": "river",
+      "name": "Santa Cruz bridge on Speedway",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "sc-speedway"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 59,
+          "legacyId": "route-crossing-59",
+          "route": "pr-gates",
+          "km": 32.06,
+          "road": "West Speedway Boulevard",
+          "water": "Santa Cruz River",
+          "water_id": "2c3d68be-3b9f-38a1-8bd8-6d1beae35293",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.4478273821060205
+        }
+      ],
+      "gaugeAssociations": [
+        {
+          "gaugeId": "USGS-09486500",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09486520",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09482500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        }
+      ]
+    },
+    {
+      "id": "sc-trico-marana",
+      "coordinates": [
+        -111.27985,
+        32.45369
+      ],
+      "kind": "river",
+      "name": "Santa Cruz bridge on Trico-Marana Rd",
+      "routeIds": [
+        "trico"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "sc-trico-marana"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 1,
+          "legacyId": "route-crossing-1",
+          "route": "trico",
+          "km": 4.48,
+          "road": "West Trico Marana Road",
+          "water": "Santa Cruz River",
+          "water_id": "207e648c-754d-31dd-b278-76b1aa105b45",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "283056",
+        "cellIndex": 283056,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "trico",
+          "distanceM": 0.45604692197656016
+        }
+      ],
+      "gaugeAssociations": [
+        {
+          "gaugeId": "USGS-09486500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09486520",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09482500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        }
+      ]
+    },
+    {
+      "id": "sc-twinpeaks",
+      "coordinates": [
+        -111.11538,
+        32.37581
+      ],
+      "kind": "river",
+      "name": "Santa Cruz bridge on Twin Peaks Rd",
+      "routeIds": [
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "sc-twinpeaks"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 27,
+          "legacyId": "route-crossing-27",
+          "route": "pr-twinpeaks",
+          "km": 16.02,
+          "road": "West Twin Peaks Road",
+          "water": "Santa Cruz River",
+          "water_id": "23957079-6da7-3185-9c87-95b64d0b6498",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "33412",
+        "cellIndex": 33412,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 0.6011575728043487
+        }
+      ],
+      "gaugeAssociations": [
+        {
+          "gaugeId": "USGS-09486500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09486520",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09482500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        }
+      ]
+    },
+    {
+      "id": "silverbell-drainage",
+      "coordinates": [
+        -111.2725,
+        32.43062
+      ],
+      "kind": "road",
+      "name": "Silverbell Rd puddling / washouts",
+      "routeIds": [
+        "silverbell-north",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "silverbell-drainage"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "8307",
+        "cellIndex": 8307,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "silverbell-north",
+          "distanceM": 0.04727307458084593
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.04727307458084593
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "silverbell-minimum-2f4ef225c592",
+      "coordinates": [
+        -111.28730914790508,
+        32.43751766117405
+      ],
+      "kind": "terrain_minimum",
+      "name": "West Silverbell terrain-profile minimum",
+      "routeIds": [
+        "silverbell-north",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "sources/silverbell-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "road": "W SILVERBELL RD",
+          "segment": "silverbell-0",
+          "chainageM": 5856,
+          "terrainNAVD88M": 595.8352661132812,
+          "prominenceM": 0.75250244140625,
+          "baselineNativeFace": -1,
+          "baselineCellSizeM": null,
+          "interpretation": "Terrain-profile candidate, not confirmed flood depth or underground drainage",
+          "extensionNativeFace": 323310,
+          "extensionCellM": 6.25,
+          "extensionNativeFaceIndexZeroBased": 323310,
+          "extensionNativeFaceId": 323310
+        }
+      ],
+      "model": {
+        "status": "not_yet_assessed",
+        "runId": "41370039087",
+        "resultStatus": "awaiting_verified_output",
+        "preparedManifest": "sources/silverbell-manifest.json",
+        "preparedNativeFaceId": "323310",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "baselineModel": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "silverbell-north",
+          "distanceM": 1.970933541151549
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 1.970933541151549
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "silverbell-minimum-311d29ce2258",
+      "coordinates": [
+        -111.26780853368487,
+        32.427772754301735
+      ],
+      "kind": "terrain_minimum",
+      "name": "West Silverbell terrain-profile minimum",
+      "routeIds": [
+        "silverbell-north",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "sources/silverbell-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "road": "W SILVERBELL RD",
+          "segment": "silverbell-0",
+          "chainageM": 3692,
+          "terrainNAVD88M": 601.5603637695312,
+          "prominenceM": 0.28631591796875,
+          "baselineNativeFace": 8898,
+          "baselineCellSizeM": 100,
+          "interpretation": "Terrain-profile candidate, not confirmed flood depth or underground drainage",
+          "extensionNativeFace": 358178,
+          "extensionCellM": 6.25,
+          "extensionNativeFaceIndexZeroBased": 358178,
+          "extensionNativeFaceId": 358178
+        }
+      ],
+      "model": {
+        "status": "not_yet_assessed",
+        "runId": "41370039087",
+        "resultStatus": "awaiting_verified_output",
+        "preparedManifest": "sources/silverbell-manifest.json",
+        "preparedNativeFaceId": "358178",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "baselineModel": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "8898",
+        "cellIndex": 8898,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "silverbell-north",
+          "distanceM": 0.9126405655369061
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.9126405655369061
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-109ce9558f9b",
+      "coordinates": [
+        -111.27725478541734,
+        32.4565239035035
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "trico"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "trico",
+          "chainageM": 5936,
+          "terrainElevationNAVD88M": 590.3187255859375,
+          "profileProminenceM": 0.59539794921875,
+          "nearestMappedCrossingM": 397.7184914164085,
+          "nativeFace": 286582,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "286582",
+        "cellIndex": 286582,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "trico",
+          "distanceM": 0.000712552799371774
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-29626c7cecd5",
+      "coordinates": [
+        -111.28219334458524,
+        32.45155598850366
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "trico"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "trico",
+          "chainageM": 6660,
+          "terrainElevationNAVD88M": 589.7647094726562,
+          "profileProminenceM": 1.05047607421875,
+          "nearestMappedCrossingM": 323.2172253517544,
+          "nativeFace": 280064,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "280064",
+        "cellIndex": 280064,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "trico",
+          "distanceM": 0.00001238712575041213
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-3e083284cd2a",
+      "coordinates": [
+        -111.30427386541179,
+        32.45029996958616
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "trico"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "trico",
+          "chainageM": 8836,
+          "terrainElevationNAVD88M": 585.5889282226562,
+          "profileProminenceM": 6.23486328125,
+          "nearestMappedCrossingM": 1272.5711320681867,
+          "nativeFace": 242039,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "242039",
+        "cellIndex": 242039,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "trico",
+          "distanceM": 0.0000028294161076174375
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-4501e72fe2e6",
+      "coordinates": [
+        -111.14608211268957,
+        32.40257516412698
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 19532,
+          "terrainElevationNAVD88M": 626.2420654296875,
+          "profileProminenceM": 8.1328125,
+          "nearestMappedCrossingM": 5.697369040837526,
+          "nativeFace": 389406,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "389406",
+        "cellIndex": 389406,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.0005320178314894486
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.0005320178314894486
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.0005320178314894486
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-49b357ddf2dd",
+      "coordinates": [
+        -111.16764949597349,
+        32.40267829569335
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 17466,
+          "terrainElevationNAVD88M": 629.7825927734375,
+          "profileProminenceM": 0.5355224609375,
+          "nearestMappedCrossingM": 1929.338858089026,
+          "nativeFace": 378144,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "378144",
+        "cellIndex": 378144,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.0019587148341162312
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.0019587148341162312
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.0019587148341162312
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-49d622318f9e",
+      "coordinates": [
+        -111.27988170114367,
+        32.45366198470706
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "trico"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "trico",
+          "chainageM": 6338,
+          "terrainElevationNAVD88M": 586.0983276367188,
+          "profileProminenceM": 4.7646484375,
+          "nearestMappedCrossingM": 4.3037121607833955,
+          "nativeFace": 283056,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "283056",
+        "cellIndex": 283056,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "trico",
+          "distanceM": 0.00014342092437958363
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-4b069a1559bc",
+      "coordinates": [
+        -111.14560389774968,
+        32.40272653787898
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 19580,
+          "terrainElevationNAVD88M": 626.5225219726562,
+          "profileProminenceM": 0.593017578125,
+          "nearestMappedCrossingM": 5.585299715598329,
+          "nativeFace": 389702,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "389702",
+        "cellIndex": 389702,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.0003105335054774287
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.0003105335054774287
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.0003105335054774287
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-4b0848137cb3",
+      "coordinates": [
+        -111.14650054944751,
+        32.402442710606294
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 19490,
+          "terrainElevationNAVD88M": 626.5318603515625,
+          "profileProminenceM": 0.40338134765625,
+          "nearestMappedCrossingM": 36.31357144564324,
+          "nativeFace": 389183,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "389183",
+        "cellIndex": 389183,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.0005273775709419733
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.0005273775709419733
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.0005273775709419733
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-57a974e8c1a5",
+      "coordinates": [
+        -111.28456816558368,
+        32.39326496252128
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 5990,
+          "terrainElevationNAVD88M": 608.5684814453125,
+          "profileProminenceM": 0.74798583984375,
+          "nearestMappedCrossingM": 750.3576287222523,
+          "nativeFace": 277337,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "277337",
+        "cellIndex": 277337,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.00016989461416552808
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-72723be2aa5e",
+      "coordinates": [
+        -111.27953006369057,
+        32.45404723053249
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "trico"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "trico",
+          "chainageM": 6284,
+          "terrainElevationNAVD88M": 587.3988037109375,
+          "profileProminenceM": 0.39166259765625,
+          "nearestMappedCrossingM": 49.722562799510364,
+          "nativeFace": 283506,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "283506",
+        "cellIndex": 283506,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "trico",
+          "distanceM": 0.00004316053122842842
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-7806f1f23ad6",
+      "coordinates": [
+        -111.27646624259886,
+        32.393295165990445
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 6752,
+          "terrainElevationNAVD88M": 609.1751708984375,
+          "profileProminenceM": 0.41796875,
+          "nearestMappedCrossingM": 11.653550648121055,
+          "nativeFace": 287351,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "287351",
+        "cellIndex": 287351,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.0007469584623931706
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-8d3aa06dfef4",
+      "coordinates": [
+        -111.26097848120247,
+        32.395143590107274
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 8254,
+          "terrainElevationNAVD88M": 607.2850341796875,
+          "profileProminenceM": 2.63311767578125,
+          "nearestMappedCrossingM": 2.7080219711003193,
+          "nativeFace": 304401,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "304401",
+        "cellIndex": 304401,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.00002599075130170141
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-96008d6647c9",
+      "coordinates": [
+        -111.22285424817673,
+        32.460553329578126
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "silverbell-north",
+        "trico"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "trico",
+          "chainageM": 610,
+          "terrainElevationNAVD88M": 602.1358032226562,
+          "profileProminenceM": 0.4794921875,
+          "nearestMappedCrossingM": 3030.9952215911226,
+          "nativeFace": 346212,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "346212",
+        "cellIndex": 346212,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "trico",
+          "distanceM": 0.0000012962512830134494
+        },
+        {
+          "routeId": "silverbell-north",
+          "distanceM": 0.0000012962512829984427
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-afe3478eae52",
+      "coordinates": [
+        -111.22354373321508,
+        32.46016976016097
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "silverbell-north",
+        "trico"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "trico",
+          "chainageM": 694,
+          "terrainElevationNAVD88M": 602.1953125,
+          "profileProminenceM": 0.2640380859375,
+          "nearestMappedCrossingM": 2969.133376172899,
+          "nativeFace": 345471,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "345471",
+        "cellIndex": 345471,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "trico",
+          "distanceM": 0.000003058330488389839
+        },
+        {
+          "routeId": "silverbell-north",
+          "distanceM": 0.000003058330489082015
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-b65142cf1cc0",
+      "coordinates": [
+        -111.16141837425745,
+        32.402695056131336
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 18052,
+          "terrainElevationNAVD88M": 627.2979736328125,
+          "profileProminenceM": 3.8072509765625,
+          "nearestMappedCrossingM": 1343.6949661392716,
+          "nativeFace": 381340,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "381340",
+        "cellIndex": 381340,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.000010262412716495888
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.000010262412716495888
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.000010262412716495888
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-b9f55da97354",
+      "coordinates": [
+        -111.15215796185085,
+        32.40246037128092
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 18926,
+          "terrainElevationNAVD88M": 629.8418579101562,
+          "profileProminenceM": 0.28009033203125,
+          "nearestMappedCrossingM": 472.5248585880378,
+          "nativeFace": 386088,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "386088",
+        "cellIndex": 386088,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.00004189424744404804
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.00004189424744404804
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.00004189424744404804
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-bd20d5845cd2",
+      "coordinates": [
+        -111.30426368981581,
+        32.43882578028292
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "silverbell-north",
+        "silverbell-south",
+        "trico"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "trico",
+          "chainageM": 10108,
+          "terrainElevationNAVD88M": 584.2813110351562,
+          "profileProminenceM": 11.4071044921875,
+          "nearestMappedCrossingM": 0.7286096499113904,
+          "nativeFace": 240753,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "240753",
+        "cellIndex": 240753,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "trico",
+          "distanceM": 6.351520670936127e-7
+        },
+        {
+          "routeId": "silverbell-north",
+          "distanceM": 6.351520671169331e-7
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 6.351520671169331e-7
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-c67e1218e548",
+      "coordinates": [
+        -111.26965895228284,
+        32.39496563304496
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 7436,
+          "terrainElevationNAVD88M": 608.9267578125,
+          "profileProminenceM": 0.818115234375,
+          "nearestMappedCrossingM": 677.8107978789945,
+          "nativeFace": 295550,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "295550",
+        "cellIndex": 295550,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.000017219793195587902
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-cd89251cdf0d",
+      "coordinates": [
+        -111.29456263826131,
+        32.39322355731028
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 5050,
+          "terrainElevationNAVD88M": 606.2644653320312,
+          "profileProminenceM": 2.7637939453125,
+          "nearestMappedCrossingM": 2.6034328606639954,
+          "nativeFace": 267134,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "267134",
+        "cellIndex": 267134,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.0006431741615643038
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-d6779dd28b51",
+      "coordinates": [
+        -111.14117778287861,
+        32.40203036116328
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 20036,
+          "terrainElevationNAVD88M": 630.7537231445312,
+          "profileProminenceM": 3.212646484375,
+          "nearestMappedCrossingM": 428.1907198562598,
+          "nativeFace": 392206,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "392206",
+        "cellIndex": 392206,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.0004452300015951368
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.0004452300015951368
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.0004452300015951368
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-d800cecefd6f",
+      "coordinates": [
+        -111.24634394633844,
+        32.398942743484696
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 9856,
+          "terrainElevationNAVD88M": 606.733154296875,
+          "profileProminenceM": 3.24847412109375,
+          "nearestMappedCrossingM": 290.85547023143994,
+          "nativeFace": 320714,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "320714",
+        "cellIndex": 320714,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.000005430784210938046
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-f39cdaa394b1",
+      "coordinates": [
+        -111.14677950660457,
+        32.402354407487806
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 19462,
+          "terrainElevationNAVD88M": 626.4808959960938,
+          "profileProminenceM": 0.80029296875,
+          "nearestMappedCrossingM": 36.19555818710535,
+          "nativeFace": 389038,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "389038",
+        "cellIndex": 389038,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.00042139267523571335
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.00042139267523571335
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.00042139267523571335
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-f620df61b733",
+      "coordinates": [
+        -111.30427036639097,
+        32.435091119678944
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "silverbell-north",
+        "silverbell-south",
+        "trico"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "trico",
+          "chainageM": 10522,
+          "terrainElevationNAVD88M": 587.40869140625,
+          "profileProminenceM": 0.73992919921875,
+          "nearestMappedCrossingM": 413.3521770065385,
+          "nativeFace": 240687,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "240687",
+        "cellIndex": 240687,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "trico",
+          "distanceM": 0.0000036641423625861637
+        },
+        {
+          "routeId": "silverbell-north",
+          "distanceM": 0.0000036641423624751625
+        },
+        {
+          "routeId": "silverbell-south",
+          "distanceM": 0.0000036641423624751625
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "terrain-minimum-f9db5bfbaabb",
+      "coordinates": [
+        -111.29224476997663,
+        32.3932326573525
+      ],
+      "kind": "terrain_minimum",
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra"
+      ],
+      "evidence": [
+        {
+          "source": "sources/route-minima.geojson",
+          "sourceCommit": "a8089cb",
+          "route": "avra",
+          "chainageM": 5268,
+          "terrainElevationNAVD88M": 607.1761474609375,
+          "profileProminenceM": 0.37396240234375,
+          "nearestMappedCrossingM": 220.57541824344355,
+          "nativeFace": 269514,
+          "cellSizeM": 6.25,
+          "interpretation": "Bare-earth centerline screening minimum; not verified road/deck height, culvert, or flood hazard"
+        }
+      ],
+      "model": {
+        "status": "modeled",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": "269514",
+        "cellIndex": 269514,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "avra",
+          "distanceM": 0.0007053636174663768
+        }
+      ],
+      "gaugeAssociations": []
+    }
+  ],
+  "routes": [
+    {
+      "id": "trico",
+      "geometryReference": "public/data/routes.geojson#trico",
+      "entryIds": [
+        "losrobles-bridge",
+        "sc-trico-marana",
+        "terrain-minimum-109ce9558f9b",
+        "terrain-minimum-29626c7cecd5",
+        "terrain-minimum-3e083284cd2a",
+        "terrain-minimum-49d622318f9e",
+        "terrain-minimum-72723be2aa5e",
+        "terrain-minimum-96008d6647c9",
+        "terrain-minimum-afe3478eae52",
+        "terrain-minimum-bd20d5845cd2",
+        "terrain-minimum-f620df61b733"
+      ],
+      "terrainScreening": "prepared_centerline_minima_available",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "avra",
+      "geometryReference": "public/data/routes.geojson#avra",
+      "entryIds": [
+        "brawley-dip",
+        "clayton-dip",
+        "crossing-1352ed9a90e7",
+        "crossing-4901706bc313",
+        "crossing-aaf584237326",
+        "elpaso-dip",
+        "sc-avra",
+        "terrain-minimum-4501e72fe2e6",
+        "terrain-minimum-49b357ddf2dd",
+        "terrain-minimum-4b069a1559bc",
+        "terrain-minimum-4b0848137cb3",
+        "terrain-minimum-57a974e8c1a5",
+        "terrain-minimum-7806f1f23ad6",
+        "terrain-minimum-8d3aa06dfef4",
+        "terrain-minimum-b65142cf1cc0",
+        "terrain-minimum-b9f55da97354",
+        "terrain-minimum-c67e1218e548",
+        "terrain-minimum-cd89251cdf0d",
+        "terrain-minimum-d6779dd28b51",
+        "terrain-minimum-d800cecefd6f",
+        "terrain-minimum-f39cdaa394b1",
+        "terrain-minimum-f9db5bfbaabb"
+      ],
+      "terrainScreening": "prepared_centerline_minima_available",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "silverbell-north",
+      "geometryReference": "public/data/routes.geojson#silverbell-north",
+      "entryIds": [
+        "crossing-b51d6278f743",
+        "losrobles-bridge",
+        "sc-sanders",
+        "silverbell-drainage",
+        "silverbell-minimum-2f4ef225c592",
+        "silverbell-minimum-311d29ce2258",
+        "terrain-minimum-96008d6647c9",
+        "terrain-minimum-afe3478eae52",
+        "terrain-minimum-bd20d5845cd2",
+        "terrain-minimum-f620df61b733"
+      ],
+      "terrainScreening": "two_extension_minima_only",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "silverbell-south",
+      "geometryReference": "public/data/routes.geojson#silverbell-south",
+      "entryIds": [
+        "crossing-4901706bc313",
+        "crossing-aaf584237326",
+        "losrobles-bridge",
+        "sc-avra",
+        "silverbell-drainage",
+        "silverbell-minimum-2f4ef225c592",
+        "silverbell-minimum-311d29ce2258",
+        "terrain-minimum-4501e72fe2e6",
+        "terrain-minimum-49b357ddf2dd",
+        "terrain-minimum-4b069a1559bc",
+        "terrain-minimum-4b0848137cb3",
+        "terrain-minimum-b65142cf1cc0",
+        "terrain-minimum-b9f55da97354",
+        "terrain-minimum-bd20d5845cd2",
+        "terrain-minimum-d6779dd28b51",
+        "terrain-minimum-f39cdaa394b1",
+        "terrain-minimum-f620df61b733"
+      ],
+      "terrainScreening": "two_extension_minima_only",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "pr-ina",
+      "geometryReference": "public/data/routes.geojson#pr-ina",
+      "entryIds": [
+        "crossing-298e25876c2d",
+        "crossing-8b034412e266",
+        "pr-ina-flat",
+        "pr-picture-rocks-wash",
+        "pr-yuma-mine",
+        "sc-ina"
+      ],
+      "terrainScreening": "not_yet_assessed",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "pr-twinpeaks",
+      "geometryReference": "public/data/routes.geojson#pr-twinpeaks",
+      "entryIds": [
+        "crossing-0c91b66d4a39",
+        "crossing-1fcc081e0252",
+        "crossing-90dd4949cd49",
+        "crossing-a9582216996e",
+        "crossing-e9669a29e4ea",
+        "crossing-fce9bba73e9d",
+        "pr-sandario-emigh",
+        "pr-sandario-ina",
+        "pr-sandario-magee",
+        "pr-sandario-pr",
+        "pr-twinpeaks-washes",
+        "sc-twinpeaks"
+      ],
+      "terrainScreening": "not_yet_assessed",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "pr-avra",
+      "geometryReference": "public/data/routes.geojson#pr-avra",
+      "entryIds": [
+        "crossing-4901706bc313",
+        "crossing-aaf584237326",
+        "pr-sandario-emigh",
+        "pr-sandario-ina",
+        "pr-sandario-magee",
+        "pr-sandario-pr",
+        "sc-avra",
+        "terrain-minimum-4501e72fe2e6",
+        "terrain-minimum-49b357ddf2dd",
+        "terrain-minimum-4b069a1559bc",
+        "terrain-minimum-4b0848137cb3",
+        "terrain-minimum-b65142cf1cc0",
+        "terrain-minimum-b9f55da97354",
+        "terrain-minimum-d6779dd28b51",
+        "terrain-minimum-f39cdaa394b1"
+      ],
+      "terrainScreening": "not_yet_assessed",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "pr-gates",
+      "geometryReference": "public/data/routes.geojson#pr-gates",
+      "entryIds": [
+        "crossing-028aa60d2d80",
+        "crossing-06a13238e2f1",
+        "crossing-0b57cf43748e",
+        "crossing-17668bc77530",
+        "crossing-1927ae973574",
+        "crossing-1d1b7d0ace35",
+        "crossing-204f442f3056",
+        "crossing-21680293f910",
+        "crossing-29805a11d1c0",
+        "crossing-2f1ce6018bc5",
+        "crossing-3113a92b25e7",
+        "crossing-33c89b36268b",
+        "crossing-441f5045cf1a",
+        "crossing-45a163306e26",
+        "crossing-46e5c932bce8",
+        "crossing-50be16e997e6",
+        "crossing-526d8b277589",
+        "crossing-53105fa361ed",
+        "crossing-548fc178c626",
+        "crossing-6cb253a7ee6a",
+        "crossing-6d7a64bc5c66",
+        "crossing-6df320f447d3",
+        "crossing-a3da654d8789",
+        "crossing-b20955816181",
+        "crossing-c6eb1d37439d",
+        "crossing-caf36db33b4e",
+        "crossing-f94e18732e42",
+        "pr-kinney-javelina",
+        "pr-kinney-washes",
+        "pr-sandario-south",
+        "pr-speedway-washes",
+        "sc-speedway"
+      ],
+      "terrainScreening": "not_yet_assessed",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    }
+  ],
+  "gauges": [
+    {
+      "id": "USGS-09486500",
+      "name": "Santa Cruz River at Cortaro Rd",
+      "coordinates": [
+        -111.0959,
+        32.3507
+      ],
+      "source": "https://waterdata.usgs.gov/monitoring-location/USGS-09486500/",
+      "reach": "Santa Cruz River",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-31T12:45:00-07:00",
+          "valueM3s": 1.217624403456,
+          "approval": "Provisional",
+          "qualifier": "not retained by cached feed",
+          "maintenance": false
+        }
+      ],
+      "summary": {
+        "status": "stale",
+        "observedAt": "2026-10-31T12:45:00-07:00",
+        "ageMs": 126900000,
+        "valueM3s": 1.217624403456,
+        "trend": "unknown",
+        "trendWindow": null,
+        "interpretation": "Discharge trend at this gauge only; no road-depth or arrival-time conversion"
+      },
+      "asOf": "2026-11-02T07:00:00Z",
+      "cacheSource": "test/fixtures/alert-currentstream-2026-10-31.json",
+      "cacheSiteId": "10017",
+      "stageDatum": null,
+      "stageToRoadCorrection": null,
+      "modelInputRole": "context_only",
+      "riskInputCrossingIds": [
+        "sc-trico-marana",
+        "sc-sanders",
+        "sc-avra",
+        "sc-ina",
+        "sc-twinpeaks"
+      ]
+    },
+    {
+      "id": "USGS-09486520",
+      "name": "Santa Cruz River at Trico Rd",
+      "coordinates": [
+        -111.302,
+        32.4716
+      ],
+      "source": "https://waterdata.usgs.gov/monitoring-location/USGS-09486520/",
+      "reach": "Santa Cruz River",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-31T13:45:00-07:00",
+          "valueM3s": 0.821188551168,
+          "approval": "Provisional",
+          "qualifier": "not retained by cached feed",
+          "maintenance": false
+        }
+      ],
+      "summary": {
+        "status": "stale",
+        "observedAt": "2026-10-31T13:45:00-07:00",
+        "ageMs": 123300000,
+        "valueM3s": 0.821188551168,
+        "trend": "unknown",
+        "trendWindow": null,
+        "interpretation": "Discharge trend at this gauge only; no road-depth or arrival-time conversion"
+      },
+      "asOf": "2026-11-02T07:00:00Z",
+      "cacheSource": "test/fixtures/alert-currentstream-2026-10-31.json",
+      "cacheSiteId": "10019",
+      "stageDatum": null,
+      "stageToRoadCorrection": null,
+      "modelInputRole": "context_only",
+      "riskInputCrossingIds": [
+        "sc-trico-marana",
+        "sc-sanders",
+        "sc-twinpeaks"
+      ]
+    },
+    {
+      "id": "USGS-09486055",
+      "name": "Rillito Creek at La Cholla",
+      "coordinates": [
+        -111.0114,
+        32.3028
+      ],
+      "source": "https://waterdata.usgs.gov/monitoring-location/USGS-09486055/",
+      "reach": "Rillito Creek",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-31T13:00:00-07:00",
+          "valueM3s": 13.02574943232,
+          "approval": "Provisional",
+          "qualifier": "not retained by cached feed",
+          "maintenance": false
+        }
+      ],
+      "summary": {
+        "status": "stale",
+        "observedAt": "2026-10-31T13:00:00-07:00",
+        "ageMs": 126000000,
+        "valueM3s": 13.02574943232,
+        "trend": "unknown",
+        "trendWindow": null,
+        "interpretation": "Discharge trend at this gauge only; no road-depth or arrival-time conversion"
+      },
+      "asOf": "2026-11-02T07:00:00Z",
+      "cacheSource": "test/fixtures/alert-currentstream-2026-10-31.json",
+      "cacheSiteId": "10027",
+      "stageDatum": null,
+      "stageToRoadCorrection": null,
+      "modelInputRole": "context_only",
+      "riskInputCrossingIds": []
+    },
+    {
+      "id": "USGS-09486350",
+      "name": "Cañada del Oro below Ina Rd",
+      "coordinates": [
+        -111.0421,
+        32.3362
+      ],
+      "source": "https://waterdata.usgs.gov/monitoring-location/USGS-09486350/",
+      "reach": "Canada del Oro",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-31T13:30:00-07:00",
+          "valueM3s": 0.00084950539776,
+          "approval": "Provisional",
+          "qualifier": "not retained by cached feed",
+          "maintenance": false
+        }
+      ],
+      "summary": {
+        "status": "stale",
+        "observedAt": "2026-10-31T13:30:00-07:00",
+        "ageMs": 124200000,
+        "valueM3s": 0.00084950539776,
+        "trend": "unknown",
+        "trendWindow": null,
+        "interpretation": "Discharge trend at this gauge only; no road-depth or arrival-time conversion"
+      },
+      "asOf": "2026-11-02T07:00:00Z",
+      "cacheSource": "test/fixtures/alert-currentstream-2026-10-31.json",
+      "cacheSiteId": "10006",
+      "stageDatum": null,
+      "stageToRoadCorrection": null,
+      "modelInputRole": "context_only",
+      "riskInputCrossingIds": [
+        "sc-ina"
+      ]
+    },
+    {
+      "id": "USGS-09487000",
+      "name": "Brawley Wash near Three Points",
+      "coordinates": [
+        -111.3387,
+        32.0757
+      ],
+      "source": "https://waterdata.usgs.gov/monitoring-location/USGS-09487000/",
+      "reach": "Brawley Wash",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-31T13:00:00-07:00",
+          "valueM3s": 0,
+          "approval": "Provisional",
+          "qualifier": "not retained by cached feed",
+          "maintenance": false
+        }
+      ],
+      "summary": {
+        "status": "stale",
+        "observedAt": "2026-10-31T13:00:00-07:00",
+        "ageMs": 126000000,
+        "valueM3s": 0,
+        "trend": "unknown",
+        "trendWindow": null,
+        "interpretation": "Discharge trend at this gauge only; no road-depth or arrival-time conversion"
+      },
+      "asOf": "2026-11-02T07:00:00Z",
+      "cacheSource": "test/fixtures/alert-currentstream-2026-10-31.json",
+      "cacheSiteId": "10015",
+      "stageDatum": null,
+      "stageToRoadCorrection": null,
+      "modelInputRole": "context_only",
+      "riskInputCrossingIds": [
+        "brawley-dip",
+        "losrobles-bridge"
+      ]
+    },
+    {
+      "id": "USGS-09482500",
+      "name": "Santa Cruz River at Tucson",
+      "coordinates": [
+        -110.9818,
+        32.2212
+      ],
+      "source": "https://waterdata.usgs.gov/monitoring-location/USGS-09482500/",
+      "reach": "Santa Cruz River",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-31T13:45:00-07:00",
+          "valueM3s": 1.245941250048,
+          "approval": "Provisional",
+          "qualifier": "not retained by cached feed",
+          "maintenance": false
+        }
+      ],
+      "summary": {
+        "status": "stale",
+        "observedAt": "2026-10-31T13:45:00-07:00",
+        "ageMs": 123300000,
+        "valueM3s": 1.245941250048,
+        "trend": "unknown",
+        "trendWindow": null,
+        "interpretation": "Discharge trend at this gauge only; no road-depth or arrival-time conversion"
+      },
+      "asOf": "2026-11-02T07:00:00Z",
+      "cacheSource": "test/fixtures/alert-currentstream-2026-10-31.json",
+      "cacheSiteId": "10013",
+      "stageDatum": null,
+      "stageToRoadCorrection": null,
+      "modelInputRole": "context_only",
+      "riskInputCrossingIds": [
+        "sc-speedway"
+      ]
+    },
+    {
+      "id": "ALERT-6443",
+      "name": "Brawley at Milewide Road",
+      "coordinates": [
+        -111.244446,
+        32.248611
+      ],
+      "reach": "Brawley Wash",
+      "source": "https://alertmap.rfcd.pima.gov/gmap/gmap_files/php/currentstream.php",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-31T14:00:00-07:00",
+          "valueM3s": 0,
+          "approval": "Provisional",
+          "qualifier": "not retained by cached feed",
+          "maintenance": false
+        }
+      ],
+      "summary": {
+        "status": "stale",
+        "observedAt": "2026-10-31T14:00:00-07:00",
+        "ageMs": 122400000,
+        "valueM3s": 0,
+        "trend": "unknown",
+        "trendWindow": null,
+        "interpretation": "Discharge trend at this gauge only; no road-depth or arrival-time conversion"
+      },
+      "asOf": "2026-11-02T07:00:00Z",
+      "cacheSource": "test/fixtures/alert-currentstream-2026-10-31.json",
+      "cacheSiteId": "6443",
+      "stageDatum": null,
+      "stageToRoadCorrection": null,
+      "modelInputRole": "context_only",
+      "riskInputCrossingIds": [
+        "brawley-dip",
+        "losrobles-bridge"
+      ]
+    }
+  ],
+  "limits": [
+    "Inventory membership does not establish hydraulic coverage.",
+    "Terrain minima are bare-earth candidates, not verified road surface/culvert/flood hazards.",
+    "Single cached gauge reading cannot establish a trend; live consumers may supply a series to gaugeSummary.",
+    "No new route weights, thresholds or closure rules."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "schema": "floodplain-example-package-v1",
+  "entrypoint": "brawley-scene.json",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+      "bytes": 8
+    },
+    {
+      "path": "brawley-roads.geojson",
+      "sha256": "1578a6dd72935997d4544116d5617849f5e25d5bbdcab76ff42c8fce4e86d40f",
+      "bytes": 932
+    },
+    {
+      "path": "brawley-scene.json",
+      "sha256": "1deae2146987719f3777c5131804ffe26dba0cbd1509c73fcab0001a6cbc76b3",
+      "bytes": 10189650
+    },
+    {
+      "path": "build-report.json",
+      "sha256": "cb7feb240238f29b59c4baa002956bd29b097b0481e34688d29ca4dbfae4789d",
+      "bytes": 424
+    },
+    {
+      "path": "inventory.json",
+      "sha256": "caafae0d346d371fb4fa29159b69c539e177c9e9338f536f996a5f24934a5b14",
+      "bytes": 158289
+    },
+    {
+      "path": "README.md",
+      "sha256": "4eb8b69ae4f3f5235e328e073902a7102371486931c4a8ce01cd70aadb8fec5e",
+      "bytes": 8093
+    },
+    {
+      "path": "scene-data-contract.js",
+      "sha256": "0c3afa2b7f81a4772d2628a0887c2b5231acc0aa59fcfd9ec4a114967b32e4e0",
+      "bytes": 3865
+    },
+    {
+      "path": "sources/GCN10-NOTICE.txt",
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8",
+      "bytes": 1349
+    },
+    {
+      "path": "sources/refined-coverage.json",
+      "sha256": "1d1beaaf50f793d025cccc00a8308492c8fb0490395c40c3a44c3a48ffb2ee50",
+      "bytes": 22139
+    },
+    {
+      "path": "sources/route-minima.geojson",
+      "sha256": "14f0fff68b5776414c7f11f223c2ff48e0ff1a1f51e0eeb0006f96ce9a6c2d07",
+      "bytes": 10902
+    },
+    {
+      "path": "sources/silverbell-manifest.json",
+      "sha256": "3c5c864ac60901bcdaa7cf3881849a3ecaddcb7a458480dea26356eb93ed3ca3",
+      "bytes": 1854
+    },
+    {
+      "path": "sources/silverbell-minima.geojson",
+      "sha256": "a6e3eec798809f003461a9de3e2d8378cdbbef579ce4e081cde532253a57bc9f",
+      "bytes": 1157
+    },
+    {
+      "path": "terrain-tile-944-7167-lod0.json.gz",
+      "sha256": "5ad131509af69ac894a9f9cc02ce534cdcf812ec324f2abb39372ce9a514021a",
+      "bytes": 108495
+    },
+    {
+      "path": "terrain-tile-944-7168-lod0.json.gz",
+      "sha256": "6179e06cf0533d2386edc23fc844bbe9a4cc3f40d835077364f4ae353cf99258",
+      "bytes": 171424
+    },
+    {
+      "path": "uncovered.json",
+      "sha256": "b8c9ab48c0bb5dbd7454d5f97e4307807f064a5d89d478751de43d8c2850aa30",
+      "bytes": 62024
+    }
+  ]
+}

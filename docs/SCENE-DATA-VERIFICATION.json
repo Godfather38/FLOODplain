@@ -1,0 +1,20 @@
+{
+  "baseline": "532d85b",
+  "branch": "experiment/scene-data-inventory",
+  "builder": {
+    "command": "node tools/simulation/build-scene-contract.mjs",
+    "result": "passed",
+    "checks": ["All 57 original frame checksums", "Original compact geometry checksum and native decoder validation", "Native depth equals volume divided by face area", "Terrain artifact checksums and geometry binding", "All source audit crossing memberships agree with exact native polygons"]
+  },
+  "focusedTests": {"passed": 28, "failed": 0, "files": ["scene-data-contract.test.js", "bridge-flow-decision.test.js", "bridge-evidence.test.js", "route-assessment.test.js", "map-state.test.js"]},
+  "fullSuite": {
+    "command": "npm test",
+    "passed": 218,
+    "failed": 1,
+    "failure": "test/forecast-regional.test.js:22 existing app exposes advanced map navigation and retains official forecast access",
+    "reason": "Existing source assertion expects forecastLink.href='simulation/forecast.html' in unchanged public/simulation/map-shell.js; absent in baseline.",
+    "scope": "UI source/test unchanged; not repaired by backend worker. Test-generated apps-script/WashWatch.gs restored to baseline."
+  },
+  "notPerformed": ["UI or renderer integration", "Visual acceptance", "Solver execution or solver-input changes", "Main merge", "Production deployment", "Current gauge refresh"],
+  "remaining": ["No native velocity in published output", "37 exact inventory entries outside completed refined domain, listed in uncovered.json", "Two West Silverbell minima awaiting verified run 41370039087 output", "Complete terrain screening absent on six routes; shared screened road segments retained", "Cached observations stale; trend unknown from single reading"]
+}

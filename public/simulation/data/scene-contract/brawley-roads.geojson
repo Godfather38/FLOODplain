@@ -1,0 +1,48 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "avra",
+        "area": "avra",
+        "name": "Avra Valley Rd (I-10 Avra Valley exit)",
+        "km": 21.1,
+        "minutes": 19.5,
+        "legs": [
+          {
+            "road": "North Trico Road",
+            "km": 4.2
+          },
+          {
+            "road": "West Avra Valley Road",
+            "km": 17
+          }
+        ],
+        "crossings": 7,
+        "untagged_crossings": 3
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -111.2970498,
+            32.3932174
+          ],
+          [
+            -111.293977,
+            32.393225
+          ],
+          [
+            -111.2935241,
+            32.393227
+          ],
+          [
+            -111.2934938392966,
+            32.39322713366662
+          ]
+        ]
+      }
+    }
+  ]
+}

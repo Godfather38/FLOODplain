@@ -1,0 +1,53 @@
+{
+  "status": "prepared_not_executed",
+  "modelVersion": "silverbell-extension-v1",
+  "baselineRunPreserved": "41344983607",
+  "baselinePublicationCommit": "af47c69",
+  "archiveBytes": 110981569,
+  "archiveSha256": "58802d15d1d8bfc9021d2f8aae9a5f7a87b7f60de28068a8cb4b3b6c774ac28f",
+  "parts": [
+    {
+      "path": "prepared-case.tar.gz.part00",
+      "bytes": 67108864,
+      "sha256": "6d97d4697cc72e3488a3365565107937fbc416c31687f41158a5f7529a3e1615"
+    },
+    {
+      "path": "prepared-case.tar.gz.part01",
+      "bytes": 43872705,
+      "sha256": "eeae6243f58de37388a6a9db4c4c71e62f5c8b5e920e287abc261829a76afa90"
+    }
+  ],
+  "reassembly": "Concatenate listed parts in order; extract to a fresh case directory. No solver invoked by this handoff.",
+  "cells": 480227,
+  "newDomainKm2": 0.5920377246233192,
+  "roadLengthM": 7668.4497156466805,
+  "inlets": 13,
+  "nativeFlowTimestamps": 64,
+  "rainfallIntervals": 63,
+  "frozenNWMissue": "2026-11-01T13:00:00Z",
+  "frozenHRRRissue": "2026-11-01T14:00:00Z",
+  "simulationWindow": [
+    "2026-10-30T16:00:00Z",
+    "2026-11-02T07:00:00Z"
+  ],
+  "forecastWindow": [
+    "2026-11-01T17:00:00Z",
+    "2026-11-02T07:00:00Z"
+  ],
+  "proposedRun": {
+    "capSeconds": 3600,
+    "authorized": false,
+    "savedEngineRun": "41290378239",
+    "sourceCommit": "f3647fc0289bb15cb2512d60686cef74cb853c78",
+    "noRebuild": true,
+    "estimateSecondsCellCountScalingOnly": 2852.987818627791,
+    "estimateNotMeasured": true
+  },
+  "coverage": "prepared-coverage.json",
+  "pointRegistry": "terrain-low-point-candidates.geojson",
+  "sourceNotices": [
+    "GCN10-NOTICE.txt",
+    "GCN10-source-metadata.xml"
+  ],
+  "remainingBeforeOutput": "Scoped execution approval, one bounded solver run, native result inspection/export; no new source acquisition required."
+}

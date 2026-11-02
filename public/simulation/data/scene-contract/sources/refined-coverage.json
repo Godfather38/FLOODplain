@@ -1,0 +1,941 @@
+{
+  "modelVersion": "connected-v2",
+  "nativeMeshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+  "routes": [
+    {
+      "route": "trico",
+      "lengthM": 11154.586320745317,
+      "samplesEveryM": 2,
+      "centerlineSamples": 5579,
+      "outsideActive": 0,
+      "over6_25m": 0,
+      "missing1mTerrainSamples": 0,
+      "corridorChecks": [
+        {
+          "offsetM": 0,
+          "samples": 5579,
+          "outsideActive": 0,
+          "maxCellM": 6.25,
+          "over6_25m": 0,
+          "over12_5m": 0
+        },
+        {
+          "offsetM": 25,
+          "samples": 11158,
+          "outsideActive": 0,
+          "maxCellM": 6.25,
+          "over6_25m": 0,
+          "over12_5m": 0
+        },
+        {
+          "offsetM": 75,
+          "samples": 11158,
+          "outsideActive": 0,
+          "maxCellM": 6.25,
+          "over6_25m": 0,
+          "over12_5m": 0
+        },
+        {
+          "offsetM": 95,
+          "samples": 11158,
+          "outsideActive": 0,
+          "maxCellM": 6.25,
+          "over6_25m": 0,
+          "over12_5m": 0
+        },
+        {
+          "offsetM": 250,
+          "samples": 11158,
+          "outsideActive": 0,
+          "maxCellM": 12.5,
+          "over6_25m": 11011,
+          "over12_5m": 0
+        },
+        {
+          "offsetM": 490,
+          "samples": 11158,
+          "outsideActive": 0,
+          "maxCellM": 12.5,
+          "over6_25m": 11024,
+          "over12_5m": 0
+        }
+      ],
+      "badCenterlineLocations": []
+    },
+    {
+      "route": "avra",
+      "lengthM": 21104.231785710002,
+      "samplesEveryM": 2,
+      "centerlineSamples": 10554,
+      "outsideActive": 0,
+      "over6_25m": 0,
+      "missing1mTerrainSamples": 0,
+      "corridorChecks": [
+        {
+          "offsetM": 0,
+          "samples": 10554,
+          "outsideActive": 0,
+          "maxCellM": 6.25,
+          "over6_25m": 0,
+          "over12_5m": 0
+        },
+        {
+          "offsetM": 25,
+          "samples": 21108,
+          "outsideActive": 0,
+          "maxCellM": 6.25,
+          "over6_25m": 0,
+          "over12_5m": 0
+        },
+        {
+          "offsetM": 75,
+          "samples": 21108,
+          "outsideActive": 0,
+          "maxCellM": 6.25,
+          "over6_25m": 0,
+          "over12_5m": 0
+        },
+        {
+          "offsetM": 95,
+          "samples": 21108,
+          "outsideActive": 0,
+          "maxCellM": 6.25,
+          "over6_25m": 0,
+          "over12_5m": 0
+        },
+        {
+          "offsetM": 250,
+          "samples": 21108,
+          "outsideActive": 0,
+          "maxCellM": 12.5,
+          "over6_25m": 20904,
+          "over12_5m": 0
+        },
+        {
+          "offsetM": 490,
+          "samples": 21108,
+          "outsideActive": 0,
+          "maxCellM": 12.5,
+          "over6_25m": 20927,
+          "over12_5m": 0
+        }
+      ],
+      "badCenterlineLocations": []
+    }
+  ],
+  "crossings": [
+    {
+      "route": "trico",
+      "road": "North Trico Road",
+      "water": "Los Robles Wash",
+      "coordinates": [
+        -111.30426,
+        32.43882
+      ],
+      "selectedRoute": true,
+      "nativeFace": 240753,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "trico",
+      "road": "West Trico Marana Road",
+      "water": "Santa Cruz River",
+      "coordinates": [
+        -111.27985000000001,
+        32.45369
+      ],
+      "selectedRoute": true,
+      "nativeFace": 283056,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "avra",
+      "road": "West Avra Valley Road",
+      "water": "Brawley Wash",
+      "coordinates": [
+        -111.29459,
+        32.39321999999999
+      ],
+      "selectedRoute": true,
+      "nativeFace": 267134,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "avra",
+      "road": "West Avra Valley Road",
+      "water": null,
+      "coordinates": [
+        -111.27659,
+        32.39328999999999
+      ],
+      "selectedRoute": true,
+      "nativeFace": 287171,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "avra",
+      "road": "West Avra Valley Road",
+      "water": null,
+      "coordinates": [
+        -111.26095,
+        32.39513999999999
+      ],
+      "selectedRoute": true,
+      "nativeFace": 304469,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "avra",
+      "road": "West Avra Valley Road",
+      "water": null,
+      "coordinates": [
+        -111.24501,
+        32.40131000000001
+      ],
+      "selectedRoute": true,
+      "nativeFace": 323016,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "avra",
+      "road": "West Avra Valley Road",
+      "water": "Santa Cruz River",
+      "coordinates": [
+        -111.14566,
+        32.40271
+      ],
+      "selectedRoute": true,
+      "nativeFace": 389666,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "avra",
+      "road": "West Avra Valley Road",
+      "water": null,
+      "coordinates": [
+        -111.14714,
+        32.40223999999999
+      ],
+      "selectedRoute": true,
+      "nativeFace": 388854,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "avra",
+      "road": "West Avra Valley Road",
+      "water": "Santa Cruz River",
+      "coordinates": [
+        -111.14614,
+        32.402559999999994
+      ],
+      "selectedRoute": true,
+      "nativeFace": 389405,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "silverbell-north",
+      "road": "North Trico Road",
+      "water": "Los Robles Wash",
+      "coordinates": [
+        -111.30426,
+        32.43882
+      ],
+      "selectedRoute": false,
+      "nativeFace": 240753,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "silverbell-north",
+      "road": "North Sanders Road",
+      "water": null,
+      "coordinates": [
+        -111.23395,
+        32.434839999999994
+      ],
+      "selectedRoute": false,
+      "nativeFace": 15161,
+      "active": true,
+      "cellSizeM": 100.0
+    },
+    {
+      "route": "silverbell-north",
+      "road": "North Sanders Road",
+      "water": "Santa Cruz River",
+      "coordinates": [
+        -111.23395,
+        32.43487999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": 15161,
+      "active": true,
+      "cellSizeM": 100.0
+    },
+    {
+      "route": "silverbell-south",
+      "road": "North Trico Road",
+      "water": "Los Robles Wash",
+      "coordinates": [
+        -111.30426,
+        32.43882
+      ],
+      "selectedRoute": false,
+      "nativeFace": 240753,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "silverbell-south",
+      "road": "West Avra Valley Road",
+      "water": "Santa Cruz River",
+      "coordinates": [
+        -111.14566,
+        32.40271
+      ],
+      "selectedRoute": false,
+      "nativeFace": 389666,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "silverbell-south",
+      "road": "West Avra Valley Road",
+      "water": null,
+      "coordinates": [
+        -111.14714,
+        32.40223999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": 388854,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "silverbell-south",
+      "road": "West Avra Valley Road",
+      "water": "Santa Cruz River",
+      "coordinates": [
+        -111.14614,
+        32.402559999999994
+      ],
+      "selectedRoute": false,
+      "nativeFace": 389405,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "pr-ina",
+      "road": "West Picture Rocks Road",
+      "water": "Picture Rocks Wash Trail",
+      "coordinates": [
+        -111.12082,
+        32.32597999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": 32668,
+      "active": true,
+      "cellSizeM": 100.0
+    },
+    {
+      "route": "pr-ina",
+      "road": "West Ina Road",
+      "water": null,
+      "coordinates": [
+        -111.10526,
+        32.33758
+      ],
+      "selectedRoute": false,
+      "nativeFace": 34524,
+      "active": true,
+      "cellSizeM": 100.0
+    },
+    {
+      "route": "pr-ina",
+      "road": "West Ina Road",
+      "water": "Yuma Mine Wash",
+      "coordinates": [
+        -111.09519,
+        32.33758999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-ina",
+      "road": "West Ina Road",
+      "water": null,
+      "coordinates": [
+        -111.08896000000001,
+        32.33763
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-ina",
+      "road": "West Ina Road",
+      "water": "Santa Cruz River",
+      "coordinates": [
+        -111.08151000000001,
+        32.33759
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-ina",
+      "road": "West Ina Road",
+      "water": null,
+      "coordinates": [
+        -111.08202,
+        32.33759
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "water": null,
+      "coordinates": [
+        -111.1768,
+        32.38085999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": 25669,
+      "active": true,
+      "cellSizeM": 100.0
+    },
+    {
+      "route": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "water": null,
+      "coordinates": [
+        -111.14869,
+        32.37825000000001
+      ],
+      "selectedRoute": false,
+      "nativeFace": 29030,
+      "active": true,
+      "cellSizeM": 100.0
+    },
+    {
+      "route": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "water": null,
+      "coordinates": [
+        -111.13049,
+        32.375429999999994
+      ],
+      "selectedRoute": false,
+      "nativeFace": 31450,
+      "active": true,
+      "cellSizeM": 100.0
+    },
+    {
+      "route": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "water": null,
+      "coordinates": [
+        -111.12718000000001,
+        32.37503999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": 31876,
+      "active": true,
+      "cellSizeM": 100.0
+    },
+    {
+      "route": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "water": null,
+      "coordinates": [
+        -111.12358,
+        32.37461999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": 32297,
+      "active": true,
+      "cellSizeM": 100.0
+    },
+    {
+      "route": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "water": "Santa Cruz River",
+      "coordinates": [
+        -111.11538,
+        32.375809999999994
+      ],
+      "selectedRoute": false,
+      "nativeFace": 33412,
+      "active": true,
+      "cellSizeM": 100.0
+    },
+    {
+      "route": "pr-twinpeaks",
+      "road": "West Twin Peaks Road",
+      "water": null,
+      "coordinates": [
+        -111.11379,
+        32.37655
+      ],
+      "selectedRoute": false,
+      "nativeFace": 33549,
+      "active": true,
+      "cellSizeM": 100.0
+    },
+    {
+      "route": "pr-avra",
+      "road": "West Avra Valley Road",
+      "water": "Santa Cruz River",
+      "coordinates": [
+        -111.14566,
+        32.40271
+      ],
+      "selectedRoute": false,
+      "nativeFace": 389666,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "pr-avra",
+      "road": "West Avra Valley Road",
+      "water": null,
+      "coordinates": [
+        -111.14714,
+        32.40223999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": 388854,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "pr-avra",
+      "road": "West Avra Valley Road",
+      "water": "Santa Cruz River",
+      "coordinates": [
+        -111.14614,
+        32.402559999999994
+      ],
+      "selectedRoute": false,
+      "nativeFace": 389405,
+      "active": true,
+      "cellSizeM": 6.25
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Sandario Road",
+      "water": null,
+      "coordinates": [
+        -111.21817,
+        32.27527999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Sandario Road",
+      "water": null,
+      "coordinates": [
+        -111.21849,
+        32.27434
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": null,
+      "coordinates": [
+        -111.20377000000002,
+        32.25678
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": "Javelina Wash",
+      "coordinates": [
+        -111.19875,
+        32.254259999999995
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": null,
+      "coordinates": [
+        -111.18652,
+        32.25158
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": null,
+      "coordinates": [
+        -111.18349000000002,
+        32.24766999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": null,
+      "coordinates": [
+        -111.1676,
+        32.247049999999994
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": null,
+      "coordinates": [
+        -111.16343,
+        32.24402
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": null,
+      "coordinates": [
+        -111.16081,
+        32.24150999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": null,
+      "coordinates": [
+        -111.14537000000001,
+        32.231410000000004
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": null,
+      "coordinates": [
+        -111.14371,
+        32.229169999999996
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": null,
+      "coordinates": [
+        -111.14078,
+        32.227219999999996
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": null,
+      "coordinates": [
+        -111.13596,
+        32.22457000000001
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "North Kinney Road",
+      "water": null,
+      "coordinates": [
+        -111.1326,
+        32.22235
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Gates Pass Road",
+      "water": null,
+      "coordinates": [
+        -111.12278,
+        32.22131
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Gates Pass Road",
+      "water": null,
+      "coordinates": [
+        -111.07192,
+        32.2297
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": null,
+      "coordinates": [
+        -111.0604,
+        32.236059999999995
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": null,
+      "coordinates": [
+        -111.05747,
+        32.236039999999996
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": null,
+      "coordinates": [
+        -111.05195,
+        32.23766
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": null,
+      "coordinates": [
+        -111.04624,
+        32.23899
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": null,
+      "coordinates": [
+        -111.04501,
+        32.23898999999999
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": null,
+      "coordinates": [
+        -111.03874,
+        32.23689
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": "Greasewood Wash",
+      "coordinates": [
+        -111.02886,
+        32.23597
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": null,
+      "coordinates": [
+        -111.02611,
+        32.23597
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": "Anklam Wash",
+      "coordinates": [
+        -111.0225,
+        32.23595
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": null,
+      "coordinates": [
+        -111.01540000000001,
+        32.23594
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": "Silvercroft Wash",
+      "coordinates": [
+        -111.00225,
+        32.235679999999995
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    },
+    {
+      "route": "pr-gates",
+      "road": "West Speedway Boulevard",
+      "water": "Santa Cruz River",
+      "coordinates": [
+        -110.98614,
+        32.23567
+      ],
+      "selectedRoute": false,
+      "nativeFace": -1,
+      "active": false,
+      "cellSizeM": null
+    }
+  ],
+  "terrainScreening": {
+    "method": "scipy.signal.find_peaks on negative 2m-spaced bare-earth road centerline samples; minimum prominence0.25m, separation26m; no hydrologic interpretation",
+    "candidates": 24,
+    "moreThan50mFromMappedCrossing": 14
+  },
+  "limitations": [
+    "Road centerline may not match pavement center exactly",
+    "Bare-earth terrain does not establish bridge deck elevation or underground culvert opening",
+    "No changed geometry or solver execution in this audit"
+  ],
+  "continuousCorridorCoverage": [
+    {
+      "bufferM": 100,
+      "maximumCellSizeM": 6.25,
+      "requiredAreaM2": 6473075.022720121,
+      "uncoveredAreaM2": 0.0,
+      "method": "Exact polygon difference against union of native active rectangular cell footprints, including route end caps"
+    },
+    {
+      "bufferM": 500,
+      "maximumCellSizeM": 12.5,
+      "requiredAreaM2": 32838205.456748165,
+      "uncoveredAreaM2": 0.0,
+      "method": "Exact polygon difference against union of native active rectangular cell footprints, including route end caps"
+    }
+  ],
+  "actualRetainedTerrainCheck": {
+    "roadBufferM": 500,
+    "requiredPixelCentersInRetainedTiles": 32838218,
+    "missingOrNonfinitePixels": 0,
+    "resolutionM": 1,
+    "note": "Counts actual 1m retained raster pixels; source acquisition metadata remains in fine-terrain-manifest.json"
+  }
+}

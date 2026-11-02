@@ -1,0 +1,16 @@
+{
+  "baseline": "532d85b",
+  "solverSource": "a8089cb",
+  "routes": 8,
+  "entries": 88,
+  "mappedCrossingRecords": 60,
+  "terrainMinima": 24,
+  "extensionMinima": 2,
+  "modeled": 49,
+  "outsideCoverage": 37,
+  "awaitingResults": 2,
+  "brawleyFaces": 2628,
+  "nativeFrames": 57,
+  "terrainTiles": 2,
+  "checked": "Every compressed geometry/frame/terrain checksum verified; existing native geometry/frame validators passed"
+}
