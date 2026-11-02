@@ -1,0 +1,14 @@
+{
+  "homeCount": 0,
+  "routeEntries": 22,
+  "crossingCount": 1,
+  "routeOverflow": false,
+  "enlargedOverflow": false,
+  "awaiting": 2,
+  "unscreened": true,
+  "recordedStale": true,
+  "recordedTrendUnknown": true,
+  "syntheticTrendRising": true,
+  "syntheticQualityRetained": true,
+  "errors": []
+}

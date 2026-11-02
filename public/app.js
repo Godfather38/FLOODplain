@@ -1,5 +1,6 @@
 import { RISK_COLORS, UNKNOWN_COLOR, installRiskColors } from './semantic-colors.js';
 import './show-me-how.js';
+import {mountRouteTracking} from './simulation/route-tracking.js';
 installRiskColors();
 import { imperialSourceText } from './display-units.js';
 import {loadBridgeEvidence,bridgeRecordFor,bridgeHistory} from './simulation/bridge-evidence.js';
@@ -686,6 +687,13 @@ function render() {
     updateCheckAge();
   }
   wire(w);
+  if (['route', 'stretch'].includes(w.screen)) {
+    const tracking = document.createElement('section');
+    tracking.setAttribute('aria-label', 'Route coverage and gauge tracking');
+    const bottom = $('#screen .bottom-bar');
+    if (bottom) bottom.before(tracking); else $('#screen').append(tracking);
+    mountRouteTracking(tracking, {routeId:w.route, entryId:w.screen==='stretch'?w.fp:null});
+  }
   drawMap(w);
   liveMap.update({active:w.screen==='map',data,view});
   window.dispatchEvent(new Event('flood-screen-rendered'));
