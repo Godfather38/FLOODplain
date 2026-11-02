@@ -33,7 +33,7 @@ Its files go in `ALWAYS_ON_SIMULATED` in `tools/prune-published.mjs`, on purpose
 
 Only two things are used:
 
-1. **One dismissible acknowledgement.** `public/model-acknowledgement.js` shows it when someone first opens that kind of content, and not again after they dismiss it. Anything new that shows simulated or modeled water calls `showAcknowledgement(kind)`.
+1. **One dismissible acknowledgement.** `public/model-acknowledgement.js` shows it when someone first opens simulated or modeled content. Each device sees it once per browser session, whichever kind comes first. Anything new that shows simulated or modeled water calls `showAcknowledgement(kind)`.
 2. **The wording already on screen.** Titles, panel text and status lines say simulated, modeled or estimated.
 
 Permanent banners, tags and labels are not used. The owner finds them too invasive. This app is not a safety advertisement, and features are not limited because someone might ignore a clear statement. Keep the tone neutral: don't call anything "safe", and don't inflate risk.
@@ -60,5 +60,5 @@ New map rendering work should be tried in Test flood mode. If it needs another s
 1. Open the published Map screen fresh, with no URL settings.
 2. Confirm that no saved run date, "replay" or "retained" text appears. Words like "simulated", "modeled" and "estimated" are expected.
 3. With 3D not opened, the browser requests no 3D or terrain files and no saved run frames.
-4. Open modeled water, confirm the acknowledgement appears once, and confirm it stays gone after "Got it".
-5. Open Test flood from Settings, confirm the acknowledgement, then return to live.
+4. In a new session, open modeled water, confirm the acknowledgement appears once, and confirm it stays gone for that session after "Got it".
+5. In another new session, open Test flood from Settings, confirm the acknowledgement, then return to live.

@@ -28,23 +28,30 @@ test('HAND and Test flood say which kind they are, in the same neutral tone',()=
   assert.doesNotMatch(title+body,/\bsafe\b|\bdeadly\b|\bdanger/i);
  }
 });
-test('it shows once, and stays gone after dismissing',()=>{
+test('it shows once a session, whichever kind comes first',()=>{
  resetForTest();const storage=memoryStorage(),doc=fakeDocument();
- assert.equal(showAcknowledgement('simulated',{document:doc,storage}),true);
- const dialog=dialogOf(doc);assert.equal(dialog.opened,true);assert.match(text(dialog),/This water is simulated.*Got it/);
- assert.equal(showAcknowledgement('simulated',{document:doc,storage}),false,'no second copy while open');
+ assert.equal(showAcknowledgement('estimate',{document:doc,storage}),true);
+ const dialog=dialogOf(doc);assert.equal(dialog.opened,true);assert.match(text(dialog),/This water is a model estimate.*Got it/);
+ assert.equal(showAcknowledgement('estimate',{document:doc,storage}),false,'no second copy while open');
+ assert.equal(showAcknowledgement('simulated',{document:doc,storage}),false,'no queued second notice');
  dialog.children.at(-1).onclick();assert.equal(dialog.removed,true);
- assert.equal(isAcknowledged('simulated',storage),true);
+ assert.equal(isAcknowledged(storage),true);
+ for(const kind of Object.keys(ACKNOWLEDGEMENTS))assert.equal(showAcknowledgement(kind,{document:doc,storage}),false,kind);
  resetForTest();
- const later=fakeDocument();assert.equal(showAcknowledgement('simulated',{document:later,storage}),false,'still gone on a new visit');
- assert.equal(later.created.length,0);
+ const nextPage=fakeDocument();assert.equal(showAcknowledgement('simulated',{document:nextPage,storage}),false,'still gone on the next page this session');
+ assert.equal(nextPage.created.length,0);
+ resetForTest();
+ const newSession=fakeDocument();assert.equal(showAcknowledgement('simulated',{document:newSession,storage:memoryStorage()}),true,'a new session sees it again');
+ dialogOf(newSession).children.at(-1).onclick();resetForTest();
 });
-test('a different kind still shows, one at a time',()=>{
+test('it is kept for the session, not remembered across sessions',()=>{
+ const code=read('model-acknowledgement.js');
+ assert.match(code,/globalThis\.sessionStorage/);assert.doesNotMatch(code,/localStorage/);
+});
+test('Escape or any other close counts as dismissing',()=>{
  resetForTest();const storage=memoryStorage(),doc=fakeDocument();
- showAcknowledgement('savedRun',{document:doc,storage});showAcknowledgement('simulated',{document:doc,storage});
- const dialogs=()=>doc.created.filter(n=>n.tag==='dialog');
- assert.equal(dialogs().length,1);dialogs()[0].close();
- assert.equal(dialogs().length,2);assert.equal(dialogs()[1].dataset.kind,'simulated');dialogs()[1].close();
+ showAcknowledgement('simulated',{document:doc,storage});dialogOf(doc).close();
+ assert.equal(isAcknowledged(storage),true);resetForTest();
 });
 test('blocked storage still dismisses for this page and never breaks the map',()=>{
  resetForTest();const storage={getItem(){throw Error('blocked')},setItem(){throw Error('blocked')}},doc=fakeDocument();
@@ -57,10 +64,10 @@ test('Got it saves the dismissal even if the close event never arrives',()=>{
  showAcknowledgement('savedRun',{document:doc,storage});
  const dialog=dialogOf(doc);dialog.close=()=>{};dialog.open=true;
  dialog.children.at(-1).onclick();
- assert.equal(dialog.removed,true);assert.equal(storage.getItem('floodplain-ack-savedRun'),'1');
+ assert.equal(dialog.removed,true);assert.equal(storage.getItem('floodplain-ack'),'1');
  resetForTest();assert.equal(showAcknowledgement('savedRun',{document:fakeDocument(),storage}),false);
- const again=fakeDocument();assert.equal(showAcknowledgement('simulated',{document:again,storage}),true,'nothing left blocking the next notice');
- dialogOf(again).children.at(-1).onclick();resetForTest();
+ const fresh=fakeDocument();assert.equal(showAcknowledgement('simulated',{document:fresh,storage:memoryStorage()}),true,'nothing left blocking a later session');
+ dialogOf(fresh).children.at(-1).onclick();resetForTest();
 });
 test('every simulated or modeled view opens the notice',()=>{
  assert.match(read('live-map.js'),/showAcknowledgement\('estimate'\)/);
