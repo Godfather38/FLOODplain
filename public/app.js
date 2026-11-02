@@ -18,7 +18,7 @@ const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
 const SRC = {
   none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
-  hand: ['🗺️', 'HAND flood model'], wash: ['〰️', 'Wash flow upstream'], 'road-status': ['🛑', 'This crossing itself'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
+  hand: ['🗺️', 'HAND flood model'], 'road-event': ['🚧', 'TransView'], wash: ['〰️', 'Wash flow upstream'], 'road-status': ['🛑', 'This crossing itself'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
 };
 const KIND_ICON = { dip: '〰️', flat: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
 const REFRESH_MS = 5 * 60 * 1000;
@@ -73,6 +73,13 @@ async function loadAlert() {
   }
   return getJson(SOURCES.alert);
 }
+// TransView closures and construction, through the alert service (TransView blocks browsers).
+async function loadRoadEvents() {
+  if (!cfg.TEXT_API) return null;
+  const j = await getJson(`${cfg.TEXT_API}?feed=roadevents`);
+  if (!Array.isArray(j?.events)) throw new Error('no road events');
+  return j.events;
+}
 async function loadNws() {
   const j = await getJson(SOURCES.nws, { headers: { Accept: 'application/geo+json' } });
   return (j.features ?? []).map((f) => ({ event: f.properties.event, headline: f.properties.headline }));
@@ -82,15 +89,16 @@ async function gather() {
   const errors = [];
   const settle = async (name, p) => { try { return await p; } catch { errors.push(`${name} not responding`); return null; } };
   const sites = Object.keys(USGS_SITES);
-  const [flowsArr, closures, alert, nws] = await Promise.all([
+  const [flowsArr, closures, alert, nws, roadEvents] = await Promise.all([
     loadUsgsAll(sites),
     settle('county barricades', loadClosures()),
     settle('rain gauges', loadAlert()),
     settle('weather service', loadNws()),
+    settle('TransView closures', loadRoadEvents()),
   ]);
   const flows = Object.fromEntries(sites.map((s, i) => [s, summarizeFlow(flowsArr[i], now, STALE_MS)]));
   if (!Object.values(flows).some((f) => f.fresh)) errors.push(usgsBusy ? 'river gauges busy, retrying' : 'river gauges not responding');
-  return { now, flows, closures, alert, nws, errors: [...new Set(errors)] };
+  return { now, flows, closures, alert, nws, roadEvents, errors: [...new Set(errors)] };
 }
 
 // ---------------- state ----------------
@@ -154,7 +162,7 @@ function compute(d) {
   const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, {...d,bridgeEvidence:structureRecords}, cfg)]));
   // HAND only adds to the result, so a fault in it can't take the ratings down with it.
   try { handModel?.applyHand(fpResults, d.hand); } catch { /* ratings stand without it */ }
-  const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS, { closures: d.closures, radiusM: cfg.CLOSURE_RADIUS_M }).map((r) => { const score = routeScore(r); return { ...r, score: score == null ? score : Math.max(score, ...r.points.map((p) => pointScore(p) ?? 1)) }; });
+  const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS, { closures: d.closures, radiusM: cfg.CLOSURE_RADIUS_M, roadEvents: d.roadEvents, now: d.now }).map((r) => { const score = routeScore(r); return { ...r, score: score == null ? score : Math.max(score, ...r.points.map((p) => pointScore(p) ?? 1)) }; });
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
   const underpasses = UNDERPASSES.map((up) => ({ ...up, result: rateFailurePoint(up, d, cfg) }));
   return { fpResults, underpasses, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
@@ -602,6 +610,7 @@ function wireReport() {
 // Newest first. Add a line here whenever something people can notice changes.
 const UPDATES = [
   ['November 1, 2026', [
+    'New: closures and utility work from TransView are checked against each route line. County barricades count only on the part of a road the route uses.',
     'Changed: a county closure anywhere along a route now counts, not only near a listed crossing. Proceed with Caution alone is now a 2, and distant gauges no longer raise it; a live sign at the road brings it back to a 3 or more. Where we know the road height, the flood model is compared with the road itself.',
     'New: I-10 underpasses at Marana, Orange Grove, Grant and Speedway. Each gets the usual 1 to 5 number from nearby rain gauges, county closures and flood alerts. We have not found a public water sensor in any of them.',
     'New: the HAND flood model. Where NOAA\'s stream data matches a crossing, you can see how high forecast flow is estimated to reach, with a map of the estimated area. It\'s an estimate, not a reading.',

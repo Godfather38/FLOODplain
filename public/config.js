@@ -283,6 +283,7 @@ export const NAV = {
 export const LINKS = [
   ['Pima ALERT rain map', 'https://alertmap.rfcd.pima.gov/Gmap/Gmap.html'],
   ['Pima road closures', 'https://www.pima.gov/898'],
+  ['TransView road events (Pima Association of Governments)', 'https://transview.org/Map.aspx'],
   ['NWS Tucson', 'https://www.weather.gov/twc/'],
   ['AZ 511 (I-10)', 'https://az511.com/'],
 ];

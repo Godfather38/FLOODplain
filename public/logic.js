@@ -359,8 +359,47 @@ export function barricadesOnRoute(feature, closures) {
   if (!g || !closures?.length) return [];
   const lines = g.type === 'LineString' ? [g.coordinates] : g.coordinates;
   const roads = new Set((feature.properties.legs ?? []).map((l) => roadKey(l.road)));
-  return closures.filter((c) => /clos|caution/i.test(c.status ?? '') && roads.has(barricadeRoad(c.location))
-    && lines.some((line) => metresToLine(c, line) <= ROUTE_BARRICADE_M));
+  return closures.filter((c) => {
+    if (!/clos|caution/i.test(c.status ?? '') || !roads.has(barricadeRoad(c.location))) return false;
+    if (!lines.some((line) => metresToLine(c, line) <= ROUTE_BARRICADE_M)) return false;
+    const run = routeRunAlongLeg(lines, c);
+    return run == null || run >= USES_LEG_M;
+  });
+}
+// The county names which leg of a road a barricade is on: "Trico Rd south of Trico Marana Rd".
+// If the route runs that way from the barricade, it uses that leg. If not, the barricade is on
+// a leg the route doesn't take, such as the far side of an intersection where the route turns.
+const LEG_HEADINGS = { north: 0, east: 90, south: 180, west: 270 };
+const USES_LEG_M = 100;
+const segmentMetres = (a, b, lat) => {
+  const dx = (b[0] - a[0]) * 111320 * Math.cos((lat * Math.PI) / 180), dy = (b[1] - a[1]) * 110574;
+  return { m: Math.hypot(dx, dy), heading: (Math.atan2(dx, dy) * 180) / Math.PI };
+};
+export function routeRunAlongLeg(lines, c) {
+  const word = /\b(north|south|east|west)\s+of\b/i.exec(c.location ?? '')?.[1]?.toLowerCase();
+  if (!word) return null;
+  const facing = LEG_HEADINGS[word];
+  let best = 0;
+  for (const line of lines) {
+    if (metresToLine(c, line) > ROUTE_BARRICADE_M) continue;
+    let at = 0, near = Infinity;
+    for (let i = 0; i < line.length; i++) {
+      const d = Math.hypot((line[i][0] - c.lon) * 94000, (line[i][1] - c.lat) * 110574);
+      if (d < near) { near = d; at = i; }
+    }
+    for (const step of [1, -1]) {
+      let run = 0, off = 0;
+      for (let i = at; i + step >= 0 && i + step < line.length; i += step) {
+        const { m, heading } = segmentMetres(line[i], line[i + step], c.lat);
+        if (m < 1) continue;
+        // A few metres of other heading is the barricade's offset from a junction; more is a turn.
+        if (Math.abs(((heading - facing + 540) % 360) - 180) > 60) { off += m; if (off > 15) break; continue; }
+        run += m;
+      }
+      best = Math.max(best, run);
+    }
+  }
+  return best;
 }
 const barricadePoint = (c) => {
   const closed = /clos/i.test(c.status);
@@ -371,7 +410,87 @@ const barricadePoint = (c) => {
     checks: [{ src: 'county', ...check, level, ...(closed ? {} : { uncorroborated: true }) }] };
 };
 
-export function rateRoutes(routeFeatures, fpResults, fps, { closures = null, radiusM = 0 } = {}) {
+// TransView (Pima Association of Governments) road events: closures and construction with real
+// geometry, including utility work. Lines can be tested against the route directly.
+const ROAD_EVENT_LINE_M = 12; // Tight enough that a street crossing the route overlaps it by only about 24 m.
+const ROAD_EVENT_OVERLAP_M = 30;
+function parseWkt(text) {
+  const type = (text ?? '').split('(')[0].trim().toUpperCase();
+  const parts = [...(text ?? '').matchAll(/\(([^()]+)\)/g)].map((m) => m[1].split(',').map((pair) => pair.trim().split(/\s+/).map(Number)));
+  return { type, parts: parts.filter((part) => part.every((q) => q.length === 2 && q.every(Number.isFinite))) };
+}
+// The feed's dates are Arizona local time; Arizona is UTC-7 all year.
+function azDate(text) {
+  const m = /^(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+) (AM|PM)$/.exec((text ?? '').trim());
+  if (!m) return null;
+  return Date.UTC(+m[3], +m[1] - 1, +m[2], (+m[4] % 12) + (m[7] === 'PM' ? 12 : 0) + 7, +m[5], +m[6]);
+}
+const dayMinutes = (text) => { const m = /^(\d+):(\d+)/.exec(text ?? ''); return m ? +m[1] * 60 + +m[2] : null; };
+// County closures carry no reason: the county's reason field says Flooding even on closures for other work.
+export function normalizeRoadEvents(closures, construction, box = null) {
+  const events = [];
+  for (const r of closures ?? []) {
+    const { type, parts } = parseWkt(r.Geo);
+    events.push({ id: `closure-${r.KeyID}`, headline: r.headline ?? '', closed: /road closed/i.test(r.trafficImpacts ?? ''), reason: null, jurisdiction: r.jurisdiction ?? null, type, parts, start: null, stop: null, dailyStart: null, dailyEnd: null, link: null });
+  }
+  for (const r of Object.values(construction ?? {})) {
+    const { type, parts } = parseWkt(r.Geography);
+    const sub = r.EventSubTypes ?? [];
+    events.push({ id: `work-${r.KeyID}`, headline: r.Headline ?? '', closed: sub.some((s) => /ROAD_CLOSED/.test(s)), reason: sub.some((s) => /UTILITY/.test(s)) ? 'utility work' : 'construction', jurisdiction: r.Jurisdiction ?? null, type, parts, start: azDate(r.StartDate), stop: azDate(r.StopDate), dailyStart: dayMinutes(r.DailyStartTime), dailyEnd: dayMinutes(r.DailyEndTime), link: (r.Links ?? []).find(Boolean) ?? null });
+  }
+  return events.filter((e) => e.parts.length && (!box || e.parts.some((part) => part.some(([x, y]) => x >= box[0] && x <= box[2] && y >= box[1] && y <= box[3]))));
+}
+function roadEventActive(e, now) {
+  if (e.start != null && now < e.start) return false;
+  if (e.stop != null && now > e.stop) return false;
+  if (e.dailyStart != null && e.dailyEnd != null) {
+    const az = new Date(now - 7 * 3600000), minute = az.getUTCHours() * 60 + az.getUTCMinutes();
+    if (minute < e.dailyStart || minute > e.dailyEnd) return false;
+  }
+  return true;
+}
+function overlapMetres(part, lines) {
+  let total = 0;
+  for (let i = 1; i < part.length; i++) {
+    const { m } = segmentMetres(part[i - 1], part[i], part[i][1]);
+    const steps = Math.max(1, Math.ceil(m / 5));
+    for (let k = 0; k < steps; k++) {
+      const t = (k + 0.5) / steps;
+      const p = { lon: part[i - 1][0] + (part[i][0] - part[i - 1][0]) * t, lat: part[i - 1][1] + (part[i][1] - part[i - 1][1]) * t };
+      if (lines.some((line) => metresToLine(p, line) <= ROAD_EVENT_LINE_M)) total += m / steps;
+    }
+  }
+  return total;
+}
+// Closures in effect now that are really on this route: a line overlapping the route, or a
+// point on the line whose headline names a road the route uses.
+export function roadEventsOnRoute(feature, events, now) {
+  const g = feature.geometry;
+  if (!g || !events?.length) return [];
+  const lines = g.type === 'LineString' ? [g.coordinates] : g.coordinates;
+  const roads = (feature.properties.legs ?? []).map((l) => roadKey(l.road)).filter(Boolean);
+  const hits = [];
+  for (const e of events) {
+    if (!e.closed || !roadEventActive(e, now)) continue;
+    if (e.type.includes('LINE')) {
+      const overlapM = e.parts.reduce((sum, part) => sum + overlapMetres(part, lines), 0);
+      if (overlapM >= ROAD_EVENT_OVERLAP_M) hits.push({ event: e, overlapM: Math.round(overlapM), how: 'line_overlap' });
+    } else {
+      const named = roads.some((road) => ` ${roadKey(e.headline)} `.includes(` ${road} `));
+      const near = e.parts.some((part) => part.some(([lon, lat]) => lines.some((line) => metresToLine({ lon, lat }, line) <= ROUTE_BARRICADE_M)));
+      if (named && near) hits.push({ event: e, overlapM: null, how: 'point_named' });
+    }
+  }
+  return hits;
+}
+const roadEventPoint = ({ event: e, overlapM, how }) => {
+  const [lon, lat] = e.parts[0][0];
+  const why = `TransView lists this road closed${e.reason ? ` for ${e.reason}` : ''}: ${e.headline.trim()}${overlapM ? `. The closure overlaps this route for about ${Math.round(overlapM * 3.28084)} ft` : ''}`;
+  return { id: e.id, short: e.headline.trim(), name: e.headline.trim(), where: 'On this route', kind: 'road', lat, lon, level: 'danger', why, routeFit: how, evidenceAvailable: true, closurePts: [], routeBarricade: true,
+    checks: [{ src: 'road-event', level: 'danger', why, detail: e.link ?? undefined }] };
+};
+
+export function rateRoutes(routeFeatures, fpResults, fps, { closures = null, radiusM = 0, roadEvents = null, now = Date.now() } = {}) {
   return routeFeatures.map((f) => {
     const id = f.properties.id;
     const onRoute = fps.filter((fp) => fp.routes.includes(id));
@@ -379,6 +498,11 @@ export function rateRoutes(routeFeatures, fpResults, fps, { closures = null, rad
     // A crossing already reads barricades within its radius; only the ones between crossings are new.
     for (const c of barricadesOnRoute(f, closures)) {
       if (!onRoute.some((fp) => metres(fp, c) <= radiusM)) pts.push(barricadePoint(c));
+    }
+    // The county's own points are already read above; only what the county feed lacks is added.
+    for (const hit of roadEventsOnRoute(f, roadEvents, now)) {
+      const repeated = hit.how === 'point_named' && (closures ?? []).some((c) => hit.event.parts.some((part) => part.some((q) => Math.hypot((q[0] - c.lon) * 94000, (q[1] - c.lat) * 110574) <= 15)));
+      if (!repeated) pts.push(roadEventPoint(hit));
     }
     return { id, name: f.properties.name, minutes: f.properties.minutes, km: f.properties.km, level: worst(pts.map((p) => p.level)), points: pts };
   });

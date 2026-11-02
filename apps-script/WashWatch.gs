@@ -374,6 +374,7 @@ const NAV = {
 const LINKS = [
   ["Pima ALERT rain map", "https://alertmap.rfcd.pima.gov/Gmap/Gmap.html"],
   ["Pima road closures", "https://www.pima.gov/898"],
+  ["TransView road events (Pima Association of Governments)", "https://transview.org/Map.aspx"],
   ["NWS Tucson", "https://www.weather.gov/twc/"],
   ["AZ 511 (I-10)", "https://az511.com/"]
 ];
@@ -715,8 +716,50 @@ function barricadesOnRoute(feature, closures) {
   const roads = new Set(((_a = feature.properties.legs) != null ? _a : []).map((l) => roadKey(l.road)));
   return closures.filter((c) => {
     var _a2;
-    return /clos|caution/i.test((_a2 = c.status) != null ? _a2 : "") && roads.has(barricadeRoad(c.location)) && lines.some((line) => metresToLine(c, line) <= ROUTE_BARRICADE_M);
+    if (!/clos|caution/i.test((_a2 = c.status) != null ? _a2 : "") || !roads.has(barricadeRoad(c.location))) return false;
+    if (!lines.some((line) => metresToLine(c, line) <= ROUTE_BARRICADE_M)) return false;
+    const run = routeRunAlongLeg(lines, c);
+    return run == null || run >= USES_LEG_M;
   });
+}
+const LEG_HEADINGS = { north: 0, east: 90, south: 180, west: 270 };
+const USES_LEG_M = 100;
+const segmentMetres = (a, b, lat) => {
+  const dx = (b[0] - a[0]) * 111320 * Math.cos(lat * Math.PI / 180), dy = (b[1] - a[1]) * 110574;
+  return { m: Math.hypot(dx, dy), heading: Math.atan2(dx, dy) * 180 / Math.PI };
+};
+function routeRunAlongLeg(lines, c) {
+  var _a, _b, _c;
+  const word = (_c = (_b = /\b(north|south|east|west)\s+of\b/i.exec((_a = c.location) != null ? _a : "")) == null ? void 0 : _b[1]) == null ? void 0 : _c.toLowerCase();
+  if (!word) return null;
+  const facing = LEG_HEADINGS[word];
+  let best = 0;
+  for (const line of lines) {
+    if (metresToLine(c, line) > ROUTE_BARRICADE_M) continue;
+    let at = 0, near = Infinity;
+    for (let i = 0; i < line.length; i++) {
+      const d = Math.hypot((line[i][0] - c.lon) * 94e3, (line[i][1] - c.lat) * 110574);
+      if (d < near) {
+        near = d;
+        at = i;
+      }
+    }
+    for (const step of [1, -1]) {
+      let run = 0, off = 0;
+      for (let i = at; i + step >= 0 && i + step < line.length; i += step) {
+        const { m, heading } = segmentMetres(line[i], line[i + step], c.lat);
+        if (m < 1) continue;
+        if (Math.abs((heading - facing + 540) % 360 - 180) > 60) {
+          off += m;
+          if (off > 15) break;
+          continue;
+        }
+        run += m;
+      }
+      best = Math.max(best, run);
+    }
+  }
+  return best;
 }
 const barricadePoint = (c) => {
   const closed = /clos/i.test(c.status);
@@ -738,13 +781,110 @@ const barricadePoint = (c) => {
     checks: [{ src: "county", ...check, level, ...closed ? {} : { uncorroborated: true } }]
   };
 };
-function rateRoutes(routeFeatures, fpResults, fps, { closures = null, radiusM = 0 } = {}) {
+const ROAD_EVENT_LINE_M = 12;
+const ROAD_EVENT_OVERLAP_M = 30;
+function parseWkt(text) {
+  const type = (text != null ? text : "").split("(")[0].trim().toUpperCase();
+  const parts = [...(text != null ? text : "").matchAll(/\(([^()]+)\)/g)].map((m) => m[1].split(",").map((pair) => pair.trim().split(/\s+/).map(Number)));
+  return { type, parts: parts.filter((part) => part.every((q) => q.length === 2 && q.every(Number.isFinite))) };
+}
+function azDate(text) {
+  const m = /^(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+) (AM|PM)$/.exec((text != null ? text : "").trim());
+  if (!m) return null;
+  return Date.UTC(+m[3], +m[1] - 1, +m[2], +m[4] % 12 + (m[7] === "PM" ? 12 : 0) + 7, +m[5], +m[6]);
+}
+const dayMinutes = (text) => {
+  const m = /^(\d+):(\d+)/.exec(text != null ? text : "");
+  return m ? +m[1] * 60 + +m[2] : null;
+};
+function normalizeRoadEvents(closures, construction, box = null) {
+  var _a, _b, _c, _d, _e, _f, _g, _h;
+  const events = [];
+  for (const r of closures != null ? closures : []) {
+    const { type, parts } = parseWkt(r.Geo);
+    events.push({ id: `closure-${r.KeyID}`, headline: (_a = r.headline) != null ? _a : "", closed: /road closed/i.test((_b = r.trafficImpacts) != null ? _b : ""), reason: null, jurisdiction: (_c = r.jurisdiction) != null ? _c : null, type, parts, start: null, stop: null, dailyStart: null, dailyEnd: null, link: null });
+  }
+  for (const r of Object.values(construction != null ? construction : {})) {
+    const { type, parts } = parseWkt(r.Geography);
+    const sub = (_d = r.EventSubTypes) != null ? _d : [];
+    events.push({ id: `work-${r.KeyID}`, headline: (_e = r.Headline) != null ? _e : "", closed: sub.some((s) => /ROAD_CLOSED/.test(s)), reason: sub.some((s) => /UTILITY/.test(s)) ? "utility work" : "construction", jurisdiction: (_f = r.Jurisdiction) != null ? _f : null, type, parts, start: azDate(r.StartDate), stop: azDate(r.StopDate), dailyStart: dayMinutes(r.DailyStartTime), dailyEnd: dayMinutes(r.DailyEndTime), link: (_h = ((_g = r.Links) != null ? _g : []).find(Boolean)) != null ? _h : null });
+  }
+  return events.filter((e) => e.parts.length && (!box || e.parts.some((part) => part.some(([x, y]) => x >= box[0] && x <= box[2] && y >= box[1] && y <= box[3]))));
+}
+function roadEventActive(e, now) {
+  if (e.start != null && now < e.start) return false;
+  if (e.stop != null && now > e.stop) return false;
+  if (e.dailyStart != null && e.dailyEnd != null) {
+    const az = new Date(now - 7 * 36e5), minute = az.getUTCHours() * 60 + az.getUTCMinutes();
+    if (minute < e.dailyStart || minute > e.dailyEnd) return false;
+  }
+  return true;
+}
+function overlapMetres(part, lines) {
+  let total = 0;
+  for (let i = 1; i < part.length; i++) {
+    const { m } = segmentMetres(part[i - 1], part[i], part[i][1]);
+    const steps = Math.max(1, Math.ceil(m / 5));
+    for (let k = 0; k < steps; k++) {
+      const t = (k + 0.5) / steps;
+      const p = { lon: part[i - 1][0] + (part[i][0] - part[i - 1][0]) * t, lat: part[i - 1][1] + (part[i][1] - part[i - 1][1]) * t };
+      if (lines.some((line) => metresToLine(p, line) <= ROAD_EVENT_LINE_M)) total += m / steps;
+    }
+  }
+  return total;
+}
+function roadEventsOnRoute(feature, events, now) {
+  var _a;
+  const g = feature.geometry;
+  if (!g || !(events == null ? void 0 : events.length)) return [];
+  const lines = g.type === "LineString" ? [g.coordinates] : g.coordinates;
+  const roads = ((_a = feature.properties.legs) != null ? _a : []).map((l) => roadKey(l.road)).filter(Boolean);
+  const hits = [];
+  for (const e of events) {
+    if (!e.closed || !roadEventActive(e, now)) continue;
+    if (e.type.includes("LINE")) {
+      const overlapM = e.parts.reduce((sum, part) => sum + overlapMetres(part, lines), 0);
+      if (overlapM >= ROAD_EVENT_OVERLAP_M) hits.push({ event: e, overlapM: Math.round(overlapM), how: "line_overlap" });
+    } else {
+      const named = roads.some((road) => ` ${roadKey(e.headline)} `.includes(` ${road} `));
+      const near = e.parts.some((part) => part.some(([lon, lat]) => lines.some((line) => metresToLine({ lon, lat }, line) <= ROUTE_BARRICADE_M)));
+      if (named && near) hits.push({ event: e, overlapM: null, how: "point_named" });
+    }
+  }
+  return hits;
+}
+const roadEventPoint = ({ event: e, overlapM, how }) => {
+  var _a;
+  const [lon, lat] = e.parts[0][0];
+  const why = `TransView lists this road closed${e.reason ? ` for ${e.reason}` : ""}: ${e.headline.trim()}${overlapM ? `. The closure overlaps this route for about ${Math.round(overlapM * 3.28084)} ft` : ""}`;
+  return {
+    id: e.id,
+    short: e.headline.trim(),
+    name: e.headline.trim(),
+    where: "On this route",
+    kind: "road",
+    lat,
+    lon,
+    level: "danger",
+    why,
+    routeFit: how,
+    evidenceAvailable: true,
+    closurePts: [],
+    routeBarricade: true,
+    checks: [{ src: "road-event", level: "danger", why, detail: (_a = e.link) != null ? _a : void 0 }]
+  };
+};
+function rateRoutes(routeFeatures, fpResults, fps, { closures = null, radiusM = 0, roadEvents = null, now = Date.now() } = {}) {
   return routeFeatures.map((f) => {
     const id = f.properties.id;
     const onRoute = fps.filter((fp) => fp.routes.includes(id));
     const pts = onRoute.map((fp) => fpResults[fp.id]);
     for (const c of barricadesOnRoute(f, closures)) {
       if (!onRoute.some((fp) => metres(fp, c) <= radiusM)) pts.push(barricadePoint(c));
+    }
+    for (const hit of roadEventsOnRoute(f, roadEvents, now)) {
+      const repeated = hit.how === "point_named" && (closures != null ? closures : []).some((c) => hit.event.parts.some((part) => part.some((q) => Math.hypot((q[0] - c.lon) * 94e3, (q[1] - c.lat) * 110574) <= 15)));
+      if (!repeated) pts.push(roadEventPoint(hit));
     }
     return { id, name: f.properties.name, minutes: f.properties.minutes, km: f.properties.km, level: worst(pts.map((p) => p.level)), points: pts };
   });
@@ -874,7 +1014,7 @@ function alertSnapshot(rainData, streamData, fetchedAt) {
   };
 }
 function evaluate(raw, area = "avra") {
-  var _a, _b, _c, _d;
+  var _a, _b, _c, _d, _e;
   const now = raw.now;
   const flows = Object.fromEntries(Object.keys(CFG_.USGS_SITES).map((s) => {
     var _a2;
@@ -891,7 +1031,7 @@ function evaluate(raw, area = "avra") {
     var _a2;
     return ((_a2 = f.properties.area) != null ? _a2 : "avra") === area;
   });
-  const rated = rateRoutes(routes, fpResults, CFG_.FAILURE_POINTS, { closures, radiusM: CFG_.CLOSURE_RADIUS_M }).map((r) => ({ ...r, score: routeScore(r) }));
+  const rated = rateRoutes(routes, fpResults, CFG_.FAILURE_POINTS, { closures, radiusM: CFG_.CLOSURE_RADIUS_M, roadEvents: (_e = raw.roadEvents) != null ? _e : null, now }).map((r) => ({ ...r, score: routeScore(r) }));
   const { best, order } = recommend(rated);
   const missing = [!closures && "county", !raw.alert && "rain", !Object.values(flows).some((f) => f.fresh) && "river"].filter(Boolean);
   return { rated, best, order, missing, ...message(best, order, rated, missing, now, area) };
@@ -982,6 +1122,11 @@ function doGet(e) {
     computeVerdicts_();
     const u = CacheService.getScriptCache().get("usgs");
     return json_(u ? JSON.parse(u) : { error: "unavailable" });
+  }
+  if (e && e.parameter && e.parameter.feed === "roadevents") {
+    computeVerdicts_();
+    const events = CacheService.getScriptCache().get("roadevents");
+    return json_(events ? { events: JSON.parse(events) } : { error: "unavailable" });
   }
   if (e && e.parameter && e.parameter.feed === "alert") {
     computeVerdicts_();
@@ -1277,6 +1422,9 @@ function computeVerdict_(area) {
   const all = computeVerdicts_();
   return all ? all[validArea_(area)] : null;
 }
+function transview_(method, body, ua) {
+  return { url: `https://transview.org/Map.aspx/${method}`, method: "post", contentType: "application/json; charset=utf-8", payload: JSON.stringify(body), muteHttpExceptions: true, headers: { ...ua, Referer: "https://transview.org/Map.aspx" } };
+}
 function computeVerdicts_() {
   const cache = CacheService.getScriptCache();
   const hit = cache.get("verdicts");
@@ -1290,7 +1438,9 @@ function computeVerdicts_() {
     { url: urls.closures, muteHttpExceptions: true, headers: ua },
     { url: urls.rain, muteHttpExceptions: true, headers: ua },
     { url: urls.stream, muteHttpExceptions: true, headers: ua },
-    { url: urls.nws, muteHttpExceptions: true, headers: { ...ua, Accept: "application/geo+json" } }
+    { url: urls.nws, muteHttpExceptions: true, headers: { ...ua, Accept: "application/geo+json" } },
+    transview_("GetData", { theDataType: "RoadClosure" }, ua),
+    transview_("GetConstructionEvents", { type: "" }, ua)
   ];
   const res = UrlFetchApp.fetchAll(reqs).map((r) => {
     if (r.getResponseCode() !== 200) return null;
@@ -1304,11 +1454,16 @@ function computeVerdicts_() {
   const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
   const trimmed = Object.fromEntries(sites.map((s) => [s, usgs[s] ? { features: (usgs[s].features || []).map((f) => ({ properties: f.properties })) } : null]));
   cache.put("usgs", JSON.stringify({ fetched_at: new Date(Date.now()).toISOString(), series: trimmed }), 300);
-  const [closures, rain, stream, nws] = res.slice(sites.length);
+  const [closures, rain, stream, nws, tvClosures, tvWork] = res.slice(sites.length);
+  const roadEvents = tvClosures || tvWork ? normalizeRoadEvents(tvClosures && tvClosures.d, tvWork && tvWork.d, [-111.45, 32.1, -110.9, 32.6]) : null;
+  if (roadEvents) {
+    const text = JSON.stringify(roadEvents);
+    if (text.length < 95e3) cache.put("roadevents", text, 300);
+  }
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
   const out = {};
   for (const id of AREA_IDS) {
-    const v = evaluate({ now, usgs, closures, alert, nws, routes: ROUTE_FEATURES }, id);
+    const v = evaluate({ now, usgs, closures, alert, nws, roadEvents, routes: ROUTE_FEATURES }, id);
     out[id] = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title };
   }
   cache.put("verdicts", JSON.stringify(out), 240);

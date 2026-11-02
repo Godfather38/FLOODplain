@@ -62,6 +62,11 @@ function doGet(e) {
     const u = CacheService.getScriptCache().get('usgs');
     return json_(u ? JSON.parse(u) : { error: 'unavailable' });
   }
+  if (e && e.parameter && e.parameter.feed === 'roadevents') {
+    computeVerdicts_();
+    const events = CacheService.getScriptCache().get('roadevents');
+    return json_(events ? { events: JSON.parse(events) } : { error: 'unavailable' });
+  }
   if (e && e.parameter && e.parameter.feed === 'alert') {
     computeVerdicts_();
     const snap = CacheService.getScriptCache().get('alert');
@@ -336,6 +341,9 @@ function computeVerdict_(area) {
   const all = computeVerdicts_();
   return all ? all[validArea_(area)] : null;
 }
+function transview_(method, body, ua) {
+  return { url: `https://transview.org/Map.aspx/${method}`, method: 'post', contentType: 'application/json; charset=utf-8', payload: JSON.stringify(body), muteHttpExceptions: true, headers: { ...ua, Referer: 'https://transview.org/Map.aspx' } };
+}
 function computeVerdicts_() {
   const cache = CacheService.getScriptCache();
   const hit = cache.get('verdicts');
@@ -350,6 +358,8 @@ function computeVerdicts_() {
     { url: urls.rain, muteHttpExceptions: true, headers: ua },
     { url: urls.stream, muteHttpExceptions: true, headers: ua },
     { url: urls.nws, muteHttpExceptions: true, headers: { ...ua, Accept: 'application/geo+json' } },
+    transview_('GetData', { theDataType: 'RoadClosure' }, ua),
+    transview_('GetConstructionEvents', { type: '' }, ua),
   ];
   const res = UrlFetchApp.fetchAll(reqs).map((r) => {
     if (r.getResponseCode() !== 200) return null;
@@ -360,11 +370,14 @@ function computeVerdicts_() {
   // Keep a trimmed copy for the app (?feed=usgs): just time, value, parameter per reading.
   const trimmed = Object.fromEntries(sites.map((s) => [s, usgs[s] ? { features: (usgs[s].features || []).map((f) => ({ properties: f.properties })) } : null]));
   cache.put('usgs', JSON.stringify({ fetched_at: new Date(Date.now()).toISOString(), series: trimmed }), 300);
-  const [closures, rain, stream, nws] = res.slice(sites.length);
+  const [closures, rain, stream, nws, tvClosures, tvWork] = res.slice(sites.length);
+  // Either TransView list can fail alone; an unanswered feed is no events, never "no closures".
+  const roadEvents = tvClosures || tvWork ? normalizeRoadEvents(tvClosures && tvClosures.d, tvWork && tvWork.d, [-111.45, 32.1, -110.9, 32.6]) : null;
+  if (roadEvents) { const text = JSON.stringify(roadEvents); if (text.length < 95000) cache.put('roadevents', text, 300); }
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
   const out = {};
   for (const id of AREA_IDS) {
-    const v = evaluate({ now, usgs, closures, alert, nws, routes: ROUTE_FEATURES }, id);
+    const v = evaluate({ now, usgs, closures, alert, nws, roadEvents, routes: ROUTE_FEATURES }, id);
     out[id] = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title };
   }
   cache.put('verdicts', JSON.stringify(out), 240);
