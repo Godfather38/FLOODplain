@@ -1,0 +1,53 @@
+{
+  "countyListEquivalent": true,
+  "pair": {
+    "gauge": {
+      "coordinate": [
+        -111.302,
+        32.4716
+      ],
+      "name": "Santa Cruz River at Trico Rd",
+      "risk": null
+    },
+    "crossing": {
+      "coordinate": [
+        -111.27985,
+        32.45369
+      ],
+      "name": "Trico-Marana river bridge",
+      "risk": "1"
+    }
+  },
+  "point": {
+    "x": 211,
+    "y": 402,
+    "offsetGauge": 32.70897446758413,
+    "offsetCrossing": 17.16281079989572
+  },
+  "buttons": [
+    {
+      "label": "1Trico-Marana river bridgeCrossing · risk 1",
+      "width": 316,
+      "height": 74
+    },
+    {
+      "label": "Santa Cruz River at Trico RoadPima ALERT rain · preceding hour",
+      "width": 316,
+      "height": 74
+    },
+    {
+      "label": "Santa Cruz River at Trico RdUSGS observed discharge",
+      "width": 316,
+      "height": 74
+    }
+  ],
+  "crossingHash": "#/r/trico/sc-trico-marana",
+  "listEquivalent": 1,
+  "gaugeEquivalent": true,
+  "overlapIn3d": 8,
+  "enlargedOverflow": false,
+  "panMoved": true,
+  "touchDragSuppressed": true,
+  "closeAndEscape": true,
+  "errors": []
+}

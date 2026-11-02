@@ -2,6 +2,7 @@ import {validateCoarseTerrainDetail} from './coarse-terrain-binding.js';
 import * as maptalks from 'maptalks';
 import { createVectorGeography } from './geographic-vector-source.js';
 import {createMapClickGuard} from '../../public/simulation/map-click-guard.js';
+import {nearbyMapPoints} from '../../public/simulation/map-point-picking.js';
 export {createRefinedRendererSource} from './refined-renderer-source.js';
 
 export async function createGeographicView({leaflet,loaded,get,footprints,source,routeLayer,sharedState,initialView='flat',onError=()=>{},onSelectCell=()=>{},onStatus=()=>{},onPick=()=>{}}){
@@ -24,6 +25,35 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   const note=document.createElement('div');note.className='voxel-map-note';note.textContent=flatLabel;surface.append(note);
   const popup=document.createElement('div');popup.className='voxel-cell-info';popup.hidden=true;surface.append(popup);
   const mapNode=document.createElement('div');mapNode.className='voxel-map-surface';surface.prepend(mapNode);
+  mapNode.tabIndex=0;mapNode.setAttribute('aria-label','Geographic map; crossings also available in Routes, gauges in Map options');
+  let pointTargets=[];
+  const chooser=document.createElement('dialog');chooser.className='map-point-chooser';chooser.setAttribute('aria-label','Choose a nearby map item');surface.append(chooser);
+  const closePoint=()=>{popup.hidden=true;mapNode.focus({preventScroll:true});};
+  function openPoint(item){
+    const content=item.leaf.getPopup?.()?.getContent?.();
+    if(!content){item.leaf.fire?.('click');return;}
+    popup.classList.add('point-info');popup.setAttribute('role','region');popup.setAttribute('aria-label',item.name);
+    const body=document.createElement('div');if(content instanceof Node)body.append(content.cloneNode(true));else if(typeof content==='string')body.innerHTML=content;
+    const close=document.createElement('button');close.type='button';close.textContent='Close details';close.onclick=closePoint;
+    popup.replaceChildren(body,close);popup.hidden=false;close.focus({preventScroll:true});
+  }
+  function choosePoint(items,fromList=false){
+    popup.hidden=true;
+    if(items.length===1&&!fromList){openPoint(items[0]);return;}
+    const heading=document.createElement('h2');heading.textContent=fromList?'Crossings & gauges in view':'Choose a nearby item';
+    const close=document.createElement('button');close.type='button';close.textContent='Close chooser';close.onclick=()=>chooser.close();
+    const header=document.createElement('header');header.append(heading,close);
+    const list=document.createElement('div');list.className='map-point-choices';
+    for(const item of items){const button=document.createElement('button');button.type='button';const name=document.createElement('strong');name.textContent=item.name;
+      const description=document.createElement('span');description.textContent=item.risk?'Crossing · risk '+(item.risk==='?'?'unknown':item.risk):item.description||'Gauge or report · source details';
+      if(item.risk){const badge=document.createElement('span');badge.className='map-choice-badge';badge.style.background=item.color;badge.textContent=item.risk;badge.setAttribute('aria-hidden','true');button.append(badge);}
+      const words=document.createElement('span');words.append(name,description);button.append(words);button.onclick=()=>{chooser.close();openPoint(item);};list.append(button);}
+    const help=document.createElement('p');help.textContent=(items.length?'':'No crossings or gauges in this view. Adjust the map or open Routes. ')+'Crossings are also listed in Routes. Gauge histories are in Map options → Recent gauge readings.';
+    chooser.setAttribute('aria-label',heading.textContent);chooser.replaceChildren(header,list,help);if(!chooser.open)chooser.showModal();close.focus();chooser.scrollTop=0;
+  }
+  chooser.addEventListener('close',()=>{if(popup.hidden)mapNode.focus({preventScroll:true});});
+  chooser.addEventListener('click',e=>{const r=chooser.getBoundingClientRect();if(e.target===chooser&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))chooser.close();});
+  surface.addEventListener('keydown',e=>{if(e.key==='Escape'&&!popup.hidden){closePoint();e.stopPropagation();}});
   let active=true,dead=false,model=null,frame=null,mode='aggregate',context=null,map,layer,timer,timeout,selected=null,lastDetail='',last3DMode=null,mapTexture,viewMode=initialView==='3d'?'3d':'flat',syncing=false,highDetailTask,THREE,threeTask,modeGeneration=0,assetController=new AbortController();
   let resolveReady,rejectReady,cameraReady=false,geographyReady=false;const ready=new Promise((resolve,reject)=>{resolveReady=resolve;rejectReady=reject;});
   function finishReady(){if(cameraReady&&geographyReady&&!dead){clearTimeout(timeout);resolveReady();}}
@@ -70,7 +100,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   }
   function clearFlat(){flatWater.clear();overview.data=null;overview.canvas=null;overview.layer?.redraw();}
   if(overview.layer)overview.layer.draw=function(ctx){if(!overview.canvas||viewMode!=='flat')return;const d=overview.data,e=d.extent,nw=map.coordinateToContainerPoint(new maptalks.Coordinate(e.xmin,e.ymax)),ne=map.coordinateToContainerPoint(new maptalks.Coordinate(e.xmax,e.ymax)),sw=map.coordinateToContainerPoint(new maptalks.Coordinate(e.xmin,e.ymin));ctx.save();ctx.transform((ne.x-nw.x)/d.width,(ne.y-nw.y)/d.width,(sw.x-nw.x)/d.height,(sw.y-nw.y)/d.height,nw.x,nw.y);ctx.drawImage(overview.canvas,0,0);ctx.restore();};
-  const routeContext=new maptalks.VectorLayer('original-route-context',[],{zIndex:20,enableAltitude:false});
+  const routeContext=new maptalks.VectorLayer('original-route-context',[],{zIndex:20,enableAltitude:false,geometryEvents:false});
   const extraContext=new maptalks.VectorLayer('original-model-context',[],{zIndex:21});
   function fail(error){if(dead)return;const message=error instanceof Error?error.message:String(error);hide();rejectReady(Error(message));onError('3D unavailable: '+message+'. The 2D map remains available.');}
   try{
@@ -182,21 +212,26 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   }
   function lost(event){event.preventDefault();fail('Graphics context was lost');}
   function eachLeaf(group,callback){group?.eachLayer?.(l=>l.eachLayer?eachLeaf(l,callback):callback(l));}
-  function syncGroup(group,target,withClicks=false){target.clear();if(!group)return;const occupied=[];
+  function syncGroup(group,target,withClicks=false){target.clear();if(withClicks)pointTargets=[];if(!group)return;const occupied=[];
     eachLeaf(group,l=>{const feature=l.toGeoJSON?.();if(!feature?.geometry)return;
       let geometry;
       if(feature.geometry.type==='Point'){
         const icon=l.options?.icon?.options;let label='';if(icon?.html){const el=document.createElement('div');el.innerHTML=icon.html;label=el.textContent.trim();}
-        const numeric=/^\d$/.test(label),point=map.coordinateToContainerPoint(new maptalks.Coordinate(feature.geometry.coordinates));
+        const numeric=/^(?:[1-5](?:\.5)?|\?)$/.test(label),point=map.coordinateToContainerPoint(new maptalks.Coordinate(feature.geometry.coordinates));
         const width=numeric?26:Math.min(220,label.length*7+12),dy=numeric?0:-19,box={left:point.x-width/2,right:point.x+width/2,top:point.y+dy-10,bottom:point.y+dy+10};
         const showLabel=label&&(numeric||!occupied.some(b=>box.left<b.right+6&&box.right>b.left-6&&box.top<b.bottom+4&&box.bottom>b.top-4));if(showLabel)occupied.push(box);
         geometry=new maptalks.Marker(feature.geometry.coordinates,{symbol:{markerType:'ellipse',markerFill:l.options?.color||'#24444b',markerLineColor:'#ffffff',markerLineWidth:2,markerWidth:numeric?26:12,markerHeight:numeric?26:12,textName:showLabel?label:'',textFill:numeric?'#ffffff':'#263d44',textHaloFill:'#f4f4ed',textHaloRadius:numeric?0:2,textDy:dy,textSize:12}});
+        if(withClicks&&l.options?.interactive!==false&&(l.listens?.('click')||l.getPopup?.())){
+          const content=l.getPopup?.()?.getContent?.(),text=document.createElement('div');if(typeof content==='string')text.innerHTML=content;else if(content instanceof Node)text.append(content.cloneNode(true));
+          const name=l.options?.title||text.querySelector('b,strong')?.textContent||text.firstChild?.textContent||label||'Map reading';
+          text.querySelectorAll('br').forEach(br=>br.replaceWith('\n'));const description=text.textContent.split('\n').map(s=>s.trim()).filter(Boolean)[1];
+          pointTargets.push({leaf:l,coordinate:feature.geometry.coordinates,name,description,risk:numeric?label:null,color:l.options?.color||'#24444b',labelWidth:showLabel&&!numeric?width:0});
+        }
       }else{
         geometry=maptalks.GeoJSON.toGeometry(feature);if(Array.isArray(geometry))return;
         geometry?.setSymbol({lineColor:l.options?.color||'#344b51',lineWidth:l.options?.weight||3,lineOpacity:.95,polygonFill:l.options?.fillColor||l.options?.color||'#628593',polygonOpacity:l.options?.fillOpacity??.2});
       }
       if(!geometry)return;
-      if(withClicks)geometry.on('click',()=>{l.fire?.('click');const content=l.getPopup?.()?.getContent?.();if(content){popup.replaceChildren();if(content instanceof Node)popup.append(content.cloneNode(true));else popup.innerHTML=String(content);popup.hidden=false;}return false;});
       target.addGeometry(geometry);
     });
   }
@@ -227,7 +262,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     if(frame&&(model.frame!==frame||last3DMode!==mode)){model.update(frame,mode);last3DMode=mode;if(source)reportTerrain();}
     layer?.renderScene();
   }
-  function showCell(index,notify=true){selected=index;model?.select(index);const cell=loaded.run.cells[index],depth=frame?.depthM[index];const info=(viewMode==='3d'?model?.cellInfo(index):null)||source?.cellInfo(index,frame)|| (frame&&cell?{row:cell.row??'�',column:cell.col??'�',time:frame.time,depthM:depth,depthFt:Number.isFinite(depth)?depth*3.280839895:null,surfaceM:null}:null);if(!info)return;
+  function showCell(index,notify=true){popup.classList.remove('point-info');popup.setAttribute('aria-label','Selected model cell');selected=index;model?.select(index);const cell=loaded.run.cells[index],depth=frame?.depthM[index];const info=(viewMode==='3d'?model?.cellInfo(index):null)||source?.cellInfo(index,frame)|| (frame&&cell?{row:cell.row??'�',column:cell.col??'�',time:frame.time,depthM:depth,depthFt:Number.isFinite(depth)?depth*3.280839895:null,surfaceM:null}:null);if(!info)return;
     const title=document.createElement('strong');title.textContent=source?`Native face ${info.nativeFaceId} · ${(info.areaM2/4046.8564224).toFixed(3)} acres · ${(info.resolutionM/.3048).toFixed(1)} ft equivalent-square resolution`:`SFINCS cell ${index} · row ${info.row}, col ${info.column}`;
     const body=document.createElement('div');body.textContent=`${new Date(info.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric',minute:source?'2-digit':undefined})} MST · ${info.depthM===null?'No model depth result':info.depthFt.toFixed(2)+' ft average water depth'}`;
     const level=document.createElement('div');level.textContent=info.surfaceM===null?'Native water surface unavailable':`Native water surface ${(info.surfaceM/.3048).toFixed(1)} ft ${info.datum||'NAVD88'}`;
@@ -244,7 +279,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     if(!loaded.run.frames.some(f=>f.time===next?.time)||!Array.isArray(next?.depthM)||next.depthM.length!==loaded.run.cells.length){flatGeneration++;flatController.abort();flatTime=null;flatTask=null;flatWater.clear();frame=null;popup.hidden=true;if(model){try{model.update(next,nextMode);}catch{}}layer?.renderScene();throw Error('Native depth unavailable for selected hour');}
     frame=next;mode=nextMode;context=contextGroup??context;
     try{if(viewMode==='3d'){if(!model)await ensure3D();if(!model||!active||dead)throw new DOMException('3D request cancelled','AbortError');await awaitCurrentTerrain();if(updateToken!==dataGeneration||frame!==next||mode!==nextMode)throw new DOMException('Frame superseded during terrain load','AbortError');if(model.frame!==next||last3DMode!==nextMode){model.update(next,nextMode);last3DMode=nextMode;}if(source)reportTerrain();}else await renderFlat();}catch(error){if(error.name!=='AbortError'&&updateToken===dataGeneration&&frame===next){frame=null;popup.hidden=true;layer?.renderScene();}throw error;}
-    syncGroup(context,extraContext);syncRoutes();if(selected!==null){model?.select(selected);if(!popup.hidden||restoreSelectedPopup){showCell(selected,false);restoreSelectedPopup=false;}}layer?.renderScene();
+    syncGroup(context,extraContext);syncRoutes();if(selected!==null){model?.select(selected);if((!popup.hidden||restoreSelectedPopup)&&!popup.classList.contains('point-info')){showCell(selected,false);restoreSelectedPopup=false;}}layer?.renderScene();
     if(!active||dead||updateToken!==dataGeneration||frame?.time!==next.time||mode!==nextMode||(request&&!sharedState.isCurrent(request.requestId)))throw Error('Renderer frame request superseded');
     return {time:next.time,model:nextMode,view:viewMode};
   }
@@ -254,7 +289,9 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   const clickGuard=createMapClickGuard(),guardNode=map.getContainer();
   const guardDown=e=>clickGuard.down(e),guardMove=e=>clickGuard.move(e),guardCancel=()=>clickGuard.cancel();
   guardNode.addEventListener('pointerdown',guardDown,true);guardNode.addEventListener('pointermove',guardMove,true);guardNode.addEventListener('pointerup',guardMove,true);guardNode.addEventListener('pointercancel',guardCancel,true);map.on('dragstart',guardCancel);
-  map.on('dom:click',event=>{if(!clickGuard.allow(event.domEvent)||!frame||mode==='off'||mode==='hand'||map.isInteracting())return;const p=event.containerPoint,size=map.getSize();
+  map.on('dom:click',event=>{if(!clickGuard.allow(event.domEvent)||map.isInteracting())return;const p=event.containerPoint,size=map.getSize();
+    const hits=nearbyMapPoints(pointTargets,p,coordinate=>map.coordinateToContainerPoint(new maptalks.Coordinate(coordinate)));
+    if(hits.length){choosePoint(hits);return;}if(!frame||mode==='off'||mode==='hand')return;
     let picked=null;if(viewMode==='3d'&&model){const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(p.x/size.width*2-1,1-p.y/size.height*2),layer.getCamera());picked=model.pick(ray);}
     const index=picked??findNativeCell(event.coordinate.y,event.coordinate.x);if(index!==null)showCell(index);else{popup.textContent='No native model coverage at this location. This is not a dry or safe-road result.';popup.hidden=false;sharedState?.select({kind:'location',lat:event.coordinate.y,lon:event.coordinate.x});}});
   map.on('moveend zoomend pitchend rotateend',refreshDetail);
@@ -265,10 +302,10 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   function startAnimation(){clearInterval(timer);timer=null;if(!active||dead||viewMode!=='3d'||motion.matches||document.hidden)return;
     timer=setInterval(()=>{if(!active||dead||viewMode!=='3d'||motion.matches||document.hidden){clearInterval(timer);timer=null;return;}if(model){model.animate(performance.now()/1000);layer?.renderScene();}},1000/15);}
   function visibility(){startAnimation();}document.addEventListener('visibilitychange',visibility);motion.addEventListener('change',visibility);
-  function hide(){if(!active||dead)return;active=false;cancelAnimationFrame(refreshRAF);refreshRAF=0;mapTexture?.setTextureFactory(null);restoreSelectedPopup=false;modeGeneration++;dataGeneration++;source?.cancel();source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';terrainReadyKey='';cancelOverview();flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(!model){assetController.abort();assetController=new AbortController();}mapTexture?.suspend();clearInterval(timer);const c=map.getCenter(),z=map.getZoom();surface.hidden=true;parent.classList.remove('map-has-3d');leaflet.invalidateSize();leaflet.setView([c.y,c.x],z,{animate:false});popup.hidden=true;}
+  function hide(){if(!active||dead)return;active=false;if(chooser.open)chooser.close();cancelAnimationFrame(refreshRAF);refreshRAF=0;mapTexture?.setTextureFactory(null);restoreSelectedPopup=false;modeGeneration++;dataGeneration++;source?.cancel();source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';terrainReadyKey='';cancelOverview();flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(!model){assetController.abort();assetController=new AbortController();}mapTexture?.suspend();clearInterval(timer);const c=map.getCenter(),z=map.getZoom();surface.hidden=true;parent.classList.remove('map-has-3d');leaflet.invalidateSize();leaflet.setView([c.y,c.x],z,{animate:false});popup.hidden=true;}
   function show(){if(dead)throw Error('3D map disposed');active=true;surface.hidden=false;parent.classList.add('map-has-3d');map.checkSize();if(viewMode==='3d'&&textureFactory)mapTexture?.setTextureFactory(textureFactory,textureOrigin);syncFromLeaflet();refreshDetail();if(selected!==null)model?.select(selected);startAnimation();}
   const resize=new ResizeObserver(()=>{if(active&&!dead){map.setDevicePixelRatio(Math.min(globalThis.devicePixelRatio||1,innerWidth<600?1:1.5));map.checkSize();refreshDetail();}});resize.observe(parent);
-  const unsubscribe=sharedState?.subscribe(state=>{const i=state.selection?.kind==='cell'?state.selection.cellIndex:null;if(i!==selected){selected=i;model?.select(i);if(i!==null&&frame&&!popup.hidden)showCell(i,false);}});
+  const unsubscribe=sharedState?.subscribe(state=>{const i=state.selection?.kind==='cell'?state.selection.cellIndex:null;if(i!==selected){selected=i;model?.select(i);if(i!==null&&frame&&!popup.hidden&&!popup.classList.contains('point-info'))showCell(i,false);}});
   function dispose(){if(dead)return;hide();clearFlat();dead=true;detailQueryIndices=null;lastDetailIndices=null;source?.dispose();assetController.abort();clearInterval(timer);clearTimeout(timeout);resize.disconnect();
     leaflet.off('moveend',syncFromLeaflet);leaflet.off('layeradd layerremove',routesChanged);routeLayer.off?.('layeradd layerremove',routesChanged);
     guardNode.removeEventListener('pointerdown',guardDown,true);guardNode.removeEventListener('pointermove',guardMove,true);guardNode.removeEventListener('pointerup',guardMove,true);guardNode.removeEventListener('pointercancel',guardCancel,true);map.off('dragstart',guardCancel);
@@ -285,7 +322,8 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   }
   if(initialView==='3d')await ready.then(()=>setViewMode('3d'));
   return {ready,update,show,hide,dispose,get active(){return active;},zoom(delta){map.setZoom(map.getZoom()+delta);},select:showCell,
+    openPointList(){const size=map.getSize();choosePoint(pointTargets.filter(item=>{const p=map.coordinateToContainerPoint(new maptalks.Coordinate(item.coordinate));return p.x>=0&&p.y>=0&&p.x<=size.width&&p.y<=size.height;}).sort((a,b)=>a.name.localeCompare(b.name)),true);},
     get viewMode(){return viewMode;},
     setViewMode,
-    inspect(){return {map,layer,model,selected,frame,active,dead,geography:mapTexture,flatWater,overview,terrainInfo,modelDetailInfo:model?.detailStats||modelDetailInfo,terrainLoading:terrainTask,counters:{...counters,overviewActive,overviewPending:overviewPending?1:0,refreshPending:refreshRAF?1:0,coverageBinCount:coverageBins.size,effectiveDPR:map.getDevicePixelRatio?.()??map.options.devicePixelRatio},animationActive:!!timer&&active&&viewMode==='3d'&&!motion.matches};}};
+    inspect(){return {map,layer,model,selected,frame,active,dead,selectionTargets:pointTargets.map(({coordinate,name,risk})=>({coordinate,name,risk})),geography:mapTexture,flatWater,overview,terrainInfo,modelDetailInfo:model?.detailStats||modelDetailInfo,terrainLoading:terrainTask,counters:{...counters,overviewActive,overviewPending:overviewPending?1:0,refreshPending:refreshRAF?1:0,coverageBinCount:coverageBins.size,effectiveDPR:map.getDevicePixelRatio?.()??map.options.devicePixelRatio},animationActive:!!timer&&active&&viewMode==='3d'&&!motion.matches};}};
 }

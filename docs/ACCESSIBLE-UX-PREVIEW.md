@@ -40,3 +40,6 @@ Observed camera controls measured 48x48 CSS px for zoom and 56.45x48 for Locate,
 
 ## Combined integration supersedes the earlier 3D blocker
 The renderer-owner fix is now cherry-picked as 355a557. Both current and refined paths successfully entered 3D alongside the final tracking UI. Full suite 219/219 passed. See ROUTE-TRACKING-UX.md and public/ux-preview/combined-verification.json for final evidence and remaining limitations; the mismatch reported above describes the earlier checkpoint.
+
+## Mobile map hit areas
+The later MOBILE-MAP-SELECTION.md correction resolves small geographic gauge/crossing hit targets using 48px screen-space areas and a chooser, without enlarging the map glyphs. Map options also exposes the same items as an accessible text list.
