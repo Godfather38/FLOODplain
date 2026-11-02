@@ -1,4 +1,5 @@
 import { RISK_COLORS, UNKNOWN_COLOR, installRiskColors } from './semantic-colors.js';
+import './show-me-how.js';
 installRiskColors();
 import { imperialSourceText } from './display-units.js';
 import {loadBridgeEvidence,bridgeRecordFor,bridgeHistory} from './simulation/bridge-evidence.js';
@@ -338,7 +339,7 @@ function reportScreen(fpId) {
 
 function howScreen() {
   return `<div class="page">
-    <h4>The number</h4>
+    <button type="button" class="btn btn-primary" data-show-me-how>Show me how: 3 steps</button><h4>The number</h4>
     <ul class="legend">
       ${[1, 2, 3, 4, 5].map((n) => `<li>${badge(n)}<span><b>${WORD[n]}.</b> ${['Nothing in the data points to water.', 'Some water around; usually passable. Look as you go.', 'Water likely at or near the road.', 'Several signs agree water is at the road.', 'The county closed it, or a flood is running.'][n - 1]}</span></li>`).join('')}
       <li>${badge(null)}<span><b>No data.</b> Not the same as fine.</span></li>

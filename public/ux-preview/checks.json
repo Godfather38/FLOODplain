@@ -1,0 +1,28 @@
+{
+  "errors": [],
+  "phoneOverflow": false,
+  "tourButtons": [
+    {
+      "text": "Close guide",
+      "width": 194.578125,
+      "height": 76
+    },
+    {
+      "text": "Back",
+      "width": 98.296875,
+      "height": 76
+    },
+    {
+      "text": "Skip guide",
+      "width": 175.203125,
+      "height": 76
+    },
+    {
+      "text": "Next",
+      "width": 94.078125,
+      "height": 76
+    }
+  ],
+  "dialogFits": true,
+  "mapOverflow": false
+}
