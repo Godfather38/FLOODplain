@@ -31,8 +31,10 @@ export function gaugeSummary(points, now, { staleMs = 10800000 } = {}) {
 export function trackingState(entry, { now, observations = [], assessment = null } = {}) {
   const gauge = gaugeSummary(observations, now);
   const model = entry.model;
-  const stale = model?.validTo && Date.parse(model.validTo) < Date.parse(now);
+  const freshness = modelFreshness(model, now);
+  const stale = freshness.temporalStatus === 'expired';
   return {id:entry.id, hydraulicStatus: model?.status ?? 'not_yet_assessed',
+    freshness,
     observationStatus:gauge.status,
     state: gauge.status === 'observation_supported' ? 'observation_supported' :
       model?.status === 'modeled' ? (stale ? 'stale' : 'modeled') :
@@ -40,6 +42,19 @@ export function trackingState(entry, { now, observations = [], assessment = null
     risk: assessment ?? {status:'not_yet_assessed',score:null,closure:null},
     // Existing assessment is passed through intact, including closures and numeric weights.
     clearance:null};
+}
+
+// Output availability and wall-clock validity are independent. Frozen output
+// remains a replay even while its original valid window includes the clock.
+export function modelFreshness(model, now) {
+  const clock=Date.parse(now);
+  if(!Number.isFinite(clock)) throw Error('Explicit assessment time required');
+  const start=Date.parse(model?.validFrom),end=Date.parse(model?.validTo);
+  const temporalStatus=!Number.isFinite(start)||!Number.isFinite(end)?'unknown':
+    clock<start?'not_yet_valid':clock>end?'expired':'within_original_valid_window';
+  return {asOf:now,temporalStatus,clockMode:model?.clockMode??'unknown',
+    currentWeather:false, // No current-weather provider is accepted by this adapter.
+    sourceIssueAgeMs:Object.fromEntries(Object.entries(model?.sourceIssues??{}).filter(([,v])=>Number.isFinite(Date.parse(v))).map(([k,v])=>[k,clock-Date.parse(v)]))};
 }
 
 export function validateScene(scene) {

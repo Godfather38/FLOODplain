@@ -6,6 +6,7 @@ import {FAILURE_POINTS, USGS_SITES} from '../../public/config.js';
 import {decodeCompactQuadtree,acceptQuadtreeGeometry,acceptQuadtreeFrame} from '../../public/simulation/quadtree-output.js';
 import {createCoverageIndex} from '../../public/simulation/map-state.js';
 import {SCENE_SCHEMA,validateScene,gaugeSummary} from '../../public/simulation/scene-data-contract.js';
+import {bindCompletedSilverbell} from './bind-completed-silverbell.mjs';
 
 const root='public/simulation/data/', out=root+'scene-contract/';
 const read=p=>JSON.parse(fs.readFileSync(p,'utf8').replace(/^\uFEFF/,''));
@@ -71,7 +72,10 @@ for(const e of entries.values()){
  e.gaugeAssociations=associations(e);
 }
 const routeIds=[...new Set([...routes.features.map(f=>f.properties.id),...FAILURE_POINTS.flatMap(p=>p.routes)])];
+const silverbellBinding=bindCompletedSilverbell(entries);
 const inventory={schema:'floodplain-tracking-v1',sourceCommit:'532d85b',modelRunId:m.runId,entries:[...entries.values()].sort((a,b)=>a.id.localeCompare(b.id)),routes:routeIds.map(id=>({id,geometryReference:'public/data/routes.geojson#'+id,entryIds:[...entries.values()].filter(e=>e.routeIds.includes(id)).map(e=>e.id).sort(),terrainScreening: ['trico','avra'].includes(id)?'prepared_centerline_minima_available':id.startsWith('silverbell')?'two_extension_minima_only':'not_yet_assessed',completeness:'All existing mapped crossings and registry points included; not a complete real-world dip survey'})),gauges,limits:['Inventory membership does not establish hydraulic coverage.','Terrain minima are bare-earth candidates, not verified road surface/culvert/flood hazards.','Single cached gauge reading cannot establish a trend; live consumers may supply a series to gaugeSummary.','No new route weights, thresholds or closure rules.']};
+inventory.modelRuns=[m.runId,silverbellBinding.runId];
+inventory.modelRunIdMeaning='Original baseline only; every entry.model.runId identifies its own geometry and validity';
 write('inventory.json',inventory);
 write('uncovered.json',{runId:m.runId,outsideCoverage:inventory.entries.filter(e=>e.model.status==='outside_coverage'),awaitingResults:inventory.entries.filter(e=>e.model.status==='not_yet_assessed'),unscreenedRoutes:inventory.routes.filter(r=>r.terrainScreening!=='prepared_centerline_minima_available')});
 
@@ -92,7 +96,7 @@ const roadFeatures=[];
 for(const f of routes.features){let segment=[];const flush=()=>{if(segment.length>1)roadFeatures.push({type:'Feature',properties:f.properties,geometry:{type:'LineString',coordinates:segment}});segment=[];};for(const c of f.geometry.coordinates){if(c[0]>=bounds[0]-.001&&c[0]<=bounds[2]+.001&&c[1]>=bounds[1]-.001&&c[1]<=bounds[3]+.001)segment.push(c);else flush();}flush();}
 write('brawley-roads.geojson',{type:'FeatureCollection',features:roadFeatures});
 write('brawley-scene.json',validateScene(scene));
-write('build-report.json',{baseline:'532d85b',solverSource:'a8089cb',routes:inventory.routes.length,entries:inventory.entries.length,mappedCrossingRecords:crossings.features.length,terrainMinima:minima.features.length,extensionMinima:extension.features.length,modeled:inventory.entries.filter(e=>e.model.status==='modeled').length,outsideCoverage:inventory.entries.filter(e=>e.model.status==='outside_coverage').length,awaitingResults:2,brawleyFaces:scene.cells.length,nativeFrames:scene.frames.length,terrainTiles:scene.terrain.length,checked:'Every compressed geometry/frame/terrain checksum verified; existing native geometry/frame validators passed'});
+write('build-report.json',{baseline:'532d85b',solverSource:'a8089cb',silverbellBinding,routes:inventory.routes.length,entries:inventory.entries.length,mappedCrossingRecords:crossings.features.length,terrainMinima:minima.features.length,extensionMinima:extension.features.length,modeled:inventory.entries.filter(e=>e.model.status==='modeled').length,outsideCoverage:inventory.entries.filter(e=>e.model.status==='outside_coverage').length,awaitingResults:inventory.entries.filter(e=>e.model.status==='not_yet_assessed').length,brawleyFaces:scene.cells.length,nativeFrames:scene.frames.length,terrainTiles:scene.terrain.length,checked:'Every compressed geometry/frame/terrain checksum verified; existing native geometry/frame validators passed'});
 fs.copyFileSync('docs/SCENE-DATA-CONTRACT.md',out+'README.md');
 fs.copyFileSync('public/simulation/scene-data-contract.js',out+'scene-data-contract.js');
 function files(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?files(path.join(dir,e.name)):[path.join(dir,e.name)]);}

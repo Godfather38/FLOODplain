@@ -19,23 +19,33 @@
     },
     {
       "path": "build-report.json",
-      "sha256": "cb7feb240238f29b59c4baa002956bd29b097b0481e34688d29ca4dbfae4789d",
-      "bytes": 424
+      "sha256": "7789c3a6f11afa8a237f69528f80d083d3155d28f8b25cecf53f8e10f1137c81",
+      "bytes": 1033
     },
     {
       "path": "inventory.json",
-      "sha256": "caafae0d346d371fb4fa29159b69c539e177c9e9338f536f996a5f24934a5b14",
-      "bytes": 158289
+      "sha256": "979cc3bdb9709c86e981e022b5b48e660ec0a622fb43481e092852a747b69231",
+      "bytes": 161841
     },
     {
       "path": "README.md",
-      "sha256": "4eb8b69ae4f3f5235e328e073902a7102371486931c4a8ce01cd70aadb8fec5e",
-      "bytes": 8093
+      "sha256": "33c526ebdc2ecc868eae2527e5aae46025dea714cece02b771a69c9a39266838",
+      "bytes": 11075
     },
     {
       "path": "scene-data-contract.js",
-      "sha256": "0c3afa2b7f81a4772d2628a0887c2b5231acc0aa59fcfd9ec4a114967b32e4e0",
-      "bytes": 3865
+      "sha256": "f7e820912a5a42e0345dff4dc3b381dca3ea7f80195cca910a375f8f07554bd8",
+      "bytes": 4786
+    },
+    {
+      "path": "silverbell-binding-report.json",
+      "sha256": "e45283869df5e9f0cdb6978fe9d4297efb828a6783035aea86c560a552deaab9",
+      "bytes": 555
+    },
+    {
+      "path": "silverbell-point-scene.json",
+      "sha256": "f2185047b572fd2f43b00571a015ceb17c4db7b5b5a41e08562ad6efc2dfd49c",
+      "bytes": 26657
     },
     {
       "path": "sources/GCN10-NOTICE.txt",
@@ -74,8 +84,8 @@
     },
     {
       "path": "uncovered.json",
-      "sha256": "b8c9ab48c0bb5dbd7454d5f97e4307807f064a5d89d478751de43d8c2850aa30",
-      "bytes": 62024
+      "sha256": "5fe25f3be92acfb66f2f83eac1824374f5a704149119c5d8c8628407c2318461",
+      "bytes": 57671
     }
   ]
 }

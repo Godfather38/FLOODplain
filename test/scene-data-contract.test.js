@@ -15,9 +15,9 @@ test('every original crossing record and route association survives deduplicatio
  assert.equal(inventory.entries.filter(e=>e.id==='sc-avra').length,1);
  assert.deepEqual(inventory.entries.find(e=>e.id==='sc-avra').routeIds,['avra','pr-avra','silverbell-south']);
 });
-test('Silverbell prepared faces never become executed hydraulic results',()=>{
+test('Silverbell completed results retain prepared evidence and original clock',()=>{
  const e=inventory.entries.filter(e=>e.id.startsWith('silverbell-minimum'));
- assert.equal(e.length,2);for(const p of e){assert.equal(p.model.status,'not_yet_assessed');assert.equal(p.model.runId,'41370039087');assert.equal(p.risk.score,null);}
+ assert.equal(e.length,2);for(const p of e){assert.equal(p.model.status,'modeled');assert.equal(p.model.resultStatus,'model_output_available');assert.equal(p.model.runId,'silverbell-full-41370039087');assert.equal(p.preparedModel.resultStatus,'awaiting_verified_output');assert.equal(p.model.sourceIssues.NWM,'2026-11-01T13:00:00Z');assert.equal(p.model.roadDepthValidated,false);assert.equal(p.risk.score,null);}
 });
 test('Brawley has actual native times, terrain bindings and unavailable velocity',()=>{
  assert.equal(validateScene(scene),scene);assert.equal(scene.frames.length,57);

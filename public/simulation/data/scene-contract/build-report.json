@@ -1,14 +1,30 @@
 {
   "baseline": "532d85b",
   "solverSource": "a8089cb",
+  "silverbellBinding": {
+    "runId": "silverbell-full-41370039087",
+    "sourceCommit": "462a83e117d92d34e0ac679d0981600288346a45",
+    "nativeFaces": 480227,
+    "frames": 57,
+    "points": 2,
+    "pointSamplesCompared": 114,
+    "checks": [
+      "Native geometry and all frame hashes verified",
+      "Native face ID and containing polygon checked at both minima",
+      "114 source CSV samples equal compact quantities exactly",
+      "Peak depth and surface agree with solver summary",
+      "Prepared coverage evidence mesh hash matches completed output"
+    ],
+    "terrainStatus": "unavailable"
+  },
   "routes": 8,
   "entries": 88,
   "mappedCrossingRecords": 60,
   "terrainMinima": 24,
   "extensionMinima": 2,
-  "modeled": 49,
+  "modeled": 51,
   "outsideCoverage": 37,
-  "awaitingResults": 2,
+  "awaitingResults": 0,
   "brawleyFaces": 2628,
   "nativeFrames": 57,
   "terrainTiles": 2,

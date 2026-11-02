@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "status": "complete",
+  "runId": "silverbell-full-41370039087",
+  "path": "data/silverbell-full-41370039087/compact/manifest.json",
+  "sha256": "5d216a394938e507aaa69c208bc2ded3e755d183d0fd2e254163a90e86edaf72",
+  "geometrySha256": "fd4bed991721e6e3a90a84cfb3fb8015fdbd5bd5fc62d3f3af45cf75f721c93b",
+  "sourceCommit": "462a83e117d92d34e0ac679d0981600288346a45",
+  "executionMode": "simulated_live_frozen_inputs",
+  "sourceIssues": {
+    "NWM": "2026-11-01T13:00:00Z",
+    "HRRR": "2026-11-01T14:00:00Z",
+    "mode": "frozen_replay"
+  },
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "terrainDisplay": {
+    "status": "unavailable",
+    "reason": "Requires separately source-bound terrain; no regular-grid DEM blocks substituted"
+  },
+  "flow": {
+    "status": "unavailable"
+  },
+  "note": "Opt-in new geometry; does not change existing map defaults or publication pointers"
+}

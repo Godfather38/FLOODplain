@@ -3381,15 +3381,42 @@
           "extensionCellM": 6.25,
           "extensionNativeFaceIndexZeroBased": 323310,
           "extensionNativeFaceId": 323310
+        },
+        {
+          "source": "../silverbell-full-41370039087/silverbell-point-summary.json",
+          "sourceCommit": "462a83e117d92d34e0ac679d0981600288346a45",
+          "interpretation": "Native full-cell mean storage and absolute water surface; not validated pavement depth or passability."
         }
       ],
       "model": {
-        "status": "not_yet_assessed",
-        "runId": "41370039087",
-        "resultStatus": "awaiting_verified_output",
-        "preparedManifest": "sources/silverbell-manifest.json",
-        "preparedNativeFaceId": "323310",
-        "roadDepthValidated": false
+        "status": "modeled",
+        "resultStatus": "model_output_available",
+        "runId": "silverbell-full-41370039087",
+        "solverRunId": "41370039087",
+        "sourceCommit": "462a83e117d92d34e0ac679d0981600288346a45",
+        "geometrySha256": "fd4bed991721e6e3a90a84cfb3fb8015fdbd5bd5fc62d3f3af45cf75f721c93b",
+        "meshSha256": "021431481d54347e293293cc37166c2ddfb8b168bdc3487bd4cc17b7aa807a12",
+        "nativeFaceId": "323310",
+        "cellIndex": 323310,
+        "method": "source_native_face_id_and_exact_point_in_polygon",
+        "clockMode": "frozen_replay",
+        "sourceIssues": {
+          "NWM": "2026-11-01T13:00:00Z",
+          "HRRR": "2026-11-01T14:00:00Z",
+          "mode": "frozen_replay"
+        },
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "modelIssuedAt": null,
+        "roadDepthValidated": false,
+        "pointSeriesPath": "silverbell-point-scene.json",
+        "pointSeriesIndex": 1,
+        "summary": {
+          "peakCellAverageDepthM": 0.004687054061889648,
+          "peakWaterSurfaceNAVD88M": 595.7495727539062,
+          "peakWaterSurfaceTime": "2026-11-02T07:00:00Z"
+        },
+        "freshnessPolicy": "Evaluate original valid window against explicit caller clock; frozen replay is never automatically current weather"
       },
       "risk": {
         "status": "not_yet_assessed",
@@ -3418,7 +3445,15 @@
           "distanceM": 1.970933541151549
         }
       ],
-      "gaugeAssociations": []
+      "gaugeAssociations": [],
+      "preparedModel": {
+        "status": "not_yet_assessed",
+        "runId": "41370039087",
+        "resultStatus": "awaiting_verified_output",
+        "preparedManifest": "sources/silverbell-manifest.json",
+        "preparedNativeFaceId": "323310",
+        "roadDepthValidated": false
+      }
     },
     {
       "id": "silverbell-minimum-311d29ce2258",
@@ -3448,15 +3483,42 @@
           "extensionCellM": 6.25,
           "extensionNativeFaceIndexZeroBased": 358178,
           "extensionNativeFaceId": 358178
+        },
+        {
+          "source": "../silverbell-full-41370039087/silverbell-point-summary.json",
+          "sourceCommit": "462a83e117d92d34e0ac679d0981600288346a45",
+          "interpretation": "Native full-cell mean storage and absolute water surface; not validated pavement depth or passability."
         }
       ],
       "model": {
-        "status": "not_yet_assessed",
-        "runId": "41370039087",
-        "resultStatus": "awaiting_verified_output",
-        "preparedManifest": "sources/silverbell-manifest.json",
-        "preparedNativeFaceId": "358178",
-        "roadDepthValidated": false
+        "status": "modeled",
+        "resultStatus": "model_output_available",
+        "runId": "silverbell-full-41370039087",
+        "solverRunId": "41370039087",
+        "sourceCommit": "462a83e117d92d34e0ac679d0981600288346a45",
+        "geometrySha256": "fd4bed991721e6e3a90a84cfb3fb8015fdbd5bd5fc62d3f3af45cf75f721c93b",
+        "meshSha256": "021431481d54347e293293cc37166c2ddfb8b168bdc3487bd4cc17b7aa807a12",
+        "nativeFaceId": "358178",
+        "cellIndex": 358178,
+        "method": "source_native_face_id_and_exact_point_in_polygon",
+        "clockMode": "frozen_replay",
+        "sourceIssues": {
+          "NWM": "2026-11-01T13:00:00Z",
+          "HRRR": "2026-11-01T14:00:00Z",
+          "mode": "frozen_replay"
+        },
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "modelIssuedAt": null,
+        "roadDepthValidated": false,
+        "pointSeriesPath": "silverbell-point-scene.json",
+        "pointSeriesIndex": 0,
+        "summary": {
+          "peakCellAverageDepthM": 0.07172018432617187,
+          "peakWaterSurfaceNAVD88M": 601.6256103515625,
+          "peakWaterSurfaceTime": "2026-11-02T01:30:00Z"
+        },
+        "freshnessPolicy": "Evaluate original valid window against explicit caller clock; frozen replay is never automatically current weather"
       },
       "risk": {
         "status": "not_yet_assessed",
@@ -3485,7 +3547,15 @@
           "distanceM": 0.9126405655369061
         }
       ],
-      "gaugeAssociations": []
+      "gaugeAssociations": [],
+      "preparedModel": {
+        "status": "not_yet_assessed",
+        "runId": "41370039087",
+        "resultStatus": "awaiting_verified_output",
+        "preparedManifest": "sources/silverbell-manifest.json",
+        "preparedNativeFaceId": "358178",
+        "roadDepthValidated": false
+      }
     },
     {
       "id": "terrain-minimum-109ce9558f9b",
@@ -5268,5 +5338,10 @@
     "Terrain minima are bare-earth candidates, not verified road surface/culvert/flood hazards.",
     "Single cached gauge reading cannot establish a trend; live consumers may supply a series to gaugeSummary.",
     "No new route weights, thresholds or closure rules."
-  ]
+  ],
+  "modelRuns": [
+    "refined-full-41344983607",
+    "silverbell-full-41370039087"
+  ],
+  "modelRunIdMeaning": "Original baseline only; every entry.model.runId identifies its own geometry and validity"
 }
