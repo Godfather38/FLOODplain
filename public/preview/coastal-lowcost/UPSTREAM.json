@@ -172,6 +172,9 @@
     "Local derivative, no upstream commit or FLOODplain main changed.",
     "Original binary solver and baked state excluded: connector cannot decode binary, escalation setup unavailable. Every case uses the original JavaScript fallback and deterministic warmup.",
     "Grid resolution and reflector changes are experimental, not hydraulically validated.",
-    "Vendor files are packaged Three.js r185 and preserve their upstream license headers."
-  ]
+    "Vendor files are packaged Three.js r185 and preserve their upstream license headers.",
+    "V2 adds tiny-toon: opaque blue/teal stylized surface with no screen refraction/transmission graph. Original five presets and all physics/geometry modules remain unchanged. New visual/GPU result unverified."
+  ],
+  "trialVersion": "0.2.0",
+  "priorTrialCommit": "e50d90c87e175da2b419651eb90a8b36692d8c2a"
 }

@@ -8,6 +8,7 @@ export const PRESETS=Object.freeze({
  'tiny-original':{label:'C · Tiny physics / original effects',physics:'tiny',effects:'original'},
  'tiny-cheap':{label:'D · Tiny physics / cheap effects',physics:'tiny',effects:'cheap'},
  'small-cheap':{label:'E · Small physics / cheap effects',physics:'small',effects:'cheap'},
+ 'tiny-toon':{label:'F · Tiny physics / opaque cartoon water',physics:'tiny',effects:'toon'},
 });
 export function resolveTrial(search=''){
  const requested=new URLSearchParams(search).get('preset');

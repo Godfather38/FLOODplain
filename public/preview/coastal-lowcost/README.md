@@ -1,4 +1,4 @@
-# Coastal low-cost trial — WIP
+# Coastal low-cost trial — WIP v2
 
 A bounded MIT-licensed derivative of [iamtechartist/coastal-simulation](https://github.com/iamtechartist/coastal-simulation), not a FLOODplain rewrite. No production deployment or main-branch change is included.
 
@@ -12,6 +12,8 @@ python3 -m http.server 4173 --bind 127.0.0.1
 
 Open `http://127.0.0.1:4173/?preset=tiny-cheap&webgl=1`. Omit `webgl=1` to try the browser's WebGPU path. Serve over HTTP/HTTPS, not file://. On a phone, use an authorized server reachable by that phone; localhost refers to the phone itself.
 
+New `?preset=tiny-toon&webgl=1` adds an **opaque blue/teal cartoon surface** to the existing Tiny physics. The five v1 presets and default remain available unchanged; the v1 snapshot is immutable.
+
 The top-left panel selects presets (a full reload), resets the deterministic initial state, and records a foreground 30-second stationary measurement. `&autobench=1` starts that measurement two seconds after readiness. GPU timestamp queries are optional via `&gpu=1`; default measurements are animation-frame intervals and CPU submission, **not GPU-present timestamps**.
 
 ## Controlled presets
@@ -23,12 +25,13 @@ The top-left panel selects presets (a full reload), resets the deterministic ini
 | `tiny-original` | 24 × 40 (960 samples) | Original planar + analytic sky |
 | `tiny-cheap` (default) | 24 × 40 | Analytic sky only |
 | `small-cheap` | 48 × 80 (3,840 samples) | Analytic sky only |
+| `tiny-toon` (new) | 24 × 40 (960 samples) | Opaque stylized shading; no planar reflection or screen refraction |
 
 All cases preserve the **72 × 120 m** physical domain: x −14→58, z −92→28. Physics is 60 Hz and worker publication is capped at 20 Hz with three transferable packet sets. Field dimensions follow the physics grid. The visible terrain/water mesh independently retains 0.3 m core spacing, plus the original graded outer geometry. This is intentionally still a dense render mesh: 179,010 water vertices / 356,300 water triangles in every case.
 
 All cases use an identical drawing-buffer policy: DPR ≤ 0.75, maximum 1280 × 720 landscape or 720 × 1280 portrait, scaled down to the actual viewport. A 1280 × 720 CSS viewport therefore renders at 960 × 540, **not full 720p**. Read the displayed actual buffer dimensions. Sharing the cap avoids confusing a resolution reduction with the reflection/physics comparison.
 
-Cheap effects omit the planar reflector and its color/depth sampling graph. Analytic sky/Fresnel, continuous temporal and linear spatial interpolation, moving fine normals, foam, refraction, wet sand, clouds, shadows and spray remain. Refraction and render-mesh simplification are separate future levers, not silently included here.
+Cheap effects omit the planar reflector and its color/depth sampling graph. Analytic sky/Fresnel, continuous temporal and linear spatial interpolation, moving fine normals, foam, refraction, wet sand, clouds, shadows and spray remain. The new **Tiny Toon** variant is the separate no-refraction experiment: its opaque material has alpha 1 on wet fragments and an early shader-graph return before scene-color/depth texture sampling or optical-transmission nodes. It uses a blue/teal depth palette, broad simplified highlights, moving normals, advected physical foam and a thin graphic shoreline accent. The accent changes appearance only; it adds no water and does not change solver/foam arrays. The original dry-surface discard still masks land. It adds no render passes. Refraction remains intact for every v1 preset; the visible mesh is unchanged for all six cases.
 
 ## Important limits
 
@@ -40,18 +43,18 @@ Cheap effects omit the planar reflector and its color/depth sampling graph. Anal
 
 ## Verification status
 
-`npm test` passes 12 CPU/source-contract tests. `npm run check` checks all 17 JavaScript source modules. CPU-only Three.js scene/material construction passes all five presets and confirms the optional mirror exists only for original effects. These do **not** compile GPU shaders or verify the visual result.
+`npm test` passes 14 CPU/source-contract tests, including additive-preset, opaque-material and omitted-refraction graph contracts. `npm run check` checks all 17 JavaScript source modules. CPU-only Three.js scene/material construction passes all six presets and confirms the optional mirror exists only for original effects. These do **not** compile GPU shaders or verify the visual result.
 
 The 2,160-step finite-state check confirmed finite arrays, nonnegative water depths, preserved extent and sponge boundaries, valid packet dimensions, and the three-set backpressure/recycle guards. One cloud CPU run measured approximately 21.4 s original / 0.89 s Small / 0.18 s Tiny for warm-up + checking/packing. Startup timings are machine-dependent; these are not browser FPS or phone measurements.
 
-Browser validation remains pending: the execution server's localhost is isolated from the managed browser; the preinstalled Chromium launch in that sandbox was denied its process socket. No visual/FPS result is claimed. Use the supported experimental preview for the next browser pass.
+Browser validation remains pending: the execution server's localhost is isolated from the managed browser; the preinstalled Chromium launch in that sandbox was denied its process socket. No visual/FPS result is claimed. The user reported that the earlier Tiny visual baseline was promising. That is not validation of the new cartoon variant: **Tiny Toon GPU shaders, opacity/shoreline appearance and FPS remain unverified** until the supported browser/user preview pass. No new browser-launch workaround was attempted.
 
 ## Repeatable checks (Node.js 20+; scene loader tested on Node 24)
 
 ```sh
 npm test
 npm run check
-for mode in baseline original-cheap tiny-original tiny-cheap small-cheap; do
+for mode in baseline original-cheap tiny-original tiny-cheap small-cheap tiny-toon; do
   node --no-warnings --experimental-loader ./tests/vendor-loader.mjs tests/scene-check.mjs "$mode"
 done
 ```
@@ -60,4 +63,4 @@ For actual browser acceptance, keep the same foreground browser, backend, viewpo
 
 ## Attribution and provenance
 
-`LICENSE` preserves the source author's MIT notice. Vendored Three.js r185 files retain their MIT headers. `UPSTREAM.json` lists source URLs, Git blob hashes, included files and excluded binaries. Local changes are grid/preset selection, world-space sponge boundaries, optional reflection graph, fixed publication/buffer policy, diagnostics and regression checks. No external assets, analytics, API keys or paid services are used.
+`LICENSE` preserves the source author's MIT notice. Vendored Three.js r185 files retain their MIT headers. `UPSTREAM.json` lists source URLs, Git blob hashes, included files and excluded binaries. Local changes are grid/preset selection, world-space sponge boundaries, optional reflection graph, fixed publication/buffer policy, diagnostics and regression checks. V2 adds only the isolated Tiny Toon presentation variant and its tests/docs; v1 comparisons and simulation code are preserved. No external assets, analytics, API keys or paid services are used.

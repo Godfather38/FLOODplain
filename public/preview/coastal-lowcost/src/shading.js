@@ -105,7 +105,8 @@ export function createShading(noiseTex,fields){
  // Compile the cheap graph without a reflector or reflection color/depth samples.
  const mirror=TRIAL.effects==='original'?reflector({resolutionScale:.6,generateMipmaps:true,bounces:false,depth:true}):null;
  if(mirror)mirror.target.rotation.x=-Math.PI/2;
- const water=new THREE.MeshBasicNodeMaterial({transparent:true,depthWrite:true,side:THREE.FrontSide});
+ const isToon=TRIAL.effects==='toon';
+ const water=new THREE.MeshBasicNodeMaterial({transparent:!isToon,depthWrite:true,side:THREE.FrontSide});
  // Geometry, visibility, normals and foam all use one temporal interpolation.
  // The signed depth is interpolated over exactly the same triangles as the sand.
  const vp=positionLocal.xz,blend=domain(vp).toVar(),near=field('surface',vp).toVar(),far=offshore(vp).toVar();
@@ -130,6 +131,32 @@ export function createShading(noiseTex,fields){
   const sunVisibility=shadow(sunLight).r.mul(cloudShadow).toVar();
   const eye=normalize(cameraPosition.sub(positionWorld));
   const ndv=clamp(dot(normal,eye),.015,1);
+  // This JS branch selects a different shader graph at material compilation.
+  // Toon returns before ANY scene-color/depth refraction or transmission nodes
+  // are created. It is genuinely opaque, not a transparent shader with alpha=1.
+  if(isToon){
+   const advected=surfaceMaterial.ba;
+   const foamNoise=noise(advected.mul(.15)).r;
+   const density=st.z.mul(1.15).add(st.w.mul(.5));
+   const threshold=float(.55).sub(density.mul(.22));
+   const aa=max(.025,fwidth(foamNoise).mul(.9));
+   const foamPatch=smoothstep(threshold.sub(aa),threshold.add(aa),foamNoise).mul(smoothstep(.015,.18,density));
+   // A thin graphic shoreline accent reads on the coarse field; it does not
+   // add water or alter the physics/foam arrays. The dry mask above still wins.
+   const shoreAccent=float(1).sub(smoothstep(.035,.16,depth)).mul(smoothstep(.004,.018,depth)).mul(mix(.65,1,foamNoise));
+   const toonFoam=max(foamPatch,shoreAccent).mul(U.foamShow).clamp();
+   const base=mix(color('#35b5b6'),color('#246f9e'),smoothstep(.12,3.5,depth));
+   const lightBand=smoothstep(.25,.40,dot(normal,U.sun)).mul(.16).add(.84);
+   const result=base.mul(lightBand).mul(mix(.82,1,sunVisibility)).toVar();
+   const rim=pow(float(1).sub(ndv),3).mul(.28);
+   result.assign(mix(result,color('#84d6d8'),rim));
+   const highlight=smoothstep(.965,.990,dot(reflect(U.sun.negate(),normal),eye)).mul(.18).mul(sunVisibility).mul(float(1).sub(U.overcast.mul(.75)));
+   result.addAssign(color('#bcebea').mul(highlight));
+   result.assign(mix(result,color('#edf7e6').mul(mix(.86,1,sunVisibility)),toonFoam));
+   const haze=float(1).sub(exp(distance.mul(-.00056)));
+   result.assign(mix(result,color('#adc2ca'),haze));
+   return vec4(result,1);
+  }
   const fresnel=float(.021).add(pow(float(1).sub(ndv),5).mul(.979));
   const mat=surfaceMaterial;
   const advected=mat.ba;

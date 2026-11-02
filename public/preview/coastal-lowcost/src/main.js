@@ -50,7 +50,8 @@ function refreshTrialMetrics(){
  const snap=window.saltreach.snapshot(),stats=summarize(diagnostics.frameTimes.slice(-300));
  const m=diagnostics.worker;
  $('trial-live').textContent=[
-  `${TRIAL.grid.nx} × ${TRIAL.grid.nz} = ${(TRIAL.grid.nx*TRIAL.grid.nz).toLocaleString()} physics samples · ${TRIAL.effects==='cheap'?'analytic sky reflection':'planar + sky reflection'}`,
+  `${TRIAL.grid.nx} × ${TRIAL.grid.nz} = ${(TRIAL.grid.nx*TRIAL.grid.nz).toLocaleString()} physics samples · ${TRIAL.effects==='toon'?'opaque cartoon / no refraction':TRIAL.effects==='cheap'?'analytic sky reflection':'planar + sky reflection'}`,
+  TRIAL.effects==='toon'?'WIP cartoon variant · browser/GPU visual verification pending':'',
   `${diagnostics.backend||'starting'} · ${diagnostics.rendererName} · buffer ${(diagnostics.buffer||[]).join(' × ')} · viewport ${(diagnostics.viewport||[]).join(' × ')}`,
   stats?`Rolling FPS ${(1000/stats.mean).toFixed(1)} · frame p50/p95/p99 ${[stats.p50,stats.p95,stats.p99].map(x=>x.toFixed(1)).join(' / ')} ms · >100 ms ${stats.over100ms}/${diagnostics.frameTimes.slice(-300).length}`:'Waiting for the first rendered frames…',
   m?`Solver ${m.kernel} (no Wasm) · step ${m.stepMeanMs?.toFixed(2)??'—'} ms · pack ${m.packMs?.toFixed(2)} ms · packets ${m.publishHz?.toFixed(1)}/20 Hz · pool ${m.allocatedPackets}/3`:'Warming the deterministic 36-second sea…',
