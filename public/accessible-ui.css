@@ -29,3 +29,6 @@ button,summary,select,input{min-height:48px}button:focus-visible,a:focus-visible
 .recorded-point select { display:block; width:100%; max-width:100%; min-height:48px; font:inherit; margin:8px 0; }
 .recorded-point button { min-height:48px; margin:4px 0; white-space:normal; }
 .recorded-point { overflow-wrap:anywhere; }
+.route-tracking input,.route-tracking select {display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:48px;font:inherit;margin:8px 0 16px;padding:8px;}
+.tracking-case {border-left:3px solid #62576f;padding-left:12px;margin:16px 0;overflow-wrap:anywhere;}
+.tracking-entry[hidden] {display:none;}

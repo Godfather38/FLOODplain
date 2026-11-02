@@ -1,10 +1,11 @@
-import {mountSilverbellPoint} from './silverbell-point-view.js';
+import {loadAllRouteData} from './all-route-data.js';
+import {mountAllRoutePoint,ledgerCoverage,ledgerRows} from './all-route-point-view.js';
 import {trackingState,adaptRecentGauge,gaugeSummary} from './scene-data-contract.js';
 import {recentGauge} from './recent-readings.js';
-import {USGS_SITES} from '../config.js';
+import {USGS_SITES,ROUTE_INFO} from '../config.js';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const when=t=>t&&Number.isFinite(Date.parse(t))?new Date(t).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+' MST':'Unknown time';
-let inventoryRequest;
+let inventoryRequest,ledgerRequest;
 export function routeInventory(inventory,routeId,entryId=null){
  if(inventory.schema!=='floodplain-tracking-v1')throw Error('Unsupported tracking inventory');
  const route=inventory.routes.find(r=>r.id===routeId);
@@ -31,17 +32,19 @@ export async function mountRouteTracking(root,{routeId,entryId=null}={}){
  root.innerHTML='<details class="route-tracking"><summary>Coverage & gauge tracking</summary><div data-tracking-body><p role="status">Loading route inventory.</p></div></details>';
  try{
   inventoryRequest??=fetch(new URL('./data/scene-contract/inventory.json',import.meta.url)).then(r=>{if(!r.ok)throw Error('Inventory HTTP '+r.status);return r.json()}).catch(e=>{inventoryRequest=null;throw e});
-  const inventory=await inventoryRequest;if(!root.isConnected)return;
-  const {route,entries}=routeInventory(inventory,routeId,entryId),now=new Date().toISOString();
-  const inside=entries.filter(e=>e.model?.status==='modeled').length,outside=entries.filter(e=>e.model?.status==='outside_coverage').length,awaiting=entries.filter(e=>e.model?.resultStatus==='awaiting_verified_output').length;
+  ledgerRequest??=loadAllRouteData({now:new Date().toISOString()}).catch(e=>{ledgerRequest=null;throw e});
+  const [inventory,data]=await Promise.all([inventoryRequest,ledgerRequest]);if(!root.isConnected)return;
+  const entries=ledgerRows(data,routeId,entryId);
+  const counts=status=>entries.filter(e=>e.coverageStatus===status).length;
   const body=root.querySelector('[data-tracking-body]');
-  root.querySelector('summary').textContent=`Coverage & gauge tracking · ${entries.length} ${entryId?'location':'locations'}`;
-  body.innerHTML=`<p><strong>${inside} with model output · ${outside} outside · ${awaiting} awaiting output</strong></p><p>Results come from different recorded runs: original refined coverage and two completed Silverbell points. Locations outside the original refined run have not been reassessed across the new Silverbell domain. Separate from the current map’s coverage and route rating. These are frozen model footprints, not confirmed road depths.</p><p>${route?.terrainScreening==='prepared_centerline_minima_available'?'Centreline minima screening supplied.':route?.terrainScreening==='two_extension_minima_only'?'Silverbell screening contains only two extension minima.':'Full terrain screening not yet supplied for this route.'} This is not a complete survey of real-world dips.</p>${entries.length?'':'<p>No matching inventory record. Coverage is unknown.</p>'}<div data-tracking-entries></div>`;
+  root.querySelector('summary').textContent='Coverage & gauge tracking · '+entries.length+' evidence records';
+  body.innerHTML='<p><strong>'+counts('full_window')+' full-window · '+counts('partial_window')+' partial-window · '+counts('uncovered')+' uncovered</strong></p><p>Across all routes: 234 full-window, 165 partial-window and 59 uncovered records. Routes share records; these are crossings, junctions and terrain candidates, not independently confirmed dips. Coverage does not change road warnings.</p><label>Find a location<input type="search" data-tracking-search placeholder="Name, record ID or coordinates"></label><label>Show records<select data-tracking-filter><option value="">All coverage</option><option value="full_window">Full recorded window</option><option value="partial_window">Partial recorded window</option><option value="uncovered">Uncovered</option><option value="overlap">Overlapping outputs</option></select></label><p data-match-count role="status"></p><div data-tracking-entries></div>';
   for(const entry of entries){
    const detail=document.createElement('details');detail.className='tracking-entry';detail.dataset.trackingId=entry.id;
-   detail.innerHTML=`<summary>${esc(entry.name)}<span>${esc(coverageText(entry,now))}</span></summary><div class="tracking-entry-body"><p>${entry.kind==='terrain_minimum'?'Terrain-profile candidate; not a confirmed flood depth or drainage structure.':'Existing mapped crossing or named route point.'}</p><p>Location: ${entry.coordinates.map(v=>v.toFixed(5)).reverse().join(', ')}<br>Run: ${esc(entry.model?.runId??'Unknown')}<br>Valid: ${esc(when(entry.model?.validFrom))} to ${esc(when(entry.model?.validTo))}</p><p>Coverage does not grant clearance. Existing warnings and closures above still apply.</p><div data-entry-gauges></div></div>`;
+   detail.innerHTML=`<summary>${esc(entry.name)}<span>${esc(ledgerCoverage(entry))}${entry.overlap?' · Separate overlapping outputs':''}</span></summary><div class="tracking-entry-body"><p>Record type: ${esc(({officialRoadJunctions:'Official road junction',terrain_profile_minimum:'Terrain-profile candidate',terrain_minimum:'Terrain-profile candidate',mapped_crossing:'Mapped crossing'}[entry.kind]??entry.kind.replaceAll('_',' ')))}. Location: ${entry.coordinates.map(v=>v.toFixed(5)).reverse().join(', ')}.</p><p>Shared route memberships: ${entry.routeIds.map(id=>esc(ROUTE_INFO[id]?.name??id)).join(', ')}. Record: ${esc(entry.id)}.</p><div data-point-results></div><div data-entry-gauges></div></div>`;
    body.querySelector('[data-tracking-entries]').append(detail);
-   if(entry.model?.resultStatus==='model_output_available'&&entry.model.pointSeriesPath==='silverbell-point-scene.json'){const panel=document.createElement('section');panel.className='recorded-point';detail.querySelector('.tracking-entry-body').prepend(panel);let loaded=false;detail.addEventListener('toggle',()=>{if(detail.open&&!loaded){loaded=true;mountSilverbellPoint(panel,entry)}});}
+   let loaded=false;detail.addEventListener('toggle',()=>{if(detail.open&&!loaded){loaded=true;mountAllRoutePoint(detail.querySelector('[data-point-results]'),entry,data)}});
+   detail.dataset.coverage=entry.coverageStatus;detail.dataset.overlap=Boolean(entry.overlap);detail.dataset.search=[entry.name,entry.id,...entry.coordinates].join(' ').toLowerCase();
    const gauges=detail.querySelector('[data-entry-gauges]');
    if(!entry.gaugeAssociations?.length)gauges.innerHTML='<p>No hydrologically linked gauge supplied for this location. Gauge support is unknown.</p>';
    for(const association of entry.gaugeAssociations??[]){
@@ -56,5 +59,6 @@ export async function mountRouteTracking(root,{routeId,entryId=null}={}){
     gauges.append(box);
    }
   }
+  const filter=()=>{const query=body.querySelector('[data-tracking-search]').value.toLowerCase().trim(),coverage=body.querySelector('[data-tracking-filter]').value;let count=0;for(const row of body.querySelectorAll('.tracking-entry')){row.hidden=!(row.dataset.search.includes(query)&&(!coverage||(coverage==='overlap'?row.dataset.overlap==='true':row.dataset.coverage===coverage)));if(!row.hidden)count++;}body.querySelector('[data-match-count]').textContent=count+' matching records'+(entryId?' · Open the parent route to see its full ledger.':'');};body.querySelector('[data-tracking-search]').oninput=filter;body.querySelector('[data-tracking-filter]').onchange=filter;filter();
  }catch(e){if(root.isConnected)root.querySelector('[data-tracking-body]').textContent='Tracking unavailable: '+e.message+'. Missing inventory is not evidence of a clear road.'}
 }
