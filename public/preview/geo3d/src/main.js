@@ -9,6 +9,7 @@ import {sceneHeights,sampleHeights} from './elevation.js';
 import {loadSceneData} from './data-source.js';
 import {coarseBed,pickChannels,carveFine} from './channels.js';
 import {visibleRoadRuns,ribbonMesh} from './roads.js';
+import {mountAcknowledgement} from './acknowledge.js';
 const $=id=>document.getElementById(id);
 const params=new URLSearchParams(location.search),profile=new FrameProfile();
 const diagnostics={ready:false,errors:[],frameTimes:[],backend:null,buffer:null,interpolationHoldFrames:0};
@@ -169,11 +170,7 @@ async function init(){
  };
  worker.postMessage({type:'init',grid:{...GRID},bed:channels.bed,sources:channels.sources});
 }
-// One acknowledgement, then out of the way. Blocked storage just means asking again.
-const ACK_KEY='geo3d-simulation-ack';
-const acknowledged=()=>{try{return localStorage.getItem(ACK_KEY)==='1';}catch{return false;}};
-$('simulation-ack').hidden=acknowledged();
-$('simulation-ack-ok').onclick=()=>{$('simulation-ack').hidden=true;try{localStorage.setItem(ACK_KEY,'1');}catch{}};
+mountAcknowledgement();
 $('measure').onclick=()=>measure().catch(fail);
 $('panel').addEventListener('pointerdown',e=>e.stopPropagation());
 // On a phone the open panel would cover most of the scene.

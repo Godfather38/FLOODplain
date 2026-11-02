@@ -38,7 +38,8 @@ function traceUpstream(start,{receiver,area},taken,minArea){
  }
  return path;
 }
-export function pickChannels(bed,grid,maxTributaries=2){
+// carve is 0 on the map layer: the map's own terrain cannot be cut, so water must sit on it.
+export function pickChannels(bed,grid,maxTributaries=2,carve=CARVE){
  const d=drainage(bed,grid),{nx,nz,x0,z0,dx,dz}=grid,xy=k=>({x:x0+(k%nx)*dx,z:z0+Math.floor(k/nx)*dz});
  // Score by the height the water falls. The biggest catchment here runs along the
  // flat valley floor, where a coarse grid can only draw a wide, shapeless sheet.
@@ -69,7 +70,7 @@ export function pickChannels(bed,grid,maxTributaries=2){
   let level=Infinity;const line=[];
   for(let q=cells.length-1;q>=0;q--){
    const k=cells[q];
-   level=Math.min(level-MIN_DROP,d.filled[k]-CARVE);
+   level=Math.min(level-MIN_DROP,d.filled[k]-carve);
    carved[k]=Math.min(carved[k],level);
    line.push({...xy(k),level});
   }

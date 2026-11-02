@@ -11,7 +11,7 @@ import {readFile} from 'node:fs/promises';
 import {extname,join,normalize,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('..',import.meta.url));
-const types={'.html':'text/html;charset=utf-8','.js':'text/javascript','.css':'text/css','.json':'application/json','.geojson':'application/geo+json','.png':'image/png','.svg':'image/svg+xml'};
+const types={'.html':'text/html;charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.geojson':'application/geo+json','.png':'image/png','.svg':'image/svg+xml'};
 const port=Number(process.argv[2])||4173,host=process.env.GEO3D_LAN?'0.0.0.0':'127.0.0.1';
 const local=new Set(['127.0.0.1','::1','::ffff:127.0.0.1']);
 createServer(async (request,response)=>{

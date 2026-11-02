@@ -1,5 +1,6 @@
 html,body{margin:0;height:100%;overflow:hidden;background:#18333b;color:#eef3ef;font:14px/1.4 system-ui,sans-serif}
 #viewport,#viewport canvas{position:fixed;inset:0;display:block;touch-action:none;outline:0}
+#map{position:fixed;inset:0}
 .card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(320px,calc(100vw - 32px));box-sizing:border-box;padding:16px;border-radius:12px;background:#18333bee}
 .card pre{white-space:pre-wrap;font-size:12px;opacity:.8}
 .progress{height:4px;margin-top:10px;background:#ffffff22;border-radius:2px}
