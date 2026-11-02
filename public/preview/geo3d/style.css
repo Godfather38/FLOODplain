@@ -1,0 +1,16 @@
+html,body{margin:0;height:100%;overflow:hidden;background:#18333b;color:#eef3ef;font:14px/1.4 system-ui,sans-serif}
+#viewport,#viewport canvas{position:fixed;inset:0;display:block;touch-action:none;outline:0}
+.card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(320px,calc(100vw - 32px));box-sizing:border-box;padding:16px;border-radius:12px;background:#18333bee}
+.card pre{white-space:pre-wrap;font-size:12px;opacity:.8}
+.progress{height:4px;margin-top:10px;background:#ffffff22;border-radius:2px}
+.progress i{display:block;height:100%;width:0;background:#35b5b6;border-radius:2px}
+#panel{position:fixed;left:max(8px,env(safe-area-inset-left));top:max(8px,env(safe-area-inset-top));width:min(320px,calc(100vw - 16px));max-height:calc(100vh - 16px);box-sizing:border-box;overflow:auto;padding:10px 12px;border-radius:10px;background:#18333be0;font-size:12.5px}
+#panel summary{cursor:pointer;font-weight:600}
+#panel p{margin:8px 0}
+#panel pre{margin:8px 0;white-space:pre-wrap;overflow-wrap:anywhere;font:11.5px/1.45 ui-monospace,monospace}
+#panel a{color:#84d6d8}
+#source[data-mode=dev-snapshot]{padding:4px 6px;border-radius:4px;background:#f2c14e;color:#222;font-weight:600}
+button{min-height:40px;padding:0 12px;border:0;border-radius:8px;background:#35b5b6;color:#10262c;font:inherit;font-weight:600}
+button:disabled{opacity:.5}
+.credit{opacity:.75;font-size:11px}
+[hidden]{display:none!important}
