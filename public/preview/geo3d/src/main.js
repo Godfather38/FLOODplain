@@ -150,7 +150,7 @@ async function init(){
  window.geo3d={diagnostics,scene,camera,renderer,view,fields,channels,setPause,measure,snapshot:()=>({ready:diagnostics.ready,source,time:simTime,renderTime:shaders.U.time.value,interpolationHoldFrames:diagnostics.interpolationHoldFrames,backend:diagnostics.backend,buffer:diagnostics.buffer,worker:diagnostics.worker,metrics:diagnostics.metrics,errors:diagnostics.errors})};
  window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();resize();});
  document.addEventListener('visibilitychange',()=>setPause(document.hidden));
- $('progress-text').textContent='Filling the channels';
+ $('progress-text').textContent='Starting the water simulation';
  worker=new Worker(new URL('./worker.js',import.meta.url),{type:'module'});
  worker.onerror=e=>fail(e.message);
  worker.onmessage=async ({data:message})=>{
@@ -169,6 +169,11 @@ async function init(){
  };
  worker.postMessage({type:'init',grid:{...GRID},bed:channels.bed,sources:channels.sources});
 }
+// One acknowledgement, then out of the way. Blocked storage just means asking again.
+const ACK_KEY='geo3d-simulation-ack';
+const acknowledged=()=>{try{return localStorage.getItem(ACK_KEY)==='1';}catch{return false;}};
+$('simulation-ack').hidden=acknowledged();
+$('simulation-ack-ok').onclick=()=>{$('simulation-ack').hidden=true;try{localStorage.setItem(ACK_KEY,'1');}catch{}};
 $('measure').onclick=()=>measure().catch(fail);
 $('panel').addEventListener('pointerdown',e=>e.stopPropagation());
 // On a phone the open panel would cover most of the scene.

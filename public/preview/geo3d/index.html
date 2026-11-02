@@ -1,18 +1,17 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex"><meta name="theme-color" content="#18333b"><title>FLOODplain 3D prototype</title>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex"><meta name="theme-color" content="#18333b"><title>FLOODplain 3D simulation</title>
 <link rel="stylesheet" href="./style.css">
 <script>
 // The demo's shader reads its preset from the address, before any module runs.
 {const u=new URL(location.href);if(u.searchParams.get('preset')!=='tiny-toon'){u.searchParams.set('preset','tiny-toon');history.replaceState(null,'',u);}}
 </script>
 <script type="importmap">{"imports":{"three":"../coastal-lowcost/vendor/three.webgpu.js","three/webgpu":"../coastal-lowcost/vendor/three.webgpu.js","three/tsl":"../coastal-lowcost/vendor/three.tsl.js","three/addons/":"../coastal-lowcost/vendor/addons/"}}</script></head>
-<body><main id="viewport" aria-label="3D view of terrain, roads and animated water around Gates Pass. Drag to turn. Scroll or pinch to zoom."></main>
-<div id="simulation-tag" role="note">Simulation · not real water</div>
+<body><main id="viewport" aria-label="3D simulation: real terrain and roads with simulated water around Gates Pass. Drag to turn. Scroll or pinch to zoom."></main>
+<div id="simulation-ack" class="card" role="dialog" aria-labelledby="simulation-ack-title" hidden><strong id="simulation-ack-title">This water is simulated</strong><p>It is a 3D model, not real conditions or a forecast. If you see water on a real road, turn around, don't drown.</p><button id="simulation-ack-ok">Got it</button></div>
 <div id="loading" class="card"><span id="progress-text">Starting</span><div class="progress"><i id="progress"></i></div></div>
 <div id="error" class="card" hidden><strong>The 3D scene could not load</strong><p>It needs live elevation and road data and a browser with WebGL 2. Saved data is never used in its place.</p><pre id="error-detail"></pre></div>
 <aside id="panel"><details open><summary>About this simulation</summary>
- <p>This water is a simulated 3D model, not current conditions or a forecast. It shows all the time, whatever the weather, and its path and surges are picked from the terrain's shape. Heights are exaggerated 2×.</p>
- <p>If you see water on a real road, turn around, don't drown.</p>
+ <p>The water is simulated, not real conditions or a forecast. It shows all the time, whatever the weather, and its path and surges are picked from the terrain's shape. Heights are exaggerated 2×.</p>
  <p id="source" data-mode="pending">Loading data</p>
  <pre id="metrics" aria-live="off"></pre>
  <button id="measure" disabled>Measure 30 seconds</button>

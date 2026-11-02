@@ -48,13 +48,14 @@ test('the demo is byte-identical to the pinned commit and keeps opaque water', (
  assert.match(main,/coastal-lowcost\/src\/shading\.js/);
 });
 
-test('the simulation label is always on screen and cannot be collapsed', () => {
- const page=read('public/preview/geo3d/index.html'),css=read('public/preview/geo3d/style.css');
- assert.match(page,/<div id="simulation-tag"[^>]*>Simulation · not real water<\/div>/);
- assert.ok(page.indexOf('simulation-tag')<page.indexOf('<aside id="panel"'),'it sits outside the collapsible panel');
- assert.match(page,/turn around, don't drown/);
- assert.match(css,/#simulation-tag\{position:fixed/);
- assert.doesNotMatch(read('public/preview/geo3d/src/main.js'),/simulation-tag/,'no script hides it');
+test('a dismissible acknowledgement and the page text say the water is simulated', () => {
+ const page=read('public/preview/geo3d/index.html'),main=read('public/preview/geo3d/src/main.js');
+ assert.match(page,/id="simulation-ack"[\s\S]*This water is simulated[\s\S]*turn around, don't drown[\s\S]*id="simulation-ack-ok"/);
+ assert.match(main,/simulation-ack-ok'\)\.onclick/);
+ assert.doesNotMatch(page,/simulation-(tag|banner)/,'no permanent label on screen');
+ assert.match(page,/<title>FLOODplain 3D simulation<\/title>/);
+ assert.match(page,/The water is simulated/);
+ assert.match(read('public/preview/geo3d/src/data-source.js'),/Water: simulated\./);
 });
 
 test('the live app does not load the prototype', () => {

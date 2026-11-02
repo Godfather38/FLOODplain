@@ -25,7 +25,7 @@ async function loadLive(){
   Promise.all(tilesForScene().map(loadTile)),
   fetchOk(new URL('../../../data/routes.geojson',import.meta.url),{cache:'no-store'}).then(r=>r.json()),
  ]);
- return{metres:elevationGrid(tiles),routes,source:{mode:'live',label:'Live: elevation and road data requested on this load'}};
+ return{metres:elevationGrid(tiles),routes,source:{mode:'live',label:'Terrain and roads: live data requested on this load. Water: simulated.'}};
 }
 async function loadSnapshot(name){
  const snapshot=await (await fetchOk(`/__dev/geo3d-snapshots/${name}.json`)).json();
