@@ -1,0 +1,25 @@
+import {chromium} from 'playwright';
+import {createServer} from 'node:http';
+import {readFile,writeFile} from 'node:fs/promises';
+import {resolve,extname,sep} from 'node:path';
+import assert from 'node:assert/strict';
+const root=resolve('public');
+const server=createServer(async(req,res)=>{try{const path=resolve(root,'.'+new URL(req.url,'http://localhost').pathname);if(!path.startsWith(root+sep))throw Error();res.setHeader('content-type',({'.js':'text/javascript','.json':'application/json','.frag':'text/plain','.vert':'text/plain'})[extname(path)]||'application/octet-stream');res.end(await readFile(path));}catch{res.writeHead(404).end();}}).listen(8096,'127.0.0.1');
+const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+const result={environment:'Actual Brawley source scene, Chrome SwiftShader compute-only module; no separate viewer/camera or hardware-performance claim',errors:[]};
+try{
+ const page=await browser.newPage();page.on('pageerror',e=>result.errors.push(e.message));page.on('console',m=>{if(m.type()==='error')result.errors.push(m.text());});
+ await page.route('**/fluid-compute-test',r=>r.fulfill({contentType:'text/html',body:'<!doctype html><title>Junction compute verification</title><script type="module">window.ready=true;</script>'}));
+ await page.goto('http://127.0.0.1:8096/fluid-compute-test');
+ result.initial=await page.evaluate(async()=>{
+  const {createJunctionFluid}=await import('/simulation/fluid-prototype/junction-fluid.js');
+  const base='/simulation/data/scene-contract/',scene=await(await fetch(base+'brawley-scene.json')).json();
+  const terrainTiles=await Promise.all(scene.terrain.map(async a=>{const r=await fetch(base+a.path),bytes=await r.arrayBuffer();const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(n=>n.toString(16).padStart(2,'0')).join('');if(hash!==a.sha256)throw Error('Terrain checksum mismatch');return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).json();}));
+  const t=performance.now();window.fluid=await createJunctionFluid({scene,terrainTiles,frameIndex:0,maxParticles:2048});window.before=new Float32Array(fluid.positions);return {initializationMs:performance.now()-t,...fluid.stats};
+ });
+ result.advanced=await page.evaluate(()=>{const timings=[];for(let i=0;i<60;i++){const t=performance.now();fluid.step(1/60);timings.push(performance.now()-t);}let moved=0,maxMove=0,bedViolations=0,missingViolations=0;const f=fluid.field;for(let i=0;i<fluid.count;i++){const x=fluid.positions[i*3],y=fluid.positions[i*3+1],z=fluid.positions[i*3+2],move=Math.hypot(x-before[i*3],y-before[i*3+1],z-before[i*3+2]);if(move>1e-4)moved++;maxMove=Math.max(move,maxMove);const px=Math.max(0,Math.min(f.resolution-1,Math.floor((x+f.width/2)/f.width*f.resolution))),py=Math.max(0,Math.min(f.resolution-1,Math.floor((y+f.depth/2)/f.depth*f.resolution))),k=py*f.resolution+px;if(f.faces[k]<0)missingViolations++;if(z<f.beds[k]-.001)bedViolations++;}return {...fluid.stats,moved,maxMove,bedViolations,missingViolations,timings,finite:[...fluid.positions].every(Number.isFinite),velocityFinite:[...fluid.velocities].every(Number.isFinite),cellIndicesValid:[...fluid.nativeCellIndices].every(i=>i>=0&&i<f.scene.cells.length)};});
+ result.frameChange=await page.evaluate(()=>{fluid.initializeFrame(20);return {...fluid.stats,positions:fluid.positions.slice(0,9)};});
+ result.reset=await page.evaluate(()=>{fluid.initializeFrame(0);let maxDifference=0;for(let i=0;i<before.length;i++)maxDifference=Math.max(maxDifference,Math.abs(fluid.positions[i]-before[i]));return {maxDifference,velocityZero:[...fluid.velocities].every(v=>v===0),...fluid.stats};});
+ result.dispose=await page.evaluate(()=>{fluid.dispose();let rejected=false;try{fluid.step(1/60);}catch{rejected=true;}return {count:fluid.count,rejected};});
+ assert.equal(result.initial.particleCount,2048);assert.equal(result.advanced.steps,60);assert.ok(result.advanced.moved>100);assert.ok(result.advanced.maxMove>.005);assert.equal(result.advanced.finite,true);assert.equal(result.advanced.velocityFinite,true);assert.equal(result.advanced.cellIndicesValid,true);assert.equal(result.advanced.bedViolations,0);assert.equal(result.advanced.missingViolations,0);assert.notEqual(result.frameChange.clippedInitialVolumeM3,result.initial.clippedInitialVolumeM3);assert.equal(result.reset.maxDifference,0);assert.equal(result.reset.velocityZero,true);assert.deepEqual(result.reset.meanSimulatedHorizontalVelocityMps,[0,0]);assert.equal(result.dispose.count,0);assert.equal(result.dispose.rejected,true);assert.deepEqual(result.errors,[]);result.passed=true;console.log(JSON.stringify(result));
+}catch(error){result.failure=error.stack;console.error(error);process.exitCode=1;}finally{await writeFile('public/simulation/fluid-prototype/verification.json',JSON.stringify(result,null,2));await browser.close();server.closeAllConnections();server.close();}

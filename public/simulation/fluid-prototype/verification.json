@@ -1,0 +1,368 @@
+{
+  "environment": "Actual Brawley source scene, Chrome SwiftShader compute-only module; no separate viewer/camera or hardware-performance claim",
+  "errors": [],
+  "initial": {
+    "initializationMs": 225.89999997615814,
+    "solver": "PIC/FLIP",
+    "sourceVelocityAvailable": false,
+    "motionMeaning": "Illustrative locally simulated pressure/gravity motion initialized from native terrain and water; not native forecast velocity",
+    "boundaryMeaning": "Closed bounded junction; dry/missing/native-water support is impermeable; no inferred inlet or discharge",
+    "upstream": {
+      "repository": "https://github.com/jizhouxu/3d-fluid-simulation",
+      "commit": "7d6640693745591ff37eadd4276cde3ecba51ac4",
+      "license": "MIT"
+    },
+    "steps": 0,
+    "sourceTime": "2026-11-01T17:00:00Z",
+    "sourceSha256": "9e563a872447b617342c8f4c7395d5a4581a8bed28d21fb484b0c37405b9a41c",
+    "sourceFrameIndex": 0,
+    "particleCount": 2048,
+    "clippedInitialVolumeM3": 351.9131660461426,
+    "wetFieldSamples": 1092,
+    "elapsedSeconds": 0,
+    "solveSubmissionMs": 0,
+    "readbackMs": 0,
+    "readbackBytes": 32768,
+    "meanSimulatedHorizontalVelocityMps": [
+      0,
+      0
+    ],
+    "maxStepDisplacementM": 0,
+    "gridResolution": [
+      48,
+      3,
+      48
+    ],
+    "gridCellM": 3.3333333333333335,
+    "particleVolumeM3": 0.17183260060846806,
+    "physicalRadiusM": 0.34488342110770454,
+    "renderRadiusRecommendationM": 0.43110427638463067,
+    "provenance": {
+      "runId": "refined-full-41344983607",
+      "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+      "verticalDatum": "NAVD88",
+      "terrainEquivalence": {
+        "method": "exact-native-geometry",
+        "runId": "refined-full-41344983607",
+        "sourceRunId": "refined-partial-41339621278",
+        "targetRunId": "refined-full-41344983607",
+        "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+        "targetGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+        "verticalDatum": "NAVD88",
+        "cellCount": 398613,
+        "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+        "verifiedFields": [
+          "ordered nativeFaceId",
+          "lon",
+          "lat",
+          "areaM2",
+          "resolutionM",
+          "edgeLengthsM",
+          "all native ring vertices",
+          "projectedCrs",
+          "native mesh SHA256",
+          "vertical datum"
+        ]
+      },
+      "fieldSpacingM": [
+        1.25,
+        1.25
+      ]
+    }
+  },
+  "advanced": {
+    "solver": "PIC/FLIP",
+    "sourceVelocityAvailable": false,
+    "motionMeaning": "Illustrative locally simulated pressure/gravity motion initialized from native terrain and water; not native forecast velocity",
+    "boundaryMeaning": "Closed bounded junction; dry/missing/native-water support is impermeable; no inferred inlet or discharge",
+    "upstream": {
+      "repository": "https://github.com/jizhouxu/3d-fluid-simulation",
+      "commit": "7d6640693745591ff37eadd4276cde3ecba51ac4",
+      "license": "MIT"
+    },
+    "steps": 60,
+    "sourceTime": "2026-11-01T17:00:00Z",
+    "sourceSha256": "9e563a872447b617342c8f4c7395d5a4581a8bed28d21fb484b0c37405b9a41c",
+    "sourceFrameIndex": 0,
+    "particleCount": 2048,
+    "clippedInitialVolumeM3": 351.9131660461426,
+    "wetFieldSamples": 1092,
+    "elapsedSeconds": 1.0000000000000013,
+    "solveSubmissionMs": 0.19999998807907104,
+    "readbackMs": 31.200000047683716,
+    "readbackBytes": 32768,
+    "meanSimulatedHorizontalVelocityMps": [
+      0.0013253465294837952,
+      0.0024058297276496887
+    ],
+    "maxStepDisplacementM": 0.004289599512265246,
+    "gridResolution": [
+      48,
+      3,
+      48
+    ],
+    "gridCellM": 3.3333333333333335,
+    "particleVolumeM3": 0.17183260060846806,
+    "physicalRadiusM": 0.34488342110770454,
+    "renderRadiusRecommendationM": 0.43110427638463067,
+    "provenance": {
+      "runId": "refined-full-41344983607",
+      "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+      "verticalDatum": "NAVD88",
+      "terrainEquivalence": {
+        "method": "exact-native-geometry",
+        "runId": "refined-full-41344983607",
+        "sourceRunId": "refined-partial-41339621278",
+        "targetRunId": "refined-full-41344983607",
+        "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+        "targetGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+        "verticalDatum": "NAVD88",
+        "cellCount": 398613,
+        "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+        "verifiedFields": [
+          "ordered nativeFaceId",
+          "lon",
+          "lat",
+          "areaM2",
+          "resolutionM",
+          "edgeLengthsM",
+          "all native ring vertices",
+          "projectedCrs",
+          "native mesh SHA256",
+          "vertical datum"
+        ]
+      },
+      "fieldSpacingM": [
+        1.25,
+        1.25
+      ]
+    },
+    "moved": 2013,
+    "maxMove": 0.23729677748840597,
+    "bedViolations": 0,
+    "missingViolations": 0,
+    "timings": [
+      141.30000001192093,
+      32.89999997615814,
+      31.80000001192093,
+      32.30000001192093,
+      31.799999952316284,
+      31.900000035762787,
+      31.599999964237213,
+      33.80000001192093,
+      32.69999998807907,
+      34.5,
+      34.60000002384186,
+      35.39999997615814,
+      34.700000047683716,
+      34.89999997615814,
+      35.69999998807907,
+      36.19999998807907,
+      36.200000047683716,
+      32.799999952316284,
+      31.30000001192093,
+      30.80000001192093,
+      32.89999997615814,
+      32.40000003576279,
+      32.59999996423721,
+      33.60000002384186,
+      31.899999976158142,
+      33,
+      30.400000035762787,
+      31.69999998807907,
+      32.5,
+      33.10000002384186,
+      32.39999997615814,
+      33.89999997615814,
+      33.5,
+      31.600000023841858,
+      31.69999998807907,
+      32.5,
+      32.10000002384186,
+      31.80000001192093,
+      30.899999976158142,
+      31.899999976158142,
+      31.100000023841858,
+      33.89999997615814,
+      32.5,
+      33.5,
+      34.19999998807907,
+      35.69999998807907,
+      35.30000001192093,
+      33.19999998807907,
+      31.900000035762787,
+      32.80000001192093,
+      32.5,
+      32.59999996423721,
+      33.5,
+      33.60000002384186,
+      31.80000001192093,
+      31.19999998807907,
+      30.899999976158142,
+      32.60000002384186,
+      31.899999976158142,
+      31.5
+    ],
+    "finite": true,
+    "velocityFinite": true,
+    "cellIndicesValid": true
+  },
+  "frameChange": {
+    "solver": "PIC/FLIP",
+    "sourceVelocityAvailable": false,
+    "motionMeaning": "Illustrative locally simulated pressure/gravity motion initialized from native terrain and water; not native forecast velocity",
+    "boundaryMeaning": "Closed bounded junction; dry/missing/native-water support is impermeable; no inferred inlet or discharge",
+    "upstream": {
+      "repository": "https://github.com/jizhouxu/3d-fluid-simulation",
+      "commit": "7d6640693745591ff37eadd4276cde3ecba51ac4",
+      "license": "MIT"
+    },
+    "steps": 0,
+    "sourceTime": "2026-11-01T22:00:00Z",
+    "sourceSha256": "51ff42b6a3fa03ac4eb3ab67c22ad73a675af87c255a39e7372e496119f5a594",
+    "sourceFrameIndex": 20,
+    "particleCount": 2048,
+    "clippedInitialVolumeM3": 445.03612518310547,
+    "wetFieldSamples": 1435,
+    "elapsedSeconds": 0,
+    "solveSubmissionMs": 0,
+    "readbackMs": 0,
+    "readbackBytes": 32768,
+    "meanSimulatedHorizontalVelocityMps": [
+      0,
+      0
+    ],
+    "maxStepDisplacementM": 0,
+    "gridResolution": [
+      48,
+      3,
+      48
+    ],
+    "gridCellM": 3.3333333333333335,
+    "particleVolumeM3": 0.21730279549956322,
+    "physicalRadiusM": 0.3729571189798581,
+    "renderRadiusRecommendationM": 0.46619639872482266,
+    "provenance": {
+      "runId": "refined-full-41344983607",
+      "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+      "verticalDatum": "NAVD88",
+      "terrainEquivalence": {
+        "method": "exact-native-geometry",
+        "runId": "refined-full-41344983607",
+        "sourceRunId": "refined-partial-41339621278",
+        "targetRunId": "refined-full-41344983607",
+        "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+        "targetGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+        "verticalDatum": "NAVD88",
+        "cellCount": 398613,
+        "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+        "verifiedFields": [
+          "ordered nativeFaceId",
+          "lon",
+          "lat",
+          "areaM2",
+          "resolutionM",
+          "edgeLengthsM",
+          "all native ring vertices",
+          "projectedCrs",
+          "native mesh SHA256",
+          "vertical datum"
+        ]
+      },
+      "fieldSpacingM": [
+        1.25,
+        1.25
+      ]
+    },
+    "positions": {
+      "0": -43.02172088623047,
+      "1": -79.31388854980469,
+      "2": 606.3897094726562,
+      "3": -43.35594177246094,
+      "4": -79.69027709960938,
+      "5": 606.335693359375,
+      "6": -41.565162658691406,
+      "7": -79.19166564941406,
+      "8": 606.2106323242188
+    }
+  },
+  "reset": {
+    "maxDifference": 0,
+    "velocityZero": true,
+    "solver": "PIC/FLIP",
+    "sourceVelocityAvailable": false,
+    "motionMeaning": "Illustrative locally simulated pressure/gravity motion initialized from native terrain and water; not native forecast velocity",
+    "boundaryMeaning": "Closed bounded junction; dry/missing/native-water support is impermeable; no inferred inlet or discharge",
+    "upstream": {
+      "repository": "https://github.com/jizhouxu/3d-fluid-simulation",
+      "commit": "7d6640693745591ff37eadd4276cde3ecba51ac4",
+      "license": "MIT"
+    },
+    "steps": 0,
+    "sourceTime": "2026-11-01T17:00:00Z",
+    "sourceSha256": "9e563a872447b617342c8f4c7395d5a4581a8bed28d21fb484b0c37405b9a41c",
+    "sourceFrameIndex": 0,
+    "particleCount": 2048,
+    "clippedInitialVolumeM3": 351.9131660461426,
+    "wetFieldSamples": 1092,
+    "elapsedSeconds": 0,
+    "solveSubmissionMs": 0,
+    "readbackMs": 0,
+    "readbackBytes": 32768,
+    "meanSimulatedHorizontalVelocityMps": [
+      0,
+      0
+    ],
+    "maxStepDisplacementM": 0,
+    "gridResolution": [
+      48,
+      3,
+      48
+    ],
+    "gridCellM": 3.3333333333333335,
+    "particleVolumeM3": 0.17183260060846806,
+    "physicalRadiusM": 0.34488342110770454,
+    "renderRadiusRecommendationM": 0.43110427638463067,
+    "provenance": {
+      "runId": "refined-full-41344983607",
+      "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+      "verticalDatum": "NAVD88",
+      "terrainEquivalence": {
+        "method": "exact-native-geometry",
+        "runId": "refined-full-41344983607",
+        "sourceRunId": "refined-partial-41339621278",
+        "targetRunId": "refined-full-41344983607",
+        "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+        "targetGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+        "verticalDatum": "NAVD88",
+        "cellCount": 398613,
+        "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+        "verifiedFields": [
+          "ordered nativeFaceId",
+          "lon",
+          "lat",
+          "areaM2",
+          "resolutionM",
+          "edgeLengthsM",
+          "all native ring vertices",
+          "projectedCrs",
+          "native mesh SHA256",
+          "vertical datum"
+        ]
+      },
+      "fieldSpacingM": [
+        1.25,
+        1.25
+      ]
+    }
+  },
+  "dispose": {
+    "count": 0,
+    "rejected": true
+  },
+  "passed": true
+}
