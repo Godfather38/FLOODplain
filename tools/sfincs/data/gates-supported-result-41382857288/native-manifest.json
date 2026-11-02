@@ -55,5 +55,8 @@
   "sourceMeshSha256": "8111a81f60ef2790f9b2f436d415a3b2e47fa2e30f0da67d1d7c6e7089453585",
   "sourceMapSha256": "bcc364813165b88cc0889b97aabc037015deef8e0b621257df60d0f3f437ebb7",
   "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
-  "fullGatesCoverage": false
+  "fullGatesCoverage": false,
+  "savedEngineRun": "41290378239",
+  "engineRecompiled": false,
+  "engineSha256": "c4917bc54158b0943d6d128b45c4346a33d059fb5d93808d05520c975e38f090"
 }

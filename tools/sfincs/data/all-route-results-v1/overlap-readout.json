@@ -1,0 +1,460 @@
+{
+  "meaning": "Read-only comparison of actual native water surfaces at matching inventory IDs and UTC timestamps. These are separate model cases, not independent validation or a calibrated uncertainty interval. No averaging, rescaling or score changes.",
+  "commonRowsWithFiniteSurfaces": 1288,
+  "identitiesCompared": 23,
+  "maximumAbsoluteDifferenceByIdentity": [
+    {
+      "id": "terrain-minimum-f39cdaa394b1",
+      "time": "2026-11-02T02:45:00Z",
+      "northernSurfaceNAVD88M": 627.7655029296875,
+      "pictureRocksSurfaceNAVD88M": 626.30712890625,
+      "northernMinusPictureRocksM": 1.4583740234375,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.14677950660457,
+        32.402354407487806
+      ],
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ]
+    },
+    {
+      "id": "terrain-minimum-4b0848137cb3",
+      "time": "2026-11-02T06:45:00Z",
+      "northernSurfaceNAVD88M": 628.1923217773438,
+      "pictureRocksSurfaceNAVD88M": 626.9072875976562,
+      "northernMinusPictureRocksM": 1.2850341796875,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.14650054944751,
+        32.402442710606294
+      ],
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ]
+    },
+    {
+      "id": "terrain-minimum-4501e72fe2e6",
+      "time": "2026-11-02T06:45:00Z",
+      "northernSurfaceNAVD88M": 628.2777099609375,
+      "pictureRocksSurfaceNAVD88M": 627.18017578125,
+      "northernMinusPictureRocksM": 1.0975341796875,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.14608211268957,
+        32.40257516412698
+      ],
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ]
+    },
+    {
+      "id": "sc-avra",
+      "time": "2026-11-02T06:45:00Z",
+      "northernSurfaceNAVD88M": 628.2778930664062,
+      "pictureRocksSurfaceNAVD88M": 627.183349609375,
+      "northernMinusPictureRocksM": 1.09454345703125,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.14614,
+        32.40256
+      ],
+      "name": "Santa Cruz bridge on Avra Valley Rd",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ]
+    },
+    {
+      "id": "crossing-4901706bc313",
+      "time": "2026-11-02T06:45:00Z",
+      "northernSurfaceNAVD88M": 628.3931884765625,
+      "pictureRocksSurfaceNAVD88M": 627.4096069335938,
+      "northernMinusPictureRocksM": 0.98358154296875,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.14566,
+        32.40271
+      ],
+      "name": "Santa Cruz River",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ]
+    },
+    {
+      "id": "terrain-minimum-4b069a1559bc",
+      "time": "2026-11-01T17:00:00Z",
+      "northernSurfaceNAVD88M": 627.4961547851562,
+      "pictureRocksSurfaceNAVD88M": 626.5330810546875,
+      "northernMinusPictureRocksM": 0.96307373046875,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.14560389774968,
+        32.40272653787898
+      ],
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ]
+    },
+    {
+      "id": "crossing-aaf584237326",
+      "time": "2026-11-02T06:15:00Z",
+      "northernSurfaceNAVD88M": 628.1171264648438,
+      "pictureRocksSurfaceNAVD88M": 627.3154907226562,
+      "northernMinusPictureRocksM": 0.8016357421875,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.14714,
+        32.40224
+      ],
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ]
+    },
+    {
+      "id": "terrain-minimum-d6779dd28b51",
+      "time": "2026-11-02T06:45:00Z",
+      "northernSurfaceNAVD88M": 630.696533203125,
+      "pictureRocksSurfaceNAVD88M": 630.8040161132812,
+      "northernMinusPictureRocksM": -0.10748291015625,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.14117778287861,
+        32.40203036116328
+      ],
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-12918",
+      "time": "2026-11-02T00:30:00Z",
+      "northernSurfaceNAVD88M": 633.4901733398438,
+      "pictureRocksSurfaceNAVD88M": 633.5049438476562,
+      "northernMinusPictureRocksM": -0.0147705078125,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.13135257632025,
+        32.40065547255203
+      ],
+      "name": "E I10 EB EXIT 242 OFF RAMP / E I10 EB EXIT 242 ON RAMP / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-27232",
+      "time": "2026-11-02T00:15:00Z",
+      "northernSurfaceNAVD88M": 633.6307983398438,
+      "pictureRocksSurfaceNAVD88M": 633.6336669921875,
+      "northernMinusPictureRocksM": -0.00286865234375,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.13168751404929,
+        32.400327455293635
+      ],
+      "name": "N CASA GRANDE HY / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-18308",
+      "time": "2026-11-01T21:15:00Z",
+      "northernSurfaceNAVD88M": 627.2123413085938,
+      "pictureRocksSurfaceNAVD88M": 627.2100219726562,
+      "northernMinusPictureRocksM": 0.0023193359375,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.16147382969115,
+        32.402744962679414
+      ],
+      "name": "N WASSON AV / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    {
+      "id": "terrain-minimum-b65142cf1cc0",
+      "time": "2026-11-01T19:45:00Z",
+      "northernSurfaceNAVD88M": 627.3004760742188,
+      "pictureRocksSurfaceNAVD88M": 627.298583984375,
+      "northernMinusPictureRocksM": 0.00189208984375,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.16141837425745,
+        32.402695056131336
+      ],
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ]
+    },
+    {
+      "id": "terrain-minimum-49b357ddf2dd",
+      "time": "2026-11-01T17:00:00Z",
+      "northernSurfaceNAVD88M": 629.7538452148438,
+      "pictureRocksSurfaceNAVD88M": 629.7546997070312,
+      "northernMinusPictureRocksM": -0.0008544921875,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.16764949597349,
+        32.40267829569335
+      ],
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-311",
+      "time": "2026-11-01T17:45:00Z",
+      "northernSurfaceNAVD88M": 629.370361328125,
+      "pictureRocksSurfaceNAVD88M": 629.3707275390625,
+      "northernMinusPictureRocksM": -0.0003662109375,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.15513224356864,
+        32.40271496266898
+      ],
+      "name": "N SEATTLE AV / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-31590",
+      "time": "2026-11-01T18:15:00Z",
+      "northernSurfaceNAVD88M": 628.70947265625,
+      "pictureRocksSurfaceNAVD88M": 628.7097778320312,
+      "northernMinusPictureRocksM": -0.00030517578125,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.15720581672892,
+        32.40272377807682
+      ],
+      "name": "N PORTLAND AV / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-33595",
+      "time": "2026-11-01T18:15:00Z",
+      "northernSurfaceNAVD88M": 627.8865966796875,
+      "pictureRocksSurfaceNAVD88M": 627.8868408203125,
+      "northernMinusPictureRocksM": -0.000244140625,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.15943289111911,
+        32.40273237253893
+      ],
+      "name": "N MAYBROOK AV / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-11071",
+      "time": "2026-11-01T19:00:00Z",
+      "northernSurfaceNAVD88M": 616.888916015625,
+      "pictureRocksSurfaceNAVD88M": 616.8887329101562,
+      "northernMinusPictureRocksM": 0.00018310546875,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.2168348541397,
+        32.40254890654109
+      ],
+      "name": "N SANDARIO RD / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-17069",
+      "time": "2026-11-01T18:00:00Z",
+      "northernSurfaceNAVD88M": 630.1344604492188,
+      "pictureRocksSurfaceNAVD88M": 630.1345825195312,
+      "northernMinusPictureRocksM": -0.0001220703125,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.16346119775804,
+        32.40274663028193
+      ],
+      "name": "N LONGVIEW AV / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    {
+      "id": "terrain-minimum-b9f55da97354",
+      "time": "2026-11-01T18:45:00Z",
+      "northernSurfaceNAVD88M": 629.8335571289062,
+      "pictureRocksSurfaceNAVD88M": 629.8336181640625,
+      "northernMinusPictureRocksM": -6.103515625e-05,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.15215796185085,
+        32.40246037128092
+      ],
+      "name": "Terrain-profile minimum",
+      "routeIds": [
+        "avra",
+        "pr-avra",
+        "silverbell-south"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-28603",
+      "time": "2026-11-01T17:45:00Z",
+      "northernSurfaceNAVD88M": 630.9077758789062,
+      "pictureRocksSurfaceNAVD88M": 630.90771484375,
+      "northernMinusPictureRocksM": 6.103515625e-05,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.16530019545792,
+        32.40269172532648
+      ],
+      "name": "N AIRLINE RD / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-271011",
+      "time": "2026-11-01T17:00:00Z",
+      "northernSurfaceNAVD88M": 619.8070678710938,
+      "pictureRocksSurfaceNAVD88M": 619.8070068359375,
+      "northernMinusPictureRocksM": 6.103515625e-05,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.20483710046375,
+        32.402579459571115
+      ],
+      "name": "N AIR COMMERCE WY / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-8675",
+      "time": "2026-11-01T18:30:00Z",
+      "northernSurfaceNAVD88M": 631.8065795898438,
+      "pictureRocksSurfaceNAVD88M": 631.806640625,
+      "northernMinusPictureRocksM": -6.103515625e-05,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.15034255481703,
+        32.40176235138955
+      ],
+      "name": "N CEMENT PLANT RD / N QUARRY RD / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    {
+      "id": "pima-street-intersection-8676",
+      "time": "2026-11-01T19:00:00Z",
+      "northernSurfaceNAVD88M": 629.9981689453125,
+      "pictureRocksSurfaceNAVD88M": 629.9981079101562,
+      "northernMinusPictureRocksM": 6.103515625e-05,
+      "northernCellAreaM2": 39.0625,
+      "pictureRocksCellAreaM2": 39.0625,
+      "coordinates": [
+        -111.1530431957539,
+        32.402643911113806
+      ],
+      "name": "N SPOKANE AV / W AVRA VALLEY RD",
+      "routeIds": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    }
+  ],
+  "casePair": [
+    "41382880257",
+    "41382872468"
+  ],
+  "sourceFiles": [
+    {
+      "runId": "41382880257",
+      "path": "route-point-series.csv",
+      "sha256": "8c19ee45f8f7090546ccee0830c8c0b9e6ce3618db8c3940d41bc79b182a2109"
+    },
+    {
+      "runId": "41382872468",
+      "path": "route-point-series.csv",
+      "sha256": "2b9865f12a2c250056d5d64e17833be829fb2de435b34156e80795b0be9811a8"
+    }
+  ]
+}

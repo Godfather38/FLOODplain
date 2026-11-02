@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "status": "published_with_explicit_partial_window_and_terrain_gap",
+  "cases": [
+    {
+      "runId": "41382857288",
+      "modelVersion": "all-routes-gates-supported-v2",
+      "status": "complete",
+      "manifest": "../gates-supported-result-41382857288/compact/manifest.json",
+      "manifestSha256": "fe5a7793aea7b50800f62ed5a0c1dacc07a46a6169d12fc5847c1ec2aab98304",
+      "nativeArchiveManifest": "../gates-supported-result-41382857288/native-manifest.json",
+      "nativeArchiveManifestSha256": "31d27e014cabc1f9e4bcb2bcd5d7cfedaba670f4dbe32207c8f7c54e2d028853",
+      "pointSummary": "../gates-supported-result-41382857288/route-point-summary.json",
+      "pointSeries": "../gates-supported-result-41382857288/route-point-series.csv",
+      "validFrom": "2026-11-01T17:00:00Z",
+      "validTo": "2026-11-02T07:00:00Z",
+      "frames": 57,
+      "nativeFaces": 212035,
+      "counts": {
+        "retained": 155,
+        "located": 96,
+        "outsideCurrentNativeDomain": 59,
+        "locatedInInputButAbsentFromOutput": 0,
+        "boundaryAmbiguous": 0
+      }
+    },
+    {
+      "runId": "41382880257",
+      "modelVersion": "all-routes-northern-v3",
+      "status": "complete",
+      "manifest": "../northern-result-41382880257/compact/manifest.json",
+      "manifestSha256": "e274cbdffa2c5bb5ce0235047fbb3e28c374e6792bf08027d86c9f408aac5843",
+      "nativeArchiveManifest": "../northern-result-41382880257/native-manifest.json",
+      "nativeArchiveManifestSha256": "eff8f6eacc7be7bb4ae323d77c910cf98fd3b99f72e3cf33f32df69229ad47e3",
+      "pointSummary": "../northern-result-41382880257/route-point-summary.json",
+      "pointSeries": "../northern-result-41382880257/route-point-series.csv",
+      "validFrom": "2026-11-01T17:00:00Z",
+      "validTo": "2026-11-02T07:00:00Z",
+      "frames": 57,
+      "nativeFaces": 528201,
+      "counts": {
+        "retained": 138,
+        "located": 138,
+        "outsideCurrentNativeDomain": 0,
+        "locatedInInputButAbsentFromOutput": 0,
+        "boundaryAmbiguous": 0
+      }
+    },
+    {
+      "runId": "41382872468",
+      "modelVersion": "all-routes-picture-rocks-v2",
+      "status": "partial",
+      "manifest": "../picture-rocks-result-41382872468/compact/manifest.json",
+      "manifestSha256": "e6f73334423f6741e505e2eba45aa4a8bce13c7af7c368583306ba1e4e35d05e",
+      "nativeArchiveManifest": "../picture-rocks-result-41382872468/native-manifest.json",
+      "nativeArchiveManifestSha256": "a7381f966e60fc9eff2b63fa5a1145999a57f8e6817aa2bba1d815c9f4e6f4d4",
+      "pointSummary": "../picture-rocks-result-41382872468/route-point-summary.json",
+      "pointSeries": "../picture-rocks-result-41382872468/route-point-series.csv",
+      "validFrom": "2026-11-01T17:00:00Z",
+      "validTo": "2026-11-02T06:45:00Z",
+      "frames": 56,
+      "nativeFaces": 537476,
+      "counts": {
+        "retained": 189,
+        "located": 189,
+        "outsideCurrentNativeDomain": 0,
+        "locatedInInputButAbsentFromOutput": 0,
+        "boundaryAmbiguous": 0
+      }
+    }
+  ],
+  "coverageLedger": "coverage-ledger.json",
+  "coverageSummary": "coverage-summary.json",
+  "distinctEvidenceCounts": {
+    "distinctEvidenceIdentities": 458,
+    "nativeOutputAvailable": 399,
+    "outsideCompletedCases": 59,
+    "withOverlappingAvailableOutputs": 24,
+    "withFullRequestedWindowOutput": 234,
+    "withPartialWindowOutputOnly": 165,
+    "byInventoryArray": {
+      "entries": 88,
+      "officialRoadJunctions": 203,
+      "terrainMinimumCandidates": 167
+    }
+  },
+  "evidenceMeaning": "Canonical evidence identities, not unique independently confirmed physical dips. Shared route memberships and overlapping runs are not additional sites.",
+  "faceIdentityRule": "Key faces by runId and nativeFaceId; retain case identity and do not average overlapping case results.",
+  "sourceIssues": {
+    "NWM": "2026-11-01T13:00:00Z",
+    "HRRR": "2026-11-01T14:00:00Z",
+    "mode": "frozen_replay"
+  },
+  "openItems": [
+    {
+      "kind": "missing_final_forecast_frame",
+      "runId": "41382872468",
+      "missingTime": "2026-11-02T07:00:00Z",
+      "reason": "Approved 3600-second native cap reached; additional execution not authorized or attempted."
+    },
+    {
+      "kind": "missing_selected_terrain",
+      "areaKm2": 7.4221,
+      "uncoveredEvidenceIdentities": 59,
+      "mask": "../all-route-ready-v3/gates-terrain-recovery/gates-missing-mask-v2.tif",
+      "geojson": "../all-route-ready-v3/gates-terrain-recovery/gates-remaining-gap.geojson",
+      "reason": "Newer compatible surrounding terrain not established; older sources not silently substituted."
+    }
+  ],
+  "productionChanged": false,
+  "crossCaseComparison": {
+    "path": "overlap-readout.json",
+    "casePair": [
+      "41382880257",
+      "41382872468"
+    ],
+    "maximumAbsoluteMatchedPointSurfaceDifferenceM": 1.4583740234375,
+    "interpretation": "Actual same-ID/same-UTC native water-surface difference, not a calibrated uncertainty interval. Keep separate case identity; do not average or imply seamless agreement."
+  }
+}

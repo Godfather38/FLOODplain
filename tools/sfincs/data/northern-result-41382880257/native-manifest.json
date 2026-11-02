@@ -1,0 +1,72 @@
+{
+  "runId": "41382880257",
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41382880257",
+  "modelVersion": "all-routes-northern-v3",
+  "executionCommit": "3dbf2d44315fc384a4df9810fe79686f67c27d36",
+  "status": "completed_full_interval",
+  "nativeRuntimeSeconds": [
+    3354.942626953125
+  ],
+  "executionMode": "simulated_live_frozen_inputs",
+  "archiveSha256": "a0488c042e3c159467795abdf953dd9cf80a17a4a8303651a66a5253113ac2a6",
+  "archiveBytes": 217772490,
+  "parts": [
+    {
+      "path": "native-output.tar.gz.part00",
+      "bytes": 67108864,
+      "sha256": "b9141fd03df329651a43dc4dd7b670f94ce93f60247b1e5fcac9d6a09587d862"
+    },
+    {
+      "path": "native-output.tar.gz.part01",
+      "bytes": 67108864,
+      "sha256": "d3d43a611544e2cb124c3582fa52765350bb8c3ee956a1e5381cb8644432ab2b"
+    },
+    {
+      "path": "native-output.tar.gz.part02",
+      "bytes": 67108864,
+      "sha256": "fb02831c69a847950c6b88ae21d5d6b5144b6a2739331e5f6cb20b2a81dc6969"
+    },
+    {
+      "path": "native-output.tar.gz.part03",
+      "bytes": 16445898,
+      "sha256": "61cc9ac7179d3a88956837326a43d49106349a4cef1ca4b645137c71e39649f6"
+    }
+  ],
+  "archiveContents": [
+    "sfincs_map.nc",
+    "sfincs.nc",
+    "solver.log",
+    "sfincs.log",
+    "current-case.json",
+    "execution-started.txt",
+    "GCN10-NOTICE.txt",
+    "GCN10-source-metadata.xml",
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst",
+    "sfincs.20261102.070000.rst"
+  ],
+  "reassembly": "Concatenate parts in order and extract. Unchanged forcing/subgrid inputs remain in the referenced prepared archive.",
+  "nativeInputs": "../all-route-ready-v3/northern-native-case-v3/manifest.json",
+  "pointSummary": "route-point-summary.json",
+  "pointSeries": "route-point-series.csv",
+  "compact": "compact/manifest.json",
+  "resultSummary": "result-summary.json",
+  "sourceMeshSha256": "767347482d73597a2455ef36942b252f50df13bda3cb59cb660e9c5e6731fe85",
+  "sourceMapSha256": "70455dbe8b7d5d94f8f77457c9f0887df8285ae0560294bd9371fc28b305cff2",
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "fullGatesCoverage": null,
+  "savedEngineRun": "41290378239",
+  "engineRecompiled": false,
+  "engineSha256": "c4917bc54158b0943d6d128b45c4346a33d059fb5d93808d05520c975e38f090"
+}

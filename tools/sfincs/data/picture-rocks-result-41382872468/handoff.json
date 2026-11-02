@@ -1,0 +1,26 @@
+{
+  "runId": "all-routes-picture-rocks-v2-41382872468",
+  "manifest": "compact/manifest.json",
+  "manifestSha256": "e6f73334423f6741e505e2eba45aa4a8bce13c7af7c368583306ba1e4e35d05e",
+  "frames": 56,
+  "nativeFaces": 537476,
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T06:45:00Z",
+  "compressedPayloadBytes": 207639078,
+  "verification": "Every compact volume/surface array exactly matches native float32 after proven face-ID ordering, including NaNs. Payload hashes and native mesh hash match.",
+  "sourceIssues": {
+    "NWM": "2026-11-01T13:00:00Z",
+    "HRRR": "2026-11-01T14:00:00Z",
+    "mode": "frozen_replay"
+  },
+  "pointCounts": {
+    "retained": 189,
+    "located": 189,
+    "outsideCurrentNativeDomain": 0,
+    "locatedInInputButAbsentFromOutput": 0,
+    "boundaryAmbiguous": 0
+  },
+  "productionChanged": false,
+  "status": "partial",
+  "requestedEndReached": false
+}

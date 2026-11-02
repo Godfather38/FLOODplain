@@ -1,0 +1,71 @@
+{
+  "runId": "41382872468",
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41382872468",
+  "modelVersion": "all-routes-picture-rocks-v2",
+  "executionCommit": "3dbf2d44315fc384a4df9810fe79686f67c27d36",
+  "status": "partial_budget_timeout",
+  "nativeRuntimeSeconds": [
+    null
+  ],
+  "executionMode": "simulated_live_frozen_inputs",
+  "archiveSha256": "b705711febaa25326328fdf51a6fbf8eb1a580c5df349dfa2873e2af0a5fdca5",
+  "archiveBytes": 226851991,
+  "parts": [
+    {
+      "path": "native-output.tar.gz.part00",
+      "bytes": 67108864,
+      "sha256": "5b5e2ec817f528b86e038a2db33cedf1262b12d9b62eec50630215442e39a788"
+    },
+    {
+      "path": "native-output.tar.gz.part01",
+      "bytes": 67108864,
+      "sha256": "21aa449a48263ce9a1023b46b8bddd19e365349d33db107454a8ecb0762e9328"
+    },
+    {
+      "path": "native-output.tar.gz.part02",
+      "bytes": 67108864,
+      "sha256": "e86179a3b40f834eef7a49b8635fc52173796266f67859e8724f1b74d4e93c54"
+    },
+    {
+      "path": "native-output.tar.gz.part03",
+      "bytes": 25525399,
+      "sha256": "9a1fc4d8bb6f3dbae5b07dab3aa0b871c94d029e771e49203e1bccb37d90f166"
+    }
+  ],
+  "archiveContents": [
+    "sfincs_map.nc",
+    "sfincs.nc",
+    "solver.log",
+    "sfincs.log",
+    "current-case.json",
+    "execution-started.txt",
+    "GCN10-NOTICE.txt",
+    "GCN10-source-metadata.xml",
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst"
+  ],
+  "reassembly": "Concatenate parts in order and extract. Unchanged forcing/subgrid inputs remain in the referenced prepared archive.",
+  "nativeInputs": "../all-route-ready-v3/picture-rocks-native-case-v2/manifest.json",
+  "pointSummary": "route-point-summary.json",
+  "pointSeries": "route-point-series.csv",
+  "compact": "compact/manifest.json",
+  "resultSummary": "result-summary.json",
+  "sourceMeshSha256": "76b60da1bcceacd448d3817f1ec28383dfc475bbd9a10d86d419a280558059a0",
+  "sourceMapSha256": "67939fa6a90526d1a40ad7585b1e593bcb29e5d7291aa4249609b7c3491f73a7",
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "fullGatesCoverage": null,
+  "savedEngineRun": "41290378239",
+  "engineRecompiled": false,
+  "engineSha256": "c4917bc54158b0943d6d128b45c4346a33d059fb5d93808d05520c975e38f090"
+}
