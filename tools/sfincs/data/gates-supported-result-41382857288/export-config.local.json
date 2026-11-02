@@ -1,0 +1,48 @@
+{
+  "runId": "all-routes-gates-supported-v2-41382857288",
+  "executionMode": "simulated_live_frozen_inputs",
+  "meshFile": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\approved-results\\41382857288\\artifact\\runs\\current\\sfincs.nc",
+  "mapFile": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\approved-results\\41382857288\\artifact\\runs\\current\\sfincs_map.nc",
+  "logFile": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\approved-results\\41382857288\\artifact\\runs\\current\\solver.log",
+  "meshTopology": "mesh2d",
+  "meshFaceIdVariable": "mesh2d_nFaces",
+  "outputMeshTopology": "mesh2d",
+  "faceMapping": {
+    "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\approved-results\\41382857288\\inspection\\output-to-source-face-id.npy",
+    "sha256": "a38d75b4a5c19d3564c6a24b979fae443d175b785f3dc105d46194d1454f9f5d"
+  },
+  "volumeVariable": "subgrid_volume",
+  "surfaceVariable": "zs",
+  "projectedCrs": "EPSG:32612",
+  "verticalDatum": "NAVD88",
+  "nativeTimeZone": "UTC",
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "negativeVolumeToleranceM3": 7.301372528076172,
+  "assumptions": [
+    "Frozen NWM 2026-11-01 13Z and HRRR 14Z inputs; not automatically current.",
+    "Native signed volumes and NAVD88 water surfaces are preserved exactly. Volume/full cell area is not validated road depth or wet extent.",
+    "The legacy JSON display clamps negative storage to zero; its declared bound is the observed minimum, not a validated numerical-error tolerance. Compact native columns retain every signed value.",
+    "6.25 m road computational cells; source terrain sampling does not constitute an independent 1 m flow solution.",
+    "Missing bridge/culvert geometry and initial-state assumptions remain explicit; no confidence interval established.",
+    "Supported Gates excludes 59 tracked memberships; do not extrapolate beyond native geometry."
+  ],
+  "inputArtifacts": [
+    {
+      "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\approved-results\\41382857288\\artifact\\runs\\current\\sfincs.nc",
+      "sha256": "8111a81f60ef2790f9b2f436d415a3b2e47fa2e30f0da67d1d7c6e7089453585"
+    },
+    {
+      "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\approved-results\\41382857288\\inspection\\output-to-source-face-id.npy",
+      "sha256": "a38d75b4a5c19d3564c6a24b979fae443d175b785f3dc105d46194d1454f9f5d"
+    },
+    {
+      "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\approved-results\\41382857288\\artifact\\runs\\current\\GCN10-NOTICE.txt",
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\approved-results\\41382857288\\artifact\\runs\\current\\GCN10-source-metadata.xml",
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    }
+  ]
+}

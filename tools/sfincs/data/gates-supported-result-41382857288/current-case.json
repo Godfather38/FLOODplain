@@ -1,0 +1,148 @@
+{
+  "status": "prepared_all_routes_case_not_executed",
+  "runReady": true,
+  "solverExecuted": false,
+  "mode": "simulated-live",
+  "gridCells": 212035,
+  "inlets": 2,
+  "nativeFlowTimestamps": 64,
+  "mapOutputWindow": "Forecast only, 49h after antecedent start; 15-minute maps limit artifact size without shortening initialization",
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "forecastStart": "2026-11-01T17:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "initialization": "Same explicit dry assumed antecedent start; continuous analysis-forced history, not measured initial state",
+  "missing": [],
+  "nativeInputReference": "Pinned SFINCS sfincs_infiltration.f90 requires inffile NetCDF for quadtree; scs units remain inches",
+  "knownLimits": [
+    "Current bridge elevations unknown",
+    "Published CN antecedent assumption; no measured transmission loss",
+    "Terrain dates 2019 peripheral/2021/2023, not 2026 construction survey",
+    "6.25m computational cells are not validated road-depth accuracy"
+  ],
+  "kind": "prepared_current_case",
+  "rainfall": {
+    "units": "mm/h",
+    "intervalSeconds": 3600,
+    "intervalLabel": "start",
+    "lastIntervalEndUtc": "2026-11-02T07:00:00Z",
+    "sourceArtifacts": [
+      {
+        "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\all-route-rainfall\\package\\initialization-rainfall\\resolved-analysis-precipitation.nc",
+        "sha256": "074994ac0a6ee9b811750c810c229847ff81e4b675a4f06239e0a0a86186c845"
+      },
+      {
+        "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\all-route-rainfall\\package\\initialization-rainfall\\forecast-transition-precipitation.nc",
+        "sha256": "e750e1283eba76685ad148bcf28abf2b9ff84be230c8794ad8fd1e5815e62798"
+      },
+      {
+        "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\all-route-rainfall\\package\\precipitation.nc",
+        "sha256": "179e277038f0d5e7a3b08d336f988d7be465fb29578e54aa6d2cc5e6b4c4967b"
+      }
+    ]
+  },
+  "publicationHold": [],
+  "executionBudgetSeconds": null,
+  "proposedExecutionCapSeconds": 2700,
+  "executionAuthorization": "approved_one_bounded_run",
+  "sourceAsOf": "2026-11-01T16:08:30.582Z",
+  "sourceLicensing": {
+    "derivedInfiltrationLicense": "ODbL-1.0",
+    "notice": "GCN10-NOTICE.txt",
+    "sourceMetadata": "GCN10-source-metadata.xml",
+    "derivedDatabase": "infiltration.nc"
+  },
+  "artifacts": [
+    {
+      "path": "GCN10-NOTICE.txt",
+      "bytes": 1349,
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "GCN10-source-metadata.xml",
+      "bytes": 12686,
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    },
+    {
+      "path": "hydromt.log",
+      "bytes": 193,
+      "sha256": "53f1248f0b0efc2edcca76dcb9b6ce026660f08845bc9b08fb2b15f3327a8139"
+    },
+    {
+      "path": "infiltration.nc",
+      "bytes": 854284,
+      "sha256": "95e17fc0bbd51c0df4ed60bbbf2f79eb5dff1e787d75383bec838037ee331de9"
+    },
+    {
+      "path": "native-component.json",
+      "bytes": 1180,
+      "sha256": "4515650d6237e77a40baa116096dc736f4fb79268c9bd2071c6e7f57737f6796"
+    },
+    {
+      "path": "precip_2d.nc",
+      "bytes": 630941,
+      "sha256": "e997141c0f61468ad99996773f6e7a44ff15fd0049d2881f110edc2d477ee8ce"
+    },
+    {
+      "path": "sfincs.dis",
+      "bytes": 1664,
+      "sha256": "0acf4bc5a0d47d5a9730f6b7b04f2943b1a47147556a2c98b61a3d6848c08a2c"
+    },
+    {
+      "path": "sfincs.inp",
+      "bytes": 1424,
+      "sha256": "2c4bb839bc308542000033158de40c0aa715c925bb8cd6a28ac217a4ab7c389d"
+    },
+    {
+      "path": "sfincs.nc",
+      "bytes": 37946136,
+      "sha256": "8111a81f60ef2790f9b2f436d415a3b2e47fa2e30f0da67d1d7c6e7089453585"
+    },
+    {
+      "path": "sfincs.src",
+      "bytes": 40,
+      "sha256": "1af007f1c9f3266e2aa4fd778c0a6d92cf0ae2a1c3f992dc7c0bc013216dec33"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "bytes": 68970453,
+      "sha256": "c02af64c7bb2c519b521adb8e6a9f37bcf56b89ded595141522487dd2f847d32"
+    }
+  ],
+  "modelVersion": "all-routes-gates-supported-v2",
+  "caseId": "gates-supported-native-case-v2",
+  "routeIds": [
+    "pr-gates"
+  ],
+  "scope": {
+    "status": "independent_preparation_only",
+    "fullGatesCasePreserved": true,
+    "includedComponentIds": [
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "blockedComponentIds": [
+      1,
+      4
+    ],
+    "reason": "Actual source-terrain gaps remain explicit; no filling or omission from master ledger",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange",
+    "areaKm2": 228.90826137162446,
+    "nativeMeshSha256": "8111a81f60ef2790f9b2f436d415a3b2e47fa2e30f0da67d1d7c6e7089453585"
+  },
+  "fullGatesCoverage": false,
+  "trackedGatesMemberships": 155,
+  "preparedGatesMemberships": 96,
+  "blockedGatesMemberships": 59,
+  "sourceCodeCommit": "7b27c97",
+  "nativeFaceMappingRequirement": "Match exact native output faces to sfincs.nc; never reuse previous-run face indices",
+  "approvedExecutionCapSeconds": 2700,
+  "nativeMeshSha256": "8111a81f60ef2790f9b2f436d415a3b2e47fa2e30f0da67d1d7c6e7089453585"
+}

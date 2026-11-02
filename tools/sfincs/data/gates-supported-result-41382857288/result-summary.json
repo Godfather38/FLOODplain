@@ -1,0 +1,180 @@
+{
+  "runId": "41382857288",
+  "caseId": "gates-supported-native-case-v2",
+  "modelVersion": "all-routes-gates-supported-v2",
+  "caseRouteIds": [
+    "pr-gates"
+  ],
+  "nativeRunDirectory": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\approved-results\\41382857288\\artifact\\runs\\current",
+  "nativeDirectoryModified": false,
+  "completion": {
+    "logsRead": [
+      "solver.log",
+      "sfincs.log"
+    ],
+    "logsMissing": [],
+    "completionMarkerPresent": true,
+    "approvedExecutionCapSeconds": 2700,
+    "assessment": "complete_to_requested_end",
+    "assessmentBasis": "Actual solver logs, native status variables and recorded times versus the case end; not a GitHub run conclusion and not an expected frame count."
+  },
+  "timeCoverage": {
+    "framesRecorded": 57,
+    "recordedValidFrom": "2026-11-01T17:00:00Z",
+    "recordedValidTo": "2026-11-02T07:00:00Z",
+    "distinctIntervalSeconds": [
+      900
+    ],
+    "requestedEndUtc": "2026-11-02T07:00:00Z",
+    "note": "Frames, interval and endpoints are read from the native output. The normal forecast product is 57 quarter-hour frames from 2026-11-01T17Z through 2026-11-02T07Z, but that count is not assumed here.",
+    "reachesRequestedEnd": true,
+    "shortfallSecondsFromRequestedEnd": 0
+  },
+  "faces": 212035,
+  "faceCorrespondence": {
+    "method": "Exact unique rectangle bounds independently matched between native input/output connectivity",
+    "outputFaces": 212035,
+    "inputFaces": 212035,
+    "matchedFaces": 212035,
+    "identityOrder": true,
+    "maxBoundsDifferenceM": 0.0,
+    "inputFacesNotInOutput": 0
+  },
+  "sourceFaceIdentity": "Exact source native face IDs preserved from this run sfincs.nc",
+  "volumeUnits": "m3",
+  "volumeUnitsAreM3": true,
+  "allVolumeFinite": true,
+  "missingVolumeValues": 0,
+  "negativeVolumeValues": 2159,
+  "negativeValuesPreserved": "Small negative native values remain signed; not clamped",
+  "rawVolumeRangeM3": [
+    -7.301372528076172,
+    8707.431640625
+  ],
+  "cellAreaRangeM2": [
+    39.0625,
+    10000.0
+  ],
+  "volumePerFullCellArea": {
+    "quantity": "volumePerFullCellAreaM",
+    "definition": "Native subgrid_volume divided by the full computational-cell area. Cell-average storage only; NOT validated road depth or passability.",
+    "rangeM": [
+      -0.0007301372528076172,
+      3.395890234375
+    ]
+  },
+  "firstLastTotalStoredVolumeM3": [
+    331036.6801040992,
+    1300190.488167546
+  ],
+  "surfaceElevationRangeM": [
+    577.6815795898438,
+    1270.8167724609375
+  ],
+  "surfaceElevationUnits": "m",
+  "surfaceElevationDatum": "NAVD88, not depth",
+  "missingSurfaceValues": 106659,
+  "notInferred": [
+    "passability",
+    "bridge clearance",
+    "velocity",
+    "flow sections",
+    "uncertainty margins",
+    "validated road depth"
+  ],
+  "riverSectionFlow": "Not read; this reader does not derive flow sections",
+  "restartFiles": [
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst",
+    "sfincs.20261102.070000.rst"
+  ],
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "nativeGeometry": {
+    "sourceEpsg": 32612,
+    "epsgDeclaredInNativeFile": 32612,
+    "domainBoundingBox": [
+      473500.0,
+      3560400.0,
+      507300.0,
+      3588300.0
+    ],
+    "reusedPreviousOutputGeometry": false
+  },
+  "hashes": {
+    "sfincs.nc": "8111a81f60ef2790f9b2f436d415a3b2e47fa2e30f0da67d1d7c6e7089453585",
+    "sfincs_map.nc": "bcc364813165b88cc0889b97aabc037015deef8e0b621257df60d0f3f437ebb7",
+    "solver.log": "ef35685a984aa8d425f66f4566f57d806ade17287bd0755ae122337e6b16d0d1",
+    "sfincs.log": "101e8cd998000db981b3f8ac6d82e542ad33f5e4858aafb1db3cfbfea7c154f6"
+  },
+  "caseNativeMeshSha256": "8111a81f60ef2790f9b2f436d415a3b2e47fa2e30f0da67d1d7c6e7089453585",
+  "caseMeshHashChecked": true,
+  "status": [
+    0.0
+  ],
+  "total_runtime": [
+    870.2952880859375
+  ],
+  "average_dt": [
+    0.9767754673957825
+  ],
+  "nativePrecipitation": {
+    "quantities": {
+      "precipitation_rate": {
+        "units": "mm h-1",
+        "recordedRange": [
+          0.0,
+          9.74616813659668
+        ],
+        "missingValues": 0
+      }
+    },
+    "units": "As recorded in the native file"
+  },
+  "caseScopeFromMetadata": {
+    "scope": {
+      "status": "independent_preparation_only",
+      "fullGatesCasePreserved": true,
+      "includedComponentIds": [
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "blockedComponentIds": [
+        1,
+        4
+      ],
+      "reason": "Actual source-terrain gaps remain explicit; no filling or omission from master ledger",
+      "limitation": "Directed network independence does not prove no cross-divide overland exchange",
+      "areaKm2": 228.90826137162446,
+      "nativeMeshSha256": "8111a81f60ef2790f9b2f436d415a3b2e47fa2e30f0da67d1d7c6e7089453585"
+    },
+    "fullGatesCoverage": false,
+    "trackedGatesMemberships": 155,
+    "preparedGatesMemberships": 96,
+    "blockedGatesMemberships": 59
+  },
+  "inventoryPointCounts": {
+    "retained": 155,
+    "located": 96,
+    "outsideCurrentNativeDomain": 59,
+    "locatedInInputButAbsentFromOutput": 0,
+    "boundaryAmbiguous": 0
+  }
+}

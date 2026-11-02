@@ -1,0 +1,147 @@
+
+------------ Welcome to SFINCS ------------
+
+  @@@@@  @@@@@@@ @@ @@  @@   @@@@   @@@@@
+ @@@ @@@ @@@@@@@ @@ @@@ @@ @@@@@@@ @@@ @@@
+ @@@     @@      @@ @@@ @@ @@   @@ @@@
+  @@@@@  @@@@@@  @@ @@@@@@ @@       @@@@@
+     @@@ @@      @@ @@ @@@ @@   @@     @@@
+ @@@ @@@ @@      @@ @@  @@  @@@@@@ @@@ @@@
+  @@@@@  @@      @@ @@   @   @@@@   @@@@@
+
+              ..............
+          ......:@@@@@@@@:......
+       ..::::..@@........@@.:::::..
+     ..:::::..@@..::..::..@@.::::::..
+    .::::::..@@............@@.:::::::.
+   .::::::..@@..............@@.:::::::.
+  .::::::::..@@............@@..::::::::.
+ .:::::::::...@@.@..@@..@.@@..::::::::::.
+ .:::::::::...:@@@..@@..@@@:..:::::::::..
+ ............@@.@@..@@..@@.@@............
+ ^^^~~^^~~^^@@..............@@^^^~^^^~~^^
+ .::::::::::@@..............@@.:::::::::.
+  .......:.@@.....@.....@....@@.:.......
+   .::....@@......@.@@@.@....@@.....::.
+    .:::~@@.:...:.@@...@@.:.:.@@~::::.
+     .::~@@@@@@@@@@.....@@@@@@@@@~::.
+       ..:~~~~~~~:.......:~~~~~~~:..
+          ......................
+              ..............
+
+------------------------------------------
+
+By running a SFINCS pre-compiled executable
+provided by Deltares, you accept the
+conditions of the Deltares SFINCS FreeWare
+Software License Agreement, see:
+https://download.deltares.nl/sfincs
+
+------------------------------------------
+
+Build-Revision: $Rev: v2.5.0-beta Hautacam
+Build-Date: $Date: 2026-10-08
+
+------ Preparing model simulation --------
+
+Reading input file ...
+ Warning : sfincs.inp keyword "dtout" is deprecated, use "dtmapout" instead
+Info    : input grid interpreted as projected coordinates
+Info    : advection scheme : first-order upwind
+Reading meteo data ...
+Info    : reading NetCDF rainfall netampr file
+Info    : reading FEWS compatible NetCDF type precipitation input
+Warning! Times in spatially-varying precipitation input file do not cover entire simulation period! Using nearest available data.
+Preparing domain ...
+Info    : using quadtree mesh
+Info    : turning on precipitation
+Info    : using gridded meteo data
+Info    : reading QuadTree netCDF file sfincs.nc
+Quadtree grid info - nr_levels :          5
+Quadtree grid info -        x0 :  473500.00
+Quadtree grid info -        y0 : 3560400.00
+Quadtree grid info -        dx :     100.00
+Quadtree grid info -        dy :     100.00
+Quadtree grid info -      mmax :        339
+Quadtree grid info -      nmax :        279
+Quadtree grid info -  rotation :       0.00
+Info    : number of quadtree refinement transitions : 6005
+------------------------------------------
+Computational mesh
+------------------------------------------
+Number of active z points      :    212035
+Number of active u/v points    :    425965
+Number of cells in level   1   :     20611
+Number of cells in level   2   :      1228
+Number of cells in level   3   :      2293
+Number of cells in level   4   :     93486
+Number of cells in level   5   :     94417
+Info    : viscosity - nuvisc  = [ 0.625E-01-  0.100E+01]
+Info   : reading sub-grid netCDF file
+Info    : number of subgrid levels : 10
+Info    : specified inftype is cna
+Info    : turning on infiltration from netcdf input file
+Info    : reading netcdf infiltration file infiltration.nc
+Info    : turning on infiltration (via Curve Number method - A)
+Info    : reading discharges
+
+------------------------------------------
+Processes
+------------------------------------------
+Subgrid topography   : yes
+Quadtree refinement  : yes
+Advection            : yes
+Viscosity            : yes
+Coriolis             : yes
+Wind                 : no
+Atmospheric pressure : no
+Precipitation        : yes
+Infiltration         : yes
+SnapWave             : no
+Wave paddles         : no
+------------------------------------------
+
+Initializing output ...
+
+---------- Starting simulation -----------
+---- Using 2 of 4 available threads ----
+
+   0% complete,       - s remaining ...
+   5% complete,   207.7 s remaining ...
+  10% complete,   207.2 s remaining ...
+  15% complete,   195.5 s remaining ...
+  20% complete,   182.1 s remaining ...
+  25% complete,   169.5 s remaining ...
+  30% complete,   157.5 s remaining ...
+  35% complete,   146.1 s remaining ...
+  40% complete,   136.3 s remaining ...
+  45% complete,   128.8 s remaining ...
+  50% complete,   120.5 s remaining ...
+  55% complete,   114.3 s remaining ...
+  60% complete,   123.5 s remaining ...
+  65% complete,   128.7 s remaining ...
+  70% complete,   122.7 s remaining ...
+  75% complete,   111.8 s remaining ...
+  80% complete,    98.2 s remaining ...
+  85% complete,    94.2 s remaining ...
+  90% complete,    71.9 s remaining ...
+  95% complete,    39.0 s remaining ...
+ 100% complete,     0.0 s remaining ...
+
+---------- Simulation finished -----------
+
+ Total time                   :    870.437
+ Time in input                :      0.141
+ Time in simulation           :    870.295 (100.0%)
+ Time in meteo fields         :      0.256 (  0.0%)
+ Time in meteo forcing        :     31.123 (  3.6%)
+ Time in boundaries           :      1.531 (  0.2%)
+ Time in momentum             :    541.118 ( 62.2%)
+ Time in discharges           :      0.365 (  0.0%)
+ Time in infiltration         :     34.914 (  4.0%)
+ Time in continuity           :    259.165 ( 29.8%)
+ Time in output               :      1.389 (  0.2%)
+
+ Average time step (s)  :      0.977
+
+----------- Closing off SFINCS -----------

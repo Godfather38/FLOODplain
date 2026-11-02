@@ -1,0 +1,59 @@
+{
+  "runId": "41382857288",
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41382857288",
+  "modelVersion": "all-routes-gates-supported-v2",
+  "executionCommit": "3dbf2d44315fc384a4df9810fe79686f67c27d36",
+  "status": "completed_full_interval",
+  "nativeRuntimeSeconds": [
+    870.2952880859375
+  ],
+  "executionMode": "simulated_live_frozen_inputs",
+  "archiveSha256": "b1c98ebab9225d5d57200c56c788f7ad838c511773179bbaa8fc57fea29a2df1",
+  "archiveBytes": 91595374,
+  "parts": [
+    {
+      "path": "native-output.tar.gz.part00",
+      "bytes": 67108864,
+      "sha256": "6ce8564e5477dda634b29614d8c5d1c326c3ff8b3f7abcdd9d033f333f77ced3"
+    },
+    {
+      "path": "native-output.tar.gz.part01",
+      "bytes": 24486510,
+      "sha256": "99a07e956c9a9e8f9521817c0be47df57ec557b9cdb656f574c39fabfb562e35"
+    }
+  ],
+  "archiveContents": [
+    "sfincs_map.nc",
+    "sfincs.nc",
+    "solver.log",
+    "sfincs.log",
+    "current-case.json",
+    "execution-started.txt",
+    "GCN10-NOTICE.txt",
+    "GCN10-source-metadata.xml",
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst",
+    "sfincs.20261102.070000.rst"
+  ],
+  "reassembly": "Concatenate parts in order and extract. Unchanged forcing/subgrid inputs remain in the referenced prepared archive.",
+  "nativeInputs": "../all-route-ready-v3/gates-supported-native-case-v2/manifest.json",
+  "pointSummary": "route-point-summary.json",
+  "pointSeries": "route-point-series.csv",
+  "compact": "compact/manifest.json",
+  "resultSummary": "result-summary.json",
+  "sourceMeshSha256": "8111a81f60ef2790f9b2f436d415a3b2e47fa2e30f0da67d1d7c6e7089453585",
+  "sourceMapSha256": "bcc364813165b88cc0889b97aabc037015deef8e0b621257df60d0f3f437ebb7",
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "fullGatesCoverage": false
+}
