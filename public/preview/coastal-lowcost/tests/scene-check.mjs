@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+globalThis.location={search:'?preset='+process.argv[2]};
+const THREE=await import('../vendor/three.webgpu.js');
+const {TRIAL}=await import('../src/trial-config.js');
+const {GRID}=await import('../src/coast.js?v=1.3.0');
+const {createShading}=await import('../src/shading.js');
+const {buildWorld}=await import('../src/world.js');
+const fields={};
+for(const key of ['surface','previous','material','previousMaterial','flow','previousFlow'])fields[key]=new THREE.DataTexture(new Float32Array(GRID.nx*GRID.nz*4),GRID.nx,GRID.nz,THREE.RGBAFormat,THREE.FloatType);
+const noise=new THREE.DataTexture(new Uint8Array(16),2,2,THREE.RGBAFormat);
+const shaders=createShading(noise,fields),scene=new THREE.Scene(),world=buildWorld(scene,shaders);
+assert.equal(!!shaders.mirror,TRIAL.effects==='original');
+assert.ok(world.water.geometry.attributes.position.count>GRID.nx*GRID.nz||TRIAL.physics==='original');
+const camera=new THREE.PerspectiveCamera();camera.updateMatrixWorld();shaders.updateCamera(camera);shaders.bindFields();
+assert.ok(shaders.water.fragmentNode);assert.equal(world.rocks.length,14);
+console.log(JSON.stringify({preset:TRIAL.id,grid:GRID,mirror:!!shaders.mirror,waterVertices:world.water.geometry.attributes.position.count,waterTriangles:world.water.geometry.index.count/3,terrainVertices:world.terrain.geometry.attributes.position.count,rocks:world.rocks.length,status:'CPU scene/material construction passed; no GPU compilation/rendering'}));
