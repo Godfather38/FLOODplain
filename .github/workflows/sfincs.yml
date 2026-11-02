@@ -18,7 +18,7 @@ permissions:
 jobs:
   solver:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 75
     env:
       OMP_NUM_THREADS: '2'
     steps:
@@ -82,12 +82,29 @@ jobs:
           CASE_ARCHIVE: ${{ inputs.case_archive }}
         run: |
           python - <<'PY'
-          import os, tarfile
+          import os, tarfile, json, hashlib
           from pathlib import Path
           archive = Path(os.environ['CASE_ARCHIVE']).resolve()
           root = Path('tools/sfincs/data').resolve()
           if not archive.is_relative_to(root) or not archive.is_file():
               raise ValueError('Require committed prepared case under tools/sfincs/data')
+          if archive.suffix == '.json':
+              manifest = json.loads(archive.read_text())
+              if manifest.get('modelVersion') != 'silverbell-extension-v1':
+                  raise ValueError('Only the approved Silverbell split case is supported')
+              combined = Path('prepared-silverbell.tar.gz')
+              with combined.open('wb') as target:
+                  for item in manifest['parts']:
+                      part = (archive.parent / item['path']).resolve()
+                      if part.parent != archive.parent:
+                          raise ValueError('Archive part escaped its directory')
+                      data = part.read_bytes()
+                      if len(data) != item['bytes'] or hashlib.sha256(data).hexdigest() != item['sha256']:
+                          raise ValueError('Archive part hash mismatch')
+                      target.write(data)
+              if hashlib.sha256(combined.read_bytes()).hexdigest() != manifest['archiveSha256']:
+                  raise ValueError('Reassembled case hash mismatch')
+              archive = combined
           output = Path('runs/current')
           output.mkdir(parents=True)
           with tarfile.open(archive, 'r:gz') as tf:
@@ -96,7 +113,7 @@ jobs:
               if not (output/name).is_file():
                   raise ValueError('Incomplete prepared case: '+name)
           PY
-          (set -o pipefail; cd runs/current && date -u +%FT%TZ > execution-started.txt && GFORTRAN_UNBUFFERED_ALL=y timeout 120 "$GITHUB_WORKSPACE/engine-reused/sfincs" 2>&1 | tee solver.log)
+          (set -o pipefail; cd runs/current && date -u +%FT%TZ > execution-started.txt && GFORTRAN_UNBUFFERED_ALL=y timeout 3600 "$GITHUB_WORKSPACE/engine-reused/sfincs" 2>&1 | tee solver.log)
           (cd engine-reused && sha256sum -c SHA256SUMS)
       - uses: actions/upload-artifact@v4
         if: always()
