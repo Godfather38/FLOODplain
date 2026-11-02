@@ -1,0 +1,7 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+import {bindPoint,depthFeet} from '../public/simulation/silverbell-point-view.js';
+const read=p=>JSON.parse(readFileSync(new URL('../public/simulation/data/'+p,import.meta.url)));
+const scene=read('scene-contract/silverbell-point-scene.json'),inventory=read('scene-contract/inventory.json'),manifest=read('silverbell-full-41370039087/compact/manifest.json'),pointer=read('silverbell-scene-publication.json');
+test('both completed locations bind exact native cells and all 57 source frames',()=>{const entries=inventory.entries.filter(e=>e.model.pointSeriesPath);assert.equal(entries.length,2);for(const e of entries){assert.equal(bindPoint(scene,e,manifest,pointer),e.model.pointSeriesIndex);assert.equal(scene.frames.length,57);assert.throws(()=>bindPoint(scene,{...e,coordinates:[0,0]},manifest,pointer),/location/);}});
+test('point view rejects a substituted geometry or source frame',()=>{const e=inventory.entries.find(e=>e.model.pointSeriesPath);assert.throws(()=>bindPoint({...scene,geometrySha256:'old'},e,manifest,pointer),/source/);const bad=structuredClone(scene);bad.frames[2].sourceSha256='old';assert.throws(()=>bindPoint(bad,e,manifest,pointer),/frame/);});
+test('unknown and very shallow depth never display as dry zero',()=>{assert.equal(depthFeet(null),'Unknown');assert.equal(depthFeet(0),'0.000 ft');assert.equal(depthFeet(.00002),'Less than 0.001 ft');assert.equal(depthFeet(.3048),'1.000 ft');});

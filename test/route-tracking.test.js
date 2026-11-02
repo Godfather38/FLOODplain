@@ -12,7 +12,7 @@ test('frozen refined membership, uncovered and awaiting output are distinct from
  const now='2026-11-03T00:00:00Z';
  assert.match(coverageText(inventory.entries.find(e=>e.id==='brawley-dip'),now),/expired/);
  assert.match(coverageText(inventory.entries.find(e=>e.model.status==='outside_coverage'),now),/Outside/);
- assert.match(coverageText(inventory.entries.find(e=>e.model.resultStatus==='awaiting_verified_output'),now),/Awaiting/);
+ assert.match(coverageText({model:{status:'not_yet_assessed',resultStatus:'awaiting_verified_output'}},now),/Awaiting/);
  const assessment={score:5,closure:'closed'};const state=trackingState(inventory.entries[0],{now,assessment});assert.equal(state.risk,assessment);assert.equal(state.clearance,null);
 });
 test('recent gauge adapter keeps source clock and requires distinct times for trend',()=>{
