@@ -25,7 +25,7 @@ test('missing rain is not reported as no rain; measured heavy rain still counts'
 test('maintenance and invalid wash readings are excluded', () => {
   for (const extra of [{ maintenance: true, flow_cfs: 1000 }, { flow_cfs: -1 }, { flow_cfs: null }]) {
     const snapshot = { stream: [{ site: 'x', name: 'test', last_rpt: new Date(now).toISOString(), ...extra }] };
-    assert.equal(checkWash(snapshot, {}, { alert: ['x'] }, 'dip', now, cfg.STALE_MS, {}).level, 'unknown');
+    assert.equal(checkWash(snapshot, {}, { kind: 'dip', lat: 32.39322, lon: -111.29459, wash: { alert: ['x'] } }, now, cfg.STALE_MS, {}).level, 'unknown');
   }
 });
 test('invalid and unrelated crossing links fall back to their route', () => {

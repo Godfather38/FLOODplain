@@ -36,6 +36,16 @@ export const AREAS = [
 // Sept 8-9 2014, when the Trico bridge was overtopped: 21,200 at Cortaro, 12,000 at Trico Rd.
 export const RIVER = { watchCfs: 300, cautionCfs: 3000, dangerCfs: 10000, earlyCfs: 1000 };
 
+// Wash flow sensors (county ALERT stream sensors + USGS gauges on the washes).
+// Two crossings list them: the Brawley Wash dip and the Los Robles Wash bridge. Both lists
+// are a configuration choice about which sensors are worth showing there — not a verified
+// hydrologic relationship. Every sensor in them sits miles up the wash from the road, and no
+// rating curve, travel time or channel-loss relation between any of them and either crossing
+// has been established. So a number from them is an upstream alert, never a statement about
+// the pavement: `bigFlowCfs` only decides when a reading is called out as a big flow.
+// See docs/BRAWLEY-UPSTREAM-EVIDENCE.md.
+export const WASH = { bigFlowCfs: 500 };
+
 // Rain thresholds in inches. Starting values for desert flash floods. They get tuned
 // against what you see at the crossings. Windows: h1 = last hour, h3 = 3 hours, etc.
 export const RAIN = {

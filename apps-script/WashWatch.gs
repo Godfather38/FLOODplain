@@ -32,6 +32,7 @@ const AREAS = [
   { id: "picture-rocks", name: "Picture Rocks", hub: "Niko's & the Speedways", hubAt: [32.32782, -111.21815] }
 ];
 const RIVER = { watchCfs: 300, cautionCfs: 3e3, dangerCfs: 1e4, earlyCfs: 1e3 };
+const WASH = { bigFlowCfs: 500 };
 const RAIN = {
   local: {
     // rain right over a small wash that crosses the road at grade (a dip)
@@ -382,6 +383,7 @@ const CLOSURE_BOUNDS = [
   Math.max(...FAILURE_POINTS.map((p) => p.lon)) + 0.01,
   Math.max(...FAILURE_POINTS.map((p) => p.lat)) + 0.01
 ].join(",");
+const BRIDGE_POLICY = { warningFraction: 0.9, roadwayFraction: 1, likelyClosedFraction: 1.1, warningPoints: 0.5, roadwayPoints: 1 };
 const LEVELS = ["ok", "watch", "caution", "danger"];
 const rank = (lvl) => lvl === "unknown" ? 1.5 : LEVELS.indexOf(lvl);
 const worst = (levels) => levels.reduce((a, b) => rank(b) > rank(a) ? b : a, "ok");
@@ -441,12 +443,12 @@ function checkRiver(flows, siteIds, names, R) {
   for (const { id, f } of parts) {
     const at = `${fmtCfs(f.cfs)} cfs at ${siteName(names, id)}`;
     let c;
-    if (f.cfs >= R.dangerCfs) c = { level: "danger", why: `${at}: the 2014 flood that went over the Trico bridge was 12,000-21,000 cfs` };
-    else if (f.cfs >= R.cautionCfs || f.risingFast && f.cfs >= R.watchCfs) c = { level: "caution", why: `${at}${f.risingFast ? " and rising fast" : ""}: big flood flow. Bridges get closed at levels like this` };
-    else if (f.cfs >= R.watchCfs || f.risingFast) c = { level: "watch", why: `${at}${f.risingFast ? " and rising" : ""}: storm water under the bridge` };
+    if (f.cfs >= R.dangerCfs) c = { level: "danger", why: `${at}: above the configured high-flow threshold; overtopping at this bridge is not established` };
+    else if (f.cfs >= R.cautionCfs || f.risingFast && f.cfs >= R.watchCfs) c = { level: "caution", why: `${at}${f.risingFast ? " and rising fast" : ""}: above the configured flow-warning threshold; this flow threshold does not establish bridge-specific clearance` };
+    else if (f.cfs >= R.watchCfs || f.risingFast) c = { level: "watch", why: `${at}${f.risingFast ? " and rising" : ""}: elevated river flow; water level relative to this bridge is not established` };
     if (c && rank(c.level) > rank(out.level)) out = c;
   }
-  return out;
+  return { ...out, observations: parts.map(({ id, f }) => ({ siteId: id, cfs: f.cfs, time: f.time })), detail: parts.map(({ id, f }) => siteName(names, id) + ": " + fmtCfs(f.cfs) + " cfs; observed " + (Number.isFinite(f.time) ? new Date(f.time).toISOString() : "time unavailable")).join("; ") };
 }
 function checkRiverEarly(flows, siteIds, names, R) {
   const running = siteIds.filter((id) => {
@@ -461,7 +463,7 @@ function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
   const gauges = ((_a = snapshot == null ? void 0 : snapshot.rain) != null ? _a : []).filter((g) => gaugeIds.includes(g.site));
   const fresh = gauges.filter((g) => {
     var _a2;
-    return g.last_rpt && !g.maintenance && now - Date.parse(g.last_rpt) <= Math.max(staleMs, 24 * 36e5) && Object.values((_a2 = g.in) != null ? _a2 : {}).some((v) => Number.isFinite(v) && v >= 0);
+    return g.last_rpt && !g.maintenance && Date.parse(g.last_rpt) <= now && now - Date.parse(g.last_rpt) <= Math.max(staleMs, 24 * 36e5) && Object.values((_a2 = g.in) != null ? _a2 : {}).some((v) => Number.isFinite(v) && v >= 0);
   });
   if (!fresh.length) return { level: "unknown", why: "no rain gauge reading" };
   const ageMin = snapshot.fetched_at ? (now - Date.parse(snapshot.fetched_at)) / 6e4 : 0;
@@ -493,24 +495,60 @@ function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
   if ([...required].some((w) => most(w) == null)) return { level: "unknown", detail, why: "rain gauge readings are incomplete" + asOf };
   return { level: "ok", detail, why: (h6 > 0 ? `light rain only (${fmtIn(h6)} in the last 6 hours)` : "no rain in the last 6 hours") + asOf };
 }
-function checkWash(snapshot, flows, wash, kind, now, staleMs, names) {
-  var _a, _b, _c, _d;
+const WASH_RULES = { bigFlowCfs: 500 };
+const MILE_M = 1609.344;
+const AZ_MS = 7 * 36e5;
+const azClock = (t) => {
+  if (!Number.isFinite(t)) return null;
+  const d = new Date(t - AZ_MS);
+  const h = d.getUTCHours();
+  return `${h % 12 || 12}:${String(d.getUTCMinutes()).padStart(2, "0")} ${h >= 12 ? "PM" : "AM"}`;
+};
+const milesFrom = (fp, r) => Number.isFinite(fp == null ? void 0 : fp.lat) && Number.isFinite(r.lat) && Number.isFinite(r.lon) ? metres(fp, r) / MILE_M : null;
+const sensorPlace = (fp, r) => {
+  const mi = milesFrom(fp, r);
+  return mi == null ? "how far up the wash it sits is not in our data" : `about ${mi.toFixed(1)} mi away in a straight line`;
+};
+const usableFlow = (cfs, t, now, staleMs) => Number.isFinite(cfs) && cfs >= 0 && Number.isFinite(t) && t <= now && now - t <= staleMs;
+function checkWash(snapshot, flows, fp, now, staleMs, names, rules) {
+  var _a, _b, _c, _d, _e, _f;
+  const R = rules != null ? rules : WASH_RULES;
+  const wash = (_a = fp.wash) != null ? _a : {};
   const readings = [];
-  for (const id of (_a = wash.alert) != null ? _a : []) {
-    const s = ((_b = snapshot == null ? void 0 : snapshot.stream) != null ? _b : []).find((x) => x.site === id);
-    if (s && !s.maintenance && Number.isFinite(s.flow_cfs) && s.flow_cfs >= 0 && s.last_rpt && now - Date.parse(s.last_rpt) <= staleMs) readings.push({ name: s.name.replace(/ \(PT\)$/, ""), cfs: s.flow_cfs });
+  for (const id of (_b = wash.alert) != null ? _b : []) {
+    const s = ((_c = snapshot == null ? void 0 : snapshot.stream) != null ? _c : []).find((x) => x.site === id);
+    if (s && !s.maintenance && usableFlow(s.flow_cfs, Date.parse(s.last_rpt), now, staleMs)) {
+      readings.push({ id, name: s.name.replace(/ \(PT\)$/, ""), cfs: s.flow_cfs, lat: s.lat, lon: s.lon, time: Date.parse(s.last_rpt), observedAt: s.last_rpt });
+    }
   }
-  for (const id of (_c = wash.usgs) != null ? _c : []) {
-    if ((_d = flows[id]) == null ? void 0 : _d.fresh) readings.push({ name: siteName(names, id), cfs: flows[id].cfs, risingFast: flows[id].risingFast });
+  for (const id of (_d = wash.usgs) != null ? _d : []) {
+    const f = flows[id];
+    if ((f == null ? void 0 : f.fresh) && usableFlow(f.cfs, f.time, now, staleMs)) {
+      readings.push({ id, name: siteName(names, id), cfs: f.cfs, risingFast: f.risingFast, lat: (_e = names[id]) == null ? void 0 : _e.lat, lon: (_f = names[id]) == null ? void 0 : _f.lon, time: f.time, observedAt: new Date(f.time).toISOString() });
+    }
   }
   if (!readings.length) return { level: "unknown", why: "no wash flow sensor reading" };
-  const top = readings.sort((a, b) => b.cfs - a.cfs)[0];
-  if (top.cfs < 1) return { level: "ok", why: "Brawley Wash upstream is dry" };
+  readings.sort((a, b) => b.cfs - a.cfs);
+  const top = readings[0];
+  const observations = readings.map((r) => ({ siteId: r.id, name: r.name, cfs: r.cfs, milesAway: milesFrom(fp, r), time: r.time, observedAt: r.observedAt }));
+  const when = (r) => azClock(r.time) ? ` at ${azClock(r.time)}` : "";
+  const detail = readings.map((r) => `${r.name}: ${fmtCfs(r.cfs)} cfs${when(r)}, ${sensorPlace(fp, r)}`).join("; ") + ". No rating curve, travel time or channel-loss relation between these sensors and this crossing has been established, so these numbers give no depth and no arrival time here.";
+  if (top.cfs < 1) return { level: "ok", observations, detail, why: "Brawley Wash upstream is dry" };
   const at = `${fmtCfs(top.cfs)} cfs in ${top.name}`;
-  if (kind === "dip") {
-    return top.cfs >= 500 || top.risingFast ? { level: "danger", why: `${at}: a flood is coming down the wash toward this crossing` } : { level: "caution", why: `${at}: water is coming down the wash toward this crossing` };
+  const big = top.cfs >= R.bigFlowCfs || top.risingFast;
+  const rising = top.risingFast ? ", rising fast" : "";
+  if (fp.kind === "dip") {
+    return {
+      level: "watch",
+      upstream: true,
+      upstreamAlert: big ? "big-flow" : "running",
+      upstreamCfs: top.cfs,
+      observations,
+      detail,
+      why: `${at}${rising}, ${sensorPlace(fp, top)}: ${big ? "a big flow is running in the wash upstream of here" : "water is running in the wash upstream of here"}. Whether it reaches this crossing, when, and how deep is not established.`
+    };
   }
-  return top.cfs >= 2e3 || top.risingFast ? { level: "caution", why: `${at}: a large flow is coming toward this bridge` } : { level: "watch", why: `${at}: water will pass under this bridge` };
+  return { level: "unknown", contextOnly: true, upstream: true, observations, detail, why: `${at}, ${sensorPlace(fp, top)}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
 }
 const metres = (a, b) => {
   const ky = 111320;
@@ -520,14 +558,27 @@ const metres = (a, b) => {
 function nearbyClosures(fp, closures, radiusM) {
   return (closures != null ? closures : []).filter((c) => metres(fp, c) <= radiusM);
 }
+const OPEN_STATUS = /^open\b/i;
 function checkClosures(points) {
   if (!points.length) return null;
   const when = (p) => p.updated ? ` (updated ${p.updated})` : "";
-  const detail = points.map((p) => `${p.location}: ${p.status}${when(p)}`).join(" · ");
+  const dir = (p) => p.direction && !/^all directions$/i.test(p.direction.trim()) ? `, ${p.direction.trim().toLowerCase()}` : "";
+  const said = (p) => {
+    var _a;
+    return ((_a = p.status) == null ? void 0 : _a.trim()) ? p.status.trim() : "no status in the county feed";
+  };
+  const detail = points.map((p) => `${p.location}: ${said(p)}${dir(p)}${when(p)}`).join(" · ");
   const closed = points.find((p) => /clos/i.test(p.status));
-  if (closed) return { level: "danger", detail, why: `County says CLOSED: ${closed.location}${when(closed)}` };
+  if (closed) return { level: "danger", detail, why: `County says CLOSED: ${closed.location}${dir(closed)}${when(closed)}` };
   const careful = points.find((p) => /caution/i.test(p.status));
-  if (careful) return { level: "caution", detail, why: `County says Proceed with Caution: ${careful.location}${when(careful)}` };
+  if (careful) return { level: "caution", detail, why: `County says Proceed with Caution: ${careful.location}${dir(careful)}${when(careful)}` };
+  const unreadable = points.filter((p) => {
+    var _a, _b;
+    return !OPEN_STATUS.test((_b = (_a = p.status) == null ? void 0 : _a.trim()) != null ? _b : "");
+  });
+  if (unreadable.length) {
+    return { level: "unknown", detail, roadStatus: "unknown", why: `county barricade point status is not readable: ${unreadable.map((p) => `${p.location} says "${said(p)}"`).join(", ")}` };
+  }
   return { level: "ok", detail, why: "county barricade point marked Open", official: true };
 }
 function checkNws(alerts, kind) {
@@ -541,8 +592,42 @@ function checkNws(alerts, kind) {
   }
   return null;
 }
+function bridgeHeightComparison(record, now, policy) {
+  const road = record == null ? void 0 : record.roadwayEstimate, water = record == null ? void 0 : record.modelWater;
+  if (!road || !Number.isFinite(road.elevationM)) return { status: "unavailable", reason: "Roadway elevation estimate is missing." };
+  if (!water || water.quantity !== "water_surface_elevation" || water.units !== "m" || water.verticalDatum !== road.verticalDatum || JSON.stringify(water.location) !== JSON.stringify(record.location)) return { status: "unavailable", reason: "Matching water-surface elevation at this bridge in " + road.verticalDatum + " is missing." };
+  if (now > Date.parse(water.validTo)) return { status: "expired", reason: "The model water forecast expired at " + water.validTo + "; a new water elevation is needed." };
+  const frames = water.frames.filter((f) => Number.isFinite(f.elevationM) && Date.parse(f.time) >= now && Date.parse(f.time) >= Date.parse(water.validFrom) && Date.parse(f.time) <= Date.parse(water.validTo));
+  if (!frames.length) return { status: "unavailable", reason: "No defined water-surface elevation remains in this forecast." };
+  const peak = frames.reduce((a, b) => b.elevationM > a.elevationM ? b : a);
+  const channel = record.channelReference;
+  const channelValid = channel && Number.isFinite(channel.elevationM) && channel.verticalDatum === road.verticalDatum && channel.structureId === record.structureId && road.elevationM > channel.elevationM;
+  const heightAboveChannelM = channelValid ? road.elevationM - channel.elevationM : null;
+  const thresholds = channelValid && policy ? { warningM: channel.elevationM + policy.warningFraction * heightAboveChannelM, roadwayM: channel.elevationM + policy.roadwayFraction * heightAboveChannelM, likelyClosedM: channel.elevationM + policy.likelyClosedFraction * heightAboveChannelM } : null;
+  const assessment = thresholds ? peak.elevationM >= thresholds.likelyClosedM ? "likely_closed" : peak.elevationM >= thresholds.roadwayM ? "roadway_concern" : peak.elevationM >= thresholds.warningM ? "warning" : "below_warning" : peak.elevationM >= road.elevationM ? "roadway_concern" : "unavailable";
+  const assessmentLabel = { likely_closed: "likely closed — model estimate", roadway_concern: "modeled water reaches estimated roadway", warning: "warning — modeled water within the lower 10% roadway margin", below_warning: "modeled water below the bridge warning level", unavailable: "channel reference unavailable; percentage thresholds not computed" }[assessment];
+  return { channelM: channelValid ? channel.elevationM : null, heightAboveChannelM, thresholds, assessment, assessmentLabel, status: "estimated", roadM: road.elevationM, waterM: peak.elevationM, differenceM: road.elevationM - peak.elevationM, time: peak.time, datum: road.verticalDatum, validFrom: water.validFrom, validTo: water.validTo };
+}
+function bridgeRiverCheck(check, record, now, policy) {
+  var _a, _b, _c;
+  const history = (_a = record == null ? void 0 : record.documentedHistory) != null ? _a : [];
+  const heightComparison = bridgeHeightComparison(record, now, policy), modeledRoadConcern = heightComparison.status === "estimated" && heightComparison.differenceM <= 0;
+  const assessedLevel = (_b = { likely_closed: "danger", roadway_concern: "caution", warning: "watch", below_warning: "ok" }[heightComparison.assessment]) != null ? _b : "unknown";
+  return {
+    ...check,
+    level: assessedLevel,
+    bridgePoints: heightComparison.assessment === "warning" ? policy.warningPoints : heightComparison.assessment === "roadway_concern" ? policy.roadwayPoints : 0,
+    modeledRoadConcern,
+    dischargeLevel: check.level,
+    bridgeClearance: "unknown",
+    why: heightComparison.status === "estimated" ? `${heightComparison.assessmentLabel}: estimated road ${heightComparison.roadM.toFixed(2)} m, modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}. Official closure status is separate.` : heightComparison.reason + " Gauge discharge is context only.",
+    detail: (check.detail ? check.detail + ". " : "") + (record ? "Site-linked structure record " + record.id + ". " : "No exact structure record. ") + (history.length ? "Historical flooding is documented for this site; it is not a current closure or measured flow-to-road threshold. " : "No site-linked flooding history establishes a current road threshold. ") + ((record == null ? void 0 : record.roadwayEstimate) ? "A provisional roadway-height comparison is shown in height & history; it is not surveyed deck or underside clearance. " : "Current roadway elevation is unavailable. ") + "Clearance is unknown, not confirmed clear.",
+    heightComparison,
+    bridgeEvidence: { recordId: (_c = record == null ? void 0 : record.id) != null ? _c : null, historyDates: history.map((h) => h.date), clearance: "unknown" }
+  };
+}
 function rateFailurePoint(fp, d, cfg2) {
-  var _a, _b, _c, _d;
+  var _a, _b, _c, _d, _e;
   const checks = [];
   const { now } = d;
   const closurePts = nearbyClosures(fp, d.closures, cfg2.CLOSURE_RADIUS_M);
@@ -551,28 +636,55 @@ function rateFailurePoint(fp, d, cfg2) {
   const nws = checkNws(d.nws, fp.kind);
   if (nws) checks.push({ src: "nws", ...nws });
   if (fp.river) {
-    checks.push({ src: "river", ...checkRiver(d.flows, fp.river, cfg2.USGS_SITES, cfg2.RIVER) });
+    const river = checkRiver(d.flows, fp.river, cfg2.USGS_SITES, cfg2.RIVER);
+    checks.push({ src: "river", ...["river", "bridge"].includes(fp.kind) ? bridgeRiverCheck(river, (_a = d.bridgeEvidence) == null ? void 0 : _a[fp.id], now, cfg2.BRIDGE_POLICY) : river });
     const early = checkRiverEarly(d.flows, cfg2.RIVER_EARLY, cfg2.USGS_SITES, cfg2.RIVER);
-    if (early) checks.push({ src: "river-early", ...early });
+    if (early) checks.push({ src: "river-early", ...early, ...["river", "bridge"].includes(fp.kind) ? { level: "unknown", contextOnly: true, why: early.why.split(":")[0] + ": upstream readings; no site-specific travel time or roadway height comparison" } : {} });
   }
-  if (fp.wash) checks.push({ src: "wash", ...checkWash(d.alert, d.flows, fp.wash, fp.kind, now, cfg2.STALE_MS, cfg2.USGS_SITES) });
-  for (const [ruleName, ids] of Object.entries((_a = fp.rain) != null ? _a : {})) {
+  if (fp.wash) checks.push({ src: "wash", ...checkWash(d.alert, d.flows, fp, now, cfg2.STALE_MS, cfg2.USGS_SITES, cfg2.WASH) });
+  const countyReportsTheRoad = closure != null && closure.level !== "unknown";
+  if (fp.wash && fp.kind === "dip" && !countyReportsTheRoad) {
+    checks.push({
+      src: "road-status",
+      level: "unknown",
+      roadStatus: "unknown",
+      why: "Nothing reports this crossing itself: no sensor on the road, and no county barricade point matched here right now",
+      detail: `The flow sensors listed for this crossing are up the wash from it, and no flow-to-road relation is established, so a dry or quiet reading there is not a dry road. Rain at the nearby county gauges, a county barricade point within ${cfg2.CLOSURE_RADIUS_M} m, an NWS warning and the HAND model row are the local evidence this crossing has; none of them measures water depth on the pavement.`
+    });
+  }
+  for (const [ruleName, ids] of Object.entries((_b = fp.rain) != null ? _b : {})) {
     const c = d.alert ? checkRain(d.alert, ids, cfg2.RAIN[ruleName], cfg2.RAIN_GAUGES, now, cfg2.STALE_MS) : { level: "unknown", why: "rain gauges unreachable right now" };
-    if (fp.kind === "bridge" && rank(c.level) > rank("watch") && c.level !== "unknown") {
-      c.level = "watch";
-      c.why += ": water will pass under this bridge";
+    if (["bridge", "river"].includes(fp.kind) && c.level !== "unknown" && c.level !== "ok") {
+      c.sourceLevel = c.level;
+      c.level = "unknown";
+      c.contextOnly = true;
+      c.why += ": rainfall context; no bridge-specific roadway inundation established";
     }
     checks.push({ src: `rain-${ruleName}`, ...c });
   }
   const known = checks.filter((c) => c.level !== "unknown");
   let level = known.length ? worst(known.map((c) => c.level)) : "ok";
-  if (!known.length) checks.unshift({ src: "none", level: "ok", why: "No live readings right now, and nothing reported against it" });
+  if (!known.length) checks.unshift({ src: "none", level: "ok", why: "No live readings right now; current road conditions are not established" });
   if ((fp.kind === "road" || fp.kind === "flat") && level === "danger" && (closure == null ? void 0 : closure.level) !== "danger") level = "caution";
-  const pref = ["county", "wash", "rain-local", "river", "rain-road", "rain-basin", "river-early", "nws"];
+  const pref = ["county", "wash", "rain-local", "river", "rain-road", "rain-basin", "river-early", "nws", "road-status"];
   const atLevel = checks.filter((c) => c.level === level && !(c.official && level === "ok"));
   atLevel.sort((a, b) => pref.indexOf(a.src) - pref.indexOf(b.src));
-  const lead = (_c = (_b = atLevel[0]) != null ? _b : checks.find((c) => c.level === level)) != null ? _c : checks[0];
-  return { id: fp.id, name: fp.name, short: fp.short, where: fp.where, kind: fp.kind, level, why: (_d = lead == null ? void 0 : lead.why) != null ? _d : "no data", checks, closurePts };
+  const lead = (_d = (_c = atLevel[0]) != null ? _c : checks.find((c) => c.level === level)) != null ? _d : checks[0];
+  return { evidenceAvailable: known.length > 0, id: fp.id, name: fp.name, short: fp.short, where: fp.where, kind: fp.kind, level, why: (_e = lead == null ? void 0 : lead.why) != null ? _e : "no data", checks, closurePts };
+}
+function crossingLead(result) {
+  const county = result.checks.find((c) => c.src === "county" && c.level !== "unknown");
+  const upstream = result.checks.find((c) => c.upstream === true && c.level !== "ok");
+  const roadUnknown = result.checks.some((c) => c.roadStatus === "unknown");
+  const noDepth = "That is the county reporting this road, not a measurement of how deep the water is.";
+  if (county && county.level === result.level && county.level !== "ok") return `${county.why}. ${noDepth}`;
+  if (upstream && ["watch", "unknown"].includes(result.level)) {
+    return `${upstream.why}${roadUnknown ? " Nothing here reports this road, so whether you can get through is unknown." : ""}`;
+  }
+  if (roadUnknown && ["ok", "unknown"].includes(result.level)) {
+    return "Nothing in the data reports this crossing itself. A quiet reading miles upstream is not a dry road; look as you come up on it.";
+  }
+  return null;
 }
 function rateRoutes(routeFeatures, fpResults, fps) {
   return routeFeatures.map((f) => {
@@ -582,9 +694,14 @@ function rateRoutes(routeFeatures, fpResults, fps) {
   });
 }
 function recommend(rated) {
-  const order = [...rated].sort((a, b) => rank(a.level) - rank(b.level) || a.minutes - b.minutes);
+  const score = (r) => {
+    var _a, _b;
+    return (_b = (_a = r.score) != null ? _a : routeScore(r)) != null ? _b : 5;
+  };
+  const unresolved = (c) => c.roadStatus === "unknown" || (c.bridgeClearance === "unknown" || c.upstream === true) && c.level !== "ok";
+  const order = [...rated].sort((a, b) => score(a) - score(b) || rank(a.level) - rank(b.level) || a.minutes - b.minutes);
   const best = order[0];
-  return { best, clear: best && rank(best.level) <= rank("watch"), order };
+  return { best, clear: best && score(best) <= 2 && rank(best.level) <= rank("watch") && !best.points.some((p) => p.evidenceAvailable === false || p.checks.some(unresolved)), order };
 }
 const VALLEY_HUB = [32.4295, -111.3045];
 function googleMapsUrl(nav, destination, direction = "toI10") {
@@ -604,7 +721,7 @@ function googleMapsUrl(nav, destination, direction = "toI10") {
   u.searchParams.set("travelmode", "driving");
   return u.toString();
 }
-function riskScore(result) {
+function baseRiskScore(result) {
   switch (result.level) {
     case "ok":
       return 1;
@@ -618,10 +735,21 @@ function riskScore(result) {
       return null;
   }
 }
+const bridgePoints = (p) => p.checks.reduce((sum, c) => {
+  var _a;
+  return sum + ((_a = c.bridgePoints) != null ? _a : 0);
+}, 0);
+function riskScore(result) {
+  const base = baseRiskScore(result);
+  return base == null ? null : Math.min(5, base + bridgePoints(result));
+}
 function routeScore(route) {
-  const scores = route.points.map(riskScore);
   if (route.level === "unknown") return null;
-  return Math.max(...scores.filter((x) => x != null), 1);
+  const baseline = Math.max(...route.points.map((p) => {
+    var _a, _b;
+    return ((_a = baseRiskScore(p)) != null ? _a : 1) + ((_b = p.handAdd) != null ? _b : 0);
+  }), 1);
+  return Math.min(5, baseline + route.points.reduce((sum, p) => sum + bridgePoints(p), 0));
 }
 function goodSigns(route, nwsQuiet) {
   const kind = (src) => src.startsWith("rain") ? "rain" : src === "river-early" ? "river" : src;
@@ -632,7 +760,10 @@ function goodSigns(route, nwsQuiet) {
   const add = (t) => {
     if (!out.includes(t)) out.push(t);
   };
-  if (ok.some((c) => c.src === "river")) add("the Santa Cruz is at its everyday flow");
+  if (ok.some((c) => {
+    var _a;
+    return c.src === "river" && ((_a = c.heightComparison) == null ? void 0 : _a.status) !== "estimated";
+  })) add("the Santa Cruz is at its everyday flow");
   if (ok.some((c) => c.src === "wash")) add("Brawley Wash upstream is dry");
   const rain = ok.filter((c) => c.src.startsWith("rain"));
   if (rain.length) add(rain.every((c) => /^no rain/.test(c.why)) ? "no rain in the last 6 hours" : "only light rain lately");
@@ -694,8 +825,8 @@ function evaluate(raw, area = "avra") {
     return [s, summarizeFlow(((_a2 = raw.usgs) == null ? void 0 : _a2[s]) ? parseContinuous(raw.usgs[s]) : {}, now, CFG_.STALE_MS)];
   }));
   const closures = (_c = (_b = (_a = raw.closures) == null ? void 0 : _a.features) == null ? void 0 : _b.map((f) => {
-    var _a2, _b2;
-    return { location: (_a2 = f.attributes.Location) == null ? void 0 : _a2.trim(), status: (_b2 = f.attributes.Status) != null ? _b2 : "", updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x };
+    var _a2, _b2, _c2;
+    return { location: (_a2 = f.attributes.Location) == null ? void 0 : _a2.trim(), status: (_b2 = f.attributes.Status) != null ? _b2 : "", direction: (_c2 = f.attributes.Direction) != null ? _c2 : "", updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x };
   })) != null ? _c : null;
   const nws = raw.nws ? ((_d = raw.nws.features) != null ? _d : []).map((f) => ({ event: f.properties.event })) : null;
   const d = { now, flows, closures, alert: raw.alert, nws };
@@ -737,7 +868,7 @@ function message(best, order, rated, missing, now, area = "avra") {
 function sourceUrls(usgsKey) {
   const q = new URLSearchParams({
     where: "1=1",
-    outFields: "Location,Status,timeUpdated",
+    outFields: "Location,Status,Direction,timeUpdated",
     returnGeometry: "true",
     outSR: "4326",
     f: "json",
@@ -754,7 +885,7 @@ function sourceUrls(usgsKey) {
     nws: CFG_.SOURCES.nws
   };
 }
-const CFG_ = { AREAS, SOURCES, USGS_SITES, STALE_MS, SNAPSHOT_STALE_MS, RIVER, RAIN, RAIN_GAUGES, FAILURE_POINTS, RIVER_EARLY, CLOSURE_RADIUS_M, CLOSURE_BOUNDS, ROUTE_INFO };
+const CFG_ = { AREAS, SOURCES, USGS_SITES, STALE_MS, SNAPSHOT_STALE_MS, RIVER, RAIN, RAIN_GAUGES, WASH, FAILURE_POINTS, RIVER_EARLY, CLOSURE_RADIUS_M, CLOSURE_BOUNDS, ROUTE_INFO };
 const cfg = CFG_;
 const ROUTE_FEATURES = [{ "properties": { "id": "trico", "area": "avra", "name": "Trico Rd -> Trico-Marana Rd -> Marana Rd", "minutes": 10.4, "km": 11.2 } }, { "properties": { "id": "avra", "area": "avra", "name": "Avra Valley Rd (I-10 Avra Valley exit)", "minutes": 19.5, "km": 21.1 } }, { "properties": { "id": "silverbell-north", "area": "avra", "name": "Silverbell Rd -> Sanders Rd north -> Marana Rd", "minutes": 16.5, "km": 16.5 } }, { "properties": { "id": "silverbell-south", "area": "avra", "name": "Silverbell Rd -> Sanders Rd south -> Avra Valley Rd east", "minutes": 19.7, "km": 20.2 } }, { "properties": { "id": "pr-ina", "area": "picture-rocks", "name": "Picture Rocks Rd -> Ina Rd", "minutes": 17.7, "km": 19.5 } }, { "properties": { "id": "pr-twinpeaks", "area": "picture-rocks", "name": "Sandario Rd -> Twin Peaks Rd", "minutes": 15.4, "km": 16.7 } }, { "properties": { "id": "pr-avra", "area": "picture-rocks", "name": "Sandario Rd -> Avra Valley Rd", "minutes": 15.3, "km": 16.6 } }, { "properties": { "id": "pr-gates", "area": "picture-rocks", "name": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway", "minutes": 30.4, "km": 32.3 } }];
 const CONFIG = {
