@@ -30,9 +30,12 @@ export function showAcknowledgement(kind,{document:doc=globalThis.document,stora
  const body=doc.createElement('p');body.textContent=text.body;
  const button=doc.createElement('button');button.type='button';button.textContent='Got it';
  dialog.append(title,body,button);doc.body.append(dialog);open=kind;
- button.onclick=()=>dialog.close();
- // Closing by any route, including Escape, counts as dismissing it.
- dialog.addEventListener('close',()=>{acknowledge(kind,storage);dialog.remove();open=null;next(doc,storage)});
+ // Save the dismissal at the click: the close event can lag on a busy or backgrounded page.
+ let finished=false;
+ const finish=()=>{if(finished)return;finished=true;acknowledge(kind,storage);if(dialog.open)dialog.close();dialog.remove();open=null;next(doc,storage)};
+ button.onclick=finish;
+ // Closing by any other route, including Escape, counts as dismissing it too.
+ dialog.addEventListener('close',finish);
  dialog.showModal();button.focus();
  return true;
 }

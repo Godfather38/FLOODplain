@@ -52,6 +52,16 @@ test('blocked storage still dismisses for this page and never breaks the map',()
  assert.equal(showAcknowledgement('estimate',{document:doc,storage}),false);
  resetForTest();
 });
+test('Got it saves the dismissal even if the close event never arrives',()=>{
+ resetForTest();const storage=memoryStorage(),doc=fakeDocument();
+ showAcknowledgement('savedRun',{document:doc,storage});
+ const dialog=dialogOf(doc);dialog.close=()=>{};dialog.open=true;
+ dialog.children.at(-1).onclick();
+ assert.equal(dialog.removed,true);assert.equal(storage.getItem('floodplain-ack-savedRun'),'1');
+ resetForTest();assert.equal(showAcknowledgement('savedRun',{document:fakeDocument(),storage}),false);
+ const again=fakeDocument();assert.equal(showAcknowledgement('simulated',{document:again,storage}),true,'nothing left blocking the next notice');
+ dialogOf(again).children.at(-1).onclick();resetForTest();
+});
 test('every simulated or modeled view opens the notice',()=>{
  assert.match(read('live-map.js'),/showAcknowledgement\('estimate'\)/);
  assert.match(read('inundation/app.js'),/showAcknowledgement\('estimate'\)/);
