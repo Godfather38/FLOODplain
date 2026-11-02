@@ -1,3 +1,4 @@
+import {validateCoarseTerrainDetail} from './coarse-terrain-binding.js';
 import * as maptalks from 'maptalks';
 import { createVectorGeography } from './geographic-vector-source.js';
 import {createMapClickGuard} from '../../public/simulation/map-click-guard.js';
@@ -126,7 +127,8 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
         read('data/frozen-voxel-terrain.f32.gz',true).then(r=>r.arrayBuffer()),
         read('data/frozen-voxel-terrain.json').then(r=>r.json())]));
       if(dead||!active||token!==modeGeneration)return false;
-      if(!source&&detailMeta.sourceSha256!==loaded.manifest.artifact.sha256)throw Error('Terrain detail provenance mismatch');
+      if(!source)await validateCoarseTerrainDetail(loaded,terrain,detailMeta,detailBuffer);
+      if(dead||!active||token!==modeGeneration)return false;
       THREE=runtime.THREE;runtime3D=runtime;terrainSelectionKey=terrain.tileSelectionKey;terrainInfo={...terrain.stats,overviewMode:terrain.overviewMode===true||terrain.stats?.overviewMode===true,terrainKind:terrain.kind};terrainModelBudgetKey=terrainOptions().budget+':'+waterBudget();
       await new Promise((resolve,reject)=>{
         layer=new runtime.ThreeLayer('native-voxel-water',{forceRenderOnMoving:true,forceRenderOnRotating:true,forceRenderOnZooming:true,geometryEvents:false});
