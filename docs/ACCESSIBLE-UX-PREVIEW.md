@@ -11,7 +11,7 @@ Base remote HEAD verified before branching: 532d85b602a4f462f223ff0d59750924681c
 ## Actual checks
 Chromium at 390x844 and 1440x1000; phone home, desktop home, guide and flat geographic map screenshots inspected. Dark map and 200% root text captured and inspected. No horizontal overflow in measured guide/help or map views, no browser page errors. At 200% the guide scrolls vertically and all four controls have 76px height. At normal size guide buttons exceed 48px. Enlarged map permits page and dock scrolling.
 
-Full existing suite: 214 tests, 213 passed, one failed: test/forecast-regional.test.js:22 expects simulation/forecast.html while unchanged map-shell.js links inundation/index.html. Both failing-test inputs identical to base HEAD. npm ci used existing lockfile; reported one moderate advisory, no automatic upgrade performed. Test-generated Apps Script file restored; it is not part of this patch.
+Initial full existing suite before test correction: 214 tests, 213 passed, one failed: test/forecast-regional.test.js:22 expects simulation/forecast.html while unchanged map-shell.js links inundation/index.html. Both failing-test inputs identical to base HEAD. npm ci used existing lockfile; reported one moderate advisory, no automatic upgrade performed. Test-generated Apps Script file restored; it is not part of this patch.
 
 ## Remaining limits — not acceptance claims
 - The final phone flat-map screenshot shows the acknowledged Nov 1, 6:00 PM MST model time, separate feet depth legend and restored green route risk marker. Full loaded-water 3D, model failure states, all hour controls and selected-cell transitions still need a dedicated verification run. No 3D acceptance claimed.
@@ -30,3 +30,10 @@ Automatic approval review denied git push to Godfather38/FLOODplain experiment/a
 
 The failing test also expects the label 'Official river forecasts'; base map-shell.js instead uses 'River forecast details'. Both assertions describe the older destination; this UX patch changes neither file.
 
+
+## Follow-up: forecast target and 3D attempt
+The actual Map options > River forecast details link opened /inundation/index.html in Chromium. It rendered “Estimated flood extent”, populated 52 crossing choices, and showed “Choose a forecast or a flow.” No live forecast request was enabled. The obsolete test expectation now matches this existing destination and label, and additionally reads the target HTML to check its heading, crossing selector and recorded forecast control. No navigation implementation changed. Affected checks: node --test test/forecast-regional.test.js — 5/5 passed. The full suite was not rerun after this test-only correction; the initial 213/214 result above is historical, not a current full-pass claim.
+
+At 390x844, attempted Map options > More layers & 3D > 3D map. The existing renderer refused activation with “Rendering failed: Terrain detail provenance mismatch”. Button remained “3D map”, aria-pressed=false, and no displayed model frame was acknowledged. The flat fallback and explicit error remained visible. Active 3D risk colors therefore could not be verified. No renderer assets, provenance checks or model data were changed.
+
+Observed camera controls measured 48x48 CSS px for zoom and 56.45x48 for Locate, with 14px labels; no horizontal page overflow. The numeric risk key retained all five levels and Unknown separately from depth. Help remained reachable after the failed 3D attempt; the guide advanced through all three steps, closed, and Map could be reopened. No browser page errors. The screenshot containing basemap imagery stays local at ux-evidence/3d-phone.png; only the non-sensitive structured result is uploaded.

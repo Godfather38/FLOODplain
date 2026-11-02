@@ -1,0 +1,38 @@
+{
+  "forecast": {
+    "url": "/inundation/index.html",
+    "heading": "Estimated flood extent",
+    "crossings": 52,
+    "status": "Choose a forecast or a flow."
+  },
+  "view": {
+    "button": "3D map",
+    "pressed": "false",
+    "clock": "No displayed model frame",
+    "overflow": false,
+    "controls": [
+      {
+        "label": "+",
+        "width": 48,
+        "height": 48,
+        "font": "14px"
+      },
+      {
+        "label": "−",
+        "width": 48,
+        "height": 48,
+        "font": "14px"
+      },
+      {
+        "label": "Locate",
+        "width": 56.453125,
+        "height": 48,
+        "font": "14px"
+      }
+    ],
+    "riskLegend": "Route risk key — numbers and colors1Low2Minor3Moderate4High5Severe?UnknownRisk numbers describe route evidence. Blue-to-purple model shading shows water depth in feet, not route safety. Missing or stale readings do not mean dry.",
+    "failure": "Rendering failed: Terrain detail provenance mismatch"
+  },
+  "guide": "Inspect time and details",
+  "errors": []
+}
