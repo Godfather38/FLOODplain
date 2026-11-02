@@ -255,10 +255,10 @@ def package(lines, projects, structures):
         files.append({"tier": "area", "box": [cx * GRID_DEG, cy * GRID_DEG, (cx + 1) * GRID_DEG, (cy + 1) * GRID_DEG],
                       **encode_lines(OUT / name, group, meta)})
     summary = structure_summary(structures)
-    (OUT / "structures.json").write_text(json.dumps({"schemaVersion": 1, "lidarProject": LIDAR_PROJECT, "structures": summary}, indent=0) + "\n")
+    (OUT / "structures.json").write_text(json.dumps({"schemaVersion": 1, "lidarProject": LIDAR_PROJECT, "structures": summary}, indent=0) + "\n", encoding="utf-8", newline="\n")
     manifest = {"schemaVersion": 1, "kind": "road_height_package", "box": BOX, "files": files, "metadata": meta,
                 "structures": {"path": "structures.json", "sha256": hashlib.sha256((OUT / "structures.json").read_bytes()).hexdigest()}}
-    (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
+    (OUT / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n", encoding="utf-8", newline="\n")
     return manifest
 
 

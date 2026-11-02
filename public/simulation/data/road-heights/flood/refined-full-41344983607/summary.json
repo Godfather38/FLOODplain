@@ -18,8 +18,8 @@
  },
  "stretchesFile": {
   "path": "stretches.geojson",
-  "sha256": "74b76f4b8b43e0b901a7a4cb8123e69a373d7e15e018818bc2bf6e037b0b9386"
+  "sha256": "a94bfd9a3979c18e2b0ffbc89172b03b204ac943af440f442e9e48f97217270a"
  },
  "packageManifestSha256": "6b017b3c2ba0d78fdf760fee07cd2aca186fb99064232a050125ec84a1d7d720",
- "roadManifestSha256": "2571b2c94384014bcdf642a627195cf85b04340aea46986e47dedbbc23110952"
+ "roadManifestSha256": "5b087698cc920e21f8acf864d622f8d058d0ef0b069c8b75df4e5613a079a499"
 }

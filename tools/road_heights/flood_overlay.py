@@ -144,7 +144,7 @@ def main():
                    "The model's terrain is coarser than these road heights, so narrow embankments may not block water in the model as they do on the ground.",
                    "Stations outside the model have no result and are not dry."]},
         "features": features}
-    (outdir / "stretches.geojson").write_text(json.dumps(geo, separators=(",", ":")) + "\n")
+    (outdir / "stretches.geojson").write_text(json.dumps(geo, separators=(",", ":")) + "\n", encoding="utf-8", newline="\n")
 
     # Sparse frames so a map can animate without opening 57 full model frames: only stations ever above the road.
     ever = np.flatnonzero(any_counted)
@@ -171,7 +171,7 @@ def main():
                "stretchesFile": {"path": "stretches.geojson", "sha256": hashlib.sha256((outdir / "stretches.geojson").read_bytes()).hexdigest()},
                "packageManifestSha256": hashlib.sha256((package / "manifest.json").read_bytes()).hexdigest(),
                "roadManifestSha256": hashlib.sha256((HEIGHTS / "manifest.json").read_bytes()).hexdigest()}
-    (outdir / "summary.json").write_text(json.dumps(summary, indent=1) + "\n")
+    (outdir / "summary.json").write_text(json.dumps(summary, indent=1) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps({k: v for k, v in summary.items() if k not in ("frames", "stretchesFile")}))
 
 
