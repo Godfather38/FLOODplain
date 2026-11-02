@@ -59,7 +59,33 @@ async function waitForCoupled(page,timeout=180000){
   await page.waitForFunction(()=>{const f=window.qa.view.inspect().junction?.flow;
     return f?.status==='coupled'&&!!f.ledger&&f.ledger.inflow?.simulatedSeconds>0;},null,{timeout});
 }
-async function travelOverSimulatedSeconds(page,seconds){
+// Identity of the live solver, the host model and the source time, as a token
+// that only changes when one of them is replaced.
+//
+// A rebuilt solver allocates a fresh generations array — all zeros, exactly
+// like the old one — so generation numbers cannot tell a rebuild from a quiet
+// frame. Without that, a rebuild's change of local origin was measured as
+// travel: 765 particles each "moving" 48.81-48.98 m, a spread of 0.17 m across
+// the whole cloud, which is a rigid translation and not a fluid.
+// Installed into the page once; the held references live there so object
+// identity survives between evaluate calls.
+export const INSTALL_IDENTITY=()=>{
+  if(window.__junctionIdentityToken)return;
+  const state={seq:0,fluid:null,model:null,sourceTime:null};
+  window.__junctionIdentityToken=()=>{
+    const view=window.qa?.view;
+    const internals=view?.junctionInternals?.()||{};
+    const inspect=view?.inspect?.()||{};
+    const fluid=internals.fluid??null,model=inspect.model??null;
+    const sourceTime=inspect.junctionStatus?.sourceTime??null;
+    if(state.fluid!==fluid||state.model!==model||state.sourceTime!==sourceTime){
+      state.seq++;state.fluid=fluid;state.model=model;state.sourceTime=sourceTime;
+    }
+    return {token:state.seq,hasFluid:!!fluid,sourceTime};
+  };
+};
+async function travelOverSimulatedSeconds(page,seconds,attempt=0){
+  await page.evaluate(INSTALL_IDENTITY);
   const probe=()=>page.evaluate(()=>{const v=window.qa.view.inspect(),j=v.junction;
     const o=v.model?.group?.getObjectByName('brawley-junction-blobs');
     const a=o?.geometry?.getAttribute('blobOffset')?.array;
@@ -70,11 +96,22 @@ async function travelOverSimulatedSeconds(page,seconds){
       metresPerPixel:j?.blobs?.metresPerPixel??1,
       unitsPerMetre:(()=>{const p=j?.placement;return p&&p.maxDeviationM>0?p.maxDeviationUnits/p.maxDeviationM:null;})(),
       inflowMoved:led?.inflow?.moved??0,outflowMoved:led?.outflow?.moved??0,
-      activeParticles:led?.activeParticles??null};});
+      particleVolumeM3:led?.inflow?.particleVolumeM3??null,
+      activeVolumeM3:led?.activeVolumeM3??null,seededVolumeM3:led?.seededVolumeM3??null,
+      activeParticles:led?.activeParticles??null,
+      identity:window.__junctionIdentityToken()};});
   const start=await probe();
   await page.waitForFunction(target=>(window.qa.view.inspect().junction?.fluid?.elapsedSeconds??0)>=target,
     start.elapsedSeconds+seconds,{timeout:300000});
   const end=await probe();
+  // Same solver, same host model, same source time, start to finish. Anything
+  // else is a rebuild, and a rebuild's change of local origin is not travel.
+  if(start.identity.token!==end.identity.token||!start.identity.hasFluid||!end.identity.hasFluid){
+    if(attempt>=3)throw Error('The junction layer kept rebuilding during the motion window; no clean sample. '
+      +JSON.stringify({start:start.identity,end:end.identity}));
+    await page.waitForTimeout(2500);
+    return travelOverSimulatedSeconds(page,seconds,attempt+1);
+  }
   const perMetre=start.unitsPerMetre,mpp=end.metresPerPixel||1;
   const flat=[],full=[];let recycled=0;
   for(let i=0;i<start.offsets.length&&i<end.offsets.length;i+=3){
@@ -95,8 +132,23 @@ async function travelOverSimulatedSeconds(page,seconds){
     continuousSamples:full.length,recycleJumps:recycled,
     travelPixelsPerSimulatedSecond:(full.at(-1)??0)/mpp/simulated,
     horizontalPixelsPerSimulatedSecond:(flat.at(-1)??0)/mpp/simulated,
+    // Rigid-translation guard. A fluid spreads; a moved origin does not. If
+    // the whole cloud travels the same distance, this is a frame shift that
+    // slipped past the instance check, not motion.
+    horizontalSpreadMetres:(flat.at(-1)??0)-(flat[0]??0),
+    looksLikeRigidShift:flat.length>8&&(flat.at(-1)??0)>0.5
+      &&((flat.at(-1)??0)-(flat[0]??0))<(flat.at(-1)??0)*0.05,
     exchanged:{inflow:end.inflowMoved-start.inflowMoved,outflow:end.outflowMoved-start.outflowMoved},
-    window:'fixed simulated-time window on the solver\'s own clock; generation changes excluded by identity'};
+    // The native quantities behind that exchange, so a count is never the only
+    // evidence: whole particles of a declared volume, against each side's own
+    // accrued native discharge.
+    particleVolumeM3:end.particleVolumeM3,
+    exchangedVolumeM3:{inflow:(end.inflowMoved-start.inflowMoved)*(end.particleVolumeM3??0),
+      outflow:(end.outflowMoved-start.outflowMoved)*(end.particleVolumeM3??0)},
+    conservation:{activeVolumeM3:end.activeVolumeM3,seededVolumeM3:end.seededVolumeM3,
+      activeParticles:end.activeParticles},
+    identity:{token:end.identity.token,sourceTime:end.identity.sourceTime,attempts:attempt+1},
+    window:'fixed simulated-time window on the solver\'s own clock; same fluid instance, host model and source time throughout; generation changes excluded by identity'};
 }
 // Reach the 3D toggle the way a person does. After a viewport change the
 // options sheet is closed again, and force-clicking a hidden control would be

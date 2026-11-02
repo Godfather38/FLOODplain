@@ -21,6 +21,9 @@ export function mountFloodLayers(map,{routeLayer,streetTiles}){
   refinedCase=await loadRefinedMapCase({base,signal:AbortSignal.timeout(120000)});if(refinedCase.status!=='complete')throw Error(refinedCase.reason);
   loaded=refinedCase.source.loaded;footprints=refinedCase.source.footprints;coverageIndex=null;index=Math.max(0,loaded.run.frames.findLastIndex(f=>Date.parse(f.time)<=Date.now()));q('[data-time]').value=index;
   sharedState.setDataset({runId:loaded.manifest.runId,frameTimes:loaded.run.frames.map(f=>f.time),cellCount:loaded.run.cells.length,artifactSha256:loaded.manifest.geometry.sha256});
+  // The loaded run's own frame times, so the dated preview link can look for
+  // an EXACT match and refuse anything else rather than guessing a nearest.
+  window.__floodFrames=()=>loaded.run.frames.map(f=>f.time);
   windowEnd??=loaded.run.frames.length-1;q('[data-time]').max=windowEnd;q('[data-time]').disabled=false;
   q('[data-prev]').setAttribute('aria-label','Previous native frame');q('[data-next]').setAttribute('aria-label','Next native frame');q('[data-time]').setAttribute('aria-label','Native simulation frame');
   document.querySelector('.flood-tag').textContent=loaded.manifest.status==='partial'?'PARTIAL FROZEN RUN · available frames only':'FROZEN REFINED RUN';
@@ -102,7 +105,30 @@ export function mountFloodLayers(map,{routeLayer,streetTiles}){
   })().catch(e=>{rendererLoading=null;terrainView?.dispose();terrainView=null;throw e});return rendererLoading;
  }
  async function enterMap(){if(location.hash!=='#/map')return;const transition=++viewTransition;requestedView='flat';try{notifyRender({status:'loading',message:'Loading flat geographic map and retained model.'});await ensureRenderer();if(transition!==viewTransition||location.hash!=='#/map')return;await terrainView.setViewMode('flat');syncViewButton();if(q('[data-model]').value==='off')q('[data-model]').value='2d';render()}catch(e){if(transition===viewTransition)renderFailure(e)}}
- async function toggle3d(){const button=q('[data-3d]'),transition=++viewTransition;try{button.disabled=true;await ensureRenderer();if(location.hash!=='#/map'||transition!==viewTransition)return;const next=terrainView.viewMode==='3d'?'flat':'3d';requestedView=next;button.textContent=next==='3d'?'Loading 3D…':'Switching to flat…';await terrainView.setViewMode(next);if(location.hash!=='#/map'||transition!==viewTransition){await terrainView.setViewMode(requestedView);if(location.hash!=='#/map')terrainView.hide();return}syncViewButton();render();document.querySelector('.map-sheet [data-close]')?.click()}catch(e){if(transition===viewTransition){await terrainView?.setViewMode('flat');syncViewButton();renderFailure(e)}}finally{button.disabled=false}}
+ // A device that cannot run the 3D map must say so and stay usable. Entering
+ // 3D could previously wait forever — on a browser without the WebGL support
+ // the renderer needs, the control sat reading "Loading 3D…" indefinitely with
+ // no way back, even though the flat map underneath still had the full
+ // modelled water. This bounds that one wait and settles into a plain state.
+ let threeDUnavailable=false;
+ const THREE_D_ENTRY_TIMEOUT_MS=20000;
+ async function toggle3d(){const button=q('[data-3d]'),transition=++viewTransition;if(threeDUnavailable)return;try{button.disabled=true;await ensureRenderer();if(location.hash!=='#/map'||transition!==viewTransition)return;const next=terrainView.viewMode==='3d'?'flat':'3d';requestedView=next;button.textContent=next==='3d'?'Loading 3D…':'Switching to flat…';
+  let timer;
+  try{await (next==='3d'
+    ?Promise.race([terrainView.setViewMode(next),
+      new Promise((_,reject)=>{timer=setTimeout(()=>reject(Object.assign(Error('3D unavailable on this device'),{threeDUnavailable:true})),THREE_D_ENTRY_TIMEOUT_MS);})])
+    :terrainView.setViewMode(next));}
+  finally{clearTimeout(timer);}
+  if(location.hash!=='#/map'||transition!==viewTransition){await terrainView.setViewMode(requestedView);if(location.hash!=='#/map')terrainView.hide();return}syncViewButton();render();document.querySelector('.map-sheet [data-close]')?.click()}
+ catch(e){if(transition===viewTransition){requestedView='flat';try{await terrainView?.setViewMode('flat')}catch{}syncViewButton();
+  if(e?.threeDUnavailable){threeDUnavailable=true;button.textContent='3D unavailable';
+   button.setAttribute('aria-disabled','true');
+   button.title='This device cannot run the 3D map. The flat map still shows the full modelled water.';
+   q('[data-status]').textContent='3D unavailable on this device. The flat map still shows the modelled water, depth legend and routes.';
+   notifyRender({status:'ready',message:'3D unavailable on this device; the flat map keeps the modelled water.'});
+   return}
+  renderFailure(e)}}
+ finally{button.disabled=threeDUnavailable}}
  q('[data-3d]').onclick=toggle3d;
  window.addEventListener('flood-exit-3d',()=>{++viewTransition;requestedView='flat';if(terrainView?.active){terrainView.hide();Promise.resolve(terrainView.setViewMode('flat')).catch(()=>{});syncViewButton();render()}});
  window.addEventListener('hashchange',()=>{if(location.hash==='#/map')enterMap()});
@@ -118,5 +144,131 @@ export function mountFloodLayers(map,{routeLayer,streetTiles}){
  window.addEventListener('resize',placePhoneSources);window.addEventListener('hashchange',placePhoneSources);placePhoneSources();
  if(caseChoice==='refined'){document.querySelector('.flood-time-ends').textContent='No native frame timestamps available yet';document.querySelector('.flood-tag').textContent='REFINED CASE · requires completed output';q('[data-prev]').setAttribute('aria-label','Previous native frame');q('[data-next]').setAttribute('aria-label','Next native frame');q('[data-3d]').disabled=true;for(const selector of ['[data-rain]','[data-flow]']){q(selector).checked=false;q(selector).disabled=true}}
  q('[data-case]').value=caseChoice;q('[data-case]').onchange=e=>{const url=new URL(location.href);url.searchParams.set('case',e.target.value==='refined'?'refined':'coarse');location.href=url.href};
+
+ // ---- Dated preview deep link -------------------------------------------
+ //
+ // One narrow query parameter that reproduces a specific SAVED modelled
+ // moment through the ordinary app lifecycle: it selects the refined case,
+ // steps the existing time control to that exact native frame, enters 3D and
+ // presses the close-up crossing. It drives the same controls a person would;
+ // it does not bypass them, and every manual control keeps working after.
+ //
+ // Only the dates the retained run actually contains are accepted. An
+ // unsupported date is refused and said so — never quietly swapped for a
+ // nearby frame. The ordinary URL is untouched and still opens flat 2D.
+ const PREVIEW_FRAMES={
+   // Retained refined run refined-full-41344983607, Nov 1-2 2026. This is the
+   // wet frame the crossing preview is about.
+   '2026-11-01T22:00Z':{iso:'2026-11-01T22:00:00Z',label:'Nov 1, 2026 · 3:00 PM Arizona'}};
+ const PREVIEW_DEFAULT='2026-11-01T22:00Z';
+ const previewKey=new URLSearchParams(location.search).get('preview');
+ function previewURL(key=PREVIEW_DEFAULT){
+   const url=new URL(location.href);
+   url.searchParams.set('case','refined');url.searchParams.set('preview',key);
+   url.hash='#/map';return url.href;
+ }
+ // A visible, dated way in, next to the case control rather than hidden in a
+ // URL. Labelled as a saved model preview so it cannot read as live weather.
+ (function addPreviewLink(){
+   const host=q('[data-case]')?.closest('label')?.parentElement
+     ||document.querySelector('[data-panel-content=options]');
+   if(!host)return;
+   const wrap=document.createElement('div');wrap.className='dated-preview';
+   const link=document.createElement('a');
+   link.href=previewURL();link.dataset.preview=PREVIEW_DEFAULT;
+   link.textContent='Open saved 3D preview — '+PREVIEW_FRAMES[PREVIEW_DEFAULT].label;
+   const note=document.createElement('small');
+   note.textContent='A saved model result from this frozen run, not live conditions and not an observation of what happened.';
+   wrap.append(link,note);host.append(wrap);
+ })();
+ // Its own banner, not the shared status line: the render pipeline rewrites
+ // [data-status] constantly, so a preview label parked there vanishes within a
+ // second. This states what is being shown and stays stated.
+ function previewBanner(){
+   let node=document.querySelector('[data-preview-banner]');
+   if(!node){
+     node=document.createElement('div');node.dataset.previewBanner='';
+     node.className='dated-preview-banner';node.setAttribute('role','status');
+     (document.querySelector('.map-dock')||document.body).prepend(node);
+   }
+   return node;
+ }
+ async function runPreview(key){
+   const frame=PREVIEW_FRAMES[key];
+   const banner=previewBanner();
+   if(!frame){
+     banner.textContent='That preview date is not in this saved run. Available: '
+       +Object.values(PREVIEW_FRAMES).map(f=>f.label).join(', ')
+       +'. The map is showing its normal view instead.';
+     banner.dataset.previewState='rejected';
+     notifyRender({status:'ready',message:'Unknown preview date; normal map shown.'});
+     return;
+   }
+   if(caseChoice!=='refined'){
+     // Reached the refined case the same way the control does.
+     location.href=previewURL(key);return;
+   }
+   banner.textContent='Opening the saved 3D preview for '+frame.label+'. This is a saved model result, not live conditions.';
+   banner.dataset.previewState='opening';
+   try{
+     await ensureRenderer();
+     // Step the ordinary time control to the exact native frame. No nearest
+     // match: if the retained run does not contain it, say so and stop.
+     const slider=q('[data-time]');
+     const picked=await new Promise(resolve=>{
+       let tries=0;
+       const attempt=()=>{
+         const frames=window.__floodFrames?.()||null;
+         const index=frames?frames.findIndex(t=>t===frame.iso):-1;
+         if(index>=0){slider.value=String(index);slider.dispatchEvent(new Event('input'));resolve(index);return;}
+         if(++tries>120){resolve(-1);return;}
+         setTimeout(attempt,250);
+       };attempt();
+     });
+     if(picked<0){
+       banner.textContent='This saved run does not contain '+frame.label+'. Nothing was substituted.';
+       banner.dataset.previewState='rejected';
+       return;
+     }
+     if(terrainView?.viewMode!=='3d')await toggle3d();
+     if(terrainView?.viewMode!=='3d'){
+       banner.textContent='Saved model preview · '+frame.label+' · a saved model result, not live conditions. 3D could not open; the flat map retains the modeled water.';
+       banner.dataset.previewState='open';return;
+     }
+     // The crossing control appears once the 3D layer is up. On a narrow
+     // phone that lands a moment later than on a desktop, and pressing before
+     // it exists quietly did nothing — the preview opened 3D and then stopped
+     // short of the crossing. Wait for the control, briefly and boundedly.
+     const crossing=await new Promise(resolve=>{
+       let tries=0;
+       const look=()=>{
+         const node=document.querySelector('.voxel-goto-crossing');
+         if(node&&!node.hidden&&!node.disabled){resolve(node);return;}
+         if(++tries>80){resolve(null);return;}
+         setTimeout(look,250);
+       };look();
+     });
+     if(crossing)crossing.click();
+     else{
+       banner.textContent='Saved preview for '+frame.label
+         +' opened in 3D, but the close-up crossing control did not appear on this device. Use "Close-up crossing" when it does.';
+       banner.dataset.previewState='partial';return;
+     }
+     banner.textContent='Saved 3D preview · '+frame.label+' · a saved model result from a frozen run, not live conditions and not an observation.';
+     banner.dataset.previewState='open';
+   }catch(e){banner.textContent='The saved preview could not open: '+e.message;banner.dataset.previewState='failed';}
+ }
+
+ // Once the user changes time or view, keep the preview label tied to the
+ // displayed model frame rather than the original link's requested time.
+ sharedState.subscribe(state=>{
+   const banner=document.querySelector('[data-preview-banner]');
+   if(banner?.dataset.previewState!=='open'||!state.displayed?.time)return;
+   const time=new Date(state.displayed.time);if(!Number.isFinite(time.getTime()))return;
+   const label=new Intl.DateTimeFormat('en-US',{timeZone:'America/Phoenix',
+     month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}).format(time);
+   banner.textContent='Saved model preview · '+label+' Arizona · a saved model result from a frozen run, not live conditions and not an observation.';
+ });
  if(location.hash==='#/map')enterMap();
+ if(previewKey)runPreview(previewKey);
 }

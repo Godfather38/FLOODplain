@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "source": "Mapzen/Tilezen Terrain Tiles on AWS, USGS 3DEP/GMTED/SRTM source family",
+  "sourceZoom": 10,
+  "accessedAt": "2026-11-02T15:35:04.386748+00:00",
+  "artifact": {
+    "path": "terrain.json.gz",
+    "sha256": "626fdd4c9c12adfdc5b9aa7b277ca6c36a930e7dff4d4ed147581506afffc89f",
+    "bytes": 83789
+  },
+  "bounds": [
+    -111.8,
+    31.95,
+    -110.7,
+    32.85
+  ],
+  "columns": 257,
+  "rows": 257,
+  "elevationRangeM": [
+    419.0,
+    2778.0
+  ],
+  "sourceTiles": [
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/193/412.png",
+      "sha256": "6334a97a3d0ae045cddcdb5e3b3c3e9be342ac14e8e201481884d4f23b5ef926",
+      "bytes": 28607
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/194/412.png",
+      "sha256": "aa85ce6f9e50ac2cfe1c7338585de747efd033140ae048307ef2676ab4d95cd2",
+      "bytes": 31365
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/195/412.png",
+      "sha256": "c331780186959c7c7ba5117c03a16b852e4d306674e516d3329f0722ea14ce54",
+      "bytes": 36358
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/196/412.png",
+      "sha256": "04ab74ea56a7260a9e8686c3c3dbfbe128ca9ac0523542540295e04f264db0fd",
+      "bytes": 55019
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/197/412.png",
+      "sha256": "ba526b432072004623994b9783ae81311cb5b2ea2d11c60d318541fed9dcf3bf",
+      "bytes": 68020
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/193/413.png",
+      "sha256": "ace00bbabd84110d6142ca25dfd4965615dfd9affac8990bf01276c0280c9ec2",
+      "bytes": 40617
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/194/413.png",
+      "sha256": "38edfa743e902758c5d9f625e95364fffaf98fd503fbf729a73c4bf721b3a541",
+      "bytes": 29864
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/195/413.png",
+      "sha256": "bc2fae9a874daa67916f0c57ba91cdaa7a0911430c5b1bb17467a89e80b81abc",
+      "bytes": 33265
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/196/413.png",
+      "sha256": "7930e8e4f1ed743fed361910aa93d7ec3229f416ddcb7e3b46526c673380b5a6",
+      "bytes": 46784
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/197/413.png",
+      "sha256": "e6dc3473b7e3f88a675778037b4cfae5448e0b467af63d3fb4f48248deef6f11",
+      "bytes": 61406
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/193/414.png",
+      "sha256": "884beafefc7229e7491dac9b4d99b49b360aebc31f100492deec012eb410cc8a",
+      "bytes": 36160
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/194/414.png",
+      "sha256": "e8ebd7cdd5263ec8c5382dc7b437936e9c68bed6a8c9c836eb1896279d02243e",
+      "bytes": 36986
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/195/414.png",
+      "sha256": "3091c191347100279b3ec7535ec1e9b70ea5a6533ef5b82161614b85d27f1b3e",
+      "bytes": 36260
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/196/414.png",
+      "sha256": "0c0a4c2e0347223ab185f02616781dc9ffed80f990f3a28897734b67f75bbd2e",
+      "bytes": 59926
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/197/414.png",
+      "sha256": "886b3e81189357fbf46daf132d5ed7860cf8dd5fb20a897dd7d472439a25b918",
+      "bytes": 63228
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/193/415.png",
+      "sha256": "67d3310f6ce129ee58fcdf5916af7634ff1558ebf95c8a67c5b18d5407f96b20",
+      "bytes": 41879
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/194/415.png",
+      "sha256": "4a2fd594fd0a149b70a900c6cb31db084bc5d6fd74173b49cdb91cf2d50c4025",
+      "bytes": 40482
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/195/415.png",
+      "sha256": "af82742e93fb8a7599ee3162715830f3fae43fdf643c75f03048fc203fd510e8",
+      "bytes": 37887
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/196/415.png",
+      "sha256": "62b3b57976f440268b80670f63f8f02d2bd9c0e505fa96add680655200e667b8",
+      "bytes": 36324
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/197/415.png",
+      "sha256": "0e25b603d0031f0a78afd755d4cb8abbcff0dd3b11d83e310fcc89a789f374e4",
+      "bytes": 59343
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/193/416.png",
+      "sha256": "a5537194b78341bd6b0d36ca9884546756c12052d5c9315bb0e6552bba7680c2",
+      "bytes": 29186
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/194/416.png",
+      "sha256": "80c87dce067cbcfab73f069754c3edc15dc82a3afe521c6786220689ee637d49",
+      "bytes": 50341
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/195/416.png",
+      "sha256": "d80069caa818c427296a9cef1ae2a2546c4656ca7837884b8500ea986b40a8a7",
+      "bytes": 47876
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/196/416.png",
+      "sha256": "e2f3eb1ba28cf554222cb7f47f36188f9e83b2fc72a2ca68b76c9c202abfd9a2",
+      "bytes": 52155
+    },
+    {
+      "url": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/10/197/416.png",
+      "sha256": "3361d58eedf37cf966b2cca39f351462a30ee1d0253643adb361e35910348098",
+      "bytes": 55799
+    }
+  ],
+  "attribution": "Terrain Tiles by Mapzen; USGS 3DEP, GMTED2010 and SRTM terrain data courtesy of the U.S. Geological Survey.",
+  "licenseDocumentation": "https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
+  "registry": "https://registry.opendata.aws/terrain-tiles/",
+  "formatDocumentation": "https://github.com/tilezen/joerd/blob/master/docs/formats.md",
+  "limitations": [
+    "Regional context sampled on a roughly400m grid; no claim of survey or hydraulic resolution.",
+    "Source dates and orthometric vertical references vary; not asserted equivalent to the native model NAVD88 terrain.",
+    "Never used to derive water depth, flood extent, crossing safety or source velocity.",
+    "Render at1x true elevation; any future exaggeration must be labeled."
+  ]
+}

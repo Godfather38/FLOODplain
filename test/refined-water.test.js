@@ -96,5 +96,22 @@ test('overview ground has no fake face IDs; global native support retains exact 
   const f=overviewFixture(),view=createRefinedWater({loaded:{manifest:f.manifest},geometry:f.geometry,terrain:f.terrain,origin:new THREE.Vector3(),project:([x,y])=>new THREE.Vector3(x*1e5,y*1e5,0),altitude:m=>m,geometryBudget:100,waterGeometryBudget:20});view.setDetail([0,1]);view.update(f.frame);assert.equal(view.water.count,7);assert.equal(view.land.count,5);assert.equal(view.detailStats.omittedWetFaces,0);assert.equal(view.detailStats.overviewMode,true);assert.equal(view.cellInfo(1).nativeFaceId,'face-small');assert.equal(view.pick(new THREE.Raycaster(new THREE.Vector3(125,25,10),new THREE.Vector3(0,0,-1))),1);
   const array=view.water.geometry.attributes.position.array;view.clearFrame();view.update(f.frame);assert.equal(view.water.geometry.attributes.position.array,array,'same immutable frame/extent reuses geometry allocation');assert.equal(view.water.count,7);view.dispose();
   assert.throws(()=>validateWaterSupport(f.manifest,f.geometry,{...f.terrain.waterSupport,faceOrder:'guessed'}),/order/);
-  const limited=createRefinedWater({loaded:{manifest:f.manifest},geometry:f.geometry,terrain:f.terrain,origin:new THREE.Vector3(),project:([x,y])=>new THREE.Vector3(x*1e5,y*1e5,0),altitude:m=>m,waterGeometryBudget:6});limited.setDetail([0,1]);limited.update(f.frame);assert.equal(limited.water.count,0,'hard budget never silently publishes a partial wet map');assert.equal(limited.detailStats.budgetLimited,true);assert.equal(limited.detailStats.omittedWetFaces,2);assert.equal(limited.land.count,5);limited.dispose();
+  const limited=createRefinedWater({loaded:{manifest:f.manifest},geometry:f.geometry,terrain:f.terrain,origin:new THREE.Vector3(),project:([x,y])=>new THREE.Vector3(x*1e5,y*1e5,0),altitude:m=>m,waterGeometryBudget:6});limited.setDetail([0,1]);limited.update(f.frame);
+  // Budget overflow must never SILENTLY publish a partial wet map. It used to
+  // satisfy that by publishing no water at all, which made the modelled water
+  // vanish from the 3D map and read as dry ground. It now falls back to the
+  // coarser native full-cell product, and the obligation is that the fallback
+  // announces itself: a different product name, its own counts, and the
+  // budget-limited flag still set.
+  assert.ok(limited.water.count>0,'budget overflow must keep showing the water it can, not erase it');
+  assert.equal(limited.detailStats.budgetLimited,true);
+  assert.equal(limited.detailStats.waterProduct,'native-cell','the coarser product is named, never passed off as the resolved footprint');
+  assert.ok(limited.detailStats.waterFallback,'the fallback reports itself');
+  assert.equal(limited.detailStats.waterFallback.kind,'native-cell');
+  assert.ok(limited.detailStats.waterFallback.cellsDrawn>0,'and says how many wet cells it drew');
+  assert.match(limited.detailStats.waterFallback.meaning,/not a resolved wet extent/);
+  assert.equal(limited.detailStats.waterFallback.cellsDrawn+limited.detailStats.waterFallback.cellsOmitted,2,
+    'every wet cell is either drawn or counted as omitted');
+  assert.ok(limited.water.count<=6,'and it still respects the budget it was given');
+  assert.equal(limited.land.count,5);limited.dispose();
 });

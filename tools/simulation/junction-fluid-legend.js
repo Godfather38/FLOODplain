@@ -92,10 +92,13 @@ export function createJunctionLegend({document:doc,container}={}){
   let disposed=false;
   function update(view={}){
     if(disposed)return;
+    shortCaption.textContent=view.status==='unavailable'
+      ?'Native model water remains visible. Missing close-up detail does not mean the road is dry.'
+      :"A simulation of the saved model's water — never a measurement of water on the road.";
     const {status,sourceTime,frameIndex,frameCount,particleCount,meanVelocityMps=[0,0],
       maxStepDisplacementM,radiusMetres,reducedMotion,runId,triangles,placementDeviationM,
       stepMilliseconds,substeps,skippedSteps,reason,imagery,wetVolumeM3,hostTerrainOverview,physicalRadiusMetres,
-      simulationSteps,meanSpeedMps,coupling,flowTime,playback}=view;
+      simulationSteps,meanSpeedMps,coupling,flowTime,playback,developerReason,groundFallback}=view;
     root.hidden=status==='off';
     if(status==='off')return;
     if(status==='loading'){
@@ -106,10 +109,16 @@ export function createJunctionLegend({document:doc,container}={}){
       return;
     }
     if(status==='unavailable'){
-      headline.textContent='Water blobs unavailable here';
+      headline.textContent='Close-up water unavailable here';
+      // Plain English only. The raw module URL and exception text are useful
+      // to a developer and meaningless to someone checking a road, so they go
+      // under the disclosure rather than into the card everyone reads.
       travelText.textContent=reason||'This view cannot show the close-up water.';
-      caption.textContent='The map and the model’s own depth numbers are still shown. An empty blob layer does not mean the road is dry.';
-      detailBody.replaceChildren();
+      caption.textContent='The map still shows the model’s own water and depths here. An empty close-up does not mean the road is dry.';
+      detailBody.replaceChildren(...[
+        groundFallback?.meaning,
+        developerReason?'Technical detail: '+developerReason:null,
+      ].filter(Boolean).map(text=>{const p=make('p');p.textContent=text;return p;}));
       return;
     }
     const frameLabel=finite(frameIndex)&&finite(frameCount)?` · step ${frameIndex+1} of ${frameCount}`:'';

@@ -182,8 +182,57 @@ export function createRefinedWater({loaded,geometry,terrain,project,altitude,ori
     for(const name of ['position','color']){let a=g.getAttribute(name);if(!a||a.array.length<maximum){a=new THREE.BufferAttribute(new Float32Array(Math.min(waterGeometryBudget*9,Math.ceil(Math.max(maximum,(a?.array.length||0)*1.5)/9)*9)),3);a.setUsage(THREE.DynamicDrawUsage);g.setAttribute(name,a);}}
     const positions=g.attributes.position.array,colors=g.attributes.color.array;let count=0,limited=false;waterIds=[];
     for(const face of faces){if(limited)break;const i=face.i,z=frame.waterSurfaceM[i],height=altitude(z-baseM)+.00001;forTriangles(face,(a,b,c)=>{if(limited)return;const poly=clip([colored(a,i,face.color,tints),colored(b,i,face.color,tints),colored(c,i,face.color,tints)],z);for(let j=1;j<poly.length-1;j++){if(count>=waterGeometryBudget){limited=true;break;}let k=count*9;for(const p of [poly[0],poly[j],poly[j+1]]){positions[k]=p[0];positions[k+1]=p[1];positions[k+2]=height;colors[k]=p[3];colors[k+1]=p[4];colors[k+2]=p[5];k+=3;}waterIds.push(i);count++;}});}
-    if(limited){count=0;waterIds=[];}water.count=count;g.setDrawRange(0,count*3);g.attributes.position.needsUpdate=true;g.attributes.color.needsUpdate=true;g.boundingSphere=null;g.boundingBox=null;
-    detailStats={...detailStats,waterTriangles:count,visibleWetFaces:faces.length,omittedWetFaces:limited?faces.length:0,budgetLimited:limited,zoomInRequired:limited,sourceWaterTriangles:sourceTriangles,projectedCacheEstimatedBytes:projectedBytes};builtFrame=next;builtMode=nextMode;builtRevision=detailRevision;builtCount=count;builtIds=waterIds;select(selected);group.updateMatrixWorld(true);
+    // Budget overflow used to set count=0 and erase every drop of water from
+    // the 3D map, leaving nothing but a "zoom in" label. That is the
+    // disappearing water the owner reported, and it is not culling: the model
+    // says the ground is wet and the map showed dry.
+    //
+    // The terrain-intersected footprint is what cannot fit, so fall back to the
+    // product that can: the NATIVE FULL-CELL mean depth, one flat polygon per
+    // wet native cell at that cell's own native water surface. It is the same
+    // quantity the flat map already draws and the legend already describes, it
+    // costs two or three triangles per cell instead of dozens, and it invents
+    // nothing — every polygon is a real wet native cell. It is reported as a
+    // different, coarser product so it is never mistaken for resolved extent.
+    let fallback=null;
+    if(limited){
+      const capacity=Math.min(waterGeometryBudget,Math.floor(positions.length/9));
+      count=0;waterIds=[];
+      let cellsDrawn=0,cellsOmitted=0;
+      // Deepest first. If the budget cannot hold every wet cell, the ones that
+      // survive should be the ones that matter most to someone deciding
+      // whether a road is passable, not whichever happened to come first in
+      // face order. Omitted cells are counted and reported either way.
+      const ordered=[...faces].sort((a,b)=>(frame.depthM[b.i]??0)-(frame.depthM[a.i]??0));
+      for(const face of ordered){
+        const i=face.i,z=frame.waterSurfaceM[i];
+        if(!finite(z)){cellsOmitted++;continue;}
+        const height=altitude(z-baseM)+.00001,ring=getRing(i);
+        if(!ring||ring.length<3){cellsOmitted++;continue;}
+        const pts=ring.map(([lon,lat])=>{const v=project([lon,lat]).sub(origin);return [v.x,v.y];});
+        // A cell is drawn whole or not at all. Writing the triangles that fit
+        // and stopping mid-polygon would leave a torn sliver of a native cell
+        // on screen, which is a shape the model never produced.
+        const needed=pts.length-2;
+        if(needed<1||count+needed>capacity){cellsOmitted++;continue;}
+        let placed=0;
+        for(let j=1;j<pts.length-1;j++){
+          let k=count*9;
+          for(const p of [pts[0],pts[j],pts[j+1]]){
+            positions[k]=p[0];positions[k+1]=p[1];positions[k+2]=height;
+            colors[k]=face.color.r;colors[k+1]=face.color.g;colors[k+2]=face.color.b;k+=3;}
+          waterIds.push(i);count++;placed++;
+        }
+        if(placed)cellsDrawn++;else cellsOmitted++;
+      }
+      fallback={kind:'native-cell',cellsDrawn,cellsOmitted,
+        meaning:'Native full-cell mean depth, one polygon per wet native cell. Coarser than the terrain-intersected footprint it replaces, and not a resolved wet extent. Shown because the terrain-intersected water exceeded the display budget; the alternative was showing no water at all.'};
+    }
+    water.count=count;g.setDrawRange(0,count*3);g.attributes.position.needsUpdate=true;g.attributes.color.needsUpdate=true;g.boundingSphere=null;g.boundingBox=null;
+    detailStats={...detailStats,waterTriangles:count,visibleWetFaces:faces.length,
+      omittedWetFaces:fallback?fallback.cellsOmitted:0,budgetLimited:limited,zoomInRequired:limited,
+      waterFallback:fallback,waterProduct:fallback?'native-cell':'terrain-intersected',
+      sourceWaterTriangles:sourceTriangles,projectedCacheEstimatedBytes:projectedBytes};builtFrame=next;builtMode=nextMode;builtRevision=detailRevision;builtCount=count;builtIds=waterIds;select(selected);group.updateMatrixWorld(true);
   }
   function cellInfo(i){if(!frame||!Number.isInteger(i)||i<0||i>=cells.length)return null;const cell=cells[i],d=frame.depthM[i];return {cellIndex:i,nativeFaceId:cell.nativeFaceId,areaM2:cell.areaM2,resolutionM:cell.resolutionM,time:frame.time,depthM:d,depthFt:finite(d)?d*3.280839895:null,nativeVolumeM3:frame.nativeVolumeM3[i],surfaceM:frame.waterSurfaceM[i],datum:terrain.verticalDatum};}
   function pick(ray){group.updateMatrixWorld(true);const h=water.visible?ray.intersectObject(water,false)[0]:null,g=land.visible&&!overviewMode?ray.intersectObject(land,false)[0]:null;return h&&(!g||h.distance<=g.distance)?waterIds[h.faceIndex]:g?landIds[g.faceIndex]:null;}

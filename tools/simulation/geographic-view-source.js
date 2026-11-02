@@ -27,6 +27,28 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   surface.setAttribute('aria-label','Voxel terrain and model water map');parent.append(surface);
   const stop=e=>e.stopPropagation();for(const type of ['mousedown','pointerdown','touchstart','dblclick','wheel','click'])surface.addEventListener(type,stop);
   const note=document.createElement('div');note.className='voxel-map-note';note.textContent=flatLabel;surface.append(note);
+  // The close-up crossing was effectively unreachable. It only ever appears
+  // when the camera is both zoomed in AND actually over the junction, and
+  // nothing in the app ever takes you there: "Fit flood area" lands at zoom
+  // 11, below the gate, and zooming in from the default view walks you into
+  // empty desert 15 km away, where there is correctly no water to draw. The
+  // only thing that ever reached it was the test harness setting the camera
+  // directly. This is that same move, as a button a person can press.
+  const goCrossing=document.createElement('button');
+  goCrossing.className='voxel-goto-crossing';goCrossing.type='button';
+  goCrossing.hidden=true;
+  goCrossing.textContent='Close-up crossing';
+  goCrossing.title='Move the camera to the modelled Avra Valley Rd & Brawley Wash crossing';
+  // Wayfinding pair. Styling now lives in this renderer's own stylesheet.
+  const goRegional=document.createElement('button');
+  goRegional.className='voxel-goto-regional';goRegional.type='button';
+  goRegional.hidden=true;
+  goRegional.textContent='Regional view';
+  goRegional.title='Pull back to see the surrounding mountains and the valley the model sits in';
+  const wayfinding=document.createElement('div');
+  wayfinding.className='voxel-wayfinding';
+  wayfinding.append(goCrossing,goRegional);
+  surface.append(wayfinding);
   const popup=document.createElement('div');popup.className='voxel-cell-info';popup.hidden=true;surface.append(popup);
   const mapNode=document.createElement('div');mapNode.className='voxel-map-surface';surface.prepend(mapNode);
   let active=true,dead=false,model=null,frame=null,mode='aggregate',context=null,map,layer,timer,timeout,selected=null,lastDetail='',last3DMode=null,mapTexture,viewMode=initialView==='3d'?'3d':'flat',syncing=false,highDetailTask,THREE,threeTask,modeGeneration=0,assetController=new AbortController();
@@ -92,7 +114,15 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   timeout=setTimeout(()=>{if(!cameraReady||!geographyReady)fail('Geographic renderer initialization timed out');},30000);
   function terrainOptions(){return {extent:map.getExtent(),center:map.getCenter(),zoom:map.getZoom(),budget:innerWidth<600?60000:160000,overviewBudget:260000,maxTiles:12,signal:assetController.signal};}
   function terrainKey(options=terrainOptions()){const e=options.extent;return [e.xmin,e.ymin,e.xmax,e.ymax,options.zoom,options.budget,options.overviewBudget].join(':');}
-  function waterBudget(){return innerWidth<600?120000:240000;}
+  // The QA override exists so the budget-overflow fallback can be exercised
+  // deliberately. Without it the overflow path is only reachable on a very
+  // wide view of a very wet frame, which is exactly why it shipped broken.
+  // It only ever LOWERS the budget; nothing can inflate it.
+  function waterBudget(){
+    const normal=innerWidth<600?120000:240000;
+    const override=Number(globalThis.__floodWaterBudget);
+    return Number.isInteger(override)&&override>0&&override<normal?override:normal;
+  }
   // Keep the junction's own state inside the existing one-line map note rather
   // than adding a second competing banner.
   function junctionSuffix(){
@@ -105,9 +135,15 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   }
   function composeNote(){
     const detail=model?.detailStats||modelDetailInfo||{},ground=terrainInfo||{},omitted=detail.omittedWetFaces??detail.omittedFaces??0;
+    // When the terrain-intersected water overflows the display budget the map
+    // now keeps showing water as native full cells rather than showing none.
+    // That is a coarser product, so it is named rather than slipped in.
+    const fallback=detail.waterFallback
+      ?`; water shown as NATIVE FULL CELLS (${detail.waterFallback.cellsDrawn} wet cells, coarser than resolved extent) because the terrain-intersected footprint exceeded the display budget — zoom in for the finer surface`
+      :'';
     return (ground.overviewMode
-      ?`Domain terrain overview; native wet-face water support; ${omitted} wet faces omitted by display budget${detail.budgetLimited?'; zoom in for native detail':''}; cosmetic highlights`
-      :`Source-bound terrain; ${ground.loadedTiles??'native'} / ${ground.visibleTiles??'native'} visible detail tiles; ${detail.omittedFaces||0} faces outside loaded detail; cosmetic highlights`)+junctionSuffix();
+      ?`Domain terrain overview; native wet-face water support; ${omitted} wet faces omitted by display budget${fallback}; cosmetic highlights`
+      :`Source-bound terrain; ${ground.loadedTiles??'native'} / ${ground.visibleTiles??'native'} visible detail tiles; ${detail.omittedFaces||0} faces outside loaded detail${fallback}; cosmetic highlights`)+junctionSuffix();
   }
   function reportTerrain(){
     if(!source||!model)return;
@@ -146,6 +182,134 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     return junctionTask;
   }
   function stopJunction(){if(junctionActive||junction?.active){junction?.deactivate();}junctionActive=false;junctionAttachedModel=null;}
+  // Take the camera to the crossing the way the harness did, but on a press.
+  // The centre comes from the junction package's own bake report, never a
+  // hard-coded guess, so it cannot drift away from the modelled geometry.
+  let crossingCentre=null;
+  goCrossing.addEventListener('click',async()=>{
+    goCrossing.disabled=true;
+    try{
+      const controller=await ensureJunction();
+      const pointer=crossingCentre??await controller?.prepare({signal:assetController.signal});
+      const centre=pointer?.center??crossingCentre?.center;
+      if(!centre||dead)return;
+      crossingCentre=pointer??crossingCentre;
+      // Far enough in that the close-up ground and the particle layer are both
+      // live, which the junction's own minimum zoom defines.
+      map.setCenterAndZoom(centre,Math.max(map.getZoom(),junctionMinimumZoom+2));
+      scheduleJunction();
+    }catch(error){if(error.name!=='AbortError')onStatus({kind:'junction-fluid',status:'unavailable',
+      reason:'Could not move to the crossing: '+error.message});}
+    finally{goCrossing.disabled=false;}
+  });
+  // Pull back far enough that the surrounding ranges are actually in frame.
+  // The context package carries its own bounds, so the framing comes from the
+  // data rather than from a guessed zoom.
+  goRegional.addEventListener('click',async()=>{
+    goRegional.disabled=true;
+    try{
+      const loaded=await ensureRegionalContext();
+      const bounds=loaded?.boundsWSEN;
+      if(!bounds||dead)return;
+      await syncRegionalContext();
+      // Frame the relief that is actually there, not the whole continent.
+      //
+      // Centring the package and using zoom 10 put Phoenix, Globe and Show Low
+      // on screen with the terrain package a small rectangle in the middle:
+      // a pitched camera sees far past the nominal extent, so the package has
+      // to fill the frame rather than merely fit inside the extent.
+      //
+      // The camera sits on the model domain, looking across the nearest
+      // ranges, and the zoom is derived from the package's own span and the
+      // live viewport so it holds on a phone as well as a desktop.
+      const spanLon=Math.max(1e-6,bounds[2]-bounds[0]),spanLat=Math.max(1e-6,bounds[3]-bounds[1]);
+      const size=map.getSize?.()??{width:innerWidth,height:innerHeight};
+      // Web Mercator: zoom where `span` degrees of longitude covers the width.
+      const fitLon=Math.log2(360/spanLon*(size.width/256));
+      const fitLat=Math.log2(360/spanLat*(size.height/256));
+      // A pitched camera shows much more ground than a flat one, so come in
+      // past the flat fit. Clamped so a narrow phone cannot swing wildly.
+      const zoom=Math.max(9.5,Math.min(12.5,Math.min(fitLon,fitLat)+1.35));
+      // Look from the model domain toward the ranges rather than from the
+      // package centre, so the relief reads as surrounding this valley.
+      const domain=contextNativeBounds?.()??null;
+      const centre=domain
+        ?[(domain[0]+domain[2])/2,(domain[1]+domain[3])/2]
+        :[(bounds[0]+bounds[2])/2,(bounds[1]+bounds[3])/2];
+      map.setCenterAndZoom(centre,zoom);
+      map.setPitch(innerWidth<600?64:58);
+      scheduleJunction();
+    }catch(error){if(error.name!=='AbortError')onStatus({kind:'regional-context',status:'unavailable',
+      reason:'Could not move to the regional view: '+error.message});}
+    finally{goRegional.disabled=false;}
+  });
+  function syncCrossingButton(){
+    // Offered only where it can do something: in 3D, with the package present.
+    goCrossing.hidden=!(active&&!dead&&viewMode==='3d');
+    goRegional.hidden=goCrossing.hidden;
+  }
+
+  // --- Regional geographic context: the actual relief around the domain. ---
+  //
+  // Loaded only on 3D entry, never on flat-map entry. If it fails the map
+  // keeps everything it already had: this is scenery behind the native ground,
+  // so its absence is a missing backdrop, never missing water.
+  let regional=null,regionalTask=null,regionalError=null,regionalAttachedModel=null,regionalPackage=null,regionalBuiltMobile=null;
+  async function ensureRegionalContext(){
+    if(regionalPackage||regionalError)return regionalPackage;
+    if(!regionalTask)regionalTask=(async()=>{
+      const module=await import('./regional-context-source.js');
+      regionalPackage=await module.loadRegionalContext({base:assetBase,signal:assetController.signal});
+      return regionalPackage;
+    })().catch(error=>{
+      if(error.name!=='AbortError'){regionalError=error.message;
+        onStatus({kind:'regional-context',status:'unavailable',reason:'Surrounding terrain unavailable: '+error.message});}
+      return null;}).finally(()=>{regionalTask=null;});
+    return regionalTask;
+  }
+  let regionalNativeBounds=null;
+  function contextNativeBounds(){
+    if(source?.boundsWSEN)return source.boundsWSEN;
+    if(regionalNativeBounds)return regionalNativeBounds;
+    const b=[Infinity,Infinity,-Infinity,-Infinity];
+    for(const ring of footprints?.rings??[])for(const [lat,lon] of ring){
+      b[0]=Math.min(b[0],lon);b[1]=Math.min(b[1],lat);b[2]=Math.max(b[2],lon);b[3]=Math.max(b[3],lat);
+    }
+    regionalNativeBounds=b.every(Number.isFinite)?b:null;
+    return regionalNativeBounds;
+  }
+  async function syncRegionalContext(){
+    if(dead||!active||viewMode!=='3d'||!model)return;
+    // Rebuild when the model is replaced OR when the viewport crosses the
+    // phone threshold: the mesh stride is chosen for the device, and a desktop
+    // mesh left in place after a resize to phone width is over the budget it
+    // was supposed to respect.
+    const wantMobile=innerWidth<600;
+    if(regional&&regionalAttachedModel===model&&regionalBuiltMobile===wantMobile)return;
+    const loaded=await ensureRegionalContext();
+    if(!loaded||dead||!active||viewMode!=='3d'||!model)return;
+    // The terrain model can be rebuilt underneath an await; never attach to a
+    // group that has already left the scene.
+    if(!model.group.parent)return;
+    try{
+      const module=await import('./regional-context-source.js');
+      regional?.dispose();
+      regional=module.createRegionalContext({grid:loaded.grid,manifest:loaded.manifest,
+        project:p=>layer.coordinateToVector3(p),altitude:altitude3D,origin:origin3D,
+        // The native domain is cut out so detailed ground and modelled water
+        // are never covered by context scenery.
+        nativeBounds:contextNativeBounds(),baseM:model.baseM,
+        mobile:wantMobile});
+      model.group.add(regional.mesh);
+      regionalAttachedModel=model;regionalBuiltMobile=wantMobile;
+      regional.mesh.visible=viewMode==='3d';
+      onStatus({kind:'regional-context',status:'ready',...regional.stats});
+    }catch(error){
+      if(error.name!=='AbortError'){regionalError=error.message;
+        onStatus({kind:'regional-context',status:'unavailable',reason:'Surrounding terrain could not be drawn: '+error.message});}
+    }
+  }
+  function releaseRegionalContext(){regional?.dispose();regional=null;regionalAttachedModel=null;regionalBuiltMobile=null;}
   // Ground metres per screen pixel at the camera centre. Blob size has a screen
   // floor, so without this a physically sized blob stays subpixel and invisible.
   function junctionMetresPerPixel(){
@@ -166,21 +330,26 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     if(!junctionEligible()||!pointer||!controller.inView(map.getExtent())){stopJunction();return;}
     controller.setHostTerrain(terrainInfo);
     controller.setViewScale(junctionMetresPerPixel());
-    if(junctionActive&&junctionAttachedModel===model&&!controller.needsRebuild()){if(frame)controller.setFrame(frame.time);return;}
+    if(junctionActive&&junctionAttachedModel===model&&controller.attached&&!controller.needsRebuild()){if(frame)controller.setFrame(frame.time);return;}
     controller.setSource(source);
-    await controller.activate({group:model.group,project:p=>layer.coordinateToVector3(p),altitude:altitude3D,origin:origin3D,baseM:model.baseM,
+    // Bind callbacks and completion to the exact host that began activation.
+    // Terrain can replace model while the junction assets are awaiting I/O.
+    const targetModel=model;
+    await controller.activate({group:targetModel.group,project:p=>layer.coordinateToVector3(p),altitude:altitude3D,origin:origin3D,baseM:targetModel.baseM,
       // Let the junction particles read through the native water sheet without
       // moving native heights; restored by the controller on teardown.
-      setParticleOverlay:enabled=>model.setParticleOverlay?.(enabled),
+      setParticleOverlay:enabled=>targetModel.setParticleOverlay?.(enabled),
       // Cut the host's own ground away under the finer baked patch rather than
       // letting two samplings of the same terrain fight for the same pixels.
-      setGroundExclusion:box=>model.setGroundExclusion?.(box),
+      setGroundExclusion:box=>targetModel.setGroundExclusion?.(box),
       // The junction's screen-space particle pass borrows this renderer for its
       // own offscreen targets and restores its state before returning.
       getRenderer:()=>layer?.getThreeRenderer?.()??null},{signal:assetController.signal});
     if(dead)return;
     if(!junctionEligible()){stopJunction();return;}
-    junctionActive=true;junctionAttachedModel=model;
+    if(targetModel!==model){stopJunction();junctionPending=true;return;}
+    if(!controller.attached){junctionActive=false;junctionAttachedModel=null;return;}
+    junctionActive=true;junctionAttachedModel=targetModel;
     if(frame)controller.setFrame(frame.time);
     renderJunctionFrame();layer?.renderScene();
   }
@@ -375,10 +544,10 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   }
   function visibility(){startAnimation();}document.addEventListener('visibilitychange',visibility);motion.addEventListener('change',visibility);
   function hide(){if(!active||dead)return;active=false;cancelAnimationFrame(refreshRAF);refreshRAF=0;mapTexture?.setTextureFactory(null);restoreSelectedPopup=false;modeGeneration++;dataGeneration++;junctionActive=false;junctionAttachedModel=null;junctionPending=false;junction?.release();source?.cancel();source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';terrainReadyKey='';cancelOverview();flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(!model){assetController.abort();assetController=new AbortController();}mapTexture?.suspend();clearInterval(timer);const c=map.getCenter(),z=map.getZoom();surface.hidden=true;parent.classList.remove('map-has-3d');leaflet.invalidateSize();leaflet.setView([c.y,c.x],z,{animate:false});popup.hidden=true;}
-  function show(){if(dead)throw Error('3D map disposed');active=true;surface.hidden=false;parent.classList.add('map-has-3d');map.checkSize();if(viewMode==='3d'&&textureFactory)mapTexture?.setTextureFactory(textureFactory,textureOrigin);syncFromLeaflet();refreshDetail();if(selected!==null)model?.select(selected);startAnimation();}
-  const resize=new ResizeObserver(()=>{if(active&&!dead){map.setDevicePixelRatio(Math.min(globalThis.devicePixelRatio||1,innerWidth<600?1:1.5));map.checkSize();refreshDetail();}});resize.observe(parent);
+  function show(){if(dead)throw Error('3D map disposed');active=true;surface.hidden=false;syncCrossingButton();parent.classList.add('map-has-3d');map.checkSize();if(viewMode==='3d'&&textureFactory)mapTexture?.setTextureFactory(textureFactory,textureOrigin);syncFromLeaflet();refreshDetail();if(selected!==null)model?.select(selected);startAnimation();}
+  const resize=new ResizeObserver(()=>{if(active&&!dead){map.setDevicePixelRatio(Math.min(globalThis.devicePixelRatio||1,innerWidth<600?1:1.5));map.checkSize();refreshDetail();syncRegionalContext();}});resize.observe(parent);
   const unsubscribe=sharedState?.subscribe(state=>{const i=state.selection?.kind==='cell'?state.selection.cellIndex:null;if(i!==selected){selected=i;model?.select(i);if(i!==null&&frame&&!popup.hidden)showCell(i,false);}});
-  function dispose(){if(dead)return;hide();clearFlat();dead=true;junction?.dispose();junction=null;detailQueryIndices=null;lastDetailIndices=null;source?.dispose();assetController.abort();clearInterval(timer);clearTimeout(timeout);resize.disconnect();
+  function dispose(){if(dead)return;hide();clearFlat();dead=true;releaseRegionalContext();junction?.dispose();junction=null;detailQueryIndices=null;lastDetailIndices=null;source?.dispose();assetController.abort();clearInterval(timer);clearTimeout(timeout);resize.disconnect();
     leaflet.off('moveend',syncFromLeaflet);leaflet.off('layeradd layerremove',routesChanged);routeLayer.off?.('layeradd layerremove',routesChanged);
     guardNode.removeEventListener('pointerdown',guardDown,true);guardNode.removeEventListener('pointermove',guardMove,true);guardNode.removeEventListener('pointerup',guardMove,true);guardNode.removeEventListener('pointercancel',guardCancel,true);map.off('dragstart',guardCancel);
     unsubscribe?.();document.removeEventListener('visibilitychange',visibility);motion.removeEventListener('change',visibility);window.removeEventListener('pagehide',dispose);
@@ -389,6 +558,8 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     if(value==='3d'){await ensure3D(token);if(dead||!active||token!==modeGeneration)return;if(!model)await ensure3D(token);if(dead||!active||token!==modeGeneration)return;}
     viewMode=value;mapTexture?.setTextureFactory(value==='3d'?textureFactory:null,textureOrigin);value==='flat'?flatWater.show():flatWater.hide();if(overview.layer){value==='flat'?overview.layer.show():overview.layer.hide();if(value!=='flat')cancelOverview();}
     if(model)model.group.visible=value==='3d';
+    syncCrossingButton();
+    if(value==='3d')syncRegionalContext();else if(regional)regional.mesh.visible=false;
     map.setPitch(value==='flat'?0:45);cancelAnimationFrame(refreshRAF);refreshRAF=0;runRefreshDetail();if(value==='flat')await renderFlat();else{flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(source)await awaitCurrentTerrain();}if(token!==modeGeneration||dead||!active)return;startAnimation();
     if(value==='flat'&&!overview.data)note.textContent=flatLabel;
   }
@@ -400,5 +571,8 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     // payload stays plain serialisable data.
     junctionInternals(){return junction?.internals?.()??null;},
     inspect(){return {map,layer,model,selected,frame,active,dead,geography:mapTexture,flatWater,overview,terrainInfo,modelDetailInfo:model?.detailStats||modelDetailInfo,terrainLoading:terrainTask,counters:{...counters,overviewActive,overviewPending:overviewPending?1:0,refreshPending:refreshRAF?1:0,coverageBinCount:coverageBins.size,effectiveDPR:map.getDevicePixelRatio?.()??map.options.devicePixelRatio},animationActive:!!timer&&active&&viewMode==='3d'&&!motion.matches,
-      junctionStatus,junctionActive,junction:junction?.inspect?.()??null,junctionSyncing:!!junctionSync,note:note.textContent};}};
+      junctionStatus,junctionActive,junction:junction?.inspect?.()??null,junctionSyncing:!!junctionSync,
+      regionalContext:regional?{...regional.stats,attached:!!regional.mesh.parent,visible:regional.mesh.visible}
+        :{status:regionalError?'unavailable':'not loaded',reason:regionalError},
+      note:note.textContent};}};
 }

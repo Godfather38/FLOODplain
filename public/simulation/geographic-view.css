@@ -2,6 +2,15 @@
 .voxel-geographic[hidden]{display:none!important}
 .voxel-map-surface{position:absolute;inset:0}
 .voxel-map-note{position:absolute;z-index:30;bottom:24px;left:8px;max-width:calc(100% - 16px);padding:5px 9px;border-radius:5px;background:#f7f8f1eb;color:#263c42;font:11px/1.4 system-ui;pointer-events:none}
+/* Wayfinding for the 3D map. The close-up crossing and the surrounding relief
+   are both unreachable by panning alone, so each gets a press. Clear of the
+   parent shell's camera controls at the top left and of the dock at the
+   bottom; 44 px tall for a finger rather than a precise pointer. */
+.voxel-wayfinding{position:absolute;z-index:32;right:12px;top:70px;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.voxel-wayfinding button{min-height:44px;padding:10px 14px;border:1px solid #ccd8cf;border-radius:12px;background:#f9fcf8;color:#193039;font:600 13px/1.2 system-ui;box-shadow:0 6px 24px #0d263433;cursor:pointer}
+.voxel-wayfinding button[hidden]{display:none!important}
+.voxel-wayfinding button:disabled{opacity:.6;cursor:progress}
+@media(max-width:899px){.voxel-wayfinding{right:8px;top:64px}.voxel-wayfinding button{font-size:14px}}
 .voxel-cell-info{position:absolute;z-index:31;left:12px;top:70px;max-width:310px;padding:14px;background:#f9fcf8;color:#193039;border:1px solid #ccd8cf;border-radius:12px;box-shadow:0 6px 24px #0d263433;font:13px/1.5 system-ui}
 .voxel-cell-info strong,.voxel-cell-info small{display:block}.voxel-cell-info small{margin-top:8px;color:#506369}
 .voxel-cell-info button{min-height:44px;margin-top:8px;padding:6px 14px;border:1px solid #849b9c;border-radius:7px;background:#edf3ed;color:#213b42}
@@ -57,3 +66,6 @@
 .voxel-cell-info details strong{font-size:12px}
 .voxel-cell-info details small{font-size:11px;line-height:1.4}
 @media(max-width:899px){.voxel-cell-info .cell-depth-readout{font-size:12px}.voxel-cell-info details[open]{padding-bottom:2px}}
+
+/* Keep crossing navigation clear of the compact water information card. */
+@media(max-width:599px){.voxel-wayfinding{left:8px;right:auto;align-items:flex-start}.voxel-wayfinding button{max-width:148px}}

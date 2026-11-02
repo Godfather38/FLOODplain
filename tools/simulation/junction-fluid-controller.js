@@ -119,6 +119,11 @@ export function createJunctionFluidController({base,onStatus=()=>{},document:doc
   let status='off',reason=null,frameTime=null,frameIndex=-1,clockSeconds=0,generation=0;
   let substeps=1,lastStepMs=0,skippedSteps=0,lastFluidStats=null,source=null,hostTerrainOverview=null;
   let activeMaxParticles=0,metresPerPixel=0,stepsSinceReport=0;
+  // What the user is told versus what a developer needs. The raw module URL
+  // belongs in diagnostics, not in a card someone reads on a phone.
+  let developerReason=null,groundFallback=null;
+  // Boundary accounting lifecycle, counted rather than inferred.
+  let boundaryCalls=0,boundarySkipped=0,boundaryFailures=0,boundaryLastError=null;
   // Measured playback ratio: how many SIMULATED seconds the viewer sees per
   // second of their own time. Not a physical quantity; a display speed.
   let playbackWallSeconds=0,playbackSimulatedSeconds=0,lastPlaybackSteps=0,playbackLastFrameMs=0;
@@ -164,7 +169,9 @@ export function createJunctionFluidController({base,onStatus=()=>{},document:doc
       imagery:geography?geography.stats.imagery:null,
       placementDeviationM:placementCheck?.maxDeviationM??null,
       hostTerrainOverview:hostTerrainOverview,
-      stepMilliseconds:lastStepMs||null,substeps,skippedSteps};
+      stepMilliseconds:lastStepMs||null,substeps,skippedSteps,
+      // Plain English above; the exact failure stays here for diagnostics.
+      developerReason,groundFallback};
     legend?.update(view);
     // Deliberately not `status:'error'`: the UI maps that to "the geographic map
     // is unavailable", which would be false — the map and its native numbers
@@ -188,6 +195,7 @@ export function createJunctionFluidController({base,onStatus=()=>{},document:doc
     geography?.dispose();geography=null;
     placement=null;placementCheck=null;host=null;lastFluidStats=null;
     frameIndex=-1;substeps=1;lastStepMs=0;skippedSteps=0;
+    developerReason=null;groundFallback=null;
     playbackWallSeconds=0;playbackSimulatedSeconds=0;lastPlaybackSteps=0;playbackLastFrameMs=0;
     // The binding belonged to the solver that has just been disposed. Leaving
     // the status behind is what let a rebuilt phone layer keep reporting a
@@ -448,17 +456,38 @@ export function createJunctionFluidController({base,onStatus=()=>{},document:doc
         reason=fluid.count?null:'The model holds no supported water inside this junction at this time.';
       }catch(error){
         if(error.name==='AbortError')throw error;
-        // Never swap in decorative trajectories. Keep the real baked geography
-        // and the model's own numbers, and say the simulation cannot run.
+        // Never swap in decorative trajectories. But keeping the baked patch
+        // here was worse than useless: the patch carries a ground exclusion
+        // that cuts the host's own terrain AND its native modelled water out
+        // from under it, so a failed particle layer left a tan hole exactly
+        // where the crossing is, with the model's water hidden at the one
+        // place someone is looking. Water elsewhere on screen does not excuse
+        // that.
+        //
+        // So the finer baked sampling is given up and the host's own native
+        // terrain and native water are restored at the crossing. That is a
+        // detail downgrade, not a data loss: what comes back is the model's
+        // own water. Nothing is invented and no vertical offset is applied.
         fluid?.dispose();fluid=null;
+        composite?.dispose();composite=null;
+        surface?.dispose();surface=null;
+        blobs?.dispose();blobs=null;
+        geography?.dispose();geography=null;
+        nextHost.setParticleOverlay?.(false);
+        try{nextHost.setGroundExclusion?.(null);}catch{/* the host keeps whatever it had */}
+        activeMaxParticles=0;
+        groundFallback={kind:'host-native',
+          meaning:'The close-up particle layer could not run here, so the finer baked crossing ground was given up and the map\'s own native terrain and native modelled water are shown at the crossing instead. Coarser, and still the model\'s own water.'};
         status='unavailable';
-        reason='The water simulation cannot run on this device: '+error.message;
+        reason='Close-up water is unavailable here. The map still shows the model\'s own water and depths at this crossing.';
+        developerReason='The water simulation cannot run on this device: '+error.message;
       }
       return report();
     }catch(error){
       if(error.name==='AbortError'){status='off';reason=null;teardownScene();return report();}
       teardownScene();
-      status='unavailable';reason=assetError||error.message;
+      status='unavailable';developerReason=assetError||error.message;
+      reason='The close-up terrain could not load. Native model water and terrain remain available.';
       return report();
     }
   }
@@ -521,8 +550,16 @@ export function createJunctionFluidController({base,onStatus=()=>{},document:doc
     // Cross the native perimeter for the simulated time that just elapsed.
     if(inflowLedger&&outflowLedger){
       try{fluid.applyBoundaryTransport({inflowLedger,outflowLedger,
-        dt:settings.substepSeconds*solverSteps,seed:fluid.stats.steps});}
-      catch(error){flowStatus='unavailable';flowReason=error.message;boundary=null;inflowLedger=outflowLedger=null;}
+        dt:settings.substepSeconds*solverSteps,seed:fluid.stats.steps});
+        boundaryCalls++;}
+      catch(error){boundaryFailures++;boundaryLastError=error.message;
+        flowStatus='unavailable';flowReason=error.message;boundary=null;inflowLedger=outflowLedger=null;}
+    }else{
+      // The solver advanced but no native volume crossed the perimeter,
+      // because this step had no ledgers to spend it from. Counted, so a
+      // frozen ledger beside a running solver is visible rather than inferred
+      // from a stale flowStats snapshot.
+      boundarySkipped++;
     }
     const finished=performance.now();
     lastStepMs=(finished-started)/Math.max(1,solverSteps);
@@ -618,6 +655,11 @@ export function createJunctionFluidController({base,onStatus=()=>{},document:doc
           assumption:flowReconstruction.assumption}:null,
         velocityInitialisation:fluid?.stats?.velocityInitialisation??null,
         perimeter:flowPerimeter,
+        // Is the controller actually holding ledgers right now? `ledger` above
+        // is the fluid's last flowStats snapshot and keeps its values after
+        // the ledgers are gone, so it cannot answer this.
+        ledgersBound:!!(inflowLedger&&outflowLedger),
+        boundaryCalls,boundarySkipped,boundaryFailures,boundaryLastError,
         cadence:'native flow snapshots hourly, water frames quarter-hour; exact matches only'},
       placement:placementCheck,geography:geography?.stats??null,blobs:blobs?.stats??null,
       fluid:lastFluidStats,assets:assets?{runId:assets.scene.runId,frames:assets.scene.frames.length,
