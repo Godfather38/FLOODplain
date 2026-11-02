@@ -38,14 +38,12 @@ test('gauge readings come only from live feeds and keep their own clock',()=>{
  assert.equal(liveGaugeReading('ALERT-6443',{alert}).cfs,332);
  assert.equal(liveGaugeReading('ALERT-6443',{alert:{stream:[{...alert.stream[0],maintenance:true}]}}),null);
 });
-test('production map cannot start a dated model',()=>{
+test('the live map cannot start a saved run',()=>{
  const layers=read('simulation/map-layers.js'),shell=read('simulation/map-shell.js'),app=read('app.js'),live=read('live-map.js');
  assert.doesNotMatch(layers+shell+app,/road-replay|mountRoadReplay|silverbell-|all-route|scene-contract|home-outlook/);
- assert.match(layers,/async function enterMap\(\)\{notifyRender\(\{status:'off'/);
- assert.doesNotMatch(layers.match(/async function enterMap[^\n]*/)[0],/ensureRenderer/);
+ assert.match(layers,/async function enterMap\(\)\{if\(!testFlood\)\{notifyRender\(\{status:'off'/);
  assert.match(layers,/let caseChoice='frozen'/);
  assert.doesNotMatch(layers,/selectedMapCase\(location/);
- assert.doesNotMatch(shell,/data-panel="time"/);
  assert.doesNotMatch(live,/current-sfincs-manifest/);
  for(const f of ['simulation/road-replay.js','simulation/all-route-data.js','simulation/silverbell-data.js'])assert.ok(!existsSync(new URL('../public/'+f,import.meta.url)),f);
  assert.doesNotMatch(read('show-me-how.js'),/frozen|replay|model cell/i);
@@ -95,4 +93,9 @@ test('the HAND view frames all estimated water and the crossing',()=>{
  const e=computeExtent(brawleyHand,5),[[s,w],[n,east]]=handViewBounds(brawleyHand,e.mask),g=brawleyHand.grid;
  assert.ok(s<=brawleyHand.crossing.lat&&n>=brawleyHand.crossing.lat&&w<=brawleyHand.crossing.lon&&east>=brawleyHand.crossing.lon);
  for(let i=0;i<e.mask.length;i++)if(e.mask[i]){const row=Math.floor(i/g.cols),col=i%g.cols,lat=g.latMax-(row+.5)*g.dLat,lon=g.lonMin+(col+.5)*g.dLon;assert.ok(lat>=s&&lat<=n&&lon>=w&&lon<=east)}
+});
+test('map icons carry the risk color into the older renderer too',()=>{
+ const app=read('app.js');
+ assert.match(app,/L\.marker\(\[fp\.lat, fp\.lon\], \{ color: COLOR\[Math\.floor\(s\)\] \?\? UNKNOWN_COLOR,/);
+ assert.match(app,/L\.marker\(\[c\.lat, c\.lon\], \{ color: COLOR\[5\],/);
 });

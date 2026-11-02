@@ -1,6 +1,6 @@
 # Working on FLOODplain
 
-**Frozen model runs NEVER go into the published app. Frozen time is only for development.** No default, option, link, URL setting or label makes an exception. See `docs/LIVE-DATA-ONLY.md`.
+**Saved model runs NEVER appear in the live app. They appear only in the opt-in "Test and view a flood!" mode.** See `docs/LIVE-DATA-ONLY.md`.
 
 ## How the owner wants to work (read first)
 - **One continuous conversation.** Every message adds to the same task. A new message, an interruption, or a stopped tool call is not a reset. Earlier instructions stay in force until the owner changes them.

@@ -16,10 +16,10 @@ Branch `experiment/live-ui-recovery`, from `main` at `8aaa035`. Selected work fr
 ## Left out or switched off
 
 - Road replay, Silverbell scene, all-route model points, scene contract, recorded readings and the frozen outlook button.
-- The Map screen no longer starts the older model renderer. Case, SFINCS, Combined, Time, Fit flood area, 3D, Rain and depth legend controls are off, and `?case=` is ignored.
+- The live Map screen no longer starts the older model renderer. Its model controls appear only in Test flood mode, and `?case=` is ignored.
 - Retained model water no longer reaches bridge evidence, and the retained SFINCS status line is gone from the live panel.
 
-Dated model files remain in `public/simulation/data/`, unreferenced by the app's production paths. Removing them is a separate decision.
+Model data outside the Test flood package is removed at deploy, and stays in the repo for development.
 
 ## Kept from main
 
@@ -34,3 +34,7 @@ Bridge cards no longer compare road height with model water, because no live mod
 HAND now paints estimated water depth in six blue to teal bands, in feet, with a matching legend on the map. Depth is stage minus HAND for each cell, read from the same stages and mask as the extent, so the painted area is exactly the estimated extent. The old layer used one amber fill and depended on the renderer that production no longer starts. Amber and red stay reserved for routes and crossings.
 
 Checked in a browser against live forecasts: Trico-Marana at 2,460 cfs painted 5,087 cells and Brawley at 43 cfs painted 961, both equal to the HAND grid.
+
+## Test flood mode
+
+Saved runs now live in one opt-in mode, opened from Settings. See `LIVE-DATA-ONLY.md`. It includes the 2D and 3D renderers and the time slider, using the original coarse November 1-2 run. The older renderer colors icons from each marker's `color` option, which the recovery had missed.

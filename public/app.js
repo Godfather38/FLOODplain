@@ -1,5 +1,6 @@
 import { RISK_COLORS, UNKNOWN_COLOR, installRiskColors } from './semantic-colors.js?v=dev';
 import './show-me-how.js?v=dev';
+import { isTestFlood, testFloodHref, mountTestFloodBanner } from './simulation/test-flood.js?v=dev';
 import {mountRouteTracking} from './simulation/route-tracking.js?v=dev';
 installRiskColors();
 import { imperialSourceText } from './display-units.js?v=dev';
@@ -402,6 +403,9 @@ function settingsScreen() {
       <input id="apikey" type="password" autocomplete="off" placeholder="Paste key" value="${esc(store.get('apiKey') ?? '')}">
     </label>
     <p class="fine" style="text-align:left;margin:0">Saved only on this phone.</p>
+    <h4>Test and view a flood!</h4>
+    <p class="meta">Curious what a flood looks like on the map? Try a saved model run from November 2026. It is not current conditions and does not change routes or alerts.</p>
+    <a class="btn" href="${esc(testFloodHref())}">Open test flood</a>
   </div>`;
 }
 // Any minute of the day, as HH:MM.
@@ -643,6 +647,7 @@ const UPDATES = [
   ['November 1, 2026', [
     'New: accessible colors on every map icon, visible Back and Refresh labels, a 3-step guide, heights in feet, and coverage and gauge tracking for every location on a route.',
     'Fixed: the map now shows live data only. A saved model run from November 1 no longer appears.',
+    'New: Test and view a flood! in Settings lets you try a saved model run on the map.',
     'Fixed: road closures now show at the top of the screen and on the map, and a closed route no longer offers directions.',
     'New: closures and utility work from TransView are checked against each route line. County barricades count only on the part of a road the route uses.',
     'Changed: a county closure anywhere along a route now counts, not only near a listed crossing. Proceed with Caution alone is now a 2, and distant gauges no longer raise it; a live sign at the road brings it back to a 3 or more. Where we know the road height, the flood model is compared with the road itself.',
@@ -739,7 +744,7 @@ function render() {
     mountRouteTracking(tracking, { routeId: w.route, entryId: w.screen === 'stretch' ? w.fp : null, flows: data.flows, alert: data.alert, closures: data.closures });
   }
   drawMap(w);
-  liveMap.update({active:w.screen==='map',data,view});
+  liveMap.update({active:w.screen==='map'&&!isTestFlood(),data,view});
   window.dispatchEvent(new Event('flood-screen-rendered'));
 }
 function subtitle() {
@@ -803,6 +808,7 @@ map.attributionControl.setPrefix(false);
 const layer = L.layerGroup().addTo(map);
 const liveObservations=L.layerGroup().addTo(map);
 const rendererRoutes=L.layerGroup([layer,liveObservations]).addTo(map);
+if(isTestFlood())mountTestFloodBanner();
 mountFloodLayers(map,{routeLayer:rendererRoutes,streetTiles});
 document.querySelector('[data-home]').onclick=()=>map.fitBounds(allBounds,{paddingTopLeft:[24,30],paddingBottomRight:[24,30],animate:false});
 const liveMap=mountLiveMap(map,{refresh:()=>check(),observations:liveObservations,embedded:true});
@@ -846,7 +852,7 @@ function drawMap(w) {
       }
     }
     const rid = fp.routes.includes(focus) ? focus : fp.routes.find((x) => inArea.has(x));
-    L.marker([fp.lat, fp.lon], { title: fp.short, alt: fp.short, icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${Math.floor(s)}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
+    L.marker([fp.lat, fp.lon], { color: COLOR[Math.floor(s)] ?? UNKNOWN_COLOR, title: fp.short, alt: fp.short, icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${Math.floor(s)}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
       .on('click', () => { location.hash = `#/r/${rid}/${fp.id}`; })
       .addTo(layer);
   }
@@ -857,7 +863,7 @@ function drawMap(w) {
   }
   for (const c of view.closedPoints) {
     if (!areaBounds.contains([c.lat, c.lon])) continue;
-    L.marker([c.lat, c.lon], { title: c.title, alt: c.title, zIndexOffset: 1000, icon: L.divIcon({ className: '', html: '<div class="pin closure-pin" aria-hidden="true">⛔</div>', iconSize: [30, 30], iconAnchor: [15, 15] }) }).bindPopup(esc(c.title)).addTo(layer);
+    L.marker([c.lat, c.lon], { color: COLOR[5], title: c.title, alt: c.title, zIndexOffset: 1000, icon: L.divIcon({ className: '', html: '<div class="pin closure-pin" aria-hidden="true">⛔</div>', iconSize: [30, 30], iconAnchor: [15, 15] }) }).bindPopup(esc(c.title)).addTo(layer);
   }
   // Fit to what's on screen: everything, a route, a stretch, or a source's own gauges.
   const opts = { paddingTopLeft: [24, 30], paddingBottomRight: [24, 30], animate: false };

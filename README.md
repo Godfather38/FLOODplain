@@ -1,6 +1,6 @@
 # FLOODplain
 
-**Frozen model runs NEVER go into the published app. Frozen time is only for development.** No default, option, link, URL setting or label makes an exception. See `docs/LIVE-DATA-ONLY.md`.
+**Saved model runs NEVER appear in the live app. They appear only in the opt-in "Test and view a flood!" mode.** See `docs/LIVE-DATA-ONLY.md`.
 
 A check of the roads between Avra Valley, AZ and I-10, either direction. It combines regional USGS stream gauges, county rain/stream observations, reported barricades and weather alerts to compare routes. Gauges are not located at every crossing; remote readings do not measure road-water depth. It's a hobby tool, not an official warning.
 
