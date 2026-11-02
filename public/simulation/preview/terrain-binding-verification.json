@@ -1,0 +1,147 @@
+{
+  "passed": true,
+  "uxRevision": "d30386e",
+  "viewportWidth": 390,
+  "environment": "Chrome SwiftShader emulation, not physical device",
+  "results": [
+    {
+      "runId": "sfincs-current-coarse-20261101-19z-41350254061",
+      "frameCount": 15,
+      "displayed": {
+        "requestId": 2,
+        "model": "2d",
+        "index": 3,
+        "view": "3d",
+        "time": "2026-11-02T01:00:00Z",
+        "runId": "sfincs-current-coarse-20261101-19z-41350254061"
+      },
+      "info": {
+        "cellIndex": 339,
+        "row": 25,
+        "column": 199,
+        "time": "2026-11-02T01:00:00Z",
+        "depthM": 0.10747857391834259,
+        "depthFt": 0.3526199931690049,
+        "surfaceM": 771.8277587890625,
+        "datum": "NAVD88, inherited from the actual case terrain; native zs in metres",
+        "terrainMeanM": 777.496
+      },
+      "depth": 0.10747857391834259,
+      "mesh": [
+        {
+          "vertices": 147522,
+          "visible": true
+        },
+        {
+          "vertices": 7437,
+          "visible": true
+        },
+        {
+          "vertices": 8,
+          "visible": true
+        },
+        {
+          "vertices": 196698,
+          "visible": false
+        }
+      ],
+      "terrain": {
+        "overviewMode": false
+      },
+      "detail": {
+        "instances": 24587,
+        "triangles": 49174,
+        "resolutionM": 100,
+        "farResolutionM": 100
+      },
+      "nativeWaterIndependentlyMatched": true,
+      "errors": [],
+      "path": "default"
+    },
+    {
+      "runId": "refined-full-41344983607",
+      "frameCount": 57,
+      "displayed": {
+        "requestId": 3,
+        "model": "2d",
+        "index": 33,
+        "view": "3d",
+        "time": "2026-11-02T01:15:00Z",
+        "runId": "refined-full-41344983607"
+      },
+      "info": {
+        "cellIndex": 1413,
+        "nativeFaceId": "1413",
+        "areaM2": 10000,
+        "resolutionM": 100,
+        "time": "2026-11-02T01:15:00Z",
+        "depthM": 0.10764300537109375,
+        "depthFt": 0.35315946643918367,
+        "nativeVolumeM3": 1076.4300537109375,
+        "surfaceM": 595.3317260742188,
+        "datum": "NAVD88"
+      },
+      "depth": 0.10764300537109375,
+      "mesh": [
+        {
+          "vertices": 752106,
+          "visible": true
+        },
+        {
+          "vertices": 360000,
+          "visible": true
+        },
+        {
+          "vertices": 9,
+          "visible": true
+        }
+      ],
+      "terrain": {
+        "visibleTiles": 1961,
+        "loadedTiles": 0,
+        "omittedTiles": 0,
+        "completeVisibleCoverage": true,
+        "overviewMode": true,
+        "nativeWaterSupport": true,
+        "coarseCoverageTriangles": 797525,
+        "coverageLimitedBy": null,
+        "groundSamplingM": 400,
+        "groundTriangles": 250702,
+        "waterSupportFaces": 398613,
+        "waterSupportTriangles": 807823,
+        "waterSupportDecodedBytes": 12032577,
+        "triangles": 250702,
+        "downloadedBytes": 0,
+        "cacheHits": 2,
+        "cachedTiles": 0,
+        "cachedCompressedBytes": 0,
+        "cachedTriangles": 0,
+        "levels": [],
+        "timings": {
+          "indexMs": 1306.300000011921,
+          "tilesMs": 0,
+          "mergeMs": 0,
+          "totalMs": 1309,
+          "reused": true
+        },
+        "terrainKind": "native_face_water_support"
+      },
+      "detail": {
+        "overviewMode": true,
+        "groundTriangles": 250702,
+        "waterTriangles": 82856,
+        "visibleWetFaces": 41564,
+        "omittedWetFaces": 0,
+        "budgetLimited": false,
+        "supportDecodedBytes": 12032577,
+        "omittedFaces": 0,
+        "visibleFaces": 393122,
+        "zoomInRequired": false,
+        "sourceWaterTriangles": 84276,
+        "projectedCacheEstimatedBytes": 8388352
+      },
+      "errors": [],
+      "path": "?case=refined"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "schemaVersion": 1,
+    "modelArtifactSha256": "28aa20d8e1bb732d83564433aec2e9fa48743dc4e66ae3ed3be748382ed0f576",
+    "detailSourceSha256": "6a06c140891d35214840573a73422b3461e7105492e5b60cd753c1815e5ff7ad",
+    "terrainSourceSha256": "f88c05f1fe9f7f86a1822d565b9954bfbeb6a9725adbe2cd2059afad144343de",
+    "verticesSha256": "4ad5eb4b482a3b9b9fac952c8e5ef7b301a8a89428d9e4dbad64bb93e5039c37",
+    "metadataSha256": "3954036e9d3e3c329e4884bc34542423a92bd407fdb36cfbf524495534e57b57",
+    "decodedDetailSha256": "3a54967839dc7ebcd3e296d048a696b549efc94888ba2ddb88d7474218faa629",
+    "cellCount": 29685,
+    "verticalDatum": "NAVD88, inherited from the actual case terrain; native zs in metres",
+    "proof": "All ordered native terrain vertices including row/column/elevation, terrain-source hash, cell size and datum exactly equal the original detail-bound run. Water remains exclusively from the current run."
+  }
+]
