@@ -19,3 +19,6 @@ Compare later changes against this build, with the same 30-second measurement, a
 On the mini PC, script time per frame is about 1 ms (p95 1.8 ms) and a solver step about 0.3 ms, while frames take about 83 ms. Most of that frame time is therefore probably the graphics chip, so triangles, shadows and pixels are the first things to check if a later build runs slower. GPU time was not measured directly.
 
 The mini PC is the lowest device tested. Treat 12.9 FPS as the floor for later builds, and check any change that costs more there before keeping it.
+
+## Later change
+The build after the baseline tightens the channel banks so the water's edge follows the terrain instead of the solver's coarse cells. Triangle count is unchanged. It has not been re-measured on the mini PC.

@@ -82,7 +82,9 @@ export function pickChannels(bed,grid,maxTributaries=2){
  return{bed:carved,paths,lines,sources:paths.map(p=>({cell:p.cells.at(-1),rate:p.rate}))};
 }
 // Cuts the same channels into the fine visible terrain so water and banks agree.
-export function carveFine(heights,fine,lines,halfWidth=2.6,bank=3.5,floor=.2){
+// The banks must rise past the water inside its coarse cells: then the fine terrain
+// shapes the water's edge, not the solver's stair-stepped wet/dry cell boundary.
+export function carveFine(heights,fine,lines,halfWidth=1.6,bank=1.6,floor=.2){
  const out=Float32Array.from(heights);
  for(let j=0;j<fine.nz;j++)for(let i=0;i<fine.nx;i++){
   const x=fine.x0+i*fine.dx,z=fine.z0+j*fine.dz;
