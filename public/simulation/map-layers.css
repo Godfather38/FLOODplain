@@ -30,3 +30,14 @@
 .map-first .voxel-geographic .voxel-cell-info{left:auto;right:16px;top:70px;max-height:calc(100% - 110px);overflow:auto}
 .map-first.panel-open .voxel-geographic .voxel-cell-info{display:none}
 @media(max-width:899px){.map-first .voxel-geographic .voxel-cell-info{left:8px;right:8px;top:64px;max-height:200px;padding:10px;font-size:12px}.map-first .render-notice[data-render-status=ready]>span{display:none}.map-first .render-notice[data-render-status=ready]{padding:4px}.map-first .voxel-map-note{display:none}}
+
+/* Compact, explicitly separate road-height replay. */
+.road-replay-open{display:block;padding:10px 6px;min-height:44px;font-weight:700}
+.road-replay-banner{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:8px;border:2px solid #8c1678;border-radius:10px;background:#f8e8f5;color:#4d1244}
+.road-replay-banner a{display:inline-flex;align-items:center;min-height:44px;color:#5e1253;font-weight:700}
+.road-replay-active .embedded-live,.road-replay-active .source-age,.road-replay-active .map-dock .risk-key{display:none!important}
+.road-replay-active .map-dock .dock-status{font-size:.75rem;line-height:1.35}
+.road-replay-active .map-dock .dock-key{font-size:.8125rem;line-height:1.35}
+.road-replay-active [data-3d]:disabled{opacity:1;cursor:not-allowed;color:var(--muted);border:1px solid var(--muted);padding:12px}
+.road-replay-active .flood-row{align-items:center;gap:8px}
+@media(max-width:899px){.road-replay-active .map-dock{position:absolute;max-height:65%;overflow:auto}.road-replay-active .flood-time output{font-size:1rem}.road-replay-active .road-replay-banner{font-size:.875rem}.road-replay-active .map-camera{max-width:calc(100% - 24px)}}

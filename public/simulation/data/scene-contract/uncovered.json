@@ -1,0 +1,1971 @@
+{
+  "runId": "refined-full-41344983607",
+  "outsideCoverage": [
+    {
+      "id": "crossing-028aa60d2d80",
+      "coordinates": [
+        -111.13596,
+        32.22457
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 44,
+          "legacyId": "route-crossing-44",
+          "route": "pr-gates",
+          "km": 16.4,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "a935db27-f5e2-36ff-9889-c3438626e908",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.11383459855138588
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-06a13238e2f1",
+      "coordinates": [
+        -111.04624,
+        32.23899
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 51,
+          "legacyId": "route-crossing-51",
+          "route": "pr-gates",
+          "km": 26.29,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "c207405d-e624-3a20-ae5b-fb9ed016dc83",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.08362818947495365
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-0b57cf43748e",
+      "coordinates": [
+        -111.0225,
+        32.23595
+      ],
+      "kind": "mapped_crossing",
+      "name": "Anklam Wash",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 56,
+          "legacyId": "route-crossing-56",
+          "route": "pr-gates",
+          "km": 28.51,
+          "road": "West Speedway Boulevard",
+          "water": "Anklam Wash",
+          "water_id": "3e8362a2-27f3-301e-820f-6928c2ca6b02",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.35247077311440966
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-17668bc77530",
+      "coordinates": [
+        -111.21817,
+        32.27528
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 32,
+          "legacyId": "route-crossing-32",
+          "route": "pr-gates",
+          "km": 4.98,
+          "road": "North Sandario Road",
+          "water": null,
+          "water_id": "772cce66-9a9d-3f3b-b882-bb18aa2e09f3",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.049069923120367336
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-1927ae973574",
+      "coordinates": [
+        -111.18349,
+        32.24767
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 37,
+          "legacyId": "route-crossing-37",
+          "route": "pr-gates",
+          "km": 11.07,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "ebfb1057-9220-3b08-8b3d-a54d8322b7c5",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.21427655212279406
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-1d1b7d0ace35",
+      "coordinates": [
+        -111.04501,
+        32.23899
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 52,
+          "legacyId": "route-crossing-52",
+          "route": "pr-gates",
+          "km": 26.46,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "cf9cb6c6-fb76-3fec-9902-00a1524058c6",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.33961073581596807
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-204f442f3056",
+      "coordinates": [
+        -111.02611,
+        32.23597
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 55,
+          "legacyId": "route-crossing-55",
+          "route": "pr-gates",
+          "km": 28.26,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "4fc13701-eaae-3181-b341-177335305475",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.4154853725985868
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-21680293f910",
+      "coordinates": [
+        -111.02886,
+        32.23597
+      ],
+      "kind": "mapped_crossing",
+      "name": "Greasewood Wash",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 54,
+          "legacyId": "route-crossing-54",
+          "route": "pr-gates",
+          "km": 27.98,
+          "road": "West Speedway Boulevard",
+          "water": "Greasewood Wash",
+          "water_id": "05a15d30-dc6f-31f1-a37d-c16d0e0e666d",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.4476779830392822
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-29805a11d1c0",
+      "coordinates": [
+        -111.21849,
+        32.27434
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 33,
+          "legacyId": "route-crossing-33",
+          "route": "pr-gates",
+          "km": 6.13,
+          "road": "North Sandario Road",
+          "water": null,
+          "water_id": "c51a9407-91b1-365f-a480-c3ace54e4739",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.2743635669120563
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-298e25876c2d",
+      "coordinates": [
+        -111.08202,
+        32.33759
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-ina"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 21,
+          "legacyId": "route-crossing-21",
+          "route": "pr-ina",
+          "km": 14.75,
+          "road": "West Ina Road",
+          "water": null,
+          "water_id": "651c62a7-d6a9-3139-87de-f0b2a11f13c2",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-2f1ce6018bc5",
+      "coordinates": [
+        -111.05195,
+        32.23766
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 50,
+          "legacyId": "route-crossing-50",
+          "route": "pr-gates",
+          "km": 25.66,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "336919b7-fc22-3e8c-9755-73ef629c1dca",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.08185689124507561
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-3113a92b25e7",
+      "coordinates": [
+        -111.0604,
+        32.23606
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 48,
+          "legacyId": "route-crossing-48",
+          "route": "pr-gates",
+          "km": 24.78,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "27d1d540-d403-3a3c-be4a-330ce1c66a39",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.3730548061705072
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-33c89b36268b",
+      "coordinates": [
+        -111.03874,
+        32.23689
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 53,
+          "legacyId": "route-crossing-53",
+          "route": "pr-gates",
+          "km": 27.07,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "8176530f-d4af-3b4f-96ba-29799e4ae78e",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.26318518424070053
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-441f5045cf1a",
+      "coordinates": [
+        -111.19875,
+        32.25426
+      ],
+      "kind": "mapped_crossing",
+      "name": "Javelina Wash",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 35,
+          "legacyId": "route-crossing-35",
+          "route": "pr-gates",
+          "km": 8.93,
+          "road": "North Kinney Road",
+          "water": "Javelina Wash",
+          "water_id": "25274bff-d867-3f3b-8084-1177d12a2c6d",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.641450335536798
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-45a163306e26",
+      "coordinates": [
+        -111.20377,
+        32.25678
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 34,
+          "legacyId": "route-crossing-34",
+          "route": "pr-gates",
+          "km": 7.68,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "5dbb6bee-aca7-3b0b-a691-7e9e5e184b16",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.22526179891515188
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-46e5c932bce8",
+      "coordinates": [
+        -111.07192,
+        32.2297
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 47,
+          "legacyId": "route-crossing-47",
+          "route": "pr-gates",
+          "km": 23.45,
+          "road": "West Gates Pass Road",
+          "water": null,
+          "water_id": "5c1051cc-71c4-3709-b624-b8ed2a55c204",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.10478387474909409
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-50be16e997e6",
+      "coordinates": [
+        -111.14537,
+        32.23141
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 41,
+          "legacyId": "route-crossing-41",
+          "route": "pr-gates",
+          "km": 15.21,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "dc5eeeb1-b2e0-37a9-852e-e0c073fc00f5",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.1784239319780863
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-526d8b277589",
+      "coordinates": [
+        -111.16081,
+        32.24151
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 40,
+          "legacyId": "route-crossing-40",
+          "route": "pr-gates",
+          "km": 13.27,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "58b6a1f5-7bdd-3879-9567-5c8967ed6c17",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.07488927748358942
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-53105fa361ed",
+      "coordinates": [
+        -111.0154,
+        32.23594
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 57,
+          "legacyId": "route-crossing-57",
+          "route": "pr-gates",
+          "km": 29.25,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "a063d493-886e-3225-ac60-28eab0a80f17",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.41173497893189154
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-548fc178c626",
+      "coordinates": [
+        -111.14078,
+        32.22722
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 43,
+          "legacyId": "route-crossing-43",
+          "route": "pr-gates",
+          "km": 15.79,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "5111ba11-aa64-3cc8-a71d-e954e9148a58",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.13168304294065797
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-6cb253a7ee6a",
+      "coordinates": [
+        -111.12278,
+        32.22131
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 46,
+          "legacyId": "route-crossing-46",
+          "route": "pr-gates",
+          "km": 18.12,
+          "road": "West Gates Pass Road",
+          "water": null,
+          "water_id": "e5ce653e-64dc-35e8-9d87-6dc11135c0d4",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.505866987896163
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-6d7a64bc5c66",
+      "coordinates": [
+        -111.14371,
+        32.22917
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 42,
+          "legacyId": "route-crossing-42",
+          "route": "pr-gates",
+          "km": 15.47,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "0ff20647-142a-3b3d-a7f1-7a0d535a14da",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.4188829113482108
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-6df320f447d3",
+      "coordinates": [
+        -111.18652,
+        32.25158
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 36,
+          "legacyId": "route-crossing-36",
+          "route": "pr-gates",
+          "km": 10.09,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "9b92cd16-3675-3b0d-99f1-03dc26d63bcd",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.450400737935116
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-8b034412e266",
+      "coordinates": [
+        -111.08896,
+        32.33763
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-ina"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 19,
+          "legacyId": "route-crossing-19",
+          "route": "pr-ina",
+          "km": 14.02,
+          "road": "West Ina Road",
+          "water": null,
+          "water_id": "f07a5cbb-151f-3e6c-9268-0d39844aa023",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-a3da654d8789",
+      "coordinates": [
+        -111.1676,
+        32.24705
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 38,
+          "legacyId": "route-crossing-38",
+          "route": "pr-gates",
+          "km": 11.94,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "1b1a33c5-f707-3292-b245-84110bd94326",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.35591881510068685
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-b20955816181",
+      "coordinates": [
+        -111.05747,
+        32.23604
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 49,
+          "legacyId": "route-crossing-49",
+          "route": "pr-gates",
+          "km": 25.07,
+          "road": "West Speedway Boulevard",
+          "water": null,
+          "water_id": "d7bf0696-e912-3a26-a3d9-1802ae3a96d4",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.15327007585466765
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-c6eb1d37439d",
+      "coordinates": [
+        -111.16343,
+        32.24402
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 39,
+          "legacyId": "route-crossing-39",
+          "route": "pr-gates",
+          "km": 12.91,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "9baa117d-9435-311e-8917-ed06e1c2f8ce",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.06998742107022365
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-caf36db33b4e",
+      "coordinates": [
+        -111.1326,
+        32.22235
+      ],
+      "kind": "mapped_crossing",
+      "name": "Unnamed mapped water crossing",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 45,
+          "legacyId": "route-crossing-45",
+          "route": "pr-gates",
+          "km": 16.8,
+          "road": "North Kinney Road",
+          "water": null,
+          "water_id": "80fecaad-c1fc-37bc-b85b-8cc979bbbbb2",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.40669831416969093
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "crossing-f94e18732e42",
+      "coordinates": [
+        -111.00225,
+        32.23568
+      ],
+      "kind": "mapped_crossing",
+      "name": "Silvercroft Wash",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 58,
+          "legacyId": "route-crossing-58",
+          "route": "pr-gates",
+          "km": 30.5,
+          "road": "West Speedway Boulevard",
+          "water": "Silvercroft Wash",
+          "water_id": "36a8f46b-3350-3fb0-b75b-4d44bc38ed7a",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.3894781877454931
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-kinney-javelina",
+      "coordinates": [
+        -111.1987,
+        32.2543
+      ],
+      "kind": "dip",
+      "name": "Kinney Rd at Javelina Wash (Tucson Mountain Park)",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-kinney-javelina"
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-kinney-washes",
+      "coordinates": [
+        -111.148,
+        32.234
+      ],
+      "kind": "dip",
+      "name": "Small washes on Kinney Rd and Gates Pass Rd (not confirmed)",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-kinney-washes"
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-sandario-ina",
+      "coordinates": [
+        -111.2166,
+        32.3353
+      ],
+      "kind": "dip",
+      "name": "Sandario Rd dip south of Ina Rd",
+      "routeIds": [
+        "pr-avra",
+        "pr-twinpeaks"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-sandario-ina"
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-twinpeaks",
+          "distanceM": 0.7354549432375668
+        },
+        {
+          "routeId": "pr-avra",
+          "distanceM": 0.7354549432375668
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-sandario-south",
+      "coordinates": [
+        -111.2183,
+        32.2746
+      ],
+      "kind": "dip",
+      "name": "Sandario Rd dips near Golden Gate and Kinney",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-sandario-south"
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 1.4819689069180044
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-speedway-washes",
+      "coordinates": [
+        -111.025,
+        32.236
+      ],
+      "kind": "dip",
+      "name": "Greasewood and Anklam Wash crossings on Speedway (not confirmed)",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-speedway-washes"
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 4.223275961678952
+        }
+      ],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "pr-yuma-mine",
+      "coordinates": [
+        -111.09519,
+        32.33759
+      ],
+      "kind": "dip",
+      "name": "Yuma Mine Wash dip on Ina Rd",
+      "routeIds": [
+        "pr-ina"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "pr-yuma-mine"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 18,
+          "legacyId": "route-crossing-18",
+          "route": "pr-ina",
+          "km": 13.45,
+          "road": "West Ina Road",
+          "water": "Yuma Mine Wash",
+          "water_id": "6a435b42-5041-3f83-97c7-50192191efb4",
+          "bridge_tagged": false
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": []
+    },
+    {
+      "id": "sc-ina",
+      "coordinates": [
+        -111.08151,
+        32.33759
+      ],
+      "kind": "river",
+      "name": "Santa Cruz bridge on Ina Rd",
+      "routeIds": [
+        "pr-ina"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "sc-ina"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 20,
+          "legacyId": "route-crossing-20",
+          "route": "pr-ina",
+          "km": 14.75,
+          "road": "West Ina Road",
+          "water": "Santa Cruz River",
+          "water_id": "23957079-6da7-3185-9c87-95b64d0b6498",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [],
+      "gaugeAssociations": [
+        {
+          "gaugeId": "USGS-09486500",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09486520",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09482500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09486350",
+          "relationship": "tributary_context",
+          "reachPath": "Canada del Oro → Santa Cruz",
+          "evidence": "public/config.js sc-ina; confluence proximity does not establish road depth",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        }
+      ]
+    },
+    {
+      "id": "sc-speedway",
+      "coordinates": [
+        -110.98614,
+        32.23567
+      ],
+      "kind": "river",
+      "name": "Santa Cruz bridge on Speedway",
+      "routeIds": [
+        "pr-gates"
+      ],
+      "evidence": [
+        {
+          "source": "public/config.js",
+          "identity": "sc-speedway"
+        },
+        {
+          "source": "public/data/crossings.geojson",
+          "sourceRecordIndex": 59,
+          "legacyId": "route-crossing-59",
+          "route": "pr-gates",
+          "km": 32.06,
+          "road": "West Speedway Boulevard",
+          "water": "Santa Cruz River",
+          "water_id": "2c3d68be-3b9f-38a1-8bd8-6d1beae35293",
+          "bridge_tagged": true
+        }
+      ],
+      "model": {
+        "status": "outside_coverage",
+        "runId": "refined-full-41344983607",
+        "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+        "nativeFaceId": null,
+        "cellIndex": null,
+        "method": "point_in_exact_native_cell_polygon",
+        "validFrom": "2026-11-01T17:00:00Z",
+        "validTo": "2026-11-02T07:00:00Z",
+        "clockMode": "frozen_replay",
+        "roadDepthValidated": false
+      },
+      "risk": {
+        "status": "not_yet_assessed",
+        "score": null,
+        "closure": null
+      },
+      "geometryRouteAssociations": [
+        {
+          "routeId": "pr-gates",
+          "distanceM": 0.4478273821060205
+        }
+      ],
+      "gaugeAssociations": [
+        {
+          "gaugeId": "USGS-09486500",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09486520",
+          "relationship": "downstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        },
+        {
+          "gaugeId": "USGS-09482500",
+          "relationship": "upstream_same_river",
+          "reachPath": "Santa Cruz River",
+          "evidence": "docs/SENSOR-AUDIT.md; configured station/crossing coordinates and north-flowing reach order",
+          "use": "context_only",
+          "roadDepthCorrection": null
+        }
+      ]
+    }
+  ],
+  "awaitingResults": [],
+  "unscreenedRoutes": [
+    {
+      "id": "silverbell-north",
+      "geometryReference": "public/data/routes.geojson#silverbell-north",
+      "entryIds": [
+        "crossing-b51d6278f743",
+        "losrobles-bridge",
+        "sc-sanders",
+        "silverbell-drainage",
+        "silverbell-minimum-2f4ef225c592",
+        "silverbell-minimum-311d29ce2258",
+        "terrain-minimum-96008d6647c9",
+        "terrain-minimum-afe3478eae52",
+        "terrain-minimum-bd20d5845cd2",
+        "terrain-minimum-f620df61b733"
+      ],
+      "terrainScreening": "two_extension_minima_only",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "silverbell-south",
+      "geometryReference": "public/data/routes.geojson#silverbell-south",
+      "entryIds": [
+        "crossing-4901706bc313",
+        "crossing-aaf584237326",
+        "losrobles-bridge",
+        "sc-avra",
+        "silverbell-drainage",
+        "silverbell-minimum-2f4ef225c592",
+        "silverbell-minimum-311d29ce2258",
+        "terrain-minimum-4501e72fe2e6",
+        "terrain-minimum-49b357ddf2dd",
+        "terrain-minimum-4b069a1559bc",
+        "terrain-minimum-4b0848137cb3",
+        "terrain-minimum-b65142cf1cc0",
+        "terrain-minimum-b9f55da97354",
+        "terrain-minimum-bd20d5845cd2",
+        "terrain-minimum-d6779dd28b51",
+        "terrain-minimum-f39cdaa394b1",
+        "terrain-minimum-f620df61b733"
+      ],
+      "terrainScreening": "two_extension_minima_only",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "pr-ina",
+      "geometryReference": "public/data/routes.geojson#pr-ina",
+      "entryIds": [
+        "crossing-298e25876c2d",
+        "crossing-8b034412e266",
+        "pr-ina-flat",
+        "pr-picture-rocks-wash",
+        "pr-yuma-mine",
+        "sc-ina"
+      ],
+      "terrainScreening": "not_yet_assessed",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "pr-twinpeaks",
+      "geometryReference": "public/data/routes.geojson#pr-twinpeaks",
+      "entryIds": [
+        "crossing-0c91b66d4a39",
+        "crossing-1fcc081e0252",
+        "crossing-90dd4949cd49",
+        "crossing-a9582216996e",
+        "crossing-e9669a29e4ea",
+        "crossing-fce9bba73e9d",
+        "pr-sandario-emigh",
+        "pr-sandario-ina",
+        "pr-sandario-magee",
+        "pr-sandario-pr",
+        "pr-twinpeaks-washes",
+        "sc-twinpeaks"
+      ],
+      "terrainScreening": "not_yet_assessed",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "pr-avra",
+      "geometryReference": "public/data/routes.geojson#pr-avra",
+      "entryIds": [
+        "crossing-4901706bc313",
+        "crossing-aaf584237326",
+        "pr-sandario-emigh",
+        "pr-sandario-ina",
+        "pr-sandario-magee",
+        "pr-sandario-pr",
+        "sc-avra",
+        "terrain-minimum-4501e72fe2e6",
+        "terrain-minimum-49b357ddf2dd",
+        "terrain-minimum-4b069a1559bc",
+        "terrain-minimum-4b0848137cb3",
+        "terrain-minimum-b65142cf1cc0",
+        "terrain-minimum-b9f55da97354",
+        "terrain-minimum-d6779dd28b51",
+        "terrain-minimum-f39cdaa394b1"
+      ],
+      "terrainScreening": "not_yet_assessed",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    },
+    {
+      "id": "pr-gates",
+      "geometryReference": "public/data/routes.geojson#pr-gates",
+      "entryIds": [
+        "crossing-028aa60d2d80",
+        "crossing-06a13238e2f1",
+        "crossing-0b57cf43748e",
+        "crossing-17668bc77530",
+        "crossing-1927ae973574",
+        "crossing-1d1b7d0ace35",
+        "crossing-204f442f3056",
+        "crossing-21680293f910",
+        "crossing-29805a11d1c0",
+        "crossing-2f1ce6018bc5",
+        "crossing-3113a92b25e7",
+        "crossing-33c89b36268b",
+        "crossing-441f5045cf1a",
+        "crossing-45a163306e26",
+        "crossing-46e5c932bce8",
+        "crossing-50be16e997e6",
+        "crossing-526d8b277589",
+        "crossing-53105fa361ed",
+        "crossing-548fc178c626",
+        "crossing-6cb253a7ee6a",
+        "crossing-6d7a64bc5c66",
+        "crossing-6df320f447d3",
+        "crossing-a3da654d8789",
+        "crossing-b20955816181",
+        "crossing-c6eb1d37439d",
+        "crossing-caf36db33b4e",
+        "crossing-f94e18732e42",
+        "pr-kinney-javelina",
+        "pr-kinney-washes",
+        "pr-sandario-south",
+        "pr-speedway-washes",
+        "sc-speedway"
+      ],
+      "terrainScreening": "not_yet_assessed",
+      "completeness": "All existing mapped crossings and registry points included; not a complete real-world dip survey"
+    }
+  ]
+}
