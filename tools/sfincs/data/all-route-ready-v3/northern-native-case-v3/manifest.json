@@ -1,0 +1,39 @@
+{
+  "modelVersion": "all-routes-northern-v3",
+  "kind": "prepared_native_case",
+  "caseId": "northern-native-case-v3",
+  "runReady": true,
+  "solverExecuted": false,
+  "approvedExecutionCapSeconds": 3600,
+  "archiveBytes": 121951004,
+  "archiveSha256": "48b184778f955b1f51ed4cfddd9d00bcef161e97454eeda00dfb3b102b6dbb77",
+  "parts": [
+    {
+      "path": "case.part01",
+      "bytes": 40000000,
+      "sha256": "9d506ac2f9d8ba80fedfc66a677cfaa86f6d79ee3d6f653a57a2d147527dcccd"
+    },
+    {
+      "path": "case.part02",
+      "bytes": 40000000,
+      "sha256": "730a1d9489335cbeeddc0402776c55dc20f97ec198e400ef24e0793b35383c72"
+    },
+    {
+      "path": "case.part03",
+      "bytes": 40000000,
+      "sha256": "06b36993199874519921afa3df557b76b5a41eff41fbb7537c8375e14af375ef"
+    },
+    {
+      "path": "case.part04",
+      "bytes": 1951004,
+      "sha256": "208c31ea2c4255ee4c1fe07384b3ece67b7d27e370e24c81c7a7e3e40b54a5a0"
+    }
+  ],
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "gridCells": 528201,
+  "inlets": 8,
+  "scope": null,
+  "executionAuthorization": "One explicitly approved bounded execution; no automatic retries"
+}

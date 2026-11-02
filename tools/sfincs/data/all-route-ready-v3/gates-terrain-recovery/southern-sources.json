@@ -1,0 +1,30 @@
+[
+  {
+    "file": "context-18060.tif",
+    "source": {
+      "OBJECTID": 18060,
+      "Name": "AZ_PimaCounty_2021_B21",
+      "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y356_AZ_PimaCounty_2021_B21.tif",
+      "StartDate": 20210927,
+      "EndDate": "20211120",
+      "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+      "title": "USGS 1 Meter 12 x47y356 AZ_PimaCounty_2021_B21"
+    },
+    "validPixels": 988191,
+    "sha256": "19e649dce79cb6fb89332a5a87bfe31c2edb36239fd8b0617bb03b8acbc64546"
+  },
+  {
+    "file": "context-107701.tif",
+    "source": {
+      "OBJECTID": 107701,
+      "Name": "AZ_PimaCounty_2021_B21",
+      "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y356_AZ_PimaCounty_2021_B21.tif",
+      "StartDate": 20210927,
+      "EndDate": "20211120",
+      "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+      "title": "USGS 1 Meter 12 x48y356 AZ_PimaCounty_2021_B21"
+    },
+    "validPixels": 800188,
+    "sha256": "e3212efab94a5c446045e4c8e27af38e449508d35e845051b6a663ad0d0789b8"
+  }
+]

@@ -1,0 +1,5497 @@
+{
+  "schemaVersion": 1,
+  "solverExecuted": false,
+  "cases": [
+    {
+      "case": "northern-v3",
+      "meshSha256": "193ab976fe0e1f66fe4451d714290de3fef467d552dfa173298e4a7d7462b731",
+      "entries": [
+        {
+          "id": "brawley-dip",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 325968,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "clayton-dip",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 413100,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-1352ed9a90e7",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 384563,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-4901706bc313",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 519254,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-aaf584237326",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 518442,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-b51d6278f743",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 448968,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "elpaso-dip",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 357409,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "losrobles-bridge",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south",
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 295069,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "sc-avra",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 518993,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "sc-sanders",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 448969,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "sc-trico-marana",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 351708,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "silverbell-drainage",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 365349,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "silverbell-minimum-2f4ef225c592",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 338470,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "silverbell-minimum-311d29ce2258",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 373342,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-109ce9558f9b",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 356610,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-29626c7cecd5",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 347248,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-3e083284cd2a",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 296355,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-4501e72fe2e6",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 518994,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-49b357ddf2dd",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 507732,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-49d622318f9e",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 351708,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-4b069a1559bc",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 519290,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-4b0848137cb3",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 518771,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-57a974e8c1a5",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 342781,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-72723be2aa5e",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 352342,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-7806f1f23ad6",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 357657,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-8d3aa06dfef4",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 384453,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-96008d6647c9",
+          "routeIds": [
+            "silverbell-north",
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 475800,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-afe3478eae52",
+          "routeIds": [
+            "silverbell-north",
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 475059,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-b65142cf1cc0",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 510928,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-b9f55da97354",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 515676,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-bd20d5845cd2",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south",
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 295069,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-c67e1218e548",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 370090,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-cd89251cdf0d",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 325968,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-d6779dd28b51",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 521794,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-d800cecefd6f",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 409964,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-f39cdaa394b1",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 518626,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-f620df61b733",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south",
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 295003,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-f9db5bfbaabb",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 329674,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-162349",
+          "routeIds": [
+            "trico",
+            "avra",
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 294902,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-30716",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 400898,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-17069",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 509875,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-159627",
+          "routeIds": [
+            "trico",
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 481914,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-140115",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 447948,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-164835",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 296369,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-28603",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 508922,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-20637",
+          "routeIds": [
+            "trico",
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 481904,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-11071",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 481947,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-158847",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 447039,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-311",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 514124,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-265853",
+          "routeIds": [
+            "trico",
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 475134,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-270714",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 294584,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-2083",
+          "routeIds": [
+            "trico",
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 295163,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-44199",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 338877,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-3507",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 446911,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-164772",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 295212,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-271011",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 488691,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-14054",
+          "routeIds": [
+            "trico",
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 295137,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-39612",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 417597,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-30715",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 401118,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-33595",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 511949,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-234524",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 290007,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-1546",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 293154,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-30415",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 400863,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-12918",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 527683,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-2799",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 447166,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-8675",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 516693,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-39879",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 363420,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-28074",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 359873,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-266126",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 447119,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-18308",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 510895,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-40874",
+          "routeIds": [
+            "trico",
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 294966,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-2800",
+          "routeIds": [
+            "trico",
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 447295,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-6907",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 369717,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-164771",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 296322,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-14761",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 372792,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-271423",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 294706,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-164773",
+          "routeIds": [
+            "trico",
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 295105,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-158799",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 446990,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-17649",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 296259,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-17046",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 369906,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-8676",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 515211,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-11241",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 294456,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-40798",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 353732,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-266125",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 447077,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-28249",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 294771,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-35160",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 401338,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-42515",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 447485,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-31590",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 513070,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-27232",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 527453,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-70933",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 447532,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-162450",
+          "routeIds": [
+            "avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 448394,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-31518",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 383611,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-41338",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 296403,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-11240",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 294261,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-7357b40e52c18c4f",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 475800,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-d0154e3bc9888d89",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 475059,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-2fe2e1d1a23a5f1a",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 356610,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-105b8f3f1987e640",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 352342,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-2f91faf94e2962aa",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 351708,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-028c982591ce929e",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 347248,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-ee59f0ab381ea3c2",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 296355,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-5f2e6203ec9ec9ef",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 295069,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-6f1ade434be4b745",
+          "routeIds": [
+            "trico"
+          ],
+          "active": true,
+          "nativeFaceId": 295003,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-1f509c42889a2ecf",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 325968,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-8732d21f6a121449",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 329674,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-6d45e712b0a6cdca",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 342781,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-72855c6f176cd0fc",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 357657,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-bc45fa021740c9b9",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 370090,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-e4f54f38aba1a147",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 384453,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-0fc78ee3943e34b1",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 409964,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-bc2b441791435a4f",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 507732,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-301bdd9ec56682f3",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 510928,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-c89088752bf47575",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 515676,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-7c9719723d458e44",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 518626,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-0da098b85494a17e",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 518771,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-01c3153b8aeac2c9",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 518994,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-e139e5f3c8dbd95d",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 519290,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-107610292d3affc2",
+          "routeIds": [
+            "avra"
+          ],
+          "active": true,
+          "nativeFaceId": 521794,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a4077d7dd1412846",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 295003,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a80d8399e4135158",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 295069,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-fd4fc0752a402d8b",
+          "routeIds": [
+            "silverbell-north",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 338469,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-f21d6a60616dd01e",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 447739,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a7351e6389442952",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 448944,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a06145d96014d568",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 448969,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-6d4fdc0dd6401638",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 448975,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-32cb75bb48b5cdb6",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 446900,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-e057a22453e83403",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 447293,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-019f20909eb2e8a8",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 475059,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-81acafba85f234fe",
+          "routeIds": [
+            "silverbell-north"
+          ],
+          "active": true,
+          "nativeFaceId": 475872,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-3de76d33eaf77537",
+          "routeIds": [
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 447333,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-d6cd78fb72c501f1",
+          "routeIds": [
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 507732,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-cf2bd55e3578cbac",
+          "routeIds": [
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 510928,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-629f053822c4565c",
+          "routeIds": [
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 515676,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-e1befc53c2671643",
+          "routeIds": [
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 518626,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-194a972921eefa93",
+          "routeIds": [
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 518807,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-07cf349ef1451f7a",
+          "routeIds": [
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 519032,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-1a687bfb31e47ca8",
+          "routeIds": [
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 519290,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-30b9be6bfbe9f57e",
+          "routeIds": [
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 521794,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        }
+      ],
+      "ownedEvidenceCount": 138,
+      "outsideActive": 0,
+      "coarserThan6_25m": 0
+    },
+    {
+      "case": "picture-rocks-ina-twinpeaks-v2",
+      "meshSha256": "354180a78d848e3703e8cdd94543d1680c7b114e0387bef4b1ea2b4995ec078c",
+      "entries": [
+        {
+          "id": "crossing-0c91b66d4a39",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 475919,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-1fcc081e0252",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 498964,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-298e25876c2d",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 520015,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-4901706bc313",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 449261,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-8b034412e266",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 516440,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-90dd4949cd49",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 398616,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-a9582216996e",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 483778,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-aaf584237326",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 446559,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-e9669a29e4ea",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 443883,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-fce9bba73e9d",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 480042,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-ina-flat",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 508095,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-picture-rocks-wash",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 486708,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-sandario-emigh",
+          "routeIds": [
+            "pr-avra",
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 315138,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-sandario-ina",
+          "routeIds": [
+            "pr-avra",
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 314595,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-sandario-magee",
+          "routeIds": [
+            "pr-avra",
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 316184,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-sandario-pr",
+          "routeIds": [
+            "pr-avra",
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 291367,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-twinpeaks-washes",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 443780,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-yuma-mine",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 513229,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "sc-avra",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 448376,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "sc-ina",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 520253,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "sc-twinpeaks",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 493319,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-4501e72fe2e6",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 448377,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-49b357ddf2dd",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 412859,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-4b069a1559bc",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 449385,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-4b0848137cb3",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 447638,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-b65142cf1cc0",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 422543,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-b9f55da97354",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 438275,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-d6779dd28b51",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 457017,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "terrain-minimum-f39cdaa394b1",
+          "routeIds": [
+            "avra",
+            "pr-avra",
+            "silverbell-south"
+          ],
+          "active": true,
+          "nativeFaceId": 447153,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-44208",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 513841,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-39979",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 316084,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-9124",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 401976,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-250262",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 501696,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-4429",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 357942,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-41556",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 316177,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-40749",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 413822,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-17069",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 419350,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-12486",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 507857,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-14257",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 497139,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-39022",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 533185,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-46240",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 478179,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-268403",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 527617,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-28603",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 416463,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-471",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 352195,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-14398",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 485600,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-271106",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 357533,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-8052",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 316052,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-45921",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 341079,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-11071",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 314494,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-28696",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 294571,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-39490",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 316019,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-163120",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 443881,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-26905",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 344743,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-163124",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 410349,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-162246",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 403039,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-44060",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 476951,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-311",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 432547,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-19246",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 387145,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-24518",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 534272,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-17382",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 497295,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-136915",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 315401,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-158365",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 512311,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-12833",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 530329,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-14098",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 473212,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-163244",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 447723,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-271011",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 353494,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-163121",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 427262,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-39321",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 528151,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-158745",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 419313,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-25723",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 407125,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-30566",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 315142,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-2195",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 515031,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-14556",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 406298,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-18407",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 349639,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-158752",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 425703,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-162371",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 529513,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-43412",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 532335,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-156137",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 527629,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-16639",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 516847,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-33595",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 425636,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-163115",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 459990,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-163117",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 459476,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-164938",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 432190,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-268476",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 505679,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-12918",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 474226,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-8675",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 441248,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-48871",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 535666,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-266044",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 531519,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-8697",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 314595,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-11687",
+          "routeIds": [
+            "pr-ina",
+            "pr-twinpeaks",
+            "pr-avra",
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 291213,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-267729",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 504571,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-32438",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 291415,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-8934",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 397256,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-14399",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 481979,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-44439",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 347253,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-114500",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 510101,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-2194",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 515507,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-18308",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 422442,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-28034",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 497372,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-4430",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 353732,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-3487",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 315966,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-11505",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 298645,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-13497",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 535394,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-158706",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 432247,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-39141",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 488156,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-43455",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 458944,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-472",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 351577,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-39495",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 524845,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-164934",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 484782,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-264144",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 315939,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-42342",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 403829,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-39283",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 479839,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-38146",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 326088,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-163122",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 426329,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-38145",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 339118,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-162441",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 409309,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-8676",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 436858,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-32250",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 316094,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-43610",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 528969,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-16767",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 316146,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-18082",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 479208,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-13233",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 460645,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-163123",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 416221,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-41270",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 507041,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-163248",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 459207,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-31002",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 316178,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-31590",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 429087,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-27232",
+          "routeIds": [
+            "avra",
+            "silverbell-south",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 473616,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-152764",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 345788,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-379254186b520bbb",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 399713,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-6385e776952b4b6c",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 413101,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-7d5f9509c6dcd3d8",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 441939,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-eeb462e027d7f0c3",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 446363,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-030b64bc002ab4ba",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 448419,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-c391b911aa1ef283",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 458510,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-cd3b3a8e5ce9fc9b",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 467103,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-edd5dcf11d56a8f6",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 475884,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-be1a07def0377d5a",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 484225,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-7197c5b722d69221",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 486708,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-68de8c23a2d08881",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 487780,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-19b9cbd5042b804c",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 497172,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-bf13e3ec1123324d",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 507789,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-d6baf5e928e9de77",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 509727,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a138dda9d69d1200",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 513263,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-7b7b8ee903ab398a",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 518174,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-c08fb9ea299cebdb",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 520457,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-eaa655f43a5cd64c",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 522191,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-3b4ef0fc79e0cbfa",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 528355,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-1e04d8dee5f1a199",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 529345,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-488ea1ea612d541e",
+          "routeIds": [
+            "pr-ina"
+          ],
+          "active": true,
+          "nativeFaceId": 529039,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-24b73f9c67bd916d",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 291368,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-b3d40aeb3926cc7a",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 291413,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-f303dd3ef0857d66",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 301366,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-169ee66db6f2e8bc",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 315967,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-b5abfe5e4841f22e",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 315990,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-85c487a43cfeebfe",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 316036,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-57f29db80b0e11e5",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 316105,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-6dd6e06084ceba83",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 316193,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-488dab1afc608c0d",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 316307,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-df432bf2eb464f2d",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 315247,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-07fddaf21cddfb12",
+          "routeIds": [
+            "pr-twinpeaks",
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 315367,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-5c22ee050cfa0e04",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 317980,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-32a3b65bacc28fcc",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 375954,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-e5513be53f358a0b",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 393772,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-716d23b6e0819cb8",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 402528,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-f529c8428cdc5e98",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 418492,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-9414e28a12501bd9",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 422610,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-42c4ffe7b1198168",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 425292,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-5fff5e5ec139fb70",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 427370,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-81957601e32f26c0",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 436823,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-6a6ea9ad2cce5077",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 439450,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-c3d89f9680cf01ed",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 475381,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-bb0840420c768b1c",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 479906,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-9fc24da7d754a02d",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 484050,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-6596ae50f0448f35",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 486357,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-1078447980bf2aca",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 493108,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-88929f003db96a8c",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 494496,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-2f1f0d3d54b088d8",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 497567,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-b870019f4cf81f93",
+          "routeIds": [
+            "pr-twinpeaks"
+          ],
+          "active": true,
+          "nativeFaceId": 501845,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-7186ead031aa108c",
+          "routeIds": [
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 314419,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-b913d0c58a5cd5d4",
+          "routeIds": [
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 314490,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-646a89da72ab645b",
+          "routeIds": [
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 412859,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-741a55500385a2c2",
+          "routeIds": [
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 422543,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-2cb81b3795c56373",
+          "routeIds": [
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 438275,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-4d96a3a7c9af2fdd",
+          "routeIds": [
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 447273,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-3c4286927504a425",
+          "routeIds": [
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 447760,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-48c2304f5845d10d",
+          "routeIds": [
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 448505,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-71551d80c1646d50",
+          "routeIds": [
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 449385,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-8384e91d7914cb6a",
+          "routeIds": [
+            "pr-avra"
+          ],
+          "active": true,
+          "nativeFaceId": 457017,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        }
+      ],
+      "ownedEvidenceCount": 189,
+      "outsideActive": 0,
+      "coarserThan6_25m": 0
+    },
+    {
+      "case": "gates-supported-components-v2",
+      "meshSha256": "f0e2e9a3096ab44f7910844dc790455368151fb64bb4a09d8c5f0d8291537c2d",
+      "entries": [
+        {
+          "id": "crossing-028aa60d2d80",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-06a13238e2f1",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 178945,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-0b57cf43748e",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 191503,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-17668bc77530",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-1927ae973574",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-1d1b7d0ace35",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 179557,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-204f442f3056",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 189667,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-21680293f910",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 188239,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-29805a11d1c0",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-2f1ce6018bc5",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 175539,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-3113a92b25e7",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 170821,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-33c89b36268b",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 183090,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-441f5045cf1a",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-45a163306e26",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-46e5c932bce8",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 163418,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-50be16e997e6",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-526d8b277589",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-53105fa361ed",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 195141,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-548fc178c626",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-6cb253a7ee6a",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-6d7a64bc5c66",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-6df320f447d3",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-a3da654d8789",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-b20955816181",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 172317,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-c6eb1d37439d",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-caf36db33b4e",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "crossing-f94e18732e42",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 202028,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-kinney-javelina",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-kinney-washes",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-sandario-south",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pr-speedway-washes",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 190246,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "sc-speedway",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 210268,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-12685",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 210165,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-1455",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 182102,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-21603",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 188171,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-8439",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 166261,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-85034",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 173847,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-38996",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 211261,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-2133",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 132070,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-43594",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 208159,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-13505",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 203424,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-8440",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 163924,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-19993",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 196921,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-236286",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 163075,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-16741",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 188681,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-8861",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 133457,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-11686",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 133508,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-24148",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 205771,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-6904",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-17274",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 170345,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-85032",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 176339,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-12977",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 189293,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-23082",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-267360",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 178368,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-268345",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 185587,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-24147",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 206213,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-22099",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 183735,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-43445",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 207167,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-2134",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 133329,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-24173",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 204580,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-6903",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-36141",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 211350,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-85347",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 179455,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-24307",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 209145,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-13312",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 199192,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-7393",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 196371,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-16883",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 133459,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-16857",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-46636",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 195481,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-11687",
+          "routeIds": [
+            "pr-ina",
+            "pr-twinpeaks",
+            "pr-avra",
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 133582,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-12811",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 191979,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-17273",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 171229,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-236415",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 133360,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-7610",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 186233,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-12976",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 190381,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-12810",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 194937,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-115140",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 202435,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-192375",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-43446",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 206892,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-12684",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 210762,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-13311",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 201041,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-38108",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-41077",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 190658,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-42243",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-98828",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-37914",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-38116",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 133393,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-12107",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 169557,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-39503",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 186437,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-23028",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 163613,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-33707",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 187559,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "pima-street-intersection-98825",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-8233bd0d67044c6a",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 211073,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-f1147086108d17ca",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 210574,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a7666250fda080fb",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 209350,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-e779e1124466ef51",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 207344,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-5f6cee4f2958a4aa",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 204751,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-42c8d7c29322582c",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 203425,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-d2de5fda3005ed7a",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 201994,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-aa9a169b3164727f",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 200940,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-bf6a9f5c68ec5e19",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 195073,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-2a322062eb6eb6bc",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 191843,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-c62899aa5ba49a57",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 189735,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-933cf16730388a28",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 181317,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-37b8d796edf093d9",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 179421,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-c26152fd8e48fc79",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 176767,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-3391fe3c15f2f3be",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 172147,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-3c3d0650d7dd26b9",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 170855,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-911ec5b092433a0c",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 170447,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-399c6ff85fe8b2fd",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 152725,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-944cd32d22e149ac",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 147959,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-6d80a46e8a7c31f7",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a0751a6333a20b5e",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-b94727c7fe6d82b0",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-b51fc7bfa7e9f0a0",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-aa528500e7d00f99",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-8bad2e328659ff98",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a30bda39514502fc",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-d2d5bf14840da790",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-c1b1580ed7aa78ca",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-7dadb5ebce00126c",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-8c5a7c28d492b215",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a89ac576a8b8ddcb",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-91c0b54a81feaa45",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-f70f1e5f9d962dec",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a22d17060e2fb8e1",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-7c45817ea4550b29",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-e4089745c3100ebe",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-8a18234142616942",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-41e0fe6254bab7b8",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-74c1228d3db82ba3",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-fb4fd72532963e75",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a80def178d46d28d",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-db1a8d271d41a188",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-8a7a522304a6e674",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-b226387194d2591d",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-78e292da66d3a0a9",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-0d29596ef8853142",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-a5db016a9b401500",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-37b4b20d032b35a7",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-8ab2222d552d378e",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-1ec1ce9340c76deb",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": false,
+          "nativeFaceId": null,
+          "cellSizeM": null,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-4eebabf6a121811e",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 131868,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-1467b4faca8ff278",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 131886,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-9ffb617579d4402c",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 131917,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-602ca2e50f101fec",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 132020,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-043b04d7c5ca6943",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 132112,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-6e97477c1da09f2b",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 132172,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-0c6624d630ef0dd0",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 132256,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-581f819900f68241",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 132276,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-917ea75ab43c4036",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 132403,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-23a5c86268917a6a",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 133310,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-289dac0a25bcc597",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 132479,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-63539b8b2b4da183",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 133441,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        },
+        {
+          "id": "all-route-minimum-8d11e7821392a2de",
+          "routeIds": [
+            "pr-gates"
+          ],
+          "active": true,
+          "nativeFaceId": 133511,
+          "cellSizeM": 6.25,
+          "status": "geometry_prepared_not_simulated",
+          "roadDepthValidated": false
+        }
+      ],
+      "ownedEvidenceCount": 155,
+      "outsideActive": 59,
+      "coarserThan6_25m": 0
+    }
+  ]
+}

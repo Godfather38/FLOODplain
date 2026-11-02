@@ -1,0 +1,950 @@
+{
+  "schemaVersion": 1,
+  "status": "complete",
+  "kind": "frozen_forecast",
+  "issuedAt": "2026-11-01T13:00:00Z",
+  "start": "2026-11-01T14:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "series": [
+    {
+      "reachId": "15876787",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876837",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876859",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876863",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    },
+    {
+      "reachId": "15876869",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 0.05999999865889549
+        }
+      ]
+    },
+    {
+      "reachId": "15877627",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 0.11999999731779099
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 0.14999999664723873
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 0.23999999463558197
+        }
+      ]
+    },
+    {
+      "reachId": "15903611",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 2.43999994546175
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 2.629999941214919
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 2.8799999356269836
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 3.0999999307096004
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 3.2399999275803566
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 3.9899999108165503
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 4.649999896064401
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 4.419999901205301
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 3.9899999108165503
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 3.689999917522073
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 3.4299999233335257
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 3.0999999307096004
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 2.899999935179949
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 3.0799999311566353
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 3.399999924004078
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 3.419999923557043
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 3.519999921321869
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 3.7499999161809683
+        }
+      ]
+    },
+    {
+      "reachId": "15903627",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.04999999888241291
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 0.04999999888241291
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 0.04999999888241291
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 0.13999999687075615
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 0.17999999597668648
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 0.18999999575316906
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 0.1599999964237213
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 0.13999999687075615
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 0.11999999731779099
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 0.06999999843537807
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 0.05999999865889549
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 0.04999999888241291
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 0.04999999888241291
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 0.04999999888241291
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 0.04999999888241291
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 0.04999999888241291
+        }
+      ]
+    },
+    {
+      "reachId": "15876849",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "aggregateFile": "../all-route-forecast.json",
+    "registryVersion": 3,
+    "lastInletAcquisition": {
+      "reachId": "15876849",
+      "crosswalk": "gates-final-inlet-crosswalk.json",
+      "nativeFrames": [
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f001.conus.nc",
+          "etag": "\"d1e7be646151307cf463964fae2afde1\"",
+          "contentLength": "12490339",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-01T14:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f002.conus.nc",
+          "etag": "\"0bbeaed06cde4ac9f9ed324ad50a6500\"",
+          "contentLength": "12493958",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-01T15:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f003.conus.nc",
+          "etag": "\"d5809fe036b701f681d55923287e2f2e\"",
+          "contentLength": "12495053",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-01T16:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f004.conus.nc",
+          "etag": "\"a289348402098f535f5df9791a5c0a1e\"",
+          "contentLength": "12491513",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-01T17:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f005.conus.nc",
+          "etag": "\"bc7ed1013e27e8abbbbf14ff81b5bd0b\"",
+          "contentLength": "12485628",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-01T18:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f006.conus.nc",
+          "etag": "\"1c5685b24883bbfe8823b2d29c79198c\"",
+          "contentLength": "12486631",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-01T19:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f007.conus.nc",
+          "etag": "\"15dc70b0bc6e4711b2050d5a2214dc96\"",
+          "contentLength": "12489346",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-01T20:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f008.conus.nc",
+          "etag": "\"a90b4457950a82ca83ea78cc7cef2a70\"",
+          "contentLength": "12489878",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-01T21:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f009.conus.nc",
+          "etag": "\"d412218a88ffea1bb0dc9f127de2b22f\"",
+          "contentLength": "12485857",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-01T22:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f010.conus.nc",
+          "etag": "\"36d3e5ef85919f2397b79823c7d95fdb\"",
+          "contentLength": "12481160",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-01T23:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f011.conus.nc",
+          "etag": "\"cbb6425f16ba10b8c6e6f27784d687b0\"",
+          "contentLength": "12472534",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-02T00:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f012.conus.nc",
+          "etag": "\"e07248afc6490f0bde91dede1b3971b4\"",
+          "contentLength": "12464997",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-02T01:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f013.conus.nc",
+          "etag": "\"3771ca734d9b98b64bc7e6812e98605f\"",
+          "contentLength": "12454326",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-02T02:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f014.conus.nc",
+          "etag": "\"27628776106bdd402aade63078d2057a\"",
+          "contentLength": "12445219",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-02T03:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f015.conus.nc",
+          "etag": "\"ce2c2a575f1fb5c6daccb07565198ede\"",
+          "contentLength": "12439256",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-02T04:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f016.conus.nc",
+          "etag": "\"40b91fda14e007352d55385347816d37\"",
+          "contentLength": "12435939",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-02T05:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f017.conus.nc",
+          "etag": "\"6087e7283a1112569308f8ee5700c4d8\"",
+          "contentLength": "12433784",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-02T06:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        },
+        {
+          "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f018.conus.nc",
+          "etag": "\"8be2265233d8e375ec2d89540c521374\"",
+          "contentLength": "12435339",
+          "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+          "issuedAt": "2026-11-01T13:00:00Z",
+          "time": "2026-11-02T07:00:00Z",
+          "units": "m3/s",
+          "values": {
+            "15876849": 0.0
+          }
+        }
+      ],
+      "retainedSeriesSha256": {
+        "15876787": "0b38c45c17e995ad660e3e056807ed3ed3729651a48cb2337930c7f16227e52e",
+        "15876837": "4dbab2d06ddb9cf309b0a6117dc77689cbd94d9bee907a36bfd907aa5b6fa12d",
+        "15876859": "29bc2aa885fa206d15f7974acc5626912b9e41b5cac945669320631e4cfeada4",
+        "15876863": "4d1c6bebe0572070b68ecc4c51d6733047dc894bc569d6d19baeeb0c5a814b03",
+        "15876869": "623f430879c4abb2cd9a9cbed3cb72348434b51b7d5e6d3f203139f6de03da61",
+        "15877627": "913a4d5ae80c4e03d3686bc8d6942f86393d9ceba3d3938a56f5cd11560930e2",
+        "15903611": "6a2cd287194c669c2c0dcc325130afae1ced32ddec44ba5cc42bcd158a57c1e7",
+        "15903627": "92ed58e8a3b04f78ac0e8bcc05544d1165edc15db5bf581a3073092a38628e54"
+      }
+    }
+  },
+  "noModelExecuted": true,
+  "missingReachIds": []
+}

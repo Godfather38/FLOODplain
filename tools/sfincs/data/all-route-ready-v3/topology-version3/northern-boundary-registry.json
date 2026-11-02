@@ -1,0 +1,187 @@
+{
+  "case": "northern",
+  "routeIds": [
+    "trico",
+    "avra",
+    "silverbell-north",
+    "silverbell-south"
+  ],
+  "activeCatchmentReachIds": [
+    15876621,
+    15876625,
+    15876633,
+    15877577,
+    15886600,
+    15890430,
+    945050478,
+    945050479,
+    945050480,
+    945050481,
+    945050482,
+    945050483,
+    945050484,
+    945050485,
+    945050486,
+    945050510,
+    945050511,
+    945050512
+  ],
+  "addedConnectingCatchmentIds": [
+    15876625,
+    945050481
+  ],
+  "areaKm2": 423.9240360767148,
+  "connectedComponents": [
+    [
+      15886600,
+      15890430
+    ],
+    [
+      15877577,
+      945050478,
+      945050479,
+      945050480,
+      945050481,
+      945050482,
+      945050483,
+      945050484,
+      945050485,
+      945050486,
+      945050487,
+      945050510,
+      945050511,
+      945050512
+    ],
+    [
+      15876621,
+      15876625,
+      15876633
+    ]
+  ],
+  "componentCount": 3,
+  "cumulativeInletDoubleCountPairs": [],
+  "externalCatchmentIdsAreDisjoint": true,
+  "terrainGapNote": null,
+  "corridorMissingAreaM2": 1.2263475828931637e-07,
+  "externalInlets": [
+    {
+      "reachId": "15876623",
+      "receivingReachId": "15876621",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15876639",
+      "receivingReachId": "15876633",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15876641",
+      "receivingReachId": "15876625",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15876653",
+      "receivingReachId": "15876633",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15876707",
+      "receivingReachId": "945050510",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15876711",
+      "receivingReachId": "945050510",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15902351",
+      "receivingReachId": "15890430",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15902363",
+      "receivingReachId": "15890430",
+      "linkField": "dnhydroseq"
+    }
+  ],
+  "missingFlowlineIds": [],
+  "unresolvedPrimaryUpstreamHydrosequences": [],
+  "status": "Northern version3 ready for native preparation. Both primary and secondary graph closure audited; no invented split fractions.",
+  "missingOriginalIssueForecastIds": [],
+  "version": 3,
+  "parentVersion": 2,
+  "addedForSecondaryPathClosure": [
+    945050484,
+    945050485,
+    945050487
+  ],
+  "closureIterations": [
+    [
+      945050484,
+      945050485,
+      945050487
+    ]
+  ],
+  "externalSplitReachesRequiringNoAssumedFractions": [],
+  "secondaryBranchEvidence": [
+    {
+      "from": 945050478,
+      "to": 945050487,
+      "field": "dnminorhyd",
+      "hydroseq": 720031064.0,
+      "fromActive": true,
+      "toActive": true
+    },
+    {
+      "from": 945050479,
+      "to": 945050483,
+      "field": "dnminorhyd",
+      "hydroseq": 720034810.0,
+      "fromActive": true,
+      "toActive": true
+    },
+    {
+      "from": 945050480,
+      "to": 945050484,
+      "field": "dnminorhyd",
+      "hydroseq": 720039951.0,
+      "fromActive": true,
+      "toActive": true
+    }
+  ],
+  "zeroLocalCatchmentAreaReachIds": [
+    945050487
+  ],
+  "missingCatchmentIds": [],
+  "unresolvedActiveOrInletLinks": [],
+  "activeReachIds": [
+    15876621,
+    15876625,
+    15876633,
+    15877577,
+    15886600,
+    15890430,
+    945050478,
+    945050479,
+    945050480,
+    945050481,
+    945050482,
+    945050483,
+    945050484,
+    945050485,
+    945050486,
+    945050487,
+    945050510,
+    945050511,
+    945050512
+  ],
+  "zeroAreaBranchContainment": {
+    "reachId": 945050487,
+    "lengthM": 120.0372496172472,
+    "outsideDomainLengthM": 0.0,
+    "sourceLocalCatchmentAreaKm2": 0.0,
+    "officialCatchmentQueryFeatureCount": 0,
+    "interpretation": "Retain directed river branch inside domain, no local catchment polygon or external injection."
+  }
+}

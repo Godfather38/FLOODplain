@@ -1,0 +1,12 @@
+[
+  {
+    "url": "https://api.water.usgs.gov/fabric/pygeoapi/collections/catchmentsp/items?f=json&featureid=945050487&limit=1000",
+    "file": "catchment-945050487.geojson",
+    "sha256": "a2bd6f202622277568842c4272909784481ae3c8555f4a69a031f058269b55d8"
+  },
+  {
+    "url": "https://api.water.usgs.gov/fabric/pygeoapi/collections/nhdflowline_network/items?f=json&hydroseq=720046455&limit=1000",
+    "file": "downstream-720046455.geojson",
+    "sha256": "8e2629bb8829fe68c53038ec19ce57a8787eb384d178d500ad3b7e3cd76e4afe"
+  }
+]

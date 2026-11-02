@@ -12,6 +12,11 @@ on:
         type: string
         required: false
         default: ''
+      execution_cap_seconds:
+        description: 'Approved maximum native solver runtime in seconds'
+        type: choice
+        options: ['120', '1200', '2400', '2700', '3600']
+        default: '3600'
 permissions:
   contents: read
   actions: read
@@ -80,19 +85,23 @@ jobs:
         if: inputs.case_archive != ''
         env:
           CASE_ARCHIVE: ${{ inputs.case_archive }}
+          EXECUTION_CAP_SECONDS: ${{ inputs.execution_cap_seconds }}
         run: |
           python - <<'PY'
           import os, tarfile, json, hashlib
           from pathlib import Path
+          cap = int(os.environ['EXECUTION_CAP_SECONDS'])
+          if cap not in {120, 1200, 2400, 2700, 3600}:
+              raise ValueError('Unsupported execution cap')
           archive = Path(os.environ['CASE_ARCHIVE']).resolve()
           root = Path('tools/sfincs/data').resolve()
           if not archive.is_relative_to(root) or not archive.is_file():
               raise ValueError('Require committed prepared case under tools/sfincs/data')
           if archive.suffix == '.json':
               manifest = json.loads(archive.read_text())
-              if manifest.get('modelVersion') != 'silverbell-extension-v1':
-                  raise ValueError('Only the approved Silverbell split case is supported')
-              combined = Path('prepared-silverbell.tar.gz')
+              if manifest.get('modelVersion') not in {'silverbell-extension-v1', 'all-routes-northern-v3', 'all-routes-picture-rocks-v2', 'all-routes-gates-supported-v2'}:
+                  raise ValueError('Require a recognized prepared case version')
+              combined = Path('prepared-case.tar.gz')
               with combined.open('wb') as target:
                   for item in manifest['parts']:
                       part = (archive.parent / item['path']).resolve()
@@ -113,7 +122,7 @@ jobs:
               if not (output/name).is_file():
                   raise ValueError('Incomplete prepared case: '+name)
           PY
-          (set -o pipefail; cd runs/current && date -u +%FT%TZ > execution-started.txt && GFORTRAN_UNBUFFERED_ALL=y timeout 3600 "$GITHUB_WORKSPACE/engine-reused/sfincs" 2>&1 | tee solver.log)
+          (set -o pipefail; cd runs/current && date -u +%FT%TZ > execution-started.txt && GFORTRAN_UNBUFFERED_ALL=y timeout "$EXECUTION_CAP_SECONDS" "$GITHUB_WORKSPACE/engine-reused/sfincs" 2>&1 | tee solver.log)
           (cd engine-reused && sha256sum -c SHA256SUMS)
       - uses: actions/upload-artifact@v4
         if: always()

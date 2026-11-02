@@ -1,0 +1,768 @@
+{
+  "schemaVersion": 1,
+  "status": "complete",
+  "kind": "archived_analysis",
+  "source": "NOAA National Water Model archived native channel_rt",
+  "series": [
+    {
+      "reachId": "15876849",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-10-30T16:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-30T17:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-30T18:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-30T19:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-30T20:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-30T21:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-30T22:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-30T23:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T00:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T01:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T02:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T03:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T04:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T05:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T06:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T07:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T08:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T09:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T10:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T11:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T12:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T13:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T16:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T17:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T18:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T19:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T20:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T21:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T22:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-10-31T23:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T00:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T01:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T02:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T03:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T04:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T05:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T06:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T07:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T08:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T09:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T10:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T11:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T12:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T13:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    }
+  ],
+  "sourceFrames": [
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261030/analysis_assim/nwm.t16z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"ebb46db54fcaec4d974212eb9e5fc648\"",
+      "contentLength": "12380947",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-30T13:00:00Z",
+      "time": "2026-10-30T16:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261030/analysis_assim/nwm.t17z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"4434b94b461037f3e1d34d3b4ea23a02\"",
+      "contentLength": "12374214",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-30T14:00:00Z",
+      "time": "2026-10-30T17:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261030/analysis_assim/nwm.t18z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"029a419fa6e32222fa6656a609a9ab63\"",
+      "contentLength": "12368321",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-30T15:00:00Z",
+      "time": "2026-10-30T18:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261030/analysis_assim/nwm.t19z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"28687c0a031f791b18501f29ace724a0\"",
+      "contentLength": "12372118",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-30T16:00:00Z",
+      "time": "2026-10-30T19:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261030/analysis_assim/nwm.t20z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"9284ea6468d18035cc275be3b6975786\"",
+      "contentLength": "12370642",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-30T17:00:00Z",
+      "time": "2026-10-30T20:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261030/analysis_assim/nwm.t21z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"1590c18899f6cdbe917edb2ed88cecc0\"",
+      "contentLength": "12374874",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-30T18:00:00Z",
+      "time": "2026-10-30T21:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261030/analysis_assim/nwm.t22z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"527fe4915581f94a3b4fbabc7ca834ca\"",
+      "contentLength": "12381687",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-30T19:00:00Z",
+      "time": "2026-10-30T22:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261030/analysis_assim/nwm.t23z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"e19cc6fc03a7b27c2d95bc5a08463b74\"",
+      "contentLength": "12388379",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-30T20:00:00Z",
+      "time": "2026-10-30T23:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t00z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"71d8a00b66e50c0792dc927423e446ac\"",
+      "contentLength": "12388870",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-30T21:00:00Z",
+      "time": "2026-10-31T00:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t01z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"d7462b07263e74f99e336852a8192635\"",
+      "contentLength": "12396490",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-30T22:00:00Z",
+      "time": "2026-10-31T01:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t02z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"ca02ccb86d6282d4122a89fdbba8e646\"",
+      "contentLength": "12402537",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-30T23:00:00Z",
+      "time": "2026-10-31T02:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t03z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"e00103f90ace4417d2f46519b72998a8\"",
+      "contentLength": "12406012",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T00:00:00Z",
+      "time": "2026-10-31T03:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t04z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"910f658082e61b288f478e3a6db83f7c\"",
+      "contentLength": "12405378",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T01:00:00Z",
+      "time": "2026-10-31T04:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t05z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"025b240e4fa1113e2108c4c73995b681\"",
+      "contentLength": "12401843",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T02:00:00Z",
+      "time": "2026-10-31T05:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t06z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"f87278c035f5ef427e2e845f6d2afeab\"",
+      "contentLength": "12404477",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T03:00:00Z",
+      "time": "2026-10-31T06:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t07z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"5706be80280c7e8966777b4464c89002\"",
+      "contentLength": "12399942",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T04:00:00Z",
+      "time": "2026-10-31T07:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t08z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"4bcf98069cbf3213592a6b1dc473ba79\"",
+      "contentLength": "12402198",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T05:00:00Z",
+      "time": "2026-10-31T08:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t09z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"d645ef98d591306d70c1c740ba9b1fb0\"",
+      "contentLength": "12414319",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T06:00:00Z",
+      "time": "2026-10-31T09:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t10z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"0e88af54237b2718eef06e211098c105\"",
+      "contentLength": "12418786",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T07:00:00Z",
+      "time": "2026-10-31T10:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t11z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"056e59826bfef44b9b24cd1407b495d7\"",
+      "contentLength": "12425258",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T08:00:00Z",
+      "time": "2026-10-31T11:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t12z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"7217b0d9f946479fd0489805094d345a\"",
+      "contentLength": "12429620",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T09:00:00Z",
+      "time": "2026-10-31T12:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t13z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"ec0f5a854041038f46d19629126a6496\"",
+      "contentLength": "12431752",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T10:00:00Z",
+      "time": "2026-10-31T13:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t14z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"71417c62ce9852a5e4bffac116c11e08\"",
+      "contentLength": "12419088",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T11:00:00Z",
+      "time": "2026-10-31T14:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t15z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"2b1dbccfec9bc3a214dc37e85c8fb7e9\"",
+      "contentLength": "12412511",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T12:00:00Z",
+      "time": "2026-10-31T15:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t16z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"7e06b6e1a0b7674224478cecba54cdb9\"",
+      "contentLength": "12406575",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T13:00:00Z",
+      "time": "2026-10-31T16:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t17z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"6318f3bc74e0aa7e25c822aefb51edff\"",
+      "contentLength": "12397449",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T14:00:00Z",
+      "time": "2026-10-31T17:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t18z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"99f8e7152b63be450eb236fa98ffa904\"",
+      "contentLength": "12382171",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T15:00:00Z",
+      "time": "2026-10-31T18:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t19z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"52340d2b0f80f64ed85f53ae63e8936e\"",
+      "contentLength": "12370358",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T16:00:00Z",
+      "time": "2026-10-31T19:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t20z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"d35cb6a980dfe5e23ab0262b6fcac4fc\"",
+      "contentLength": "12369486",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T17:00:00Z",
+      "time": "2026-10-31T20:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t21z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"f354f8fe9e99b3dd571bfc91e5b38c5b\"",
+      "contentLength": "12369157",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T18:00:00Z",
+      "time": "2026-10-31T21:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t22z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"74fc0ea52129826bcff0e25599f67c52\"",
+      "contentLength": "12372851",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T19:00:00Z",
+      "time": "2026-10-31T22:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261031/analysis_assim/nwm.t23z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"c6ddc232a845ee03e6410064371157a3\"",
+      "contentLength": "12374596",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T20:00:00Z",
+      "time": "2026-10-31T23:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t00z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"3c1d7fefba979e423328474576e4597f\"",
+      "contentLength": "12377435",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T21:00:00Z",
+      "time": "2026-11-01T00:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t01z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"77dcc14c796af6825d18121d34d6bf84\"",
+      "contentLength": "12384223",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T22:00:00Z",
+      "time": "2026-11-01T01:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t02z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"b7de6ef58e122431d8642a7ed4a5ad14\"",
+      "contentLength": "12385690",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-10-31T23:00:00Z",
+      "time": "2026-11-01T02:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t03z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"6838f3b0b48f6298608e5087e3420917\"",
+      "contentLength": "12391411",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T00:00:00Z",
+      "time": "2026-11-01T03:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t04z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"fa5a24bf26ab300908c13271605cbbcd\"",
+      "contentLength": "12404729",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T01:00:00Z",
+      "time": "2026-11-01T04:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t05z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"e3aa3fc244197811d7fcca63eb9c94bc\"",
+      "contentLength": "12410581",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T02:00:00Z",
+      "time": "2026-11-01T05:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t06z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"6b320d83a9bd48d42d6dd3a08a46606f\"",
+      "contentLength": "12419304",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T03:00:00Z",
+      "time": "2026-11-01T06:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t07z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"6dd2173decdd5e6ba664b246d1d311d2\"",
+      "contentLength": "12431010",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T04:00:00Z",
+      "time": "2026-11-01T07:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t08z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"f99e53cf56dff2f16f18c84f2895025a\"",
+      "contentLength": "12442160",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T05:00:00Z",
+      "time": "2026-11-01T08:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t09z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"7745944abe7ba18080fdc6e35deb3774\"",
+      "contentLength": "12454645",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T06:00:00Z",
+      "time": "2026-11-01T09:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t10z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"be5adf64154c72ce43f764e9ad833061\"",
+      "contentLength": "12475858",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T07:00:00Z",
+      "time": "2026-11-01T10:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t11z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"e9eb119fbc7318d611408cd57730fab3\"",
+      "contentLength": "12479923",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T08:00:00Z",
+      "time": "2026-11-01T11:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t12z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"5d729c9360f43b3f08e0198aba3b9edf\"",
+      "contentLength": "12488145",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T09:00:00Z",
+      "time": "2026-11-01T12:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t13z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"209fa8031cb1864aed2ef66cbe5eb680\"",
+      "contentLength": "12498164",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T10:00:00Z",
+      "time": "2026-11-01T13:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/analysis_assim/nwm.t14z.analysis_assim.channel_rt.tm00.conus.nc",
+      "etag": "\"0754b8f2af6d907f9a015657def68362\"",
+      "contentLength": "12502666",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T11:00:00Z",
+      "time": "2026-11-01T14:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    }
+  ]
+}

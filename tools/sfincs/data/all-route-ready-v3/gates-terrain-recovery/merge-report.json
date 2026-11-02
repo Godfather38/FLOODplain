@@ -1,0 +1,25 @@
+{
+  "status": "remaining_gap",
+  "gatesMissingRequiredPixels": 74221,
+  "gatesMissingRequiredKm2": 7.4221,
+  "originalValidPixelsUnchanged": true,
+  "patches": [
+    {
+      "sourcePatch": "context-107701.tif",
+      "newPixels": 69000,
+      "sha256": "e3212efab94a5c446045e4c8e27af38e449508d35e845051b6a663ad0d0789b8"
+    },
+    {
+      "sourcePatch": "context-18060.tif",
+      "newPixels": 67970,
+      "sha256": "19e649dce79cb6fb89332a5a87bfe31c2edb36239fd8b0617bb03b8acbc64546"
+    },
+    {
+      "sourcePatch": "context-omitted-tile.tif",
+      "newPixels": 648379,
+      "sha256": "99af3aaf3c80dae2a8c9524ed2465a98c7abd0f209b49ccbc093d0762950834f"
+    }
+  ],
+  "originalTerrainSha256": "7cedb33b1126ba8d35b05f731dd7f05adb0c2b88f2f7fcd52b32c66a3b3184e3",
+  "outputSha256": "9906325dc89aee6f797c47b7fd534633c64b4ceb91f805a0d54dd5d73f04d01b"
+}

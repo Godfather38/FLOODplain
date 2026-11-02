@@ -1,0 +1,136 @@
+{
+  "case": "picture-rocks-ina-twinpeaks",
+  "routeIds": [
+    "pr-ina",
+    "pr-twinpeaks",
+    "pr-avra"
+  ],
+  "activeCatchmentReachIds": [
+    15876687,
+    15876689,
+    15876697,
+    15876715,
+    15876737,
+    15876759,
+    15876773,
+    15876777,
+    15877577,
+    15890430,
+    15902351,
+    15902361,
+    15902363,
+    15902409,
+    15902411,
+    15902413,
+    15902419,
+    15902429,
+    15902431,
+    15902439,
+    15903137,
+    945050134,
+    945050135
+  ],
+  "addedConnectingCatchmentIds": [
+    15876689
+  ],
+  "areaKm2": 499.594150458418,
+  "connectedComponents": [
+    [
+      15876737
+    ],
+    [
+      15877577
+    ],
+    [
+      15890430,
+      15902351,
+      15902361,
+      15902363,
+      15902409,
+      15902411,
+      15902413,
+      15902419,
+      15902429,
+      15902431,
+      15902439,
+      15903137,
+      945050134,
+      945050135
+    ],
+    [
+      15876687,
+      15876689,
+      15876715,
+      15876759,
+      15876773
+    ],
+    [
+      15876697
+    ],
+    [
+      15876777
+    ]
+  ],
+  "componentCount": 6,
+  "cumulativeInletDoubleCountPairs": [],
+  "externalCatchmentIdsAreDisjoint": true,
+  "terrainGapNote": null,
+  "corridorMissingAreaM2": 7.771350143029429e-07,
+  "externalInlets": [
+    {
+      "reachId": "15902387",
+      "receivingReachId": "945050134",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15902389",
+      "receivingReachId": "945050134",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15902421",
+      "receivingReachId": "945050135",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15902423",
+      "receivingReachId": "15902419",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15902441",
+      "receivingReachId": "15902429",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15902447",
+      "receivingReachId": "15902413",
+      "linkField": "dnhydroseq"
+    },
+    {
+      "reachId": "15902469",
+      "receivingReachId": "15902429",
+      "linkField": "dnhydroseq"
+    }
+  ],
+  "missingFlowlineIds": [],
+  "unresolvedPrimaryUpstreamHydrosequences": [],
+  "status": "Topologically closed candidate domain; no repeated cumulative inlet chain in inspected network. Geometry/terrain/forcing and native boundary placement remain parent preparation tasks.",
+  "missingOriginalIssueForecastIds": [
+    "15902387",
+    "15902389",
+    "15902421",
+    "15902423",
+    "15902441",
+    "15902469"
+  ],
+  "version": 3,
+  "parentVersion": 2,
+  "addedForSecondaryPathClosure": [],
+  "closureIterations": [],
+  "externalSplitReachesRequiringNoAssumedFractions": [],
+  "secondaryBranchEvidence": [],
+  "zeroLocalCatchmentAreaReachIds": [],
+  "missingCatchmentIds": [],
+  "unresolvedActiveOrInletLinks": []
+}

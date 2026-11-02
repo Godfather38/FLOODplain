@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "status": "complete",
+  "kind": "frozen_forecast",
+  "source": "NOAA National Water Model archived native channel_rt",
+  "series": [
+    {
+      "reachId": "15876849",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 0.0
+        }
+      ]
+    }
+  ],
+  "sourceFrames": [
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f001.conus.nc",
+      "etag": "\"d1e7be646151307cf463964fae2afde1\"",
+      "contentLength": "12490339",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-01T14:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f002.conus.nc",
+      "etag": "\"0bbeaed06cde4ac9f9ed324ad50a6500\"",
+      "contentLength": "12493958",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-01T15:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f003.conus.nc",
+      "etag": "\"d5809fe036b701f681d55923287e2f2e\"",
+      "contentLength": "12495053",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-01T16:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f004.conus.nc",
+      "etag": "\"a289348402098f535f5df9791a5c0a1e\"",
+      "contentLength": "12491513",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-01T17:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f005.conus.nc",
+      "etag": "\"bc7ed1013e27e8abbbbf14ff81b5bd0b\"",
+      "contentLength": "12485628",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-01T18:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f006.conus.nc",
+      "etag": "\"1c5685b24883bbfe8823b2d29c79198c\"",
+      "contentLength": "12486631",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-01T19:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f007.conus.nc",
+      "etag": "\"15dc70b0bc6e4711b2050d5a2214dc96\"",
+      "contentLength": "12489346",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-01T20:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f008.conus.nc",
+      "etag": "\"a90b4457950a82ca83ea78cc7cef2a70\"",
+      "contentLength": "12489878",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-01T21:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f009.conus.nc",
+      "etag": "\"d412218a88ffea1bb0dc9f127de2b22f\"",
+      "contentLength": "12485857",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-01T22:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f010.conus.nc",
+      "etag": "\"36d3e5ef85919f2397b79823c7d95fdb\"",
+      "contentLength": "12481160",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-01T23:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f011.conus.nc",
+      "etag": "\"cbb6425f16ba10b8c6e6f27784d687b0\"",
+      "contentLength": "12472534",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-02T00:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f012.conus.nc",
+      "etag": "\"e07248afc6490f0bde91dede1b3971b4\"",
+      "contentLength": "12464997",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-02T01:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f013.conus.nc",
+      "etag": "\"3771ca734d9b98b64bc7e6812e98605f\"",
+      "contentLength": "12454326",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-02T02:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f014.conus.nc",
+      "etag": "\"27628776106bdd402aade63078d2057a\"",
+      "contentLength": "12445219",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-02T03:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f015.conus.nc",
+      "etag": "\"ce2c2a575f1fb5c6daccb07565198ede\"",
+      "contentLength": "12439256",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-02T04:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f016.conus.nc",
+      "etag": "\"40b91fda14e007352d55385347816d37\"",
+      "contentLength": "12435939",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-02T05:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f017.conus.nc",
+      "etag": "\"6087e7283a1112569308f8ee5700c4d8\"",
+      "contentLength": "12433784",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-02T06:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    },
+    {
+      "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f018.conus.nc",
+      "etag": "\"8be2265233d8e375ec2d89540c521374\"",
+      "contentLength": "12435339",
+      "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+      "issuedAt": "2026-11-01T13:00:00Z",
+      "time": "2026-11-02T07:00:00Z",
+      "units": "m3/s",
+      "values": {
+        "15876849": 0.0
+      }
+    }
+  ]
+}

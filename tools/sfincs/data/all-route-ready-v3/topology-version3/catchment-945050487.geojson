@@ -1,0 +1,39 @@
+{
+    "type":"FeatureCollection",
+    "features":[],
+    "numberReturned":0,
+    "numberMatched":0,
+    "links":[
+        {
+            "type":"application/geo+json",
+            "rel":"self",
+            "title":"This document as GeoJSON",
+            "href":"https://api.water.usgs.gov:443/fabric/pygeoapi/collections/catchmentsp/items?f=json&featureid=945050487&limit=1000"
+        },
+        {
+            "rel":"alternate",
+            "type":"application/ld+json",
+            "title":"This document as RDF (JSON-LD)",
+            "href":"https://api.water.usgs.gov:443/fabric/pygeoapi/collections/catchmentsp/items?f=jsonld&featureid=945050487&limit=1000"
+        },
+        {
+            "type":"text/html",
+            "rel":"alternate",
+            "title":"This document as HTML",
+            "href":"https://api.water.usgs.gov:443/fabric/pygeoapi/collections/catchmentsp/items?f=html&featureid=945050487&limit=1000"
+        },
+        {
+            "type":"text/csv; charset=utf-8",
+            "rel":"alternate",
+            "title":"This document as CSV",
+            "href":"https://api.water.usgs.gov:443/fabric/pygeoapi/collections/catchmentsp/items?f=csv&featureid=945050487&limit=1000"
+        },
+        {
+            "type":"application/json",
+            "title":"NHDPlusV2 Catchmentsp Features",
+            "rel":"collection",
+            "href":"https://api.water.usgs.gov:443/fabric/pygeoapi/collections/catchmentsp"
+        }
+    ],
+    "timeStamp":"2026-11-02T02:46:02.293234Z"
+}

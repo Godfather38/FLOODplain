@@ -1,0 +1,17 @@
+{
+  "path": "terrain-1m-479000-3569000.tif",
+  "sha256": "a58fb64ec805a4f02a0fa95e1ec3ddb4a0e1f287f8201865caec0a3ca9dd012c",
+  "requiredPixels": 474336,
+  "missingRequiredPixels": 0,
+  "sources": [
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y357_AZ_PimaCounty_2021_B21.tif",
+      "imageServiceRasterId": 74233,
+      "title": "USGS 1 Meter 12 x47y357 AZ_PimaCounty_2021_B21",
+      "startDate": 20210927,
+      "endDate": "20211120",
+      "verticalDatum": "North American Vertical Datum of 1988 (NAVD 88)"
+    }
+  ],
+  "note": "New source-locked professional2021window, original incomplete file unchanged"
+}

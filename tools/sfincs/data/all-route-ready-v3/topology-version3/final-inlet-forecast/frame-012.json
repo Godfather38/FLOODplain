@@ -1,0 +1,12 @@
+{
+  "url": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f013.conus.nc",
+  "etag": "\"3771ca734d9b98b64bc7e6812e98605f\"",
+  "contentLength": "12454326",
+  "identityNote": "ETag is source object identifier, not asserted SHA256 of whole remote file",
+  "issuedAt": "2026-11-01T13:00:00Z",
+  "time": "2026-11-02T02:00:00Z",
+  "units": "m3/s",
+  "values": {
+    "15876849": 0.0
+  }
+}

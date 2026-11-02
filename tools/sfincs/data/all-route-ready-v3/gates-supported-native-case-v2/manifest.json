@@ -1,0 +1,51 @@
+{
+  "modelVersion": "all-routes-gates-supported-v2",
+  "kind": "prepared_native_case",
+  "caseId": "gates-supported-native-case-v2",
+  "runReady": true,
+  "solverExecuted": false,
+  "approvedExecutionCapSeconds": 2700,
+  "archiveBytes": 48923189,
+  "archiveSha256": "9fb21cfca84bccb181455860e5b54c416354aaabc0bacdbd2d6c25dd21ea5e9a",
+  "parts": [
+    {
+      "path": "case.part01",
+      "bytes": 40000000,
+      "sha256": "f084be1049140606fadbef57c3c882686f0a07f9e80878c9cd1c246f18b80431"
+    },
+    {
+      "path": "case.part02",
+      "bytes": 8923189,
+      "sha256": "cc428c0e0cd5d73e3ba130e536f9273a3e3f1806e52e176d4beebb72c9b63a8e"
+    }
+  ],
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "gridCells": 212035,
+  "inlets": 2,
+  "scope": {
+    "status": "independent_preparation_only",
+    "fullGatesCasePreserved": true,
+    "includedComponentIds": [
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "blockedComponentIds": [
+      1,
+      4
+    ],
+    "reason": "Actual source-terrain gaps remain explicit; no filling or omission from master ledger",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange",
+    "areaKm2": 228.90826137162446,
+    "nativeMeshSha256": "8111a81f60ef2790f9b2f436d415a3b2e47fa2e30f0da67d1d7c6e7089453585"
+  },
+  "executionAuthorization": "One explicitly approved bounded execution; no automatic retries"
+}

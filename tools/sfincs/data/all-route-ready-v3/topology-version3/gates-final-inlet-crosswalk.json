@@ -1,0 +1,8 @@
+{
+  "sourceUrl": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f001.conus.nc",
+  "sha256": "2201523940dee92c611fecedf71e5a7b3af2dc5431d52eb656d662704016f7ab",
+  "indices": {
+    "15876849": 1672236
+  },
+  "verification": "Unique exact feature_id lookup in retained original13Z native file; acquisition rechecks each frame"
+}

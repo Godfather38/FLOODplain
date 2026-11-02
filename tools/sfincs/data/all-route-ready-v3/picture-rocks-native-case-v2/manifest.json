@@ -1,0 +1,39 @@
+{
+  "modelVersion": "all-routes-picture-rocks-v2",
+  "kind": "prepared_native_case",
+  "caseId": "picture-rocks-native-case-v2",
+  "runReady": true,
+  "solverExecuted": false,
+  "approvedExecutionCapSeconds": 3600,
+  "archiveBytes": 125410055,
+  "archiveSha256": "626c29c306a3225641b57996b833f0531d25e9ae6bc72cdf2e6e5d1bbc632bdd",
+  "parts": [
+    {
+      "path": "case.part01",
+      "bytes": 40000000,
+      "sha256": "7414b42eeb04147e3fd8b772aa6a1af217b74771839b3d429d9bbdf4eebc78ad"
+    },
+    {
+      "path": "case.part02",
+      "bytes": 40000000,
+      "sha256": "f92d336d4a269bbfb30aeeb6d9c9f5d96537b0a8882272c05e61bb1313e4c470"
+    },
+    {
+      "path": "case.part03",
+      "bytes": 40000000,
+      "sha256": "be71eb30541af1defa07d2e49a3e09b6ec53bf0685034a12a1cef7212ec6c2f2"
+    },
+    {
+      "path": "case.part04",
+      "bytes": 5410055,
+      "sha256": "ee40fd68c7d67e9306d8b5f024e17688156976027c790dcbc68352dcba71d252"
+    }
+  ],
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "gridCells": 537476,
+  "inlets": 7,
+  "scope": null,
+  "executionAuthorization": "One explicitly approved bounded execution; no automatic retries"
+}

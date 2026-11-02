@@ -1,0 +1,61 @@
+[
+  {
+    "case": "northern",
+    "addedForSecondaryPathClosure": [
+      945050484,
+      945050485,
+      945050487
+    ],
+    "missingCatchmentIds": [],
+    "externalSplitReachesRequiringNoAssumedFractions": [],
+    "unresolvedActiveOrInletLinks": [],
+    "cumulativeInletDoubleCountPairs": [],
+    "secondaryBranchEvidence": [
+      {
+        "from": 945050478,
+        "to": 945050487,
+        "field": "dnminorhyd",
+        "hydroseq": 720031064.0,
+        "fromActive": true,
+        "toActive": true
+      },
+      {
+        "from": 945050479,
+        "to": 945050483,
+        "field": "dnminorhyd",
+        "hydroseq": 720034810.0,
+        "fromActive": true,
+        "toActive": true
+      },
+      {
+        "from": 945050480,
+        "to": 945050484,
+        "field": "dnminorhyd",
+        "hydroseq": 720039951.0,
+        "fromActive": true,
+        "toActive": true
+      }
+    ]
+  },
+  {
+    "case": "picture-rocks-ina-twinpeaks",
+    "addedForSecondaryPathClosure": [],
+    "missingCatchmentIds": [],
+    "externalSplitReachesRequiringNoAssumedFractions": [],
+    "unresolvedActiveOrInletLinks": [],
+    "cumulativeInletDoubleCountPairs": [],
+    "secondaryBranchEvidence": []
+  },
+  {
+    "case": "gates",
+    "addedForSecondaryPathClosure": [
+      15876851,
+      15876857
+    ],
+    "missingCatchmentIds": [],
+    "externalSplitReachesRequiringNoAssumedFractions": [],
+    "unresolvedActiveOrInletLinks": [],
+    "cumulativeInletDoubleCountPairs": [],
+    "secondaryBranchEvidence": []
+  }
+]
