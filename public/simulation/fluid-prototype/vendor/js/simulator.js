@@ -115,7 +115,9 @@ var Simulator = (function() {
             },
             addForceProgram: {
                 vertexShader: 'shaders/fullscreen.vert',
-                fragmentShader: ['shaders/shared.frag', 'shaders/addforce.frag'],
+                // FLOODplain: terrain.frag also carries the source-derived flow
+                // field sampler used by the horizontal forcing below.
+                fragmentShader: ['shaders/shared.frag', 'shaders/terrain.frag', 'shaders/addforce.frag'],
                 attributeLocations: {
                     'a_position': 0
                 }
@@ -286,6 +288,16 @@ var Simulator = (function() {
 
         var wgl = this.wgl;
 
+        // FLOODplain: world metres per grid cell on each axis. Velocity is in
+        // world metres per second (advect.frag integrates world positions with
+        // it), so the divergence, Poisson and gradient operators below all need
+        // the real spacing. Upstream assumed one world unit per cell, which is
+        // wrong by up to 32x on this shallow-water grid.
+        var cellSize = [
+            this.gridWidth / this.gridResolutionX,
+            this.gridHeight / this.gridResolutionY,
+            this.gridDepth / this.gridResolutionZ];
+
         /**
          * The simulation process:
          * 1. Transfer particle velocities to velocity grid.
@@ -428,6 +440,19 @@ var Simulator = (function() {
             .uniform3f('u_mouseRayOrigin', mouseRayOrigin[0], mouseRayOrigin[1], mouseRayOrigin[2])
             .uniform3f('u_mouseRayDirection', mouseRayDirection[0], mouseRayDirection[1], mouseRayDirection[2])
 
+            // FLOODplain: source-derived horizontal forcing. Strength 0 (the
+            // default) leaves this stage exactly as upstream.
+            .uniformTexture('u_terrainTexture', 3, wgl.TEXTURE_2D, this.terrainTexture)
+            .uniformTexture('u_sourceFlowTexture', 4, wgl.TEXTURE_2D, this.sourceFlowTexture || this.terrainTexture)
+            .uniform3f('u_terrainSize', this.gridWidth, this.gridHeight, this.gridDepth)
+            // FLOODplain: 0 is upstream's closed box. Above 0 the faces of the
+            // native perimeter cells carry the velocity the saved run's own
+            // signed discharge prescribes. A zero-discharge edge prescribes a
+            // still face; an off-hour frame has no snapshot and stays at 0.
+            .uniformTexture('u_perimeterFluxTexture', 5, wgl.TEXTURE_2D, this.perimeterFluxTexture || this.terrainTexture)
+            .uniform1f('u_perimeterFluxStrength', this.perimeterFluxStrength || 0.0)
+            .uniform1f('u_sourceFlowStrength', this.sourceFlowStrength || 0.0)
+
 
         wgl.drawArrays(addForceDrawState, wgl.TRIANGLE_STRIP, 0, 4);
 
@@ -446,6 +471,12 @@ var Simulator = (function() {
             .useProgram(this.enforceBoundariesProgram)
             .uniformTexture('u_terrainTexture', 3, wgl.TEXTURE_2D, this.terrainTexture)
             .uniform3f('u_terrainSize', this.gridWidth, this.gridHeight, this.gridDepth)
+            // FLOODplain: 0 is upstream's closed box. Above 0 the faces of the
+            // native perimeter cells carry the velocity the saved run's own
+            // signed discharge prescribes. A zero-discharge edge prescribes a
+            // still face; an off-hour frame has no snapshot and stays at 0.
+            .uniformTexture('u_perimeterFluxTexture', 5, wgl.TEXTURE_2D, this.perimeterFluxTexture || this.terrainTexture)
+            .uniform1f('u_perimeterFluxStrength', this.perimeterFluxStrength || 0.0)
             .uniformTexture('u_velocityTexture', 0, wgl.TEXTURE_2D, this.velocityTexture)
             .uniform3f('u_gridResolution', this.gridResolutionX, this.gridResolutionY, this.gridResolutionZ);
 
@@ -465,12 +496,23 @@ var Simulator = (function() {
             .useProgram(this.divergenceProgram)
             .uniformTexture('u_terrainTexture', 3, wgl.TEXTURE_2D, this.terrainTexture)
             .uniform3f('u_terrainSize', this.gridWidth, this.gridHeight, this.gridDepth)
+            // FLOODplain: 0 is upstream's closed box. Above 0 the faces of the
+            // native perimeter cells carry the velocity the saved run's own
+            // signed discharge prescribes. A zero-discharge edge prescribes a
+            // still face; an off-hour frame has no snapshot and stays at 0.
+            .uniformTexture('u_perimeterFluxTexture', 5, wgl.TEXTURE_2D, this.perimeterFluxTexture || this.terrainTexture)
+            .uniform1f('u_perimeterFluxStrength', this.perimeterFluxStrength || 0.0)
             .uniform3f('u_gridResolution', this.gridResolutionX, this.gridResolutionY, this.gridResolutionZ)
             .uniformTexture('u_velocityTexture', 0, wgl.TEXTURE_2D, this.velocityTexture)
             .uniformTexture('u_markerTexture', 1, wgl.TEXTURE_2D, this.markerTexture)
             .uniformTexture('u_weightTexture', 2, wgl.TEXTURE_2D, this.weightTexture)
 
             .uniform1f('u_maxDensity', this.particleDensity)
+
+            // FLOODplain: real world metres per cell, so the projection
+            // operators are dimensionally correct on an anisotropic grid.
+            .uniform3f('u_cellSize', cellSize[0], cellSize[1], cellSize[2])
+            .uniform1f('u_densityRelaxSeconds', this.densityRelaxSeconds || 1.0)
 
             .vertexAttribPointer(this.quadVertexBuffer, 0, 2, wgl.FLOAT, false, 0, 0)
 
@@ -490,9 +532,16 @@ var Simulator = (function() {
             .useProgram(this.jacobiProgram)
             .uniformTexture('u_terrainTexture', 3, wgl.TEXTURE_2D, this.terrainTexture)
             .uniform3f('u_terrainSize', this.gridWidth, this.gridHeight, this.gridDepth)
+            // FLOODplain: 0 is upstream's closed box. Above 0 the faces of the
+            // native perimeter cells carry the velocity the saved run's own
+            // signed discharge prescribes. A zero-discharge edge prescribes a
+            // still face; an off-hour frame has no snapshot and stays at 0.
+            .uniformTexture('u_perimeterFluxTexture', 5, wgl.TEXTURE_2D, this.perimeterFluxTexture || this.terrainTexture)
+            .uniform1f('u_perimeterFluxStrength', this.perimeterFluxStrength || 0.0)
             .uniform3f('u_gridResolution', this.gridResolutionX, this.gridResolutionY, this.gridResolutionZ)
             .uniformTexture('u_divergenceTexture', 1, wgl.TEXTURE_2D, this.divergenceTexture)
             .uniformTexture('u_markerTexture', 2, wgl.TEXTURE_2D, this.markerTexture)
+            .uniform3f('u_cellSize', cellSize[0], cellSize[1], cellSize[2])
 
             .vertexAttribPointer(this.quadVertexBuffer, 0, 2, wgl.FLOAT, false, 0, 0)
 
@@ -524,10 +573,17 @@ var Simulator = (function() {
             .useProgram(this.subtractProgram)
             .uniformTexture('u_terrainTexture', 3, wgl.TEXTURE_2D, this.terrainTexture)
             .uniform3f('u_terrainSize', this.gridWidth, this.gridHeight, this.gridDepth)
+            // FLOODplain: 0 is upstream's closed box. Above 0 the faces of the
+            // native perimeter cells carry the velocity the saved run's own
+            // signed discharge prescribes. A zero-discharge edge prescribes a
+            // still face; an off-hour frame has no snapshot and stays at 0.
+            .uniformTexture('u_perimeterFluxTexture', 5, wgl.TEXTURE_2D, this.perimeterFluxTexture || this.terrainTexture)
+            .uniform1f('u_perimeterFluxStrength', this.perimeterFluxStrength || 0.0)
             .uniform3f('u_gridResolution', this.gridResolutionX, this.gridResolutionY, this.gridResolutionZ)
             .uniformTexture('u_pressureTexture', 0, wgl.TEXTURE_2D, this.pressureTexture)
             .uniformTexture('u_velocityTexture', 1, wgl.TEXTURE_2D, this.velocityTexture)
             .uniformTexture('u_markerTexture', 2, wgl.TEXTURE_2D, this.markerTexture)
+            .uniform3f('u_cellSize', cellSize[0], cellSize[1], cellSize[2])
 
             .vertexAttribPointer(this.quadVertexBuffer, 0, 2, wgl.FLOAT, false, 0, 0)
 
@@ -576,6 +632,12 @@ var Simulator = (function() {
             .useProgram(this.advectProgram)
             .uniformTexture('u_terrainTexture', 3, wgl.TEXTURE_2D, this.terrainTexture)
             .uniform3f('u_terrainSize', this.gridWidth, this.gridHeight, this.gridDepth)
+            // FLOODplain: 0 is upstream's closed box. Above 0 the faces of the
+            // native perimeter cells carry the velocity the saved run's own
+            // signed discharge prescribes. A zero-discharge edge prescribes a
+            // still face; an off-hour frame has no snapshot and stays at 0.
+            .uniformTexture('u_perimeterFluxTexture', 5, wgl.TEXTURE_2D, this.perimeterFluxTexture || this.terrainTexture)
+            .uniform1f('u_perimeterFluxStrength', this.perimeterFluxStrength || 0.0)
             .uniformTexture('u_positionsTexture', 0, wgl.TEXTURE_2D, this.particlePositionTexture)
             .uniformTexture('u_randomsTexture', 1, wgl.TEXTURE_2D, this.particleRandomTexture)
             .uniformTexture('u_velocityGrid', 2, wgl.TEXTURE_2D, this.velocityTexture)

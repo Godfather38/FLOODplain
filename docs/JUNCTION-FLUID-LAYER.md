@@ -222,7 +222,75 @@ on a desktop viewport. The second reached the mode toggle but force-clicked
 `[data-3d]` while it sat inside a closed options sheet after a resize; the script
 now opens Map options through the UI the way a person does.
 
+## The shallow-water correction
+
+The first integrated build instantiated particles that barely moved, never
+pooled and showed no terrain interaction. The cause was not the renderer:
+
+| | Before | Now |
+|---|---|---|
+| Vertical grid cell | 3.33 m | **0.098 m** |
+| Grid | 48 × **3** × 48 | 53 × **32** × 53 |
+| Water depth in cells | 0.06 | **2.01** |
+| Particles per cell (`u_maxDensity`) | 215.6 nominal, ~13 actual | **4.84, matched** |
+| Max step displacement | 0.013–0.029 m | **0.19–0.29 m** |
+| Mean simulated drift | 0.001 m/s | **0.012–0.015 m/s** |
+| Solver steps per readback | 1 | **8** |
+| Simulated seconds per readback | 0.033 | **0.267** |
+
+One `spacing = max(w,d)/48` drove all three axes, so a 160 m box forced 3.33 m
+cubes and the bed was quantised into three steps — the wash was invisible to the
+pressure solve. The vertical extent is now fitted to the wet bed-to-surface band
+only, and the cell size comes from the water depth. `u_maxDensity` assumed the
+water filled whole cells, so it was ~16× too high and the incompressibility term
+never fired once; it is now the expected splat weight for a real cell.
+
+The free surface is no longer pinned flat to the native water surface. The G
+channel of the terrain field is a **per-cell** ceiling of `zs + 0.06 m`, a
+declared and bounded illustrative excursion — not a global `maxZs` lift, which
+would have drawn hazardous water where the model has none. The native surface
+and extent remain the authoritative risk reference and are unchanged.
+
+## Particle rendering restored from upstream
+
+Only the solver was vendored from `jizhouxu/3d-fluid-simulation`; the upstream
+particle renderer was dropped along with the tank UI it sat next to. Its
+**instanced spheres** are restored here in the shared map camera: 2,048 particles
+× a 20-triangle icosahedron = 40,960 triangles, writing depth so overlapping
+particles fuse into one lumpy body and terrain occludes them correctly. A shared
+travelling ripple normal makes a cluster light as one surface rather than as a
+heap of separate balls, and particles in deeper native cells are drawn larger.
+
+Upstream's shadow, ambient-occlusion, composite and FXAA passes are **not**
+restored: they are canvas-level post effects owned by the map's own renderer,
+and taking over that render loop is out of scope here.
+
 ## What still is not good enough
+
+Measured and still open after the shallow-water correction:
+
+- **Horizontal cells are still 3.0 m.** Fitting the box to the wet area did not
+  shrink it, because the wash runs diagonally across the whole 160 m field, so
+  its bounding box *is* the field. With 2,048 particles, holding ~4 particles
+  per cell forces ~3 m horizontally. Finer horizontal cells need more particles,
+  which costs readback.
+- **Cross-cell pooling barely registers.** The share of particles in the deepest
+  quarter of the wet cells moved +0.0005 over a 1.07 s simulated window. The
+  pooling visible in the screenshots is seeding plus sub-cell settling onto the
+  real bed, not measured migration between native cells.
+- **Collision at the dry edge still sticks rather than slides.** The vendored
+  `advect.frag` snaps a particle's XZ back when it would leave the model's wet
+  support. That keeps the "never create unsupported wet cells" guarantee, but
+  water piles without sliding along the boundary. Fixing it needs that shader.
+- **Wall-clock travel is still software-limited.** Readback is ~650 ms under
+  SwiftShader against ~4 ms of solve for eight steps. Measured travel is
+  **0.70 m per simulated second** (0.70 px at this zoom) and 0.75 m over 2.5 s of
+  wall clock. The per-simulated-second figure is the device-independent one.
+- **No structure collision, and none invented.** The only verified geometry is
+  the baked source terrain and a road *centreline ribbon* at a cartographic
+  +0.04 m offset with class-default width. That is a drawing convention, not a
+  surveyed embankment, so the road stays out of the collision field. Damming at
+  the crossing needs real structure geometry from the solver/backend owner.
 
 Judged against "soft cartoon, bloopy, coherent water", from the current
 screenshots:
@@ -274,3 +342,15 @@ node test/verify-junction-fluid.mjs
 ```
 
 The browser check uses the existing installed Chrome and SwiftShader. It is not physical Android performance evidence. The full suite finished with 271 passing tests and one existing forecast-link expectation failure in test/forecast-regional.test.js against unchanged public/simulation/map-shell.js. The final feet-per-minute readout additionally passed all 13 legend tests. Oversized display glyphs and direction streaks are illustrative; they are not measured current or a new inundation boundary. The native source geometry, depths, times, and picking remain the quantitative reference.
+
+## November 2 experimental integration result
+
+This section supersedes the earlier verification totals and closed-boundary limitations. Native hourly signed edge discharge now drives per-edge open-boundary particle inflow/outflow, with exact source timestamps and volume ledgers. The solver grid increases northward; four erroneous velocity sign flips were corrected and production GPU checks verify northward travel at face267134. Native q, depth and units were not increased for appearance.
+
+The particle-derived surface uses offscreen depth smoothing, finite fullscreen draw ranges, linear-filtered smoothing targets and softened coverage edges. Sparse native-direction cues draw after the water surface so they remain visible. Source depth colors, geographic placement, feet, risk overlays, flat2D default and the phone particle budget remain. Actual particle drift is separate from native reconstructed direction.
+
+Desktop and390px captures are in junction-evidence/visual-*.png. visual-capture.json records actual source, solver and wall timestamps. The supplied motion video is assembled from four real sampled frames at explicitly labeled2x simulated-time playback, without interpolation; this does not claim the live device achieved2x. SwiftShader is software-GPU verification, not physical Android performance.
+
+Remaining visual limitations: angular outline sections, separate sparse northern blobs, and subtle native movement. The surrounding terrain is coarse. This one-junction preview does not complete the wider dips/bridges/I-10 request or validate a2014 historical reconstruction. No production deployment is included.
+
+The forecast-navigation assertion is carried from UX commit d30386e after checking the existing link and target page. No navigation behavior was changed. Run node --test test/*.test.js, node tools/simulation/build-geographic-view.mjs, and node test/verify-junction-fluid.mjs. The focused visual capture is node test/verify-junction-visual.mjs.

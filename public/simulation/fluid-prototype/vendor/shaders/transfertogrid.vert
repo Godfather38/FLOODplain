@@ -19,7 +19,18 @@ varying float v_zIndex; // z layer we're splatting into.
 void main () {
     gl_PointSize = 5.0; // TODO: Compute this more accurately.
 
-    vec3 position = texture2D(u_positionTexture, a_textureCoordinates).rgb;
+    // FLOODplain: alpha is the particle ACTIVITY flag. An inactive slot splats
+    // no weight and no velocity, so it contributes no volume to the grid.
+    vec4 stored = texture2D(u_positionTexture, a_textureCoordinates);
+    if (stored.a < 0.5) {
+        gl_PointSize = 0.0;
+        v_velocity = vec3(0.0);
+        v_position = vec3(0.0);
+        v_zIndex = 0.0;
+        gl_Position = vec4(-2.0, -2.0, -2.0, 1.0); // clipped
+        return;
+    }
+    vec3 position = stored.rgb;
     position = (position / u_gridSize) * u_gridResolution;
 
     vec3 velocity = texture2D(u_velocityTexture, a_textureCoordinates).rgb;

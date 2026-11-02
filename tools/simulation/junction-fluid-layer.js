@@ -24,14 +24,31 @@ export const JUNCTION_BLOB_DEFAULTS=Object.freeze({
   // fraction of the junction, so blobs read as water without pretending to
   // resolve a shoreline the 12.5 m source cells never had.
   minScreenRadiusPx:5,radiusGain:1.35,minRadiusMetres:0.22,maxRadiusMetres:5.5,
+  // Instanced spheres, as upstream drew them. Detail 0 is 20 triangles each:
+  // 2,048 particles cost about 41,000 triangles, inside the junction budget.
+  sphereDetail:0,coherence:0.35,waveScalePerMetre:0.35,
+  // How strongly the smoothed screen-space surface overrides each sphere's own
+  // normal where particles actually touch.
+  // 0.95: inside a merged body the smoothed field decides the shading almost
+  // outright. The fifth left to each sphere's own normal was enough to keep
+  // every bead's rim and highlight visible.
+  surfaceBlend:0.95,surfaceSlopeScale:9,
+  // Smoothed thickness, in metres of water seen through, at which the sheet is
+  // fully opaque. Below it the edge of the body fades instead of ending on a
+  // hard sphere silhouette.
+  surfaceCoverMetres:0.5,
+  // Deeper native cells get bigger particles so pooling reads as pooling.
+  depthSizeGain:0.55,depthReferenceM:0.6,
   // The simulated drift here is around a millimetre per second — real, and far
   // too small to see. Streaks therefore show DIRECTION at a fixed drawing
   // length; the measured speed stays a number in the legend. Only a fraction of
   // the blobs get one, so it reads as flow rather than fur.
-  directionStreakPx:13,streakStride:8,minStreakSpeedMps:1e-6,
+  // Fewer and longer, so the cues read as flow lines rather than as hatching
+  // over the water. They carry the saved run's direction only; the length is a
+  // fixed drawing size and never a speed.
+  directionStreakPx:19,streakStride:14,minStreakSpeedMps:1e-6,
   stretch:0.3,wobble:1,opacity:0.95,highlight:0.38,flowCycleSeconds:1.5});
 
-const QUAD_POSITIONS=new Float32Array([-1,-1,0,1,-1,0,1,1,0,-1,-1,0,1,1,0,-1,1,0]);
 const LIGHT=new THREE.Vector3(-0.4,0.65,1).normalize();
 const finite=Number.isFinite;
 // Bound sampler for the ground material before any orthophoto arrives, so the
@@ -184,56 +201,105 @@ export function createJunctionGeography({baked,placement,baseElevationM,sceneBou
 // Soft cartoon blobs and their travel trails.
 // ---------------------------------------------------------------------------
 
+// Upstream rendered its particles as INSTANCED SPHERES with real depth, not as
+// flat camera-facing stickers. Only the solver was vendored here, so that was
+// lost along with the tank UI it happened to live next to. These are real
+// instanced spheres again, in the shared map camera: they write depth, so
+// overlapping particles fuse into one lumpy body and the terrain occludes them
+// correctly. Upstream's shadow, ambient-occlusion, composite and FXAA passes are
+// canvas-level post effects owned by the map's own renderer and are NOT restored.
 const BLOB_VERTEX=`
   attribute vec3 blobOffset;attribute vec3 blobDirection;attribute vec3 blobTint;
-  attribute float blobScale;attribute float blobSeed;
+  attribute float blobScale;attribute float blobSeed;attribute float blobActive;
   uniform float clock;uniform float stretch;uniform float wobble;
-  varying vec2 blobUv;varying vec3 tint;varying vec2 flowDirection;varying float seed;
+  uniform float waveScale;
+  varying vec3 tint;varying vec3 viewNormal;varying vec3 viewPosition;
+  varying vec3 waveNormal;varying vec2 flowDirection;varying float seed;
   void main(){
-    // The quad's own corner drives the blob disc, so no UV buffer is uploaded.
-    blobUv=position.xy*.5+.5;tint=blobTint;seed=blobSeed;
-    vec4 centre=modelViewMatrix*vec4(blobOffset,1.);
-    // blobDirection is a UNIT direction, not a speed: squash is a constant cue
-    // so a millimetre-per-second drift is still readable as "this way".
+    tint=blobTint;seed=blobSeed;
+    // A slot emptied by native outflow is not water: it draws nothing until
+    // inflow reactivates it.
+    if(blobActive<.5){gl_Position=vec4(2.,2.,2.,1.);viewNormal=vec3(0.,0.,1.);
+      viewPosition=vec3(0.);waveNormal=vec3(0.,0.,1.);flowDirection=vec2(0.);return;}
+    // Unit direction, never a speed: a millimetre-per-second drift still points.
     vec3 directionView=(modelViewMatrix*vec4(blobDirection,0.)).xyz;
     float planar=length(directionView.xy);
-    vec2 direction=planar>1e-6?directionView.xy/planar:vec2(1.,0.);
-    flowDirection=planar>1e-6?direction:vec2(0.);
-    float along=1.+stretch*planar,across=inversesqrt(along);
-    float jiggle=1.+wobble*.1*sin(clock*2.3+blobSeed*6.28318);
-    // blobScale is already a view-space radius, so a scaled model matrix cannot
-    // silently shrink the blobs.
-    vec2 p=position.xy*blobScale*jiggle;
-    vec2 offset=direction*(p.x*along)+vec2(-direction.y,direction.x)*(p.y*across);
-    gl_Position=projectionMatrix*vec4(centre.xyz+vec3(offset,0.),1.);}`;
+    flowDirection=planar>1e-6?directionView.xy/planar:vec2(0.);
+    float jiggle=1.+wobble*.08*sin(clock*2.3+blobSeed*6.28318);
+    // Gentle squash along travel, from the unit direction only.
+    vec3 along=normalize(blobDirection.xyz+vec3(1e-6,0.,0.));
+    vec3 local=position+stretch*planar*along*dot(position,along);
+    vec3 world=blobOffset+local*blobScale*jiggle;
+    // One travelling ripple shared by every particle, keyed to where it sits on
+    // the ground, so a cluster lights as a single surface instead of as a heap
+    // of separate balls.
+    vec2 m=blobOffset.xy*waveScale;
+    float a=sin(m.x*.9+m.y*.4+clock*1.1),b=sin(m.x*-.5+m.y*1.0+clock*.8);
+    waveNormal=normalize(normalMatrix*normalize(vec3(-.22*a,-.18*b,1.)));
+    vec4 mv=modelViewMatrix*vec4(world,1.);
+    viewPosition=mv.xyz;
+    viewNormal=normalize(normalMatrix*position);
+    gl_Position=projectionMatrix*mv;}`;
 
 const BLOB_FRAGMENT=`
   uniform float opacity;uniform float highlight;uniform vec3 light;
-  uniform float clock;uniform float flowCycle;uniform float wobble;
-  varying vec2 blobUv;varying vec3 tint;varying vec2 flowDirection;varying float seed;
+  uniform float clock;uniform float flowCycle;uniform float wobble;uniform float coherence;
+  uniform sampler2D surfaceTexture;uniform vec2 surfaceTexel;uniform float surfaceReady;
+  uniform float surfaceBlend;uniform float surfaceSlopeScale;uniform float surfaceCoverMetres;
+  varying vec3 tint;varying vec3 viewNormal;varying vec3 viewPosition;
+  varying vec3 waveNormal;varying vec2 flowDirection;varying float seed;
   void main(){
-    vec2 d=blobUv*2.-1.;float r2=dot(d,d);
-    if(r2>1.)discard;
-    vec3 normal=vec3(d,sqrt(max(0.,1.-r2)));
+    vec3 normal=normalize(mix(normalize(viewNormal),normalize(waveNormal),coherence));
+    // Screen-space merge: rebuild a normal from the smoothed particle depth so
+    // touching particles light as ONE surface. Where the smoothed field has no
+    // neighbours the gradient is flat and this falls back to the sphere's own
+    // normal, so an isolated pocket of native water still reads as a pocket.
+    float surfaceConfidence=0.;
+    float smoothedThickness=0.;
+    if(surfaceReady>.5){
+      vec2 uv=gl_FragCoord.xy*surfaceTexel;
+      vec4 here=texture2D(surfaceTexture,uv);
+      if(here.a>.5){
+        float right=texture2D(surfaceTexture,uv+vec2(surfaceTexel.x,0.)).r;
+        float up=texture2D(surfaceTexture,uv+vec2(0.,surfaceTexel.y)).r;
+        float left=texture2D(surfaceTexture,uv-vec2(surfaceTexel.x,0.)).r;
+        float down=texture2D(surfaceTexture,uv-vec2(0.,surfaceTexel.y)).r;
+        vec2 slope=vec2(right-left,up-down)*surfaceSlopeScale;
+        vec3 merged=normalize(vec3(-slope,1.));
+        // Where the neighbourhood is genuinely one body of water the smoothed
+        // field decides the shading outright. Leaving a fifth of each sphere's
+        // own normal in place was enough to keep every bead's own highlight and
+        // rim, which is what made the water read as a tray of beads.
+        smoothedThickness=here.g;
+        surfaceConfidence=surfaceBlend;
+        normal=normalize(mix(normal,merged,surfaceConfidence));
+      }
+    }
     vec3 l=normalize(light);
-    float lambert=.55+.45*max(0.,dot(normal,l));
-    float rim=pow(1.-normal.z,2.6);
-    float spec=pow(max(0.,dot(normal,normalize(l+vec3(0.,0.,1.)))),22.);
-    // A darker shoulder gives the cartoon outline that keeps the water body
-    // readable against pale desert ground.
-    vec3 colour=mix(tint*.62,tint,smoothstep(1.,.74,sqrt(r2)))*lambert;
-    // A bright band travelling along the simulated direction. Purely cosmetic
-    // and labelled as such: it carries no speed, only which way the local
-    // simulation is pushing this blob.
+    float lambert=.52+.48*max(0.,dot(normal,l));
+    vec3 eye=normalize(-viewPosition);
+    float fresnel=pow(1.-max(0.,dot(normal,eye)),2.4);
+    float spec=pow(max(0.,dot(normal,normalize(l+eye))),26.);
+    vec3 colour=tint*lambert;
+    // Cosmetic travelling sheen along the simulated direction. It carries no
+    // speed, only which way the local simulation is pushing this water.
     float travel=flowCycle>0.?fract(clock/flowCycle+seed):0.;
     float band=length(flowDirection)>.5
-      ?smoothstep(.34,0.,abs(dot(d,flowDirection)-(travel*2.4-1.2)))
+      ?smoothstep(.5,0.,abs(dot(normalize(viewNormal.xy+1e-6),flowDirection)-(travel*2.-1.)))
       :0.;
-    colour=mix(colour,vec3(.78,.92,.98),.26*rim+.22*band*wobble);
-    colour+=vec3(1.)*spec*highlight;
-    // A firm core with a short shoulder, so neighbouring blobs merge into one
-    // body of water instead of reading as separate dots.
-    float alpha=opacity*smoothstep(1.,.78,sqrt(r2));
+    // Fresnel and specular are what draw a hard rim and a bright dot on every
+    // single sphere. Inside a merged body both are damped, so the highlight
+    // belongs to the water surface rather than to each bead; an isolated
+    // particle, where the smoothed field has no neighbours, keeps them.
+    float merged=surfaceConfidence;
+    colour=mix(colour,vec3(.80,.93,.99),(.22-.14*merged)*fresnel+.16*band*wobble);
+    colour+=vec3(1.)*spec*highlight*(1.-.75*merged);
+    // Coverage from the smoothed thickness, not from the sphere's own circular
+    // silhouette. Where several particles overlap the sheet is solid; at its
+    // edge it thins out instead of ending on a hard circle, so neighbouring
+    // particles read as one body of water.
+    float cover=merged>0.?clamp(smoothedThickness/max(1e-4,surfaceCoverMetres),0.,1.):1.;
+    float alpha=opacity*mix(1.,smoothstep(0.,1.,cover),merged);
     gl_FragColor=vec4(colour,alpha);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
@@ -270,30 +336,63 @@ export function junctionBlobTints(cellIndices,depthM,count,out){
   return result;
 }
 
+// Native cell-average depth per particle, plus the share of particles sitting
+// in the deepest quarter of the wet cells in view. That share rising over time
+// is what pooling looks like as a number, rather than "some counter moved".
+export function junctionDepthProfile(cellIndices,depthM,count,out){
+  const result=out instanceof Float32Array&&out.length>=count?out:new Float32Array(count);
+  let maximum=0,observed=0;
+  for(let i=0;i<count;i++){
+    const index=cellIndices[i],depth=index>=0&&index<depthM.length?depthM[index]:null;
+    const value=Number.isFinite(depth)?depth:0;
+    result[i]=value;if(value>maximum)maximum=value;if(value>0)observed++;
+  }
+  if(!observed)return {depths:result,maxDepthM:0,deepThresholdM:0,deepCellShare:0};
+  const threshold=maximum*0.75;
+  let deep=0;for(let i=0;i<count;i++)if(result[i]>=threshold)deep++;
+  return {depths:result,maxDepthM:maximum,deepThresholdM:threshold,deepCellShare:deep/count};
+}
+
 export function createJunctionBlobs({placement,maxParticles=JUNCTION_BLOB_DEFAULTS.maxParticles,options={}}={}){
   if(!placement)throw Error('A junction placement is required');
   const settings={...JUNCTION_BLOB_DEFAULTS,...options};
   const capacity=Math.floor(maxParticles);
   if(!Number.isInteger(capacity)||capacity<1||capacity>4096)throw Error('Junction blob capacity must be 1-4096 particles');
 
+  // Real instanced spheres, as upstream rendered them. A unit icosahedron's
+  // vertex position is also its surface normal, so no normal buffer is needed.
   const geometry=new THREE.InstancedBufferGeometry();
-  geometry.setAttribute('position',new THREE.BufferAttribute(QUAD_POSITIONS.slice(),3));
+  const sphere=new THREE.IcosahedronGeometry(1,Math.max(0,Math.min(1,Math.floor(settings.sphereDetail))));
+  // Polyhedron geometry is non-indexed, and a unit sphere's vertex position is
+  // its own surface normal, so one attribute carries both.
+  const spherePositions=sphere.getAttribute('position');
+  const sphereTriangles=spherePositions.count/3;
+  geometry.setAttribute('position',new THREE.BufferAttribute(spherePositions.array.slice(),3));
+  sphere.dispose();
   const attribute=(name,size)=>{const a=new THREE.InstancedBufferAttribute(new Float32Array(capacity*size),size);a.setUsage(THREE.DynamicDrawUsage);geometry.setAttribute(name,a);return a;};
-  const offsets=attribute('blobOffset',3),directions=attribute('blobDirection',3),tints=attribute('blobTint',3),scales=attribute('blobScale',1),seeds=attribute('blobSeed',1);
+  const offsets=attribute('blobOffset',3),directions=attribute('blobDirection',3),tints=attribute('blobTint',3),scales=attribute('blobScale',1),seeds=attribute('blobSeed',1),actives=attribute('blobActive',1),
+    // The model's own mean depth under each particle, carried into the capture
+    // pass so the composite colours from the quantitative palette rather than
+    // inventing one.
+    depthMetres=attribute('blobDepthM',1);
+  actives.array.fill(1);actives.needsUpdate=true;
   for(let i=0;i<capacity;i++)seeds.array[i]=((i*2654435761)%1000)/1000;
   seeds.needsUpdate=true;
   geometry.instanceCount=0;
   geometry.boundingSphere=new THREE.Sphere(new THREE.Vector3(),Infinity);
 
+  // Solid spheres that WRITE depth: overlapping particles fuse into one lumpy
+  // body and occlude each other correctly, which is what makes a particle cloud
+  // read as water instead of as stacked decals. Drawn after the native water
+  // sheet so that sheet cannot hide the particles it is measuring.
   const material=new THREE.ShaderMaterial({vertexShader:BLOB_VERTEX,fragmentShader:BLOB_FRAGMENT,transparent:true,
-    depthTest:true,depthWrite:false,
+    depthTest:true,depthWrite:true,
     uniforms:{clock:{value:0},stretch:{value:settings.stretch},wobble:{value:settings.wobble},opacity:{value:settings.opacity},
-      highlight:{value:settings.highlight},light:{value:LIGHT.clone()},flowCycle:{value:settings.flowCycleSeconds}}});
-  // Blobs keep a plain depth test against the solid terrain and road, so terrain
-  // still hides water behind a ridge. They are NOT depth-biased: the host turns
-  // off depth writing on the native water sheet instead (setParticleOverlay),
-  // which removes the only thing that could conceal them without letting a blob
-  // leak through the ground.
+      highlight:{value:settings.highlight},light:{value:LIGHT.clone()},flowCycle:{value:settings.flowCycleSeconds},
+      coherence:{value:settings.coherence},waveScale:{value:settings.waveScalePerMetre},
+      surfaceTexture:{value:null},surfaceTexel:{value:new THREE.Vector2()},surfaceReady:{value:0},
+      surfaceBlend:{value:settings.surfaceBlend},surfaceSlopeScale:{value:settings.surfaceSlopeScale},
+      surfaceCoverMetres:{value:settings.surfaceCoverMetres}}});
   const blobs=new THREE.Mesh(geometry,material);blobs.name='brawley-junction-blobs';blobs.renderOrder=4;blobs.frustumCulled=false;
 
   // Only every Nth blob carries a direction streak, so the cloud reads as flow
@@ -309,17 +408,24 @@ export function createJunctionBlobs({placement,maxParticles=JUNCTION_BLOB_DEFAUL
   trailGeometry.setDrawRange(0,0);
   trailGeometry.boundingSphere=new THREE.Sphere(new THREE.Vector3(),Infinity);
   const trailMaterial=new THREE.ShaderMaterial({vertexShader:TRAIL_VERTEX,fragmentShader:TRAIL_FRAGMENT,transparent:true,
-    depthTest:true,depthWrite:false,uniforms:{opacity:{value:0.55}}});
-  const trails=new THREE.LineSegments(trailGeometry,trailMaterial);trails.name='brawley-junction-travel';trails.renderOrder=3;trails.frustumCulled=false;
+    depthTest:true,depthWrite:false,uniforms:{opacity:{value:0.85}}});
+  // Above the water surface (renderOrder 5), not under it. These carry the
+  // saved run's own direction and were being painted first and then covered by
+  // the composite, which is why travel read as barely there. They do not write
+  // depth, so they sit on the water without disturbing anything behind it.
+  const trails=new THREE.LineSegments(trailGeometry,trailMaterial);trails.name='brawley-junction-travel';trails.renderOrder=6;trails.frustumCulled=false;
 
   const group=new THREE.Group();group.name='brawley-junction-fluid';group.add(trails,blobs);
   group.userData={motionMeaning:'Illustrative locally simulated motion from the published native depth and water surface; the source package has no velocity vector',
     palette:'Existing quantitative native depth palette'};
 
-  let disposed=false,count=0,tintBuffer=null,showTrails=true,metresPerPixel=0,physicalRadiusM=0,lastMoving=false;
-  const stats={capacity,count:0,blobTriangles:0,streakSegments:0,trailSegments:0,
+  let disposed=false,count=0,tintBuffer=null,depthBuffer=null,depthProfile=null,showTrails=true,
+      metresPerPixel=0,physicalRadiusM=0,lastMoving=false;
+  const stats={capacity,count:0,blobTriangles:0,sphereTriangles,streakSegments:0,trailSegments:0,
     physicalRadiusMetres:0,radiusMetres:0,screenRadiusPx:0,streakMetres:0,streakStride:stride,
-    metresPerPixel:0,trailsVisible:true,sizing:'display size: at least '+settings.minScreenRadiusPx+' screen pixels, capped at '+settings.maxRadiusMetres+' m',
+    metresPerPixel:0,trailsVisible:true,deepCellShare:0,maxCellDepthM:0,verticalSpreadM:0,
+    rendering:'instanced spheres with depth, as upstream rendered particles; upstream shadow/AO/composite/FXAA passes belong to the map renderer and are not restored',
+    sizing:'display size: at least '+settings.minScreenRadiusPx+' screen pixels, capped at '+settings.maxRadiusMetres+' m',
     travel:'direction only, drawn at a fixed screen length; the measured speed is reported separately'};
 
   // Display radius, in metres. A blob at its physical radius is subpixel here,
@@ -332,7 +438,14 @@ export function createJunctionBlobs({placement,maxParticles=JUNCTION_BLOB_DEFAUL
   }
   function applyScales(){
     const radius=displayRadiusMetres(),units=placement.metresToUnits(radius),scaleArray=scales.array;
-    for(let i=0;i<count;i++)scaleArray[i]=units*(0.8+0.4*seeds.array[i]);
+    const reference=Math.max(settings.depthReferenceM,depthProfile?.maxDepthM??0);
+    for(let i=0;i<count;i++){
+      // Deeper native cells carry visibly bigger particles, so a dip that holds
+      // more water looks like it holds more water.
+      const depth=depthBuffer?depthBuffer[i]:0;
+      const deeper=reference>0?Math.min(1,depth/reference):0;
+      scaleArray[i]=units*(0.8+0.4*seeds.array[i])*(1-settings.depthSizeGain*.5+settings.depthSizeGain*deeper);
+    }
     scales.needsUpdate=true;
     stats.radiusMetres=radius;stats.metresPerPixel=metresPerPixel;
     stats.screenRadiusPx=metresPerPixel>0?radius/metresPerPixel:0;
@@ -344,11 +457,12 @@ export function createJunctionBlobs({placement,maxParticles=JUNCTION_BLOB_DEFAUL
     return placement.metresToUnits(metres);
   }
 
-  function update({positions,velocities:particleVelocities,cellIndices,depthM,count:next,radiusMetres,moving=true}={}){
+  function update({positions,velocities:particleVelocities,cellIndices,depthM,count:next,radiusMetres,moving=true,active=null,
+    sourceDirections=null}={}){
     if(disposed)throw Error('Junction blobs disposed');
     count=Math.max(0,Math.min(capacity,Math.floor(next||0)));
     geometry.instanceCount=count;
-    stats.count=count;stats.blobTriangles=count*2;lastMoving=moving;
+    stats.count=count;stats.blobTriangles=count*sphereTriangles;lastMoving=moving;
     if(!count){trailGeometry.setDrawRange(0,0);stats.streakSegments=stats.trailSegments=0;return stats;}
     if(!positions||positions.length<count*3)throw Error('Junction particle positions are shorter than the declared count');
     physicalRadiusM=finite(radiusMetres)?radiusMetres:settings.minRadiusMetres;
@@ -356,11 +470,31 @@ export function createJunctionBlobs({placement,maxParticles=JUNCTION_BLOB_DEFAUL
     // Absent native depth stays the palette's missing grey; it never becomes a
     // shallow-water colour because the lookup failed.
     tintBuffer=junctionBlobTints(cellIndices??[],depthM??[],count,tintBuffer);
+    depthProfile=junctionDepthProfile(cellIndices??[],depthM??[],count,depthBuffer);
+    depthBuffer=depthProfile.depths;
+    stats.deepCellShare=depthProfile.deepCellShare;stats.maxCellDepthM=depthProfile.maxDepthM;
+    for(let i=0;i<count;i++)depthMetres.array[i]=depthBuffer[i]??0;
+    depthMetres.needsUpdate=true;
+    // Vertical spread of the particle cloud: a flat pinned sheet and a body of
+    // water that has settled into the low ground do not look the same here.
+    let lowest=Infinity,highest=-Infinity;
+    for(let i=0;i<count;i++){const z=positions[i*3+2];if(z<lowest)lowest=z;if(z>highest)highest=z;}
+    stats.verticalSpreadM=finite(highest-lowest)?highest-lowest:0;
     const streakUnits=streakLengthUnits();
+    // Clear of the drawn water surface, which is about one drawn radius thick.
+    // In metres against the up axis, so it holds at any zoom.
+    const streakLift=Math.max(0.35,(stats.radiusMetres||physicalRadiusM)*1.1)*placement.unitsPerMetre.up;
     const offsetArray=offsets.array,directionArray=directions.array,tintArray=tints.array;
     const trailPositionArray=trailPositions.array,trailColorArray=trailColors.array,trailAlphaArray=trailAlpha.array;
+    // Direction cues come from the SAVED RUN's own edge-flow reconstruction
+    // when it is available. The solver's own drift is not the model's
+    // direction, and drawing it as though it were is what made the readout
+    // claim the water heads south at a crossing the run sends north. Particle
+    // velocity is still carried for the physics and the speed numbers.
+    const hasSource=!!sourceDirections&&sourceDirections.length>=count*3;
     const hasVelocity=!!particleVelocities&&particleVelocities.length>=count*3;
-    let streaks=0;
+    stats.directionSource=hasSource?'native edge-flow reconstruction':hasVelocity?'illustrative solver drift':'none';
+    let streaks=0,sourceDirected=0,directionUnavailable=0;
     for(let i=0;i<count;i++){
       const local=placement.toLocal([positions[i*3],positions[i*3+1],positions[i*3+2]]);
       offsetArray[i*3]=local[0];offsetArray[i*3+1]=local[1];offsetArray[i*3+2]=local[2];
@@ -368,7 +502,19 @@ export function createJunctionBlobs({placement,maxParticles=JUNCTION_BLOB_DEFAUL
       // millimetre per second: scaling the drawing by it would hide the
       // direction entirely, so only its sense is carried into the shader.
       let dx=0,dy=0,dz=0;
-      if(moving&&hasVelocity){
+      if(moving&&hasSource){
+        // The saved run's direction for the cell this particle stands in. A
+        // cell the run says nothing about keeps no direction at all rather
+        // than falling back to the solver's drift and being read as native.
+        if(sourceDirections[i*3+2]>0.5){
+          dx=sourceDirections[i*3]*placement.unitsPerMetre.east;
+          dy=sourceDirections[i*3+1]*placement.unitsPerMetre.north;
+          dz=0;
+          const length=Math.hypot(dx,dy,dz)||1;
+          dx/=length;dy/=length;dz/=length;
+          sourceDirected++;
+        }else directionUnavailable++;
+      }else if(moving&&hasVelocity){
         const vx=particleVelocities[i*3],vy=particleVelocities[i*3+1],vz=particleVelocities[i*3+2];
         const speed=Math.hypot(vx,vy,vz);
         if(speed>settings.minStreakSpeedMps){
@@ -384,14 +530,30 @@ export function createJunctionBlobs({placement,maxParticles=JUNCTION_BLOB_DEFAUL
       if(i%stride)continue;
       const k=streaks*6;
       const drawn=dx||dy||dz?1:0;
-      trailPositionArray[k]=local[0]-dx*streakUnits;trailPositionArray[k+1]=local[1]-dy*streakUnits;trailPositionArray[k+2]=local[2]-dz*streakUnits;
-      trailPositionArray[k+3]=local[0];trailPositionArray[k+4]=local[1];trailPositionArray[k+5]=local[2];
-      const r=tintArray[i*3]*0.65+0.3,g=tintArray[i*3+1]*0.65+0.35,b=tintArray[i*3+2]*0.65+0.4;
+      // Lifted just clear of the water surface the composite writes, so the
+      // streak passes the depth test against the water it belongs to while
+      // still being occluded normally by terrain, road and risk geometry in
+      // front of it. Without the lift these sat inside the body and the
+      // surface hid every one of them.
+      trailPositionArray[k]=local[0]-dx*streakUnits;trailPositionArray[k+1]=local[1]-dy*streakUnits;trailPositionArray[k+2]=local[2]-dz*streakUnits+streakLift;
+      trailPositionArray[k+3]=local[0];trailPositionArray[k+4]=local[1];trailPositionArray[k+5]=local[2]+streakLift;
+      // Near-white, so the direction reads ON the water. A lighter shade of the
+      // water's own blue was almost invisible against it, which is why travel
+      // looked like it was only happening where the streaks crossed the road.
+      const r=0.92+tintArray[i*3]*0.08,g=0.96+tintArray[i*3+1]*0.04,b=1.0;
       trailColorArray[k]=r;trailColorArray[k+1]=g;trailColorArray[k+2]=b;
       trailColorArray[k+3]=r;trailColorArray[k+4]=g;trailColorArray[k+5]=b;
       trailAlphaArray[streaks*2]=0;trailAlphaArray[streaks*2+1]=drawn?0.95:0;
       streaks++;
     }
+    // Activity mask from the solver: inactive slots draw nothing.
+    let activeDrawn=count;
+    if(active){activeDrawn=0;
+      for(let i=0;i<count;i++){const on=active[i]>=.5?1:0;actives.array[i]=on;activeDrawn+=on;}
+      actives.needsUpdate=true;}
+    else actives.array.fill(1,0,count);
+    stats.activeParticles=activeDrawn;stats.inactiveSlots=count-activeDrawn;
+    stats.sourceDirectedParticles=sourceDirected;stats.directionUnavailableParticles=directionUnavailable;
     applyScales();
     offsets.needsUpdate=directions.needsUpdate=tints.needsUpdate=true;
     trailPositions.needsUpdate=trailColors.needsUpdate=trailAlpha.needsUpdate=true;
@@ -403,7 +565,30 @@ export function createJunctionBlobs({placement,maxParticles=JUNCTION_BLOB_DEFAUL
     return stats;
   }
 
-  return {group,blobs,trails,stats,update,
+  return {group,blobs,trails,stats,update,geometry,
+    // The fullscreen particle-derived surface takes over the water's
+    // appearance; the spheres stay in the scene graph as the capture source for
+    // it but are no longer what the viewer sees. Direction streaks stay: they
+    // carry the saved run's own direction and are not part of the silhouette.
+    useComposite(mesh){
+      if(disposed)return false;
+      if(!mesh){blobs.visible=true;stats.rendering='instanced spheres, lit individually';return false;}
+      group.add(mesh);
+      blobs.visible=false;
+      stats.rendering='fullscreen particle-derived water surface with written fragment depth; the instanced spheres remain as its capture source';
+      stats.composite=true;
+      return true;},
+    // The smoothed particle-depth field, produced by the scoped offscreen pass.
+    // Null simply means the spheres light themselves, which is the fallback
+    // when the device has no half-float render targets.
+    setSurface(texture,texelSize){
+      if(disposed)return false;
+      const ready=!!texture&&!!texelSize&&texelSize.x>0&&texelSize.y>0;
+      material.uniforms.surfaceTexture.value=ready?texture:null;
+      if(ready)material.uniforms.surfaceTexel.value.copy(texelSize);
+      material.uniforms.surfaceReady.value=ready?1:0;
+      stats.surfaceMerge=ready;
+      return ready;},
     setClock(seconds){if(!disposed&&finite(seconds))material.uniforms.clock.value=seconds;},
     // The camera moved or the window resized: re-apply the screen-size floor
     // without touching particle positions or the native frame.

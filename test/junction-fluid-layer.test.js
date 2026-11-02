@@ -102,7 +102,13 @@ test('blobs carry native positions and a direction streak on a readable subset',
   const stats=blobs.update({positions,velocities,cellIndices:new Int32Array([0,0,1,0]),depthM:[0.5,null],count:4,radiusMetres:0.3});
   assert.equal(blobs.blobs.geometry.instanceCount,4);
   assert.equal(stats.count,4);
-  assert.equal(stats.blobTriangles,8,'two triangles per blob keeps 2,048 particles affordable');
+  // Real instanced spheres, as upstream drew particles — not flat stickers.
+  assert.equal(stats.sphereTriangles,20,'a detail-0 icosahedron is 20 triangles');
+  assert.equal(stats.blobTriangles,80);
+  assert.ok(stats.sphereTriangles*2048<=48000,'a full 2,048-particle budget stays affordable');
+  assert.match(stats.rendering,/instanced spheres/);
+  assert.match(stats.rendering,/not restored/,'the upstream post passes the map renderer owns are named, not faked');
+  assert.equal(blobs.blobs.material.depthWrite,true,'spheres write depth so overlapping particles fuse');
   const offset=blobs.blobs.geometry.getAttribute('blobOffset');
   const expected=place.toLocal([20,-10,605]);
   assert.equal(offset.array[3],Math.fround(expected[0]));

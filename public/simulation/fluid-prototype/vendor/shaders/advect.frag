@@ -37,7 +37,12 @@ vec3 sampleVelocity (vec3 position) {
 }
 
 void main () {
-    vec3 position = texture2D(u_positionsTexture, v_coordinates).rgb;
+    // FLOODplain: alpha is the particle ACTIVITY flag. An inactive slot is left
+    // exactly where it is and is never clamped back into the domain, so it
+    // cannot quietly rejoin the water it was removed from.
+    vec4 stored = texture2D(u_positionsTexture, v_coordinates);
+    if (stored.a < 0.5) { gl_FragColor = stored; return; }
+    vec3 position = stored.rgb;
     vec3 randomDirection = texture2D(u_randomsTexture, fract(v_coordinates + u_frameNumber / u_particlesResolution)).rgb;
 
     vec3 velocity = sampleVelocity(position);
@@ -56,5 +61,5 @@ void main () {
     vec4 field = junctionField(newPosition);
     if (field.b < 0.5) { newPosition.xz = position.xz; field = junctionField(newPosition); }
     newPosition.y = clamp(newPosition.y, field.r + 0.005, max(field.r + 0.005, field.g));
-    gl_FragColor = vec4(newPosition, 0.0);
+    gl_FragColor = vec4(newPosition, stored.a);
 }

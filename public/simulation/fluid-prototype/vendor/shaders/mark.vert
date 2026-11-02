@@ -12,7 +12,16 @@ uniform vec3 u_gridSize;
 void main () {
     gl_PointSize = 1.0;
 
-    vec3 position = texture2D(u_positionTexture, a_textureCoordinates).rgb;
+    // FLOODplain: the position texture's alpha is the particle ACTIVITY flag.
+    // A slot emptied by native outflow must stop marking fluid, or the pressure
+    // solve keeps treating it as water that is no longer there.
+    vec4 stored = texture2D(u_positionTexture, a_textureCoordinates);
+    if (stored.a < 0.5) {
+        gl_PointSize = 0.0;
+        gl_Position = vec4(-2.0, -2.0, -2.0, 1.0); // clipped
+        return;
+    }
+    vec3 position = stored.rgb;
     position = (position / u_gridSize) * u_gridResolution;
     vec3 cellIndex = floor(position);
 

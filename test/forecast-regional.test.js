@@ -19,7 +19,7 @@ test('cache is per station, and backward clock movement forces revalidation',asy
  assert.equal((await engine.predict({siteId:'CSCA3'})).delivery,'cache');assert.equal(calls,4);
  at-=60000;assert.equal((await engine.predict({siteId:'CSCA3'})).delivery,'network');assert.equal(calls,6);
 });
-test('existing app exposes advanced map navigation and retains official forecast access',()=>{
+test('existing app exposes advanced map navigation and retains river forecast details',()=>{
  const app=readFileSync(new URL('../public/app.js',import.meta.url),'utf8');
  const layers=readFileSync(new URL('../public/simulation/map-layers.js',import.meta.url),'utf8');
  const shell=readFileSync(new URL('../public/simulation/map-shell.js',import.meta.url),'utf8');
@@ -29,9 +29,13 @@ test('existing app exposes advanced map navigation and retains official forecast
  assert.match(shell,/entryNav.setAttribute\('aria-label','Experimental features'\)/);
  assert.match(shell,/advancedLink.href='#\/map'/);
  assert.match(shell,/entryNav.append\(advancedLink\)/);
- assert.match(shell,/forecastLink.href='simulation\/forecast.html'/);
- assert.match(shell,/forecastLink.textContent='Official river forecasts'/);
+ assert.match(shell,/forecastLink.href='inundation\/index.html'/);
+ assert.match(shell,/forecastLink.textContent='River forecast details'/);
  assert.match(shell,/options.append\(forecastLink\)/,'forecast remains reachable in Map options');
+ const target=readFileSync(new URL('../public/inundation/index.html',import.meta.url),'utf8');
+ assert.match(target,/<h1>Estimated flood extent<\/h1>/);
+ assert.match(target,/id="junction"/);
+ assert.match(target,/Use recorded forecast/);
 });
 test('explicit forecast withdrawal invalidates previously cached curve',async()=>{
  let withdrawn=false;const engine=createForecastEngine({enabled:true,clock:()=>now,fetchImpl:async url=>({ok:true,json:async()=>{const raw=read('SCTA3',url.endsWith('/stageflow')?'stageflow':'metadata');if(withdrawn&&raw.forecast)raw.forecast.data=[];return raw;}})});

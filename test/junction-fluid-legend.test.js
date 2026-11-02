@@ -104,15 +104,21 @@ test('a ready layer reports the source time, the drift and the simulation caveat
   assert.match(headline.textContent,/step 21 of 57/);
   assert.match(travelText.textContent,/toward the north-east/);
   assert.match(travelText.textContent,/ft per second/);
-  assert.match(caption.textContent,/does not include a water speed or direction/);
-  assert.match(caption.textContent,/never a measurement of water on the road/);
+  // The top line stays short so the readout does not compete with the scene;
+  // the full caveat must still be there, under the disclosure, never dropped.
+  assert.ok(caption.textContent.length<120,'the always-visible caption stays one short sentence');
+  assert.match(caption.textContent,/not a measurement of water on the road/);
+  // With no coupling the readout must say the drifting is the simulation on its
+  // own, rather than claiming the saved run's direction.
+  assert.match(detailBody.children.map(n=>n.textContent).join(' '),
+    /no edge flow loaded, so the drifting is the simulation on its own/);
   const lines=detailBody.children.map(node=>node.textContent).join(' | ');
   assert.match(lines,/refined-full-41344983607/);
   assert.match(lines,/2,048 water blobs/);
-  assert.match(lines,/445\.0 m³/);
+  assert.match(lines,/15716\.3 cu ft/);
   assert.match(lines,/10,660 baked triangles/);
   assert.match(lines,/NAIP orthophoto, acquisition date unknown/);
-  assert.match(lines,/within 0\.000 m/);
+  assert.match(lines,/within 0\.001 ft/);
   assert.match(lines,/33\.4 ms/);
   assert.match(lines,/not a survey/);
   assert.match(lines,/No bridge clearance is assumed/);
@@ -126,8 +132,94 @@ test('a freshly reseeded frame says so instead of reporting zero speed',()=>{
   assert.doesNotMatch(travelText.textContent,/0\.00 ft per second/);
   legend.update({status:'ready',sourceTime:'2026-11-01T22:00:00Z',frameIndex:20,frameCount:57,
     particleCount:2048,radiusMetres:3.4,meanVelocityMps:[0.002,0.001],simulationSteps:14});
-  assert.match(travelText.textContent,/Blobs drift/);
+  assert.match(travelText.textContent,/Blobs move/);
   assert.match(travelText.textContent,/ft per minute/,'a millimetre-per-second drift keeps a readable unit');
+});
+
+// How fast the blobs move and which way the water goes overall are different
+// quantities. Reporting the cancelling vector mean as the speed told the reader
+// "barely moving" about water that is visibly travelling.
+test('the readout separates how fast blobs move from where the water goes overall',()=>{
+  const {legend,travelText,detailBody}=build();
+  legend.update({status:'ready',sourceTime:'2026-11-01T22:00:00Z',frameIndex:20,frameCount:57,
+    particleCount:2048,radiusMetres:3.4,simulationSteps:40,
+    meanVelocityMps:[0.0009,0.0004],meanSpeedMps:0.21});
+  assert.match(travelText.textContent,/Blobs move about 0\.69 ft per second/,
+    'the stated speed is how fast the blobs actually move');
+  assert.doesNotMatch(travelText.textContent,/drifting/,
+    'a net drift too small to have a direction does not get given one');
+  // The net drift of the blobs is the simulation settling. It must never be
+  // worded as where the saved run says the water goes: at this junction the
+  // crossing cell's native transport is northward regardless of which way the
+  // particle cloud happens to be sloshing.
+  assert.doesNotMatch(travelText.textContent,/the water overall heading/,
+    'the blobs’ net drift must not be presented as the water’s direction');
+  assert.match(detailBody.children.map(n=>n.textContent).join(' '),/cancel each other out/,
+    'the difference between the two numbers is explained, not hidden');
+  // A net drift large enough to point somewhere is named alongside the speed.
+  legend.update({status:'ready',sourceTime:'2026-11-01T22:00:00Z',frameIndex:20,frameCount:57,
+    particleCount:2048,radiusMetres:3.4,simulationSteps:40,
+    meanVelocityMps:[0,0.04],meanSpeedMps:0.21});
+  assert.match(travelText.textContent,/Blobs move about 0\.69 ft per second/);
+  assert.match(travelText.textContent,/the blobs themselves are drifting toward the north/i,
+    'the net drift is given, named as the blobs’ own drift rather than the water’s direction');
+  assert.doesNotMatch(travelText.textContent,/the water overall/,
+    'the simulation’s drift is never promoted to the water’s direction');
+});
+
+// Running more simulated seconds per wall second is the only honest way to make
+// a 0.17 m/s native flow readable. It must be named, and it must not be allowed
+// to read as a faster current or a different time.
+test('accelerated playback is labelled as a display speed, not a faster current',()=>{
+  const {legend,detailBody,headline}=build();
+  const text=()=>detailBody.children.map(n=>n.textContent).join(' | ');
+  const base={status:'ready',sourceTime:'2026-11-01T22:00:00Z',frameIndex:20,frameCount:57,
+    particleCount:2048,radiusMetres:3.4,simulationSteps:40,meanSpeedMps:0.07,meanVelocityMps:[0,0.02],
+    coupling:'coupled',flowTime:'2026-11-01T22:00:00Z'};
+  legend.update({...base,playback:{simulatedSecondsPerDisplaySecond:8.1,simulatedSeconds:81,displaySeconds:10}});
+  assert.match(text(),/Played back about 8\.1× faster than real time/);
+  assert.match(text(),/water's own speed and the model's flow numbers are unchanged/);
+  assert.match(text(),/time in the heading is still the model's own saved time/);
+  // The saved source time stays exactly what it was, in the heading.
+  assert.match(headline.textContent,/Nov 1, 3:00 PM MST/);
+  // At real time there is nothing to label.
+  legend.update({...base,playback:{simulatedSecondsPerDisplaySecond:1,simulatedSeconds:10,displaySeconds:10}});
+  assert.doesNotMatch(text(),/faster than real time/,
+    'unaccelerated playback must not claim a speed-up');
+});
+
+// The saved run DOES record which way water crosses each cell edge. Saying it
+// has no direction was true before the flow contract landed and is not now;
+// what it still lacks is a stored speed, and that distinction has to survive.
+test('the readout tells the truth about what the saved run supplies, per state',()=>{
+  const {legend,detailBody}=build();
+  const text=()=>detailBody.children.map(n=>n.textContent).join(' | ');
+  const base={status:'ready',sourceTime:'2026-11-01T22:00:00Z',frameIndex:20,frameCount:57,
+    particleCount:2048,radiusMetres:3.4,simulationSteps:40,meanSpeedMps:0.07,meanVelocityMps:[0,0.02]};
+
+  legend.update({...base,coupling:'coupled',flowTime:'2026-11-01T22:00:00Z'});
+  assert.match(text(),/records how much water crosses each cell edge and which way/,
+    'coupled: the direction is the saved run’s own');
+  assert.match(text(),/the run does not store a speed/,
+    'coupled: the speed is still declared as derived, not measured');
+  assert.match(text(),/streaks show which way the water is going/);
+  assert.doesNotMatch(text(),/does not include a water speed or direction/,
+    'the old blanket claim must not come back');
+
+  legend.update({...base,coupling:'no-exact-snapshot',flowTime:null});
+  assert.match(text(),/not on the hour, so no flow is applied here/);
+  assert.match(text(),/Nothing is interpolated/);
+  assert.doesNotMatch(text(),/crosses each cell edge and which way/,
+    'an uncoupled time must not borrow the coupled wording');
+
+  legend.update({...base,coupling:'binding',flowTime:null});
+  assert.match(text(),/Loading this time’s edge flow/,'loading is a state the reader is told about');
+
+  // A status of "coupled" with no time behind it must not produce a sentence
+  // that names a time. That combination is exactly what the phone was showing.
+  legend.update({...base,coupling:'coupled',flowTime:null});
+  assert.match(text(),/no edge flow loaded/);
+  assert.doesNotMatch(text(),/at undefined|Invalid Date|at null/);
 });
 
 test('reduced motion is explained instead of silently freezing',()=>{

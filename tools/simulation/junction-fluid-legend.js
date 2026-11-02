@@ -95,7 +95,7 @@ export function createJunctionLegend({document:doc,container}={}){
     const {status,sourceTime,frameIndex,frameCount,particleCount,meanVelocityMps=[0,0],
       maxStepDisplacementM,radiusMetres,reducedMotion,runId,triangles,placementDeviationM,
       stepMilliseconds,substeps,skippedSteps,reason,imagery,wetVolumeM3,hostTerrainOverview,physicalRadiusMetres,
-      simulationSteps}=view;
+      simulationSteps,meanSpeedMps,coupling,flowTime,playback}=view;
     root.hidden=status==='off';
     if(status==='off')return;
     if(status==='loading'){
@@ -126,17 +126,48 @@ export function createJunctionLegend({document:doc,container}={}){
       // a broken layer rather than as a starting position.
       : !simulationSteps
       ? 'Set out where the model puts the water at this time. The drift starts in a moment.'
-      : `Blobs drift ${drift.words}, ${speedWords(drift.speedMps)}.`;
-    caption.textContent='The blobs are a small water simulation run here in your browser, started from the depth and water level this model saved. The saved model does not include a water speed or direction, so treat the drifting as a picture, not a measurement. It is never a measurement of water on the road.';
+      // How fast the blobs move and which way the water goes overall are two
+      // different numbers. The net drift is a vector mean, so blobs circling
+      // inside the junction cancel out in it — reporting that as the speed
+      // would say "barely moving" about water the owner can see travelling.
+      // The net drift of the blobs is the SIMULATION settling and sloshing — it
+      // is not where the saved run says the water goes. The crossing at this
+      // junction runs northward in the saved data while the blobs' net drift
+      // can point anywhere, so the two must never be merged into one sentence.
+      : `Blobs move ${speedWords(finite(meanSpeedMps)?meanSpeedMps:drift.speedMps)}${
+          finite(drift.degrees)?`; the blobs themselves are drifting ${drift.words}`:''}.`;
+    // One sentence on top. Everything technical lives under the existing
+    // disclosure, so the readout stops competing with the scene it explains.
+    caption.textContent='A simulation of this model’s saved water, not a measurement of water on the road.';
     const lines=[
+      'The blobs are a small water simulation run here in your browser, started from the depth and water level this model saved.',
+      // What the saved run does and does not contain, stated as it actually
+      // stands. It records how much water crosses each cell edge and which way,
+      // so direction here is the model's own. It records no speed: the speeds
+      // below are that crossing rate divided by the model's own water depth.
+      coupling==='coupled'&&flowTime
+        ? `Direction comes from the saved run itself: it records how much water crosses each cell edge and which way, at ${phoenixClock(flowTime)}. Speed is worked out from that crossing rate and the model's own water depth — the run does not store a speed, so treat the numbers as derived rather than measured.`
+        : coupling==='no-exact-snapshot'
+        ? 'The saved run records edge flow once an hour and water every quarter hour. This time is not on the hour, so no flow is applied here and the drifting is the simulation on its own. Nothing is interpolated.'
+        : coupling==='binding'
+        ? 'Loading this time’s edge flow from the saved run.'
+        : 'This time has no edge flow loaded, so the drifting is the simulation on its own rather than the saved run’s direction.',
       runId?`Saved model run ${runId}; frozen replay, not current weather.`:null,
       finite(particleCount)?`${particleCount.toLocaleString()} water blobs, drawn about ${(radiusMetres*2*FEET).toFixed(1)} ft across so they can be seen${finite(physicalRadiusMetres)?` (the water each one stands for is about ${(physicalRadiusMetres*2*FEET).toFixed(2)} ft)`:''}. That is a drawing size, not a droplet and not a shoreline.`:null,
-      'The streaks show which way the simulation is pushing the water. They are drawn at a fixed length — the speed is the number above, not the streak.',
-      finite(wetVolumeM3)?`Seeded from ${wetVolumeM3.toFixed(1)} m³ of model water that its own terrain supports inside this junction.`:null,
+      coupling==='coupled'
+        ? 'The streaks show which way the water is going. They are drawn at a fixed length — the speed is the number above, not the streak.'
+        : 'The streaks show which way the simulation is pushing the water. They are drawn at a fixed length — the speed is the number above, not the streak.',
+      finite(wetVolumeM3)?`Seeded from ${(wetVolumeM3*FEET**3).toFixed(1)} cu ft of model water that its own terrain supports inside this junction.`:null,
       finite(maxStepDisplacementM)?`Largest blob move in the last step: ${(maxStepDisplacementM*FEET).toFixed(3)} ft.`:null,
+      finite(meanSpeedMps)?`Two separate numbers: the blobs move ${speedWords(meanSpeedMps)}, while their net drift is only ${speedWords(drift.speedMps)} — blobs going opposite ways inside the junction cancel each other out in that second figure. Net drift is the simulation settling, not the saved run's direction; that one comes from the edge crossings and is what the streaks show.`:null,
+      // Playback speed, named plainly and kept apart from the source time in
+      // the heading. The water's own speed is not being changed.
+      playback&&playback.simulatedSecondsPerDisplaySecond>1.2
+        ? `Played back about ${playback.simulatedSecondsPerDisplaySecond.toFixed(1)}× faster than real time, because this much water moving this slowly shows nothing at real speed. The water's own speed and the model's flow numbers are unchanged — only how much simulated time passes per second of yours. The time in the heading is still the model's own saved time.`
+        : null,
       finite(triangles)?`${triangles.toLocaleString()} baked triangles of source terrain and road here.`:null,
       imagery===false?'Aerial reference photo unavailable; ground shown in flat colour.':imagery?'Ground photo: USGS/USDA NAIP orthophoto, acquisition date unknown.':null,
-      finite(placementDeviationM)?`Placement checked against the live map projection: within ${placementDeviationM.toFixed(3)} m.`:null,
+      finite(placementDeviationM)?`Placement checked against the live map projection: within ${(placementDeviationM*FEET).toFixed(3)} ft.`:null,
       hostTerrainOverview===true?'The ground away from this crossing is the coarse whole-area surface; only the crossing itself is close-up terrain.':null,
       finite(stepMilliseconds)?`Simulation step ${stepMilliseconds.toFixed(1)} ms on this device${finite(substeps)?`, ${substeps} per frame`:''}${skippedSteps?`, ${skippedSteps} skipped to protect the map`:''}.`:null,
       'Road width here is a map class default, not a survey. No bridge clearance is assumed.'

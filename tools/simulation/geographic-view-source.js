@@ -174,12 +174,15 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
       setParticleOverlay:enabled=>model.setParticleOverlay?.(enabled),
       // Cut the host's own ground away under the finer baked patch rather than
       // letting two samplings of the same terrain fight for the same pixels.
-      setGroundExclusion:box=>model.setGroundExclusion?.(box)},{signal:assetController.signal});
+      setGroundExclusion:box=>model.setGroundExclusion?.(box),
+      // The junction's screen-space particle pass borrows this renderer for its
+      // own offscreen targets and restores its state before returning.
+      getRenderer:()=>layer?.getThreeRenderer?.()??null},{signal:assetController.signal});
     if(dead)return;
     if(!junctionEligible()){stopJunction();return;}
     junctionActive=true;junctionAttachedModel=model;
     if(frame)controller.setFrame(frame.time);
-    layer?.renderScene();
+    renderJunctionFrame();layer?.renderScene();
   }
   let junctionSync=null,junctionPending=false;
   function scheduleJunction(){
@@ -194,7 +197,10 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     onStatus({kind:'terrain-tiles',status:'loading'});
     const task=source.loadTerrain(options).then(terrain=>{if(dead||!active||viewMode!=='3d'||token!==terrainGeneration)return;terrainInfo={...terrain.stats,overviewMode:terrain.overviewMode===true||terrain.stats?.overviewMode===true,terrainKind:terrain.kind};const budgetKey=options.budget+':'+waterBudget();
       if(terrain.tileSelectionKey!==terrainSelectionKey||terrainModelBudgetKey!==budgetKey){const next=runtime3D.createRefinedWater({loaded,geometry:source.geometry,terrain,origin:origin3D,project:p=>layer.coordinateToVector3(p),altitude:altitude3D,geometryBudget:options.budget,waterGeometryBudget:waterBudget()});layer.removeMesh(model.group,false);model.dispose();model=next;layer.addMesh(model.group,false);terrainSelectionKey=terrain.tileSelectionKey;terrainModelBudgetKey=budgetKey;
-        if(active&&viewMode==='3d')mapTexture.setTextureFactory(textureFactory,textureOrigin);lastDetail='';lastDetailIndices=null;modelDetailInfo=null;count('terrainInstalls');}
+        if(active&&viewMode==='3d')mapTexture.setTextureFactory(textureFactory,textureOrigin);lastDetail='';lastDetailIndices=null;modelDetailInfo=null;count('terrainInstalls');
+        // The old model group is disposed and detached. Anything still holding
+        // it must let go now, or it renders nothing while reporting ready.
+        junction?.invalidateHost();junctionActive=false;junctionAttachedModel=null;}
       applyDetail();terrainReadyKey=key;if(selected!==null)model.select(selected);layer.renderScene();reportTerrain();scheduleJunction();
     }).catch(error=>{if(token===terrainGeneration)terrainViewKey='';if(error.name==='AbortError')return;throw error;}).finally(()=>{if(terrainTask===task)terrainTask=null;});terrainTask=task;return task;
   }
@@ -357,7 +363,16 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   const routesChanged=()=>{if(active)syncRoutes();};leaflet.on('moveend',syncFromLeaflet);leaflet.on('layeradd layerremove',routesChanged);routeLayer.on?.('layeradd layerremove',routesChanged);
   function startAnimation(){clearInterval(timer);timer=null;if(!active||dead||viewMode!=='3d'||motion.matches||document.hidden)return;
     timer=setInterval(()=>{if(!active||dead||viewMode!=='3d'||motion.matches||document.hidden){clearInterval(timer);timer=null;return;}
-      if(model){model.animate(performance.now()/1000);if(junctionActive)junction?.step(1/15);layer?.renderScene();}},1000/15);}
+      if(model){model.animate(performance.now()/1000);if(junctionActive)junction?.step(1/15);renderJunctionFrame();layer?.renderScene();}},1000/15);}
+  // The particle-only offscreen pass must run with the same camera, right
+  // before the shared scene is drawn.
+  function renderJunctionFrame(){
+    if(!junctionActive||!junction||!layer)return;
+    const renderer=layer.getThreeRenderer?.(),camera=layer.getCamera?.();
+    if(!renderer||!camera)return;
+    try{junction.prepareFrame(camera,renderer.getDrawingBufferSize(new THREE.Vector2()));}
+    catch(error){onStatus({kind:'junction-fluid',status:'ready',surfaceError:error.message});}
+  }
   function visibility(){startAnimation();}document.addEventListener('visibilitychange',visibility);motion.addEventListener('change',visibility);
   function hide(){if(!active||dead)return;active=false;cancelAnimationFrame(refreshRAF);refreshRAF=0;mapTexture?.setTextureFactory(null);restoreSelectedPopup=false;modeGeneration++;dataGeneration++;junctionActive=false;junctionAttachedModel=null;junctionPending=false;junction?.release();source?.cancel();source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';terrainReadyKey='';cancelOverview();flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(!model){assetController.abort();assetController=new AbortController();}mapTexture?.suspend();clearInterval(timer);const c=map.getCenter(),z=map.getZoom();surface.hidden=true;parent.classList.remove('map-has-3d');leaflet.invalidateSize();leaflet.setView([c.y,c.x],z,{animate:false});popup.hidden=true;}
   function show(){if(dead)throw Error('3D map disposed');active=true;surface.hidden=false;parent.classList.add('map-has-3d');map.checkSize();if(viewMode==='3d'&&textureFactory)mapTexture?.setTextureFactory(textureFactory,textureOrigin);syncFromLeaflet();refreshDetail();if(selected!==null)model?.select(selected);startAnimation();}
@@ -381,6 +396,9 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   return {ready,update,show,hide,dispose,get active(){return active;},zoom(delta){map.setZoom(map.getZoom()+delta);},select:showCell,
     get viewMode(){return viewMode;},
     setViewMode,
+    // Live junction handles for diagnostics, kept out of inspect() so that
+    // payload stays plain serialisable data.
+    junctionInternals(){return junction?.internals?.()??null;},
     inspect(){return {map,layer,model,selected,frame,active,dead,geography:mapTexture,flatWater,overview,terrainInfo,modelDetailInfo:model?.detailStats||modelDetailInfo,terrainLoading:terrainTask,counters:{...counters,overviewActive,overviewPending:overviewPending?1:0,refreshPending:refreshRAF?1:0,coverageBinCount:coverageBins.size,effectiveDPR:map.getDevicePixelRatio?.()??map.options.devicePixelRatio},animationActive:!!timer&&active&&viewMode==='3d'&&!motion.matches,
       junctionStatus,junctionActive,junction:junction?.inspect?.()??null,junctionSyncing:!!junctionSync,note:note.textContent};}};
 }

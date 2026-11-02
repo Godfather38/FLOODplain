@@ -18,6 +18,16 @@ const scene=(patch={})=>({schema:'floodplain-scene-v1',runId:report.sourceRun,ge
   verticalDatum:'NAVD88',center:report.center,bounds:BOUNDS,cells:[{nativeFaceId:'1'}],
   frames:[{validTime:'2026-11-01T17:00:00Z',depthM:[0.4]},{validTime:'2026-11-01T17:15:00Z',depthM:[0.9]}],
   terrain:[],...patch});
+// Two adjacent native faces with rings, so the mask bounds and the perimeter
+// edges in the lifecycle test have real geometry to resolve against.
+const ring=(dx,dy)=>{const [lon,lat]=report.center,s=0.0005;
+  return [[lon+dx*s,lat+dy*s],[lon+(dx+1)*s,lat+dy*s],[lon+(dx+1)*s,lat+(dy+1)*s],[lon+dx*s,lat+(dy+1)*s]];};
+const maskedScene=()=>scene({cells:[
+  {nativeFaceId:'1',areaM2:156.25,ring:ring(0,0)},
+  {nativeFaceId:'2',areaM2:156.25,ring:ring(1,0)}],
+  frames:[{validTime:'2026-11-01T17:00:00Z',depthM:[0.4,0.3]},
+    {validTime:'2026-11-01T17:15:00Z',depthM:[0.9,0.5]},
+    {validTime:'2026-11-01T18:00:00Z',depthM:[0.5,0.4]}]});
 const sourceFor=(patch={})=>({manifest:{runId:report.sourceRun,geometry:{sha256:report.sourceGeometrySha256},
   provenance:{verticalDatum:'NAVD88'},...patch}});
 
@@ -112,6 +122,100 @@ test('a mismatched run reports plainly and adds nothing to the renderer group',a
   assert.ok(statuses.some(s=>s.status==='loading'),'loading is announced before the verdict');
   assert.ok(statuses.every(s=>s.kind==='junction-fluid'&&s.status!=='error'),'junction trouble never claims the whole map failed');
   assert.equal(controller.inspect().status,'unavailable');
+  controller.dispose();
+});
+
+// The phone reported "coupled" with no flow time and no ledger. Two causes:
+// clearing the binding left the previous status standing, and the asynchronous
+// snapshot read had no guard, so a callback belonging to a solver that had
+// already been torn down could still declare the layer coupled. Both are state
+// machine defects and both are reachable without a browser.
+test('a flow binding never outlives the solver, the time or a newer bind',async()=>{
+  const element=()=>{const node={children:[],dataset:{},style:{},hidden:false,className:'',textContent:'',
+    setAttribute(){},append(...xs){node.children.push(...xs);},replaceChildren(...xs){node.children=xs.slice();},remove(){}};return node;};
+  // One native perimeter edge in, one out, over a two-cell scene.
+  const hourly=['2026-11-01T17:00:00Z','2026-11-01T18:00:00Z'];
+  const flowGeometry={masks:{junction160:{inwardSign:[1,-1],nativeFaceIds:['1','2']}},
+    edges:[{id:'in',widthM:6.25,fromFace:'2',toFace:'1',endpointsUTM:null},
+      {id:'out',widthM:6.25,fromFace:'1',toFace:'2',endpointsUTM:null}]};
+  // Each readFrame hands back a promise the test resolves by hand, so the race
+  // is driven rather than waited for.
+  const pending=[];
+  const flowPackage={manifest:{spatialMasks:{}},geometry:flowGeometry,
+    exactFrameIndex:time=>{const i=hourly.indexOf(time);if(i<0)throw Error('no exact snapshot');return i;},
+    readFrame:index=>new Promise(resolve=>pending.push({index,resolve})),
+    boundaryTransport:()=>({boundary:[
+      {edgeIndex:0,signedInflowM3s:0.6,inwardNormalEN:[1,0]},
+      {edgeIndex:1,signedInflowM3s:-0.6,inwardNormalEN:[-1,0]}]})};
+  const fluidStub=()=>({count:16,radiusM:0.4,positions:new Float32Array(48),velocities:new Float32Array(48),
+    nativeCellIndices:new Int32Array(16),active:new Float32Array(16).fill(1),generations:new Int32Array(16),
+    stats:{particleVolumeM3:0.2,sourceTime:'2026-11-01T17:00:00Z',steps:0},
+    flowStats:null,maskCoverage:null,localBounds:null,field:null,
+    initializeFrame(){},step(){},initializeVelocities(){return {seeded:16,unavailable:0,particles:16};},
+    applyBoundaryTransport(){return null;},dispose(){}});
+  const controller=createJunctionFluidController({base:simulation,document:{createElement:element},container:element(),
+    ...transport(),loadScene:async()=>({scene:maskedScene(),terrainTiles:[],roads:null}),
+    importModule:async specifier=>String(specifier).endsWith('brawley-flow.js')
+      ?{loadBrawleyFlow:async()=>flowPackage}
+      :{createJunctionFluid:async()=>fluidStub()},
+    onStatus:()=>{}});
+  controller.setSource(sourceFor());
+  // The layer refuses to attach to an orphaned terrain group, so the stub host
+  // has to be in a scene like the real one is.
+  const group=new THREE.Group();new THREE.Scene().add(group);
+  const activated=await controller.activate({group,project:([lon,lat])=>new THREE.Vector3(lon*1e5,lat*1e5,0),
+    altitude:m=>m,origin:new THREE.Vector3(),baseM:600});
+  assert.equal(activated.status,'ready','the stubbed layer must build before its flow lifecycle can be judged: '
+    +JSON.stringify({reason:activated.reason,flow:controller.inspect().flow,children:group.children.length}));
+  const flow=()=>controller.inspect().flow;
+
+  // Activate binds frame 0, which is on the hour. While the snapshot is still
+  // being read the status must say so rather than inherit anything.
+  assert.equal(flow().status,'binding','a binding in progress is its own state');
+  assert.equal(flow().flowTime,null);
+  assert.equal(flow().ledger,null);
+  const first=pending.shift();
+  first.resolve({time:hourly[0],qM2s:[0.1,0.1]});
+  await Promise.resolve();await Promise.resolve();await Promise.resolve();
+  assert.equal(flow().status,'coupled');
+  assert.equal(flow().flowTime,hourly[0]);
+
+  // Move to a quarter-hour frame with no snapshot while a read is outstanding.
+  // The late callback must not drag the layer back to "coupled" at a time the
+  // user is no longer looking at.
+  controller.setFrame(hourly[1]);
+  assert.equal(flow().status,'binding');
+  const second=pending.shift();
+  controller.setFrame('2026-11-01T17:15:00Z');
+  assert.equal(flow().status,'no-exact-snapshot','an off-hour frame says so immediately');
+  assert.equal(flow().flowTime,null,'and carries no flow time');
+  second.resolve({time:hourly[1],qM2s:[0.1,0.1]});
+  await Promise.resolve();await Promise.resolve();await Promise.resolve();
+  assert.equal(flow().status,'no-exact-snapshot','the superseded read is dropped, not applied');
+  assert.equal(flow().flowTime,null);
+
+  // A snapshot that reads back as a different instant is refused outright
+  // rather than coupled to the wrong time.
+  controller.setFrame(hourly[0]);
+  const third=pending.shift();
+  third.resolve({time:hourly[1],qM2s:[0.1,0.1]});
+  await Promise.resolve();await Promise.resolve();await Promise.resolve();
+  assert.equal(flow().status,'no-exact-snapshot','a mismatched snapshot is not substituted');
+  assert.match(flow().reason,/no substitution is made/);
+
+  // Tearing the layer down must clear the claim, and a callback belonging to
+  // the disposed solver must not resurrect it. This is the phone case.
+  controller.setFrame(hourly[1]);
+  assert.equal(flow().status,'binding');
+  const fourth=pending.shift();
+  controller.deactivate();
+  assert.notEqual(flow().status,'coupled','teardown drops the coupling claim');
+  assert.equal(flow().flowTime,null);
+  assert.equal(flow().ledger,null);
+  fourth.resolve({time:hourly[1],qM2s:[0.1,0.1]});
+  await Promise.resolve();await Promise.resolve();await Promise.resolve();
+  assert.notEqual(flow().status,'coupled','a callback from a disposed solver cannot declare a coupling');
+  assert.equal(flow().flowTime,null);
   controller.dispose();
 });
 
