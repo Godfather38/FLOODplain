@@ -101,11 +101,18 @@ export function createRefinedWater({loaded,geometry,terrain,project,altitude,ori
   const keyFor=(lon,lat)=>lon.toFixed(9)+','+lat.toFixed(9);
   const vertices=ground.vertices.map(p=>{const v=project(p.slice(0,2)).sub(origin);return [v.x,v.y,p[2],keyFor(p[0],p[1])];});
   const group=new THREE.Group();group.position.copy(origin);
-  const atlas={terrainAtlas:{value:null},atlasBounds:{value:new THREE.Vector4()},atlasReady:{value:0}};
+  const atlas={terrainAtlas:{value:null},atlasBounds:{value:new THREE.Vector4()},atlasReady:{value:0},
+    // A finer source-bound patch (the Brawley junction bake) may cover part of
+    // this ground. Two surfaces of the same terrain at different samplings will
+    // interpenetrate, and no depth bias fixes a metre-scale difference, so the
+    // ground is cut away under the patch instead. Local XY, so no world
+    // transform can get the box wrong. Zero size means no exclusion.
+    excludeBox:{value:new THREE.Vector4()},excludeActive:{value:0}};
   // Preserve the vector map's readable colors with restrained cartographic relief.
   // Full Lambert lighting made the entire model domain a dark gray silhouette.
   const landMaterial=new THREE.MeshBasicMaterial({color:'#ffffff',side:THREE.DoubleSide});
-  landMaterial.onBeforeCompile=s=>{Object.assign(s.uniforms,atlas);s.vertexShader='varying vec2 terrainXY;varying vec3 terrainNormal;\n'+s.vertexShader;s.vertexShader=s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nterrainXY=position.xy;terrainNormal=normal;');s.fragmentShader='uniform sampler2D terrainAtlas;uniform vec4 atlasBounds;uniform float atlasReady;varying vec2 terrainXY;varying vec3 terrainNormal;\n'+s.fragmentShader;s.fragmentShader=s.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
+  landMaterial.onBeforeCompile=s=>{Object.assign(s.uniforms,atlas);s.vertexShader='varying vec2 terrainXY;varying vec3 terrainNormal;\n'+s.vertexShader;s.vertexShader=s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nterrainXY=position.xy;terrainNormal=normal;');s.fragmentShader='uniform sampler2D terrainAtlas;uniform vec4 atlasBounds;uniform float atlasReady;uniform vec4 excludeBox;uniform float excludeActive;varying vec2 terrainXY;varying vec3 terrainNormal;\n'+s.fragmentShader;s.fragmentShader=s.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
+    if(excludeActive>.5&&terrainXY.x>excludeBox.x&&terrainXY.x<excludeBox.z&&terrainXY.y>excludeBox.y&&terrainXY.y<excludeBox.w)discard;
     vec2 tex=(terrainXY-atlasBounds.xy)/atlasBounds.zw;
     if(atlasReady>.5&&all(greaterThanEqual(tex,vec2(0.)))&&all(lessThanEqual(tex,vec2(1.))))diffuseColor.rgb=texture2D(terrainAtlas,tex).rgb;else diffuseColor.rgb=vec3(.85,.85,.80);
     diffuseColor.rgb*=.82+.18*max(0.,dot(normalize(terrainNormal),normalize(vec3(-.4,.65,1.))));`);};
@@ -182,6 +189,27 @@ export function createRefinedWater({loaded,geometry,terrain,project,altitude,ori
   function pick(ray){group.updateMatrixWorld(true);const h=water.visible?ray.intersectObject(water,false)[0]:null,g=land.visible&&!overviewMode?ray.intersectObject(land,false)[0]:null;return h&&(!g||h.distance<=g.distance)?waterIds[h.faceIndex]:g?landIds[g.faceIndex]:null;}
   return {group,land,water,baseM,update,clearFrame,select,cellInfo,pick,setDetail,
     setViewMode(value){land.visible=value!=='flat';water.visible=value!=='flat'&&!['off','hand'].includes(mode);},
+    // A particle layer drawn in the same scene lives BETWEEN the source terrain
+    // and this native water surface. While such a layer is live, the surface
+    // keeps its depth test but stops writing depth, so it can no longer hide the
+    // particles that represent the very water it is measuring. Native heights,
+    // clipped shoreline, colours and picking are untouched, and the default
+    // behaviour is restored as soon as the overlay goes away.
+    setParticleOverlay(enabled){const previous=waterMaterial.depthWrite;waterMaterial.depthWrite=!enabled;
+      waterMaterial.needsUpdate=previous===!enabled?waterMaterial.needsUpdate:true;return previous;},
+    get particleOverlay(){return !waterMaterial.depthWrite;},
+    // Cut the ground away under a finer source-bound patch, in this model's own
+    // local XY. Only the ground is affected: native water, its clipped
+    // shoreline, exact heights and picking are untouched, and passing null
+    // restores the full ground.
+    setGroundExclusion(box){
+      if(!box){atlas.excludeActive.value=0;atlas.excludeBox.value.set(0,0,0,0);return null;}
+      const {xmin,ymin,xmax,ymax}=box;
+      if(![xmin,ymin,xmax,ymax].every(finite)||!(xmax>xmin)||!(ymax>ymin))throw Error('A ground exclusion needs a real local box');
+      atlas.excludeBox.value.set(xmin,ymin,xmax,ymax);atlas.excludeActive.value=1;
+      return {xmin,ymin,xmax,ymax};},
+    get groundExclusion(){return atlas.excludeActive.value?{xmin:atlas.excludeBox.value.x,ymin:atlas.excludeBox.value.y,
+      xmax:atlas.excludeBox.value.z,ymax:atlas.excludeBox.value.w}:null;},
     setMapTexture(texture,bounds){atlas.terrainAtlas.value?.dispose();atlas.terrainAtlas.value=texture;atlas.atlasBounds.value.copy(bounds);atlas.atlasReady.value=1;},animate(seconds){if(!disposed)waterMaterial.uniforms.clock.value=seconds;},
     get detailStats(){return detailStats;},get frame(){return frame;},get selected(){return selected;},get ids(){return waterIds;},
     dispose(){if(disposed)return;disposed=true;group.removeFromParent();projectedFaces.clear();for(const mesh of [land,water,selection]){mesh.geometry.dispose();mesh.geometry=new THREE.BufferGeometry();mesh.material.dispose();}atlas.terrainAtlas.value?.dispose();atlas.terrainAtlas.value=null;}

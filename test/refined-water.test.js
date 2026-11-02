@@ -60,6 +60,28 @@ test('shared tint joins wet edges without changing source depths or crossing dry
   for(const missing of [false,true]){view.update({...f.frame,depthM:[1,missing?null:0],nativeVolumeM3:[10000,missing?null:0]});const expected=refinedDepthColor(1);assert.deepEqual(colorsAt(view,100,0,0)[0],Array.from(new Float32Array([expected.r,expected.g,expected.b])),'dry or missing neighbour contributes no color');}
   view.dispose();
 });
+test('a particle overlay stops the native sheet hiding the water it measures, and restores',()=>{
+  const f=fixture(),view=create(f);view.setDetail([0,1]);view.update(f.frame);
+  const material=view.water.material,heights=view.water.geometry.attributes.position.array.slice();
+  const colors=view.water.geometry.attributes.color.array.slice(),ids=[...view.ids];
+  assert.equal(material.depthWrite,true,'the default 3D water behaviour is unchanged');
+  assert.equal(view.particleOverlay,false);
+  assert.equal(view.setParticleOverlay(true),true,'the previous state is returned so a caller can restore it');
+  assert.equal(material.depthWrite,false);
+  assert.equal(material.depthTest,true,'terrain must still hide water behind a ridge');
+  assert.equal(view.particleOverlay,true);
+  assert.equal(material.transparent,true);
+  // Native heights, clipped shoreline, tints and picking cannot move.
+  assert.deepEqual(view.water.geometry.attributes.position.array,heights);
+  assert.deepEqual(view.water.geometry.attributes.color.array,colors);
+  assert.deepEqual(view.ids,ids);
+  assert.equal(view.pick(new THREE.Raycaster(new THREE.Vector3(125,25,10),new THREE.Vector3(0,0,-1))),1);
+  view.setParticleOverlay(false);
+  assert.equal(material.depthWrite,true);
+  assert.equal(view.particleOverlay,false);
+  view.update(f.frame);assert.deepEqual(view.water.geometry.attributes.position.array,heights);
+  view.dispose();
+});
 test('point-only wet contact never joins tint components across a domain gap',()=>{
   const f=fixture();f.geometry.rings[1]=[[.001,.001],[.001,.0015],[.0015,.0015],[.0015,.001]];f.terrain.vertices=[[0,0,0],[.001,0,0],[.001,.001,0],[0,.001,0],[.0015,.001,0],[.0015,.0015,0],[.001,.0015,0]];f.terrain.triangles=[[0,1,2],[0,2,3],[2,4,5],[2,5,6]];f.terrain.triangleFaceId=['9007199254740993','9007199254740993','face-small','face-small'];f.geometry.rings[0]=[[0,0],[0,.001],[.001,.001],[.001,0]];
   const view=create(f);view.setDetail([0,1]);view.update(f.frame);assert.notDeepEqual(colorsAt(view,100,100,0)[0],colorsAt(view,100,100,1)[0]);view.dispose();

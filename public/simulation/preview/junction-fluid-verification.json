@@ -1,0 +1,986 @@
+{
+  "stage": "after",
+  "environment": "Chrome SwiftShader software GPU; not a phone or hardware-GPU measurement",
+  "errors": [],
+  "frames": [
+    {
+      "index": 0,
+      "displayed": {
+        "requestId": 4,
+        "model": "2d",
+        "index": 0,
+        "view": "3d",
+        "time": "2026-11-01T17:00:00Z",
+        "runId": "refined-full-41344983607"
+      },
+      "junctionStatus": {
+        "kind": "junction-fluid",
+        "status": "ready",
+        "reason": null,
+        "sourceTime": "2026-11-01T17:00:00Z",
+        "frameIndex": 0,
+        "frameCount": 57,
+        "particleCount": 2048,
+        "radiusMetres": 5.042403412993778,
+        "physicalRadiusMetres": 0.43110427638463067,
+        "screenRadiusPx": 5,
+        "meanVelocityMps": [
+          0.00044111162424087524,
+          0.0004739128053188324
+        ],
+        "maxStepDisplacementM": 0.01556554487099497,
+        "wetVolumeM3": 351.9131660461426,
+        "reducedMotion": false,
+        "simulationSteps": 1,
+        "runId": "refined-full-41344983607",
+        "triangles": 10660,
+        "imagery": true,
+        "placementDeviationM": 0.0005172591840489941,
+        "hostTerrainOverview": true,
+        "stepMilliseconds": 217.69999998807907,
+        "substeps": 1,
+        "skippedSteps": 54
+      },
+      "junction": {
+        "status": "ready",
+        "reason": null,
+        "frameTime": "2026-11-01T17:00:00Z",
+        "frameIndex": 0,
+        "substeps": 1,
+        "lastStepMs": 66.74062499497086,
+        "skippedSteps": 61,
+        "maxParticles": 2048,
+        "budget": 2048,
+        "metresPerPixel": 1.0084806825987556,
+        "hostTerrainOverview": true,
+        "placement": {
+          "maxDeviationM": 0.0005172591840489941,
+          "maxDeviationUnits": 0.000008014182100187908,
+          "worstOffsetMetres": [
+            40,
+            -80
+          ],
+          "extentMetres": [
+            160,
+            160
+          ],
+          "toleranceM": 0.1
+        },
+        "geography": {
+          "groundTriangles": 10574,
+          "roadTriangles": 10,
+          "markingTriangles": 76,
+          "otherTriangles": 0,
+          "imagery": true,
+          "triangles": 10660
+        },
+        "blobs": {
+          "capacity": 2048,
+          "count": 2048,
+          "blobTriangles": 4096,
+          "streakSegments": 256,
+          "trailSegments": 256,
+          "physicalRadiusMetres": 0.43110427638463067,
+          "radiusMetres": 5.042403412993778,
+          "screenRadiusPx": 5,
+          "streakMetres": 13.110248873783823,
+          "streakStride": 8,
+          "metresPerPixel": 1.0084806825987556,
+          "trailsVisible": true,
+          "sizing": "display size: at least 5 screen pixels, capped at 5.5 m",
+          "travel": "direction only, drawn at a fixed screen length; the measured speed is reported separately"
+        },
+        "fluid": {
+          "solver": "PIC/FLIP",
+          "sourceVelocityAvailable": false,
+          "motionMeaning": "Illustrative locally simulated pressure/gravity motion initialized from native terrain and water; not native forecast velocity",
+          "boundaryMeaning": "Closed bounded junction; dry/missing/native-water support is impermeable; no inferred inlet or discharge",
+          "upstream": {
+            "repository": "https://github.com/jizhouxu/3d-fluid-simulation",
+            "commit": "7d6640693745591ff37eadd4276cde3ecba51ac4",
+            "license": "MIT"
+          },
+          "steps": 2,
+          "sourceTime": "2026-11-01T17:00:00Z",
+          "sourceSha256": "9e563a872447b617342c8f4c7395d5a4581a8bed28d21fb484b0c37405b9a41c",
+          "sourceFrameIndex": 0,
+          "particleCount": 2048,
+          "clippedInitialVolumeM3": 351.9131660461426,
+          "wetFieldSamples": 1092,
+          "elapsedSeconds": 0.06666666666666667,
+          "solveSubmissionMs": 0.699999988079071,
+          "readbackMs": 157.39999997615814,
+          "readbackBytes": 32768,
+          "meanSimulatedHorizontalVelocityMps": [
+            0.0007851049304008484,
+            0.001290198415517807
+          ],
+          "maxStepDisplacementM": 0.007814649196883188,
+          "gridResolution": [
+            48,
+            3,
+            48
+          ],
+          "gridCellM": 3.3333333333333335,
+          "particleVolumeM3": 0.17183260060846806,
+          "physicalRadiusM": 0.34488342110770454,
+          "renderRadiusRecommendationM": 0.43110427638463067,
+          "provenance": {
+            "runId": "refined-full-41344983607",
+            "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+            "verticalDatum": "NAVD88",
+            "terrainEquivalence": {
+              "method": "exact-native-geometry",
+              "runId": "refined-full-41344983607",
+              "sourceRunId": "refined-partial-41339621278",
+              "targetRunId": "refined-full-41344983607",
+              "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+              "targetGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+              "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+              "verticalDatum": "NAVD88",
+              "cellCount": 398613,
+              "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+              "verifiedFields": [
+                "ordered nativeFaceId",
+                "lon",
+                "lat",
+                "areaM2",
+                "resolutionM",
+                "edgeLengthsM",
+                "all native ring vertices",
+                "projectedCrs",
+                "native mesh SHA256",
+                "vertical datum"
+              ]
+            },
+            "fieldSpacingM": [
+              1.25,
+              1.25
+            ]
+          }
+        },
+        "assets": {
+          "runId": "refined-full-41344983607",
+          "frames": 57,
+          "cells": 2628,
+          "bakedTriangles": 10660,
+          "imagery": true,
+          "imageryError": null
+        }
+      },
+      "water": 490,
+      "land": 250702
+    },
+    {
+      "index": 20,
+      "displayed": {
+        "requestId": 5,
+        "model": "2d",
+        "index": 20,
+        "view": "3d",
+        "time": "2026-11-01T22:00:00Z",
+        "runId": "refined-full-41344983607"
+      },
+      "junctionStatus": {
+        "kind": "junction-fluid",
+        "status": "ready",
+        "reason": null,
+        "sourceTime": "2026-11-01T22:00:00Z",
+        "frameIndex": 20,
+        "frameCount": 57,
+        "particleCount": 2048,
+        "radiusMetres": 5.042403412993778,
+        "physicalRadiusMetres": 0.46619639872482266,
+        "screenRadiusPx": 5,
+        "meanVelocityMps": [
+          -0.00019105151295661926,
+          0.00031387433409690857
+        ],
+        "maxStepDisplacementM": 0.015504515934689503,
+        "wetVolumeM3": 445.03612518310547,
+        "reducedMotion": false,
+        "simulationSteps": 1,
+        "runId": "refined-full-41344983607",
+        "triangles": 10660,
+        "imagery": true,
+        "placementDeviationM": 0.0005172591840489941,
+        "hostTerrainOverview": true,
+        "stepMilliseconds": 303.30000001192093,
+        "substeps": 1,
+        "skippedSteps": 74
+      },
+      "junction": {
+        "status": "ready",
+        "reason": null,
+        "frameTime": "2026-11-01T22:00:00Z",
+        "frameIndex": 20,
+        "substeps": 1,
+        "lastStepMs": 458.80000001192093,
+        "skippedSteps": 80,
+        "maxParticles": 2048,
+        "budget": 2048,
+        "metresPerPixel": 1.0084806825987556,
+        "hostTerrainOverview": true,
+        "placement": {
+          "maxDeviationM": 0.0005172591840489941,
+          "maxDeviationUnits": 0.000008014182100187908,
+          "worstOffsetMetres": [
+            40,
+            -80
+          ],
+          "extentMetres": [
+            160,
+            160
+          ],
+          "toleranceM": 0.1
+        },
+        "geography": {
+          "groundTriangles": 10574,
+          "roadTriangles": 10,
+          "markingTriangles": 76,
+          "otherTriangles": 0,
+          "imagery": true,
+          "triangles": 10660
+        },
+        "blobs": {
+          "capacity": 2048,
+          "count": 2048,
+          "blobTriangles": 4096,
+          "streakSegments": 256,
+          "trailSegments": 256,
+          "physicalRadiusMetres": 0.46619639872482266,
+          "radiusMetres": 5.042403412993778,
+          "screenRadiusPx": 5,
+          "streakMetres": 13.110248873783823,
+          "streakStride": 8,
+          "metresPerPixel": 1.0084806825987556,
+          "trailsVisible": true,
+          "sizing": "display size: at least 5 screen pixels, capped at 5.5 m",
+          "travel": "direction only, drawn at a fixed screen length; the measured speed is reported separately"
+        },
+        "fluid": {
+          "solver": "PIC/FLIP",
+          "sourceVelocityAvailable": false,
+          "motionMeaning": "Illustrative locally simulated pressure/gravity motion initialized from native terrain and water; not native forecast velocity",
+          "boundaryMeaning": "Closed bounded junction; dry/missing/native-water support is impermeable; no inferred inlet or discharge",
+          "upstream": {
+            "repository": "https://github.com/jizhouxu/3d-fluid-simulation",
+            "commit": "7d6640693745591ff37eadd4276cde3ecba51ac4",
+            "license": "MIT"
+          },
+          "steps": 2,
+          "sourceTime": "2026-11-01T22:00:00Z",
+          "sourceSha256": "51ff42b6a3fa03ac4eb3ab67c22ad73a675af87c255a39e7372e496119f5a594",
+          "sourceFrameIndex": 20,
+          "particleCount": 2048,
+          "clippedInitialVolumeM3": 445.03612518310547,
+          "wetFieldSamples": 1435,
+          "elapsedSeconds": 0.06666666666666667,
+          "solveSubmissionMs": 0.6000000238418579,
+          "readbackMs": 458.10000002384186,
+          "readbackBytes": 32768,
+          "meanSimulatedHorizontalVelocityMps": [
+            -0.0003023073077201843,
+            0.0007974542677402496
+          ],
+          "maxStepDisplacementM": 0.006667293134241504,
+          "gridResolution": [
+            48,
+            3,
+            48
+          ],
+          "gridCellM": 3.3333333333333335,
+          "particleVolumeM3": 0.21730279549956322,
+          "physicalRadiusM": 0.3729571189798581,
+          "renderRadiusRecommendationM": 0.46619639872482266,
+          "provenance": {
+            "runId": "refined-full-41344983607",
+            "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+            "verticalDatum": "NAVD88",
+            "terrainEquivalence": {
+              "method": "exact-native-geometry",
+              "runId": "refined-full-41344983607",
+              "sourceRunId": "refined-partial-41339621278",
+              "targetRunId": "refined-full-41344983607",
+              "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+              "targetGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+              "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+              "verticalDatum": "NAVD88",
+              "cellCount": 398613,
+              "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+              "verifiedFields": [
+                "ordered nativeFaceId",
+                "lon",
+                "lat",
+                "areaM2",
+                "resolutionM",
+                "edgeLengthsM",
+                "all native ring vertices",
+                "projectedCrs",
+                "native mesh SHA256",
+                "vertical datum"
+              ]
+            },
+            "fieldSpacingM": [
+              1.25,
+              1.25
+            ]
+          }
+        },
+        "assets": {
+          "runId": "refined-full-41344983607",
+          "frames": 57,
+          "cells": 2628,
+          "bakedTriangles": 10660,
+          "imagery": true,
+          "imageryError": null
+        }
+      },
+      "water": 3491,
+      "land": 250702
+    }
+  ],
+  "pans": [
+    {
+      "shift": 0.02,
+      "heap": 191140408,
+      "status": "off",
+      "active": false,
+      "children": 3,
+      "blobs": 0
+    },
+    {
+      "shift": 0,
+      "heap": 193764728,
+      "status": "ready",
+      "active": true,
+      "children": 5,
+      "blobs": 2048
+    },
+    {
+      "shift": 0.02,
+      "heap": 191428768,
+      "status": "off",
+      "active": false,
+      "children": 3,
+      "blobs": 0
+    },
+    {
+      "shift": 0,
+      "heap": 193303368,
+      "status": "ready",
+      "active": true,
+      "children": 5,
+      "blobs": 2048
+    }
+  ],
+  "lifecycle": [
+    {
+      "step": "flat",
+      "status": "off",
+      "active": false,
+      "junction": {
+        "status": "off",
+        "reason": null,
+        "frameTime": "2026-11-01T22:00:00Z",
+        "frameIndex": -1,
+        "substeps": 1,
+        "lastStepMs": 0,
+        "skippedSteps": 0,
+        "maxParticles": 0,
+        "budget": 2048,
+        "metresPerPixel": 1.0084807233229836,
+        "hostTerrainOverview": true,
+        "placement": null,
+        "geography": null,
+        "blobs": null,
+        "fluid": null,
+        "assets": null
+      }
+    }
+  ],
+  "flatEntryRequests": [],
+  "before": "junction-evidence/after-flat-before.png",
+  "belowGate": "off",
+  "coarse": "junction-evidence/after-3d-coarse-no-junction.png",
+  "terrainAtJunction": {
+    "overviewMode": true,
+    "terrainKind": "native_face_water_support",
+    "zoom": 17
+  },
+  "ready": {
+    "status": {
+      "kind": "junction-fluid",
+      "status": "ready",
+      "reason": null,
+      "sourceTime": "2026-11-02T03:30:00Z",
+      "frameIndex": 42,
+      "frameCount": 57,
+      "particleCount": 2048,
+      "radiusMetres": 5.042403412993778,
+      "physicalRadiusMetres": 0.4425255142311214,
+      "screenRadiusPx": 5,
+      "meanVelocityMps": [
+        -0.00103779137134552,
+        0.00030219554901123047
+      ],
+      "maxStepDisplacementM": 0.015442311051371506,
+      "wetVolumeM3": 380.63039779663086,
+      "reducedMotion": false,
+      "simulationSteps": 1,
+      "runId": "refined-full-41344983607",
+      "triangles": 10660,
+      "imagery": true,
+      "placementDeviationM": 0.0005172591840489941,
+      "hostTerrainOverview": true,
+      "stepMilliseconds": 131.70000004768372,
+      "substeps": 1,
+      "skippedSteps": 0
+    },
+    "junction": {
+      "status": "ready",
+      "reason": null,
+      "frameTime": "2026-11-02T03:30:00Z",
+      "frameIndex": 42,
+      "substeps": 1,
+      "lastStepMs": 308.39999997615814,
+      "skippedSteps": 11,
+      "maxParticles": 2048,
+      "budget": 2048,
+      "metresPerPixel": 1.0084806825987556,
+      "hostTerrainOverview": true,
+      "placement": {
+        "maxDeviationM": 0.0005172591840489941,
+        "maxDeviationUnits": 0.000008014182100187908,
+        "worstOffsetMetres": [
+          40,
+          -80
+        ],
+        "extentMetres": [
+          160,
+          160
+        ],
+        "toleranceM": 0.1
+      },
+      "geography": {
+        "groundTriangles": 10574,
+        "roadTriangles": 10,
+        "markingTriangles": 76,
+        "otherTriangles": 0,
+        "imagery": true,
+        "triangles": 10660
+      },
+      "blobs": {
+        "capacity": 2048,
+        "count": 2048,
+        "blobTriangles": 4096,
+        "streakSegments": 256,
+        "trailSegments": 256,
+        "physicalRadiusMetres": 0.4425255142311214,
+        "radiusMetres": 5.042403412993778,
+        "screenRadiusPx": 5,
+        "streakMetres": 13.110248873783823,
+        "streakStride": 8,
+        "metresPerPixel": 1.0084806825987556,
+        "trailsVisible": true,
+        "sizing": "display size: at least 5 screen pixels, capped at 5.5 m",
+        "travel": "direction only, drawn at a fixed screen length; the measured speed is reported separately"
+      },
+      "fluid": {
+        "solver": "PIC/FLIP",
+        "sourceVelocityAvailable": false,
+        "motionMeaning": "Illustrative locally simulated pressure/gravity motion initialized from native terrain and water; not native forecast velocity",
+        "boundaryMeaning": "Closed bounded junction; dry/missing/native-water support is impermeable; no inferred inlet or discharge",
+        "upstream": {
+          "repository": "https://github.com/jizhouxu/3d-fluid-simulation",
+          "commit": "7d6640693745591ff37eadd4276cde3ecba51ac4",
+          "license": "MIT"
+        },
+        "steps": 4,
+        "sourceTime": "2026-11-02T03:30:00Z",
+        "sourceSha256": "8f1d697c77b9f6f1cd29a9bc3bca2f0feb29c60a7bee7932995a73212275db24",
+        "sourceFrameIndex": 42,
+        "particleCount": 2048,
+        "clippedInitialVolumeM3": 380.63039779663086,
+        "wetFieldSamples": 1242,
+        "elapsedSeconds": 0.13333333333333333,
+        "solveSubmissionMs": 0.5,
+        "readbackMs": 307.80000001192093,
+        "readbackBytes": 32768,
+        "meanSimulatedHorizontalVelocityMps": [
+          -0.003126058727502823,
+          0.0014795735478401184
+        ],
+        "maxStepDisplacementM": 0.03643839722472574,
+        "gridResolution": [
+          48,
+          3,
+          48
+        ],
+        "gridCellM": 3.3333333333333335,
+        "particleVolumeM3": 0.18585468642413616,
+        "physicalRadiusM": 0.35402041138489715,
+        "renderRadiusRecommendationM": 0.4425255142311214,
+        "provenance": {
+          "runId": "refined-full-41344983607",
+          "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+          "verticalDatum": "NAVD88",
+          "terrainEquivalence": {
+            "method": "exact-native-geometry",
+            "runId": "refined-full-41344983607",
+            "sourceRunId": "refined-partial-41339621278",
+            "targetRunId": "refined-full-41344983607",
+            "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+            "targetGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+            "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+            "verticalDatum": "NAVD88",
+            "cellCount": 398613,
+            "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+            "verifiedFields": [
+              "ordered nativeFaceId",
+              "lon",
+              "lat",
+              "areaM2",
+              "resolutionM",
+              "edgeLengthsM",
+              "all native ring vertices",
+              "projectedCrs",
+              "native mesh SHA256",
+              "vertical datum"
+            ]
+          },
+          "fieldSpacingM": [
+            1.25,
+            1.25
+          ]
+        }
+      },
+      "assets": {
+        "runId": "refined-full-41344983607",
+        "frames": 57,
+        "cells": 2628,
+        "bakedTriangles": 10660,
+        "imagery": true,
+        "imageryError": null
+      }
+    },
+    "note": "Domain terrain overview; native wet-face water support; 0 wet faces omitted by display budget; cosmetic highlights; 2048 simulated water blobs at the junction, illustrative motion",
+    "animating": true,
+    "zoom": 17,
+    "overviewMode": true,
+    "terrainKind": "native_face_water_support"
+  },
+  "after": "junction-evidence/after-3d-junction-ready.png",
+  "motion": {
+    "sampledBlobs": 32,
+    "moved": 26,
+    "maximumLocalUnits": 0.00000286102294921875,
+    "instances": 2048,
+    "trailSegments": 256,
+    "first": {
+      "steps": 5,
+      "maxStepDisplacementM": 0.041443358637564216,
+      "meanSimulatedHorizontalVelocityMps": [
+        -0.0036062300205230713,
+        0.0017736107110977173
+      ],
+      "sourceTime": "2026-11-02T03:30:00Z"
+    },
+    "second": {
+      "steps": 9,
+      "maxStepDisplacementM": 0.01476287841796875,
+      "meanSimulatedHorizontalVelocityMps": [
+        -0.004506167024374008,
+        0.0026106834411621094
+      ],
+      "sourceTime": "2026-11-02T03:30:00Z"
+    },
+    "stepMs": 437.39999997615814,
+    "substeps": 1,
+    "skippedSteps": 41
+  },
+  "travel": "junction-evidence/after-3d-junction-travel.png",
+  "desktopBlobs": {
+    "status": {
+      "kind": "junction-fluid",
+      "status": "ready",
+      "reason": null,
+      "sourceTime": "2026-11-01T22:00:00Z",
+      "frameIndex": 20,
+      "frameCount": 57,
+      "particleCount": 2048,
+      "radiusMetres": 5.042403401035247,
+      "physicalRadiusMetres": 0.46619639872482266,
+      "screenRadiusPx": 5,
+      "meanVelocityMps": [
+        -0.0003023073077201843,
+        0.0007974542677402496
+      ],
+      "maxStepDisplacementM": 0.006667293134241504,
+      "wetVolumeM3": 445.03612518310547,
+      "reducedMotion": false,
+      "simulationSteps": 2,
+      "runId": "refined-full-41344983607",
+      "triangles": 10660,
+      "imagery": true,
+      "placementDeviationM": 0.0005172591840489941,
+      "hostTerrainOverview": true,
+      "stepMilliseconds": 181.40625,
+      "substeps": 1,
+      "skippedSteps": 10
+    },
+    "junction": {
+      "status": "ready",
+      "reason": null,
+      "frameTime": "2026-11-01T22:00:00Z",
+      "frameIndex": 20,
+      "substeps": 1,
+      "lastStepMs": 306.8249999731779,
+      "skippedSteps": 15,
+      "maxParticles": 2048,
+      "budget": 2048,
+      "metresPerPixel": 1.0084806802070494,
+      "hostTerrainOverview": true,
+      "placement": {
+        "maxDeviationM": 0.0005172591840489941,
+        "maxDeviationUnits": 0.000008014182100187908,
+        "worstOffsetMetres": [
+          40,
+          -80
+        ],
+        "extentMetres": [
+          160,
+          160
+        ],
+        "toleranceM": 0.1
+      },
+      "geography": {
+        "groundTriangles": 10574,
+        "roadTriangles": 10,
+        "markingTriangles": 76,
+        "otherTriangles": 0,
+        "imagery": true,
+        "triangles": 10660
+      },
+      "blobs": {
+        "capacity": 2048,
+        "count": 2048,
+        "blobTriangles": 4096,
+        "streakSegments": 256,
+        "trailSegments": 256,
+        "physicalRadiusMetres": 0.46619639872482266,
+        "radiusMetres": 5.042403401035247,
+        "screenRadiusPx": 5,
+        "streakMetres": 13.110248842691643,
+        "streakStride": 8,
+        "metresPerPixel": 1.0084806802070494,
+        "trailsVisible": true,
+        "sizing": "display size: at least 5 screen pixels, capped at 5.5 m",
+        "travel": "direction only, drawn at a fixed screen length; the measured speed is reported separately"
+      },
+      "fluid": {
+        "solver": "PIC/FLIP",
+        "sourceVelocityAvailable": false,
+        "motionMeaning": "Illustrative locally simulated pressure/gravity motion initialized from native terrain and water; not native forecast velocity",
+        "boundaryMeaning": "Closed bounded junction; dry/missing/native-water support is impermeable; no inferred inlet or discharge",
+        "upstream": {
+          "repository": "https://github.com/jizhouxu/3d-fluid-simulation",
+          "commit": "7d6640693745591ff37eadd4276cde3ecba51ac4",
+          "license": "MIT"
+        },
+        "steps": 3,
+        "sourceTime": "2026-11-01T22:00:00Z",
+        "sourceSha256": "51ff42b6a3fa03ac4eb3ab67c22ad73a675af87c255a39e7372e496119f5a594",
+        "sourceFrameIndex": 20,
+        "particleCount": 2048,
+        "clippedInitialVolumeM3": 445.03612518310547,
+        "wetFieldSamples": 1435,
+        "elapsedSeconds": 0.1,
+        "solveSubmissionMs": 0.699999988079071,
+        "readbackMs": 408.30000001192093,
+        "readbackBytes": 32768,
+        "meanSimulatedHorizontalVelocityMps": [
+          -0.00041892752051353455,
+          0.00096883624792099
+        ],
+        "maxStepDisplacementM": 0.007976393331292304,
+        "gridResolution": [
+          48,
+          3,
+          48
+        ],
+        "gridCellM": 3.3333333333333335,
+        "particleVolumeM3": 0.21730279549956322,
+        "physicalRadiusM": 0.3729571189798581,
+        "renderRadiusRecommendationM": 0.46619639872482266,
+        "provenance": {
+          "runId": "refined-full-41344983607",
+          "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+          "verticalDatum": "NAVD88",
+          "terrainEquivalence": {
+            "method": "exact-native-geometry",
+            "runId": "refined-full-41344983607",
+            "sourceRunId": "refined-partial-41339621278",
+            "targetRunId": "refined-full-41344983607",
+            "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+            "targetGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+            "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+            "verticalDatum": "NAVD88",
+            "cellCount": 398613,
+            "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+            "verifiedFields": [
+              "ordered nativeFaceId",
+              "lon",
+              "lat",
+              "areaM2",
+              "resolutionM",
+              "edgeLengthsM",
+              "all native ring vertices",
+              "projectedCrs",
+              "native mesh SHA256",
+              "vertical datum"
+            ]
+          },
+          "fieldSpacingM": [
+            1.25,
+            1.25
+          ]
+        }
+      },
+      "assets": {
+        "runId": "refined-full-41344983607",
+        "frames": 57,
+        "cells": 2628,
+        "bakedTriangles": 10660,
+        "imagery": true,
+        "imageryError": null
+      }
+    },
+    "note": "Domain terrain overview; native wet-face water support; 0 wet faces omitted by display budget; cosmetic highlights; 2048 simulated water blobs at the junction, illustrative motion",
+    "animating": true,
+    "zoom": 17,
+    "overviewMode": true,
+    "terrainKind": "native_face_water_support"
+  },
+  "phone": {
+    "status": {
+      "kind": "junction-fluid",
+      "status": "ready",
+      "reason": null,
+      "sourceTime": "2026-11-01T22:00:00Z",
+      "frameIndex": 20,
+      "frameCount": 57,
+      "particleCount": 768,
+      "radiusMetres": 5.042403628573451,
+      "physicalRadiusMetres": 0.6464850582350394,
+      "screenRadiusPx": 5,
+      "meanVelocityMps": [
+        0,
+        0
+      ],
+      "maxStepDisplacementM": 0,
+      "wetVolumeM3": 445.03612518310547,
+      "reducedMotion": false,
+      "simulationSteps": 0,
+      "runId": "refined-full-41344983607",
+      "triangles": 10660,
+      "imagery": true,
+      "placementDeviationM": 0.0005172591840489941,
+      "hostTerrainOverview": false,
+      "stepMilliseconds": null,
+      "substeps": 1,
+      "skippedSteps": 0
+    },
+    "junction": {
+      "status": "ready",
+      "reason": null,
+      "frameTime": "2026-11-01T22:00:00Z",
+      "frameIndex": 20,
+      "substeps": 1,
+      "lastStepMs": 0,
+      "skippedSteps": 0,
+      "maxParticles": 768,
+      "budget": 768,
+      "metresPerPixel": 1.0084807257146902,
+      "hostTerrainOverview": false,
+      "placement": {
+        "maxDeviationM": 0.0005172591840489941,
+        "maxDeviationUnits": 0.000008014182100187908,
+        "worstOffsetMetres": [
+          40,
+          -80
+        ],
+        "extentMetres": [
+          160,
+          160
+        ],
+        "toleranceM": 0.1
+      },
+      "geography": {
+        "groundTriangles": 10574,
+        "roadTriangles": 10,
+        "markingTriangles": 76,
+        "otherTriangles": 0,
+        "imagery": true,
+        "triangles": 10660
+      },
+      "blobs": {
+        "capacity": 768,
+        "count": 768,
+        "blobTriangles": 1536,
+        "streakSegments": 0,
+        "trailSegments": 0,
+        "physicalRadiusMetres": 0.6464850582350394,
+        "radiusMetres": 5.042403628573451,
+        "screenRadiusPx": 5,
+        "streakMetres": 13.110249434290973,
+        "streakStride": 8,
+        "metresPerPixel": 1.0084807257146902,
+        "trailsVisible": false,
+        "sizing": "display size: at least 5 screen pixels, capped at 5.5 m",
+        "travel": "direction only, drawn at a fixed screen length; the measured speed is reported separately"
+      },
+      "fluid": {
+        "solver": "PIC/FLIP",
+        "sourceVelocityAvailable": false,
+        "motionMeaning": "Illustrative locally simulated pressure/gravity motion initialized from native terrain and water; not native forecast velocity",
+        "boundaryMeaning": "Closed bounded junction; dry/missing/native-water support is impermeable; no inferred inlet or discharge",
+        "upstream": {
+          "repository": "https://github.com/jizhouxu/3d-fluid-simulation",
+          "commit": "7d6640693745591ff37eadd4276cde3ecba51ac4",
+          "license": "MIT"
+        },
+        "steps": 0,
+        "sourceTime": "2026-11-01T22:00:00Z",
+        "sourceSha256": "51ff42b6a3fa03ac4eb3ab67c22ad73a675af87c255a39e7372e496119f5a594",
+        "sourceFrameIndex": 20,
+        "particleCount": 768,
+        "clippedInitialVolumeM3": 445.03612518310547,
+        "wetFieldSamples": 1435,
+        "elapsedSeconds": 0,
+        "solveSubmissionMs": 0,
+        "readbackMs": 0,
+        "readbackBytes": 12288,
+        "meanSimulatedHorizontalVelocityMps": [
+          0,
+          0
+        ],
+        "maxStepDisplacementM": 0,
+        "gridResolution": [
+          48,
+          3,
+          48
+        ],
+        "gridCellM": 3.3333333333333335,
+        "particleVolumeM3": 0.5794741213321686,
+        "physicalRadiusM": 0.5171880465880315,
+        "renderRadiusRecommendationM": 0.6464850582350394,
+        "provenance": {
+          "runId": "refined-full-41344983607",
+          "geometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+          "verticalDatum": "NAVD88",
+          "terrainEquivalence": {
+            "method": "exact-native-geometry",
+            "runId": "refined-full-41344983607",
+            "sourceRunId": "refined-partial-41339621278",
+            "targetRunId": "refined-full-41344983607",
+            "sourceGeometrySha256": "a2953dcc1cc8866bfda52a1dd576de02e6075de4ed34368342ab06a42290ed7c",
+            "targetGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+            "meshSha256": "91ce69c66c8fc5c667254f3cf279fc3d12449223c19d4c8b547f7a7e81ef4ffb",
+            "verticalDatum": "NAVD88",
+            "cellCount": 398613,
+            "canonicalSha256": "e6b1ae81341a8bb0834fee8251915a066a3c2903dd1bdccf276e00332595b053",
+            "verifiedFields": [
+              "ordered nativeFaceId",
+              "lon",
+              "lat",
+              "areaM2",
+              "resolutionM",
+              "edgeLengthsM",
+              "all native ring vertices",
+              "projectedCrs",
+              "native mesh SHA256",
+              "vertical datum"
+            ]
+          },
+          "fieldSpacingM": [
+            1.25,
+            1.25
+          ]
+        }
+      },
+      "assets": {
+        "runId": "refined-full-41344983607",
+        "frames": 57,
+        "cells": 2628,
+        "bakedTriangles": 10660,
+        "imagery": true,
+        "imageryError": null
+      }
+    },
+    "dpr": 1
+  },
+  "phoneLayout": {
+    "legend": {
+      "top": 128,
+      "bottom": 320.21875,
+      "left": 164,
+      "right": 382
+    },
+    "dock": {
+      "top": 617.671875,
+      "bottom": 836,
+      "left": 8,
+      "right": 368
+    },
+    "overlaps": false
+  },
+  "reducedMotion": {
+    "status": {
+      "kind": "junction-fluid",
+      "status": "ready",
+      "reason": null,
+      "sourceTime": "2026-11-02T03:30:00Z",
+      "frameIndex": 42,
+      "frameCount": 57,
+      "particleCount": 2048,
+      "radiusMetres": 5.042403412993778,
+      "physicalRadiusMetres": 0.4425255142311214,
+      "screenRadiusPx": 5,
+      "meanVelocityMps": [
+        0,
+        0
+      ],
+      "maxStepDisplacementM": 0,
+      "wetVolumeM3": 380.63039779663086,
+      "reducedMotion": true,
+      "simulationSteps": 0,
+      "runId": "refined-full-41344983607",
+      "triangles": 10660,
+      "imagery": true,
+      "placementDeviationM": 0.0005172591840489941,
+      "hostTerrainOverview": true,
+      "stepMilliseconds": null,
+      "substeps": 1,
+      "skippedSteps": 0
+    },
+    "blobs": {
+      "capacity": 2048,
+      "count": 2048,
+      "blobTriangles": 4096,
+      "streakSegments": 0,
+      "trailSegments": 0,
+      "physicalRadiusMetres": 0.4425255142311214,
+      "radiusMetres": 5.042403412993778,
+      "screenRadiusPx": 5,
+      "streakMetres": 13.110248873783823,
+      "streakStride": 8,
+      "metresPerPixel": 1.0084806825987556,
+      "trailsVisible": false,
+      "sizing": "display size: at least 5 screen pixels, capped at 5.5 m",
+      "travel": "direction only, drawn at a fixed screen length; the measured speed is reported separately"
+    },
+    "animating": false
+  },
+  "passed": true
+}

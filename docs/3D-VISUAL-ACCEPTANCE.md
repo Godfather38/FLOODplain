@@ -19,6 +19,7 @@ Technical milestones were allowed to stand in for the full visual request while 
 - [ ] Attractive, geographically recognizable terrain overview based on actual terrain and map features, with familiar roads/routes and readable geographic context.
 - [ ] Contiguous terrain and water surfaces. The earlier voxel request does not justify large square swathes, independent block caps, gratuitous grid outlines or semi-opaque columns. Keep a raw computational grid diagnostic optional.
 - [ ] Convincing animated water appearance: coherent material, lighting and restrained surface highlights, while native selected-frame water level remains fixed. Cosmetic animation must not imply simulated velocities or new physics.
+  - Implemented at the Brawley junction as an actual particle layer rather than cosmetic highlights: see [JUNCTION-FLUID-LAYER.md](JUNCTION-FLUID-LAYER.md). Its motion is locally simulated and labelled as such; the published run still has no velocity. Visual acceptance remains outstanding, and the rest of the domain still shows the cosmetic-highlight surface only.
 - [x] Native water surfaces intersect source-bound terrain; exact cell IDs, depth in metres/feet, datum, missing values and selected time stay truthful. Do not bridge dry barriers, missing cells or outside-domain gaps to make prettier water.
 - [x] Actual model results are visibly different at two native frames in the same geographic view; exact selected-cell values agree with source data.
 - [x] Same place, route, selection, time and range survive entry/exit and mode changes. This remains an alternate geographic view, never a detached analytics viewer.
@@ -42,3 +43,20 @@ Checkpoint 7e683c5 supplies source-bound streamed terrain and actual refined-fra
 That checkpoint binds the earlier JSON geometry artifact. The later compact package must receive an explicitly verified compatible terrain binding through coordinated package ownership; never silently accept a different geometry hash merely because cell counts match. Preserve the partial 21-frame interval and unavailable future hours.
 
 Next 3D work must reconcile the current shared renderer with the 2D owner's release changes, review actual integrated visuals against every item above, then improve the specific outstanding terrain/water/LOD defects within 3D-owned files. Do not overwrite UI files or launch a solver run. The 2D release does not wait for completion of this separate visual workstream.
+
+## Junction fluid layer, November 1, 2026
+
+The integrated Brawley junction layer is implemented in renderer-owned source
+(`tools/simulation/junction-*.js` plus host wiring in
+`geographic-view-source.js`) and documented in
+[JUNCTION-FLUID-LAYER.md](JUNCTION-FLUID-LAYER.md). It adds baked source
+terrain with the official orthophoto, the actual road centreline, and 2,048
+source-seeded PIC/FLIP particles rendered as soft cartoon blobs with visible
+travel, inside the existing camera and lifecycle. No UI-owner or solver-owner
+file was changed.
+
+The served bundle is rebuilt and current with this source. What is explicitly
+**not** established and must not be read as complete: no unit test was executed
+in that session, the integrated browser verification did not finish, and no
+device or user visual acceptance has been performed. See the verification-state
+section of JUNCTION-FLUID-LAYER.md.

@@ -8,6 +8,11 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   if(source){if(source.kind!=='refined-native')throw Error('Unsupported renderer source');loaded=source.loaded;footprints=source.footprints;}
   const flatLabel=source?'Native full-cell mean depth; footprint is not resolved wet extent; gray means missing':'33 ft terrain-intersected display; 328 ft hydraulic grid';
   let restoreSelectedPopup=false,dataGeneration=0,runtime3D,origin3D,altitude3D,terrainSelectionKey,terrainInfo,terrainViewKey='',terrainTask=null,terrainGeneration=0,terrainReadyKey='',terrainModelBudgetKey='',lastDetailIndices=null,detailQueryKey='',detailQueryIndices=null,modelDetailInfo=null;
+  // Junction fluid layer: lazily loaded, bound to the displayed native run, and
+  // parented to the existing refined model group so it shares that exact camera,
+  // origin and vertical frame. Never loaded on flat-map entry.
+  const assetBase=new URL('./',import.meta.url);
+  let junction=null,junctionTask=null,junctionAttachedModel=null,junctionActive=false,junctionStatus={kind:'junction-fluid',status:'off'};
   async function read(path,gzip=false,signal=assetController.signal){
     if(signal.aborted)throw new DOMException('Cancelled','AbortError');
     let abort;const pending=get(path,{signal});
@@ -88,15 +93,100 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   function terrainOptions(){return {extent:map.getExtent(),center:map.getCenter(),zoom:map.getZoom(),budget:innerWidth<600?60000:160000,overviewBudget:260000,maxTiles:12,signal:assetController.signal};}
   function terrainKey(options=terrainOptions()){const e=options.extent;return [e.xmin,e.ymin,e.xmax,e.ymax,options.zoom,options.budget,options.overviewBudget].join(':');}
   function waterBudget(){return innerWidth<600?120000:240000;}
+  // Keep the junction's own state inside the existing one-line map note rather
+  // than adding a second competing banner.
+  function junctionSuffix(){
+    const state=junctionStatus;
+    if(!state||state.status==='off')return '';
+    if(state.status==='loading')return '; loading close-up junction water';
+    if(state.status==='unavailable')return '; close-up junction water unavailable here, which is not a dry result';
+    if(state.status==='dry')return '; no model water inside the junction at this time';
+    return `; ${state.particleCount||0} simulated water blobs at the junction, illustrative motion`;
+  }
+  function composeNote(){
+    const detail=model?.detailStats||modelDetailInfo||{},ground=terrainInfo||{},omitted=detail.omittedWetFaces??detail.omittedFaces??0;
+    return (ground.overviewMode
+      ?`Domain terrain overview; native wet-face water support; ${omitted} wet faces omitted by display budget${detail.budgetLimited?'; zoom in for native detail':''}; cosmetic highlights`
+      :`Source-bound terrain; ${ground.loadedTiles??'native'} / ${ground.visibleTiles??'native'} visible detail tiles; ${detail.omittedFaces||0} faces outside loaded detail; cosmetic highlights`)+junctionSuffix();
+  }
   function reportTerrain(){
     if(!source||!model)return;
     const detail=model.detailStats||modelDetailInfo||{},ground=terrainInfo||{},omitted=detail.omittedWetFaces??detail.omittedFaces??0;
-    if(ground.overviewMode){
-      note.textContent=`Domain terrain overview; native wet-face water support; ${omitted} wet faces omitted by display budget${detail.budgetLimited?'; zoom in for native detail':''}; cosmetic highlights`;
-    }else{
-      note.textContent=`Source-bound terrain; ${ground.loadedTiles??'native'} / ${ground.visibleTiles??'native'} visible detail tiles; ${detail.omittedFaces||0} faces outside loaded detail; cosmetic highlights`;
-    }
+    note.textContent=composeNote();
     onStatus({kind:'terrain-tiles',status:detail.budgetLimited||omitted||ground.completeVisibleCoverage===false||(!ground.overviewMode&&ground.omittedTiles)?'partial':'ready',...ground,water:detail});
+  }
+  // --- One Brawley junction: baked source geography plus the source-bound
+  // --- PIC/FLIP particle layer, inside this same camera and lifecycle. ---
+  const junctionMinimumZoom=15;
+  // Zoom alone decides this. The shared terrain loader falls back to its
+  // whole-domain overview whenever more than maxTiles are visible, and on a
+  // desktop viewport that happens at exactly the zooms the junction is meant
+  // for — gating on detail tiles kept the layer permanently off. The junction's
+  // own baked ground is the finer source-bound surface either way, and its
+  // placement uses the model's own baseM, so it stays aligned in both modes.
+  // The host terrain mode is reported so a coarse surrounding backdrop stays a
+  // visible known limitation rather than a silent one.
+  function junctionEligible(){
+    return !!source&&!!model&&active&&!dead&&viewMode==='3d'&&map.getZoom()>=junctionMinimumZoom;
+  }
+  async function ensureJunction(){
+    if(junction)return junction;
+    if(junctionTask)return junctionTask;
+    junctionTask=(async()=>{
+      const module=await import('./junction-fluid-controller.js');
+      if(dead)return null;
+      junction=module.createJunctionFluidController({base:assetBase,container:surface,document,
+        defaults:{minimumZoom:junctionMinimumZoom},
+        reducedMotion:()=>motion.matches,mobile:()=>innerWidth<600,
+        onStatus:state=>{junctionStatus=state;if(!dead&&viewMode==='3d'&&model)note.textContent=composeNote();onStatus(state);}});
+      junction.setSource(source);
+      return junction;
+    })().catch(error=>{if(error.name!=='AbortError')onStatus({kind:'junction-fluid',status:'unavailable',reason:'Junction layer unavailable: '+error.message});return null;})
+      .finally(()=>{junctionTask=null;});
+    return junctionTask;
+  }
+  function stopJunction(){if(junctionActive||junction?.active){junction?.deactivate();}junctionActive=false;junctionAttachedModel=null;}
+  // Ground metres per screen pixel at the camera centre. Blob size has a screen
+  // floor, so without this a physically sized blob stays subpixel and invisible.
+  function junctionMetresPerPixel(){
+    const direct=map.pixelToDistance?.(1,0);
+    if(Number.isFinite(direct)&&direct>0)return direct;
+    const e=map.getExtent(),size=map.getSize(),centre=map.getCenter();
+    const width=Math.max(1,size?.width||1);
+    const metres=(e.xmax-e.xmin)*111320*Math.cos((centre?.y??0)*Math.PI/180);
+    return Number.isFinite(metres)&&metres>0?metres/width:0;
+  }
+  async function syncJunction(){
+    if(!junction&&!junctionEligible())return;
+    const controller=await ensureJunction();
+    if(!controller||dead)return;
+    if(!junctionEligible()){stopJunction();return;}
+    const pointer=await controller.prepare({signal:assetController.signal});
+    if(dead)return;
+    if(!junctionEligible()||!pointer||!controller.inView(map.getExtent())){stopJunction();return;}
+    controller.setHostTerrain(terrainInfo);
+    controller.setViewScale(junctionMetresPerPixel());
+    if(junctionActive&&junctionAttachedModel===model&&!controller.needsRebuild()){if(frame)controller.setFrame(frame.time);return;}
+    controller.setSource(source);
+    await controller.activate({group:model.group,project:p=>layer.coordinateToVector3(p),altitude:altitude3D,origin:origin3D,baseM:model.baseM,
+      // Let the junction particles read through the native water sheet without
+      // moving native heights; restored by the controller on teardown.
+      setParticleOverlay:enabled=>model.setParticleOverlay?.(enabled),
+      // Cut the host's own ground away under the finer baked patch rather than
+      // letting two samplings of the same terrain fight for the same pixels.
+      setGroundExclusion:box=>model.setGroundExclusion?.(box)},{signal:assetController.signal});
+    if(dead)return;
+    if(!junctionEligible()){stopJunction();return;}
+    junctionActive=true;junctionAttachedModel=model;
+    if(frame)controller.setFrame(frame.time);
+    layer?.renderScene();
+  }
+  let junctionSync=null,junctionPending=false;
+  function scheduleJunction(){
+    if(dead)return;
+    if(junctionSync){junctionPending=true;return;}
+    junctionSync=syncJunction().catch(error=>{if(error.name!=='AbortError')onStatus({kind:'junction-fluid',status:'unavailable',reason:error.message});})
+      .finally(()=>{junctionSync=null;if(junctionPending&&!dead){junctionPending=false;scheduleJunction();}});
   }
   function refreshTerrain(){
     if(!source||!model||!active||dead||viewMode!=='3d')return Promise.resolve();
@@ -105,7 +195,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     const task=source.loadTerrain(options).then(terrain=>{if(dead||!active||viewMode!=='3d'||token!==terrainGeneration)return;terrainInfo={...terrain.stats,overviewMode:terrain.overviewMode===true||terrain.stats?.overviewMode===true,terrainKind:terrain.kind};const budgetKey=options.budget+':'+waterBudget();
       if(terrain.tileSelectionKey!==terrainSelectionKey||terrainModelBudgetKey!==budgetKey){const next=runtime3D.createRefinedWater({loaded,geometry:source.geometry,terrain,origin:origin3D,project:p=>layer.coordinateToVector3(p),altitude:altitude3D,geometryBudget:options.budget,waterGeometryBudget:waterBudget()});layer.removeMesh(model.group,false);model.dispose();model=next;layer.addMesh(model.group,false);terrainSelectionKey=terrain.tileSelectionKey;terrainModelBudgetKey=budgetKey;
         if(active&&viewMode==='3d')mapTexture.setTextureFactory(textureFactory,textureOrigin);lastDetail='';lastDetailIndices=null;modelDetailInfo=null;count('terrainInstalls');}
-      applyDetail();terrainReadyKey=key;if(selected!==null)model.select(selected);layer.renderScene();reportTerrain();
+      applyDetail();terrainReadyKey=key;if(selected!==null)model.select(selected);layer.renderScene();reportTerrain();scheduleJunction();
     }).catch(error=>{if(token===terrainGeneration)terrainViewKey='';if(error.name==='AbortError')return;throw error;}).finally(()=>{if(terrainTask===task)terrainTask=null;});terrainTask=task;return task;
   }
   async function awaitCurrentTerrain(){
@@ -208,7 +298,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     if(viewMode==='flat'){renderFlat().catch(error=>{if(error.name!=='AbortError')onError(error.message);});return;}
     if(!model)return;
     if(source)refreshTerrain().catch(error=>onError('Terrain tiles: '+error.message));
-    applyDetail();
+    applyDetail();scheduleJunction();
   }
   function applyDetail(){if(!model||!active||dead||viewMode!=='3d')return;const zoom=map.getZoom(),extent=map.getExtent();
     const centre=map.getCenter(),queryKey=[extent.xmin,extent.ymin,extent.xmax,extent.ymax,centre.x,centre.y].join(':');
@@ -245,6 +335,9 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     frame=next;mode=nextMode;context=contextGroup??context;
     try{if(viewMode==='3d'){if(!model)await ensure3D();if(!model||!active||dead)throw new DOMException('3D request cancelled','AbortError');await awaitCurrentTerrain();if(updateToken!==dataGeneration||frame!==next||mode!==nextMode)throw new DOMException('Frame superseded during terrain load','AbortError');if(model.frame!==next||last3DMode!==nextMode){model.update(next,nextMode);last3DMode=nextMode;}if(source)reportTerrain();}else await renderFlat();}catch(error){if(error.name!=='AbortError'&&updateToken===dataGeneration&&frame===next){frame=null;popup.hidden=true;layer?.renderScene();}throw error;}
     syncGroup(context,extraContext);syncRoutes();if(selected!==null){model?.select(selected);if(!popup.hidden||restoreSelectedPopup){showCell(selected,false);restoreSelectedPopup=false;}}layer?.renderScene();
+    // Reseed the junction particles from the newly displayed native frame,
+    // keeping that frame's own source time and the current selection.
+    if(viewMode==='3d'){if(junctionActive&&junctionAttachedModel===model)junction?.setFrame(next.time);else scheduleJunction();}
     if(!active||dead||updateToken!==dataGeneration||frame?.time!==next.time||mode!==nextMode||(request&&!sharedState.isCurrent(request.requestId)))throw Error('Renderer frame request superseded');
     return {time:next.time,model:nextMode,view:viewMode};
   }
@@ -263,20 +356,21 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
     try{leaflet.setView([c.y,c.x],map.getZoom(),{animate:false});sharedState?.setViewport({center:[c.x,c.y],zoom:map.getZoom(),bounds:[e.xmin,e.ymin,e.xmax,e.ymax]});}finally{syncing=false;}});
   const routesChanged=()=>{if(active)syncRoutes();};leaflet.on('moveend',syncFromLeaflet);leaflet.on('layeradd layerremove',routesChanged);routeLayer.on?.('layeradd layerremove',routesChanged);
   function startAnimation(){clearInterval(timer);timer=null;if(!active||dead||viewMode!=='3d'||motion.matches||document.hidden)return;
-    timer=setInterval(()=>{if(!active||dead||viewMode!=='3d'||motion.matches||document.hidden){clearInterval(timer);timer=null;return;}if(model){model.animate(performance.now()/1000);layer?.renderScene();}},1000/15);}
+    timer=setInterval(()=>{if(!active||dead||viewMode!=='3d'||motion.matches||document.hidden){clearInterval(timer);timer=null;return;}
+      if(model){model.animate(performance.now()/1000);if(junctionActive)junction?.step(1/15);layer?.renderScene();}},1000/15);}
   function visibility(){startAnimation();}document.addEventListener('visibilitychange',visibility);motion.addEventListener('change',visibility);
-  function hide(){if(!active||dead)return;active=false;cancelAnimationFrame(refreshRAF);refreshRAF=0;mapTexture?.setTextureFactory(null);restoreSelectedPopup=false;modeGeneration++;dataGeneration++;source?.cancel();source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';terrainReadyKey='';cancelOverview();flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(!model){assetController.abort();assetController=new AbortController();}mapTexture?.suspend();clearInterval(timer);const c=map.getCenter(),z=map.getZoom();surface.hidden=true;parent.classList.remove('map-has-3d');leaflet.invalidateSize();leaflet.setView([c.y,c.x],z,{animate:false});popup.hidden=true;}
+  function hide(){if(!active||dead)return;active=false;cancelAnimationFrame(refreshRAF);refreshRAF=0;mapTexture?.setTextureFactory(null);restoreSelectedPopup=false;modeGeneration++;dataGeneration++;junctionActive=false;junctionAttachedModel=null;junctionPending=false;junction?.release();source?.cancel();source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';terrainReadyKey='';cancelOverview();flatGeneration++;flatController.abort();flatTime=null;flatTask=null;if(!model){assetController.abort();assetController=new AbortController();}mapTexture?.suspend();clearInterval(timer);const c=map.getCenter(),z=map.getZoom();surface.hidden=true;parent.classList.remove('map-has-3d');leaflet.invalidateSize();leaflet.setView([c.y,c.x],z,{animate:false});popup.hidden=true;}
   function show(){if(dead)throw Error('3D map disposed');active=true;surface.hidden=false;parent.classList.add('map-has-3d');map.checkSize();if(viewMode==='3d'&&textureFactory)mapTexture?.setTextureFactory(textureFactory,textureOrigin);syncFromLeaflet();refreshDetail();if(selected!==null)model?.select(selected);startAnimation();}
   const resize=new ResizeObserver(()=>{if(active&&!dead){map.setDevicePixelRatio(Math.min(globalThis.devicePixelRatio||1,innerWidth<600?1:1.5));map.checkSize();refreshDetail();}});resize.observe(parent);
   const unsubscribe=sharedState?.subscribe(state=>{const i=state.selection?.kind==='cell'?state.selection.cellIndex:null;if(i!==selected){selected=i;model?.select(i);if(i!==null&&frame&&!popup.hidden)showCell(i,false);}});
-  function dispose(){if(dead)return;hide();clearFlat();dead=true;detailQueryIndices=null;lastDetailIndices=null;source?.dispose();assetController.abort();clearInterval(timer);clearTimeout(timeout);resize.disconnect();
+  function dispose(){if(dead)return;hide();clearFlat();dead=true;junction?.dispose();junction=null;detailQueryIndices=null;lastDetailIndices=null;source?.dispose();assetController.abort();clearInterval(timer);clearTimeout(timeout);resize.disconnect();
     leaflet.off('moveend',syncFromLeaflet);leaflet.off('layeradd layerremove',routesChanged);routeLayer.off?.('layeradd layerremove',routesChanged);
     guardNode.removeEventListener('pointerdown',guardDown,true);guardNode.removeEventListener('pointermove',guardMove,true);guardNode.removeEventListener('pointerup',guardMove,true);guardNode.removeEventListener('pointercancel',guardCancel,true);map.off('dragstart',guardCancel);
     unsubscribe?.();document.removeEventListener('visibilitychange',visibility);motion.removeEventListener('change',visibility);window.removeEventListener('pagehide',dispose);
     layer?.getThreeRenderer?.()?.domElement?.removeEventListener('webglcontextlost',lost);mapTexture?.dispose();model?.dispose();map.remove();surface.remove();}
   window.addEventListener('pagehide',dispose);
   async function setViewMode(value){if(!['flat','3d'].includes(value))throw Error('Unknown geographic view');const token=++modeGeneration;
-    if(value==='flat'){source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';terrainReadyKey='';}if(value==='flat'&&!model){assetController.abort();assetController=new AbortController();}
+    if(value==='flat'){source?.cancelTerrain?.();terrainGeneration++;terrainViewKey='';terrainReadyKey='';junctionActive=false;junctionAttachedModel=null;junctionPending=false;junction?.release();}if(value==='flat'&&!model){assetController.abort();assetController=new AbortController();}
     if(value==='3d'){await ensure3D(token);if(dead||!active||token!==modeGeneration)return;if(!model)await ensure3D(token);if(dead||!active||token!==modeGeneration)return;}
     viewMode=value;mapTexture?.setTextureFactory(value==='3d'?textureFactory:null,textureOrigin);value==='flat'?flatWater.show():flatWater.hide();if(overview.layer){value==='flat'?overview.layer.show():overview.layer.hide();if(value!=='flat')cancelOverview();}
     if(model)model.group.visible=value==='3d';
@@ -287,5 +381,6 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   return {ready,update,show,hide,dispose,get active(){return active;},zoom(delta){map.setZoom(map.getZoom()+delta);},select:showCell,
     get viewMode(){return viewMode;},
     setViewMode,
-    inspect(){return {map,layer,model,selected,frame,active,dead,geography:mapTexture,flatWater,overview,terrainInfo,modelDetailInfo:model?.detailStats||modelDetailInfo,terrainLoading:terrainTask,counters:{...counters,overviewActive,overviewPending:overviewPending?1:0,refreshPending:refreshRAF?1:0,coverageBinCount:coverageBins.size,effectiveDPR:map.getDevicePixelRatio?.()??map.options.devicePixelRatio},animationActive:!!timer&&active&&viewMode==='3d'&&!motion.matches};}};
+    inspect(){return {map,layer,model,selected,frame,active,dead,geography:mapTexture,flatWater,overview,terrainInfo,modelDetailInfo:model?.detailStats||modelDetailInfo,terrainLoading:terrainTask,counters:{...counters,overviewActive,overviewPending:overviewPending?1:0,refreshPending:refreshRAF?1:0,coverageBinCount:coverageBins.size,effectiveDPR:map.getDevicePixelRatio?.()??map.options.devicePixelRatio},animationActive:!!timer&&active&&viewMode==='3d'&&!motion.matches,
+      junctionStatus,junctionActive,junction:junction?.inspect?.()??null,junctionSyncing:!!junctionSync,note:note.textContent};}};
 }
