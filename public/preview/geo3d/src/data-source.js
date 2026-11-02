@@ -12,7 +12,7 @@ async function fetchOk(url,options){
  if(!response.ok)throw new Error(`${url} answered ${response.status}`);
  return response;
 }
-async function loadTile({z,x,y}){
+export async function loadTile({z,x,y}){
  const blob=await (await fetchOk(tileUrl(z,x,y))).blob();
  // Heights are stored in the colour channels, so any colour handling corrupts them.
  const bitmap=await createImageBitmap(blob,{colorSpaceConversion:'none',premultiplyAlpha:'none'});

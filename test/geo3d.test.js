@@ -5,7 +5,8 @@ import {existsSync,readFileSync,readdirSync} from 'node:fs';
 import {resolveDataMode} from '../public/preview/geo3d/src/data-source.js';
 import {fineGrid} from '../public/preview/geo3d/src/scene-config.js';
 import {sceneHeights,sampleHeights} from '../public/preview/geo3d/src/elevation.js';
-import {coarseBed,drainage,pickChannels,carveFine,ribbonMask} from '../public/preview/geo3d/src/channels.js';
+import {coarseBed,drainage,pickChannels,carveFine,ribbonMask,channelsFromLines} from '../public/preview/geo3d/src/channels.js';
+import {drainageNetwork,withWander,carveField,sampleField,streamChains} from '../public/preview/geo3d/src/network.js';
 import {visibleRoadRuns,ribbonMesh} from '../public/preview/geo3d/src/roads.js';
 import {ChannelSimulation} from '../public/preview/geo3d/src/channel-sim.js';
 import {chooseWindow} from '../public/preview/geo3d/src/water-window.js';
@@ -72,6 +73,35 @@ test('on the map layer the water stays in its channel and keeps moving', () => {
  const mask=ribbonMask(raw,fine,map.lines);
  assert.ok(mask.every(Number.isFinite));
  assert.ok(mask.filter((m,k)=>m<raw[k]+1).length<mask.length*.6,'water is clipped to a ribbon');
+});
+
+test('the drainage network finds a valley and cuts channels along it', () => {
+ const w=120,h=120,metres=new Float32Array(w*h);
+ // A valley running down the middle of a slope, with a pit that must not trap the flow.
+ for(let j=0;j<h;j++)for(let i=0;i<w;i++)metres[j*w+i]=500-j*.5+Math.abs(i-60)*.8;
+ metres[60*w+60]-=25;
+ const net=drainageNetwork(metres,w,h),cuts=carveField(net),chains=streamChains(net,()=>true);
+ assert.ok(net.area[(h-1)*w+60]>2000,'the valley collects the slope');
+ assert.ok(chains.length>0);
+ const columns=chains[0].cells.map(k=>k%w);
+ assert.ok(Math.max(...columns.map(c=>Math.abs(c-60)))<=2,'the channel follows the valley floor');
+ assert.ok(cuts[100*w+60]>=5,'the valley floor is cut');
+ assert.equal(cuts[100*w+5],0,'the hillside is left alone');
+ for(let k=0;k<w*h;k++)if(net.receiver[k]>=0)assert.ok(net.filled[net.receiver[k]]<net.filled[k]);
+ assert.equal(sampleField(cuts,w,h,-1,5),0);
+ const a=withWander(metres,w,h),b=withWander(metres,w,h);
+ assert.deepEqual(a,b,'the wander is the same on every load');
+ assert.ok(a.some((v,k)=>v!==metres[k])&&Math.max(...a.map((v,k)=>Math.abs(v-metres[k])))<=10,'it stays small');
+});
+
+test('solver channels connect edge to edge, with banks everywhere else', () => {
+ const line=[];for(let q=0;q<=20;q++)line.push({x:-5+q*2,z:-70+q*4,level:12-q*.1});
+ const {bed,sources}=channelsFromLines([line],raw,fine,GRID,sampleHeights,[2000]);
+ assert.equal(sources.length,1);
+ const sim=new ChannelSimulation(GRID,bed,sources);
+ for(let i=0;i<3600;i++)sim.step(1/60);
+ const m=sim.metrics();
+ assert.equal(m.nonfinite,0);assert.ok(m.wetCells>10,`wet ${m.wetCells}`);assert.ok(m.wetCells<960*.2,`wet ${m.wetCells}`);
 });
 
 test('the water window stays in the area and follows crossings', () => {

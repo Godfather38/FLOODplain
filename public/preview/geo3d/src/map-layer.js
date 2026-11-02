@@ -7,14 +7,15 @@ import {renderOutput} from 'three/tsl';
 import {GRID} from '../../coastal-lowcost/src/coast.js?v=1.3.0';
 import {makeNoiseTexture} from '../../coastal-lowcost/src/noise.js?v=1.3.0';
 import {createShading} from '../../coastal-lowcost/src/shading.js?v=1.3.0';
-import {SCENE,fineGrid,place,setPlace} from './scene-config.js';
-import {sceneHeights,sampleHeights,tileUrl} from './elevation.js';
-import {loadLiveHeights} from './data-source.js';
-import {coarseBed,pickChannels,ribbonMask} from './channels.js';
+import {SCENE,fineGrid,place,setPlace,project,unproject} from './scene-config.js';
+import {sceneHeights,sampleHeights} from './elevation.js';
+import {loadLiveHeights,loadTile} from './data-source.js';
+import {channelsFromLines,ribbonMask} from './channels.js';
+import {drainageNetwork,withWander,carveField,sampleField,streamChains} from './network.js';
 import {COVERAGE,MIN_WATER_ZOOM,chooseWindow} from './water-window.js';
 import {mountAcknowledgement} from './acknowledge.js';
 const $=id=>document.getElementById(id);
-const DEM=tileUrl('{z}','{x}','{y}'),DATA='../../../data/';
+const DATA='../../../data/';
 const diagnostics={ready:false,errors:[],frameTimes:[],layerMs:[],renders:0,windows:[],rebuildMs:null};
 const fail=error=>{diagnostics.errors.push(String(error?.stack||error));$('error').hidden=false;$('error-detail').textContent=String(error?.message||error);};
 window.addEventListener('error',e=>fail(e.error||e.message));window.addEventListener('unhandledrejection',e=>fail(e.reason));
@@ -41,13 +42,39 @@ function sceneToMercator(lowMetres){
   0,vertical,0,(lowMetres*E-SCENE.baseHeight*SCENE.metresPerUnit)*m,
   0,0,0,1);
 }
-const map=new maplibre.Map({container:'map',pixelRatio:Math.min(devicePixelRatio,.75),canvasContextAttributes:{antialias:false},center:[-111.19,32.335],zoom:12.6,pitch:62,bearing:-35,maxPitch:80,
+// The whole area's drainage, from live elevation, before the map asks for any terrain.
+const NET_ZOOM=11,TILE=256,worldX=(lon,z)=>(lon+180)/360*TILE*2**z,worldY=(lat,z)=>{const r=lat*Math.PI/180;return(1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*TILE*2**z;};
+const netLeft=Math.floor(worldX(COVERAGE.west,NET_ZOOM)/TILE)*TILE,netTop=Math.floor(worldY(COVERAGE.north,NET_ZOOM)/TILE)*TILE,netRight=Math.ceil(worldX(COVERAGE.east,NET_ZOOM)/TILE)*TILE,netBottom=Math.ceil(worldY(COVERAGE.south,NET_ZOOM)/TILE)*TILE;
+const netW=netRight-netLeft,netH=netBottom-netTop,netMetres=new Float32Array(netW*netH),netTiles=[];
+for(let y=netTop/TILE;y<netBottom/TILE;y++)for(let x=netLeft/TILE;x<netRight/TILE;x++)netTiles.push({z:NET_ZOOM,x,y});
+for(const t of await Promise.all(netTiles.map(loadTile))){
+ const ox=t.x*TILE-netLeft,oy=t.y*TILE-netTop;
+ for(let j=0;j<TILE;j++)for(let i=0;i<TILE;i++){const q=(j*TILE+i)*4;netMetres[(oy+j)*netW+ox+i]=t.rgba[q]*256+t.rgba[q+1]+t.rgba[q+2]/256-32768;}
+}
+const net=drainageNetwork(withWander(netMetres,netW,netH),netW,netH),cuts=carveField(net);
+const cutAt=(lon,lat)=>sampleField(cuts,netW,netH,worldX(lon,NET_ZOOM)-netLeft,worldY(lat,NET_ZOOM)-netTop);
+const cellLonLat=k=>{const i=k%netW,j=(k-i)/netW,n=TILE*2**NET_ZOOM;return{lon:(i+netLeft)/n*360-180,lat:Math.atan(Math.sinh(Math.PI*(1-2*(j+netTop)/n)))*180/Math.PI};};
+// Terrain tiles reach the map with the channels already cut, so banks catch real hillshade.
+maplibre.addProtocol('carved',async ({url})=>{
+ const [z,x,y]=url.slice('carved://'.length).split('/').map(Number),tile=await loadTile({z,x,y}),{rgba}=tile,n=TILE*2**z;
+ if(z>=NET_ZOOM-2)for(let j=0;j<TILE;j++){
+  const lat=Math.atan(Math.sinh(Math.PI*(1-2*(y*TILE+j+.5)/n)))*180/Math.PI;
+  for(let i=0;i<TILE;i++){
+   const lon=(x*TILE+i+.5)/n*360-180,cut=cutAt(lon,lat);if(!cut)continue;
+   const q=(j*TILE+i)*4,value=Math.max(0,rgba[q]*256+rgba[q+1]+rgba[q+2]/256-cut);
+   rgba[q]=Math.floor(value/256);rgba[q+1]=Math.floor(value%256);rgba[q+2]=Math.floor(value*256%256);
+  }
+ }
+ return{data:await createImageBitmap(new ImageData(rgba,TILE,TILE),{premultiplyAlpha:'none',colorSpaceConversion:'none'})};
+});
+const map=new maplibre.Map({container:'map',pixelRatio:Math.min(devicePixelRatio,1),canvasContextAttributes:{antialias:false},center:[-111.19,32.335],zoom:12.6,pitch:62,bearing:-35,maxPitch:80,
  style:{version:8,sources:{
-  dem:{type:'raster-dem',tiles:[DEM],encoding:'terrarium',tileSize:256,maxzoom:13,attribution:'Terrain Tiles (Mapzen, AWS Open Data)'},
-  shade:{type:'raster-dem',tiles:[DEM],encoding:'terrarium',tileSize:256,maxzoom:13},
+  dem:{type:'raster-dem',tiles:['carved://{z}/{x}/{y}'],encoding:'terrarium',tileSize:256,maxzoom:13,attribution:'Terrain Tiles (Mapzen, AWS Open Data)'},
+  shade:{type:'raster-dem',tiles:['carved://{z}/{x}/{y}'],encoding:'terrarium',tileSize:256,maxzoom:13},
   osm:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,maxzoom:18,attribution:'© OpenStreetMap'},
   routes:{type:'geojson',data:new URL(DATA+'routes.geojson',import.meta.url).href}},
-  layers:[{id:'osm',type:'raster',source:'osm'},{id:'relief',type:'hillshade',source:'shade',paint:{'hillshade-exaggeration':.6}},{id:'routes',type:'line',source:'routes',paint:{'line-color':'#2d2c2b','line-width':3,'line-opacity':.85}}],terrain:{source:'dem',exaggeration:SCENE.verticalExaggeration}}});
+  // Desert ground first and the street map only as a faint overlay, so it reads as land.
+  layers:[{id:'ground',type:'background',paint:{'background-color':'#cdb48c'}},{id:'osm',type:'raster',source:'osm',paint:{'raster-opacity':.42,'raster-saturation':-.35}},{id:'relief',type:'hillshade',source:'shade',paint:{'hillshade-exaggeration':1,'hillshade-shadow-color':'#3b2a18','hillshade-highlight-color':'#fff1d0','hillshade-accent-color':'#6d5433','hillshade-illumination-direction':315}},{id:'routes',type:'line',source:'routes',paint:{'line-color':'#2d2c2b','line-width':3,'line-opacity':.85}}],terrain:{source:'dem',exaggeration:SCENE.verticalExaggeration}}});
 let renderer,shaders,worker=null,water=null,crossings=[],current=null,building=0,pending=null,simTime=0,previousTime=0,renderClock=0,last=performance.now();
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera();camera.matrixAutoUpdate=false;camera.matrixWorldAutoUpdate=false;
 const transform=new THREE.Matrix4(),clip=new THREE.Matrix4();
@@ -69,9 +96,14 @@ async function moveWater(target){
  setPlace(target.lat,target.lon);
  const metres=await loadLiveHeights();
  if(token!==building)return;
- const raw=sceneHeights(metres),low=metres.reduce((a,b)=>Math.min(a,b),Infinity);
- const V=SCENE.visible,towards=target.name?{x:(V.x0+V.x1)/2,z:(V.z0+V.z1)/2}:null;
- const nextTransform=sceneToMercator(low),channels=pickChannels(coarseBed(raw,fine,GRID,sampleHeights),GRID,2,{carve:0,minDrop:.005,confine:true,towards}),mask=ribbonMask(raw,fine,channels.lines);
+ // The same cuts the map's terrain has, so water and banks line up.
+ for(let j=0;j<fine.nz;j++)for(let i=0;i<fine.nx;i++){const {lon,lat}=unproject(fine.x0+i*fine.dx,fine.z0+j*fine.dz);metres[j*fine.nx+i]-=cutAt(lon,lat);}
+ const raw=sceneHeights(metres),low=metres.reduce((a,b)=>Math.min(a,b),Infinity),V=SCENE.visible;
+ const inWindow=k=>{const c=cellLonLat(k),p=project(c.lon,c.lat);return p.x>=V.x0&&p.x<=V.x1&&p.z>=V.z0&&p.z<=V.z1;};
+ const chains=streamChains(net,inWindow);
+ if(!chains.length){building++;water.visible=false;worker?.postMessage({type:'pause',value:true});current=target;$('window').textContent='No channel large enough in this part of the view.';return;}
+ const lines=chains.map(({cells})=>{let level=Infinity;return cells.map(k=>{const c=cellLonLat(k),p=project(c.lon,c.lat);level=Math.min(level-.002,sampleHeights(raw,fine,p.x,p.z)+.35);return{x:p.x,z:p.z,level};});});
+ const nextTransform=sceneToMercator(low),channels=channelsFromLines(lines,raw,fine,GRID,sampleHeights,chains.map(c=>c.size)),mask=ribbonMask(raw,fine,lines,1.5);
  const next=new Worker(new URL('./worker.js',import.meta.url),{type:'module'});
  next.onerror=e=>fail(e.message);
  next.onmessage=({data:m})=>{

@@ -89,6 +89,25 @@ export function pickChannels(bed,grid,maxTributaries=2,{carve=CARVE,minDrop=MIN_
  }
  return{bed:carved,paths,lines,sources:paths.map(p=>({cell:p.cells.at(-1),rate:p.rate}))};
 }
+// Solver setup from stream lines already cut into the terrain: {x,z,level} points running
+// downstream. Only cells along the lines can hold water; every other cell is a raised bank.
+export function channelsFromLines(lines,heights,fine,grid,sample,sizes){
+ const {nx,nz,x0,z0,dx,dz}=grid,bed=new Float32Array(nx*nz),band=new Uint8Array(nx*nz),sources=[];
+ for(let j=0;j<nz;j++)for(let i=0;i<nx;i++)bed[j*nx+i]=sample(heights,fine,x0+i*dx,z0+j*dz)+BANK;
+ const cellAt=(x,z)=>{const i=Math.max(0,Math.min(nx-1,Math.round((x-x0)/dx))),j=Math.max(0,Math.min(nz-1,Math.round((z-z0)/dz)));return{i,j};};
+ const lower=(i,j,level)=>{const k=j*nx+i;bed[k]=band[k]?Math.min(bed[k],level):level;band[k]=1;};
+ lines.forEach((line,index)=>{
+  let previous=null;
+  for(const p of line){
+   const c=cellAt(p.x,p.z);
+   // Walk one axis at a time: the solver only passes water between edge-sharing cells.
+   if(previous){let {i,j}=previous;while(i!==c.i||j!==c.j){if(i!==c.i)i+=Math.sign(c.i-i);else j+=Math.sign(c.j-j);lower(i,j,p.level);}}
+   else{lower(c.i,c.j,p.level);sources.push({cell:c.j*nx+c.i,rate:Math.min(SOURCE_RATES.main,SOURCE_RATES.tributary*(1+Math.log2(1+(sizes?.[index]??1)/900)))});}
+   previous=c;
+  }
+ });
+ return{bed,sources};
+}
 // The height the toon shader compares water against. It shows water only above this, so a
 // trough along the channel clips the water to a ribbon without editing the map's terrain.
 export function ribbonMask(heights,fine,lines,halfWidth=2.5){
