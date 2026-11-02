@@ -25,10 +25,11 @@
   <link rel="stylesheet" href="style.css?v=dev">
 <link rel="stylesheet" href="simulation/map-layers.css">
 <link rel="stylesheet" href="live-map.css">
+<link rel="stylesheet" href="accessible-ui.css">
 </head>
 <body>
   <header class="appbar">
-    <button id="back" class="icon-btn" type="button" aria-label="Back" hidden>
+    <button id="back" class="icon-btn" type="button" aria-label="Back" hidden><span>Back</span>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z"/></svg>
     </button>
     <img id="logo" class="logo" src="icons/logo.svg" alt="" width="36" height="36">
@@ -36,7 +37,7 @@
       <h1 id="title">FLOODplain</h1>
       <p id="subtitle">Avra Valley ↔ I-10</p>
     </div>
-    <button id="refresh" class="icon-btn" type="button" aria-label="Check again">
+    <button id="refresh" class="icon-btn" type="button" aria-label="Check again"><span>Refresh</span>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"/></svg>
     </button>
   </header>

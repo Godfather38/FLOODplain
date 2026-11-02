@@ -1,0 +1,25 @@
+/* Readability layer: shared risk colors are installed by semantic-colors.js. */
+:root{--primary:#155fbd;--muted:#55544f}
+@media(prefers-color-scheme:dark){:root{--primary:#9ac1ff;--muted:#c4c3bd}}
+body{font-size:1rem;line-height:1.5}
+.appbar{height:auto;min-height:64px;flex-wrap:wrap;padding-block:8px}
+#title{white-space:normal;font-size:1.375rem}#subtitle{font-size:.875rem}
+.appbar .icon-btn{width:auto;min-width:48px;height:auto;min-height:48px;border-radius:12px;padding:6px;gap:2px;font-size:.875rem}
+.appbar .icon-btn svg{width:20px;height:20px}
+.btn,.btn.small,.seg button{height:auto;min-height:48px;padding-block:12px;white-space:normal}
+.row .st{white-space:normal;overflow:visible}.row,.hero-top,.hero .actions,.time-row{flex-wrap:wrap}
+.meta,.row .st,.fine,.consent,.badge-word,.overline,.page,.page h4,.field,.check-status,.bridge-time,.bridge-evidence dd,.bridge-evidence p{font-size:1rem}
+.badge{outline:1px solid var(--on);outline-offset:2px}.badge.sq,.pin.sq{border-style:dashed;border-width:2px;border-color:currentColor}
+.primary-destinations{height:auto;min-height:56px;position:relative;top:auto;flex-wrap:wrap}.primary-destinations a{padding:10px;min-width:0}
+button,summary,select,input{min-height:48px}button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+.map-first .dock-status,.map-first .dock-key,.map-first .dock-key .depth-key,.map-first .flood-time .flood-eyebrow,.map-first .phone-source-details,.map-first .phone-source-details .source-age,.map-first .phone-source-details .flood-time-ends,.map-first .map-camera button,.map-first .dock-actions button,.render-notice,.live-map-panel p{font-size:.875rem;line-height:1.5}
+.map-first .flood-time output{font-size:1.125rem}.map-first .map-camera button,.map-first .dock-actions button,.map-first .flood-time-controls button{min-height:48px;min-width:48px;height:auto}
+.map-first .map-dock{max-height:48dvh;overflow:auto}.map-first .map-sheet{max-height:80%}
+.maplibregl-popup-close-button{width:48px;height:48px}.map-first .voxel-geographic .voxel-cell-info{font-size:1rem}
+.live-map-panel{background:var(--surface);color:var(--on)}.live-map-panel summary{min-height:48px}
+.risk-key{background:var(--surface);color:var(--on);border:1px solid var(--muted);border-radius:10px;padding:8px 12px;font-size:.875rem;margin:8px 0}.risk-key summary{cursor:pointer;font-weight:600}.risk-key ul{list-style:none;display:flex;flex-wrap:wrap;gap:12px;padding:0}.risk-key li{display:flex;align-items:center;gap:8px}.risk-key .badge{width:32px;height:32px;font-size:1rem}.risk-key p{margin:8px 0}
+.help-link{min-height:48px;padding:10px;display:inline-flex;align-items:center}
+.how-dialog{background:var(--surface);color:var(--on);border:2px solid var(--muted);border-radius:20px;padding:24px;width:min(36rem,calc(100% - 24px));max-height:90dvh;overflow:auto}.how-dialog::backdrop{background:#0009}.how-dialog h2{font-size:1.5rem;line-height:1.3}.how-dialog p{font-size:1.125rem}.how-dialog header,.how-dialog footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}.how-dialog button{font:inherit;padding:12px;border-radius:12px;cursor:pointer}.how-dialog header p{margin:0}.how-dialog footer{margin-top:24px}
+@media(max-width:600px){.page{padding:12px}.hero{padding:16px}.hero .actions .btn{flex:1 1 100%}.map-first main{height:calc(100dvh - 160px);min-height:350px}.map-first{height:auto;overflow:auto}.depth-key{grid-template-columns:repeat(3,minmax(0,1fr))}.primary-destinations a{flex:1 1 40%}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.map-first .map-dock .dock-status{font-size:.875rem;line-height:1.5}

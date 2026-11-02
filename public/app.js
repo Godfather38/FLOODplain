@@ -1,3 +1,5 @@
+import { RISK_COLORS, UNKNOWN_COLOR, installRiskColors } from './semantic-colors.js';
+installRiskColors();
 import { imperialSourceText } from './display-units.js';
 import {loadBridgeEvidence,bridgeRecordFor,bridgeHistory} from './simulation/bridge-evidence.js';
 import {mountFloodLayers} from './simulation/map-layers.js';
@@ -15,7 +17,7 @@ import {
 
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
-const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62828' };
+const COLOR = RISK_COLORS;
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
 const SRC = {
   none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
@@ -784,12 +786,12 @@ function drawMap(w) {
     for (const rid of fp.routes.filter((x) => inArea.has(x))) {
       for (const line of lineCoords(routeFeatures.find((f) => f.properties.id === rid).geometry)) {
         for (const run of stretchAround(line, fp.lat, fp.lon, fp.kind === 'road' ? 2500 : 450)) {
-          L.polyline(run, { color: COLOR[Math.floor(s)] ?? '#8e8d88', weight: rid === focus ? 9 : 5, opacity: 0.95, lineCap: 'round', interactive: false }).addTo(layer);
+          L.polyline(run, { color: COLOR[Math.floor(s)] ?? UNKNOWN_COLOR, weight: rid === focus ? 9 : 5, opacity: 0.95, lineCap: 'round', interactive: false }).addTo(layer);
         }
       }
     }
     const rid = fp.routes.includes(focus) ? focus : fp.routes.find((x) => inArea.has(x));
-    L.marker([fp.lat, fp.lon], { title: fp.short, alt: fp.short, icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${s}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
+    L.marker([fp.lat, fp.lon], { color: COLOR[Math.floor(s)] ?? UNKNOWN_COLOR, title: fp.short, alt: fp.short, icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${Math.floor(s)}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
       .on('click', () => { location.hash = `#/r/${rid}/${fp.id}`; })
       .addTo(layer);
   }
