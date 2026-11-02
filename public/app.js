@@ -1,6 +1,11 @@
-import {loadBridgeEvidence,bridgeRecordFor,bridgeHistory} from './simulation/bridge-evidence.js';
-import {mountFloodLayers} from './simulation/map-layers.js';
-import {mountLiveMap} from './live-map.js';
+import { RISK_COLORS, UNKNOWN_COLOR, installRiskColors } from './semantic-colors.js?v=dev';
+import './show-me-how.js?v=dev';
+import {mountRouteTracking} from './simulation/route-tracking.js?v=dev';
+installRiskColors();
+import { imperialSourceText } from './display-units.js?v=dev';
+import {loadBridgeEvidence,bridgeRecordFor,bridgeHistory} from './simulation/bridge-evidence.js?v=dev';
+import {mountFloodLayers} from './simulation/map-layers.js?v=dev';
+import {mountLiveMap} from './live-map.js?v=dev';
 import { savedRoutes, toggleSavedRoute, checkAge } from './preferences.js?v=dev';
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
@@ -14,7 +19,7 @@ import {
 
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
-const COLOR = { 1: '#2e7d32', 2: '#4f7fc4', 3: '#d99a1e', 4: '#e0662a', 5: '#c62828' };
+const COLOR = RISK_COLORS;
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
 const SRC = {
   none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
@@ -203,7 +208,7 @@ function bridgeCardEvidence(p) {
   const label={below_warning:'Water stays below the road',warning:'Water is nearing the road',roadway_concern:'Water reaches the road',likely_closed:'Likely closed',unavailable:'Height comparison unavailable'}[h.assessment];
   const tone=h.assessment==='below_warning'?'calm':h.assessment==='warning'?'watch':'concern';
   const ratio=h.heightAboveChannelM>0?Math.max(0,Math.min(1.1,(h.waterM-h.channelM)/h.heightAboveChannelM)):0;
-  return `<div class="angel bridge-angel ${tone}"><span class="face" aria-hidden="true">${tone==='calm'?'&#128519;':'!'}</span><div class="bridge-bubble"><div class="bridge-kicker">${esc(p.short)}</div><strong class="bridge-status">${esc(label)}</strong><div class="bridge-reading"><div><span class="bridge-gap">${Math.abs(h.differenceM).toFixed(2)} <small>m</small></span><span class="bridge-relation">${h.differenceM>=0?'below':'above'} roadway</span></div><div class="bridge-diagram" aria-hidden="true" style="--water:${Math.min(100,ratio/1.1*100).toFixed(1)}%"><span class="bridge-road">ROAD</span><span class="bridge-water"></span></div></div><div class="bridge-time">Model estimate · ${esc(time)} Arizona${c.bridgePoints>0?` · +${c.bridgePoints} route risk`: ''}</div></div></div>`;
+  return `<div class="angel bridge-angel ${tone}"><span class="face" aria-hidden="true">${tone==='calm'?'&#128519;':'!'}</span><div class="bridge-bubble"><div class="bridge-kicker">${esc(p.short)}</div><strong class="bridge-status">${esc(label)}</strong><div class="bridge-reading"><div><span class="bridge-gap">${(Math.abs(h.differenceM)/0.3048).toFixed(1)} <small>ft</small></span><span class="bridge-relation">${h.differenceM>=0?'below':'above'} roadway</span></div><div class="bridge-diagram" aria-hidden="true" style="--water:${Math.min(100,ratio/1.1*100).toFixed(1)}%"><span class="bridge-road">ROAD</span><span class="bridge-water"></span></div></div><div class="bridge-time">Model estimate · ${esc(time)} Arizona${c.bridgePoints>0?` · +${c.bridgePoints} route risk`: ''}</div></div></div>`;
 
 }
 const routeBridgeEvidence=r=>r.points.map(bridgeCardEvidence).join('');
@@ -307,10 +312,10 @@ function bridgeEvidencePlaceholder(fp){
  if(!['bridge','river'].includes(fp.kind))return '';
  const record=bridgeRecordFor(fp,bridgeEvidence?.registry),history=bridgeHistory(record);
  const height=bridgeHeightComparison(record,Date.now(),cfg.BRIDGE_POLICY),road=record?.roadwayEstimate,water=record?.modelWater;
- const heightHtml=road?`<dt>Estimated roadway height</dt><dd>About ${road.elevationM.toFixed(2)} m ${esc(road.verticalDatum)}. Approach samples: ${road.approachElevationsM.map(v=>v.toFixed(3)).join(' and ')} m. <a href="${esc(road.source)}" target="_blank" rel="noopener noreferrer">Road profile source</a>. ${esc(road.method)}</dd>`:'<dt>Roadway height</dt><dd>No site-linked estimate available.</dd>';
- const waterHtml=height.status==='estimated'?`<dt>Highest remaining modeled water elevation</dt><dd>${height.waterM.toFixed(2)} m ${esc(height.datum)} at ${esc(new Date(height.time).toLocaleString('en-US',{timeZone:'America/Phoenix'}))} Arizona time. Estimated road is ${Math.abs(height.differenceM).toFixed(2)} m ${height.differenceM>=0?'above':'below'} that modeled water surface. This is roadway height difference, not under-bridge clearance.</dd><dt>Water source and period</dt><dd>Native SFINCS water surface, 100 m cell ${water.cellIndex} containing this bridge. Issued ${esc(water.issuedAt)}; forecast ${esc(water.validFrom)} through ${esc(water.validTo)}. ${esc(water.method)} <a href="simulation/data/current-sfincs-manifest.json">Model source</a>.</dd>`:`<dt>Water elevation comparison</dt><dd>${esc(height.reason)}</dd>`;
- const historyHtml=history.length?history.map(h=>`<p><a href="${esc(h.source)}" target="_blank" rel="noopener noreferrer">${esc(h.date)} report and photographs</a>: ${esc(h.summary)}</p><p>${esc(h.siteMatch||'')}</p><p>${esc(h.interpretationLimit||'')}</p>`).join(''):'No confirmed structure-specific flooding history linked. '+esc(record?.historyLimit||'This does not mean it has never flooded.');
- return `${bridgeCardEvidence(view.fpResults[fp.id])}<details class="bridge-evidence" data-bridge-evidence data-crossing-id="${esc(fp.id)}"><summary>Sources &amp; warning levels</summary><div class="bridge-evidence-body">${bridgeEvidence?.status==='unavailable'?`<p role="status">Evidence package unavailable: ${esc(bridgeEvidence.reason)}. Missing fields below are not proof of no flood history.</p>`:''}<dl>${heightHtml}${waterHtml}<dt>Bridge warning policy</dt><dd>${height.thresholds?`Channel reference ${height.channelM.toFixed(3)} m NAVD88; estimated road height above channel ${height.heightAboveChannelM.toFixed(3)} m. Warning at ${height.thresholds.warningM.toFixed(3)} m; roadway concern at ${height.thresholds.roadwayM.toFixed(3)} m; likely closed — model estimate at ${height.thresholds.likelyClosedM.toFixed(3)} m. ${esc(height.assessmentLabel)}. Operator-selected 90% / 100% / 110% policy, not a measured error bound. <a href="${esc(record.channelReference.source)}">Channel terrain source</a>. ${esc(record.channelReference.method)}`:esc(height.assessmentLabel||height.reason)}</dd><dt>Under-bridge clearance</dt><dd>Underside elevation is unavailable. Roadway height is not underside height; gauge flow in cfs is not water elevation.</dd><dt>Documented flooding or overtopping</dt><dd>${historyHtml}</dd></dl><p>Current readings and official barricade reports are shown below. Bridge ratings use site-matched roadway/water comparisons and reported hazards; flow cutoffs do not determine bridge inundation.</p>${record?`<details><summary>Evidence source</summary><p>Structure matched by its recorded coordinates; map tag, not survey confirmation. Registry ${esc(bridgeEvidence.source.sourceCommit)}. Structure evidence is separate from model coverage and current official closures.</p></details>`:''}</div></details>`;
+ const heightHtml=road?`<dt>Estimated roadway height</dt><dd>About ${(road.elevationM/0.3048).toFixed(1)} ft (${esc(road.verticalDatum)} elevation reference). Approach samples: ${road.approachElevationsM.map(v=>(v/0.3048).toFixed(1)).join(' and ')} ft. <a href="${esc(road.source)}" target="_blank" rel="noopener noreferrer">Road profile source</a>. ${esc(imperialSourceText(road.method))}</dd>`:'<dt>Roadway height</dt><dd>No site-linked estimate available.</dd>';
+ const waterHtml=height.status==='estimated'?`<dt>Highest water still in the forecast</dt><dd>${(height.waterM/0.3048).toFixed(1)} ft ${esc(height.datum)} at ${esc(new Date(height.time).toLocaleString('en-US',{timeZone:'America/Phoenix'}))} Arizona time. Estimated road is ${(Math.abs(height.differenceM)/0.3048).toFixed(1)} ft ${height.differenceM>=0?'above':'below'} that modeled water surface. This compares water with the road surface. It does not measure space under the bridge.</dd><dt>Water source and period</dt><dd>SFINCS water estimate for the 328 ft model cell ${water.cellIndex} containing this bridge. Issued ${esc(water.issuedAt)}; forecast ${esc(water.validFrom)} through ${esc(water.validTo)}. ${esc(imperialSourceText(water.method))} <a href="simulation/data/current-sfincs-manifest.json">Model source</a>.</dd>`:`<dt>Water elevation comparison</dt><dd>${esc(height.reason)}</dd>`;
+ const historyHtml=history.length?history.map(h=>`<p><a href="${esc(h.source)}" target="_blank" rel="noopener noreferrer">${esc(h.date)} report and photographs</a>: ${esc(h.summary)}</p><p>${esc(h.siteMatch||'')}</p><p>${esc(h.interpretationLimit||'')}</p>`).join(''):'No confirmed flood report is linked to this bridge. '+esc(record?.historyLimit||'This does not mean it has never flooded.');
+ return `${bridgeCardEvidence(view.fpResults[fp.id])}<details class="bridge-evidence" data-bridge-evidence data-crossing-id="${esc(fp.id)}"><summary>Sources &amp; warning levels</summary><div class="bridge-evidence-body">${bridgeEvidence?.status==='unavailable'?`<p role="status">Evidence package unavailable: ${esc(bridgeEvidence.reason)}. Missing fields below are not proof of no flood history.</p>`:''}<dl>${heightHtml}${waterHtml}<dt>When the warning changes</dt><dd>${height.thresholds?`Channel elevation ${(height.channelM/0.3048).toFixed(1)} ft NAVD88; estimated road height above channel ${(height.heightAboveChannelM/0.3048).toFixed(1)} ft. Warning at ${(height.thresholds.warningM/0.3048).toFixed(1)} ft; roadway concern at ${(height.thresholds.roadwayM/0.3048).toFixed(1)} ft; likely closed — model estimate at ${(height.thresholds.likelyClosedM/0.3048).toFixed(1)} ft. ${esc(height.assessmentLabel)}. Warnings begin when water reaches 90% of the channel-to-road height; road-level concern begins at 100%, and likely closed at 110%. These are warning rules, not measured accuracy. <a href="${esc(record.channelReference.source)}">Channel terrain source</a>. ${esc(imperialSourceText(record.channelReference.method))}`:esc(height.assessmentLabel||height.reason)}</dd><dt>Under-bridge clearance</dt><dd>We do not have the height of the bridge underside. The road height cannot tell us the clearance beneath it.</dd><dt>Documented flooding or overtopping</dt><dd>${historyHtml}</dd></dl><p>Current readings and county barricade reports are below. River flow alone cannot tell us whether this bridge is underwater.</p>${record?`<details><summary>Evidence source</summary><p>Structure matched by its recorded coordinates; map tag, not survey confirmation. Registry ${esc(bridgeEvidence.source.sourceCommit)}. Structure evidence is separate from model coverage and current official closures.</p></details>`:''}</div></details>`;
 }
 
 function stretchScreen(rid, fpId) {
@@ -374,7 +379,7 @@ function reportScreen(fpId) {
 
 function howScreen() {
   return `<div class="page">
-    <h4>The number</h4>
+    <button type="button" class="btn btn-primary" data-show-me-how>Show me how: 3 steps</button><h4>The number</h4>
     <ul class="legend">
       ${[1, 2, 3, 4, 5].map((n) => `<li>${badge(n)}<span><b>${WORD[n]}.</b> ${['Nothing in the data points to water.', 'Some water around; usually passable. Look as you go.', 'Water likely at or near the road.', 'Several signs agree water is at the road.', 'The county closed it, or a flood is running.'][n - 1]}</span></li>`).join('')}
       <li>${badge(null)}<span><b>No data.</b> Not the same as fine.</span></li>
@@ -636,6 +641,7 @@ function wireReport() {
 // Newest first. Add a line here whenever something people can notice changes.
 const UPDATES = [
   ['November 1, 2026', [
+    'New: accessible colors on every map icon, visible Back and Refresh labels, a 3-step guide, heights in feet, and coverage and gauge tracking for every location on a route.',
     'Fixed: road closures now show at the top of the screen and on the map, and a closed route no longer offers directions.',
     'New: closures and utility work from TransView are checked against each route line. County barricades count only on the part of a road the route uses.',
     'Changed: a county closure anywhere along a route now counts, not only near a listed crossing. Proceed with Caution alone is now a 2, and distant gauges no longer raise it; a live sign at the road brings it back to a 3 or more. Where we know the road height, the flood model is compared with the road itself.',
@@ -703,7 +709,7 @@ function render() {
   $('#logo').hidden = sub;
   $('#refresh').hidden = sub && !['route', 'stretch'].includes(w.screen);
   const titles = {
-    home: ["FLOODplain", subtitle()], map: ['Flood map', 'Live readings and dated model forecasts'],
+    home: ["FLOODplain", subtitle()], map: ['Flood map', 'Live readings and forecasts'],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
     how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
@@ -724,6 +730,13 @@ function render() {
     updateCheckAge();
   }
   wire(w);
+  if (['route', 'stretch'].includes(w.screen)) {
+    const tracking = document.createElement('section');
+    tracking.setAttribute('aria-label', 'Route coverage and gauge tracking');
+    const bottom = $('#screen .bottom-bar');
+    if (bottom) bottom.before(tracking); else $('#screen').append(tracking);
+    mountRouteTracking(tracking, { routeId: w.route, entryId: w.screen === 'stretch' ? w.fp : null, flows: data.flows, alert: data.alert, closures: data.closures });
+  }
   drawMap(w);
   liveMap.update({active:w.screen==='map',data,view});
   window.dispatchEvent(new Event('flood-screen-rendered'));
@@ -790,6 +803,7 @@ const layer = L.layerGroup().addTo(map);
 const liveObservations=L.layerGroup().addTo(map);
 const rendererRoutes=L.layerGroup([layer,liveObservations]).addTo(map);
 mountFloodLayers(map,{routeLayer:rendererRoutes,streetTiles});
+document.querySelector('[data-home]').onclick=()=>map.fitBounds(allBounds,{paddingTopLeft:[24,30],paddingBottomRight:[24,30],animate:false});
 const liveMap=mountLiveMap(map,{refresh:()=>check(),observations:liveObservations,embedded:true});
 let allBounds;
 const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
@@ -803,6 +817,7 @@ function stretchAround(coords, lat, lon, m) {
   if (cur.length) runs.push(cur);
   return runs.filter((r) => r.length > 1);
 }
+let mapCameraSet=false;
 function drawMap(w) {
   if ($('#map').hidden) return;
   map.invalidateSize();
@@ -825,12 +840,12 @@ function drawMap(w) {
     for (const rid of fp.routes.filter((x) => inArea.has(x))) {
       for (const line of lineCoords(routeFeatures.find((f) => f.properties.id === rid).geometry)) {
         for (const run of stretchAround(line, fp.lat, fp.lon, fp.kind === 'road' ? 2500 : 450)) {
-          L.polyline(run, { color: COLOR[Math.floor(s)] ?? '#8e8d88', weight: rid === focus ? 9 : 5, opacity: 0.95, lineCap: 'round', interactive: false }).addTo(layer);
+          L.polyline(run, { color: COLOR[Math.floor(s)] ?? UNKNOWN_COLOR, weight: rid === focus ? 9 : 5, opacity: 0.95, lineCap: 'round', interactive: false }).addTo(layer);
         }
       }
     }
     const rid = fp.routes.includes(focus) ? focus : fp.routes.find((x) => inArea.has(x));
-    L.marker([fp.lat, fp.lon], { title: fp.short, alt: fp.short, icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${s}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
+    L.marker([fp.lat, fp.lon], { title: fp.short, alt: fp.short, icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${Math.floor(s)}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
       .on('click', () => { location.hash = `#/r/${rid}/${fp.id}`; })
       .addTo(layer);
   }
@@ -858,8 +873,10 @@ function drawMap(w) {
     else map.setView(pts[0], 15, { animate: false });
   } else if (w.screen === 'route') {
     map.fitBounds(L.geoJSON(routeFeatures.find((f) => f.properties.id === w.route)).getBounds(), opts);
-  } else if(w.screen!=='map'||!map._loaded) {
+  } else if(w.screen!=='map'||!mapCameraSet) {
     map.fitBounds(allBounds, opts);
+    // The Map screen keeps wherever the driver moved it after this first fit.
+    if(w.screen==='map')mapCameraSet=true;
   }
 }
 function gaugesFor(fp, c) {
