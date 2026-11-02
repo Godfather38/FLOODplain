@@ -38,6 +38,18 @@ export function computeExtent(j,flow){
  return {mask,wetCells:wet,wetAreaM2:wet*cellM2,noEstimateCells:noEstimate,noHandCells:noHand,totalCells:cols*rows,touchesWindowEdge:edge,stages:j.hydroIds.map((hydroId,i)=>({hydroId,stageM:stages[i]}))};
 }
 
+// Water height above the terrain in each wet cell: stage minus HAND, in metres. Null everywhere else.
+// It reads the extent's own mask and stages, so the painted area is exactly the estimated extent.
+export function depthGrid(j,extent){
+ const out=new Float32Array(extent.mask.length).fill(NaN);
+ for(let i=0;i<out.length;i++)if(extent.mask[i])out[i]=Math.max(0,extent.stages[j.catchment[i]].stageM-j.handCm[i]/100);
+ return out;
+}
+// Water colors only. Amber and red stay reserved for route and crossing risk.
+export const HAND_DEPTH_BANDS=Object.freeze([
+ {maxM:.1,label:'0–0.3',rgb:[96,214,204]},{maxM:.3,label:'0.3–1',rgb:[46,190,196]},{maxM:1,label:'1–3.3',rgb:[24,155,186]},
+ {maxM:2,label:'3.3–6.6',rgb:[18,116,168]},{maxM:4,label:'6.6–13.1',rgb:[14,78,142]},{maxM:Infinity,label:'13.1+',rgb:[8,42,100]}]);
+export const depthBand=m=>HAND_DEPTH_BANDS.findIndex(b=>m<b.maxM);
 const withoutMask=e=>{if(!e)return null;const {mask,...rest}=e;return rest;};
 
 function flowSource(j){
@@ -81,7 +93,7 @@ export function estimateFromFlow(j,flowM3s,{now=Date.now(),source='scenario',sta
  const extent=computeExtent(j,flowM3s);
  if(!extent)return result(j,{status:'beyond_rating',reason:'Flow is above the top of the rating curve; no extent is estimated',flowM3s},info);
  const half=computeExtent(j,flowM3s/2),double=computeExtent(j,flowM3s*2);
- return result(j,{status,reason:flowM3s>0?reason:`${reason}. The flow is zero, so no water is estimated.`,flowM3s,flowTime,extent:withoutMask(extent),sensitivity:{halfFlow:withoutMask(half),doubleFlow:withoutMask(double)},masks:{half:half.mask,flow:extent.mask,double:double?.mask??null}},info);
+ return result(j,{status,reason:flowM3s>0?reason:`${reason}. The flow is zero, so no water is estimated.`,flowM3s,flowTime,extent:withoutMask(extent),sensitivity:{halfFlow:withoutMask(half),doubleFlow:withoutMask(double)},masks:{half:half.mask,flow:extent.mask,double:double?.mask??null},depthM:depthGrid(j,extent)},info);
 }
 
 // A forecast that isn't usable, or is for another reach, gives no extent.

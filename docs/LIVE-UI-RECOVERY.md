@@ -28,3 +28,9 @@ Route closures, closure banner and markers, no directions on closed routes, Tran
 ## Consequence of removing retained model water
 
 Bridge cards no longer compare road height with model water, because no live model water exists. Bridges keep live gauges, county status and evidence.
+
+## HAND water layer
+
+HAND now paints estimated water depth in six blue to teal bands, in feet, with a matching legend on the map. Depth is stage minus HAND for each cell, read from the same stages and mask as the extent, so the painted area is exactly the estimated extent. The old layer used one amber fill and depended on the renderer that production no longer starts. Amber and red stay reserved for routes and crossings.
+
+Checked in a browser against live forecasts: Trico-Marana at 2,460 cfs painted 5,087 cells and Brawley at 43 cfs painted 961, both equal to the HAND grid.

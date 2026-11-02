@@ -33,6 +33,8 @@ jobs:
         run: |
           find public -type f \( -name '*.js' -o -name '*.html' -o -name '*.css' \) -print0 | xargs -0 sed -i "s/?v=dev/?v=${GITHUB_SHA::7}/g"
           printf '{"commit":"%s","releasedAt":"%s"}\n' "$GITHUB_SHA" "$(date -u +%FT%TZ)" > public/release-version.json
+      - name: Frozen model runs are for development only; never publish them
+        run: node tools/prune-published.mjs public
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

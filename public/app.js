@@ -642,6 +642,7 @@ function wireReport() {
 const UPDATES = [
   ['November 1, 2026', [
     'New: accessible colors on every map icon, visible Back and Refresh labels, a 3-step guide, heights in feet, and coverage and gauge tracking for every location on a route.',
+    'Fixed: the map now shows live data only. A saved model run from November 1 no longer appears.',
     'Fixed: road closures now show at the top of the screen and on the map, and a closed route no longer offers directions.',
     'New: closures and utility work from TransView are checked against each route line. County barricades count only on the part of a road the route uses.',
     'Changed: a county closure anywhere along a route now counts, not only near a listed crossing. Proceed with Caution alone is now a 2, and distant gauges no longer raise it; a live sign at the road brings it back to a 3 or more. Where we know the road height, the flood model is compared with the road itself.',
