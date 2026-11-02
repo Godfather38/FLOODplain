@@ -1,0 +1,153 @@
+{
+  "runId": "41382872468",
+  "caseId": "picture-rocks-native-case-v2",
+  "modelVersion": "all-routes-picture-rocks-v2",
+  "caseRouteIds": [
+    "pr-ina",
+    "pr-twinpeaks",
+    "pr-avra"
+  ],
+  "nativeRunDirectory": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\approved-results\\41382872468\\artifact\\runs\\current",
+  "nativeDirectoryModified": false,
+  "completion": {
+    "logsRead": [
+      "solver.log",
+      "sfincs.log"
+    ],
+    "logsMissing": [],
+    "completionMarkerPresent": false,
+    "approvedExecutionCapSeconds": 3600,
+    "assessment": "partial_or_incomplete_native_output",
+    "assessmentBasis": "Actual solver logs, native status variables and recorded times versus the case end; not a GitHub run conclusion and not an expected frame count."
+  },
+  "timeCoverage": {
+    "framesRecorded": 56,
+    "recordedValidFrom": "2026-11-01T17:00:00Z",
+    "recordedValidTo": "2026-11-02T06:45:00Z",
+    "distinctIntervalSeconds": [
+      900
+    ],
+    "requestedEndUtc": "2026-11-02T07:00:00Z",
+    "note": "Frames, interval and endpoints are read from the native output. The normal forecast product is 57 quarter-hour frames from 2026-11-01T17Z through 2026-11-02T07Z, but that count is not assumed here.",
+    "reachesRequestedEnd": false,
+    "shortfallSecondsFromRequestedEnd": 900
+  },
+  "faces": 537476,
+  "faceCorrespondence": {
+    "method": "Exact unique rectangle bounds independently matched between native input/output connectivity",
+    "outputFaces": 537476,
+    "inputFaces": 537476,
+    "matchedFaces": 537476,
+    "identityOrder": true,
+    "maxBoundsDifferenceM": 0.0,
+    "inputFacesNotInOutput": 0
+  },
+  "sourceFaceIdentity": "Exact source native face IDs preserved from this run sfincs.nc",
+  "volumeUnits": "m3",
+  "volumeUnitsAreM3": true,
+  "allVolumeFinite": true,
+  "missingVolumeValues": 0,
+  "negativeVolumeValues": 782,
+  "negativeValuesPreserved": "Small negative native values remain signed; not clamped",
+  "rawVolumeRangeM3": [
+    -0.017126047983765602,
+    211136.671875
+  ],
+  "cellAreaRangeM2": [
+    39.0625,
+    10000.0
+  ],
+  "volumePerFullCellArea": {
+    "quantity": "volumePerFullCellAreaM",
+    "definition": "Native subgrid_volume divided by the full computational-cell area. Cell-average storage only; NOT validated road depth or passability.",
+    "rangeM": [
+      -0.0003382077932357788,
+      21.1136671875
+    ]
+  },
+  "firstLastTotalStoredVolumeM3": [
+    1913418.707820888,
+    7495130.786911375
+  ],
+  "surfaceElevationRangeM": [
+    570.9541015625,
+    1378.3497314453125
+  ],
+  "surfaceElevationUnits": "m",
+  "surfaceElevationDatum": "NAVD88, not depth",
+  "missingSurfaceValues": 174267,
+  "notInferred": [
+    "passability",
+    "bridge clearance",
+    "velocity",
+    "flow sections",
+    "uncertainty margins",
+    "validated road depth"
+  ],
+  "riverSectionFlow": "Not read; this reader does not derive flow sections",
+  "restartFiles": [
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst"
+  ],
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "nativeGeometry": {
+    "sourceEpsg": 32612,
+    "epsgDeclaredInNativeFile": 32612,
+    "domainBoundingBox": [
+      467800.0,
+      3570500.0,
+      499700.0,
+      3606900.0
+    ],
+    "reusedPreviousOutputGeometry": false
+  },
+  "hashes": {
+    "sfincs.nc": "76b60da1bcceacd448d3817f1ec28383dfc475bbd9a10d86d419a280558059a0",
+    "sfincs_map.nc": "67939fa6a90526d1a40ad7585b1e593bcb29e5d7291aa4249609b7c3491f73a7",
+    "solver.log": "c6fbabeaa7f825b44362118d5f1109485783f940c8694f1ab3e0b86fae2cac3c",
+    "sfincs.log": "30e65f089ad752523d1aa29b90f3d962ac304771f8d4daefcba0d62d9d130ff8"
+  },
+  "caseNativeMeshSha256": "76b60da1bcceacd448d3817f1ec28383dfc475bbd9a10d86d419a280558059a0",
+  "caseMeshHashChecked": true,
+  "status": [
+    null
+  ],
+  "total_runtime": [
+    null
+  ],
+  "average_dt": [
+    null
+  ],
+  "nativePrecipitation": {
+    "quantities": {
+      "precipitation_rate": {
+        "units": "mm h-1",
+        "recordedRange": [
+          0.0,
+          15.370000839233398
+        ],
+        "missingValues": 0
+      }
+    },
+    "units": "As recorded in the native file"
+  },
+  "inventoryPointCounts": {
+    "retained": 189,
+    "located": 189,
+    "outsideCurrentNativeDomain": 0,
+    "locatedInInputButAbsentFromOutput": 0,
+    "boundaryAmbiguous": 0
+  },
+  "nativeFinalCountersUnavailable": "Timeout left native final status/runtime counters missing; preserved as JSON null, not zero or success."
+}

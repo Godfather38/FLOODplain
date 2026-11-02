@@ -1,0 +1,150 @@
+solver	Run prepared current case with saved engine	﻿2026-11-02T03:26:28.5505363Z ##[group]Run python - <<'PY'
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5505711Z ^[[36;1mpython - <<'PY'^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5505977Z ^[[36;1mimport os, tarfile, json, hashlib^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5506274Z ^[[36;1mfrom pathlib import Path^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5506600Z ^[[36;1mcap = int(os.environ['EXECUTION_CAP_SECONDS'])^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5506951Z ^[[36;1mif cap not in {120, 1200, 2400, 2700, 3600}:^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5507291Z ^[[36;1m    raise ValueError('Unsupported execution cap')^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5507685Z ^[[36;1marchive = Path(os.environ['CASE_ARCHIVE']).resolve()^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5508058Z ^[[36;1mroot = Path('tools/sfincs/data').resolve()^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5508447Z ^[[36;1mif not archive.is_relative_to(root) or not archive.is_file():^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5508955Z ^[[36;1m    raise ValueError('Require committed prepared case under tools/sfincs/data')^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5509705Z ^[[36;1mif archive.suffix == '.json':^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5510058Z ^[[36;1m    manifest = json.loads(archive.read_text())^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5510864Z ^[[36;1m    if manifest.get('modelVersion') not in {'silverbell-extension-v1', 'all-routes-northern-v3', 'all-routes-picture-rocks-v2', 'all-routes-gates-supported-v2'}:^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5511722Z ^[[36;1m        raise ValueError('Require a recognized prepared case version')^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5512147Z ^[[36;1m    combined = Path('prepared-case.tar.gz')^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5512495Z ^[[36;1m    with combined.open('wb') as target:^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5512812Z ^[[36;1m        for item in manifest['parts']:^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5513175Z ^[[36;1m            part = (archive.parent / item['path']).resolve()^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5513549Z ^[[36;1m            if part.parent != archive.parent:^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5513927Z ^[[36;1m                raise ValueError('Archive part escaped its directory')^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5514300Z ^[[36;1m            data = part.read_bytes()^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5514731Z ^[[36;1m            if len(data) != item['bytes'] or hashlib.sha256(data).hexdigest() != item['sha256']:^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5515241Z ^[[36;1m                raise ValueError('Archive part hash mismatch')^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5515585Z ^[[36;1m            target.write(data)^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5516019Z ^[[36;1m    if hashlib.sha256(combined.read_bytes()).hexdigest() != manifest['archiveSha256']:^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5516527Z ^[[36;1m        raise ValueError('Reassembled case hash mismatch')^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5516864Z ^[[36;1m    archive = combined^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5517128Z ^[[36;1moutput = Path('runs/current')^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5517404Z ^[[36;1moutput.mkdir(parents=True)^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5517696Z ^[[36;1mwith tarfile.open(archive, 'r:gz') as tf:^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5518019Z ^[[36;1m    tf.extractall(output, filter='data')^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5518549Z ^[[36;1mfor name in ['sfincs.inp', 'sfincs.dis', 'sfincs.src', 'precip_2d.nc', 'current-case.json', 'GCN10-NOTICE.txt']:^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5519081Z ^[[36;1m    if not (output/name).is_file():^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5519703Z ^[[36;1m        raise ValueError('Incomplete prepared case: '+name)^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5520048Z ^[[36;1mPY^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5520801Z ^[[36;1m(set -o pipefail; cd runs/current && date -u +%FT%TZ > execution-started.txt && GFORTRAN_UNBUFFERED_ALL=y timeout "$EXECUTION_CAP_SECONDS" "$GITHUB_WORKSPACE/engine-reused/sfincs" 2>&1 | tee solver.log)^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5521842Z ^[[36;1m(cd engine-reused && sha256sum -c SHA256SUMS)^[[0m
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5543095Z shell: /usr/bin/bash -e {0}
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5543355Z env:
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5543548Z   OMP_NUM_THREADS: 2
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5543854Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5544289Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5544716Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5545093Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5545672Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5546054Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5546564Z   CASE_ARCHIVE: tools/sfincs/data/all-route-ready-v3/picture-rocks-native-case-v2/manifest.json
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5547043Z   EXECUTION_CAP_SECONDS: 3600
+solver	Run prepared current case with saved engine	2026-11-02T03:26:28.5547286Z ##[endgroup]
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0421973Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0422495Z ------------ Welcome to SFINCS ------------
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0422823Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0422944Z   @@@@@  @@@@@@@ @@ @@  @@   @@@@   @@@@@
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0423285Z  @@@ @@@ @@@@@@@ @@ @@@ @@ @@@@@@@ @@@ @@@
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0423841Z  @@@     @@      @@ @@@ @@ @@   @@ @@@
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0424489Z   @@@@@  @@@@@@  @@ @@@@@@ @@       @@@@@
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0425118Z      @@@ @@      @@ @@ @@@ @@   @@     @@@
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0425742Z  @@@ @@@ @@      @@ @@  @@  @@@@@@ @@@ @@@
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0426357Z   @@@@@  @@      @@ @@   @   @@@@   @@@@@
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0426825Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0427203Z               ..............
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0427759Z           ......:@@@@@@@@:......
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0428121Z        ..::::..@@........@@.:::::..
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0428436Z      ..:::::..@@..::..::..@@.::::::..
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0428939Z     .::::::..@@............@@.:::::::.
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0429788Z    .::::::..@@..............@@.:::::::.
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0430303Z   .::::::::..@@............@@..::::::::.
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0430844Z  .:::::::::...@@.@..@@..@.@@..::::::::::.
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0431374Z  .:::::::::...:@@@..@@..@@@:..:::::::::..
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0431886Z  ............@@.@@..@@..@@.@@............
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0432202Z  ^^^~~^^~~^^@@..............@@^^^~^^^~~^^
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0432504Z  .::::::::::@@..............@@.:::::::::.
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0432809Z   .......:.@@.....@.....@....@@.:.......
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0433132Z    .::....@@......@.@@@.@....@@.....::.
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0433411Z     .:::~@@.:...:.@@...@@.:.:.@@~::::.
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0433678Z      .::~@@@@@@@@@@.....@@@@@@@@@~::.
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0433920Z        ..:~~~~~~~:.......:~~~~~~~:..
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0434162Z           ......................
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0434403Z               ..............
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0434549Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0434652Z ------------------------------------------
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0434974Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0435102Z By running a SFINCS pre-compiled executable
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0435420Z provided by Deltares, you accept the
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0435707Z conditions of the Deltares SFINCS FreeWare
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0436012Z Software License Agreement, see:
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0436306Z https://download.deltares.nl/sfincs
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0436497Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0436597Z ------------------------------------------
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0436783Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0436894Z Build-Revision: $Rev: v2.5.0-beta Hautacam
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0437186Z Build-Date: $Date: 2026-10-08
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0437354Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0437464Z ------ Preparing model simulation --------
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0437665Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.0437874Z  Warning : sfincs.inp keyword "dtout" is deprecated, use "dtmapout" instead
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.1036092Z Warning! Times in spatially-varying precipitation input file do not cover entire simulation period! Using nearest available data.
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.2633668Z ------------------------------------------
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.2634395Z Computational mesh
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.2634871Z ------------------------------------------
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.2635327Z Number of active z points      :    537476
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.2635719Z Number of active u/v points    :   1081259
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.2636079Z Number of cells in level   1   :     44268
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.2636421Z Number of cells in level   2   :      2724
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.2636781Z Number of cells in level   3   :      5621
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.2637157Z Number of cells in level   4   :    236859
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.2637804Z Number of cells in level   5   :    248004
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4585449Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4586074Z ------------------------------------------
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4586715Z Processes
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4587017Z ------------------------------------------
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4587433Z Subgrid topography   : yes
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4587762Z Quadtree refinement  : yes
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4588064Z Advection            : yes
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4588341Z Viscosity            : yes
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4588620Z Coriolis             : yes
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4588891Z Wind                 : no
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4589174Z Atmospheric pressure : no
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4589860Z Precipitation        : yes
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4590164Z Infiltration         : yes
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4590470Z SnapWave             : no
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4590782Z Wave paddles         : no
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4591070Z ------------------------------------------
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.4591285Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.6576022Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.6576459Z ---------- Starting simulation -----------
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.6577161Z ---- Using 2 of 4 available threads ----
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.6577529Z 
+solver	Run prepared current case with saved engine	2026-11-02T03:26:30.6740394Z    0% complete,       - s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:27:37.3948705Z    5% complete,  1268.0 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:28:54.5778395Z   10% complete,  1295.2 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:30:02.9429117Z   15% complete,  1202.9 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:31:10.3289899Z   20% complete,  1118.7 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:32:25.0221273Z   25% complete,  1063.1 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:33:41.3381069Z   30% complete,  1004.9 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:34:57.7492223Z   35% complete,   941.7 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:36:17.5763268Z   40% complete,   880.4 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:37:56.2144504Z   45% complete,   837.9 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:39:33.4010091Z   50% complete,   782.7 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:41:06.7657298Z   55% complete,   716.8 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:43:55.8923334Z   60% complete,   696.8 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:47:08.3864768Z   65% complete,   666.5 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:49:52.4500713Z   70% complete,   600.8 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:53:01.7331711Z   75% complete,   530.4 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T03:56:43.5855528Z   80% complete,   453.2 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T04:04:22.1509763Z   85% complete,   400.8 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T04:12:02.1543801Z   90% complete,   303.5 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T04:19:13.8239582Z   95% complete,   166.5 s remaining ...
+solver	Run prepared current case with saved engine	2026-11-02T04:26:30.0495695Z ##[error]Process completed with exit code 124.

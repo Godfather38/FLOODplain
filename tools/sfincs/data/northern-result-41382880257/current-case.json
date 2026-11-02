@@ -1,0 +1,122 @@
+{
+  "status": "prepared_all_routes_case_not_executed",
+  "runReady": true,
+  "solverExecuted": false,
+  "mode": "simulated-live",
+  "gridCells": 528201,
+  "inlets": 8,
+  "nativeFlowTimestamps": 64,
+  "mapOutputWindow": "Forecast only, 49h after antecedent start; 15-minute maps limit artifact size without shortening initialization",
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "forecastStart": "2026-11-01T17:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "initialization": "Same explicit dry assumed antecedent start; continuous analysis-forced history, not measured initial state",
+  "missing": [],
+  "nativeInputReference": "Pinned SFINCS sfincs_infiltration.f90 requires inffile NetCDF for quadtree; scs units remain inches",
+  "knownLimits": [
+    "Current bridge elevations unknown",
+    "Published CN antecedent assumption; no measured transmission loss",
+    "Terrain dates 2019 peripheral/2021/2023, not 2026 construction survey",
+    "6.25m computational cells are not validated road-depth accuracy"
+  ],
+  "kind": "prepared_current_case",
+  "rainfall": {
+    "units": "mm/h",
+    "intervalSeconds": 3600,
+    "intervalLabel": "start",
+    "lastIntervalEndUtc": "2026-11-02T07:00:00Z",
+    "sourceArtifacts": [
+      {
+        "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\all-route-rainfall\\package\\initialization-rainfall\\resolved-analysis-precipitation.nc",
+        "sha256": "074994ac0a6ee9b811750c810c229847ff81e4b675a4f06239e0a0a86186c845"
+      },
+      {
+        "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\all-route-rainfall\\package\\initialization-rainfall\\forecast-transition-precipitation.nc",
+        "sha256": "e750e1283eba76685ad148bcf28abf2b9ff84be230c8794ad8fd1e5815e62798"
+      },
+      {
+        "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\all-route-rainfall\\package\\precipitation.nc",
+        "sha256": "179e277038f0d5e7a3b08d336f988d7be465fb29578e54aa6d2cc5e6b4c4967b"
+      }
+    ]
+  },
+  "publicationHold": [],
+  "executionBudgetSeconds": null,
+  "proposedExecutionCapSeconds": 3600,
+  "executionAuthorization": "approved_one_bounded_run",
+  "sourceAsOf": "2026-11-01T16:08:30.582Z",
+  "sourceLicensing": {
+    "derivedInfiltrationLicense": "ODbL-1.0",
+    "notice": "GCN10-NOTICE.txt",
+    "sourceMetadata": "GCN10-source-metadata.xml",
+    "derivedDatabase": "infiltration.nc"
+  },
+  "artifacts": [
+    {
+      "path": "GCN10-NOTICE.txt",
+      "bytes": 1349,
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "GCN10-source-metadata.xml",
+      "bytes": 12686,
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    },
+    {
+      "path": "hydromt.log",
+      "bytes": 186,
+      "sha256": "e476bb3d74f089066ec705dfa2fa205cc9a48e9f6e486fb0286c49ba521b47e7"
+    },
+    {
+      "path": "infiltration.nc",
+      "bytes": 2118948,
+      "sha256": "8d7da6df6c983bbe4445e6efa812e1083d1a6611af99c0af1c78dde849139595"
+    },
+    {
+      "path": "native-component.json",
+      "bytes": 1180,
+      "sha256": "47e31f52e95087d6fa8a8dd00403f99e423b878c70624735e9e493264f7475cb"
+    },
+    {
+      "path": "precip_2d.nc",
+      "bytes": 784661,
+      "sha256": "52736bb176cf4a319dfcee2c372e5c3d53df983803a94617590b2e6637fb1115"
+    },
+    {
+      "path": "sfincs.dis",
+      "bytes": 4736,
+      "sha256": "161623bcfab42525ea838baa45c158a7616a9a45073103991c88f338a82caa3f"
+    },
+    {
+      "path": "sfincs.inp",
+      "bytes": 1424,
+      "sha256": "2c4bb839bc308542000033158de40c0aa715c925bb8cd6a28ac217a4ab7c389d"
+    },
+    {
+      "path": "sfincs.nc",
+      "bytes": 94415324,
+      "sha256": "767347482d73597a2455ef36942b252f50df13bda3cb59cb660e9c5e6731fe85"
+    },
+    {
+      "path": "sfincs.src",
+      "bytes": 160,
+      "sha256": "bd5f7a6162f5ad1c78c85c3abd993f2e51c12e9875f60fa389f103001d26bab3"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "bytes": 171939997,
+      "sha256": "079d40dadeb9072d2a727589251876569f6f93ebddb2aabf040981010263b1e2"
+    }
+  ],
+  "modelVersion": "all-routes-northern-v3",
+  "caseId": "northern-native-case-v3",
+  "routeIds": [
+    "trico",
+    "avra",
+    "silverbell-north",
+    "silverbell-south"
+  ],
+  "approvedExecutionCapSeconds": 3600,
+  "nativeMeshSha256": "767347482d73597a2455ef36942b252f50df13bda3cb59cb660e9c5e6731fe85"
+}

@@ -1,0 +1,18 @@
+{
+  "status": "partial_budget_timeout",
+  "exitCode": 124,
+  "runId": "41382872468",
+  "approvedExecutionCapSeconds": 3600,
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T06:45:00Z",
+  "requestedEndUtc": "2026-11-02T07:00:00Z",
+  "framesRecorded": 56,
+  "missingFinalForecastFrames": 1,
+  "nativeInputHashes": {
+    "sfincs.nc": "76b60da1bcceacd448d3817f1ec28383dfc475bbd9a10d86d419a280558059a0",
+    "sfincs_map.nc": "67939fa6a90526d1a40ad7585b1e593bcb29e5d7291aa4249609b7c3491f73a7",
+    "solver.log": "c6fbabeaa7f825b44362118d5f1109485783f940c8694f1ab3e0b86fae2cac3c"
+  },
+  "workflowFailureLogSha256": "9953c39baaca9cf7acaf5da19ec7a7cf016ede370c5cf729a11b93f96ee40335",
+  "interpretation": "Last fully recorded native map is 06:45 UTC. Exact final internal solver time is not recorded by this map cadence. No completion marker and no 07:00 frame. Exit124 proves the approved wall-time stop; no rerun."
+}

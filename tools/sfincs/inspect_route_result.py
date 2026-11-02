@@ -342,7 +342,9 @@ def inspect(run, run_id, inventory_path, case_path, destination):
             raise ValueError('Case metadata nativeMeshSha256 does not match this native input')
         summary['caseMeshHashChecked'] = bool(declared and mesh_hash)
         for name in NATIVE_SCALARS:
-            if name in map_ds: summary[name] = np.asarray(map_ds[name].values).tolist()
+            if name in map_ds:
+                values = np.asarray(map_ds[name].values)
+                summary[name] = np.where(np.isfinite(values), values, None).tolist()
         precipitation = {}
         for name in PRECIPITATION_NAMES:
             if name in map_ds:

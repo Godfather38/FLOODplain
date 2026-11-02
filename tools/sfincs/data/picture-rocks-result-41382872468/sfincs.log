@@ -1,0 +1,128 @@
+
+------------ Welcome to SFINCS ------------
+
+  @@@@@  @@@@@@@ @@ @@  @@   @@@@   @@@@@
+ @@@ @@@ @@@@@@@ @@ @@@ @@ @@@@@@@ @@@ @@@
+ @@@     @@      @@ @@@ @@ @@   @@ @@@
+  @@@@@  @@@@@@  @@ @@@@@@ @@       @@@@@
+     @@@ @@      @@ @@ @@@ @@   @@     @@@
+ @@@ @@@ @@      @@ @@  @@  @@@@@@ @@@ @@@
+  @@@@@  @@      @@ @@   @   @@@@   @@@@@
+
+              ..............
+          ......:@@@@@@@@:......
+       ..::::..@@........@@.:::::..
+     ..:::::..@@..::..::..@@.::::::..
+    .::::::..@@............@@.:::::::.
+   .::::::..@@..............@@.:::::::.
+  .::::::::..@@............@@..::::::::.
+ .:::::::::...@@.@..@@..@.@@..::::::::::.
+ .:::::::::...:@@@..@@..@@@:..:::::::::..
+ ............@@.@@..@@..@@.@@............
+ ^^^~~^^~~^^@@..............@@^^^~^^^~~^^
+ .::::::::::@@..............@@.:::::::::.
+  .......:.@@.....@.....@....@@.:.......
+   .::....@@......@.@@@.@....@@.....::.
+    .:::~@@.:...:.@@...@@.:.:.@@~::::.
+     .::~@@@@@@@@@@.....@@@@@@@@@~::.
+       ..:~~~~~~~:.......:~~~~~~~:..
+          ......................
+              ..............
+
+------------------------------------------
+
+By running a SFINCS pre-compiled executable
+provided by Deltares, you accept the
+conditions of the Deltares SFINCS FreeWare
+Software License Agreement, see:
+https://download.deltares.nl/sfincs
+
+------------------------------------------
+
+Build-Revision: $Rev: v2.5.0-beta Hautacam
+Build-Date: $Date: 2026-10-08
+
+------ Preparing model simulation --------
+
+Reading input file ...
+ Warning : sfincs.inp keyword "dtout" is deprecated, use "dtmapout" instead
+Info    : input grid interpreted as projected coordinates
+Info    : advection scheme : first-order upwind
+Reading meteo data ...
+Info    : reading NetCDF rainfall netampr file
+Info    : reading FEWS compatible NetCDF type precipitation input
+Warning! Times in spatially-varying precipitation input file do not cover entire simulation period! Using nearest available data.
+Preparing domain ...
+Info    : using quadtree mesh
+Info    : turning on precipitation
+Info    : using gridded meteo data
+Info    : reading QuadTree netCDF file sfincs.nc
+Quadtree grid info - nr_levels :          5
+Quadtree grid info -        x0 :  467700.00
+Quadtree grid info -        y0 : 3570500.00
+Quadtree grid info -        dx :     100.00
+Quadtree grid info -        dy :     100.00
+Quadtree grid info -      mmax :        320
+Quadtree grid info -      nmax :        364
+Quadtree grid info -  rotation :       0.00
+Info    : number of quadtree refinement transitions : 15213
+------------------------------------------
+Computational mesh
+------------------------------------------
+Number of active z points      :    537476
+Number of active u/v points    :   1081259
+Number of cells in level   1   :     44268
+Number of cells in level   2   :      2724
+Number of cells in level   3   :      5621
+Number of cells in level   4   :    236859
+Number of cells in level   5   :    248004
+Info    : viscosity - nuvisc  = [ 0.625E-01-  0.100E+01]
+Info   : reading sub-grid netCDF file
+Info    : number of subgrid levels : 10
+Info    : specified inftype is cna
+Info    : turning on infiltration from netcdf input file
+Info    : reading netcdf infiltration file infiltration.nc
+Info    : turning on infiltration (via Curve Number method - A)
+Info    : reading discharges
+
+------------------------------------------
+Processes
+------------------------------------------
+Subgrid topography   : yes
+Quadtree refinement  : yes
+Advection            : yes
+Viscosity            : yes
+Coriolis             : yes
+Wind                 : no
+Atmospheric pressure : no
+Precipitation        : yes
+Infiltration         : yes
+SnapWave             : no
+Wave paddles         : no
+------------------------------------------
+
+Initializing output ...
+
+---------- Starting simulation -----------
+---- Using 2 of 4 available threads ----
+
+   0% complete,       - s remaining ...
+   5% complete,  1268.0 s remaining ...
+  10% complete,  1295.2 s remaining ...
+  15% complete,  1202.9 s remaining ...
+  20% complete,  1118.7 s remaining ...
+  25% complete,  1063.1 s remaining ...
+  30% complete,  1004.9 s remaining ...
+  35% complete,   941.7 s remaining ...
+  40% complete,   880.4 s remaining ...
+  45% complete,   837.9 s remaining ...
+  50% complete,   782.7 s remaining ...
+  55% complete,   716.8 s remaining ...
+  60% complete,   696.8 s remaining ...
+  65% complete,   666.5 s remaining ...
+  70% complete,   600.8 s remaining ...
+  75% complete,   530.4 s remaining ...
+  80% complete,   453.2 s remaining ...
+  85% complete,   400.8 s remaining ...
+  90% complete,   303.5 s remaining ...
+  95% complete,   166.5 s remaining ...
