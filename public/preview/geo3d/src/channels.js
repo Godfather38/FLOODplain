@@ -2,7 +2,7 @@
 // This chooses where to draw flow. It is not a hydrologic or flood result.
 import {inVisible} from './scene-config.js';
 const NEIGHBOURS=[[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[1,-1],[-1,1],[1,1]];
-const CARVE=1.1,MIN_DROP=.07,MIN_LENGTH=12;
+const CARVE=1.1,MIN_DROP=.07,MIN_LENGTH=12,BANK=3;
 export const SOURCE_RATES=Object.freeze({main:3.2,tributary:1.6});
 export function coarseBed(heights,fine,grid,sample){
  const bed=new Float32Array(grid.nx*grid.nz);
@@ -38,16 +38,18 @@ function traceUpstream(start,{receiver,area},taken,minArea){
  }
  return path;
 }
-// carve is 0 on the map layer: the map's own terrain cannot be cut, so water must sit on it.
-export function pickChannels(bed,grid,maxTributaries=2,carve=CARVE){
+// The map layer passes {carve:0,confine:true,towards:{x,z}}. The map's own terrain cannot
+// be cut, so water must sit on it, and raised solver banks hold it in the channel instead.
+export function pickChannels(bed,grid,maxTributaries=2,{carve=CARVE,minDrop=MIN_DROP,confine=false,towards=null}={}){
  const d=drainage(bed,grid),{nx,nz,x0,z0,dx,dz}=grid,xy=k=>({x:x0+(k%nx)*dx,z:z0+Math.floor(k/nx)*dz});
  // Score by the height the water falls. The biggest catchment here runs along the
  // flat valley floor, where a coarse grid can only draw a wide, shapeless sheet.
  const taken=new Set();let main=[],bestDrop=-1;
  for(let k=0;k<nx*nz;k++){
   const i=k%nx,j=(k-i)/nx;if(!(i===0||j===0||i===nx-1||j===nz-1))continue;
-  const cells=traceUpstream(k,d,taken,2),drop=d.filled[cells.at(-1)]-d.filled[k];
-  if(cells.length>=MIN_LENGTH&&drop>bestDrop){main=cells;bestDrop=drop;}
+  const cells=traceUpstream(k,d,taken,2);let score=d.filled[cells.at(-1)]-d.filled[k];
+  if(towards){let near=Infinity;for(const c of cells){const p=xy(c);near=Math.min(near,Math.hypot(p.x-towards.x,p.z-towards.z));}score/=1+near/10;}
+  if(cells.length>=MIN_LENGTH&&score>bestDrop){main=cells;bestDrop=score;}
  }
  main.forEach(k=>taken.add(k));
  const candidates=[];
@@ -70,7 +72,7 @@ export function pickChannels(bed,grid,maxTributaries=2,carve=CARVE){
   let level=Infinity;const line=[];
   for(let q=cells.length-1;q>=0;q--){
    const k=cells[q];
-   level=Math.min(level-MIN_DROP,d.filled[k]-carve);
+   level=Math.min(level-minDrop,d.filled[k]-carve);
    carved[k]=Math.min(carved[k],level);
    line.push({...xy(k),level});
   }
@@ -80,7 +82,28 @@ export function pickChannels(bed,grid,maxTributaries=2,carve=CARVE){
   const i=k%nx,j=(k-i)/nx;
   for(const [di,dj] of NEIGHBOURS.slice(0,4)){const a=i+di,b=j+dj;if(a<0||b<0||a>=nx||b>=nz)continue;const q=b*nx+a;if(!taken.has(q))carved[q]=Math.min(carved[q],carved[k]+.3);}
  }
+ if(confine){
+  const band=new Set();
+  for(const {cells} of paths)for(const k of cells){band.add(k);const i=k%nx,j=(k-i)/nx;for(const [di,dj] of NEIGHBOURS.slice(0,4)){const a=i+di,b=j+dj;if(a>=0&&b>=0&&a<nx&&b<nz)band.add(b*nx+a);}}
+  for(let k=0;k<nx*nz;k++)if(!band.has(k))carved[k]+=BANK;
+ }
  return{bed:carved,paths,lines,sources:paths.map(p=>({cell:p.cells.at(-1),rate:p.rate}))};
+}
+// The height the toon shader compares water against. It shows water only above this, so a
+// trough along the channel clips the water to a ribbon without editing the map's terrain.
+export function ribbonMask(heights,fine,lines,halfWidth=2.5){
+ const out=new Float32Array(heights.length);
+ for(let j=0;j<fine.nz;j++)for(let i=0;i<fine.nx;i++){
+  const x=fine.x0+i*fine.dx,z=fine.z0+j*fine.dz,k=j*fine.nx+i;
+  let near=Infinity,level=0;
+  for(const line of lines)for(let q=1;q<line.length;q++){
+   const a=line[q-1],b=line[q],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz))),d=(a.x+dx*t-x)**2+(a.z+dz*t-z)**2;
+   if(d<near){near=d;level=a.level+(b.level-a.level)*t;}
+  }
+  const s=Math.sqrt(near)/halfWidth;
+  out[k]=near===Infinity?heights[k]+9:level-.15+s*s*1.2+(s>1.6?9:0);
+ }
+ return out;
 }
 // Cuts the same channels into the fine visible terrain so water and banks agree.
 // The banks must rise past the water inside its coarse cells: then the fine terrain

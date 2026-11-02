@@ -14,9 +14,13 @@ export const SCENE=Object.freeze({
 });
 const {visible:V}=SCENE;
 const midX=(V.x0+V.x1)/2,midZ=(V.z0+V.z1)/2;
-const metresPerLat=110540,metresPerLon=111320*Math.cos(SCENE.center.lat*Math.PI/180);
-export const project=(lon,lat)=>({x:midX+(lat-SCENE.center.lat)*metresPerLat/SCENE.metresPerUnit,z:midZ+(lon-SCENE.center.lon)*metresPerLon/SCENE.metresPerUnit});
-export const unproject=(x,z)=>({lat:SCENE.center.lat+(x-midX)*SCENE.metresPerUnit/metresPerLat,lon:SCENE.center.lon+(z-midZ)*SCENE.metresPerUnit/metresPerLon});
+const metresPerLat=110540;
+// The place the scene grid currently sits on. The map layer moves it with the view.
+export const place={...SCENE.center};
+export const setPlace=(lat,lon)=>{place.lat=lat;place.lon=lon;};
+const metresPerLon=()=>111320*Math.cos(place.lat*Math.PI/180);
+export const project=(lon,lat)=>({x:midX+(lat-place.lat)*metresPerLat/SCENE.metresPerUnit,z:midZ+(lon-place.lon)*metresPerLon()/SCENE.metresPerUnit});
+export const unproject=(x,z)=>({lat:place.lat+(x-midX)*SCENE.metresPerUnit/metresPerLat,lon:place.lon+(z-midZ)*SCENE.metresPerUnit/metresPerLon()});
 export const inVisible=(x,z)=>x>=V.x0&&x<=V.x1&&z>=V.z0&&z<=V.z1;
 export function fineGrid(){
  const s=SCENE.renderSpacing,nx=Math.round((V.x1-V.x0)/s)+1,nz=Math.round((V.z1-V.z0)/s)+1;

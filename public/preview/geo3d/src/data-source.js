@@ -32,4 +32,6 @@ async function loadSnapshot(name){
  const bytes=Uint8Array.from(atob(snapshot.metres),c=>c.charCodeAt(0));
  return{metres:new Float32Array(bytes.buffer),routes:snapshot.routes,source:{mode:'dev-snapshot',label:`DEVELOPMENT SNAPSHOT from ${snapshot.capturedAt}: not live data`}};
 }
+// Heights for wherever the scene grid currently sits. Always live.
+export const loadLiveHeights=async()=>elevationGrid(await Promise.all(tilesForScene().map(loadTile)));
 export const loadSceneData=(mode=resolveDataMode(location.href))=>mode.mode==='dev-snapshot'?loadSnapshot(mode.name):loadLive();

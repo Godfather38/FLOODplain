@@ -9,5 +9,5 @@
 <body><main id="map" aria-label="3D simulation map: real terrain and roads with simulated water."></main>
 <div id="simulation-ack" class="card" role="dialog" aria-labelledby="simulation-ack-title" hidden><strong id="simulation-ack-title">This water is simulated</strong><p>It is a 3D model, not real conditions or a forecast. If you see water on a real road, turn around, don't drown.</p><button id="simulation-ack-ok">Got it</button></div>
 <div id="error" class="card" hidden><strong>The 3D simulation could not load</strong><pre id="error-detail"></pre></div>
-<aside id="panel"><details open><summary>About this simulation</summary><p>The water is simulated, not real conditions or a forecast.</p><pre id="metrics"></pre></details></aside>
+<aside id="panel"><details open><summary>About this simulation</summary><p>The water is simulated, not real conditions or a forecast. Its path is picked from the terrain's shape. Heights are exaggerated 2×.</p><p id="window">Starting the water simulation</p><pre id="metrics"></pre></details></aside>
 <script type="module" src="./src/map-layer.js"></script></body></html>

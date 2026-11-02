@@ -5,9 +5,10 @@ import {existsSync,readFileSync,readdirSync} from 'node:fs';
 import {resolveDataMode} from '../public/preview/geo3d/src/data-source.js';
 import {fineGrid} from '../public/preview/geo3d/src/scene-config.js';
 import {sceneHeights,sampleHeights} from '../public/preview/geo3d/src/elevation.js';
-import {coarseBed,drainage,pickChannels,carveFine} from '../public/preview/geo3d/src/channels.js';
+import {coarseBed,drainage,pickChannels,carveFine,ribbonMask} from '../public/preview/geo3d/src/channels.js';
 import {visibleRoadRuns,ribbonMesh} from '../public/preview/geo3d/src/roads.js';
 import {ChannelSimulation} from '../public/preview/geo3d/src/channel-sim.js';
+import {chooseWindow} from '../public/preview/geo3d/src/water-window.js';
 import {GRID_PRESETS} from '../public/preview/coastal-lowcost/src/trial-config.js';
 
 const url=path=>new URL(`../${path}`,import.meta.url);
@@ -49,13 +50,40 @@ test('the demo is byte-identical to the pinned commit and keeps opaque water', (
 });
 
 test('a dismissible acknowledgement and the page text say the water is simulated', () => {
- const page=read('public/preview/geo3d/index.html'),main=read('public/preview/geo3d/src/main.js');
- assert.match(page,/id="simulation-ack"[\s\S]*This water is simulated[\s\S]*turn around, don't drown[\s\S]*id="simulation-ack-ok"/);
- assert.match(main,/simulation-ack-ok'\)\.onclick/);
+ const page=read('public/preview/geo3d/index.html'),map=read('public/preview/geo3d/map.html');
+ for(const html of [page,map])assert.match(html,/id="simulation-ack"[\s\S]*This water is simulated[\s\S]*turn around, don't drown[\s\S]*id="simulation-ack-ok"/);
+ for(const script of ['main.js','map-layer.js'])assert.match(read(`public/preview/geo3d/src/${script}`),/mountAcknowledgement\(\)/,script);
+ assert.match(read('public/preview/geo3d/src/acknowledge.js'),/button\.onclick/);
  assert.doesNotMatch(page,/simulation-(tag|banner)/,'no permanent label on screen');
  assert.match(page,/<title>FLOODplain 3D simulation<\/title>/);
  assert.match(page,/The water is simulated/);
  assert.match(read('public/preview/geo3d/src/data-source.js'),/Water: simulated\./);
+});
+
+test('on the map layer the water stays in its channel and keeps moving', () => {
+ const map=pickChannels(coarseBed(raw,fine,GRID,sampleHeights),GRID,2,{carve:0,minDrop:.005,confine:true,towards:{x:19,z:-32.5}});
+ const sim=new ChannelSimulation(GRID,map.bed,map.sources);
+ for(let i=0;i<3600;i++)sim.step(1/60);
+ assert.equal(sim.metrics().nonfinite,0);
+ assert.ok(sim.metrics().wetCells<960*.2,`wet cells ${sim.metrics().wetCells}`);
+ const cells=map.paths[0].cells,before=cells.map(k=>sim.h[k]);
+ for(let i=0;i<120;i++)sim.step(1/60);
+ assert.ok(Math.max(...cells.map((k,q)=>Math.abs(sim.h[k]-before[q])))>.02,'depth changes over 2 s');
+ const mask=ribbonMask(raw,fine,map.lines);
+ assert.ok(mask.every(Number.isFinite));
+ assert.ok(mask.filter((m,k)=>m<raw[k]+1).length<mask.length*.6,'water is clipped to a ribbon');
+});
+
+test('the water window stays in the area and follows crossings', () => {
+ const crossings=[{lat:32.33,lon:-111.2,name:'A'},{lat:32.43,lon:-111.28,name:'B'}];
+ assert.equal(chooseWindow({lat:32.33,lon:-111.2,zoom:9},crossings,null).action,'hide');
+ assert.equal(chooseWindow({lat:33.4,lon:-112,zoom:13},crossings,null).action,'hide');
+ const first=chooseWindow({lat:32.331,lon:-111.201,zoom:13},crossings,null);
+ assert.equal(first.action,'move');assert.equal(first.target.name,'A');
+ assert.equal(chooseWindow({lat:32.332,lon:-111.202,zoom:13},crossings,first.target).action,'stay');
+ assert.equal(chooseWindow({lat:32.43,lon:-111.28,zoom:13},crossings,first.target).target.name,'B');
+ const far=chooseWindow({lat:32.25,lon:-111,zoom:13},crossings,null);
+ assert.equal(far.action,'move');assert.equal(far.target.name,'');
 });
 
 test('the live app does not load the prototype', () => {
