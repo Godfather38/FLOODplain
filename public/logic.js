@@ -80,7 +80,9 @@ export function checkRiverEarly(flows, siteIds, names, R) {
 export function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
   const gauges = (snapshot?.rain ?? []).filter((g) => gaugeIds.includes(g.site));
   // Use the latest readings we have, up to a day old, and say how old they are.
-  const fresh = gauges.filter((g) => g.last_rpt && !g.maintenance && now - Date.parse(g.last_rpt) <= Math.max(staleMs, 24 * 3_600_000)
+  // A reading stamped in the future is a clock or feed problem, not a reading.
+  const fresh = gauges.filter((g) => g.last_rpt && !g.maintenance && Date.parse(g.last_rpt) <= now
+    && now - Date.parse(g.last_rpt) <= Math.max(staleMs, 24 * 3_600_000)
     && Object.values(g.in ?? {}).some((v) => Number.isFinite(v) && v >= 0));
   if (!fresh.length) return { level: 'unknown', why: 'no rain gauge reading' };
   const ageMin = snapshot.fetched_at ? (now - Date.parse(snapshot.fetched_at)) / 60_000 : 0;
@@ -108,25 +110,64 @@ export function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
 }
 
 // 3. A wash's own flow sensors (ALERT stream sensors + USGS).
-export function checkWash(snapshot, flows, wash, kind, now, staleMs, names) {
+// Every sensor listed for a crossing here sits up the wash from it, not on the road. Which
+// sensors are listed for which crossing is a configuration choice; no flow-to-road relation
+// between them has been established. A reading there does not establish how much of that
+// water reaches the crossing, how long it takes or how deep it gets on the pavement, so it is
+// reported as an upstream alert with its own observation time and how far away it is, and it
+// never by itself says this road is flooded. A dry reading is not a dry road either: see the
+// road-status check in rateFailurePoint.
+export const WASH_RULES = { bigFlowCfs: 500 };
+const MILE_M = 1609.344;
+const AZ_MS = 7 * 3_600_000; // Arizona is UTC-7 all year, no DST
+const azClock = (t) => {
+  if (!Number.isFinite(t)) return null;
+  const d = new Date(t - AZ_MS);
+  const h = d.getUTCHours();
+  return `${h % 12 || 12}:${String(d.getUTCMinutes()).padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`;
+};
+const milesFrom = (fp, r) => (Number.isFinite(fp?.lat) && Number.isFinite(r.lat) && Number.isFinite(r.lon) ? metres(fp, r) / MILE_M : null);
+const sensorPlace = (fp, r) => {
+  const mi = milesFrom(fp, r);
+  return mi == null ? 'how far up the wash it sits is not in our data' : `about ${mi.toFixed(1)} mi away in a straight line`;
+};
+// A usable reading: a real number, not negative, and not stamped in the future.
+const usableFlow = (cfs, t, now, staleMs) => Number.isFinite(cfs) && cfs >= 0 && Number.isFinite(t) && t <= now && now - t <= staleMs;
+export function checkWash(snapshot, flows, fp, now, staleMs, names, rules) {
+  const R = rules ?? WASH_RULES;
+  const wash = fp.wash ?? {};
   const readings = [];
   for (const id of wash.alert ?? []) {
     const s = (snapshot?.stream ?? []).find((x) => x.site === id);
-    if (s && !s.maintenance && Number.isFinite(s.flow_cfs) && s.flow_cfs >= 0 && s.last_rpt && now - Date.parse(s.last_rpt) <= staleMs) readings.push({ name: s.name.replace(/ \(PT\)$/, ''), cfs: s.flow_cfs });
+    if (s && !s.maintenance && usableFlow(s.flow_cfs, Date.parse(s.last_rpt), now, staleMs)) {
+      readings.push({ id, name: s.name.replace(/ \(PT\)$/, ''), cfs: s.flow_cfs, lat: s.lat, lon: s.lon, time: Date.parse(s.last_rpt), observedAt: s.last_rpt });
+    }
   }
   for (const id of wash.usgs ?? []) {
-    if (flows[id]?.fresh) readings.push({ name: siteName(names, id), cfs: flows[id].cfs, risingFast: flows[id].risingFast });
+    // A "fresh" flag is not a reading: the number and its own timestamp still have to hold up.
+    const f = flows[id];
+    if (f?.fresh && usableFlow(f.cfs, f.time, now, staleMs)) {
+      readings.push({ id, name: siteName(names, id), cfs: f.cfs, risingFast: f.risingFast, lat: names[id]?.lat, lon: names[id]?.lon, time: f.time, observedAt: new Date(f.time).toISOString() });
+    }
   }
   if (!readings.length) return { level: 'unknown', why: 'no wash flow sensor reading' };
-  const top = readings.sort((a, b) => b.cfs - a.cfs)[0];
-  if (top.cfs < 1) return { level: 'ok', why: 'Brawley Wash upstream is dry' };
+  readings.sort((a, b) => b.cfs - a.cfs);
+  const top = readings[0];
+  const observations = readings.map((r) => ({ siteId: r.id, name: r.name, cfs: r.cfs, milesAway: milesFrom(fp, r), time: r.time, observedAt: r.observedAt }));
+  const when = (r) => (azClock(r.time) ? ` at ${azClock(r.time)}` : '');
+  const detail = readings.map((r) => `${r.name}: ${fmtCfs(r.cfs)} cfs${when(r)}, ${sensorPlace(fp, r)}`).join('; ')
+    + '. No rating curve, travel time or channel-loss relation between these sensors and this crossing has been established, so these numbers give no depth and no arrival time here.';
+  if (top.cfs < 1) return { level: 'ok', observations, detail, why: 'Brawley Wash upstream is dry' };
   const at = `${fmtCfs(top.cfs)} cfs in ${top.name}`;
-  if (kind === 'dip') {
-    return top.cfs >= 500 || top.risingFast
-      ? { level: 'danger', why: `${at}: a flood is coming down the wash toward this crossing` }
-      : { level: 'caution', why: `${at}: water is coming down the wash toward this crossing` };
+  const big = top.cfs >= R.bigFlowCfs || top.risingFast;
+  const rising = top.risingFast ? ', rising fast' : '';
+  if (fp.kind === 'dip') {
+    return {
+      level: 'watch', upstream: true, upstreamAlert: big ? 'big-flow' : 'running', upstreamCfs: top.cfs, observations, detail,
+      why: `${at}${rising}, ${sensorPlace(fp, top)}: ${big ? 'a big flow is running in the wash upstream of here' : 'water is running in the wash upstream of here'}. Whether it reaches this crossing, when, and how deep is not established.`,
+    };
   }
-  return { level: 'unknown', contextOnly:true, why: `${at}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
+  return { level: 'unknown', contextOnly: true, upstream: true, observations, detail, why: `${at}, ${sensorPlace(fp, top)}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
 }
 
 // 4. Pima County's own barricade points near this spot.
@@ -138,14 +179,24 @@ const metres = (a, b) => {
 export function nearbyClosures(fp, closures, radiusM) {
   return (closures ?? []).filter((c) => metres(fp, c) <= radiusM);
 }
+// Only the words the county actually uses are read. A missing or unrecognized status is
+// unknown, never Open: an empty field is a gap in the feed, not a report that the road is fine.
+const OPEN_STATUS = /^open\b/i;
 export function checkClosures(points) {
   if (!points.length) return null;
   const when = (p) => (p.updated ? ` (updated ${p.updated})` : '');
-  const detail = points.map((p) => `${p.location}: ${p.status}${when(p)}`).join(' · ');
+  // The county's own words stay whole: which way it applies to, and when they last touched it.
+  const dir = (p) => (p.direction && !/^all directions$/i.test(p.direction.trim()) ? `, ${p.direction.trim().toLowerCase()}` : '');
+  const said = (p) => (p.status?.trim() ? p.status.trim() : 'no status in the county feed');
+  const detail = points.map((p) => `${p.location}: ${said(p)}${dir(p)}${when(p)}`).join(' · ');
   const closed = points.find((p) => /clos/i.test(p.status));
-  if (closed) return { level: 'danger', detail, why: `County says CLOSED: ${closed.location}${when(closed)}` };
+  if (closed) return { level: 'danger', detail, why: `County says CLOSED: ${closed.location}${dir(closed)}${when(closed)}` };
   const careful = points.find((p) => /caution/i.test(p.status));
-  if (careful) return { level: 'caution', detail, why: `County says Proceed with Caution: ${careful.location}${when(careful)}` };
+  if (careful) return { level: 'caution', detail, why: `County says Proceed with Caution: ${careful.location}${dir(careful)}${when(careful)}` };
+  const unreadable = points.filter((p) => !OPEN_STATUS.test(p.status?.trim() ?? ''));
+  if (unreadable.length) {
+    return { level: 'unknown', detail, roadStatus: 'unknown', why: `county barricade point status is not readable: ${unreadable.map((p) => `${p.location} says "${said(p)}"`).join(', ')}` };
+  }
   return { level: 'ok', detail, why: 'county barricade point marked Open', official: true };
 }
 
@@ -210,7 +261,20 @@ export function rateFailurePoint(fp, d, cfg) {
     const early = checkRiverEarly(d.flows, cfg.RIVER_EARLY, cfg.USGS_SITES, cfg.RIVER);
     if (early) checks.push({ src: 'river-early', ...early, ...(['river','bridge'].includes(fp.kind)?{level:'unknown',contextOnly:true,why:early.why.split(':')[0]+': upstream readings; no site-specific travel time or roadway height comparison'}:{}) });
   }
-  if (fp.wash) checks.push({ src: 'wash', ...checkWash(d.alert, d.flows, fp.wash, fp.kind, now, cfg.STALE_MS, cfg.USGS_SITES) });
+  if (fp.wash) checks.push({ src: 'wash', ...checkWash(d.alert, d.flows, fp, now, cfg.STALE_MS, cfg.USGS_SITES, cfg.WASH) });
+  // A dip whose only flow sensors are up the wash has nothing watching the road itself. Where
+  // the county has no readable barricade point here either, nothing in the data reports this
+  // pavement: connectivity and depth stay unknown, whatever the upstream sensors say or don't
+  // say. A quiet or dry reading miles upstream is not a dry road, and a silent sensor is not
+  // news. This never changes the number; it stops the crossing being called clear.
+  const countyReportsTheRoad = closure != null && closure.level !== 'unknown';
+  if (fp.wash && fp.kind === 'dip' && !countyReportsTheRoad) {
+    checks.push({
+      src: 'road-status', level: 'unknown', roadStatus: 'unknown',
+      why: 'Nothing reports this crossing itself: no sensor on the road, and no county barricade point matched here right now',
+      detail: `The flow sensors listed for this crossing are up the wash from it, and no flow-to-road relation is established, so a dry or quiet reading there is not a dry road. Rain at the nearby county gauges, a county barricade point within ${cfg.CLOSURE_RADIUS_M} m, an NWS warning and the HAND model row are the local evidence this crossing has; none of them measures water depth on the pavement.`,
+    });
+  }
   for (const [ruleName, ids] of Object.entries(fp.rain ?? {})) {
     const c = d.alert
       ? checkRain(d.alert, ids, cfg.RAIN[ruleName], cfg.RAIN_GAUGES, now, cfg.STALE_MS)
@@ -233,11 +297,30 @@ export function rateFailurePoint(fp, d, cfg) {
   if ((fp.kind === 'road' || fp.kind === 'flat') && level === 'danger' && closure?.level !== 'danger') level = 'caution';
   // Lead with a measurement when one exists; the county "Open" flag is often days old.
   // Lead with the most specific source at that level: county closure, then local measurements, then NWS.
-  const pref = ['county', 'wash', 'rain-local', 'river', 'rain-road', 'rain-basin', 'river-early', 'nws'];
+  const pref = ['county', 'wash', 'rain-local', 'river', 'rain-road', 'rain-basin', 'river-early', 'nws', 'road-status'];
   const atLevel = checks.filter((c) => c.level === level && !(c.official && level === 'ok'));
   atLevel.sort((a, b) => pref.indexOf(a.src) - pref.indexOf(b.src));
   const lead = atLevel[0] ?? checks.find((c) => c.level === level) ?? checks[0];
   return { evidenceAvailable: known.length > 0, id: fp.id, name: fp.name, short: fp.short, where: fp.where, kind: fp.kind, level, why: lead?.why ?? 'no data', checks, closurePts };
+}
+
+// The line under a crossing's number, when the evidence itself should say it instead of a
+// generic sentence about the level. The county's status is a report from the road and leads
+// with its own words, direction and time — it is not a depth measurement. An upstream alert
+// never claims the crossing is passable. null means "use the level's plain sentence".
+export function crossingLead(result) {
+  const county = result.checks.find((c) => c.src === 'county' && c.level !== 'unknown');
+  const upstream = result.checks.find((c) => c.upstream === true && c.level !== 'ok');
+  const roadUnknown = result.checks.some((c) => c.roadStatus === 'unknown');
+  const noDepth = 'That is the county reporting this road, not a measurement of how deep the water is.';
+  if (county && county.level === result.level && county.level !== 'ok') return `${county.why}. ${noDepth}`;
+  if (upstream && ['watch', 'unknown'].includes(result.level)) {
+    return `${upstream.why}${roadUnknown ? ' Nothing here reports this road, so whether you can get through is unknown.' : ''}`;
+  }
+  if (roadUnknown && ['ok', 'unknown'].includes(result.level)) {
+    return 'Nothing in the data reports this crossing itself. A quiet reading miles upstream is not a dry road; look as you come up on it.';
+  }
+  return null;
 }
 
 export function rateRoutes(routeFeatures, fpResults, fps) {
@@ -249,11 +332,16 @@ export function rateRoutes(routeFeatures, fpResults, fps) {
 }
 
 // Fastest route that is ok/watch, otherwise the least-bad. Unknown never counts as clear.
+// An upstream wash alert keeps a route off "clear" too: water running up the wash is a live
+// warning, and the fact that it can't be tied to this road is not evidence the road is fine.
+// So does a crossing nothing reports (roadStatus unknown) — including when its upstream
+// sensors read dry, are stale, or say nothing at all.
 export function recommend(rated) {
   const score=r=>r.score??routeScore(r)??5;
+  const unresolved=c=>c.roadStatus==='unknown'||((c.bridgeClearance==='unknown'||c.upstream===true)&&c.level!=='ok');
   const order = [...rated].sort((a, b) => score(a)-score(b) || rank(a.level)-rank(b.level) || a.minutes-b.minutes);
   const best = order[0];
-  return { best, clear: best && score(best)<=2 && rank(best.level) <= rank('watch') && !best.points.some(p=>p.evidenceAvailable===false || p.checks.some(c=>c.bridgeClearance==='unknown'&&c.level!=='ok')), order };
+  return { best, clear: best && score(best)<=2 && rank(best.level) <= rank('watch') && !best.points.some(p=>p.evidenceAvailable===false || p.checks.some(unresolved)), order };
 }
 
 // Google Maps link that forces the chosen roads with waypoints (phones allow up to 3).

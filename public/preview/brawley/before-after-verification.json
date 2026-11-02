@@ -1,0 +1,213 @@
+{
+  "baselineCommit": "2461a8d",
+  "fixture": "Reported 1160/817 cfs and county caution; other gauges/rain controlled to zero, no NWS alerts, no model input",
+  "before": {
+    "crossingScore": 5,
+    "crossingLevel": "danger",
+    "why": "1,160 cfs in Brawley Wash near Three Points: a flood is coming down the wash toward this crossing",
+    "checks": [
+      {
+        "src": "county",
+        "level": "caution",
+        "detail": "Avra Valley Rd west of the Brawley Wash: Proceed with Caution (updated 11/01/26, 11:48)",
+        "why": "County says Proceed with Caution: Avra Valley Rd west of the Brawley Wash (updated 11/01/26, 11:48)"
+      },
+      {
+        "src": "wash",
+        "level": "danger",
+        "why": "1,160 cfs in Brawley Wash near Three Points: a flood is coming down the wash toward this crossing"
+      },
+      {
+        "src": "rain-local",
+        "level": "ok",
+        "detail": "last 1 h 0.00\" ┬╖ 3 h 0.00\" ┬╖ 6 h 0.00\" ┬╖ 24 h 0.00\" (wettest of Avra Valley Air Park, Picture Rocks Community Ctr, Trico Rd north of Manville)",
+        "why": "no rain in the last 6 hours"
+      },
+      {
+        "src": "rain-basin",
+        "level": "ok",
+        "detail": "last 1 h 0.00\" ┬╖ 3 h 0.00\" ┬╖ 6 h 0.00\" ┬╖ 24 h 0.00\" (wettest of Brawley Wash at Three Points, Brawley Wash at Milewide Rd, Picture Rocks Community Ctr, Trico Rd north of Manville)",
+        "why": "no rain in the last 6 hours"
+      }
+    ],
+    "routes": [
+      {
+        "id": "trico",
+        "score": 1
+      },
+      {
+        "id": "avra",
+        "score": 5
+      },
+      {
+        "id": "silverbell-north",
+        "score": 1
+      },
+      {
+        "id": "silverbell-south",
+        "score": 1
+      }
+    ],
+    "order": [
+      "trico",
+      "silverbell-north",
+      "silverbell-south",
+      "avra"
+    ],
+    "clear": false
+  },
+  "after": {
+    "crossingScore": 3,
+    "crossingLevel": "caution",
+    "why": "County says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11/01/26, 11:48)",
+    "checks": [
+      {
+        "src": "county",
+        "level": "caution",
+        "detail": "Avra Valley Rd west of the Brawley Wash: Proceed with Caution, eastbound (updated 11/01/26, 11:48)",
+        "why": "County says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11/01/26, 11:48)"
+      },
+      {
+        "src": "wash",
+        "level": "watch",
+        "upstream": true,
+        "upstreamAlert": "big-flow",
+        "upstreamCfs": 1160,
+        "observations": [
+          {
+            "siteId": "09487000",
+            "name": "Brawley Wash near Three Points",
+            "cfs": 1160,
+            "milesAway": 22.113779813290392,
+            "time": 1793588040000,
+            "observedAt": "2026-11-02T02:54:00.000Z"
+          },
+          {
+            "siteId": "6443",
+            "name": "Brawley Wash at Milewide Road",
+            "cfs": 817,
+            "milesAway": 10.422709506074769,
+            "time": 1793588040000,
+            "observedAt": "2026-11-02T02:54:00.000Z"
+          }
+        ],
+        "detail": "Brawley Wash near Three Points: 1,160 cfs at 7:54 PM, about 22.1 mi away in a straight line; Brawley Wash at Milewide Road: 817 cfs at 7:54 PM, about 10.4 mi away in a straight line. No rating curve, travel time or channel-loss relation between these sensors and this crossing has been established, so these numbers give no depth and no arrival time here.",
+        "why": "1,160 cfs in Brawley Wash near Three Points, about 22.1 mi away in a straight line: a big flow is running in the wash upstream of here. Whether it reaches this crossing, when, and how deep is not established."
+      },
+      {
+        "src": "rain-local",
+        "level": "ok",
+        "detail": "last 1 h 0.00\" · 3 h 0.00\" · 6 h 0.00\" · 24 h 0.00\" (wettest of Avra Valley Air Park, Picture Rocks Community Ctr, Trico Rd north of Manville)",
+        "why": "no rain in the last 6 hours"
+      },
+      {
+        "src": "rain-basin",
+        "level": "ok",
+        "detail": "last 1 h 0.00\" · 3 h 0.00\" · 6 h 0.00\" · 24 h 0.00\" (wettest of Brawley Wash at Three Points, Brawley Wash at Milewide Rd, Picture Rocks Community Ctr, Trico Rd north of Manville)",
+        "why": "no rain in the last 6 hours"
+      }
+    ],
+    "routes": [
+      {
+        "id": "trico",
+        "score": 1
+      },
+      {
+        "id": "avra",
+        "score": 3
+      },
+      {
+        "id": "silverbell-north",
+        "score": 1
+      },
+      {
+        "id": "silverbell-south",
+        "score": 1
+      }
+    ],
+    "order": [
+      "trico",
+      "silverbell-north",
+      "silverbell-south",
+      "avra"
+    ],
+    "clear": false
+  },
+  "closed": {
+    "crossingScore": 5,
+    "crossingLevel": "danger",
+    "why": "County says CLOSED: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11/01/26, 11:48)",
+    "checks": [
+      {
+        "src": "county",
+        "level": "danger",
+        "detail": "Avra Valley Rd west of the Brawley Wash: Closed, eastbound (updated 11/01/26, 11:48)",
+        "why": "County says CLOSED: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11/01/26, 11:48)"
+      },
+      {
+        "src": "wash",
+        "level": "watch",
+        "upstream": true,
+        "upstreamAlert": "big-flow",
+        "upstreamCfs": 1160,
+        "observations": [
+          {
+            "siteId": "09487000",
+            "name": "Brawley Wash near Three Points",
+            "cfs": 1160,
+            "milesAway": 22.113779813290392,
+            "time": 1793588040000,
+            "observedAt": "2026-11-02T02:54:00.000Z"
+          },
+          {
+            "siteId": "6443",
+            "name": "Brawley Wash at Milewide Road",
+            "cfs": 817,
+            "milesAway": 10.422709506074769,
+            "time": 1793588040000,
+            "observedAt": "2026-11-02T02:54:00.000Z"
+          }
+        ],
+        "detail": "Brawley Wash near Three Points: 1,160 cfs at 7:54 PM, about 22.1 mi away in a straight line; Brawley Wash at Milewide Road: 817 cfs at 7:54 PM, about 10.4 mi away in a straight line. No rating curve, travel time or channel-loss relation between these sensors and this crossing has been established, so these numbers give no depth and no arrival time here.",
+        "why": "1,160 cfs in Brawley Wash near Three Points, about 22.1 mi away in a straight line: a big flow is running in the wash upstream of here. Whether it reaches this crossing, when, and how deep is not established."
+      },
+      {
+        "src": "rain-local",
+        "level": "ok",
+        "detail": "last 1 h 0.00\" · 3 h 0.00\" · 6 h 0.00\" · 24 h 0.00\" (wettest of Avra Valley Air Park, Picture Rocks Community Ctr, Trico Rd north of Manville)",
+        "why": "no rain in the last 6 hours"
+      },
+      {
+        "src": "rain-basin",
+        "level": "ok",
+        "detail": "last 1 h 0.00\" · 3 h 0.00\" · 6 h 0.00\" · 24 h 0.00\" (wettest of Brawley Wash at Three Points, Brawley Wash at Milewide Rd, Picture Rocks Community Ctr, Trico Rd north of Manville)",
+        "why": "no rain in the last 6 hours"
+      }
+    ],
+    "routes": [
+      {
+        "id": "trico",
+        "score": 1
+      },
+      {
+        "id": "avra",
+        "score": 5
+      },
+      {
+        "id": "silverbell-north",
+        "score": 1
+      },
+      {
+        "id": "silverbell-south",
+        "score": 1
+      }
+    ],
+    "order": [
+      "trico",
+      "silverbell-north",
+      "silverbell-south",
+      "avra"
+    ],
+    "clear": false
+  }
+}

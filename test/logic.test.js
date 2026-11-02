@@ -69,10 +69,12 @@ test('rain: a gauge under maintenance or silent is ignored', () => {
   s.rain.forEach((g) => { g.maintenance = true; });
   assert.equal(checkRain(s, ['6110'], cfg.RAIN.local, cfg.RAIN_GAUGES, NOW, cfg.STALE_MS).level, 'unknown');
 });
-test('wash: upstream flow rates a dip but remains context for a bridge', () => {
+test('wash: upstream flow is an upstream alert at a dip and context at a bridge', () => {
   const s = snapshot({}, { 6443: 40 });
-  assert.equal(checkWash(s, normalFlows(), FP['brawley-dip'].wash, 'dip', NOW, cfg.STALE_MS, cfg.USGS_SITES).level, 'caution');
-  assert.equal(checkWash(s, normalFlows(), FP['losrobles-bridge'].wash, 'bridge', NOW, cfg.STALE_MS, cfg.USGS_SITES).level, 'unknown');
+  const dip = checkWash(s, normalFlows(), FP['brawley-dip'], NOW, cfg.STALE_MS, cfg.USGS_SITES, cfg.WASH);
+  assert.equal(dip.level, 'watch');
+  assert.equal(dip.upstream, true);
+  assert.equal(checkWash(s, normalFlows(), FP['losrobles-bridge'], NOW, cfg.STALE_MS, cfg.USGS_SITES, cfg.WASH).level, 'unknown');
 });
 test('county: Closed beats everything, Proceed with Caution is caution', () => {
   assert.equal(checkClosures([{ status: 'Closed', location: 'x' }]).level, 'danger');
@@ -149,7 +151,7 @@ test('Silverbell drainage is never worse than caution', () => {
 // ---- real data from Oct 31, 2026 (light rain day) ----
 test('real Oct 31 2026 data parses and produces a recommendation', () => {
   const closuresJson = fx('closures-2026-10-31.json');
-  const closures = closuresJson.features.map((f) => ({ location: f.attributes.Location, status: f.attributes.Status, lat: f.geometry.y, lon: f.geometry.x }));
+  const closures = closuresJson.features.map((f) => ({ location: f.attributes.Location, status: f.attributes.Status, direction: f.attributes.Direction, updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x }));
   const flows = Object.fromEntries(Object.keys(cfg.USGS_SITES).map((s) => [s, summarizeFlow(parseContinuous(fx(`usgs-${s}-2026-10-31.json`)), NOW, cfg.STALE_MS)]));
   const alert = fx('alert-2026-10-31.json');
   const r = choose({ now: Date.parse(alert.fetched_at) + 60e3, flows, closures, alert, nws: [] });
