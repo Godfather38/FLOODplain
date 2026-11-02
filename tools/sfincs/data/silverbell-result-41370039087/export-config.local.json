@@ -1,0 +1,47 @@
+{
+  "runId": "silverbell-full-41370039087",
+  "executionMode": "simulated_live_frozen_inputs",
+  "meshFile": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\sfincs.nc",
+  "mapFile": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\sfincs_map.nc",
+  "logFile": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\solver.log",
+  "meshTopology": "mesh2d",
+  "meshFaceIdVariable": "mesh2d_nFaces",
+  "outputMeshTopology": "mesh2d",
+  "faceMapping": {
+    "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\output-to-source-face-id.npy",
+    "sha256": "db85d07bc01d8a1388039fb768f9e4b4a64d48144a928684bcdc23b5f1d2bf32"
+  },
+  "volumeVariable": "subgrid_volume",
+  "surfaceVariable": "zs",
+  "projectedCrs": "EPSG:32612",
+  "verticalDatum": "NAVD88",
+  "nativeTimeZone": "UTC",
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "negativeVolumeToleranceM3": 4.192,
+  "assumptions": [
+    "Completed frozen replay with original NWM13Z/HRRR14Z inputs; not automatically current.",
+    "Native volume/full polygon area is cell-average storage depth, not validated road depth or actual wet extent.",
+    "Raw signed volumes retained; display-only zero clamp within unchanged4.192m3 tolerance.",
+    "Prepared Silverbell road coverage is6.25m; subgrid terrain sampling is not an independent1m flow solution.",
+    "Bridge deck and underground drainage geometry remain incomplete; no confidence interval established."
+  ],
+  "inputArtifacts": [
+    {
+      "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\sfincs.nc",
+      "sha256": "021431481d54347e293293cc37166c2ddfb8b168bdc3487bd4cc17b7aa807a12"
+    },
+    {
+      "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\output-to-source-face-id.npy",
+      "sha256": "db85d07bc01d8a1388039fb768f9e4b4a64d48144a928684bcdc23b5f1d2bf32"
+    },
+    {
+      "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\GCN10-NOTICE.txt",
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\GCN10-source-metadata.xml",
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    }
+  ]
+}

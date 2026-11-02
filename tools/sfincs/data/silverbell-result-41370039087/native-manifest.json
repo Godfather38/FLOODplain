@@ -1,0 +1,78 @@
+{
+  "runId": "41370039087",
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41370039087",
+  "status": "completed_full_interval",
+  "executionCommit": "6316f5b",
+  "preparedCaseCommit": "a8089cb",
+  "executionMode": "simulated_live_frozen_inputs",
+  "solverTotalSeconds": 2308.346,
+  "solverSimulationSeconds": 2308.053955078125,
+  "approvedNativeCapSeconds": 3600,
+  "engineRecompiled": false,
+  "savedEngineRun": "41290378239",
+  "nativeInputManifest": "../silverbell-extension-v1/manifest.json",
+  "archiveBytes": 198996757,
+  "archiveSha256": "0cadb3f4ec84d21a48637ee73c9b836bffbd9c6d24d4cb27ba293c243a881b5f",
+  "parts": [
+    {
+      "path": "native-output.tar.gz.part00",
+      "bytes": 67108864,
+      "sha256": "c20e5ff0837136dd1bc36000639d4f0ae9b853b09a0e3414f68ccf980bf99e30"
+    },
+    {
+      "path": "native-output.tar.gz.part01",
+      "bytes": 67108864,
+      "sha256": "bdc4355fb3887a05a1d28c45dc4c50198fc043e34f9037823f0734967f81e3b7"
+    },
+    {
+      "path": "native-output.tar.gz.part02",
+      "bytes": 64779029,
+      "sha256": "3631c8d4d565d5edcd2d411931ef24e5bfe01946f6a97bf5a9f80a88eba2dbf2"
+    }
+  ],
+  "archiveContents": [
+    "sfincs_map.nc",
+    "sfincs.nc",
+    "solver.log",
+    "sfincs.log",
+    "current-case.json",
+    "execution-started.txt",
+    "result-summary.json",
+    "silverbell-point-summary.json",
+    "silverbell-point-series.csv",
+    "output-to-source-face-id.npy",
+    "GCN10-NOTICE.txt",
+    "GCN10-source-metadata.xml",
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst",
+    "sfincs.20261102.070000.rst"
+  ],
+  "reassembly": "Concatenate parts in listed order and extract. Native unchanged forcing/subgrid inputs remain in the referenced prepared-case archive, not duplicated here.",
+  "forecastFrames": 57,
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "faces": 480227,
+  "sourceMeshSha256": "021431481d54347e293293cc37166c2ddfb8b168bdc3487bd4cc17b7aa807a12",
+  "sourceMapSha256": "245bc2aa41404c22512879e14aff0d98dc32f37e971e4b91a42d8998e6a549e5",
+  "pointSummary": "silverbell-point-summary.json",
+  "pointSeries": "silverbell-point-series.csv",
+  "coverage": "prepared-coverage.json",
+  "limitations": [
+    "Frozen original forecast issuance, not automatically current",
+    "Volume/full polygon area is not validated road depth or actual wet extent",
+    "No native river-section flow configured",
+    "Type1 restart omits cumulative infiltration history",
+    "No new bridge/culvert openings invented"
+  ]
+}

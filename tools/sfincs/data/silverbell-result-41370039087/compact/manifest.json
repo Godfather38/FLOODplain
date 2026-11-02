@@ -1,0 +1,498 @@
+{
+  "schemaVersion": 1,
+  "kind": "quadtree_output_package",
+  "status": "complete",
+  "runId": "silverbell-full-41370039087",
+  "executionMode": "simulated_live_frozen_inputs",
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "geometry": {
+    "path": "geometry.bin.gz",
+    "sha256": "fd4bed991721e6e3a90a84cfb3fb8015fdbd5bd5fc62d3f3af45cf75f721c93b",
+    "bytes": 15335576,
+    "decodedBytes": 54456560
+  },
+  "frames": [
+    {
+      "time": "2026-11-01T17:00:00Z",
+      "path": "frame-0.bin.gz",
+      "sha256": "eaa8c6463c43561284fd6aa141a4b7ad02101f2f554e3dc3ab1d92fee12c881c",
+      "bytes": 2211704,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T17:15:00Z",
+      "path": "frame-1.bin.gz",
+      "sha256": "9b8dc110f4f93263c20e38a9d09a08125602f30b9a3c61a621b42ed4f505ecaa",
+      "bytes": 2212496,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T17:30:00Z",
+      "path": "frame-2.bin.gz",
+      "sha256": "e66e491381e19a840fe9df69792e1de409b828ab4106044c36e5a143d569a383",
+      "bytes": 2212883,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T17:45:00Z",
+      "path": "frame-3.bin.gz",
+      "sha256": "3ec57e5476dcd6b85e0cd1021865b33769fc813def77f53ac8e1fd7ef764706c",
+      "bytes": 2269111,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T18:00:00Z",
+      "path": "frame-4.bin.gz",
+      "sha256": "17dee93cffb88b1b45fd4c6ca0f7d7a05ba4f4d445b7f86a2382427080b8c6fc",
+      "bytes": 2361294,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T18:15:00Z",
+      "path": "frame-5.bin.gz",
+      "sha256": "3443af5ca8ed0cfc586cf549e437d924072e2af570992a816117733cf7f43ded",
+      "bytes": 2437778,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T18:30:00Z",
+      "path": "frame-6.bin.gz",
+      "sha256": "e0711c2151311acce504840415bd89c69c46cb47ad06183feb78043b3f91dc86",
+      "bytes": 2484453,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T18:45:00Z",
+      "path": "frame-7.bin.gz",
+      "sha256": "4f60ef59f433c6cf4e6b855b374ef512cace58dc38ec9418822c767c6898cdc1",
+      "bytes": 2553836,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T19:00:00Z",
+      "path": "frame-8.bin.gz",
+      "sha256": "0c4327e377d30aad12956ada5a2c333c81797173a2fc7dcac982ce789bca0d85",
+      "bytes": 2611649,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T19:15:00Z",
+      "path": "frame-9.bin.gz",
+      "sha256": "904b7d8de36925094582e987f4591221da3f93a75231f6dc52da48a90607034c",
+      "bytes": 2683928,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T19:30:00Z",
+      "path": "frame-10.bin.gz",
+      "sha256": "272d174f454cf96a4cd8c4547852512ea952b8f201652d1ffc0ed79e48df86ba",
+      "bytes": 2732993,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T19:45:00Z",
+      "path": "frame-11.bin.gz",
+      "sha256": "39166c60b5c5922adced35f0086bdcc4e132b8d5b270143847abb3afdde6f081",
+      "bytes": 2804341,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T20:00:00Z",
+      "path": "frame-12.bin.gz",
+      "sha256": "10f5943995d90d7d3fbce57f47b7a9aaaecbd164034d3a1c122828b31a3b2127",
+      "bytes": 2825292,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T20:15:00Z",
+      "path": "frame-13.bin.gz",
+      "sha256": "a171b1097c9426590867811819a0d3e37c41abd7b0f3a18bb6db4ab1b5094cbd",
+      "bytes": 2840733,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T20:30:00Z",
+      "path": "frame-14.bin.gz",
+      "sha256": "00969f472fb27ebbd52f0ecfc66ee403ffccef80857714704bcefd798bead4d6",
+      "bytes": 2851577,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T20:45:00Z",
+      "path": "frame-15.bin.gz",
+      "sha256": "de626855e0ae43130250f7f7639dd1bcd95012f17eb1becf99a750060b715fff",
+      "bytes": 2862578,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T21:00:00Z",
+      "path": "frame-16.bin.gz",
+      "sha256": "2312b5316121d3e141e7fac0f839601ced9bcf329cd1ff1d01bd82f4bef92434",
+      "bytes": 2867056,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T21:15:00Z",
+      "path": "frame-17.bin.gz",
+      "sha256": "7aff31a3aa611929b33bfd2be7b812caead3ef32d5c3a6b9912cb1eafe9e0f5d",
+      "bytes": 2869938,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T21:30:00Z",
+      "path": "frame-18.bin.gz",
+      "sha256": "f5db7a0228fa3cbf772d72089292a585c37d3590c8c714b2bf2b9d3a984b9708",
+      "bytes": 2873824,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T21:45:00Z",
+      "path": "frame-19.bin.gz",
+      "sha256": "c55ed674c63591a222ba6ca77191a77515bfa5bc6b9dab7a69f0823e9d054a6d",
+      "bytes": 2873598,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T22:00:00Z",
+      "path": "frame-20.bin.gz",
+      "sha256": "77c3f7dff7c395821e1c7a20b08521739016b3b92819cadc00db052304f630e0",
+      "bytes": 2867801,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T22:15:00Z",
+      "path": "frame-21.bin.gz",
+      "sha256": "904621438405ffc7b44f767b2c75ba4ebecb036c417984a59ce93e4b9c72c542",
+      "bytes": 2862385,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T22:30:00Z",
+      "path": "frame-22.bin.gz",
+      "sha256": "aeedeec7a5a2e1e6b1e8c73aacdac670049496cf9024e30fe861b3dadd94431d",
+      "bytes": 2860441,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T22:45:00Z",
+      "path": "frame-23.bin.gz",
+      "sha256": "66e9cfb5da29043fb66e5676fbb1e679e46be6bbbf5db148c5a41604d0de8671",
+      "bytes": 2858930,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T23:00:00Z",
+      "path": "frame-24.bin.gz",
+      "sha256": "9ef5511bed6a8b2fb9016aaaebcee267f1f526ee2e8e4589863b316f1d2c93cd",
+      "bytes": 2857573,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T23:15:00Z",
+      "path": "frame-25.bin.gz",
+      "sha256": "b075fe8b40e2629e7a5141eae39d404503586f1c3fc44c4fee6dd59495005c34",
+      "bytes": 2855832,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T23:30:00Z",
+      "path": "frame-26.bin.gz",
+      "sha256": "20a395868bc85df75b27d7b24370178cdc03c38450b04a4d025652074849e712",
+      "bytes": 2854616,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-01T23:45:00Z",
+      "path": "frame-27.bin.gz",
+      "sha256": "2690c5b0aefefaa405016bfaa11b851e770e7c9f72cfc3fba065a64bfb5c5f52",
+      "bytes": 2852986,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T00:00:00Z",
+      "path": "frame-28.bin.gz",
+      "sha256": "263395a55adff4acdc45434443cf3eff5184daf00b4d92d5d4ea0379d95d9bd8",
+      "bytes": 2851951,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T00:15:00Z",
+      "path": "frame-29.bin.gz",
+      "sha256": "e3014d0e74764f2c11b91c7470f6772e9d107b5bb17613b77d2c5d4b1b542bac",
+      "bytes": 2850763,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T00:30:00Z",
+      "path": "frame-30.bin.gz",
+      "sha256": "00c7900a57b79f487ed9906bd7c24ce4fef310054512e282c6868f68b22fbf69",
+      "bytes": 2849794,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T00:45:00Z",
+      "path": "frame-31.bin.gz",
+      "sha256": "a2f40de59b9c80ab09caadc9f8813ddb57fda5ac8921e169d63bcb3c63e65408",
+      "bytes": 2849033,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T01:00:00Z",
+      "path": "frame-32.bin.gz",
+      "sha256": "755472dca3aff50387ca03c3d7cfe761757cbe86bf79cbcd41494520b57b19d8",
+      "bytes": 2847715,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T01:15:00Z",
+      "path": "frame-33.bin.gz",
+      "sha256": "48a4beb3513ab6606c13cc1b2ab978b9c275f797814f66157ef20df44c477c9d",
+      "bytes": 2847498,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T01:30:00Z",
+      "path": "frame-34.bin.gz",
+      "sha256": "2a9ad832988ec330d76f72eee004d095e1473ccf8ec98ed717df210da8f022a3",
+      "bytes": 2846759,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T01:45:00Z",
+      "path": "frame-35.bin.gz",
+      "sha256": "b49fc4be6a55a37eb6befdf41d5e634a3e224890e41acda5b204f985c46b347d",
+      "bytes": 2846167,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T02:00:00Z",
+      "path": "frame-36.bin.gz",
+      "sha256": "b050558ef4e7e4b55eaf264fe164058319619bf243421620ca14b3dce8914387",
+      "bytes": 2845495,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T02:15:00Z",
+      "path": "frame-37.bin.gz",
+      "sha256": "cefafa0cd14e630f34fdc44ce3a706922613a3675c54f325c29a4a49e1327350",
+      "bytes": 2845302,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T02:30:00Z",
+      "path": "frame-38.bin.gz",
+      "sha256": "f68ee71a411850d0e7676c053fc5bc2365d2cd903f0c67c83d4252e7e58e2d7a",
+      "bytes": 2845021,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T02:45:00Z",
+      "path": "frame-39.bin.gz",
+      "sha256": "ff59f3ab685b0dc43ce42b832977c2c1a5f1736af99a83086e21ff9d5e1c82a9",
+      "bytes": 2845791,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T03:00:00Z",
+      "path": "frame-40.bin.gz",
+      "sha256": "3373c45538d4d2bff758fc576524cc8f4b8659406a24d9c4d0087747c4114224",
+      "bytes": 2847263,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T03:15:00Z",
+      "path": "frame-41.bin.gz",
+      "sha256": "b81ea42c030d4716410a2b8e3f9461ceff86240972dbca88c9c6777d6aef80c3",
+      "bytes": 2847835,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T03:30:00Z",
+      "path": "frame-42.bin.gz",
+      "sha256": "ca1b9f5ee3972af2addfd6ea396ae73c25830db99a223572b0124dcf92b0bcb5",
+      "bytes": 2847788,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T03:45:00Z",
+      "path": "frame-43.bin.gz",
+      "sha256": "852de6b51ae4ca21880b2568526fee3cc00862610a1578a511f392fa4165dfed",
+      "bytes": 2848873,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T04:00:00Z",
+      "path": "frame-44.bin.gz",
+      "sha256": "99299308ffab8262538ff6135423aaf89a129d13aba6403caff78ca7d21d5b43",
+      "bytes": 2849247,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T04:15:00Z",
+      "path": "frame-45.bin.gz",
+      "sha256": "e7a53d7d09e6f985dabab0c83aea25c5a7d3f85e01306169de5073c35a81d81a",
+      "bytes": 2849365,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T04:30:00Z",
+      "path": "frame-46.bin.gz",
+      "sha256": "05d25e9e245881e0c5907f784fb0cd075362fdfb4de9e7d6ff8259154afe532f",
+      "bytes": 2848895,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T04:45:00Z",
+      "path": "frame-47.bin.gz",
+      "sha256": "29296f2b1239231aaab280b3e1b210fdef507b35b94d1f283e3fdf1a97420f0d",
+      "bytes": 2863354,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T05:00:00Z",
+      "path": "frame-48.bin.gz",
+      "sha256": "9a3ffa50e20ee7913542c99bc1ac723e287d1fd37bd96caf91f255441f47641f",
+      "bytes": 2874047,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T05:15:00Z",
+      "path": "frame-49.bin.gz",
+      "sha256": "a78294ee43b71cf80644096874a86c473b3155c0489c0af203fae0a8cbd0ae2a",
+      "bytes": 2875408,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T05:30:00Z",
+      "path": "frame-50.bin.gz",
+      "sha256": "378ba6cacdb5a651fab8cba2e71fb971acb5d9f02e1e405347413420de5f7c0b",
+      "bytes": 2878352,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T05:45:00Z",
+      "path": "frame-51.bin.gz",
+      "sha256": "1ee2826a9315a6612f332a982184dcc888117515fa7b1529331391e23269a9fa",
+      "bytes": 2883868,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T06:00:00Z",
+      "path": "frame-52.bin.gz",
+      "sha256": "20edd87a8d473887e4110c2b56e822a54ad6dfc18a14a5937b03152bcf3c5442",
+      "bytes": 2887959,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T06:15:00Z",
+      "path": "frame-53.bin.gz",
+      "sha256": "305dfa9747d0c6f6f17b7b24addbefadb9e5d0459311d5dc27356e1dad67b146",
+      "bytes": 2895222,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T06:30:00Z",
+      "path": "frame-54.bin.gz",
+      "sha256": "a6d757dd8f5b2469d45026a878046b2bdca2aa9136fcb473b53c14341854972c",
+      "bytes": 2903928,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T06:45:00Z",
+      "path": "frame-55.bin.gz",
+      "sha256": "be83b04268f7616e348c616b46ac07a07590924a87152b299cdeb7835c4f6a82",
+      "bytes": 2912910,
+      "decodedBytes": 3842168
+    },
+    {
+      "time": "2026-11-02T07:00:00Z",
+      "path": "frame-56.bin.gz",
+      "sha256": "0014d611b92156607f72575ddd0f7f72941796be99c944d9d1ac61db2f8611b0",
+      "bytes": 2919068,
+      "decodedBytes": 3842168
+    }
+  ],
+  "resolution": {
+    "minimumM": 6.25,
+    "maximumM": 100.0,
+    "cellCount": 480227,
+    "uniform": false
+  },
+  "quantity": {
+    "name": "cell_average_depth",
+    "units": "m",
+    "definition": "Native volume divided by each full native polygon area"
+  },
+  "coverage": {
+    "status": "audited_silverbell_road",
+    "crossingRegistry": null,
+    "roadDepthValidated": false,
+    "coverageEvidence": "../prepared-coverage.json",
+    "coverageEvidenceSha256": "aebca72c4273a48b76bf1e24b9cd122f228eb68c992c86f89d4fe8df7f324f0d",
+    "terrainCandidateRegistry": "../terrain-low-point-candidates.geojson",
+    "terrainCandidateRegistrySha256": "5e886c674b3c90c79a84ca11f7513b9d69d75c9676c3b5227eb97bc5d95cc186"
+  },
+  "terrainDisplay": {
+    "status": "unavailable",
+    "reason": "Requires separately source-bound terrain; no regular-grid DEM blocks substituted"
+  },
+  "provenance": {
+    "configurationSha256": "6e8936e03d8b63f6c33c6ee42b405368c6a33dafba5adbd49c96da9f0be38c9b",
+    "meshSha256": "021431481d54347e293293cc37166c2ddfb8b168bdc3487bd4cc17b7aa807a12",
+    "nativeMapSha256": "245bc2aa41404c22512879e14aff0d98dc32f37e971e4b91a42d8998e6a549e5",
+    "logSha256": "08b5cb53f425dbe0c418f67aecd7bad1495e8a8e8826de530a6a2e2f131e020f",
+    "inputArtifacts": [
+      {
+        "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\sfincs.nc",
+        "sha256": "021431481d54347e293293cc37166c2ddfb8b168bdc3487bd4cc17b7aa807a12"
+      },
+      {
+        "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\output-to-source-face-id.npy",
+        "sha256": "db85d07bc01d8a1388039fb768f9e4b4a64d48144a928684bcdc23b5f1d2bf32"
+      },
+      {
+        "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\GCN10-NOTICE.txt",
+        "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+      },
+      {
+        "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\silverbell-result-41370039087\\artifact\\runs\\current\\GCN10-source-metadata.xml",
+        "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+      }
+    ],
+    "verticalDatum": "NAVD88",
+    "assumptions": [
+      "Completed frozen replay with original NWM13Z/HRRR14Z inputs; not automatically current.",
+      "Native volume/full polygon area is cell-average storage depth, not validated road depth or actual wet extent.",
+      "Raw signed volumes retained; display-only zero clamp within unchanged4.192m3 tolerance.",
+      "Prepared Silverbell road coverage is6.25m; subgrid terrain sampling is not an independent1m flow solution.",
+      "Bridge deck and underground drainage geometry remain incomplete; no confidence interval established."
+    ],
+    "nativeFaceOrdering": "mesh face ID order; output reordered by exact ID",
+    "negativeVolumeDisplayToleranceM3": 4.192
+  },
+  "uncertainty": {
+    "status": "not_quantified",
+    "plusMinus": null
+  },
+  "solverCompletion": {
+    "status": "complete"
+  },
+  "endSummary": "not_exported",
+  "compactSource": {
+    "path": "silverbell-full-json-41370039087",
+    "manifestSha256": "a36d885ff2c8ebf818c99f1550639e929a35924abb837910bed04e699ddbcf12",
+    "geometry": {
+      "path": "geometry.json.gz",
+      "sha256": "f8a24fab25e6117dda8d00812c50f31e49df013528a6a9b47c758a66f833544b",
+      "bytes": 21645073
+    },
+    "semantics": "Float64 geometry unchanged; float32 native quantities exact; depth derived from volume/full native area; NaN encodes missing only."
+  },
+  "supportingFilesSource": "silverbell-full-json-41370039087",
+  "sourceIssues": {
+    "NWM": "2026-11-01T13:00:00Z",
+    "HRRR": "2026-11-01T14:00:00Z",
+    "mode": "frozen_replay"
+  }
+}
