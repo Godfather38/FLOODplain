@@ -38,7 +38,8 @@ test('live mode has no fallback and snapshots stay out of the published folder',
 test('the demo is byte-identical to the pinned commit and keeps opaque water', () => {
  const sums=read('public/preview/coastal-lowcost/SHA256SUMS').trim().split('\n').map(line=>line.trim().split(/\s+/));
  assert.ok(sums.length>25);
- for(const [hash,file] of sums)assert.equal(createHash('sha256').update(readFileSync(url(`public/preview/coastal-lowcost/${file}`))).digest('hex'),hash,file);
+ // A Windows checkout may hold CRLF line endings; the hashes are of the LF files.
+ for(const [hash,file] of sums)assert.equal(createHash('sha256').update(read(`public/preview/coastal-lowcost/${file}`).replaceAll('\r\n','\n')).digest('hex'),hash,file);
  const main=read('public/preview/geo3d/src/main.js'),page=read('public/preview/geo3d/index.html');
  assert.match(page,/searchParams\.set\('preset','tiny-toon'\)/);
  assert.match(main,/TRIAL\.effects!=='toon'\|\|GRID\.nx!==24\|\|GRID\.nz!==40/);
