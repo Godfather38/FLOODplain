@@ -1,0 +1,314 @@
+{
+  "stage": "before",
+  "errors": [],
+  "views": [
+    {
+      "site": "bridge",
+      "zoom": 14,
+      "ms": 2308,
+      "status": {
+        "kind": "geography",
+        "status": "ready",
+        "featureCount": 965,
+        "coordinateCount": 46137,
+        "cachedTiles": 20,
+        "cachedCoordinates": 102004,
+        "cachedFeatures": 2689,
+        "sourceLayers": [
+          "landcover",
+          "landuse",
+          "water",
+          "building",
+          "waterway",
+          "transportation",
+          "transportation_name",
+          "place"
+        ],
+        "tileZoom": 13
+      },
+      "budgets": {
+        "cacheTiles": 24,
+        "cacheCoordinates": 250000,
+        "cacheFeatures": 20000,
+        "drawCoordinates": 100000,
+        "drawFeatures": 965,
+        "tileBytes": 4194304,
+        "cachedTiles": 20,
+        "cachedCoordinates": 102004,
+        "cachedFeatures": 2689
+      },
+      "counts": {
+        "landcover": 333,
+        "landuse": 47,
+        "water": 70,
+        "building": 9,
+        "waterway": 213,
+        "transportation": 226,
+        "transportation_name": 45,
+        "place": 22
+      },
+      "names": [
+        "Santa Cruz River",
+        "Los Robles Wash",
+        "Blanco Wash",
+        "Central Arizona Project Canal",
+        "Brawley Wash",
+        "Cottonwood Wash",
+        "Cocio Wash",
+        "Trico Road",
+        "West Hardin Road",
+        "North Luckett Road",
+        "North Trico Road",
+        "North Anway Road",
+        "North Aguirre Road",
+        "West Kirby Hughes Road",
+        "North Casa Grande Highway",
+        "Casa Grande–Tucson Highway",
+        "CAP Trail",
+        "North Cocio Road",
+        "West Silverbell Road",
+        "West Trico Marana Road",
+        "North Wentz Road",
+        "West Sagebrush Road",
+        "West Grier Road",
+        "West Marana Road",
+        "North Sanders Road",
+        "West Barnett Road",
+        "West Moore Road",
+        "North Sandario Road",
+        "North Musket Road",
+        "North Derringer Road",
+        "West El Tiro Road",
+        "Santa Cruz River Path",
+        "West Tangerine Road",
+        "Dobson",
+        "Marana",
+        "Avra Valley",
+        "Nelson"
+      ],
+      "displayed": {
+        "requestId": 2,
+        "model": "2d",
+        "index": 3,
+        "view": "flat",
+        "time": "2026-11-02T01:00:00Z",
+        "runId": "sfincs-current-coarse-20261101-19z-41350254061"
+      }
+    },
+    {
+      "site": "bridge",
+      "zoom": 18,
+      "ms": 773,
+      "status": {
+        "kind": "geography",
+        "status": "ready",
+        "featureCount": 13,
+        "coordinateCount": 521,
+        "cachedTiles": 22,
+        "cachedCoordinates": 104026,
+        "cachedFeatures": 2828,
+        "sourceLayers": [
+          "landuse",
+          "water",
+          "waterway",
+          "transportation",
+          "transportation_name"
+        ],
+        "tileZoom": 14
+      },
+      "budgets": {
+        "cacheTiles": 24,
+        "cacheCoordinates": 250000,
+        "cacheFeatures": 20000,
+        "drawCoordinates": 100000,
+        "drawFeatures": 13,
+        "tileBytes": 4194304,
+        "cachedTiles": 22,
+        "cachedCoordinates": 104026,
+        "cachedFeatures": 2828
+      },
+      "counts": {
+        "landuse": 1,
+        "water": 2,
+        "waterway": 2,
+        "transportation": 6,
+        "transportation_name": 2
+      },
+      "names": [
+        "Santa Cruz River",
+        "West Trico Marana Road"
+      ],
+      "displayed": {
+        "requestId": 2,
+        "model": "2d",
+        "index": 3,
+        "view": "flat",
+        "time": "2026-11-02T01:00:00Z",
+        "runId": "sfincs-current-coarse-20261101-19z-41350254061"
+      }
+    },
+    {
+      "site": "dip",
+      "zoom": 14,
+      "ms": 1984,
+      "status": {
+        "kind": "geography",
+        "status": "ready",
+        "featureCount": 419,
+        "coordinateCount": 28753,
+        "cachedTiles": 24,
+        "cachedCoordinates": 68154,
+        "cachedFeatures": 1707,
+        "sourceLayers": [
+          "landcover",
+          "landuse",
+          "water",
+          "building",
+          "waterway",
+          "transportation",
+          "transportation_name",
+          "place"
+        ],
+        "tileZoom": 13
+      },
+      "budgets": {
+        "cacheTiles": 24,
+        "cacheCoordinates": 250000,
+        "cacheFeatures": 20000,
+        "drawCoordinates": 100000,
+        "drawFeatures": 419,
+        "tileBytes": 4194304,
+        "cachedTiles": 24,
+        "cachedCoordinates": 68154,
+        "cachedFeatures": 1707
+      },
+      "counts": {
+        "landcover": 152,
+        "landuse": 29,
+        "water": 36,
+        "building": 7,
+        "waterway": 43,
+        "transportation": 107,
+        "transportation_name": 33,
+        "place": 12
+      },
+      "names": [
+        "Blanco Wash",
+        "Cocio Wash",
+        "Los Robles Wash",
+        "Brawley Wash",
+        "Santa Cruz River",
+        "Central Arizona Project Canal",
+        "North Musket Road",
+        "North Derringer Road",
+        "West Jaguar Lane",
+        "North Anway Road",
+        "West El Tiro Road",
+        "West Silverbell Road",
+        "North Trico Road",
+        "North Sanders Road",
+        "West Avra Valley Road",
+        "Santa Cruz River Path",
+        "North Pump Station Road",
+        "West Lambert Lane",
+        "North Synge Way",
+        "Garvey Road",
+        "West Emigh Road",
+        "North Avra Road",
+        "Clayton Road",
+        "West Twin Peaks Road",
+        "North Sandario Road",
+        "Avra Valley",
+        "Nelson"
+      ],
+      "displayed": {
+        "requestId": 2,
+        "model": "2d",
+        "index": 3,
+        "view": "flat",
+        "time": "2026-11-02T01:00:00Z",
+        "runId": "sfincs-current-coarse-20261101-19z-41350254061"
+      }
+    },
+    {
+      "site": "dip",
+      "zoom": 18,
+      "ms": 770,
+      "status": {
+        "kind": "geography",
+        "status": "ready",
+        "featureCount": 20,
+        "coordinateCount": 1401,
+        "cachedTiles": 24,
+        "cachedCoordinates": 60922,
+        "cachedFeatures": 1583,
+        "sourceLayers": [
+          "landcover",
+          "water",
+          "waterway",
+          "transportation",
+          "transportation_name"
+        ],
+        "tileZoom": 14
+      },
+      "budgets": {
+        "cacheTiles": 24,
+        "cacheCoordinates": 250000,
+        "cacheFeatures": 20000,
+        "drawCoordinates": 100000,
+        "drawFeatures": 20,
+        "tileBytes": 4194304,
+        "cachedTiles": 24,
+        "cachedCoordinates": 60922,
+        "cachedFeatures": 1583
+      },
+      "counts": {
+        "landcover": 10,
+        "water": 2,
+        "waterway": 1,
+        "transportation": 5,
+        "transportation_name": 2
+      },
+      "names": [
+        "Brawley Wash",
+        "West Avra Valley Road"
+      ],
+      "displayed": {
+        "requestId": 2,
+        "model": "2d",
+        "index": 3,
+        "view": "flat",
+        "time": "2026-11-02T01:00:00Z",
+        "runId": "sfincs-current-coarse-20261101-19z-41350254061"
+      }
+    }
+  ],
+  "three": {
+    "land": 0,
+    "water": 0,
+    "detail": {
+      "instances": 0,
+      "triangles": 0,
+      "resolutionM": 1,
+      "farResolutionM": 1
+    },
+    "geography": {
+      "kind": "geography",
+      "status": "ready",
+      "featureCount": 22,
+      "coordinateCount": 2236,
+      "cachedTiles": 24,
+      "cachedCoordinates": 60922,
+      "cachedFeatures": 1583,
+      "sourceLayers": [
+        "landcover",
+        "water",
+        "building",
+        "waterway",
+        "transportation",
+        "transportation_name"
+      ],
+      "tileZoom": 14
+    }
+  }
+}

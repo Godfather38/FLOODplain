@@ -2,17 +2,8 @@ import {VectorTile} from '@mapbox/vector-tile';
 import Pbf from 'pbf';
 import * as maptalks from 'maptalks';
 
-const wanted=['landcover','landuse','water','waterway','transportation','transportation_name','place','building'];
-const order={landcover:0,landuse:1,water:2,building:3,waterway:4,transportation:5,transportation_name:6,place:7};
-export function featureStyle(layer,p={}){
-  if(layer==='landcover')return {polygonFill:p.class==='wood'?'#d5ddd0':'#e3e6da',polygonOpacity:1,lineOpacity:0};
-  if(layer==='landuse')return {polygonFill:p.class==='residential'?'#e7e4dc':p.class==='industrial'?'#dedee1':'#e5e7dc',polygonOpacity:1,lineOpacity:0};
-  if(layer==='water')return {polygonFill:'#a8c0c7',polygonOpacity:1,lineOpacity:0};
-  if(layer==='waterway')return {lineColor:'#a1bbc4',lineWidth:1.4};
-  if(layer==='building')return {polygonFill:'#c9c7bf',polygonOpacity:1,lineColor:'#bbb9b1',lineWidth:.5};
-  if(layer==='transportation')return {lineColor:['motorway','trunk'].includes(p.class)?'#c4ab86':'#faf9f3',lineWidth:['motorway','trunk','primary'].includes(p.class)?4:p.class==='secondary'?3:2,lineOpacity:1};
-  return {textName:p.name||'',textFill:'#536168',textSize:layer==='place'?13:10,textHaloFill:'#f4f4ed',textHaloRadius:1.5,textAllowOverlap:false};
-}
+import {wanted,featureStyle,visibleFeature,labelText,labelStyle,featureOrder} from './geographic-feature-style.js';
+export {featureStyle} from './geographic-feature-style.js';
 
 // Geographic geometry is decoded locally. There is no raster basemap source.
 export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{},onStatus=()=>{}}){
@@ -33,36 +24,38 @@ export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{
       for(let i=0;i<layer.length;i++){const item=layer.feature(i),feature=item.toGeoJSON(x,y,z),bbox=[Infinity,Infinity,-Infinity,-Infinity];let count=0;
         function scan(points){if(typeof points[0]==='number'){count++;bbox[0]=Math.min(bbox[0],points[0]);bbox[1]=Math.min(bbox[1],points[1]);bbox[2]=Math.max(bbox[2],points[0]);bbox[3]=Math.max(bbox[3],points[1]);}else for(const p of points)scan(p);}scan(feature.geometry.coordinates);coordinates+=count;
         if(coordinates>limits.cacheCoordinates||result.length>=limits.cacheFeatures)throw new Complexity('Decoded vector tile budget');
-        feature.bbox=bbox;feature._coordinateCount=count;feature.properties={...feature.properties,_sourceLayer:name,_featureId:name+':'+z+'/'+x+'/'+y+':'+(item.id??i)};result.push(feature);}}
+        feature.bbox=bbox;feature._coordinateCount=count;feature.properties={...feature.properties,_sourceLayer:name,_featureId:name+':'+z+'/'+x+'/'+y+':'+(item.id??'anonymous')+':'+i};result.push(feature);}}
     return {features:result,coordinates};
   }
-  function installLabels(list){labels.clear();const labelGeometries=[],occupied=[],named=new Set();
-    for(const f of list){const name=f.properties._sourceLayer,p=f.properties;if((name==='place'||name==='transportation_name')&&!p.name)continue;
-      if(name==='place'||name==='transportation_name'){
-        if(named.has(p.name))continue;
-        const g=f.geometry,coordinate=g.type==='Point'?g.coordinates:g.type==='LineString'?g.coordinates[Math.floor(g.coordinates.length/2)]:null;
-        if(!coordinate)continue;const screen=map.coordinateToContainerPoint(new maptalks.Coordinate(coordinate)),size=map.getSize(),width=Math.min(240,p.name.length*(name==='place'?7.8:6)+10),box={left:screen.x-width/2,right:screen.x+width/2,top:screen.y-12,bottom:screen.y+12};
-        if(box.right<0||box.left>size.width||box.bottom<0||box.top>size.height||occupied.some(b=>box.left<b.right+8&&box.right>b.left-8&&box.top<b.bottom+8&&box.bottom>b.top-8))continue;occupied.push(box);named.add(p.name);
-        const label=new maptalks.Marker(coordinate,{id:p._featureId,symbol:featureStyle(name,p)});labelGeometries.push(label);continue;
-      }
+  function installLabels(list){labels.clear();const labelGeometries=[],occupied=[],named=new Set(),zoom=map.getZoom();
+    list=[...list].filter(f=>['waterway','water_name','park','place','transportation_name','poi','housenumber'].includes(f.properties._sourceLayer)).sort((a,b)=>{const rank=n=>['waterway','water_name'].includes(n)?0:n==='place'?1:n==='transportation_name'?2:3;return rank(a.properties._sourceLayer)-rank(b.properties._sourceLayer)});
+    for(const f of list){const name=f.properties._sourceLayer,p=f.properties,text=labelText(name,p,zoom);if(!text||named.has(text))continue;
+      const g=f.geometry,lines=g.type==='MultiLineString'?[...g.coordinates].sort((a,b)=>b.length-a.length)[0]:g.type==='LineString'?g.coordinates:null;
+      let coordinate=g.type==='Point'?g.coordinates:lines?lines[Math.floor(lines.length/2)]:[(f.bbox[0]+f.bbox[2])/2,(f.bbox[1]+f.bbox[3])/2];
+      // A clipped named wash can have its midpoint offscreen: choose a real visible vertex.
+      if(lines){const size=map.getSize(),inside=lines.filter(c=>{const p=map.coordinateToContainerPoint(new maptalks.Coordinate(c));return p.x>30&&p.x<size.width-30&&p.y>30&&p.y<size.height-30});if(inside.length)coordinate=inside[Math.floor(inside.length/2)];}
+      const screen=map.coordinateToContainerPoint(new maptalks.Coordinate(coordinate)),size=map.getSize(),width=Math.min(240,text.length*6.5+10),dy=name==='transportation_name'?-13:0,box={left:screen.x-width/2,right:screen.x+width/2,top:screen.y+dy-10,bottom:screen.y+dy+10};
+      if(box.right<0||box.left>size.width||box.bottom<0||box.top>size.height||occupied.some(b=>box.left<b.right+5&&box.right>b.left-5&&box.top<b.bottom+5&&box.bottom>b.top-5))continue;occupied.push(box);named.add(text);
+      labelGeometries.push(new maptalks.Marker(coordinate,{id:p._featureId,symbol:{...labelStyle(name,p,zoom),textName:text,textDy:dy}}));if(labelGeometries.length>=100)break;
     }labels.addGeometry(labelGeometries);
   }
-  function install(list){vector.clear();installLabels(list);const geometries=[];
-    for(const f of list){const name=f.properties._sourceLayer,p=f.properties;if(name==='place'||name==='transportation_name')continue;
+  function install(list){vector.clear();vector.config('enableSimplify',map.getZoom()<16);installLabels(list);const geometries=[];
+    for(const f of list){const name=f.properties._sourceLayer,p=f.properties;if(['place','transportation_name','water_name','poi','housenumber'].includes(name))continue;
       const geometry=maptalks.GeoJSON.toGeometry(f);if(!geometry||Array.isArray(geometry))continue;
-      geometry.setId(p._featureId);geometry.setSymbol(featureStyle(name,p));geometry.setProperties(p);geometry.on('click',()=>{onPick({kind:'geographic-feature',id:p._featureId,layer:name,properties:p});});geometries.push(geometry);}
+      geometry.setId(p._featureId);geometry.setSymbol(featureStyle(name,p,map.getZoom()));geometry.setProperties(p);geometry.on('click',()=>{onPick({kind:'geographic-feature',id:p._featureId,layer:name,properties:p});});geometries.push(geometry);}
     vector.addGeometry(geometries);
   }
   function texture(list,bounds){if(!onTexture||!textureFactory)return;const sw=project([bounds.west,bounds.south]).sub(origin),ne=project([bounds.east,bounds.north]).sub(origin);
     const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=2048;const ctx=canvas.getContext('2d');ctx.fillStyle='#eeeee7';ctx.fillRect(0,0,2048,2048);
     function point(p){const v=project(p).sub(origin);return [(v.x-sw.x)/(ne.x-sw.x)*2048,(1-(v.y-sw.y)/(ne.y-sw.y))*2048];}
-    function path(rings,fill,stroke,width){ctx.beginPath();for(const ring of rings){ring.forEach((c,i)=>{const p=point(c);i?ctx.lineTo(...p):ctx.moveTo(...p);});if(fill)ctx.closePath();}
-      if(fill){ctx.fillStyle=fill;ctx.fill('evenodd');}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}}
-    for(const f of list){const name=f.properties._sourceLayer,s=featureStyle(name,f.properties),g=f.geometry;
-      if(g.type==='Polygon')path(g.coordinates,s.polygonFill,s.lineColor,s.lineWidth||1);
+    function path(rings,fill,stroke,width,dash=[],opacity=1){ctx.globalAlpha=1;ctx.setLineDash(dash);ctx.beginPath();for(const ring of rings){ring.forEach((c,i)=>{const p=point(c);i?ctx.lineTo(...p):ctx.moveTo(...p);});if(fill)ctx.closePath();}
+      if(fill){ctx.fillStyle=fill;ctx.fill('evenodd');}if(stroke&&width>0){ctx.globalAlpha=opacity;ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}}
+    for(const f of list){const name=f.properties._sourceLayer,styles=featureStyle(name,f.properties,map.getZoom()),g=f.geometry;for(const s of (Array.isArray(styles)?styles:[styles])){
+      if(g.type==='Polygon')path(g.coordinates,s.polygonFill,s.lineColor,s.lineWidth??1,s.lineDasharray||[],s.lineOpacity??1);
       if(g.type==='MultiPolygon')for(const p of g.coordinates)path(p,s.polygonFill,s.lineColor,s.lineWidth||1);
       if(g.type==='LineString'&&s.lineColor)path([g.coordinates],null,s.lineColor,s.lineWidth||1);
       if(g.type==='MultiLineString'&&s.lineColor)path(g.coordinates,null,s.lineColor,s.lineWidth||1);
+      }
       // Labels are screen-sized vector symbols in the common geographic camera,
       // never baked into terrain material where zoom would magnify/duplicate them.
     }
@@ -81,9 +74,9 @@ export function createVectorGeography({map,project,origin,onTexture,onPick=()=>{
         for(let y=c;y<=d;y++)for(let x=a;x<=b;x++)jobs.push({x,y});
         async function worker(){while(cursor<jobs.length){if(stale())return;const {x,y}=jobs[cursor++],id=z+'/'+x+'/'+y;let entry=cache.get(id);
           if(entry){cache.delete(id);cache.set(id,entry);}else{const url=info.tiles[0].replace('{z}',z).replace('{x}',x).replace('{y}',y),r=await fetch(url,{signal:attempt.signal});if(!r.ok)throw Error('Vector tile HTTP '+r.status);const buffer=await r.arrayBuffer();if(stale())return;entry=decode(new Uint8Array(buffer),x,y,z);if(stale())return;remember(id,entry);}
-          for(const f of entry.features){if(!intersects(f.bbox,bounds))continue;drawCoordinates+=f._coordinateCount;if(drawCoordinates>limits.drawCoordinates||out.length>=limits.drawFeatures)throw new Complexity('Visible vector geometry budget');out.push(f);}
+          for(const f of entry.features){if(!intersects(f.bbox,bounds)||!visibleFeature(f.properties._sourceLayer,f.properties,requestedZoom))continue;drawCoordinates+=f._coordinateCount;if(drawCoordinates>limits.drawCoordinates||out.length>=limits.drawFeatures)throw new Complexity('Visible vector geometry budget');out.push(f);}
         }}
-        try{await Promise.all([worker(),worker()]);if(stale())return;features=out.sort((a,b)=>order[a.properties._sourceLayer]-order[b.properties._sourceLayer]);install(features);lastBounds=bounds;installedBounds=bounds;installedZoom=requestedZoom;texture(features,lastBounds);report({kind:'geography',status:'ready',featureCount:features.length,coordinateCount:drawCoordinates,cachedTiles:cache.size,cachedCoordinates:cacheCoordinates,cachedFeatures:cacheFeatures,sourceLayers:[...new Set(features.map(f=>f.properties._sourceLayer))],tileZoom:z});return;
+        try{await Promise.all([worker(),worker()]);if(stale())return;features=out.sort((a,b)=>featureOrder(a)-featureOrder(b));install(features);lastBounds=bounds;installedBounds=bounds;installedZoom=requestedZoom;texture(features,lastBounds);report({kind:'geography',status:'ready',featureCount:features.length,coordinateCount:drawCoordinates,cachedTiles:cache.size,cachedCoordinates:cacheCoordinates,cachedFeatures:cacheFeatures,sourceLayers:[...new Set(features.map(f=>f.properties._sourceLayer))],tileZoom:z,displayZoom:requestedZoom,overzoom:Math.max(0,requestedZoom-z),labelCount:labels.getCount(),simplified:map.getZoom()<16});return;
         }catch(error){attempt.abort();if(signal.aborted||dead||token!==generation)return;if(!(error instanceof Complexity))throw error;if(z===0)throw Error('Vector geography exceeds safe draw budget at lowest detail');}
         finally{signal.removeEventListener('abort',cancel);}
       }

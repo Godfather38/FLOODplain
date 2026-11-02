@@ -31,7 +31,7 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   const coverageBins=new Map(),binKey=(lat,lon)=>Math.floor(lat/.01)+','+Math.floor(lon/.01);
   if(!source?.findNativeCell)footprints.rings.forEach((ring,i)=>{const ys=ring.map(p=>p[0]),xs=ring.map(p=>p[1]);for(let y=Math.floor(Math.min(...ys)/.01);y<=Math.floor(Math.max(...ys)/.01);y++)for(let x=Math.floor(Math.min(...xs)/.01);x<=Math.floor(Math.max(...xs)/.01);x++){const key=y+','+x;if(!coverageBins.has(key))coverageBins.set(key,[]);coverageBins.get(key).push(i);}});
   function findNativeCell(lat,lon){if(source?.findNativeCell)return source.findNativeCell(lat,lon);for(const index of coverageBins.get(binKey(lat,lon))||[]){const ring=footprints.rings[index];let inside=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const [yi,xi]=ring[i],[yj,xj]=ring[j];if((yi>lat)!==(yj>lat)&&lon<(xj-xi)*(lat-yi)/(yj-yi)+xi)inside=!inside;}if(inside)return index;}return null;}
-  const flatWater=new maptalks.VectorLayer('native-flat-water',[],{zIndex:1,geometryEvents:false});
+  const flatWater=new maptalks.VectorLayer('native-flat-water',[],{zIndex:1,geometryEvents:false,enableSimplify:false});
   const overview={layer:source?new maptalks.CanvasLayer('native-screen-overview',{zIndex:1,animation:false}):null,data:null,canvas:null};
   let overviewKey='',overviewInstalledKey='',overviewTask=null,overviewController=null,overviewPending=null,overviewActiveKey='';
   const counters={overviewStarted:0,overviewInstalled:0,overviewCancelled:0,overviewDeduped:0,overviewMaxActive:0,refreshEvents:0,refreshRuns:0,detailQueries:0,detailInstalls:0,terrainInstalls:0};
