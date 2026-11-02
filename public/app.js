@@ -636,7 +636,6 @@ function wireReport() {
 // Newest first. Add a line here whenever something people can notice changes.
 const UPDATES = [
   ['November 1, 2026', [
-    'Fixed: the map now shows live data only. A saved model run from November 1 no longer appears.',
     'Fixed: road closures now show at the top of the screen and on the map, and a closed route no longer offers directions.',
     'New: closures and utility work from TransView are checked against each route line. County barricades count only on the part of a road the route uses.',
     'Changed: a county closure anywhere along a route now counts, not only near a listed crossing. Proceed with Caution alone is now a 2, and distant gauges no longer raise it; a live sign at the road brings it back to a 3 or more. Where we know the road height, the flood model is compared with the road itself.',
@@ -704,7 +703,7 @@ function render() {
   $('#logo').hidden = sub;
   $('#refresh').hidden = sub && !['route', 'stretch'].includes(w.screen);
   const titles = {
-    home: ["FLOODplain", subtitle()], map: ['Flood map', 'Live readings and forecasts'],
+    home: ["FLOODplain", subtitle()], map: ['Flood map', 'Live readings and dated model forecasts'],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
     how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
@@ -791,7 +790,6 @@ const layer = L.layerGroup().addTo(map);
 const liveObservations=L.layerGroup().addTo(map);
 const rendererRoutes=L.layerGroup([layer,liveObservations]).addTo(map);
 mountFloodLayers(map,{routeLayer:rendererRoutes,streetTiles});
-document.querySelector('[data-home]').onclick=()=>map.fitBounds(allBounds,{paddingTopLeft:[24,30],paddingBottomRight:[24,30],animate:false});
 const liveMap=mountLiveMap(map,{refresh:()=>check(),observations:liveObservations,embedded:true});
 let allBounds;
 const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
@@ -805,7 +803,6 @@ function stretchAround(coords, lat, lon, m) {
   if (cur.length) runs.push(cur);
   return runs.filter((r) => r.length > 1);
 }
-let mapCameraSet=false;
 function drawMap(w) {
   if ($('#map').hidden) return;
   map.invalidateSize();
@@ -861,10 +858,8 @@ function drawMap(w) {
     else map.setView(pts[0], 15, { animate: false });
   } else if (w.screen === 'route') {
     map.fitBounds(L.geoJSON(routeFeatures.find((f) => f.properties.id === w.route)).getBounds(), opts);
-  } else if(w.screen!=='map'||!mapCameraSet) {
+  } else if(w.screen!=='map'||!map._loaded) {
     map.fitBounds(allBounds, opts);
-    // The Map screen keeps wherever the driver moved it after this first fit.
-    if(w.screen==='map')mapCameraSet=true;
   }
 }
 function gaugesFor(fp, c) {

@@ -1,7 +1,5 @@
 # Working on FLOODplain
 
-**Frozen model runs NEVER go into the published app. Frozen time is only for development.** No default, option, link, URL setting or label makes an exception. See `docs/LIVE-DATA-ONLY.md`.
-
 ## How the owner wants to work (read first)
 - **One continuous conversation.** Every message adds to the same task. A new message, an interruption, or a stopped tool call is not a reset. Earlier instructions stay in force until the owner changes them.
 - **Avoid recency bias.** Recency bias is an AI giving too much weight to the most recent input over earlier context. Don't let the latest message, hook or reminder push out what was already asked. Before acting, re-read the open requests from earlier messages. Before stopping, check that none were dropped.
