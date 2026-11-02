@@ -889,13 +889,17 @@ function rateRoutes(routeFeatures, fpResults, fps, { closures = null, radiusM = 
     return { id, name: f.properties.name, minutes: f.properties.minutes, km: f.properties.km, level: worst(pts.map((p) => p.level)), points: pts };
   });
 }
+function routeClosures(route) {
+  return route.points.filter((p) => p.checks.some((c) => (c.src === "county" || c.src === "road-event") && c.level === "danger"));
+}
 function recommend(rated) {
   const score = (r) => {
     var _a, _b;
     return (_b = (_a = r.score) != null ? _a : routeScore(r)) != null ? _b : 5;
   };
+  const blocked = (r) => routeClosures(r).length ? 1 : 0;
   const unresolved = (c) => c.roadStatus === "unknown" || (c.bridgeClearance === "unknown" || c.upstream === true) && c.level !== "ok";
-  const order = [...rated].sort((a, b) => score(a) - score(b) || rank(a.level) - rank(b.level) || a.minutes - b.minutes);
+  const order = [...rated].sort((a, b) => blocked(a) - blocked(b) || score(a) - score(b) || rank(a.level) - rank(b.level) || a.minutes - b.minutes);
   const best = order[0];
   return { best, clear: best && score(best) <= 2 && rank(best.level) <= rank("watch") && !best.points.some((p) => p.evidenceAvailable === false || p.checks.some(unresolved)), order };
 }
@@ -1045,7 +1049,7 @@ function message(best, order, rated, missing, now, area = "avra") {
     return a ? `${a.short}: ${a.why}` : null;
   };
   const text = [
-    `FLOODplain${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
+    routeClosures(best).length ? `FLOODplain${areaName}: every route has a road closure right now.` : `FLOODplain${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
     issue(best) ? `Watch for ${issue(best)}.` : null,
     `Others: ${order.filter((r) => r !== best).map((r) => `${name(r)} ${r.score}`).join(", ")}.`,
     ...order.filter((r) => r !== best && r.score >= 4).map((r) => `${name(r)}: ${issue(r)}.`),

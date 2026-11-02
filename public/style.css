@@ -206,3 +206,10 @@ details.beta-phones p { margin: 6px 0 0; }
 .bridge-evidence-dialog > .bridge-evidence-body { max-width: 760px; padding: 24px; margin: 0 auto; font-size: 16px; line-height: 1.6; }
 .bridge-evidence-dialog dt { margin-top: 24px; font-weight: 650; }
 .bridge-evidence-dialog dd { margin: 8px 0 0; }
+/* Road closures: the first thing on the screen when a route is blocked. */
+.closure-banner { background: var(--s5); color: #fff; border-radius: 14px; padding: 12px 14px; margin: 0 0 12px; }
+.closure-banner h2 { margin: 0 0 4px; font-size: 18px; color: #fff; }
+.closure-banner ul { margin: 0; padding: 0; list-style: none; }
+.closure-banner li + li { margin-top: 6px; }
+.closed-note { margin: 0 0 8px; font-weight: 700; color: var(--s5); width: 100%; }
+.pin.closure-pin { background: #fff; width: 30px; height: 30px; font-size: 18px; border: 2px solid var(--s5); }

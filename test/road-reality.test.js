@@ -6,7 +6,7 @@ import {readFileSync} from 'node:fs';
 
 import * as cfg from '../public/config.js';
 
-import {rateFailurePoint,rateRoutes,recommend,routeScore,riskScore,barricadesOnRoute,crossingLead,normalizeRoadEvents,roadEventsOnRoute,routeRunAlongLeg} from '../public/logic.js';
+import {rateFailurePoint,rateRoutes,recommend,routeScore,riskScore,barricadesOnRoute,crossingLead,normalizeRoadEvents,roadEventsOnRoute,routeRunAlongLeg,routeClosures} from '../public/logic.js';
 
 import {handCheck,applyHand} from '../public/hand-model.js';
 
@@ -176,4 +176,11 @@ test('a failed TransView feed changes nothing',()=>{
  const res=Object.fromEntries(cfg.FAILURE_POINTS.map(fp=>[fp.id,rateFailurePoint(fp,{...calm,closures:[]},cfg)]));
  const r=rateRoutes([trico],res,cfg.FAILURE_POINTS,{closures:[],radiusM:cfg.CLOSURE_RADIUS_M,roadEvents:null,now:NOW})[0];
  assert.equal(routeScore(r),1);
+});
+
+test('closed routes are identified and always rank behind open ones',()=>{
+ const {rated,rec}=rate(nov2);
+ assert.equal(routeClosures(rated.find(r=>r.id==='trico')).length,1);
+ assert.equal(routeClosures(rated.find(r=>r.id==='avra')).length,0,'a caution is not a closure');
+ assert.equal(routeClosures(rec.best).length,0);assert.equal(rec.order.at(-1).id,'trico');
 });

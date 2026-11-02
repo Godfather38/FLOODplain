@@ -440,7 +440,7 @@ export function normalizeRoadEvents(closures, construction, box = null) {
   }
   return events.filter((e) => e.parts.length && (!box || e.parts.some((part) => part.some(([x, y]) => x >= box[0] && x <= box[2] && y >= box[1] && y <= box[3]))));
 }
-function roadEventActive(e, now) {
+export function roadEventActive(e, now) {
   if (e.start != null && now < e.start) return false;
   if (e.stop != null && now > e.stop) return false;
   if (e.dailyStart != null && e.dailyEnd != null) {
@@ -513,10 +513,15 @@ export function rateRoutes(routeFeatures, fpResults, fps, { closures = null, rad
 // warning, and the fact that it can't be tied to this road is not evidence the road is fine.
 // So does a crossing nothing reports (roadStatus unknown) — including when its upstream
 // sensors read dry, are stale, or say nothing at all.
+// The official closures on a route: a county Closed point or a road-closed event, not a model estimate.
+export function routeClosures(route) {
+  return route.points.filter((p) => p.checks.some((c) => (c.src === 'county' || c.src === 'road-event') && c.level === 'danger'));
+}
 export function recommend(rated) {
   const score=r=>r.score??routeScore(r)??5;
+  const blocked=r=>routeClosures(r).length?1:0;
   const unresolved=c=>c.roadStatus==='unknown'||((c.bridgeClearance==='unknown'||c.upstream===true)&&c.level!=='ok');
-  const order = [...rated].sort((a, b) => score(a)-score(b) || rank(a.level)-rank(b.level) || a.minutes-b.minutes);
+  const order = [...rated].sort((a, b) => blocked(a)-blocked(b) || score(a)-score(b) || rank(a.level)-rank(b.level) || a.minutes-b.minutes);
   const best = order[0];
   return { best, clear: best && score(best)<=2 && rank(best.level) <= rank('watch') && !best.points.some(p=>p.evidenceAvailable===false || p.checks.some(unresolved)), order };
 }

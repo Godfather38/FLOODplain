@@ -2,7 +2,7 @@
 // Inputs are already-fetched raw responses; output is the rated routes plus a short message.
 import * as cfg from './config.js';
 import {
-  parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, routeScore, againstIt,
+  parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, routeScore, againstIt, routeClosures,
 } from './logic.js';
 
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
@@ -49,7 +49,7 @@ export function message(best, order, rated, missing, now, area = 'avra') {
   const name = (r) => cfg.ROUTE_INFO[r.id].name;
   const issue = (r) => { const a = againstIt(r)[0]; return a ? `${a.short}: ${a.why}` : null; };
   const text = [
-    `FLOODplain${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
+    routeClosures(best).length ? `FLOODplain${areaName}: every route has a road closure right now.` : `FLOODplain${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
     issue(best) ? `Watch for ${issue(best)}.` : null,
     `Others: ${order.filter((r) => r !== best).map((r) => `${name(r)} ${r.score}`).join(', ')}.`,
     ...order.filter((r) => r !== best && r.score >= 4).map((r) => `${name(r)}: ${issue(r)}.`),

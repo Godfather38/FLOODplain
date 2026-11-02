@@ -9,7 +9,7 @@ import { resolveScreen } from './routing.js?v=dev';
 import { UNDERPASSES } from './underpasses.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
-  riskScore, routeScore, goodSigns, againstIt, bridgeHeightComparison, crossingLead,
+  riskScore, routeScore, goodSigns, againstIt, routeClosures, roadEventActive, bridgeHeightComparison, crossingLead,
 } from './logic.js?v=dev';
 
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
@@ -131,6 +131,7 @@ function headingIntoValley() {
   });
 }
 async function navigate(rid) {
+  if (routeClosures(view.byId[rid]).length) return; // No directions down a closed road.
   const intoValley = await headingIntoValley();
   const url = googleMapsUrl(NAV[rid], intoValley ? null : store.get('dest'), intoValley ? 'valley' : 'toI10');
   location.href = url;
@@ -165,7 +166,13 @@ function compute(d) {
   const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS, { closures: d.closures, radiusM: cfg.CLOSURE_RADIUS_M, roadEvents: d.roadEvents, now: d.now }).map((r) => { const score = routeScore(r); return { ...r, score: score == null ? score : Math.max(score, ...r.points.map((p) => pointScore(p) ?? 1)) }; });
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
   const underpasses = UNDERPASSES.map((up) => ({ ...up, result: rateFailurePoint(up, d, cfg) }));
-  return { fpResults, underpasses, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
+  // Every official closure for the map, whether or not a route uses it.
+  const closedPoints = (d.closures ?? []).filter((c) => /clos/i.test(c.status ?? '') && Number.isFinite(c.lat)).map((c) => ({ lat: c.lat, lon: c.lon, title: `Closed: ${c.location}${c.direction ? `, ${c.direction.toLowerCase()}` : ''}${c.updated ? ` (updated ${c.updated})` : ''}` }));
+  const closedEvents = (d.roadEvents ?? []).filter((e) => e.closed && roadEventActive(e, d.now));
+  const repeated = (lon, lat) => closedPoints.some((c) => Math.hypot((c.lon - lon) * 94000, (c.lat - lat) * 110574) <= 15);
+  for (const e of closedEvents) if (!e.type.includes('LINE')) for (const part of e.parts) for (const [lon, lat] of part) if (!repeated(lon, lat)) closedPoints.push({ lat, lon, title: `Closed: ${e.headline.trim()}` });
+  const closedLines = closedEvents.filter((e) => e.type.includes('LINE')).flatMap((e) => e.parts.map((part) => ({ title: `Closed: ${e.headline.trim()}`, coords: part.map(([lon, lat]) => [lat, lon]) })));
+  return { closedPoints, closedLines, fpResults, underpasses, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
 }
 
 // Screens are addressed by the URL hash so the phone's back button works:
@@ -201,7 +208,22 @@ function bridgeCardEvidence(p) {
 }
 const routeBridgeEvidence=r=>r.points.map(bridgeCardEvidence).join('');
 const minutes = (r) => `${Math.round(r.minutes)} min`;
-const navBtn = (r, cls = 'btn btn-primary') => `<button type="button" class="${cls}" data-nav="${r.id}">${NAV_ICON}Navigate</button>`;
+const navBtn = (r, cls = 'btn btn-primary') => {
+  if (!routeClosures(r).length) return `<button type="button" class="${cls}" data-nav="${r.id}">${NAV_ICON}Navigate</button>`;
+  // Google Maps doesn't know about county closures, so a closed route gets no directions.
+  const open = view.rec.order.find((x) => !routeClosures(x).length);
+  return `<p class="closed-note">Road closed on this route, so no directions.</p>${open ? `<button type="button" class="${cls}" data-nav="${open.id}">${NAV_ICON}Navigate ${esc(ROUTE_INFO[open.id].name)} instead</button>` : ''}`;
+};
+// The closures on this area's routes, at the top of the screen.
+const closureBanner = (routes) => {
+  const byPlace = new Map();
+  for (const r of routes) for (const p of routeClosures(r)) {
+    if (!byPlace.has(p.short)) byPlace.set(p.short, []);
+    byPlace.get(p.short).push(ROUTE_INFO[r.id].name);
+  }
+  if (!byPlace.size) return '';
+  return `<section class="closure-banner" role="alert"><h2><span aria-hidden="true">⛔</span> Road closed</h2><ul>${[...byPlace].map(([place, names]) => `<li><b>${esc(place)}</b>. Blocks ${esc(names.join(', '))}.</li>`).join('')}</ul></section>`;
+};
 
 // ---------------- screens ----------------
 function homeScreen() {
@@ -210,15 +232,17 @@ function homeScreen() {
   const info = ROUTE_INFO[best.id];
   const against = againstIt(best).slice(0, 2);
   const others = rec.order.filter((r) => r.id !== best.id);
-  const overline = best.score <= 2 ? 'Best route right now' : 'Least going against it';
+  const allClosed = routeClosures(best).length > 0;
+  const overline = allClosed ? 'Every route has a road closure' : best.score <= 2 ? 'Best route right now' : 'Least going against it';
   const areaSwitch = `<div class="seg" role="tablist" aria-label="Area">${AREAS.map((x) => `<button type="button" role="tab" data-area="${x.id}" aria-selected="${x.id === area}">${esc(x.name)}</button>`).join('')}</div>`;
   return `
     ${areaSwitch}
+    ${closureBanner(rec.order)}
     <article class="hero">
       <p class="overline">${overline}</p>
       <div class="hero-top"><h2>${esc(info.name)}</h2>${badgeWithWord(best.score)}</div>
       <p class="meta">${minutes(best)} · ${esc(viaText(best.id))}</p>
-      <div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(best))}</p></div>
+      ${allClosed ? '' : `<div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(best))}</p></div>`}
       ${against.length ? `<ul class="against">${against.map((a) => `<li><span class="dot ${a.level}"></span><span>${esc(a.short)}: ${esc(a.why)}</span></li>`).join('')}</ul>` : ''}
       ${routeBridgeEvidence(best)}
       <div class="actions">${navBtn(best)}<a class="btn btn-text" href="#/r/${best.id}">Details</a></div>
@@ -265,10 +289,12 @@ function routeScreen(rid) {
       <span class="text"><div class="t">${esc(p.short)}</div>${bridgeCardEvidence(p)}${p.why===p.checks.find(c=>c.heightComparison)?.why?'':`<div class="st">${esc(p.why)}</div>`}</span>
       <span class="chev">›</span>
     </a>`;
+  const closed = routeClosures(r).length > 0;
   return `
+    ${closureBanner([r])}
     <article class="hero">
       <div class="hero-top"><div style="flex:1"><p class="meta" style="margin:0">${minutes(r)} · ${esc(viaText(rid))}</p></div>${badgeWithWord(r.score)}</div>
-      <div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(r))}</p></div>
+      ${closed ? '' : `<div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(r))}</p></div>`}
     </article>
     ${saveButton(rid)}<p id="save-notice" class="meta" role="status">${esc(saveNotice)}</p>
     ${flagged.length ? `<h3 class="section">Working against it</h3><div class="list">${flagged.map(row).join('')}</div>` : ''}
@@ -610,6 +636,7 @@ function wireReport() {
 // Newest first. Add a line here whenever something people can notice changes.
 const UPDATES = [
   ['November 1, 2026', [
+    'Fixed: road closures now show at the top of the screen and on the map, and a closed route no longer offers directions.',
     'New: closures and utility work from TransView are checked against each route line. County barricades count only on the part of a road the route uses.',
     'Changed: a county closure anywhere along a route now counts, not only near a listed crossing. Proceed with Caution alone is now a 2, and distant gauges no longer raise it; a live sign at the road brings it back to a 3 or more. Where we know the road height, the flood model is compared with the road itself.',
     'New: I-10 underpasses at Marana, Orange Grove, Grant and Speedway. Each gets the usual 1 to 5 number from nearby rain gauges, county closures and flood alerts. We have not found a public water sensor in any of them.',
@@ -806,6 +833,15 @@ function drawMap(w) {
     L.marker([fp.lat, fp.lon], { title: fp.short, alt: fp.short, icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${s}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
       .on('click', () => { location.hash = `#/r/${rid}/${fp.id}`; })
       .addTo(layer);
+  }
+  // Official closures, whether or not a route uses them, near this area's routes.
+  const areaBounds = L.latLngBounds(routeFeatures.flatMap((f) => lineCoords(f.geometry).flat())).pad(0.1);
+  for (const c of view.closedLines) {
+    if (c.coords.some((q) => areaBounds.contains(q))) L.polyline(c.coords, { color: COLOR[5], weight: 8, opacity: 0.95 }).bindPopup(esc(c.title)).addTo(layer);
+  }
+  for (const c of view.closedPoints) {
+    if (!areaBounds.contains([c.lat, c.lon])) continue;
+    L.marker([c.lat, c.lon], { title: c.title, alt: c.title, zIndexOffset: 1000, icon: L.divIcon({ className: '', html: '<div class="pin closure-pin" aria-hidden="true">⛔</div>', iconSize: [30, 30], iconAnchor: [15, 15] }) }).bindPopup(esc(c.title)).addTo(layer);
   }
   // Fit to what's on screen: everything, a route, a stretch, or a source's own gauges.
   const opts = { paddingTopLeft: [24, 30], paddingBottomRight: [24, 30], animate: false };
