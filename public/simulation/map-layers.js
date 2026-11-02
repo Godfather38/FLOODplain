@@ -104,7 +104,23 @@ export function mountFloodLayers(map,{routeLayer,streetTiles}){
    if(location.hash!=='#/map')terrainView.hide();return terrainView;
   })().catch(e=>{rendererLoading=null;terrainView?.dispose();terrainView=null;throw e});return rendererLoading;
  }
- async function enterMap(){if(location.hash!=='#/map')return;const transition=++viewTransition;requestedView='flat';try{notifyRender({status:'loading',message:'Loading flat geographic map and retained model.'});await ensureRenderer();if(transition!==viewTransition||location.hash!=='#/map')return;await terrainView.setViewMode('flat');syncViewButton();if(q('[data-model]').value==='off')q('[data-model]').value='2d';render()}catch(e){if(transition===viewTransition)renderFailure(e)}}
+
+ let savedAdvancedView=null;
+ async function enterMap(){
+   if(location.hash!=='#/map')return;
+   const transition=++viewTransition,restore=savedAdvancedView;
+   requestedView=restore?.mode||'flat';
+   try{
+     notifyRender({status:'loading',message:restore?'Restoring your map view.':'Loading flat geographic map and retained model.'});
+     await ensureRenderer();
+     if(transition!==viewTransition||location.hash!=='#/map')return;
+     await terrainView.setViewMode(requestedView);
+     if(transition!==viewTransition||location.hash!=='#/map')return;
+     if(restore)terrainView.restoreViewState(restore);
+     syncViewButton();if(q('[data-model]').value==='off')q('[data-model]').value='2d';render();
+   }catch(e){if(transition===viewTransition)renderFailure(e)}
+ }
+
  // A device that cannot run the 3D map must say so and stay usable. Entering
  // 3D could previously wait forever — on a browser without the WebGL support
  // the renderer needs, the control sat reading "Loading 3D…" indefinitely with
@@ -130,7 +146,7 @@ export function mountFloodLayers(map,{routeLayer,streetTiles}){
   renderFailure(e)}}
  finally{button.disabled=threeDUnavailable}}
  q('[data-3d]').onclick=toggle3d;
- window.addEventListener('flood-exit-3d',()=>{++viewTransition;requestedView='flat';if(terrainView?.active){terrainView.hide();Promise.resolve(terrainView.setViewMode('flat')).catch(()=>{});syncViewButton();render()}});
+ window.addEventListener('flood-exit-3d',()=>{++viewTransition;if(terrainView?.active){savedAdvancedView=terrainView.captureViewState();terrainView.hide();Promise.resolve(terrainView.setViewMode('flat')).catch(()=>{});syncViewButton();render()}});
  window.addEventListener('hashchange',()=>{if(location.hash==='#/map')enterMap()});
  mountMapShell(host,map,{load,findWater,sharedState,state:()=>({frames:loaded?.run?.frames??[],start:windowStart,end:windowEnd??0,publication:refinedCase?.manifest}),applyWindow:(start,end)=>{sharedState.setRange(start,end);windowStart=start;windowEnd=end;index=Math.max(start,Math.min(end,index));q('[data-time]').min=start;q('[data-time]').max=end;q('[data-time]').value=index;const labels=document.querySelector('.flood-time-ends');labels.textContent='Selected window: '+((Date.parse(loaded.run.frames[end].time)-Date.parse(loaded.run.frames[start].time))/3600000)+' hours · native frames';if(q('[data-model]').value==='off'){q('[data-model]').value=caseChoice==='refined'?'2d':'aggregate';q('[data-model]').dispatchEvent(new Event('change'))}else render()}});
  // Keep phone map controls compact; the original source nodes retain their live updates.

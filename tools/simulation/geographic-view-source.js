@@ -566,6 +566,13 @@ export async function createGeographicView({leaflet,loaded,get,footprints,source
   if(initialView==='3d')await ready.then(()=>setViewMode('3d'));
   return {ready,update,show,hide,dispose,get active(){return active;},zoom(delta){map.setZoom(map.getZoom()+delta);},select:showCell,
     get viewMode(){return viewMode;},
+    captureViewState(){const c=map.getCenter();return {mode:viewMode,center:[c.x,c.y],zoom:map.getZoom(),pitch:map.getPitch()};},
+    restoreViewState(saved){
+      if(!saved||!Array.isArray(saved.center)||!saved.center.every(Number.isFinite)||!Number.isFinite(saved.zoom))return;
+      map.setCenterAndZoom(saved.center,saved.zoom);
+      map.setPitch(viewMode==='flat'?0:(Number.isFinite(saved.pitch)?saved.pitch:45));
+      refreshDetail();scheduleJunction();
+    },
     setViewMode,
     // Live junction handles for diagnostics, kept out of inspect() so that
     // payload stays plain serialisable data.

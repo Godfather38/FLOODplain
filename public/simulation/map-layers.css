@@ -57,3 +57,9 @@
 /* Expanded explanations should be readable on phones. Compact warnings keep their layout. */
 .bridge-evidence dd,.bridge-evidence p,.flood-tool-body .fine,.flood-tool-body details p{font-size:15px;line-height:1.5}
 .dock-key{font-size:12px;line-height:1.4}
+/* Landscape map cards must not grow upward underneath the app header. */
+@media(max-height:500px) and (min-width:600px){
+ .map-first .map-dock{left:8px;right:auto;bottom:8px;width:min(300px,36vw);max-height:calc(100% - 16px);overflow:auto;box-sizing:border-box;overscroll-behavior:contain}
+ .map-first .map-dock .dock-actions{position:sticky;bottom:0;background:var(--surface);padding-top:4px}
+ .map-first .map-camera{left:38%;top:8px;max-width:180px}
+}

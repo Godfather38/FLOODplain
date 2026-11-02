@@ -69,3 +69,12 @@
 
 /* Keep crossing navigation clear of the compact water information card. */
 @media(max-width:599px){.voxel-wayfinding{left:8px;right:auto;align-items:flex-start}.voxel-wayfinding button{max-width:148px}}
+/* Reserve the left camera/control column on narrow portrait phones. */
+@media(max-width:599px){.junction-fluid-legend{width:min(218px,calc(100% - 172px));box-sizing:border-box}}
+/* Short landscape screens keep both information cards inside the map and
+   scroll their contents, while controls use the clear middle column. */
+@media(max-height:500px) and (min-width:600px){
+ .junction-fluid-legend{top:8px;bottom:auto;right:8px;width:min(260px,32vw);max-height:calc(100% - 16px);overflow:auto;box-sizing:border-box;overscroll-behavior:contain}
+ .voxel-wayfinding{left:38%;right:auto;top:64px;align-items:flex-start}
+ .voxel-wayfinding button{max-width:148px}
+}

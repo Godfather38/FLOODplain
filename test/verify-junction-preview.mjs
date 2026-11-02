@@ -225,7 +225,7 @@ try{
   // one at phone width. That rebuild is where the gate's ledger froze at 1.333
   // simulated seconds and moved 1/1 while the solver kept running. This
   // reproduces exactly that, and records which object changed.
-  if(mode==='all'||mode==='resize'){
+  if(mode==='all'||mode==='resize'||mode==='gatelike'){
     const rcontext=await browser.newContext({viewport:{width:1280,height:850}});
     const rpage=await rcontext.newPage();
     const rerrors=[];rpage.on('pageerror',e=>rerrors.push(e.message));
@@ -266,6 +266,21 @@ try{
       });
       await rpage.waitForTimeout(1500);
       await mark('after-conservation-probe');
+      for(const index of [0,20]){
+        await rpage.evaluate(i=>{const slider=document.querySelector('input[data-time]');
+          slider.value=String(i);slider.dispatchEvent(new Event('input'));},index);
+        await rpage.waitForFunction(i=>window.qa.state.snapshot().displayed?.index===i,index,{timeout:90000});
+        await rpage.waitForFunction(()=>['ready','dry','unavailable'].includes(window.qa.view.inspect().junctionStatus?.status),null,{timeout:90000});
+        await rpage.waitForTimeout(900);await mark('frame-'+index);
+      }
+      const point=await rpage.evaluate(()=>{const c=window.qa.view.inspect().map.getCenter();return [c.x,c.y];});
+      for(const shift of [0.02,0,0.02,0]){
+        await rpage.evaluate(async({point,shift})=>{const v=window.qa.view.inspect();
+          v.map.setCenter([point[0]+shift,point[1]]);
+          await v.geography.update(v.map.getExtent(),v.map.getZoom());},{point,shift});
+        await rpage.waitForTimeout(1500);await mark('pan-'+shift);
+      }
+
     }
     await rpage.setViewportSize({width:390,height:844});
     await rpage.waitForTimeout(2500);
