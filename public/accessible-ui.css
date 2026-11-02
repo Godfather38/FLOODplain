@@ -32,3 +32,13 @@ button,summary,select,input{min-height:48px}button:focus-visible,a:focus-visible
 .route-tracking input,.route-tracking select {display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:48px;font:inherit;margin:8px 0 16px;padding:8px;}
 .tracking-case {border-left:3px solid #62576f;padding-left:12px;margin:16px 0;overflow-wrap:anywhere;}
 .tracking-entry[hidden] {display:none;}
+.saved-replay {background:#e7f3ff;border:2px solid #275fa3;border-radius:10px;padding:8px 12px;color:#172d43;}
+.saved-replay>div {display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.saved-replay a {display:inline-flex;align-items:center;min-height:48px;font-weight:700;color:#174c80;}
+.saved-replay p {margin:4px 0;line-height:1.35;}
+.saved-replay summary {min-height:32px;padding:8px 0;cursor:pointer;}
+.saved-replay-active .map-dock>.source-age {display:none;}
+@media(max-width:899px){.saved-replay{padding:4px 8px;font-size:.875rem}.saved-replay>div{flex-wrap:nowrap}.saved-replay a{white-space:nowrap}.saved-replay details:not([open]) summary{font-size:.8rem;padding:3px 0;min-height:24px}.saved-replay-active .map-dock .dock-key{font-size:.75rem}.saved-replay-active .map-dock .dock-status{font-size:.75rem}}
+.saved-replay-active .flood-time>[data-clock],.saved-replay-active .flood-time>.flood-eyebrow {display:none;}
+@media(max-width:899px){.saved-replay details:not([open]) summary{font-size:.875rem;padding:8px 0;min-height:32px}}
+@media(max-width:899px){.saved-replay-active.map-first .map-dock{position:fixed;bottom:8px}}

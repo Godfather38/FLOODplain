@@ -1,0 +1,217 @@
+[
+  {
+    "width": 390,
+    "before": {
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 2,
+          "model": "2d",
+          "index": 20,
+          "view": "flat",
+          "time": "2026-11-01T22:00:00Z"
+        },
+        "displayed": {
+          "requestId": 2,
+          "model": "2d",
+          "index": 20,
+          "view": "flat",
+          "time": "2026-11-01T22:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.2948513,
+            32.39122317
+          ],
+          "zoom": 17,
+          "bounds": [
+            -111.29694342613222,
+            32.388124755526704,
+            -111.29275918006898,
+            32.39432147843217
+          ]
+        },
+        "selection": null
+      },
+      "waterShapes": 442,
+      "overview": null,
+      "center": {
+        "x": -111.2948513,
+        "y": 32.39122317
+      },
+      "zoom": 17,
+      "depth": 0.71841923828125,
+      "dock": {
+        "x": 8,
+        "y": 430.890625,
+        "width": 360,
+        "height": 405.109375,
+        "top": 430.890625,
+        "right": 368,
+        "bottom": 836,
+        "left": 8
+      }
+    },
+    "scrubbed": {
+      "time": "2026-11-01T23:00:00Z",
+      "depth": 0.717524755859375,
+      "shapes": 432
+    },
+    "live": {
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 14
+        },
+        "requested": {
+          "requestId": 1,
+          "model": "off",
+          "index": 7,
+          "view": "flat",
+          "time": "2026-11-02T05:00:00Z"
+        },
+        "displayed": null,
+        "status": "off",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.21781229999998,
+            32.426597756502794
+          ],
+          "zoom": 11.5,
+          "bounds": [
+            -111.31231666190209,
+            32.28614262519602,
+            -111.12295930091234,
+            32.56646480651933
+          ]
+        },
+        "selection": null
+      },
+      "shapes": 0,
+      "visible": true,
+      "overview": null
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "before": {
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 56
+        },
+        "requested": {
+          "requestId": 2,
+          "model": "2d",
+          "index": 20,
+          "view": "flat",
+          "time": "2026-11-01T22:00:00Z"
+        },
+        "displayed": {
+          "requestId": 2,
+          "model": "2d",
+          "index": 20,
+          "view": "flat",
+          "time": "2026-11-01T22:00:00Z",
+          "runId": "refined-full-41344983607"
+        },
+        "status": "ready",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.2948513,
+            32.39212912
+          ],
+          "zoom": 17,
+          "bounds": [
+            -111.30257606506349,
+            32.38859586635285,
+            -111.28712654113772,
+            32.395662233868364
+          ]
+        },
+        "selection": null
+      },
+      "waterShapes": 0,
+      "overview": {
+        "visibleFaces": 13445,
+        "pixels": 49920,
+        "coveredPixels": 49920,
+        "wetPixels": 6370,
+        "missingPixels": 0,
+        "intersections": 112660,
+        "buildMs": 30.100000023841858,
+        "aggregation": "maximum native full-cell mean depth among wet contributors; fractional coverage and missing masks"
+      },
+      "center": {
+        "x": -111.2948513,
+        "y": 32.39212912
+      },
+      "zoom": 17,
+      "depth": 0.71841923828125,
+      "dock": {
+        "x": 24,
+        "y": 452,
+        "width": 360,
+        "height": 432,
+        "top": 452,
+        "right": 384,
+        "bottom": 884,
+        "left": 24
+      }
+    },
+    "scrubbed": {
+      "time": "2026-11-01T23:00:00Z",
+      "depth": 0.717524755859375,
+      "shapes": 0
+    },
+    "live": {
+      "state": {
+        "clockMode": "frozen_replay",
+        "range": {
+          "start": 0,
+          "end": 14
+        },
+        "requested": {
+          "requestId": 1,
+          "model": "off",
+          "index": 7,
+          "view": "flat",
+          "time": "2026-11-02T05:00:00Z"
+        },
+        "displayed": null,
+        "status": "off",
+        "error": null,
+        "viewport": {
+          "center": [
+            -111.21781229999998,
+            32.426597756502794
+          ],
+          "zoom": 13.5,
+          "bounds": [
+            -111.30515506940311,
+            32.386650548831966,
+            -111.13036365925873,
+            32.46656682228152
+          ]
+        },
+        "selection": null
+      },
+      "shapes": 0,
+      "visible": true,
+      "overview": null
+    },
+    "errors": []
+  }
+]
