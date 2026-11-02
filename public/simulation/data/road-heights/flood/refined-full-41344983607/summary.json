@@ -1,0 +1,25 @@
+{
+ "schemaVersion": 1,
+ "runId": "refined-full-41344983607",
+ "stations": 617607,
+ "stationsInsideModel": 148205,
+ "stationsOutsideModel": 469402,
+ "routeStationsInsideModel": 21310,
+ "routeStations": 30506,
+ "freewayStationsInsideModel": 11519,
+ "freewayStations": 35979,
+ "stretches": 1025,
+ "routeStretches": 19,
+ "freewayStretches": 8,
+ "frames": {
+  "path": "frames.bin.gz",
+  "sha256": "10d528825203af28104ea775146002dde1199bd9759e9bde682c18e6fdcc6edf",
+  "bytes": 142814
+ },
+ "stretchesFile": {
+  "path": "stretches.geojson",
+  "sha256": "74b76f4b8b43e0b901a7a4cb8123e69a373d7e15e018818bc2bf6e037b0b9386"
+ },
+ "packageManifestSha256": "6b017b3c2ba0d78fdf760fee07cd2aca186fb99064232a050125ec84a1d7d720",
+ "roadManifestSha256": "2571b2c94384014bcdf642a627195cf85b04340aea46986e47dedbbc23110952"
+}
