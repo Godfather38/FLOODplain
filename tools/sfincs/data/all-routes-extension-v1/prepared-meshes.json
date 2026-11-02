@@ -1,0 +1,23 @@
+[
+  {
+    "case": "northern",
+    "path": "cases-connected-v2\\northern\\prepared-native-mesh.tar.gz",
+    "bytes": 10582250,
+    "sha256": "1ae7658d68e7d7e85dbbc22049b37d556eff350a6cb76b5e6a3168585ff69f3a",
+    "status": "geometry_only_not_runnable"
+  },
+  {
+    "case": "picture-rocks-ina-twinpeaks",
+    "path": "cases-connected-v2\\picture-rocks-ina-twinpeaks\\prepared-native-mesh.tar.gz",
+    "bytes": 10734060,
+    "sha256": "55f2e35dc34c8192b27a6940ac82962d809f3411175154cb7e9a8e10284504cd",
+    "status": "geometry_only_not_runnable"
+  },
+  {
+    "case": "gates",
+    "path": "cases-connected-v2\\gates\\prepared-native-mesh.tar.gz",
+    "bytes": 7653512,
+    "sha256": "a52b5730b5028a5f5555d492693968397dbeabec2d3a2a67a43c46d289868ec2",
+    "status": "geometry_only_not_runnable"
+  }
+]

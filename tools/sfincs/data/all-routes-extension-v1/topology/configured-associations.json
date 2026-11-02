@@ -1,0 +1,496 @@
+{
+  "commit": "351d84dc86f7efc6739e8c829ae91a7a46860127",
+  "gauges": {
+    "09486500": {
+      "name": "Santa Cruz River at Cortaro Rd",
+      "lat": 32.3507,
+      "lon": -111.0959
+    },
+    "09486520": {
+      "name": "Santa Cruz River at Trico Rd",
+      "lat": 32.4716,
+      "lon": -111.302
+    },
+    "09486055": {
+      "name": "Rillito Creek at La Cholla",
+      "lat": 32.3028,
+      "lon": -111.0114
+    },
+    "09486350": {
+      "name": "Ca\u00f1ada del Oro below Ina Rd",
+      "lat": 32.3362,
+      "lon": -111.0421
+    },
+    "09487000": {
+      "name": "Brawley Wash near Three Points",
+      "lat": 32.0757,
+      "lon": -111.3387
+    },
+    "09482500": {
+      "name": "Santa Cruz River at Tucson",
+      "lat": 32.2212,
+      "lon": -110.9818
+    }
+  },
+  "rainGauges": {
+    "6110": "Avra Valley Air Park",
+    "6130": "Continental Reserve (Marana)",
+    "6420": "Brawley Wash at Three Points",
+    "6440": "Brawley Wash at Milewide Rd",
+    "6460": "Picture Rocks Community Ctr",
+    "6480": "Trico Rd north of Manville",
+    "6490": "Old Tucson",
+    "6500": "Arizona-Sonora Desert Museum",
+    "6520": "El Camino del Cerro trailhead"
+  },
+  "points": [
+    {
+      "id": "brawley-dip",
+      "short": "Brawley Wash dip",
+      "kind": "dip",
+      "lat": 32.39322,
+      "lon": -111.29459,
+      "routes": [
+        "avra"
+      ],
+      "name": "Brawley Wash dip on Avra Valley Rd",
+      "where": "0.55 mi east of Trico Rd",
+      "rain": {
+        "local": [
+          "6110",
+          "6460",
+          "6480"
+        ],
+        "basin": [
+          "6440",
+          "6420",
+          "6460",
+          "6480"
+        ]
+      },
+      "wash": {
+        "alert": [
+          "6443"
+        ],
+        "usgs": [
+          "09487000"
+        ]
+      }
+    },
+    {
+      "id": "elpaso-dip",
+      "short": "El Paso Gas Rd dip",
+      "kind": "dip",
+      "lat": 32.39329,
+      "lon": -111.27659,
+      "routes": [
+        "avra"
+      ],
+      "name": "Wash dip on Avra Valley Rd near El Paso Gas Rd",
+      "where": "0.4 mi west of El Paso Gas Rd",
+      "rain": {
+        "local": [
+          "6110",
+          "6460",
+          "6480"
+        ]
+      }
+    },
+    {
+      "id": "clayton-dip",
+      "short": "Clayton Rd dip",
+      "kind": "dip",
+      "lat": 32.40131,
+      "lon": -111.24501,
+      "routes": [
+        "avra"
+      ],
+      "name": "Wash dip on Avra Valley Rd near Clayton Rd",
+      "where": "0.55 mi east of Clayton Rd, 0.65 mi west of Sanders Rd",
+      "rain": {
+        "local": [
+          "6110",
+          "6460",
+          "6480"
+        ]
+      }
+    },
+    {
+      "id": "losrobles-bridge",
+      "short": "Los Robles bridge",
+      "kind": "bridge",
+      "lat": 32.43882,
+      "lon": -111.30426,
+      "routes": [
+        "trico",
+        "silverbell-north",
+        "silverbell-south"
+      ],
+      "name": "Los Robles Wash bridge on Trico Rd",
+      "where": "between El Tiro Rd and Silverbell Rd",
+      "rain": {
+        "basin": [
+          "6440",
+          "6420",
+          "6460",
+          "6480"
+        ]
+      },
+      "wash": {
+        "alert": [
+          "6443"
+        ],
+        "usgs": [
+          "09487000"
+        ]
+      }
+    },
+    {
+      "id": "sc-trico-marana",
+      "short": "Trico-Marana river bridge",
+      "kind": "river",
+      "lat": 32.45369,
+      "lon": -111.27985,
+      "routes": [
+        "trico"
+      ],
+      "name": "Santa Cruz bridge on Trico-Marana Rd",
+      "where": "the river crossing on Trico-Marana Rd",
+      "river": [
+        "09486520",
+        "09486500"
+      ]
+    },
+    {
+      "id": "sc-sanders",
+      "short": "Sanders Rd river bridge",
+      "kind": "river",
+      "lat": 32.43488,
+      "lon": -111.23395,
+      "routes": [
+        "silverbell-north"
+      ],
+      "name": "Santa Cruz bridge on Sanders Rd",
+      "where": "Sanders Rd north of Silverbell (Town of Marana road: no county status)",
+      "river": [
+        "09486500",
+        "09486520"
+      ]
+    },
+    {
+      "id": "sc-avra",
+      "short": "Avra Valley Rd river bridge",
+      "kind": "river",
+      "lat": 32.40256,
+      "lon": -111.14614,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ],
+      "name": "Santa Cruz bridge on Avra Valley Rd",
+      "where": "just west of I-10",
+      "river": [
+        "09486500"
+      ]
+    },
+    {
+      "id": "silverbell-drainage",
+      "short": "Silverbell drainage",
+      "kind": "road",
+      "lat": 32.43062,
+      "lon": -111.2725,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ],
+      "name": "Silverbell Rd puddling / washouts",
+      "where": "Silverbell between Trico Rd and Sanders Rd",
+      "rain": {
+        "road": [
+          "6110",
+          "6480"
+        ]
+      }
+    },
+    {
+      "id": "pr-sandario-pr",
+      "short": "Sandario dip by Picture Rocks Rd",
+      "kind": "dip",
+      "lat": 32.329,
+      "lon": -111.2181,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ],
+      "name": "Sandario Rd dip just north of Picture Rocks Rd",
+      "where": "county barricade point \"Sandario Rd north of Picture Rocks Rd\"",
+      "rain": {
+        "local": [
+          "6460",
+          "6110",
+          "6440"
+        ]
+      }
+    },
+    {
+      "id": "pr-sandario-ina",
+      "short": "Sandario dip by Ina Rd",
+      "kind": "dip",
+      "lat": 32.3353,
+      "lon": -111.2166,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ],
+      "name": "Sandario Rd dip south of Ina Rd",
+      "where": "county barricade point \"Sandario Rd south of Ina Rd\"",
+      "rain": {
+        "local": [
+          "6460",
+          "6110",
+          "6440"
+        ]
+      }
+    },
+    {
+      "id": "pr-sandario-magee",
+      "short": "Sandario dip by Magee Rd",
+      "kind": "dip",
+      "lat": 32.3519,
+      "lon": -111.2166,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ],
+      "name": "Sandario Rd dip south of Magee Rd",
+      "where": "county barricade point \"Sandario Rd south of Magee Rd\"",
+      "rain": {
+        "local": [
+          "6460",
+          "6110",
+          "6440"
+        ]
+      }
+    },
+    {
+      "id": "pr-sandario-emigh",
+      "short": "Sandario dip by Emigh Rd",
+      "kind": "dip",
+      "lat": 32.3659,
+      "lon": -111.2167,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ],
+      "name": "Sandario Rd dip south of Emigh Rd",
+      "where": "county barricade point \"Sandario Rd south of Emigh Rd\"",
+      "rain": {
+        "local": [
+          "6460",
+          "6110",
+          "6440"
+        ]
+      }
+    },
+    {
+      "id": "pr-picture-rocks-wash",
+      "short": "Picture Rocks Wash dip",
+      "kind": "dip",
+      "lat": 32.32598,
+      "lon": -111.12082,
+      "routes": [
+        "pr-ina"
+      ],
+      "name": "Picture Rocks Wash dip on Picture Rocks Rd",
+      "where": "near Wade Rd (confirmed dip)",
+      "rain": {
+        "local": [
+          "6130",
+          "6520",
+          "6460"
+        ]
+      }
+    },
+    {
+      "id": "pr-ina-flat",
+      "short": "Ina Rd flat dip",
+      "kind": "flat",
+      "lat": 32.33758,
+      "lon": -111.10526,
+      "routes": [
+        "pr-ina"
+      ],
+      "name": "Large flat dip on Ina Rd",
+      "where": "west of Yuma Mine Wash. Washes out; trucks and most cars usually get through",
+      "rain": {
+        "local": [
+          "6130",
+          "6520",
+          "6460"
+        ]
+      }
+    },
+    {
+      "id": "pr-yuma-mine",
+      "short": "Yuma Mine Wash dip",
+      "kind": "dip",
+      "lat": 32.33759,
+      "lon": -111.09519,
+      "routes": [
+        "pr-ina"
+      ],
+      "name": "Yuma Mine Wash dip on Ina Rd",
+      "where": "the road drops into the wash (confirmed dip)",
+      "rain": {
+        "local": [
+          "6130",
+          "6520",
+          "6460"
+        ]
+      }
+    },
+    {
+      "id": "sc-ina",
+      "short": "Ina Rd river bridge",
+      "kind": "river",
+      "lat": 32.33759,
+      "lon": -111.08151,
+      "routes": [
+        "pr-ina"
+      ],
+      "name": "Santa Cruz bridge on Ina Rd",
+      "where": "just west of I-10; Ca\u00f1ada del Oro joins here",
+      "river": [
+        "09486500",
+        "09486350"
+      ]
+    },
+    {
+      "id": "pr-twinpeaks-washes",
+      "short": "Twin Peaks Rd washes (not confirmed)",
+      "kind": "dip",
+      "lat": 32.3783,
+      "lon": -111.1487,
+      "routes": [
+        "pr-twinpeaks"
+      ],
+      "name": "Small washes on Twin Peaks Rd (not confirmed)",
+      "where": "four crossings with no bridge in the map data, between Sandario and I-10",
+      "rain": {
+        "local": [
+          "6130",
+          "6110",
+          "6460"
+        ]
+      }
+    },
+    {
+      "id": "sc-twinpeaks",
+      "short": "Twin Peaks Rd river bridge",
+      "kind": "river",
+      "lat": 32.37581,
+      "lon": -111.11538,
+      "routes": [
+        "pr-twinpeaks"
+      ],
+      "name": "Santa Cruz bridge on Twin Peaks Rd",
+      "where": "just west of I-10",
+      "river": [
+        "09486500",
+        "09486520"
+      ]
+    },
+    {
+      "id": "pr-sandario-south",
+      "short": "Sandario dips by Golden Gate",
+      "kind": "dip",
+      "lat": 32.2746,
+      "lon": -111.2183,
+      "routes": [
+        "pr-gates"
+      ],
+      "name": "Sandario Rd dips near Golden Gate and Kinney",
+      "where": "county barricade points \"Sandario south of Golden Gate\" and \"Sandario at Kinney\"",
+      "rain": {
+        "local": [
+          "6460",
+          "6500",
+          "6440"
+        ]
+      }
+    },
+    {
+      "id": "pr-kinney-javelina",
+      "short": "Kinney Rd at Javelina Wash",
+      "kind": "dip",
+      "lat": 32.2543,
+      "lon": -111.1987,
+      "routes": [
+        "pr-gates"
+      ],
+      "name": "Kinney Rd at Javelina Wash (Tucson Mountain Park)",
+      "where": "county barricade points on Kinney by Mile Wide and Hohokam",
+      "rain": {
+        "local": [
+          "6500",
+          "6490",
+          "6520"
+        ]
+      }
+    },
+    {
+      "id": "pr-kinney-washes",
+      "short": "Kinney & Gates Pass washes (not confirmed)",
+      "kind": "dip",
+      "lat": 32.234,
+      "lon": -111.148,
+      "routes": [
+        "pr-gates"
+      ],
+      "name": "Small washes on Kinney Rd and Gates Pass Rd (not confirmed)",
+      "where": "about a dozen crossings with no bridge in the map data",
+      "rain": {
+        "local": [
+          "6500",
+          "6490",
+          "6520"
+        ]
+      }
+    },
+    {
+      "id": "pr-speedway-washes",
+      "short": "Speedway washes (not confirmed)",
+      "kind": "dip",
+      "lat": 32.236,
+      "lon": -111.025,
+      "routes": [
+        "pr-gates"
+      ],
+      "name": "Greasewood and Anklam Wash crossings on Speedway (not confirmed)",
+      "where": "west of Silverbell Rd",
+      "rain": {
+        "local": [
+          "6500",
+          "6490",
+          "6520"
+        ]
+      }
+    },
+    {
+      "id": "sc-speedway",
+      "short": "Speedway river bridge",
+      "kind": "river",
+      "lat": 32.23567,
+      "lon": -110.98614,
+      "routes": [
+        "pr-gates"
+      ],
+      "name": "Santa Cruz bridge on Speedway",
+      "where": "just west of I-10",
+      "river": [
+        "09482500"
+      ]
+    }
+  ]
+}

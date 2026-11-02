@@ -1,0 +1,161 @@
+{
+  "case": "gates",
+  "routeIds": [
+    "pr-gates"
+  ],
+  "activeCatchmentReachIds": [
+    15876697,
+    15876709,
+    15876769,
+    15876775,
+    15876791,
+    15876801,
+    15876803,
+    15876809,
+    15876819,
+    15876821,
+    15876825,
+    15876843,
+    15876845,
+    15876867,
+    15877577,
+    15877613,
+    15877615,
+    15877617,
+    15902505,
+    15902507,
+    15903143,
+    15903147,
+    15903149,
+    15903151,
+    15903597,
+    15903601,
+    15904697
+  ],
+  "areaKm2": 326.3551721567593,
+  "connectedComponents": [
+    [
+      15876801,
+      15876803
+    ],
+    [
+      15876867
+    ],
+    [
+      15877577
+    ],
+    [
+      15876809
+    ],
+    [
+      15876819,
+      15876821
+    ],
+    [
+      15876825
+    ],
+    [
+      15876697
+    ],
+    [
+      15876769
+    ],
+    [
+      15876709
+    ],
+    [
+      15903143
+    ],
+    [
+      15876775
+    ],
+    [
+      15902505,
+      15902507,
+      15903149
+    ],
+    [
+      15903147
+    ],
+    [
+      15876843
+    ],
+    [
+      15903597,
+      15903601,
+      15904697
+    ],
+    [
+      15876845
+    ],
+    [
+      15903151
+    ],
+    [
+      15877613
+    ],
+    [
+      15877615
+    ],
+    [
+      15877617
+    ],
+    [
+      15876791
+    ]
+  ],
+  "componentCount": 21,
+  "cumulativeInletDoubleCountPairs": [
+    [
+      15876807,
+      15877585
+    ],
+    [
+      15876823,
+      15876807
+    ]
+  ],
+  "wholeCatchmentRainfallOverlapWithExternalCatchmentsM2": 0,
+  "terrainGapNote": "Gates has independently reported 0.4634km2 newer1m terrain gap including338m road; no2015 fallback",
+  "corridorMissingAreaM2": 0.0,
+  "externalInlets": [
+    {
+      "reachId": "15876787",
+      "receivingReachId": "15876775",
+      "cachedOriginal13Z": false
+    },
+    {
+      "reachId": "15877585",
+      "receivingReachId": "15876775",
+      "cachedOriginal13Z": false
+    },
+    {
+      "reachId": "15876807",
+      "receivingReachId": "15876803",
+      "cachedOriginal13Z": false
+    },
+    {
+      "reachId": "15876823",
+      "receivingReachId": "15876819",
+      "cachedOriginal13Z": false
+    },
+    {
+      "reachId": "15903611",
+      "receivingReachId": "15903601",
+      "cachedOriginal13Z": false
+    },
+    {
+      "reachId": "15903627",
+      "receivingReachId": "15903601",
+      "cachedOriginal13Z": false
+    }
+  ],
+  "missingFlowlineIds": [],
+  "unresolvedPrimaryUpstreamHydrosequences": [
+    {
+      "reachId": 15876843,
+      "uphydroseq": 720023810.0
+    }
+  ],
+  "status": "Candidate partition; directed boundary completeness and shared-domain overlap must be resolved before run"
+}

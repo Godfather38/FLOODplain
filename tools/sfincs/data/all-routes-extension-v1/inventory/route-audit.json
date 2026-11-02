@@ -1,0 +1,192 @@
+{
+  "sourceCommit": "8e5260c4133cfcca2e3c055265dcd20bb90da885",
+  "generatedSourceCommitField": "532d85b",
+  "counts": {
+    "inventoryEntries": 88,
+    "originalMappedCrossingRecords": 60,
+    "routes": 8,
+    "exactDistinctInventoryCoordinates": 88,
+    "statuses": {
+      "modeled": 51,
+      "outside_coverage": 37
+    },
+    "kinds": {
+      "dip": 14,
+      "mapped_crossing": 39,
+      "bridge": 1,
+      "flat": 1,
+      "river": 6,
+      "road": 1,
+      "terrain_minimum": 26
+    },
+    "distinctMappedCrossingCoordinatesSixDecimals": 52,
+    "routeMemberships": 125,
+    "sharedInventoryEntries": 23
+  },
+  "boundsWgs84": [
+    -111.3042915,
+    32.2176924,
+    -110.9843155,
+    32.4611121
+  ],
+  "routes": [
+    {
+      "id": "trico",
+      "boundsWgs84": [
+        -111.3042915,
+        32.4293847,
+        -111.2170137,
+        32.4611121
+      ],
+      "lengthM": 11154.586320745317,
+      "inventoryEntries": 11,
+      "statusCounts": {
+        "modeled": 11
+      },
+      "declaredTerrainScreening": "prepared_centerline_minima_available",
+      "note": "Geometric reconciliation only: union removes repeated line traversal. A 5 m buffer joins shared alignments. It does not prove terrain validity, model resolution, or complete real-world dip coverage.",
+      "uniqueCentrelineLengthM": 11154.586320745317,
+      "lengthOutsideFiveMeterExistingScreenedCentrelineBufferM": 0.0
+    },
+    {
+      "id": "avra",
+      "boundsWgs84": [
+        -111.3042489,
+        32.3920702,
+        -111.1313331,
+        32.4293847
+      ],
+      "lengthM": 21104.231785710002,
+      "inventoryEntries": 22,
+      "statusCounts": {
+        "modeled": 22
+      },
+      "declaredTerrainScreening": "prepared_centerline_minima_available",
+      "note": "Geometric reconciliation only: union removes repeated line traversal. A 5 m buffer joins shared alignments. It does not prove terrain validity, model resolution, or complete real-world dip coverage.",
+      "uniqueCentrelineLengthM": 21104.231785710002,
+      "lengthOutsideFiveMeterExistingScreenedCentrelineBufferM": 0.0
+    },
+    {
+      "id": "silverbell-north",
+      "boundsWgs84": [
+        -111.3042915,
+        32.4112008,
+        -111.2170137,
+        32.4611121
+      ],
+      "lengthM": 16461.464976247546,
+      "inventoryEntries": 10,
+      "statusCounts": {
+        "modeled": 10
+      },
+      "declaredTerrainScreening": "two_extension_minima_only",
+      "note": "Geometric reconciliation only: union removes repeated line traversal. A 5 m buffer joins shared alignments. It does not prove terrain validity, model resolution, or complete real-world dip coverage.",
+      "uniqueCentrelineLengthM": 16461.464976247546,
+      "lengthOutsideFiveMeterExistingScreenedCentrelineBufferM": 5788.194774109477
+    },
+    {
+      "id": "silverbell-south",
+      "boundsWgs84": [
+        -111.3042915,
+        32.399201,
+        -111.1313331,
+        32.4440916
+      ],
+      "lengthM": 20138.036702446916,
+      "inventoryEntries": 17,
+      "statusCounts": {
+        "modeled": 17
+      },
+      "declaredTerrainScreening": "two_extension_minima_only",
+      "note": "Geometric reconciliation only: union removes repeated line traversal. A 5 m buffer joins shared alignments. It does not prove terrain validity, model resolution, or complete real-world dip coverage.",
+      "uniqueCentrelineLengthM": 20138.036702446916,
+      "lengthOutsideFiveMeterExistingScreenedCentrelineBufferM": 1289.28120812295
+    },
+    {
+      "id": "pr-ina",
+      "boundsWgs84": [
+        -111.21815,
+        32.3182964,
+        -111.05010209926122,
+        32.3388684
+      ],
+      "lengthM": 19519.908432028773,
+      "inventoryEntries": 6,
+      "statusCounts": {
+        "outside_coverage": 4,
+        "modeled": 2
+      },
+      "declaredTerrainScreening": "not_yet_assessed",
+      "note": "Geometric reconciliation only: union removes repeated line traversal. A 5 m buffer joins shared alignments. It does not prove terrain validity, model resolution, or complete real-world dip coverage.",
+      "uniqueCentrelineLengthM": 17891.235766243866,
+      "lengthOutsideFiveMeterExistingScreenedCentrelineBufferM": 17891.235766243866
+    },
+    {
+      "id": "pr-twinpeaks",
+      "boundsWgs84": [
+        -111.2181546,
+        32.3278201,
+        -111.1093667,
+        32.3832476
+      ],
+      "lengthM": 16697.836406999475,
+      "inventoryEntries": 12,
+      "statusCounts": {
+        "modeled": 11,
+        "outside_coverage": 1
+      },
+      "declaredTerrainScreening": "not_yet_assessed",
+      "note": "Geometric reconciliation only: union removes repeated line traversal. A 5 m buffer joins shared alignments. It does not prove terrain validity, model resolution, or complete real-world dip coverage.",
+      "uniqueCentrelineLengthM": 16697.836406999475,
+      "lengthOutsideFiveMeterExistingScreenedCentrelineBufferM": 16697.836406999475
+    },
+    {
+      "id": "pr-avra",
+      "boundsWgs84": [
+        -111.2181546,
+        32.3278201,
+        -111.1313331,
+        32.403092
+      ],
+      "lengthM": 16577.95493587368,
+      "inventoryEntries": 15,
+      "statusCounts": {
+        "modeled": 14,
+        "outside_coverage": 1
+      },
+      "declaredTerrainScreening": "not_yet_assessed",
+      "note": "Geometric reconciliation only: union removes repeated line traversal. A 5 m buffer joins shared alignments. It does not prove terrain validity, model resolution, or complete real-world dip coverage.",
+      "uniqueCentrelineLengthM": 16577.95493587368,
+      "lengthOutsideFiveMeterExistingScreenedCentrelineBufferM": 8308.742966394846
+    },
+    {
+      "id": "pr-gates",
+      "boundsWgs84": [
+        -111.2188661,
+        32.2176924,
+        -110.9843155,
+        32.3278201
+      ],
+      "lengthM": 32217.69592190742,
+      "inventoryEntries": 32,
+      "statusCounts": {
+        "outside_coverage": 32
+      },
+      "declaredTerrainScreening": "not_yet_assessed",
+      "note": "Geometric reconciliation only: union removes repeated line traversal. A 5 m buffer joins shared alignments. It does not prove terrain validity, model resolution, or complete real-world dip coverage.",
+      "uniqueCentrelineLengthM": 32217.69592190742,
+      "lengthOutsideFiveMeterExistingScreenedCentrelineBufferM": 32217.69592190742
+    }
+  ],
+  "sourceGeometryBlobs": {
+    "public/data/routes.geojson": "ad0ae340fae032da42d681ea6fece55051c01ae4",
+    "public/data/crossings.geojson": "0375ce358fd2fb2564eaf2c3069ca7e0d5129efc"
+  },
+  "geometryIdenticalAcrossCheckedRefs": [
+    "origin/main",
+    "origin/experiment/scene-data-inventory",
+    "origin/codex/ui-saved-crossings",
+    "origin/experiment/avra-radar-runoff"
+  ],
+  "totalUniqueRouteCentrelineM": 115671.25227736367
+}

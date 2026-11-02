@@ -1,0 +1,38 @@
+{
+  "status": "mesh_preparation_only_no_physical_fields_no_solver",
+  "builder": "Deltares-research/cht_sfincs",
+  "builderCommit": "8d29dcc7d4138e75001ecce1708137791cc3eb6f",
+  "builderSha256": "37222e48bf18fd25a737ad16bcfc9948a5c926d02832eb76ab47c9fc05773ea3",
+  "domainAreaKm2": 338.0869236160324,
+  "boundsEPSG32612": [
+    473500.0,
+    3559300.0,
+    507400.0,
+    3588300.0
+  ],
+  "baseCellSizeM": 100,
+  "refinementCellSizesM": [
+    12.5,
+    6.25
+  ],
+  "sizes": {
+    "mesh2d_nFaces": 448857
+  },
+  "meshBytes": 63984611,
+  "activeCells": 384338,
+  "levelCounts": {
+    "1": 29679,
+    "2": 2089,
+    "3": 4021,
+    "4": 170681,
+    "5": 177868
+  },
+  "missing": [
+    "Native source/outlet placement and provider reach crosswalk",
+    "1m prepared terrain coverage and subgrid import",
+    "Source-qualified structure openings where needed",
+    "Expanded frozen inflows/rainfall coverage",
+    "Official roughness/infiltration mapping to quadtree",
+    "Native volume and section-output configuration"
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "case": "picture-rocks-ina-twinpeaks",
+  "routeIds": [
+    "pr-ina",
+    "pr-twinpeaks",
+    "pr-avra"
+  ],
+  "activeCatchmentReachIds": [
+    15876687,
+    15876697,
+    15876715,
+    15876737,
+    15876759,
+    15876773,
+    15876777,
+    15877577,
+    15890430,
+    15902351,
+    15902361,
+    15902363,
+    15902409,
+    15902411,
+    15902413,
+    15902419,
+    15902429,
+    15902431,
+    15902439,
+    15903137,
+    945050134,
+    945050135
+  ],
+  "areaKm2": 499.52984639537357,
+  "connectedComponents": [
+    [
+      15876737
+    ],
+    [
+      15890430,
+      15902351,
+      15902361,
+      15902363,
+      15902409,
+      15902411,
+      15902413,
+      15902419,
+      15902429,
+      15902431,
+      15902439,
+      15903137,
+      945050134,
+      945050135
+    ],
+    [
+      15877577
+    ],
+    [
+      15876715
+    ],
+    [
+      15876687,
+      15876773
+    ],
+    [
+      15876759
+    ],
+    [
+      15876697
+    ],
+    [
+      15876777
+    ]
+  ],
+  "componentCount": 8,
+  "cumulativeInletDoubleCountPairs": [],
+  "wholeCatchmentRainfallOverlapWithExternalCatchmentsM2": 0,
+  "terrainGapNote": null,
+  "corridorMissingAreaM2": 7.771350143029429e-07,
+  "externalInlets": [
+    {
+      "reachId": "15876689",
+      "receivingReachId": "15876687",
+      "cachedOriginal13Z": false
+    },
+    {
+      "reachId": "15902387",
+      "receivingReachId": "945050134",
+      "cachedOriginal13Z": false
+    },
+    {
+      "reachId": "15902389",
+      "receivingReachId": "945050134",
+      "cachedOriginal13Z": false
+    },
+    {
+      "reachId": "15902421",
+      "receivingReachId": "945050135",
+      "cachedOriginal13Z": false
+    },
+    {
+      "reachId": "15902423",
+      "receivingReachId": "15902419",
+      "cachedOriginal13Z": false
+    },
+    {
+      "reachId": "15902441",
+      "receivingReachId": "15902429",
+      "cachedOriginal13Z": false
+    },
+    {
+      "reachId": "15902447",
+      "receivingReachId": "15902413",
+      "cachedOriginal13Z": true
+    },
+    {
+      "reachId": "15902469",
+      "receivingReachId": "15902429",
+      "cachedOriginal13Z": false
+    }
+  ],
+  "missingFlowlineIds": [],
+  "unresolvedPrimaryUpstreamHydrosequences": [],
+  "status": "Candidate partition; directed boundary completeness and shared-domain overlap must be resolved before run"
+}

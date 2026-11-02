@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "originalRequests": [
+    "I don't want to interrupt existing work- just add on to it. Lets make sure all dips in our routes have tracking. And use those gauges along the river.",
+    "I explicitly said earlier to start all fucking junctions dickhead"
+  ],
+  "sourceCommit": "351d84dc86f7efc6739e8c829ae91a7a46860127",
+  "gauges": [
+    {
+      "usgsSiteId": "09486500",
+      "name": "Santa Cruz River at Cortaro Rd",
+      "lat": 32.3507,
+      "lon": -111.0959,
+      "coordinateEvidence": "Rounded public/config.js coordinates; prior docs/SENSOR-AUDIT.md verified identity, not resurveyed here",
+      "datum": null,
+      "datumStatus": "No authoritative station datum retrieved in this bounded audit; never substitute terrain datum or stage zero",
+      "observationParameter": "00060",
+      "observationUnit": "ft3/s",
+      "nativeSolverUnit": "m3/s",
+      "cfsToM3s": 0.028316846592,
+      "stageParameter": "00065",
+      "stageSemantics": "Station-relative stage; not road/deck elevation",
+      "siteUrl": "https://waterdata.usgs.gov/monitoring-location/USGS-09486500/",
+      "roles": [
+        "regional observation"
+      ],
+      "forecastReachId": "15903137",
+      "historicalCaseRole": "Observed upstream inflow in 2013/2014 diagnostic cases",
+      "forecastBoundaryRule": "Only use matching reach at actual domain inlet. Internal gauge forecast must not replace boundary or be added to upstream cumulative flow."
+    },
+    {
+      "usgsSiteId": "09486520",
+      "name": "Santa Cruz River at Trico Rd",
+      "lat": 32.4716,
+      "lon": -111.302,
+      "coordinateEvidence": "Rounded public/config.js coordinates; prior docs/SENSOR-AUDIT.md verified identity, not resurveyed here",
+      "datum": null,
+      "datumStatus": "No authoritative station datum retrieved in this bounded audit; never substitute terrain datum or stage zero",
+      "observationParameter": "00060",
+      "observationUnit": "ft3/s",
+      "nativeSolverUnit": "m3/s",
+      "cfsToM3s": 0.028316846592,
+      "stageParameter": "00065",
+      "stageSemantics": "Station-relative stage; not road/deck elevation",
+      "siteUrl": "https://waterdata.usgs.gov/monitoring-location/USGS-09486520/",
+      "roles": [
+        "regional observation"
+      ],
+      "forecastReachId": "15890430",
+      "historicalCaseRole": "Downstream comparison target, not independent validation if reused as boundary",
+      "forecastBoundaryRule": "Only use matching reach at actual domain inlet. Internal gauge forecast must not replace boundary or be added to upstream cumulative flow."
+    },
+    {
+      "usgsSiteId": "09486055",
+      "name": "Rillito Creek at La Cholla",
+      "lat": 32.3028,
+      "lon": -111.0114,
+      "coordinateEvidence": "Rounded public/config.js coordinates; prior docs/SENSOR-AUDIT.md verified identity, not resurveyed here",
+      "datum": null,
+      "datumStatus": "No authoritative station datum retrieved in this bounded audit; never substitute terrain datum or stage zero",
+      "observationParameter": "00060",
+      "observationUnit": "ft3/s",
+      "nativeSolverUnit": "m3/s",
+      "cfsToM3s": 0.028316846592,
+      "stageParameter": "00065",
+      "stageSemantics": "Station-relative stage; not road/deck elevation",
+      "siteUrl": "https://waterdata.usgs.gov/monitoring-location/USGS-09486055/",
+      "roles": [
+        "regional observation"
+      ],
+      "forecastReachId": null,
+      "historicalCaseRole": null,
+      "forecastBoundaryRule": "Only use matching reach at actual domain inlet. Internal gauge forecast must not replace boundary or be added to upstream cumulative flow."
+    },
+    {
+      "usgsSiteId": "09486350",
+      "name": "Cañada del Oro below Ina Rd",
+      "lat": 32.3362,
+      "lon": -111.0421,
+      "coordinateEvidence": "Rounded public/config.js coordinates; prior docs/SENSOR-AUDIT.md verified identity, not resurveyed here",
+      "datum": null,
+      "datumStatus": "No authoritative station datum retrieved in this bounded audit; never substitute terrain datum or stage zero",
+      "observationParameter": "00060",
+      "observationUnit": "ft3/s",
+      "nativeSolverUnit": "m3/s",
+      "cfsToM3s": 0.028316846592,
+      "stageParameter": "00065",
+      "stageSemantics": "Station-relative stage; not road/deck elevation",
+      "siteUrl": "https://waterdata.usgs.gov/monitoring-location/USGS-09486350/",
+      "roles": [
+        "regional observation"
+      ],
+      "forecastReachId": null,
+      "historicalCaseRole": null,
+      "forecastBoundaryRule": "Only use matching reach at actual domain inlet. Internal gauge forecast must not replace boundary or be added to upstream cumulative flow."
+    },
+    {
+      "usgsSiteId": "09487000",
+      "name": "Brawley Wash near Three Points",
+      "lat": 32.0757,
+      "lon": -111.3387,
+      "coordinateEvidence": "Rounded public/config.js coordinates; prior docs/SENSOR-AUDIT.md verified identity, not resurveyed here",
+      "datum": null,
+      "datumStatus": "No authoritative station datum retrieved in this bounded audit; never substitute terrain datum or stage zero",
+      "observationParameter": "00060",
+      "observationUnit": "ft3/s",
+      "nativeSolverUnit": "m3/s",
+      "cfsToM3s": 0.028316846592,
+      "stageParameter": "00065",
+      "stageSemantics": "Station-relative stage; not road/deck elevation",
+      "siteUrl": "https://waterdata.usgs.gov/monitoring-location/USGS-09487000/",
+      "roles": [
+        "regional observation"
+      ],
+      "forecastReachId": null,
+      "historicalCaseRole": null,
+      "forecastBoundaryRule": "Only use matching reach at actual domain inlet. Internal gauge forecast must not replace boundary or be added to upstream cumulative flow."
+    },
+    {
+      "usgsSiteId": "09482500",
+      "name": "Santa Cruz River at Tucson",
+      "lat": 32.2212,
+      "lon": -110.9818,
+      "coordinateEvidence": "Rounded public/config.js coordinates; prior docs/SENSOR-AUDIT.md verified identity, not resurveyed here",
+      "datum": null,
+      "datumStatus": "No authoritative station datum retrieved in this bounded audit; never substitute terrain datum or stage zero",
+      "observationParameter": "00060",
+      "observationUnit": "ft3/s",
+      "nativeSolverUnit": "m3/s",
+      "cfsToM3s": 0.028316846592,
+      "stageParameter": "00065",
+      "stageSemantics": "Station-relative stage; not road/deck elevation",
+      "siteUrl": "https://waterdata.usgs.gov/monitoring-location/USGS-09482500/",
+      "roles": [
+        "regional observation"
+      ],
+      "forecastReachId": null,
+      "historicalCaseRole": null,
+      "forecastBoundaryRule": "Only use matching reach at actual domain inlet. Internal gauge forecast must not replace boundary or be added to upstream cumulative flow."
+    }
+  ],
+  "routes": [
+    {
+      "routeId": "trico",
+      "configuredPointIds": [
+        "losrobles-bridge",
+        "sc-trico-marana"
+      ],
+      "usgsObservationIds": [
+        "09486500",
+        "09486520",
+        "09487000"
+      ],
+      "countyStreamIds": [
+        "6443"
+      ],
+      "rainStationIds": [
+        "6420",
+        "6440",
+        "6460",
+        "6480"
+      ],
+      "pointsWithoutDirectFlowAssignment": [],
+      "scope": "Configured assessment associations, not sensors at each crossing. Full 88-entry inventory and unnamed dips need separate catchment/topology intersection; no inferred gauge assignment."
+    },
+    {
+      "routeId": "avra",
+      "configuredPointIds": [
+        "brawley-dip",
+        "elpaso-dip",
+        "clayton-dip",
+        "sc-avra"
+      ],
+      "usgsObservationIds": [
+        "09486500",
+        "09487000"
+      ],
+      "countyStreamIds": [
+        "6443"
+      ],
+      "rainStationIds": [
+        "6110",
+        "6420",
+        "6440",
+        "6460",
+        "6480"
+      ],
+      "pointsWithoutDirectFlowAssignment": [
+        "elpaso-dip",
+        "clayton-dip"
+      ],
+      "scope": "Configured assessment associations, not sensors at each crossing. Full 88-entry inventory and unnamed dips need separate catchment/topology intersection; no inferred gauge assignment."
+    },
+    {
+      "routeId": "silverbell-north",
+      "configuredPointIds": [
+        "losrobles-bridge",
+        "sc-sanders",
+        "silverbell-drainage"
+      ],
+      "usgsObservationIds": [
+        "09486500",
+        "09486520",
+        "09487000"
+      ],
+      "countyStreamIds": [
+        "6443"
+      ],
+      "rainStationIds": [
+        "6110",
+        "6420",
+        "6440",
+        "6460",
+        "6480"
+      ],
+      "pointsWithoutDirectFlowAssignment": [
+        "silverbell-drainage"
+      ],
+      "scope": "Configured assessment associations, not sensors at each crossing. Full 88-entry inventory and unnamed dips need separate catchment/topology intersection; no inferred gauge assignment."
+    },
+    {
+      "routeId": "silverbell-south",
+      "configuredPointIds": [
+        "losrobles-bridge",
+        "sc-avra",
+        "silverbell-drainage"
+      ],
+      "usgsObservationIds": [
+        "09486500",
+        "09487000"
+      ],
+      "countyStreamIds": [
+        "6443"
+      ],
+      "rainStationIds": [
+        "6110",
+        "6420",
+        "6440",
+        "6460",
+        "6480"
+      ],
+      "pointsWithoutDirectFlowAssignment": [
+        "silverbell-drainage"
+      ],
+      "scope": "Configured assessment associations, not sensors at each crossing. Full 88-entry inventory and unnamed dips need separate catchment/topology intersection; no inferred gauge assignment."
+    },
+    {
+      "routeId": "pr-ina",
+      "configuredPointIds": [
+        "pr-picture-rocks-wash",
+        "pr-ina-flat",
+        "pr-yuma-mine",
+        "sc-ina"
+      ],
+      "usgsObservationIds": [
+        "09486350",
+        "09486500"
+      ],
+      "countyStreamIds": [],
+      "rainStationIds": [
+        "6130",
+        "6460",
+        "6520"
+      ],
+      "pointsWithoutDirectFlowAssignment": [
+        "pr-picture-rocks-wash",
+        "pr-ina-flat",
+        "pr-yuma-mine"
+      ],
+      "scope": "Configured assessment associations, not sensors at each crossing. Full 88-entry inventory and unnamed dips need separate catchment/topology intersection; no inferred gauge assignment."
+    },
+    {
+      "routeId": "pr-twinpeaks",
+      "configuredPointIds": [
+        "pr-sandario-pr",
+        "pr-sandario-ina",
+        "pr-sandario-magee",
+        "pr-sandario-emigh",
+        "pr-twinpeaks-washes",
+        "sc-twinpeaks"
+      ],
+      "usgsObservationIds": [
+        "09486500",
+        "09486520"
+      ],
+      "countyStreamIds": [],
+      "rainStationIds": [
+        "6110",
+        "6130",
+        "6440",
+        "6460"
+      ],
+      "pointsWithoutDirectFlowAssignment": [
+        "pr-sandario-pr",
+        "pr-sandario-ina",
+        "pr-sandario-magee",
+        "pr-sandario-emigh",
+        "pr-twinpeaks-washes"
+      ],
+      "scope": "Configured assessment associations, not sensors at each crossing. Full 88-entry inventory and unnamed dips need separate catchment/topology intersection; no inferred gauge assignment."
+    },
+    {
+      "routeId": "pr-avra",
+      "configuredPointIds": [
+        "sc-avra",
+        "pr-sandario-pr",
+        "pr-sandario-ina",
+        "pr-sandario-magee",
+        "pr-sandario-emigh"
+      ],
+      "usgsObservationIds": [
+        "09486500"
+      ],
+      "countyStreamIds": [],
+      "rainStationIds": [
+        "6110",
+        "6440",
+        "6460"
+      ],
+      "pointsWithoutDirectFlowAssignment": [
+        "pr-sandario-pr",
+        "pr-sandario-ina",
+        "pr-sandario-magee",
+        "pr-sandario-emigh"
+      ],
+      "scope": "Configured assessment associations, not sensors at each crossing. Full 88-entry inventory and unnamed dips need separate catchment/topology intersection; no inferred gauge assignment."
+    },
+    {
+      "routeId": "pr-gates",
+      "configuredPointIds": [
+        "pr-sandario-south",
+        "pr-kinney-javelina",
+        "pr-kinney-washes",
+        "pr-speedway-washes",
+        "sc-speedway"
+      ],
+      "usgsObservationIds": [
+        "09482500"
+      ],
+      "countyStreamIds": [],
+      "rainStationIds": [
+        "6440",
+        "6460",
+        "6490",
+        "6500",
+        "6520"
+      ],
+      "pointsWithoutDirectFlowAssignment": [
+        "pr-sandario-south",
+        "pr-kinney-javelina",
+        "pr-kinney-washes",
+        "pr-speedway-washes"
+      ],
+      "scope": "Configured assessment associations, not sensors at each crossing. Full 88-entry inventory and unnamed dips need separate catchment/topology intersection; no inferred gauge assignment."
+    }
+  ],
+  "regionalDrainageEvidence": {
+    "relationship": "Brawley flows north into Los Robles, then Santa Cruz; Blanco joins Los Robles from west",
+    "source": "https://oldcms.pima.gov/UserFiles/Servers/Server_6/File/Government/Flood%20Control/Services/Flood%20Hazard%20Map%20and%20Information/FEMA%20Flood%20Insurance%20Study/fisvolume1of5.pdf#page=24",
+    "evidence": "Prior committed audit cites printed page18, FEMA2012 FIS",
+    "notEstablished": [
+      "Current branch flow splits",
+      "Travel time",
+      "Flow losses",
+      "Crossing-specific depth",
+      "Passability"
+    ]
+  },
+  "missingAssociations": [
+    "Brawley gauge15876941 lies outside cached expanded network; no complete gauge-to-dip reach chain proven here",
+    "Rillito, Canada del Oro and Tucson gauge COMID crosswalks not established from inspected cached files",
+    "All unnamed and additional route dips need actual drainage/catchment intersections; rain station lists are not basin delineations",
+    "No stage-datum/deck-datum linkage verified",
+    "Old Avra09486509 and Sanders09486515 are excluded by configured source audit; do not treat them as live sensors"
+  ],
+  "coordinateCaution": "County snapshot aliases have coordinates different from configured USGS locations (notably Cortaro and Trico); keep provider metadata separately, do not silently relocate USGS gauges to county aliases.",
+  "fetchBlocker": {
+    "action": "Fetch public six-station USGS metadata",
+    "initialResult": "DNS resolution failed",
+    "escalation": "Not executed: automatic approval review failed because selected model was at capacity. Not an unsafe determination. No bypass attempted."
+  }
+}

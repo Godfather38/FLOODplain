@@ -1,0 +1,156 @@
+{
+  "northern": {
+    "areaKm2": 423.85544972757305,
+    "corridorMissingAreaM2": 1.2263475828931637e-07,
+    "externalInlets": [
+      {
+        "reachId": "15876623",
+        "receivingReachId": "15876621",
+        "cachedOriginal13Z": true
+      },
+      {
+        "reachId": "15876639",
+        "receivingReachId": "15876633",
+        "cachedOriginal13Z": true
+      },
+      {
+        "reachId": "15876641",
+        "receivingReachId": "15876625",
+        "cachedOriginal13Z": true
+      },
+      {
+        "reachId": "15876653",
+        "receivingReachId": "15876633",
+        "cachedOriginal13Z": true
+      },
+      {
+        "reachId": "15876707",
+        "receivingReachId": "945050510",
+        "cachedOriginal13Z": true
+      },
+      {
+        "reachId": "15876711",
+        "receivingReachId": "945050510",
+        "cachedOriginal13Z": true
+      },
+      {
+        "reachId": "15902351",
+        "receivingReachId": "15890430",
+        "cachedOriginal13Z": true
+      },
+      {
+        "reachId": "15902363",
+        "receivingReachId": "15890430",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "945050485",
+        "receivingReachId": "945050486",
+        "cachedOriginal13Z": true
+      },
+      {
+        "reachId": "945050487",
+        "receivingReachId": "945050486",
+        "cachedOriginal13Z": true
+      }
+    ],
+    "missingFlowlineIds": [],
+    "unresolvedPrimaryUpstreamHydrosequences": []
+  },
+  "picture-rocks-ina-twinpeaks": {
+    "areaKm2": 499.594150458418,
+    "corridorMissingAreaM2": 7.771350143029429e-07,
+    "externalInlets": [
+      {
+        "reachId": "15902387",
+        "receivingReachId": "945050134",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15902389",
+        "receivingReachId": "945050134",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15902421",
+        "receivingReachId": "945050135",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15902423",
+        "receivingReachId": "15902419",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15902441",
+        "receivingReachId": "15902429",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15902447",
+        "receivingReachId": "15902413",
+        "cachedOriginal13Z": true
+      },
+      {
+        "reachId": "15902469",
+        "receivingReachId": "15902429",
+        "cachedOriginal13Z": false
+      }
+    ],
+    "missingFlowlineIds": [],
+    "unresolvedPrimaryUpstreamHydrosequences": []
+  },
+  "gates": {
+    "areaKm2": 338.08692361603136,
+    "corridorMissingAreaM2": 0.0,
+    "externalInlets": [
+      {
+        "reachId": "15876787",
+        "receivingReachId": "15876775",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15876837",
+        "receivingReachId": "15876835",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15876859",
+        "receivingReachId": "15876823",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15876863",
+        "receivingReachId": "15876829",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15877627",
+        "receivingReachId": "15876811",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15903611",
+        "receivingReachId": "15903601",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15903627",
+        "receivingReachId": "15903601",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15876869",
+        "receivingReachId": "15876843",
+        "cachedOriginal13Z": false
+      },
+      {
+        "reachId": "15876851",
+        "receivingReachId": "15876847",
+        "cachedOriginal13Z": false
+      }
+    ],
+    "missingFlowlineIds": [],
+    "unresolvedPrimaryUpstreamHydrosequences": []
+  }
+}

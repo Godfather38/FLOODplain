@@ -1,0 +1,2775 @@
+{
+  "userRequest": "I don't want to interrupt existing work- just add on to it. Lets make sure all dips in our routes have tracking. And use those gauges along the river.",
+  "routeSource": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\public\\data\\routes.geojson",
+  "routeSourceSha256": "859911635b29d7c83ed4244749e2d69208d7b2de16bd50952cf69f9444f58e1e",
+  "routes": [
+    {
+      "route": "trico",
+      "name": "Trico Rd -> Trico-Marana Rd -> Marana Rd",
+      "lengthKm": 11.154586320745317,
+      "boundsWgs84": [
+        -111.309876593792,
+        32.42464869933077,
+        -111.21142894723869,
+        32.465845437466484
+      ],
+      "needed1000mWindows": 34,
+      "cachedWindows": 34,
+      "missingWindowNames": [],
+      "centerlineSamples2m": 5578,
+      "centerlineSamplesWithValidCached1m": 5578,
+      "corridor500mKm2": 11.846812606835032,
+      "corridorOutsideCachedRasterFootprintsKm2": 0.0,
+      "corridorOutside2021CatalogBoundingBoxesM2": 0.0,
+      "routeLengthOutsideCurrentActiveDomainKm": 0.0,
+      "sourceIds": [
+        "6610d7a1d34e633466510081",
+        "6610d79fd34e63346651007f",
+        "6610d792d34e63346651006f"
+      ]
+    },
+    {
+      "route": "avra",
+      "name": "Avra Valley Rd (I-10 Avra Valley exit)",
+      "lengthKm": 21.104231785710002,
+      "boundsWgs84": [
+        -111.30983275677316,
+        32.387336595844026,
+        -111.1257523474874,
+        32.43412076997652
+      ],
+      "needed1000mWindows": 48,
+      "cachedWindows": 48,
+      "missingWindowNames": [],
+      "centerlineSamples2m": 10553,
+      "centerlineSamplesWithValidCached1m": 10553,
+      "corridor500mKm2": 21.77553017185257,
+      "corridorOutsideCachedRasterFootprintsKm2": 0.0,
+      "corridorOutside2021CatalogBoundingBoxesM2": 0.0,
+      "routeLengthOutsideCurrentActiveDomainKm": 0.0,
+      "sourceIds": [
+        "6610d7a1d34e633466510081",
+        "6610d793d34e633466510071"
+      ]
+    },
+    {
+      "route": "silverbell-north",
+      "name": "Silverbell Rd -> Sanders Rd north -> Marana Rd",
+      "lengthKm": 16.461464976247544,
+      "boundsWgs84": [
+        -111.309876593792,
+        32.406466362379206,
+        -111.21142894723869,
+        32.465845437466484
+      ],
+      "needed1000mWindows": 42,
+      "cachedWindows": 37,
+      "missingWindowNames": [
+        "terrain-1m-477000-3588000.tif",
+        "terrain-1m-477000-3589000.tif",
+        "terrain-1m-478000-3587000.tif",
+        "terrain-1m-478000-3588000.tif",
+        "terrain-1m-478000-3589000.tif"
+      ],
+      "centerlineSamples2m": 8231,
+      "centerlineSamplesWithValidCached1m": 6997,
+      "corridor500mKm2": 16.961253817283378,
+      "corridorOutsideCachedRasterFootprintsKm2": 2.500389833418232,
+      "corridorOutside2021CatalogBoundingBoxesM2": 0.0,
+      "routeLengthOutsideCurrentActiveDomainKm": 0.0,
+      "sourceIds": [
+        "6610d7a1d34e633466510081",
+        "6610d79fd34e63346651007f",
+        "6610d792d34e63346651006f"
+      ]
+    },
+    {
+      "route": "silverbell-south",
+      "name": "Silverbell Rd -> Sanders Rd south -> Avra Valley Rd east",
+      "lengthKm": 20.138036702446914,
+      "boundsWgs84": [
+        -111.309876593792,
+        32.394466050019425,
+        -111.1257523474874,
+        32.44882751306211
+      ],
+      "needed1000mWindows": 49,
+      "cachedWindows": 49,
+      "missingWindowNames": [],
+      "centerlineSamples2m": 10070,
+      "centerlineSamplesWithValidCached1m": 10070,
+      "corridor500mKm2": 20.768321124324448,
+      "corridorOutsideCachedRasterFootprintsKm2": 0.0,
+      "corridorOutside2021CatalogBoundingBoxesM2": 0.0,
+      "routeLengthOutsideCurrentActiveDomainKm": 0.0,
+      "sourceIds": [
+        "6610d7a1d34e633466510081",
+        "6610d79fd34e63346651007f",
+        "6610d793d34e633466510071"
+      ]
+    },
+    {
+      "route": "pr-ina",
+      "name": "Picture Rocks Rd -> Ina Rd",
+      "lengthKm": 19.519908432028775,
+      "boundsWgs84": [
+        -111.22372264536352,
+        32.31356056463106,
+        -111.0445233868968,
+        32.343599939915606
+      ],
+      "needed1000mWindows": 43,
+      "cachedWindows": 0,
+      "missingWindowNames": [
+        "terrain-1m-478000-3576000.tif",
+        "terrain-1m-478000-3577000.tif",
+        "terrain-1m-479000-3576000.tif",
+        "terrain-1m-479000-3577000.tif",
+        "terrain-1m-480000-3575000.tif",
+        "terrain-1m-480000-3576000.tif",
+        "terrain-1m-480000-3577000.tif",
+        "terrain-1m-481000-3575000.tif",
+        "terrain-1m-481000-3576000.tif",
+        "terrain-1m-481000-3577000.tif",
+        "terrain-1m-482000-3575000.tif",
+        "terrain-1m-482000-3576000.tif",
+        "terrain-1m-483000-3575000.tif",
+        "terrain-1m-483000-3576000.tif",
+        "terrain-1m-484000-3575000.tif",
+        "terrain-1m-484000-3576000.tif",
+        "terrain-1m-485000-3575000.tif",
+        "terrain-1m-485000-3576000.tif",
+        "terrain-1m-486000-3575000.tif",
+        "terrain-1m-486000-3576000.tif",
+        "terrain-1m-486000-3577000.tif",
+        "terrain-1m-487000-3575000.tif",
+        "terrain-1m-487000-3576000.tif",
+        "terrain-1m-487000-3577000.tif",
+        "terrain-1m-488000-3575000.tif",
+        "terrain-1m-488000-3576000.tif",
+        "terrain-1m-488000-3577000.tif",
+        "terrain-1m-488000-3578000.tif",
+        "terrain-1m-489000-3576000.tif",
+        "terrain-1m-489000-3577000.tif",
+        "terrain-1m-489000-3578000.tif",
+        "terrain-1m-490000-3577000.tif",
+        "terrain-1m-490000-3578000.tif",
+        "terrain-1m-491000-3577000.tif",
+        "terrain-1m-491000-3578000.tif",
+        "terrain-1m-492000-3577000.tif",
+        "terrain-1m-492000-3578000.tif",
+        "terrain-1m-493000-3577000.tif",
+        "terrain-1m-493000-3578000.tif",
+        "terrain-1m-494000-3577000.tif",
+        "terrain-1m-494000-3578000.tif",
+        "terrain-1m-495000-3577000.tif",
+        "terrain-1m-495000-3578000.tif"
+      ],
+      "centerlineSamples2m": 9760,
+      "centerlineSamplesWithValidCached1m": 0,
+      "corridor500mKm2": 18.312937953995448,
+      "corridorOutsideCachedRasterFootprintsKm2": 18.3129379539954,
+      "corridorOutside2021CatalogBoundingBoxesM2": 0.0,
+      "routeLengthOutsideCurrentActiveDomainKm": 11.017152966542115,
+      "sourceIds": [
+        "6610d7a3d34e633466510083",
+        "6610d795d34e633466510073",
+        "6610d785d34e633466510063"
+      ]
+    },
+    {
+      "route": "pr-twinpeaks",
+      "name": "Sandario Rd -> Twin Peaks Rd",
+      "lengthKm": 16.697836406999475,
+      "boundsWgs84": [
+        -111.22373278164754,
+        32.323084002692845,
+        -111.103789401324,
+        32.38798186731575
+      ],
+      "needed1000mWindows": 39,
+      "cachedWindows": 0,
+      "missingWindowNames": [
+        "terrain-1m-478000-3576000.tif",
+        "terrain-1m-478000-3577000.tif",
+        "terrain-1m-479000-3576000.tif",
+        "terrain-1m-479000-3577000.tif",
+        "terrain-1m-479000-3578000.tif",
+        "terrain-1m-479000-3579000.tif",
+        "terrain-1m-479000-3580000.tif",
+        "terrain-1m-479000-3581000.tif",
+        "terrain-1m-479000-3582000.tif",
+        "terrain-1m-479000-3583000.tif",
+        "terrain-1m-480000-3577000.tif",
+        "terrain-1m-480000-3578000.tif",
+        "terrain-1m-480000-3579000.tif",
+        "terrain-1m-480000-3580000.tif",
+        "terrain-1m-480000-3581000.tif",
+        "terrain-1m-480000-3582000.tif",
+        "terrain-1m-480000-3583000.tif",
+        "terrain-1m-481000-3581000.tif",
+        "terrain-1m-481000-3582000.tif",
+        "terrain-1m-481000-3583000.tif",
+        "terrain-1m-482000-3582000.tif",
+        "terrain-1m-482000-3583000.tif",
+        "terrain-1m-483000-3582000.tif",
+        "terrain-1m-483000-3583000.tif",
+        "terrain-1m-484000-3582000.tif",
+        "terrain-1m-484000-3583000.tif",
+        "terrain-1m-485000-3581000.tif",
+        "terrain-1m-485000-3582000.tif",
+        "terrain-1m-485000-3583000.tif",
+        "terrain-1m-486000-3581000.tif",
+        "terrain-1m-486000-3582000.tif",
+        "terrain-1m-487000-3581000.tif",
+        "terrain-1m-487000-3582000.tif",
+        "terrain-1m-488000-3581000.tif",
+        "terrain-1m-488000-3582000.tif",
+        "terrain-1m-489000-3581000.tif",
+        "terrain-1m-489000-3582000.tif",
+        "terrain-1m-490000-3581000.tif",
+        "terrain-1m-490000-3582000.tif"
+      ],
+      "centerlineSamples2m": 8349,
+      "centerlineSamplesWithValidCached1m": 0,
+      "corridor500mKm2": 17.346802870909254,
+      "corridorOutsideCachedRasterFootprintsKm2": 17.346802870909247,
+      "corridorOutside2021CatalogBoundingBoxesM2": 0.0,
+      "routeLengthOutsideCurrentActiveDomainKm": 2.8938142930651454,
+      "sourceIds": [
+        "6610d7a3d34e633466510083",
+        "6610d7a1d34e633466510081",
+        "6610d795d34e633466510073",
+        "6610d793d34e633466510071",
+        "6610d783d34e633466510061"
+      ]
+    },
+    {
+      "route": "pr-avra",
+      "name": "Sandario Rd -> Avra Valley Rd",
+      "lengthKm": 16.57795493587368,
+      "boundsWgs84": [
+        -111.22373278164754,
+        32.323084002692845,
+        -111.1257523474874,
+        32.40782808332614
+      ],
+      "needed1000mWindows": 37,
+      "cachedWindows": 20,
+      "missingWindowNames": [
+        "terrain-1m-478000-3576000.tif",
+        "terrain-1m-478000-3577000.tif",
+        "terrain-1m-479000-3576000.tif",
+        "terrain-1m-479000-3577000.tif",
+        "terrain-1m-479000-3578000.tif",
+        "terrain-1m-479000-3579000.tif",
+        "terrain-1m-479000-3580000.tif",
+        "terrain-1m-479000-3581000.tif",
+        "terrain-1m-479000-3582000.tif",
+        "terrain-1m-479000-3583000.tif",
+        "terrain-1m-480000-3577000.tif",
+        "terrain-1m-480000-3578000.tif",
+        "terrain-1m-480000-3579000.tif",
+        "terrain-1m-480000-3580000.tif",
+        "terrain-1m-480000-3581000.tif",
+        "terrain-1m-480000-3582000.tif",
+        "terrain-1m-480000-3583000.tif"
+      ],
+      "centerlineSamples2m": 8289,
+      "centerlineSamplesWithValidCached1m": 4669,
+      "corridor500mKm2": 17.297923267547304,
+      "corridorOutsideCachedRasterFootprintsKm2": 7.62554227517071,
+      "corridorOutside2021CatalogBoundingBoxesM2": 0.0,
+      "routeLengthOutsideCurrentActiveDomainKm": 1.9431188882224741,
+      "sourceIds": [
+        "6610d7a3d34e633466510083",
+        "6610d7a1d34e633466510081",
+        "6610d795d34e633466510073",
+        "6610d793d34e633466510071"
+      ]
+    },
+    {
+      "route": "pr-gates",
+      "name": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway",
+      "lengthKm": 32.21769592190742,
+      "boundsWgs84": [
+        -111.2244398812832,
+        32.21295976626604,
+        -110.97874329722212,
+        32.33255564048591
+      ],
+      "needed1000mWindows": 77,
+      "cachedWindows": 0,
+      "missingWindowNames": [
+        "terrain-1m-478000-3570000.tif",
+        "terrain-1m-478000-3571000.tif",
+        "terrain-1m-478000-3572000.tif",
+        "terrain-1m-478000-3573000.tif",
+        "terrain-1m-478000-3574000.tif",
+        "terrain-1m-478000-3575000.tif",
+        "terrain-1m-478000-3576000.tif",
+        "terrain-1m-478000-3577000.tif",
+        "terrain-1m-479000-3568000.tif",
+        "terrain-1m-479000-3569000.tif",
+        "terrain-1m-479000-3570000.tif",
+        "terrain-1m-479000-3571000.tif",
+        "terrain-1m-479000-3572000.tif",
+        "terrain-1m-479000-3573000.tif",
+        "terrain-1m-479000-3574000.tif",
+        "terrain-1m-479000-3575000.tif",
+        "terrain-1m-479000-3576000.tif",
+        "terrain-1m-479000-3577000.tif",
+        "terrain-1m-480000-3568000.tif",
+        "terrain-1m-480000-3569000.tif",
+        "terrain-1m-480000-3570000.tif",
+        "terrain-1m-481000-3567000.tif",
+        "terrain-1m-481000-3568000.tif",
+        "terrain-1m-481000-3569000.tif",
+        "terrain-1m-482000-3567000.tif",
+        "terrain-1m-482000-3568000.tif",
+        "terrain-1m-483000-3567000.tif",
+        "terrain-1m-483000-3568000.tif",
+        "terrain-1m-484000-3566000.tif",
+        "terrain-1m-484000-3567000.tif",
+        "terrain-1m-484000-3568000.tif",
+        "terrain-1m-485000-3565000.tif",
+        "terrain-1m-485000-3566000.tif",
+        "terrain-1m-485000-3567000.tif",
+        "terrain-1m-486000-3564000.tif",
+        "terrain-1m-486000-3565000.tif",
+        "terrain-1m-486000-3566000.tif",
+        "terrain-1m-486000-3567000.tif",
+        "terrain-1m-487000-3564000.tif",
+        "terrain-1m-487000-3565000.tif",
+        "terrain-1m-487000-3566000.tif",
+        "terrain-1m-488000-3564000.tif",
+        "terrain-1m-488000-3565000.tif",
+        "terrain-1m-489000-3564000.tif",
+        "terrain-1m-489000-3565000.tif",
+        "terrain-1m-490000-3564000.tif",
+        "terrain-1m-490000-3565000.tif",
+        "terrain-1m-491000-3564000.tif",
+        "terrain-1m-491000-3565000.tif",
+        "terrain-1m-491000-3566000.tif",
+        "terrain-1m-492000-3564000.tif",
+        "terrain-1m-492000-3565000.tif",
+        "terrain-1m-492000-3566000.tif",
+        "terrain-1m-493000-3565000.tif",
+        "terrain-1m-493000-3566000.tif",
+        "terrain-1m-493000-3567000.tif",
+        "terrain-1m-494000-3565000.tif",
+        "terrain-1m-494000-3566000.tif",
+        "terrain-1m-494000-3567000.tif",
+        "terrain-1m-495000-3566000.tif",
+        "terrain-1m-495000-3567000.tif",
+        "terrain-1m-496000-3566000.tif",
+        "terrain-1m-496000-3567000.tif",
+        "terrain-1m-497000-3566000.tif",
+        "terrain-1m-497000-3567000.tif",
+        "terrain-1m-498000-3565000.tif",
+        "terrain-1m-498000-3566000.tif",
+        "terrain-1m-498000-3567000.tif",
+        "terrain-1m-499000-3565000.tif",
+        "terrain-1m-499000-3566000.tif",
+        "terrain-1m-499000-3567000.tif",
+        "terrain-1m-500000-3566000.tif",
+        "terrain-1m-500000-3567000.tif",
+        "terrain-1m-501000-3565000.tif",
+        "terrain-1m-501000-3566000.tif",
+        "terrain-1m-501000-3567000.tif",
+        "terrain-1m-502000-3566000.tif"
+      ],
+      "centerlineSamples2m": 16109,
+      "centerlineSamplesWithValidCached1m": 0,
+      "corridor500mKm2": 32.625870833137945,
+      "corridorOutsideCachedRasterFootprintsKm2": 32.62587083313791,
+      "corridorOutside2021CatalogBoundingBoxesM2": 421125.12118861376,
+      "routeLengthOutsideCurrentActiveDomainKm": 28.58182065158793,
+      "sourceIds": [
+        "6610d7a3d34e633466510083",
+        "6610d797d34e633466510075",
+        "6610d795d34e633466510073",
+        "6610d787d34e633466510065",
+        "6610d76cd34e633466510055"
+      ]
+    }
+  ],
+  "uniqueRequiredWindows": 246,
+  "uniqueCachedRequiredWindows": 91,
+  "uniqueMissingWindows": 155,
+  "allRouteCorridor500mKm2": 112.93817980647007,
+  "cachedCorridorPixelsChecked": 42928940,
+  "missingPixelsInsideExistingCachedWindows": 0,
+  "windows": {
+    "terrain-1m-470000-3587000.tif": {
+      "x": 470000,
+      "y": 3587000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "avra",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-470000-3588000.tif": {
+      "x": 470000,
+      "y": 3588000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "avra",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-470000-3589000.tif": {
+      "x": 470000,
+      "y": 3589000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-470000-3590000.tif": {
+      "x": 470000,
+      "y": 3590000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-471000-3587000.tif": {
+      "x": 471000,
+      "y": 3587000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "avra",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-471000-3588000.tif": {
+      "x": 471000,
+      "y": 3588000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "avra",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-471000-3589000.tif": {
+      "x": 471000,
+      "y": 3589000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-471000-3590000.tif": {
+      "x": 471000,
+      "y": 3590000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-471000-3591000.tif": {
+      "x": 471000,
+      "y": 3591000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-472000-3589000.tif": {
+      "x": 472000,
+      "y": 3589000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-472000-3590000.tif": {
+      "x": 472000,
+      "y": 3590000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-472000-3591000.tif": {
+      "x": 472000,
+      "y": 3591000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-473000-3589000.tif": {
+      "x": 473000,
+      "y": 3589000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-473000-3590000.tif": {
+      "x": 473000,
+      "y": 3590000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-473000-3591000.tif": {
+      "x": 473000,
+      "y": 3591000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-474000-3590000.tif": {
+      "x": 474000,
+      "y": 3590000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-474000-3591000.tif": {
+      "x": 474000,
+      "y": 3591000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-474000-3592000.tif": {
+      "x": 474000,
+      "y": 3592000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-475000-3590000.tif": {
+      "x": 475000,
+      "y": 3590000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-475000-3591000.tif": {
+      "x": 475000,
+      "y": 3591000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-475000-3592000.tif": {
+      "x": 475000,
+      "y": 3592000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-476000-3590000.tif": {
+      "x": 476000,
+      "y": 3590000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-476000-3591000.tif": {
+      "x": 476000,
+      "y": 3591000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-476000-3592000.tif": {
+      "x": 476000,
+      "y": 3592000,
+      "cached": true,
+      "routes": [
+        "trico"
+      ]
+    },
+    "terrain-1m-477000-3590000.tif": {
+      "x": 477000,
+      "y": 3590000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-477000-3591000.tif": {
+      "x": 477000,
+      "y": 3591000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-477000-3592000.tif": {
+      "x": 477000,
+      "y": 3592000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-478000-3590000.tif": {
+      "x": 478000,
+      "y": 3590000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-478000-3591000.tif": {
+      "x": 478000,
+      "y": 3591000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-478000-3592000.tif": {
+      "x": 478000,
+      "y": 3592000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-479000-3590000.tif": {
+      "x": 479000,
+      "y": 3590000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-479000-3591000.tif": {
+      "x": 479000,
+      "y": 3591000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-479000-3592000.tif": {
+      "x": 479000,
+      "y": 3592000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-480000-3591000.tif": {
+      "x": 480000,
+      "y": 3591000,
+      "cached": true,
+      "routes": [
+        "trico",
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-470000-3583000.tif": {
+      "x": 470000,
+      "y": 3583000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-470000-3584000.tif": {
+      "x": 470000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-470000-3585000.tif": {
+      "x": 470000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-470000-3586000.tif": {
+      "x": 470000,
+      "y": 3586000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-471000-3583000.tif": {
+      "x": 471000,
+      "y": 3583000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-471000-3584000.tif": {
+      "x": 471000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-471000-3585000.tif": {
+      "x": 471000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-471000-3586000.tif": {
+      "x": 471000,
+      "y": 3586000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-472000-3583000.tif": {
+      "x": 472000,
+      "y": 3583000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-472000-3584000.tif": {
+      "x": 472000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-473000-3583000.tif": {
+      "x": 473000,
+      "y": 3583000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-473000-3584000.tif": {
+      "x": 473000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-474000-3583000.tif": {
+      "x": 474000,
+      "y": 3583000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-474000-3584000.tif": {
+      "x": 474000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-475000-3583000.tif": {
+      "x": 475000,
+      "y": 3583000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-475000-3584000.tif": {
+      "x": 475000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-476000-3583000.tif": {
+      "x": 476000,
+      "y": 3583000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-476000-3584000.tif": {
+      "x": 476000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-476000-3585000.tif": {
+      "x": 476000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-477000-3583000.tif": {
+      "x": 477000,
+      "y": 3583000,
+      "cached": true,
+      "routes": [
+        "avra"
+      ]
+    },
+    "terrain-1m-477000-3584000.tif": {
+      "x": 477000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-477000-3585000.tif": {
+      "x": 477000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-478000-3584000.tif": {
+      "x": 478000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-478000-3585000.tif": {
+      "x": 478000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-479000-3584000.tif": {
+      "x": 479000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-479000-3585000.tif": {
+      "x": 479000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-480000-3584000.tif": {
+      "x": 480000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-480000-3585000.tif": {
+      "x": 480000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-481000-3584000.tif": {
+      "x": 481000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-481000-3585000.tif": {
+      "x": 481000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-482000-3584000.tif": {
+      "x": 482000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-482000-3585000.tif": {
+      "x": 482000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-483000-3584000.tif": {
+      "x": 483000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-483000-3585000.tif": {
+      "x": 483000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-484000-3584000.tif": {
+      "x": 484000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-484000-3585000.tif": {
+      "x": 484000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-485000-3584000.tif": {
+      "x": 485000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-485000-3585000.tif": {
+      "x": 485000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-486000-3584000.tif": {
+      "x": 486000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-486000-3585000.tif": {
+      "x": 486000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-487000-3584000.tif": {
+      "x": 487000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-487000-3585000.tif": {
+      "x": 487000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-488000-3584000.tif": {
+      "x": 488000,
+      "y": 3584000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-488000-3585000.tif": {
+      "x": 488000,
+      "y": 3585000,
+      "cached": true,
+      "routes": [
+        "avra",
+        "silverbell-south",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-472000-3588000.tif": {
+      "x": 472000,
+      "y": 3588000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-473000-3587000.tif": {
+      "x": 473000,
+      "y": 3587000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-473000-3588000.tif": {
+      "x": 473000,
+      "y": 3588000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-474000-3587000.tif": {
+      "x": 474000,
+      "y": 3587000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-474000-3588000.tif": {
+      "x": 474000,
+      "y": 3588000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-475000-3586000.tif": {
+      "x": 475000,
+      "y": 3586000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-475000-3587000.tif": {
+      "x": 475000,
+      "y": 3587000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-475000-3588000.tif": {
+      "x": 475000,
+      "y": 3588000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-476000-3586000.tif": {
+      "x": 476000,
+      "y": 3586000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-476000-3587000.tif": {
+      "x": 476000,
+      "y": 3587000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-477000-3586000.tif": {
+      "x": 477000,
+      "y": 3586000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-477000-3587000.tif": {
+      "x": 477000,
+      "y": 3587000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-477000-3588000.tif": {
+      "x": 477000,
+      "y": 3588000,
+      "cached": false,
+      "routes": [
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-477000-3589000.tif": {
+      "x": 477000,
+      "y": 3589000,
+      "cached": false,
+      "routes": [
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-478000-3586000.tif": {
+      "x": 478000,
+      "y": 3586000,
+      "cached": true,
+      "routes": [
+        "silverbell-north",
+        "silverbell-south"
+      ]
+    },
+    "terrain-1m-478000-3587000.tif": {
+      "x": 478000,
+      "y": 3587000,
+      "cached": false,
+      "routes": [
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-478000-3588000.tif": {
+      "x": 478000,
+      "y": 3588000,
+      "cached": false,
+      "routes": [
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-478000-3589000.tif": {
+      "x": 478000,
+      "y": 3589000,
+      "cached": false,
+      "routes": [
+        "silverbell-north"
+      ]
+    },
+    "terrain-1m-478000-3576000.tif": {
+      "x": 478000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina",
+        "pr-twinpeaks",
+        "pr-avra",
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-478000-3577000.tif": {
+      "x": 478000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina",
+        "pr-twinpeaks",
+        "pr-avra",
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-479000-3576000.tif": {
+      "x": 479000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina",
+        "pr-twinpeaks",
+        "pr-avra",
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-479000-3577000.tif": {
+      "x": 479000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina",
+        "pr-twinpeaks",
+        "pr-avra",
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-480000-3575000.tif": {
+      "x": 480000,
+      "y": 3575000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-480000-3576000.tif": {
+      "x": 480000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-480000-3577000.tif": {
+      "x": 480000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina",
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-481000-3575000.tif": {
+      "x": 481000,
+      "y": 3575000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-481000-3576000.tif": {
+      "x": 481000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-481000-3577000.tif": {
+      "x": 481000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-482000-3575000.tif": {
+      "x": 482000,
+      "y": 3575000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-482000-3576000.tif": {
+      "x": 482000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-483000-3575000.tif": {
+      "x": 483000,
+      "y": 3575000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-483000-3576000.tif": {
+      "x": 483000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-484000-3575000.tif": {
+      "x": 484000,
+      "y": 3575000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-484000-3576000.tif": {
+      "x": 484000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-485000-3575000.tif": {
+      "x": 485000,
+      "y": 3575000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-485000-3576000.tif": {
+      "x": 485000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-486000-3575000.tif": {
+      "x": 486000,
+      "y": 3575000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-486000-3576000.tif": {
+      "x": 486000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-486000-3577000.tif": {
+      "x": 486000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-487000-3575000.tif": {
+      "x": 487000,
+      "y": 3575000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-487000-3576000.tif": {
+      "x": 487000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-487000-3577000.tif": {
+      "x": 487000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-488000-3575000.tif": {
+      "x": 488000,
+      "y": 3575000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-488000-3576000.tif": {
+      "x": 488000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-488000-3577000.tif": {
+      "x": 488000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-488000-3578000.tif": {
+      "x": 488000,
+      "y": 3578000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-489000-3576000.tif": {
+      "x": 489000,
+      "y": 3576000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-489000-3577000.tif": {
+      "x": 489000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-489000-3578000.tif": {
+      "x": 489000,
+      "y": 3578000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-490000-3577000.tif": {
+      "x": 490000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-490000-3578000.tif": {
+      "x": 490000,
+      "y": 3578000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-491000-3577000.tif": {
+      "x": 491000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-491000-3578000.tif": {
+      "x": 491000,
+      "y": 3578000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-492000-3577000.tif": {
+      "x": 492000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-492000-3578000.tif": {
+      "x": 492000,
+      "y": 3578000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-493000-3577000.tif": {
+      "x": 493000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-493000-3578000.tif": {
+      "x": 493000,
+      "y": 3578000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-494000-3577000.tif": {
+      "x": 494000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-494000-3578000.tif": {
+      "x": 494000,
+      "y": 3578000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-495000-3577000.tif": {
+      "x": 495000,
+      "y": 3577000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-495000-3578000.tif": {
+      "x": 495000,
+      "y": 3578000,
+      "cached": false,
+      "routes": [
+        "pr-ina"
+      ]
+    },
+    "terrain-1m-479000-3578000.tif": {
+      "x": 479000,
+      "y": 3578000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-479000-3579000.tif": {
+      "x": 479000,
+      "y": 3579000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-479000-3580000.tif": {
+      "x": 479000,
+      "y": 3580000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-479000-3581000.tif": {
+      "x": 479000,
+      "y": 3581000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-479000-3582000.tif": {
+      "x": 479000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-479000-3583000.tif": {
+      "x": 479000,
+      "y": 3583000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-480000-3578000.tif": {
+      "x": 480000,
+      "y": 3578000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-480000-3579000.tif": {
+      "x": 480000,
+      "y": 3579000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-480000-3580000.tif": {
+      "x": 480000,
+      "y": 3580000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-480000-3581000.tif": {
+      "x": 480000,
+      "y": 3581000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-480000-3582000.tif": {
+      "x": 480000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-480000-3583000.tif": {
+      "x": 480000,
+      "y": 3583000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks",
+        "pr-avra"
+      ]
+    },
+    "terrain-1m-481000-3581000.tif": {
+      "x": 481000,
+      "y": 3581000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-481000-3582000.tif": {
+      "x": 481000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-481000-3583000.tif": {
+      "x": 481000,
+      "y": 3583000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-482000-3582000.tif": {
+      "x": 482000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-482000-3583000.tif": {
+      "x": 482000,
+      "y": 3583000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-483000-3582000.tif": {
+      "x": 483000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-483000-3583000.tif": {
+      "x": 483000,
+      "y": 3583000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-484000-3582000.tif": {
+      "x": 484000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-484000-3583000.tif": {
+      "x": 484000,
+      "y": 3583000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-485000-3581000.tif": {
+      "x": 485000,
+      "y": 3581000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-485000-3582000.tif": {
+      "x": 485000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-485000-3583000.tif": {
+      "x": 485000,
+      "y": 3583000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-486000-3581000.tif": {
+      "x": 486000,
+      "y": 3581000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-486000-3582000.tif": {
+      "x": 486000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-487000-3581000.tif": {
+      "x": 487000,
+      "y": 3581000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-487000-3582000.tif": {
+      "x": 487000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-488000-3581000.tif": {
+      "x": 488000,
+      "y": 3581000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-488000-3582000.tif": {
+      "x": 488000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-489000-3581000.tif": {
+      "x": 489000,
+      "y": 3581000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-489000-3582000.tif": {
+      "x": 489000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-490000-3581000.tif": {
+      "x": 490000,
+      "y": 3581000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-490000-3582000.tif": {
+      "x": 490000,
+      "y": 3582000,
+      "cached": false,
+      "routes": [
+        "pr-twinpeaks"
+      ]
+    },
+    "terrain-1m-478000-3570000.tif": {
+      "x": 478000,
+      "y": 3570000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-478000-3571000.tif": {
+      "x": 478000,
+      "y": 3571000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-478000-3572000.tif": {
+      "x": 478000,
+      "y": 3572000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-478000-3573000.tif": {
+      "x": 478000,
+      "y": 3573000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-478000-3574000.tif": {
+      "x": 478000,
+      "y": 3574000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-478000-3575000.tif": {
+      "x": 478000,
+      "y": 3575000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-479000-3568000.tif": {
+      "x": 479000,
+      "y": 3568000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-479000-3569000.tif": {
+      "x": 479000,
+      "y": 3569000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-479000-3570000.tif": {
+      "x": 479000,
+      "y": 3570000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-479000-3571000.tif": {
+      "x": 479000,
+      "y": 3571000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-479000-3572000.tif": {
+      "x": 479000,
+      "y": 3572000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-479000-3573000.tif": {
+      "x": 479000,
+      "y": 3573000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-479000-3574000.tif": {
+      "x": 479000,
+      "y": 3574000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-479000-3575000.tif": {
+      "x": 479000,
+      "y": 3575000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-480000-3568000.tif": {
+      "x": 480000,
+      "y": 3568000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-480000-3569000.tif": {
+      "x": 480000,
+      "y": 3569000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-480000-3570000.tif": {
+      "x": 480000,
+      "y": 3570000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-481000-3567000.tif": {
+      "x": 481000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-481000-3568000.tif": {
+      "x": 481000,
+      "y": 3568000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-481000-3569000.tif": {
+      "x": 481000,
+      "y": 3569000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-482000-3567000.tif": {
+      "x": 482000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-482000-3568000.tif": {
+      "x": 482000,
+      "y": 3568000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-483000-3567000.tif": {
+      "x": 483000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-483000-3568000.tif": {
+      "x": 483000,
+      "y": 3568000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-484000-3566000.tif": {
+      "x": 484000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-484000-3567000.tif": {
+      "x": 484000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-484000-3568000.tif": {
+      "x": 484000,
+      "y": 3568000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-485000-3565000.tif": {
+      "x": 485000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-485000-3566000.tif": {
+      "x": 485000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-485000-3567000.tif": {
+      "x": 485000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-486000-3564000.tif": {
+      "x": 486000,
+      "y": 3564000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-486000-3565000.tif": {
+      "x": 486000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-486000-3566000.tif": {
+      "x": 486000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-486000-3567000.tif": {
+      "x": 486000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-487000-3564000.tif": {
+      "x": 487000,
+      "y": 3564000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-487000-3565000.tif": {
+      "x": 487000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-487000-3566000.tif": {
+      "x": 487000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-488000-3564000.tif": {
+      "x": 488000,
+      "y": 3564000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-488000-3565000.tif": {
+      "x": 488000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-489000-3564000.tif": {
+      "x": 489000,
+      "y": 3564000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-489000-3565000.tif": {
+      "x": 489000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-490000-3564000.tif": {
+      "x": 490000,
+      "y": 3564000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-490000-3565000.tif": {
+      "x": 490000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-491000-3564000.tif": {
+      "x": 491000,
+      "y": 3564000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-491000-3565000.tif": {
+      "x": 491000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-491000-3566000.tif": {
+      "x": 491000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-492000-3564000.tif": {
+      "x": 492000,
+      "y": 3564000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-492000-3565000.tif": {
+      "x": 492000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-492000-3566000.tif": {
+      "x": 492000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-493000-3565000.tif": {
+      "x": 493000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-493000-3566000.tif": {
+      "x": 493000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-493000-3567000.tif": {
+      "x": 493000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-494000-3565000.tif": {
+      "x": 494000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-494000-3566000.tif": {
+      "x": 494000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-494000-3567000.tif": {
+      "x": 494000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-495000-3566000.tif": {
+      "x": 495000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-495000-3567000.tif": {
+      "x": 495000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-496000-3566000.tif": {
+      "x": 496000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-496000-3567000.tif": {
+      "x": 496000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-497000-3566000.tif": {
+      "x": 497000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-497000-3567000.tif": {
+      "x": 497000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-498000-3565000.tif": {
+      "x": 498000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-498000-3566000.tif": {
+      "x": 498000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-498000-3567000.tif": {
+      "x": 498000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-499000-3565000.tif": {
+      "x": 499000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-499000-3566000.tif": {
+      "x": 499000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-499000-3567000.tif": {
+      "x": 499000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-500000-3566000.tif": {
+      "x": 500000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-500000-3567000.tif": {
+      "x": 500000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-501000-3565000.tif": {
+      "x": 501000,
+      "y": 3565000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-501000-3566000.tif": {
+      "x": 501000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-501000-3567000.tif": {
+      "x": 501000,
+      "y": 3567000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    },
+    "terrain-1m-502000-3566000.tif": {
+      "x": 502000,
+      "y": 3566000,
+      "cached": false,
+      "routes": [
+        "pr-gates"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "sourceId": "6610d7a3d34e633466510083",
+      "title": "USGS 1 Meter 12 x47y358 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y358_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.31884967399998,
+        "maxX": -111.21235667499997,
+        "minY": 32.266316423000035,
+        "maxY": 32.35675261700004
+      }
+    },
+    {
+      "sourceId": "6610d7a1d34e633466510081",
+      "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.31916692399994,
+        "maxX": -111.21256723499994,
+        "minY": 32.35652871600007,
+        "maxY": 32.44696439200004
+      }
+    },
+    {
+      "sourceId": "6610d79fd34e63346651007f",
+      "title": "USGS 1 Meter 12 x47y360 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y360_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.31948559599999,
+        "maxX": -111.21277873899999,
+        "minY": 32.446739714000046,
+        "maxY": 32.53717487100005
+      }
+    },
+    {
+      "sourceId": "6610d797d34e633466510075",
+      "title": "USGS 1 Meter 12 x48y357 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y357_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.21235667499997,
+        "maxX": -111.10607376099995,
+        "minY": 32.17632519000006,
+        "maxY": 32.26667342700006
+      }
+    },
+    {
+      "sourceId": "6610d795d34e633466510073",
+      "title": "USGS 1 Meter 12 x48y358 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y358_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.21256723499994,
+        "maxX": -111.10617857199998,
+        "minY": 32.26653954900007,
+        "maxY": 32.356886959000065
+      }
+    },
+    {
+      "sourceId": "6610d793d34e633466510071",
+      "title": "USGS 1 Meter 12 x48y359 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y359_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.21277873899999,
+        "maxX": -111.10628385399997,
+        "minY": 32.35675261700004,
+        "maxY": 32.447099199000036
+      }
+    },
+    {
+      "sourceId": "6610d792d34e63346651006f",
+      "title": "USGS 1 Meter 12 x48y360 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y360_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.21299118999997,
+        "maxX": -111.106389606,
+        "minY": 32.44696439200004,
+        "maxY": 32.53731014500005
+      }
+    },
+    {
+      "sourceId": "6610d787d34e633466510065",
+      "title": "USGS 1 Meter 12 x49y357 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y357_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.10617857199998,
+        "maxX": -111.0,
+        "minY": 32.17645860300007,
+        "maxY": 32.266718053000034
+      }
+    },
+    {
+      "sourceId": "6610d785d34e633466510063",
+      "title": "USGS 1 Meter 12 x49y358 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y358_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.10628385399997,
+        "maxX": -111.0,
+        "minY": 32.26667342700006,
+        "maxY": 32.35693174000005
+      }
+    },
+    {
+      "sourceId": "6610d783d34e633466510061",
+      "title": "USGS 1 Meter 12 x49y359 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y359_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.106389606,
+        "maxX": -111.0,
+        "minY": 32.356886959000065,
+        "maxY": 32.44714413600008
+      }
+    },
+    {
+      "sourceId": "6610d77fd34e63346651005f",
+      "title": "USGS 1 Meter 12 x49y360 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y360_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.10649583299994,
+        "maxX": -111.0,
+        "minY": 32.447099199000036,
+        "maxY": 32.53735523700004
+      }
+    },
+    {
+      "sourceId": "6610d76cd34e633466510055",
+      "title": "USGS 1 Meter 12 x50y357 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x50y357_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.0,
+        "maxX": -110.89382142799997,
+        "minY": 32.17645860300007,
+        "maxY": 32.266718053000034
+      }
+    },
+    {
+      "sourceId": "6610d76ad34e633466510053",
+      "title": "USGS 1 Meter 12 x50y358 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x50y358_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.0,
+        "maxX": -110.89371614599997,
+        "minY": 32.26667342700006,
+        "maxY": 32.35693174000005
+      }
+    },
+    {
+      "sourceId": "6610d768d34e633466510051",
+      "title": "USGS 1 Meter 12 x50y359 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x50y359_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.0,
+        "maxX": -110.89361039399995,
+        "minY": 32.356886959000065,
+        "maxY": 32.44714413600008
+      }
+    },
+    {
+      "sourceId": "6610d766d34e63346651004f",
+      "title": "USGS 1 Meter 12 x50y360 AZ_PimaCounty_2021_B21",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x50y360_AZ_PimaCounty_2021_B21.tif",
+      "metadataUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "publicationDate": "2024-03-29",
+      "acquisitionWindow": "2021-09-27/2021-11-17 per project flight report; not publication date",
+      "sourceCrs": "EPSG:26912",
+      "verticalDatum": "NAVD88",
+      "geoid": "GEOID18",
+      "units": "metres",
+      "boundingBox": {
+        "minX": -111.0,
+        "maxX": -110.89350416699995,
+        "minY": 32.447099199000036,
+        "maxY": 32.53735523700004
+      }
+    }
+  ],
+  "sourceEvidence": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021/reports/Final_37174_AZ_PimaCounty_D2_Report.pdf",
+  "limitations": [
+    "Catalog bounding-box intersection is source availability, not proof of pixel coverage. Actual bounded windows must be read and checked during intake.",
+    "Existing raster-window footprint alone is not modeled coverage.",
+    "Terrain does not establish buried culverts or bridge deck elevations.",
+    "No2015source selected. No raster downloads, solver runs, or H worktree changes performed."
+  ]
+}

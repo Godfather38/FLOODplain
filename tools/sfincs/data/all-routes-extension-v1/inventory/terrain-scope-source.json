@@ -1,0 +1,550 @@
+{
+  "modelVersion": "all-routes-extension-v1-preparation",
+  "baseline": "Completed Silverbell native grid, unchanged",
+  "userRequest": "I don't want to interrupt existing work- just add on to it. Lets make sure all dips in our routes have tracking. And use those gauges along the river.",
+  "segments": [
+    {
+      "segment": "trico-part-0",
+      "lengthM": 11154.586320745317,
+      "samples": 5578,
+      "outsideActive": 0,
+      "already6_25m": 5578,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "avra-part-1",
+      "lengthM": 21104.231785710002,
+      "samples": 10553,
+      "outsideActive": 0,
+      "already6_25m": 10553,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "silverbell-north-part-2",
+      "lengthM": 16461.464976247546,
+      "samples": 8231,
+      "outsideActive": 0,
+      "already6_25m": 5606,
+      "coarserThan6_25m": 2625,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "silverbell-south-part-3",
+      "lengthM": 20138.036702446916,
+      "samples": 10070,
+      "outsideActive": 0,
+      "already6_25m": 9689,
+      "coarserThan6_25m": 381,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-4",
+      "lengthM": 16088.895864437269,
+      "samples": 8045,
+      "outsideActive": 4532,
+      "already6_25m": 0,
+      "coarserThan6_25m": 3513,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-5",
+      "lengthM": 173.66723602167198,
+      "samples": 87,
+      "outsideActive": 87,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-6",
+      "lengthM": 135.85709813423284,
+      "samples": 68,
+      "outsideActive": 68,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-7",
+      "lengthM": 135.85709813423284,
+      "samples": 68,
+      "outsideActive": 68,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-8",
+      "lengthM": 268.1442145208284,
+      "samples": 135,
+      "outsideActive": 135,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-9",
+      "lengthM": 268.1442145208284,
+      "samples": 135,
+      "outsideActive": 135,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-10",
+      "lengthM": 77.57321181165757,
+      "samples": 39,
+      "outsideActive": 39,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-11",
+      "lengthM": 77.57321181165757,
+      "samples": 39,
+      "outsideActive": 39,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-12",
+      "lengthM": 17.203964600325882,
+      "samples": 9,
+      "outsideActive": 9,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-13",
+      "lengthM": 17.203964600325882,
+      "samples": 9,
+      "outsideActive": 9,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-14",
+      "lengthM": 27.576204934874575,
+      "samples": 14,
+      "outsideActive": 14,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-15",
+      "lengthM": 27.576204934874575,
+      "samples": 14,
+      "outsideActive": 14,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-16",
+      "lengthM": 24.893746943719243,
+      "samples": 13,
+      "outsideActive": 13,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-17",
+      "lengthM": 24.893746943719243,
+      "samples": 13,
+      "outsideActive": 13,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-18",
+      "lengthM": 47.86758611983495,
+      "samples": 24,
+      "outsideActive": 24,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-19",
+      "lengthM": 47.86758611983495,
+      "samples": 24,
+      "outsideActive": 24,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-20",
+      "lengthM": 14.464104942262553,
+      "samples": 8,
+      "outsideActive": 8,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-21",
+      "lengthM": 14.464104942262553,
+      "samples": 8,
+      "outsideActive": 8,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-22",
+      "lengthM": 157.29204928928155,
+      "samples": 79,
+      "outsideActive": 79,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-23",
+      "lengthM": 157.29204928928155,
+      "samples": 79,
+      "outsideActive": 79,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-24",
+      "lengthM": 67.80595245309432,
+      "samples": 34,
+      "outsideActive": 34,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-25",
+      "lengthM": 67.80595245309432,
+      "samples": 34,
+      "outsideActive": 34,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-26",
+      "lengthM": 14.954029726621076,
+      "samples": 8,
+      "outsideActive": 8,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-27",
+      "lengthM": 14.954029726621076,
+      "samples": 8,
+      "outsideActive": 8,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-28",
+      "lengthM": 72.05822470020532,
+      "samples": 37,
+      "outsideActive": 37,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-29",
+      "lengthM": 72.05822470020532,
+      "samples": 37,
+      "outsideActive": 37,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-30",
+      "lengthM": 68.92385174696746,
+      "samples": 35,
+      "outsideActive": 35,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-31",
+      "lengthM": 68.92385174696746,
+      "samples": 35,
+      "outsideActive": 35,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-32",
+      "lengthM": 63.2242018174571,
+      "samples": 32,
+      "outsideActive": 32,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-33",
+      "lengthM": 63.2242018174571,
+      "samples": 32,
+      "outsideActive": 32,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-34",
+      "lengthM": 49.426522766380664,
+      "samples": 25,
+      "outsideActive": 25,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-35",
+      "lengthM": 49.426522766380664,
+      "samples": 25,
+      "outsideActive": 25,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-36",
+      "lengthM": 10.733580356338328,
+      "samples": 6,
+      "outsideActive": 6,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-37",
+      "lengthM": 10.733580356338328,
+      "samples": 6,
+      "outsideActive": 6,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-38",
+      "lengthM": 13.372804199001784,
+      "samples": 7,
+      "outsideActive": 7,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-39",
+      "lengthM": 13.372804199001784,
+      "samples": 7,
+      "outsideActive": 7,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-40",
+      "lengthM": 10.116578915463736,
+      "samples": 6,
+      "outsideActive": 6,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-41",
+      "lengthM": 10.116578915463736,
+      "samples": 6,
+      "outsideActive": 6,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-42",
+      "lengthM": 47.21463690819918,
+      "samples": 24,
+      "outsideActive": 24,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-43",
+      "lengthM": 47.21463690819918,
+      "samples": 24,
+      "outsideActive": 24,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-44",
+      "lengthM": 67.69180453943041,
+      "samples": 34,
+      "outsideActive": 34,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-45",
+      "lengthM": 67.69180453943041,
+      "samples": 34,
+      "outsideActive": 34,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-46",
+      "lengthM": 70.06330208882675,
+      "samples": 36,
+      "outsideActive": 36,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-47",
+      "lengthM": 70.06330208882675,
+      "samples": 36,
+      "outsideActive": 36,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-48",
+      "lengthM": 57.6879733225086,
+      "samples": 29,
+      "outsideActive": 29,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-49",
+      "lengthM": 57.6879733225086,
+      "samples": 29,
+      "outsideActive": 29,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-50",
+      "lengthM": 51.525775461335265,
+      "samples": 26,
+      "outsideActive": 26,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-51",
+      "lengthM": 51.525775461335265,
+      "samples": 26,
+      "outsideActive": 26,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-52",
+      "lengthM": 9.88524343708457,
+      "samples": 5,
+      "outsideActive": 5,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-53",
+      "lengthM": 9.88524343708457,
+      "samples": 5,
+      "outsideActive": 5,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-54",
+      "lengthM": 124.298015628221,
+      "samples": 63,
+      "outsideActive": 63,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-55",
+      "lengthM": 124.298015628221,
+      "samples": 63,
+      "outsideActive": 63,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-ina-part-56",
+      "lengthM": 117.63597284152313,
+      "samples": 59,
+      "outsideActive": 59,
+      "already6_25m": 0,
+      "coarserThan6_25m": 0,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-twinpeaks-part-57",
+      "lengthM": 16697.836406999475,
+      "samples": 8349,
+      "outsideActive": 1500,
+      "already6_25m": 0,
+      "coarserThan6_25m": 6849,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-avra-part-58",
+      "lengthM": 16577.95493587368,
+      "samples": 8289,
+      "outsideActive": 1007,
+      "already6_25m": 4182,
+      "coarserThan6_25m": 3100,
+      "missing1mSamples": 0
+    },
+    {
+      "segment": "pr-gates-part-59",
+      "lengthM": 32217.69592190742,
+      "samples": 16109,
+      "outsideActive": 14312,
+      "already6_25m": 0,
+      "coarserThan6_25m": 1797,
+      "missing1mSamples": 169
+    }
+  ],
+  "terrainMinimumCandidates": 184,
+  "screeningMethod": "2m samples, 0.25m prominence, 26m separation; inventory criteria only, not flood thresholds",
+  "solverExecuted": false
+}

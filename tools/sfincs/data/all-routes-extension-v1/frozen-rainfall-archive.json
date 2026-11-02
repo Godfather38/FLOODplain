@@ -1,0 +1,7 @@
+{
+  "path": "frozen-rainfall.tar.gz",
+  "bytes": 8842922,
+  "sha256": "04837a450cc5ff721c03a1da1dc2ec5376f6814dfe3b58f07ef0a21979f94f6e",
+  "scope": "Rainfall only; use corrected case-specific inlet registries, not legacy context boundaries",
+  "status": "complete63hourfrozenrainfall"
+}

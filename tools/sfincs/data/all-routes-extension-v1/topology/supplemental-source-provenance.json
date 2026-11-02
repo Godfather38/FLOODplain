@@ -1,0 +1,22 @@
+[
+  {
+    "file": "missing-flowline-15876843.geojson",
+    "url": "https://api.water.usgs.gov/fabric/pygeoapi/collections/nhdflowline_network/items?f=json&comid=15876843&limit=1000",
+    "sha256": "9f50dae008ff352172f59af0dd72f529609187ef7775ba770795eb61beb4d310"
+  },
+  {
+    "file": "gates-edge-upstream.geojson",
+    "url": "https://api.water.usgs.gov/fabric/pygeoapi/collections/nhdflowline_network/items?f=json&tonode=720009616&limit=1000",
+    "sha256": "b68bac96fd8e50bf5dfd6ee1466312871379508871219e1cb6168430e2f028f1"
+  },
+  {
+    "file": "gates-connecting-upstream.geojson",
+    "url": "https://api.water.usgs.gov/fabric/pygeoapi/collections/nhdflowline_network/items?f=json&tonode=720009617&limit=1000",
+    "sha256": "eff0c54104e80609784d8d643512c3653e2d91f1ebb59a1d1a91f5e292e2f57d"
+  },
+  {
+    "file": "connecting-catchment-15876847.geojson",
+    "url": "https://api.water.usgs.gov/fabric/pygeoapi/collections/catchmentsp/items?f=json&featureid=15876847&limit=1000",
+    "sha256": "2cd0f169c7faf0b7f1f04e02d2c4429d05c5036fb831702cf7d900e3f2635581"
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "source": "tools/sfincs/data/catchment-coupling/network-expanded.geojson",
+  "method": "Exact dnhydroseq -> hydroseq join; no nearest gauge matching",
+  "traces": {
+    "15903137": {
+      "reachIds": [
+        15903137,
+        15902363,
+        15890430,
+        15886600
+      ],
+      "names": [
+        "Santa Cruz River",
+        "Santa Cruz River",
+        "Santa Cruz River",
+        "Santa Cruz River"
+      ],
+      "termination": "cached network edge"
+    },
+    "15890430": {
+      "reachIds": [
+        15890430,
+        15886600
+      ],
+      "names": [
+        "Santa Cruz River",
+        "Santa Cruz River"
+      ],
+      "termination": "cached network edge"
+    },
+    "15876941": {
+      "reachIds": [],
+      "names": [],
+      "termination": "cached network edge"
+    }
+  }
+}

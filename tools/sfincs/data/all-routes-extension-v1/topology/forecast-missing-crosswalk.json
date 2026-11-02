@@ -1,0 +1,23 @@
+{
+  "sourceUrl": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261101/short_range/nwm.t13z.short_range.channel_rt.f001.conus.nc",
+  "sha256": "2201523940dee92c611fecedf71e5a7b3af2dc5431d52eb656d662704016f7ab",
+  "indices": {
+    "15876787": 1672209,
+    "15876837": 1672231,
+    "15876851": 1672237,
+    "15876859": 1672241,
+    "15876863": 1672242,
+    "15876869": 1672245,
+    "15877627": 1672321,
+    "15902363": 1674083,
+    "15902387": 1674087,
+    "15902389": 1674088,
+    "15902421": 1674093,
+    "15902423": 1674094,
+    "15902441": 1674102,
+    "15902469": 1674114,
+    "15903611": 1674262,
+    "15903627": 1674269
+  },
+  "verification": "Exact unique feature_id match in retained original13Z native file; fetcher rechecks each frame"
+}

@@ -1,0 +1,200 @@
+{
+  "case": "gates",
+  "routeIds": [
+    "pr-gates"
+  ],
+  "activeCatchmentReachIds": [
+    15876697,
+    15876709,
+    15876769,
+    15876775,
+    15876791,
+    15876801,
+    15876803,
+    15876807,
+    15876809,
+    15876811,
+    15876815,
+    15876819,
+    15876821,
+    15876823,
+    15876825,
+    15876827,
+    15876829,
+    15876831,
+    15876833,
+    15876835,
+    15876839,
+    15876843,
+    15876845,
+    15876847,
+    15876867,
+    15877577,
+    15877585,
+    15877613,
+    15877615,
+    15877617,
+    15902505,
+    15902507,
+    15903143,
+    15903147,
+    15903149,
+    15903151,
+    15903597,
+    15903601,
+    15904697
+  ],
+  "addedConnectingCatchmentIds": [
+    15876807,
+    15876811,
+    15876815,
+    15876823,
+    15876827,
+    15876829,
+    15876831,
+    15876833,
+    15876835,
+    15876839,
+    15876847,
+    15877585
+  ],
+  "areaKm2": 338.08692361603136,
+  "connectedComponents": [
+    [
+      15876867
+    ],
+    [
+      15876769
+    ],
+    [
+      15903143
+    ],
+    [
+      15876775,
+      15876791,
+      15876801,
+      15876803,
+      15876807,
+      15876809,
+      15876811,
+      15876815,
+      15876819,
+      15876821,
+      15876823,
+      15876825,
+      15876827,
+      15876829,
+      15876831,
+      15876833,
+      15876835,
+      15876839,
+      15876843,
+      15876845,
+      15876847,
+      15877585,
+      15877613,
+      15877615,
+      15877617
+    ],
+    [
+      15902505,
+      15902507,
+      15903149
+    ],
+    [
+      15903147
+    ],
+    [
+      15903597,
+      15903601,
+      15904697
+    ],
+    [
+      15903151
+    ],
+    [
+      15876697
+    ],
+    [
+      15876709
+    ],
+    [
+      15877577
+    ]
+  ],
+  "componentCount": 11,
+  "cumulativeInletDoubleCountPairs": [],
+  "externalCatchmentIdsAreDisjoint": true,
+  "terrainGapNote": "Gates has independently reported 0.4634km2 newer1m terrain gap including338m road; no2015 fallback",
+  "corridorMissingAreaM2": 0.0,
+  "externalInlets": [
+    {
+      "reachId": "15876787",
+      "receivingReachId": "15876775",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": []
+    },
+    {
+      "reachId": "15876837",
+      "receivingReachId": "15876835",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": []
+    },
+    {
+      "reachId": "15876859",
+      "receivingReachId": "15876823",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": []
+    },
+    {
+      "reachId": "15876863",
+      "receivingReachId": "15876829",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": []
+    },
+    {
+      "reachId": "15877627",
+      "receivingReachId": "15876811",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": []
+    },
+    {
+      "reachId": "15903611",
+      "receivingReachId": "15903601",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": []
+    },
+    {
+      "reachId": "15903627",
+      "receivingReachId": "15903601",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": []
+    },
+    {
+      "reachId": "15876869",
+      "receivingReachId": "15876843",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": []
+    },
+    {
+      "reachId": "15876851",
+      "receivingReachId": "15876847",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": []
+    }
+  ],
+  "missingFlowlineIds": [],
+  "unresolvedPrimaryUpstreamHydrosequences": [],
+  "status": "Topologically closed candidate domain; no repeated cumulative inlet chain in inspected network. Geometry/terrain/forcing and native boundary placement remain parent preparation tasks.",
+  "missingOriginalIssueForecastIds": [
+    "15876787",
+    "15876837",
+    "15876859",
+    "15876863",
+    "15877627",
+    "15903611",
+    "15903627",
+    "15876869",
+    "15876851"
+  ]
+}

@@ -1,0 +1,2709 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21242806707797,
+          32.264374432249944
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24940.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21244380272636,
+          32.26438654764508
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24942.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21245953837892,
+          32.26439866303822
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24944.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21247527403568,
+          32.264410778429344
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24946.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2124910096966,
+          32.26442289381848
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24948.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21250674536172,
+          32.2644350092056
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24950.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21252248103102,
+          32.26444712459073
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24952.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21253821670447,
+          32.264459239973846
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24954.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21255395238212,
+          32.26447135535497
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24956.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21256968806395,
+          32.2644834707341
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24958.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21258542374996,
+          32.26449558611121
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24960.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21260115944013,
+          32.26450770148633
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24962.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2126168951345,
+          32.264519816859455
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24964.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21263263083304,
+          32.264531932230575
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24966.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21264836653576,
+          32.26454404759969
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24968.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21266438191395,
+          32.264555892799514
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24970.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21268053270938,
+          32.264567607185825
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24972.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.212696683509,
+          32.26457932157005
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24974.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21271283431273,
+          32.264591035952144
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24976.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21272898512062,
+          32.26460275033215
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24978.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21274513593265,
+          32.26461446471005
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24980.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21276128674883,
+          32.26462617908584
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24982.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21277743756916,
+          32.264637893459536
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24984.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21279358839362,
+          32.26464960783112
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24986.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21280973922225,
+          32.26466132220061
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24988.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21282589005502,
+          32.264673036567984
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24990.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21284204089191,
+          32.26468475093325
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24992.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21285819173298,
+          32.264696465296424
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24994.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21287452657444,
+          32.264707993183855
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24996.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21289092015819,
+          32.2647194615401
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 24998.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21290731374606,
+          32.2647309298942
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25000.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21292370733805,
+          32.26474239824612
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25002.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21294010093415,
+          32.26475386659586
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25004.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21295649453438,
+          32.26476533494345
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25006.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21297288813874,
+          32.264776803288875
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25008.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2129892817472,
+          32.26478827163213
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25010.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21300567535978,
+          32.26479973997321
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25012.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21302206897649,
+          32.26481120831213
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25014.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21303846259732,
+          32.2648226766489
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25016.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21305485622226,
+          32.26483414498349
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25018.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21307124985132,
+          32.26484561331591
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25020.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2130876434845,
+          32.26485708164616
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25022.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21310403712181,
+          32.26486854997427
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25024.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21312043076323,
+          32.26488001830018
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25026.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21313682440876,
+          32.26489148662395
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25028.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21315321805842,
+          32.264902954945555
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25030.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2131696117122,
+          32.264914423264976
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25032.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2131860053701,
+          32.26492589158224
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25034.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21320239903213,
+          32.26493735989734
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25036.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21321879269826,
+          32.264948828210265
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25038.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21323518636852,
+          32.26496029652104
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25040.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2132515800429,
+          32.26497176482964
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25042.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21326797372139,
+          32.26498323313607
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25044.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.213284367404,
+          32.26499470144033
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25046.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21330076109074,
+          32.26500616974244
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25048.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21331715478158,
+          32.26501763804237
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25050.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21333354847656,
+          32.265029106340144
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25052.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21334994217565,
+          32.265040574635755
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25054.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21336633587886,
+          32.26505204292917
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25056.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2133827295862,
+          32.26506351122045
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25058.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21339912329765,
+          32.265074979509556
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25060.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21341541335356,
+          32.2650865533064
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25062.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2134316227004,
+          32.26509820925498
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25064.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2134478320514,
+          32.26510986520144
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25066.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21346404140654,
+          32.26512152114577
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25068.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21348025076581,
+          32.26513317708798
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25070.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21349606904518,
+          32.265145200758
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25072.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21351135434502,
+          32.26515772558182
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25074.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21352663964907,
+          32.26517025040377
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25076.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21354192495733,
+          32.265182775223806
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25078.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21355721026977,
+          32.26519530004196
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25080.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21357249558642,
+          32.26520782485822
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25082.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21358778090726,
+          32.26522034967258
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25084.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21360306623231,
+          32.26523287448505
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25086.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21361835156155,
+          32.265245399295644
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25088.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21363363689498,
+          32.26525792410434
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25090.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21364892223264,
+          32.265270448911146
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25092.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21366420757447,
+          32.26528297371605
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25094.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21367949292049,
+          32.26529549851906
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25096.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21369477827074,
+          32.26530802332018
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25098.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21371006362516,
+          32.265320548119405
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25100.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21372515715906,
+          32.26533323917656
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25102.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21374019917276,
+          32.26534597488952
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25104.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21375524119065,
+          32.265358710600644
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25106.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21377028321274,
+          32.26537144630994
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25108.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21378532523904,
+          32.26538418201737
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25110.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21380036726954,
+          32.265396917722995
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25112.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21381540930425,
+          32.265409653426765
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25114.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21383045134314,
+          32.26542238912873
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25116.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21384549338626,
+          32.26543512482884
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25118.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21386053543355,
+          32.26544786052712
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25120.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21387557748507,
+          32.265460596223555
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25122.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21389061954078,
+          32.26547333191815
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25124.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21390566160069,
+          32.26548606761093
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25126.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2139207036648,
+          32.26549880330187
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25128.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21393574573311,
+          32.26551153899097
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25130.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21395078780562,
+          32.26552427467824
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25132.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21396582988234,
+          32.26553701036366
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25134.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21398087196326,
+          32.26554974604727
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25136.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21399591404837,
+          32.265562481729035
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25138.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2140109561377,
+          32.265575217408966
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25140.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21402599823122,
+          32.26558795308705
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25142.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21404104032894,
+          32.265600688763314
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25144.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21405608243087,
+          32.265613424437724
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25146.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21407110765671,
+          32.265626174363405
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25148.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21408600253028,
+          32.265639034355324
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25150.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21410089740804,
+          32.26565189434546
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25152.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21411579229004,
+          32.26566475433378
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25154.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21413068717622,
+          32.2656776143203
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25156.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2141455820666,
+          32.26569047430503
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25158.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21416047696118,
+          32.26570333428796
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25160.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21417537185997,
+          32.265716194269075
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25162.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21419026676296,
+          32.26572905424841
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25164.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21420516167014,
+          32.26574191422593
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25166.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21422005658152,
+          32.26575477420164
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25168.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21423495149712,
+          32.26576763417557
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25170.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21424984641692,
+          32.26578049414769
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25172.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2142647413409,
+          32.26579335411801
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25174.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2142796362691,
+          32.26580621408653
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25176.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21429453120149,
+          32.26581907405325
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25178.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2143094261381,
+          32.265831934018166
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25180.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21432432107889,
+          32.26584479398129
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25182.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2143392160239,
+          32.26585765394261
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25184.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2143541109731,
+          32.26587051390212
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25186.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21436900592651,
+          32.265883373859836
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25188.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21438390088412,
+          32.26589623381575
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25190.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21439879584591,
+          32.265909093769864
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25192.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21441349215013,
+          32.26592211565906
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25194.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21442799729896,
+          32.265935293368095
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25196.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21444250245196,
+          32.2659484710754
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25198.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21445700760916,
+          32.26596164878098
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25200.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21447151277054,
+          32.26597482648487
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25202.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21448601793615,
+          32.26598800418705
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25204.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21450052310593,
+          32.26600118188751
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25206.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21451502827989,
+          32.26601435958627
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25208.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21452953345808,
+          32.26602753728331
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25210.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21454403864044,
+          32.266040714978644
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25212.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21455854382698,
+          32.26605389267225
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25214.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21457304901774,
+          32.26606707036417
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25216.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2145875542127,
+          32.26608024805436
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25218.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21460205941183,
+          32.266093425742845
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25220.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21461656461516,
+          32.26610660342963
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25222.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21463106982269,
+          32.266119781114696
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25224.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2146455750344,
+          32.26613295879804
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25226.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21466008025033,
+          32.26614613647968
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25228.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21467458547042,
+          32.266159314159616
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25230.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21468909069473,
+          32.26617249183784
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25232.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21470359592323,
+          32.266185669514336
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25234.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21471747381331,
+          32.266199325109724
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25236.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2147313148908,
+          32.26621300875116
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25238.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21474515597247,
+          32.26622669239103
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25240.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21475899705828,
+          32.26624037602933
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25242.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21477283814826,
+          32.26625405966609
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25244.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2147866792424,
+          32.266267743301256
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25246.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21480052034069,
+          32.26628142693488
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25248.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21481436144313,
+          32.266295110566915
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25250.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21482820254974,
+          32.26630879419741
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25252.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21484204366051,
+          32.26632247782633
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25254.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21485588477542,
+          32.26633616145369
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25256.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2148697258945,
+          32.26634984507948
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25258.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21488339384712,
+          32.26636364970437
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25260.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21489652310528,
+          32.26637783073619
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25262.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21490965236754,
+          32.26639201176661
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25264.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.2149227816339,
+          32.26640619279561
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25266.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21493591090432,
+          32.26642037382319
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25268.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21494904017885,
+          32.26643455484937
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25270.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21496216945746,
+          32.26644873587412
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25272.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21497529874017,
+          32.26646291689747
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25274.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.21498842802696,
+          32.2664770979194
+        ]
+      },
+      "properties": {
+        "segment": "pr-gates-part-59",
+        "chainageM": 25276.0,
+        "status": "terrain_missing",
+        "interpretation": "No dip conclusion available; not dry or no dip"
+      }
+    }
+  ]
+}
