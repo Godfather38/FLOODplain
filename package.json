@@ -11,7 +11,6 @@
   },
   "devDependencies": {
     "acorn": "^8.14.0",
-    "esbuild": "^0.24.0",
-    "jsdom": "26.1.0"
+    "esbuild": "^0.24.0"
   }
 }
