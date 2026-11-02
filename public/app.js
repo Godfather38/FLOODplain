@@ -835,7 +835,7 @@ function drawMap(w) {
       .addTo(layer);
   }
   // Official closures, whether or not a route uses them, near this area's routes.
-  const areaBounds = L.latLngBounds(routeFeatures.flatMap((f) => lineCoords(f.geometry).flat())).pad(0.1);
+  const areaBounds = L.latLngBounds(routeFeatures.flatMap((f) => lineCoords(f.geometry).flat().map(([lon, lat]) => [lat, lon]))).pad(0.1);
   for (const c of view.closedLines) {
     if (c.coords.some((q) => areaBounds.contains(q))) L.polyline(c.coords, { color: COLOR[5], weight: 8, opacity: 0.95 }).bindPopup(esc(c.title)).addTo(layer);
   }
