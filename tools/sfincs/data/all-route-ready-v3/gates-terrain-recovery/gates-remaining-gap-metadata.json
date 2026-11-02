@@ -1,0 +1,12 @@
+{
+  "sourceMaskSha256": "5458977300a60345c51032715244723d0a9a40fd05d975023338d8a16f628f75",
+  "nativeCRS": "EPSG:32612",
+  "geojsonCRS": "EPSG:4326",
+  "missingPixels": 74221,
+  "pixelAreaM2": 100.0,
+  "missingAreaKm2": 7.4221,
+  "method": "Exact raster polygonization; no simplification, redrawing or gap inference",
+  "location": "Southwestern context of the Gates route model, Pima County; see exact polygons for extent. Not a map of missing road samples.",
+  "sourceAge": "Selected USGS Pima County 2021 terrain intake; remaining gap is not proof that all elevation products lack coverage. A checked alternative uses 2015 acquisition and has not been substituted.",
+  "modelStatus": "Outside the terrain-supported Gates execution; full Gates remains incomplete."
+}

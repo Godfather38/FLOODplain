@@ -1,0 +1,140 @@
+{
+  "counts": {
+    "existingFloodInventory": 88,
+    "countyJunctions": 203,
+    "newRawMinima": 184,
+    "newExactLocationMinimumIdentities": 167,
+    "totalDistinctEvidenceIdentitiesNotUniquePhysicalSites": 458,
+    "dedupRule": "New minima merge only exactly equal parsed longitude/latitude tuples. Near locations and the three evidence sets are not merged."
+  },
+  "routes": {
+    "trico": {
+      "sourceSegments": 1,
+      "rawProfileSamples": 5578,
+      "outsideActiveSamples": 0,
+      "already6_25mSamples": 5578,
+      "coarserSamples": 0,
+      "missingTerrainSamples": 0,
+      "exactLocationMinimumIdentities": 9,
+      "rawMinimumRecords": 9,
+      "minimumCoverageCounts": {
+        "at_6_25m": 9
+      },
+      "screeningStatus": "completed_for_supplied_route_geometry",
+      "sampleCountMeaning": "Raw per-part sampling, includes repeated route alignments. Not deduplicated physical road length."
+    },
+    "avra": {
+      "sourceSegments": 1,
+      "rawProfileSamples": 10553,
+      "outsideActiveSamples": 0,
+      "already6_25mSamples": 10553,
+      "coarserSamples": 0,
+      "missingTerrainSamples": 0,
+      "exactLocationMinimumIdentities": 15,
+      "rawMinimumRecords": 15,
+      "minimumCoverageCounts": {
+        "at_6_25m": 15
+      },
+      "screeningStatus": "completed_for_supplied_route_geometry",
+      "sampleCountMeaning": "Raw per-part sampling, includes repeated route alignments. Not deduplicated physical road length."
+    },
+    "silverbell-north": {
+      "sourceSegments": 1,
+      "rawProfileSamples": 8231,
+      "outsideActiveSamples": 0,
+      "already6_25mSamples": 5606,
+      "coarserSamples": 2625,
+      "missingTerrainSamples": 0,
+      "exactLocationMinimumIdentities": 11,
+      "rawMinimumRecords": 11,
+      "minimumCoverageCounts": {
+        "at_6_25m": 6,
+        "coarser_than_6_25m": 5
+      },
+      "screeningStatus": "completed_for_supplied_route_geometry",
+      "sampleCountMeaning": "Raw per-part sampling, includes repeated route alignments. Not deduplicated physical road length."
+    },
+    "silverbell-south": {
+      "sourceSegments": 1,
+      "rawProfileSamples": 10070,
+      "outsideActiveSamples": 0,
+      "already6_25mSamples": 9689,
+      "coarserSamples": 381,
+      "missingTerrainSamples": 0,
+      "exactLocationMinimumIdentities": 12,
+      "rawMinimumRecords": 12,
+      "minimumCoverageCounts": {
+        "at_6_25m": 12
+      },
+      "screeningStatus": "completed_for_supplied_route_geometry",
+      "sampleCountMeaning": "Raw per-part sampling, includes repeated route alignments. Not deduplicated physical road length."
+    },
+    "pr-ina": {
+      "sourceSegments": 53,
+      "rawProfileSamples": 9783,
+      "outsideActiveSamples": 6270,
+      "already6_25mSamples": 0,
+      "coarserSamples": 3513,
+      "missingTerrainSamples": 0,
+      "exactLocationMinimumIdentities": 21,
+      "rawMinimumRecords": 24,
+      "minimumCoverageCounts": {
+        "coarser_than_6_25m": 11,
+        "outside_active": 10
+      },
+      "screeningStatus": "completed_for_supplied_route_geometry",
+      "sampleCountMeaning": "Raw per-part sampling, includes repeated route alignments. Not deduplicated physical road length."
+    },
+    "pr-twinpeaks": {
+      "sourceSegments": 1,
+      "rawProfileSamples": 8349,
+      "outsideActiveSamples": 1500,
+      "already6_25mSamples": 0,
+      "coarserSamples": 6849,
+      "missingTerrainSamples": 0,
+      "exactLocationMinimumIdentities": 29,
+      "rawMinimumRecords": 29,
+      "minimumCoverageCounts": {
+        "coarser_than_6_25m": 24,
+        "outside_active": 5
+      },
+      "screeningStatus": "completed_for_supplied_route_geometry",
+      "sampleCountMeaning": "Raw per-part sampling, includes repeated route alignments. Not deduplicated physical road length."
+    },
+    "pr-avra": {
+      "sourceSegments": 1,
+      "rawProfileSamples": 8289,
+      "outsideActiveSamples": 1007,
+      "already6_25mSamples": 4182,
+      "coarserSamples": 3100,
+      "missingTerrainSamples": 0,
+      "exactLocationMinimumIdentities": 21,
+      "rawMinimumRecords": 21,
+      "minimumCoverageCounts": {
+        "coarser_than_6_25m": 7,
+        "outside_active": 5,
+        "at_6_25m": 9
+      },
+      "screeningStatus": "completed_for_supplied_route_geometry",
+      "sampleCountMeaning": "Raw per-part sampling, includes repeated route alignments. Not deduplicated physical road length."
+    },
+    "pr-gates": {
+      "sourceSegments": 1,
+      "rawProfileSamples": 16109,
+      "outsideActiveSamples": 14312,
+      "already6_25mSamples": 0,
+      "coarserSamples": 1797,
+      "missingTerrainSamples": 0,
+      "exactLocationMinimumIdentities": 63,
+      "rawMinimumRecords": 63,
+      "minimumCoverageCounts": {
+        "outside_active": 55,
+        "coarser_than_6_25m": 8
+      },
+      "screeningStatus": "completed_for_supplied_route_geometry",
+      "sampleCountMeaning": "Raw per-part sampling, includes repeated route alignments. Not deduplicated physical road length."
+    }
+  },
+  "missingTerrainSamples": 0,
+  "inconsistentExactDuplicateCoverage": 0
+}
