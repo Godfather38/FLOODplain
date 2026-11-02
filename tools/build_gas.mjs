@@ -31,7 +31,7 @@ ${strip(read('public/config.js'))}
 ${strip(read('public/logic.js'))}
 // ===== public/engine.js =====
 ${strip(read('public/engine.js')).replace(/\bcfg\./g, 'CFG_.')}
-const CFG_ = { AREAS, SOURCES, USGS_SITES, STALE_MS, SNAPSHOT_STALE_MS, RIVER, RAIN, RAIN_GAUGES, FAILURE_POINTS, RIVER_EARLY, CLOSURE_RADIUS_M, CLOSURE_BOUNDS, ROUTE_INFO };
+const CFG_ = { AREAS, SOURCES, USGS_SITES, STALE_MS, SNAPSHOT_STALE_MS, RIVER, RAIN, RAIN_GAUGES, WASH, FAILURE_POINTS, RIVER_EARLY, CLOSURE_RADIUS_M, CLOSURE_BOUNDS, ROUTE_INFO };
 const cfg = CFG_;
 const ROUTE_FEATURES = ${JSON.stringify(routes)};
 

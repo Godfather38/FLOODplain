@@ -1,0 +1,19 @@
+{
+  "fixture": true,
+  "clock": "2026-11-01 20:04 Arizona",
+  "sizes": [
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "text": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\n3\nModerate\n\nCounty says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11:48 AM). That is the county reporting this road, not a measurement of how deep the water is.\n\nBrawley Wash dip on Avra Valley Rd, 0.55 mi east of Trico Rd.\n\nWhat each source says\n🗺️\nHAND flood model\nHAND model has no forecast flow right now\n›\n🚧\nCounty barricade\nCounty says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11:48 AM)\n›\n〰️\nWash flow upstream\n1,160 cfs in Brawley Wash near Three Points, about 22.1 mi away in a straight line: a big flow is running in the wash upstream of here. Whether it reaches this crossing, when, and how deep is not established.\n›\n🌧️\nRain here\nno rain in the last 6 hours\n›\n🌧️\nRain upstream\nno rain in the last 6 hours\n›\nDrive this one? Tell us what it's really like\nCoverage & gauge tracking · 1 location\nNavigate"
+    },
+    {
+      "width": 360,
+      "scrollWidth": 360,
+      "text": "Checked just now.\n\nCheck time is not the age of every reading. Open a crossing for source details.\n\n3\nModerate\n\nCounty says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11:48 AM). That is the county reporting this road, not a measurement of how deep the water is.\n\nBrawley Wash dip on Avra Valley Rd, 0.55 mi east of Trico Rd.\n\nWhat each source says\n🗺️\nHAND flood model\nHAND model has no forecast flow right now\n›\n🚧\nCounty barricade\nCounty says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11:48 AM)\n›\n〰️\nWash flow upstream\n1,160 cfs in Brawley Wash near Three Points, about 22.1 mi away in a straight line: a big flow is running in the wash upstream of here. Whether it reaches this crossing, when, and how deep is not established.\n›\n🌧️\nRain here\nno rain in the last 6 hours\n›\n🌧️\nRain upstream\nno rain in the last 6 hours\n›\nDrive this one? Tell us what it's really like\nCoverage & gauge tracking · 1 location\nNavigate"
+    }
+  ],
+  "errors": [],
+  "upstreamDetails": "〰️\nWash flow upstream\n1,160 cfs in Brawley Wash near Three Points, about 22.1 mi away in a straight line: a big flow is running in the wash upstream of here. Whether it reaches this crossing, when, and how deep is not established.\n›\n\n1,160 cfs in Brawley Wash near Three Points, about 22.1 mi away in a straight line: a big flow is running in the wash upstream of here. Whether it reaches this crossing, when, and how deep is not established.\n\nBrawley Wash near Three Points: 1,160 cfs at 7:54 PM, about 22.1 mi away in a straight line; Brawley Wash at Milewide: 817 cfs at 7:54 PM, about 10.4 mi away in a straight line. No rating curve, travel time or channel-loss relation between these sensors and this crossing has been established, so these numbers give no depth and no arrival time here.",
+  "passed": true
+}

@@ -23,10 +23,11 @@ Distances come from the map data and are approximate.
 ### 2. Brawley Wash crossing on Avra Valley Rd
 - **Where:** about 0.55 mi east of Trico Rd (0.45 mi west of Garvey Rd).
 - **Who uses it:** only the Avra Valley Rd route.
-- **What the app can't see:** the map shows no bridge, so it's probably a dip. The nearest gauge is about 20 miles upstream at Three Points. Water seen there takes hours to arrive, and rain that falls closer gives no warning at all.
+- **What the app can't see:** the map shows no bridge, so it's probably a dip. There is no sensor at the crossing. The two it reads are up the wash: the county's sensor at Milewide Rd, about 10.4 mi away, and the USGS gauge near Three Points, about 22.1 mi away. Water seen there takes hours to arrive, loses some of itself into the sand on the way, and rain that falls closer gives no warning at all.
+- **How the app shows that now:** an upstream reading is listed as an **upstream alert** with the sensor, the number, the time it was taken and how far away it is, and it says plainly that whether it reaches this crossing, when, and how deep is not established. It no longer calls the road Severe on its own, and it never counts as the crossing being fine. The crossing's number comes from the county's barricade point, rain at the nearby gauges, and NWS warnings. When the county has no readable point here, a row called **"This crossing itself"** says nothing reports this pavement — a dry reading 10 or 22 miles upstream is not a dry road — and the route is not called clear, though it still gets its number. See [the upstream-gauge correction](BRAWLEY-UPSTREAM-EVIDENCE.md).
 - **Why it matters:** this is the most dangerous point on your routes. It's a likely dip on a wash with a history of closures and rescues.
 - **What you do:**
-  - If the app says Brawley Wash is flowing, **don't take Avra Valley Rd**.
+  - If the app says Brawley Wash is flowing anywhere upstream, **don't take Avra Valley Rd**. The app can't tell you whether it gets here; you can't see it from Trico either.
   - If it rained in Avra Valley in the last ~12 hours, **assume this crossing could be running even if the app says clear**. Take Silverbell instead. "Silverbell → Sanders south" rejoins Avra Valley Rd east of this crossing.
 
 ### 3. Two more wash dips on Avra Valley Rd (confirmed dips by driving them)
@@ -60,6 +61,8 @@ Distances come from the map data and are approximate.
 ### 7. A reading is old or unavailable
 - **What happens:** river/wash flow older than three hours is excluded by the app; rain has a separate historical-reading policy. The route still receives a number based on available evidence, so a low number is not confirmation from a sensor at the crossing.
 - **County reporting:** unchanged ALERT sensors can report only every 12 hours. An old timestamp alone does not prove a broken sensor. See [the source audit](SENSOR-AUDIT.md) and the county map for source context.
+- **A reading stamped in the future** (a clock or feed problem) is not used, for rain or stream sensors, and a river gauge reading is only used if its number is a real, non-negative figure with its own timestamp in the past.
+- **A barricade point with no status, or wording the app doesn't recognize,** now reads as unknown with the county's raw text shown. It used to read as Open. Only the word "Open" means Open; a closure or "Proceed with Caution" always wins.
 
 ## The morning routine
 1. Open the page. The big box names the lowest-risk route and its rating.

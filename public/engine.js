@@ -33,7 +33,7 @@ export function alertSnapshot(rainData, streamData, fetchedAt) {
 export function evaluate(raw, area = 'avra') {
   const now = raw.now;
   const flows = Object.fromEntries(Object.keys(cfg.USGS_SITES).map((s) => [s, summarizeFlow(raw.usgs?.[s] ? parseContinuous(raw.usgs[s]) : {}, now, cfg.STALE_MS)]));
-  const closures = raw.closures?.features?.map((f) => ({ location: f.attributes.Location?.trim(), status: f.attributes.Status ?? '', updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x })) ?? null;
+  const closures = raw.closures?.features?.map((f) => ({ location: f.attributes.Location?.trim(), status: f.attributes.Status ?? '', direction: f.attributes.Direction ?? '', updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x })) ?? null;
   const nws = raw.nws ? (raw.nws.features ?? []).map((f) => ({ event: f.properties.event })) : null;
   const d = { now, flows, closures, alert: raw.alert, nws };
   const fpResults = Object.fromEntries(cfg.FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
@@ -69,7 +69,7 @@ export function message(best, order, rated, missing, now, area = 'avra') {
 // Where to fetch each input from (shared by Node and Apps Script).
 export function sourceUrls(usgsKey) {
   const q = new URLSearchParams({
-    where: '1=1', outFields: 'Location,Status,timeUpdated', returnGeometry: 'true', outSR: '4326', f: 'json',
+    where: '1=1', outFields: 'Location,Status,Direction,timeUpdated', returnGeometry: 'true', outSR: '4326', f: 'json',
     geometry: cfg.CLOSURE_BOUNDS, geometryType: 'esriGeometryEnvelope', inSR: '4326', spatialRel: 'esriSpatialRelIntersects',
   });
   return {
