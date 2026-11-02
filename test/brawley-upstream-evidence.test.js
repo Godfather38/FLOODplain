@@ -81,8 +81,8 @@ test('Nov 1: both upstream gauges are over the old 500 cfs line, and that no lon
   assert.equal(wash.level, 'watch', 'an upstream reading is a watch, not a flood at this road');
   assert.equal(wash.upstream, true);
   assert.equal(wash.upstreamAlert, 'big-flow', 'the big flow is still called out');
-  assert.equal(p.level, 'caution', 'the county, not the gauge, sets the level');
-  assert.equal(riskScore(p), 3, 'was 5 before this change');
+  assert.equal(p.level, 'watch', 'neither an upstream gauge nor a lone county caution puts water at this road');
+  assert.equal(riskScore(p), 2, 'was 5, then 3');
   assert.match(p.why, /County says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound \(updated 11\/01\/26, 11:48\)/);
 });
 
@@ -107,13 +107,13 @@ test('the county point at the dip matches and the Open point 843 m away does not
     'no "barricades are Open" and no "wash is dry" on this route');
 });
 
-test('route numbers: Avra Valley Rd reads 3 of 5, not 5 of 5, and nothing is called clear', () => {
+test('route numbers: Avra Valley Rd reads 2 of 5, not 5 of 5, and nothing is called clear', () => {
   const r = choose(nov1());
-  assert.equal(r.rated.find((x) => x.id === 'avra').score, 3, 'was 5 before this change');
+  assert.equal(r.rated.find((x) => x.id === 'avra').score, 2, 'was 5, then 3');
   assert.equal(r.best.id, 'trico', 'the routes that skip this dip still rank ahead of it');
   assert.equal(r.clear, false, 'water running up the wash keeps every route off "clear"');
   const against = againstIt(r.rated.find((x) => x.id === 'avra'));
-  assert.equal(against[0].level, 'caution');
+  assert.equal(against[0].level, 'watch');
   assert.ok(against.some((a) => /cfs/.test(a.why)) || /cfs/.test(washCheck(r.res['brawley-dip']).why));
 });
 
@@ -121,7 +121,7 @@ test('the phone text keeps the number that changed and never claims a flood at t
   const r = choose(nov1());
   const m = message(r.best, r.order, r.rated, [], NOW);
   assert.match(m.sms, /^take Trico-Marana \(1\/5 Low, \d+ min\)\./);
-  assert.match(m.sms, /Avra Valley Rd 3/);
+  assert.match(m.sms, /Avra Valley Rd 2/);
   assert.ok(!/flood is coming down the wash/.test(m.sms + m.text + m.spoken));
   const p = r.res['brawley-dip'];
   assert.ok(!/flood is coming down the wash/.test(p.why + washCheck(p).why + washCheck(p).detail));
@@ -145,7 +145,7 @@ test('the local evidence this crossing really has is all still wired up', () => 
   const closed = choose(nov1({ closures: [countyAtDip('Closed')] })).res['brawley-dip'];
   assert.equal(closed.level, 'danger', 'county closure');
   const caution = choose(nov1()).res['brawley-dip'];
-  assert.equal(caution.level, 'caution', 'county Proceed with Caution');
+  assert.equal(caution.level, 'watch', 'county Proceed with Caution, no local sign');
   const wet = snapshot(0);
   for (const g of wet.rain) if (g.site === '6110') g.in = { ...g.in, h1: 0.45, h3: 0.6 };
   assert.equal(choose(data({ alert: wet })).res['brawley-dip'].level, 'caution', 'rain over the crossing');
@@ -229,7 +229,7 @@ test('the Los Robles bridge keeps the same gauges as context only', () => {
 test('the summary leads with the county status, direction and time, not a depth sentence', () => {
   const p = choose(nov1()).res['brawley-dip'];
   const lead = crossingLead(p);
-  assert.equal(lead, 'County says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11/01/26, 11:48). That is the county reporting this road, not a measurement of how deep the water is.');
+  assert.equal(lead, 'County says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11/01/26, 11:48). That is the county reporting this road, not a measurement of how deep the water is. No local rain, weather alert or flood model shows water at this road right now.');
   assert.ok(!/Water likely at or near the road/.test(lead), 'the generic level sentence does not lead');
 });
 

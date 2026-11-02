@@ -34,7 +34,7 @@ test('Proceed with Caution alone is a 2 and says the other sources are quiet',()
  const {res,rated}=rate(nov2),p=res['brawley-dip'];
  assert.equal(p.level,'watch');assert.equal(riskScore(p),2);
  assert.equal(rated.find(r=>r.id==='avra').score,2);
- assert.match(crossingLead(p),/County says Proceed with Caution.*show no sign of water/);
+ assert.match(crossingLead(p),/County says Proceed with Caution.*No local rain, weather alert or flood model/);
 });
 test('Proceed with Caution with another live sign stays a 3 or more; Closed is never softened',()=>{
  const d={...calm,closures:nov2,nws:[{event:'Flash Flood Warning'}]};
@@ -58,4 +58,12 @@ test('modeled water over the road restores a county caution to full weight',()=>
  const {res}=rate(nov2),p=res['brawley-dip'];
  applyHand({'brawley-dip':p},{checks:{'brawley-dip':handCheck(row,forecast(20),NOW,road)}});
  assert.equal(p.level,'caution');assert.ok(riskScore(p)>=3);
+});
+test('distant gauges and basin rain never back up a county caution',()=>{
+ const fp=cfg.FAILURE_POINTS.find(f=>f.id==='brawley-dip');
+ const alert={rain:[],stream:[{site:'6443',name:'Brawley Wash at Milewide Rd',flow_cfs:332,last_rpt:new Date(NOW-600000).toISOString(),lat:32.2481,lon:-111.2371}]};
+ const p=rateFailurePoint(fp,{...calm,alert,closures:[nov2[2]]},cfg);
+ assert.ok(p.checks.some(c=>c.upstream&&c.level==='watch'),'the upstream alert is still listed');
+ assert.equal(p.level,'watch');assert.equal(riskScore(p),2);
+ assert.match(crossingLead(p),/No local rain, weather alert or flood model/);
 });

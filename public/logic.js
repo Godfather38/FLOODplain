@@ -289,11 +289,14 @@ export function rateFailurePoint(fp, d, cfg) {
     checks.push({ src: `rain-${ruleName}`, ...c });
   }
   // Proceed with Caution barricades stay up for weeks after a storm. On its own it is a report
-  // that someone once saw a reason for care, so another live source has to agree before it
-  // reads as water near the road. Closed is never softened.
+  // that someone once saw a reason for care, so another live source at this road has to agree
+  // before it reads as water near the road. Distant sensors don't count as agreeing: upstream
+  // gauges, creek gauges and basin rain stay listed, but none of them reports this road
+  // (docs/BRAWLEY-UPSTREAM-EVIDENCE.md). Closed is never softened.
   const county = checks.find((c) => c.src === 'county' && c.level === 'caution');
   const WET = ['watch', 'caution', 'danger'];
-  if (county && !checks.some((c) => c !== county && WET.includes(c.level) && !c.contextOnly)) {
+  const distant = (c) => c.upstream === true || c.src === 'river-early' || c.src === 'rain-basin';
+  if (county && !checks.some((c) => c !== county && WET.includes(c.level) && !c.contextOnly && !distant(c))) {
     county.level = 'watch';
     county.uncorroborated = true;
   }
@@ -322,7 +325,7 @@ export function crossingLead(result) {
   const upstream = result.checks.find((c) => c.upstream === true && c.level !== 'ok');
   const roadUnknown = result.checks.some((c) => c.roadStatus === 'unknown');
   const noDepth = 'That is the county reporting this road, not a measurement of how deep the water is.';
-  if (county && county.level === result.level && county.level !== 'ok') return `${county.why}. ${noDepth}${county.uncorroborated ? ' Rain, flow and flood model show no sign of water at this road right now.' : ''}`;
+  if (county && county.level === result.level && county.level !== 'ok') return `${county.why}. ${noDepth}${county.uncorroborated ? ' No local rain, weather alert or flood model shows water at this road right now.' : ''}`;
   if (upstream && ['watch', 'unknown'].includes(result.level)) {
     return `${upstream.why}${roadUnknown ? ' Nothing here reports this road, so whether you can get through is unknown.' : ''}`;
   }

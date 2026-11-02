@@ -19,8 +19,16 @@
       "about": "843 m away, outside the radius; an Open flag there says nothing about this crossing"
     },
     "upstream sensors": [
-      { "sensor": "Brawley Wash near Three Points (USGS 09487000)", "reading": "1,160 cfs", "distance": "about 22.1 mi up the wash, straight line" },
-      { "sensor": "Brawley Wash at Milewide Road (Pima ALERT 6443)", "reading": "817 cfs", "distance": "about 10.4 mi up the wash, straight line" }
+      {
+        "sensor": "Brawley Wash near Three Points (USGS 09487000)",
+        "reading": "1,160 cfs",
+        "distance": "about 22.1 mi up the wash, straight line"
+      },
+      {
+        "sensor": "Brawley Wash at Milewide Road (Pima ALERT 6443)",
+        "reading": "817 cfs",
+        "distance": "about 10.4 mi up the wash, straight line"
+      }
     ],
     "rain": "nothing at any gauge",
     "weather service": "no alerts"
@@ -45,16 +53,16 @@
     "whatWasWrong": "The headline came from a sensor 22 miles away. No travel time, no soaking loss into the sand, no depth at this road was in that rule. The county's own report, from the crossing itself, was demoted below it, and its direction was never fetched."
   },
   "after": {
-    "crossingNumber": 3,
+    "crossingNumber": 2,
     "word": "Moderate",
-    "level": "caution",
-    "summary": "County says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11/01/26, 11:48). That is the county reporting this road, not a measurement of how deep the water is.",
+    "level": "watch",
+    "summary": "County says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11/01/26, 11:48). That is the county reporting this road, not a measurement of how deep the water is. No local rain, weather alert or flood model shows water at this road right now.",
     "headline": "County says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11/01/26, 11:48)",
     "rows": [
       {
         "label": "County barricade",
         "source": "county",
-        "level": "caution",
+        "level": "watch",
         "why": "County says Proceed with Caution: Avra Valley Rd west of the Brawley Wash, eastbound (updated 11/01/26, 11:48)",
         "detail": "Avra Valley Rd west of the Brawley Wash: Proceed with Caution, eastbound (updated 11/01/26, 11:48)"
       },
@@ -85,10 +93,24 @@
     "whyThisReads": "The county's report leads, in its own words, with which way it applies to and when it was last touched. The upstream numbers are still there, with how far away each sensor is and a plain statement that they do not give a depth or an arrival time here. The crossing is not called clear."
   },
   "routeNumbers": {
-    "Avra Valley Rd": { "before": 5, "after": 3, "note": "the only route with this dip on it" },
-    "Trico-Marana": { "before": 1, "after": 1, "note": "recommended either way; it skips this dip" },
-    "Silverbell–Sanders north": { "before": 1, "after": 1 },
-    "Silverbell–Sanders south": { "before": 1, "after": 1 }
+    "Avra Valley Rd": {
+      "before": 5,
+      "after": 2,
+      "note": "the only route with this dip on it"
+    },
+    "Trico-Marana": {
+      "before": 1,
+      "after": 1,
+      "note": "recommended either way; it skips this dip"
+    },
+    "Silverbell–Sanders north": {
+      "before": 1,
+      "after": 1
+    },
+    "Silverbell–Sanders south": {
+      "before": 1,
+      "after": 1
+    }
   },
   "phoneText": {
     "before": "take Trico-Marana (1/5 Low, 10 min). Others: ... Avra Valley Rd 5.",

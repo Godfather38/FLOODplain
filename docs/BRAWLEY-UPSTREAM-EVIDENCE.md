@@ -1,5 +1,7 @@
 # The Brawley upstream-gauge correction
 
+Update, November 2, 2026: the reported case below now rates 2, not 3. A county Proceed with Caution alone is a 2, and upstream gauges do not count as agreeing with it. See `BARRICADES-AND-ROAD-HEIGHT.md`.
+
 ## Focused production release
 
 User authorization, verbatim: **deploy**.
