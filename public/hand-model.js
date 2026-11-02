@@ -3,6 +3,8 @@
 // Likely match showing water, adds points by how often its alarms failed at the tracked
 // gauges: 1 point at 50% failure or better (Santa Cruz, 32%), half a point at about 68%
 // (washes, 62%). See docs/HAND-INUNDATION.md.
+// Where the road's height above the stream bed is known (road-heights.json), that height is the
+// trigger: water has to reach the road. Elsewhere a fixed level stands in.
 // It never lowers a level: local runoff is left out, so a low number isn't dry.
 // It never overrides a gauge: where a river or wash gauge answered, HAND is shown but moves nothing.
 import { createForecastProvider } from './inundation/forecast-provider.js';
@@ -49,7 +51,7 @@ function labels(row, forecast, now) {
 }
 
 // The source row for one crossing. raise: true only when the model shows meaningful water.
-export function handCheck(row, forecast, now) {
+export function handCheck(row, forecast, now, road = null) {
   const quiet = (why, detail) => ({ src: 'hand', level: 'unknown', why, detail, raise: false });
   if (row.status !== 'supported') return quiet('HAND model has no estimate here', `Missing coverage: ${row.evidence}`);
   if (!['ok', 'stale'].includes(forecast?.status)) return quiet('HAND model has no forecast flow right now', `${forecast?.reason ?? 'No forecast'}. ${labels(row, null, now)}`);
@@ -66,6 +68,15 @@ export function handCheck(row, forecast, now) {
   const some = stage >= SOME_WATER_M;
   const said = `HAND model: about ${(stage * FT).toFixed(1)} ft above the stream bed, ${flowText} for ${when}`;
   const likely = row.confidence.band === 'Likely match';
+  const height = road?.roadAboveBedM;
+  if (Number.isFinite(height)) {
+    const gap = Math.abs(stage - height) * FT;
+    const reaches = stage >= height;
+    const line = `HAND model: water about ${(stage * FT).toFixed(1)} ft above the stream bed, road about ${(height * FT).toFixed(1)} ft above it, so ${reaches ? `water about ${gap.toFixed(1)} ft over the road` : `${gap.toFixed(1)} ft below the road`}, ${flowText} for ${when}`;
+    const roadDetail = `${detail} Road height ${(road.roadM * FT).toFixed(1)} ft NAVD88${road.deck ? ', measured on the bridge deck by USGS lidar' : ', from USGS 1 m terrain'}, as of its survey.`;
+    if (likely && reaches) return { src: 'hand', level: 'watch', why: line, detail: roadDetail, raise: true, points: handPoints(row), overRoad: true };
+    return { ...quiet(`${line}${reaches ? '. The match to this stream is too weak to change the number' : ''}`, roadDetail), some, roadHeight: true };
+  }
   if (likely && stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true, points: handPoints(row) };
   const rough = row.forecast.kind === 'gauge' ? '' : '. Model flow is rough';
   return { ...quiet(`${said}${rough}${stage < WATCH_STAGE_M ? ". Low flow doesn't mean dry" : ''}`, detail), some };
@@ -84,6 +95,9 @@ export function applyHand(fpResults, hand) {
     const gauged = gaugeAnswered(p);
     p.checks = [source, ...p.checks];
     if (!raise || gauged || ['bridge','river'].includes(p.kind) || p.level === 'danger') continue;
+    // The model agrees with a county caution, so that caution counts in full again.
+    const county = p.checks.find((c) => c.uncorroborated);
+    if (county) { county.level = 'caution'; delete county.uncorroborated; if (p.level === 'watch') p.level = 'caution'; }
     if (points < 1) { p.handAdd = points; continue; } // Half a point shows on the number; the level stands.
     // One point on the engine's scale: 1 to 2, 2 to 3, 3 to 4. riskScore reads 4 from a second
     // caution-level source, so HAND counts as that one. It can't reach 5.
@@ -97,6 +111,8 @@ export function applyHand(fpResults, hand) {
 
 export async function loadHand(fps, { fetchImpl = globalThis.fetch, clock = Date.now } = {}) {
   const { points } = await loadCoverage(fetchImpl);
+  // Road heights only sharpen the trigger, so the model still runs without them.
+  const roads = await Promise.resolve().then(() => fetchImpl(new URL('./inundation/road-heights.json', import.meta.url).href)).then((r) => (r?.ok ? r.json() : null)).catch(() => null);
   const byFp = matchFailurePoints(fps, points);
   const provider = createForecastProvider({ enabled: true, fetchImpl, clock });
   const sources = new Map();
@@ -106,6 +122,6 @@ export async function loadHand(fps, { fetchImpl = globalThis.fetch, clock = Date
   const results = new Map(await Promise.all([...sources].map(async ([key, f]) => [key, await provider.predict(f)])));
   const now = clock();
   const checks = {};
-  for (const [id, row] of Object.entries(byFp)) checks[id] = handCheck(row, results.get(JSON.stringify(row.forecast)), now);
+  for (const [id, row] of Object.entries(byFp)) checks[id] = handCheck(row, results.get(JSON.stringify(row.forecast)), now, roads?.points?.[row.id]);
   return { checks, byFp };
 }

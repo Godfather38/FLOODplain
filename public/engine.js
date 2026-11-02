@@ -38,7 +38,7 @@ export function evaluate(raw, area = 'avra') {
   const d = { now, flows, closures, alert: raw.alert, nws };
   const fpResults = Object.fromEntries(cfg.FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
   const routes = raw.routes.filter((f) => (f.properties.area ?? 'avra') === area);
-  const rated = rateRoutes(routes, fpResults, cfg.FAILURE_POINTS).map((r) => ({ ...r, score: routeScore(r) }));
+  const rated = rateRoutes(routes, fpResults, cfg.FAILURE_POINTS, { closures, radiusM: cfg.CLOSURE_RADIUS_M }).map((r) => ({ ...r, score: routeScore(r) }));
   const { best, order } = recommend(rated);
   const missing = [!closures && 'county', !raw.alert && 'rain', !Object.values(flows).some((f) => f.fresh) && 'river'].filter(Boolean);
   return { rated, best, order, missing, ...message(best, order, rated, missing, now, area) };

@@ -1,0 +1,141 @@
+{
+ "schemaVersion": 1,
+ "datum": "NAVD88",
+ "method": "Lowest road height within 40 m of the crossing, minus the HAND stream bed (measured ground minus HAND at channel cells within 60 m).",
+ "sources": [
+  "USGS 3DEP 1 m DEM",
+  "USGS 3DEP lidar bridge deck points",
+  "NOAA OWP HAND"
+ ],
+ "points": {
+  "west-avra-valley-road-32-39322-111-29459": {
+   "roadM": 606.26,
+   "bedM": 605.96,
+   "roadAboveBedM": 0.3,
+   "deck": false
+  },
+  "west-avra-valley-road-32-40256-111-14614": {
+   "roadM": 635.03,
+   "bedM": 626.97,
+   "roadAboveBedM": 8.06,
+   "deck": true
+  },
+  "west-speedway-boulevard-32-23567-110-98614": {
+   "roadM": 709.36,
+   "bedM": 703.13,
+   "roadAboveBedM": 6.23,
+   "deck": false
+  },
+  "west-avra-valley-road-32-40271-111-14566": {
+   "roadM": 634.49,
+   "bedM": 626.38,
+   "roadAboveBedM": 8.11,
+   "deck": true
+  },
+  "west-ina-road-32-33759-111-08151": {
+   "roadM": 664.45,
+   "bedM": 657.54,
+   "roadAboveBedM": 6.91,
+   "deck": true
+  },
+  "west-avra-valley-road-32-40224-111-14714": {
+   "roadM": 633.91,
+   "bedM": 626.94,
+   "roadAboveBedM": 6.97,
+   "deck": false
+  }
+ },
+ "unresolved": {
+  "west-trico-marana-road-32-45369-111-27985": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 2.53,
+   "roadMinusBedM": 4.13
+  },
+  "north-sanders-road-32-43488-111-23395": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 4.4,
+   "roadMinusBedM": 4.04
+  },
+  "north-trico-road-32-43882-111-30426": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 4.34,
+   "roadMinusBedM": 2.69
+  },
+  "north-sanders-road-32-43484-111-23395": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 4.63,
+   "roadMinusBedM": 3.58
+  },
+  "west-twin-peaks-road-32-37581-111-11538": {
+   "reason": "no channel cells beside the crossing"
+  },
+  "north-kinney-road-32-25678-111-20377": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 4.24,
+   "roadMinusBedM": -1.06
+  },
+  "north-kinney-road-32-25426-111-19875": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 4.01,
+   "roadMinusBedM": 0.62
+  },
+  "west-ina-road-32-33759-111-09519": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 1.98,
+   "roadMinusBedM": -0.2
+  },
+  "west-speedway-boulevard-32-23597-111-02886": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 5.18,
+   "roadMinusBedM": 0.9
+  },
+  "north-kinney-road-32-24151-111-16081": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 6.62,
+   "roadMinusBedM": 0.95
+  },
+  "north-kinney-road-32-23141-111-14537": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 6.63,
+   "roadMinusBedM": 1.3
+  },
+  "west-gates-pass-road-32-22131-111-12278": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 3.1,
+   "roadMinusBedM": -0.01
+  },
+  "west-gates-pass-road-32-22970-111-07192": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 5.51,
+   "roadMinusBedM": -0.37
+  },
+  "west-speedway-boulevard-32-23606-111-06040": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 4.03,
+   "roadMinusBedM": 3.04
+  },
+  "west-speedway-boulevard-32-23604-111-05747": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 6.81,
+   "roadMinusBedM": 3.63
+  },
+  "west-speedway-boulevard-32-23766-111-05195": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 4.16,
+   "roadMinusBedM": -0.7
+  },
+  "west-speedway-boulevard-32-23899-111-04624": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 4.5,
+   "roadMinusBedM": 0.07
+  },
+  "west-speedway-boulevard-32-23899-111-04501": {
+   "reason": "bed height not consistent here",
+   "bedSpreadM": 6.38,
+   "roadMinusBedM": 1.97
+  },
+  "west-avra-valley-road-32-40131-111-24501": {
+   "reason": "no channel cells beside the crossing"
+  }
+ }
+}

@@ -159,7 +159,7 @@ function compute(d) {
   const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, {...d,bridgeEvidence:structureRecords}, cfg)]));
   // HAND only adds to the result, so a fault in it can't take the ratings down with it.
   try { handModel?.applyHand(fpResults, d.hand); } catch { /* ratings stand without it */ }
-  const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS).map((r) => { const score = routeScore(r); return { ...r, score: score == null ? score : Math.max(score, ...r.points.map((p) => pointScore(p) ?? 1)) }; });
+  const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS, { closures: d.closures, radiusM: cfg.CLOSURE_RADIUS_M }).map((r) => { const score = routeScore(r); return { ...r, score: score == null ? score : Math.max(score, ...r.points.map((p) => pointScore(p) ?? 1)) }; });
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
   const underpasses = UNDERPASSES.map((up) => ({ ...up, result: rateFailurePoint(up, d, cfg) }));
   return { fpResults, underpasses, rated, rec: recommend(rated), nwsQuiet, byId: Object.fromEntries(rated.map((r) => [r.id, r])) };
@@ -251,7 +251,12 @@ function routeScreen(rid) {
   const info = ROUTE_INFO[rid];
   const flagged = r.points.filter((p) => pointScore(p) !== 1);
   const normal = r.points.filter((p) => pointScore(p) === 1);
-  const row = (p) => `
+  // A barricade between crossings has no stretch page; its row states the county's own words.
+  const row = (p) => p.routeBarricade ? `
+    <div class="row">
+      ${badge(pointScore(p))}
+      <span class="text"><div class="t">${esc(p.short)}</div><div class="st">${esc(p.why)}</div></span>
+    </div>` : `
     <a class="row" href="#/r/${rid}/${p.id}">
       ${badge(pointScore(p))}
       <span class="text"><div class="t">${esc(p.short)}</div>${bridgeCardEvidence(p)}${p.why===p.checks.find(c=>c.heightComparison)?.why?'':`<div class="st">${esc(p.why)}</div>`}</span>
@@ -602,6 +607,7 @@ function wireReport() {
 // Newest first. Add a line here whenever something people can notice changes.
 const UPDATES = [
   ['November 1, 2026', [
+    'Changed: a county closure anywhere along a route now counts, not only near a listed crossing. Proceed with Caution alone is now a 2; another live sign brings it back to a 3 or more. Where we know the road height, the flood model is compared with the road itself.',
     'New: I-10 underpasses at Marana, Orange Grove, Grant and Speedway. Each gets the usual 1 to 5 number from nearby rain gauges, county closures and flood alerts. We have not found a public water sensor in any of them.',
     'New: the HAND flood model. Where NOAA\'s stream data matches a crossing, you can see how high forecast flow is estimated to reach, with a map of the estimated area. It\'s an estimate, not a reading.',
     'HAND adds to the number your other sources gave: 1 point on the Santa Cruz, half a point on washes, so you may see a number like 1.5. It never lowers a number, and it doesn\'t change a crossing where a river gauge is reporting.',

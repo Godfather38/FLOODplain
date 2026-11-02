@@ -288,6 +288,15 @@ export function rateFailurePoint(fp, d, cfg) {
     }
     checks.push({ src: `rain-${ruleName}`, ...c });
   }
+  // Proceed with Caution barricades stay up for weeks after a storm. On its own it is a report
+  // that someone once saw a reason for care, so another live source has to agree before it
+  // reads as water near the road. Closed is never softened.
+  const county = checks.find((c) => c.src === 'county' && c.level === 'caution');
+  const WET = ['watch', 'caution', 'danger'];
+  if (county && !checks.some((c) => c !== county && WET.includes(c.level) && !c.contextOnly)) {
+    county.level = 'watch';
+    county.uncorroborated = true;
+  }
   // Always a rating: it comes from whatever sources answered. A source that didn't
   // answer is listed in the details ("unreachable"), but never turns the rating into "?".
   const known = checks.filter((c) => c.level !== 'unknown');
@@ -313,7 +322,7 @@ export function crossingLead(result) {
   const upstream = result.checks.find((c) => c.upstream === true && c.level !== 'ok');
   const roadUnknown = result.checks.some((c) => c.roadStatus === 'unknown');
   const noDepth = 'That is the county reporting this road, not a measurement of how deep the water is.';
-  if (county && county.level === result.level && county.level !== 'ok') return `${county.why}. ${noDepth}`;
+  if (county && county.level === result.level && county.level !== 'ok') return `${county.why}. ${noDepth}${county.uncorroborated ? ' Rain, flow and flood model show no sign of water at this road right now.' : ''}`;
   if (upstream && ['watch', 'unknown'].includes(result.level)) {
     return `${upstream.why}${roadUnknown ? ' Nothing here reports this road, so whether you can get through is unknown.' : ''}`;
   }
@@ -323,10 +332,51 @@ export function crossingLead(result) {
   return null;
 }
 
-export function rateRoutes(routeFeatures, fpResults, fps) {
+// County barricades on a route but away from any crossing. The road name has to match as well
+// as the position: a barricade on a side street at an intersection is not on this route.
+const ROUTE_BARRICADE_M = 40;
+const roadKey = (name) => (name ?? '').toLowerCase().replace(/-/g, ' ')
+  .replace(/\b(north|south|east|west|n|s|e|w)\b/g, ' ')
+  .replace(/\b(road|rd|boulevard|bl|blvd|street|st|avenue|av|ave|highway|hy|hwy|drive|dr|way|wy)\b/g, ' ')
+  .replace(/\s+/g, ' ').trim();
+const barricadeRoad = (location) => roadKey((location ?? '').split(/\s(?:north|south|east|west|at|between)\s(?:of\s)?/i)[0]);
+function metresToLine(p, line) {
+  const ky = 110574, kx = 111320 * Math.cos((p.lat * Math.PI) / 180);
+  let best = Infinity;
+  for (let i = 1; i < line.length; i++) {
+    const ax = (line[i - 1][0] - p.lon) * kx, ay = (line[i - 1][1] - p.lat) * ky;
+    const dx = (line[i][0] - line[i - 1][0]) * kx, dy = (line[i][1] - line[i - 1][1]) * ky;
+    const t = Math.max(0, Math.min(1, -(ax * dx + ay * dy) / (dx * dx + dy * dy || 1)));
+    best = Math.min(best, Math.hypot(ax + t * dx, ay + t * dy));
+  }
+  return best;
+}
+export function barricadesOnRoute(feature, closures) {
+  const g = feature.geometry;
+  if (!g || !closures?.length) return [];
+  const lines = g.type === 'LineString' ? [g.coordinates] : g.coordinates;
+  const roads = new Set((feature.properties.legs ?? []).map((l) => roadKey(l.road)));
+  return closures.filter((c) => /clos|caution/i.test(c.status ?? '') && roads.has(barricadeRoad(c.location))
+    && lines.some((line) => metresToLine(c, line) <= ROUTE_BARRICADE_M));
+}
+const barricadePoint = (c) => {
+  const closed = /clos/i.test(c.status);
+  const check = checkClosures([c]);
+  const level = closed ? 'danger' : 'watch';
+  return { id: `county-${c.lat}-${c.lon}`, short: c.location, name: c.location, where: 'On this route, away from the listed crossings', kind: 'road', lat: c.lat, lon: c.lon,
+    level, why: check.why, evidenceAvailable: true, closurePts: [c], routeBarricade: true,
+    checks: [{ src: 'county', ...check, level, ...(closed ? {} : { uncorroborated: true }) }] };
+};
+
+export function rateRoutes(routeFeatures, fpResults, fps, { closures = null, radiusM = 0 } = {}) {
   return routeFeatures.map((f) => {
     const id = f.properties.id;
-    const pts = fps.filter((fp) => fp.routes.includes(id)).map((fp) => fpResults[fp.id]);
+    const onRoute = fps.filter((fp) => fp.routes.includes(id));
+    const pts = onRoute.map((fp) => fpResults[fp.id]);
+    // A crossing already reads barricades within its radius; only the ones between crossings are new.
+    for (const c of barricadesOnRoute(f, closures)) {
+      if (!onRoute.some((fp) => metres(fp, c) <= radiusM)) pts.push(barricadePoint(c));
+    }
     return { id, name: f.properties.name, minutes: f.properties.minutes, km: f.properties.km, level: worst(pts.map((p) => p.level)), points: pts };
   });
 }
