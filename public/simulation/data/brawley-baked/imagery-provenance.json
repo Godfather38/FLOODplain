@@ -1,0 +1,24 @@
+{
+  "provider": "USGS The National Map / USDA NAIP",
+  "kind": "Orthorectified aerial imagery; not satellite, current weather or surveyed structure geometry",
+  "source": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer",
+  "request": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage?bbox=-111.29659%2C32.39122%2C-111.29259%2C32.39522&bboxSR=4326&imageSR=4326&size=1024%2C1024&format=jpg&f=json",
+  "extent": {
+    "xmin": -111.29659000000001,
+    "ymin": 32.39122,
+    "xmax": -111.29259,
+    "ymax": 32.39522,
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    }
+  },
+  "width": 1024,
+  "height": 1024,
+  "serviceCopyright": "USGS, USDA, The National Map: Orthoimagery. March 12, 2025.",
+  "serviceDescription": "The USGS NAIP Plus service from The National Map consists of National Agriculture Imagery Program (NAIP) and high resolution orthoimagery (HRO) that combine the visual attributes of an aerial photograph with the spatial accuracy and reliability of a map. Digital orthoimage resolution may vary from 6 inches to 1 meter. In the former resolution, every pixel in an orthoimage covers a six inch square of the earth’s surface, while in the latter resolution, each pixel represents a one meter square. Many states contribute orthoimagery to The National Map, and the USGS also relies on a partnership with the U.S. Department of Agriculture's Farm Service Agency. The National Map download client allows free downloads of public domain, 1-meter resolution orthoimagery in JPEG 2000 (jp2) format for the conterminous United States, with many urban areas and other locations at 1-foot (or better) resolution also in JPEG 2000 (jp2) format. For additional information on orthoimagery, go to https://nationalmap.gov/ortho.html . crdate-20250311",
+  "acquisitionDate": null,
+  "licenseReference": "https://registry.opendata.aws/naip/",
+  "license": "Public Domain with Attribution for NAIP; credit USGS/USDA NAIP",
+  "purpose": "Georeferenced surface reference for Claude scene baking; elevations remain the retained terrain mesh"
+}

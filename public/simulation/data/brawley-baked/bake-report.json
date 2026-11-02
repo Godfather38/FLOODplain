@@ -1,0 +1,32 @@
+{
+  "sourceRun": "refined-full-41344983607",
+  "sourceGeometrySha256": "77d581fff18b51fba5d1f6f935de78285364c4223824e2251c242e211d7e8b7b",
+  "center": [
+    -111.29459,
+    32.39322
+  ],
+  "baseElevationNAVD88M": 603,
+  "terrainTriangles": 10574,
+  "road": {
+    "triangles": 86,
+    "buildings": 0,
+    "roadSegments": 3,
+    "markingTriangles": 76,
+    "omittedFeatures": 0,
+    "missingHeight": 0,
+    "invalidFeatures": 0,
+    "unresolvedGroundVertices": 0,
+    "bridgeFeatures": 0,
+    "tunnelFeatures": 0,
+    "sourceFeatures": 1
+  },
+  "bytes": 1024212,
+  "sha256": "03da8f89557a5e3917889e9e877295d8d580ac207af7c7a12aa39f1edeeb9657",
+  "imagery": "Separate USGS/USDA orthophoto reference; no imagery-to-height inference",
+  "limitations": [
+    "Road width is a cartographic class default, not surveyed width.",
+    "No invented bridge clearance or buildings.",
+    "Baked mesh is a reusable integrated-map asset, not a separate viewer.",
+    "Original native faces and frames remain authoritative."
+  ]
+}
