@@ -99,3 +99,8 @@ test('map icons carry the risk color into the older renderer too',()=>{
  assert.match(app,/L\.marker\(\[fp\.lat, fp\.lon\], \{ color: COLOR\[Math\.floor\(s\)\] \?\? UNKNOWN_COLOR,/);
  assert.match(app,/L\.marker\(\[c\.lat, c\.lon\], \{ color: COLOR\[5\],/);
 });
+test('the Current conditions panel matches Map options and its stylesheet updates with each release',()=>{
+ const css=read('live-map.css'),embedded=css.match(/\.embedded-live\{[^}]*\}/)[0];
+ assert.match(embedded,/background:var\(--surface-2\)/);assert.match(embedded,/color:var\(--on\)/);assert.match(embedded,/padding:12px/);
+ assert.match(read('index.html'),/href="live-map\.css\?v=dev"/);
+});
