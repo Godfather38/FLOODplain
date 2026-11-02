@@ -50,12 +50,11 @@ test('the demo is byte-identical to the pinned commit and keeps opaque water', (
 
 test('the simulation label is always on screen and cannot be collapsed', () => {
  const page=read('public/preview/geo3d/index.html'),css=read('public/preview/geo3d/style.css');
- const banner=page.match(/<div id="simulation-banner"[\s\S]*?<\/div>/)?.[0]??'';
- assert.match(banner,/SIMULATION\. THIS WATER IS NOT REAL\./);
- assert.match(banner,/turn around, don't drown/);
- assert.ok(page.indexOf('simulation-banner')<page.indexOf('<aside id="panel"'),'it sits outside the collapsible panel');
- assert.match(css,/#simulation-banner\{position:fixed/);
- assert.doesNotMatch(read('public/preview/geo3d/src/main.js'),/simulation-banner/,'no script hides it');
+ assert.match(page,/<div id="simulation-tag"[^>]*>Simulation · not real water<\/div>/);
+ assert.ok(page.indexOf('simulation-tag')<page.indexOf('<aside id="panel"'),'it sits outside the collapsible panel');
+ assert.match(page,/turn around, don't drown/);
+ assert.match(css,/#simulation-tag\{position:fixed/);
+ assert.doesNotMatch(read('public/preview/geo3d/src/main.js'),/simulation-tag/,'no script hides it');
 });
 
 test('the live app does not load the prototype', () => {

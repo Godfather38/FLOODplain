@@ -24,4 +24,4 @@ The mini PC is the lowest device tested. Treat 12.9 FPS as the floor for later b
 The build after the baseline tightens the channel banks so the water's edge follows the terrain instead of the solver's coarse cells. Triangle count is unchanged. It has not been re-measured on the mini PC.
 
 ## Move to the map-layer branch
-Work continues on `experiment/geographic-3d-layer`, restarted from production `445e139` with only the demo files the scene uses. It adds an always-visible simulation banner. The owner decided the simulated water shows at all times, clearly labelled, across Avra, Picture Rocks and the route areas. It has not been re-measured on the mini PC.
+Work continues on `experiment/geographic-3d-layer`, restarted from production `445e139` with only the demo files the scene uses. It adds a small, always-visible simulation tag; the owner rejected a large banner as too invasive. The owner decided the simulated water shows at all times, clearly labelled, across Avra, Picture Rocks and the route areas. It has not been re-measured on the mini PC.

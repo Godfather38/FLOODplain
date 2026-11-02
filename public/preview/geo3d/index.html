@@ -7,11 +7,12 @@
 </script>
 <script type="importmap">{"imports":{"three":"../coastal-lowcost/vendor/three.webgpu.js","three/webgpu":"../coastal-lowcost/vendor/three.webgpu.js","three/tsl":"../coastal-lowcost/vendor/three.tsl.js","three/addons/":"../coastal-lowcost/vendor/addons/"}}</script></head>
 <body><main id="viewport" aria-label="3D view of terrain, roads and animated water around Gates Pass. Drag to turn. Scroll or pinch to zoom."></main>
-<div id="simulation-banner" role="note"><strong>SIMULATION. THIS WATER IS NOT REAL.</strong> <span>It is a simulated 3D model, not current conditions or a forecast. If you see water on a real road, turn around, don't drown.</span></div>
+<div id="simulation-tag" role="note">Simulation · not real water</div>
 <div id="loading" class="card"><span id="progress-text">Starting</span><div class="progress"><i id="progress"></i></div></div>
 <div id="error" class="card" hidden><strong>The 3D scene could not load</strong><p>It needs live elevation and road data and a browser with WebGL 2. Saved data is never used in its place.</p><pre id="error-detail"></pre></div>
 <aside id="panel"><details open><summary>About this simulation</summary>
- <p>The water is shown all the time, whatever the weather. Its path and surges are simulated, picked from the terrain's shape. Heights are exaggerated 2×.</p>
+ <p>This water is a simulated 3D model, not current conditions or a forecast. It shows all the time, whatever the weather, and its path and surges are picked from the terrain's shape. Heights are exaggerated 2×.</p>
+ <p>If you see water on a real road, turn around, don't drown.</p>
  <p id="source" data-mode="pending">Loading data</p>
  <pre id="metrics" aria-live="off"></pre>
  <button id="measure" disabled>Measure 30 seconds</button>
