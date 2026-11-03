@@ -149,6 +149,17 @@ try{
   const text=await page.innerText('#screen');assert.doesNotMatch(text,/NAVD88/);assert.doesNotMatch(text,/HAND flood model|HAND model/);
   await context.close();
  });
+ await check('production bridge details retain roadway evidence without saved forecast water',async()=>{
+  const {context,page,requests}=await freshPage();
+  await page.goto(origin+'/#/r/trico/sc-trico-marana');await ready(page);
+  const details=page.locator('[data-bridge-evidence][data-crossing-id="sc-trico-marana"]');
+  await page.waitForFunction(()=>document.querySelector('[data-bridge-evidence]')?.textContent.includes('Estimated roadway height'));
+  const text=await details.textContent();
+  assert.match(text,/Estimated roadway height/);assert.match(text,/Matching water-surface elevation.*missing/);
+  assert.doesNotMatch(text,/forecast expired|SFINCS water estimate|Highest water still in the forecast|2026-11-02T12:00:00Z/);
+  assert.ok(!requests.some(url=>url.includes('current-sfincs-manifest.json')),'bridge screen never requests the saved SFINCS manifest');
+  await context.close();
+ });
  await check('instant closure alerts are off until someone opts in',async()=>{
   const {context,page}=await freshPage();posts.length=0;
   await page.goto(origin+'/#/alerts');await page.waitForSelector('#p-on');

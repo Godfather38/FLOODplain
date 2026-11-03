@@ -98,6 +98,7 @@ test('the simulator is where the original design put it, not behind a mode',()=>
  assert.match(layers,/async function enterMap\(\)\{if\(location\.hash!=='#\/map'\)return;/);assert.match(layers,/q\('\[data-model\]'\)\.value='2d'/);
  assert.match(shell,/<button data-panel="time">Time<\/button>/);assert.match(shell,/mapWrap\.append\(preview\)/);
  assert.match(read('index.html'),/<nav class="exp-link"/);
- assert.match(read('simulation/bridge-evidence.js'),/current-sfincs-manifest\.json/);
+ // Saved simulation controls remain available; production bridge evidence is static only.
+ assert.doesNotMatch(read('simulation/bridge-evidence.js'),/current-sfincs-manifest\.json/);
  assert.match(read('inundation/index.html'),/id="recorded"/);
 });
