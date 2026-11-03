@@ -26,7 +26,7 @@ import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY} from '../runs.js';
 const $=id=>document.getElementById(id);
 const DATA='../../../../simulation/data/',E=2,SHOW_DEPTH_M=.05,HOUR_SECONDS=4;
 const diagnostics={ready:false,errors:[],frameTimes:[]};
-const fail=error=>{diagnostics.errors.push(String(error?.stack||error));$('error').hidden=false;$('error-detail').textContent=String(error?.message||error);$('loading').classList.add('done');};
+const fail=error=>{diagnostics.errors.push(String(error?.stack||error));try{if(parent!==window)parent.postMessage({fp3d:'log',kind:'error',message:String(error?.message||error),where:String(error?.stack||'').split('\n')[1]?.trim()},location.origin);}catch{}$('error').hidden=false;$('error-detail').textContent=String(error?.message||error);$('loading').classList.add('done');};
 window.addEventListener('error',e=>fail(e.error||e.message));window.addEventListener('unhandledrejection',e=>fail(e.reason));
 mountAcknowledgement();mountEmbed();
 const status=text=>{$('window').textContent=text;};

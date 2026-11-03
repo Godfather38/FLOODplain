@@ -6,6 +6,7 @@ import {RUNS,loadRun2d,createSimLayer,onDownloads,loadHand,HAND_COLORS,loadRoads
 import {deckHtml,scoreboardHtml,drawTimeline,timelineKeyHtml,methodsHtml} from './sim-panels.js?v=dev';
 import {createWorldLayer} from './simulation/world-layer.js?v=dev';
 import {showAcknowledgement} from './model-acknowledgement.js?v=dev';
+import {entries,onEntry,clear as clearLog,reportText,send as sendLog,crumb} from './diagnostics.js?v=dev';
 
 const svg=d=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
 const I={
@@ -64,6 +65,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
    <p>Rain (in/h)</p><div class="ramp">${RAIN_COLORS.map((c,i)=>`<span><i style="background:${c}"></i>${(RAIN_MMH[i]/25.4).toFixed(2).replace(/^0/,'')}${i===RAIN_MMH.length-1?'+':''}</span>`).join('')}</div>
    <p>HAND estimated depth (ft) · Santa Cruz windows</p><div class="ramp">${HAND_COLORS.map((c,i)=>`<span><i style="background:${c}"></i>${['0–0.3','0.3–1','1–3.3','3.3–6.6','6.6–13.1','13.1+'][i]}</span>`).join('')}</div>
   </div>
+  <details class="mapp-diag" data-m-diag><summary>Diagnostics <span data-m-diag-count></span></summary><p class="mapp-hint">Errors, failed downloads and freezes on this device, with what was tapped just before. Errors and freezes are sent to the developer automatically; no location or personal details are included.</p><div class="mapp-diag-actions"><button type="button" data-m-diag-send>Send log now</button><button type="button" data-m-diag-copy>Copy log</button><button type="button" data-m-diag-clear>Clear</button></div><ol class="mapp-diag-list" data-m-diag-list></ol></details>
   <details class="mapp-about"><summary>About this map</summary><div data-m-about><p>Water is each 100 m SFINCS model cell's simulated depth: the run's water surface minus the cell's mean terrain. It is a model, not observed water. Rain is the run's own rainfall input, river flow its inflow at the model's inlets. Live readings and route ratings come from gauges, the county and the weather service, checked separately.</p></div></details>
  </section>
  <div class="mapp-controls">
@@ -344,6 +346,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   paintCard();sync();
  }
  function enter3d(){
+  crumb('3D shown');
   pending3d=false;st.view='3d';setPlaying(false);world.show(true);showAcknowledgement('simulated');pushTo3d();paintCard();sync();
  }
  // The run this page asked the 3D view for: older reports from it are not taken as a choice.
@@ -448,6 +451,21 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  addEventListener('blur',()=>{if(!menu.hidden)setMenu(false);});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menu.hidden){setMenu(false);scenBtn.focus();}});
  renderMenu();
+
+ // --- diagnostics ---
+ const diagList=$('[data-m-diag-list]'),diagCount=$('[data-m-diag-count]');
+ const KIND={error:'Error',freeze:'Freeze',fetch:'Download',slow:'Slow','3d':'3D','3d-failed':'3D failed',console:'Console',open:'Opened'};
+ function paintDiag(){
+  const list=entries(),bad=list.filter(e=>!['open','3d'].includes(e.kind));
+  diagCount.textContent=bad.length?`· ${bad.length}`:'';diagCount.className=bad.length?'bad':'';
+  diagList.innerHTML=list.slice(-40).reverse().map(e=>`<li class="k-${e.kind}"><b>${KIND[e.kind]??e.kind}</b> <time>${e.t.slice(11,19)}</time> ${esc(e.message)}${e.action&&e.kind!=='open'?`<small>after: ${esc(e.action)}</small>`:''}</li>`).join('')||'<li>Nothing logged.</li>';
+ }
+ onEntry(()=>{if(!$('[data-m-diag]').open){const list=entries();diagCount.textContent=list.filter(e=>!['open','3d'].includes(e.kind)).length?`· ${list.filter(e=>!['open','3d'].includes(e.kind)).length}`:'';return;}paintDiag();});
+ $('[data-m-diag]').addEventListener('toggle',paintDiag);
+ $('[data-m-diag-send]').onclick=async()=>{const ok=await sendLog({kind:'report',message:'Sent from the map'},{force:true});toast(ok?'Log sent to the developer.':'The log could not be sent. Use Copy log instead.');};
+ $('[data-m-diag-copy]').onclick=async()=>{try{await navigator.clipboard.writeText(reportText());toast('Log copied.');}catch{toast('Copying is blocked here.');}};
+ $('[data-m-diag-clear]').onclick=()=>{clearLog();paintDiag();};
+ paintDiag();
 
  function sync(){
   const terrainOn=st.base==='terrain'&&!in3d();

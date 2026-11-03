@@ -60,7 +60,7 @@
  function failed(msg){
   var e=document.getElementById('error');if(e){e.hidden=false;document.getElementById('error-detail').textContent=msg;}
   var l=document.getElementById('loading');if(l)l.classList.add('done');
-  try{if(parent!==window)parent.postMessage({fp3d:'state',failed:true,error:msg},location.origin);}catch(x){}
+  try{if(parent!==window){parent.postMessage({fp3d:'state',failed:true,error:msg},location.origin);parent.postMessage({fp3d:'log',kind:'error',message:msg},location.origin);}}catch(x){}
  }
  addEventListener('error',function(ev){var t=ev.target;if(t&&t.tagName==='SCRIPT')failed('Part of the 3D view did not download. Check the connection and try again.');},true);
  window.fp3dFailed=failed;

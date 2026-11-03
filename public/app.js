@@ -1,3 +1,4 @@
+import {mountDiagnostics} from './diagnostics.js?v=dev';
 import { RISK_COLORS, UNKNOWN_COLOR, installRiskColors } from './semantic-colors.js?v=dev';
 import './show-me-how.js?v=dev';
 import {mountRouteTracking} from './simulation/route-tracking.js?v=dev';
@@ -20,6 +21,8 @@ import {
   riskScore, routeScore, goodSigns, againstIt, routeClosures, roadEventActive, driveSummary, bridgeHeightComparison, crossingLead,
 } from './logic.js?v=dev';
 
+// Error and freeze logging first, so the rest of startup is covered (diagnostics.js).
+mountDiagnostics();
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
 const COLOR = RISK_COLORS;
