@@ -8,13 +8,13 @@ export function createWorldLayer({container,src='preview/geo3d/world.html?embed=
  const emit=extra=>onState({...state,...extra});
  addEventListener('message',e=>{
   if(e.origin!==location.origin||!frame||e.source!==frame.contentWindow||e.data?.fp3d!=='state')return;
-  state={...state,...e.data};lastHeard=performance.now();emit({quiet:false});
+  state={...state,...e.data,quiet:false};lastHeard=performance.now();emit({});
  });
  const post=m=>frame?.contentWindow?.postMessage(m,location.origin);
  // A frame that says nothing for a while is reported as quiet, with the step it was last on.
  function startWatch(){
   clearInterval(watch);
-  watch=setInterval(()=>{if(!frame||state?.ready||state?.failed||state?.error)return;if(performance.now()-lastHeard>QUIET_MS)emit({quiet:true});},2000);
+  watch=setInterval(()=>{if(!frame||state?.ready||state?.failed||state?.error)return;if(performance.now()-lastHeard>QUIET_MS&&!state?.quiet){state={...state,quiet:true};emit({});}},2000);
  }
  let wantRun=null;
  function create(){
@@ -25,10 +25,11 @@ export function createWorldLayer({container,src='preview/geo3d/world.html?embed=
  return{
   // Start loading without showing it.
   load(run){if(run)wantRun=run;if(!frame)create();},
-  show(on){if(on&&!frame)create();if(frame){frame.hidden=!on&&!frame.classList.contains('warming');frame.classList.toggle('warming',!on&&!state?.ready);if(on)frame.classList.remove('warming');}},
+  show(on){if(on&&!frame)create();if(frame){frame.hidden=!on&&!frame.classList.contains('warming');frame.classList.toggle('warming',!on&&!state?.ready);if(on)frame.classList.remove('warming');post({fp3d:'pause',value:!on});}},
   // Out of sight but still loading (or ready, waiting to be shown).
   park(){if(frame){frame.classList.add('warming');frame.hidden=false;}},
-  hide(){if(frame){frame.hidden=true;frame.classList.remove('warming');}},
+  // Out of sight and not drawing: a ready view nobody is waiting for costs nothing.
+  hide(){if(frame){frame.hidden=true;frame.classList.remove('warming');post({fp3d:'pause',value:true});}},
   cancel(){clearInterval(watch);frame?.remove();frame=null;state=null;},
   retry(){clearInterval(watch);frame?.remove();frame=null;state=null;create();},
   send(fp3d,id,value){post({fp3d,id,value});},

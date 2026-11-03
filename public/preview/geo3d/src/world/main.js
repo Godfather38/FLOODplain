@@ -42,6 +42,8 @@ const loading=(text,share)=>{$('loading').classList.remove('done');stepText=text
 const loaded=()=>$('loading').classList.add('done');
 // A moment for the page around this view to answer clicks between heavy steps.
 const breathe=()=>new Promise(r=>setTimeout(r,0));
+// The same work over every hour of a run, pausing after each so the page stays responsive.
+async function eachFrame(list,fn){const out=[];for(const x of list){out.push(fn(x));await breathe();}return out;}
 // Read a response body while counting its bytes for the loading card.
 async function readCounted(response,key){
  const total=Number(response.headers.get('content-length'))||0;
@@ -64,9 +66,15 @@ async function fetchRetry(url){
  throw error;
 }
 async function fetchMaybeGzip(path){
- const url=new URL(path,import.meta.url),response=await fetchRetry(url);
- if(!response.ok)throw new Error(`${path} answered ${response.status}`);
- const bytes=await readCounted(response,url.href);
+ const url=new URL(path,import.meta.url),name=String(path).split('/').pop();let bytes,error;
+ // Headers and body together, so a download that drops partway is tried again from the start.
+ for(const wait of [0,1000,3000]){
+  if(wait)await new Promise(r=>setTimeout(r,wait));
+  let response;try{response=await fetchRetry(url);}catch(e){error=new Error(`${name} did not download (${e.message}).`);continue;}
+  if(!response.ok)throw new Error(`${name} answered ${response.status}.`);
+  try{bytes=await readCounted(response,url.href);break;}catch(e){error=new Error(`${name} stopped downloading (${e.message}).`);}
+ }
+ if(!bytes)throw error;
  // Some hosts send .gz files already unpacked.
  if(bytes[0]!==0x1f||bytes[1]!==0x8b)return bytes;
  return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
@@ -91,13 +99,13 @@ const inside=(x,z)=>Math.abs(x)<SIZE_X/2&&Math.abs(z)<SIZE_Z/2;
 async function prepareRun(def,display){
  if(def.live)return prepareLive(def);
  display??=await json(DATA+def.display);
- const frames=parseFrames(display),levels=frames.map(f=>levelGrid(f,data.vertices));
+ const frames=parseFrames(display),levels=await eachFrame(frames,f=>levelGrid(f,data.vertices));
  const [rainJson,inflowJson,handJson]=await Promise.all([def.rain&&json(DATA+def.rain),def.inflow&&def.inflow!==def.rain&&json(DATA+def.inflow),def.hand&&json(DATA+def.hand)]);
  // River inflow at the model's inlets: the run's NWM boundary series or its own sfincs.dis.
  const inflow=((def.inflow===def.rain?rainJson?.boundary:inflowJson)?.series??[]).filter(s=>s.lon!=null&&s.points?.some(p=>p.flowM3s>0)).map(s=>{const [x,z]=world(s.lon,s.lat);return{name:s.name||'NWM reach '+s.reachId,x,z,points:new Map(s.points.map(p=>[Date.parse(p.time),p.flowM3s]))};});
  // HAND modeled extent per hour, in world coordinates.
  const hand=handJson?handJson.frames.map(f=>f.hand.features.flatMap(g=>(g.geometry.type==='MultiPolygon'?g.geometry.coordinates:[g.geometry.coordinates]).map(poly=>poly.map(ring=>ring.map(([lon,lat])=>world(lon,lat)))))):null;
- return{def,frames,levels,shares:frames.map(f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:rainJson?parseRain(rainJson):null,inflow,hand};
+ return{def,frames,levels,shares:await eachFrame(frames,f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:rainJson?parseRain(rainJson):null,inflow,hand};
 }
 loading('Preparing the model water',.7);await breathe();
 // The newest live run, refused when it is older than LIVE_MAX_AGE_H: never an old one in its place.
@@ -106,11 +114,11 @@ async function prepareLive(def){
  const age=(Date.now()-Date.parse(manifest.issuedAt))/3600e3;
  if(!(age<=LIVE_MAX_AGE_H))throw new Error(`The newest live model run is ${age.toFixed(1)} hours old (from HRRR ${manifest.hrrrCycle}), older than ${LIVE_MAX_AGE_H} hours.`);
  const [water,rainJson,inflowJson]=await Promise.all([json(LIVE+'water.json.gz'+bust),json(LIVE+'rainfall.json'+bust),json(LIVE+'inflow.json'+bust)]);
- const frames=parseFrames({waterFrames:water.frames}),levels=frames.map(f=>levelGrid(f,data.vertices));
+ const frames=parseFrames({waterFrames:water.frames}),levels=await eachFrame(frames,f=>levelGrid(f,data.vertices));
  const inflow=inflowJson.series.filter(s=>s.points.some(p=>p.flowM3s>0)).map(s=>{const [x,z]=world(s.lon,s.lat);return{name:s.name,x,z,points:new Map(s.points.map(p=>[Date.parse(p.time),p.flowM3s]))};});
  const issued=new Date(manifest.issuedAt).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:'2-digit'});
  def={...def,note:`Model forecast from public forcing, not observed water: SFINCS run at ${issued} MST from the NOAA HRRR rain forecast of ${new Date(manifest.hrrrCycle).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric'})} MST and NWM river flows, after a 45-hour warm-up. A new run is published every hour.`};
- return{def,frames,levels,shares:frames.map(f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:parseRain(rainJson),inflow,hand:null,manifest};
+ return{def,frames,levels,shares:await eachFrame(frames,f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:parseRain(rainJson),inflow,hand:null,manifest};
 }
 let run,liveProblem=null;
 try{run=await prepareRun(firstRun,firstRun.display===BASE_DISPLAY?firstDisplay:undefined);}
@@ -214,10 +222,13 @@ $('fit-flood').onclick=()=>{
 $('prev').onclick=()=>{playing=false;showPlaying();clock=Math.max(0,frameIndex-1);};
 $('next').onclick=()=>{playing=false;showPlaying();clock=Math.min(run.frames.length-2,frameIndex+1);};
 $('run').innerHTML=RUNS.map(r=>`<option value="${r.id}"${r.id===run.def.id?' selected':''}>${r.label}</option>`).join('');
+// A newer choice made while one is loading replaces it: only the newest one is drawn.
+let switchId=0;
 $('run').onchange=async e=>{
+ const ticket=++switchId;
  const def=RUNS.find(r=>r.id===e.target.value);$('run').disabled=true;status('Loading '+def.label);loading('Loading '+def.label,.3);
- try{liveProblem=null;run=await prepareRun(def);loading('Preparing the model water',.8);routesUI.setRun(run);clock=startClock();frameIndex=-1;describeRun();watchLive();status(`${def.label}: ${run.frames.length} hours.`);}
- catch(error){if(def.live){liveProblem=error.message;$('run').value=run.def.id;describeRun();}else fail(error);}finally{$('run').disabled=false;loaded();}
+ try{liveProblem=null;const next=await prepareRun(def);if(ticket!==switchId)return;run=next;loading('Preparing the model water',.8);routesUI.setRun(run);clock=startClock();frameIndex=-1;describeRun();watchLive();status(`${def.label}: ${run.frames.length} hours.`);}
+ catch(error){if(ticket!==switchId)return;if(def.live){liveProblem=error.message;$('run').value=run.def.id;describeRun();}else fail(error);}finally{if(ticket===switchId){$('run').disabled=false;loaded();}}
 };
 const PLAY='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',PAUSE='<svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
 const showPlaying=()=>{$('play').innerHTML=playing?PAUSE:PLAY;$('play').setAttribute('aria-label',playing?'Pause':'Play');};
@@ -252,7 +263,9 @@ setInterval(()=>{const d=camera.position.clone().sub(controls.target);needle.sty
 // --- The frame loop, started once everything it touches exists ---
 showFrame(0);
 let rainNow=0;
-renderer.setAnimationLoop(()=>{
+// The app pauses drawing while this view is out of sight (embed.js).
+let drawPaused=false;window.fp3dPause=p=>{drawPaused=!!p;};
+renderer.setAnimationLoop(()=>{if(drawPaused)return;
  const now=performance.now(),dt=Math.max(0,Math.min(200,now-last)),span=run.frames.length-1;last=now;
  if(playing)clock=((clock+dt/1000/HOUR_SECONDS)%span+span)%span;
  const i=Math.min(span-1,Math.floor(clock));if(i!==frameIndex)showFrame(i);

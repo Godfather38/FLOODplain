@@ -2,7 +2,7 @@
 // button at the top right. Zoom, locate and fit are at the bottom right, and the model run's time
 // runs along the bottom. Routes, crossings and live conditions are in a side panel (a bottom sheet
 // on a phone). 2D and 3D share one run, one hour and one set of layers.
-import {RUNS,loadRun2d,createSimLayer,onDownloads,loadRoads,crossingsFor,COVER_M,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS} from './simulation/sim-2d.js?v=dev';
+import {RUNS,loadRun2d,createSimLayer,onDownloads,loadHand,HAND_COLORS,loadRoads,crossingsFor,COVER_M,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS} from './simulation/sim-2d.js?v=dev';
 import {deckHtml,scoreboardHtml,drawTimeline,timelineKeyHtml,methodsHtml} from './sim-panels.js?v=dev';
 import {createWorldLayer} from './simulation/world-layer.js?v=dev';
 import {showAcknowledgement} from './model-acknowledgement.js?v=dev';
@@ -55,23 +55,23 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   <div class="mapp-terrain" data-m-terrain hidden></div>
   <h3>Water</h3>
   <div class="mapp-radios" role="radiogroup" aria-label="Water">${MODELS.map(([v,t])=>`<label><input type="radio" name="mapp-model" value="${v}"> ${t}</label>`).join('')}</div>
-  <p class="mapp-hint" data-m-model-hint></p>
+  <p class="mapp-hint model-hint" data-m-model-hint aria-live="polite"></p>
   <h3>Map details</h3>
   <div class="mapp-switches">${DETAILS.map(([k,t])=>`<label><span>${t}</span><input type="checkbox" role="switch" data-m-detail="${k}" checked></label>`).join('')}</div>
   <h3>Key</h3>
   <div class="mapp-key">
    <p>Simulated water depth (ft)</p><div class="ramp">${DEPTH_COLORS.map((c,i)=>`<span><i style="background:${c}"></i>${DEPTH_FT[i]}${i===DEPTH_FT.length-1?'+':'–'+DEPTH_FT[i+1]}</span>`).join('')}</div>
    <p>Rain (in/h)</p><div class="ramp">${RAIN_COLORS.map((c,i)=>`<span><i style="background:${c}"></i>${(RAIN_MMH[i]/25.4).toFixed(2).replace(/^0/,'')}${i===RAIN_MMH.length-1?'+':''}</span>`).join('')}</div>
-   <p class="hand-key"><i></i>HAND modeled extent (Nov 1, 13Z run)</p>
+   <p>HAND estimated depth (ft) · Santa Cruz windows</p><div class="ramp">${HAND_COLORS.map((c,i)=>`<span><i style="background:${c}"></i>${['0–0.3','0.3–1','1–3.3','3.3–6.6','6.6–13.1','13.1+'][i]}</span>`).join('')}</div>
   </div>
   <details class="mapp-about"><summary>About this map</summary><div data-m-about><p>Water is each 100 m SFINCS model cell's simulated depth: the run's water surface minus the cell's mean terrain. It is a model, not observed water. Rain is the run's own rainfall input, river flow its inflow at the model's inlets. Live readings and route ratings come from gauges, the county and the weather service, checked separately.</p></div></details>
  </section>
  <div class="mapp-controls">
-  <button type="button" class="mapp-ctl" data-m-north aria-label="Turn to north up" hidden>${I.north}</button>
+  <button type="button" class="mapp-ctl lbl" data-m-north aria-label="Turn to north up" hidden>${I.north}<span>North</span></button>
   <div class="mapp-zoom"><button type="button" class="mapp-ctl" data-m-in aria-label="Zoom in">${I.plus}</button><button type="button" class="mapp-ctl" data-m-out aria-label="Zoom out">${I.minus}</button></div>
-  <button type="button" class="mapp-ctl" data-m-locate aria-label="Show my location">${I.locate}</button>
-  <button type="button" class="mapp-ctl" data-m-fit-routes aria-label="Fit routes" title="Fit routes">${I.routes}</button>
-  <button type="button" class="mapp-ctl" data-m-fit-water aria-label="Fit the deepest water" title="Fit the deepest water">${I.water}</button>
+  <button type="button" class="mapp-ctl lbl" data-m-locate aria-label="Show my location">${I.locate}<span>Me</span></button>
+  <button type="button" class="mapp-ctl lbl" data-m-fit-routes aria-label="Zoom to the routes">${I.routes}<span>Routes</span></button>
+  <button type="button" class="mapp-ctl lbl" data-m-fit-water aria-label="Zoom to the deepest water">${I.water}<span>Water</span></button>
  </div>
  <div class="mapp-player" role="group" aria-label="Model run and hour">
   <div class="mapp-player-top"><select data-m-run aria-label="Model run"></select><span class="mapp-run-label" data-m-run-label hidden>Saved Nov 1–2 run · terrain detail</span><span class="mapp-stat" data-m-stat></span><button type="button" class="mapp-icon" data-m-info aria-label="About this run" aria-expanded="false">${I.info}</button></div>
@@ -147,9 +147,32 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  $('[data-m-out]').onclick=()=>in3d()?world.send('click','zoom-out'):map.zoomOut();
  $('[data-m-north]').onclick=()=>world.send('click','north');
  $('[data-m-fit-routes]').onclick=()=>in3d()?world.send('click','fit-routes'):fitRoutes(padding());
- $('[data-m-fit-water]').onclick=()=>{if(in3d())return world.send('click','fit-flood');const b=sim.wetBounds(.3)??sim.wetBounds(.01);if(b)map.fitBounds(b,{...padding(),maxZoom:15});};
- const oldLocate=[...document.querySelectorAll('.map-camera button')].find(b=>b.textContent.trim()==='Locate');
- $('[data-m-locate]').onclick=()=>oldLocate?.click();
+ // A short message on the map whenever a choice has nothing new to show, with the next step.
+ const toastEl=document.createElement('div');toastEl.className='mapp-toast';toastEl.hidden=true;toastEl.setAttribute('role','status');ui.append(toastEl);
+ toastEl.addEventListener('click',e=>{if(e.target===toastEl||e.target.tagName==='SPAN')toastEl.hidden=true;});
+ let toastTimer=0;
+ function toast(msg,action){
+  toastEl.innerHTML=`<span>${esc(msg)}</span>`+(action?`<button type="button">${esc(action.label)}</button>`:'');
+  if(action)toastEl.querySelector('button').onclick=()=>{toastEl.hidden=true;action.run();};
+  toastEl.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>toastEl.hidden=true,action?9000:5000);
+ }
+ const tryStorm=()=>st.run==='stress'?{label:'Try the 1,000-year what-if',run:()=>chooseRun('extreme')}:{label:'Try the 100-year storm',run:()=>chooseRun('stress')};
+ $('[data-m-fit-water]').onclick=()=>{
+  if(in3d())return world.send('click','fit-flood');
+  const b=(st.model!=='hand'&&(sim.wetBounds(.3)??sim.wetBounds(.01)))||(st.model!=='2d'&&sim.handBounds());
+  if(b){map.fitBounds(b,{...padding(),maxZoom:15});return;}
+  toast(`No ${st.model==='hand'?'HAND':'simulated'} water this hour in ${runName()}.`,tryStorm());
+ };
+ $('[data-m-locate]').onclick=()=>{
+  if(!navigator.geolocation)return toast('This browser cannot share a location.');
+  toast('Finding you…');
+  navigator.geolocation.getCurrentPosition(p=>{const ll=[p.coords.latitude,p.coords.longitude];map.flyTo(ll,Math.max(map.getZoom(),14),{duration:.8});
+   if(locMarker)locMarker.setLatLng(ll);else locMarker=L.circleMarker(ll,{radius:8,color:'#fff',weight:3,fillColor:'#1a73e8',fillOpacity:1}).addTo(map);
+   toast(sim.run&&!sim.depthAt(ll[0],ll[1])?'You are outside the model area.':'This is you.');},
+   e=>toast(e.code===1?'Location is turned off for this site. Allow it in the browser to use this button.':'Your location could not be found.'),{enableHighAccuracy:true,timeout:10000});
+ };
+ let locMarker=null;
+ const runName=()=>{const d=RUNS.find(r=>r.id===st.run);return d?.card?.short??d?.label??'this run';};
 
  // --- panel ---
  const panel=$('[data-m-panel]');
@@ -203,12 +226,12 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  function hourStat(){
   const run=sim.run,el=$('[data-m-stat]'),hud=$('[data-m-hud]');
   if(!run||(st.base==='terrain'&&!in3d())){el.textContent='';hud.innerHTML='';statKey='';return;}
-  const h=Math.round(sim.clock),key=run.def.id+h+!!crossings;if(key===statKey)return;statKey=key;
+  const h=Math.round(sim.clock),key=run.def.id+h+!!crossings+st.model;if(key===statKey)return;statKey=key;$('[data-m-model-hint]').textContent=modelStatus();
   const s=run.series[h],inside=crossings?.filter(c=>c.inside)??[],over=inside.filter(c=>c.over[h]>COVER_M).length;
   el.textContent=s.wetKm2?'':'No simulated water this hour';
   const chip=(label,value,unit,cls='')=>`<div class="chip ${cls}"><span>${label}</span><b>${value}</b><small>${unit}</small></div>`;
   const dryLive=run.def.live&&Math.max(...run.series.map(v=>v.wetKm2))<.05;
-  hud.innerHTML=chip('Wet area',s.wetKm2.toFixed(s.wetKm2<10?2:1),'km²')+chip('Deepest cell',(s.deepM/.3048).toFixed(1),'ft')+chip('Over the road',crossings?`${over}/${inside.length}`:'…','crossings',over?'alert':'')+chip('River in',Math.round(s.inflowM3s*35.3147).toLocaleString(),'ft³/s')+chip('Rain',(s.rainMmH/25.4).toFixed(2),'in/h')+(dryLive?'<button type="button" class="chip try" data-m-try>Dry right now. Try the 100-year storm →</button>':'');
+  hud.innerHTML=chip('Wet area',s.wetKm2.toFixed(s.wetKm2<10?2:1),'km²')+chip('Deepest cell',(s.deepM/.3048).toFixed(1),'ft')+chip('Over the road',crossings?`${over}/${inside.length}`:'…','crossings',over?'alert':'')+chip('River in',Math.round(s.inflowM3s*35.3147).toLocaleString(),'ft³/s')+chip('Rain',(s.rainMmH/25.4).toFixed(2),'in/h')+((st.model==='hand'||st.model==='aggregate')?(()=>{const hn=sim.handNow();return hn?.precomputed?chip('HAND',hn.polygons?'on':'none','13Z extent'):hn&&!hn.loading?chip('HAND',`${hn.wet}/${hn.windows}`,'windows wet',hn.wet?'hand':''):chip('HAND','…','loading');})():'')+(dryLive?'<button type="button" class="chip try" data-m-try>Dry right now. Try the 100-year storm →</button>':'');
   hud.querySelector('[data-m-try]')?.addEventListener('click',()=>chooseRun('stress'));
   renderPanels();
  }
@@ -238,20 +261,40 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   }catch(error){
    if(ticket!==loadingRun)return;
    if(def.live){runNote=`No live model run to show: ${error.message} Showing a saved run instead.`;loadingRun=null;return chooseRun('13z');}
-   timeOut.textContent='The model run could not load';loadError={def,message:error.message};
+   if(!in3d())timeOut.textContent='The model run could not load';loadError={def,message:error.message};
   }finally{if(ticket===loadingRun){loadingRun=null;loadingDef=null;describe();paintCard();}}
  }
  function describe(){
   const run=sim.run;note.textContent=in3d()?(world.state?.note??''):st.base==='terrain'?'Terrain detail: the saved Nov 1–2 run drawn on 10 m terrain by the flat renderer. Its own time and case controls are in Map layers.':runNote||run?.def.note||'';
-  const hand=in3d()?!world.state?.models?.includes('hand'):!!run?.hand;
-  for(const r of $$('input[name=mapp-model]')){r.disabled=(r.value==='hand'||r.value==='aggregate')&&!hand;r.checked=r.value===st.model;}
-  $('[data-m-model-hint]').textContent=hand?'':'The HAND modeled estimate exists only for the Nov 1, 13Z run.';
+  for(const r of $$('input[name=mapp-model]')){r.disabled=false;r.checked=r.value===st.model;}
+  $('[data-m-model-hint]').textContent=modelStatus();
+ }
+ // What the chosen model shows right now, in one sentence.
+ function modelStatus(){
+  const run=sim.run;if(!run)return'';
+  const h=Math.min(run.times.length-1,Math.round(sim.clock)),s=run.series[h],name=runName();
+  const sfincs=s.wetKm2?`SFINCS: ${s.wetKm2.toFixed(s.wetKm2<10?2:1)} km² of simulated water this hour in ${name}.`:`SFINCS: no simulated water this hour in ${name}.`;
+  const hn=sim.handNow();let hand='';
+  if(hn?.precomputed)hand=hn.polygons?'HAND: the 13Z run\'s own HAND extent for this hour.':'HAND: no HAND extent this hour in the 13Z run.';
+  else if(hn?.loading)hand='HAND: loading the NOAA HAND grids…';
+  else if(hn){const cfs=Math.round(hn.flow*35.3147).toLocaleString();hand=!hn.flow?`HAND: the Santa Cruz is at 0 ft³/s this hour in ${name}, so HAND estimates no river water.`:`HAND at ${cfs} ft³/s (this run's Santa Cruz flow): water in ${hn.wet} of ${hn.windows} Santa Cruz windows, ${(hn.areaM2/1e6).toFixed(2)} km².`+(hn.beyond?` ${hn.beyond} beyond their rating curves.`:'');}
+  if(in3d()&&(st.model==='hand'||st.model==='aggregate')&&!run.hand)hand='In 3D, HAND is drawn for the Nov 1, 13Z run. Switch to 2D to see HAND for this run.';
+  return st.model==='2d'?sfincs:st.model==='hand'?hand:st.model==='aggregate'?sfincs+' '+hand:'Simulated and modeled water are hidden. Routes and live readings stay.';
  }
 
  // --- applying choices ---
+ let handLoading=null;
+ function ensureHand(){
+  if(handLoading)return handLoading;
+  handLoading=loadHand().then(list=>{sim.setJunctions(list);statKey='';hourStat();describe();return list;}).catch(e=>{handLoading=null;toast('The NOAA HAND grids did not download: '+e.message);});
+  return handLoading;
+ }
  function applyModel(){
   if(in3d())world.send('set','model',st.model);
   sim.set('water',st.model==='2d'||st.model==='aggregate');sim.set('hand',st.model==='hand'||st.model==='aggregate');
+  statKey='';hourStat();
+  const say=()=>{const m=modelStatus();if(/no simulated water|no river water|no HAND extent/.test(m))toast(m,tryStorm());else toast(m);};
+  if(st.model==='hand'||st.model==='aggregate')ensureHand().then(say);else say();
   if(st.base==='terrain'){const m=document.querySelector('[data-model]');if(m&&st.model!==m.value){m.value=st.model==='hand'?'hand':st.model==='aggregate'?'aggregate':st.model==='off'?'off':'2d';m.dispatchEvent(new Event('change'));}}
   describe();
  }
@@ -259,8 +302,9 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   const keys=key?[key]:DETAILS.map(d=>d[0]);
   for(const k of keys){
    const on=st[k];
-   if(k==='rain'){sim.set('rain',on);if(in3d())world.send('set','rain',on);}
-   if(k==='flow'){sim.set('flow',on);if(in3d())world.send('set','flow',on);}
+   if(k==='rain'){sim.set('rain',on);if(in3d())world.send('set','rain',on);if(on&&key&&sim.run){const s=sim.run.series,h=Math.round(sim.clock),wet=s.map((v,i)=>v.rainMmH>.1?i:-1).filter(i=>i>=0);
+    if(!sim.run.rain||!wet.length)toast(`No rain input in ${runName()}.`,tryStorm());else if(s[h].rainMmH<=.1)toast(`No rain this hour. Rain falls ${clockText(sim.run.times[wet[0]])} to ${clockText(sim.run.times[wet.at(-1)])} in this run.`,{label:'Go to the rain',run:()=>{setPlaying(false);setClock(wet[0]);}});}}
+   if(k==='flow'){sim.set('flow',on);if(in3d())world.send('set','flow',on);if(on&&key&&sim.run&&!sim.run.inflow.length)toast(`No river inflow in ${runName()}.`,tryStorm());}
    if(k==='routes'){on?map.addLayer(routeLayer):map.removeLayer(routeLayer);if(in3d())world.send('set','show-routes',on);}
    if(k==='places'){mapEl.classList.toggle('hide-places',!on);if(in3d())world.send('set','show-places',on);}
    if(k==='live'){on?map.addLayer(liveLayer):map.removeLayer(liveLayer);}
@@ -286,6 +330,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   if(view==='3d'){
    if(st.view==='3d')return;
    if(st.base==='terrain')setBase('street');
+   setLayersOpen(false);
    pending3d=true;world.load(st.run);world.park();
    if(world.ready)enter3d();else{paintCard();sync();}
    return;
@@ -294,32 +339,35 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   if(st.view!=='3d')return;
   const from3d=world.state;st.view='2d';world.hide();
   if(from3d?.run&&from3d.run!==st.run)chooseRun(from3d.run).then(()=>setClock(from3d.scrub.value));
+  else if(sim.run?.def.id!==st.run)chooseRun(st.run);
   else if(from3d)setClock(from3d.scrub.value);
-  sync();
+  paintCard();sync();
  }
  function enter3d(){
   pending3d=false;st.view='3d';setPlaying(false);world.show(true);showAcknowledgement('simulated');pushTo3d();paintCard();sync();
  }
  // The run this page asked the 3D view for: older reports from it are not taken as a choice.
- let expectRun=null,expectAt=0;
+ let expectRun=null,expectAt=0,pendingHour=null;
  function pushTo3d(){
+  pendingHour=Math.round(sim.clock);
   expectRun=st.run;expectAt=performance.now();world.send('set','run',st.run);world.send('set','base',st.base==='satellite'?'satellite':'street');world.send('set','model',st.model);
   for(const [k,id] of [['rain','rain'],['flow','flow'],['routes','show-routes'],['places','show-places']])world.send('set',id,st[k]);
-  setTimeout(()=>world.send('set','scrub',Math.round(sim.clock)),400);
  }
  // The 3D view reports what it shows; the player and layers follow it while 3D is on.
  function fromWorld(s){
   if(pending3d){if(s.ready&&location.hash==='#/map')enter3d();else{paintCard();sync();}return;}
   if(!in3d())return;
   if(s.failed||s.error){paintCard();}
-  if(expectRun&&performance.now()-expectAt>20000)expectRun=null;
+  timeOut.textContent=s.error?'The 3D view could not load':s.time||'Loading the 3D view';
+  if(s.playing!==st.playing)setPlaying(s.playing);
+  // The run asked for: wait for it, unless the 3D view settled on another (a stale live run).
+  if(expectRun&&(performance.now()-expectAt>20000||(!s.runBusy&&!s.loading&&s.run!==expectRun&&performance.now()-expectAt>1500)))expectRun=null;
   if(expectRun){if(s.run===expectRun)expectRun=null;else{paintCard();return;}}
+  if(pendingHour!=null&&s.ready&&s.run===st.run){world.send('set','scrub',Math.min(pendingHour,s.scrub.max));pendingHour=null;}
   if(s.run!==runSel.value&&RUNS.some(r=>r.id===s.run)){st.run=s.run;runSel.value=s.run;}
   if(s.run!==sim.run?.def.id&&RUNS.some(r=>r.id===s.run)&&!loadingRun)chooseRun(s.run);
   scrub.max=String(s.scrub.max);if(document.activeElement!==scrub)scrub.value=String(s.scrub.value);
   if(sim.run&&sim.run.def.id===s.run){sim.setClock(Math.min(sim.run.times.length-1,s.scrub.value));hourStat();drawTl();}
-  timeOut.textContent=s.error?'The 3D view could not load':s.time||'Loading the 3D view';
-  if(s.playing!==st.playing)setPlaying(s.playing);
   if(s.model!==st.model){st.model=s.model;}
   describe();
  }
@@ -331,8 +379,8 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  new MutationObserver(()=>{if(st.base!=='terrain'||in3d())return;timeOut.textContent=oldClock.textContent;const t=document.querySelector('[data-time]');if(t){scrub.min=t.min;scrub.max=t.max;scrub.step='1';scrub.value=t.value;}}).observe(oldClock,{childList:true,characterData:true,subtree:true});
 
  // --- the loading card on the map: what is downloading or being built, and how far along ---
- const card=document.createElement('div');card.className='mapp-load';card.hidden=true;card.setAttribute('role','status');card.setAttribute('aria-live','polite');
- card.innerHTML='<div class="mapp-load-head"><span class="mapp-spin" aria-hidden="true"></span><strong data-l-title></strong><span class="mapp-load-time" data-l-time></span></div><p data-l-step></p><div class="mapp-load-bar"><i data-l-bar></i></div><div class="mapp-load-actions"><button type="button" data-l-retry hidden>Try again</button><button type="button" data-l-cancel>Cancel</button></div>';
+ const card=document.createElement('div');card.className='mapp-load';card.hidden=true;
+ card.innerHTML='<span class="sr-only" role="status" data-l-sr></span><div class="mapp-load-head"><span class="mapp-spin" aria-hidden="true"></span><strong data-l-title></strong><span class="mapp-load-time" data-l-time aria-hidden="true"></span></div><p data-l-step></p><div class="mapp-load-bar"><i data-l-bar></i></div><div class="mapp-load-actions"><button type="button" data-l-retry hidden>Try again</button><button type="button" data-l-cancel>Cancel</button></div>';
  ui.append(card);
  const c$=s=>card.querySelector(s);
  let loadingDef=null,loadError=null,dl={count:0,got:0,total:0},loadStarted=0;
@@ -356,6 +404,8 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   card.hidden=!show;if(!show)return;
   card.classList.toggle('failed',!!(failed3d||(loadError&&!loadingDef&&!pending3d)));
   c$('[data-l-title]').textContent=title;c$('[data-l-step]').textContent=step;
+  // Screen readers hear the title and failures, not every byte.
+  const said=title+((failed3d||retry)?'. '+step:'');if(c$('[data-l-sr]').textContent!==said)c$('[data-l-sr]').textContent=said;
   c$('[data-l-bar]').style.width=Math.max(4,Math.round(share*100))+'%';
   c$('[data-l-retry]').hidden=!retry;c$('[data-l-cancel]').hidden=!cancel;
   c$('[data-l-cancel]').textContent=pending3d?'Stay in 2D':loadError?'Close':'Cancel';
@@ -363,7 +413,10 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  setInterval(()=>{if(card.hidden)return;const s=pending3d?world.seconds:Math.round((performance.now()-loadStarted)/1000);c$('[data-l-time]').textContent=s>=2?s+' s':'';},500);
  c$('[data-l-cancel]').onclick=()=>{
   if(pending3d){pending3d=false;world.cancel();}
-  else if(loadingDef){loadingRun=null;const keep=sim.run?.def.id;loadingDef=null;if(keep){st.run=keep;runSel.value=keep;}renderMenu();}
+  else if(loadingDef){loadingRun=null;const keep=sim.run?.def.id,was=loadingDef;loadingDef=null;
+   if(keep){st.run=keep;runSel.value=keep;loadError=null;}
+   else{loadError={def:was,message:'Loading was cancelled.'};timeOut.textContent='No model run loaded';}
+   renderMenu();paintCard();sync();return;}
   loadError=null;paintCard();sync();
  };
  c$('[data-l-retry]').onclick=()=>{if(pending3d){world.retry();paintCard();}else if(loadError){const d=loadError.def;loadError=null;chooseRun(d.id);}};
@@ -391,6 +444,9 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   else if(e.key==='ArrowUp'){e.preventDefault();items[(i-1+items.length)%items.length].focus();}
   else if(e.key==='Escape'){setMenu(false);scenBtn.focus();}
  });
+ menu.addEventListener('focusout',e=>{if(!menu.hidden&&e.relatedTarget&&!menu.contains(e.relatedTarget)&&e.relatedTarget!==scenBtn)setMenu(false);});
+ addEventListener('blur',()=>{if(!menu.hidden)setMenu(false);});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menu.hidden){setMenu(false);scenBtn.focus();}});
  renderMenu();
 
  function sync(){
@@ -421,7 +477,8 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  // Only the Map tab shows the model layers; the other screens keep their live map.
  function onRoute(){
   const on=location.hash==='#/map';document.body.classList.toggle('mapp-on',on);
-  if(on&&in3d())world.show(true);else if(pending3d)world.park();else world.hide();
+  if(on&&pending3d&&world.ready)enter3d();
+  else if(on&&in3d())world.show(true);else if(pending3d)world.park();else world.hide();
   if(!on){setLayersOpen(false);if(st.base==='terrain')window.dispatchEvent(new CustomEvent('flood-terrain-detail',{detail:false}));}
   else if(st.base==='terrain')window.dispatchEvent(new CustomEvent('flood-terrain-detail',{detail:true}));
   sync();map.invalidateSize();

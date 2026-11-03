@@ -28,7 +28,11 @@ self.addEventListener('message', (event) => {
 // WAIT_MS a saved copy is used if there is one; with none, the network answer is awaited.
 async function fromNetworkFirst(request) {
   const cache = await caches.open(CACHE);
-  const savedCopy = () => cache.match(request).then((hit) => hit ?? (request.mode === 'navigate' ? cache.match(new URL('./', self.location).href).then((home) => home ?? cache.match(request, { ignoreSearch: true })) : null));
+  // The app's home page stands in only for the app's own top-level page, never for another page
+  // (such as the 3D view in its frame), which would then load the wrong document.
+  const home = new URL('./', self.location).href, url = new URL(request.url);
+  const isAppPage = request.mode === 'navigate' && request.destination === 'document' && (url.href.split(/[?#]/)[0] === home || url.pathname.endsWith('/index.html') && new URL('index.html', home).pathname === url.pathname);
+  const savedCopy = async () => (await cache.match(request)) ?? (request.mode === 'navigate' ? (await cache.match(request, { ignoreSearch: true })) ?? (isAppPage ? await cache.match(home) : null) : null);
   const network = (async () => {
     const response = await fetch(request);
     if (response.ok && storable(new URL(request.url))) cache.put(request, response.clone());

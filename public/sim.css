@@ -155,4 +155,22 @@
 .mapp-menu [aria-checked=true]{background:color-mix(in srgb,var(--primary) 10%,var(--surface))}
 .mapp-menu [aria-checked=true] b::after{content:"  ✓";color:var(--primary)}
 .mapp .mapp-menu .more{display:block;color:var(--primary);font-weight:600;border-top:1px solid var(--divider);border-radius:0 0 10px 10px;margin-top:4px}
-@media (max-width:899px){.mapp-load{top:auto;bottom:calc(30% + 12px)}}
+/* phone: the card sits left of the map buttons, never over them; above the layers sheet everywhere */
+.mapp-load{z-index:1260}
+@media (max-width:899px){.mapp-load{top:auto;bottom:calc(30% + 12px);left:12px;right:72px;width:auto;transform:none}}
+
+/* map buttons say what they do */
+.mapp .mapp-ctl.lbl{width:56px;height:56px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.mapp-ctl.lbl span{font:600 .625rem/1 var(--mono,inherit);letter-spacing:.04em;color:var(--muted)}
+.mapp-ctl.lbl svg{width:22px;height:22px}
+.mapp .mapp-zoom{width:56px}.mapp .mapp-zoom .mapp-ctl{width:56px}
+
+/* a short message on the map, with the next step */
+.mapp-toast{position:absolute;left:50%;bottom:290px;transform:translateX(-50%);z-index:1270;display:flex;align-items:center;gap:12px;width:max-content;max-width:min(560px,calc(100% - 24px));padding:10px 12px 10px 16px;border-radius:12px;background:#1f2328;color:#fff;font-size:.875rem;line-height:1.4;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.mapp-toast[hidden]{display:none}
+.mapp .mapp-toast button{flex:none;min-height:36px;padding:0 12px;border:0;border-radius:18px;background:#8ab4f8;color:#0b1d36;font-weight:600}
+@media (max-width:899px){.mapp-toast{bottom:calc(30% + 16px);left:12px;right:76px;width:auto;max-width:none;transform:none}}
+
+.mapp .model-hint{font-size:.8125rem;color:var(--on);background:var(--surface-2);border-radius:8px;padding:8px 10px}
+.mapp-hud .chip.hand{border-color:#19a7a0}.mapp-hud .chip.hand b{color:#0f8f88}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}

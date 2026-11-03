@@ -23,6 +23,7 @@ export function mountEmbed(){
  addEventListener('message',e=>{
   if(e.origin!==location.origin||e.source!==parent||!e.data?.fp3d)return;
   if(e.data.fp3d==='goto'){window.fp3dGoto?.(e.data.lon,e.data.lat,e.data.id);return;}
+  if(e.data.fp3d==='pause'){window.fp3dPause?.(e.data.value);return;}
   const {fp3d,id,value}=e.data,el=id==='base'?document.querySelector(`[data-base="${value==='satellite'?'satellite':'street'}"]`):$(id);
   if(!el)return;
   if(fp3d==='click'||id==='base'){el.click();return;}
