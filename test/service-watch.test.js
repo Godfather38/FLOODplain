@@ -68,20 +68,6 @@ test('closure pushes stop at the daily cap',() => {
   for (let i = 0; i < 20; i++) { world.closures = i % 2 ? [] : [tricoClosed];nextCycle();sent += pushes().length; }
   assert.equal(sent, 12);
 });
-test('the owner hears once when a feed stays down, and once when it recovers',() => {
-  const { world, gas, nextCycle } = setup();
-  world.transview = [];nextCycle();
-  world.rainDown = true;
-  for (let i = 0; i < 5; i++) nextCycle();
-  assert.equal(gas.mails.length, 0, 'not before 30 minutes');
-  for (let i = 0; i < 4; i++) nextCycle();
-  assert.equal(gas.mails.length, 1);assert.match(gas.mails[0].body, /Not answering.*rain/);
-  for (let i = 0; i < 4; i++) nextCycle();
-  assert.equal(gas.mails.length, 1, 'no repeats');
-  world.rainDown = false;nextCycle();
-  assert.equal(gas.mails.length, 2);assert.match(gas.mails[1].body, /Answering again: rain/);
-  assert.ok(gas.api.doGet({ parameter: { feed: 'health' } }).sources.rain.lastOk);
-});
 test('feed=all serves everything, and keeps TransView\'s last answer when it fails',() => {
   const { world, gas, clock, nextCycle } = setup();
   world.transview = [{ KeyID: '1', headline: 'Trico Rd south of Trico Marana Rd', trafficImpacts: 'Road Closed', description: '', Geo: 'MULTIPOINT ((-111.3043 32.4511))' }];

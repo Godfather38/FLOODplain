@@ -40,14 +40,14 @@ export function makeGas(clock, SRC, fetchAllImpl) {
       if (url.includes('api.twilio.com')) sent.push({ to: opt.payload.To, body: opt.payload.Body });
       return { getContentText: () => JSON.stringify(clock.verdict) };
     } },
-    MailApp: { sendEmail: (a, b, c) => { const m = typeof a === 'object' ? a : { to: a, subject: b, body: c }; if (m.to.endsWith('@vtext.com')) sent.push({ to: m.to, body: m.body }); else mails.push(m); }, getRemainingDailyQuota: () => 100 },
+    MailApp: { sendEmail: (a, b, c) => { if (clock.mailFailure) throw new Error('mail unavailable'); const m = typeof a === 'object' ? a : { to: a, subject: b, body: c }; if (m.to.endsWith('@vtext.com')) sent.push({ to: m.to, body: m.body }); else mails.push(m); }, getRemainingDailyQuota: () => 100 },
     Utilities: { formatDate: fmt, base64Encode: (s) => Buffer.from(s).toString('base64') },
     LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
     ScriptApp: { getProjectTriggers: () => [{ getHandlerFunction: () => 'tick' }], newTrigger() {}, getService: () => ({ getUrl: () => 'u' }) },
     Session: { getEffectiveUser: () => ({ getEmail: () => 'owner@example.com' }) },
     ContentService: { MimeType: { JSON: 'json' }, createTextOutput: (t) => ({ setMimeType: () => JSON.parse(t) }) },
   };
-  const api = new Function(...Object.keys(g), `${SRC}; return { doPost, doGet, tick, sheet_, keysSheet_, CONFIG, computeVerdict_: typeof computeVerdict_ === 'function' ? computeVerdict_ : null };`)(...Object.values(g));
+  const api = new Function(...Object.keys(g), `${SRC}; return { expectedInputHealth_: typeof expectedInputHealth_ === 'function' ? expectedInputHealth_ : null, noteOwnerHealth_: typeof noteOwnerHealth_ === 'function' ? noteOwnerHealth_ : null, ownerHealthWatch_: typeof ownerHealthWatch_ === 'function' ? ownerHealthWatch_ : null, doPost, doGet, tick, sheet_, keysSheet_, CONFIG, computeVerdict_: typeof computeVerdict_ === 'function' ? computeVerdict_ : null };`)(...Object.values(g));
   const post = (body) => api.doPost({ postData: { contents: JSON.stringify(body) } });
   return { api, post, sent, mails, props, ss, fetches, cache };
 }

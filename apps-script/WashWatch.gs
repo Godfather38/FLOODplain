@@ -1406,6 +1406,15 @@ function notifyWaitlist_() {
   }
 }
 function tick() {
+  try {
+    computeVerdicts_();
+  } catch (err) {
+    noteOwnerHealth_([{ id: "compute", reason: "Assessment computation failed", expected: "Successful evaluation for every area", crossings: "All configured crossings" }], Date.now());
+  }
+  try {
+    ownerHealthWatch_(Date.now());
+  } catch (err) {
+  }
   const now = /* @__PURE__ */ new Date();
   const today = Utilities.formatDate(now, CONFIG.TZ, "yyyy-MM-dd");
   const props = PropertiesService.getScriptProperties();
@@ -1417,7 +1426,6 @@ function tick() {
   props.setProperty("last_min", String(nowMin));
   try {
     closureWatch_();
-    healthWatch_(Date.now());
   } catch (err) {
   }
   if (from > nowMin) return;
@@ -1504,25 +1512,6 @@ function noteHealth_(results, now) {
     state[name] = s;
   }
   PropertiesService.getScriptProperties().setProperty("health", JSON.stringify(state));
-}
-function healthWatch_(now) {
-  const props = PropertiesService.getScriptProperties();
-  const state = healthState_();
-  const down = [], back = [];
-  for (const [name, s] of Object.entries(state)) {
-    if (s.downSince && now - s.downSince >= HEALTH_DOWN_MS && !s.told) {
-      s.told = true;
-      down.push(name);
-    }
-    if (!s.downSince && s.told) {
-      delete s.told;
-      back.push(name);
-    }
-  }
-  if (!down.length && !back.length) return;
-  props.setProperty("health", JSON.stringify(state));
-  const lines = [down.length ? `Not answering for 30 minutes or more: ${down.join(", ")}.` : "", back.length ? `Answering again: ${back.join(", ")}.` : ""].filter(Boolean).join("\n");
-  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), `FLOODplain feeds: ${down.length ? "problem" : "recovered"}`, lines);
 }
 const MAX_CLOSURE_PUSHES_PER_DAY = 12;
 function closureWatch_() {
@@ -1655,6 +1644,8 @@ function computeVerdicts_() {
   });
   const now = Date.now();
   const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
+  const [hc, hr, hs, hn, htc, htw] = res.slice(sites.length);
+  noteOwnerHealth_(expectedInputHealth_({ usgs, closures: hc, rain: hr, stream: hs, nws: hn, tvClosures: htc, tvWork: htw }, now), now);
   const trimmed = Object.fromEntries(sites.map((s) => [s, usgs[s] ? { features: (usgs[s].features || []).map((f) => ({ properties: f.properties })) } : null]));
   cache.put("usgs", JSON.stringify({ fetched_at: new Date(Date.now()).toISOString(), series: trimmed }), 300);
   const [closures, rain, stream, nws, tvClosures, tvWork] = res.slice(sites.length);
@@ -1675,6 +1666,7 @@ function computeVerdicts_() {
     const v = evaluate({ now, usgs, closures, alert, nws, roadEvents: eventsForRating, routes: ROUTE_FEATURES }, id);
     out[id] = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title, closed: v.closed, closuresKnown: v.closuresKnown };
   }
+  noteOwnerHealth_([{ id: "compute", reason: "", expected: "Successful evaluation for every area", crossings: "All configured crossings" }], now);
   cache.put("verdicts", JSON.stringify(out), 240);
   if (alert) cache.put("alert", JSON.stringify(alert), 300);
   return out;
@@ -1900,4 +1892,109 @@ function pad_(n) {
 }
 function json_(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
+}
+function expectedInputHealth_(raw, now) {
+  const out = [];
+  const affected = (test) => FAILURE_POINTS.filter(test).map((p) => p.short);
+  const add = (id, expected, crossings, reason) => out.push({ id, expected, crossings: crossings.join(", ") || "Regional context", reason });
+  const numeric = (v) => v != null && String(v).trim() !== "" && Number.isFinite(Number(v)) && Number(v) >= 0;
+  const reading = (valid, time, age) => {
+    if (!valid) return "Missing or malformed reading";
+    const t = Date.parse(time);
+    if (!Number.isFinite(t) || t > now) return "Missing or invalid observation time";
+    return now - t > age ? "Stale reading" : "";
+  };
+  for (const [id, site] of Object.entries(USGS_SITES)) {
+    const body = raw.usgs[id];
+    const rows = Array.isArray(body == null ? void 0 : body.features) ? body.features.filter((f) => {
+      var _a;
+      return ((_a = f == null ? void 0 : f.properties) == null ? void 0 : _a.parameter_code) === "00060";
+    }).map((f) => f.properties).sort((a, b) => Date.parse(b.time) - Date.parse(a.time)) : [];
+    const p = rows[0];
+    add("usgs:" + id, site.name + " discharge within 3 hours", affected((p2) => {
+      var _a;
+      return (p2.river || []).includes(id) || (((_a = p2.wash) == null ? void 0 : _a.usgs) || []).includes(id);
+    }), !body ? "Source unavailable" : reading(numeric(p == null ? void 0 : p.value), p == null ? void 0 : p.time, STALE_MS));
+  }
+  for (const kind of ["rain", "stream"]) {
+    const body = raw[kind];
+    const ids = kind === "rain" ? [...new Set(FAILURE_POINTS.flatMap((p) => Object.values(p.rain || {}).flat()))] : [...new Set(FAILURE_POINTS.flatMap((p) => {
+      var _a;
+      return ((_a = p.wash) == null ? void 0 : _a.alert) || [];
+    }))];
+    for (const id of ids) {
+      const row = Array.isArray(body == null ? void 0 : body.data) ? body.data.find((d) => String(d.site) === id) : null;
+      const points = affected((p) => {
+        var _a;
+        return kind === "rain" ? Object.values(p.rain || {}).flat().includes(id) : (((_a = p.wash) == null ? void 0 : _a.alert) || []).includes(id);
+      });
+      const windows = kind === "rain" ? [...new Set(FAILURE_POINTS.flatMap((p) => Object.entries(p.rain || {}).filter(([, ids2]) => ids2.includes(id)).flatMap(([rule]) => ["h6", ...Object.values(RAIN[rule]).flatMap((r) => Object.keys(r))])))] : [];
+      const values = kind === "rain" ? windows.map((w) => {
+        var _a;
+        return (_a = row == null ? void 0 : row.rain) == null ? void 0 : _a[["m10", "m30", "h1", "h3", "h6", "d1", "d3", "d7", "d30"].indexOf(w)];
+      }) : [row == null ? void 0 : row.flow];
+      const reason = !body ? "Source unavailable" : !row ? "Expected station absent" : row.UnderMaintenance ? "Station under maintenance" : reading(values.every(numeric), row.last_rpt ? row.last_rpt + "-07:00" : null, kind === "rain" ? 24 * 36e5 : STALE_MS);
+      add(kind + ":" + id, (RAIN_GAUGES[id] || id) + (kind === "rain" ? " rain windows " + windows.join("/") + " within 24 hours" : " stream discharge within 3 hours"), points, reason);
+    }
+  }
+  for (const [id, body, field] of [["county", raw.closures, "features"], ["weather", raw.nws, "features"], ["transview-closures", raw.tvClosures, "d"], ["transview-work", raw.tvWork, "d"]]) {
+    const list = body == null ? void 0 : body[field];
+    const valid = Array.isArray(list) || id === "transview-work" && list && typeof list === "object";
+    const malformed = valid && Object.values(list).some((r) => {
+      var _a;
+      return !r || typeof r !== "object" || id === "county" && (!r.attributes || !r.geometry || !Number.isFinite(r.geometry.x) || !Number.isFinite(r.geometry.y) || !["Open", "Closed", "Proceed with Caution"].includes(r.attributes.Status)) || id === "weather" && typeof ((_a = r.properties) == null ? void 0 : _a.event) !== "string" || id === "transview-closures" && (typeof r.Geo !== "string" || r.KeyID == null) || id === "transview-work" && (typeof r.Geography !== "string" || r.KeyID == null);
+    });
+    add(id, "Readable " + id + " event list (empty is valid)", [], !body ? "Source unavailable" : !valid || malformed ? "Malformed event list" : "");
+  }
+  return out;
+}
+function noteOwnerHealth_(results, now) {
+  const props = PropertiesService.getScriptProperties();
+  const ids = JSON.parse(props.getProperty("ownerHealthIds") || "[]");
+  for (const result of results) {
+    if (!ids.includes(result.id)) ids.push(result.id);
+    const key = "ownerHealth:" + result.id;
+    const s = JSON.parse(props.getProperty(key) || "{}");
+    const fingerprint = result.reason || "";
+    if (s.reason !== fingerprint) {
+      s.since = now;
+      s.attempts = 0;
+      s.nextTry = 0;
+    }
+    Object.assign(s, result, { reason: fingerprint, checked: now });
+    props.setProperty(key, JSON.stringify(s));
+  }
+  props.setProperty("ownerHealthIds", JSON.stringify(ids));
+}
+function ownerHealthWatch_(now) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(1e3);
+  try {
+    deliverOwnerHealth_(now);
+  } finally {
+    lock.releaseLock();
+  }
+}
+function deliverOwnerHealth_(now) {
+  const props = PropertiesService.getScriptProperties();
+  const pending = [];
+  const computeFailed = JSON.parse(props.getProperty("ownerHealth:compute") || "{}").reason;
+  for (const id of JSON.parse(props.getProperty("ownerHealthIds") || "[]")) {
+    const key = "ownerHealth:" + id, s = JSON.parse(props.getProperty(key) || "{}");
+    if ((s.reason || "") === (s.delivered || "") || (s.attempts || 0) >= 5 || now < (s.nextTry || 0)) continue;
+    if (!s.reason && (now - s.checked > 5 * 6e4 || id !== "compute" && computeFailed)) continue;
+    pending.push({ key, s });
+  }
+  if (!pending.length) return;
+  const body = ["FLOODplain expected-input check", "Checked: " + new Date(now).toISOString(), ...pending.map(({ s }) => [s.reason ? "PROBLEM: " + s.id : "RECOVERED: " + s.id, "Expected: " + s.expected, "Crossings: " + s.crossings, "Result: " + (s.reason || "Expected input is valid again"), "Since: " + new Date(s.since).toISOString()].join("\n")), "Action: inspect the named source or station and its timestamps; restore the feed or correct its configuration. Recovery confirms input availability, not road conditions."].join("\n\n");
+  for (const { key, s } of pending) {
+    s.attempts = (s.attempts || 0) + 1;
+    s.nextTry = now + Math.min(60, 2 ** s.attempts) * 6e4;
+    props.setProperty(key, JSON.stringify(s));
+  }
+  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), "FLOODplain: expected input " + (pending.some((p) => p.s.reason) ? "needs attention" : "recovered"), body);
+  for (const { key, s } of pending) {
+    s.delivered = s.reason;
+    props.setProperty(key, JSON.stringify(s));
+  }
 }
