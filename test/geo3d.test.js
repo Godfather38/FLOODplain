@@ -10,7 +10,7 @@ import {drainageNetwork,withWander,carveField,sampleField,streamChains} from '..
 import {visibleRoadRuns,ribbonMesh} from '../public/preview/geo3d/src/roads.js';
 import {ChannelSimulation} from '../public/preview/geo3d/src/channel-sim.js';
 import {chooseWindow,scaleForZoom} from '../public/preview/geo3d/src/water-window.js';
-import {buildRoadMesh,parseRoadHeights,anchorLift,roadCovered,plantSpots} from '../public/preview/geo3d/src/roads-3d.js';
+import {buildRoadMesh,parseRoadHeights,anchorLift,roadCovered,plantSpots,LODS,lodFor} from '../public/preview/geo3d/src/roads-3d.js';
 import {GRID_PRESETS} from '../public/preview/coastal-lowcost/src/trial-config.js';
 
 const url=path=>new URL(`../${path}`,import.meta.url);
@@ -161,6 +161,17 @@ test('roads bridge channels, unless the spot is a ford, and survive missing terr
  assert.ok(side.spans>=1&&far===0,'a side street gets only its bridge');
  const half=buildRoadMesh([road],(x)=>x<600?100:null);
  assert.ok(half.positions.length>0,'the part with terrain is still built');
+});
+
+test('distance lowers detail without dropping major roads', () => {
+ assert.deepEqual([lodFor(0),lodFor(5000),lodFor(50000)],[0,1,2]);
+ const roads=[{cls:'motorway',points:[[0,0],[6000,0]]}];
+ const near=buildRoadMesh(roads,()=>100,{detail:LODS[0].detail,step:LODS[0].step}),far=buildRoadMesh(roads,()=>100,{detail:LODS[2].detail,step:LODS[2].step});
+ assert.ok(far.positions.length>0,'the interstate is still there far away');
+ assert.ok(far.positions.length*10<near.positions.length,'and costs far less');
+ for(const L of LODS)assert.ok(!L.classes||L.classes.includes('motorway'));
+ const many=Array.from({length:3000},(_,i)=>({cls:'minor',points:[[i*10,0],[i*10,600]]}));
+ assert.equal(buildRoadMesh(many,()=>100).dropped,undefined,'there is no budget that throws roads away');
 });
 
 test('the water window grows as the view zooms out', () => {

@@ -34,7 +34,7 @@ export function anchorLift(x,y,anchors,exaggeration){
  }
  return lift;
 }
-function resample(points){
+function resample(points,STEP){
  const out=[points[0]];
  for(let q=1;q<points.length;q++){
   const a=points[q-1],b=points[q],parts=Math.max(1,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/STEP));
@@ -46,7 +46,7 @@ const hash=(x,y)=>{let v=Math.imul(Math.round(x),374761393)+Math.imul(Math.round
 // roads: [{points:[[x,y]...],cls,bridge,oneway}] in local metres. heightAt gives ground in the
 // map's exaggerated metres, or null where terrain has not loaded. detail adds the close-up
 // asphalt, markings, barriers and roadside furniture. widthScale keeps roads readable far out.
-export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,maxVertices=420000,detail=false,widthScale=1,plants=[],skipPlant=null,channelAt=null,fordAt=null,focus=null,detailReach=3500}={}){
+export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,step=STEP,detail=false,widthScale=1,plants=[],skipPlant=null,channelAt=null,fordAt=null,focus=null,detailReach=3500}={}){
  const positions=[],colors=[],indices=[];
  const vertex=(x,y,z,c)=>{positions.push(x,y,z);colors.push(c[0],c[1],c[2]);return positions.length/3-1;};
  const quad=(a,b,c,d)=>indices.push(a,b,c,b,d,c);
@@ -72,11 +72,12 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,m
  // Roads are cut into pieces. Terrain may have loaded for only part of a road, which must
  // not lose the rest of it. Where a road meets a channel it becomes a bridge, unless that
  // spot is a known ford, and the deck reaches one sample past each bank.
- let spans=0;
+ let spans=0,missing=0;
  const pieces=[];
  for(const road of roads){
-  const all=resample(road.points);
+  const all=resample(road.points,step);
   const known=all.map(([x,y])=>heightAt(x,y)!=null);
+  if(known.includes(false))missing++;
   const wet=all.map(([x,y],q)=>known[q]&&!road.bridge&&!!channelAt?.(x,y)&&!fordAt?.(x,y));
   const span=wet.map((w,q)=>w||!!wet[q-1]||!!wet[q+1]);
   let start=0;
@@ -99,10 +100,8 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,m
  const away=road=>{if(!focus)return 0;const m=road.points[road.points.length>>1];return Math.hypot(m[0]-focus[0],m[1]-focus[1]);};
  const rank=road=>ORDER.indexOf(road.cls)*1500+away(road);
  const ranked=pieces.map(road=>({road,order:rank(road)})).sort((a,b)=>a.order-b.order).map(p=>p.road);
- let dropped=0;
  for(const road of ranked){
-  if(positions.length/3>maxVertices){dropped++;continue;}
-  const style=roadStyle(road.cls),points=resample(road.points);
+  const style=roadStyle(road.cls),points=road.points;
   if(points.length<2)continue;
   const ground=points.map(([x,y])=>heightAt(x,y));
   if(ground.some(g=>g==null))continue;
@@ -137,7 +136,7 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,m
    const under=rows.map(r=>r.z-thick*2.4);
    for(const end of[0,rows.length-1]){const r=rows[end];if(under[end]-r.ground>-1)box(r.x,r.y,r.ground-2,r.z-thick,half*.5,half*1.05,r.ca,r.sa,CONCRETE);}
    rows.forEach((r,q)=>{
-    if(q%Math.max(1,Math.round(PIER_SPACING/STEP))||q===0||q===rows.length-1||under[q]-r.ground<=2)return;
+    if(q%Math.max(1,Math.round(PIER_SPACING/step))||q===0||q===rows.length-1||under[q]-r.ground<=2)return;
     box(r.x,r.y,under[q]-3,under[q],half*.2,half*.85,r.ca,r.sa,PIER);
     for(const o of[-.45,.45])box(r.x+r.nx*half*o,r.y+r.ny*half*o,r.ground-2,under[q]-3,half*.13,half*.13,r.ca,r.sa,PIER);
    });
@@ -145,9 +144,9 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,m
    // Median barrier on the inside edge, then poles and overhead signs along the outside.
    strip(rows,-half-.3,-half-.3,0,2.2,CONCRETE);strip(rows,-half+.3,-half+.3,0,2.2,SHADOW);strip(rows,-half-.3,-half+.3,2.2,2.2,WHITE);
    rows.forEach((r,q)=>{
-    const along=q*STEP;
-    if(along%POLE_SPACING<STEP){const px=r.x+r.nx*(half+3),py=r.y+r.ny*(half+3);box(px,py,r.z-1,r.z+22,.35,.35,r.ca,r.sa,STEEL);box(r.x+r.nx*(half-1),r.y+r.ny*(half-1),r.z+21.5,r.z+22.5,.3,4,r.ca,r.sa,STEEL);}
-    if(along%GANTRY_SPACING<STEP&&hash(r.x,r.y)>.3){
+    const along=q*step;
+    if(along%POLE_SPACING<step){const px=r.x+r.nx*(half+3),py=r.y+r.ny*(half+3);box(px,py,r.z-1,r.z+22,.35,.35,r.ca,r.sa,STEEL);box(r.x+r.nx*(half-1),r.y+r.ny*(half-1),r.z+21.5,r.z+22.5,.3,4,r.ca,r.sa,STEEL);}
+    if(along%GANTRY_SPACING<step&&hash(r.x,r.y)>.3){
      for(const side of[-1,1])box(r.x+r.nx*side*(half+2),r.y+r.ny*side*(half+2),r.z-1,r.z+20,.5,.5,r.ca,r.sa,STEEL);
      box(r.x,r.y,r.z+19,r.z+20,.4,half+2,r.ca,r.sa,STEEL);
      box(r.x,r.y,r.z+13,r.z+19,.3,half*.6,r.ca,r.sa,SIGN,SIGN);
@@ -158,7 +157,6 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,m
  // Desert plants, low-poly: saguaro with arms, and rounded creosote and palo verde shrubs.
  let planted=0;
  for(const plant of plants){
-  if(positions.length/3>maxVertices)break;
   const {x,y}=plant;
   if(taken.has(`${Math.round(x/70)},${Math.round(y/70)}`)||skipPlant?.(x,y))continue;
   const g=heightAt(x,y);if(g==null)continue;
@@ -174,7 +172,7 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,m
   }
   planted++;
  }
- return{positions:new Float32Array(positions),colors:new Float32Array(colors),indices:new Uint32Array(indices),dropped,planted,spans};
+ return{positions:new Float32Array(positions),colors:new Float32Array(colors),indices:new Uint32Array(indices),planted,spans,missing};
 }
 // Evenly scattered places for plants, fixed to the ground so they do not move between views.
 export function plantSpots(cx,cy,radius,spacing=75){
@@ -186,5 +184,8 @@ export function plantSpots(cx,cy,radius,spacing=75){
  }
  return out;
 }
+// Level of detail for a ground chunk, by its distance from the middle of the view.
+export const LODS=Object.freeze([{reach:3500,step:60,detail:true,plants:true,classes:null},{reach:10000,step:120,detail:false,plants:false,classes:null},{reach:Infinity,step:300,detail:false,plants:false,classes:['motorway','trunk','primary','secondary']}]);
+export const lodFor=distance=>LODS.findIndex(l=>distance<l.reach);
 // Is this road under the water here? Both heights are above the same bed, in real metres.
 export const roadCovered=(aboveBedM,waterDepthM)=>waterDepthM>aboveBedM;

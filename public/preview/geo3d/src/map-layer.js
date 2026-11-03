@@ -13,7 +13,7 @@ import {loadLiveHeights,loadTile} from './data-source.js';
 import {channelsFromLines,ribbonMask} from './channels.js';
 import {drainageNetwork,withWander,carveField,sampleField,streamChains} from './network.js';
 import {COVERAGE,MIN_WATER_ZOOM,chooseWindow} from './water-window.js';
-import {buildRoadMesh,parseRoadHeights,plantSpots} from './roads-3d.js';
+import {buildRoadMesh,parseRoadHeights,plantSpots,LODS,lodFor} from './roads-3d.js';
 import {mountAcknowledgement} from './acknowledge.js';
 const $=id=>document.getElementById(id);
 const DATA='../../../data/';
@@ -115,43 +115,73 @@ function install(p,initial=false){
 }
 const WATER_SCALE=.05,ROAD_CLASSES=['motorway','trunk','primary','secondary','tertiary'];
 // Road models, rebuilt from the vector tiles the map has loaded for this view.
-const CHANNEL_CUT=8,FORD_REACH=350;
-let roadMesh=null,anchors=[],fords=[],roadsDirty=true,roadTimer=null;
+const CHANNEL_CUT=8,FORD_REACH=350,DETAIL_ZOOM=13.5,PLANT_ZOOM=14;
+let anchors=[],fords=[],roadsDirty=true,roadTimer=null;
 const roadFrame=new THREE.Matrix4();
-function placeRoads(){if(roadMesh){roadMesh.matrix.copy(transform).invert().multiply(roadFrame);roadMesh.matrixWorldNeedsUpdate=true;}}
-const scheduleRoads=()=>{roadsDirty=true;clearTimeout(roadTimer);roadTimer=setTimeout(rebuildRoads,250);};
-function rebuildRoads(){
- if(!roadsDirty||!shaders)return;
- if(!map.isSourceLoaded('omt')){roadTimer=setTimeout(rebuildRoads,500);return;}
- roadsDirty=false;const at=performance.now();
- const c=map.getCenter(),O=maplibre.MercatorCoordinate.fromLngLat([c.lng,c.lat],0),s=O.meterInMercatorCoordinateUnits();
- const local=(lon,lat)=>{const m=maplibre.MercatorCoordinate.fromLngLat([lon,lat],0);return[(m.x-O.x)/s,(m.y-O.y)/s];};
- const fromLocal=(x,y)=>new maplibre.MercatorCoordinate(O.x+x*s,O.y+y*s,0).toLngLat();
- const zoom=map.getZoom(),seen=new Set(),roads=[];
- for(const f of map.querySourceFeatures('omt',{sourceLayer:'transportation'})){
-  const cls=f.properties.class,bridge=f.properties.brunnel==='bridge';
-  const listed=ROAD_CLASSES.includes(cls)||(bridge&&cls==='minor'&&zoom>=13);
-  // Smaller roads are drawn flat by the map, and only get a model where they bridge a channel.
-  if(!listed&&!(zoom>=13&&['minor','service','track'].includes(cls)))continue;
-  for(const line of f.geometry.type==='MultiLineString'?f.geometry.coordinates:f.geometry.type==='LineString'?[f.geometry.coordinates]:[]){
-   const key=[cls,line[0],line.at(-1)].join();if(seen.has(key))continue;seen.add(key);
-   roads.push({cls:ROAD_CLASSES.includes(cls)?cls:'minor',bridge,spanOnly:!listed,oneway:f.properties.oneway===1,points:line.map(([lon,lat])=>local(lon,lat))});
-  }
- }
- const mesh=buildRoadMesh(roads,(x,y)=>map.queryTerrainElevation(fromLocal(x,y)),{anchors:anchors.map(a=>{const[x,y]=local(a.lon,a.lat);return{...a,x,y};}),exaggeration:SCENE.verticalExaggeration,detail:zoom>=13,focus:[0,0],widthScale:Math.max(1,2**(13.5-zoom)),
-  // Plants share their positions across views by being placed in absolute mercator metres.
-  plants:zoom>=13.2?plantSpots(O.x/s,O.y/s,Math.min(3000,1400*2**(15-zoom))).map(p=>({x:p.x-O.x/s,y:p.y-O.y/s})):[],
+function placeRoads(){roadGroup.matrix.copy(transform).invert().multiply(roadFrame);roadGroup.matrixWorldNeedsUpdate=true;}
+const scheduleRoads=()=>{roadsDirty=true;clearTimeout(roadTimer);roadTimer=setTimeout(rebuildRoads,200);};
+// Roads are split into ground chunks in one fixed frame, so a chunk is built once and reused.
+const FRAME=maplibre.MercatorCoordinate.fromLngLat([(COVERAGE.west+COVERAGE.east)/2,(COVERAGE.north+COVERAGE.south)/2],0),FRAME_M=FRAME.meterInMercatorCoordinateUnits(),CHUNK=2000;
+const local=(lon,lat)=>{const c=maplibre.MercatorCoordinate.fromLngLat([lon,lat],0);return[(c.x-FRAME.x)/FRAME_M,(c.y-FRAME.y)/FRAME_M];};
+const fromLocal=(x,y)=>new maplibre.MercatorCoordinate(FRAME.x+x*FRAME_M,FRAME.y+y*FRAME_M,0).toLngLat();
+const roadGroup=new THREE.Group();roadGroup.matrixAutoUpdate=false;scene.add(roadGroup);
+roadFrame.set(FRAME_M,0,0,FRAME.x, 0,FRAME_M,0,FRAME.y, 0,0,FRAME_M,0, 0,0,0,1);
+const chunks=new Map();let buildQueue=[],terrainRevision=0,roadMaterial=null;
+function buildChunk(job){
+ const {cellX,cellY,lod,roads,widthScale,key}=job,L=LODS[lod],cx=(cellX+.5)*CHUNK,cy=(cellY+.5)*CHUNK;
+ const anchorsLocal=anchors.map(a=>{const[x,y]=local(a.lon,a.lat);return{...a,x,y};}),fordsLocal=fords.map(f=>local(f.lon,f.lat));
+ const plants=L.plants&&job.showPlants?plantSpots(cx,cy,CHUNK*.75).filter(p=>Math.floor(p.x/CHUNK)===cellX&&Math.floor(p.y/CHUNK)===cellY):[];
+ const mesh=buildRoadMesh(roads.filter(r=>!L.classes||r.bridge||L.classes.includes(r.cls)),(x,y)=>map.queryTerrainElevation(fromLocal(x,y)),{anchors:anchorsLocal,exaggeration:SCENE.verticalExaggeration,detail:L.detail,step:L.step,widthScale,plants,
   skipPlant:(x,y)=>{const g=fromLocal(x,y);return cutAt(g.lng,g.lat)>0;},
   channelAt:(x,y)=>{const g=fromLocal(x,y);return cutAt(g.lng,g.lat)>CHANNEL_CUT;},
   // Crossings not tagged as bridges are treated as dips, as are measured at-grade crossings.
-  fordAt:(x,y)=>fords.some(f=>{const[a,b]=local(f.lon,f.lat);return Math.hypot(a-x,b-y)<FORD_REACH;})});
- const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(mesh.positions,3));g.setAttribute('color',new THREE.BufferAttribute(mesh.colors,3));g.setIndex(new THREE.BufferAttribute(mesh.indices,1));
- if(!roadMesh){roadMesh=new THREE.Mesh(g,new THREE.MeshBasicNodeMaterial({vertexColors:true,side:THREE.DoubleSide}));roadMesh.frustumCulled=false;roadMesh.matrixAutoUpdate=false;scene.add(roadMesh);}
- else{roadMesh.geometry.dispose();roadMesh.geometry=g;}
- roadFrame.set(s,0,0,O.x, 0,s,0,O.y, 0,0,s,0, 0,0,0,1);
- placeRoads();
- diagnostics.roads={count:roads.length,bridges:roads.filter(r=>r.bridge).length,vertices:mesh.positions.length/3,dropped:mesh.dropped,planted:mesh.planted,spans:mesh.spans,ms:Math.round(performance.now()-at)};
+  fordAt:(x,y)=>fordsLocal.some(([a,b])=>Math.hypot(a-x,b-y)<FORD_REACH)});
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(mesh.positions,3));g.setAttribute('color',new THREE.BufferAttribute(mesh.colors,3));g.setIndex(new THREE.BufferAttribute(mesh.indices,1));g.computeBoundingSphere();
+ roadMaterial??=new THREE.MeshBasicNodeMaterial({vertexColors:true,side:THREE.DoubleSide});
+ const old=chunks.get(job.cell);
+ if(old){roadGroup.remove(old.object);old.object.geometry.dispose();}
+ const object=new THREE.Mesh(g,roadMaterial);object.matrixAutoUpdate=false;roadGroup.add(object);
+ chunks.set(job.cell,{key,object,revision:terrainRevision,missing:mesh.missing,vertices:mesh.positions.length/3,spans:mesh.spans,planted:mesh.planted,lod});
+}
+function workQueue(){
+ const until=performance.now()+6;
+ while(buildQueue.length&&performance.now()<until)buildChunk(buildQueue.shift());
+ report();
  map.triggerRepaint();
+ if(buildQueue.length)requestAnimationFrame(workQueue);
+}
+function report(){
+ let vertices=0,spans=0,planted=0,incomplete=0;const levels=[0,0,0];
+ for(const c of chunks.values()){vertices+=c.vertices;spans+=c.spans;planted+=c.planted;levels[c.lod]++;if(c.missing)incomplete++;}
+ diagnostics.roads={chunks:chunks.size,levels,queued:buildQueue.length,incomplete,vertices,spans,planted};
+}
+function rebuildRoads(){
+ if(!roadsDirty||!shaders)return;
+ if(!map.isSourceLoaded('omt')){roadTimer=setTimeout(rebuildRoads,400);return;}
+ roadsDirty=false;
+ const zoom=map.getZoom(),c=map.getCenter(),[vx,vy]=local(c.lng,c.lat),widthScale=2**Math.max(0,Math.round(13.5-zoom));
+ const seen=new Set(),byCell=new Map();
+ for(const f of map.querySourceFeatures('omt',{sourceLayer:'transportation'})){
+  const cls=f.properties.class,bridge=f.properties.brunnel==='bridge',listed=ROAD_CLASSES.includes(cls)||(bridge&&cls==='minor');
+  if(!listed&&!['minor','service','track'].includes(cls))continue;
+  for(const line of f.geometry.type==='MultiLineString'?f.geometry.coordinates:f.geometry.type==='LineString'?[f.geometry.coordinates]:[]){
+   const dedupe=[cls,line[0],line.at(-1)].join();if(seen.has(dedupe))continue;seen.add(dedupe);
+   const points=line.map(([lon,lat])=>local(lon,lat)),mid=points[points.length>>1],cellX=Math.floor(mid[0]/CHUNK),cellY=Math.floor(mid[1]/CHUNK),cell=cellX+','+cellY;
+   if(!byCell.has(cell))byCell.set(cell,{cell,cellX,cellY,roads:[]});
+   byCell.get(cell).roads.push({cls:ROAD_CLASSES.includes(cls)?cls:'minor',bridge,spanOnly:!listed,oneway:f.properties.oneway===1,points});
+  }
+ }
+ const jobs=[];
+ for(const job of byCell.values()){
+  const d=Math.hypot((job.cellX+.5)*CHUNK-vx,(job.cellY+.5)*CHUNK-vy),lod=Math.max(zoom<DETAIL_ZOOM?1:0,lodFor(d));
+  // Plants and markings only appear once they are large enough on screen to read.
+  job.lod=lod;job.widthScale=widthScale;job.distance=d;job.showPlants=zoom>=PLANT_ZOOM;job.key=[lod,widthScale,job.roads.length,job.showPlants].join();
+  const have=chunks.get(job.cell);
+  if(!have||have.key!==job.key||(have.missing&&have.revision!==terrainRevision))jobs.push(job);
+ }
+ for(const [cell,c] of chunks)if(!byCell.has(cell)){roadGroup.remove(c.object);c.object.geometry.dispose();chunks.delete(cell);}
+ buildQueue=jobs.sort((p,q)=>p.distance-q.distance);
+ placeRoads();workQueue();
 }
 // The old water stays on screen until the new window has finished warming up.
 async function moveWater(target){
@@ -227,7 +257,7 @@ const layer={id:'simulated-water',type:'custom',renderingMode:'3d',
   if(!heights.ok)throw new Error('Road heights answered '+heights.status);
   anchors=parseRoadHeights(await heights.json());
   fords=[...anchors.filter(a=>!a.deck),...crossings.filter(c=>!c.bridgeTagged)];
-  map.on('moveend',followView);map.on('moveend',scheduleRoads);map.on('sourcedata',e=>{if((e.sourceId==='omt'||e.sourceId==='dem')&&e.isSourceLoaded)scheduleRoads();});map.on('resize',()=>{const c=map.getCanvas();renderer.setDrawingBufferSize(c.width,c.height,1);map.triggerRepaint();});
+  map.on('moveend',followView);map.on('moveend',scheduleRoads);map.on('sourcedata',e=>{if(e.sourceId==='dem'&&e.isSourceLoaded)terrainRevision++;if((e.sourceId==='omt'||e.sourceId==='dem')&&e.isSourceLoaded)scheduleRoads();});map.on('resize',()=>{const c=map.getCanvas();renderer.setDrawingBufferSize(c.width,c.height,1);map.triggerRepaint();});
   followView();scheduleRoads();
  },
  render(gl,args){
