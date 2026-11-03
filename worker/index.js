@@ -28,12 +28,15 @@ export async function loadPublic(fetcher = fetch) {
   return raw;
 }
 
+export function validAssessments(verdicts) {
+  return AREAS.every(({id}) => verdicts[id]?.rated?.length && verdicts[id].rated.every(r => Number.isFinite(r.score) && r.score>=1 && r.score<=5));
+}
 export function compute(raw, now) {
   const inputs = expectedInputHealth_(raw, now);
   const alert = raw.rain && raw.stream ? alertSnapshot(raw.rain.data, raw.stream.data, now) : null;
   const events = raw.tvClosures || raw.tvWork ? normalizeRoadEvents(raw.tvClosures?.d, raw.tvWork?.d, [-111.45,32.1,-110.9,32.6]) : null;
   const verdicts = Object.fromEntries(AREAS.map(({id}) => [id, evaluate({now,usgs:raw.usgs,closures:raw.closures,alert,nws:raw.nws,roadEvents:events,routes},id)]));
-  if (!AREAS.every(({id}) => verdicts[id]?.rated?.length && verdicts[id].rated.every(r => Number.isInteger(r.score) && r.score>=1 && r.score<=5))) throw Error('Incomplete all-area assessment');
+  if (!validAssessments(verdicts)) throw Error('Incomplete all-area assessment');
   const sources = Object.fromEntries(Object.entries({usgs:Object.values(raw.usgs).some(Boolean),county:!!raw.closures,rain:!!raw.rain,stream:!!raw.stream,weather:!!raw.nws,transview:!!events}).map(([id,ok]) => [id,ok?{lastOk:now}:{downSince:now}]));
   return {inputs, verdicts, sources, feeds:{
     usgs:{fetched_at:new Date(now).toISOString(),series:Object.fromEntries(Object.entries(raw.usgs).map(([id,v]) => [id,v?{features:(v.features||[]).map(f=>({properties:f.properties}))}:null]))},

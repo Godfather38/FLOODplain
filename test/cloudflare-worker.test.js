@@ -5,7 +5,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {DatabaseSync} from 'node:sqlite';
-import {createWorker,compute,loadPublic} from '../worker/index.js';
+import {createWorker,compute,loadPublic,validAssessments} from '../worker/index.js';
 import {healthy,fixtureNow as now} from '../worker/fixtures/healthy.js';
 import {expectedInputHealth_} from '../worker/generated/input-health.js';
 import {ShadowLedger} from '../worker/ledger.js';
@@ -15,6 +15,12 @@ import routes from '../worker/generated/routes.json' with {type:'json'};
 import {makeGas} from './gas-mock.js';
 
 const get=(w,query,env={})=>w.fetch(new Request('http://localhost/?'+query),env);
+test('all-area validation preserves fractional numerical ratings and rejects missing assessments',()=>{
+  const assessments=Object.fromEntries(AREAS.map(a=>[a.id,{rated:[{score:2.5}]}]));
+  assert.equal(validAssessments(assessments),true);
+  assessments[AREAS[0].id].rated[0].score=NaN;assert.equal(validAssessments(assessments),false);
+  delete assessments[AREAS[0].id];assert.equal(validAssessments(assessments),false);
+});
 test('healthy fixture feeds match actual Apps Script GET contract',async()=>{
   const out=join(mkdtempSync(join(tmpdir(),'worker-contract-')),'bundle.gs');
   execFileSync(process.execPath,['tools/build_gas.mjs'],{env:{...process.env,GAS_OUT:out}});

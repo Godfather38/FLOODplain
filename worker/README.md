@@ -20,7 +20,7 @@ Optional local public-source shadow reads: `npm run preview:worker -- --live-pub
 
 The same entry is a module Worker. If Wrangler is installed, use `wrangler dev --local --config worker/wrangler.jsonc`. The config contains no account, routes, cron triggers or storage bindings, and disables workers.dev/preview URLs. Do not deploy it. The scheduled handler is a hard no-op regardless of environment variables. There is no sender implementation or deploy command.
 
-Verification on 2026-11-03: all 228 repository tests pass, including nine Worker contract/state tests and direct fixture GET parity against the built Apps Script. `node worker/smoke.mjs` passes the loopback HTTP check. Wrangler 4.157.0 local workerd serves HTTP 200 with the fixture header, both areas, 20 input checks and the expected consolidated feed keys. The unbound ledger is tested with Node SQLite, not a deployed Durable Object. Real upstream availability and production delivery remain untested.
+Verification on 2026-11-03: all 229 repository tests pass, including ten Worker contract/state tests and direct fixture GET parity against the built Apps Script. All browser smoke checks pass with mocked external services. `node worker/smoke.mjs` passes the loopback HTTP check. Wrangler 4.157.0 local workerd serves HTTP 200 with the fixture header, both areas, 20 input checks and the expected consolidated feed keys. The unbound ledger is tested with Node SQLite, not a deployed Durable Object. Real upstream availability and production delivery remain untested.
 
 ## Contract inventory and deliberate gaps
 
