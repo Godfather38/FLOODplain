@@ -21,9 +21,10 @@ export function liveCoverage(entry,{handPoints=[],roadHeights={},closures=[]}={}
   county:closures.filter(c=>metres(here,c)<=CLOSURE_RADIUS_M),gauges:entry.gaugeAssociations?.length??0};
 }
 export function coverageText(c){
- const parts=[c.forecast?(c.roadHeight?'Live forecast compared with road height':'Live forecast, road height not resolved'):'No live forecast here'];
+ // A spot the model was never built to cover is not a broken feed, so it is described as coverage.
+ const parts=[c.forecast?(c.roadHeight?'Live forecast compared with road height':'Live forecast, road height not resolved'):'No model forecast covers this spot'];
  if(c.county.length)parts.push('county barricade nearby');
- parts.push(c.gauges?`${c.gauges} linked gauge${c.gauges>1?'s':''}`:'no linked gauge');
+ parts.push(c.gauges?`${c.gauges} linked gauge${c.gauges>1?'s':''}`:'no gauge linked here');
  return parts.join(' · ');
 }
 
@@ -76,14 +77,14 @@ export async function mountRouteTracking(root,{routeId,entryId=null,flows,alert,
   const rows=entries.map(e=>({entry:e,cover:liveCoverage(e,{handPoints:coverage.points,roadHeights:roads.points,closures:closures??[]})}));
   const count=fn=>rows.filter(r=>fn(r.cover)).length;
   root.querySelector('summary').textContent=`Coverage & gauge tracking · ${entries.length} location${entries.length===1?'':'s'}`;
-  body.innerHTML=`<p><strong>${count(c=>c.forecast)} with a live forecast · ${count(c=>c.roadHeight)} compared with road height · ${count(c=>c.gauges)} with a linked gauge</strong></p><p>${esc(ROUTE_INFO[routeId]?.name??routeId)}. These are crossings, junctions and terrain candidates, not confirmed dips. A location with no live source is unknown, not dry.</p><label>Find a location<input type="search" data-tracking-search></label><label>Show<select data-tracking-filter><option value="">All</option><option value="forecast">Live forecast</option><option value="none">No live forecast</option><option value="gauge">Linked gauge</option></select></label><p role="status" data-tracking-count></p><div data-tracking-entries></div>`;
+  body.innerHTML=`<p><strong>${count(c=>c.forecast)} with a live forecast · ${count(c=>c.roadHeight)} compared with road height · ${count(c=>c.gauges)} with a linked gauge</strong></p><p>${esc(ROUTE_INFO[routeId]?.name??routeId)}. These are crossings, junctions and terrain candidates, not confirmed dips. Each location lists only the sources that actually reach it. Where none does, nothing here measures that spot, and that is not a dry road.</p><label>Find a location<input type="search" data-tracking-search></label><label>Show<select data-tracking-filter><option value="">All</option><option value="forecast">Live forecast</option><option value="none">No model forecast</option><option value="gauge">Linked gauge</option></select></label><p role="status" data-tracking-count></p><div data-tracking-entries></div>`;
   const list=body.querySelector('[data-tracking-entries]');
   for(const {entry,cover} of rows){
    const detail=document.createElement('details');detail.className='tracking-entry';
    detail.dataset.search=[entry.name,entry.id].join(' ').toLowerCase();detail.dataset.forecast=cover.forecast;detail.dataset.gauge=cover.gauges>0;
    detail.innerHTML=`<summary>${esc(entry.name)}<span>${esc(coverageText(cover))}</span></summary><div class="tracking-entry-body"><p>Record type: ${esc(KINDS[entry.kind]??entry.kind.replaceAll('_',' '))}</p>${cover.county.map(c=>`<p>County: ${esc(c.location)}: ${esc(c.status||'no status')}${c.updated?` (updated ${esc(c.updated)})`:''}</p>`).join('')}<div data-entry-gauges></div></div>`;
    const gauges=detail.querySelector('[data-entry-gauges]');
-   if(!entry.gaugeAssociations?.length)gauges.innerHTML='<p>No hydrologically linked gauge for this location. Gauge support is unknown.</p>';
+   if(!entry.gaugeAssociations?.length)gauges.innerHTML='<p>No gauge is hydrologically linked to this location, so nothing here measures it directly.</p>';
    for(const association of entry.gaugeAssociations??[]){
     const gauge=tracking.gauges.find(g=>g.id===association.gaugeId);
     if(gauge)gauges.append(gaugeBox(gauge,association,{flows,alert}));

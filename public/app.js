@@ -14,7 +14,7 @@ import { resolveScreen } from './routing.js?v=dev';
 import { UNDERPASSES } from './underpasses.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
-  riskScore, routeScore, goodSigns, againstIt, routeClosures, roadEventActive, driveSummary, bridgeHeightComparison, crossingLead,
+  riskScore, routeScore, goodSigns, againstIt, routeClosures, roadEventActive, driveSummary, bridgeHeightComparison, crossingLead, evidenceState, gaugePhrases,
 } from './logic.js?v=dev';
 
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
@@ -22,7 +22,7 @@ const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
 const COLOR = RISK_COLORS;
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
 const SRC = {
-  none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
+  none: ['…', 'No source answered'], 'remote-only': ['📡', 'Evidence from elsewhere'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
   hand: ['🗺️', 'Flood model'], 'road-event': ['🚧', 'TransView'], wash: ['〰️', 'Wash flow upstream'], 'road-status': ['🛑', 'This crossing itself'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
 };
 const KIND_ICON = { dip: '〰️', flat: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
@@ -219,7 +219,11 @@ function where() {
 function angelText(r) {
   const good = goodSigns(r, view.nwsQuiet);
   if (r.level === 'unknown' && !good.length) return 'I can’t vouch for this one. Too much data is missing.';
-  if (!good.length) return 'Not much going for it right now.';
+  // Nothing reading clear and nothing answering are different things; say which one it is.
+  if (!good.length) {
+    const ev = evidenceState(r.points.flatMap((p) => p.checks));
+    return ev.remoteGauges || ev.model || ev.observed ? 'Nothing on this route is reading clear right now.' : 'No source answered for this route just now, so I have nothing to point to either way.';
+  }
   const list = good.length > 1 ? `${good.slice(0, -1).join(', ')} and ${good.at(-1)}` : good[0];
   return `${cap(list)}.`;
 }
@@ -264,7 +268,7 @@ function homeScreen() {
   const against = againstIt(best).slice(0, 2);
   const others = rec.order.filter((r) => r.id !== best.id);
   const allClosed = routeClosures(best).length > 0;
-  const overline = allClosed ? 'Every route has a road closure' : best.score <= 2 ? 'Best route right now' : 'Least going against it';
+  const overline = allClosed ? 'Every route has a road closure' : best.score <= 2 ? 'Best route right now' : 'Best-supported route right now';
   const areaSwitch = `<div class="seg" role="tablist" aria-label="Area">${AREAS.map((x) => `<button type="button" role="tab" data-area="${x.id}" aria-selected="${x.id === area}">${esc(x.name)}</button>`).join('')}</div>`;
   return `
     ${areaSwitch}
@@ -302,7 +306,7 @@ function homeScreen() {
       <a class="row small" href="#/sources"><span class="lead-icon">ℹ️</span><span class="text"><div class="t">Sources</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/privacy"><span class="lead-icon">🔒</span><span class="text"><div class="t">Privacy &amp; terms</div></span><span class="chev">›</span></a>
     </div>
-    <p class="fine">A guide built from public data, not a safety guarantee. Water over the road: turn around.</p>`;
+    <p class="fine">FLOODplain says plainly what the gauges, county reports and models show right now. It cannot see the road in front of you, so your own eyes and your own judgement come first: if a crossing feels wrong, don't take it, whatever this app says. If water is over the road, turn around, don't drown.</p>`;
 }
 
 function routeScreen(rid) {
@@ -345,6 +349,23 @@ function bridgeEvidencePlaceholder(fp){
  return `${bridgeCardEvidence(view.fpResults[fp.id])}<details class="bridge-evidence" data-bridge-evidence data-crossing-id="${esc(fp.id)}"><summary>Sources &amp; warning levels</summary><div class="bridge-evidence-body">${bridgeEvidence?.status==='unavailable'?`<p role="status">Evidence package unavailable: ${esc(bridgeEvidence.reason)}. Missing fields below are not proof of no flood history.</p>`:''}<dl>${heightHtml}${waterHtml}<dt>When the warning changes</dt><dd>${height.thresholds?`Channel elevation ${(height.channelM/0.3048).toFixed(1)} ft NAVD88; estimated road height above channel ${(height.heightAboveChannelM/0.3048).toFixed(1)} ft. Warning at ${(height.thresholds.warningM/0.3048).toFixed(1)} ft; roadway concern at ${(height.thresholds.roadwayM/0.3048).toFixed(1)} ft; likely closed — model estimate at ${(height.thresholds.likelyClosedM/0.3048).toFixed(1)} ft. ${esc(height.assessmentLabel)}. Warnings begin when water reaches 90% of the channel-to-road height; road-level concern begins at 100%, and likely closed at 110%. These are warning rules, not measured accuracy. <a href="${esc(record.channelReference.source)}">Channel terrain source</a>. ${esc(imperialSourceText(record.channelReference.method))}`:esc(height.assessmentLabel||height.reason)}</dd><dt>Under-bridge clearance</dt><dd>We do not have the height of the bridge underside. The road height cannot tell us the clearance beneath it.</dd><dt>Documented flooding or overtopping</dt><dd>${historyHtml}</dd></dl><p>Current readings and county barricade reports are below. River flow alone cannot tell us whether this bridge is underwater.</p>${record?`<details><summary>Evidence source</summary><p>Structure matched by its recorded coordinates; map tag, not survey confirmation. Registry ${esc(bridgeEvidence.source.sourceCommit)}. Structure evidence is separate from model coverage and current official closures.</p></details>`:''}</div></details>`;
 }
 
+// One line per crossing, not a caveat on every row: what its number is built from, keeping gauge
+// readings taken elsewhere, model estimates and reports from the road itself apart.
+function evidenceLine(p) {
+  const ev = evidenceState(p.checks);
+  const list = (srcs) => [...new Set(srcs.map((src) => (SRC[src] ?? [null, src])[1].toLowerCase()))].join(', ');
+  const built = [...gaugePhrases(ev)];
+  if (ev.model) built.push('a model estimate');
+  if (ev.official) built.push('a weather-service alert for the area');
+  if (ev.observed) built.push('the county’s own report from this road');
+  return (built.length
+    ? `Built from ${built.join(', ')}.${ev.observed ? '' : ' None of these is a reading at this crossing.'}`
+    : 'Nothing is reporting for this crossing right now.')
+    + (ev.missing.length ? ` Expected but not reporting: ${list(ev.missing)}.` : '')
+    + (ev.stale.length ? ` Reporting, but out of date: ${list(ev.stale)}.` : '')
+    + (ev.unsupported.length ? ` No coverage here: ${list(ev.unsupported)}.` : '');
+}
+
 function stretchScreen(rid, fpId) {
   const p = view.fpResults[fpId];
   const fp = FAILURE_POINTS.find((f) => f.id === fpId);
@@ -353,6 +374,7 @@ function stretchScreen(rid, fpId) {
     <div class="summary">${badgeWithWord(s)}<div><p>${esc(['bridge','river'].includes(fp.kind)?(p.checks.some(c=>c.src==='county'&&c.level==='danger')?p.why:'Bridge forecast & current reports'):p.why === p.checks[0]?.why && p.checks[0]?.src === 'hand' ? 'The HAND model estimates water here. It can\'t say what the road is like; look as you go.' : p.level === 'ok' && p.checks[0]?.some ? handModel.CALM_WITH_FLOW : crossingLead(p) ?? LEVEL_SENTENCE[p.level])}</p><p class="where">${esc(fp.name)}, ${esc(fp.where)}.</p></div></div>
     ${bridgeEvidencePlaceholder(fp)}
     <h3 class="section">What each source says</h3>
+    <p class="meta" style="margin:0 0 10px">${esc(evidenceLine(p))}</p>
     <div class="list">
       ${p.checks.map((c, i) => {
         const [icon, label] = SRC[c.src] ?? ['•', c.src];
@@ -724,7 +746,7 @@ const UPDATES = [
 ];
 
 function underpassesScreen() {
-  return `<p class="note"><b>We haven't found a public water sensor in any of these underpasses.</b> The number comes from the nearest county rain gauges, county closures and National Weather Service flood alerts. Water can pool from a storm the gauges miss, and a 1 doesn't confirm the underpass is clear. County closures may not include city, Marana or ADOT roads. Water over the road: turn around.</p>
+  return `<p class="note"><b>We haven't found a public water sensor in any of these underpasses.</b> The number comes from the nearest county rain gauges, county closures and National Weather Service flood alerts. Water can pool from a storm the gauges miss, and a 1 doesn't confirm the underpass is clear. County closures may not include city, Marana or ADOT roads.</p>
   ${view.underpasses.map(({ short, name, where: place, lat, lon, result }) => `<h3 class="section">${esc(short)}</h3>
   <div class="summary">${badgeWithWord(riskScore(result))}<div><p>${esc(LEVEL_SENTENCE[result.level])}</p><p class="where">${esc(name)}, ${esc(place)}.</p></div></div>
   <div class="list">${result.checks.map((c) => { const [icon, label] = SRC[c.src] ?? ['•', c.src]; return `<div class="row"><span class="lead-icon">${icon}</span><span class="text"><div class="t">${label}</div><div class="st" style="white-space:normal"><span class="dot ${c.level}" style="display:inline-block;margin-right:6px"></span>${esc(c.why)}</div>${c.detail ? `<div class="st" style="white-space:normal">${esc(c.detail)}</div>` : ''}</span></div>`; }).join('')}</div>

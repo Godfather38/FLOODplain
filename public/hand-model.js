@@ -7,6 +7,7 @@
 // trigger: water has to reach the road. Elsewhere a fixed level stands in.
 // It never lowers a level: local runoff is left out, so a low number isn't dry.
 // It never overrides a gauge: where a river or wash gauge answered, HAND is shown but moves nothing.
+import { evidenceState, evidenceSentence, evidenceDetail } from './logic.js';
 import { createForecastProvider } from './inundation/forecast-provider.js';
 import { loadCoverage, stageForFlow } from './inundation/hand-inundation.js';
 
@@ -52,8 +53,11 @@ function labels(row, forecast, now) {
 
 // The source row for one crossing. raise: true only when the model shows meaningful water.
 export function handCheck(row, forecast, now, road = null) {
-  const quiet = (why, detail) => ({ src: 'hand', level: 'unknown', why, detail, raise: false });
-  if (row.status !== 'supported') return quiet('HAND model has no estimate here', `Missing coverage: ${row.evidence}`);
+  // `evidence` separates three states the old wording ran together: an estimate the model did
+  // make (model), a flow it expected and did not get (missing/stale), and a place it was never
+  // built to cover (unsupported, which is not an outage).
+  const quiet = (why, detail, evidence = 'missing') => ({ src: 'hand', level: 'unknown', why, detail, raise: false, evidence });
+  if (row.status !== 'supported') return quiet('HAND model does not cover this crossing', `Missing coverage: ${row.evidence}`, 'unsupported');
   if (!['ok', 'stale'].includes(forecast?.status)) return quiet('HAND model has no forecast flow right now', `${forecast?.reason ?? 'No forecast'}. ${labels(row, null, now)}`);
   const soon = (forecast.points ?? []).filter((p) => Date.parse(p.time) <= now + AHEAD_MS);
   if (!soon.length) return quiet('HAND model has no forecast flow for the next 24 hours', labels(row, forecast, now));
@@ -64,7 +68,7 @@ export function handCheck(row, forecast, now, road = null) {
   if (stage === null) return quiet('HAND model: flow is above its rating curve, so no level is estimated', labels(row, forecast, now));
   const detail = labels(row, forecast, now);
   const flowText = `${Math.round(cfs).toLocaleString('en-US')} cfs ${row.forecast.kind === 'gauge' ? 'forecast' : 'modeled'}`;
-  if (forecast.status === 'stale') return quiet(`HAND model: old forecast, about ${(stage * FT).toFixed(1)} ft at ${flowText} for ${when}`, detail);
+  if (forecast.status === 'stale') return quiet(`HAND model: old forecast, about ${(stage * FT).toFixed(1)} ft at ${flowText} for ${when}`, detail, 'stale');
   const some = stage >= SOME_WATER_M;
   const said = `HAND model: about ${(stage * FT).toFixed(1)} ft above the stream bed, ${flowText} for ${when}`;
   const likely = row.confidence.band === 'Likely match';
@@ -74,16 +78,16 @@ export function handCheck(row, forecast, now, road = null) {
     const reaches = stage >= height;
     const line = `HAND model: water about ${(stage * FT).toFixed(1)} ft above the stream bed, road about ${(height * FT).toFixed(1)} ft above it, so ${reaches ? `water about ${gap.toFixed(1)} ft over the road` : `${gap.toFixed(1)} ft below the road`}, ${flowText} for ${when}`;
     const roadDetail = `${detail} Road height ${(road.roadM * FT).toFixed(1)} ft NAVD88${road.deck ? ', measured on the bridge deck by USGS lidar' : ', from USGS 1 m terrain'}, as of its survey.`;
-    if (likely && reaches) return { src: 'hand', level: 'watch', why: line, detail: roadDetail, raise: true, points: handPoints(row), overRoad: true };
-    return { ...quiet(`${line}${reaches ? '. The match to this stream is too weak to change the number' : ''}`, roadDetail), some, roadHeight: true };
+    if (likely && reaches) return { src: 'hand', level: 'watch', why: line, detail: roadDetail, raise: true, points: handPoints(row), overRoad: true, evidence: 'model' };
+    return { ...quiet(`${line}${reaches ? '. The match to this stream is too weak to change the number' : ''}`, roadDetail, 'model'), some, roadHeight: true };
   }
-  if (likely && stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true, points: handPoints(row) };
+  if (likely && stage >= WATCH_STAGE_M) return { src: 'hand', level: 'watch', why: said, detail, raise: true, points: handPoints(row), evidence: 'model' };
   const rough = row.forecast.kind === 'gauge' ? '' : '. Model flow is rough';
-  return { ...quiet(`${said}${rough}${stage < WATCH_STAGE_M ? ". Low flow doesn't mean dry" : ''}`, detail), some };
+  return { ...quiet(`${said}${rough}${stage < WATCH_STAGE_M ? ". Low flow doesn't mean dry" : ''}`, detail, 'model'), some };
 }
 
 // The crossing screen's line when its other sources are calm but HAND forecasts some flow.
-export const CALM_WITH_FLOW = 'Current readings show no water here. The HAND model forecasts some flow; see below.';
+export const CALM_WITH_FLOW = 'Nothing in the current gauge and rain readings points to water here, and none of them is a reading at this crossing. The HAND model estimates some flow; see below.';
 
 // Puts HAND first in each crossing's sources and lifts the level where it shows water.
 export function applyHand(fpResults, hand) {
@@ -94,6 +98,17 @@ export function applyHand(fpResults, hand) {
     const { raise, points, ...source } = check;
     const gauged = gaugeAnswered(p);
     p.checks = [source, ...p.checks];
+    // The "what answered" row was written before this model row existed. Refresh it, so a model
+    // estimate is never filed under no live readings.
+    const summary = p.checks.find((c) => c.evidence === 'summary' && ['none', 'remote-only'].includes(c.src));
+    if (summary) {
+      const led = p.why === summary.why;
+      const state = evidenceState(p.checks);
+      summary.src = state.remoteGauges || state.model ? 'remote-only' : 'none';
+      summary.why = evidenceSentence(state);
+      summary.detail = evidenceDetail(state);
+      if (led) p.why = summary.why;
+    }
     if (!raise || gauged || ['bridge','river'].includes(p.kind) || p.level === 'danger') continue;
     // The model agrees with a county caution, so that caution counts in full again.
     const county = p.checks.find((c) => c.uncorroborated);

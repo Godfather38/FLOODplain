@@ -180,9 +180,12 @@ test('angel never praises a source that is bad elsewhere on the same route', () 
   assert.equal(againstIt(avra)[0].level, 'danger');
   assert.equal(riskScore(r.res['brawley-dip']), 5);
 });
+// The river bridges have no roadway-height comparison, so their river check reads unknown. That
+// is a missing comparison, not a missing gauge: the everyday discharge the gauges did report is
+// still a good sign, and still says nothing about the deck.
 test('dry morning: angel lists the good signs, nothing against', () => {
   const r = choose(data());
-  assert.deepEqual(goodSigns(r.best, true), ['Brawley Wash upstream is dry', 'no rain in the last 6 hours', 'no weather-service flood alerts']);
+  assert.deepEqual(goodSigns(r.best, true), ['the Santa Cruz is at its everyday flow', 'Brawley Wash upstream is dry', 'no rain in the last 6 hours', 'no weather-service flood alerts']);
   assert.equal(againstIt(r.best).length, 0);
 });
 
