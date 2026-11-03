@@ -89,49 +89,6 @@ export function pickChannels(bed,grid,maxTributaries=2,{carve=CARVE,minDrop=MIN_
  }
  return{bed:carved,paths,lines,sources:paths.map(p=>({cell:p.cells.at(-1),rate:p.rate}))};
 }
-// Solver setup from stream lines already cut into the terrain: {x,z,level} points running
-// downstream. Only cells along the lines can hold water; every other cell is a raised bank.
-export function channelsFromLines(lines,heights,fine,grid,sample,sizes){
- const {nx,nz,x0,z0,dx,dz}=grid,bed=new Float32Array(nx*nz),band=new Uint8Array(nx*nz),sources=[];
- for(let j=0;j<nz;j++)for(let i=0;i<nx;i++)bed[j*nx+i]=sample(heights,fine,x0+i*dx,z0+j*dz)+BANK;
- const cellAt=(x,z)=>{const i=Math.max(0,Math.min(nx-1,Math.round((x-x0)/dx))),j=Math.max(0,Math.min(nz-1,Math.round((z-z0)/dz)));return{i,j};};
- // Three cells wide with a level floor. The shader blends depth between cells, so beside a
- // one-cell channel the depth turns negative within metres and the water breaks into pieces.
- const lowerCell=(i,j,level)=>{if(i<0||j<0||i>=nx||j>=nz)return;const k=j*nx+i;bed[k]=band[k]?Math.min(bed[k],level):level;band[k]=1;};
- const lower=(i,j,level)=>{for(let dj=-1;dj<=1;dj++)for(let di=-1;di<=1;di++)lowerCell(i+di,j+dj,level);};
- lines.forEach((line,index)=>{
-  let previous=null,rate=0,sinceSource=0;
-  for(const p of line){
-   const c=cellAt(p.x,p.z);
-   // Walk one axis at a time: the solver only passes water between edge-sharing cells.
-   if(previous){let {i,j}=previous;while(i!==c.i||j!==c.j){if(i!==c.i)i+=Math.sign(c.i-i);else j+=Math.sign(c.j-j);lower(i,j,p.level);}}
-   else{lower(c.i,c.j,p.level);rate=Math.min(SOURCE_RATES.main,SOURCE_RATES.tributary*(1+Math.log2(1+(sizes?.[index]??1)/900)));sources.push({cell:c.j*nx+c.i,rate});}
-   // A wet front crawls on flat ground, so inflow also joins along the channel's length.
-   if(previous&&++sinceSource>=FEED_EVERY){sinceSource=0;sources.push({cell:c.j*nx+c.i,rate:rate*.5});}
-   previous=c;
-  }
- });
- // Channels start out wet: the far end would otherwise stay dry for minutes after loading.
- const fill=new Float32Array(nx*nz);
- for(let k=0;k<nx*nz;k++)if(band[k])fill[k]=START_DEPTH;
- return{bed,sources,fill};
-}
-// The height the toon shader compares water against. It shows water only above this, so a
-// trough along the channel clips the water to a ribbon without editing the map's terrain.
-export function ribbonMask(heights,fine,lines,halfWidth=2.5,rise=1.2){
- const out=new Float32Array(heights.length);
- for(let j=0;j<fine.nz;j++)for(let i=0;i<fine.nx;i++){
-  const x=fine.x0+i*fine.dx,z=fine.z0+j*fine.dz,k=j*fine.nx+i;
-  let near=Infinity,level=0;
-  for(const line of lines)for(let q=1;q<line.length;q++){
-   const a=line[q-1],b=line[q],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz))),d=(a.x+dx*t-x)**2+(a.z+dz*t-z)**2;
-   if(d<near){near=d;level=a.level+(b.level-a.level)*t;}
-  }
-  const s=Math.sqrt(near)/halfWidth;
-  out[k]=near===Infinity?heights[k]+9:level-.15+s*s*rise+(s>1.6?9:0);
- }
- return out;
-}
 // Cuts the same channels into the fine visible terrain so water and banks agree.
 // The banks must rise past the water inside its coarse cells: then the fine terrain
 // shapes the water's edge, not the solver's stair-stepped wet/dry cell boundary.

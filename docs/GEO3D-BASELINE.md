@@ -25,3 +25,6 @@ The build after the baseline tightens the channel banks so the water's edge foll
 
 ## Move to the map-layer branch
 Work continues on `experiment/geographic-3d-layer`, restarted from production `445e139` with only the demo files the scene uses. It says the water is simulated in a dismissible acknowledgement and in the page text. The owner rejected a permanent banner or tag as too invasive. The owner decided the simulated water shows at all times, clearly labelled, across Avra, Picture Rocks and the route areas. It has not been re-measured on the mini PC.
+
+## Switch to the saved SFINCS run
+The 3D map page (`public/preview/geo3d/map.html`) now draws the saved SFINCS run instead of invented water. Ground inside the model's domain is the 10 m lidar the model used; water is the model's hourly water surface, compared per pixel with that lidar, so the drawn water does not change with zoom. The earlier invented channels, carving, inflow, assumed bridges, plants, poles and sign gantries are removed. Zoomed out, each model cell is shaded by its share of wet 10 m samples. Not yet measured on the mini PC.

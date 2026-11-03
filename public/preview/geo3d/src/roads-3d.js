@@ -46,7 +46,7 @@ const hash=(x,y)=>{let v=Math.imul(Math.round(x),374761393)+Math.imul(Math.round
 // roads: [{points:[[x,y]...],cls,bridge,oneway}] in local metres. heightAt gives ground in the
 // map's exaggerated metres, or null where terrain has not loaded. detail adds the close-up
 // asphalt, markings, barriers and roadside furniture. widthScale keeps roads readable far out.
-export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,step=STEP,detail=false,widthScale=1,plants=[],skipPlant=null,channelAt=null,fordAt=null,focus=null,detailReach=3500}={}){
+export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,step=STEP,detail=false,widthScale=1,plants=[],skipPlant=null,channelAt=null,fordAt=null,focus=null,detailReach=3500,deckRise=6,furniture=true,measuredAt=null}={}){
  const positions=[],colors=[],indices=[];
  const vertex=(x,y,z,c)=>{positions.push(x,y,z);colors.push(c[0],c[1],c[2]);return positions.length/3-1;};
  const quad=(a,b,c,d)=>indices.push(a,b,c,b,d,c);
@@ -107,11 +107,12 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,s
   if(ground.some(g=>g==null))continue;
   // A deck runs straight between its abutments, so it spans whatever is below it.
   const a=ground[0],b=ground.at(-1);
-  const deck=road.bridge?points.map((_,q)=>a+(b-a)*q/(points.length-1)+6):null;
+  const deck=road.bridge?points.map((_,q)=>a+(b-a)*q/(points.length-1)+deckRise):null;
   const close=detail&&away(road)<detailReach,half=style.width*widthScale/2,top=close?ASPHALT:style.far,thick=style.thick*Math.max(1,widthScale*.5);
   const rows=points.map(([x,y],q)=>{
    const p=points[Math.max(0,q-1)],n=points[Math.min(points.length-1,q+1)],dx=n[0]-p[0],dy=n[1]-p[1],size=Math.hypot(dx,dy)||1;
-   const z=road.bridge?Math.max(deck[q],ground[q]+lift):ground[q]+lift+anchorLift(x,y,anchors,exaggeration);
+   // A measured road height overrides the terrain, on decks and at grade alike.
+   const measured=measuredAt?.(x,y),z=measured!=null?measured+lift:road.bridge?Math.max(deck[q],ground[q]+lift):ground[q]+lift+anchorLift(x,y,anchors,exaggeration);
    mark(x,y);
    return{x,y,z,nx:-dy/size,ny:dx/size,ca:dx/size,sa:dy/size,ground:ground[q]};
   });
@@ -143,7 +144,7 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,s
   }else if(close&&road.cls==='motorway'){
    // Median barrier on the inside edge, then poles and overhead signs along the outside.
    strip(rows,-half-.3,-half-.3,0,2.2,CONCRETE);strip(rows,-half+.3,-half+.3,0,2.2,SHADOW);strip(rows,-half-.3,-half+.3,2.2,2.2,WHITE);
-   rows.forEach((r,q)=>{
+   if(furniture)rows.forEach((r,q)=>{
     const along=q*step;
     if(along%POLE_SPACING<step){const px=r.x+r.nx*(half+3),py=r.y+r.ny*(half+3);box(px,py,r.z-1,r.z+22,.35,.35,r.ca,r.sa,STEEL);box(r.x+r.nx*(half-1),r.y+r.ny*(half-1),r.z+21.5,r.z+22.5,.3,4,r.ca,r.sa,STEEL);}
     if(along%GANTRY_SPACING<step&&hash(r.x,r.y)>.3){
@@ -185,7 +186,7 @@ export function plantSpots(cx,cy,radius,spacing=75){
  return out;
 }
 // Level of detail for a ground chunk, by its distance from the middle of the view.
-export const LODS=Object.freeze([{reach:3500,step:60,detail:true,plants:true,classes:null},{reach:10000,step:120,detail:false,plants:false,classes:null},{reach:Infinity,step:300,detail:false,plants:false,classes:['motorway','trunk','primary','secondary']}]);
+export const LODS=Object.freeze([{reach:3500,step:30,detail:true,plants:true,classes:null},{reach:10000,step:120,detail:false,plants:false,classes:null},{reach:Infinity,step:300,detail:false,plants:false,classes:['motorway','trunk','primary','secondary']}]);
 export const lodFor=distance=>LODS.findIndex(l=>distance<l.reach);
 // Is this road under the water here? Both heights are above the same bed, in real metres.
 export const roadCovered=(aboveBedM,waterDepthM)=>waterDepthM>aboveBedM;

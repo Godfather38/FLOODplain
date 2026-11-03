@@ -1,13 +1,14 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex"><title>FLOODplain 3D simulation map</title>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex"><title>FLOODplain 3D saved model run</title>
 <link rel="stylesheet" href="./vendor/maplibre/maplibre-gl.css"><link rel="stylesheet" href="./style.css">
-<script>
-// The demo's shader reads its preset from the address, before any module runs.
-{const u=new URL(location.href);if(u.searchParams.get('preset')!=='tiny-toon'){u.searchParams.set('preset','tiny-toon');history.replaceState(null,'',u);}}
-</script>
 <script type="importmap">{"imports":{"three":"../coastal-lowcost/vendor/three.webgpu.js","three/webgpu":"../coastal-lowcost/vendor/three.webgpu.js","three/tsl":"../coastal-lowcost/vendor/three.tsl.js"}}</script></head>
-<body><main id="map" aria-label="3D simulation map: real terrain and roads with simulated water."></main>
-<div id="simulation-ack" class="card" role="dialog" aria-labelledby="simulation-ack-title" hidden><strong id="simulation-ack-title">This water is simulated</strong><p>It is a 3D model, not real conditions or a forecast. If you see water on a real road, turn around, don't drown.</p><button id="simulation-ack-ok">Got it</button></div>
-<div id="error" class="card" hidden><strong>The 3D simulation could not load</strong><pre id="error-detail"></pre></div>
-<aside id="panel"><details open><summary>About this simulation</summary><p>The water is simulated, not real conditions or a forecast. Its path is picked from the terrain's shape. Heights are exaggerated 2×, and channels are cut deeper than they really are. Where a crossing has a measured road height, the road sits that far above the channel bed. Bridges over channels are assumed, except at crossings known or tagged as dips.</p><p id="window">Starting the water simulation</p><pre id="metrics"></pre></details></aside>
-<script type="module" src="./src/map-layer.js"></script></body></html>
+<body><main id="map" aria-label="3D map of a saved SFINCS flood model run over the model's lidar terrain, with roads and bridges."></main>
+<div id="simulation-ack" class="card" role="dialog" aria-labelledby="simulation-ack-title" hidden><strong id="simulation-ack-title">This water is from a saved run</strong><p>It is a saved model run from November 2026, not real conditions or a forecast. If you see water on a real road, turn around, don't drown.</p><button id="simulation-ack-ok">Got it</button></div>
+<div id="error" class="card" hidden><strong>The 3D model run could not load</strong><pre id="error-detail"></pre></div>
+<aside id="panel"><details open><summary>Saved SFINCS model run</summary>
+ <p>Water is the SFINCS model's water surface from a saved run with forecast inputs from November 1, 2026: not current conditions. It sits on the model's own 10 m lidar terrain; roads and bridges sit on that ground, and surveyed road heights are used where they exist. Heights are drawn 2× taller.</p>
+ <p id="window">Starting</p>
+ <div class="timebar"><button id="play">Pause</button><input id="scrub" type="range" min="0" max="14" step="1" value="0" aria-label="Model hour"><span id="time"></span></div>
+ <pre id="metrics"></pre>
+</details></aside>
+<script type="module" src="./src/sfincs-map.js"></script></body></html>

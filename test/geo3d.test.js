@@ -5,11 +5,13 @@ import {existsSync,readFileSync,readdirSync} from 'node:fs';
 import {resolveDataMode} from '../public/preview/geo3d/src/data-source.js';
 import {fineGrid} from '../public/preview/geo3d/src/scene-config.js';
 import {sceneHeights,sampleHeights} from '../public/preview/geo3d/src/elevation.js';
-import {coarseBed,drainage,pickChannels,carveFine,ribbonMask,channelsFromLines} from '../public/preview/geo3d/src/channels.js';
-import {drainageNetwork,withWander,carveField,sampleField,streamChains} from '../public/preview/geo3d/src/network.js';
+import {coarseBed,drainage,pickChannels,carveFine} from '../public/preview/geo3d/src/channels.js';
 import {visibleRoadRuns,ribbonMesh} from '../public/preview/geo3d/src/roads.js';
 import {ChannelSimulation} from '../public/preview/geo3d/src/channel-sim.js';
-import {chooseWindow,scaleForZoom} from '../public/preview/geo3d/src/water-window.js';
+import {gunzipSync} from 'node:zlib';
+import {toUtm,fromUtm} from '../public/preview/geo3d/src/utm.js';
+import {GRID as SFINCS_GRID,makeSampler,parseFrames} from '../public/preview/geo3d/src/sfincs-data.js';
+import {wetCells,terrainAtlas,buildWaterMesh,frameSurface,wetShare,cellVolumeM3,SHOW_DEPTH_M} from '../public/preview/geo3d/src/sfincs-water.js';
 import {buildRoadMesh,parseRoadHeights,anchorLift,roadCovered,plantSpots,LODS,lodFor} from '../public/preview/geo3d/src/roads-3d.js';
 import {GRID_PRESETS} from '../public/preview/coastal-lowcost/src/trial-config.js';
 
@@ -54,59 +56,12 @@ test('the demo is byte-identical to the pinned commit and keeps opaque water', (
 test('a dismissible acknowledgement and the page text say the water is simulated', () => {
  const page=read('public/preview/geo3d/index.html'),map=read('public/preview/geo3d/map.html');
  for(const html of [page,map])assert.match(html,/id="simulation-ack"[\s\S]*This water is simulated[\s\S]*turn around, don't drown[\s\S]*id="simulation-ack-ok"/);
- for(const script of ['main.js','map-layer.js'])assert.match(read(`public/preview/geo3d/src/${script}`),/mountAcknowledgement\(\)/,script);
+ for(const script of ['main.js','sfincs-map.js'])assert.match(read(`public/preview/geo3d/src/${script}`),/mountAcknowledgement\(\)/,script);
  assert.match(read('public/preview/geo3d/src/acknowledge.js'),/button\.onclick/);
  assert.doesNotMatch(page,/simulation-(tag|banner)/,'no permanent label on screen');
  assert.match(page,/<title>FLOODplain 3D simulation<\/title>/);
  assert.match(page,/The water is simulated/);
  assert.match(read('public/preview/geo3d/src/data-source.js'),/Water: simulated\./);
-});
-
-test('on the map layer the water stays in its channel and keeps moving', () => {
- const map=pickChannels(coarseBed(raw,fine,GRID,sampleHeights),GRID,2,{carve:0,minDrop:.005,confine:true,towards:{x:19,z:-32.5}});
- const sim=new ChannelSimulation(GRID,map.bed,map.sources);
- for(let i=0;i<3600;i++)sim.step(1/60);
- assert.equal(sim.metrics().nonfinite,0);
- assert.ok(sim.metrics().wetCells<960*.2,`wet cells ${sim.metrics().wetCells}`);
- const cells=map.paths[0].cells,before=cells.map(k=>sim.h[k]);
- for(let i=0;i<120;i++)sim.step(1/60);
- assert.ok(Math.max(...cells.map((k,q)=>Math.abs(sim.h[k]-before[q])))>.02,'depth changes over 2 s');
- const mask=ribbonMask(raw,fine,map.lines);
- assert.ok(mask.every(Number.isFinite));
- assert.ok(mask.filter((m,k)=>m<raw[k]+1).length<mask.length*.6,'water is clipped to a ribbon');
-});
-
-test('the drainage network finds a valley and cuts channels along it', () => {
- const w=120,h=120,metres=new Float32Array(w*h);
- // A valley running down the middle of a slope, with a pit that must not trap the flow.
- for(let j=0;j<h;j++)for(let i=0;i<w;i++)metres[j*w+i]=500-j*.5+Math.abs(i-60)*.8;
- metres[60*w+60]-=25;
- const net=drainageNetwork(metres,w,h),cuts=carveField(net),chains=streamChains(net,()=>true);
- assert.ok(net.area[(h-1)*w+60]>2000,'the valley collects the slope');
- assert.ok(chains.length>0);
- const columns=chains[0].cells.map(k=>k%w);
- assert.ok(Math.max(...columns.map(c=>Math.abs(c-60)))<=2,'the channel follows the valley floor');
- assert.ok(cuts[100*w+60]>=5,'the valley floor is cut');
- assert.equal(cuts[100*w+5],0,'the hillside is left alone');
- for(let k=0;k<w*h;k++)if(net.receiver[k]>=0)assert.ok(net.filled[net.receiver[k]]<net.filled[k]);
- assert.equal(sampleField(cuts,w,h,-1,5),0);
- // Ground that rises along the channel gets cut deeper, so the floor still runs downhill.
- const bumpy=Float32Array.from(metres);for(let i=50;i<=70;i++)bumpy[85*w+i]+=20;
- const floors=carveField(net,bumpy);
- assert.ok(floors[85*w+60]>cuts[85*w+60]+5,'the rise is cut through');
- const a=withWander(metres,w,h),b=withWander(metres,w,h);
- assert.deepEqual(a,b,'the wander is the same on every load');
- assert.ok(a.some((v,k)=>v!==metres[k])&&Math.max(...a.map((v,k)=>Math.abs(v-metres[k])))<=10,'it stays small');
-});
-
-test('solver channels connect edge to edge, with banks everywhere else', () => {
- const line=[];for(let q=0;q<=20;q++)line.push({x:-5+q*2,z:-70+q*4,level:12-q*.1});
- const {bed,sources}=channelsFromLines([line],raw,fine,GRID,sampleHeights,[2000]);
- assert.ok(sources.length>=1);
- const sim=new ChannelSimulation(GRID,bed,sources);
- for(let i=0;i<3600;i++)sim.step(1/60);
- const m=sim.metrics();
- assert.equal(m.nonfinite,0);assert.ok(m.wetCells>10,`wet ${m.wetCells}`);assert.ok(m.wetCells<960*.45,`wet ${m.wetCells}`);
 });
 
 test('measured road heights decide whether water covers a road', () => {
@@ -174,26 +129,6 @@ test('distance lowers detail without dropping major roads', () => {
  assert.equal(buildRoadMesh(many,()=>100).dropped,undefined,'there is no budget that throws roads away');
 });
 
-test('the water window grows as the view zooms out', () => {
- assert.equal(scaleForZoom(14),50);assert.equal(scaleForZoom(13),100);assert.equal(scaleForZoom(12.5),200);assert.equal(scaleForZoom(9),800);
- const crossings=[{lat:32.33,lon:-111.2,name:'A'}];
- const wide=chooseWindow({lat:32.34,lon:-111.15,zoom:10.5},crossings,null);
- assert.equal(wide.action,'move');assert.equal(wide.target.scale,800);assert.equal(wide.target.name,'','zoomed out it centres on the view');
- assert.equal(chooseWindow({lat:32.34,lon:-111.15,zoom:12},crossings,wide.target).action,'move','a new zoom level rebuilds');
-});
-
-test('the water window stays in the area and follows crossings', () => {
- const crossings=[{lat:32.33,lon:-111.2,name:'A'},{lat:32.43,lon:-111.28,name:'B'}];
- assert.equal(chooseWindow({lat:32.33,lon:-111.2,zoom:8},crossings,null).action,'hide');
- assert.equal(chooseWindow({lat:33.4,lon:-112,zoom:14},crossings,null).action,'hide');
- const first=chooseWindow({lat:32.331,lon:-111.201,zoom:14},crossings,null);
- assert.equal(first.action,'move');assert.equal(first.target.name,'A');
- assert.equal(chooseWindow({lat:32.332,lon:-111.202,zoom:14},crossings,first.target).action,'stay');
- assert.equal(chooseWindow({lat:32.43,lon:-111.28,zoom:14},crossings,first.target).target.name,'B');
- const far=chooseWindow({lat:32.25,lon:-111,zoom:14},crossings,null);
- assert.equal(far.action,'move');assert.equal(far.target.name,'');
-});
-
 test('the live app does not load the prototype', () => {
  for(const file of ['public/index.html','public/app.js','public/live-map.js','public/config.js'])assert.doesNotMatch(read(file),/geo3d|coastal-lowcost/,file);
 });
@@ -246,4 +181,68 @@ test('the water keeps moving instead of settling into a still picture', () => {
  }
  assert.ok(moved>.03,`depth change over 2 s: ${moved}`);
  assert.ok(foamed>.005,`foam change over 2 s: ${foamed}`);
+});
+
+// The saved SFINCS run from Test flood mode's package, read the way the 3D page reads it.
+const RUN='public/simulation/data/';
+const display=JSON.parse(gunzipSync(readFileSync(url(RUN+'frozen-terrain-display.json.gz'))));
+const runCells=JSON.parse(gunzipSync(readFileSync(url(RUN+'frozen-20261101-nwm13z-41327417204.json.gz')))).cells;
+const sfTerrainBytes=gunzipSync(readFileSync(url(RUN+'frozen-voxel-terrain.f32.gz')));
+const sfData={vertices:display.vertices,terrain:new Float32Array(sfTerrainBytes.buffer,sfTerrainBytes.byteOffset,sfTerrainBytes.byteLength/4)};
+const sfSampler=makeSampler(sfData),sfFrames=parseFrames(display);
+
+test('model cells land exactly where the SFINCS grid puts them', () => {
+ for(const k of [0,9000,20000,29684]){
+  const u=toUtm(runCells[k].lon,runCells[k].lat),v=display.vertices[k];
+  assert.ok(Math.abs(u.e-(SFINCS_GRID.x0+v[0]))<.05&&Math.abs(u.n-(SFINCS_GRID.y0+v[1]))<.05,'cell '+k);
+  const back=fromUtm(u.e,u.n);assert.ok(Math.abs(back.lon-runCells[k].lon)<1e-7&&Math.abs(back.lat-runCells[k].lat)<1e-7);
+ }
+});
+
+test('ground is the 10 m lidar the model used, and nothing is invented outside it', () => {
+ const k=20000,v=display.vertices[k],e=SFINCS_GRID.x0+v[4]*100,n=SFINCS_GRID.y0+v[3]*100;
+ assert.equal(sfSampler.ground(e+5,n+5),sfData.terrain[k*100],'a subcell centre returns its own lidar sample');
+ const mean=Array.from(sfData.terrain.subarray(k*100,k*100+100)).reduce((a,b)=>a+b,0)/100;
+ assert.ok(Math.abs(mean-v[2])<.01,'the 10 m samples average to the cell terrain the model reports');
+ assert.ok(Number.isNaN(sfSampler.ground(SFINCS_GRID.x0-5000,SFINCS_GRID.y0-5000)),'outside the case: unknown, not made up');
+});
+
+test('the water comes from the saved frames alone, so its volume cannot change with zoom', () => {
+ const cells=wetCells(sfData,sfFrames),atlas=terrainAtlas(cells,sfData),mesh=buildWaterMesh(cells,sfData,(e,n)=>[e,n],atlas.across);
+ assert.equal(buildWaterMesh.length,4,'building the water takes no view or zoom input');
+ assert.equal(mesh.vertexCount,cells.length*4,'one quad per model cell');
+ assert.ok(cells.length>1000&&cells.length<sfData.vertices.length);
+ const f=sfFrames[8],first=frameSurface(mesh,sfSampler,f),again=frameSurface(mesh,sfSampler,f);
+ assert.deepEqual(first.surface,again.surface);
+ const volume=cells.reduce((s,k)=>s+cellVolumeM3(k,sfData,sfSampler,f),0);
+ assert.equal(volume,cells.reduce((s,k)=>s+cellVolumeM3(k,sfData,sfSampler,f),0));
+ assert.ok(volume>0);
+ const share=wetShare(mesh,sfData,sfSampler,f);
+ assert.ok(share.every(s=>s>=0&&s<=1),'the zoomed-out summary is a share of the same cells');
+});
+
+test('a missing water level is never drawn as water', () => {
+ const k=display.vertices.findIndex((_,i)=>Number.isNaN(sfFrames[0].surface[i]));
+ assert.ok(k>=0,'the run has missing levels at its first hour');
+ const v=display.vertices[k];
+ const own=sfSampler.surface(sfFrames[0].surface.map((z,i)=>i===k?z:NaN),SFINCS_GRID.x0+v[4]*100+50,SFINCS_GRID.y0+v[3]*100+50);
+ assert.ok(Number.isNaN(own),'unknown stays unknown');
+ const mesh=buildWaterMesh([k],sfData,(e,n)=>[e,n],1),surface=frameSurface(mesh,sfSampler,{surface:sfFrames[0].surface.map((z,i)=>i===k?z:NaN)}).surface;
+ assert.ok(surface.every(z=>z<-1e4));
+});
+
+test('the 3D page uses no invented geometry', () => {
+ const page=read('public/preview/geo3d/src/sfincs-map.js');
+ assert.match(read('public/preview/geo3d/map.html'),/src\/sfincs-map\.js/);
+ assert.doesNotMatch(page,/channels\.js|network\.js|water-window\.js|channel-sim\.js|plantSpots|carve|withWander/);
+ assert.match(page,/furniture:false/,'no made-up poles or sign gantries');
+ assert.match(page,/deckRise:0/,'bridge decks run between their real abutments');
+ for(const f of ['map-layer.js','network.js','water-window.js'])assert.ok(!existsSync(url('public/preview/geo3d/src/'+f)),f);
+});
+
+test('a surveyed road height overrides the ground under the road', () => {
+ const plain=buildRoadMesh([{cls:'primary',points:[[0,0],[300,0]]}],()=>100,{lift:0});
+ const surveyed=buildRoadMesh([{cls:'primary',points:[[0,0],[300,0]]}],()=>100,{lift:0,measuredAt:x=>x>100&&x<200?250:null});
+ const top=m=>{let z=-Infinity;for(let i=2;i<m.positions.length;i+=3)z=Math.max(z,m.positions[i]);return z;};
+ assert.equal(top(plain),100);assert.equal(top(surveyed),250);
 });
