@@ -7,14 +7,24 @@ const ORDER=['track','service','minor','tertiary','secondary','primary','trunk',
 export const roadWidth=cls=>(ROAD[cls]??ROAD.minor).w;
 // The app's routes over the street map: the chosen area's routes in blue, the chosen route
 // wider; other routes stay faint so the area's crossings read first.
-export const routeOverlay={lines:[],area:null,route:null};
+export const routeOverlay={lines:[],area:null,route:null,show:true};
+// The base map, as on the app's 2D map: 'street' (OpenStreetMap data) or 'satellite' (Esri).
+export const baseMap={kind:'street'};
 // Blue is kept for the model's water. Map water areas are drawn as beds: dry washes and
 // seasonal rivers in sand, and only standing water such as canals and ponds in grey-blue.
 export const mapWaterColour=properties=>properties.intermittent===1||properties.class==='river'?'#eadcbd':'#c4d3d6';
-export function paintChunk(canvas,x0,z0,size,tiles,detailed){
+export function paintChunk(canvas,x0,z0,size,tiles,detailed,imagery=null){
  const px=canvas.width,scale=px/size,ctx=canvas.getContext('2d');
  ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle='#efe8d8';ctx.fillRect(0,0,px,px);
  ctx.setTransform(scale,0,0,scale,-x0*scale,-z0*scale);
+ if(imagery){
+  // Satellite: each tile drawn by its corners, then the roads as a light hybrid overlay.
+  for(const t of imagery){const w=t.image.width,h=t.image.height;ctx.save();ctx.transform((t.ne[0]-t.nw[0])/w,(t.ne[1]-t.nw[1])/w,(t.sw[0]-t.nw[0])/h,(t.sw[1]-t.nw[1])/h,t.nw[0],t.nw[1]);ctx.drawImage(t.image,0,0);ctx.restore();}
+  ctx.lineCap='round';ctx.lineJoin='round';ctx.globalAlpha=.55;
+  const each=(name,fn)=>{for(const tile of tiles)for(const f of tile.layers[name]??[])fn(f);};
+  each('transportation',f=>{if(f.type!==2||!ROAD[f.properties.class]||f.properties.brunnel==='tunnel')return;ctx.beginPath();for(const ring of f.parts)ring.forEach(([x,z],i)=>i?ctx.lineTo(x,z):ctx.moveTo(x,z));ctx.strokeStyle=f.properties.class==='motorway'?'#f6c86a':'#ffffff';ctx.lineWidth=Math.max(roadWidth(f.properties.class)*.35,1.2/scale);ctx.stroke();});
+  ctx.globalAlpha=1;paintRoutes(ctx,x0,z0,size,scale);return;
+ }
  const path=parts=>{ctx.beginPath();for(const ring of parts){ring.forEach(([x,z],i)=>i?ctx.lineTo(x,z):ctx.moveTo(x,z));}};
  const fill=(parts,colour)=>{path(parts);ctx.fillStyle=colour;ctx.fill('evenodd');};
  const each=(name,fn)=>{for(const t of tiles)for(const f of t.layers[name]??[])fn(f);};
@@ -42,6 +52,12 @@ export function paintChunk(canvas,x0,z0,size,tiles,detailed){
   }
   ctx.setLineDash([]);
  }
+ paintRoutes(ctx,x0,z0,size,scale);
+}
+
+function paintRoutes(ctx,x0,z0,size,scale){
+ if(!routeOverlay.show)return;
+ const path=parts=>{ctx.beginPath();for(const ring of parts){ring.forEach(([x,z],i)=>i?ctx.lineTo(x,z):ctx.moveTo(x,z));}};
  const x1=x0+size,z1=z0+size,touches=r=>r.parts.some(line=>line.some(([x,z])=>x>x0-200&&x<x1+200&&z>z0-200&&z<z1+200));
  for(const r of [...routeOverlay.lines].sort((a,b)=>(a.area===routeOverlay.area)-(b.area===routeOverlay.area)||(a.id===routeOverlay.route)-(b.id===routeOverlay.route))){
   if(!touches(r))continue;

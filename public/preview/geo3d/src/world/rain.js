@@ -32,7 +32,7 @@ export function createRain(scene,{E}){
   lines,
   update(dt,{rain,time,target,cameraDistance,groundAt,enabled}){
    lines.visible=enabled&&!!rain;if(!lines.visible)return 0;
-   U.time.value+=dt;U.column.value=Math.max(300,cameraDistance*.6);
+   U.time.value+=dt;U.column.value=Math.min(1500,Math.max(300,cameraDistance*.6));
    const lv=Math.round(Math.log(Math.max(800,cameraDistance*1.1))/Math.log(STEP)),radius=Math.min(9000,STEP**lv);
    const h=rain.frames.find(f=>time>=f.start&&time<f.end)?.start??-1;
    const far=!centre||Math.hypot(target.x-centre.x,target.z-centre.z)>radius*.35;

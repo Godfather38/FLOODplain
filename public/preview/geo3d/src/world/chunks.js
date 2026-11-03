@@ -4,8 +4,8 @@
 import * as THREE from 'three/webgpu';
 import {SIZE_X,SIZE_Z,toWorld,worldToUtm} from './heights.js';
 import {fromUtm} from '../utm.js';
-import {loadVectorTile,tileRange} from './tiles.js';
-import {paintChunk} from './paint.js';
+import {loadVectorTile,loadImageryTile,tileRange} from './tiles.js';
+import {paintChunk,baseMap} from './paint.js';
 import {buildStructures} from './structures.js';
 import {CHUNK,LODS,lodFor} from './detail.js';
 export {CHUNK,LODS,lodFor};
@@ -33,10 +33,11 @@ export function createChunks(scene,material,{ground,E,structureMaterial,onChange
  // while the camera moves (the coarser map stays meanwhile) and starts one chunk per frame.
  const queue=new Set(),last=new THREE.Vector3(),lastQ=new THREE.Quaternion();let busy=0,stillSince=0,moving=false;
  async function paint(c,lod){
-  const L=LODS[lod],tiles=await Promise.all(tileRange(c.x0,c.z0,c.x0+CHUNK,c.z0+CHUNK,L.zoom,toLonLat).map(loadVectorTile));
-  if(c.lod!==lod)return;
+  const L=LODS[lod],kind=baseMap.kind,tiles=await Promise.all(tileRange(c.x0,c.z0,c.x0+CHUNK,c.z0+CHUNK,L.zoom,toLonLat).map(loadVectorTile));
+  const imagery=kind==='satellite'?await Promise.all(tileRange(c.x0,c.z0,c.x0+CHUNK,c.z0+CHUNK,Math.min(17,L.zoom+2),toLonLat).map(loadImageryTile)):null;
+  if(c.lod!==lod||kind!==baseMap.kind)return;
   const canvas=document.createElement('canvas');canvas.width=canvas.height=L.px;
-  paintChunk(canvas,c.x0,c.z0,CHUNK,tiles,lod<=1);
+  paintChunk(canvas,c.x0,c.z0,CHUNK,tiles,lod<=1,imagery);
   const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=4;texture.flipY=false;
   c.maps[lod]?.dispose();c.maps[lod]=texture;c.mesh.userData.map=texture;c.paintedLod=lod;
   // Keep the levels next to the current one; finer maps far from the camera are let go.

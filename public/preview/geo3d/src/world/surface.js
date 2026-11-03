@@ -8,7 +8,11 @@ import {Fn,uniform,float,vec2,vec3,vec4,ivec2,color,texture,textureLoad,attribut
 import {GRID} from '../run-data.js';
 import {W,H,STEP,SIZE_X,SIZE_Z} from './heights.js';
 export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exaggeration,showDepth}){
- const U={alpha:uniform(0),time:uniform(0),E:uniform(exaggeration),show:uniform(showDepth),sun:uniform(new THREE.Vector3(-.45,.8,-.35).normalize())};
+ // water: 1 draws the SFINCS water, 0 leaves bare ground. hand: strength of the HAND extent tint.
+ const U={alpha:uniform(0),time:uniform(0),E:uniform(exaggeration),show:uniform(showDepth),water:uniform(1),hand:uniform(0),sun:uniform(new THREE.Vector3(-.45,.8,-.35).normalize())};
+ // The HAND modeled extent for the hour, painted on a canvas over the whole model rectangle.
+ const handCanvas=document.createElement('canvas');handCanvas.width=1600;handCanvas.height=Math.round(1600*SIZE_Z/SIZE_X);
+ const handTex=new THREE.CanvasTexture(handCanvas);handTex.flipY=false;
  const heightTex=new THREE.DataTexture(heights,W,H,THREE.RedFormat,THREE.FloatType);heightTex.needsUpdate=true;
  const gridTex=data=>{const t=new THREE.DataTexture(data,GRID.mmax,GRID.nmax,THREE.RedFormat,THREE.FloatType);t.needsUpdate=true;return t;};
  const texA=gridTex(levelA),texB=gridTex(levelB),shareTexA=gridTex(shareA),shareTexB=gridTex(shareB);
@@ -39,13 +43,13 @@ export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exagger
  const mapNode=texture(blank).onObjectUpdate(({object})=>object.userData.map??blank);
  const make=()=>{
   const material=new THREE.MeshBasicNodeMaterial({side:THREE.DoubleSide});
-  const g=ground(worldXZ),depthHere=level(worldXZ).sub(g);
+  const g=ground(worldXZ),depthHere=level(worldXZ).sub(g).mul(U.water);
   // Deep water lifts the surface smoothly; shallow water leaves the ground's shape alone.
   const lift=smoothstep(.4,1.5,depthHere).mul(max(depthHere,0));
   material.positionNode=vec3(positionLocal.x,g.add(lift).mul(U.E).sub(attribute('skirt','float').mul(60)),positionLocal.z);
   const p=varying(worldXZ,'worldXZ'),uv=varying(positionLocal.xz.div(1000),'chunkUV');
   material.colorNode=Fn(()=>{
-   const here=ground(p),water=level(p),depth=water.sub(here);
+   const here=ground(p),water=level(p),depth=select(U.water.greaterThan(.5),water.sub(here),float(-1));
    const dx=ground(p.add(vec2(STEP,0))).sub(ground(p.sub(vec2(STEP,0)))),dz=ground(p.add(vec2(0,STEP))).sub(ground(p.sub(vec2(0,STEP))));
    const normal=normalize(vec3(dx.mul(U.E).negate(),STEP*2,dz.mul(U.E).negate()));
    const light=dot(normal,U.sun).max(0).mul(.5).add(.58);
@@ -71,9 +75,17 @@ export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exagger
    const close=mix(land,waterColour,smoothstep(U.show.sub(edge),U.show.add(edge),depth));
    // Zoomed out, a pixel covers many 10 m samples: show the model cell's wet share instead.
    const summary=mix(land,mix(land.mul(.86),color('#2f8fb8'),.8),smoothstep(.02,.35,share(p)));
-   return mix(close,summary,smoothstep(10,30,footprint));
+   const modelled=mix(close,summary,smoothstep(10,30,footprint).mul(U.water));
+   const hand=texture(handTex,vec2(p.x.add(SIZE_X/2).div(SIZE_X),p.y.add(SIZE_Z/2).div(SIZE_Z))).a.mul(U.hand);
+   return mix(modelled,color('#19a7a0'),hand.mul(.55));
   })();
   return material;
  };
- return{U,make,setLevels:(a,b,sa,sb)=>{texA.image.data=a;texB.image.data=b;shareTexA.image.data=sa;shareTexB.image.data=sb;for(const t of [texA,texB,shareTexA,shareTexB])t.needsUpdate=true;}};
+ // polygons: lists of rings in world coordinates, or null to clear.
+ function setHand(polygons){
+  const c=handCanvas.getContext('2d'),sx=handCanvas.width/SIZE_X,sz=handCanvas.height/SIZE_Z;c.clearRect(0,0,handCanvas.width,handCanvas.height);
+  if(polygons?.length){c.fillStyle='#000';c.beginPath();for(const rings of polygons)for(const ring of rings)ring.forEach(([x,z],k)=>c[k?'lineTo':'moveTo']((x+SIZE_X/2)*sx,(z+SIZE_Z/2)*sz));c.fill('evenodd');}
+  handTex.needsUpdate=true;
+ }
+ return{U,make,setHand,setLevels:(a,b,sa,sb)=>{texA.image.data=a;texB.image.data=b;shareTexA.image.data=sa;shareTexB.image.data=sb;for(const t of [texA,texB,shareTexA,shareTexB])t.needsUpdate=true;}};
 }

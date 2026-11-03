@@ -14,6 +14,8 @@
 <main>
  <div id="map" aria-label="3D map of a saved SFINCS flood model run over the model's lidar terrain, with the street map, bridges and buildings. Drag to pan, right-drag or two fingers to turn, scroll or pinch to zoom.">
   <div class="mapbar"><select id="goto" aria-label="Go to a place or route crossing"></select><button id="north" class="compass" aria-label="Turn to north up" title="North up"><span>N</span></button></div>
+  <div class="zoombar"><button id="zoom-in" class="map-btn" aria-label="Zoom in">+</button><button id="zoom-out" class="map-btn" aria-label="Zoom out">−</button></div>
+  <div id="loading" class="loading-card" role="status" aria-live="polite"><div class="spinner" aria-hidden="true"></div><strong id="loading-title">Loading the 3D model view</strong><p id="loading-step">Starting</p><div class="bar"><i id="loading-bar"></i></div></div>
   <div id="error" class="map-card" hidden><strong>The 3D model run could not load</strong><pre id="error-detail"></pre></div>
  </div>
  <section id="screen" aria-label="Model run, routes and crossings">
@@ -21,17 +23,30 @@
    <p class="overline">Model run</p>
    <select id="run" class="run-select" aria-label="Model run"></select>
    <p id="run-note" class="meta"></p>
-   <div class="time-row"><button id="play" class="icon-btn play" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button><input id="scrub" type="range" min="0" max="14" step="1" value="0" aria-label="Model hour"><output id="time"></output></div>
-   <label class="switch-row"><input id="rain" type="checkbox" checked><span>Show the run's rain</span></label>
+   <output id="time" class="clock"></output>
+   <div class="time-row"><button id="prev" class="icon-btn step" aria-label="Previous hour">←</button><button id="play" class="icon-btn play" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button><button id="next" class="icon-btn step" aria-label="Next hour">→</button><input id="scrub" type="range" min="0" max="14" step="1" value="0" aria-label="Model hour"></div>
+  </div>
+  <div class="hero layers-card">
+   <p class="overline">Layers &amp; view</p>
+   <label class="field-label" for="model">Model</label>
+   <select id="model" class="run-select"><option value="2d">Simulated water · SFINCS</option><option value="hand">Modeled estimate · HAND</option><option value="aggregate">Simulated and modeled combined</option><option value="off">Off - no simulated water</option></select>
+   <p id="model-note" class="meta"></p>
+   <div class="seg base-seg" role="tablist" aria-label="Map view"><button data-base="street" role="tab" aria-selected="true">Street map</button><button data-base="satellite" role="tab" aria-selected="false">Satellite</button></div>
+   <label class="switch-row"><input id="rain" type="checkbox" checked><span>Rain</span></label>
    <p id="rain-now" class="meta"></p>
+   <label class="switch-row"><input id="flow" type="checkbox" checked><span>River flow</span></label>
+   <label class="switch-row"><input id="show-routes" type="checkbox" checked><span>Routes</span></label>
+   <label class="switch-row"><input id="show-places" type="checkbox" checked><span>Places</span></label>
+   <div class="view-buttons"><button id="fit-flood" class="btn btn-tonal">Fit flood area</button><button id="fit-routes" class="btn btn-tonal">Fit routes</button></div>
+   <div class="depth-key" aria-label="Water depth key"><span class="ramp"></span><span class="ends"><span>Shallow</span><span>3 ft</span><span>10 ft+</span></span><span class="hand-key"><i></i>HAND modeled extent</span></div>
   </div>
   <div id="routes-ui"></div>
   <details class="src about">
-   <summary class="row"><span class="text"><span class="t">About this view</span><span class="st" id="window">Starting</span></span><span class="chev">›</span></summary>
+   <summary class="row"><span class="text"><span class="t">Why this view?</span><span class="st" id="window">Starting</span></span><span class="chev">›</span></summary>
    <div class="more">
     <p>Water is the SFINCS model's water surface from saved runs with forecast inputs from November 1, 2026: not current conditions. Rain is the run's own rainfall input. Ground, water, roads, bridges and buildings all sit on the model's own 10 m lidar terrain. Heights are drawn 2× taller.</p>
-    <p>Road and bridge-deck heights: USGS 3DEP lidar, every 5 m along the routes.</p>
-    <p class="credit">Map data © OpenStreetMap contributors, via OpenFreeMap and OpenMapTiles. Terrain: USGS Pima County 2021 lidar as resampled for the SFINCS case; Terrain Tiles (Mapzen, AWS Open Data) at the rectangle's edges.</p>
+    <p>Road and bridge-deck heights: USGS 3DEP lidar, every 5 m along the routes. HAND is a separate terrain-height estimate of where river water could reach for the 13Z run's NWM flows; river flow is each run's own inflow at the model's inlets.</p>
+    <p class="credit">Map data © OpenStreetMap contributors, via OpenFreeMap and OpenMapTiles. Terrain: USGS Pima County 2021 lidar as resampled for the SFINCS case; Terrain Tiles (Mapzen, AWS Open Data) at the rectangle's edges. Satellite: Esri World Imagery.</p>
     <p id="metrics"></p>
    </div>
   </details>

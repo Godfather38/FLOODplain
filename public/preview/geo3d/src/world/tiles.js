@@ -41,3 +41,17 @@ export function loadVectorTile({z,x,y}){
  })());
  return cache.get(key);
 }
+// Esri World Imagery, the satellite view the app's 2D map offers, with each tile's corners in
+// world metres so it can be drawn into a chunk with one affine transform.
+const imagery=new Map();
+export function loadImageryTile({z,x,y}){
+ const key=`${z}/${x}/${y}`;
+ if(!imagery.has(key))imagery.set(key,(async()=>{
+  const response=await fetch(`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`);
+  if(!response.ok)throw new Error(`Imagery tile ${key} answered ${response.status}`);
+  const image=await createImageBitmap(await response.blob());
+  const corner=(cx,cy)=>{const u=toUtm(lonOf(x+cx,z),latOf(y+cy,z));return toWorld(u.e,u.n);};
+  return{image,nw:corner(0,0),ne:corner(1,0),sw:corner(0,1),key};
+ })());
+ return imagery.get(key);
+}
