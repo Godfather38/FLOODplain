@@ -62,10 +62,11 @@ async function prepareRun(def,display){
 }
 let run=await prepareRun(firstRun,firstDisplay);
 const renderer=new THREE.WebGPURenderer({antialias:true,forceWebGL:true,logarithmicDepthBuffer:true,powerPreference:'high-performance'});
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.toneMapping=THREE.NoToneMapping;
+const view=()=>[Math.max(1,$('map').clientWidth),Math.max(1,$('map').clientHeight)];
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(...view());renderer.toneMapping=THREE.NoToneMapping;
 await renderer.init();$('map').appendChild(renderer.domElement);
 const scene=new THREE.Scene();scene.background=new THREE.Color('#cfe2ec');scene.fog=new THREE.Fog('#cfe2ec',14000,60000);
-const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,2,200000);
+const camera=new THREE.PerspectiveCamera(45,view()[0]/view()[1],2,200000);
 const surface=createSurface({heights,levelA:run.levels[0],levelB:run.levels[1],shareA:run.shares[0],shareB:run.shares[1],noise:makeNoiseTexture(),exaggeration:E,showDepth:SHOW_DEPTH_M});
 const structureMaterial=new THREE.MeshBasicNodeMaterial({vertexColors:true,side:THREE.DoubleSide});
 // The app's routes, painted into the ground; the chosen area's routes stand out.
@@ -91,7 +92,7 @@ function flyStep(now){
 // --- Routes, crossing pins and crossing sheets ---
 const appHref=(routeId,id)=>new URL(`../../../../index.html#/r/${routeId}/${id}`,import.meta.url).href;
 const modelled=modelCells(data.vertices);
-const routesUI=createRoutesUI({root:$('map'),camera,config,routes,roads,world,inside:modelled,ground,E,appHref,flyTo,onRoutes:(area,route)=>{routeOverlay.area=area;routeOverlay.route=route;chunks.repaint();}});
+const routesUI=createRoutesUI({root:$('map'),panelRoot:$('routes-ui'),camera,config,routes,roads,world,inside:modelled,ground,E,appHref,flyTo,onRoutes:(area,route)=>{routeOverlay.area=area;routeOverlay.route=route;chunks.repaint();}});
 routesUI.setRun(run);
 // --- Rain ---
 const rain=createRain(scene,{toLonLat,E});
@@ -112,9 +113,12 @@ $('run').onchange=async e=>{
  catch(error){fail(error);}finally{$('run').disabled=false;}
 };
 describeRun();
-$('play').onclick=()=>{playing=!playing;$('play').textContent=playing?'Pause':'Play';};
-$('scrub').oninput=e=>{playing=false;$('play').textContent='Play';clock=Number(e.target.value);};
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+const PLAY='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',PAUSE='<svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
+const showPlaying=()=>{$('play').innerHTML=playing?PAUSE:PLAY;$('play').setAttribute('aria-label',playing?'Pause':'Play');};
+$('play').onclick=()=>{playing=!playing;showPlaying();};
+$('scrub').oninput=e=>{playing=false;showPlaying();clock=Number(e.target.value);};
+// The map is a panel of the page, as in the app: follow its size, not the window's.
+new ResizeObserver(()=>{const [w,h]=view();camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);}).observe($('map'));
 // --- Names, Go to and compass ---
 const labels=createLabels($('map'),camera,ground,E),places=[];
 for(const fp of config.FAILURE_POINTS){const [x,z]=world(fp.lon,fp.lat);if(modelled(x,z))places.push({name:fp.name,x,z,kind:'Crossing',id:fp.id});}

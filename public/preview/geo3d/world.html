@@ -1,19 +1,41 @@
 <!doctype html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex"><title>FLOODplain 3D saved model run</title>
-<link rel="stylesheet" href="./style.css">
+<link rel="icon" href="../../icons/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../accessible-ui.css">
+<link rel="stylesheet" href="./world.css">
 <script type="importmap">{"imports":{"three":"../coastal-lowcost/vendor/three.webgpu.js","three/webgpu":"../coastal-lowcost/vendor/three.webgpu.js","three/tsl":"../coastal-lowcost/vendor/three.tsl.js","three/addons/":"./vendor/three-addons/","@mapbox/point-geometry":"./vendor/point-geometry/index.js"}}</script></head>
-<body><main id="map" aria-label="3D map of a saved SFINCS flood model run over the model's lidar terrain, with the street map, bridges and buildings. Drag to pan, right-drag or two fingers to turn, scroll or pinch to zoom."></main>
-<div id="simulation-ack" class="card" role="dialog" aria-labelledby="simulation-ack-title" hidden><strong id="simulation-ack-title">This water is from a saved run</strong><p>It is a saved model run from November 2026, not real conditions or a forecast. If you see water on a real road, turn around, don't drown.</p><button id="simulation-ack-ok">Got it</button></div>
-<div class="mapbar"><select id="goto" aria-label="Go to a place or route crossing"></select><button id="north" class="compass" aria-label="Turn to north up" title="North up"><span>N</span></button></div>
-<div id="error" class="card" hidden><strong>The 3D model run could not load</strong><pre id="error-detail"></pre></div>
-<aside id="panel"><details open><summary>Saved SFINCS model runs</summary>
- <label class="run-pick"><span>Model run</span><select id="run" aria-label="Model run"></select></label>
- <p id="run-note" class="fine"></p>
- <p>Water is the SFINCS model's water surface from saved runs with forecast inputs from November 1, 2026: not current conditions. Rain is the run's own rainfall input. Ground, water, roads, bridges and buildings all sit on the model's own 10 m lidar terrain. Heights are drawn 2× taller.</p>
- <p id="window">Starting</p>
- <div class="timebar"><button id="play">Pause</button><input id="scrub" type="range" min="0" max="14" step="1" value="0" aria-label="Model hour"><span id="time"></span></div>
- <label class="rain-toggle"><input id="rain" type="checkbox" checked> Show the run's rain</label><p id="rain-now" class="fine"></p>
- <pre id="metrics"></pre>
- <p class="credit">Map data © OpenStreetMap contributors, via OpenFreeMap and OpenMapTiles. Terrain: USGS Pima County 2021 lidar as resampled for the SFINCS case; Terrain Tiles (Mapzen, AWS Open Data) at the rectangle's edges.</p>
-</details></aside>
+<body class="world3d">
+<header class="appbar">
+ <img class="logo" src="../../icons/logo.svg" alt="">
+ <div class="titles"><h1 id="title">FLOODplain</h1><p id="subtitle">3D model viewer · saved SFINCS runs</p></div>
+ <a class="help-link" href="../../index.html">Back to routes</a>
+</header>
+<main>
+ <div id="map" aria-label="3D map of a saved SFINCS flood model run over the model's lidar terrain, with the street map, bridges and buildings. Drag to pan, right-drag or two fingers to turn, scroll or pinch to zoom.">
+  <div class="mapbar"><select id="goto" aria-label="Go to a place or route crossing"></select><button id="north" class="compass" aria-label="Turn to north up" title="North up"><span>N</span></button></div>
+  <div id="error" class="map-card" hidden><strong>The 3D model run could not load</strong><pre id="error-detail"></pre></div>
+ </div>
+ <section id="screen" aria-label="Model run, routes and crossings">
+  <div class="hero run-card">
+   <p class="overline">Model run</p>
+   <select id="run" class="run-select" aria-label="Model run"></select>
+   <p id="run-note" class="meta"></p>
+   <div class="time-row"><button id="play" class="icon-btn play" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button><input id="scrub" type="range" min="0" max="14" step="1" value="0" aria-label="Model hour"><output id="time"></output></div>
+   <label class="switch-row"><input id="rain" type="checkbox" checked><span>Show the run's rain</span></label>
+   <p id="rain-now" class="meta"></p>
+  </div>
+  <div id="routes-ui"></div>
+  <details class="src about">
+   <summary class="row"><span class="text"><span class="t">About this view</span><span class="st" id="window">Starting</span></span><span class="chev">›</span></summary>
+   <div class="more">
+    <p>Water is the SFINCS model's water surface from saved runs with forecast inputs from November 1, 2026: not current conditions. Rain is the run's own rainfall input. Ground, water, roads, bridges and buildings all sit on the model's own 10 m lidar terrain. Heights are drawn 2× taller.</p>
+    <p>Road and bridge-deck heights: USGS 3DEP lidar, every 5 m along the routes.</p>
+    <p class="credit">Map data © OpenStreetMap contributors, via OpenFreeMap and OpenMapTiles. Terrain: USGS Pima County 2021 lidar as resampled for the SFINCS case; Terrain Tiles (Mapzen, AWS Open Data) at the rectangle's edges.</p>
+    <p id="metrics"></p>
+   </div>
+  </details>
+ </section>
+</main>
+<div id="simulation-ack" class="map-card ack" role="dialog" aria-labelledby="simulation-ack-title" hidden><strong id="simulation-ack-title">This water is from a saved run</strong><p>It is a saved model run from November 2026, not real conditions or a forecast. If you see water on a real road, turn around, don't drown.</p><button id="simulation-ack-ok" class="btn btn-primary">Got it</button></div>
 <script type="module" src="./src/world/main.js"></script></body></html>

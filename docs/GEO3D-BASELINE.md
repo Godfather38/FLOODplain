@@ -31,3 +31,13 @@ The 3D map page (`public/preview/geo3d/map.html`) now draws the saved SFINCS run
 
 ## Own 3D engine
 `public/preview/geo3d/world.html` replaces the MapLibre page, which flickered because MapLibre owned and kept swapping the terrain under our water and roads. The new page owns the whole scene in Three.js: one height field, the model's 10 m lidar, under everything; ground and model water drawn as one surface by one shader; the OpenFreeMap street map painted into the ground Apple Maps style; bridges and buildings in 3D on the same heights; 1 km chunks with distance-based detail. Blinking pixels during camera motion measured 0-0.03%, against 0.8-1.7% on the MapLibre page. Not yet measured on the mini PC.
+
+## Pinned for later: weather that reads as definite (owner, Nov 3 2026)
+
+Requested, not started. Make the run's rain clearer than streak density alone:
+
+- Show raindrops meeting the flow: drops landing on the surface, with splashes or ripples where
+  they hit model water.
+- Show where rain is heaviest directly: for example a soft radar-style tint or contour on the
+  ground from the run's own rainfall grid, with its mm/h, alongside the streaks.
+- Same rules as the rest of the view: only the run's own rainfall input, nothing invented.

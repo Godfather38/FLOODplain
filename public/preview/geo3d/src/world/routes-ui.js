@@ -1,34 +1,36 @@
-// The 2D layer over the 3D map: the same Avra Valley / Picture Rocks choice as the app, its
-// routes, drop pins for the crossings on the safety screen, and a sheet for each crossing that
-// puts the road's height next to the model's water height, hour by hour.
+// The 2D layer of the 3D map, built from the app's own parts (style.css): the same Avra Valley /
+// Picture Rocks switch, its routes as list rows, drop pins for the crossings on the safety screen,
+// and a card for each crossing that puts the road's height next to the model's water height.
 import * as THREE from 'three/webgpu';
 import {crossingStory,statusAt,COVER_M} from './crossing-story.js';
 const FT=3.28084,ft=m=>m==null?'—':`${(m*FT).toFixed(1)} ft`,el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const GLYPH={dip:'⌄',flat:'⌄',road:'⌄',bridge:'⌒',river:'≈'};
+// Status colours are the app's: s1 low, s3 caution, s5 danger, sq no reading.
+const TONE={over:'danger',clear:'ok',unmeasured:'none',unknown:'none',outside:'none'};
 const STATUS={over:'Water over the road',clear:'Road above the water',unmeasured:'Deck height not measured',unknown:'No model level here this hour',outside:'Outside the model area'};
-export function createRoutesUI({root,camera,config,routes,roads,world,inside,ground,E,appHref,flyTo,onRoutes}){
+export function createRoutesUI({root,panelRoot,camera,config,routes,roads,world,inside,ground,E,appHref,flyTo,onRoutes}){
  const {AREAS,ROUTE_INFO,FAILURE_POINTS}=config;
  let area=AREAS[0].id,route=null,run=null,frameIndex=0,stories=new Map(),openId=null,roadWater=new Map();
- // --- panel ---
- const panel=el('aside','routes-panel');panel.setAttribute('aria-label','Routes and crossings');
- const tabs=el('div','segmented');
- for(const a of AREAS){const b=el('button',null,esc(a.name));b.dataset.area=a.id;b.onclick=()=>select(a.id,null);tabs.appendChild(b);}
- const list=el('div','route-list');
- panel.append(el('div','routes-title','Routes'),tabs,list);root.appendChild(panel);
- // --- pins ---
+ // --- side panel: area switch, route list, and the crossing card in place of the list ---
+ const tabs=el('div','seg');tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Area');
+ for(const a of AREAS){const b=el('button',null,esc(a.name));b.dataset.area=a.id;b.setAttribute('role','tab');b.onclick=()=>select(a.id,null);tabs.appendChild(b);}
+ const listView=el('div'),list=el('div','list');listView.append(el('h3','section','Routes'),list);
+ const sheet=el('div','crossing-view');sheet.hidden=true;sheet.setAttribute('aria-live','polite');
+ panelRoot.append(tabs,listView,sheet);
+ // --- pins on the map ---
  const pinLayer=el('div','pins');root.appendChild(pinLayer);
- const pins=FAILURE_POINTS.map(fp=>{const b=el('button','pin',`<span class="glyph">${GLYPH[fp.kind]??'•'}</span>`);b.title=fp.name;b.setAttribute('aria-label',fp.name);b.onclick=()=>openDetail(fp.id);pinLayer.appendChild(b);return{fp,b,pos:new THREE.Vector3()};});
- // --- detail sheet ---
- const sheet=el('aside','detail');sheet.hidden=true;sheet.setAttribute('aria-live','polite');root.appendChild(sheet);
+ const pins=FAILURE_POINTS.map(fp=>{const b=el('button','drop-pin',`<span class="glyph">${GLYPH[fp.kind]??'•'}</span>`);b.title=fp.name;b.setAttribute('aria-label',fp.name);b.onclick=()=>{openDetail(fp.id);reveal();};pinLayer.appendChild(b);return{fp,b,pos:new THREE.Vector3()};});
+ // On a phone the card sits under the map: bring it into view after a tap on the map.
+ const reveal=()=>{if(matchMedia('(max-width: 899px)').matches)sheet.scrollIntoView({behavior:'smooth',block:'start'});};
  function select(nextArea,nextRoute){
   area=nextArea;route=nextRoute;
-  for(const b of tabs.children)b.classList.toggle('on',b.dataset.area===area);
+  for(const b of tabs.children)b.setAttribute('aria-selected',String(b.dataset.area===area));
   const ids=routes.features.filter(f=>f.properties.area===area).map(f=>f.properties.id);
   list.innerHTML='';
   for(const id of ids){
    const info=ROUTE_INFO[id]??{name:id},f=routes.features.find(r=>r.properties.id===id),points=FAILURE_POINTS.filter(fp=>fp.routes.includes(id));
-   const b=el('button','route'+(route===id?' on':''),`<strong>${esc(info.name)}</strong><span>${esc(info.via??'')} · ${f.properties.km} km · ${points.length} crossing${points.length===1?'':'s'}</span><em data-route="${id}"></em>`);
+   const b=el('button','row route',`<span class="dot" data-route-dot="${id}"></span><span class="text"><span class="t">${esc(info.name)}</span><span class="st">${esc(info.via??'')} · ${f.properties.km} km · ${points.length} crossing${points.length===1?'':'s'}</span><span class="st status" data-route="${id}"></span></span><span class="chev">›</span>`);b.setAttribute('aria-pressed',String(route===id));
    b.onclick=()=>{select(area,route===id?null:id);if(route)flyTo(...routeCentre(f),routeSpan(f));};list.appendChild(b);
   }
   onRoutes?.(area,route);refreshCounts();
@@ -42,12 +44,13 @@ export function createRoutesUI({root,camera,config,routes,roads,world,inside,gro
  function measureRoads(){roadWater=new Map([...samples].map(([id,pts])=>[id,run.samplers.map(s=>{let wet=0,deep=0;for(const [x,z,g] of pts){const d=s(x,z)-g;if(d>.15)wet++;if(d>.5)deep++;}return{wet:wet*5/1000,deep:deep*5/1000};})]));}
  const km=v=>v>=1?v.toFixed(1)+' km':Math.round(v*1000/10)*10+' m';
  function refreshCounts(){
-  for(const em of list.querySelectorAll('em[data-route]')){
+  for(const em of list.querySelectorAll('[data-route]')){
    const points=FAILURE_POINTS.filter(fp=>fp.routes.includes(em.dataset.route)),over=points.filter(fp=>stories.get(fp.id)&&statusAt(stories.get(fp.id),frameIndex)==='over').length,modelled=points.filter(fp=>stories.get(fp.id)?.inside).length;
    const road=roadWater.get(em.dataset.route)?.[frameIndex],wet=road&&road.wet>=.05;
    const parts=[];if(over)parts.push(`${over} crossing${over===1?'':'s'} with water over the road`);if(wet)parts.push(`${km(road.wet)} of road under model water${road.deep>=.05?`, ${km(road.deep)} of it over 1.6 ft deep`:""}`);
    em.textContent=!modelled&&!samples.get(em.dataset.route)?.length?'Outside the model area':parts.length?parts.join(' · ')+' this hour':'No model water over the road this hour';
-   em.className=over||wet?'over':'';
+   em.classList.toggle('warn',!!(over||wet));
+   list.querySelector(`[data-route-dot="${em.dataset.route}"]`).className='dot '+(over?'danger':wet?'caution':modelled||samples.get(em.dataset.route)?.length?'ok':'');
   }
  }
  function setRun(nextRun){
@@ -77,10 +80,10 @@ export function createRoutesUI({root,camera,config,routes,roads,world,inside,gro
   const fp=FAILURE_POINTS.find(f=>f.id===openId),story=stories.get(openId);
   const routeId=fp.routes[0],hour=story?.hours?.[frameIndex];
   let body;
-  if(!story?.inside)body=`<p class="status outside">${STATUS.outside}</p><p>The saved SFINCS runs compute about 297 km² of 100 m cells around the Santa Cruz River, Cortaro and Trico. This crossing is not in one of those cells, so the model has nothing to show here: not dry, just not modelled.</p>`;
+  if(!story?.inside)body=`<p class="status none"><span class="dot"></span>${STATUS.outside}</p><p>The saved SFINCS runs compute about 297 km² of 100 m cells around the Santa Cruz River, Cortaro and Trico. This crossing is not in one of those cells, so the model has nothing to show here: not dry, just not modelled.</p>`;
   else{
    const s=statusAt(story,frameIndex);
-   body=`<p class="status ${s}">${STATUS[s]}${s==='over'?`: ${ft(hour.over)} deep`:''}</p>
+   body=`<p class="status ${TONE[s]}"><span class="dot ${TONE[s]}"></span>${STATUS[s]}${s==='over'?`: ${ft(hour.over)} deep`:''}</p>
    <dl class="heights">
     <dt>Road height</dt><dd><strong>${ft(story.road.m)}</strong> NAVD88<small>${esc(story.road.source)}</small></dd>
     <dt>Model water level now</dt><dd><strong>${ft(hour.water)}</strong> NAVD88<small>${hour.water==null?'No model level for this hour.':hour.depth>=0?`${ft(hour.depth)} above the ground at the crossing`:`${ft(-hour.depth)} below the ground here: the level of the nearby model cells, not water on this spot`}</small></dd>
@@ -89,11 +92,11 @@ export function createRoutesUI({root,camera,config,routes,roads,world,inside,gro
    </dl>${chart(story)}
    <p class="fine">Model water is the SFINCS water surface blended between 100 m model cells, from a saved run, not current conditions. ${story.unknownHours?`${story.unknownHours} hour(s) have no model level here. `:''}</p>`;
   }
-  sheet.innerHTML=`<button class="close" aria-label="Close">×</button><h2>${esc(fp.name)}</h2><p class="where">${esc(fp.where??'')} · ${esc({dip:'Dip',flat:'Low road',road:'Road',bridge:'Bridge',river:'River bridge'}[fp.kind]??fp.kind)}</p>${body}<a class="app-link" href="${appHref(routeId,fp.id)}">Open the safety screen for this crossing</a>`;
-  sheet.querySelector('.close').onclick=closeDetail;
+  sheet.innerHTML=`<button class="back btn btn-text">‹ All routes</button><div class="hero"><p class="overline">${esc({dip:'Dip',flat:'Low road',road:'Road',bridge:'Bridge',river:'River bridge'}[fp.kind]??fp.kind)}</p><h2>${esc(fp.name)}</h2><p class="meta">${esc(fp.where??'')}</p>${body}<div class="actions"><a class="btn btn-primary" href="${appHref(routeId,fp.id)}">Open the safety screen</a></div></div>`;
+  sheet.querySelector('.back').onclick=closeDetail;
  }
- function openDetail(id){openId=id;sheet.hidden=false;for(const p of pins)p.b.classList.toggle('open',p.fp.id===id);renderDetail();}
- function closeDetail(){openId=null;sheet.hidden=true;for(const p of pins)p.b.classList.remove('open');}
+ function openDetail(id){openId=id;sheet.hidden=false;listView.hidden=true;for(const p of pins)p.b.classList.toggle('open',p.fp.id===id);renderDetail();}
+ function closeDetail(){openId=null;sheet.hidden=true;listView.hidden=false;for(const p of pins)p.b.classList.remove('open');}
  const v=new THREE.Vector3();
  function update(){
   const w=root.clientWidth,h=root.clientHeight;
@@ -107,5 +110,5 @@ export function createRoutesUI({root,camera,config,routes,roads,world,inside,gro
   }
  }
  select(area,null);
- return{update,setRun,setFrame,openDetail,select,get area(){return area;},get route(){return route;},stories:()=>stories};
+ return{update,setRun,setFrame,openDetail,closeDetail,reveal,select,get area(){return area;},get route(){return route;},stories:()=>stories};
 }

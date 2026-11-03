@@ -1,0 +1,86 @@
+/* The 3D map page in the app's own look: style.css and accessible-ui.css supply the tokens, the
+   app bar, the side column (#screen), cards (.hero), the area switch (.seg), list rows and status
+   dots. This file only adds what the 3D map needs, on the same tokens, so dark mode follows. */
+.world3d .appbar{border-bottom:1px solid var(--divider)}
+.world3d #title{font-size:1.375rem;margin:0}
+#map{position:relative;overflow:hidden;background:#cfe2ec;touch-action:none}
+#map canvas{position:absolute;inset:0;display:block;outline:0}
+@media (max-width:899px){
+ #map{height:56vh;min-height:300px;margin:0 16px}
+}
+@media (min-width:900px){
+ .world3d main{height:calc(100dvh - 72px)}
+}
+#screen > * + *{margin-top:12px}
+#screen h3.section{margin:20px 4px 8px}
+
+/* run card */
+.run-card .run-select{width:100%;font:inherit;font-size:1rem;color:var(--on);padding:12px;border-radius:12px;border:1px solid var(--divider);background:var(--bg)}
+.run-card .meta{margin:8px 0 0}
+.run-card .time-row{display:flex;align-items:center;gap:8px;margin-top:12px}
+.run-card .time-row input{flex:1;min-width:0;accent-color:var(--primary)}
+.run-card .time-row output{font-size:.9375rem;white-space:nowrap}
+.icon-btn.play{background:var(--primary);color:var(--on-primary)}
+.icon-btn.play svg{fill:currentColor}
+.switch-row{display:flex;align-items:center;gap:12px;margin-top:8px;font-size:1rem;cursor:pointer}
+.switch-row input{width:22px;height:22px;min-height:0;accent-color:var(--primary)}
+.switch-row:has(input:disabled){color:var(--muted)}
+
+/* route rows */
+.row.route[aria-pressed="true"]{background:var(--surface-2);box-shadow:inset 4px 0 0 var(--primary)}
+.row.route .status{color:var(--muted)}
+.row.route .status.warn{color:var(--on);font-weight:500}
+.dot.none{background:var(--sq)}
+
+/* crossing card */
+.crossing-view .back{min-height:48px;padding:0 8px;height:auto;justify-content:flex-start}
+.crossing-view h2{font-size:1.5rem;line-height:1.2;font-weight:500;margin:0}
+.crossing-view .status{display:flex;align-items:center;gap:10px;margin:14px 0;padding:10px 14px;border-radius:12px;background:var(--surface-2);font-weight:500}
+.crossing-view .status.danger{background:color-mix(in srgb,var(--s5) 14%,var(--surface));color:var(--on)}
+.crossing-view .status.ok{background:color-mix(in srgb,var(--s1) 12%,var(--surface))}
+.heights{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;margin:0 0 12px}
+.heights dt{color:var(--muted)}
+.heights dd{margin:0}
+.heights small{display:block;color:var(--muted);font-size:.875rem}
+.chart{width:100%;height:auto;background:var(--surface-2);border-radius:12px}
+.chart line,.chart polyline{fill:none;stroke-width:2}
+.chart .water{stroke:#1f7fb4;stroke-width:2.5}.chart .road{stroke:#b4651a;stroke-dasharray:5 4}.chart .ground{stroke:var(--muted)}.chart .now{stroke:var(--on);stroke-width:1;opacity:.45}
+.chart-key{display:flex;gap:14px;flex-wrap:wrap;font-size:.875rem;color:var(--muted);margin:6px 0 4px}
+.k::before{content:'';display:inline-block;width:14px;height:3px;margin-right:6px;vertical-align:middle}
+.k.water::before{background:#1f7fb4}.k.road::before{background:#b4651a}.k.ground::before{background:var(--muted)}
+.crossing-view .fine{text-align:left;margin:8px 0 0}
+.crossing-view .actions{margin-top:16px}
+.crossing-view .actions .btn{flex:1}
+
+/* about */
+details.about .more p{margin:0 0 10px}
+details.about #metrics{font-variant-numeric:tabular-nums}
+
+/* on the map: Go to, compass, names, drop pins */
+.mapbar{position:absolute;z-index:2;right:12px;top:12px;display:flex;gap:8px}
+.mapbar select{max-width:min(56vw,280px);min-height:48px;border-radius:24px;border:0;padding:0 14px;font:inherit;font-size:.9375rem;background:var(--surface);color:var(--on);box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.compass{width:48px;height:48px;padding:0;border:0;border-radius:50%;background:var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer}
+.compass span{display:block;font-weight:700;color:var(--s5);transition:transform .1s}
+.labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.label{position:absolute;left:0;top:0;white-space:nowrap;font:500 12px/1.2 Roboto,system-ui,sans-serif;color:#3a3630;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 2px #fff;will-change:transform}
+.label.place{font-size:15px;color:#2a2622}
+.label.road{color:#5a5348}
+.label.wash{font-style:italic;color:#2f6f86}
+.label.crossing{padding:2px 8px;border-radius:10px;background:#fff;color:#1d4f70;box-shadow:0 1px 3px #0003;text-shadow:none}
+.label.crossing::after{content:'';position:absolute;left:50%;bottom:-5px;margin-left:-4px;border:4px solid transparent;border-top-color:#fff;border-bottom:0}
+.pins{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.drop-pin{position:absolute;left:0;top:0;pointer-events:auto;width:32px;height:40px;min-height:0;min-width:0;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));transform-origin:50% 100%}
+.drop-pin::before{content:'';position:absolute;left:2px;top:0;width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--s1);border:2px solid #fff;box-sizing:border-box}
+.drop-pin .glyph{position:absolute;left:0;top:4px;width:32px;text-align:center;font:700 14px/18px Roboto,system-ui,sans-serif;color:#fff}
+.drop-pin[data-status=over]::before{background:var(--s5)}
+.drop-pin[data-status=unknown]::before,.drop-pin[data-status=unmeasured]::before,.drop-pin[data-status=outside]::before{background:var(--sq)}
+.drop-pin.open::before{border-width:3px;border-color:var(--on)}
+
+/* acknowledgement and errors */
+.map-card{position:fixed;z-index:1100;left:50%;top:50%;transform:translate(-50%,-50%);width:min(360px,calc(100vw - 32px));padding:20px;border-radius:var(--radius);background:var(--surface);color:var(--on);box-shadow:0 4px 24px rgba(0,0,0,.35)}
+.map-card p{margin:8px 0 16px}
+.map-card .btn{width:100%}
+#error{position:absolute}
+#error pre{white-space:pre-wrap;font-size:.8125rem;color:var(--muted)}
+.row.route .t,.row.route .st{display:block}
+.crossing-view{scroll-margin-top:140px}
