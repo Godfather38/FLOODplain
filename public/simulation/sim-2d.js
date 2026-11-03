@@ -7,7 +7,8 @@ import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY} from '../preview/geo3d/src/runs.j
 import {fromUtm,toUtm} from '../preview/geo3d/src/utm.js?v=dev';
 import {parseRain,rainAtUtm} from '../preview/geo3d/src/world/rain-data.js?v=dev';
 import {decodeRoadHeights,roadPackage} from '../preview/geo3d/src/road-package.js?v=dev';
-import {decodeJunction,computeExtent,depthGrid,HAND_DEPTH_BANDS,depthBand as handBand} from '../inundation/hand-inundation.js?v=dev';
+import {loadHand,flowsForRun,handHour,windowBounds,HAND_COLORS,isSantaCruz,useFetcher} from './hand-runs.js?v=dev';
+export {loadHand,flowsForRun,HAND_COLORS,isSantaCruz};
 export {RUNS};
 const DATA=new URL('./data/',import.meta.url);
 // Depth bands in feet, the same as the app's simulated-water key.
@@ -57,6 +58,7 @@ async function fetchJson(url){
  return JSON.parse(new TextDecoder().decode(plain));
 }
 const data=p=>fetchJson(new URL(p,DATA));
+useFetcher(fetchJson);
 const GRID={x0:467700,y0:3572300};
 // Cell centres and corners from the display's vertices: [x, y, mean terrain, n, m], metres from the grid origin.
 function cellsOf(vertices){
@@ -68,7 +70,7 @@ function cellsOf(vertices){
  return{n,bed,box,utm,index};
 }
 let baseCells=null;
-// A run, ready for the 2D map: depth per cell per hour, rain, inflow and (13Z only) HAND.
+// A run, ready for the 2D map: depth per cell per hour, rain and inflow. HAND comes from hand-runs.js.
 export async function loadRun2d(def){
  if(def.live){
   const bust='?t='+Math.floor(Date.now()/120000);
@@ -82,7 +84,7 @@ export async function loadRun2d(def){
   return build({...def,note:`Model forecast from public forcing, not observed water: SFINCS run at ${issued} MST from the NOAA HRRR rain forecast of ${cycle} MST and NWM river flows, after a 45-hour warm-up. A new run is published every hour.`},baseCells,water.frames,rain,inflow.series,null);
  }
  const display=await data(def.display);
- const [rainJson,inflowJson,handJson]=await Promise.all([def.rain&&data(def.rain),def.inflow&&def.inflow!==def.rain&&data(def.inflow),def.hand&&data(def.hand)]);
+ const [rainJson,inflowJson,handJson]=await Promise.all([def.rain&&data(def.rain),def.inflow&&def.inflow!==def.rain&&data(def.inflow),null]);
  const cells=def.display===BASE_DISPLAY?(baseCells??=cellsOf(display.vertices)):cellsOf(display.vertices);
  const series=(def.inflow===def.rain?rainJson?.boundary:inflowJson)?.series??[];
  return build(def,cells,display.waterFrames,rainJson,series,handJson);
@@ -112,40 +114,6 @@ function hourSeries({cells,times,depth,rain,inflow}){
   return{time:t,wetKm2:wet/100,deepM:deep,rainMmH:r,inflowM3s:q};
  });
 }
-// HAND windows: NOAA OWP HAND grids, 3 km around each supported crossing (public/inundation/data/).
-// For a run, the Santa Cruz windows are run with that run's own Santa Cruz flow at the model's
-// inlet each hour, assumed unchanged along the channel. Wash windows have no flow in these runs.
-const HAND_DATA=new URL('../inundation/data/',import.meta.url);
-let hand=null;
-export function loadHand(){
- hand??=(async()=>{
-  const cov=await fetchJson(new URL('coverage.json',HAND_DATA));
-  const files=[...new Set(cov.points.filter(p=>p.status==='supported'&&p.file).map(p=>p.file))];
-  const list=await Promise.all(files.map(f=>fetchJson(new URL(f,HAND_DATA)).then(decodeJunction).catch(()=>null)));
-  return list.filter(Boolean);
- })();
- hand.catch(()=>{hand=null;});
- return hand;
-}
-export const HAND_COLORS=HAND_DEPTH_BANDS.map(b=>`rgb(${b.rgb.join(',')})`);
-export const isSantaCruz=j=>/santa cruz/i.test(j.reach?.name??'');
-// One window at one flow, painted once into a small image: wet cells coloured by HAND depth.
-const handCache=new Map();
-export function handImage(j,flowM3s){
- const key=j.id+'|'+flowM3s.toFixed(2);if(handCache.has(key))return handCache.get(key);
- const extent=computeExtent(j,flowM3s);let out;
- if(!extent)out={beyond:true};
- else if(!extent.wetCells)out={wet:0};
- else{
-  const {cols,rows}=j.grid,d=depthGrid(j,extent),c=document.createElement('canvas');c.width=cols;c.height=rows;
-  const ctx=c.getContext('2d'),img=ctx.createImageData(cols,rows);
-  for(let i=0;i<d.length;i++){if(Number.isNaN(d[i]))continue;const b=HAND_DEPTH_BANDS[Math.max(0,handBand(d[i]))].rgb;img.data.set([b[0],b[1],b[2],205],i*4);}
-  ctx.putImageData(img,0,0);out={wet:extent.wetCells,areaM2:extent.wetAreaM2,canvas:c};
- }
- if(handCache.size>400)handCache.delete(handCache.keys().next().value);
- handCache.set(key,out);return out;
-}
-
 // Road and bridge-deck heights along the routes (public/simulation/data/road-heights/).
 let roads=null;
 export function loadRoads(){
@@ -179,7 +147,7 @@ export function createSimLayer(L,map){
  if(!map.getPane('simWater'))map.createPane('simWater').style.zIndex=350;
  const pane=map.getPane('simWater'),canvas=document.createElement('canvas');canvas.className='sim-canvas';pane.append(canvas);
  const flowLayer=L.layerGroup().addTo(map);
- let run=null,clock=0,show={water:true,hand:false,rain:true,flow:true},frame=0,junctions=null;
+ let run=null,clock=0,show={water:true,hand:false,rain:true,flow:true},frame=0,junctions=null,flows=null;
  const at=()=>{const i=Math.min(run.times.length-1,Math.floor(clock)),j=Math.min(run.times.length-1,i+1);return{i,j,f:clock-i};};
  function depthAt(k){const {i,j,f}=at(),a=run.depth[i][k],b=run.depth[j][k];return Number.isNaN(a)?NaN:a+((Number.isNaN(b)?a:b)-a)*f;}
  function time(){const {i,j,f}=at();return run.times[i]+(run.times[j]-run.times[i])*f;}
@@ -208,21 +176,17 @@ export function createSimLayer(L,map){
     ctx.globalAlpha=1;
    }
   }
-  if(show.hand&&!run.hand&&junctions){
-   const h=Math.min(run.times.length-1,Math.round(clock)),flow=run.riverM3s[h]??0;
+  // HAND: every window drawn from its own reach's flow this hour; the outline marks each window,
+  // so a window with no water still shows that HAND was run there.
+  const hh=show.hand&&junctions&&flows&&flows.run===run?handHour(junctions,flows.f,Math.min(run.times.length-1,Math.round(clock))):null;
+  if(hh){
    ctx.imageSmoothingEnabled=false;
-   for(const j of junctions){
-    if(!isSantaCruz(j))continue;const g=j.grid,s=g.latMax-g.rows*g.dLat,e=g.lonMin+g.cols*g.dLon;
-    if(!b.intersects([[s,g.lonMin],[g.latMax,e]]))continue;
-    const im=handImage(j,flow);if(!im.canvas)continue;
-    const p=map.latLngToContainerPoint([g.latMax,g.lonMin]),q=map.latLngToContainerPoint([s,e]);
-    ctx.globalAlpha=.85;ctx.drawImage(im.canvas,p.x,p.y,q.x-p.x,q.y-p.y);ctx.globalAlpha=1;
+   for(const {j,im} of hh.shown){
+    const w=windowBounds(j);if(!b.intersects([[w.south,w.west],[w.north,w.east]]))continue;
+    const p=map.latLngToContainerPoint([w.north,w.west]),q=map.latLngToContainerPoint([w.south,w.east]);
+    if(im.canvas){ctx.globalAlpha=.85;ctx.drawImage(im.canvas,p.x,p.y,q.x-p.x,q.y-p.y);ctx.globalAlpha=1;}
+    ctx.setLineDash(im.noFlow?[3,4]:[]);ctx.strokeStyle=im.noFlow?'rgba(90,90,90,.55)':'rgba(15,111,106,.75)';ctx.lineWidth=1;ctx.strokeRect(p.x+.5,p.y+.5,q.x-p.x,q.y-p.y);ctx.setLineDash([]);
    }
-  }
-  if(show.hand&&run.hand){
-   const polys=run.hand[Math.min(run.hand.length-1,Math.round(clock))]??[];
-   ctx.fillStyle='rgba(25,167,160,.45)';ctx.strokeStyle='rgba(15,111,106,.9)';ctx.lineWidth=1;
-   for(const poly of polys){ctx.beginPath();for(const ring of poly)ring.forEach(([lon,lat],i)=>{const p=map.latLngToContainerPoint([lat,lon]);i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);});ctx.fill('evenodd');ctx.stroke();}
   }
   if(show.water){
    const {box,n}=run.cells,south=b.getSouth(),north=b.getNorth(),west=b.getWest(),east=b.getEast();ctx.globalAlpha=.82;
@@ -249,21 +213,21 @@ export function createSimLayer(L,map){
  let lastFlowHour=-1;
  return{
   setJunctions(list){junctions=list;draw();},
-  // The Santa Cruz windows with HAND water this hour (or the 13Z run's own HAND polygons).
+  // The flows HAND runs with, for one run (hand-runs.js flowsForRun).
+  setFlows(r,f){flows={run:r,f};draw();},
+  // The windows with HAND water this hour.
   handBounds(){
-   if(!run)return null;const h=Math.min(run.times.length-1,Math.round(clock));
-   if(run.hand){const pts=(run.hand[h]??[]).flat(2);if(!pts.length)return null;return[[Math.min(...pts.map(p=>p[1])),Math.min(...pts.map(p=>p[0]))],[Math.max(...pts.map(p=>p[1])),Math.max(...pts.map(p=>p[0]))]];}
-   if(!junctions)return null;const flow=run.riverM3s[h]??0;let s=90,w=180,n=-90,e=-180,any=false;
-   for(const j of junctions){if(!isSantaCruz(j)||!handImage(j,flow).wet)continue;const g=j.grid;any=true;s=Math.min(s,g.latMax-g.rows*g.dLat);n=Math.max(n,g.latMax);w=Math.min(w,g.lonMin);e=Math.max(e,g.lonMin+g.cols*g.dLon);}
+   if(!run||!junctions||flows?.run!==run)return null;const hh=handHour(junctions,flows.f,Math.min(run.times.length-1,Math.round(clock)));
+   let s=90,w=180,n=-90,e=-180,any=false;
+   for(const {j,im} of hh.shown){if(!im.wet)continue;const b=windowBounds(j);any=true;s=Math.min(s,b.south);n=Math.max(n,b.north);w=Math.min(w,b.west);e=Math.max(e,b.east);}
    return any?[[s,w],[n,e]]:null;
   },
-  // HAND for this hour: the flow used and what the Santa Cruz windows show.
+  // HAND this hour: windows with water, without a flow, beyond their rating curves, and the source.
   handNow(){
-   if(!run)return null;const h=Math.min(run.times.length-1,Math.round(clock));
-   if(run.hand)return{precomputed:true,polygons:(run.hand[h]??[]).length};
-   const flow=run.riverM3s[h]??0;if(!junctions)return{flow,loading:true};
-   let wet=0,beyond=0,areaM2=0,windows=0;for(const j of junctions){if(!isSantaCruz(j))continue;windows++;const im=handImage(j,flow);if(im.beyond)beyond++;else if(im.wet){wet++;areaM2+=im.areaM2;}}
-   return{flow,windows,wet,beyond,areaM2};
+   if(!run)return null;if(!junctions||flows?.run!==run)return{loading:true};
+   const h=Math.min(run.times.length-1,Math.round(clock)),hh=handHour(junctions,flows.f,h);
+   const sc=hh.shown.find(x=>isSantaCruz(x.j)&&Number.isFinite(x.q));
+   return{...hh,source:flows.f.source,kind:flows.f.kind,riverM3s:sc?.q??null};
   },
   setRun(r){run=r;clock=Math.min(clock,r.times.length-1);lastFlowHour=-1;draw();drawFlow();},
   setClock(c){if(!run)return;clock=Math.max(0,Math.min(run.times.length-1,c));draw();const h=Math.floor(clock);if(h!==lastFlowHour){lastFlowHour=h;drawFlow();}},

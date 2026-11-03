@@ -4,7 +4,7 @@
 // lifts the surface, and smoothly. Zoomed out, each model cell's share of wet ground shows
 // instead of specks too small to see: the same data, summarised.
 import * as THREE from 'three/webgpu';
-import {Fn,uniform,float,vec2,vec3,vec4,ivec2,color,texture,textureLoad,attribute,positionLocal,modelWorldMatrix,varying,mix,smoothstep,clamp,max,floor,normalize,dot,select,fwidth,reflect,pow,cameraPosition} from 'three/tsl';
+import {Fn,uniform,float,fract,vec2,vec3,vec4,ivec2,color,texture,textureLoad,attribute,positionLocal,modelWorldMatrix,varying,mix,smoothstep,clamp,max,floor,normalize,dot,select,fwidth,reflect,pow,cameraPosition} from 'three/tsl';
 import {GRID} from '../run-data.js';
 import {W,H,STEP,SIZE_X,SIZE_Z} from './heights.js';
 export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exaggeration,showDepth}){
@@ -76,8 +76,13 @@ export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exagger
    // Zoomed out, a pixel covers many 10 m samples: show the model cell's wet share instead.
    const summary=mix(land,mix(land.mul(.86),color('#2f8fb8'),.8),smoothstep(.02,.35,share(p)));
    const modelled=mix(close,summary,smoothstep(10,30,footprint).mul(U.water));
-   const hand=texture(handTex,vec2(p.x.add(SIZE_X/2).div(SIZE_X),p.y.add(SIZE_Z/2).div(SIZE_Z))).a.mul(U.hand);
-   return mix(modelled,color('#19a7a0'),hand.mul(.55));
+   // HAND keeps its own depth colours from the window images, with light diagonal stripes
+   // (fading out when zoomed far out) so it never reads as SFINCS water.
+   const handPx=texture(handTex,vec2(p.x.add(SIZE_X/2).div(SIZE_X),p.y.add(SIZE_Z/2).div(SIZE_Z)));
+   const stripe=smoothstep(.45,.55,fract(p.x.add(p.y).div(24))).mul(float(1).sub(smoothstep(2,8,footprint))).mul(.35);
+   const handColour=mix(handPx.rgb,color('#f6fff9'),stripe);
+   // Window images carry alpha 205/255; overlapping windows must not read darker.
+   return mix(modelled,handColour,handPx.a.div(205/255).clamp(0,1).mul(U.hand).mul(.8));
   })();
   return material;
  };
@@ -87,5 +92,15 @@ export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exagger
   if(polygons?.length){c.fillStyle='#000';c.beginPath();for(const rings of polygons)for(const ring of rings)ring.forEach(([x,z],k)=>c[k?'lineTo':'moveTo']((x+SIZE_X/2)*sx,(z+SIZE_Z/2)*sz));c.fill('evenodd');}
   handTex.needsUpdate=true;
  }
- return{U,make,setHand,setLevels:(a,b,sa,sb)=>{texA.image.data=a;texB.image.data=b;shareTexA.image.data=sa;shareTexB.image.data=sb;for(const t of [texA,texB,shareTexA,shareTexB])t.needsUpdate=true;}};
+ // items: {canvas,north,south,west,east} in lat/lon, one per HAND window; toWorld(lon,lat)->[x,z].
+ // Each window image is stretched over its world rectangle (axis-aligned; windows are 3 km).
+ function setHandImages(items,toWorld){
+  const c=handCanvas.getContext('2d'),sx=handCanvas.width/SIZE_X,sz=handCanvas.height/SIZE_Z;c.imageSmoothingEnabled=false;c.clearRect(0,0,handCanvas.width,handCanvas.height);
+  for(const it of items??[]){
+   const [x0,z0]=toWorld(it.west,it.north),[x1,z1]=toWorld(it.east,it.south),img=it.canvas;
+   c.save();c.translate((x0+SIZE_X/2)*sx,(z0+SIZE_Z/2)*sz);c.scale((x1-x0)*sx/img.width,(z1-z0)*sz/img.height);c.drawImage(img,0,0);c.restore();
+  }
+  handTex.needsUpdate=true;
+ }
+ return{U,make,setHand,setHandImages,handCanvas,setLevels:(a,b,sa,sb)=>{texA.image.data=a;texB.image.data=b;shareTexA.image.data=sa;shareTexB.image.data=sb;for(const t of [texA,texB,shareTexA,shareTexB])t.needsUpdate=true;}};
 }

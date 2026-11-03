@@ -21,10 +21,10 @@ test('HAND runs for every scenario: the Santa Cruz windows flood more as the run
 
 test('each run carries its Santa Cruz flow for HAND, and no model choice is ever greyed out',()=>{
  const sim=read('simulation/sim-2d.js'),app=read('map-app.js');
- assert.match(sim,/reachId\)==='15902351'/);assert.match(sim,/riverM3s/);assert.match(sim,/export function loadHand/);
+ assert.match(sim,/reachId\)==='15902351'/);assert.match(sim,/riverM3s/);assert.match(read('simulation/hand-runs.js'),/export function loadHand/);
  assert.match(app,/r\.disabled=false/);assert.doesNotMatch(app,/r\.disabled=\(r\.value==='hand'/);
  // A choice with nothing to draw says why, and offers the next step.
- assert.match(app,/function modelStatus/);assert.match(app,/so HAND estimates no river water/);assert.match(app,/Try the 100-year storm/);
+ assert.match(app,/function modelStatus/);assert.match(app,/no water in any of the/);assert.match(app,/wash window/);assert.match(app,/Try the 100-year storm/);
  // Map buttons are labelled on screen.
  for(const l of ['Me','Routes','Water','North'])assert.match(app,new RegExp(`<span>${l}</span></button>`));
 });

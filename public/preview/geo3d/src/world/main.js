@@ -22,6 +22,7 @@ import {parseRain,rainAt,createRain} from './rain.js';
 import {createRoutesUI} from './routes-ui.js';
 import {mountAcknowledgement} from '../acknowledge.js';
 import {mountEmbed} from './embed.js';
+import {loadHand,flowsForRun,handHour,windowBounds} from '../../../../simulation/hand-runs.js?v=dev';
 import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY} from '../runs.js';
 const $=id=>document.getElementById(id);
 const DATA='../../../../simulation/data/',E=2,SHOW_DEPTH_M=.05,HOUR_SECONDS=4;
@@ -89,6 +90,10 @@ const data={vertices:firstDisplay.vertices,terrain:new Float32Array(terrainBytes
 status('Joining the terrain');
 const {heights,filled}=await buildHeights(data),ground=groundSampler(heights);
 const world=(lon,lat)=>{const u=toUtm(lon,lat);return toWorld(u.e,u.n);};
+// The run's Santa Cruz inflow (NWM reach 15902351) per frame hour, m³/s, 0 where missing: HAND
+// uses it for what-if runs (simulation/hand-runs.js).
+const santaCruzM3s=(series,frames)=>{const s=series?.find(s=>String(s.reachId)==='15902351')??series?.find(s=>/santa cruz/i.test(s.name??''));const at=new Map((s?.points??[]).map(p=>[Date.parse(p.time),p.flowM3s]));return frames.map(f=>at.get(Date.parse(f.time))??0);};
+const handFields=(frames,series)=>({times:frames.map(f=>Date.parse(f.time)),riverM3s:santaCruzM3s(series,frames)});
 // Road heights every 5 m on the routes, with lidar bridge decks (see src/road-package.js).
 const ROADS=new URL('../../../../simulation/data/road-heights/',import.meta.url);
 loading('Loading road and bridge-deck heights',.55);await breathe();
@@ -100,12 +105,11 @@ async function prepareRun(def,display){
  if(def.live)return prepareLive(def);
  display??=await json(DATA+def.display);
  const frames=parseFrames(display),levels=await eachFrame(frames,f=>levelGrid(f,data.vertices));
- const [rainJson,inflowJson,handJson]=await Promise.all([def.rain&&json(DATA+def.rain),def.inflow&&def.inflow!==def.rain&&json(DATA+def.inflow),def.hand&&json(DATA+def.hand)]);
+ const [rainJson,inflowJson]=await Promise.all([def.rain&&json(DATA+def.rain),def.inflow&&def.inflow!==def.rain&&json(DATA+def.inflow)]);
  // River inflow at the model's inlets: the run's NWM boundary series or its own sfincs.dis.
- const inflow=((def.inflow===def.rain?rainJson?.boundary:inflowJson)?.series??[]).filter(s=>s.lon!=null&&s.points?.some(p=>p.flowM3s>0)).map(s=>{const [x,z]=world(s.lon,s.lat);return{name:s.name||'NWM reach '+s.reachId,x,z,points:new Map(s.points.map(p=>[Date.parse(p.time),p.flowM3s]))};});
- // HAND modeled extent per hour, in world coordinates.
- const hand=handJson?handJson.frames.map(f=>f.hand.features.flatMap(g=>(g.geometry.type==='MultiPolygon'?g.geometry.coordinates:[g.geometry.coordinates]).map(poly=>poly.map(ring=>ring.map(([lon,lat])=>world(lon,lat)))))):null;
- return{def,frames,levels,shares:await eachFrame(frames,f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:rainJson?parseRain(rainJson):null,inflow,hand};
+ const series=(def.inflow===def.rain?rainJson?.boundary:inflowJson)?.series??[];
+ const inflow=series.filter(s=>s.lon!=null&&s.points?.some(p=>p.flowM3s>0)).map(s=>{const [x,z]=world(s.lon,s.lat);return{name:s.name||'NWM reach '+s.reachId,x,z,points:new Map(s.points.map(p=>[Date.parse(p.time),p.flowM3s]))};});
+ return{def,frames,levels,shares:await eachFrame(frames,f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:rainJson?parseRain(rainJson):null,inflow,...handFields(frames,series)};
 }
 loading('Preparing the model water',.7);await breathe();
 // The newest live run, refused when it is older than LIVE_MAX_AGE_H: never an old one in its place.
@@ -118,7 +122,7 @@ async function prepareLive(def){
  const inflow=inflowJson.series.filter(s=>s.points.some(p=>p.flowM3s>0)).map(s=>{const [x,z]=world(s.lon,s.lat);return{name:s.name,x,z,points:new Map(s.points.map(p=>[Date.parse(p.time),p.flowM3s]))};});
  const issued=new Date(manifest.issuedAt).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:'2-digit'});
  def={...def,note:`Model forecast from public forcing, not observed water: SFINCS run at ${issued} MST from the NOAA HRRR rain forecast of ${new Date(manifest.hrrrCycle).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric'})} MST and NWM river flows, after a 45-hour warm-up. A new run is published every hour.`};
- return{def,frames,levels,shares:await eachFrame(frames,f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:parseRain(rainJson),inflow,hand:null,manifest};
+ return{def,frames,levels,shares:await eachFrame(frames,f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:parseRain(rainJson),inflow,...handFields(frames,inflowJson.series),manifest};
 }
 let run,liveProblem=null;
 try{run=await prepareRun(firstRun,firstRun.display===BASE_DISPLAY?firstDisplay:undefined);}
@@ -175,15 +179,41 @@ function showFrame(i){
 }
 function describeRun(){
  $('run-note').textContent=(liveProblem&&!run.def.live?'No live model run to show: '+liveProblem+' Showing a saved run instead. ':'')+run.def.note;$('rain').disabled=!run.rain;$('flow').disabled=!run.inflow.length;$('scrub').max=String(run.frames.length-1);
- for(const o of $('model').options)if(o.value==='hand'||o.value==='aggregate')o.disabled=!run.hand;
- if(!run.hand&&($('model').value==='hand'||$('model').value==='aggregate'))$('model').value='2d';
+ for(const o of $('model').options)o.disabled=false;
  applyModel();
+ // HAND for this run loads in the background when HAND is shown, never before the run is drawn.
+ if(/hand|aggregate/.test($('model').value))setTimeout(()=>loadRunHand(run),0);
 }
 // --- Layers & view: the same choices as the app's 2D map ---
 function applyModel(){
  const m=$('model').value;surface.U.water.value=m==='2d'||m==='aggregate'?1:0;surface.U.hand.value=m==='hand'||m==='aggregate'?1:0;
- $('model-note').textContent=!run.hand?"The HAND modeled estimate exists only for the Nov 1, 13Z run, from its own NWM flows.":m==='off'?'No simulated water is drawn. Routes, places and crossings stay.':m==='hand'?"HAND: a terrain-height estimate of where river water could reach for the run's NWM flow, not the SFINCS simulation.":'';
- showLayers();
+ if(surface.U.hand.value&&run)loadRunHand(run);
+ handKey='';showLayers();
+}
+// --- HAND, the same method and flows as the 2D map (simulation/hand-runs.js) ---
+let handList=null,handKey='';
+function loadRunHand(r){
+ r.handState??=loadHand().then(list=>{handList=list;return flowsForRun(r,list);}).then(flows=>{r.handFlows=flows;},error=>{
+  r.handError=/answered 404/.test(error?.message)&&r.def.handFlows?`This run's HAND flow file (${r.def.handFlows}) is missing.`:'HAND could not load: '+(error?.message??error);
+ }).finally(()=>{if(r===run){handKey='';showLayers();}});
+}
+function handNote(m){
+ if(m==='off')return 'No simulated water is drawn. Routes, places and crossings stay.';
+ if(m==='2d')return '';
+ const head=m==='hand'?"HAND: a terrain-height estimate of where river water could reach for each window's river flow, not the SFINCS simulation. ":'';
+ if(run.handError)return head+run.handError;
+ if(!run.handFlows||!run.handHour)return head+'HAND is loading.';
+ const h=run.handHour,f=run.handFlows;
+ return head+`Flows: ${f.source}. ${h.wet} of ${h.windows} HAND windows have water this hour.`+(f.kind==='inflow'&&h.noFlow?` ${h.noFlow} wash windows show nothing: a what-if storm has no flow for the washes.`:h.noFlow?` ${h.noFlow} windows have no flow this hour.`:'');
+}
+function showHand(){
+ const m=$('model').value,on=m==='hand'||m==='aggregate',key=on&&run.handFlows&&handList?run.def.id+'|'+run.times[0]+'|'+frameIndex:'off|'+run.def.id;
+ if(key!==handKey){
+  handKey=key;run.handHour=null;
+  if(on&&run.handFlows&&handList){const hh=handHour(handList,run.handFlows,frameIndex);run.handHour=hh;surface.setHandImages(hh.shown.filter(s=>s.im.canvas).map(s=>({canvas:s.im.canvas,...windowBounds(s.j)})),world);}
+  else surface.setHandImages([],world);
+ }
+ $('model-note').textContent=handNote(m);
 }
 $('model').onchange=applyModel;
 const markers=createMarkers($('map'),camera,ground,E);
@@ -198,7 +228,7 @@ async function refreshLive(){
 function watchLive(){clearInterval(liveTimer);$('live-status').hidden=!run.def.live;refreshLive();if(run.def.live)liveTimer=setInterval(refreshLive,300000);}
 function showLayers(){
  if(frameIndex<0)return;
- surface.setHand(run.hand&&surface.U.hand.value?run.hand[frameIndex]:null);
+ showHand();
  const t=Date.parse(run.frames[frameIndex].time),list=[];
  if(showFlow)for(const s of run.inflow){const q=s.points.get(t);if(q!=null)list.push({x:s.x,z:s.z,className:'flow',html:`<span>${s.name} inflow: ${Math.round(q).toLocaleString()} m³/s (${Math.round(q*35.3147).toLocaleString()} ft³/s)</span>`});}
  if(liveNow)for(const c of liveNow.closures){const [x,z]=world(c.lon,c.lat);list.push({x,z,className:'closure',html:`<span aria-hidden="true">⛔</span><em>${c.title.replace(/[<>&]/g,'')}</em>`});}
@@ -285,3 +315,4 @@ setInterval(()=>{
  if(t.length)$('metrics').textContent=`${(1000/(t.reduce((a,b)=>a+b,0)/t.length)).toFixed(1)} FPS · ${s.painted}/${s.chunks} areas mapped`;
 },500);
 window.world={renderer,scene,camera,controls,chunks,diagnostics,ground,filled,labels,places,flyTo,routesUI,get run(){return run;},setClock:v=>{playing=false;clock=v;},get frameIndex(){return frameIndex;}};
+window.world.hand={canvas:surface.handCanvas,get flows(){return run.handFlows;},get hour(){return run.handHour;},get error(){return run.handError;}};

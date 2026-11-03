@@ -2,7 +2,7 @@
 // button at the top right. Zoom, locate and fit are at the bottom right, and the model run's time
 // runs along the bottom. Routes, crossings and live conditions are in a side panel (a bottom sheet
 // on a phone). 2D and 3D share one run, one hour and one set of layers.
-import {RUNS,loadRun2d,createSimLayer,onDownloads,loadHand,HAND_COLORS,loadRoads,crossingsFor,COVER_M,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS} from './simulation/sim-2d.js?v=dev';
+import {RUNS,loadRun2d,createSimLayer,onDownloads,loadHand,flowsForRun,HAND_COLORS,loadRoads,crossingsFor,COVER_M,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS} from './simulation/sim-2d.js?v=dev';
 import {deckHtml,scoreboardHtml,drawTimeline,timelineKeyHtml,methodsHtml} from './sim-panels.js?v=dev';
 import {createWorldLayer} from './simulation/world-layer.js?v=dev';
 import {showAcknowledgement} from './model-acknowledgement.js?v=dev';
@@ -233,7 +233,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   el.textContent=s.wetKm2?'':'No simulated water this hour';
   const chip=(label,value,unit,cls='')=>`<div class="chip ${cls}"><span>${label}</span><b>${value}</b><small>${unit}</small></div>`;
   const dryLive=run.def.live&&Math.max(...run.series.map(v=>v.wetKm2))<.05;
-  hud.innerHTML=chip('Wet area',s.wetKm2.toFixed(s.wetKm2<10?2:1),'km²')+chip('Deepest cell',(s.deepM/.3048).toFixed(1),'ft')+chip('Over the road',crossings?`${over}/${inside.length}`:'…','crossings',over?'alert':'')+chip('River in',Math.round(s.inflowM3s*35.3147).toLocaleString(),'ft³/s')+chip('Rain',(s.rainMmH/25.4).toFixed(2),'in/h')+((st.model==='hand'||st.model==='aggregate')?(()=>{const hn=sim.handNow();return hn?.precomputed?chip('HAND',hn.polygons?'on':'none','13Z extent'):hn&&!hn.loading?chip('HAND',`${hn.wet}/${hn.windows}`,'windows wet',hn.wet?'hand':''):chip('HAND','…','loading');})():'')+(dryLive?'<button type="button" class="chip try" data-m-try>Dry right now. Try the 100-year storm →</button>':'');
+  hud.innerHTML=chip('Wet area',s.wetKm2.toFixed(s.wetKm2<10?2:1),'km²')+chip('Deepest cell',(s.deepM/.3048).toFixed(1),'ft')+chip('Over the road',crossings?`${over}/${inside.length}`:'…','crossings',over?'alert':'')+chip('River in',Math.round(s.inflowM3s*35.3147).toLocaleString(),'ft³/s')+chip('Rain',(s.rainMmH/25.4).toFixed(2),'in/h')+((st.model==='hand'||st.model==='aggregate')?(()=>{const hn=sim.handNow();return hn&&!hn.loading?chip('HAND',`${hn.wet}/${hn.windows}`,'windows wet',hn.wet?'hand':''):chip('HAND','…','loading');})():'')+(dryLive?'<button type="button" class="chip try" data-m-try>Dry right now. Try the 100-year storm →</button>':'');
   hud.querySelector('[data-m-try]')?.addEventListener('click',()=>chooseRun('stress'));
   renderPanels();
  }
@@ -259,7 +259,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
    if(ticket!==loadingRun)return;
    runNote=run.def.note??'';sim.setRun(run);statKey='';
    if(!in3d()){scrub.max=String(run.times.length-1);setClock(keepClock?Math.min(sim.clock,run.times.length-1):openingHour(run));}else drawTl();
-   showAcknowledgement(def.live?'modelRun':'savedRun');updateCrossings();renderPanels(true);
+   showAcknowledgement(def.live?'modelRun':'savedRun');updateCrossings();renderPanels(true);if(handOn())ensureHand();
   }catch(error){
    if(ticket!==loadingRun)return;
    if(def.live){runNote=`No live model run to show: ${error.message} Showing a saved run instead.`;loadingRun=null;return chooseRun('13z');}
@@ -277,25 +277,31 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   const h=Math.min(run.times.length-1,Math.round(sim.clock)),s=run.series[h],name=runName();
   const sfincs=s.wetKm2?`SFINCS: ${s.wetKm2.toFixed(s.wetKm2<10?2:1)} km² of simulated water this hour in ${name}.`:`SFINCS: no simulated water this hour in ${name}.`;
   const hn=sim.handNow();let hand='';
-  if(hn?.precomputed)hand=hn.polygons?'HAND: the 13Z run\'s own HAND extent for this hour.':'HAND: no HAND extent this hour in the 13Z run.';
-  else if(hn?.loading)hand='HAND: loading the NOAA HAND grids…';
-  else if(hn){const cfs=Math.round(hn.flow*35.3147).toLocaleString();hand=!hn.flow?`HAND: the Santa Cruz is at 0 ft³/s this hour in ${name}, so HAND estimates no river water.`:`HAND at ${cfs} ft³/s (this run's Santa Cruz flow): water in ${hn.wet} of ${hn.windows} Santa Cruz windows, ${(hn.areaM2/1e6).toFixed(2)} km².`+(hn.beyond?` ${hn.beyond} beyond their rating curves.`:'');}
-  if(in3d()&&(st.model==='hand'||st.model==='aggregate')&&!run.hand)hand='In 3D, HAND is drawn for the Nov 1, 13Z run. Switch to 2D to see HAND for this run.';
+  if(!hn||hn.loading)hand='HAND: loading the NOAA HAND grids and river flows…';
+  else{
+   const withFlow=hn.windows-hn.noFlow;
+   hand=hn.wet?`HAND: water in ${hn.wet} of ${hn.windows} windows this hour, ${(hn.areaM2/1e6).toFixed(2)} km².`:`HAND: no water in any of the ${withFlow} windows with a flow this hour.`;
+   hand+=` Flows: ${hn.source}.`;
+   if(hn.noFlow)hand+=` ${hn.noFlow} wash window${hn.noFlow>1?'s have':' has'} no flow in this run (dashed outline).`;
+   if(hn.beyond)hand+=` ${hn.beyond} beyond their rating curves.`;
+  }
   return st.model==='2d'?sfincs:st.model==='hand'?hand:st.model==='aggregate'?sfincs+' '+hand:'Simulated and modeled water are hidden. Routes and live readings stay.';
  }
 
  // --- applying choices ---
  let handLoading=null;
+ // The HAND windows once, then the flows for whichever run is loaded.
  function ensureHand(){
-  if(handLoading)return handLoading;
-  handLoading=loadHand().then(list=>{sim.setJunctions(list);statKey='';hourStat();describe();return list;}).catch(e=>{handLoading=null;toast('The NOAA HAND grids did not download: '+e.message);});
-  return handLoading;
+  handLoading??=loadHand().then(list=>{sim.setJunctions(list);return list;}).catch(e=>{handLoading=null;toast('The NOAA HAND grids did not download: '+e.message);throw e;});
+  const run=sim.run;
+  return handLoading.then(list=>run?flowsForRun(run,list).then(f=>{if(sim.run===run){sim.setFlows(run,f);statKey='';hourStat();describe();}return f;},e=>{toast('River flows for HAND did not download: '+e.message);}):null).catch(()=>null);
  }
+ const handOn=()=>st.model==='hand'||st.model==='aggregate';
  function applyModel(){
   if(in3d())world.send('set','model',st.model);
   sim.set('water',st.model==='2d'||st.model==='aggregate');sim.set('hand',st.model==='hand'||st.model==='aggregate');
   statKey='';hourStat();
-  const say=()=>{const m=modelStatus();if(/no simulated water|no river water|no HAND extent/.test(m))toast(m,tryStorm());else toast(m);};
+  const say=()=>{const m=modelStatus();if(/no simulated water|no water in any/.test(m))toast(m,tryStorm());else toast(m);};
   if(st.model==='hand'||st.model==='aggregate')ensureHand().then(say);else say();
   if(st.base==='terrain'){const m=document.querySelector('[data-model]');if(m&&st.model!==m.value){m.value=st.model==='hand'?'hand':st.model==='aggregate'?'aggregate':st.model==='off'?'off':'2d';m.dispatchEvent(new Event('change'));}}
   describe();

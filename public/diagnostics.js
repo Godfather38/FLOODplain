@@ -29,8 +29,12 @@ export function crumb(text){lastAction=short(text);crumbs.push(`${new Date().toI
 export const entries=()=>log.slice();
 export const onEntry=fn=>{listeners.add(fn);return()=>listeners.delete(fn);};
 export function clear(){log=[];save();for(const fn of listeners)fn(null);}
-export function reportText(extra=[]){
- return JSON.stringify({session,version:document.querySelector('script[src*="app.js"]')?.src.split('?')[1]??'',url:location.href.split('#')[0],device:device(),recent:crumbs,log:[...log.slice(-40),...extra]},null,1);
+// The report as readable JSON, dropping the oldest log entries until it fits one message.
+export function reportText(extra=[],limit=3800){
+ const base={session,url:location.href.split('#')[0],device:device(),recent:crumbs};
+ let n=40,text;
+ do{text=JSON.stringify({...base,log:[...log.slice(-n),...extra]});n=Math.floor(n*.7);}while(text.length>limit&&n>0);
+ return text.length>limit?JSON.stringify({...base,recent:crumbs.slice(-8),log:log.slice(-1)}):text;
 }
 // Send to the diagnostics topic; a burst becomes one report.
 export function send(e,{force=false}={}){
@@ -38,7 +42,7 @@ export function send(e,{force=false}={}){
  const wait=lastSent+SEND_GAP_MS-Date.now();
  if(wait>0&&!force){if(!queued){queued=setTimeout(()=>{queued=null;send(e,{force:true});},wait);}return Promise.resolve(false);}
  lastSent=Date.now();
- const body=reportText().slice(-3800);
+ const body=reportText();
  return fetchRaw(`https://ntfy.sh/${DIAG_TOPIC}`,{method:'POST',body,headers:{Title:`FLOODplain ${e?.kind??'report'}: ${short(e?.message).slice(0,80)}`,Tags:e?.kind==='freeze'?'hourglass':'warning'}}).then(r=>r.ok).catch(()=>false);
 }
 let fetchRaw=(...a)=>fetch(...a);
@@ -69,9 +73,11 @@ export function mountDiagnostics(){
  addEventListener('change',e=>{const el=e.target;if(el.matches?.('select'))crumb(`choose ${el.getAttribute('aria-label')||el.name||'select'}=${el.value}`);},true);
  addEventListener('hashchange',()=>crumb('screen '+location.hash));
  // Freezes: measured on recovery here, and caught live by the watchdog worker.
- // A page that was hidden in between (another tab, the phone locked) is not a freeze.
+ // Timer drift, not animation frames: a visible page whose drawing is paused (a covered window,
+ // a hidden panel) still runs timers; only a frozen page stops them. A page that was hidden in
+ // between (another tab, the phone locked) is not a freeze either.
  let last=performance.now(),shownAt=0;addEventListener('visibilitychange',()=>{shownAt=performance.now();});
- (function beat(t){const gap=t-last;last=t;if(gap>STALL_MS&&document.visibilityState==='visible'&&shownAt<t-gap)record('freeze',`Page froze for ${(gap/1000).toFixed(1)} s`,{ms:Math.round(gap)});requestAnimationFrame(beat);})(last);
+ setInterval(()=>{const t=performance.now(),gap=t-last-250;last=t;if(gap>STALL_MS&&document.visibilityState==='visible'&&shownAt<t-gap)record('freeze',`Page froze for ${(gap/1000).toFixed(1)} s`,{ms:Math.round(gap)});},250);
  try{
   worker=new Worker(new URL('./diag-worker.js',import.meta.url));
   worker.postMessage({type:'start',topic:DIAG_TOPIC,session});
