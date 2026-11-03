@@ -1,5 +1,5 @@
 // Modeled and simulated water must be clearly not real, through one dismissible notice and the
-// wording already on screen. Permanent banners and tags are not used. See docs/LIVE-DATA-ONLY.md.
+// wording already on screen. Permanent banners and tags are not used. See docs/SIMULATED-CONTENT.md.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
