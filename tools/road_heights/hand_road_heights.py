@@ -21,6 +21,7 @@ from encoding import FLAG, decode_lines
 ROOT = Path(__file__).resolve().parents[2]
 NEAR_M = 40.0
 CHANNEL_M, CHANNEL_HAND_CM = 60.0, 30
+NEAREST_CHANNEL_CELLS, MAX_NEAR_SPREAD_M, MAX_NEAR_DIFFERENCE_M = 9, 1.5, 1.0
 MAX_BED_SPREAD_M = 2.5  # A wider spread means the stream bed slopes through the window, so no single bed height holds.
 DEM_BOX = (-111.42, 32.16, -110.93, 32.60)
 
@@ -63,6 +64,14 @@ def main():
         beds = ground - hand[chan] / 100
         bed = float(np.nanmedian(beds))
         spread = float(np.nanmax(beds) - np.nanmin(beds))
+        # Channels slope. If the whole window varies too much, the cells nearest the crossing can
+        # still pin the bed down, as long as they agree with each other and with the window.
+        if spread > MAX_BED_SPREAD_M:
+            nearest = beds[np.argsort(dist[chan])[:NEAREST_CHANNEL_CELLS]]
+            near_bed = float(np.nanmedian(nearest))
+            near_spread = float(np.nanmax(nearest) - np.nanmin(nearest))
+            if near_spread <= MAX_NEAR_SPREAD_M and abs(near_bed - bed) <= MAX_NEAR_DIFFERENCE_M:
+                bed, spread = near_bed, near_spread
         if not np.isfinite(bed) or spread > MAX_BED_SPREAD_M or z.min() - bed < 0:
             skipped[row["id"]] = {"reason": "bed height not consistent here", "bedSpreadM": round(spread, 2),
                                   "roadMinusBedM": round(float(z.min()) - bed, 2)}
