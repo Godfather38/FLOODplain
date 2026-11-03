@@ -5,7 +5,8 @@
 // run's modeled extent. Nothing here is observed water.
 import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY} from '../preview/geo3d/src/runs.js?v=dev';
 import {fromUtm,toUtm} from '../preview/geo3d/src/utm.js?v=dev';
-import {parseRain} from '../preview/geo3d/src/world/rain-data.js?v=dev';
+import {parseRain,rainAtUtm} from '../preview/geo3d/src/world/rain-data.js?v=dev';
+import {decodeRoadHeights,roadPackage} from '../preview/geo3d/src/road-package.js?v=dev';
 export {RUNS};
 const DATA=new URL('./data/',import.meta.url);
 // Depth bands in feet, the same as the app's simulated-water key.
@@ -26,12 +27,12 @@ const data=p=>fetchJson(new URL(p,DATA));
 const GRID={x0:467700,y0:3572300};
 // Cell centres and corners from the display's vertices: [x, y, mean terrain, n, m], metres from the grid origin.
 function cellsOf(vertices){
- const n=vertices.length,bed=new Float32Array(n),box=new Float64Array(n*4),utm=new Float64Array(n*2);
+ const n=vertices.length,bed=new Float32Array(n),box=new Float64Array(n*4),utm=new Float64Array(n*2),index=new Map();
  vertices.forEach((v,i)=>{
-  const e=GRID.x0+v[0],nn=GRID.y0+v[1];bed[i]=v[2];utm[i*2]=e;utm[i*2+1]=nn;
+  const e=GRID.x0+v[0],nn=GRID.y0+v[1];bed[i]=v[2];utm[i*2]=e;utm[i*2+1]=nn;index.set(Math.floor(v[0]/100)*1000+Math.floor(v[1]/100),i);
   const sw=fromUtm(e-HALF,nn-HALF),ne=fromUtm(e+HALF,nn+HALF);box.set([sw.lat,sw.lon,ne.lat,ne.lon],i*4);
  });
- return{n,bed,box,utm};
+ return{n,bed,box,utm,index};
 }
 let baseCells=null;
 // A run, ready for the 2D map: depth per cell per hour, rain, inflow and (13Z only) HAND.
@@ -55,10 +56,50 @@ export async function loadRun2d(def){
 }
 function build(def,cells,waterFrames,rainJson,series,handJson){
  const times=waterFrames.map(f=>Date.parse(f.time));
- const depth=waterFrames.map(f=>{const d=new Float32Array(cells.n);for(let i=0;i<cells.n;i++){const z=f.surfaceM[i];d[i]=z==null?NaN:Math.max(0,z-cells.bed[i]);}return d;});
+ const surface=waterFrames.map(f=>Float32Array.from(f.surfaceM,z=>z==null?NaN:z));
+ const depth=surface.map(s=>{const d=new Float32Array(cells.n);for(let i=0;i<cells.n;i++)d[i]=Number.isNaN(s[i])?NaN:Math.max(0,s[i]-cells.bed[i]);return d;});
  const inflow=series.filter(s=>s.lon!=null&&s.points?.some(p=>p.flowM3s>0)).map(s=>({name:s.name||'NWM reach '+s.reachId,lat:s.lat,lon:s.lon,points:new Map(s.points.map(p=>[Date.parse(p.time),p.flowM3s]))}));
  const hand=handJson?handJson.frames.map(f=>f.hand.features.flatMap(g=>(g.geometry.type==='MultiPolygon'?g.geometry.coordinates:[g.geometry.coordinates]))):null;
- return{def,cells,times,depth,rain:rainJson?parseRain(rainJson):null,inflow,hand};
+ const rain=rainJson?parseRain(rainJson):null;
+ return{def,cells,times,surface,depth,rain,inflow,hand,series:hourSeries({cells,times,depth,rain,inflow})};
+}
+// The model cell holding a UTM point, or -1 outside the model.
+export function cellAt(cells,e,n){const k=cells.index.get(Math.floor((e-GRID.x0)/100)*1000+Math.floor((n-GRID.y0)/100));return k??-1;}
+// Per hour, for the timeline: wet area (km²), deepest cell (m), rain averaged over the model
+// (mm/h, sampled on a 1 km lattice of cells) and the total river inflow (m³/s).
+function hourSeries({cells,times,depth,rain,inflow}){
+ const sample=[];for(let k=0;k<cells.n;k+=97)sample.push(k);
+ return times.map((t,h)=>{
+  let wet=0,deep=0;const d=depth[h];for(let k=0;k<cells.n;k++){const x=d[k];if(x>=.0091){wet++;if(x>deep)deep=x;}}
+  let r=0;if(rain){const mid=t-1800e3;for(const k of sample)r+=rainAtUtm(rain,mid,cells.utm[k*2],cells.utm[k*2+1]);r/=sample.length;}
+  let q=0;for(const s of inflow){const v=s.points.get(t);if(v!=null)q+=v;}
+  return{time:t,wetKm2:wet/100,deepM:deep,rainMmH:r,inflowM3s:q};
+ });
+}
+// Road and bridge-deck heights along the routes (public/simulation/data/road-heights/).
+let roads=null;
+export function loadRoads(){
+ roads??=Promise.all([fetch(new URL('road-heights/routes.bin.gz',DATA)).then(async r=>{if(!r.ok)throw new Error('Road heights answered '+r.status);let b=new Uint8Array(await r.arrayBuffer());if(b[0]===0x1f&&b[1]===0x8b)b=new Uint8Array(await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());return decodeRoadHeights(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength));}),fetchJson(new URL('road-heights/structures.json',DATA))])
+  .then(([lines,structures])=>roadPackage(lines,structures,(lon,lat)=>{const u=toUtm(lon,lat);return[u.e,u.n];}));
+ roads.catch(()=>{roads=null;});
+ return roads;
+}
+// Each crossing's road height, as on the 3D map: a bridge's lidar deck within 80 m, otherwise the
+// lowest road surface on its routes within 100 m. Water over the road is the model's water
+// surface in the cell holding that road point, minus the road height.
+export const COVER_M=.05;
+export function crossingsFor(run,points,pkg){
+ const near=(list,e,n,reach)=>list.map(p=>({p,d:Math.hypot(p.x-e,p.z-n)})).filter(o=>o.d<reach).sort((a,b)=>a.d-b.d);
+ return points.map(fp=>{
+  const u=toUtm(fp.lon,fp.lat),bridge=fp.kind==='bridge'||fp.kind==='river';let road=null;
+  if(pkg&&bridge){const d=near(pkg.decks,u.e,u.n,80)[0]?.p;if(d)road={m:d.m,e:d.x,n:d.z,deck:true,source:'Bridge deck, USGS 3DEP 2021 lidar'};}
+  if(pkg&&!road&&!bridge){const low=near(pkg.stations.filter(s=>fp.routes.includes(s.route)&&!s.deck),u.e,u.n,100).reduce((a,o)=>!a||o.p.m<a.m?o.p:a,null);if(low)road={m:low.m,e:low.x,n:low.z,deck:false,source:'Lowest road surface within 100 m, USGS 3DEP 1 m lidar'};}
+  const at=road??{e:u.e,n:u.n},cell=cellAt(run.cells,at.e,at.n);
+  if(cell<0)return{fp,inside:false};
+  if(!road)road={m:run.cells.bed[cell],deck:false,source:'Model cell mean terrain (no road height found)'};
+  const over=run.surface.map(s=>Number.isNaN(s[cell])?NaN:s[cell]-road.m);
+  return{fp,inside:true,road,cell,over};
+ });
 }
 export const depthBand=m=>{const ft=m/.3048;let k=-1;for(let i=0;i<DEPTH_FT.length;i++)if(ft>=DEPTH_FT[i])k=i;return k;};
 const rainBand=v=>{let k=-1;for(let i=0;i<RAIN_MMH.length;i++)if(v>=RAIN_MMH[i])k=i;return k;};
@@ -133,9 +174,8 @@ export function createSimLayer(L,map){
   get run(){return run;},get clock(){return clock;},time:()=>run?time():null,
   // Simulated depth at a place, for the readout when the map is tapped.
   depthAt(lat,lon){
-   if(!run)return null;const u=toUtm(lon,lat),{utm,n}=run.cells;
-   for(let k=0;k<n;k++)if(Math.abs(utm[k*2]-u.e)<=HALF&&Math.abs(utm[k*2+1]-u.n)<=HALF)return{depth:depthAt(k),cell:k};
-   return null;
+   if(!run)return null;const u=toUtm(lon,lat),k=cellAt(run.cells,u.e,u.n);
+   return k<0?null:{depth:depthAt(k),cell:k};
   },
   // Corners of every cell deeper than the threshold now, for "fit water".
   wetBounds(minM=.3){

@@ -886,7 +886,7 @@ const liveMap=mountLiveMap(map,{refresh:()=>check(),observations:liveObservation
 const mapApp=mountMapApp({L,map,baseMaps,routeLayer:layer,liveLayer:liveObservations,
   fitRoutes:(opts)=>allBounds&&map.fitBounds(allBounds,opts),
   targets:()=>[...FAILURE_POINTS.map((fp)=>({kind:'crossing',id:fp.id,name:fp.short??fp.name,lat:fp.lat,lon:fp.lon})),...PLACES.map((p)=>({kind:'place',name:p.name,lat:p.lat,lon:p.lon}))],
-  openCrossing:(id)=>{mapCrossing=id;drawMap(where());revealCrossing();}});
+  openCrossing:(id)=>{mapCrossing=id;drawMap(where());revealCrossing();},points:FAILURE_POINTS});
 let allBounds;
 const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
 function stretchAround(coords, lat, lon, m) {

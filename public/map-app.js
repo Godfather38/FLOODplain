@@ -2,7 +2,8 @@
 // button at the top right. Zoom, locate and fit are at the bottom right, and the model run's time
 // runs along the bottom. Routes, crossings and live conditions are in a side panel (a bottom sheet
 // on a phone). 2D and 3D share one run, one hour and one set of layers.
-import {RUNS,loadRun2d,createSimLayer,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS} from './simulation/sim-2d.js?v=dev';
+import {RUNS,loadRun2d,createSimLayer,loadRoads,crossingsFor,COVER_M,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS} from './simulation/sim-2d.js?v=dev';
+import {deckHtml,scoreboardHtml,drawTimeline,timelineKeyHtml,methodsHtml} from './sim-panels.js?v=dev';
 import {createWorldLayer} from './simulation/world-layer.js?v=dev';
 import {showAcknowledgement} from './model-acknowledgement.js?v=dev';
 
@@ -19,6 +20,7 @@ const I={
  info:svg('M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z'),
  prev:svg('M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z'),next:svg('M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'),
  play:svg('M8 5v14l11-7z'),pause:svg('M6 19h4V5H6v14zm8-14v14h4V5h-4z'),
+ flask:svg('M7 2v2h1v6.6L3.2 19.2A2 2 0 0 0 5 22h14a2 2 0 0 0 1.8-2.8L16 10.6V4h1V2H7zm3 2h4v7.1l1.6 2.9H8.4L10 11.1V4z'),
  panel:svg('M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z'),
 };
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
@@ -28,7 +30,7 @@ const DETAILS=[['rain','Rain'],['flow','River flow'],['routes','Routes & crossin
 const HOUR_SECONDS=4;
 const clockText=t=>new Date(t).toLocaleString('en-US',{timeZone:'America/Phoenix',weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' MST';
 
-export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targets,openCrossing}){
+export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targets,openCrossing,points=[]}){
  const wrap=document.querySelector('.safety-map'),mapEl=document.getElementById('map');
  const st={view:'2d',base:'street',run:RUNS[0].id,model:'2d',rain:true,flow:true,routes:true,places:true,live:true,playing:false};
  const sim=createSimLayer(L,map);
@@ -40,6 +42,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  ui.innerHTML=`
  <div class="mapp-top">
   <label class="mapp-search">${I.search}<select data-m-search aria-label="Go to a crossing or place"></select></label>
+  <button type="button" class="mapp-fab mapp-scen" data-m-scenarios aria-label="Scenarios">${I.flask}<span>Scenarios</span></button>
   <button type="button" class="mapp-fab" data-m-layers aria-label="Map layers" aria-expanded="false">${I.layers}<span>Layers</span></button>
  </div>
  <section class="mapp-layers" data-m-layer-panel hidden aria-label="Map layers">
@@ -72,25 +75,42 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  </div>
  <div class="mapp-player" role="group" aria-label="Model run and hour">
   <div class="mapp-player-top"><select data-m-run aria-label="Model run"></select><span class="mapp-run-label" data-m-run-label hidden>Saved Nov 1–2 run · terrain detail</span><span class="mapp-stat" data-m-stat></span><button type="button" class="mapp-icon" data-m-info aria-label="About this run" aria-expanded="false">${I.info}</button></div>
-  <div class="mapp-player-row"><button type="button" class="mapp-icon" data-m-prev aria-label="Previous hour">${I.prev}</button><button type="button" class="mapp-play" data-m-play aria-label="Play">${I.play}</button><button type="button" class="mapp-icon" data-m-next aria-label="Next hour">${I.next}</button><input type="range" data-m-scrub min="0" max="0" step="0.01" value="0" aria-label="Model hour"><output data-m-time>Loading the model run</output></div>
+  <div class="mapp-hud" data-m-hud></div>
+  <div class="mapp-timeline" data-m-timeline><canvas aria-hidden="true"></canvas><input type="range" data-m-scrub min="0" max="0" step="0.01" value="0" aria-label="Model hour"></div>
+  <div class="mapp-tl-key">${timelineKeyHtml}</div>
+  <div class="mapp-player-row"><button type="button" class="mapp-icon" data-m-prev aria-label="Previous hour">${I.prev}</button><button type="button" class="mapp-play" data-m-play aria-label="Play">${I.play}</button><button type="button" class="mapp-icon" data-m-next aria-label="Next hour">${I.next}</button><span class="mapp-sim-badge" data-m-badge>SIM</span><output data-m-time>Loading the model run</output></div>
   <p class="mapp-note" data-m-note hidden></p>
  </div>
  <aside class="mapp-panel" data-m-panel aria-label="Routes and conditions">
   <button type="button" class="mapp-handle" data-m-handle aria-label="Show more" aria-expanded="false"><i></i></button>
   <button type="button" class="mapp-collapse" data-m-collapse aria-label="Hide the side panel">${I.prev}</button>
-  <div class="mapp-panel-body" data-m-panel-body></div>
+  <div class="mapp-tabs" role="tablist" aria-label="Panel">${[['scenarios','Scenarios'],['crossings','Crossings'],['routes','Routes'],['model','Model']].map(([k,v])=>`<button type="button" role="tab" data-m-tab="${k}" aria-selected="false">${v}</button>`).join('')}</div>
+  <div class="mapp-panel-body" data-m-panel-body><section data-m-pane="scenarios" hidden><h3 class="sim-h">Scenarios</h3><p class="sim-muted">Test datasets: real forecast runs and what-if storms on the same model. Load one, then press play.</p><div data-m-deck></div></section><section data-m-pane="crossings" hidden><h3 class="sim-h">Crossings</h3><div data-m-score></div></section><section data-m-pane="routes" hidden></section><section data-m-pane="model" hidden data-m-methods></section></div>
  </aside>
  <button type="button" class="mapp-fab mapp-show-panel" data-m-show-panel hidden aria-label="Show routes and conditions">${I.panel}<span>Routes</span></button>`;
  wrap.append(ui);
  const $=s=>ui.querySelector(s),$$=s=>[...ui.querySelectorAll(s)];
 
  // Move what the old side column held into the panel and the layers sheet.
- const body=$('[data-m-panel-body]');
+ const body=$('[data-m-panel-body]'),routesPane=$('[data-m-pane=routes]');
  const move=(sel,to)=>{const el=document.querySelector(sel);if(el)to.append(el);return el;};
- move('[data-map-routes]',body);move('.embedded-live',body);
- const links=document.createElement('div');links.className='mapp-links';body.append(links);
+ move('[data-map-routes]',routesPane);move('.embedded-live',routesPane);
+ const links=document.createElement('div');links.className='mapp-links';routesPane.append(links);
  const history=[...document.querySelectorAll('[data-panel-content=options]>button')].find(b=>/Recent gauge readings/.test(b.textContent));if(history)links.append(history);
- move('.official-forecast-link',links);move('details.risk-key',body);
+ move('.official-forecast-link',links);
+ const exp=document.querySelector('.exp-link a');if(exp)links.append(exp.cloneNode(true));
+ // The risk key is drawn with the route screens, after this runs: adopt it when it appears.
+ const adopt=()=>{const k=document.querySelector('details.risk-key');if(k&&!routesPane.contains(k))routesPane.append(k);};
+ adopt();addEventListener('flood-screen-rendered',adopt);
+
+ // --- panel tabs ---
+ let tab=(()=>{try{return localStorage.getItem('mapp-tab')}catch{return null}})()||'scenarios';
+ function setTab(k){tab=k;try{localStorage.setItem('mapp-tab',k)}catch{}
+  $$('[data-m-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.mTab===k)));
+  $$('[data-m-pane]').forEach(p=>p.hidden=p.dataset.mPane!==k);
+  if(k==='routes')adopt();renderPanels(true);
+ }
+ $$('[data-m-tab]').forEach(b=>b.onclick=()=>setTab(b.dataset.mTab));
  // Terrain detail keeps the saved-case controls it has always had.
  const terrain=$('[data-m-terrain]');
  const caseRow=document.querySelector('[data-case]')?.closest('.flood-row');if(caseRow)terrain.append(caseRow);
@@ -142,6 +162,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  function setSheet(expanded){panel.classList.toggle('expanded',expanded);$('[data-m-handle]').setAttribute('aria-expanded',String(expanded));$('[data-m-handle]').setAttribute('aria-label',expanded?'Show less':'Show more');}
  $('[data-m-handle]').onclick=()=>setSheet(!panel.classList.contains('expanded'));
  const setCollapsed=c=>{ui.classList.toggle('panel-collapsed',c);$('[data-m-show-panel]').hidden=!c;};
+ $('[data-m-scenarios]').onclick=()=>{setCollapsed(false);setTab('scenarios');if(phone())setSheet(true);};
  $('[data-m-collapse]').onclick=()=>setCollapsed(true);$('[data-m-show-panel]').onclick=()=>setCollapsed(false);
 
  // --- player ---
@@ -149,7 +170,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  runSel.innerHTML=RUNS.map(r=>`<option value="${r.id}">${esc(r.label)}</option>`).join('');
  runSel.onchange=()=>chooseRun(runSel.value);
  $('[data-m-info]').onclick=()=>{note.hidden=!note.hidden;$('[data-m-info]').setAttribute('aria-expanded',String(!note.hidden));};
- const setPlaying=p=>{st.playing=p;play.innerHTML=p?I.pause:I.play;play.setAttribute('aria-label',p?'Pause':'Play');};
+ const setPlaying=p=>{st.playing=p;play.innerHTML=p?I.pause:I.play;play.setAttribute('aria-label',p?'Pause':'Play');ui.classList.toggle('playing',p);};
  play.onclick=()=>{if(in3d())return world.send('click','play');if(st.base==='terrain')return terrainPlay();setPlaying(!st.playing);};
  $('[data-m-prev]').onclick=()=>step(-1);$('[data-m-next]').onclick=()=>step(1);
  scrub.oninput=()=>{if(in3d())return world.send('set','scrub',Math.round(Number(scrub.value)));if(st.base==='terrain')return terrainSet(Number(scrub.value));setPlaying(false);setClock(Number(scrub.value));};
@@ -158,14 +179,38 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   if(st.base==='terrain')return document.querySelector(n<0?'[data-prev]':'[data-next]')?.click();
   setPlaying(false);setClock(Math.max(0,Math.min(sim.run.times.length-1,Math.round(sim.clock)+n)));
  }
- function setClock(c){sim.setClock(c);scrub.value=String(sim.clock);const t=sim.time();if(t!=null)timeOut.textContent=clockText(t);hourStat();}
+ function setClock(c){sim.setClock(c);if(document.activeElement!==scrub)scrub.value=String(sim.clock);const t=sim.time();if(t!=null&&!in3d())timeOut.textContent=clockText(t);hourStat();drawTl();}
+ const tlCanvas=$('[data-m-timeline] canvas');
+ function drawTl(){drawTimeline(tlCanvas,st.base==='terrain'&&!in3d()?null:sim.run,sim.clock,overByHour());}
+ addEventListener('resize',drawTl);
+ // Crossings: road and deck heights against each hour's water, for the scoreboard and the HUD.
+ let crossings=null,crossingsRun=null;
+ async function updateCrossings(){
+  const run=sim.run;if(!run||crossingsRun===run)return;crossingsRun=run;crossings=null;renderPanels(true);
+  try{const pkg=await loadRoads();if(sim.run===run)crossings=crossingsFor(run,points,pkg);}catch{if(sim.run===run)crossings=crossingsFor(run,points,null);}
+  if(sim.run===run){renderPanels(true);drawTl();statKey='';hourStat();}
+ }
+ const overByHour=()=>crossings&&sim.run?sim.run.times.map((_,h)=>crossings.filter(c=>c.inside&&c.over[h]>COVER_M).length):null;
+ let panelKey='';
+ function renderPanels(force){
+  const h=Math.round(sim.clock),key=[tab,st.run,h,!!crossings,!!sim.run].join();if(!force&&key===panelKey)return;panelKey=key;
+  if(tab==='scenarios'){const ls=runs.get('live')?.series;$('[data-m-deck]').innerHTML=deckHtml(RUNS,st.run,ls&&{wetKm2:Math.max(...ls.map(v=>v.wetKm2)),rainInH:Math.max(...ls.map(v=>v.rainMmH))/25.4,riverCfs:Math.max(...ls.map(v=>v.inflowM3s))*35.3147});$$('[data-sim-load]').forEach(b=>b.onclick=()=>{chooseRun(b.dataset.simLoad);if(phone())setSheet(false);});}
+  if(tab==='crossings'){$('[data-m-score]').innerHTML=sim.run?scoreboardHtml(crossings,h,sim.run.times):'<p class="sim-muted">Loading the model run…</p>';$$('[data-sim-crossing]').forEach(b=>b.onclick=()=>{const fp=points.find(p=>p.id===b.dataset.simCrossing);if(!fp)return;if(in3d())world.goto(fp.lon,fp.lat,fp.id);else map.flyTo([fp.lat,fp.lon],15,{duration:.8});});}
+  if(tab==='model')$('[data-m-methods]').innerHTML=methodsHtml(sim.run,crossings);
+ }
  // How much water the model has this hour, so a dry hour reads as dry rather than as missing.
  let statKey='';
  function hourStat(){
-  const run=sim.run,el=$('[data-m-stat]');if(!run||in3d()||st.base==='terrain'){el.textContent='';statKey='';return;}
-  const h=Math.round(sim.clock),key=run.def.id+h;if(key===statKey)return;statKey=key;
-  let n=0,max=0;for(const d of run.depth[h])if(d>=.0091){n++;if(d>max)max=d;}
-  el.textContent=n?`${(n/100).toFixed(n<1000?2:1)} km² wet · deepest cell ${(max/.3048).toFixed(1)} ft`:'No simulated water this hour';
+  const run=sim.run,el=$('[data-m-stat]'),hud=$('[data-m-hud]');
+  if(!run||(st.base==='terrain'&&!in3d())){el.textContent='';hud.innerHTML='';statKey='';return;}
+  const h=Math.round(sim.clock),key=run.def.id+h+!!crossings;if(key===statKey)return;statKey=key;
+  const s=run.series[h],inside=crossings?.filter(c=>c.inside)??[],over=inside.filter(c=>c.over[h]>COVER_M).length;
+  el.textContent=s.wetKm2?'':'No simulated water this hour';
+  const chip=(label,value,unit,cls='')=>`<div class="chip ${cls}"><span>${label}</span><b>${value}</b><small>${unit}</small></div>`;
+  const dryLive=run.def.live&&Math.max(...run.series.map(v=>v.wetKm2))<.05;
+  hud.innerHTML=chip('Wet area',s.wetKm2.toFixed(s.wetKm2<10?2:1),'km²')+chip('Deepest cell',(s.deepM/.3048).toFixed(1),'ft')+chip('Over the road',crossings?`${over}/${inside.length}`:'…','crossings',over?'alert':'')+chip('River in',Math.round(s.inflowM3s*35.3147).toLocaleString(),'ft³/s')+chip('Rain',(s.rainMmH/25.4).toFixed(2),'in/h')+(dryLive?'<button type="button" class="chip try" data-m-try>Dry right now. Try the 100-year storm →</button>':'');
+  hud.querySelector('[data-m-try]')?.addEventListener('click',()=>chooseRun('stress'));
+  renderPanels();
  }
  let last=performance.now();
  (function tick(now){
@@ -181,20 +226,20 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  }
  async function chooseRun(id,{keepClock=false}={}){
   const def=RUNS.find(r=>r.id===id)??RUNS[1];st.run=def.id;runSel.value=def.id;
-  if(in3d()){world.send('set','run',def.id);return;}
-  const ticket=loadingRun=Symbol();runSel.disabled=true;timeOut.textContent='Loading '+def.label;
+  if(in3d())world.send('set','run',def.id);
+  const ticket=loadingRun=Symbol();runSel.disabled=true;if(!in3d())timeOut.textContent='Loading '+def.label;
   try{
    let run=runs.get(def.id);
    if(!run){run=await loadRun2d(def);runs.set(def.id,run);}
    if(ticket!==loadingRun)return;
-   runNote=run.def.note??'';sim.setRun(run);
-   scrub.max=String(run.times.length-1);setClock(keepClock?Math.min(sim.clock,run.times.length-1):openingHour(run));
-   showAcknowledgement(def.live?'modelRun':'savedRun');
+   runNote=run.def.note??'';sim.setRun(run);statKey='';
+   if(!in3d()){scrub.max=String(run.times.length-1);setClock(keepClock?Math.min(sim.clock,run.times.length-1):openingHour(run));}else drawTl();
+   showAcknowledgement(def.live?'modelRun':'savedRun');updateCrossings();renderPanels(true);
   }catch(error){
    if(ticket!==loadingRun)return;
-   if(def.live){runNote=`No live model run to show: ${error.message} Showing a saved run instead.`;runSel.disabled=false;return chooseRun('13z');}
+   if(def.live){runNote=`No live model run to show: ${error.message} Showing a saved run instead.`;runSel.disabled=false;loadingRun=null;return chooseRun('13z');}
    timeOut.textContent='The model run could not load: '+error.message;
-  }finally{if(ticket===loadingRun){runSel.disabled=false;describe();}}
+  }finally{if(ticket===loadingRun){loadingRun=null;runSel.disabled=false;describe();}}
  }
  function describe(){
   const run=sim.run;note.textContent=in3d()?(world.state?.note??''):st.base==='terrain'?'Terrain detail: the saved Nov 1–2 run drawn on 10 m terrain by the flat renderer. Its own time and case controls are in Map layers.':runNote||run?.def.note||'';
@@ -262,7 +307,9 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   if(!in3d())return;
   if(!pushed&&s.time){pushTo3d();return;}
   if(s.run!==runSel.value&&RUNS.some(r=>r.id===s.run)){st.run=s.run;runSel.value=s.run;}
+  if(s.run!==sim.run?.def.id&&RUNS.some(r=>r.id===s.run)&&!loadingRun)chooseRun(s.run);
   runSel.disabled=s.runBusy;scrub.max=String(s.scrub.max);if(document.activeElement!==scrub)scrub.value=String(s.scrub.value);
+  if(sim.run&&sim.run.def.id===s.run){sim.setClock(Math.min(sim.run.times.length-1,s.scrub.value));hourStat();drawTl();}
   timeOut.textContent=s.error?'The 3D view could not load':s.time||'Loading the 3D view';
   if(s.playing!==st.playing)setPlaying(s.playing);
   if(s.model!==st.model){st.model=s.model;}
@@ -284,7 +331,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   sim.show(!in3d()&&!terrainOn&&location.hash==='#/map');
   runSel.hidden=terrainOn;$('[data-m-run-label]').hidden=!terrainOn;scrub.step=in3d()||terrainOn?'1':'0.01';
   $('[data-m-north]').hidden=!in3d();$('[data-m-locate]').hidden=in3d();
-  ui.classList.toggle('in3d',in3d());
+  ui.classList.toggle('in3d',in3d());ui.classList.toggle('terrain-on',terrainOn);drawTl();
   hourStat();
   if(!in3d()&&!terrainOn&&sim.run){scrub.min='0';scrub.max=String(sim.run.times.length-1);setClock(sim.clock);}
   if(terrainOn){timeOut.textContent=oldClock?.textContent??'';}
@@ -294,8 +341,9 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  // Tap the 2D map for the simulated depth there.
  map.on('click',e=>{
   if(location.hash!=='#/map'||in3d()||st.base==='terrain'||st.model==='off'||st.model==='hand'||!sim.run)return;
-  const hit=sim.depthAt(e.latlng.lat,e.latlng.lng);if(!hit)return;
-  const ft=hit.depth/.3048,t=clockText(sim.time());
+  const hit=sim.depthAt(e.latlng.lat,e.latlng.lng),t=clockText(sim.time());
+  if(!hit){L.popup({className:'mapp-popup'}).setLatLng(e.latlng).setContent(`Outside the model area · ${t}`).openOn(map);return;}
+  const ft=hit.depth/.3048;
   L.popup({className:'mapp-popup'}).setLatLng(e.latlng).setContent(Number.isNaN(hit.depth)?`No model result here · ${t}`:ft<.03?`No simulated water here · ${t}`:`<strong>${ft<1?ft.toFixed(2):ft.toFixed(1)} ft</strong> simulated water · ${t}<br><span>SFINCS cell average over 100 m, not a measured road depth.</span>`).openOn(map);
  });
 
@@ -309,10 +357,10 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   if(on&&!sim.run&&!loadingRun)chooseRun(st.run);
  }
  addEventListener('hashchange',onRoute);
- setPlaying(false);onRoute();
+ setPlaying(false);setTab(tab);onRoute();
  return{
   // Bring a crossing's card into view: beside the map, or up from the bottom on a phone.
-  reveal(){if(phone())setSheet(true);else setCollapsed(false);},
+  reveal(){setTab('routes');if(phone())setSheet(true);else setCollapsed(false);},
   panelBody:body,padding,
   refreshSearch:fillSearch,
  };
