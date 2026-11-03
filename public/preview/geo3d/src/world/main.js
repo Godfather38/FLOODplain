@@ -7,6 +7,7 @@ import {makeNoiseTexture} from '../../../coastal-lowcost/src/noise.js?v=1.3.0';
 import * as config from '../../../../config.js';
 import {parseFrames} from '../run-data.js';
 import {parseRoadHeights} from '../road-heights.js';
+import {decodeRoadHeights,roadPackage} from '../road-package.js';
 import {toUtm,fromUtm} from '../utm.js';
 import {buildHeights,groundSampler,levelGrid,shareGrid,levelSampler,modelCells,toWorld,worldToUtm,SIZE_X,SIZE_Z} from './heights.js';
 import {createLabels} from './labels.js';
@@ -48,6 +49,9 @@ const data={vertices:firstDisplay.vertices,terrain:new Float32Array(terrainBytes
 status('Joining the terrain');
 const {heights,filled}=await buildHeights(data),ground=groundSampler(heights);
 const world=(lon,lat)=>{const u=toUtm(lon,lat);return toWorld(u.e,u.n);};
+// Road heights every 5 m on the routes, with lidar bridge decks (see src/road-package.js).
+const ROADS=new URL('../../../../simulation/data/road-heights/',import.meta.url);
+const roads=await Promise.all([fetchMaybeGzip(new URL('routes.bin.gz',ROADS).href).then(b=>decodeRoadHeights(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength))),fetch(new URL('structures.json',ROADS)).then(r=>r.json())]).then(([lines,structures])=>roadPackage(lines,structures,world));
 const toLonLat=(x,z)=>{const u=worldToUtm(x,z);return fromUtm(u.e,u.n);};
 const inside=(x,z)=>Math.abs(x)<SIZE_X/2&&Math.abs(z)<SIZE_Z/2;
 // A run, prepared for drawing and for the crossing sheets.
@@ -87,7 +91,7 @@ function flyStep(now){
 // --- Routes, crossing pins and crossing sheets ---
 const appHref=(routeId,id)=>new URL(`../../../../index.html#/r/${routeId}/${id}`,import.meta.url).href;
 const modelled=modelCells(data.vertices);
-const routesUI=createRoutesUI({root:$('map'),camera,config,routes,world,inside:modelled,ground,E,appHref,flyTo,onRoutes:(area,route)=>{routeOverlay.area=area;routeOverlay.route=route;chunks.repaint();}});
+const routesUI=createRoutesUI({root:$('map'),camera,config,routes,roads,world,inside:modelled,ground,E,appHref,flyTo,onRoutes:(area,route)=>{routeOverlay.area=area;routeOverlay.route=route;chunks.repaint();}});
 routesUI.setRun(run);
 // --- Rain ---
 const rain=createRain(scene,{toLonLat,E});

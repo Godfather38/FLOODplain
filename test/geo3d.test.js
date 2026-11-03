@@ -255,3 +255,21 @@ test('every run on the 3D map has its water frames and rain, and the stress run 
  assert.equal(Math.max(...rain.frames.flatMap(f=>f.precipMmH.flat())),55.88,'the Atlas 14 100-year peak hour, 2.20 in');
  assert.match(main,/what-if run of the same model, not a forecast/);
 });
+
+test('crossings use the lidar road surface and bridge decks from the road-height package', async () => {
+ const {decodeRoadHeights,roadPackage}=await import('../public/preview/geo3d/src/road-package.js');
+ const b=gunzipSync(readFileSync(url('public/simulation/data/road-heights/routes.bin.gz')));
+ const manifest=JSON.parse(read('public/simulation/data/road-heights/manifest.json'));
+ assert.equal(createHash('sha256').update(readFileSync(url('public/simulation/data/road-heights/routes.bin.gz'))).digest('hex'),manifest.files[0].sha256);
+ const world=(lon,lat)=>{const u=toUtm(lon,lat);return toWorld(u.e,u.n);};
+ const roads=roadPackage(decodeRoadHeights(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength)),JSON.parse(read('public/simulation/data/road-heights/structures.json')),world);
+ assert.ok(roads.stations.length>20000);
+ const {FAILURE_POINTS}=await import('../public/config.js'),fp=id=>FAILURE_POINTS.find(p=>p.id===id);
+ const base={world,ground:()=>500,inside:()=>true,frames:[{time:'a'}],samplers:[()=>600]};
+ // Lidar deck points, as the road-heights branch documents: Avra 635.05 m, Trico-Marana 590.85 m.
+ assert.equal(crossingStory(fp('sc-avra'),{...base,roads}).road.m,635.05);
+ assert.ok(Math.abs(crossingStory(fp('sc-trico-marana'),{...base,roads}).road.m-590.85)<.01);
+ const dip=crossingStory(fp('pr-picture-rocks-wash'),{...base,roads});
+ assert.match(dip.road.source,/Lowest road surface/);assert.ok(!dip.road.deck);
+ assert.ok(Math.abs(dip.road.m-718.05)<.1,'the bottom of the dip');
+});
