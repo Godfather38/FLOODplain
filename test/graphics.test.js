@@ -48,6 +48,7 @@ test('High is the look the map had before presets, and the presets rise in cost'
  assert.deepEqual(lodsFor('high',LODS),LODS.map(l=>({...l})));
  for(let i=1;i<PRESET_NAMES.length;i++){const a=PRESETS[PRESET_NAMES[i-1]],b=PRESETS[PRESET_NAMES[i]];
   assert.ok(b.rain.count>a.rain.count&&b.fog[1]>a.fog[1]&&b.reach>=a.reach&&b.paint[0]>=a.paint[0]&&b.canvas>=a.canvas,PRESET_NAMES[i]);}
+ assert.equal(PRESETS.high.hand,1600);assert.equal(PRESETS.ultra.hand,3200);assert.match(read('preview/geo3d/src/world/main.js'),/handPx:G\.hand/);
  assert.equal(PRESETS.low.antialias,false);assert.equal(PRESETS.ultra.antialias,true);
 });
 

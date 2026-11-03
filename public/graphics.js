@@ -13,12 +13,13 @@ export const PRESET_LABELS={low:'Low',medium:'Medium',high:'High',ultra:'Ultra'}
 //  paint: painted street map pixels per chunk at each level; imagery: satellite zoom above the
 //   street map tiles, and its highest zoom; anisotropy: texture sharpness at low angles;
 //  rain: drops, streak length and the tallest rain column (m); fog and far: draw distance (m);
+//  hand: the 3D HAND extent picture's width (1600 px = 20 m a pixel; set when 3D opens);
 //  canvas: 2D model layer, street tiles and timeline pixels per screen pixel (cap).
 export const PRESETS=Object.freeze({
- low:Object.freeze({pixelRatio:1,antialias:false,reach:.6,mesh:[50,25,10,5],paint:[512,256,128,64],imagery:[1,15],anisotropy:1,rain:{count:2500,length:.025,column:900},fog:[9000,38000],far:60000,canvas:1}),
- medium:Object.freeze({pixelRatio:1.25,antialias:true,reach:.85,mesh:[100,50,25,10],paint:[1024,512,256,128],imagery:[2,16],anisotropy:4,rain:{count:6000,length:.03,column:1200},fog:[12000,50000],far:120000,canvas:1.5}),
- high:Object.freeze({pixelRatio:1.5,antialias:true,reach:1,mesh:[100,50,25,10],paint:[1024,512,256,128],imagery:[2,17],anisotropy:4,rain:{count:9000,length:.03,column:1500},fog:[14000,60000],far:200000,canvas:2}),
- ultra:Object.freeze({pixelRatio:'full',superSample:1.5,antialias:true,reach:1.5,mesh:[100,100,50,20],paint:[2048,1024,512,256],imagery:[3,18],anisotropy:16,rain:{count:30000,length:.05,column:2600},fog:[26000,130000],far:300000,canvas:3}),
+ low:Object.freeze({hand:1600,pixelRatio:1,antialias:false,reach:.6,mesh:[50,25,10,5],paint:[512,256,128,64],imagery:[1,15],anisotropy:1,rain:{count:2500,length:.025,column:900},fog:[9000,38000],far:60000,canvas:1}),
+ medium:Object.freeze({hand:1600,pixelRatio:1.25,antialias:true,reach:.85,mesh:[100,50,25,10],paint:[1024,512,256,128],imagery:[2,16],anisotropy:4,rain:{count:6000,length:.03,column:1200},fog:[12000,50000],far:120000,canvas:1.5}),
+ high:Object.freeze({hand:1600,pixelRatio:1.5,antialias:true,reach:1,mesh:[100,50,25,10],paint:[1024,512,256,128],imagery:[2,17],anisotropy:4,rain:{count:9000,length:.03,column:1500},fog:[14000,60000],far:200000,canvas:2}),
+ ultra:Object.freeze({hand:3200,pixelRatio:'full',superSample:1.5,antialias:true,reach:1.5,mesh:[100,100,50,20],paint:[2048,1024,512,256],imagery:[3,18],anisotropy:16,rain:{count:30000,length:.05,column:2600},fog:[26000,130000],far:300000,canvas:3}),
 });
 const rank=name=>PRESET_NAMES.indexOf(name);
 const lower=(a,b)=>rank(a)<=rank(b)?a:b;

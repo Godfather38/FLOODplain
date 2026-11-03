@@ -13,7 +13,7 @@ self.onmessage=e=>{
 };
 function post(title,tag){
  if(!topic)return;
- fetch(`https://ntfy.sh/${topic}`,{method:'POST',body:report.slice(-3800),headers:{Title:`FLOODplain freeze: ${title}`.slice(0,120),Tags:tag}}).catch(()=>{});
+ fetch(`https://ntfy.sh/${topic}`,{method:'POST',body:report,headers:{Title:`FLOODplain freeze: ${title}`.slice(0,120),Tags:tag}}).catch(()=>{});
 }
 setInterval(()=>{
  if(!lastBeat||!visible)return;

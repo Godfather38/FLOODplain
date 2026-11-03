@@ -111,7 +111,7 @@ details.about #metrics{font-variant-numeric:tabular-nums}
 .depth-key{display:grid;gap:4px;margin-top:14px;font-size:.875rem;color:var(--muted)}
 .depth-key .ramp{height:10px;border-radius:5px;background:linear-gradient(90deg,#a9dfe6,#3fb6c8 30%,#2a8bb3 60%,#165f93)}
 .depth-key .ends{display:flex;justify-content:space-between}
-.depth-key .hand-key i{display:inline-block;width:14px;height:10px;margin-right:6px;border-radius:2px;background:#19a7a0;opacity:.7;vertical-align:middle}
+.depth-key .hand-key i{display:inline-block;width:42px;height:10px;margin-right:6px;border-radius:2px;vertical-align:middle;background:repeating-linear-gradient(135deg,rgba(246,255,249,.45) 0 2px,transparent 2px 6px),linear-gradient(90deg,rgb(96,214,204),rgb(46,190,196),rgb(24,155,186),rgb(18,116,168),rgb(14,78,142),rgb(8,42,100))}
 
 /* markers: places and river inflow */
 .markers{position:absolute;inset:0;pointer-events:none;overflow:hidden}
