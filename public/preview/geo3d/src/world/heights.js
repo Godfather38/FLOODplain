@@ -45,3 +45,19 @@ export function levelGrid(frame,vertices){
  vertices.forEach((v,k)=>{const z=frame.surface[k];if(!Number.isNaN(z))g[v[3]*GRID.mmax+v[4]]=z;});
  return g;
 }
+// Each model cell's share of its 10 m samples under water deeper than the display limit, for
+// one frame: what is shown when the view is too far out to see individual 10 m samples.
+export function shareGrid(frame,{vertices,terrain},show){
+ const g=new Float32Array(GRID.mmax*GRID.nmax).fill(-2),levels=levelGrid(frame,vertices),cell=(m,n)=>m<0||n<0||m>=GRID.mmax||n>=GRID.nmax?-1e5:levels[n*GRID.mmax+m];
+ vertices.forEach((v,k)=>{
+  const m=v[4],n=v[3];if(cell(m,n)<-1e4)return;let wet=0;
+  for(let r=0;r<GRID.sub;r++)for(let c=0;c<GRID.sub;c++){
+   // The same blend between cell centres the shader uses.
+   const fx=(c+.5)/GRID.sub-.5,fy=(r+.5)/GRID.sub-.5,i=fx<0?m-1:m,j=fy<0?n-1:n,a=fx<0?fx+1:fx,b=fy<0?fy+1:fy;
+   let sum=0,weight=0;for(const [di,dj,w] of [[0,0,(1-a)*(1-b)],[1,0,a*(1-b)],[0,1,(1-a)*b],[1,1,a*b]]){const z=cell(i+di,j+dj);if(z>-1e4&&w>0){sum+=z*w;weight+=w;}}
+   if(weight>0&&sum/weight-terrain[k*100+r*GRID.sub+c]>show)wet++;
+  }
+  g[n*GRID.mmax+m]=wet/100;
+ });
+ return g;
+}

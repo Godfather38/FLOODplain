@@ -11,7 +11,7 @@ import {ChannelSimulation} from '../public/preview/geo3d/src/channel-sim.js';
 import {gunzipSync} from 'node:zlib';
 import {toUtm,fromUtm} from '../public/preview/geo3d/src/utm.js';
 import {GRID as SFINCS_GRID,makeSampler,parseFrames} from '../public/preview/geo3d/src/run-data.js';
-import {buildHeights,groundSampler,levelGrid,toWorld,worldToUtm,W as HW,H as HH} from '../public/preview/geo3d/src/world/heights.js';
+import {buildHeights,groundSampler,levelGrid,shareGrid,toWorld,worldToUtm,W as HW,H as HH} from '../public/preview/geo3d/src/world/heights.js';
 import {lodFor as chunkLod,LODS as CHUNK_LODS} from '../public/preview/geo3d/src/world/detail.js';
 import {mapWaterColour} from '../public/preview/geo3d/src/world/paint.js';
 import {GRID_PRESETS} from '../public/preview/coastal-lowcost/src/trial-config.js';
@@ -180,4 +180,11 @@ test('the 3D world uses no invented geometry and one shared height field', () =>
  assert.doesNotMatch(files,/channels\.js|network\.js|water-window\.js|channel-sim\.js|plantSpots|carveField|carveFine|cutAt|withWander|maplibre/);
  assert.match(read('public/preview/geo3d/src/world/chunks.js'),/brunnel==='bridge'/,'bridges only where the map says bridge');
  for(const f of ['map.html','src/run-map.js','src/run-water.js','src/roads-3d.js','vendor/maplibre'])assert.ok(!existsSync(url('public/preview/geo3d/'+f)),f);
+});
+
+test('the zoomed-out wet share summarises the same frame, cell by cell', () => {
+ const share=shareGrid(sfFrames[12],sfData,.05),known=share.filter(s=>s>=0);
+ assert.ok(known.every(s=>s<=1)&&known.some(s=>s>0)&&known.some(s=>s===0));
+ const missing=sfData.vertices.findIndex((_,i)=>Number.isNaN(sfFrames[0].surface[i])),v=sfData.vertices[missing];
+ assert.ok(shareGrid(sfFrames[0],sfData,.05)[v[3]*SFINCS_GRID.mmax+v[4]]<0,'a cell with no level has no share, not zero');
 });
