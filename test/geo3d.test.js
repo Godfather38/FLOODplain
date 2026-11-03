@@ -10,8 +10,8 @@ import {visibleRoadRuns,ribbonMesh} from '../public/preview/geo3d/src/roads.js';
 import {ChannelSimulation} from '../public/preview/geo3d/src/channel-sim.js';
 import {gunzipSync} from 'node:zlib';
 import {toUtm,fromUtm} from '../public/preview/geo3d/src/utm.js';
-import {GRID as SFINCS_GRID,makeSampler,parseFrames} from '../public/preview/geo3d/src/sfincs-data.js';
-import {wetCells,terrainAtlas,buildWaterMesh,frameSurface,wetShare,cellVolumeM3,SHOW_DEPTH_M} from '../public/preview/geo3d/src/sfincs-water.js';
+import {GRID as SFINCS_GRID,makeSampler,parseFrames} from '../public/preview/geo3d/src/run-data.js';
+import {wetCells,terrainAtlas,buildWaterMesh,frameSurface,wetShare,cellVolumeM3,SHOW_DEPTH_M} from '../public/preview/geo3d/src/run-water.js';
 import {buildRoadMesh,parseRoadHeights,anchorLift,roadCovered,plantSpots,LODS,lodFor} from '../public/preview/geo3d/src/roads-3d.js';
 import {GRID_PRESETS} from '../public/preview/coastal-lowcost/src/trial-config.js';
 
@@ -55,8 +55,9 @@ test('the demo is byte-identical to the pinned commit and keeps opaque water', (
 
 test('a dismissible acknowledgement and the page text say the water is simulated', () => {
  const page=read('public/preview/geo3d/index.html'),map=read('public/preview/geo3d/map.html');
- for(const html of [page,map])assert.match(html,/id="simulation-ack"[\s\S]*This water is simulated[\s\S]*turn around, don't drown[\s\S]*id="simulation-ack-ok"/);
- for(const script of ['main.js','sfincs-map.js'])assert.match(read(`public/preview/geo3d/src/${script}`),/mountAcknowledgement\(\)/,script);
+ assert.match(page,/id="simulation-ack"[\s\S]*This water is simulated[\s\S]*turn around, don't drown[\s\S]*id="simulation-ack-ok"/);
+ assert.match(map,/id="simulation-ack"[\s\S]*This water is from a saved run[\s\S]*turn around, don't drown[\s\S]*id="simulation-ack-ok"/);
+ for(const script of ['main.js','run-map.js'])assert.match(read(`public/preview/geo3d/src/${script}`),/mountAcknowledgement\(\)/,script);
  assert.match(read('public/preview/geo3d/src/acknowledge.js'),/button\.onclick/);
  assert.doesNotMatch(page,/simulation-(tag|banner)/,'no permanent label on screen');
  assert.match(page,/<title>FLOODplain 3D simulation<\/title>/);
@@ -232,9 +233,9 @@ test('a missing water level is never drawn as water', () => {
 });
 
 test('the 3D page uses no invented geometry', () => {
- const page=read('public/preview/geo3d/src/sfincs-map.js');
- assert.match(read('public/preview/geo3d/map.html'),/src\/sfincs-map\.js/);
- assert.doesNotMatch(page,/channels\.js|network\.js|water-window\.js|channel-sim\.js|plantSpots|carve|withWander/);
+ const page=read('public/preview/geo3d/src/run-map.js');
+ assert.match(read('public/preview/geo3d/map.html'),/src\/run-map\.js/);
+ assert.doesNotMatch(page,/channels\.js|network\.js|water-window\.js|channel-sim\.js|plantSpots|carveField|carveFine|cutAt|withWander/);
  assert.match(page,/furniture:false/,'no made-up poles or sign gantries');
  assert.match(page,/deckRise:0/,'bridge decks run between their real abutments');
  for(const f of ['map-layer.js','network.js','water-window.js'])assert.ok(!existsSync(url('public/preview/geo3d/src/'+f)),f);

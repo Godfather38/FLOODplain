@@ -7,9 +7,9 @@ import {Fn,attribute,uniform,float,vec2,vec3,vec4,color,texture,textureLoad,ivec
 import {makeNoiseTexture} from '../../coastal-lowcost/src/noise.js?v=1.3.0';
 import {SCENE} from './scene-config.js';
 import {loadTile} from './data-source.js';
-import {GRID,makeSampler,parseFrames,buildIndex} from './sfincs-data.js';
+import {GRID,makeSampler,parseFrames,buildIndex} from './run-data.js';
 import {toUtm,fromUtm as utmToLonLat} from './utm.js';
-import {wetCells,terrainAtlas,buildWaterMesh,frameSurface,wetShare,SHOW_DEPTH_M} from './sfincs-water.js';
+import {wetCells,terrainAtlas,buildWaterMesh,frameSurface,wetShare,SHOW_DEPTH_M} from './run-water.js';
 import {buildRoadMesh,parseRoadHeights,LODS,lodFor} from './roads-3d.js';
 import {mountAcknowledgement} from './acknowledge.js';
 const $=id=>document.getElementById(id);

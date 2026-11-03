@@ -2,7 +2,7 @@
 // data is fixed and only the drawing varies. One quad per native 100 m cell carries the
 // water surface; each pixel compares it with the 10 m lidar terrain from a texture, so the
 // shoreline, the wet area and the volume are the same at every zoom.
-import {GRID} from './sfincs-data.js';
+import {GRID} from './run-data.js';
 export const SHOW_DEPTH_M=.05;
 const SUB=GRID.dx/GRID.sub;
 // Cells where water stands at least SHOW_DEPTH_M over some 10 m sample in any frame.
