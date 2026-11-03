@@ -5,6 +5,9 @@ const LAND={grass:'#e3e8cc',scrub:'#e1e3c6',wood:'#d3dfba',forest:'#d3dfba',sand
 const ROAD={motorway:{w:26,fill:'#f6c86a',edge:'#d39a3d'},trunk:{w:20,fill:'#f9d68c',edge:'#d7a85b'},primary:{w:15,fill:'#fff3cf',edge:'#cdbf9a'},secondary:{w:12,fill:'#ffffff',edge:'#c9c3b6'},tertiary:{w:10,fill:'#ffffff',edge:'#ccc6ba'},minor:{w:7,fill:'#ffffff',edge:'#d0cabe'},service:{w:4,fill:'#fbfaf7',edge:'#d6d0c4'},track:{w:3,fill:'#efe6d4',edge:'#d6cbb4'}};
 const ORDER=['track','service','minor','tertiary','secondary','primary','trunk','motorway'];
 export const roadWidth=cls=>(ROAD[cls]??ROAD.minor).w;
+// The app's routes over the street map: the chosen area's routes in blue, the chosen route
+// wider; other routes stay faint so the area's crossings read first.
+export const routeOverlay={lines:[],area:null,route:null};
 // Blue is kept for the model's water. Map water areas are drawn as beds: dry washes and
 // seasonal rivers in sand, and only standing water such as canals and ponds in grey-blue.
 export const mapWaterColour=properties=>properties.intermittent===1||properties.class==='river'?'#eadcbd':'#c4d3d6';
@@ -38,5 +41,13 @@ export function paintChunk(canvas,x0,z0,size,tiles,detailed){
    ctx.stroke();
   }
   ctx.setLineDash([]);
+ }
+ const x1=x0+size,z1=z0+size,touches=r=>r.parts.some(line=>line.some(([x,z])=>x>x0-200&&x<x1+200&&z>z0-200&&z<z1+200));
+ for(const r of [...routeOverlay.lines].sort((a,b)=>(a.area===routeOverlay.area)-(b.area===routeOverlay.area)||(a.id===routeOverlay.route)-(b.id===routeOverlay.route))){
+  if(!touches(r))continue;
+  const mine=r.area===routeOverlay.area,chosen=r.id===routeOverlay.route,dim=routeOverlay.route&&!chosen;
+  path(r.parts);ctx.lineCap='round';ctx.lineJoin='round';
+  ctx.strokeStyle=chosen?'#0b5cad':mine?(dim?'#8fb1d6':'#2f76c4'):'#b9c9d9';ctx.globalAlpha=mine?.9:.55;
+  ctx.lineWidth=Math.max((chosen?3.2:mine?2.2:1.2)/scale,chosen?11:mine?7:4);ctx.stroke();ctx.globalAlpha=1;
  }
 }

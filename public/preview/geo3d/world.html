@@ -6,10 +6,13 @@
 <div id="simulation-ack" class="card" role="dialog" aria-labelledby="simulation-ack-title" hidden><strong id="simulation-ack-title">This water is from a saved run</strong><p>It is a saved model run from November 2026, not real conditions or a forecast. If you see water on a real road, turn around, don't drown.</p><button id="simulation-ack-ok">Got it</button></div>
 <div class="mapbar"><select id="goto" aria-label="Go to a place or route crossing"></select><button id="north" class="compass" aria-label="Turn to north up" title="North up"><span>N</span></button></div>
 <div id="error" class="card" hidden><strong>The 3D model run could not load</strong><pre id="error-detail"></pre></div>
-<aside id="panel"><details open><summary>Saved SFINCS model run</summary>
- <p>Water is the SFINCS model's water surface from a saved run with forecast inputs from November 1, 2026: not current conditions. Ground, water, roads, bridges and buildings all sit on the model's own 10 m lidar terrain. Heights are drawn 2× taller.</p>
+<aside id="panel"><details open><summary>Saved SFINCS model runs</summary>
+ <label class="run-pick"><span>Model run</span><select id="run" aria-label="Model run"></select></label>
+ <p id="run-note" class="fine"></p>
+ <p>Water is the SFINCS model's water surface from saved runs with forecast inputs from November 1, 2026: not current conditions. Rain is the run's own rainfall input. Ground, water, roads, bridges and buildings all sit on the model's own 10 m lidar terrain. Heights are drawn 2× taller.</p>
  <p id="window">Starting</p>
  <div class="timebar"><button id="play">Pause</button><input id="scrub" type="range" min="0" max="14" step="1" value="0" aria-label="Model hour"><span id="time"></span></div>
+ <label class="rain-toggle"><input id="rain" type="checkbox" checked> Show the run's rain</label><p id="rain-now" class="fine"></p>
  <pre id="metrics"></pre>
  <p class="credit">Map data © OpenStreetMap contributors, via OpenFreeMap and OpenMapTiles. Terrain: USGS Pima County 2021 lidar as resampled for the SFINCS case; Terrain Tiles (Mapzen, AWS Open Data) at the rectangle's edges.</p>
 </details></aside>

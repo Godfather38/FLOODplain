@@ -61,3 +61,19 @@ export function shareGrid(frame,{vertices,terrain},show){
  });
  return g;
 }
+// The model water level at a world position, the same blend the shader uses: bilinear between
+// 100 m cell centres, leaving out cells with no level. NaN when nothing is known there.
+export function levelSampler(levels){
+ return(x,z)=>{
+  const u=(x+SIZE_X/2)/GRID.dx-.5,v=(SIZE_Z/2-z)/GRID.dx-.5,i=Math.max(0,Math.min(GRID.mmax-2,Math.floor(u))),j=Math.max(0,Math.min(GRID.nmax-2,Math.floor(v))),a=Math.min(1,Math.max(0,u-i)),b=Math.min(1,Math.max(0,v-j));
+  let sum=0,weight=0;
+  for(const [di,dj,w] of [[0,0,(1-a)*(1-b)],[1,0,a*(1-b)],[0,1,(1-a)*b],[1,1,a*b]]){const z0=levels[(j+dj)*GRID.mmax+i+di];if(z0>-1e4&&w>0){sum+=z0*w;weight+=w;}}
+  return weight>1e-4?sum/weight:NaN;
+ };
+}
+// Whether the model has a cell at a world position. The model's rectangle has corners and
+// edges it does not compute; crossings there are outside the model, not dry.
+export function modelCells(vertices){
+ const active=new Uint8Array(GRID.mmax*GRID.nmax);for(const v of vertices)active[v[3]*GRID.mmax+v[4]]=1;
+ return(x,z)=>{const u=worldToUtm(x,z),m=Math.floor((u.e-GRID.x0)/GRID.dx),n=Math.floor((u.n-GRID.y0)/GRID.dx);return m>=0&&n>=0&&m<GRID.mmax&&n<GRID.nmax&&active[n*GRID.mmax+m]===1;};
+}

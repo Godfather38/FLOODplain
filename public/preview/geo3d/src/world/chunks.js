@@ -72,6 +72,8 @@ export function createChunks(scene,material,{ground,E,structureMaterial,onChange
    }
    pump();
   },
+  // Paint every chunk again, for example after the chosen routes change.
+  repaint(){for(const c of list){c.paintedLod=null;if(!c.painting&&c.lod!==null)queue.add(c);}pump();},
   stats(){const levels=[0,0,0,0];let painted=0,bridges=0,buildings=0;for(const c of list){levels[c.lod]++;if(c.paintedLod===c.lod)painted++;bridges+=c.bridgeCount??0;buildings+=c.buildingCount??0;}return{chunks:list.length,levels,painted,queued:queue.size+busy,bridges,buildings};},
  };
 }

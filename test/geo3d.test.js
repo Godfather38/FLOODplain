@@ -11,9 +11,12 @@ import {ChannelSimulation} from '../public/preview/geo3d/src/channel-sim.js';
 import {gunzipSync} from 'node:zlib';
 import {toUtm,fromUtm} from '../public/preview/geo3d/src/utm.js';
 import {GRID as SFINCS_GRID,makeSampler,parseFrames} from '../public/preview/geo3d/src/run-data.js';
-import {buildHeights,groundSampler,levelGrid,shareGrid,toWorld,worldToUtm,W as HW,H as HH} from '../public/preview/geo3d/src/world/heights.js';
+import {buildHeights,groundSampler,levelGrid,shareGrid,levelSampler,modelCells,toWorld,worldToUtm,W as HW,H as HH} from '../public/preview/geo3d/src/world/heights.js';
 import {lodFor as chunkLod,LODS as CHUNK_LODS} from '../public/preview/geo3d/src/world/detail.js';
 import {mapWaterColour} from '../public/preview/geo3d/src/world/paint.js';
+import {crossingStory,statusAt,COVER_M} from '../public/preview/geo3d/src/world/crossing-story.js';
+import {parseRain,rainAt} from '../public/preview/geo3d/src/world/rain-data.js';
+import {parseRoadHeights} from '../public/preview/geo3d/src/road-heights.js';
 import {GRID_PRESETS} from '../public/preview/coastal-lowcost/src/trial-config.js';
 
 const url=path=>new URL(`../${path}`,import.meta.url);
@@ -187,4 +190,46 @@ test('the zoomed-out wet share summarises the same frame, cell by cell', () => {
  assert.ok(known.every(s=>s<=1)&&known.some(s=>s>0)&&known.some(s=>s===0));
  const missing=sfData.vertices.findIndex((_,i)=>Number.isNaN(sfFrames[0].surface[i])),v=sfData.vertices[missing];
  assert.ok(shareGrid(sfFrames[0],sfData,.05)[v[3]*SFINCS_GRID.mmax+v[4]]<0,'a cell with no level has no share, not zero');
+});
+
+test('crossings count as modelled only where the model has a cell', () => {
+ const inside=modelCells(sfData.vertices),v=sfData.vertices[0],cell=(n,m)=>toWorld(SFINCS_GRID.x0+(m+.5)*SFINCS_GRID.dx,SFINCS_GRID.y0+(n+.5)*SFINCS_GRID.dx);
+ assert.ok(inside(...cell(v[3],v[4])));
+ const active=new Set(sfData.vertices.map(q=>q[3]*SFINCS_GRID.mmax+q[4]));let gap=0;while(active.has(gap))gap++;
+ assert.ok(!inside(...cell(Math.floor(gap/SFINCS_GRID.mmax),gap%SFINCS_GRID.mmax)),'an inactive cell inside the rectangle is not modelled');
+ assert.ok(!inside(...toWorld(SFINCS_GRID.x0-500,SFINCS_GRID.y0-500)));
+});
+
+test('a crossing sheet compares the road height with the model water, hour by hour', () => {
+ const world=(lon,lat)=>[lon,lat],ground=()=>600,frames=[{time:'a'},{time:'b'},{time:'c'}];
+ const samplers=[()=>599,()=>600.5,()=>NaN].map(f=>f);
+ const base={world,ground,inside:()=>true,frames,samplers,measured:[]};
+ const dip=crossingStory({lon:0,lat:0,kind:'dip'},base);
+ assert.equal(dip.road.m,600);assert.match(dip.road.source,/lidar/);
+ assert.deepEqual([0,1,2].map(i=>statusAt(dip,i)),['clear','over','unknown']);
+ assert.equal(dip.coveredHours,1);assert.equal(dip.unknownHours,1);assert.equal(dip.peak.water,600.5);
+ const bridge=crossingStory({lon:0,lat:0,kind:'bridge'},base);
+ assert.equal(bridge.road.m,null,'bare-earth lidar under a bridge is the channel, not the deck');
+ assert.equal(statusAt(bridge,1),'unmeasured');
+ const surveyed=crossingStory({lon:0,lat:0,kind:'bridge'},{...base,measured:[{lon:30,lat:0,roadM:610,deck:true}]});
+ assert.equal(surveyed.road.m,610);assert.ok(surveyed.road.measured);assert.equal(statusAt(surveyed,1),'clear');
+ assert.equal(crossingStory({lon:0,lat:0,kind:'bridge'},{...base,measured:[{lon:500,lat:0,roadM:610}]}).road.m,null,'a survey point far away does not count');
+ assert.equal(statusAt(crossingStory({lon:0,lat:0,kind:'dip'},{...base,inside:()=>false}),0),'outside');
+ assert.ok(COVER_M>0);
+});
+
+test('surveyed road heights read their place from the point id', () => {
+ const pts=parseRoadHeights(JSON.parse(read('public/inundation/road-heights.json')));
+ assert.ok(pts.length>0);
+ for(const p of pts){assert.ok(p.lat>32&&p.lat<33&&p.lon<-110&&p.lon>-112,p.id);assert.ok(Number.isFinite(p.roadM),p.id);}
+});
+
+test('rain comes from the run rainfall grid, and only where and when it has rain', () => {
+ const ctx=JSON.parse(read('public/simulation/data/frozen-map-context.json')),rain=parseRain(ctx);
+ assert.ok(rain.frames.length>0);
+ const f=rain.frames[0],g=ctx.rainfall.frames[0].precipMmH,mid=(f.start+f.end)/2;
+ assert.ok(Math.abs(rainAt(rain,mid,rain.lon[3],rain.lat[4])-g[4][3])<1e-9,'on a grid point it is that value');
+ assert.equal(rainAt(rain,f.start-1,rain.lon[3],rain.lat[4]),0,'before the first hour');
+ assert.equal(rainAt(rain,mid,rain.lon[0]-1,rain.lat[0]),0,'outside the grid');
+ assert.equal(parseRain({}),null);
 });
