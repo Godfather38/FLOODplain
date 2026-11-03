@@ -16,18 +16,14 @@ Branch `experiment/live-ui-recovery`, from `main` at `8aaa035`. Selected work fr
 ## Left out or switched off
 
 - Road replay, Silverbell scene, all-route model points, scene contract, recorded readings and the frozen outlook button.
-- The live Map screen no longer starts the older model renderer. Its model controls appear only in Test flood mode, and `?case=` is ignored.
-- Retained model water no longer reaches bridge evidence, and the retained SFINCS status line is gone from the live panel.
+- The Map screen opens with SFINCS showing, as in the original design.
 
-Model data outside the Test flood package is removed at deploy, and stays in the repo for development.
+All model data is published.
 
 ## Kept from main
 
 Route closures, closure banner and markers, no directions on closed routes, TransView feed, lone caution rule, distant gauge rule and road height in the flood check.
 
-## Consequence of removing retained model water
-
-Bridge cards no longer compare road height with model water, because no live model water exists. Bridges keep live gauges, county status and evidence.
 
 ## HAND water layer
 
@@ -37,4 +33,4 @@ Checked in a browser against live forecasts: Trico-Marana at 2,460 cfs painted 5
 
 ## Test flood mode
 
-Saved runs now live in one opt-in mode, opened from Settings. See `LIVE-DATA-ONLY.md`. It includes the 2D and 3D renderers and the time slider, using the original coarse November 1-2 run. The older renderer colors icons from each marker's `color` option, which the recovery had missed.
+Removed. It hid the simulator behind an opt-in mode, which was never asked for. See `SIMULATED-CONTENT.md`.

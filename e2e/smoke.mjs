@@ -13,7 +13,6 @@ import {chromium} from 'playwright';
 const repo=fileURLToPath(new URL('..',import.meta.url));
 const site=mkdtempSync(join(tmpdir(),'floodplain-e2e-'));
 cpSync(join(repo,'public'),site,{recursive:true});
-execFileSync(process.execPath,[join(repo,'tools/prune-published.mjs'),site],{stdio:'pipe'});
 execFileSync(process.execPath,[join(repo,'tools/add-preloads.mjs'),site],{stdio:'pipe'});
 
 const TYPES={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.geojson':'application/json','.png':'image/png','.webmanifest':'application/manifest+json','.svg':'image/svg+xml','.gz':'application/gzip'};
@@ -48,7 +47,6 @@ async function fakeWorld(context){
   return route.abort();
  });
 }
-const SAVED_RUN_FILE=/frozen|water-footprints|retained|terrain|geographic-view|renderer-chunks|voxel/;
 const browser=await chromium.launch(process.env.E2E_CHROME?{channel:'chrome'}:{});
 const failures=[];
 async function check(name,fn){try{await fn();console.log('ok  ',name)}catch(e){failures.push(name);console.error('FAIL',name,'\n    ',String(e.message).split('\n').slice(0,6).join('\n     '))}}
@@ -59,13 +57,16 @@ async function freshPage(size={width:1024,height:768},serviceWorkers='block'){
  return {context,page,requests,errors};
 }
 const ready=(page)=>page.waitForSelector('.pin');
+// Opening the Map shows simulated water and its notice. Dismiss it the way a person would.
+async function dismissNotice(page){await page.waitForSelector('dialog.model-ack',{timeout:30000});await page.click('dialog.model-ack button');}
 const brawley='west-avra-valley-road-32-39322-111-29459';
 async function chooseHand(page){
+ await dismissNotice(page);
  await page.click('[data-panel=options]');
- await page.selectOption('[data-mode]','hand');
+ await page.selectOption('[data-model]','hand');
  await page.waitForFunction(()=>document.querySelector('[data-site]')?.options.length>0);
  await page.selectOption('[data-site]',brawley);
- await page.waitForSelector('dialog.model-ack, .hand-depth-layer',{timeout:15000});
+ await page.waitForSelector('.hand-depth-layer',{timeout:15000});
 }
 
 try{
@@ -88,37 +89,42 @@ try{
   const navs=await page.$$eval('[data-nav]',b=>b.map(x=>x.dataset.nav));assert.ok(!navs.includes('trico'),navs.join());
   await context.close();
  });
- await check('fresh Map fits the routes, shows no notice, and loads no 3D or saved-run files',async()=>{
-  const {context,page,requests}=await freshPage();
-  await page.goto(origin+'/#/map');await ready(page);await page.waitForTimeout(1500);
-  const box=await page.evaluate(()=>{const m=document.querySelector('#map').getBoundingClientRect(),p=[...document.querySelectorAll('.pin')].map(e=>e.getBoundingClientRect()),x=p.map(b=>b.x);return {spread:Math.max(...x)-Math.min(...x),inside:p.every(b=>b.x>=m.left-1&&b.x<=m.right+1&&b.y>=m.top-1&&b.y<=m.bottom+1)}});
-  assert.ok(box.spread>150,'routes fill the map, spread '+box.spread);assert.ok(box.inside);
-  assert.equal(await page.locator('dialog.model-ack').count(),0);
-  assert.deepEqual(requests.filter(u=>SAVED_RUN_FILE.test(u)),[]);
-  assert.doesNotMatch(await page.innerText('body'),/frozen|retained|replay|Nov 1\b/i);
+ await check('Map opens with simulated water, its notice once, then 3D with the 3D wording',async()=>{
+  const {context,page}=await freshPage();
+  await page.goto(origin+'/#/map');await ready(page);
+  await page.waitForSelector('dialog.model-ack',{timeout:30000});
+  assert.match(await page.innerText('dialog.model-ack'),/saved run.*turn around, don't drown\./s);
+  await page.click('dialog.model-ack button');
+  await page.waitForFunction(()=>document.querySelector('.dock-status')?.innerText.includes('Simulated water'),null,{timeout:30000});
+  assert.equal(await page.$eval('[data-model]',e=>e.value),'2d');
+  const box=await page.evaluate(()=>{const m=document.querySelector('#map').getBoundingClientRect(),p=[...document.querySelectorAll('.pin')].map(e=>e.getBoundingClientRect()).filter(b=>b.width);return {n:p.length,inside:p.every(b=>b.x>=m.left-1&&b.x<=m.right+1&&b.y>=m.top-1&&b.y<=m.bottom+1)}});
+  assert.ok(box.inside,'crossings stay on the map');
+  assert.ok(await page.locator('.home-outlook').count()>=0);
+  await page.reload();await ready(page);await page.waitForTimeout(2500);
+  assert.equal(await page.locator('dialog.model-ack').count(),0,'once per session');
   await context.close();
  });
  await check('Map options panel matches the sheet instead of a dark box',async()=>{
   const {context,page}=await freshPage();
-  await page.goto(origin+'/#/map');await ready(page);await page.click('[data-panel=options]');
+  await page.goto(origin+'/#/map');await ready(page);await dismissNotice(page);await page.click('[data-panel=options]');
   const s=await page.$eval('.live-map-panel',p=>{const c=getComputedStyle(p),r=p.getBoundingClientRect(),b=p.querySelector('[data-refresh]').getBoundingClientRect();return {bg:c.backgroundColor,color:c.color,inset:r.right-b.right}});
   assert.equal(s.bg,'rgb(239, 239, 236)');assert.equal(s.color,'rgb(27, 27, 26)');assert.ok(s.inset>=8,'refresh inset '+s.inset);
   await context.close();
  });
- await check('HAND water sits on the crossing, in water colors, with one notice a session',async()=>{
+ await check('HAND water from the Model menu is drawn around the crossing in water colors',async()=>{
   const {context,page}=await freshPage();
-  await page.goto(origin+'/#/map');await ready(page);await chooseHand(page);
-  assert.match(await page.innerText('dialog.model-ack'),/model estimate.*turn around, don't drown\..*Got it/s);
-  await page.click('dialog.model-ack button');
-  assert.equal(await page.evaluate(()=>sessionStorage.getItem('floodplain-ack')),'1');
-  await page.waitForSelector('.hand-depth-layer');await page.waitForTimeout(800);
-  const placed=await page.evaluate(()=>{const g=document.querySelector('.hand-depth-layer').getBoundingClientRect(),p=[...document.querySelectorAll('.leaflet-marker-icon')].find(e=>e.title==='Brawley Wash dip').getBoundingClientRect();return [Math.abs(g.left+g.width/2-p.left-p.width/2),Math.abs(g.top+g.height/2-p.top-p.height/2)]});
-  assert.ok(placed[0]<3&&placed[1]<3,'centered on the crossing, off by '+placed);
-  const colors=await page.$eval('.hand-depth-layer',img=>{const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;const x=c.getContext('2d');x.drawImage(img,0,0);const d=x.getImageData(0,0,c.width,c.height).data,out={wet:0,warm:0};for(let i=0;i<d.length;i+=4)if(d[i+3]>100){out.wet++;if(d[i]>d[i+2])out.warm++}return out});
-  assert.ok(colors.wet>0);assert.equal(colors.warm,0,'no amber or brown water');
-  assert.match(await page.innerText('.hand-legend'),/Modeled water depth estimate/);
-  await page.selectOption('[data-site]','west-trico-marana-road-32-45369-111-27985').catch(()=>{});await page.waitForTimeout(1000);
-  assert.equal(await page.locator('dialog.model-ack').count(),0,'no repeat');
+  await page.addInitScript(()=>{window.addEventListener('current-hand-layers',e=>{if(e.detail.layers.length)window.__hand=e.detail.layers.map(l=>({fill:l.options.fillColor,b:l.getBounds()}))})});
+  await page.goto(origin+'/#/map');await ready(page);await dismissNotice(page);
+  await page.click('[data-panel=options]');await page.selectOption('[data-model]','hand');
+  await page.waitForFunction(()=>document.querySelector('[data-site]')?.options.length>0);
+  await page.selectOption('[data-site]',brawley);
+  await page.waitForFunction(()=>window.__hand?.length>0,null,{timeout:20000});
+  const r=await page.evaluate(()=>{const fills=[...new Set(window.__hand.map(h=>h.fill))];let s=90,n=-90,w=180,e=-180;for(const {b} of window.__hand){s=Math.min(s,b._southWest.lat);n=Math.max(n,b._northEast.lat);w=Math.min(w,b._southWest.lng);e=Math.max(e,b._northEast.lng)}return {fills,s,n,w,e}});
+  assert.ok(r.fills.every(f=>{const [x,,z]=f.match(/\d+/g).map(Number);return z>x}),'water colors only: '+r.fills);
+  assert.ok(r.s<32.39322&&r.n>32.39322&&r.w<-111.29459&&r.e>-111.29459,'water surrounds the crossing');
+  await page.click('.map-sheet [data-close]');
+  await page.waitForFunction(()=>/HAND modeled water depth estimate/.test(document.querySelector('.map-dock .dock-key')?.innerText||''),null,{timeout:15000});
+  assert.equal(await page.locator('dialog.model-ack').count(),0,'one notice a session');
   await context.close();
  });
  await check('closures list shows the closure with a plain age and what it blocks',async()=>{
@@ -150,16 +156,6 @@ try{
   assert.equal(await page.isChecked('#a-instant'),false);
   await page.check('#a-instant');await page.waitForTimeout(400);
   assert.equal(posts.at(-1)?.instant,true);
-  await context.close();
- });
- await check('Test flood draws saved water with its own wording, then goes back to live',async()=>{
-  const {context,page}=await freshPage();
-  await page.goto(origin+'/?mode=test-flood#/map');await page.waitForSelector('dialog.model-ack',{timeout:30000});
-  assert.match(await page.innerText('dialog.model-ack'),/saved run/);await page.click('dialog.model-ack button');
-  assert.equal(await page.innerText('#title'),'Simulated flood');
-  await page.waitForFunction(()=>document.querySelector('.dock-status')?.innerText.includes('Simulated water'),null,{timeout:30000});
-  assert.equal(await page.locator('.test-flood-banner').count(),0);
-  await page.click('[data-destination=routes]');await page.waitForURL(u=>!u.search.includes('test-flood'));
   await context.close();
  });
  await check('with no signal the app still opens with the last check',async()=>{

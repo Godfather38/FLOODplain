@@ -62,14 +62,10 @@ test('shared forecasts fall back to NOAA for anything missing',async()=>{
  assert.equal((await (await none('https://api.water.noaa.gov/nwps/v1/gauges/ABC')).json()).from,'noaa');
 });
 test('closures screen is reachable',()=>{assert.deepEqual(resolveScreen('#/closures',{}),{screen:'closures'})});
-test('offline support always prefers the network and stores no model data',()=>{
+test('offline support always prefers the network',()=>{
  const sw=read('sw.js');
  assert.match(sw,/await fetch\(request/);assert.match(sw,/simulation\\\/data/);assert.match(sw,/renderer-chunks/);
  assert.match(read('app.js'),/navigator\.serviceWorker\.register\('sw\.js'\)/);
- assert.match(read('app.js'),/isTestFlood\(\)\) return;\s*navigator\.serviceWorker/);
-});
-test('the recorded forecast option is gone from the public estimate page',()=>{
- assert.doesNotMatch(read('inundation/index.html'),/recorded/i);assert.doesNotMatch(read('inundation/app.js'),/\$\('recorded'\)/);
 });
 test('the preload step lists the whole startup module tree',()=>{
  const dir=mkdtempSync(join(tmpdir(),'preload-'));

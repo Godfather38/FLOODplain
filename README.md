@@ -1,6 +1,6 @@
 # FLOODplain
 
-**Saved model runs NEVER appear in the live app. They appear only in the opt-in "Test and view a flood!" mode.** See `docs/LIVE-DATA-ONLY.md`.
+**Simulated and modeled water is identified only by one dismissible acknowledgement and the wording already on screen.** SFINCS and the simulator stay where the map design puts them. See `docs/SIMULATED-CONTENT.md`.
 
 A check of the roads between Avra Valley, AZ and I-10, either direction. It combines regional USGS stream gauges, county rain/stream observations, reported barricades and weather alerts to compare routes. Gauges are not located at every crossing; remote readings do not measure road-water depth. It's a hobby tool, not an official warning.
 

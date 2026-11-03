@@ -1,6 +1,5 @@
 import { RISK_COLORS, UNKNOWN_COLOR, installRiskColors } from './semantic-colors.js?v=dev';
 import './show-me-how.js?v=dev';
-import { isTestFlood, testFloodHref } from './simulation/test-flood.js?v=dev';
 import {mountRouteTracking} from './simulation/route-tracking.js?v=dev';
 installRiskColors();
 import { imperialSourceText } from './display-units.js?v=dev';
@@ -463,9 +462,6 @@ function settingsScreen() {
       <input id="apikey" type="password" autocomplete="off" placeholder="Paste key" value="${esc(store.get('apiKey') ?? '')}">
     </label>
     <p class="fine" style="text-align:left;margin:0">Saved only on this phone.</p>
-    <h4>Test and view a flood!</h4>
-    <p class="meta">Curious what a flood looks like on the map? Try a simulated flood from a saved model run in November 2026. It is not real conditions and does not change routes or alerts.</p>
-    <a class="btn" href="${esc(testFloodHref(location.href, !isTestFlood()))}">${isTestFlood() ? 'Close test flood' : 'Open test flood'}</a>
   </div>`;
 }
 // Any minute of the day, as HH:MM.
@@ -709,8 +705,6 @@ const UPDATES = [
   ['November 1, 2026', [
     'New: accessible colors on every map icon, visible Back and Refresh labels, a 3-step guide, heights in feet, and coverage and gauge tracking for every location on a route.',
     'New: Road closures list, one-tap driver reports, instant closure alerts you can turn on, and the app now opens with the last check when there is no signal.',
-    'Fixed: the map now shows live data only. A saved model run from November 1 no longer appears.',
-    'New: Test and view a flood! in Settings lets you try a saved model run on the map.',
     'Fixed: road closures now show at the top of the screen and on the map, and a closed route no longer offers directions.',
     'New: closures and utility work from TransView are checked against each route line. County barricades count only on the part of a road the route uses.',
     'Changed: a county closure anywhere along a route now counts, not only near a listed crossing. Proceed with Caution alone is now a 2, and distant gauges no longer raise it; a live sign at the road brings it back to a 3 or more. Where we know the road height, the flood model is compared with the road itself.',
@@ -778,7 +772,7 @@ function render() {
   $('#logo').hidden = sub;
   $('#refresh').hidden = sub && !['route', 'stretch'].includes(w.screen);
   const titles = {
-    home: ["FLOODplain", subtitle()], map: isTestFlood() ? ['Simulated flood', 'Saved model run, not real conditions'] : ['Flood map', 'Live readings and model estimates'],
+    home: ["FLOODplain", subtitle()], map: ['Flood map', 'Live readings, model estimates and simulated water'],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
     closures: ['Road closures', 'Closed and caution points'], how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
@@ -807,7 +801,7 @@ function render() {
     mountRouteTracking(tracking, { routeId: w.route, entryId: w.screen === 'stretch' ? w.fp : null, flows: data.flows, alert: data.alert, closures: data.closures });
   }
   drawMap(w);
-  liveMap.update({active:w.screen==='map'&&!isTestFlood(),data,view});
+  liveMap.update({active:w.screen==='map',data,view});
   window.dispatchEvent(new Event('flood-screen-rendered'));
 }
 function subtitle() {
@@ -996,7 +990,7 @@ async function check() {
 }
 const LAST_CHECK_KEEP_MS = 24 * 3600000;
 function registerOffline() {
-  if (!('serviceWorker' in navigator) || isTestFlood()) return;
+  if (!('serviceWorker' in navigator)) return;
   navigator.serviceWorker.register('sw.js').then(() => navigator.serviceWorker.ready).then((reg) => {
     const urls = [location.origin + location.pathname, ...performance.getEntriesByType('resource').map((e) => e.name)];
     reg.active?.postMessage({ type: 'cache-files', urls: [...new Set(urls)] });

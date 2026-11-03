@@ -38,20 +38,6 @@ test('gauge readings come only from live feeds and keep their own clock',()=>{
  assert.equal(liveGaugeReading('ALERT-6443',{alert}).cfs,332);
  assert.equal(liveGaugeReading('ALERT-6443',{alert:{stream:[{...alert.stream[0],maintenance:true}]}}),null);
 });
-test('the live map cannot start a saved run',()=>{
- const layers=read('simulation/map-layers.js'),shell=read('simulation/map-shell.js'),app=read('app.js'),live=read('live-map.js');
- assert.doesNotMatch(layers+shell+app,/road-replay|mountRoadReplay|silverbell-|all-route|scene-contract|home-outlook/);
- assert.match(layers,/async function enterMap\(\)\{if\(!testFlood\)\{notifyRender\(\{status:'off'/);
- assert.match(layers,/let caseChoice='frozen'/);
- assert.doesNotMatch(layers,/selectedMapCase\(location/);
- assert.doesNotMatch(live,/current-sfincs-manifest/);
- for(const f of ['simulation/road-replay.js','simulation/all-route-data.js','simulation/silverbell-data.js'])assert.ok(!existsSync(new URL('../public/'+f,import.meta.url)),f);
- assert.doesNotMatch(read('show-me-how.js'),/frozen|replay|model cell/i);
- assert.doesNotMatch(read('accessible-ui.css'),/saved-replay|road-replay|recorded-point/);
-});
-test('retained model water never reaches bridge evidence',()=>{
- assert.doesNotMatch(read('simulation/bridge-evidence.js'),/current-sfincs-manifest/);
-});
 test('shared colors reach the map pins, including half-point scores',()=>{
  const app=read('app.js');
  assert.match(app,/installRiskColors\(\)/);assert.match(app,/const COLOR = RISK_COLORS/);
@@ -85,8 +71,7 @@ test('the HAND layer paints depth bands, no amber, and sits under routes and cro
  const live=read('live-map.js');
  assert.doesNotMatch(live,/edb45b|bd720b|Amber/);
  assert.match(live,/HAND_DEPTH_BANDS\[depthBand\(r\.depthM\[i\]\)\]/);
- assert.match(live,/pane:embedded\?'floodHand'/);assert.match(live,/hand-legend/);
- assert.doesNotMatch(read('live-map.css'),/embedded-live \[data-mode\]/);
+ assert.match(live,/pane:'floodHand'/);assert.match(read('simulation/map-shell.js'),/HAND modeled water depth estimate \(ft\)/);
  assert.equal(RISK_COLORS[4],'#ad4315');assert.equal(RISK_COLORS[5],'#b51f2a');
 });
 test('the HAND view frames all estimated water and the crossing',()=>{
