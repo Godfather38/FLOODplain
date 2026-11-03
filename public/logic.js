@@ -56,7 +56,7 @@ export function summarizeFlow(series, now, staleMs) {
 // 1. River bridges, from USGS flow at the given gauges (worst one wins).
 export function checkRiver(flows, siteIds, names, R) {
   const parts = siteIds.map((id) => ({ id, f: flows[id] })).filter((p) => p.f?.fresh);
-  if (!parts.length) return { level: 'unknown', why: 'no live river gauge reading' };
+  if (!parts.length) return { level: 'unknown', evidence: 'missing', why: 'no live river gauge reading' };
   let out = { level: 'ok', why: `river at normal level (${parts.map((p) => `${fmtCfs(p.f.cfs)} cfs`).join(', ')})` };
   for (const { id, f } of parts) {
     const at = `${fmtCfs(f.cfs)} cfs at ${siteName(names, id)}`;
@@ -66,14 +66,14 @@ export function checkRiver(flows, siteIds, names, R) {
     else if (f.cfs >= R.watchCfs || f.risingFast) c = { level: 'watch', why: `${at}${f.risingFast ? ' and rising' : ''}: elevated river flow; water level relative to this bridge is not established` };
     if (c && rank(c.level) > rank(out.level)) out = c;
   }
-  return {...out, observations:parts.map(({id,f})=>({siteId:id,cfs:f.cfs,time:f.time})), detail:parts.map(({id,f})=>siteName(names,id)+': '+fmtCfs(f.cfs)+' cfs; observed '+(Number.isFinite(f.time)?new Date(f.time).toISOString():'time unavailable')).join('; ')};
+  return {...out, evidence: 'remote', gaugeIds: parts.map((p) => p.id), observations:parts.map(({id,f})=>({siteId:id,cfs:f.cfs,time:f.time})), detail:parts.map(({id,f})=>siteName(names,id)+': '+fmtCfs(f.cfs)+' cfs; observed '+(Number.isFinite(f.time)?new Date(f.time).toISOString():'time unavailable')).join('; ')};
 }
 
 // Upstream creeks that reach the river bridges hours later.
 export function checkRiverEarly(flows, siteIds, names, R) {
   const running = siteIds.filter((id) => flows[id]?.fresh && flows[id].cfs >= R.earlyCfs);
   if (!running.length) return null;
-  return { level: 'watch', why: `${running.map((id) => `${siteName(names, id)} at ${fmtCfs(flows[id].cfs)} cfs`).join(', ')}: that water reaches the Santa Cruz bridges in a few hours` };
+  return { level: 'watch', evidence: 'remote', gaugeIds: running, why: `${running.map((id) => `${siteName(names, id)} at ${fmtCfs(flows[id].cfs)} cfs`).join(', ')}: that water reaches the Santa Cruz bridges in a few hours` };
 }
 
 // 2. Rain in inches at ALERT gauges against a rule set; the heaviest gauge wins.
@@ -84,7 +84,7 @@ export function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
   const fresh = gauges.filter((g) => g.last_rpt && !g.maintenance && Date.parse(g.last_rpt) <= now
     && now - Date.parse(g.last_rpt) <= Math.max(staleMs, 24 * 3_600_000)
     && Object.values(g.in ?? {}).some((v) => Number.isFinite(v) && v >= 0));
-  if (!fresh.length) return { level: 'unknown', why: 'no rain gauge reading' };
+  if (!fresh.length) return { level: 'unknown', evidence: 'missing', why: 'no rain gauge reading' };
   const ageMin = snapshot.fetched_at ? (now - Date.parse(snapshot.fetched_at)) / 60_000 : 0;
   const asOf = ageMin > 45 ? ` (rain readings from ${new Date(Date.parse(snapshot.fetched_at)).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Phoenix' })})` : '';
   const valid = (v) => Number.isFinite(v) && v >= 0;
@@ -95,18 +95,20 @@ export function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
   const amount = (w) => most(w) == null ? 'unavailable' : fmtIn(most(w));
   const detail = `last 1 h ${amount('h1')} · 3 h ${amount('h3')} · 6 h ${amount('h6')} · 24 h ${amount('d1')}`
     + ` (wettest of ${fresh.map((g) => names[g.site] ?? g.name).join(', ')})`;
+  // These gauges answered. Whatever the rules make of the numbers, the readings themselves are evidence.
+  const read = { evidence: 'remote', gaugeIds: fresh.map((g) => g.site) };
   for (const level of ['danger', 'caution', 'watch']) {
     for (const [win, limit] of Object.entries(rules[level] ?? {})) {
       const hit = fresh
         .filter((g) => valid(g.in?.[win]) && g.in[win] >= limit)
         .sort((a, b) => b.in[win] - a.in[win])[0];
-      if (hit) return { level, detail, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${names[hit.site] ?? hit.name}${asOf}` };
+      if (hit) return { ...read, level, detail, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${names[hit.site] ?? hit.name}${asOf}` };
     }
   }
   const h6 = most('h6');
   const required = new Set(['h6', ...Object.values(rules).flatMap((rule) => Object.keys(rule))]);
-  if ([...required].some((w) => most(w) == null)) return { level: 'unknown', detail, why: 'rain gauge readings are incomplete' + asOf };
-  return { level: 'ok', detail, why: (h6 > 0 ? `light rain only (${fmtIn(h6)} in the last 6 hours)` : 'no rain in the last 6 hours') + asOf };
+  if ([...required].some((w) => most(w) == null)) return { ...read, level: 'unknown', detail, why: 'rain gauge readings are incomplete' + asOf };
+  return { ...read, level: 'ok', detail, why: (h6 > 0 ? `light rain only (${fmtIn(h6)} in the last 6 hours)` : 'no rain in the last 6 hours') + asOf };
 }
 
 // 3. A wash's own flow sensors (ALERT stream sensors + USGS).
@@ -150,24 +152,25 @@ export function checkWash(snapshot, flows, fp, now, staleMs, names, rules) {
       readings.push({ id, name: siteName(names, id), cfs: f.cfs, risingFast: f.risingFast, lat: names[id]?.lat, lon: names[id]?.lon, time: f.time, observedAt: new Date(f.time).toISOString() });
     }
   }
-  if (!readings.length) return { level: 'unknown', why: 'no wash flow sensor reading' };
+  if (!readings.length) return { level: 'unknown', evidence: 'missing', why: 'no wash flow sensor reading' };
   readings.sort((a, b) => b.cfs - a.cfs);
   const top = readings[0];
   const observations = readings.map((r) => ({ siteId: r.id, name: r.name, cfs: r.cfs, milesAway: milesFrom(fp, r), time: r.time, observedAt: r.observedAt }));
   const when = (r) => (azClock(r.time) ? ` at ${azClock(r.time)}` : '');
   const detail = readings.map((r) => `${r.name}: ${fmtCfs(r.cfs)} cfs${when(r)}, ${sensorPlace(fp, r)}`).join('; ')
     + '. No rating curve, travel time or channel-loss relation between these sensors and this crossing has been established, so these numbers give no depth and no arrival time here.';
-  if (top.cfs < 1) return { level: 'ok', observations, detail, why: 'Brawley Wash upstream is dry' };
+  const read = { evidence: 'remote', gaugeIds: readings.map((r) => r.id) };
+  if (top.cfs < 1) return { ...read, level: 'ok', observations, detail, why: 'Brawley Wash upstream is dry' };
   const at = `${fmtCfs(top.cfs)} cfs in ${top.name}`;
   const big = top.cfs >= R.bigFlowCfs || top.risingFast;
   const rising = top.risingFast ? ', rising fast' : '';
   if (fp.kind === 'dip') {
     return {
-      level: 'watch', upstream: true, upstreamAlert: big ? 'big-flow' : 'running', upstreamCfs: top.cfs, observations, detail,
+      ...read, level: 'watch', upstream: true, upstreamAlert: big ? 'big-flow' : 'running', upstreamCfs: top.cfs, observations, detail,
       why: `${at}${rising}, ${sensorPlace(fp, top)}: ${big ? 'a big flow is running in the wash upstream of here' : 'water is running in the wash upstream of here'}. Whether it reaches this crossing, when, and how deep is not established.`,
     };
   }
-  return { level: 'unknown', contextOnly: true, upstream: true, observations, detail, why: `${at}, ${sensorPlace(fp, top)}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
+  return { ...read, level: 'unknown', contextOnly: true, upstream: true, observations, detail, why: `${at}, ${sensorPlace(fp, top)}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
 }
 
 // 4. Pima County's own barricade points near this spot.
@@ -191,19 +194,19 @@ export function checkClosures(points, now = null) {
   const said = (p) => (p.status?.trim() ? p.status.trim() : 'no status in the county feed');
   const detail = points.map((p) => `${p.location}: ${said(p)}${dir(p)}${when(p)}`).join(' · ');
   const closed = points.find((p) => /clos/i.test(p.status));
-  if (closed) return { level: 'danger', detail, why: `County says CLOSED: ${closed.location}${dir(closed)}${when(closed)}` };
+  if (closed) return { level: 'danger', evidence: 'observed', detail, why: `County says CLOSED: ${closed.location}${dir(closed)}${when(closed)}` };
   const careful = points.find((p) => /caution/i.test(p.status));
-  if (careful) return { level: 'caution', detail, why: `County says Proceed with Caution: ${careful.location}${dir(careful)}${when(careful)}` };
+  if (careful) return { level: 'caution', evidence: 'observed', detail, why: `County says Proceed with Caution: ${careful.location}${dir(careful)}${when(careful)}` };
   const unreadable = points.filter((p) => !OPEN_STATUS.test(p.status?.trim() ?? ''));
   if (unreadable.length) {
-    return { level: 'unknown', detail, roadStatus: 'unknown', why: `county barricade point status is not readable: ${unreadable.map((p) => `${p.location} says "${said(p)}"`).join(', ')}` };
+    return { level: 'unknown', evidence: 'observed', detail, roadStatus: 'unknown', why: `county barricade point status is not readable: ${unreadable.map((p) => `${p.location} says "${said(p)}"`).join(', ')}` };
   }
   // An old "Open" only says nobody has changed that point. It isn't a recent report from the road.
   const stampOf = (p) => { const m = /^(\d\d)\/(\d\d)\/(\d\d), (\d\d):(\d\d)$/.exec(String(p.updated ?? '').trim()); return m ? Date.UTC(2000 + +m[3], +m[1] - 1, +m[2], +m[4] + 7, +m[5]) : null; };
   const stamps = points.map(stampOf);
   const staleOpen = Number.isFinite(now) && stamps.every((t) => t !== null && now - t > STALE_OPEN_MS);
-  if (staleOpen) return { level: 'ok', detail, why: 'county barricade point marked Open, but not updated recently', official: true, staleOpen: true };
-  return { level: 'ok', detail, why: 'county barricade point marked Open', official: true };
+  if (staleOpen) return { level: 'ok', evidence: 'observed', detail, why: 'county barricade point marked Open, but not updated recently', official: true, staleOpen: true };
+  return { level: 'ok', evidence: 'observed', detail, why: 'county barricade point marked Open', official: true };
 }
 
 // NWS warnings in effect for Avra Valley.
@@ -213,10 +216,10 @@ export function checkNws(alerts, kind) {
   if (!alerts) return null;
   const names = alerts.map((a) => a.event);
   if (names.some((e) => /Flash Flood Warning/i.test(e))) {
-    return { level: kind === 'dip' ? 'caution' : 'watch', why: 'NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area' };
+    return { level: kind === 'dip' ? 'caution' : 'watch', evidence: 'official', why: 'NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area' };
   }
   if (kind === 'dip' && names.some((e) => /Flood (Warning|Advisory)|Flash Flood Statement/i.test(e))) {
-    return { level: 'watch', why: `NWS ${names.find((e) => /Flood/i.test(e))} in effect for the area` };
+    return { level: 'watch', evidence: 'official', why: `NWS ${names.find((e) => /Flood/i.test(e))} in effect for the area` };
   }
   return null;
 }
@@ -244,11 +247,80 @@ function bridgeRiverCheck(check,record,now,policy){
  const history=record?.documentedHistory??[];
  const heightComparison=bridgeHeightComparison(record,now,policy),modeledRoadConcern=heightComparison.status==='estimated'&&heightComparison.differenceM<=0;
  const assessedLevel={likely_closed:'danger',roadway_concern:'caution',warning:'watch',below_warning:'ok'}[heightComparison.assessment]??'unknown';
- return {...check,level:assessedLevel,bridgePoints:heightComparison.assessment==='warning'?policy.warningPoints:heightComparison.assessment==='roadway_concern'?policy.roadwayPoints:0,modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
-  why:heightComparison.status==='estimated'?`${heightComparison.assessmentLabel}: estimated road ${heightComparison.roadM.toFixed(2)} m, modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}. Official closure status is separate.`:heightComparison.reason+' Gauge discharge is context only.',
+ return {...check,level:assessedLevel,modelEstimate:heightComparison.status==='estimated',bridgePoints:heightComparison.assessment==='warning'?policy.warningPoints:heightComparison.assessment==='roadway_concern'?policy.roadwayPoints:0,modeledRoadConcern,dischargeLevel:check.level,bridgeClearance:'unknown',
+  // Without a roadway height there is nothing to compare the water to. That is a missing
+  // comparison, not a missing gauge: say which, so a reporting gauge is never read as silence.
+  why:heightComparison.status==='estimated'?`${heightComparison.assessmentLabel}: estimated road ${heightComparison.roadM.toFixed(2)} m, modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}. Official closure status is separate.`:heightComparison.reason+(check.level==='unknown'?' No river gauge reading either, so there is nothing here to compare.':' The gauge readings below stand: they measure the river, not this bridge deck.'),
   detail:(check.detail?check.detail+'. ':'')+(record?'Site-linked structure record '+record.id+'. ':'No exact structure record. ')+(history.length?'Historical flooding is documented for this site; it is not a current closure or measured flow-to-road threshold. ':'No site-linked flooding history establishes a current road threshold. ')+(record?.roadwayEstimate?'A provisional roadway-height comparison is shown in height & history; it is not surveyed deck or underside clearance. ':'Current roadway elevation is unavailable. ')+'Clearance is unknown, not confirmed clear.',
   heightComparison,
   bridgeEvidence:{recordId:record?.id??null,historyDates:history.map(h=>h.date),clearance:'unknown'}};
+}
+
+// ---------- what kind of evidence a check carries ----------
+// Three different things get called "data" on these screens and only one of them is a look at the
+// road, so every check says which it is. A line can then name what answered instead of flattening
+// everything into "no data":
+//   observed     a report from the road itself: the county's barricade points
+//   remote       an instrument reading somewhere else: river, wash and rain gauges
+//   model        a number computed from remote readings (HAND), never an observation
+//   official     a weather-service product for the area
+//   missing      an expected input that did not arrive, or arrived too old to use
+//   stale        an input that arrived but is past its own freshness window
+//   unsupported  this source does not cover this place at all, which is not an outage
+// A crossing with no gauge of its own still has whatever remote evidence answered: the absence of
+// a local reading never erases it, and remote readings never become an observation of the road.
+const GAUGE_KIND = { river: 'river', 'river-early': 'river', wash: 'wash', 'rain-local': 'rain', 'rain-basin': 'rain', 'rain-road': 'rain' };
+export function evidenceState(checks) {
+  const of = (kind) => (checks ?? []).filter((c) => c.evidence === kind);
+  const remote = of('remote');
+  // One gauge listed by two checks is one gauge, so count the sites rather than the mentions, and
+  // keep the kinds apart: a rain gauge is not a river gauge and neither is at the crossing.
+  const sites = { river: new Set(), wash: new Set(), rain: new Set(), other: new Set() };
+  for (const c of remote) for (const id of c.gaugeIds ?? [c.src]) sites[GAUGE_KIND[c.src] ?? 'other'].add(id);
+  const byKind = Object.fromEntries(Object.entries(sites).map(([kind, ids]) => [kind, ids.size]));
+  return {
+    remoteGauges: Object.values(byKind).reduce((a, b) => a + b, 0),
+    remoteByKind: byKind,
+    model: (checks ?? []).some((c) => c.evidence === 'model' || c.modelEstimate === true),
+    observed: of('observed').length > 0,
+    official: of('official').length > 0,
+    missing: of('missing').map((c) => c.src),
+    stale: of('stale').map((c) => c.src),
+    unsupported: of('unsupported').map((c) => c.src),
+  };
+}
+// Plain names for what reported, by kind. Nothing here claims the model was computed from these
+// particular gauges: that link is not recorded, so the estimate is only ever "a model estimate".
+const GAUGE_WORDS = { river: ['river gauge', 'river gauges'], wash: ['wash flow sensor', 'wash flow sensors'], rain: ['rain gauge', 'rain gauges'], other: ['gauge', 'gauges'] };
+export function gaugePhrases(state) {
+  return Object.entries(state?.remoteByKind ?? {})
+    .filter(([, n]) => n > 0)
+    .map(([kind, n]) => `${n} ${(GAUGE_WORDS[kind] ?? GAUGE_WORDS.other)[n === 1 ? 0 : 1]}`);
+}
+// Indexing, not Array.at: this file is also bundled for Apps Script, which lags on new methods.
+const listWords = (xs) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}` : xs[0] ?? '');
+// The line for a crossing where no source produced a rating. Remote gauges and a model estimate
+// are evidence and get named; only a real silence says there are no readings. It leads with what
+// answered, because the row it sits in is one line wide.
+export function evidenceSentence(state) {
+  const have = [];
+  const gauges = gaugePhrases(state);
+  if (gauges.length) have.push(`${listWords(gauges)} reporting`);
+  if (state.model) have.push('a model estimate');
+  if (!have.length) return 'No live readings right now; current road conditions are not established';
+  const said = have.join(' plus ');
+  return `${said.charAt(0).toUpperCase()}${said.slice(1)}, nothing measuring this road itself`;
+}
+// The same state, spelled out where there is room for it. A county point whose status we cannot
+// read is its own case: somebody is posted at this road, we just cannot make out what they said.
+export function evidenceDetail(state) {
+  const road = state.observed
+    ? 'The county point at this crossing has no status we can read.'
+    : 'No gauge sits at this crossing and nobody has reported the road itself.';
+  const rest = state.remoteGauges || state.model
+    ? 'What the water is doing on this pavement is inferred from readings taken elsewhere, not measured here.'
+    : 'Nothing else answered either, so nothing here describes this road.';
+  return `${road} ${rest} Each source below carries its own time.`;
 }
 
 // ---------- combine ----------
@@ -276,15 +348,15 @@ export function rateFailurePoint(fp, d, cfg) {
   const countyReportsTheRoad = closure != null && closure.level !== 'unknown';
   if (fp.wash && fp.kind === 'dip' && !countyReportsTheRoad) {
     checks.push({
-      src: 'road-status', level: 'unknown', roadStatus: 'unknown',
-      why: 'Nothing reports this crossing itself: no sensor on the road, and no county barricade point matched here right now',
+      src: 'road-status', level: 'unknown', roadStatus: 'unknown', evidence: 'summary',
+      why: 'No gauge sits on this crossing and no county barricade point matched here, so its evidence is all off-site: nearby rain, upstream wash flow and the flood model',
       detail: `The flow sensors listed for this crossing are up the wash from it, and no flow-to-road relation is established, so a dry or quiet reading there is not a dry road. Rain at the nearby county gauges, a county barricade point within ${cfg.CLOSURE_RADIUS_M} m, an NWS warning and the HAND model row are the local evidence this crossing has; none of them measures water depth on the pavement.`,
     });
   }
   for (const [ruleName, ids] of Object.entries(fp.rain ?? {})) {
     const c = d.alert
       ? checkRain(d.alert, ids, cfg.RAIN[ruleName], cfg.RAIN_GAUGES, now, cfg.STALE_MS)
-      : { level: 'unknown', why: 'rain gauges unreachable right now' };
+      : { level: 'unknown', evidence: 'missing', why: 'rain gauges unreachable right now' };
     // Rain is context, not a bridge-height or bridge-inundation measurement.
     if (['bridge','river'].includes(fp.kind) && c.level !== 'unknown' && c.level !== 'ok') {
       c.sourceLevel = c.level;
@@ -310,7 +382,13 @@ export function rateFailurePoint(fp, d, cfg) {
   // answer is listed in the details ("unreachable"), but never turns the rating into "?".
   const known = checks.filter((c) => c.level !== 'unknown');
   let level = known.length ? worst(known.map((c) => c.level)) : 'ok';
-  if (!known.length) checks.unshift({ src: 'none', level: 'ok', why: 'No live readings right now; current road conditions are not established' });
+  // No source produced a rating. What did answer is still named: remote gauges and a model
+  // estimate are evidence, and calling them "no live readings" was the old mistake. Only a real
+  // silence says so. Either way the number is unchanged.
+  if (!known.length) {
+    const state = evidenceState(checks);
+    checks.unshift({ src: state.remoteGauges || state.model ? 'remote-only' : 'none', level: 'ok', evidence: 'summary', why: evidenceSentence(state), detail: evidenceDetail(state) });
+  }
   // Shallow spots per local knowledge: Silverbell drainage, the big flat dip on Ina.
   if ((fp.kind === 'road' || fp.kind === 'flat') && level === 'danger' && closure?.level !== 'danger') level = 'caution';
   // Lead with a measurement when one exists; the county "Open" flag is often days old.
@@ -336,7 +414,7 @@ export function crossingLead(result) {
     return `${upstream.why}${roadUnknown ? ' Nothing here reports this road, so whether you can get through is unknown.' : ''}`;
   }
   if (roadUnknown && ['ok', 'unknown'].includes(result.level)) {
-    return 'Nothing in the data reports this crossing itself. A quiet reading miles upstream is not a dry road; look as you come up on it.';
+    return 'Nearby gauges and the flood model are what this number is built on. Nothing in the data reports this crossing itself. A quiet reading miles upstream is not a dry road; look as you come up on it.';
   }
   return null;
 }
@@ -602,8 +680,12 @@ export function goodSigns(route, nwsQuiet) {
   // A sign only counts as good if nothing of the same kind on this route says otherwise.
   const kind = (src) => (src.startsWith('rain') ? 'rain' : src === 'river-early' ? 'river' : src);
   const checks = route.points.flatMap((p) => p.checks);
-  const bad = new Set(checks.filter((c) => c.level !== 'ok').map((c) => kind(c.src)));
-  const ok = checks.filter((c) => c.level === 'ok' && !bad.has(kind(c.src)));
+  // A bridge's river check reads unknown because no roadway-height comparison exists, not because
+  // the gauges went quiet. The discharge they did report still counts as a good sign here, and it
+  // still says nothing about the deck.
+  const signLevel = (c) => (c.src === 'river' ? (c.dischargeLevel ?? c.level) : c.level);
+  const bad = new Set(checks.filter((c) => signLevel(c) !== 'ok').map((c) => kind(c.src)));
+  const ok = checks.filter((c) => signLevel(c) === 'ok' && !bad.has(kind(c.src)));
   const out = [];
   const add = (t) => { if (!out.includes(t)) out.push(t); };
   if (ok.some((c) => c.src === 'river' && c.heightComparison?.status !== 'estimated')) add('the Santa Cruz is at its everyday flow');
