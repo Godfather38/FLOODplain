@@ -4,6 +4,10 @@ name: Live SFINCS run every hour
 # GitHub starts scheduled runs hours late on this repo, so one job keeps going: it runs once an
 # hour for about five and a half hours, then starts the next job itself. Start it once by hand.
 on:
+  # A push to this file registers the workflow (and runs one hour); after that the jobs chain.
+  push:
+    branches: [experiment/live-sfincs]
+    paths: [.github/workflows/live-sfincs.yml, tools/live/run_live_sfincs.py]
   workflow_dispatch:
     inputs:
       hours:
