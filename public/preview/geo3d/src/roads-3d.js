@@ -46,7 +46,7 @@ const hash=(x,y)=>{let v=Math.imul(Math.round(x),374761393)+Math.imul(Math.round
 // roads: [{points:[[x,y]...],cls,bridge,oneway}] in local metres. heightAt gives ground in the
 // map's exaggerated metres, or null where terrain has not loaded. detail adds the close-up
 // asphalt, markings, barriers and roadside furniture. widthScale keeps roads readable far out.
-export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,maxVertices=420000,detail=false,widthScale=1,plants=[],skipPlant=null}={}){
+export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,maxVertices=420000,detail=false,widthScale=1,plants=[],skipPlant=null,channelAt=null,fordAt=null,focus=null,detailReach=3500}={}){
  const positions=[],colors=[],indices=[];
  const vertex=(x,y,z,c)=>{positions.push(x,y,z);colors.push(c[0],c[1],c[2]);return positions.length/3-1;};
  const quad=(a,b,c,d)=>indices.push(a,b,c,b,d,c);
@@ -69,8 +69,36 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,m
  };
  const taken=new Set();
  const mark=(x,y)=>taken.add(`${Math.round(x/70)},${Math.round(y/70)}`);
- // Largest roads first, so a busy view loses side streets rather than the interstate.
- const ranked=[...roads].sort((a,b)=>(Number(b.bridge)-Number(a.bridge))||(ORDER.indexOf(a.cls)-ORDER.indexOf(b.cls)));
+ // Roads are cut into pieces. Terrain may have loaded for only part of a road, which must
+ // not lose the rest of it. Where a road meets a channel it becomes a bridge, unless that
+ // spot is a known ford, and the deck reaches one sample past each bank.
+ let spans=0;
+ const pieces=[];
+ for(const road of roads){
+  const all=resample(road.points);
+  const known=all.map(([x,y])=>heightAt(x,y)!=null);
+  const wet=all.map(([x,y],q)=>known[q]&&!road.bridge&&!!channelAt?.(x,y)&&!fordAt?.(x,y));
+  const span=wet.map((w,q)=>w||!!wet[q-1]||!!wet[q+1]);
+  let start=0;
+  for(let q=1;q<=all.length;q++){
+   if(q<all.length&&known[q]===known[start]&&span[q]===span[start])continue;
+   if(known[start]){
+    // Plain pieces overlap by one sample so they meet their neighbours, but never into missing terrain.
+    const from=span[start]||start===0||!known[start-1]?start:start-1,to=span[start]||q>=all.length||!known[q]?q:q+1;
+    const part=all.slice(from,to);
+    if(part.length>=2&&(span[start]||!road.spanOnly)){
+     pieces.push({...road,points:part,bridge:road.bridge||span[start]});
+     if(span[start])spans++;
+    }
+   }
+   start=q;
+  }
+ }
+ // Interstate and major roads first, then nearest first, so a busy view loses distant side
+ // streets. Full detail is spent only near the middle of the view.
+ const away=road=>{if(!focus)return 0;const m=road.points[road.points.length>>1];return Math.hypot(m[0]-focus[0],m[1]-focus[1]);};
+ const rank=road=>ORDER.indexOf(road.cls)*1500+away(road);
+ const ranked=pieces.map(road=>({road,order:rank(road)})).sort((a,b)=>a.order-b.order).map(p=>p.road);
  let dropped=0;
  for(const road of ranked){
   if(positions.length/3>maxVertices){dropped++;continue;}
@@ -81,7 +109,7 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,m
   // A deck runs straight between its abutments, so it spans whatever is below it.
   const a=ground[0],b=ground.at(-1);
   const deck=road.bridge?points.map((_,q)=>a+(b-a)*q/(points.length-1)+6):null;
-  const half=style.width*widthScale/2,top=detail?ASPHALT:style.far,thick=style.thick*Math.max(1,widthScale*.5);
+  const close=detail&&away(road)<detailReach,half=style.width*widthScale/2,top=close?ASPHALT:style.far,thick=style.thick*Math.max(1,widthScale*.5);
   const rows=points.map(([x,y],q)=>{
    const p=points[Math.max(0,q-1)],n=points[Math.min(points.length-1,q+1)],dx=n[0]-p[0],dy=n[1]-p[1],size=Math.hypot(dx,dy)||1;
    const z=road.bridge?Math.max(deck[q],ground[q]+lift):ground[q]+lift+anchorLift(x,y,anchors,exaggeration);
@@ -91,7 +119,7 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,m
   strip(rows,-half,half,0,0,top);
   strip(rows,half,half,0,-thick,style.edge);
   strip(rows,-half,-half,0,-thick,style.edge);
-  if(detail){
+  if(close){
    const mark2=.25;
    // Edge lines, then the centre line or lane dashes.
    strip(rows,half-1.6,half-1.1,mark2,mark2,WHITE);
@@ -113,7 +141,7 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,m
     box(r.x,r.y,under[q]-3,under[q],half*.2,half*.85,r.ca,r.sa,PIER);
     for(const o of[-.45,.45])box(r.x+r.nx*half*o,r.y+r.ny*half*o,r.ground-2,under[q]-3,half*.13,half*.13,r.ca,r.sa,PIER);
    });
-  }else if(detail&&road.cls==='motorway'){
+  }else if(close&&road.cls==='motorway'){
    // Median barrier on the inside edge, then poles and overhead signs along the outside.
    strip(rows,-half-.3,-half-.3,0,2.2,CONCRETE);strip(rows,-half+.3,-half+.3,0,2.2,SHADOW);strip(rows,-half-.3,-half+.3,2.2,2.2,WHITE);
    rows.forEach((r,q)=>{
@@ -146,7 +174,7 @@ export function buildRoadMesh(roads,heightAt,{anchors=[],exaggeration=2,lift=3,m
   }
   planted++;
  }
- return{positions:new Float32Array(positions),colors:new Float32Array(colors),indices:new Uint32Array(indices),dropped,planted};
+ return{positions:new Float32Array(positions),colors:new Float32Array(colors),indices:new Uint32Array(indices),dropped,planted,spans};
 }
 // Evenly scattered places for plants, fixed to the ground so they do not move between views.
 export function plantSpots(cx,cy,radius,spacing=75){

@@ -149,6 +149,20 @@ test('close up, roads get real detail, and plants stay off the road', () => {
  assert.equal(planted.planted,1,'the plant on the road is left out');
 });
 
+test('roads bridge channels, unless the spot is a ford, and survive missing terrain', () => {
+ const flat=()=>100,road={cls:'secondary',bridge:false,points:[[0,0],[1200,0]]},channelAt=x=>x>500&&x<700;
+ const top=m=>{let z=0;for(let i=0;i<m.positions.length;i+=3)if(Math.abs(m.positions[i]-600)<60)z=Math.max(z,m.positions[i+2]);return z;};
+ const spanned=buildRoadMesh([road],flat,{channelAt}),ford=buildRoadMesh([road],flat,{channelAt,fordAt:()=>true});
+ assert.ok(spanned.spans>=1,'a channel crossing becomes a bridge');
+ assert.equal(ford.spans,0,'a ford stays at grade');
+ assert.ok(top(spanned)>top(ford),'the deck stands above the at-grade road');
+ const side=buildRoadMesh([{...road,spanOnly:true}],flat,{channelAt});
+ let far=0;for(let i=0;i<side.positions.length;i+=3)if(side.positions[i]<300)far++;
+ assert.ok(side.spans>=1&&far===0,'a side street gets only its bridge');
+ const half=buildRoadMesh([road],(x)=>x<600?100:null);
+ assert.ok(half.positions.length>0,'the part with terrain is still built');
+});
+
 test('the water window grows as the view zooms out', () => {
  assert.equal(scaleForZoom(14),50);assert.equal(scaleForZoom(13),100);assert.equal(scaleForZoom(12.5),200);assert.equal(scaleForZoom(9),800);
  const crossings=[{lat:32.33,lon:-111.2,name:'A'}];
