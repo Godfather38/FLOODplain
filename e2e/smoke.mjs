@@ -62,7 +62,6 @@ async function dismissNotice(page){await page.waitForSelector('dialog.model-ack'
 const brawley='west-avra-valley-road-32-39322-111-29459';
 async function chooseHand(page){
  await dismissNotice(page);
- await page.click('[data-panel=options]');
  await page.selectOption('[data-model]','hand');
  await page.waitForFunction(()=>document.querySelector('[data-site]')?.options.length>0);
  await page.selectOption('[data-site]',brawley);
@@ -74,11 +73,11 @@ try{
   const {context,page,errors}=await freshPage({width:375,height:812});
   await page.goto(origin+'/#/');await ready(page);await page.waitForSelector('.closure-banner');
   assert.match(await page.innerText('.closure-banner'),/Trico Rd south of Trico Marana Rd.*Blocks Trico-Marana/s);
-  assert.doesNotMatch(await page.innerText('.hero'),/Trico-Marana/);
+  assert.doesNotMatch(await page.innerText('#screen .hero'),/Trico-Marana/);
   // The map redraws when feeds arrive, so wait for icons, and read them in a single step.
   await page.waitForFunction(()=>document.querySelectorAll('.pin:not(.closure-pin)').length>=4);
   await page.waitForTimeout(800);
-  const colors=await page.$$eval('.pin:not(.closure-pin)',p=>[...new Set(p.map(e=>getComputedStyle(e).backgroundColor))]);
+  const colors=await page.$$eval('.pin:not(.closure-pin)',p=>[...new Set(p.map(e=>getComputedStyle(e,'::before').backgroundColor))]);
   assert.ok(colors.length&&colors.every(c=>/^rgb\(37, 107, 43\)|^rgb\(39, 95, 163\)|^rgb\(128, 85, 0\)|^rgb\(173, 67, 21\)|^rgb\(181, 31, 42\)|^rgb\(98, 87, 111\)/.test(c)),colors.join());
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'no sideways scroll');
   assert.deepEqual(errors,[]);await context.close();
@@ -104,25 +103,40 @@ try{
   assert.equal(await page.locator('dialog.model-ack').count(),0,'once per session');
   await context.close();
  });
- await check('Map options panel matches the sheet instead of a dark box',async()=>{
+ await check('Current conditions in the Layers & view card match the cards instead of a dark box',async()=>{
   const {context,page}=await freshPage();
-  await page.goto(origin+'/#/map');await ready(page);await dismissNotice(page);await page.click('[data-panel=options]');
+  await page.goto(origin+'/#/map');await ready(page);await dismissNotice(page);
   const s=await page.$eval('.live-map-panel',p=>{const c=getComputedStyle(p),r=p.getBoundingClientRect(),b=p.querySelector('[data-refresh]').getBoundingClientRect();return {bg:c.backgroundColor,color:c.color,inset:r.right-b.right}});
   assert.equal(s.bg,'rgb(239, 239, 236)');assert.equal(s.color,'rgb(27, 27, 26)');assert.ok(s.inset>=8,'refresh inset '+s.inset);
   await context.close();
+ });
+ await check('Map tab lists routes with live ratings, and a pin opens its crossing card',async()=>{
+  const {context,page,errors}=await freshPage();
+  await page.goto(origin+'/#/map');await ready(page);await dismissNotice(page);
+  await page.waitForSelector('[data-map-route]');
+  const rows=await page.$$eval('[data-map-route]',r=>r.map(x=>x.innerText));
+  assert.ok(rows.length>=3&&rows.every(t=>/\d(\.5)? of 5 · /.test(t)),rows.join(' | '));
+  await page.click('[data-map-route="trico"]');
+  assert.equal(await page.getAttribute('[data-map-route="trico"]','aria-pressed'),'true');
+  await page.click('.leaflet-marker-icon:has(.drop-pin)');
+  await page.waitForSelector('.crossing-view h2');
+  assert.match(await page.innerText('.crossing-view'),/of 5|Low|Minor|Moderate|High|Severe/);
+  assert.match(await page.getAttribute('.crossing-view a.btn-primary','href'),/^#\/r\/[\w-]+\/[\w-]+$/);
+  assert.equal(new URL(page.url()).hash,'#/map','the Map tab stays open');
+  await page.click('[data-map-close]');await page.waitForSelector('[data-map-route]');
+  assert.deepEqual(errors,[]);await context.close();
  });
  await check('HAND water from the Model menu is drawn around the crossing in water colors',async()=>{
   const {context,page}=await freshPage();
   await page.addInitScript(()=>{window.addEventListener('current-hand-layers',e=>{if(e.detail.layers.length)window.__hand=e.detail.layers.map(l=>({fill:l.options.fillColor,b:l.getBounds()}))})});
   await page.goto(origin+'/#/map');await ready(page);await dismissNotice(page);
-  await page.click('[data-panel=options]');await page.selectOption('[data-model]','hand');
+  await page.selectOption('[data-model]','hand');
   await page.waitForFunction(()=>document.querySelector('[data-site]')?.options.length>0);
   await page.selectOption('[data-site]',brawley);
   await page.waitForFunction(()=>window.__hand?.length>0,null,{timeout:20000});
   const r=await page.evaluate(()=>{const fills=[...new Set(window.__hand.map(h=>h.fill))];let s=90,n=-90,w=180,e=-180;for(const {b} of window.__hand){s=Math.min(s,b._southWest.lat);n=Math.max(n,b._northEast.lat);w=Math.min(w,b._southWest.lng);e=Math.max(e,b._northEast.lng)}return {fills,s,n,w,e}});
   assert.ok(r.fills.every(f=>{const [x,,z]=f.match(/\d+/g).map(Number);return z>x}),'water colors only: '+r.fills);
   assert.ok(r.s<32.39322&&r.n>32.39322&&r.w<-111.29459&&r.e>-111.29459,'water surrounds the crossing');
-  await page.click('.map-sheet [data-close]');
   await page.waitForFunction(()=>/HAND modeled water depth estimate/.test(document.querySelector('.map-dock .dock-key')?.innerText||''),null,{timeout:15000});
   assert.equal(await page.locator('dialog.model-ack').count(),0,'one notice a session');
   await context.close();
@@ -163,7 +177,7 @@ try{
   await page.goto(origin+'/#/');await page.waitForSelector('.closure-banner');
   await page.evaluate(()=>navigator.serviceWorker.ready);await page.reload();await page.waitForSelector('.closure-banner');await page.waitForTimeout(1500);
   await context.setOffline(true);
-  await page.reload();await page.waitForSelector('.hero',{timeout:15000});
+  await page.reload();await page.waitForSelector('#screen .hero',{timeout:15000});
   assert.match(await page.innerText('.closure-banner'),/Trico Rd south of Trico Marana Rd/);
   assert.match(await page.innerText('#check-age'),/Offline/);
   await context.close();
