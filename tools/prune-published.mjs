@@ -13,7 +13,7 @@ const isTestFloodFile=name=>TEST_FLOOD_PACKAGE.has(name)||/^water-footprints-\d+
 // Always-on simulated visuals (docs/LIVE-DATA-ONLY.md): not saved runs, and loaded only once 3D opens.
 // Empty until the optional 3D map layer lands. List its files here on purpose.
 const ALWAYS_ON_SIMULATED=new Set();
-const DEV_ONLY=['simulation/preview','ux-preview'];
+const DEV_ONLY=['simulation/preview','ux-preview','inundation/data/nwm','inundation/data/nwps-record.json'];
 
 if(existsSync(dataDir))for(const name of readdirSync(dataDir))if(!LIVE_DATA.has(name)&&!isTestFloodFile(name)&&!ALWAYS_ON_SIMULATED.has(name))rmSync(join(dataDir,name),{recursive:true,force:true});
 for(const path of DEV_ONLY)rmSync(join(root,path),{recursive:true,force:true});

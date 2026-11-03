@@ -142,7 +142,7 @@ test('nothing says whether a road can be used',()=>{
 });
 
 test('app links to the layer, and the doc matches the coverage file',()=>{
- assert.match(text('public/index.html'),/href="inundation\/index.html"/);
+ assert.match(text('public/simulation/map-shell.js'),/forecastLink\.href='inundation\/index\.html'/);
  const doc=text('docs/HAND-INUNDATION.md');
  for(const [status,count] of Object.entries(coverage.counts))assert.match(doc,new RegExp(`\`${status}\` \\| ${count} `),status);
  for(const p of coverage.points)assert.ok(doc.includes(p.id),p.id);

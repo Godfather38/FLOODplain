@@ -2,7 +2,7 @@
 <h1>Modeled flood extent estimate</h1><p><a href="../index.html">Back to FLOODplain</a></p>
 <p>Experimental. A model estimate, not observed water. Uses existing NOAA HAND terrain, catchments and rating curves. Each crossing with an estimate shows a match score with its factors. Crossings too far from a modeled stream, or on the wrong water, are listed as missing coverage. It shows where water is estimated to reach on the land. It does not say whether a road can be used.</p>
 <label for="junction">Crossing</label> <select id="junction"></select>
-<div id="controls"><p><label class="check"><input id="enable" type="checkbox"> Enable live NOAA forecast requests</label> <button id="live">Use live forecast</button> <button id="recorded">Use recorded forecast</button></p>
+<div id="controls"><p><label class="check"><input id="enable" type="checkbox"> Enable live NOAA forecast requests</label> <button id="live">Use live forecast</button></p>
 <p><label for="flow">Or try a flow in cfs (not a forecast)</label> <input id="flow" type="number" min="0" step="any"> <button id="try-flow">Show modeled water for this flow</button></p>
 <p id="time-row" hidden><label for="time">Forecast time</label> <input id="time" type="range" min="0" value="0"> <button id="peak">Forecast peak</button></p></div>
 <p id="status" role="status">Choose a forecast or a flow.</p><p id="summary"></p>

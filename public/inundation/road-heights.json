@@ -8,6 +8,18 @@
   "NOAA OWP HAND"
  ],
  "points": {
+  "west-trico-marana-road-32-45369-111-27985": {
+   "roadM": 590.84,
+   "bedM": 586.25,
+   "roadAboveBedM": 4.59,
+   "deck": true
+  },
+  "north-sanders-road-32-43488-111-23395": {
+   "roadM": 603.32,
+   "bedM": 598.88,
+   "roadAboveBedM": 4.44,
+   "deck": true
+  },
   "west-avra-valley-road-32-39322-111-29459": {
    "roadM": 606.26,
    "bedM": 605.96,
@@ -38,6 +50,12 @@
    "roadAboveBedM": 6.91,
    "deck": true
   },
+  "north-sanders-road-32-43484-111-23395": {
+   "roadM": 603.28,
+   "bedM": 599.16,
+   "roadAboveBedM": 4.12,
+   "deck": true
+  },
   "west-avra-valley-road-32-40224-111-14714": {
    "roadM": 633.91,
    "bedM": 626.94,
@@ -46,33 +64,18 @@
   }
  },
  "unresolved": {
-  "west-trico-marana-road-32-45369-111-27985": {
-   "reason": "bed height not consistent here",
-   "bedSpreadM": 2.53,
-   "roadMinusBedM": 4.13
-  },
-  "north-sanders-road-32-43488-111-23395": {
-   "reason": "bed height not consistent here",
-   "bedSpreadM": 4.4,
-   "roadMinusBedM": 4.04
-  },
   "north-trico-road-32-43882-111-30426": {
    "reason": "bed height not consistent here",
    "bedSpreadM": 4.34,
    "roadMinusBedM": 2.69
-  },
-  "north-sanders-road-32-43484-111-23395": {
-   "reason": "bed height not consistent here",
-   "bedSpreadM": 4.63,
-   "roadMinusBedM": 3.58
   },
   "west-twin-peaks-road-32-37581-111-11538": {
    "reason": "no channel cells beside the crossing"
   },
   "north-kinney-road-32-25678-111-20377": {
    "reason": "bed height not consistent here",
-   "bedSpreadM": 4.24,
-   "roadMinusBedM": -1.06
+   "bedSpreadM": 1.38,
+   "roadMinusBedM": -1.31
   },
   "north-kinney-road-32-25426-111-19875": {
    "reason": "bed height not consistent here",

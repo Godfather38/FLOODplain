@@ -2,6 +2,9 @@ name: Check the alert service
 # Run by hand: asks the Google Apps Script alert service whether it's up and what it sees.
 on:
   workflow_dispatch:
+  # Best effort: GitHub's scheduler often runs late. A failed run emails the repo owner.
+  schedule:
+    - cron: '23 */2 * * *'
 permissions:
   contents: read
 jobs:
@@ -9,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - name: Feed health, failing if the service or a feed is down
+        run: |
+          curl -sSL -m 90 --fail "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=health" -o health.json
+          python3 -c "import json,time; s=json.load(open('health.json'))['sources']; print(s); down=[k for k,v in s.items() if v.get('downSince') and time.time()*1000-v['downSince']>1800000]; raise SystemExit('Down: '+', '.join(down) if down else 0)"
       - name: Service status
         run: curl -sSL -m 60 "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec" ; echo
       - name: River gauges through the service

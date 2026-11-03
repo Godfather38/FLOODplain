@@ -7,7 +7,7 @@ import { imperialSourceText } from './display-units.js?v=dev';
 import {loadBridgeEvidence,bridgeRecordFor,bridgeHistory} from './simulation/bridge-evidence.js?v=dev';
 import {mountFloodLayers} from './simulation/map-layers.js?v=dev';
 import {mountLiveMap} from './live-map.js?v=dev';
-import { savedRoutes, toggleSavedRoute, checkAge } from './preferences.js?v=dev';
+import { savedRoutes, toggleSavedRoute, checkAge, countyTime, plainAge, plainWords } from './preferences.js?v=dev';
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
 import { loadGaugeReadings } from './gauge-feed.js?v=dev';
@@ -15,7 +15,7 @@ import { resolveScreen } from './routing.js?v=dev';
 import { UNDERPASSES } from './underpasses.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
-  riskScore, routeScore, goodSigns, againstIt, routeClosures, roadEventActive, bridgeHeightComparison, crossingLead,
+  riskScore, routeScore, goodSigns, againstIt, routeClosures, roadEventActive, driveSummary, bridgeHeightComparison, crossingLead,
 } from './logic.js?v=dev';
 
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
@@ -24,11 +24,11 @@ const COLOR = RISK_COLORS;
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
 const SRC = {
   none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
-  hand: ['🗺️', 'HAND flood model'], 'road-event': ['🚧', 'TransView'], wash: ['〰️', 'Wash flow upstream'], 'road-status': ['🛑', 'This crossing itself'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
+  hand: ['🗺️', 'Flood model'], 'road-event': ['🚧', 'TransView'], wash: ['〰️', 'Wash flow upstream'], 'road-status': ['🛑', 'This crossing itself'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
 };
 const KIND_ICON = { dip: '〰️', flat: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
 const REFRESH_MS = 5 * 60 * 1000;
-const HAND_DOWN = 'HAND flood model not responding';
+const HAND_DOWN = 'Flood model not responding';
 const NAV_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4.5 20.3l.7.7L12 18l6.8 3 .7-.7z"/></svg>';
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -51,11 +51,14 @@ const badgeWithWord = (n) => `<span class="badge-wrap">${badge(n, true)}<span cl
 //  2. otherwise ask USGS directly, but reuse each gauge's reading for 10 minutes,
 //  3. if USGS refuses, fall back to the last saved reading (its age is judged like any other).
 let usgsBusy = false;
-async function loadUsgsAll(sites) {
+async function loadUsgsAll(sites, sharedFeed) {
   const key = store.get('apiKey');
+  const proxy = cfg.TEXT_API ? `${cfg.TEXT_API}?feed=usgs` : null;
   const result = await loadGaugeReadings(sites, {
-    fetchJson: getJson, store, parse: parseContinuous,
-    proxyUrl: cfg.TEXT_API ? `${cfg.TEXT_API}?feed=usgs` : null,
+    // The combined feed answers for the service; direct USGS requests are the fallback.
+    fetchJson: async (url) => { if (url !== proxy) return getJson(url); const usgs = (await sharedFeed)?.usgs; if (!usgs) throw new Error('No shared gauge feed'); return usgs; },
+    store, parse: parseContinuous,
+    proxyUrl: proxy,
     directUrl: (site) => `${SOURCES.usgs}/collections/continuous/items?f=json&monitoring_location_id=USGS-${site}`
       + '&parameter_code=00060&time=PT6H&limit=500&skipGeometry=true&properties=time,value,parameter_code'
       + (key ? `&api_key=${encodeURIComponent(key)}` : ''),
@@ -73,18 +76,23 @@ async function loadClosures() {
   return j.features.map((f) => ({ location: f.attributes.Location?.trim(), status: f.attributes.Status ?? '', direction: f.attributes.Direction ?? '', updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x }));
 }
 // County rain/stream feed: live through the alert service when it's connected, else GitHub's copy.
-async function loadAlert() {
-  if (cfg.TEXT_API) {
-    try { const a = await getJson(`${cfg.TEXT_API}?feed=alert`); if (a && a.rain) return a; } catch { /* fall back */ }
-  }
-  return getJson(SOURCES.alert);
+async function loadAlert(sharedFeed) {
+  const a = (await sharedFeed)?.alert;
+  return a?.rain ? a : getJson(SOURCES.alert);
 }
 // TransView closures and construction, through the alert service (TransView blocks browsers).
-async function loadRoadEvents() {
+const ROAD_EVENTS_KEEP_MS = 6 * 3600000;
+async function loadRoadEvents(sharedFeed, now) {
   if (!cfg.TEXT_API) return null;
-  const j = await getJson(`${cfg.TEXT_API}?feed=roadevents`);
-  if (!Array.isArray(j?.events)) throw new Error('no road events');
-  return j.events;
+  const feed = (await sharedFeed)?.roadEvents;
+  if (Array.isArray(feed?.events)) {
+    store.set('roadEventsGood', { at: feed.fetchedAt ?? now, events: feed.events });
+    return feed.events;
+  }
+  // Keep the last answer for a few hours: a TransView-only closure shouldn't vanish in an outage.
+  const saved = store.get('roadEventsGood');
+  if (saved && now - saved.at < ROAD_EVENTS_KEEP_MS) return saved.events;
+  throw new Error('no road events');
 }
 async function loadNws() {
   const j = await getJson(SOURCES.nws, { headers: { Accept: 'application/geo+json' } });
@@ -95,16 +103,31 @@ async function gather() {
   const errors = [];
   const settle = async (name, p) => { try { return await p; } catch { errors.push(`${name} not responding`); return null; } };
   const sites = Object.keys(USGS_SITES);
+  // One request for everything the alert service provides. Each reader has its own fallback.
+  const sharedFeed = cfg.TEXT_API ? getJson(`${cfg.TEXT_API}?feed=all`).catch(() => null) : Promise.resolve(null);
   const [flowsArr, closures, alert, nws, roadEvents] = await Promise.all([
-    loadUsgsAll(sites),
+    loadUsgsAll(sites, sharedFeed),
     settle('county barricades', loadClosures()),
-    settle('rain gauges', loadAlert()),
+    settle('rain gauges', loadAlert(sharedFeed)),
     settle('weather service', loadNws()),
-    settle('TransView closures', loadRoadEvents()),
+    settle('TransView closures', loadRoadEvents(sharedFeed, now)),
   ]);
   const flows = Object.fromEntries(sites.map((s, i) => [s, summarizeFlow(flowsArr[i], now, STALE_MS)]));
   if (!Object.values(flows).some((f) => f.fresh)) errors.push(usgsBusy ? 'river gauges busy, retrying' : 'river gauges not responding');
-  return { now, flows, closures, alert, nws, roadEvents, errors: [...new Set(errors)] };
+  const service = await sharedFeed;
+  reportFailures({ service: cfg.TEXT_API && !service, county: !closures, rain: !alert, weather: !nws, closures: cfg.TEXT_API && !roadEvents });
+  return { now, flows, closures, alert, nws, roadEvents, drive: service?.drive ?? data?.drive ?? [], errors: [...new Set(errors)] };
+}
+
+// Counts of feeds that failed on a phone, once per visit per feed. Nothing about who.
+function reportFailures(failed) {
+  if (!cfg.TEXT_API) return;
+  try {
+    const names = Object.keys(failed).filter((k) => failed[k] && !sessionStorage.getItem(`failed-${k}`));
+    if (!names.length) return;
+    names.forEach((k) => sessionStorage.setItem(`failed-${k}`, '1'));
+    fetch(`${cfg.TEXT_API}?fail=${names.join(',')}`).catch(() => {});
+  } catch { /* private mode */ }
 }
 
 // ---------------- state ----------------
@@ -151,7 +174,7 @@ async function refreshHand() {
   let hand = null;
   try {
     handModel ??= await import('./hand-model.js?v=dev');
-    hand = await handModel.loadHand(FAILURE_POINTS);
+    hand = await handModel.loadHand(FAILURE_POINTS, { sharedFeed: cfg.TEXT_API ? `${cfg.TEXT_API}?feed=forecasts` : null });
   } catch { /* shown below as not responding */ }
   if (run !== handRun || !data) return;
   // The HAND row comes first in the list, so an open row would point at the wrong source.
@@ -172,6 +195,9 @@ function compute(d) {
   const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS, { closures: d.closures, radiusM: cfg.CLOSURE_RADIUS_M, roadEvents: d.roadEvents, now: d.now }).map((r) => { const score = routeScore(r); return { ...r, score: score == null ? score : Math.max(score, ...r.points.map((p) => pointScore(p) ?? 1)) }; });
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
   const underpasses = UNDERPASSES.map((up) => ({ ...up, result: rateFailurePoint(up, d, cfg) }));
+  // Readable times and names for the screen; alerts keep the source wording.
+  const plain = (o) => { o.why = plainWords(o.why, d.now); if (o.detail) o.detail = plainWords(o.detail, d.now); };
+  for (const p of new Set([...Object.values(fpResults), ...rated.flatMap((r) => r.points), ...underpasses.map((u) => u.result)])) { plain(p); p.checks?.forEach(plain); }
   // Every official closure for the map, whether or not a route uses it.
   const closedPoints = (d.closures ?? []).filter((c) => /clos/i.test(c.status ?? '') && Number.isFinite(c.lat)).map((c) => ({ lat: c.lat, lon: c.lon, title: `Closed: ${c.location}${c.direction ? `, ${c.direction.toLowerCase()}` : ''}${c.updated ? ` (updated ${c.updated})` : ''}` }));
   const closedEvents = (d.roadEvents ?? []).filter((e) => e.closed && roadEventActive(e, d.now));
@@ -228,7 +254,7 @@ const closureBanner = (routes) => {
     byPlace.get(p.short).push(ROUTE_INFO[r.id].name);
   }
   if (!byPlace.size) return '';
-  return `<section class="closure-banner" role="alert"><h2><span aria-hidden="true">⛔</span> Road closed</h2><ul>${[...byPlace].map(([place, names]) => `<li><b>${esc(place)}</b>. Blocks ${esc(names.join(', '))}.</li>`).join('')}</ul></section>`;
+  return `<section class="closure-banner" role="alert"><h2><span aria-hidden="true">⛔</span> Road closed</h2><ul>${[...byPlace].map(([place, names]) => `<li><b>${esc(place)}</b>. Blocks ${esc(names.join(', '))}.</li>`).join('')}</ul><a href="#/closures">All road closures</a></section>`;
 };
 
 // ---------------- screens ----------------
@@ -267,6 +293,7 @@ function homeScreen() {
     </div>
     <h3 class="section">More</h3>
     <div class="list">
+      <a class="row small" href="#/closures"><span class="lead-icon">🚧</span><span class="text"><div class="t">Road closures</div><div class="st">Closed and caution points near you</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/alerts"><span class="lead-icon">🔔</span><span class="text"><div class="t">Alerts</div><div class="st">Get this sent to your phone at a time you pick</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/report"><span class="lead-icon">✍️</span><span class="text"><div class="t">Help fill the gaps</div><div class="st">Tell us what a crossing is really like in the rain</div></span><span class="chev">›</span></a>
       <a class="row small" href="#/underpasses"><span class="lead-icon">🛣️</span><span class="text"><div class="t">I-10 underpasses</div><div class="st">Marana, Orange Grove, Grant, Speedway</div></span><span class="chev">›</span></a>
@@ -339,6 +366,7 @@ function stretchScreen(rid, fpId) {
         </details>`;
       }).join('')}
     </div>
+    ${driveBlock(fpId)}
     <a class="btn btn-text" style="margin-top:12px" href="#/report/${fpId}">Drive this one? Tell us what it's really like</a>
     <div class="bottom-bar">${navBtn(view.byId[rid])}</div>`;
 }
@@ -385,7 +413,7 @@ function howScreen() {
       ${[1, 2, 3, 4, 5].map((n) => `<li>${badge(n)}<span><b>${WORD[n]}.</b> ${['Nothing in the data points to water.', 'Some water around; usually passable. Look as you go.', 'Water likely at or near the road.', 'Several signs agree water is at the road.', 'The county closed it, or a flood is running.'][n - 1]}</span></li>`).join('')}
       <li>${badge(null)}<span><b>No data.</b> Not the same as fine.</span></li>
     </ul>
-    <h4>The HAND flood model</h4>
+    <h4>The flood model (NOAA HAND)</h4>
     <p>Where NOAA's stream data matches a crossing, the first source shown is HAND, an estimate of how high forecast flow reaches above the stream bed. It never overrides a gauge: where a river gauge is reporting, HAND is shown but doesn't change the number. Without one, a well-matched estimate showing water adds to the number your other sources gave: 1 point on the Santa Cruz, half a point on washes, based on how often its alarms failed at the gauges we track. A low or zero flow never lowers one, because local runoff isn't included. It's an estimate, not a reading, and it isn't depth on a road.</p>
     <h4>Using it</h4>
     <p>The top card is the route with the least going against it. The numbers are the same whichever way you're driving. Tap <b>Navigate</b> to drive it in Google Maps; it heads for I-10 when you're in Avra Valley, and back to Trico &amp; El Tiro when you're not. Tap <b>Details</b> or any route to see its stretches, then any stretch to see what each source says. The map follows along.</p>
@@ -393,6 +421,38 @@ function howScreen() {
     <h4>Limits</h4>
     <p>Built from public, provisional data that can be late or wrong. What you see at the crossing comes first.</p>
   </div>`;
+}
+// Drivers' reports show beside the ratings. They never change a rating.
+function driveBlock(fpId) {
+  const now = Date.now(), s = driveSummary(data.drive, fpId, now), mine = store.get(`drove-${fpId}`);
+  const recent = mine && now - mine.at < 1800000;
+  const seen = s ? `<p><b>${s.state === 'water' ? 'Latest driver report: water over the road' : 'Latest driver report: no water over the road'}</b>, ${esc(plainAge(s.at, now))}.${s.water && s.clear ? ` ${s.water} saw water and ${s.clear} did not in the last 6 hours.` : ''} From drivers, not checked, and not part of the rating.</p>` : '<p>No driver reports here in the last 6 hours.</p>';
+  return `<section class="drive-report" aria-label="Driver reports">${seen}${recent ? '<p>Thanks for your report.</p>' : `<p>Just drove it?</p><div class="drive-actions"><button type="button" class="btn" data-drive="water">Water over road</button><button type="button" class="btn" data-drive="clear">No water</button></div>`}</section>`;
+}
+function wireDrive(fpId) {
+  document.querySelectorAll('[data-drive]').forEach((b) => b.addEventListener('click', async () => {
+    document.querySelectorAll('[data-drive]').forEach((x) => { x.disabled = true; });
+    store.set(`drove-${fpId}`, { at: Date.now() });
+    try {
+      const r = await textApi({ action: 'drive', fp: fpId, state: b.dataset.drive });
+      if (r?.reports) data.drive = r.reports;
+    } catch { store.set(`drove-${fpId}`, null); }
+    render();
+  }));
+}
+
+const milesBetween = (a, b) => Math.hypot((a.lat - b.lat) * 69, (a.lon - b.lon) * 58.4);
+function closuresScreen() {
+  const [lat, lon] = areaInfo().hubAt, hub = { lat, lon }, now = Date.now();
+  const blocks = new Map();
+  for (const r of view.rated) for (const p of routeClosures(r)) blocks.set(p.short, [...(blocks.get(p.short) ?? []), ROUTE_INFO[r.id].name]);
+  const county = (data.closures ?? []).filter((c) => /clos|caution/i.test(c.status ?? '') && c.location).map((c) => ({ place: c.location, closed: /clos/i.test(c.status), status: c.status, direction: c.direction, age: plainAge(countyTime(c.updated), now), lat: c.lat, lon: c.lon }));
+  const known = (lat2, lon2) => county.some((c) => Math.hypot((c.lon - lon2) * 94000, (c.lat - lat2) * 110574) <= 15);
+  const other = (data.roadEvents ?? []).filter((e) => e.closed && roadEventActive(e, data.now)).map((e) => ({ place: e.headline.trim(), closed: true, status: `Closed${e.reason ? ` for ${e.reason}` : ''}`, age: null, lon: e.parts[0][0][0], lat: e.parts[0][0][1] })).filter((e) => !known(e.lat, e.lon));
+  const rows = [...county, ...other].map((c) => ({ ...c, miles: milesBetween(hub, c) })).filter((c) => c.miles <= 40).sort((a, b) => Number(b.closed) - Number(a.closed) || a.miles - b.miles);
+  const missing = !data.closures ? '<p class="note">The county closure feed isn\'t answering right now. That does not mean roads are open.</p>' : '';
+  return `<div class="page"><p>Near ${esc(areaInfo().hub)}, closed first, then nearest. From Pima County and TransView. Barricades can stay listed after a road reopens, so check the time.</p>${missing}</div>
+    ${rows.length ? `<div class="list">${rows.map((c) => `<div class="row"><span class="lead-icon" aria-hidden="true">${c.closed ? '⛔' : '⚠️'}</span><span class="text"><div class="t">${esc(c.place)}</div><div class="st"><span class="closure-status">${esc(c.status)}</span>${c.direction ? ` · ${esc(c.direction.toLowerCase())}` : ''} · ${Math.round(c.miles)} mi away${c.age ? ` · updated ${esc(c.age)}` : ''}${blocks.has(c.place) ? ` · Blocks ${esc(blocks.get(c.place).join(', '))}` : ''}</div></span></div>`).join('')}</div>` : '<div class="page"><p>None listed within 40 miles right now.</p></div>'}`;
 }
 function settingsScreen() {
   return `<div class="page">
@@ -481,6 +541,7 @@ function alertsScreen() {
     ${textFlow.pushMsg ? `<p class="note">${esc(textFlow.pushMsg)}</p>` : ''}
     ${store.get('pushOn')
       ? `<p><b>Push alerts are on for this phone:</b> ${a.times.map(clock).join(' & ')}, ${esc(daysSummary(a.days))}. Changes above save by themselves.</p>
+         <label class="check"><input type="checkbox" id="a-instant"${a.instant ? ' checked' : ''}> Also tell me right away when a road closes or reopens on this area's routes</label>
          <button type="button" class="btn btn-primary" id="p-test">Send a test alert now</button>
          <a class="btn btn-text" href="ntfy://ntfy.sh/${pushTopic()}">Open my channel in ntfy again</a>
          <button type="button" class="btn btn-text" id="p-stop">Turn off push alerts</button>`
@@ -542,7 +603,7 @@ function wireAlerts() {
   // Save the push schedule to the alert service. keepalive lets it finish even
   // while the page hands off to the ntfy app.
   const savePush = () => fetch(cfg.TEXT_API, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({ action: 'push', topic: pushTopic(), area, times: a.times, days: a.days, mode: a.mode }) }).catch(() => {});
+    body: JSON.stringify({ action: 'push', topic: pushTopic(), area, times: a.times, days: a.days, mode: a.mode, instant: a.instant === true }) }).catch(() => {});
   const save = () => { store.set('alerts', a); if (store.get('pushOn') && cfg.TEXT_API) savePush(); render(); };
   document.querySelectorAll('input[data-ti]').forEach((el) => el.addEventListener('change', () => {
     const t = snapTime(el.value);
@@ -584,6 +645,7 @@ function wireAlerts() {
     render();
   });
   $('#a-mode')?.addEventListener('change', (e) => { a.mode = e.target.value; save(); });
+  $('#a-instant')?.addEventListener('change', (e) => { a.instant = e.target.checked; save(); });
   const run = async (body, next) => {
     textFlow.msg = 'Working…'; render();
     try {
@@ -646,6 +708,7 @@ function wireReport() {
 const UPDATES = [
   ['November 1, 2026', [
     'New: accessible colors on every map icon, visible Back and Refresh labels, a 3-step guide, heights in feet, and coverage and gauge tracking for every location on a route.',
+    'New: Road closures list, one-tap driver reports, instant closure alerts you can turn on, and the app now opens with the last check when there is no signal.',
     'Fixed: the map now shows live data only. A saved model run from November 1 no longer appears.',
     'New: Test and view a flood! in Settings lets you try a saved model run on the map.',
     'Fixed: road closures now show at the top of the screen and on the map, and a closed route no longer offers directions.',
@@ -718,16 +781,16 @@ function render() {
     home: ["FLOODplain", subtitle()], map: isTestFlood() ? ['Simulated flood', 'Saved model run, not real conditions'] : ['Flood map', 'Live readings and model estimates'],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
-    how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
+    closures: ['Road closures', 'Closed and caution points'], how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
   }[w.screen];
   $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
-  $('#map').hidden = ['how', 'settings', 'sources', 'alerts', 'privacy', 'report', 'updates', 'underpasses'].includes(w.screen);
+  $('#map').hidden = ['closures', 'how', 'settings', 'sources', 'alerts', 'privacy', 'report', 'updates', 'underpasses'].includes(w.screen);
   window.dispatchEvent(new Event('flood-before-screen-render'));
-  $('#screen').innerHTML = {
+  $('#screen').innerHTML = plainWords({
     map: () => '', home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
-    how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, updates: updatesScreen, underpasses: underpassesScreen, report: () => reportScreen(w.fp),
-  }[w.screen]();
+    closures: closuresScreen, how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, updates: updatesScreen, underpasses: underpassesScreen, report: () => reportScreen(w.fp),
+  }[w.screen](), Date.now());
   if (['home', 'route', 'stretch'].includes(w.screen)) {
     const status = document.createElement('aside');
     status.className = 'check-status';
@@ -793,6 +856,7 @@ function wire(w) {
   }));
   document.querySelectorAll('[data-nav]').forEach((b) => b.addEventListener('click', () => navigate(b.dataset.nav)));
   if (w.screen === 'alerts') wireAlerts();
+  if (w.screen === 'stretch') wireDrive(w.fp);
   if (w.screen === 'report') wireReport();
   for (const [id, key] of [['#apikey', 'apiKey'], ['#dest', 'dest']]) {
     const el = $(id);
@@ -909,11 +973,14 @@ async function check() {
   $('#refresh').setAttribute('aria-label', 'Checking conditions');
   try {
     const next = await gather();
+    // With nothing answering, keep showing the last good check instead of an empty one.
+    if (data && !next.closures && !next.alert && !next.nws && !Object.values(next.flows).some((f) => f.fresh)) throw new Error('No feeds answered');
     next.hand = data?.hand ?? null; // Keep the last HAND result until the new one arrives.
     const nextView = compute(next);
     data = next;
     view = nextView;
     $('#load-status').hidden = true;
+    store.set('lastCheck', { now: next.now, flows: next.flows, closures: next.closures, alert: next.alert, nws: next.nws, roadEvents: next.roadEvents, drive: next.drive, errors: [] });
     render();
     refreshHand();
   } catch (e) {
@@ -926,6 +993,14 @@ async function check() {
     $('#refresh').disabled = false;
     $('#refresh').setAttribute('aria-label', 'Check again');
   }
+}
+const LAST_CHECK_KEEP_MS = 24 * 3600000;
+function registerOffline() {
+  if (!('serviceWorker' in navigator) || isTestFlood()) return;
+  navigator.serviceWorker.register('sw.js').then(() => navigator.serviceWorker.ready).then((reg) => {
+    const urls = [location.origin + location.pathname, ...performance.getEntriesByType('resource').map((e) => e.name)];
+    reg.active?.postMessage({ type: 'cache-files', urls: [...new Set(urls)] });
+  }).catch(() => { /* The app still works online. */ });
 }
 async function init() {
   loadBridgeEvidence().then(result=>{bridgeEvidence=result;if(data&&view){view=compute(data);if(!['report','alerts'].includes(where().screen))render()}});
@@ -948,6 +1023,12 @@ async function init() {
       fetch(`${cfg.TEXT_API}?hit=1${isNew ? '&new=1' : ''}`).catch(() => {});
     }
   } catch { /* private mode */ }
+  registerOffline();
+  // Show the last check at once. It keeps its own "Checked" time until a new one arrives.
+  const saved = store.get('lastCheck');
+  if (saved && Date.now() - saved.now < LAST_CHECK_KEEP_MS) {
+    try { data = { ...saved, hand: null }; view = compute(data); render(); } catch { data = null; view = null; }
+  }
   await check();
   setInterval(check, REFRESH_MS);
   setInterval(updateCheckAge, 30000);

@@ -62,27 +62,13 @@ async function selectCrossing(id){
  $('status').textContent='Choose a forecast or a flow.';$('summary').textContent='';showLabels({confidence:confidenceText(j.confidence),estimatedExtent:'Nothing shown yet.'});
 }
 
-async function recorded(j){
- const read=async f=>{const r=await fetch('./data/'+f);if(!r.ok)throw new Error(`Fixture HTTP ${r.status}`);return r.json();};
- if(j.forecast.kind==='gauge'){
-  const id=j.forecast.station.toLowerCase(),[m,s,record]=await Promise.all([read(`nwps-${id}-metadata.json`),read(`nwps-${id}-stageflow.json`),read('nwps-record.json')]),now=Date.parse(record.recordedAt);
-  return {now,recordedAt:record.recordedAt,f:normalizeForecast(m,s,{now,retrievedAt:record.recordedAt,siteId:j.forecast.station})};
- }
- const saved=await read(`nwm/${j.forecast.reachId}.json`),now=Date.parse(saved.recordedAt);
- return {now,recordedAt:saved.recordedAt,f:normalizeReachForecast(saved.response,{now,retrievedAt:saved.recordedAt,reachId:j.forecast.reachId})};
-}
 
 $('enable').onchange=()=>{version++;provider=createForecastProvider({enabled:$('enable').checked});$('status').textContent=$('enable').checked?'Live requests on.':'Live requests off.';};
 $('live').onclick=async()=>{
  const v=++version;$('status').textContent='Requesting NOAA forecast…';
  const f=await provider.predict(junction.forecast);if(v!==version)return;
- if(f.status==='disabled'){$('status').textContent='Live requests are off. Tick the box first, or use the recorded forecast.';return;}
+ if(f.status==='disabled'){$('status').textContent='Live requests are off. Tick the box first.';return;}
  showForecast(f,'',Date.now());
-};
-$('recorded').onclick=async()=>{
- const v=++version;
- try{const {f,now,recordedAt}=await recorded(junction);if(v===version)showForecast(f,`RECORDED FORECAST from ${recordedAt}. `,now);}
- catch(e){if(v===version)$('status').textContent=`unavailable: ${e.message}`;}
 };
 $('time').oninput=()=>{const {f,note,now}=forecast;render(estimateFromForecast(junction,f,{now,time:f.points[+$('time').value].time}),note);};
 $('peak').onclick=()=>{const {f,note,now}=forecast;$('time').value=f.points.indexOf(f.peak);render(estimateFromForecast(junction,f,{now}),note);};

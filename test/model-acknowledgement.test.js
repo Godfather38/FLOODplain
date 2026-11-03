@@ -89,7 +89,7 @@ test('existing wording says simulated, modeled or estimated',()=>{
  assert.match(geo,/Simulated water: 10 m terrain-intersected display/);assert.match(geo,/Simulated water\. Terrain intersection/);assert.match(geo,/ft simulated cell-average depth/);
  assert.match(app,/\['Simulated flood', ?'Saved model run, not real conditions'\]/);assert.match(app,/Live readings and model estimates/);
  assert.match(page,/<h1>Modeled flood extent estimate<\/h1>/);assert.match(page,/<title>FLOODplain modeled flood extent estimate<\/title>/);assert.match(page,/Modeled at this flow/);
- assert.match(read('index.html'),/Experimental: modeled flood extent estimate/);
+ assert.match(read('simulation/map-shell.js'),/Modeled flood extent estimate \(experimental\)/);
 });
 test('a Map screen with 3D not opened loads no 3D or terrain files',()=>{
  const app=read('app.js'),layers=read('simulation/map-layers.js');

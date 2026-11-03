@@ -560,7 +560,8 @@ function nearbyClosures(fp, closures, radiusM) {
   return (closures != null ? closures : []).filter((c) => metres(fp, c) <= radiusM);
 }
 const OPEN_STATUS = /^open\b/i;
-function checkClosures(points) {
+const STALE_OPEN_MS = 30 * 864e5;
+function checkClosures(points, now = null) {
   if (!points.length) return null;
   const when = (p) => p.updated ? ` (updated ${p.updated})` : "";
   const dir = (p) => p.direction && !/^all directions$/i.test(p.direction.trim()) ? `, ${p.direction.trim().toLowerCase()}` : "";
@@ -580,6 +581,14 @@ function checkClosures(points) {
   if (unreadable.length) {
     return { level: "unknown", detail, roadStatus: "unknown", why: `county barricade point status is not readable: ${unreadable.map((p) => `${p.location} says "${said(p)}"`).join(", ")}` };
   }
+  const stampOf = (p) => {
+    var _a;
+    const m = /^(\d\d)\/(\d\d)\/(\d\d), (\d\d):(\d\d)$/.exec(String((_a = p.updated) != null ? _a : "").trim());
+    return m ? Date.UTC(2e3 + +m[3], +m[1] - 1, +m[2], +m[4] + 7, +m[5]) : null;
+  };
+  const stamps = points.map(stampOf);
+  const staleOpen = Number.isFinite(now) && stamps.every((t) => t !== null && now - t > STALE_OPEN_MS);
+  if (staleOpen) return { level: "ok", detail, why: "county barricade point marked Open, but not updated recently", official: true, staleOpen: true };
   return { level: "ok", detail, why: "county barricade point marked Open", official: true };
 }
 function checkNws(alerts, kind) {
@@ -632,7 +641,7 @@ function rateFailurePoint(fp, d, cfg2) {
   const checks = [];
   const { now } = d;
   const closurePts = nearbyClosures(fp, d.closures, cfg2.CLOSURE_RADIUS_M);
-  const closure = d.closures ? checkClosures(closurePts) : null;
+  const closure = d.closures ? checkClosures(closurePts, now) : null;
   if (closure) checks.push({ src: "county", ...closure });
   const nws = checkNws(d.nws, fp.kind);
   if (nws) checks.push({ src: "nws", ...nws });
@@ -892,6 +901,22 @@ function rateRoutes(routeFeatures, fpResults, fps, { closures = null, radiusM = 
 function routeClosures(route) {
   return route.points.filter((p) => p.checks.some((c) => (c.src === "county" || c.src === "road-event") && c.level === "danger"));
 }
+function closureChanges(previous, current) {
+  const before = new Set(previous), now = new Set(current);
+  return { closed: [...now].filter((x) => !before.has(x)), reopened: [...before].filter((x) => !now.has(x)) };
+}
+function closureChangeMessage({ closed, reopened }, app) {
+  const parts = [];
+  if (closed.length) parts.push(`Road closed: ${closed.join("; ")}.`);
+  if (reopened.length) parts.push(`No longer listed as closed: ${reopened.join("; ")}.`);
+  return `${parts.join(" ")} Check the app before you go. ${app}`;
+}
+const DRIVE_REPORT_MS = 6 * 36e5;
+function driveSummary(reports, fpId, now) {
+  const recent = (reports != null ? reports : []).filter((r) => r.fp === fpId && (r.state === "water" || r.state === "clear") && now - r.at >= 0 && now - r.at < DRIVE_REPORT_MS).sort((a, b) => b.at - a.at);
+  if (!recent.length) return null;
+  return { state: recent[0].state, at: recent[0].at, water: recent.filter((r) => r.state === "water").length, clear: recent.filter((r) => r.state === "clear").length };
+}
 function recommend(rated) {
   const score = (r) => {
     var _a, _b;
@@ -967,7 +992,7 @@ function goodSigns(route, nwsQuiet) {
   if (ok.some((c) => c.src === "wash")) add("Brawley Wash upstream is dry");
   const rain = ok.filter((c) => c.src.startsWith("rain"));
   if (rain.length) add(rain.every((c) => /^no rain/.test(c.why)) ? "no rain in the last 6 hours" : "only light rain lately");
-  if (ok.some((c) => c.src === "county")) add("county barricades on it are marked Open");
+  if (ok.some((c) => c.src === "county" && !c.staleOpen)) add("county barricades on it are marked Open");
   if (nwsQuiet) add("no weather-service flood alerts");
   return out;
 }
@@ -1038,7 +1063,8 @@ function evaluate(raw, area = "avra") {
   const rated = rateRoutes(routes, fpResults, CFG_.FAILURE_POINTS, { closures, radiusM: CFG_.CLOSURE_RADIUS_M, roadEvents: (_e = raw.roadEvents) != null ? _e : null, now }).map((r) => ({ ...r, score: routeScore(r) }));
   const { best, order } = recommend(rated);
   const missing = [!closures && "county", !raw.alert && "rain", !Object.values(flows).some((f) => f.fresh) && "river"].filter(Boolean);
-  return { rated, best, order, missing, ...message(best, order, rated, missing, now, area) };
+  const closed = [...new Set(rated.flatMap((r) => routeClosures(r).map((p) => p.short)))].sort();
+  return { rated, best, order, missing, closed, closuresKnown: !!closures, ...message(best, order, rated, missing, now, area) };
 }
 function message(best, order, rated, missing, now, area = "avra") {
   var _a;
@@ -1127,10 +1153,25 @@ function doGet(e) {
     const u = CacheService.getScriptCache().get("usgs");
     return json_(u ? JSON.parse(u) : { error: "unavailable" });
   }
+  if (e && e.parameter && e.parameter.fail) {
+    countFailures_(String(e.parameter.fail));
+    return json_({ ok: true });
+  }
+  if (e && e.parameter && e.parameter.feed === "health") return json_({ ok: true, sources: healthState_() });
+  if (e && e.parameter && e.parameter.feed === "forecasts") return json_(sharedForecasts_(String(e.parameter.paths || "")));
+  if (e && e.parameter && e.parameter.feed === "all") {
+    computeVerdicts_();
+    const cache = CacheService.getScriptCache();
+    const part = (k) => {
+      const v = cache.get(k);
+      return v ? JSON.parse(v) : null;
+    };
+    return json_({ usgs: part("usgs"), alert: part("alert"), roadEvents: roadEventsFeed_(), drive: driveReports_() });
+  }
   if (e && e.parameter && e.parameter.feed === "roadevents") {
     computeVerdicts_();
-    const events = CacheService.getScriptCache().get("roadevents");
-    return json_(events ? { events: JSON.parse(events) } : { error: "unavailable" });
+    const feed = roadEventsFeed_();
+    return json_(feed || { error: "unavailable" });
   }
   if (e && e.parameter && e.parameter.feed === "alert") {
     computeVerdicts_();
@@ -1149,6 +1190,15 @@ function doPost(e) {
   }
   if (body.action === "request") return json_(request_(body));
   if (body.action === "report") return json_(report_(body));
+  if (body.action === "drive") {
+    const lock2 = LockService.getScriptLock();
+    lock2.waitLock(1e4);
+    try {
+      return json_(drive_(body));
+    } finally {
+      lock2.releaseLock();
+    }
+  }
   if (body.action === "push" || body.action === "pushstop") {
     const lock2 = LockService.getScriptLock();
     lock2.waitLock(2e4);
@@ -1365,6 +1415,11 @@ function tick() {
   const last = Number(props.getProperty("last_min")) || nowMin - 1;
   const from = Math.max(last + 1, nowMin - CONFIG.CATCH_UP_MIN + 1);
   props.setProperty("last_min", String(nowMin));
+  try {
+    closureWatch_();
+    healthWatch_(Date.now());
+  } catch (err) {
+  }
   if (from > nowMin) return;
   const minutes = [];
   for (let m = from; m <= nowMin; m++) {
@@ -1426,6 +1481,150 @@ function computeVerdict_(area) {
   const all = computeVerdicts_();
   return all ? all[validArea_(area)] : null;
 }
+const ROAD_EVENTS_KEEP_S = 21600;
+function roadEventsFeed_() {
+  const cache = CacheService.getScriptCache();
+  const fresh = cache.get("roadevents");
+  if (fresh) return { ...JSON.parse(fresh), stale: false };
+  const good = cache.get("roadevents_good");
+  return good ? { ...JSON.parse(good), stale: true } : null;
+}
+const HEALTH_DOWN_MS = 30 * 60 * 1e3;
+function healthState_() {
+  return JSON.parse(PropertiesService.getScriptProperties().getProperty("health") || "{}");
+}
+function noteHealth_(results, now) {
+  const state = healthState_();
+  for (const [name, ok] of Object.entries(results)) {
+    const s = state[name] || {};
+    if (ok) {
+      s.lastOk = now;
+      delete s.downSince;
+    } else if (!s.downSince) s.downSince = now;
+    state[name] = s;
+  }
+  PropertiesService.getScriptProperties().setProperty("health", JSON.stringify(state));
+}
+function healthWatch_(now) {
+  const props = PropertiesService.getScriptProperties();
+  const state = healthState_();
+  const down = [], back = [];
+  for (const [name, s] of Object.entries(state)) {
+    if (s.downSince && now - s.downSince >= HEALTH_DOWN_MS && !s.told) {
+      s.told = true;
+      down.push(name);
+    }
+    if (!s.downSince && s.told) {
+      delete s.told;
+      back.push(name);
+    }
+  }
+  if (!down.length && !back.length) return;
+  props.setProperty("health", JSON.stringify(state));
+  const lines = [down.length ? `Not answering for 30 minutes or more: ${down.join(", ")}.` : "", back.length ? `Answering again: ${back.join(", ")}.` : ""].filter(Boolean).join("\n");
+  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), `FLOODplain feeds: ${down.length ? "problem" : "recovered"}`, lines);
+}
+const MAX_CLOSURE_PUSHES_PER_DAY = 12;
+function closureWatch_() {
+  const all = computeVerdicts_();
+  if (!all) return;
+  const props = PropertiesService.getScriptProperties();
+  const today = today_();
+  const rows = pushSheet_().getDataRange().getValues().slice(1);
+  for (const id of AREA_IDS) {
+    const v = all[id];
+    if (!v || !v.closuresKnown || !Array.isArray(v.closed)) continue;
+    const key = `closed_${id}`, saved = props.getProperty(key);
+    props.setProperty(key, JSON.stringify(v.closed));
+    if (saved === null) continue;
+    const change = closureChanges(JSON.parse(saved), v.closed);
+    if (!change.closed.length && !change.reopened.length) continue;
+    const [day, n] = String(props.getProperty(`closure_pushes_${id}`) || "").split(" ");
+    const count = day === today ? Number(n) || 0 : 0;
+    if (count >= MAX_CLOSURE_PUSHES_PER_DAY) continue;
+    props.setProperty(`closure_pushes_${id}`, `${today} ${count + 1}`);
+    const msg = closureChangeMessage(change, CONFIG.APP_URL);
+    rows.filter((r) => r[7] === true && validArea_(r[6]) === id).forEach((r) => ntfy_(String(r[0]), { title: change.closed.length ? "FLOODplain: road closed" : "FLOODplain: closure update" }, msg));
+  }
+}
+const FORECAST_PATH = /^(gauges\/[A-Z0-9]{3,8}(\/stageflow)?|reaches\/\d{1,14}\/streamflow)$/;
+function sharedForecasts_(list) {
+  const paths = [...new Set(list.split(",").filter((p) => FORECAST_PATH.test(p)))].slice(0, 40);
+  const cache = CacheService.getScriptCache();
+  const responses = {}, missing = [];
+  for (const p of paths) {
+    const hit = cache.get(`noaa:${p}`);
+    if (hit) responses[p] = JSON.parse(hit);
+    else missing.push(p);
+  }
+  if (missing.length) {
+    const url = (p) => `https://api.water.noaa.gov/nwps/v1/${p}${p.startsWith("reaches/") ? "?series=short_range" : ""}`;
+    UrlFetchApp.fetchAll(missing.map((p) => ({ url: url(p), muteHttpExceptions: true }))).forEach((r, i) => {
+      if (r.getResponseCode() !== 200) return;
+      const text = r.getContentText();
+      try {
+        responses[missing[i]] = JSON.parse(text);
+      } catch (err) {
+        return;
+      }
+      if (text.length < 95e3) cache.put(`noaa:${missing[i]}`, text, 900);
+    });
+  }
+  return { responses };
+}
+const DRIVE_MAX_PER_DAY = 400;
+function driveReports_() {
+  const hit = CacheService.getScriptCache().get("drive");
+  const list = hit ? JSON.parse(hit) : [];
+  return list.filter((r) => Date.now() - r.at < DRIVE_REPORT_MS);
+}
+function drive_(b) {
+  const fp = String(b.fp || "");
+  if (!FAILURE_POINTS.some((x) => x.id === fp) || !["water", "clear"].includes(b.state)) return { ok: false, error: "bad report" };
+  const props = PropertiesService.getScriptProperties();
+  const today = today_();
+  const [day, n] = String(props.getProperty("drive_day") || "").split(" ");
+  const count = day === today ? Number(n) || 0 : 0;
+  if (count >= DRIVE_MAX_PER_DAY) return { ok: false, error: "Lots of reports today. Try tomorrow." };
+  props.setProperty("drive_day", `${today} ${count + 1}`);
+  const list = driveReports_().slice(-199);
+  list.push({ fp, state: b.state, at: Date.now() });
+  CacheService.getScriptCache().put("drive", JSON.stringify(list), ROAD_EVENTS_KEEP_S);
+  const ss = sheet_().getParent();
+  let tab = ss.getSheetByName("drive_reports");
+  if (!tab) {
+    tab = ss.insertSheet("drive_reports");
+    tab.appendRow(["when", "crossing_id", "state"]);
+  }
+  tab.appendRow([/* @__PURE__ */ new Date(), fp, b.state]);
+  return { ok: true, reports: list };
+}
+function countFailures_(names) {
+  const feeds = names.split(",").filter((n) => /^[a-z]{2,12}$/.test(n)).slice(0, 8);
+  if (!feeds.length) return;
+  const lock = LockService.getScriptLock();
+  lock.waitLock(5e3);
+  try {
+    const ss = sheet_().getParent();
+    let tab = ss.getSheetByName("feed_failures");
+    if (!tab) {
+      tab = ss.insertSheet("feed_failures");
+      tab.appendRow(["date", "feed", "count"]);
+    }
+    const today = today_();
+    const rows = tab.getDataRange().getValues();
+    for (const feed of feeds) {
+      const i = rows.findIndex((r, k) => k > 0 && (r[0] instanceof Date ? Utilities.formatDate(r[0], CONFIG.TZ, "yyyy-MM-dd") : String(r[0])) === today && r[1] === feed);
+      if (i > 0) tab.getRange(i + 1, 3).setValue((Number(rows[i][2]) || 0) + 1);
+      else {
+        tab.appendRow([today, feed, 1]);
+        rows.push([today, feed, 1]);
+      }
+    }
+  } finally {
+    lock.releaseLock();
+  }
+}
 function transview_(method, body, ua) {
   return { url: `https://transview.org/Map.aspx/${method}`, method: "post", contentType: "application/json; charset=utf-8", payload: JSON.stringify(body), muteHttpExceptions: true, headers: { ...ua, Referer: "https://transview.org/Map.aspx" } };
 }
@@ -1461,14 +1660,20 @@ function computeVerdicts_() {
   const [closures, rain, stream, nws, tvClosures, tvWork] = res.slice(sites.length);
   const roadEvents = tvClosures || tvWork ? normalizeRoadEvents(tvClosures && tvClosures.d, tvWork && tvWork.d, [-111.45, 32.1, -110.9, 32.6]) : null;
   if (roadEvents) {
-    const text = JSON.stringify(roadEvents);
-    if (text.length < 95e3) cache.put("roadevents", text, 300);
+    const text = JSON.stringify({ events: roadEvents, fetchedAt: now });
+    if (text.length < 95e3) {
+      cache.put("roadevents", text, 300);
+      cache.put("roadevents_good", text, ROAD_EVENTS_KEEP_S);
+    }
   }
+  const lastGood = roadEvents ? null : JSON.parse(cache.get("roadevents_good") || "null");
+  const eventsForRating = roadEvents || lastGood && lastGood.events || null;
+  noteHealth_({ usgs: sites.some((s) => usgs[s]), county: !!closures, rain: !!rain, stream: !!stream, weather: !!nws, transview: !!roadEvents }, now);
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
   const out = {};
   for (const id of AREA_IDS) {
-    const v = evaluate({ now, usgs, closures, alert, nws, roadEvents, routes: ROUTE_FEATURES }, id);
-    out[id] = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title };
+    const v = evaluate({ now, usgs, closures, alert, nws, roadEvents: eventsForRating, routes: ROUTE_FEATURES }, id);
+    out[id] = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title, closed: v.closed, closuresKnown: v.closuresKnown };
   }
   cache.put("verdicts", JSON.stringify(out), 240);
   if (alert) cache.put("alert", JSON.stringify(alert), 300);
@@ -1651,7 +1856,7 @@ function pushSheet_() {
   let p = ss.getSheetByName("push");
   if (!p) {
     p = ss.insertSheet("push");
-    p.appendRow(["topic", "times", "days", "mode", "last_sent", "created", "area"]);
+    p.appendRow(["topic", "times", "days", "mode", "last_sent", "created", "area", "instant"]);
   }
   return p;
 }
@@ -1666,12 +1871,12 @@ function push_(b) {
   const i = rows.findIndex((r, k) => k > 0 && r[0] === topic);
   if (i > 0) {
     ps.getRange(i + 1, 1, 1, 4).setValues([values]);
-    ps.getRange(i + 1, 7).setValue(validArea_(b.area));
+    ps.getRange(i + 1, 7, 1, 2).setValues([[validArea_(b.area), b.instant === true]]);
   } else {
     const today = today_();
     const added = rows.slice(1).filter((r) => r[5] instanceof Date && Utilities.formatDate(r[5], CONFIG.TZ, "yyyy-MM-dd") === today).length;
     if (added >= 300) return { ok: false, error: "Too many new sign-ups today. Try tomorrow." };
-    ps.appendRow([...values, "", /* @__PURE__ */ new Date(), validArea_(b.area)]);
+    ps.appendRow([...values, "", /* @__PURE__ */ new Date(), validArea_(b.area), b.instant === true]);
   }
   return { ok: true, step: "saved", days: daysLabel_(values[2]) };
 }

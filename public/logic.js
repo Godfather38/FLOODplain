@@ -182,7 +182,8 @@ export function nearbyClosures(fp, closures, radiusM) {
 // Only the words the county actually uses are read. A missing or unrecognized status is
 // unknown, never Open: an empty field is a gap in the feed, not a report that the road is fine.
 const OPEN_STATUS = /^open\b/i;
-export function checkClosures(points) {
+const STALE_OPEN_MS = 30 * 86400000;
+export function checkClosures(points, now = null) {
   if (!points.length) return null;
   const when = (p) => (p.updated ? ` (updated ${p.updated})` : '');
   // The county's own words stay whole: which way it applies to, and when they last touched it.
@@ -197,6 +198,11 @@ export function checkClosures(points) {
   if (unreadable.length) {
     return { level: 'unknown', detail, roadStatus: 'unknown', why: `county barricade point status is not readable: ${unreadable.map((p) => `${p.location} says "${said(p)}"`).join(', ')}` };
   }
+  // An old "Open" only says nobody has changed that point. It isn't a recent report from the road.
+  const stampOf = (p) => { const m = /^(\d\d)\/(\d\d)\/(\d\d), (\d\d):(\d\d)$/.exec(String(p.updated ?? '').trim()); return m ? Date.UTC(2000 + +m[3], +m[1] - 1, +m[2], +m[4] + 7, +m[5]) : null; };
+  const stamps = points.map(stampOf);
+  const staleOpen = Number.isFinite(now) && stamps.every((t) => t !== null && now - t > STALE_OPEN_MS);
+  if (staleOpen) return { level: 'ok', detail, why: 'county barricade point marked Open, but not updated recently', official: true, staleOpen: true };
   return { level: 'ok', detail, why: 'county barricade point marked Open', official: true };
 }
 
@@ -251,7 +257,7 @@ export function rateFailurePoint(fp, d, cfg) {
   const checks = [];
   const { now } = d;
   const closurePts = nearbyClosures(fp, d.closures, cfg.CLOSURE_RADIUS_M);
-  const closure = d.closures ? checkClosures(closurePts) : null;
+  const closure = d.closures ? checkClosures(closurePts, now) : null;
   if (closure) checks.push({ src: 'county', ...closure });
   const nws = checkNws(d.nws, fp.kind);
   if (nws) checks.push({ src: 'nws', ...nws });
@@ -517,6 +523,24 @@ export function rateRoutes(routeFeatures, fpResults, fps, { closures = null, rad
 export function routeClosures(route) {
   return route.points.filter((p) => p.checks.some((c) => (c.src === 'county' || c.src === 'road-event') && c.level === 'danger'));
 }
+// What changed on a route since the last look. Both lists hold county or TransView place names.
+export function closureChanges(previous, current) {
+  const before = new Set(previous), now = new Set(current);
+  return { closed: [...now].filter((x) => !before.has(x)), reopened: [...before].filter((x) => !now.has(x)) };
+}
+export function closureChangeMessage({ closed, reopened }, app) {
+  const parts = [];
+  if (closed.length) parts.push(`Road closed: ${closed.join('; ')}.`);
+  if (reopened.length) parts.push(`No longer listed as closed: ${reopened.join('; ')}.`);
+  return `${parts.join(' ')} Check the app before you go. ${app}`;
+}
+// Drivers' one-tap reports, newest first per crossing, dropped after six hours.
+export const DRIVE_REPORT_MS = 6 * 3600000;
+export function driveSummary(reports, fpId, now) {
+  const recent = (reports ?? []).filter((r) => r.fp === fpId && (r.state === 'water' || r.state === 'clear') && now - r.at >= 0 && now - r.at < DRIVE_REPORT_MS).sort((a, b) => b.at - a.at);
+  if (!recent.length) return null;
+  return { state: recent[0].state, at: recent[0].at, water: recent.filter((r) => r.state === 'water').length, clear: recent.filter((r) => r.state === 'clear').length };
+}
 export function recommend(rated) {
   const score=r=>r.score??routeScore(r)??5;
   const blocked=r=>routeClosures(r).length?1:0;
@@ -586,7 +610,7 @@ export function goodSigns(route, nwsQuiet) {
   if (ok.some((c) => c.src === 'wash')) add('Brawley Wash upstream is dry');
   const rain = ok.filter((c) => c.src.startsWith('rain'));
   if (rain.length) add(rain.every((c) => /^no rain/.test(c.why)) ? 'no rain in the last 6 hours' : 'only light rain lately');
-  if (ok.some((c) => c.src === 'county')) add('county barricades on it are marked Open');
+  if (ok.some((c) => c.src === 'county' && !c.staleOpen)) add('county barricades on it are marked Open');
   if (nwsQuiet) add('no weather-service flood alerts');
   return out;
 }

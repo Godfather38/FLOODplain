@@ -49,6 +49,6 @@ export function makeGas(clock, SRC, fetchAllImpl) {
   };
   const api = new Function(...Object.keys(g), `${SRC}; return { doPost, doGet, tick, sheet_, keysSheet_, CONFIG, computeVerdict_: typeof computeVerdict_ === 'function' ? computeVerdict_ : null };`)(...Object.values(g));
   const post = (body) => api.doPost({ postData: { contents: JSON.stringify(body) } });
-  return { api, post, sent, mails, props, ss, fetches };
+  return { api, post, sent, mails, props, ss, fetches, cache };
 }
 

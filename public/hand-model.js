@@ -109,16 +109,35 @@ export function applyHand(fpResults, hand) {
   }
 }
 
-export async function loadHand(fps, { fetchImpl = globalThis.fetch, clock = Date.now } = {}) {
+// A forecast's NOAA address as the shared feed names it, or null.
+const SHARED_PREFIX = 'https://api.water.noaa.gov/nwps/v1/';
+export function sharedForecastPath(url) {
+  const text = String(url);
+  return text.startsWith(SHARED_PREFIX) ? text.slice(SHARED_PREFIX.length).split('?')[0] : null;
+}
+// Answers from one shared copy where it has them, and asks NOAA directly for anything else.
+export function sharedForecastFetch(responses, fetchImpl) {
+  return async (url, options) => {
+    const saved = responses?.[sharedForecastPath(url)];
+    return saved ? new Response(JSON.stringify(saved), { status: 200, headers: { 'Content-Type': 'application/json' } }) : fetchImpl(url, options);
+  };
+}
+
+export async function loadHand(fps, { fetchImpl = globalThis.fetch, clock = Date.now, sharedFeed = null } = {}) {
   const { points } = await loadCoverage(fetchImpl);
   // Road heights only sharpen the trigger, so the model still runs without them.
   const roads = await Promise.resolve().then(() => fetchImpl(new URL('./inundation/road-heights.json', import.meta.url).href)).then((r) => (r?.ok ? r.json() : null)).catch(() => null);
   const byFp = matchFailurePoints(fps, points);
-  const provider = createForecastProvider({ enabled: true, fetchImpl, clock });
   const sources = new Map();
   for (const row of Object.values(byFp)) {
     if (row.status === 'supported') sources.set(JSON.stringify(row.forecast), row.forecast);
   }
+  let shared = null;
+  if (sharedFeed) {
+    const paths = [...sources.values()].flatMap((f) => (f.kind === 'gauge' ? [`gauges/${f.station}`, `gauges/${f.station}/stageflow`] : f.kind === 'nwm_reach' ? [`reaches/${f.reachId}/streamflow`] : []));
+    shared = await Promise.resolve().then(() => fetchImpl(`${sharedFeed}&paths=${encodeURIComponent(paths.join(','))}`)).then((r) => (r?.ok ? r.json() : null)).then((j) => j?.responses ?? null).catch(() => null);
+  }
+  const provider = createForecastProvider({ enabled: true, fetchImpl: sharedForecastFetch(shared, fetchImpl), clock });
   const results = new Map(await Promise.all([...sources].map(async ([key, f]) => [key, await provider.predict(f)])));
   const now = clock();
   const checks = {};

@@ -42,5 +42,7 @@ ${read('apps-script/Code.gs')}
 // optional chaining is risky), so lower everything to ES2019 and check it parses as such.
 const lowered = transformSync(out, { target: 'es2019', format: 'esm', charset: 'utf8', legalComments: 'inline' }).code;
 parse(lowered, { ecmaVersion: 2019, sourceType: 'script' });
-writeFileSync(new URL('apps-script/WashWatch.gs', root), lowered);
-console.log(`apps-script/WashWatch.gs: ${lowered.length} chars, parses as ES2019`);
+// Tests pass GAS_OUT so running them doesn't rewrite the tracked file.
+const output = process.env.GAS_OUT ?? new URL('apps-script/WashWatch.gs', root);
+writeFileSync(output, lowered);
+console.log(`${process.env.GAS_OUT ?? 'apps-script/WashWatch.gs'}: ${lowered.length} chars, parses as ES2019`);

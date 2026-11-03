@@ -60,7 +60,7 @@ test('shared colors reach the map pins, including half-point scores',()=>{
 });
 test('newer closure and road-height behavior is preserved',()=>{
  const app=read('app.js');
- for(const s of ['closureBanner','closed-note','closure-pin','view.closedPoints','roadEvents: d.roadEvents','feed=roadevents','p.routeBarricade'])assert.ok(app.includes(s),s);
+ for(const s of ['closureBanner','closed-note','closure-pin','view.closedPoints','roadEvents: d.roadEvents','feed=all','p.routeBarricade'])assert.ok(app.includes(s),s);
  assert.ok(read('hand-model.js').includes('./inundation/road-heights.json'));
 });
 

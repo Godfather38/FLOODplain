@@ -19,10 +19,21 @@ jobs:
           node-version: 22
       - run: npm ci
       - run: npm test
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser
   deploy:
     # GitHub Pages only accepts deploys from the repo's default branch.
     if: github.ref_name == github.event.repository.default_branch || github.event_name == 'workflow_dispatch'
-    needs: test
+    needs: [test, browser]
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -35,6 +46,8 @@ jobs:
           printf '{"commit":"%s","releasedAt":"%s"}\n' "$GITHUB_SHA" "$(date -u +%FT%TZ)" > public/release-version.json
       - name: Frozen model runs are for development only; never publish them
         run: node tools/prune-published.mjs public
+      - name: Load the app's modules together
+        run: node tools/add-preloads.mjs public
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -41,7 +41,8 @@ export function evaluate(raw, area = 'avra') {
   const rated = rateRoutes(routes, fpResults, cfg.FAILURE_POINTS, { closures, radiusM: cfg.CLOSURE_RADIUS_M, roadEvents: raw.roadEvents ?? null, now }).map((r) => ({ ...r, score: routeScore(r) }));
   const { best, order } = recommend(rated);
   const missing = [!closures && 'county', !raw.alert && 'rain', !Object.values(flows).some((f) => f.fresh) && 'river'].filter(Boolean);
-  return { rated, best, order, missing, ...message(best, order, rated, missing, now, area) };
+  const closed = [...new Set(rated.flatMap((r) => routeClosures(r).map((p) => p.short)))].sort();
+  return { rated, best, order, missing, closed, closuresKnown: !!closures, ...message(best, order, rated, missing, now, area) };
 }
 
 export function message(best, order, rated, missing, now, area = 'avra') {
