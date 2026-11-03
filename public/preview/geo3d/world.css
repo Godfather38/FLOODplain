@@ -121,3 +121,14 @@ details.about #metrics{font-variant-numeric:tabular-nums}
 .marker.flow::before{content:'';position:absolute;left:-7px;top:-7px;width:14px;height:14px;border-radius:50%;background:#19a7a0;border:2px solid #fff;box-sizing:border-box}
 .marker.flow span{position:absolute;left:12px;top:-10px;padding:3px 8px;border-radius:10px;background:#0f6f6a;color:#fff;box-shadow:0 1px 3px #0003}
 details.about .t,details.about .st{display:block}
+
+/* live ratings: the app's 1-5 colours on pins, route rows and the crossing card */
+.drop-pin[data-score="1"]::before{background:var(--s1)}.drop-pin[data-score="2"]::before{background:var(--s2)}.drop-pin[data-score="3"]::before{background:var(--s3)}
+.drop-pin[data-score="4"]::before{background:var(--s4)}.drop-pin[data-score="5"]::before{background:var(--s5)}.drop-pin[data-score="q"]::before{background:var(--sq)}
+.drop-pin[data-score] .glyph{font-size:13px}
+.row.route .badge{width:32px;height:32px;font-size:15px}
+.live-now{display:flex;gap:14px;align-items:flex-start;margin:14px 0;padding:12px 14px;border-radius:14px;background:var(--surface-2)}
+.live-now strong{font-size:1.125rem;font-weight:500}.live-now .meta{margin:2px 0 0}.live-now .overline{margin:0}
+.model-head{margin:16px 0 0}
+.marker.closure span{position:absolute;left:-14px;top:-14px;width:28px;height:28px;display:grid;place-items:center;font-size:18px}
+.marker.closure em{position:absolute;left:16px;top:-10px;padding:2px 8px;border-radius:10px;background:var(--s5);color:#fff;font-style:normal;font-size:12px;white-space:nowrap}

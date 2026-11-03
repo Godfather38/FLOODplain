@@ -8,10 +8,11 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const GLYPH={dip:'⌄',flat:'⌄',road:'⌄',bridge:'⌒',river:'≈'};
 // Status colours are the app's: s1 low, s3 caution, s5 danger, sq no reading.
 const TONE={over:'danger',clear:'ok',unmeasured:'none',unknown:'none',outside:'none'};
+const WORD={1:'Low',2:'Minor',3:'Moderate',4:'High',5:'Severe'};
 const STATUS={over:'Water over the road',clear:'Road above the water',unmeasured:'Deck height not measured',unknown:'No model level here this hour',outside:'Outside the model area'};
 export function createRoutesUI({root,panelRoot,camera,config,routes,roads,world,inside,ground,E,appHref,flyTo,onRoutes}){
  const {AREAS,ROUTE_INFO,FAILURE_POINTS}=config;
- let area=AREAS[0].id,route=null,run=null,frameIndex=0,stories=new Map(),openId=null,roadWater=new Map();
+ let area=AREAS[0].id,route=null,run=null,frameIndex=0,stories=new Map(),openId=null,roadWater=new Map(),live=null;
  // --- side panel: area switch, route list, and the crossing card in place of the list ---
  const tabs=el('div','seg');tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Area');
  for(const a of AREAS){const b=el('button',null,esc(a.name));b.dataset.area=a.id;b.setAttribute('role','tab');b.onclick=()=>select(a.id,null);tabs.appendChild(b);}
@@ -30,10 +31,10 @@ export function createRoutesUI({root,panelRoot,camera,config,routes,roads,world,
   list.innerHTML='';
   for(const id of ids){
    const info=ROUTE_INFO[id]??{name:id},f=routes.features.find(r=>r.properties.id===id),points=FAILURE_POINTS.filter(fp=>fp.routes.includes(id));
-   const b=el('button','row route',`<span class="dot" data-route-dot="${id}"></span><span class="text"><span class="t">${esc(info.name)}</span><span class="st">${esc(info.via??'')} · ${f.properties.km} km · ${points.length} crossing${points.length===1?'':'s'}</span><span class="st status" data-route="${id}"></span></span><span class="chev">›</span>`);b.setAttribute('aria-pressed',String(route===id));
+   const b=el('button','row route',`<span class="dot" data-route-dot="${id}"></span><span class="text"><span class="t">${esc(info.name)}</span><span class="st">${esc(info.via??'')} · ${f.properties.km} km · ${points.length} crossing${points.length===1?'':'s'}</span><span class="st status" data-route="${id}"></span></span><span class="badge" data-route-badge="${id}" hidden></span><span class="chev">›</span>`);b.setAttribute('aria-pressed',String(route===id));
    b.onclick=()=>{select(area,route===id?null:id);if(route)flyTo(...routeCentre(f),routeSpan(f));};list.appendChild(b);
   }
-  onRoutes?.(area,route);refreshCounts();
+  onRoutes?.(area,route);refreshCounts();showLive();
  }
  const routePoints=f=>(f.geometry.type==='MultiLineString'?f.geometry.coordinates.flat():f.geometry.coordinates).map(([lon,lat])=>world(lon,lat));
  const routeCentre=f=>{const p=routePoints(f);return[p.reduce((s,q)=>s+q[0],0)/p.length,p.reduce((s,q)=>s+q[1],0)/p.length];};
@@ -43,6 +44,12 @@ export function createRoutesUI({root,panelRoot,camera,config,routes,roads,world,
  const samples=new Map(routes.features.map(f=>[f.properties.id,(roads?.stations??[]).filter(s=>s.route===f.properties.id&&inside(s.x,s.z)).map(s=>[s.x,s.z,s.m])]));
  function measureRoads(){roadWater=new Map([...samples].map(([id,pts])=>[id,run.samplers.map(s=>{let wet=0,deep=0;for(const [x,z,g] of pts){const d=s(x,z)-g;if(d>.15)wet++;if(d>.5)deep++;}return{wet:wet*5/1000,deep:deep*5/1000};})]));}
  const km=v=>v>=1?v.toFixed(1)+' km':Math.round(v*1000/10)*10+' m';
+ // Live ratings, as the app shows them: a number 1-5 on each pin and route.
+ function showLive(){
+  for(const p of pins){const s=live?live.scores[p.fp.id]:undefined;if(live)p.b.dataset.score=String(s??'q');else delete p.b.dataset.score;p.b.querySelector('.glyph').textContent=live?String(s??'?'):(GLYPH[p.fp.kind]??'•');}
+  for(const b of list.querySelectorAll('[data-route-badge]')){const s=live?.routes[b.dataset.routeBadge];b.hidden=!live;b.className='badge '+(s?'s'+s:'sq');b.textContent=s??'?';b.title=s?WORD[s]+' risk now':'';}
+ }
+ function setLive(next){live=next;showLive();if(openId)renderDetail();}
  function refreshCounts(){
   for(const em of list.querySelectorAll('[data-route]')){
    const points=FAILURE_POINTS.filter(fp=>fp.routes.includes(em.dataset.route)),over=points.filter(fp=>stories.get(fp.id)&&statusAt(stories.get(fp.id),frameIndex)==='over').length,modelled=points.filter(fp=>stories.get(fp.id)?.inside).length;
@@ -92,7 +99,8 @@ export function createRoutesUI({root,panelRoot,camera,config,routes,roads,world,
    </dl>${chart(story)}
    <p class="fine">Model water is the SFINCS water surface blended between 100 m model cells, from a saved run, not current conditions. ${story.unknownHours?`${story.unknownHours} hour(s) have no model level here. `:''}</p>`;
   }
-  sheet.innerHTML=`<button class="back btn btn-text">‹ All routes</button><div class="hero"><p class="overline">${esc({dip:'Dip',flat:'Low road',road:'Road',bridge:'Bridge',river:'River bridge'}[fp.kind]??fp.kind)}</p><h2>${esc(fp.name)}</h2><p class="meta">${esc(fp.where??'')}</p>${body}<div class="actions"><a class="btn btn-primary" href="${appHref(routeId,fp.id)}">Open the safety screen</a></div></div>`;
+  const s=live?live.scores[fp.id]:undefined,now=live?`<div class="live-now"><span class="badge lg ${s?'s'+s:'sq'}">${s??'?'}</span><div><p class="overline">Live rating now</p><strong>${s?WORD[s]:'No rating'}</strong><p class="meta">${esc(live.results[fp.id]?.why??'')}</p></div></div><p class="overline model-head">Model forecast at this crossing</p>`:'';
+  sheet.innerHTML=`<button class="back btn btn-text">‹ All routes</button><div class="hero"><p class="overline">${esc({dip:'Dip',flat:'Low road',road:'Road',bridge:'Bridge',river:'River bridge'}[fp.kind]??fp.kind)}</p><h2>${esc(fp.name)}</h2><p class="meta">${esc(fp.where??'')}</p>${now}${body}<div class="actions"><a class="btn btn-primary" href="${appHref(routeId,fp.id)}">Open the safety screen</a></div></div>`;
   sheet.querySelector('.back').onclick=closeDetail;
  }
  function openDetail(id){openId=id;sheet.hidden=false;listView.hidden=true;for(const p of pins)p.b.classList.toggle('open',p.fp.id===id);renderDetail();}
@@ -110,5 +118,5 @@ export function createRoutesUI({root,panelRoot,camera,config,routes,roads,world,
   }
  }
  select(area,null);
- return{update,setRun,setFrame,openDetail,closeDetail,reveal,select,get area(){return area;},get route(){return route;},stories:()=>stories};
+ return{update,setRun,setFrame,setLive,openDetail,closeDetail,reveal,select,get area(){return area;},get route(){return route;},stories:()=>stories};
 }

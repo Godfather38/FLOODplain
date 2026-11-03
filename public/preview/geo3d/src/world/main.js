@@ -16,6 +16,7 @@ import {createSurface} from './surface.js';
 import {createChunks} from './chunks.js';
 import {routeOverlay,baseMap} from './paint.js';
 import {createMarkers} from './markers.js';
+import {loadLiveConditions} from '../live-conditions.js';
 import {GRID} from '../run-data.js';
 import {parseRain,rainAt,createRain} from './rain.js';
 import {createRoutesUI} from './routes-ui.js';
@@ -23,7 +24,12 @@ import {mountAcknowledgement} from '../acknowledge.js';
 const $=id=>document.getElementById(id);
 const DATA='../../../../simulation/data/',E=2,SHOW_DEPTH_M=.05,HOUR_SECONDS=4;
 // The saved runs to choose from. Both share the model's grid and terrain.
+// The live run is published every hour by .github/workflows/live-sfincs.yml (branch
+// experiment/live-sfincs) to the live-model branch. It is shown only while it is fresh.
+const LIVE='https://raw.githubusercontent.com/Godfather38/FLOODplain/live-model/live/',LIVE_MAX_AGE_H=3;
+const BASE_DISPLAY='frozen-terrain-display.json.gz';
 const RUNS=[
+ {id:'live',label:'Live: newest model run, every hour',live:true},
  {id:'13z',label:'Nov 1, 13Z forecast run',note:'Rain shown from this run\'s rainfall input.',display:'frozen-terrain-display.json.gz',rain:'frozen-map-context.json',inflow:'frozen-map-context.json',hand:'frozen-map-polygons.json.gz'},
  {id:'19z',label:'Nov 1, 19Z forecast run (more water)',note:'Rain shown from this run\'s rainfall input (HRRR 19Z forecast). Its heaviest rain, Nov 1 9–10 AM MST, fell before the first saved water hour.',display:'sfincs-current-coarse-20261101-19z-41350254061-map/frozen-terrain-display.json.gz',rain:'sfincs-current-coarse-20261101-19z-41350254061-map/rainfall.json',inflow:'sfincs-current-coarse-20261101-19z-41350254061-map/inflow.json'},
  {id:'stress',label:'Stress test: 100-year storm with a record river',note:'A what-if run of the same model, not a forecast: the 19Z run\'s ground conditions, then NOAA Atlas 14\'s 100-year 6-hour storm (2.8 in, 2.2 in in the peak hour) on every cell from 5 PM MST, and the Santa Cruz rising to its 1983 record flow (65,000 cfs) at 10 PM.',display:'sfincs-stress-storm-41633261576-map/frozen-terrain-display.json.gz',rain:'sfincs-stress-storm-41633261576-map/rainfall.json',inflow:'sfincs-stress-storm-41633261576-map/inflow.json'},
@@ -49,7 +55,7 @@ const json=async path=>JSON.parse(new TextDecoder().decode(await fetchMaybeGzip(
 status('Loading the model terrain');loading('Loading the model terrain',.05);
 const terrainBytes=await fetchMaybeGzip(DATA+'frozen-voxel-terrain.f32.gz');
 const firstRun=RUNS.find(r=>r.id===new URLSearchParams(location.search).get('run'))??RUNS[0];
-const [firstDisplay,routes,measured]=await Promise.all([json(DATA+firstRun.display),fetch(new URL('../../../../data/routes.geojson',import.meta.url)).then(r=>{if(!r.ok)throw new Error('Routes answered '+r.status);return r.json();}),fetch(new URL('../../../../inundation/road-heights.json',import.meta.url)).then(r=>{if(!r.ok)throw new Error('Road heights answered '+r.status);return r.json();}).then(parseRoadHeights)]);
+const [firstDisplay,routes,measured]=await Promise.all([json(DATA+BASE_DISPLAY),fetch(new URL('../../../../data/routes.geojson',import.meta.url)).then(r=>{if(!r.ok)throw new Error('Routes answered '+r.status);return r.json();}),fetch(new URL('../../../../inundation/road-heights.json',import.meta.url)).then(r=>{if(!r.ok)throw new Error('Road heights answered '+r.status);return r.json();}).then(parseRoadHeights)]);
 loading('Joining the terrain',.35);
 const data={vertices:firstDisplay.vertices,terrain:new Float32Array(terrainBytes.buffer,terrainBytes.byteOffset,terrainBytes.byteLength/4)};
 status('Joining the terrain');
@@ -63,6 +69,7 @@ const toLonLat=(x,z)=>{const u=worldToUtm(x,z);return fromUtm(u.e,u.n);};
 const inside=(x,z)=>Math.abs(x)<SIZE_X/2&&Math.abs(z)<SIZE_Z/2;
 // A run, prepared for drawing and for the crossing sheets.
 async function prepareRun(def,display){
+ if(def.live)return prepareLive(def);
  display??=await json(DATA+def.display);
  const frames=parseFrames(display),levels=frames.map(f=>levelGrid(f,data.vertices));
  const [rainJson,inflowJson,handJson]=await Promise.all([def.rain&&json(DATA+def.rain),def.inflow&&def.inflow!==def.rain&&json(DATA+def.inflow),def.hand&&json(DATA+def.hand)]);
@@ -73,7 +80,21 @@ async function prepareRun(def,display){
  return{def,frames,levels,shares:frames.map(f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:rainJson?parseRain(rainJson):null,inflow,hand};
 }
 loading('Preparing the model water',.7);
-let run=await prepareRun(firstRun,firstDisplay);
+// The newest live run, refused when it is older than LIVE_MAX_AGE_H: never an old one in its place.
+async function prepareLive(def){
+ const bust='?t='+Math.floor(Date.now()/120000),manifest=await json(LIVE+'manifest.json'+bust).catch(()=>{throw new Error('The live model feed did not answer.');});
+ const age=(Date.now()-Date.parse(manifest.issuedAt))/3600e3;
+ if(!(age<=LIVE_MAX_AGE_H))throw new Error(`The newest live model run is ${age.toFixed(1)} hours old (from HRRR ${manifest.hrrrCycle}), older than ${LIVE_MAX_AGE_H} hours.`);
+ const [water,rainJson,inflowJson]=await Promise.all([json(LIVE+'water.json.gz'+bust),json(LIVE+'rainfall.json'+bust),json(LIVE+'inflow.json'+bust)]);
+ const frames=parseFrames({waterFrames:water.frames}),levels=frames.map(f=>levelGrid(f,data.vertices));
+ const inflow=inflowJson.series.filter(s=>s.points.some(p=>p.flowM3s>0)).map(s=>{const [x,z]=world(s.lon,s.lat);return{name:s.name,x,z,points:new Map(s.points.map(p=>[Date.parse(p.time),p.flowM3s]))};});
+ const issued=new Date(manifest.issuedAt).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:'2-digit'});
+ def={...def,note:`Model forecast from public forcing, not observed water: SFINCS run at ${issued} MST from the NOAA HRRR rain forecast of ${new Date(manifest.hrrrCycle).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric'})} MST and NWM river flows, after a 45-hour warm-up. A new run is published every hour.`};
+ return{def,frames,levels,shares:frames.map(f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:parseRain(rainJson),inflow,hand:null,manifest};
+}
+let run,liveProblem=null;
+try{run=await prepareRun(firstRun,firstRun.display===BASE_DISPLAY?firstDisplay:undefined);}
+catch(error){if(!firstRun.live)throw error;liveProblem=error.message;run=await prepareRun(RUNS.find(r=>r.id==='13z'));}
 loading('Starting the 3D view',.8);
 const renderer=new THREE.WebGPURenderer({antialias:true,forceWebGL:true,logarithmicDepthBuffer:true,powerPreference:'high-performance'});
 const view=()=>[Math.max(1,$('map').clientWidth),Math.max(1,$('map').clientHeight)];
@@ -94,7 +115,9 @@ controls.enableDamping=true;controls.dampingFactor=.08;controls.maxPolarAngle=Ma
 controls.update();
 // The orbit point rides on the ground so turning and zooming stay anchored to the land.
 function followGround(){const g=ground(controls.target.x,controls.target.z)*E;if(Number.isFinite(g)){const dy=g-controls.target.y;controls.target.y+=dy;camera.position.y+=dy;}}
-let playing=true,clock=0,frameIndex=-1,last=performance.now(),flight=null;
+// A live run opens at the hour nearest now; saved runs at their start.
+const startClock=()=>{if(!run.def.live)return 0;const now=Date.now(),i=run.frames.reduce((b,f,k)=>Math.abs(Date.parse(f.time)-now)<Math.abs(Date.parse(run.frames[b].time)-now)?k:b,0);return Math.min(run.frames.length-1.001,i);};
+let playing=true,clock=startClock(),frameIndex=-1,last=performance.now(),flight=null;
 function flyTo(x,z,distance=1600){
  const from={t:controls.target.clone(),c:camera.position.clone()},y=ground(x,z)*E,dir=camera.position.clone().sub(controls.target);dir.setLength(distance);
  flight={start:performance.now(),from,to:{t:new THREE.Vector3(x,y,z),c:new THREE.Vector3(x,y,z).add(dir)}};
@@ -121,7 +144,7 @@ function showFrame(i){
  showLayers();
 }
 function describeRun(){
- $('run-note').textContent=run.def.note;$('rain').disabled=!run.rain;$('flow').disabled=!run.inflow.length;$('scrub').max=String(run.frames.length-1);
+ $('run-note').textContent=(liveProblem&&!run.def.live?'No live model run to show: '+liveProblem+' Showing a saved run instead. ':'')+run.def.note;$('rain').disabled=!run.rain;$('flow').disabled=!run.inflow.length;$('scrub').max=String(run.frames.length-1);
  for(const o of $('model').options)if(o.value==='hand'||o.value==='aggregate')o.disabled=!run.hand;
  if(!run.hand&&($('model').value==='hand'||$('model').value==='aggregate'))$('model').value='2d';
  applyModel();
@@ -134,12 +157,21 @@ function applyModel(){
 }
 $('model').onchange=applyModel;
 const markers=createMarkers($('map'),camera,ground,E);
-let showFlow=true,showPlaces=true;
+let showFlow=true,showPlaces=true,liveNow=null,liveTimer=null;
+// With the live run: the app's live ratings and closures, checked again every five minutes.
+async function refreshLive(){
+ if(!run.def.live){liveNow=null;routesUI.setLive(null);showLayers();return;}
+ try{liveNow=await loadLiveConditions(routes);routesUI.setLive(liveNow);showLayers();
+  $('live-status').textContent='Live ratings checked '+new Date(liveNow.now).toLocaleTimeString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:'2-digit'})+' MST'+(liveNow.errors.length?' · '+liveNow.errors.join(', '):'');}
+ catch(error){$('live-status').textContent='Live ratings could not load: '+error.message;}
+}
+function watchLive(){clearInterval(liveTimer);$('live-status').hidden=!run.def.live;refreshLive();if(run.def.live)liveTimer=setInterval(refreshLive,300000);}
 function showLayers(){
  if(frameIndex<0)return;
  surface.setHand(run.hand&&surface.U.hand.value?run.hand[frameIndex]:null);
  const t=Date.parse(run.frames[frameIndex].time),list=[];
  if(showFlow)for(const s of run.inflow){const q=s.points.get(t);if(q!=null)list.push({x:s.x,z:s.z,className:'flow',html:`<span>${s.name} inflow: ${Math.round(q).toLocaleString()} m³/s (${Math.round(q*35.3147).toLocaleString()} ft³/s)</span>`});}
+ if(liveNow)for(const c of liveNow.closures){const [x,z]=world(c.lon,c.lat);list.push({x,z,className:'closure',html:`<span aria-hidden="true">⛔</span><em>${c.title.replace(/[<>&]/g,'')}</em>`});}
  if(showPlaces)for(const p of config.PLACES.filter(p=>p.area===routesUI.area)){const [x,z]=world(p.lon,p.lat);list.push({x,z,className:'place',html:`<span>${p.name}</span>`});}
  markers.set(list);
 }
@@ -159,17 +191,17 @@ $('fit-flood').onclick=()=>{
 };
 $('prev').onclick=()=>{playing=false;showPlaying();clock=Math.max(0,frameIndex-1);};
 $('next').onclick=()=>{playing=false;showPlaying();clock=Math.min(run.frames.length-2,frameIndex+1);};
-$('run').innerHTML=RUNS.map(r=>`<option value="${r.id}"${r===run.def?' selected':''}>${r.label}</option>`).join('');
+$('run').innerHTML=RUNS.map(r=>`<option value="${r.id}"${r.id===run.def.id?' selected':''}>${r.label}</option>`).join('');
 $('run').onchange=async e=>{
  const def=RUNS.find(r=>r.id===e.target.value);$('run').disabled=true;status('Loading '+def.label);loading('Loading '+def.label,.3);
- try{run=await prepareRun(def);loading('Preparing the model water',.8);routesUI.setRun(run);clock=0;frameIndex=-1;describeRun();status(`${def.label}: ${run.frames.length} hours.`);}
- catch(error){fail(error);}finally{$('run').disabled=false;loaded();}
+ try{liveProblem=null;run=await prepareRun(def);loading('Preparing the model water',.8);routesUI.setRun(run);clock=startClock();frameIndex=-1;describeRun();watchLive();status(`${def.label}: ${run.frames.length} hours.`);}
+ catch(error){if(def.live){liveProblem=error.message;$('run').value=run.def.id;describeRun();}else fail(error);}finally{$('run').disabled=false;loaded();}
 };
 const PLAY='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',PAUSE='<svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
 const showPlaying=()=>{$('play').innerHTML=playing?PAUSE:PLAY;$('play').setAttribute('aria-label',playing?'Pause':'Play');};
 $('play').onclick=()=>{playing=!playing;showPlaying();};
 $('scrub').oninput=e=>{playing=false;showPlaying();clock=Number(e.target.value);};
-describeRun();
+describeRun();watchLive();
 // The map is a panel of the page, as in the app: follow its size, not the window's.
 new ResizeObserver(()=>{const [w,h]=view();camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);}).observe($('map'));
 // --- Names, Go to and compass ---

@@ -273,3 +273,17 @@ test('crossings use the lidar road surface and bridge decks from the road-height
  assert.match(dip.road.source,/Lowest road surface/);assert.ok(!dip.road.deck);
  assert.ok(Math.abs(dip.road.m-718.05)<.1,'the bottom of the dip');
 });
+
+test('the live run is the newest published run, refused when stale, never swapped for an old one in silence', () => {
+ const main=read('public/preview/geo3d/src/world/main.js');
+ assert.match(main,/raw\.githubusercontent\.com\/Godfather38\/FLOODplain\/live-model\/live\//);
+ assert.match(main,/LIVE_MAX_AGE_H=3/);
+ assert.match(main,/if\(!\(age<=LIVE_MAX_AGE_H\)\)throw/);
+ assert.match(main,/No live model run to show: /,'a saved run shown instead says why');
+});
+
+test('live ratings on the 3D map come from the app\'s own feeds and rating code', () => {
+ const live=read('public/preview/geo3d/src/live-conditions.js');
+ for(const fn of ['rateFailurePoint','riskScore','rateRoutes','routeScore','loadGaugeReadings'])assert.match(live,new RegExp(fn));
+ assert.doesNotMatch(live,/simulation\/data|frozen|snapshot/i,'no saved data in live ratings');
+});

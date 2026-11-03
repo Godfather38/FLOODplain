@@ -8,7 +8,7 @@
 <body class="world3d">
 <header class="appbar">
  <img class="logo" src="../../icons/logo.svg" alt="">
- <div class="titles"><h1 id="title">FLOODplain</h1><p id="subtitle">3D model viewer · saved SFINCS runs</p></div>
+ <div class="titles"><h1 id="title">FLOODplain</h1><p id="subtitle">3D model viewer · live and saved SFINCS runs</p></div>
  <a class="help-link" href="../../index.html">Back to routes</a>
 </header>
 <main>
@@ -23,6 +23,7 @@
    <p class="overline">Model run</p>
    <select id="run" class="run-select" aria-label="Model run"></select>
    <p id="run-note" class="meta"></p>
+   <p id="live-status" class="meta live-status" hidden></p>
    <output id="time" class="clock"></output>
    <div class="time-row"><button id="prev" class="icon-btn step" aria-label="Previous hour">←</button><button id="play" class="icon-btn play" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button><button id="next" class="icon-btn step" aria-label="Next hour">→</button><input id="scrub" type="range" min="0" max="14" step="1" value="0" aria-label="Model hour"></div>
   </div>
