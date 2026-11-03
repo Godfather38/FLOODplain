@@ -1,0 +1,86 @@
+name: Live SFINCS run every hour
+# A current run of the original model for each new HRRR cycle, published to the `live-model`
+# branch for the 3D map (read from raw.githubusercontent.com, as the ALERT snapshot is).
+# GitHub starts scheduled runs hours late on this repo, so one job keeps going: it runs once an
+# hour for about five and a half hours, then starts the next job itself. Start it once by hand.
+on:
+  workflow_dispatch:
+    inputs:
+      hours:
+        description: 'Hourly runs in this job before it hands over to the next'
+        default: '5'
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: live-sfincs
+  cancel-in-progress: false
+jobs:
+  live:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    env:
+      OMP_NUM_THREADS: '2'
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libnetcdf-dev libgfortran5 libgomp1
+          python -m pip install numpy h5py eccodes
+      - name: Find the newest saved engine
+        id: engine
+        run: |
+          id=$(gh api "repos/${{ github.repository }}/actions/artifacts?name=sfincs-engine&per_page=20" --jq '[.artifacts[]|select(.expired|not)][0].workflow_run.id')
+          echo "run=${id:-41290378239}" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        with:
+          name: sfincs-engine
+          path: engine-download
+          run-id: ${{ steps.engine.outputs.run }}
+          github-token: ${{ github.token }}
+      - name: Verify the pinned engine
+        run: |
+          mkdir engine && tar -xzf engine-download/sfincs-engine.tar.gz -C engine
+          (cd engine && sha256sum -c SHA256SUMS)
+          test "$(cat engine/SOURCE_COMMIT)" = f3647fc0289bb15cb2512d60686cef74cb853c78
+          echo "c4917bc54158b0943d6d128b45c4346a33d059fb5d93808d05520c975e38f090  engine/sfincs" | sha256sum -c -
+      # Keep the engine alive past its artifact retention by saving it again from this job.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sfincs-engine
+          path: engine-download/sfincs-engine.tar.gz
+          retention-days: 90
+      - name: Run every hour and publish
+        run: |
+          set -u
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          last=""
+          for i in $(seq 1 "${{ inputs.hours || 5 }}"); do
+            if python tools/live/run_live_sfincs.py prepare tools/sfincs/data/stress-storm-v1/case.tar.gz work > prepare.json; then
+              cycle=$(python -c "import json;print(json.load(open('prepare.json'))['hrrrCycle'])")
+              if [ "$cycle" != "$last" ]; then
+                (cd work && timeout 900 "$GITHUB_WORKSPACE/engine/sfincs" > solver.log 2>&1) || echo "solver exited $?"
+                tail -5 work/solver.log
+                rm -rf out && python tools/live/run_live_sfincs.py export work out
+                cp work/live-case.json out/
+                rm -rf pub && mkdir -p pub/live && cp out/* pub/live/
+                (cd pub && git init -q -b live-model && git add -A && git commit -qm "Live SFINCS run for HRRR $cycle" \
+                  && git push -qf "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" live-model)
+                last="$cycle"
+              else echo "No new HRRR cycle since $last"; fi
+            else echo "Prepare failed:"; cat prepare.json || true; fi
+            [ "$i" = "${{ inputs.hours || 5 }}" ] && break
+            # The next cycle's 18-hour file is usually out about 55 minutes past the hour.
+            now=$(date -u +%s); next=$(( (now/3600+1)*3600 + 58*60 )); [ $((next-now)) -gt 3900 ] && next=$((next-3600))
+            sleep $((next-now))
+          done
+      # Not after a cancel, so cancelling a job stops the chain.
+      - name: Start the next job
+        if: success() || failure()
+        run: gh workflow run live-sfincs.yml --ref "${GITHUB_REF_NAME}"
