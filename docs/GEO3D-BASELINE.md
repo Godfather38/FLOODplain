@@ -28,3 +28,6 @@ Work continues on `experiment/geographic-3d-layer`, restarted from production `4
 
 ## Switch to the saved SFINCS run
 The 3D map page (`public/preview/geo3d/map.html`) now draws the saved SFINCS run instead of invented water. Ground inside the model's domain is the 10 m lidar the model used; water is the model's hourly water surface, compared per pixel with that lidar, so the drawn water does not change with zoom. The earlier invented channels, carving, inflow, assumed bridges, plants, poles and sign gantries are removed. Zoomed out, each model cell is shaded by its share of wet 10 m samples. Not yet measured on the mini PC.
+
+## Own 3D engine
+`public/preview/geo3d/world.html` replaces the MapLibre page, which flickered because MapLibre owned and kept swapping the terrain under our water and roads. The new page owns the whole scene in Three.js: one height field, the model's 10 m lidar, under everything; ground and model water drawn as one surface by one shader; the OpenFreeMap street map painted into the ground Apple Maps style; bridges and buildings in 3D on the same heights; 1 km chunks with distance-based detail. Blinking pixels during camera motion measured 0-0.03%, against 0.8-1.7% on the MapLibre page. Not yet measured on the mini PC.

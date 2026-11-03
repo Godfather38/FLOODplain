@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex"><title>FLOODplain 3D saved model run</title>
+<link rel="stylesheet" href="./style.css">
+<script type="importmap">{"imports":{"three":"../coastal-lowcost/vendor/three.webgpu.js","three/webgpu":"../coastal-lowcost/vendor/three.webgpu.js","three/tsl":"../coastal-lowcost/vendor/three.tsl.js","three/addons/":"./vendor/three-addons/","@mapbox/point-geometry":"./vendor/point-geometry/index.js"}}</script></head>
+<body><main id="map" aria-label="3D map of a saved SFINCS flood model run over the model's lidar terrain, with the street map, bridges and buildings. Drag to pan, right-drag or two fingers to turn, scroll or pinch to zoom."></main>
+<div id="simulation-ack" class="card" role="dialog" aria-labelledby="simulation-ack-title" hidden><strong id="simulation-ack-title">This water is from a saved run</strong><p>It is a saved model run from November 2026, not real conditions or a forecast. If you see water on a real road, turn around, don't drown.</p><button id="simulation-ack-ok">Got it</button></div>
+<div id="error" class="card" hidden><strong>The 3D model run could not load</strong><pre id="error-detail"></pre></div>
+<aside id="panel"><details open><summary>Saved SFINCS model run</summary>
+ <p>Water is the SFINCS model's water surface from a saved run with forecast inputs from November 1, 2026: not current conditions. Ground, water, roads, bridges and buildings all sit on the model's own 10 m lidar terrain. Heights are drawn 2× taller.</p>
+ <p id="window">Starting</p>
+ <div class="timebar"><button id="play">Pause</button><input id="scrub" type="range" min="0" max="14" step="1" value="0" aria-label="Model hour"><span id="time"></span></div>
+ <pre id="metrics"></pre>
+ <p class="credit">Map data © OpenStreetMap contributors, via OpenFreeMap and OpenMapTiles. Terrain: USGS Pima County 2021 lidar as resampled for the SFINCS case; Terrain Tiles (Mapzen, AWS Open Data) at the rectangle's edges.</p>
+</details></aside>
+<script type="module" src="./src/world/main.js"></script></body></html>

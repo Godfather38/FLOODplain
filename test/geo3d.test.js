@@ -11,8 +11,9 @@ import {ChannelSimulation} from '../public/preview/geo3d/src/channel-sim.js';
 import {gunzipSync} from 'node:zlib';
 import {toUtm,fromUtm} from '../public/preview/geo3d/src/utm.js';
 import {GRID as SFINCS_GRID,makeSampler,parseFrames} from '../public/preview/geo3d/src/run-data.js';
-import {wetCells,terrainAtlas,buildWaterMesh,frameSurface,wetShare,cellVolumeM3,SHOW_DEPTH_M} from '../public/preview/geo3d/src/run-water.js';
-import {buildRoadMesh,parseRoadHeights,anchorLift,roadCovered,plantSpots,LODS,lodFor} from '../public/preview/geo3d/src/roads-3d.js';
+import {buildHeights,groundSampler,levelGrid,toWorld,worldToUtm,W as HW,H as HH} from '../public/preview/geo3d/src/world/heights.js';
+import {lodFor as chunkLod,LODS as CHUNK_LODS} from '../public/preview/geo3d/src/world/detail.js';
+import {mapWaterColour} from '../public/preview/geo3d/src/world/paint.js';
 import {GRID_PRESETS} from '../public/preview/coastal-lowcost/src/trial-config.js';
 
 const url=path=>new URL(`../${path}`,import.meta.url);
@@ -54,80 +55,15 @@ test('the demo is byte-identical to the pinned commit and keeps opaque water', (
 });
 
 test('a dismissible acknowledgement and the page text say the water is simulated', () => {
- const page=read('public/preview/geo3d/index.html'),map=read('public/preview/geo3d/map.html');
+ const page=read('public/preview/geo3d/index.html'),map=read('public/preview/geo3d/world.html');
  assert.match(page,/id="simulation-ack"[\s\S]*This water is simulated[\s\S]*turn around, don't drown[\s\S]*id="simulation-ack-ok"/);
  assert.match(map,/id="simulation-ack"[\s\S]*This water is from a saved run[\s\S]*turn around, don't drown[\s\S]*id="simulation-ack-ok"/);
- for(const script of ['main.js','run-map.js'])assert.match(read(`public/preview/geo3d/src/${script}`),/mountAcknowledgement\(\)/,script);
+ for(const script of ['main.js','world/main.js'])assert.match(read(`public/preview/geo3d/src/${script}`),/mountAcknowledgement\(\)/,script);
  assert.match(read('public/preview/geo3d/src/acknowledge.js'),/button\.onclick/);
  assert.doesNotMatch(page,/simulation-(tag|banner)/,'no permanent label on screen');
  assert.match(page,/<title>FLOODplain 3D simulation<\/title>/);
  assert.match(page,/The water is simulated/);
  assert.match(read('public/preview/geo3d/src/data-source.js'),/Water: simulated\./);
-});
-
-test('measured road heights decide whether water covers a road', () => {
- const anchors=parseRoadHeights(JSON.parse(read('public/inundation/road-heights.json')));
- assert.ok(anchors.length>=5,`${anchors.length} measured crossings`);
- for(const a of anchors){assert.ok(a.lat>32&&a.lat<33&&a.lon<-110&&a.lon>-112,a.id);assert.ok(Number.isFinite(a.aboveBedM),a.id);}
- const low=anchors.find(a=>a.id==='west-avra-valley-road-32-39322-111-29459'),deck=anchors.find(a=>a.id==='west-avra-valley-road-32-40256-111-14614');
- assert.equal(low.lat,32.39322);assert.equal(low.lon,-111.29459);assert.equal(low.aboveBedM,.3);assert.equal(deck.deck,true);
- assert.equal(roadCovered(low.aboveBedM,1),true,'a dip 0.3 m above the bed goes under 1 m of water');
- assert.equal(roadCovered(deck.aboveBedM,1),false,'a deck 8 m up stays dry');
- assert.equal(anchorLift(0,0,[{x:0,y:0,aboveBedM:3,deck:false}],2),6,'at-grade heights apply at the map exaggeration');
- assert.equal(anchorLift(0,0,[{x:0,y:0,aboveBedM:3,deck:true}],2),0,'a deck is not lifted as ground');
- assert.equal(anchorLift(500,0,[{x:0,y:0,aboveBedM:3,deck:false}],2),0);
-});
-
-test('road models have thickness, and bridges span the ground below them', () => {
- const valley=(x)=>100-Math.max(0,60-Math.abs(x-200));
- const road=buildRoadMesh([{cls:'motorway',bridge:false,points:[[0,0],[400,0]]}],(x)=>valley(x));
- const bridge=buildRoadMesh([{cls:'primary',bridge:true,points:[[0,0],[400,0]]}],(x)=>valley(x));
- const zs=m=>{const z=[];for(let i=2;i<m.positions.length;i+=3)z.push(m.positions[i]);return z;};
- assert.ok(Math.min(...zs(road))<75,'an ordinary road follows the ground down');
- const tops=[];for(let i=0;i<bridge.positions.length;i+=3)if(Math.abs(bridge.positions[i]-200)<40)tops.push(bridge.positions[i+2]);
- assert.ok(Math.max(...tops)>=100,'the deck stays up at the abutment height');
- assert.ok(Math.min(...zs(bridge))<85,'piers reach down to the ground under the deck');
- assert.ok(Math.max(...road.indices)<road.positions.length/3);
- assert.equal(buildRoadMesh([{cls:'minor',points:[[0,0],[10,0]]}],()=>null).positions.length,0,'no terrain yet means no road yet');
-});
-
-test('close up, roads get real detail, and plants stay off the road', () => {
- const flat=()=>100,road={cls:'motorway',bridge:false,oneway:true,points:[[0,0],[2000,0]]};
- const plain=buildRoadMesh([road],flat),full=buildRoadMesh([road],flat,{detail:true});
- assert.ok(full.positions.length>plain.positions.length*3,'markings, barrier, poles and gantries add geometry');
- let top=0;for(let i=2;i<full.positions.length;i+=3)top=Math.max(top,full.positions[i]);
- assert.ok(top>120,'poles and gantries stand above the road');
- const bridge=buildRoadMesh([{cls:'primary',bridge:true,points:[[0,0],[600,0]]}],x=>100-Math.max(0,60-Math.abs(x-300)/3),{detail:true});
- assert.ok(bridge.positions.length>plain.positions.length,'decks have girders, parapets, piers and abutments');
- const spots=plantSpots(0,0,500);
- assert.deepEqual(spots,plantSpots(0,0,500),'plants do not move between views');
- const planted=buildRoadMesh([road],flat,{plants:[{x:500,y:0},{x:500,y:900}]});
- assert.equal(planted.planted,1,'the plant on the road is left out');
-});
-
-test('roads bridge channels, unless the spot is a ford, and survive missing terrain', () => {
- const flat=()=>100,road={cls:'secondary',bridge:false,points:[[0,0],[1200,0]]},channelAt=x=>x>500&&x<700;
- const top=m=>{let z=0;for(let i=0;i<m.positions.length;i+=3)if(Math.abs(m.positions[i]-600)<60)z=Math.max(z,m.positions[i+2]);return z;};
- const spanned=buildRoadMesh([road],flat,{channelAt}),ford=buildRoadMesh([road],flat,{channelAt,fordAt:()=>true});
- assert.ok(spanned.spans>=1,'a channel crossing becomes a bridge');
- assert.equal(ford.spans,0,'a ford stays at grade');
- assert.ok(top(spanned)>top(ford),'the deck stands above the at-grade road');
- const side=buildRoadMesh([{...road,spanOnly:true}],flat,{channelAt});
- let far=0;for(let i=0;i<side.positions.length;i+=3)if(side.positions[i]<300)far++;
- assert.ok(side.spans>=1&&far===0,'a side street gets only its bridge');
- const half=buildRoadMesh([road],(x)=>x<600?100:null);
- assert.ok(half.positions.length>0,'the part with terrain is still built');
-});
-
-test('distance lowers detail without dropping major roads', () => {
- assert.deepEqual([lodFor(0),lodFor(5000),lodFor(50000)],[0,1,2]);
- const roads=[{cls:'motorway',points:[[0,0],[6000,0]]}];
- const near=buildRoadMesh(roads,()=>100,{detail:LODS[0].detail,step:LODS[0].step}),far=buildRoadMesh(roads,()=>100,{detail:LODS[2].detail,step:LODS[2].step});
- assert.ok(far.positions.length>0,'the interstate is still there far away');
- assert.ok(far.positions.length*10<near.positions.length,'and costs far less');
- for(const L of LODS)assert.ok(!L.classes||L.classes.includes('motorway'));
- const many=Array.from({length:3000},(_,i)=>({cls:'minor',points:[[i*10,0],[i*10,600]]}));
- assert.equal(buildRoadMesh(many,()=>100).dropped,undefined,'there is no budget that throws roads away');
 });
 
 test('the live app does not load the prototype', () => {
@@ -208,42 +144,40 @@ test('ground is the 10 m lidar the model used, and nothing is invented outside i
  assert.ok(Number.isNaN(sfSampler.ground(SFINCS_GRID.x0-5000,SFINCS_GRID.y0-5000)),'outside the case: unknown, not made up');
 });
 
-test('the water comes from the saved frames alone, so its volume cannot change with zoom', () => {
- const cells=wetCells(sfData,sfFrames),atlas=terrainAtlas(cells,sfData),mesh=buildWaterMesh(cells,sfData,(e,n)=>[e,n],atlas.across);
- assert.equal(buildWaterMesh.length,4,'building the water takes no view or zoom input');
- assert.equal(mesh.vertexCount,cells.length*4,'one quad per model cell');
- assert.ok(cells.length>1000&&cells.length<sfData.vertices.length);
- const f=sfFrames[8],first=frameSurface(mesh,sfSampler,f),again=frameSurface(mesh,sfSampler,f);
- assert.deepEqual(first.surface,again.surface);
- const volume=cells.reduce((s,k)=>s+cellVolumeM3(k,sfData,sfSampler,f),0);
- assert.equal(volume,cells.reduce((s,k)=>s+cellVolumeM3(k,sfData,sfSampler,f),0));
- assert.ok(volume>0);
- const share=wetShare(mesh,sfData,sfSampler,f);
- assert.ok(share.every(s=>s>=0&&s<=1),'the zoomed-out summary is a share of the same cells');
+
+test('one height field holds the model lidar exactly, with public elevation only where the model has no cell', async () => {
+ const {heights,filled}=await buildHeights(sfData,{fill:async()=>new Float32Array((SFINCS_GRID.mmax+1)*(SFINCS_GRID.nmax+1)).fill(700)});
+ assert.equal(filled,HW*HH-sfData.vertices.length*100,'only empty corners are filled');
+ for(const k of [0,15000,29684]){const v=sfData.vertices[k];assert.equal(heights[(v[3]*10+3)*HW+v[4]*10+7],sfData.terrain[k*100+3*10+7],'cell '+k);}
+ const ground=groundSampler(heights),k=12000,v=sfData.vertices[k],[x,z]=toWorld(SFINCS_GRID.x0+v[4]*100+5,SFINCS_GRID.y0+v[3]*100+5);
+ assert.ok(Math.abs(ground(x,z)-sfData.terrain[k*100])<1e-3,'the CPU sampler reads the same field the shader does');
+ const back=worldToUtm(x,z);assert.ok(Math.abs(back.e-(SFINCS_GRID.x0+v[4]*100+5))<1e-6&&Math.abs(back.n-(SFINCS_GRID.y0+v[3]*100+5))<1e-6);
 });
 
-test('a missing water level is never drawn as water', () => {
- const k=display.vertices.findIndex((_,i)=>Number.isNaN(sfFrames[0].surface[i]));
- assert.ok(k>=0,'the run has missing levels at its first hour');
- const v=display.vertices[k];
- const own=sfSampler.surface(sfFrames[0].surface.map((z,i)=>i===k?z:NaN),SFINCS_GRID.x0+v[4]*100+50,SFINCS_GRID.y0+v[3]*100+50);
- assert.ok(Number.isNaN(own),'unknown stays unknown');
- const mesh=buildWaterMesh([k],sfData,(e,n)=>[e,n],1),surface=frameSurface(mesh,sfSampler,{surface:sfFrames[0].surface.map((z,i)=>i===k?z:NaN)}).surface;
- assert.ok(surface.every(z=>z<-1e4));
+test('water levels come straight from the saved frames, and missing stays missing', () => {
+ const grid=levelGrid(sfFrames[8],sfData.vertices);
+ for(const k of [100,9000,20000]){const v=sfData.vertices[k],z=sfFrames[8].surface[k];assert.equal(grid[v[3]*SFINCS_GRID.mmax+v[4]],Number.isNaN(z)?-1e5:Math.fround(z));}
+ const missing=sfData.vertices.findIndex((_,i)=>Number.isNaN(sfFrames[0].surface[i])),v=sfData.vertices[missing];
+ assert.equal(levelGrid(sfFrames[0],sfData.vertices)[v[3]*SFINCS_GRID.mmax+v[4]],-1e5,'unknown is far below ground, never water');
+ assert.equal(grid.filter(z=>z>-1e4).length,sfFrames[8].surface.filter(z=>!Number.isNaN(z)).length);
 });
 
-test('the 3D page uses no invented geometry', () => {
- const page=read('public/preview/geo3d/src/run-map.js');
- assert.match(read('public/preview/geo3d/map.html'),/src\/run-map\.js/);
- assert.doesNotMatch(page,/channels\.js|network\.js|water-window\.js|channel-sim\.js|plantSpots|carveField|carveFine|cutAt|withWander/);
- assert.match(page,/furniture:false/,'no made-up poles or sign gantries');
- assert.match(page,/deckRise:0/,'bridge decks run between their real abutments');
- for(const f of ['map-layer.js','network.js','water-window.js'])assert.ok(!existsSync(url('public/preview/geo3d/src/'+f)),f);
+test('detail changes with distance, with a margin so it does not flip back and forth', () => {
+ assert.deepEqual([chunkLod(0),chunkLod(3000),chunkLod(9000),chunkLod(50000)],[0,1,2,3]);
+ assert.equal(chunkLod(CHUNK_LODS[0].reach*1.1,0),0,'moving away keeps the finer detail a little longer');
+ assert.equal(chunkLod(CHUNK_LODS[0].reach*1.1,1),1,'coming closer switches at the reach');
 });
 
-test('a surveyed road height overrides the ground under the road', () => {
- const plain=buildRoadMesh([{cls:'primary',points:[[0,0],[300,0]]}],()=>100,{lift:0});
- const surveyed=buildRoadMesh([{cls:'primary',points:[[0,0],[300,0]]}],()=>100,{lift:0,measuredAt:x=>x>100&&x<200?250:null});
- const top=m=>{let z=-Infinity;for(let i=2;i<m.positions.length;i+=3)z=Math.max(z,m.positions[i]);return z;};
- assert.equal(top(plain),100);assert.equal(top(surveyed),250);
+test('blue means model water: map water areas are painted as beds', () => {
+ assert.equal(mapWaterColour({class:'river'}),'#eadcbd');
+ assert.equal(mapWaterColour({class:'lake',intermittent:1}),'#eadcbd');
+ for(const c of [mapWaterColour({class:'river'}),mapWaterColour({class:'lake'})]){const [r,g,b]=[1,3,5].map(i=>parseInt(c.slice(i,i+2),16));assert.ok(b-r<20,c+' is not a water blue');}
+});
+
+test('the 3D world uses no invented geometry and one shared height field', () => {
+ const files=['main.js','surface.js','chunks.js','detail.js','structures.js','paint.js','heights.js','tiles.js'].map(f=>read('public/preview/geo3d/src/world/'+f)).join('\n');
+ assert.match(read('public/preview/geo3d/world.html'),/src\/world\/main\.js/);
+ assert.doesNotMatch(files,/channels\.js|network\.js|water-window\.js|channel-sim\.js|plantSpots|carveField|carveFine|cutAt|withWander|maplibre/);
+ assert.match(read('public/preview/geo3d/src/world/chunks.js'),/brunnel==='bridge'/,'bridges only where the map says bridge');
+ for(const f of ['map.html','src/run-map.js','src/run-water.js','src/roads-3d.js','vendor/maplibre'])assert.ok(!existsSync(url('public/preview/geo3d/'+f)),f);
 });
