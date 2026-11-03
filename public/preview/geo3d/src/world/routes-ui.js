@@ -76,7 +76,7 @@ export function createRoutesUI({root,camera,config,routes,world,inside,ground,E,
    body=`<p class="status ${s}">${STATUS[s]}${s==='over'?`: ${ft(hour.over)} deep`:''}</p>
    <dl class="heights">
     <dt>Road height</dt><dd><strong>${ft(story.road.m)}</strong> NAVD88<small>${esc(story.road.source)}</small></dd>
-    <dt>Model water level now</dt><dd><strong>${ft(hour.water)}</strong> NAVD88<small>${hour.water==null?'No model level for this hour.':`${ft(hour.depth)} above the ground at the crossing`}</small></dd>
+    <dt>Model water level now</dt><dd><strong>${ft(hour.water)}</strong> NAVD88<small>${hour.water==null?'No model level for this hour.':hour.depth>=0?`${ft(hour.depth)} above the ground at the crossing`:`${ft(-hour.depth)} below the ground here: the level of the nearby model cells, not water on this spot`}</small></dd>
     <dt>Water vs road now</dt><dd><strong>${hour.over==null?'—':(hour.over>=0?'+':'−')+ft(Math.abs(hour.over))}</strong><small>${hour.over==null?'Needs both heights.':hour.over>COVER_M?'Model water is above the road.':'Model water is below the road.'}</small></dd>
     <dt>Highest model level</dt><dd><strong>${ft(story.peak?.water)}</strong><small>${story.peak?new Date(story.peak.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric'})+' MST':''}${story.coveredHours!=null?` · over the road in ${story.coveredHours} of ${story.hours.length} hours`:''}</small></dd>
    </dl>${chart(story)}

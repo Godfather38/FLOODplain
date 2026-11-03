@@ -27,16 +27,20 @@ export function createChunks(scene,material,{ground,E,structureMaterial,onChange
  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
   const x0=-SIZE_X/2+i*CHUNK,z0=-SIZE_Z/2+j*CHUNK,mesh=new THREE.Mesh(geometries[3],material);
   mesh.position.set(x0,0,z0);mesh.matrixAutoUpdate=false;mesh.updateMatrix();mesh.userData.map=null;scene.add(mesh);
-  list.push({x0,z0,mesh,lod:null,paintedLod:null,painting:null,structures:null,structuresLod:null});
+  list.push({x0,z0,mesh,lod:null,paintedLod:null,painting:null,structures:null,structuresLod:null,maps:[]});
  }
- const queue=new Set();let busy=0;
+ // Painted maps are kept per detail level, so zooming back shows them at once. New painting waits
+ // while the camera moves (the coarser map stays meanwhile) and starts one chunk per frame.
+ const queue=new Set(),last=new THREE.Vector3(),lastQ=new THREE.Quaternion();let busy=0,stillSince=0,moving=false;
  async function paint(c,lod){
   const L=LODS[lod],tiles=await Promise.all(tileRange(c.x0,c.z0,c.x0+CHUNK,c.z0+CHUNK,L.zoom,toLonLat).map(loadVectorTile));
   if(c.lod!==lod)return;
   const canvas=document.createElement('canvas');canvas.width=canvas.height=L.px;
   paintChunk(canvas,c.x0,c.z0,CHUNK,tiles,lod<=1);
   const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=4;texture.flipY=false;
-  c.mesh.userData.map?.dispose();c.mesh.userData.map=texture;c.paintedLod=lod;
+  c.maps[lod]?.dispose();c.maps[lod]=texture;c.mesh.userData.map=texture;c.paintedLod=lod;
+  // Keep the levels next to the current one; finer maps far from the camera are let go.
+  for(let k=0;k<lod-1;k++)if(c.maps[k]&&c.maps[k]!==c.mesh.userData.map){c.maps[k].dispose();c.maps[k]=null;}
   if(L.structures&&c.structuresLod===null){
    const features={bridges:[],buildings:[]},seen=new Set(),inside=([x,z])=>x>=c.x0&&x<c.x0+CHUNK&&z>=c.z0&&z<c.z0+CHUNK;
    for(const t of tiles){
@@ -52,8 +56,9 @@ export function createChunks(scene,material,{ground,E,structureMaterial,onChange
   }
   onChange?.();
  }
- function pump(){
-  while(busy<4&&queue.size){
+ function pump(hold=moving){
+  let started=0;
+  while(busy<4&&queue.size&&started<1&&!hold){started++;
    // Nearest first.
    const c=[...queue].sort((a,b)=>a.distance-b.distance)[0];queue.delete(c);busy++;
    c.painting=paint(c,c.lod).catch(e=>console.warn(e)).finally(()=>{busy--;c.painting=null;if(c.paintedLod!==c.lod)queue.add(c);pump();});
@@ -62,18 +67,26 @@ export function createChunks(scene,material,{ground,E,structureMaterial,onChange
  return{
   list,
   update(camera){
-   const p=camera.position;
+   const p=camera.position,now=performance.now();
+   if(p.distanceToSquared(last)>1e-4||camera.quaternion.angleTo(lastQ)>1e-5){stillSince=now;last.copy(p);lastQ.copy(camera.quaternion);}
+   moving=now-stillSince<180;
    for(const c of list){
     const dx=Math.max(c.x0-p.x,0,p.x-(c.x0+CHUNK)),dz=Math.max(c.z0-p.z,0,p.z-(c.z0+CHUNK));
     c.distance=Math.hypot(dx,dz,Math.max(0,p.y-2400));
     const lod=lodFor(c.distance,c.lod);
-    if(lod!==c.lod){c.lod=lod;c.mesh.geometry=geometries[lod];if(c.paintedLod!==lod&&!c.painting)queue.add(c);}
+    if(lod!==c.lod){
+     c.lod=lod;c.mesh.geometry=geometries[lod];
+     for(let k=0;k<lod-1;k++)if(c.maps[k]&&c.maps[k]!==c.mesh.userData.map){c.maps[k].dispose();c.maps[k]=null;}
+     if(c.maps[lod]){c.mesh.userData.map=c.maps[lod];c.paintedLod=lod;}
+     else if(!c.painting)queue.add(c);
+    }
     if(c.structures)c.structures.visible=c.lod<=1;
    }
-   pump();
+   // A chunk with no map at all is painted even while moving.
+   pump(moving&&![...queue].some(c=>!c.mesh.userData.map));
   },
   // Paint every chunk again, for example after the chosen routes change.
-  repaint(){for(const c of list){c.paintedLod=null;if(!c.painting&&c.lod!==null)queue.add(c);}pump();},
+  repaint(){for(const c of list){c.paintedLod=null;c.maps.forEach((m,k)=>{if(m&&k!==c.lod){m.dispose();c.maps[k]=null;}});if(!c.painting&&c.lod!==null)queue.add(c);}pump(false);},
   stats(){const levels=[0,0,0,0];let painted=0,bridges=0,buildings=0;for(const c of list){levels[c.lod]++;if(c.paintedLod===c.lod)painted++;bridges+=c.bridgeCount??0;buildings+=c.buildingCount??0;}return{chunks:list.length,levels,painted,queued:queue.size+busy,bridges,buildings};},
  };
 }

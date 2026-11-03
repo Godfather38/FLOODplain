@@ -9,6 +9,7 @@ import {coarseBed,drainage,pickChannels,carveFine} from '../public/preview/geo3d
 import {visibleRoadRuns,ribbonMesh} from '../public/preview/geo3d/src/roads.js';
 import {ChannelSimulation} from '../public/preview/geo3d/src/channel-sim.js';
 import {gunzipSync} from 'node:zlib';
+import * as utm from '../public/preview/geo3d/src/utm.js';
 import {toUtm,fromUtm} from '../public/preview/geo3d/src/utm.js';
 import {GRID as SFINCS_GRID,makeSampler,parseFrames} from '../public/preview/geo3d/src/run-data.js';
 import {buildHeights,groundSampler,levelGrid,shareGrid,levelSampler,modelCells,toWorld,worldToUtm,W as HW,H as HH} from '../public/preview/geo3d/src/world/heights.js';
@@ -228,8 +229,29 @@ test('rain comes from the run rainfall grid, and only where and when it has rain
  const ctx=JSON.parse(read('public/simulation/data/frozen-map-context.json')),rain=parseRain(ctx);
  assert.ok(rain.frames.length>0);
  const f=rain.frames[0],g=ctx.rainfall.frames[0].precipMmH,mid=(f.start+f.end)/2;
- assert.ok(Math.abs(rainAt(rain,mid,rain.lon[3],rain.lat[4])-g[4][3])<1e-9,'on a grid point it is that value');
- assert.equal(rainAt(rain,f.start-1,rain.lon[3],rain.lat[4]),0,'before the first hour');
- assert.equal(rainAt(rain,mid,rain.lon[0]-1,rain.lat[0]),0,'outside the grid');
+ assert.ok(Math.abs(rainAt(rain,mid,rain.cols[3],rain.rows[4])-g[4][3])<1e-9,'on a grid point it is that value');
+ assert.equal(rainAt(rain,f.start-1,rain.cols[3],rain.rows[4]),0,'before the first hour');
+ assert.equal(rainAt(rain,mid,rain.cols[0]-1,rain.rows[0]),0,'outside the grid');
  assert.equal(parseRain({}),null);
+});
+
+test('the 19Z run has its own rainfall input, on its UTM grid, for its saved hours', () => {
+ const r=JSON.parse(read('public/simulation/data/sfincs-current-coarse-20261101-19z-41350254061-map/rainfall.json')),rain=parseRain(r);
+ assert.equal(r.source.sha256,'119e6302e578932c4a811f0ba73d5b0ba915e82ec8903a6db718549a38745ef4','the precip_2d.nc the run recorded');
+ assert.ok(rain.utm);assert.equal(r.frames[0].start,'2026-11-01T22:00:00Z');assert.equal(r.frames.at(-1).end,'2026-11-02T12:00:00Z');
+ const f=rain.frames.find(q=>q.start===Date.parse('2026-11-02T07:00:00Z')),g=f.grid,mid=f.start+1800e3;
+ const {fromUtm}=utm,ll=fromUtm(r.x[5],r.y[7]);
+ assert.ok(Math.abs(rainAt(rain,mid,ll.lon,ll.lat)-g[7][5])<1e-3,'a grid point gives its own value');
+ assert.ok(Math.max(...g.flat())>5,'the Nov 2 07Z burst is there');
+});
+
+test('every run on the 3D map has its water frames and rain, and the stress run says what it is', () => {
+ const main=read('public/preview/geo3d/src/world/main.js'),files=[...main.matchAll(/(?:display|rain):'([^']+)'/g)].map(m=>m[1]);
+ assert.ok(files.length>=6);
+ for(const f of files)assert.ok(existsSync(url('public/simulation/data/'+f)),f);
+ const stress=JSON.parse(gunzipSync(readFileSync(url('public/simulation/data/sfincs-stress-storm-41633261576-map/frozen-terrain-display.json.gz'))));
+ assert.equal(stress.waterFrames.length,15);assert.equal(stress.vertices.length,sfData.vertices.length);assert.match(stress.scenario,/not a forecast/);
+ const rain=JSON.parse(read('public/simulation/data/sfincs-stress-storm-41633261576-map/rainfall.json'));
+ assert.equal(Math.max(...rain.frames.flatMap(f=>f.precipMmH.flat())),55.88,'the Atlas 14 100-year peak hour, 2.20 in');
+ assert.match(main,/what-if run of the same model, not a forecast/);
 });
