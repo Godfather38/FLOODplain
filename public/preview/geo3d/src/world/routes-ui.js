@@ -9,7 +9,7 @@ const GLYPH={dip:'⌄',flat:'⌄',road:'⌄',bridge:'⌒',river:'≈'};
 const STATUS={over:'Water over the road',clear:'Road above the water',unmeasured:'Deck height not measured',unknown:'No model level here this hour',outside:'Outside the model area'};
 export function createRoutesUI({root,camera,config,routes,world,inside,ground,E,appHref,flyTo,onRoutes}){
  const {AREAS,ROUTE_INFO,FAILURE_POINTS}=config;
- let area=AREAS[0].id,route=null,run=null,frameIndex=0,stories=new Map(),openId=null;
+ let area=AREAS[0].id,route=null,run=null,frameIndex=0,stories=new Map(),openId=null,roadWater=new Map();
  // --- panel ---
  const panel=el('aside','routes-panel');panel.setAttribute('aria-label','Routes and crossings');
  const tabs=el('div','segmented');
@@ -36,15 +36,24 @@ export function createRoutesUI({root,camera,config,routes,world,inside,ground,E,
  const routePoints=f=>(f.geometry.type==='MultiLineString'?f.geometry.coordinates.flat():f.geometry.coordinates).map(([lon,lat])=>world(lon,lat));
  const routeCentre=f=>{const p=routePoints(f);return[p.reduce((s,q)=>s+q[0],0)/p.length,p.reduce((s,q)=>s+q[1],0)/p.length];};
  const routeSpan=f=>{const p=routePoints(f),xs=p.map(q=>q[0]),zs=p.map(q=>q[1]);return Math.max(2500,Math.hypot(Math.max(...xs)-Math.min(...xs),Math.max(...zs)-Math.min(...zs))*1.1);};
+ // Road under model water, per route and hour: samples every 10 m where the model has a cell,
+ // with the road at the model's lidar ground. Bridge and river crossings are left out (200 m
+ // around them), since the ground under a deck is the channel, not the road.
+ const spans=FAILURE_POINTS.filter(p=>p.kind==='bridge'||p.kind==='river').map(p=>world(p.lon,p.lat));
+ const samples=new Map(routes.features.map(f=>{const out=[];for(const line of f.geometry.type==='MultiLineString'?f.geometry.coordinates:[f.geometry.coordinates]){const p=line.map(([lon,lat])=>world(lon,lat));for(let i=1;i<p.length;i++){const [ax,az]=p[i-1],[bx,bz]=p[i],n=Math.max(1,Math.ceil(Math.hypot(bx-ax,bz-az)/10));for(let k=0;k<n;k++){const x=ax+(bx-ax)*k/n,z=az+(bz-az)*k/n;if(inside(x,z)&&!spans.some(([a,b])=>Math.hypot(a-x,b-z)<200))out.push([x,z,ground(x,z)]);}}}return[f.properties.id,out];}));
+ function measureRoads(){roadWater=new Map([...samples].map(([id,pts])=>[id,run.samplers.map(s=>{let wet=0,deep=0;for(const [x,z,g] of pts){const d=s(x,z)-g;if(d>.15)wet++;if(d>.5)deep++;}return{wet:wet/100,deep:deep/100};})]));}
+ const km=v=>v>=1?v.toFixed(1)+' km':Math.round(v*1000/10)*10+' m';
  function refreshCounts(){
   for(const em of list.querySelectorAll('em[data-route]')){
    const points=FAILURE_POINTS.filter(fp=>fp.routes.includes(em.dataset.route)),over=points.filter(fp=>stories.get(fp.id)&&statusAt(stories.get(fp.id),frameIndex)==='over').length,modelled=points.filter(fp=>stories.get(fp.id)?.inside).length;
-   em.textContent=modelled?(over?`${over} with model water over the road this hour`:`No model water over a measured road this hour`):'Outside the model area';
-   em.className=over?'over':'';
+   const road=roadWater.get(em.dataset.route)?.[frameIndex],wet=road&&road.wet>=.05;
+   const parts=[];if(over)parts.push(`${over} crossing${over===1?'':'s'} with water over the road`);if(wet)parts.push(`${km(road.wet)} of road under model water${road.deep>=.05?`, ${km(road.deep)} of it over 1.6 ft deep`:""}`);
+   em.textContent=!modelled&&!samples.get(em.dataset.route)?.length?'Outside the model area':parts.length?parts.join(' · ')+' this hour':'No model water over the road this hour';
+   em.className=over||wet?'over':'';
   }
  }
  function setRun(nextRun){
-  run=nextRun;stories=new Map(FAILURE_POINTS.map(fp=>[fp.id,crossingStory(fp,{world,ground,inside,frames:run.frames,samplers:run.samplers,measured:run.measured})]));
+  run=nextRun;measureRoads();stories=new Map(FAILURE_POINTS.map(fp=>[fp.id,crossingStory(fp,{world,ground,inside,frames:run.frames,samplers:run.samplers,measured:run.measured})]));
   if(openId)openDetail(openId);
  }
  function setFrame(i){
