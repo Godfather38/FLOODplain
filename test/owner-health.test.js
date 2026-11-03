@@ -21,3 +21,29 @@ test('compute exceptions notify without subscribers and independently of closure
 test('all-empty/malformed 200 measurements alert, event emptiness stays healthy',()=>{const {gas}=setup();const raw=healthy();for(const id of Object.keys(raw.usgs))raw.usgs[id]={features:[]};raw.rain={data:[]};raw.stream={data:[]};const issues=gas.api.expectedInputHealth_(raw,now).filter(r=>r.reason);assert.equal(issues.length,16);assert.ok(issues.every(r=>/^(usgs|rain|stream):/.test(r.id)));});
 test('failed current computation prevents pending source recovery',()=>{const {gas}=setup();const r={id:'x',reason:'Unavailable',expected:'Reading',crossings:'Sanders'};gas.api.noteOwnerHealth_([r],now);gas.api.ownerHealthWatch_(now);gas.api.noteOwnerHealth_([{...r,reason:''},{id:'compute',reason:'Failed',expected:'Evaluation',crossings:'All'}],now);gas.api.ownerHealthWatch_(now);assert.equal(gas.mails.length,2);assert.doesNotMatch(gas.mails[1].body,/RECOVERED/);});
 test('healthy input diagnostics still send when closure monitor throws',()=>{const {gas}=setup(SRC+'\nfunction closureWatch_(){throw Error("closure");}');gas.cache.set('verdicts','{}');gas.api.noteOwnerHealth_([{id:'rain:6110',reason:'Stale reading',expected:'Rain',crossings:'Brawley'}],now);gas.api.tick();assert.equal(gas.mails.length,1);assert.match(gas.mails[0].body,/rain:6110/);});
+
+function cachedVerdicts(){return Object.fromEntries(['avra','picture-rocks'].map(id=>[id,{at:new Date(now).toISOString(),text:'Estimate',sms:'Estimate',spoken:'Estimate',title:'Estimate',off:false,closed:[],closuresKnown:true}]));}
+test('missing engine and null all-area result produce actionable compute incidents',()=>{
+  for(const [suffix,pattern] of [['\nevaluate=undefined;',/engine unavailable/],['\nfunction computeVerdicts_(){return null;}',/output is missing/]]){
+    const {gas}=setup(SRC+suffix);gas.cache.set('verdicts',JSON.stringify(cachedVerdicts()));gas.api.tick();assert.equal(gas.mails.length,1);assert.match(gas.mails[0].body,pattern);
+  }
+});
+test('malformed and incomplete cached verdicts alert; valid cache cannot recover an incident',()=>{
+  const {gas}=setup();for(const cache of ['null','{','{}',JSON.stringify({avra:cachedVerdicts().avra})]){gas.cache.set('verdicts',cache);gas.api.tick();assert.ok(JSON.parse(gas.props.get('ownerHealth:compute')).reason);}
+  const count=gas.mails.length;gas.cache.set('verdicts',JSON.stringify(cachedVerdicts()));gas.api.tick();assert.equal(gas.mails.length,count);assert.ok(JSON.parse(gas.props.get('ownerHealth:compute')).reason);assert.ok(gas.mails.every(m=>!m.body.includes('RECOVERED')));
+});
+test('null evaluator output cannot mark computation recovered',()=>{
+  const clock={now};const gas=makeGas(clock,SRC+'\nevaluate=()=>null;',reqs=>reqs.map(()=>({getResponseCode:()=>200,getContentText:()=>JSON.stringify({features:[],data:[],d:[]})})));gas.api.tick();assert.match(gas.mails[0].body,/Assessment output is missing/);assert.ok(JSON.parse(gas.props.get('ownerHealth:compute')).reason);
+});
+test('stale observation timestamp and age appear without changing deduplication',()=>{
+  const {gas,clock}=setup();const raw=healthy();raw.usgs['09486500'].features[0].properties.time='2026-11-01T00:00:00Z';
+  const cycle=()=>{gas.api.noteOwnerHealth_(gas.api.expectedInputHealth_(raw,clock.now),clock.now);gas.api.ownerHealthWatch_(clock.now);};cycle();assert.match(gas.mails[0].body,/Last observation: 2026-11-01T00:00:00.000Z/);assert.match(gas.mails[0].body,/Observation age at check: 3000 minutes/);clock.now+=60000;cycle();assert.equal(gas.mails.length,1);assert.equal(JSON.parse(gas.props.get('ownerHealth:usgs:09486500')).ageMinutes,3001);
+});
+test('observation writer waits for delivery lock and newer state survives; older check is ignored',()=>{
+  const {gas,clock}=setup();const initial={id:'x',reason:'Stale',expected:'Reading',crossings:'Sanders'};gas.api.noteOwnerHealth_([initial],now);
+  clock.onMail=()=>assert.throws(()=>gas.api.noteOwnerHealth_([{...initial,reason:'Unavailable'}],now+1),/lock held/);
+  gas.api.ownerHealthWatch_(now);clock.onMail=null;
+  gas.api.noteOwnerHealth_([{...initial,reason:'Unavailable'}],now+1);
+  gas.api.noteOwnerHealth_([initial],now);
+  const state=JSON.parse(gas.props.get('ownerHealth:x'));assert.equal(state.reason,'Unavailable');assert.equal(state.delivered,'Stale');gas.api.ownerHealthWatch_(now+1);assert.equal(gas.mails.length,2);assert.match(gas.mails[1].body,/Unavailable/);
+});

@@ -29,3 +29,11 @@ The legacy aggregate `feed=health` response is retained for compatibility; it is
 `npm test`: full repository suite, including owner-health tests for expected inventory, structural non-alerts, partial outages, stale/future/malformed/empty readings, valid empty event lists, stable deduplication, reason changes, recovery, failed sends, retry limits, compute failure, and closure-monitor isolation without subscribers. All sends are mocked.
 
 `npm run build:gas`: rebuild the tracked WashWatch.gs bundle and parse as ES2019. No deployment or live notification is part of this work.
+
+## Review hardening
+
+Missing evaluator, null output, incomplete area coverage, malformed verdict fields, and malformed or stale cached verdicts produce actionable compute incidents. Only a newly computed, validated all-area result records compute recovery; reading a valid cache never clears an incident.
+
+Reading diagnostics include the actual last observation timestamp and its age at the input check. These fields update without becoming part of the reason fingerprint, so increasing age alone does not resend an alert.
+
+Observation writes and delivery share the script lock. An observation older than the stored check is ignored. This prevents delivery's final save from overwriting an interleaved newer observation. The mock exercises lock contention and the subsequent newer-state update.

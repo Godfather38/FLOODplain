@@ -279,7 +279,7 @@ function notifyWaitlist_() {
 
 // ---------- every minute ----------
 function tick() {
-  try { computeVerdicts_(); } catch (err) { noteOwnerHealth_([{ id: 'compute', reason: 'Assessment computation failed', expected: 'Successful evaluation for every area', crossings: 'All configured crossings' }], Date.now()); }
+  try { if (!validOwnerVerdicts_(computeVerdicts_(), Date.now())) throw ownerComputeError_('Assessment output is missing or malformed; inspect the evaluator and area configuration'); } catch (err) { noteOwnerHealth_([{ id: 'compute', reason: err.ownerReason || 'Assessment computation failed', expected: 'Successful evaluation for every area', crossings: 'All configured crossings' }], Date.now()); }
   try { ownerHealthWatch_(Date.now()); } catch (err) { /* bounded retries on later ticks */ }
 
   const now = new Date();
@@ -483,9 +483,14 @@ function transview_(method, body, ua) {
 }
 function computeVerdicts_() {
   const cache = CacheService.getScriptCache();
+  if (typeof evaluate !== 'function') throw ownerComputeError_('Assessment engine unavailable; rebuild and install the complete Apps Script bundle');
   const hit = cache.get('verdicts');
-  if (hit) return JSON.parse(hit);
-  if (typeof evaluate !== 'function') return null; // Code.gs on its own, without the bundled engine
+  if (hit) {
+    let cached;
+    try { cached = JSON.parse(hit); } catch (err) { throw ownerComputeError_('Cached assessment is malformed; refresh the verdict cache'); }
+    if (!validOwnerVerdicts_(cached, Date.now())) throw ownerComputeError_('Cached assessment is incomplete, malformed or stale; refresh the verdict cache');
+    return cached; // Cache hits never mark compute health recovered.
+  }
   const urls = sourceUrls(PropertiesService.getScriptProperties().getProperty('USGS_API_KEY'));
   const sites = Object.keys(urls.usgs);
   const ua = { 'User-Agent': 'FLOODplain/1.0 (github.com/godfather38/floodplain)' };
@@ -524,8 +529,10 @@ function computeVerdicts_() {
   const out = {};
   for (const id of AREA_IDS) {
     const v = evaluate({ now, usgs, closures, alert, nws, roadEvents: eventsForRating, routes: ROUTE_FEATURES }, id);
+    if (!v) throw ownerComputeError_('Assessment output is missing; inspect the evaluator and area configuration');
     out[id] = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title, closed: v.closed, closuresKnown: v.closuresKnown };
   }
+  if (!validOwnerVerdicts_(out, now)) throw ownerComputeError_('Assessment output is incomplete or malformed; inspect the evaluator and area configuration');
   noteOwnerHealth_([{ id: 'compute', reason: '', expected: 'Successful evaluation for every area', crossings: 'All configured crossings' }], now);
   cache.put('verdicts', JSON.stringify(out), 240);
   if (alert) cache.put('alert', JSON.stringify(alert), 300);
@@ -738,10 +745,23 @@ function pad_(n) { return String(n).padStart(2, '0'); }
 function json_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
 // Expected-input diagnostics are separate from ratings and structural inference uncertainty.
+function ownerComputeError_(reason) { const err = new Error(reason); err.ownerReason = reason; return err; }
+function validOwnerVerdicts_(all, now) {
+  return all && typeof all === 'object' && AREA_IDS.every(id => {
+    const v = all[id], t = Date.parse(v?.at);
+    return v && Number.isFinite(t) && t <= now && now-t <= 4*60000
+      && ['text','sms','spoken','title'].every(k => typeof v[k] === 'string' && v[k].trim())
+      && typeof v.off === 'boolean' && typeof v.closuresKnown === 'boolean'
+      && Array.isArray(v.closed) && v.closed.every(x => typeof x === 'string');
+  });
+}
 function expectedInputHealth_(raw, now) {
   const out = [];
   const affected = test => FAILURE_POINTS.filter(test).map(p => p.short);
-  const add = (id, expected, crossings, reason) => out.push({id, expected, crossings: crossings.join(', ') || 'Regional context', reason});
+  const add = (id, expected, crossings, reason, observedAt = null) => {
+    const t = Date.parse(observedAt);
+    out.push({id, expected, crossings: crossings.join(', ') || 'Regional context', reason, observedAt: Number.isFinite(t) ? new Date(t).toISOString() : null, ageMinutes: Number.isFinite(t) ? Math.floor((now-t)/60000) : null});
+  };
   const numeric = v => v != null && String(v).trim() !== '' && Number.isFinite(Number(v)) && Number(v) >= 0;
   const reading = (valid, time, age) => {
     if (!valid) return 'Missing or malformed reading';
@@ -753,7 +773,7 @@ function expectedInputHealth_(raw, now) {
     const body = raw.usgs[id];
     const rows = Array.isArray(body?.features) ? body.features.filter(f => f?.properties?.parameter_code === '00060').map(f => f.properties).sort((a,b) => Date.parse(b.time)-Date.parse(a.time)) : [];
     const p = rows[0];
-    add('usgs:'+id, site.name+' discharge within 3 hours', affected(p => (p.river || []).includes(id) || (p.wash?.usgs || []).includes(id)), !body ? 'Source unavailable' : reading(numeric(p?.value), p?.time, STALE_MS));
+    add('usgs:'+id, site.name+' discharge within 3 hours', affected(p => (p.river || []).includes(id) || (p.wash?.usgs || []).includes(id)), !body ? 'Source unavailable' : reading(numeric(p?.value), p?.time, STALE_MS), p?.time);
   }
   for (const kind of ['rain','stream']) {
     const body = raw[kind];
@@ -764,7 +784,7 @@ function expectedInputHealth_(raw, now) {
       const windows = kind === 'rain' ? [...new Set(FAILURE_POINTS.flatMap(p => Object.entries(p.rain || {}).filter(([,ids]) => ids.includes(id)).flatMap(([rule]) => ['h6', ...Object.values(RAIN[rule]).flatMap(r => Object.keys(r))])))]: [];
       const values = kind === 'rain' ? windows.map(w => row?.rain?.[['m10','m30','h1','h3','h6','d1','d3','d7','d30'].indexOf(w)]) : [row?.flow];
       const reason = !body ? 'Source unavailable' : !row ? 'Expected station absent' : row.UnderMaintenance ? 'Station under maintenance' : reading(values.every(numeric), row.last_rpt ? row.last_rpt+'-07:00' : null, kind === 'rain' ? 24*3600000 : STALE_MS);
-      add(kind+':'+id, (RAIN_GAUGES[id] || id)+(kind === 'rain' ? ' rain windows '+windows.join('/')+' within 24 hours' : ' stream discharge within 3 hours'), points, reason);
+      add(kind+':'+id, (RAIN_GAUGES[id] || id)+(kind === 'rain' ? ' rain windows '+windows.join('/')+' within 24 hours' : ' stream discharge within 3 hours'), points, reason, row?.last_rpt ? row.last_rpt+'-07:00' : null);
     }
   }
   for (const [id, body, field] of [['county',raw.closures,'features'],['weather',raw.nws,'features'],['transview-closures',raw.tvClosures,'d'],['transview-work',raw.tvWork,'d']]) {
@@ -776,12 +796,18 @@ function expectedInputHealth_(raw, now) {
   return out;
 }
 function noteOwnerHealth_(results, now) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try { saveOwnerHealth_(results, now); } finally { lock.releaseLock(); }
+}
+function saveOwnerHealth_(results, now) {
   const props = PropertiesService.getScriptProperties();
   const ids = JSON.parse(props.getProperty('ownerHealthIds') || '[]');
   for (const result of results) {
     if (!ids.includes(result.id)) ids.push(result.id);
     const key = 'ownerHealth:'+result.id;
     const s = JSON.parse(props.getProperty(key) || '{}');
+    if (s.checked > now) continue; // Do not overwrite a newer observation from another execution.
     const fingerprint = result.reason || '';
     if (s.reason !== fingerprint) { s.since = now; s.attempts = 0; s.nextTry = 0; }
     Object.assign(s, result, {reason: fingerprint, checked: now});
@@ -805,7 +831,7 @@ function deliverOwnerHealth_(now) {
     pending.push({key,s});
   }
   if (!pending.length) return;
-  const body = ['FLOODplain expected-input check', 'Checked: '+new Date(now).toISOString(), ...pending.map(({s}) => [s.reason ? 'PROBLEM: '+s.id : 'RECOVERED: '+s.id, 'Expected: '+s.expected, 'Crossings: '+s.crossings, 'Result: '+(s.reason || 'Expected input is valid again'), 'Since: '+new Date(s.since).toISOString()].join('\n')), 'Action: inspect the named source or station and its timestamps; restore the feed or correct its configuration. Recovery confirms input availability, not road conditions.'].join('\n\n');
+  const body = ['FLOODplain expected-input check', 'Checked: '+new Date(now).toISOString(), ...pending.map(({s}) => [s.reason ? 'PROBLEM: '+s.id : 'RECOVERED: '+s.id, 'Expected: '+s.expected, 'Crossings: '+s.crossings, 'Result: '+(s.reason || 'Expected input is valid again'), 'Since: '+new Date(s.since).toISOString(), ...(s.observedAt ? ['Last observation: '+s.observedAt, 'Observation age at check: '+s.ageMinutes+' minutes'] : [])].join('\n')), 'Action: inspect the named source or station and its timestamps; restore the feed or correct its configuration. Recovery confirms input availability, not road conditions.'].join('\n\n');
   for (const {key,s} of pending) {
     s.attempts = (s.attempts || 0)+1;
     s.nextTry = now+Math.min(60, 2**s.attempts)*60000;

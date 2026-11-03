@@ -1,6 +1,7 @@
 // In-memory stand-ins for Google Apps Script services, for tests.
 export function makeGas(clock, SRC, fetchAllImpl) {
   const sent = []; const fetches = []; const mails = [];
+  let locked = false;
   const props = new Map();
   const cache = new Map();
   class Sheet {
@@ -40,9 +41,9 @@ export function makeGas(clock, SRC, fetchAllImpl) {
       if (url.includes('api.twilio.com')) sent.push({ to: opt.payload.To, body: opt.payload.Body });
       return { getContentText: () => JSON.stringify(clock.verdict) };
     } },
-    MailApp: { sendEmail: (a, b, c) => { if (clock.mailFailure) throw new Error('mail unavailable'); const m = typeof a === 'object' ? a : { to: a, subject: b, body: c }; if (m.to.endsWith('@vtext.com')) sent.push({ to: m.to, body: m.body }); else mails.push(m); }, getRemainingDailyQuota: () => 100 },
+    MailApp: { sendEmail: (a, b, c) => { if (clock.onMail) clock.onMail(); if (clock.mailFailure) throw new Error('mail unavailable'); const m = typeof a === 'object' ? a : { to: a, subject: b, body: c }; if (m.to.endsWith('@vtext.com')) sent.push({ to: m.to, body: m.body }); else mails.push(m); }, getRemainingDailyQuota: () => 100 },
     Utilities: { formatDate: fmt, base64Encode: (s) => Buffer.from(s).toString('base64') },
-    LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
+    LockService: { getScriptLock: () => ({ waitLock() { if (locked) throw new Error('lock held'); locked = true; }, releaseLock() { locked = false; } }) },
     ScriptApp: { getProjectTriggers: () => [{ getHandlerFunction: () => 'tick' }], newTrigger() {}, getService: () => ({ getUrl: () => 'u' }) },
     Session: { getEffectiveUser: () => ({ getEmail: () => 'owner@example.com' }) },
     ContentService: { MimeType: { JSON: 'json' }, createTextOutput: (t) => ({ setMimeType: () => JSON.parse(t) }) },
