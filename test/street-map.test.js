@@ -63,8 +63,13 @@ test('the app uses the painted street map, with satellite offered and the OSM ti
  assert.match(read('vendor/vector-tiles/vector-tile/index.js'),/from '\.\.\/point-geometry\/index\.js'/);
 });
 
-test('the flat Map tab draws on the street map; the bundled renderer loads only for 3D',()=>{
+// Staples: the 2D flood graphics, every base map and the map layers are only ever added to.
+test('the Map tab opens the flat flood renderer, with every base map and 3D as a layer',()=>{
  const layers=read('simulation/map-layers.js'),enter=layers.match(/async function enterMap\(\)\{[^\n]*/)[0];
- assert.doesNotMatch(enter,/ensureRenderer/);
- assert.match(layers,/async function toggle3d\(\)\{[^\n]*await ensureRenderer\(\)/);
+ assert.match(enter,/await ensureRenderer\(\)[^\n]*setViewMode\('flat'\)/);
+ for(const b of ['street','osm','satellite'])assert.match(layers,new RegExp(`data-base="${b}"`));
+ assert.match(layers,/data-view="2d"[^>]*>2D map</);assert.match(layers,/data-view="3d"[^>]*>3D</);
+ for(const l of ['data-rain','data-flow','data-routes','data-3d'])assert.match(layers,new RegExp(l));
+ const world=read('simulation/world-layer.js');
+ assert.match(world,/preview\/geo3d\/world\.html\?embed=1/);assert.match(world,/getElementById\('map'\)\.append\(frame\)/);
 });

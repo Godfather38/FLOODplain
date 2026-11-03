@@ -863,14 +863,15 @@ function wire(w) {
 
 // ---------------- map ----------------
 const map = L.map('map', { zoomSnap: 0.25, zoomControl: false, attributionControl: true });
-// The street map is painted from OpenFreeMap vector tiles in the 3D map's look. If those tiles
-// stop answering, the plain OpenStreetMap tiles take its place.
+// Base maps: the street map painted from OpenFreeMap vector tiles in the 3D map's look, the
+// plain OpenStreetMap tiles, and satellite. If the painted tiles stop answering, OpenStreetMap
+// takes the street map's place.
+const osmTiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' });
 const baseMaps = createStreetMap(L, map, { onUnavailable: () => {
-  const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' });
-  if (map.hasLayer(baseMaps.street)) { map.removeLayer(baseMaps.street); map.addLayer(osm); }
-  baseMaps.street = osm;
-  map.removeLayer(baseMaps.names);
+  if (map.hasLayer(baseMaps.street)) { map.removeLayer(baseMaps.street); map.addLayer(osmTiles); map.removeLayer(baseMaps.names); }
+  baseMaps.street = osmTiles;
 } });
+baseMaps.osm = osmTiles;
 baseMaps.street.addTo(map);
 baseMaps.names.addTo(map);
 map.attributionControl.setPrefix(false);
