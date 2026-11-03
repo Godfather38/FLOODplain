@@ -8,6 +8,7 @@ import {mountFloodLayers} from './simulation/map-layers.js?v=dev';
 import {mountLiveMap} from './live-map.js?v=dev';
 import {createStreetMap} from './street-map.js?v=dev';
 import {routeRowsHtml,crossingCardHtml} from './map-routes.js?v=dev';
+import {mountMapApp} from './map-app.js?v=dev';
 import { savedRoutes, toggleSavedRoute, checkAge, countyTime, plainAge, plainWords } from './preferences.js?v=dev';
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
@@ -881,6 +882,11 @@ const rendererRoutes=L.layerGroup([layer,liveObservations]).addTo(map);
 mountFloodLayers(map,{routeLayer:rendererRoutes,baseMaps});
 document.querySelector('[data-home]').onclick=()=>map.fitBounds(allBounds,{paddingTopLeft:[24,30],paddingBottomRight:[24,30],animate:false});
 const liveMap=mountLiveMap(map,{refresh:()=>check(),observations:liveObservations,embedded:true});
+// The Map tab in a maps-app layout, with the 2D and 3D model layers (map-app.js).
+const mapApp=mountMapApp({L,map,baseMaps,routeLayer:layer,liveLayer:liveObservations,
+  fitRoutes:(opts)=>allBounds&&map.fitBounds(allBounds,opts),
+  targets:()=>[...FAILURE_POINTS.map((fp)=>({kind:'crossing',id:fp.id,name:fp.short??fp.name,lat:fp.lat,lon:fp.lon})),...PLACES.map((p)=>({kind:'place',name:p.name,lat:p.lat,lon:p.lon}))],
+  openCrossing:(id)=>{mapCrossing=id;drawMap(where());revealCrossing();}});
 let allBounds;
 const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
 function stretchAround(coords, lat, lon, m) {
@@ -920,9 +926,10 @@ function renderMapRoutes() {
 }
 // The crossing card sits beside the map, or under it on a phone: bring it into view.
 function revealCrossing() {
-  const card = $('[data-map-routes]'), side = $('.map-side');
+  mapApp.reveal();
+  const card = $('[data-map-routes]'), side = card?.closest('.mapp-panel-body') ?? $('.map-side');
   if (!card || !side) return;
-  if (matchMedia('(max-width: 899px)').matches) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (!side.classList.contains('mapp-panel-body') && matchMedia('(max-width: 899px)').matches) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
   else side.scrollTo({ top: card.offsetTop - side.offsetTop - 16, behavior: 'smooth' });
 }
 function drawMap(w) {
@@ -989,7 +996,7 @@ function drawMap(w) {
   } else if (w.screen === 'route') {
     map.fitBounds(L.geoJSON(routeFeatures.find((f) => f.properties.id === w.route)).getBounds(), opts);
   } else if(w.screen!=='map'||!mapCameraSet) {
-    map.fitBounds(allBounds, opts);
+    map.fitBounds(allBounds, w.screen==='map' ? mapApp.padding() : opts);
     // The Map screen keeps wherever the driver moved it after this first fit.
     if(w.screen==='map')mapCameraSet=true;
   }

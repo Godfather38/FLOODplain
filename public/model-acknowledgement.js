@@ -3,6 +3,7 @@
 export const ACKNOWLEDGEMENTS=Object.freeze({
  simulated:{title:'This water is simulated',body:"It is a 3D model, not real conditions or a forecast. If you see water on a real road, turn around, don't drown."},
  estimate:{title:'This water is a model estimate',body:"It is estimated by a model from river flow and terrain, not observed water or a measured depth. If you see water on a real road, turn around, don't drown."},
+ modelRun:{title:'This water is simulated',body:"It is a model forecast from public weather and river data, not observed water. If you see water on a real road, turn around, don't drown."},
  savedRun:{title:'This water is from a saved run',body:"It is a saved model run from November 2026, not real conditions or a forecast. If you see water on a real road, turn around, don't drown."},
 });
 // Once per device, per browser session, whichever kind of water comes first.

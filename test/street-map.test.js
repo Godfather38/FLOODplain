@@ -63,13 +63,16 @@ test('the app uses the painted street map, with satellite offered and the OSM ti
  assert.match(read('vendor/vector-tiles/vector-tile/index.js'),/from '\.\.\/point-geometry\/index\.js'/);
 });
 
-// Staples: the 2D flood graphics, every base map and the map layers are only ever added to.
-test('the Map tab opens the flat flood renderer, with every base map and 3D as a layer',()=>{
- const layers=read('simulation/map-layers.js'),enter=layers.match(/async function enterMap\(\)\{[^\n]*/)[0];
- assert.match(enter,/await ensureRenderer\(\)[^\n]*setViewMode\('flat'\)/);
- for(const b of ['street','osm','satellite'])assert.match(layers,new RegExp(`data-base="${b}"`));
- assert.match(layers,/data-view="2d"[^>]*>2D map</);assert.match(layers,/data-view="3d"[^>]*>3D</);
- for(const l of ['data-rain','data-flow','data-routes','data-3d'])assert.match(layers,new RegExp(l));
- const world=read('simulation/world-layer.js');
- assert.match(world,/preview\/geo3d\/world\.html\?embed=1/);assert.match(world,/getElementById\('map'\)\.append\(frame\)/);
+// Staples: the 2D model water, every map type and every map layer are only ever added to.
+test('the Map tab is a maps app: 2D model water on every base map, 3D as a layer, nothing dropped',async()=>{
+ const appjs=read('map-app.js'),layers=read('simulation/map-layers.js'),app=read('app.js');
+ assert.match(app,/mountMapApp\(\{L,map,baseMaps/);
+ for(const k of ['street','osm','satellite','terrain','2d','3d','hand','aggregate','off','rain','flow','routes','places','live'])assert.ok(appjs.includes(`['${k}','`),k);
+ for(const c of ['data-m-search','data-m-layers','data-m-in','data-m-out','data-m-locate','data-m-fit-routes','data-m-fit-water','data-m-north','data-m-run','data-m-play','data-m-prev','data-m-next','data-m-scrub','data-m-panel'])assert.match(appjs,new RegExp(c));
+ // The flat renderer is the Terrain detail map type, and keeps its case, tilt and hour controls.
+ assert.match(layers,/flood-terrain-detail/);assert.match(appjs,/\[data-case\]/);assert.match(appjs,/\[data-3d\]/);assert.match(appjs,/data-panel=time/);
+ assert.match(read('simulation/world-layer.js'),/preview\/geo3d\/world\.html\?embed=1/);
+ const sim=await import(new URL('../public/simulation/sim-2d.js',import.meta.url));
+ assert.equal(sim.depthBand(.005),-1);assert.equal(sim.depthBand(.0092),0);assert.equal(sim.depthBand(1),2);assert.equal(sim.depthBand(5),5);
+ assert.deepEqual(sim.RUNS.map(r=>r.id),['live','13z','19z','stress','extreme']);
 });

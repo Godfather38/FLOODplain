@@ -246,7 +246,7 @@ test('the 19Z run has its own rainfall input, on its UTM grid, for its saved hou
 });
 
 test('every run on the 3D map has its water frames and rain, and the stress run says what it is', () => {
- const main=read('public/preview/geo3d/src/world/main.js'),files=[...main.matchAll(/(?:display|rain):'([^']+)'/g)].map(m=>m[1]);
+ const main=read('public/preview/geo3d/src/world/main.js')+read('public/preview/geo3d/src/runs.js'),files=[...main.matchAll(/(?:display|rain):'([^']+)'/g)].map(m=>m[1]);
  assert.ok(files.length>=6);
  for(const f of files)assert.ok(existsSync(url('public/simulation/data/'+f)),f);
  const stress=JSON.parse(gunzipSync(readFileSync(url('public/simulation/data/sfincs-stress-storm-41633261576-map/frozen-terrain-display.json.gz'))));
@@ -275,7 +275,7 @@ test('crossings use the lidar road surface and bridge decks from the road-height
 });
 
 test('the live run is the newest published run, refused when stale, never swapped for an old one in silence', () => {
- const main=read('public/preview/geo3d/src/world/main.js');
+ const main=read('public/preview/geo3d/src/world/main.js')+read('public/preview/geo3d/src/runs.js');
  assert.match(main,/raw\.githubusercontent\.com\/Godfather38\/FLOODplain\/live-model\/live\//);
  assert.match(main,/LIVE_MAX_AGE_H=3/);
  assert.match(main,/if\(!\(age<=LIVE_MAX_AGE_H\)\)throw/);

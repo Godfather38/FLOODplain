@@ -22,20 +22,9 @@ import {parseRain,rainAt,createRain} from './rain.js';
 import {createRoutesUI} from './routes-ui.js';
 import {mountAcknowledgement} from '../acknowledge.js';
 import {mountEmbed} from './embed.js';
+import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY} from '../runs.js';
 const $=id=>document.getElementById(id);
 const DATA='../../../../simulation/data/',E=2,SHOW_DEPTH_M=.05,HOUR_SECONDS=4;
-// The saved runs to choose from. Both share the model's grid and terrain.
-// The live run is published every hour by .github/workflows/live-sfincs.yml (branch
-// experiment/live-sfincs) to the live-model branch. It is shown only while it is fresh.
-const LIVE='https://raw.githubusercontent.com/Godfather38/FLOODplain/live-model/live/',LIVE_MAX_AGE_H=3;
-const BASE_DISPLAY='frozen-terrain-display.json.gz';
-const RUNS=[
- {id:'live',label:'Live: newest model run, every hour',live:true},
- {id:'13z',label:'Nov 1, 13Z forecast run',note:'Rain shown from this run\'s rainfall input.',display:'frozen-terrain-display.json.gz',rain:'frozen-map-context.json',inflow:'frozen-map-context.json',hand:'frozen-map-polygons.json.gz'},
- {id:'19z',label:'Nov 1, 19Z forecast run (more water)',note:'Rain shown from this run\'s rainfall input (HRRR 19Z forecast). Its heaviest rain, Nov 1 9–10 AM MST, fell before the first saved water hour.',display:'sfincs-current-coarse-20261101-19z-41350254061-map/frozen-terrain-display.json.gz',rain:'sfincs-current-coarse-20261101-19z-41350254061-map/rainfall.json',inflow:'sfincs-current-coarse-20261101-19z-41350254061-map/inflow.json'},
- {id:'stress',label:'Stress test: 100-year storm with a record river',note:'A what-if run of the same model, not a forecast: the 19Z run\'s ground conditions, then NOAA Atlas 14\'s 100-year 6-hour storm (2.8 in, 2.2 in in the peak hour) on every cell from 5 PM MST, and the Santa Cruz rising to its 1983 record flow (65,000 cfs) at 10 PM.',display:'sfincs-stress-storm-41633261576-map/frozen-terrain-display.json.gz',rain:'sfincs-stress-storm-41633261576-map/rainfall.json',inflow:'sfincs-stress-storm-41633261576-map/inflow.json'},
- {id:'extreme',label:'Extreme what-if: 1,000-year storm, twice the record river',note:'A deliberately extreme what-if run of the same model, far beyond anything on record and not a forecast: the 19Z run\'s ground conditions, then NOAA Atlas 14\'s 1,000-year 6-hour storm (4.0 in, 3.0 in in the peak hour) on every cell from 5 PM MST, and the Santa Cruz at twice its 1983 record flow (130,000 cfs) at 10 PM.',display:'sfincs-extreme-storm-41635232621-map/frozen-terrain-display.json.gz',rain:'sfincs-extreme-storm-41635232621-map/rainfall.json',inflow:'sfincs-extreme-storm-41635232621-map/inflow.json'},
-];
 const diagnostics={ready:false,errors:[],frameTimes:[]};
 const fail=error=>{diagnostics.errors.push(String(error?.stack||error));$('error').hidden=false;$('error-detail').textContent=String(error?.message||error);};
 window.addEventListener('error',e=>fail(e.error||e.message));window.addEventListener('unhandledrejection',e=>fail(e.reason));
@@ -132,6 +121,8 @@ const appHref=(routeId,id)=>new URL(`../../../../index.html#/r/${routeId}/${id}`
 const modelled=modelCells(data.vertices);
 const routesUI=createRoutesUI({root:$('map'),panelRoot:$('routes-ui'),camera,config,routes,roads,world,inside:modelled,ground,E,appHref,flyTo,onRoutes:(area,route)=>{routeOverlay.area=area;routeOverlay.route=route;chunks.repaint();showLayers();}});
 routesUI.setRun(run);
+// The app's search, when this page is its map's 3D layer (see embed.js).
+window.fp3dGoto=(lon,lat,id)=>{const [x,z]=world(lon,lat);flyTo(x,z,id?900:1600);if(id)routesUI.openDetail(id);};
 // --- Rain ---
 const rain=createRain(scene,{toLonLat,E});
 let rainOn=true;

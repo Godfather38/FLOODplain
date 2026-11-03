@@ -139,7 +139,8 @@ body.embed{margin:0;height:100dvh;overflow:hidden;background:#cfe2ec}
 body.embed .appbar{display:none}
 body.embed main{display:block;height:100dvh;max-width:none;margin:0;padding:0}
 body.embed #map{height:100dvh;min-height:0;margin:0;border-radius:0}
-body.embed #screen{position:absolute;inset:auto 12px 12px auto;width:min(380px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;padding:0;margin:0;background:none;pointer-events:none}
+body.embed .mapbar,body.embed .zoombar,body.embed #simulation-ack{display:none}
+body.embed #screen{position:absolute;inset:76px 76px auto auto;width:min(380px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;padding:0;margin:0;background:none;pointer-events:none}
 body.embed #screen>*:not(#routes-ui){display:none}
 body.embed #routes-ui>:not(.crossing-view){display:none}
 body.embed #routes-ui .crossing-view:not([hidden]){display:block;pointer-events:auto;background:var(--surface);border-radius:16px;padding:16px;box-shadow:0 2px 12px #0004}

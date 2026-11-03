@@ -1,6 +1,6 @@
 // Inside the app's map as its 3D layer (world.html?embed=1): only the map shows, and the app's own
 // side column drives this page's controls. The app sends {fp3d:'set',id,value} or
-// {fp3d:'click',id}; this page answers with {fp3d:'state',...} whenever what it shows changes.
+// {fp3d:'click',id} or {fp3d:'goto',lon,lat,id}; this page answers with {fp3d:'state',...} whenever what it shows changes.
 export const EMBEDDED=new URLSearchParams(location.search).get('embed')==='1';
 const $=id=>document.getElementById(id);
 const text=id=>$(id)?.textContent??'';
@@ -22,6 +22,7 @@ export function mountEmbed(){
  const send=m=>parent.postMessage({fp3d:'state',...m},location.origin);
  addEventListener('message',e=>{
   if(e.origin!==location.origin||e.source!==parent||!e.data?.fp3d)return;
+  if(e.data.fp3d==='goto'){window.fp3dGoto?.(e.data.lon,e.data.lat,e.data.id);return;}
   const {fp3d,id,value}=e.data,el=id==='base'?document.querySelector(`[data-base="${value==='satellite'?'satellite':'street'}"]`):$(id);
   if(!el)return;
   if(fp3d==='click'||id==='base'){el.click();return;}
