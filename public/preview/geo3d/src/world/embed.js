@@ -13,6 +13,7 @@ function snapshot(){
   model:$('model').value,models:[...$('model').options].filter(o=>o.disabled).map(o=>o.value),modelNote:text('model-note'),
   rain:box('rain'),rainNow:text('rain-now'),flow:box('flow'),routes:box('show-routes'),places:box('show-places'),
   base:document.querySelector('[data-base][aria-selected="true"]')?.dataset.base??'street',
+  graphics:window.fp3dGraphicsState?.()??null,
   loading:!$('loading').classList.contains('done'),step:text('loading-step'),progress:parseFloat($('loading-bar').style.width)||0,ready:$('loading').classList.contains('done')&&$('run').options.length>0&&!!text('time')&&$('error').hidden,error:$('error').hidden?'':text('error-detail'),
  };
 }
@@ -24,6 +25,7 @@ export function mountEmbed(){
   if(e.origin!==location.origin||e.source!==parent||!e.data?.fp3d)return;
   if(e.data.fp3d==='goto'){window.fp3dGoto?.(e.data.lon,e.data.lat,e.data.id);return;}
   if(e.data.fp3d==='pause'){window.fp3dPause?.(e.data.value);return;}
+  if(e.data.fp3d==='graphics'){window.fp3dGraphics?.(e.data.value);return;}
   const {fp3d,id,value}=e.data,el=id==='base'?document.querySelector(`[data-base="${value==='satellite'?'satellite':'street'}"]`):$(id);
   if(!el)return;
   if(fp3d==='click'||id==='base'){el.click();return;}

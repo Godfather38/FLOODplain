@@ -86,7 +86,7 @@ export function mountDiagnostics(){
  // The 3D view in its frame reports its own errors and steps.
  addEventListener('message',e=>{
   if(e.origin!==location.origin||!e.data?.fp3d)return;
-  if(e.data.fp3d==='log')record(e.data.kind==='error'?'error':'3d',`3D: ${e.data.message}`,{where:e.data.where});
+  if(e.data.fp3d==='log')record(e.data.kind==='error'?'error':e.data.kind==='info'?'info':'3d',`3D: ${e.data.message}`,{where:e.data.where});
   else if(e.data.fp3d==='state'){
    const s=e.data;if(s.step&&s.step.split(' · ')[0]!==mount3dStep){mount3dStep=s.step.split(' · ')[0];record('3d',`3D step: ${mount3dStep}`);}
    if((s.failed||s.error)&&s.error!==last3dError){last3dError=s.error;record('3d-failed',`3D could not load: ${s.error}`);}

@@ -2,6 +2,7 @@
 // scoreboard, the run's timeline figure and the methods note. Every number comes from the run
 // that is loaded; nothing here is observed water.
 import {COVER_M} from './simulation/sim-2d.js?v=dev';
+import {canvasRatio} from './graphics.js?v=dev';
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
 const ft=m=>m/.3048;
 const hourText=t=>new Date(t).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric'});
@@ -42,7 +43,7 @@ export function scoreboardHtml(list,hour,times){
 // --- timeline figure: rain from the top (a hyetograph), wet area from the bottom, river inflow as
 // a line, crossings with water over the road as red ticks, and the current hour.
 export function drawTimeline(canvas,run,clock,overByHour){
- const r=Math.min(2,devicePixelRatio||1),w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;
+ const r=canvasRatio(),w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;
  canvas.width=w*r;canvas.height=h*r;const ctx=canvas.getContext('2d');ctx.setTransform(r,0,0,r,0,0);ctx.clearRect(0,0,w,h);
  const s=run?.series;if(!s?.length)return;
  const n=s.length,x=i=>n<2?w/2:6+(w-12)*i/(n-1),bw=Math.max(2,(w-12)/n*.7);

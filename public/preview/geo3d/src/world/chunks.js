@@ -22,8 +22,10 @@ export function chunkGeometry(n){
  return g;
 }
 const toLonLat=(x,z)=>{const u=worldToUtm(x,z);return fromUtm(u.e,u.n);};
-export function createChunks(scene,material,{ground,E,structureMaterial,onChange}){
- const geometries=LODS.map(l=>chunkGeometry(l.n)),cols=Math.ceil(SIZE_X/CHUNK),rows=Math.ceil(SIZE_Z/CHUNK),list=[];
+// lods, anisotropy and imagery ([zoom above the street tiles, highest zoom]) come from the graphics
+// preset; setDetail changes them and paints again.
+export function createChunks(scene,material,{ground,E,structureMaterial,onChange,lods=LODS,anisotropy=4,imagery:satellite=[2,17]}){
+ let geometries=lods.map(l=>chunkGeometry(l.n)),gen=0;const cols=Math.ceil(SIZE_X/CHUNK),rows=Math.ceil(SIZE_Z/CHUNK),list=[];
  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
   const x0=-SIZE_X/2+i*CHUNK,z0=-SIZE_Z/2+j*CHUNK,mesh=new THREE.Mesh(geometries[3],material);
   mesh.position.set(x0,0,z0);mesh.matrixAutoUpdate=false;mesh.updateMatrix();mesh.userData.map=null;scene.add(mesh);
@@ -33,12 +35,12 @@ export function createChunks(scene,material,{ground,E,structureMaterial,onChange
  // while the camera moves (the coarser map stays meanwhile) and starts one chunk per frame.
  const queue=new Set(),last=new THREE.Vector3(),lastQ=new THREE.Quaternion();let busy=0,stillSince=0,moving=false;
  async function paint(c,lod){
-  const L=LODS[lod],kind=baseMap.kind,tiles=await Promise.all(tileRange(c.x0,c.z0,c.x0+CHUNK,c.z0+CHUNK,L.zoom,toLonLat).map(loadVectorTile));
-  const imagery=kind==='satellite'?await Promise.all(tileRange(c.x0,c.z0,c.x0+CHUNK,c.z0+CHUNK,Math.min(17,L.zoom+2),toLonLat).map(loadImageryTile)):null;
-  if(c.lod!==lod||kind!==baseMap.kind)return;
+  const L=lods[lod],kind=baseMap.kind,ticket=gen,tiles=await Promise.all(tileRange(c.x0,c.z0,c.x0+CHUNK,c.z0+CHUNK,L.zoom,toLonLat).map(loadVectorTile));
+  const imagery=kind==='satellite'?await Promise.all(tileRange(c.x0,c.z0,c.x0+CHUNK,c.z0+CHUNK,Math.min(satellite[1],L.zoom+satellite[0]),toLonLat).map(loadImageryTile)):null;
+  if(c.lod!==lod||kind!==baseMap.kind||ticket!==gen)return;
   const canvas=document.createElement('canvas');canvas.width=canvas.height=L.px;
   paintChunk(canvas,c.x0,c.z0,CHUNK,tiles,lod<=1,imagery);
-  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=4;texture.flipY=false;
+  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=anisotropy;texture.flipY=false;
   c.maps[lod]?.dispose();c.maps[lod]=texture;c.mesh.userData.map=texture;c.paintedLod=lod;
   // Keep the levels next to the current one; finer maps far from the camera are let go.
   for(let k=0;k<lod-1;k++)if(c.maps[k]&&c.maps[k]!==c.mesh.userData.map){c.maps[k].dispose();c.maps[k]=null;}
@@ -74,7 +76,7 @@ export function createChunks(scene,material,{ground,E,structureMaterial,onChange
    for(const c of list){
     const dx=Math.max(c.x0-p.x,0,p.x-(c.x0+CHUNK)),dz=Math.max(c.z0-p.z,0,p.z-(c.z0+CHUNK));
     c.distance=Math.hypot(dx,dz,Math.max(0,p.y-2400));
-    const lod=lodFor(c.distance,c.lod);
+    const lod=lodFor(c.distance,c.lod,lods);
     if(lod!==c.lod){
      c.lod=lod;c.mesh.geometry=geometries[lod];
      for(let k=0;k<lod-1;k++)if(c.maps[k]&&c.maps[k]!==c.mesh.userData.map){c.maps[k].dispose();c.maps[k]=null;}
@@ -88,6 +90,12 @@ export function createChunks(scene,material,{ground,E,structureMaterial,onChange
   },
   // Paint every chunk again, for example after the chosen routes change.
   repaint(){for(const c of list){c.paintedLod=null;c.maps.forEach((m,k)=>{if(m&&k!==c.lod){m.dispose();c.maps[k]=null;}});if(!c.painting&&c.lod!==null)queue.add(c);}pump(false);},
+  // A new graphics preset: new ground meshes and map resolution, painted again from the nearest.
+  setDetail(detail){
+   gen++;geometries.forEach(g=>g.dispose());lods=detail.lods??lods;anisotropy=detail.anisotropy??anisotropy;satellite=detail.imagery??satellite;
+   geometries=lods.map(l=>chunkGeometry(l.n));queue.clear();
+   for(const c of list){c.maps.forEach(m=>m?.dispose());c.maps=[];c.mesh.userData.map=null;c.paintedLod=null;c.lod=null;c.mesh.geometry=geometries[geometries.length-1];}
+  },
   stats(){const levels=[0,0,0,0];let painted=0,bridges=0,buildings=0;for(const c of list){levels[c.lod]++;if(c.paintedLod===c.lod)painted++;bridges+=c.bridgeCount??0;buildings+=c.buildingCount??0;}return{chunks:list.length,levels,painted,queued:queue.size+busy,bridges,buildings};},
  };
 }

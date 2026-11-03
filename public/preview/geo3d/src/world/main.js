@@ -22,6 +22,7 @@ import {parseRain,rainAt,createRain} from './rain.js';
 import {createRoutesUI} from './routes-ui.js';
 import {mountAcknowledgement} from '../acknowledge.js';
 import {mountEmbed} from './embed.js';
+import {startGraphics,mountGraphics,chunkDetail} from './graphics-3d.js';
 import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY} from '../runs.js';
 const $=id=>document.getElementById(id);
 const DATA='../../../../simulation/data/',E=2,SHOW_DEPTH_M=.05,HOUR_SECONDS=4;
@@ -124,17 +125,18 @@ let run,liveProblem=null;
 try{run=await prepareRun(firstRun,firstRun.display===BASE_DISPLAY?firstDisplay:undefined);}
 catch(error){if(!firstRun.live)throw error;liveProblem=error.message;run=await prepareRun(RUNS.find(r=>r.id==='13z'));}
 loading('Starting the 3D view',.8);await breathe();
-const renderer=new THREE.WebGPURenderer({antialias:true,forceWebGL:true,logarithmicDepthBuffer:true,powerPreference:'high-performance'});
+const gfx=startGraphics(),G=gfx.settings;
+const renderer=new THREE.WebGPURenderer({antialias:G.antialias,forceWebGL:true,logarithmicDepthBuffer:true,powerPreference:'high-performance'});
 const view=()=>[Math.max(1,$('map').clientWidth),Math.max(1,$('map').clientHeight)];
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(...view());renderer.toneMapping=THREE.NoToneMapping;
+renderer.setSize(...view());renderer.toneMapping=THREE.NoToneMapping;
 await renderer.init();$('map').appendChild(renderer.domElement);
-const scene=new THREE.Scene();scene.background=new THREE.Color('#cfe2ec');scene.fog=new THREE.Fog('#cfe2ec',14000,60000);
-const camera=new THREE.PerspectiveCamera(45,view()[0]/view()[1],2,200000);
+const scene=new THREE.Scene();scene.background=new THREE.Color('#cfe2ec');scene.fog=new THREE.Fog('#cfe2ec',...G.fog);
+const camera=new THREE.PerspectiveCamera(45,view()[0]/view()[1],2,G.far);
 const surface=createSurface({heights,levelA:run.levels[0],levelB:run.levels[1],shareA:run.shares[0],shareB:run.shares[1],noise:makeNoiseTexture(),exaggeration:E,showDepth:SHOW_DEPTH_M});
 const structureMaterial=new THREE.MeshBasicNodeMaterial({vertexColors:true,side:THREE.DoubleSide});
 // The app's routes, painted into the ground; the chosen area's routes stand out.
 routeOverlay.lines=routes.features.map(f=>({id:f.properties.id,area:f.properties.area,parts:(f.geometry.type==='MultiLineString'?f.geometry.coordinates:[f.geometry.coordinates]).map(line=>line.map(([lon,lat])=>world(lon,lat)))}));
-const chunks=createChunks(scene,surface.make(),{ground,E,structureMaterial});
+const chunks=createChunks(scene,surface.make(),{ground,E,structureMaterial,...chunkDetail(gfx.preset)});
 // Start over the Santa Cruz River at the Avra Valley Road bridge.
 const [sx,sz]=world(-111.1462,32.4026),sy=ground(sx,sz)*E;
 const controls=new MapControls(camera,renderer.domElement);
@@ -162,7 +164,7 @@ routesUI.setRun(run);
 // The app's search, when this page is its map's 3D layer (see embed.js).
 window.fp3dGoto=(lon,lat,id)=>{const [x,z]=world(lon,lat);flyTo(x,z,id?900:1600);if(id)routesUI.openDetail(id);};
 // --- Rain ---
-const rain=createRain(scene,{toLonLat,E});
+const rain=createRain(scene,{toLonLat,E,...G.rain});
 let rainOn=true;
 $('rain').onchange=e=>{rainOn=e.target.checked;};
 function frameTime(){const i=Math.min(run.frames.length-2,Math.floor(clock));return Date.parse(run.frames[i].time)+(clock-i)*3600e3;}
@@ -265,6 +267,7 @@ showFrame(0);
 let rainNow=0;
 // The app pauses drawing while this view is out of sight (embed.js).
 let drawPaused=false;window.fp3dPause=p=>{drawPaused=!!p;};
+const graphics=mountGraphics({start:gfx,renderer,scene,camera,chunks,rain,size:view,busy:()=>!$('loading').classList.contains('done'),log:message=>{console.info(message);try{if(parent!==window)parent.postMessage({fp3d:'log',kind:'info',message},location.origin);}catch{}}});
 renderer.setAnimationLoop(()=>{if(drawPaused)return;
  const now=performance.now(),dt=Math.max(0,Math.min(200,now-last)),span=run.frames.length-1;last=now;
  if(playing)clock=((clock+dt/1000/HOUR_SECONDS)%span+span)%span;
@@ -272,7 +275,7 @@ renderer.setAnimationLoop(()=>{if(drawPaused)return;
  surface.U.alpha.value=clock-i;surface.U.time.value=now/1000;
  controls.update();followGround();flyStep(now);chunks.update(camera);labels.update();routesUI.update();markers.update();
  rainNow=rain.update(dt/1000,{rain:run.rain,time:frameTime(),target:controls.target,cameraDistance:camera.position.distanceTo(controls.target),groundAt:ground,enabled:rainOn});
- renderer.render(scene,camera);
+ renderer.render(scene,camera);graphics.frame(dt,now);
  diagnostics.frameTimes.push(dt);if(diagnostics.frameTimes.length>600)diagnostics.frameTimes.shift();
 });
 diagnostics.ready=true;
@@ -284,4 +287,4 @@ setInterval(()=>{
  $('rain-now').textContent=run.rain?(here>.05?`${here.toFixed(1)} mm/h at the view centre this hour`:'No rain at the view centre this hour'):'';
  if(t.length)$('metrics').textContent=`${(1000/(t.reduce((a,b)=>a+b,0)/t.length)).toFixed(1)} FPS · ${s.painted}/${s.chunks} areas mapped`;
 },500);
-window.world={renderer,scene,camera,controls,chunks,diagnostics,ground,filled,labels,places,flyTo,routesUI,get run(){return run;},setClock:v=>{playing=false;clock=v;},get frameIndex(){return frameIndex;}};
+window.world={graphics,renderer,scene,camera,controls,chunks,diagnostics,ground,filled,labels,places,flyTo,routesUI,get run(){return run;},setClock:v=>{playing=false;clock=v;},get frameIndex(){return frameIndex;}};

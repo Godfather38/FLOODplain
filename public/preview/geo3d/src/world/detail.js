@@ -7,9 +7,9 @@ export const LODS=Object.freeze([
  {n:25,reach:13000,px:256,zoom:13,structures:false},
  {n:10,reach:Infinity,px:128,zoom:12,structures:false},
 ]);
-export const lodFor=(distance,current=null)=>{
+export const lodFor=(distance,current=null,lods=LODS)=>{
  // Coming closer switches at the reach; moving away only switches 15% past it, so a camera
  // resting near a boundary does not flip back and forth.
- for(let i=0;i<LODS.length;i++){const reach=LODS[i].reach*(current!==null&&current<=i?1.15:1);if(distance<reach)return i;}
- return LODS.length-1;
+ for(let i=0;i<lods.length;i++){const reach=lods[i].reach*(current!==null&&current<=i?1.15:1);if(distance<reach)return i;}
+ return lods.length-1;
 };

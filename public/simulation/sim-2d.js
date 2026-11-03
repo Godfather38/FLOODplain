@@ -8,6 +8,7 @@ import {fromUtm,toUtm} from '../preview/geo3d/src/utm.js?v=dev';
 import {parseRain,rainAtUtm} from '../preview/geo3d/src/world/rain-data.js?v=dev';
 import {decodeRoadHeights,roadPackage} from '../preview/geo3d/src/road-package.js?v=dev';
 import {decodeJunction,computeExtent,depthGrid,HAND_DEPTH_BANDS,depthBand as handBand} from '../inundation/hand-inundation.js?v=dev';
+import {canvasRatio} from '../graphics.js?v=dev';
 export {RUNS};
 const DATA=new URL('./data/',import.meta.url);
 // Depth bands in feet, the same as the app's simulated-water key.
@@ -187,7 +188,7 @@ export function createSimLayer(L,map){
   cancelAnimationFrame(frame);frame=requestAnimationFrame(paint);
  }
  function paint(){
-  const size=map.getSize(),ratio=Math.min(2,devicePixelRatio||1);
+  const size=map.getSize(),ratio=canvasRatio();
   canvas.width=size.x*ratio;canvas.height=size.y*ratio;canvas.style.width=size.x+'px';canvas.style.height=size.y+'px';
   L.DomUtil.setPosition(canvas,map.containerPointToLayerPoint([0,0]));
   const ctx=canvas.getContext('2d');ctx.setTransform(ratio,0,0,ratio,0,0);ctx.clearRect(0,0,size.x,size.y);

@@ -7,16 +7,22 @@ import {Fn,uniform,attribute,positionLocal,vec3,fract,select} from 'three/tsl';
 import {rainAtUtm} from './rain-data.js';
 import {worldToUtm} from './heights.js';
 export {parseRain,rainAt} from './rain-data.js';
-const COUNT=9000,LENGTH=.03,FALL=.07,FULL_MMH=6,SLICE=1000,STEP=1.35;
-export function createRain(scene,{E}){
+const FALL=.07,FULL_MMH=6,SLICE=1000,STEP=1.35;
+// count, length and column (the tallest rain column, m) come from the graphics preset. More drops
+// make the same rain look denser; where it rains and how hard follow the run's input either way.
+export function createRain(scene,{E,count:COUNT=9000,length=.03,column:maxColumn=1500}){
  // Two vertices per drop: position (x, 0 bottom / 1 top, z) and drop (ground height, phase, shown).
- const positions=new Float32Array(COUNT*6),drop=new Float32Array(COUNT*6),geometry=new THREE.BufferGeometry();
- for(let k=0;k<COUNT;k++){positions[k*6+4]=1;const phase=Math.random();drop[k*6+1]=drop[k*6+4]=phase;}
- geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));geometry.setAttribute('drop',new THREE.BufferAttribute(drop,3));
- const U={time:uniform(0),column:uniform(1000)};
+ let positions,drop,geometry;
+ function build(){
+  positions=new Float32Array(COUNT*6);drop=new Float32Array(COUNT*6);geometry=new THREE.BufferGeometry();
+  for(let k=0;k<COUNT;k++){positions[k*6+4]=1;const phase=Math.random();drop[k*6+1]=drop[k*6+4]=phase;}
+  geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));geometry.setAttribute('drop',new THREE.BufferAttribute(drop,3));
+ }
+ build();
+ const U={time:uniform(0),column:uniform(1000),length:uniform(length)};
  const material=new THREE.LineBasicNodeMaterial({color:'#4f7593',transparent:true,opacity:.6,depthWrite:false});
  material.positionNode=Fn(()=>{
-  const d=attribute('drop','vec3'),top=positionLocal.y,len=U.column.mul(LENGTH).mul(top);
+  const d=attribute('drop','vec3'),top=positionLocal.y,len=U.column.mul(U.length).mul(top);
   const y=d.x.add(fract(d.y.sub(U.time.mul(FALL))).mul(U.column)).add(len);
   return select(d.z.greaterThan(.5),vec3(positionLocal.x.add(len.mul(.07)),y,positionLocal.z.add(len.mul(.04))),vec3(0,-1e5,0));
  })();
@@ -30,9 +36,13 @@ export function createRain(scene,{E}){
  }
  return{
   lines,
+  setDetail(d){
+   U.length.value=d.length??U.length.value;maxColumn=d.column??maxColumn;
+   if(d.count&&d.count!==COUNT){COUNT=d.count;const old=geometry;build();lines.geometry=geometry;old.dispose();centre=null;cursor=COUNT;}
+  },
   update(dt,{rain,time,target,cameraDistance,groundAt,enabled}){
    lines.visible=enabled&&!!rain;if(!lines.visible)return 0;
-   U.time.value+=dt;U.column.value=Math.min(1500,Math.max(300,cameraDistance*.6));
+   U.time.value+=dt;U.column.value=Math.min(maxColumn,Math.max(300,cameraDistance*.6));
    const lv=Math.round(Math.log(Math.max(800,cameraDistance*1.1))/Math.log(STEP)),radius=Math.min(9000,STEP**lv);
    const h=rain.frames.find(f=>time>=f.start&&time<f.end)?.start??-1;
    const far=!centre||Math.hypot(target.x-centre.x,target.z-centre.z)>radius*.35;

@@ -6,7 +6,8 @@ import {RUNS,loadRun2d,createSimLayer,onDownloads,loadHand,HAND_COLORS,loadRoads
 import {deckHtml,scoreboardHtml,drawTimeline,timelineKeyHtml,methodsHtml} from './sim-panels.js?v=dev';
 import {createWorldLayer} from './simulation/world-layer.js?v=dev';
 import {showAcknowledgement} from './model-acknowledgement.js?v=dev';
-import {entries,onEntry,clear as clearLog,reportText,send as sendLog,crumb} from './diagnostics.js?v=dev';
+import {entries,onEntry,clear as clearLog,reportText,send as sendLog,crumb,record} from './diagnostics.js?v=dev';
+import {current as graphicsNow,choose as chooseGraphics,lowerAuto,setActive as setGraphics,createFrameWatch,PRESET_NAMES,PRESET_LABELS} from './graphics.js?v=dev';
 
 const svg=d=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
 const I={
@@ -27,6 +28,7 @@ const I={
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
 const MODELS=[['2d','Simulated water · SFINCS'],['hand','Modeled estimate · HAND'],['aggregate','Simulated and modeled combined'],['off','Off - no simulated water']];
 const BASES=[['street','Street map'],['osm','OpenStreetMap'],['satellite','Satellite'],['terrain','Terrain detail']];
+const GRAPHICS=[['auto','Automatic'],['low','Low · lightest, for older or busy computers and phones'],['medium','Medium'],['high','High'],['ultra','Ultra · sharpest, for strong graphics cards']];
 const DETAILS=[['rain','Rain'],['flow','River flow'],['routes','Routes & crossings'],['places','Places'],['live','Live readings']];
 const HOUR_SECONDS=4;
 const clockText=t=>new Date(t).toLocaleString('en-US',{timeZone:'America/Phoenix',weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' MST';
@@ -59,6 +61,9 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   <p class="mapp-hint model-hint" data-m-model-hint aria-live="polite"></p>
   <h3>Map details</h3>
   <div class="mapp-switches">${DETAILS.map(([k,t])=>`<label><span>${t}</span><input type="checkbox" role="switch" data-m-detail="${k}" checked></label>`).join('')}</div>
+  <h3>Graphics</h3>
+  <div class="mapp-radios" role="radiogroup" aria-label="Graphics">${GRAPHICS.map(([v,t])=>`<label><input type="radio" name="mapp-gfx" value="${v}"> ${t}</label>`).join('')}</div>
+  <p class="mapp-hint" data-m-gfx-hint aria-live="polite"></p>
   <h3>Key</h3>
   <div class="mapp-key">
    <p>Simulated water depth (ft)</p><div class="ramp">${DEPTH_COLORS.map((c,i)=>`<span><i style="background:${c}"></i>${DEPTH_FT[i]}${i===DEPTH_FT.length-1?'+':'–'+DEPTH_FT[i+1]}</span>`).join('')}</div>
@@ -142,6 +147,24 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  $$('[data-m-base]').forEach(b=>b.onclick=()=>setBase(b.dataset.mBase));
  $$('input[name=mapp-model]').forEach(r=>r.onchange=()=>{st.model=r.value;applyModel();});
  $$('[data-m-detail]').forEach(c=>c.onchange=()=>{st[c.dataset.mDetail]=c.checked;applyDetails(c.dataset.mDetail);});
+ $$('input[name=mapp-gfx]').forEach(r=>r.onchange=()=>applyGraphics(chooseGraphics(r.value),r.value==='auto'?'Automatic chosen in Map layers':'chosen in Map layers'));
+
+ // --- graphics: sharpness and draw distance for this device (graphics.js), shared with 3D ---
+ let gfx=graphicsNow();setGraphics(gfx.preset);
+ record('info',`Graphics ${PRESET_LABELS[gfx.preset]} (${gfx.choice==='auto'?'automatic':'chosen'}): ${gfx.choice==='auto'?gfx.auto.reason+(gfx.cap?'; lowered after slow frames':''):'chosen in Map layers'}`,{gpu:gfx.auto.gpu});
+ function applyGraphics(next,why,{tell3d=true,log=true}={}){
+  const changed=next.preset!==gfx.preset;gfx=next;setGraphics(gfx.preset);
+  if(changed){baseMaps.street?.redraw?.();baseMaps.satellite?.eachLayer?.(l=>l.redraw?.());if(sim.run)sim.setClock(sim.clock);drawTl();}
+  if(tell3d)world.send('graphics',null,gfx.choice);
+  if(log)record('info',`Graphics ${PRESET_LABELS[gfx.preset]} (${gfx.choice==='auto'?'automatic':'chosen'}): ${why}`);
+  paintGraphics();
+ }
+ function paintGraphics(){
+  for(const r of $$('input[name=mapp-gfx]'))r.checked=r.value===gfx.choice;
+  const auto=PRESET_LABELS[gfx.cap&&PRESET_NAMES.indexOf(gfx.cap)<PRESET_NAMES.indexOf(gfx.auto.preset)?gfx.cap:gfx.auto.preset];
+  $('[data-m-gfx-hint]').textContent=(gfx.choice==='auto'?`Automatic picked ${PRESET_LABELS[gfx.preset]} for this device: ${(gfx.auto.gpu?[gfx.auto.gpu,...gfx.auto.reason.split('; ').slice(1)]:[gfx.auto.reason]).join('; ')}.${gfx.cap?' Lowered one step after the map drew slowly here.':''}`:`${PRESET_LABELS[gfx.preset]}, chosen here. Automatic would pick ${auto}.`)+' Changes sharpness and draw distance only, not the data.'+(world.state?.graphics?.note?' '+world.state.graphics.note:'');
+ }
+ const frameWatch=createFrameWatch();
 
  // --- controls ---
  const in3d=()=>st.view==='3d';
@@ -240,7 +263,10 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  let last=performance.now();
  (function tick(now){
   const dt=Math.min(.25,(now-last)/1000);last=now;
-  if(st.playing&&!in3d()&&st.base!=='terrain'&&sim.run&&location.hash==='#/map'){let c=sim.clock+dt/HOUR_SECONDS;if(c>sim.run.times.length-1)c=0;setClock(c);}
+  if(st.playing&&!in3d()&&st.base!=='terrain'&&sim.run&&location.hash==='#/map'){let c=sim.clock+dt/HOUR_SECONDS;if(c>sim.run.times.length-1)c=0;setClock(c);
+   // Playing is the 2D map's busiest drawing: slow frames there lower an automatic choice a step.
+   if(document.visibilityState==='visible'&&frameWatch.add(dt*1000,now)){const before=gfx.preset,next=lowerAuto();if(next.preset!==before)applyGraphics(next,`frames stayed slower than 25 per second on ${PRESET_LABELS[before]} while the 2D map played`);else{record('info',`Frames stayed slower than 25 per second on ${PRESET_LABELS[before]} on the 2D map`);frameWatch.reset(now+60000);}}}
+  else frameWatch.reset(now);
   requestAnimationFrame(tick);
  })(last);
 
@@ -350,7 +376,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   pending3d=false;st.view='3d';setPlaying(false);world.show(true);showAcknowledgement('simulated');pushTo3d();paintCard();sync();
  }
  // The run this page asked the 3D view for: older reports from it are not taken as a choice.
- let expectRun=null,expectAt=0,pendingHour=null;
+ let expectRun=null,expectAt=0,pendingHour=null,lastGfxNote='';
  function pushTo3d(){
   pendingHour=Math.round(sim.clock);
   expectRun=st.run;expectAt=performance.now();world.send('set','run',st.run);world.send('set','base',st.base==='satellite'?'satellite':'street');world.send('set','model',st.model);
@@ -358,6 +384,8 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  }
  // The 3D view reports what it shows; the player and layers follow it while 3D is on.
  function fromWorld(s){
+  // The 3D view lowered an automatic choice after slow frames: follow it here too.
+  if(s.graphics&&(s.graphics.preset!==gfx.preset||s.graphics.note!==lastGfxNote)){lastGfxNote=s.graphics.note;const next=graphicsNow();if(next.preset!==gfx.preset)applyGraphics(next,'',{tell3d:false,log:false});else paintGraphics();}
   if(pending3d){if(s.ready&&location.hash==='#/map')enter3d();else{paintCard();sync();}return;}
   if(!in3d())return;
   if(s.failed||s.error){paintCard();}
@@ -454,13 +482,13 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
 
  // --- diagnostics ---
  const diagList=$('[data-m-diag-list]'),diagCount=$('[data-m-diag-count]');
- const KIND={error:'Error',freeze:'Freeze',fetch:'Download',slow:'Slow','3d':'3D','3d-failed':'3D failed',console:'Console',open:'Opened'};
+ const KIND={info:'Info',error:'Error',freeze:'Freeze',fetch:'Download',slow:'Slow','3d':'3D','3d-failed':'3D failed',console:'Console',open:'Opened'};
  function paintDiag(){
-  const list=entries(),bad=list.filter(e=>!['open','3d'].includes(e.kind));
+  const list=entries(),bad=list.filter(e=>!['open','3d','info'].includes(e.kind));
   diagCount.textContent=bad.length?`· ${bad.length}`:'';diagCount.className=bad.length?'bad':'';
   diagList.innerHTML=list.slice(-40).reverse().map(e=>`<li class="k-${e.kind}"><b>${KIND[e.kind]??e.kind}</b> <time>${e.t.slice(11,19)}</time> ${esc(e.message)}${e.action&&e.kind!=='open'?`<small>after: ${esc(e.action)}</small>`:''}</li>`).join('')||'<li>Nothing logged.</li>';
  }
- onEntry(()=>{if(!$('[data-m-diag]').open){const list=entries();diagCount.textContent=list.filter(e=>!['open','3d'].includes(e.kind)).length?`· ${list.filter(e=>!['open','3d'].includes(e.kind)).length}`:'';return;}paintDiag();});
+ onEntry(()=>{if(!$('[data-m-diag]').open){const list=entries();diagCount.textContent=list.filter(e=>!['open','3d','info'].includes(e.kind)).length?`· ${list.filter(e=>!['open','3d','info'].includes(e.kind)).length}`:'';return;}paintDiag();});
  $('[data-m-diag]').addEventListener('toggle',paintDiag);
  $('[data-m-diag-send]').onclick=async()=>{const ok=await sendLog({kind:'report',message:'Sent from the map'},{force:true});toast(ok?'Log sent to the developer.':'The log could not be sent. Use Copy log instead.');};
  $('[data-m-diag-copy]').onclick=async()=>{try{await navigator.clipboard.writeText(reportText());toast('Log copied.');}catch{toast('Copying is blocked here.');}};
@@ -503,7 +531,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   if(on&&!sim.run&&!loadingRun)chooseRun(st.run);
  }
  addEventListener('hashchange',onRoute);
- setPlaying(false);setTab(tab);onRoute();
+ setPlaying(false);setTab(tab);paintGraphics();onRoute();
  return{
   // Bring a crossing's card into view: beside the map, or up from the bottom on a phone.
   reveal(){setTab('routes');if(phone())setSheet(true);else setCollapsed(false);},

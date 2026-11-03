@@ -3,6 +3,7 @@
 // colours, roads at their real widths, washes as sand beds, and blue kept for model water.
 import {VectorTile} from './vendor/vector-tiles/vector-tile/index.js';
 import {PbfReader} from './vendor/vector-tiles/pbf/index.js';
+import {canvasRatio} from './graphics.js?v=dev';
 
 export const LAND={grass:'#e3e8cc',scrub:'#e1e3c6',wood:'#d3dfba',forest:'#d3dfba',sand:'#f0e5cb',farmland:'#e4e8cf',wetland:'#d5e5d8',rock:'#e2dccf'};
 export const LANDUSE={residential:'#ece6dc',commercial:'#ebe2dc',industrial:'#e6e1db',school:'#efe4d8',cemetery:'#dfe6cf',quarry:'#e0d8c8'};
@@ -119,7 +120,7 @@ export function createStreetMap(L,map,{fetchImpl,onUnavailable}={}){
  const source=createTileSource(fetchImpl);let failures=0,given=false;
  const fail=()=>{if(++failures>=6&&!given){given=true;onUnavailable?.();}};
  const Painted=L.GridLayer.extend({createTile(coords,done){
-  const ratio=Math.min(2,window.devicePixelRatio||1),size=256*ratio,canvas=document.createElement('canvas');canvas.width=canvas.height=size;
+  const ratio=canvasRatio(),size=Math.round(256*ratio),canvas=document.createElement('canvas');canvas.width=canvas.height=size;
   const at=sourceTile(coords),ctx=canvas.getContext('2d'),hybrid=!!this.options.hybrid;
   if(!hybrid){ctx.fillStyle=BACKGROUND;ctx.fillRect(0,0,size,size);}
   source.load(at).then(tile=>{failures=0;paintTile(ctx,tile,{size,ratio,zoom:coords.z,k:at.k,sx:at.sx,sy:at.sy,hybrid});done(null,canvas);labels.schedule();},()=>{fail();done(null,canvas);});
