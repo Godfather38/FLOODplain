@@ -16,11 +16,13 @@ const {visible:V}=SCENE;
 const midX=(V.x0+V.x1)/2,midZ=(V.z0+V.z1)/2;
 const metresPerLat=110540;
 // The place the scene grid currently sits on. The map layer moves it with the view.
-export const place={...SCENE.center};
-export const setPlace=(lat,lon)=>{place.lat=lat;place.lon=lon;};
+// The map layer also widens it as the view zooms out, so water covers whatever is on screen.
+export const place={...SCENE.center,metresPerUnit:SCENE.metresPerUnit};
+export const setPlace=(lat,lon,metresPerUnit=SCENE.metresPerUnit)=>{place.lat=lat;place.lon=lon;place.metresPerUnit=metresPerUnit;};
+export const demZoomForPlace=()=>Math.min(SCENE.demZoom,Math.round(SCENE.demZoom-Math.log2(place.metresPerUnit/SCENE.metresPerUnit)));
 const metresPerLon=()=>111320*Math.cos(place.lat*Math.PI/180);
-export const project=(lon,lat)=>({x:midX+(lat-place.lat)*metresPerLat/SCENE.metresPerUnit,z:midZ+(lon-place.lon)*metresPerLon()/SCENE.metresPerUnit});
-export const unproject=(x,z)=>({lat:place.lat+(x-midX)*SCENE.metresPerUnit/metresPerLat,lon:place.lon+(z-midZ)*SCENE.metresPerUnit/metresPerLon()});
+export const project=(lon,lat)=>({x:midX+(lat-place.lat)*metresPerLat/place.metresPerUnit,z:midZ+(lon-place.lon)*metresPerLon()/place.metresPerUnit});
+export const unproject=(x,z)=>({lat:place.lat+(x-midX)*place.metresPerUnit/metresPerLat,lon:place.lon+(z-midZ)*place.metresPerUnit/metresPerLon()});
 export const inVisible=(x,z)=>x>=V.x0&&x<=V.x1&&z>=V.z0&&z<=V.z1;
 export function fineGrid(){
  const s=SCENE.renderSpacing,nx=Math.round((V.x1-V.x0)/s)+1,nz=Math.round((V.z1-V.z0)/s)+1;

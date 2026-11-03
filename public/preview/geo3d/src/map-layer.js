@@ -13,7 +13,7 @@ import {loadLiveHeights,loadTile} from './data-source.js';
 import {channelsFromLines,ribbonMask} from './channels.js';
 import {drainageNetwork,withWander,carveField,sampleField,streamChains} from './network.js';
 import {COVERAGE,MIN_WATER_ZOOM,chooseWindow} from './water-window.js';
-import {buildRoadMesh,parseRoadHeights} from './roads-3d.js';
+import {buildRoadMesh,parseRoadHeights,plantSpots} from './roads-3d.js';
 import {mountAcknowledgement} from './acknowledge.js';
 const $=id=>document.getElementById(id);
 const DATA='../../../data/';
@@ -36,7 +36,7 @@ function waterGeometry(){
 // Scene units to the map's mercator space. Scene: +x north, +y up, +z east.
 function sceneToMercator(lowMetres){
  const V=SCENE.visible,origin=maplibre.MercatorCoordinate.fromLngLat([place.lon,place.lat],0),m=origin.meterInMercatorCoordinateUnits();
- const horizontal=SCENE.metresPerUnit*m,E=SCENE.verticalExaggeration,vertical=SCENE.metresPerUnit*m;
+ const horizontal=place.metresPerUnit*m,E=SCENE.verticalExaggeration,vertical=SCENE.metresPerUnit*m;
  return new THREE.Matrix4().set(
   0,0,horizontal,origin.x-(V.z0+V.z1)/2*horizontal,
   -horizontal,0,0,origin.y+(V.x0+V.x1)/2*horizontal,
@@ -89,7 +89,7 @@ function basemapStyle(){
   road('trunk',['trunk'],'#f9d17f',[6,1,16,18]),
   road('motorway',['motorway'],'#f2b64e',[5,1.2,16,24]),
   {id:'routes',type:'line',source:'routes',paint:{'line-color':'#2f6fb0','line-width':['interpolate',['linear'],['zoom'],9,1.5,15,5],'line-opacity':.55}},
-  {id:'buildings',type:'fill-extrusion',source:'omt','source-layer':'building',minzoom:13,paint:{'fill-extrusion-color':'#efe7d8','fill-extrusion-height':['*',['coalesce',['get','render_height'],5],2],'fill-extrusion-opacity':.92}},
+  {id:'buildings',type:'fill-extrusion',source:'omt','source-layer':'building',minzoom:13,paint:{'fill-extrusion-color':['interpolate',['linear'],['coalesce',['get','render_height'],5],3,'#e8dcc6',8,'#d9c7ab',15,'#c3b5a4',40,'#a9b1b8'],'fill-extrusion-height':['*',['coalesce',['get','render_height'],5],2],'fill-extrusion-vertical-gradient':true,'fill-extrusion-opacity':.96}},
   {id:'road-names',type:'symbol',source:'omt','source-layer':'transportation_name',minzoom:12,layout:{'symbol-placement':'line','text-field':['get','name'],'text-font':FONT,'text-size':12},paint:{'text-color':'#4a4640','text-halo-color':'#fff','text-halo-width':1.4}},
   {id:'water-names',type:'symbol',source:'omt','source-layer':'waterway',minzoom:12,layout:{'symbol-placement':'line','text-field':['get','name'],'text-font':FONT,'text-size':11},paint:{'text-color':'#2f6f86','text-halo-color':'#fff','text-halo-width':1.2}},
   {id:'places',type:'symbol',source:'omt','source-layer':'place',layout:{'text-field':['get','name'],'text-font':FONT,'text-size':14},paint:{'text-color':'#332f29','text-halo-color':'#fff','text-halo-width':1.6}},
@@ -132,31 +132,35 @@ function rebuildRoads(){
   if(!(ROAD_CLASSES.includes(cls)||(bridge&&zoom>=13&&cls==='minor')))continue;
   for(const line of f.geometry.type==='MultiLineString'?f.geometry.coordinates:f.geometry.type==='LineString'?[f.geometry.coordinates]:[]){
    const key=[cls,line[0],line.at(-1)].join();if(seen.has(key))continue;seen.add(key);
-   roads.push({cls,bridge,points:line.map(([lon,lat])=>local(lon,lat))});
+   roads.push({cls,bridge,oneway:f.properties.oneway===1,points:line.map(([lon,lat])=>local(lon,lat))});
   }
  }
- const mesh=buildRoadMesh(roads,(x,y)=>map.queryTerrainElevation(fromLocal(x,y)),{anchors:anchors.map(a=>{const[x,y]=local(a.lon,a.lat);return{...a,x,y};}),exaggeration:SCENE.verticalExaggeration});
+ const mesh=buildRoadMesh(roads,(x,y)=>map.queryTerrainElevation(fromLocal(x,y)),{anchors:anchors.map(a=>{const[x,y]=local(a.lon,a.lat);return{...a,x,y};}),exaggeration:SCENE.verticalExaggeration,detail:zoom>=13,widthScale:Math.max(1,2**(13.5-zoom)),
+  // Plants share their positions across views by being placed in absolute mercator metres.
+  plants:zoom>=13.2?plantSpots(O.x/s,O.y/s,Math.min(3000,1400*2**(15-zoom))).map(p=>({x:p.x-O.x/s,y:p.y-O.y/s})):[],
+  skipPlant:(x,y)=>{const g=fromLocal(x,y);return cutAt(g.lng,g.lat)>0;}});
  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(mesh.positions,3));g.setAttribute('color',new THREE.BufferAttribute(mesh.colors,3));g.setIndex(new THREE.BufferAttribute(mesh.indices,1));
  if(!roadMesh){roadMesh=new THREE.Mesh(g,new THREE.MeshBasicNodeMaterial({vertexColors:true,side:THREE.DoubleSide}));roadMesh.frustumCulled=false;roadMesh.matrixAutoUpdate=false;scene.add(roadMesh);}
  else{roadMesh.geometry.dispose();roadMesh.geometry=g;}
  roadFrame.set(s,0,0,O.x, 0,s,0,O.y, 0,0,s,0, 0,0,0,1);
  placeRoads();
- diagnostics.roads={count:roads.length,bridges:roads.filter(r=>r.bridge).length,vertices:mesh.positions.length/3,dropped:mesh.dropped,ms:Math.round(performance.now()-at)};
+ diagnostics.roads={count:roads.length,bridges:roads.filter(r=>r.bridge).length,vertices:mesh.positions.length/3,dropped:mesh.dropped,planted:mesh.planted,ms:Math.round(performance.now()-at)};
  map.triggerRepaint();
 }
 // The old water stays on screen until the new window has finished warming up.
 async function moveWater(target){
  const token=++building,at=performance.now();
- setPlace(target.lat,target.lon);
+ setPlace(target.lat,target.lon,target.scale);
+ const zoomOut=target.scale/SCENE.metresPerUnit;
  const metres=await loadLiveHeights();
  if(token!==building)return;
  // The same cuts the map's terrain has, so water and banks line up.
  for(let j=0;j<fine.nz;j++)for(let i=0;i<fine.nx;i++){const {lon,lat}=unproject(fine.x0+i*fine.dx,fine.z0+j*fine.dz);metres[j*fine.nx+i]-=cutAt(lon,lat);}
  const raw=sceneHeights(metres),low=metres.reduce((a,b)=>Math.min(a,b),Infinity),V=SCENE.visible;
  const inWindow=k=>{const c=cellLonLat(k),p=project(c.lon,c.lat);return p.x>=V.x0&&p.x<=V.x1&&p.z>=V.z0&&p.z<=V.z1;};
- const chains=streamChains(net,inWindow);
+ const chains=streamChains(net,inWindow,{maxChains:zoomOut>1?18:8,minCells:zoomOut>1?12:6});
  if(!chains.length){building++;water.visible=false;worker?.postMessage({type:'pause',value:true});current=target;$('window').textContent='No channel large enough in this part of the view.';return;}
- const lines=chains.map(({cells})=>{let level=Infinity;return cells.map(k=>{const c=cellLonLat(k),p=project(c.lon,c.lat);level=Math.min(level-.002,sampleHeights(raw,fine,p.x,p.z)+.03);return{x:p.x,z:p.z,level};});});
+ const lines=chains.map(({cells})=>{let level=Infinity;return cells.map(k=>{const c=cellLonLat(k),p=project(c.lon,c.lat);level=Math.min(level-.002,sampleHeights(raw,fine,p.x,p.z)+.03*zoomOut);return{x:p.x,z:p.z,level};});});
  const nextTransform=sceneToMercator(low),channels=channelsFromLines(lines,raw,fine,GRID,sampleHeights,chains.map(c=>c.size)),mask=ribbonMask(raw,fine,lines,1.5,.5);
  // One scene unit of height is 25 real metres. This inflow gives depths of a few real metres.
  for(const source of channels.sources)source.rate*=WATER_SCALE;
@@ -171,7 +175,7 @@ async function moveWater(target){
    transform.copy(nextTransform);placeRoads();install(m,true);
    current=target;diagnostics.lines=lines;diagnostics.mask=mask;diagnostics.bed=channels.bed;diagnostics.sources=channels.sources;water.visible=true;diagnostics.ready=true;diagnostics.rebuildMs=performance.now()-at;diagnostics.windows.push(target.name);
    last=performance.now();worker.postMessage({type:'pause',value:document.hidden});
-   $('window').textContent=target.name?`Simulated water near ${target.name}.`:'Simulated water near this view.';
+   $('window').textContent=target.name?`Simulated water near ${target.name}.`:'Simulated water across this view.';
    map.triggerRepaint();return;
   }
   if(pending)recycle(pending);pending=m;

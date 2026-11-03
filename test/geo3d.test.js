@@ -9,8 +9,8 @@ import {coarseBed,drainage,pickChannels,carveFine,ribbonMask,channelsFromLines} 
 import {drainageNetwork,withWander,carveField,sampleField,streamChains} from '../public/preview/geo3d/src/network.js';
 import {visibleRoadRuns,ribbonMesh} from '../public/preview/geo3d/src/roads.js';
 import {ChannelSimulation} from '../public/preview/geo3d/src/channel-sim.js';
-import {chooseWindow} from '../public/preview/geo3d/src/water-window.js';
-import {buildRoadMesh,parseRoadHeights,anchorLift,roadCovered} from '../public/preview/geo3d/src/roads-3d.js';
+import {chooseWindow,scaleForZoom} from '../public/preview/geo3d/src/water-window.js';
+import {buildRoadMesh,parseRoadHeights,anchorLift,roadCovered,plantSpots} from '../public/preview/geo3d/src/roads-3d.js';
 import {GRID_PRESETS} from '../public/preview/coastal-lowcost/src/trial-config.js';
 
 const url=path=>new URL(`../${path}`,import.meta.url);
@@ -135,15 +135,37 @@ test('road models have thickness, and bridges span the ground below them', () =>
  assert.equal(buildRoadMesh([{cls:'minor',points:[[0,0],[10,0]]}],()=>null).positions.length,0,'no terrain yet means no road yet');
 });
 
+test('close up, roads get real detail, and plants stay off the road', () => {
+ const flat=()=>100,road={cls:'motorway',bridge:false,oneway:true,points:[[0,0],[2000,0]]};
+ const plain=buildRoadMesh([road],flat),full=buildRoadMesh([road],flat,{detail:true});
+ assert.ok(full.positions.length>plain.positions.length*3,'markings, barrier, poles and gantries add geometry');
+ let top=0;for(let i=2;i<full.positions.length;i+=3)top=Math.max(top,full.positions[i]);
+ assert.ok(top>120,'poles and gantries stand above the road');
+ const bridge=buildRoadMesh([{cls:'primary',bridge:true,points:[[0,0],[600,0]]}],x=>100-Math.max(0,60-Math.abs(x-300)/3),{detail:true});
+ assert.ok(bridge.positions.length>plain.positions.length,'decks have girders, parapets, piers and abutments');
+ const spots=plantSpots(0,0,500);
+ assert.deepEqual(spots,plantSpots(0,0,500),'plants do not move between views');
+ const planted=buildRoadMesh([road],flat,{plants:[{x:500,y:0},{x:500,y:900}]});
+ assert.equal(planted.planted,1,'the plant on the road is left out');
+});
+
+test('the water window grows as the view zooms out', () => {
+ assert.equal(scaleForZoom(14),50);assert.equal(scaleForZoom(13),100);assert.equal(scaleForZoom(12.5),200);assert.equal(scaleForZoom(9),800);
+ const crossings=[{lat:32.33,lon:-111.2,name:'A'}];
+ const wide=chooseWindow({lat:32.34,lon:-111.15,zoom:10.5},crossings,null);
+ assert.equal(wide.action,'move');assert.equal(wide.target.scale,800);assert.equal(wide.target.name,'','zoomed out it centres on the view');
+ assert.equal(chooseWindow({lat:32.34,lon:-111.15,zoom:12},crossings,wide.target).action,'move','a new zoom level rebuilds');
+});
+
 test('the water window stays in the area and follows crossings', () => {
  const crossings=[{lat:32.33,lon:-111.2,name:'A'},{lat:32.43,lon:-111.28,name:'B'}];
- assert.equal(chooseWindow({lat:32.33,lon:-111.2,zoom:9},crossings,null).action,'hide');
- assert.equal(chooseWindow({lat:33.4,lon:-112,zoom:13},crossings,null).action,'hide');
- const first=chooseWindow({lat:32.331,lon:-111.201,zoom:13},crossings,null);
+ assert.equal(chooseWindow({lat:32.33,lon:-111.2,zoom:8},crossings,null).action,'hide');
+ assert.equal(chooseWindow({lat:33.4,lon:-112,zoom:14},crossings,null).action,'hide');
+ const first=chooseWindow({lat:32.331,lon:-111.201,zoom:14},crossings,null);
  assert.equal(first.action,'move');assert.equal(first.target.name,'A');
- assert.equal(chooseWindow({lat:32.332,lon:-111.202,zoom:13},crossings,first.target).action,'stay');
- assert.equal(chooseWindow({lat:32.43,lon:-111.28,zoom:13},crossings,first.target).target.name,'B');
- const far=chooseWindow({lat:32.25,lon:-111,zoom:13},crossings,null);
+ assert.equal(chooseWindow({lat:32.332,lon:-111.202,zoom:14},crossings,first.target).action,'stay');
+ assert.equal(chooseWindow({lat:32.43,lon:-111.28,zoom:14},crossings,first.target).target.name,'B');
+ const far=chooseWindow({lat:32.25,lon:-111,zoom:14},crossings,null);
  assert.equal(far.action,'move');assert.equal(far.target.name,'');
 });
 

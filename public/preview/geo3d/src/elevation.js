@@ -1,10 +1,10 @@
 // Web-mercator tile arithmetic and Terrarium decoding, shared by the page and
 // the development snapshot tool. Terrarium PNG: metres = R*256 + G + B/256 - 32768.
-import {SCENE,fineGrid,unproject} from './scene-config.js';
+import {SCENE,fineGrid,unproject,demZoomForPlace} from './scene-config.js';
 const TILE=256;
 export const tileUrl=(z,x,y)=>`https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${z}/${x}/${y}.png`;
 const worldPixel=(lon,lat,z)=>{const n=TILE*2**z,r=lat*Math.PI/180;return{px:(lon+180)/360*n,py:(1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*n};};
-export function tilesForScene(z=SCENE.demZoom){
+export function tilesForScene(z=demZoomForPlace()){
  const g=fineGrid(),a=unproject(g.x0,g.z0),b=unproject(g.x0+(g.nx-1)*g.dx,g.z0+(g.nz-1)*g.dz);
  const nw=worldPixel(a.lon,b.lat,z),se=worldPixel(b.lon,a.lat,z),out=[];
  // One pixel of margin keeps bilinear sampling inside the fetched tiles.
@@ -12,7 +12,7 @@ export function tilesForScene(z=SCENE.demZoom){
  return out;
 }
 // tiles: [{x,y,rgba}] with rgba a 256 x 256 x 4 byte array.
-export function elevationGrid(tiles,z=SCENE.demZoom){
+export function elevationGrid(tiles,z=demZoomForPlace()){
  const lookup=new Map(tiles.map(t=>[`${t.x}/${t.y}`,t.rgba]));
  const at=(px,py)=>{
   const rgba=lookup.get(`${Math.floor(px/TILE)}/${Math.floor(py/TILE)}`);
