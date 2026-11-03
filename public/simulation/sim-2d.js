@@ -17,9 +17,31 @@ export const RAIN_MMH=[.5,2,5,10,25];
 export const RAIN_COLORS=['#9be27a','#3cbf4a','#f4d03f','#f08a24','#d6304f'];
 const HALF=50;
 
+// Downloads report their bytes to whoever listens (the map's loading card), and try twice more,
+// a second and then three apart, before they count as failed.
+const downloads=new Map();let listener=null;
+export function onDownloads(fn){listener=fn;}
+const report=()=>{let got=0,total=0;for(const d of downloads.values()){got+=d.got;total+=d.total;}listener?.({count:downloads.size,got,total});};
+const fileName=url=>String(url).split('/').pop().split('?')[0];
+async function fetchRetry(url){
+ let error;
+ for(const wait of [0,1000,3000]){
+  if(wait)await new Promise(r=>setTimeout(r,wait));
+  try{const r=await fetch(url);if(r.ok||r.status===404)return r;error=new Error(`${fileName(url)} answered ${r.status}`);}catch(e){error=new Error(`${fileName(url)} did not download (${e.message})`);}
+ }
+ throw error;
+}
+async function readCounted(r,key){
+ const total=Number(r.headers.get('content-length'))||0;
+ if(!r.body)return new Uint8Array(await r.arrayBuffer());
+ const entry={got:0,total};downloads.set(key,entry);report();const parts=[];let last=0;
+ try{const reader=r.body.getReader();for(;;){const {done,value}=await reader.read();if(done)break;parts.push(value);entry.got+=value.length;const now=performance.now();if(now-last>120){last=now;report();}}}
+ finally{downloads.delete(key);report();}
+ const out=new Uint8Array(parts.reduce((s,p)=>s+p.length,0));let o=0;for(const p of parts){out.set(p,o);o+=p.length;}return out;
+}
 async function fetchJson(url){
- const r=await fetch(url);if(!r.ok)throw new Error(`${String(url).split('/').pop().split('?')[0]} answered ${r.status}`);
- const bytes=new Uint8Array(await r.arrayBuffer());
+ const r=await fetchRetry(url);if(!r.ok)throw new Error(`${fileName(url)} answered ${r.status}`);
+ const bytes=await readCounted(r,String(url));
  const plain=bytes[0]===0x1f&&bytes[1]===0x8b?new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer()):bytes;
  return JSON.parse(new TextDecoder().decode(plain));
 }
@@ -79,7 +101,7 @@ function hourSeries({cells,times,depth,rain,inflow}){
 // Road and bridge-deck heights along the routes (public/simulation/data/road-heights/).
 let roads=null;
 export function loadRoads(){
- roads??=Promise.all([fetch(new URL('road-heights/routes.bin.gz',DATA)).then(async r=>{if(!r.ok)throw new Error('Road heights answered '+r.status);let b=new Uint8Array(await r.arrayBuffer());if(b[0]===0x1f&&b[1]===0x8b)b=new Uint8Array(await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());return decodeRoadHeights(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength));}),fetchJson(new URL('road-heights/structures.json',DATA))])
+ roads??=Promise.all([fetchRetry(new URL('road-heights/routes.bin.gz',DATA)).then(async r=>{if(!r.ok)throw new Error('Road heights answered '+r.status);let b=await readCounted(r,'roads');if(b[0]===0x1f&&b[1]===0x8b)b=new Uint8Array(await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());return decodeRoadHeights(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength));}),fetchJson(new URL('road-heights/structures.json',DATA))])
   .then(([lines,structures])=>roadPackage(lines,structures,(lon,lat)=>{const u=toUtm(lon,lat);return[u.e,u.n];}));
  roads.catch(()=>{roads=null;});
  return roads;

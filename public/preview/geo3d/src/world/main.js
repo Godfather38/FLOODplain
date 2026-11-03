@@ -26,17 +26,47 @@ import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY} from '../runs.js';
 const $=id=>document.getElementById(id);
 const DATA='../../../../simulation/data/',E=2,SHOW_DEPTH_M=.05,HOUR_SECONDS=4;
 const diagnostics={ready:false,errors:[],frameTimes:[]};
-const fail=error=>{diagnostics.errors.push(String(error?.stack||error));$('error').hidden=false;$('error-detail').textContent=String(error?.message||error);};
+const fail=error=>{diagnostics.errors.push(String(error?.stack||error));$('error').hidden=false;$('error-detail').textContent=String(error?.message||error);$('loading').classList.add('done');};
 window.addEventListener('error',e=>fail(e.error||e.message));window.addEventListener('unhandledrejection',e=>fail(e.reason));
 mountAcknowledgement();mountEmbed();
 const status=text=>{$('window').textContent=text;};
 // The loading card on the map: what is happening, and how far along.
-const loading=(text,share)=>{$('loading').classList.remove('done');$('loading-step').textContent=text;if(share!=null)$('loading-bar').style.width=Math.round(share*100)+'%';};
+// Downloads in flight add "· 3.1 of 8.4 MB" to the step, so a slow connection shows it is moving.
+const downloads=new Map();let stepText='';
+const mb=n=>(n/1048576).toFixed(n<1048576?2:1);
+function showStep(){
+ let got=0,total=0;for(const d of downloads.values()){got+=d.got;total+=d.total;}
+ $('loading-step').textContent=stepText+(downloads.size?` · ${mb(got)}${total>=got&&total?' of '+mb(total):''} MB`:'');
+}
+const loading=(text,share)=>{$('loading').classList.remove('done');stepText=text;showStep();if(share!=null)$('loading-bar').style.width=Math.round(share*100)+'%';};
 const loaded=()=>$('loading').classList.add('done');
+// A moment for the page around this view to answer clicks between heavy steps.
+const breathe=()=>new Promise(r=>setTimeout(r,0));
+// Read a response body while counting its bytes for the loading card.
+async function readCounted(response,key){
+ const total=Number(response.headers.get('content-length'))||0;
+ if(!response.body)return new Uint8Array(await response.arrayBuffer());
+ const entry={got:0,total};downloads.set(key,entry);const parts=[];let last=0;
+ try{
+  const reader=response.body.getReader();
+  for(;;){const {done,value}=await reader.read();if(done)break;parts.push(value);entry.got+=value.length;const now=performance.now();if(now-last>150){last=now;showStep();}}
+ }finally{downloads.delete(key);showStep();}
+ const out=new Uint8Array(parts.reduce((s,p)=>s+p.length,0));let o=0;for(const p of parts){out.set(p,o);o+=p.length;}
+ return out;
+}
+// Two more tries, a second and then three apart, before a download counts as failed.
+async function fetchRetry(url){
+ let error;
+ for(const wait of [0,1000,3000]){
+  if(wait)await new Promise(r=>setTimeout(r,wait));
+  try{const r=await fetch(url);if(r.ok||r.status===404)return r;error=new Error(`${String(url).split('/').pop()} answered ${r.status}`);}catch(e){error=e;}
+ }
+ throw error;
+}
 async function fetchMaybeGzip(path){
- const response=await fetch(new URL(path,import.meta.url));
+ const url=new URL(path,import.meta.url),response=await fetchRetry(url);
  if(!response.ok)throw new Error(`${path} answered ${response.status}`);
- const bytes=new Uint8Array(await response.arrayBuffer());
+ const bytes=await readCounted(response,url.href);
  // Some hosts send .gz files already unpacked.
  if(bytes[0]!==0x1f||bytes[1]!==0x8b)return bytes;
  return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
@@ -45,16 +75,16 @@ const json=async path=>JSON.parse(new TextDecoder().decode(await fetchMaybeGzip(
 status('Loading the model terrain');loading('Loading the model terrain',.05);
 const terrainBytes=await fetchMaybeGzip(DATA+'frozen-voxel-terrain.f32.gz');
 const firstRun=RUNS.find(r=>r.id===new URLSearchParams(location.search).get('run'))??RUNS[0];
-const [firstDisplay,routes,measured]=await Promise.all([json(DATA+BASE_DISPLAY),fetch(new URL('../../../../data/routes.geojson',import.meta.url)).then(r=>{if(!r.ok)throw new Error('Routes answered '+r.status);return r.json();}),fetch(new URL('../../../../inundation/road-heights.json',import.meta.url)).then(r=>{if(!r.ok)throw new Error('Road heights answered '+r.status);return r.json();}).then(parseRoadHeights)]);
-loading('Joining the terrain',.35);
+const [firstDisplay,routes,measured]=await Promise.all([json(DATA+BASE_DISPLAY),fetchRetry(new URL('../../../../data/routes.geojson',import.meta.url)).then(r=>{if(!r.ok)throw new Error('Routes answered '+r.status);return r.json();}),fetchRetry(new URL('../../../../inundation/road-heights.json',import.meta.url)).then(r=>{if(!r.ok)throw new Error('Road heights answered '+r.status);return r.json();}).then(parseRoadHeights)]);
+loading('Joining the terrain',.35);await breathe();
 const data={vertices:firstDisplay.vertices,terrain:new Float32Array(terrainBytes.buffer,terrainBytes.byteOffset,terrainBytes.byteLength/4)};
 status('Joining the terrain');
 const {heights,filled}=await buildHeights(data),ground=groundSampler(heights);
 const world=(lon,lat)=>{const u=toUtm(lon,lat);return toWorld(u.e,u.n);};
 // Road heights every 5 m on the routes, with lidar bridge decks (see src/road-package.js).
 const ROADS=new URL('../../../../simulation/data/road-heights/',import.meta.url);
-loading('Loading road and bridge-deck heights',.55);
-const roads=await Promise.all([fetchMaybeGzip(new URL('routes.bin.gz',ROADS).href).then(b=>decodeRoadHeights(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength))),fetch(new URL('structures.json',ROADS)).then(r=>r.json())]).then(([lines,structures])=>roadPackage(lines,structures,world));
+loading('Loading road and bridge-deck heights',.55);await breathe();
+const roads=await Promise.all([fetchMaybeGzip(new URL('routes.bin.gz',ROADS).href).then(b=>decodeRoadHeights(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength))),fetchRetry(new URL('structures.json',ROADS)).then(r=>r.json())]).then(([lines,structures])=>roadPackage(lines,structures,world));
 const toLonLat=(x,z)=>{const u=worldToUtm(x,z);return fromUtm(u.e,u.n);};
 const inside=(x,z)=>Math.abs(x)<SIZE_X/2&&Math.abs(z)<SIZE_Z/2;
 // A run, prepared for drawing and for the crossing sheets.
@@ -69,7 +99,7 @@ async function prepareRun(def,display){
  const hand=handJson?handJson.frames.map(f=>f.hand.features.flatMap(g=>(g.geometry.type==='MultiPolygon'?g.geometry.coordinates:[g.geometry.coordinates]).map(poly=>poly.map(ring=>ring.map(([lon,lat])=>world(lon,lat)))))):null;
  return{def,frames,levels,shares:frames.map(f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:rainJson?parseRain(rainJson):null,inflow,hand};
 }
-loading('Preparing the model water',.7);
+loading('Preparing the model water',.7);await breathe();
 // The newest live run, refused when it is older than LIVE_MAX_AGE_H: never an old one in its place.
 async function prepareLive(def){
  const bust='?t='+Math.floor(Date.now()/120000),manifest=await json(LIVE+'manifest.json'+bust).catch(()=>{throw new Error('The live model feed did not answer.');});
@@ -85,7 +115,7 @@ async function prepareLive(def){
 let run,liveProblem=null;
 try{run=await prepareRun(firstRun,firstRun.display===BASE_DISPLAY?firstDisplay:undefined);}
 catch(error){if(!firstRun.live)throw error;liveProblem=error.message;run=await prepareRun(RUNS.find(r=>r.id==='13z'));}
-loading('Starting the 3D view',.8);
+loading('Starting the 3D view',.8);await breathe();
 const renderer=new THREE.WebGPURenderer({antialias:true,forceWebGL:true,logarithmicDepthBuffer:true,powerPreference:'high-performance'});
 const view=()=>[Math.max(1,$('map').clientWidth),Math.max(1,$('map').clientHeight)];
 renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(...view());renderer.toneMapping=THREE.NoToneMapping;

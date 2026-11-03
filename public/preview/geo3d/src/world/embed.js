@@ -13,7 +13,7 @@ function snapshot(){
   model:$('model').value,models:[...$('model').options].filter(o=>o.disabled).map(o=>o.value),modelNote:text('model-note'),
   rain:box('rain'),rainNow:text('rain-now'),flow:box('flow'),routes:box('show-routes'),places:box('show-places'),
   base:document.querySelector('[data-base][aria-selected="true"]')?.dataset.base??'street',
-  loading:!$('loading').hidden,error:$('error').hidden?'':text('error-detail'),
+  loading:!$('loading').classList.contains('done'),step:text('loading-step'),progress:parseFloat($('loading-bar').style.width)||0,ready:$('loading').classList.contains('done')&&$('run').options.length>0&&!!text('time')&&$('error').hidden,error:$('error').hidden?'':text('error-detail'),
  };
 }
 export function mountEmbed(){

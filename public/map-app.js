@@ -2,7 +2,7 @@
 // button at the top right. Zoom, locate and fit are at the bottom right, and the model run's time
 // runs along the bottom. Routes, crossings and live conditions are in a side panel (a bottom sheet
 // on a phone). 2D and 3D share one run, one hour and one set of layers.
-import {RUNS,loadRun2d,createSimLayer,loadRoads,crossingsFor,COVER_M,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS} from './simulation/sim-2d.js?v=dev';
+import {RUNS,loadRun2d,createSimLayer,onDownloads,loadRoads,crossingsFor,COVER_M,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS} from './simulation/sim-2d.js?v=dev';
 import {deckHtml,scoreboardHtml,drawTimeline,timelineKeyHtml,methodsHtml} from './sim-panels.js?v=dev';
 import {createWorldLayer} from './simulation/world-layer.js?v=dev';
 import {showAcknowledgement} from './model-acknowledgement.js?v=dev';
@@ -162,7 +162,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  function setSheet(expanded){panel.classList.toggle('expanded',expanded);$('[data-m-handle]').setAttribute('aria-expanded',String(expanded));$('[data-m-handle]').setAttribute('aria-label',expanded?'Show less':'Show more');}
  $('[data-m-handle]').onclick=()=>setSheet(!panel.classList.contains('expanded'));
  const setCollapsed=c=>{ui.classList.toggle('panel-collapsed',c);$('[data-m-show-panel]').hidden=!c;};
- $('[data-m-scenarios]').onclick=()=>{setCollapsed(false);setTab('scenarios');if(phone())setSheet(true);};
+
  $('[data-m-collapse]').onclick=()=>setCollapsed(true);$('[data-m-show-panel]').onclick=()=>setCollapsed(false);
 
  // --- player ---
@@ -225,9 +225,9 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   let best=0,most=-1;run.depth.forEach((d,k)=>{let n=0;for(let i=0;i<d.length;i++)if(d[i]>=.0091)n++;if(n>most){most=n;best=k;}});return best;
  }
  async function chooseRun(id,{keepClock=false}={}){
-  const def=RUNS.find(r=>r.id===id)??RUNS[1];st.run=def.id;runSel.value=def.id;
-  if(in3d())world.send('set','run',def.id);
-  const ticket=loadingRun=Symbol();runSel.disabled=true;if(!in3d())timeOut.textContent='Loading '+def.label;
+  const def=RUNS.find(r=>r.id===id)??RUNS[1];st.run=def.id;runSel.value=def.id;loadError=null;renderMenu();
+  if(in3d()){expectRun=def.id;expectAt=performance.now();world.send('set','run',def.id);}
+  const ticket=loadingRun=Symbol();loadingDef=def;paintCard();if(!in3d())timeOut.textContent='Loading '+(def.card?.short??def.label);
   try{
    let run=runs.get(def.id);
    if(!run){run=await loadRun2d(def);runs.set(def.id,run);}
@@ -237,9 +237,9 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
    showAcknowledgement(def.live?'modelRun':'savedRun');updateCrossings();renderPanels(true);
   }catch(error){
    if(ticket!==loadingRun)return;
-   if(def.live){runNote=`No live model run to show: ${error.message} Showing a saved run instead.`;runSel.disabled=false;loadingRun=null;return chooseRun('13z');}
-   timeOut.textContent='The model run could not load: '+error.message;
-  }finally{if(ticket===loadingRun){loadingRun=null;runSel.disabled=false;describe();}}
+   if(def.live){runNote=`No live model run to show: ${error.message} Showing a saved run instead.`;loadingRun=null;return chooseRun('13z');}
+   timeOut.textContent='The model run could not load';loadError={def,message:error.message};
+  }finally{if(ticket===loadingRun){loadingRun=null;loadingDef=null;describe();paintCard();}}
  }
  function describe(){
   const run=sim.run;note.textContent=in3d()?(world.state?.note??''):st.base==='terrain'?'Terrain detail: the saved Nov 1–2 run drawn on 10 m terrain by the flat renderer. Its own time and case controls are in Map layers.':runNote||run?.def.note||'';
@@ -281,34 +281,42 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   }
   sync();
  }
+ let pending3d=false;
  function setView(view){
-  if(view===st.view)return;
-  const from3d=world.state;st.view=view;
   if(view==='3d'){
+   if(st.view==='3d')return;
    if(st.base==='terrain')setBase('street');
-   setPlaying(false);world.show(true);showAcknowledgement('simulated');
-   if(world.ready)pushTo3d();
-  }else{
-   world.show(false);
-   if(from3d?.run&&from3d.run!==st.run)chooseRun(from3d.run).then(()=>setClock(from3d.scrub.value));
-   else if(from3d)setClock(from3d.scrub.value);
+   pending3d=true;world.load(st.run);world.park();
+   if(world.ready)enter3d();else{paintCard();sync();}
+   return;
   }
+  if(pending3d){pending3d=false;world.park();paintCard();sync();return;}
+  if(st.view!=='3d')return;
+  const from3d=world.state;st.view='2d';world.hide();
+  if(from3d?.run&&from3d.run!==st.run)chooseRun(from3d.run).then(()=>setClock(from3d.scrub.value));
+  else if(from3d)setClock(from3d.scrub.value);
   sync();
  }
- let pushed=false;
+ function enter3d(){
+  pending3d=false;st.view='3d';setPlaying(false);world.show(true);showAcknowledgement('simulated');pushTo3d();paintCard();sync();
+ }
+ // The run this page asked the 3D view for: older reports from it are not taken as a choice.
+ let expectRun=null,expectAt=0;
  function pushTo3d(){
-  pushed=true;
-  world.send('set','run',st.run);world.send('set','base',st.base==='satellite'?'satellite':'street');world.send('set','model',st.model);
+  expectRun=st.run;expectAt=performance.now();world.send('set','run',st.run);world.send('set','base',st.base==='satellite'?'satellite':'street');world.send('set','model',st.model);
   for(const [k,id] of [['rain','rain'],['flow','flow'],['routes','show-routes'],['places','show-places']])world.send('set',id,st[k]);
   setTimeout(()=>world.send('set','scrub',Math.round(sim.clock)),400);
  }
  // The 3D view reports what it shows; the player and layers follow it while 3D is on.
  function fromWorld(s){
+  if(pending3d){if(s.ready&&location.hash==='#/map')enter3d();else{paintCard();sync();}return;}
   if(!in3d())return;
-  if(!pushed&&s.time){pushTo3d();return;}
+  if(s.failed||s.error){paintCard();}
+  if(expectRun&&performance.now()-expectAt>20000)expectRun=null;
+  if(expectRun){if(s.run===expectRun)expectRun=null;else{paintCard();return;}}
   if(s.run!==runSel.value&&RUNS.some(r=>r.id===s.run)){st.run=s.run;runSel.value=s.run;}
   if(s.run!==sim.run?.def.id&&RUNS.some(r=>r.id===s.run)&&!loadingRun)chooseRun(s.run);
-  runSel.disabled=s.runBusy;scrub.max=String(s.scrub.max);if(document.activeElement!==scrub)scrub.value=String(s.scrub.value);
+  scrub.max=String(s.scrub.max);if(document.activeElement!==scrub)scrub.value=String(s.scrub.value);
   if(sim.run&&sim.run.def.id===s.run){sim.setClock(Math.min(sim.run.times.length-1,s.scrub.value));hourStat();drawTl();}
   timeOut.textContent=s.error?'The 3D view could not load':s.time||'Loading the 3D view';
   if(s.playing!==st.playing)setPlaying(s.playing);
@@ -322,9 +330,72 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  const oldClock=document.querySelector('[data-clock]');
  new MutationObserver(()=>{if(st.base!=='terrain'||in3d())return;timeOut.textContent=oldClock.textContent;const t=document.querySelector('[data-time]');if(t){scrub.min=t.min;scrub.max=t.max;scrub.step='1';scrub.value=t.value;}}).observe(oldClock,{childList:true,characterData:true,subtree:true});
 
+ // --- the loading card on the map: what is downloading or being built, and how far along ---
+ const card=document.createElement('div');card.className='mapp-load';card.hidden=true;card.setAttribute('role','status');card.setAttribute('aria-live','polite');
+ card.innerHTML='<div class="mapp-load-head"><span class="mapp-spin" aria-hidden="true"></span><strong data-l-title></strong><span class="mapp-load-time" data-l-time></span></div><p data-l-step></p><div class="mapp-load-bar"><i data-l-bar></i></div><div class="mapp-load-actions"><button type="button" data-l-retry hidden>Try again</button><button type="button" data-l-cancel>Cancel</button></div>';
+ ui.append(card);
+ const c$=s=>card.querySelector(s);
+ let loadingDef=null,loadError=null,dl={count:0,got:0,total:0},loadStarted=0;
+ const mb=n=>(n/1048576).toFixed(n<1048576?2:1);
+ onDownloads(d=>{dl=d;paintCard();});
+ function paintCard(){
+  const w=world.state,failed3d=pending3d&&(w?.failed||w?.error),quiet3d=pending3d&&w?.quiet;
+  let title='',step='',share=0,retry=false,show=true,cancel=true;
+  if(pending3d){
+   title='Building the 3D view';share=(w?.progress??0)/100;
+   step=failed3d?(w.error||'The 3D view could not load.'):quiet3d?`Still on: ${w?.step||'starting'}. The connection may be slow.`:(w?.step||'Downloading the 3D view');
+   retry=!!(failed3d||quiet3d);
+  }else if(loadingDef&&!in3d()){
+   title='Loading '+(loadingDef.card?.short??loadingDef.label);
+   step=dl.count?`Downloading the model run · ${mb(dl.got)}${dl.total>=dl.got&&dl.total?' of '+mb(dl.total):''} MB`:'Reading the model run';
+   share=dl.total?dl.got/dl.total:.1;
+  }else if(loadError&&!in3d()){
+   title='The model run could not load';step=loadError.message+' The map and the other scenarios still work.';retry=true;share=0;
+  }else show=false;
+  if(show&&card.hidden)loadStarted=performance.now();
+  card.hidden=!show;if(!show)return;
+  card.classList.toggle('failed',!!(failed3d||(loadError&&!loadingDef&&!pending3d)));
+  c$('[data-l-title]').textContent=title;c$('[data-l-step]').textContent=step;
+  c$('[data-l-bar]').style.width=Math.max(4,Math.round(share*100))+'%';
+  c$('[data-l-retry]').hidden=!retry;c$('[data-l-cancel]').hidden=!cancel;
+  c$('[data-l-cancel]').textContent=pending3d?'Stay in 2D':loadError?'Close':'Cancel';
+ }
+ setInterval(()=>{if(card.hidden)return;const s=pending3d?world.seconds:Math.round((performance.now()-loadStarted)/1000);c$('[data-l-time]').textContent=s>=2?s+' s':'';},500);
+ c$('[data-l-cancel]').onclick=()=>{
+  if(pending3d){pending3d=false;world.cancel();}
+  else if(loadingDef){loadingRun=null;const keep=sim.run?.def.id;loadingDef=null;if(keep){st.run=keep;runSel.value=keep;}renderMenu();}
+  loadError=null;paintCard();sync();
+ };
+ c$('[data-l-retry]').onclick=()=>{if(pending3d){world.retry();paintCard();}else if(loadError){const d=loadError.def;loadError=null;chooseRun(d.id);}};
+
+ // --- the scenario menu: every run, one tap ---
+ const menu=document.createElement('div');menu.className='mapp-menu';menu.hidden=true;menu.setAttribute('role','menu');menu.setAttribute('aria-label','Scenarios');ui.append(menu);
+ const scenBtn=$('[data-m-scenarios]');scenBtn.setAttribute('aria-haspopup','menu');scenBtn.setAttribute('aria-expanded','false');
+ function renderMenu(){
+  menu.innerHTML=RUNS.map(r=>{const c=r.card??{},on=r.id===st.run;
+   const stats=r.live?'Updates every hour':`${c.rainInH} in/h rain · ${Math.round(c.riverCfs).toLocaleString()} ft³/s river · ${c.wetKm2} km² wet`;
+   return `<button type="button" role="menuitemradio" aria-checked="${on}" data-menu-run="${r.id}" class="k-${(c.kind??'').toLowerCase().replace(/[^a-z]/g,'')}"><span class="kind">${esc(c.kind??'')}</span><b>${esc(c.short??r.label)}</b><small>${stats}</small></button>`;}).join('')+'<button type="button" role="menuitem" class="more" data-menu-more>Compare scenarios side by side →</button>';
+  menu.querySelectorAll('[data-menu-run]').forEach(b=>b.onclick=()=>{setMenu(false);chooseRun(b.dataset.menuRun);});
+  menu.querySelector('[data-menu-more]').onclick=()=>{setMenu(false);setCollapsed(false);setTab('scenarios');if(phone())setSheet(true);};
+ }
+ function setMenu(open){
+  if(open){renderMenu();const r=scenBtn.getBoundingClientRect(),w=wrap.getBoundingClientRect();menu.style.left=Math.max(8,Math.min(r.left-w.left,w.width-menu.offsetWidth-8))+'px';menu.style.top=(r.bottom-w.top+8)+'px';}
+  menu.hidden=!open;scenBtn.setAttribute('aria-expanded',String(open));
+  if(open){menu.style.left=Math.max(8,Math.min(scenBtn.getBoundingClientRect().left-wrap.getBoundingClientRect().left,wrap.clientWidth-menu.offsetWidth-8))+'px';menu.querySelector('[aria-checked=true]')?.focus();}
+ }
+ scenBtn.onclick=e=>{e.stopPropagation();setMenu(menu.hidden);};
+ document.addEventListener('click',e=>{if(!menu.hidden&&!menu.contains(e.target)&&e.target!==scenBtn)setMenu(false);});
+ menu.addEventListener('keydown',e=>{
+  const items=[...menu.querySelectorAll('button')],i=items.indexOf(document.activeElement);
+  if(e.key==='ArrowDown'){e.preventDefault();items[(i+1)%items.length].focus();}
+  else if(e.key==='ArrowUp'){e.preventDefault();items[(i-1+items.length)%items.length].focus();}
+  else if(e.key==='Escape'){setMenu(false);scenBtn.focus();}
+ });
+ renderMenu();
+
  function sync(){
   const terrainOn=st.base==='terrain'&&!in3d();
-  $$('[data-m-view]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.mView===st.view)));
+  $$('[data-m-view]').forEach(b=>{b.setAttribute('aria-checked',String(b.dataset.mView===st.view||(b.dataset.mView==='3d'&&pending3d)));b.dataset.loading=b.dataset.mView==='3d'&&pending3d?Math.round(world.state?.progress??0)+'%':'';});
   $$('[data-m-base]').forEach(b=>{b.setAttribute('aria-checked',String(b.dataset.mBase===st.base));b.disabled=in3d()&&(b.dataset.mBase==='terrain'||b.dataset.mBase==='osm');});
   $('[data-m-base-hint]').textContent=in3d()?'3D has Street map and Satellite. OpenStreetMap and Terrain detail are 2D map types.':terrainOn?'Terrain detail draws its own 10 m terrain map with the saved Nov 1–2 run.':'';
   terrain.hidden=!terrainOn;
@@ -350,7 +421,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  // Only the Map tab shows the model layers; the other screens keep their live map.
  function onRoute(){
   const on=location.hash==='#/map';document.body.classList.toggle('mapp-on',on);
-  world.show(on&&in3d());
+  if(on&&in3d())world.show(true);else if(pending3d)world.park();else world.hide();
   if(!on){setLayersOpen(false);if(st.base==='terrain')window.dispatchEvent(new CustomEvent('flood-terrain-detail',{detail:false}));}
   else if(st.base==='terrain')window.dispatchEvent(new CustomEvent('flood-terrain-detail',{detail:true}));
   sync();map.invalidateSize();

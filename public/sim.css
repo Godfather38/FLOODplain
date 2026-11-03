@@ -117,3 +117,42 @@
  html body.mapp-on>.appbar #title{font-size:1.125rem;margin:0}
  html body.mapp-on>.appbar #logo{display:none}
 }
+
+/* 3D loading out of sight: it keeps rendering, but the 2D map underneath gets every click */
+.world-layer.warming{opacity:0;pointer-events:none}
+.mapp-tile[data-loading]:not([data-loading=""])::after{content:attr(data-loading);font:600 .6875rem var(--mono);color:var(--primary)}
+
+/* the loading card: what is downloading or being built, how far along, and a way out */
+.mapp-load{position:absolute;top:76px;left:50%;transform:translateX(-50%);z-index:1160;width:min(420px,calc(100% - 24px));padding:12px 14px;border-radius:14px;background:var(--surface);color:var(--on);box-shadow:0 1px 3px rgba(0,0,0,.25),0 6px 18px rgba(0,0,0,.16)}
+.mapp-load[hidden]{display:none}
+.mapp-load-head{display:flex;align-items:center;gap:10px}
+.mapp-load-head strong{flex:1;font-weight:600}
+.mapp-load-time{font:.75rem var(--mono);color:var(--muted)}
+.mapp-spin{width:18px;height:18px;border-radius:50%;border:3px solid var(--surface-2);border-top-color:var(--primary);animation:mapp-spin .8s linear infinite;flex:none}
+.mapp-load.failed .mapp-spin{animation:none;border-color:var(--sim-red)}
+@keyframes mapp-spin{to{transform:rotate(360deg)}}
+.mapp-load p{margin:6px 0 8px;font:.8125rem/1.4 var(--mono);color:var(--muted)}
+.mapp-load-bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.mapp-load-bar i{display:block;height:100%;background:var(--primary);transition:width .3s}
+.mapp-load.failed .mapp-load-bar i{background:var(--sim-red)}
+.mapp-load-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
+.mapp .mapp-load-actions button{min-height:40px;padding:0 16px;border:0;border-radius:20px;background:var(--surface-2);color:var(--on);font-weight:600}
+.mapp .mapp-load-actions [data-l-retry]{background:var(--primary);color:var(--on-primary,#fff)}
+@media (prefers-reduced-motion:reduce){.mapp-spin{animation:none}}
+
+/* the scenario menu */
+.mapp-menu{position:absolute;z-index:1250;width:min(360px,calc(100% - 16px));max-height:calc(100% - 90px);overflow:auto;padding:6px;border-radius:14px;background:var(--surface);box-shadow:0 2px 6px rgba(0,0,0,.2),0 10px 28px rgba(0,0,0,.18)}
+.mapp-menu[hidden]{display:none}
+.mapp .mapp-menu button{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;width:100%;text-align:left;padding:10px 12px 10px 14px;border:0;border-radius:10px;background:none;position:relative}
+.mapp .mapp-menu button:hover,.mapp .mapp-menu button:focus-visible{background:var(--surface-2)}
+.mapp-menu button::before{content:"";position:absolute;left:4px;top:10px;bottom:10px;width:4px;border-radius:2px;background:var(--sim-blue)}
+.mapp-menu button.k-whatif::before{background:var(--sim-red)}
+.mapp-menu button.k-live::before{background:#0f6f6a}
+.mapp-menu button.more::before{display:none}
+.mapp-menu .kind{grid-row:1;font:600 .625rem/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mapp-menu b{grid-row:1;font-weight:600}
+.mapp-menu small{grid-column:1/-1;font:.75rem var(--mono);color:var(--muted)}
+.mapp-menu [aria-checked=true]{background:color-mix(in srgb,var(--primary) 10%,var(--surface))}
+.mapp-menu [aria-checked=true] b::after{content:"  ✓";color:var(--primary)}
+.mapp .mapp-menu .more{display:block;color:var(--primary);font-weight:600;border-top:1px solid var(--divider);border-radius:0 0 10px 10px;margin-top:4px}
+@media (max-width:899px){.mapp-load{top:auto;bottom:calc(30% + 12px)}}

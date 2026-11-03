@@ -62,9 +62,9 @@ test('shared forecasts fall back to NOAA for anything missing',async()=>{
  assert.equal((await (await none('https://api.water.noaa.gov/nwps/v1/gauges/ABC')).json()).from,'noaa');
 });
 test('closures screen is reachable',()=>{assert.deepEqual(resolveScreen('#/closures',{}),{screen:'closures'})});
-test('offline support always prefers the network',()=>{
+test('offline support always prefers the network, and never cuts a slow answer off',()=>{
  const sw=read('sw.js');
- assert.match(sw,/await fetch\(request/);assert.match(sw,/simulation\\\/data/);assert.match(sw,/renderer-chunks/);
+ assert.match(sw,/await fetch\(request\)/);assert.doesNotMatch(sw,/abort\(/);assert.match(sw,/simulation\\\/data/);assert.match(sw,/renderer-chunks/);
  assert.match(read('app.js'),/navigator\.serviceWorker\.register\('sw\.js'\)/);
 });
 test('the preload step lists the whole startup module tree',()=>{

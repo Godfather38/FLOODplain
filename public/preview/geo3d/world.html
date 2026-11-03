@@ -16,7 +16,7 @@
   <div class="mapbar"><select id="goto" aria-label="Go to a place or route crossing"></select><button id="north" class="compass" aria-label="Turn to north up" title="North up"><span>N</span></button></div>
   <div class="zoombar"><button id="zoom-in" class="map-btn" aria-label="Zoom in">+</button><button id="zoom-out" class="map-btn" aria-label="Zoom out">−</button></div>
   <div id="loading" class="loading-card" role="status" aria-live="polite"><div class="spinner" aria-hidden="true"></div><strong id="loading-title">Loading the 3D model view</strong><p id="loading-step">Starting</p><div class="bar"><i id="loading-bar"></i></div></div>
-  <div id="error" class="map-card" hidden><strong>The 3D model run could not load</strong><pre id="error-detail"></pre></div>
+  <div id="error" class="map-card" hidden><strong>The 3D model run could not load</strong><pre id="error-detail"></pre><button id="error-retry" class="btn btn-tonal" type="button" onclick="location.reload()">Try again</button></div>
  </div>
  <section id="screen" aria-label="Model run, routes and crossings">
   <div class="hero run-card">
@@ -54,4 +54,16 @@
  </section>
 </main>
 <div id="simulation-ack" class="map-card ack" role="dialog" aria-labelledby="simulation-ack-title" hidden><strong id="simulation-ack-title">This water is from a saved run</strong><p>It is a saved model run from November 2026, not real conditions or a forecast. If you see water on a real road, turn around, don't drown.</p><button id="simulation-ack-ok" class="btn btn-primary">Got it</button></div>
+<script>
+// If part of this view's code never arrives, say so and offer to try again instead of waiting forever.
+(function(){
+ function failed(msg){
+  var e=document.getElementById('error');if(e){e.hidden=false;document.getElementById('error-detail').textContent=msg;}
+  var l=document.getElementById('loading');if(l)l.classList.add('done');
+  try{if(parent!==window)parent.postMessage({fp3d:'state',failed:true,error:msg},location.origin);}catch(x){}
+ }
+ addEventListener('error',function(ev){var t=ev.target;if(t&&t.tagName==='SCRIPT')failed('Part of the 3D view did not download. Check the connection and try again.');},true);
+ window.fp3dFailed=failed;
+})();
+</script>
 <script type="module" src="./src/world/main.js"></script></body></html>

@@ -1,6 +1,6 @@
 // Keeps the app openable with weak or no signal. Always tries the network first, so people
 // never get an old version while they have service. Feeds and map tiles are not stored here.
-const CACHE = 'floodplain-app-v1';
+const CACHE = 'floodplain-app-v2';
 const WAIT_MS = 5000;
 const SKIP = /\/simulation\/data\/|\/simulation\/renderer-chunks\/|\/inundation\/data\//;
 const storable = (url) => url.origin === self.location.origin && !SKIP.test(url.pathname);
@@ -24,16 +24,22 @@ self.addEventListener('message', (event) => {
   })());
 });
 
+// A slow answer is never cut off: a slow host would otherwise break a page's code for good. After
+// WAIT_MS a saved copy is used if there is one; with none, the network answer is awaited.
 async function fromNetworkFirst(request) {
   const cache = await caches.open(CACHE);
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), WAIT_MS);
-  try {
-    const response = await fetch(request, { signal: controller.signal });
+  const savedCopy = () => cache.match(request).then((hit) => hit ?? (request.mode === 'navigate' ? cache.match(new URL('./', self.location).href).then((home) => home ?? cache.match(request, { ignoreSearch: true })) : null));
+  const network = (async () => {
+    const response = await fetch(request);
     if (response.ok && storable(new URL(request.url))) cache.put(request, response.clone());
     return response;
+  })();
+  let timer;
+  const slow = new Promise((resolve) => { timer = setTimeout(resolve, WAIT_MS); }).then(savedCopy).then((saved) => saved ?? network);
+  try {
+    return await Promise.race([network, slow]);
   } catch (error) {
-    const saved = await cache.match(request) ?? (request.mode === 'navigate' ? await cache.match(new URL('./', self.location).href) ?? await cache.match(request, { ignoreSearch: true }) : null);
+    const saved = await savedCopy();
     if (saved) return saved;
     throw error;
   } finally { clearTimeout(timer); }
