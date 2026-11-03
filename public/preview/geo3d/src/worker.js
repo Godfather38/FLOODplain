@@ -28,7 +28,7 @@ function publish(type='frame'){
 }
 onmessage=async ({data})=>{
  if(data.type==='init'){
-  sim=new ChannelSimulation(data.grid,data.bed,data.sources);
+  sim=new ChannelSimulation(data.grid,data.bed,data.sources,data.fill);
   const at=performance.now();
   // 60 simulated seconds, so water has reached the outlet before the first frame.
   for(let block=0;block<WARMUP_BLOCKS;block++){

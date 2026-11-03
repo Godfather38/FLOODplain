@@ -3,10 +3,11 @@
 import {ShoreSimulation} from '../../coastal-lowcost/src/simulation.js?v=1.3.0';
 export const inflowSurge=t=>Math.max(.15,1+.6*Math.sin(t*.83)+.35*Math.sin(t*.31+1.7));
 export class ChannelSimulation extends ShoreSimulation{
- constructor(grid,bed,sources){
+ constructor(grid,bed,sources,fill=null){
   super(grid);
   this.bed.set(bed);this.sand.set(bed);
   this.h.fill(0);this.next.fill(0);this.wet.fill(0);this.sponge.fill(0);
+  if(fill)this.h.set(fill);
   this.sources=sources;
  }
  step(dt=1/60){

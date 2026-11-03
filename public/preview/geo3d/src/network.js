@@ -22,7 +22,7 @@ export function drainageNetwork(metres,w,h){
  }
  const area=new Float32Array(n).fill(1);
  for(let q=n-1;q>=0;q--){const k=order[q];if(receiver[k]>=0)area[receiver[k]]+=area[k];}
- return{w,h,filled,receiver,area};
+ return{w,h,filled,receiver,area,order};
 }
 // On a smooth slope, flow routed cell to cell runs in dead-straight parallel lines. A little
 // fixed wander in the heights used for routing lets channels meander. The map never sees it.
@@ -43,14 +43,23 @@ const blur=(field,w,h)=>{
  return out;
 };
 // How deep to cut at each cell. Bigger washes are deeper and wider, and banks taper off.
-export function carveField(net,threshold=STREAM_CELLS){
- const {w,h,area}=net,depth=new Float32Array(w*h);
+// ground is the real height. Channels are routed on slightly different heights, so real
+// ground can rise along one; each floor is cut to keep running downhill all the way.
+export function carveField(net,ground=net.filled,threshold=STREAM_CELLS){
+ const {w,h,area,order,receiver}=net,depth=new Float32Array(w*h),incoming=new Float32Array(w*h).fill(Infinity),floor=new Float32Array(w*h);
+ for(let q=w*h-1;q>=0;q--){
+  const k=order[q];if(area[k]<threshold)continue;
+  const size=Math.log2(area[k]/threshold);
+  floor[k]=Math.min(ground[k]-Math.min(36,22+4*size),incoming[k]-.02);
+  const r=receiver[k];if(r>=0&&floor[k]<incoming[r])incoming[r]=floor[k];
+ }
  for(let k=0;k<w*h;k++){
   if(area[k]<threshold)continue;
-  const size=Math.log2(area[k]/threshold),D=Math.min(36,22+4*size),R=Math.min(3.4,1.7+.5*size),ci=k%w,cj=(k-ci)/w,reach=Math.ceil(R);
+  const size=Math.log2(area[k]/threshold),D=ground[k]-floor[k],R=Math.min(3.4,1.7+.5*size),ci=k%w,cj=(k-ci)/w,reach=Math.ceil(R);
   for(let dj=-reach;dj<=reach;dj++)for(let di=-reach;di<=reach;di++){
    const i=ci+di,j=cj+dj;if(i<0||j<0||i>=w||j>=h)continue;
-   const q=j*w+i,cut=D*(1-smooth(Math.hypot(di,dj)/R));
+   // A flat floor, then banks: the water needs a level bed to sit on continuously.
+   const q=j*w+i,cut=D*(1-smooth((Math.hypot(di,dj)/R-.45)/.55));
    if(cut>depth[q])depth[q]=cut;
   }
  }

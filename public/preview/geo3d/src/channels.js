@@ -2,7 +2,7 @@
 // This chooses where to draw flow. It is not a hydrologic or flood result.
 import {inVisible} from './scene-config.js';
 const NEIGHBOURS=[[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[1,-1],[-1,1],[1,1]];
-const CARVE=1.1,MIN_DROP=.07,MIN_LENGTH=12,BANK=3;
+const CARVE=1.1,MIN_DROP=.07,MIN_LENGTH=12,BANK=3,FEED_EVERY=6,START_DEPTH=.1;
 export const SOURCE_RATES=Object.freeze({main:3.2,tributary:1.6});
 export function coarseBed(heights,fine,grid,sample){
  const bed=new Float32Array(grid.nx*grid.nz);
@@ -95,22 +95,30 @@ export function channelsFromLines(lines,heights,fine,grid,sample,sizes){
  const {nx,nz,x0,z0,dx,dz}=grid,bed=new Float32Array(nx*nz),band=new Uint8Array(nx*nz),sources=[];
  for(let j=0;j<nz;j++)for(let i=0;i<nx;i++)bed[j*nx+i]=sample(heights,fine,x0+i*dx,z0+j*dz)+BANK;
  const cellAt=(x,z)=>{const i=Math.max(0,Math.min(nx-1,Math.round((x-x0)/dx))),j=Math.max(0,Math.min(nz-1,Math.round((z-z0)/dz)));return{i,j};};
- const lower=(i,j,level)=>{const k=j*nx+i;bed[k]=band[k]?Math.min(bed[k],level):level;band[k]=1;};
+ // Three cells wide with a level floor. The shader blends depth between cells, so beside a
+ // one-cell channel the depth turns negative within metres and the water breaks into pieces.
+ const lowerCell=(i,j,level)=>{if(i<0||j<0||i>=nx||j>=nz)return;const k=j*nx+i;bed[k]=band[k]?Math.min(bed[k],level):level;band[k]=1;};
+ const lower=(i,j,level)=>{for(let dj=-1;dj<=1;dj++)for(let di=-1;di<=1;di++)lowerCell(i+di,j+dj,level);};
  lines.forEach((line,index)=>{
-  let previous=null;
+  let previous=null,rate=0,sinceSource=0;
   for(const p of line){
    const c=cellAt(p.x,p.z);
    // Walk one axis at a time: the solver only passes water between edge-sharing cells.
    if(previous){let {i,j}=previous;while(i!==c.i||j!==c.j){if(i!==c.i)i+=Math.sign(c.i-i);else j+=Math.sign(c.j-j);lower(i,j,p.level);}}
-   else{lower(c.i,c.j,p.level);sources.push({cell:c.j*nx+c.i,rate:Math.min(SOURCE_RATES.main,SOURCE_RATES.tributary*(1+Math.log2(1+(sizes?.[index]??1)/900)))});}
+   else{lower(c.i,c.j,p.level);rate=Math.min(SOURCE_RATES.main,SOURCE_RATES.tributary*(1+Math.log2(1+(sizes?.[index]??1)/900)));sources.push({cell:c.j*nx+c.i,rate});}
+   // A wet front crawls on flat ground, so inflow also joins along the channel's length.
+   if(previous&&++sinceSource>=FEED_EVERY){sinceSource=0;sources.push({cell:c.j*nx+c.i,rate:rate*.5});}
    previous=c;
   }
  });
- return{bed,sources};
+ // Channels start out wet: the far end would otherwise stay dry for minutes after loading.
+ const fill=new Float32Array(nx*nz);
+ for(let k=0;k<nx*nz;k++)if(band[k])fill[k]=START_DEPTH;
+ return{bed,sources,fill};
 }
 // The height the toon shader compares water against. It shows water only above this, so a
 // trough along the channel clips the water to a ribbon without editing the map's terrain.
-export function ribbonMask(heights,fine,lines,halfWidth=2.5){
+export function ribbonMask(heights,fine,lines,halfWidth=2.5,rise=1.2){
  const out=new Float32Array(heights.length);
  for(let j=0;j<fine.nz;j++)for(let i=0;i<fine.nx;i++){
   const x=fine.x0+i*fine.dx,z=fine.z0+j*fine.dz,k=j*fine.nx+i;
@@ -120,7 +128,7 @@ export function ribbonMask(heights,fine,lines,halfWidth=2.5){
    if(d<near){near=d;level=a.level+(b.level-a.level)*t;}
   }
   const s=Math.sqrt(near)/halfWidth;
-  out[k]=near===Infinity?heights[k]+9:level-.15+s*s*1.2+(s>1.6?9:0);
+  out[k]=near===Infinity?heights[k]+9:level-.15+s*s*rise+(s>1.6?9:0);
  }
  return out;
 }

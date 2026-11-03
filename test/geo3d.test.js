@@ -10,6 +10,7 @@ import {drainageNetwork,withWander,carveField,sampleField,streamChains} from '..
 import {visibleRoadRuns,ribbonMesh} from '../public/preview/geo3d/src/roads.js';
 import {ChannelSimulation} from '../public/preview/geo3d/src/channel-sim.js';
 import {chooseWindow} from '../public/preview/geo3d/src/water-window.js';
+import {buildRoadMesh,parseRoadHeights,anchorLift,roadCovered} from '../public/preview/geo3d/src/roads-3d.js';
 import {GRID_PRESETS} from '../public/preview/coastal-lowcost/src/trial-config.js';
 
 const url=path=>new URL(`../${path}`,import.meta.url);
@@ -89,6 +90,10 @@ test('the drainage network finds a valley and cuts channels along it', () => {
  assert.equal(cuts[100*w+5],0,'the hillside is left alone');
  for(let k=0;k<w*h;k++)if(net.receiver[k]>=0)assert.ok(net.filled[net.receiver[k]]<net.filled[k]);
  assert.equal(sampleField(cuts,w,h,-1,5),0);
+ // Ground that rises along the channel gets cut deeper, so the floor still runs downhill.
+ const bumpy=Float32Array.from(metres);for(let i=50;i<=70;i++)bumpy[85*w+i]+=20;
+ const floors=carveField(net,bumpy);
+ assert.ok(floors[85*w+60]>cuts[85*w+60]+5,'the rise is cut through');
  const a=withWander(metres,w,h),b=withWander(metres,w,h);
  assert.deepEqual(a,b,'the wander is the same on every load');
  assert.ok(a.some((v,k)=>v!==metres[k])&&Math.max(...a.map((v,k)=>Math.abs(v-metres[k])))<=10,'it stays small');
@@ -97,11 +102,37 @@ test('the drainage network finds a valley and cuts channels along it', () => {
 test('solver channels connect edge to edge, with banks everywhere else', () => {
  const line=[];for(let q=0;q<=20;q++)line.push({x:-5+q*2,z:-70+q*4,level:12-q*.1});
  const {bed,sources}=channelsFromLines([line],raw,fine,GRID,sampleHeights,[2000]);
- assert.equal(sources.length,1);
+ assert.ok(sources.length>=1);
  const sim=new ChannelSimulation(GRID,bed,sources);
  for(let i=0;i<3600;i++)sim.step(1/60);
  const m=sim.metrics();
- assert.equal(m.nonfinite,0);assert.ok(m.wetCells>10,`wet ${m.wetCells}`);assert.ok(m.wetCells<960*.2,`wet ${m.wetCells}`);
+ assert.equal(m.nonfinite,0);assert.ok(m.wetCells>10,`wet ${m.wetCells}`);assert.ok(m.wetCells<960*.45,`wet ${m.wetCells}`);
+});
+
+test('measured road heights decide whether water covers a road', () => {
+ const anchors=parseRoadHeights(JSON.parse(read('public/inundation/road-heights.json')));
+ assert.ok(anchors.length>=5,`${anchors.length} measured crossings`);
+ for(const a of anchors){assert.ok(a.lat>32&&a.lat<33&&a.lon<-110&&a.lon>-112,a.id);assert.ok(Number.isFinite(a.aboveBedM),a.id);}
+ const low=anchors.find(a=>a.id==='west-avra-valley-road-32-39322-111-29459'),deck=anchors.find(a=>a.id==='west-avra-valley-road-32-40256-111-14614');
+ assert.equal(low.lat,32.39322);assert.equal(low.lon,-111.29459);assert.equal(low.aboveBedM,.3);assert.equal(deck.deck,true);
+ assert.equal(roadCovered(low.aboveBedM,1),true,'a dip 0.3 m above the bed goes under 1 m of water');
+ assert.equal(roadCovered(deck.aboveBedM,1),false,'a deck 8 m up stays dry');
+ assert.equal(anchorLift(0,0,[{x:0,y:0,aboveBedM:3,deck:false}],2),6,'at-grade heights apply at the map exaggeration');
+ assert.equal(anchorLift(0,0,[{x:0,y:0,aboveBedM:3,deck:true}],2),0,'a deck is not lifted as ground');
+ assert.equal(anchorLift(500,0,[{x:0,y:0,aboveBedM:3,deck:false}],2),0);
+});
+
+test('road models have thickness, and bridges span the ground below them', () => {
+ const valley=(x)=>100-Math.max(0,60-Math.abs(x-200));
+ const road=buildRoadMesh([{cls:'motorway',bridge:false,points:[[0,0],[400,0]]}],(x)=>valley(x));
+ const bridge=buildRoadMesh([{cls:'primary',bridge:true,points:[[0,0],[400,0]]}],(x)=>valley(x));
+ const zs=m=>{const z=[];for(let i=2;i<m.positions.length;i+=3)z.push(m.positions[i]);return z;};
+ assert.ok(Math.min(...zs(road))<75,'an ordinary road follows the ground down');
+ const tops=[];for(let i=0;i<bridge.positions.length;i+=3)if(Math.abs(bridge.positions[i]-200)<40)tops.push(bridge.positions[i+2]);
+ assert.ok(Math.max(...tops)>=100,'the deck stays up at the abutment height');
+ assert.ok(Math.min(...zs(bridge))<85,'piers reach down to the ground under the deck');
+ assert.ok(Math.max(...road.indices)<road.positions.length/3);
+ assert.equal(buildRoadMesh([{cls:'minor',points:[[0,0],[10,0]]}],()=>null).positions.length,0,'no terrain yet means no road yet');
 });
 
 test('the water window stays in the area and follows crossings', () => {
