@@ -751,6 +751,8 @@ function privacyScreen() {
     <p>You sign up on the Alerts page and confirm with a 4-digit code we text you. To stop, reply <b>STOP</b> to any message or use <b>Stop texts</b> on the Alerts page. Reply <b>HELP</b> for help. Message and data rates may apply. Carriers aren't liable for delayed or undelivered messages.</p>
     <h4>Your information</h4>
     <p>We keep only your phone number, the times and days you chose, and when we last texted you. It's stored privately by the person who runs FLOODplain and used only to send these texts. It's never sold, shared or used for marketing. Stopping texts deletes your number.</p>
+    <h4>Error reports</h4>
+    <p>When the app hits an error, a download fails or the page freezes, it sends a short report so the problem can be fixed: the kind of device and browser, the screen size, what was tapped just before, and the error. It never includes your location, phone number or anything you typed. Reports go to a public notification channel, so nothing private is ever put in them.</p>
     <h4>Text waitlist</h4>
     <p>If you join the waitlist, we keep your number and the date you joined, and send you exactly one text when texts work on every carrier. Nothing else unless you then sign up. To leave the waitlist, use <b>Stop texts for this number</b> on the Alerts page.</p>
     <h4>No guarantee</h4>
