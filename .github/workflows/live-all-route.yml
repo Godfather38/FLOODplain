@@ -34,7 +34,10 @@ jobs:
       cycle: ${{ steps.check.outputs.cycle }}
       cases: ${{ steps.check.outputs.cases }}
     steps:
+      # The repository carries large case archives; the check needs only tools/live.
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: tools/live
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -77,6 +80,12 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: tools/live
+      - name: Check out only this case's archive, face mapping and geometry
+        run: |
+          dirs=$(python3 -c "import json,os;c=next(c for c in json.load(open('tools/live/all-route-cases.json'))['cases'] if c['case']=='${{ matrix.case }}');print(' '.join(sorted({os.path.dirname(c['caseManifest']),os.path.dirname(c['faceMapping']['path']),os.path.dirname(c['geometry']['path'])})))")
+          git sparse-checkout add $dirs
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
