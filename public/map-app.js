@@ -281,7 +281,8 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   if(run.quad)return run.series.reduce((b,v,k)=>v.wetKm2>run.series[b].wetKm2?k:b,0);
   let best=0,most=-1;run.depth.forEach((d,k)=>{let n=0;for(let i=0;i<d.length;i++)if(d[i]>=.0091)n++;if(n>most){most=n;best=k;}});return best;
  }
- async function chooseRun(id,{keepClock=false}={}){
+ // fallback: why the run asked for could not be shown; it stays in the note above the saved run.
+ async function chooseRun(id,{keepClock=false,fallback=''}={}){
   const def=RUNS.find(r=>r.id===id)??RUNS[1];st.run=def.id;runSel.value=def.id;loadError=null;renderMenu();
   if(in3d()){expectRun=def.id;expectAt=performance.now();world.send('set','run',def.id);}
   const ticket=loadingRun=Symbol();loadingDef=def;paintCard();if(!in3d())timeOut.textContent='Loading '+(def.card?.short??def.label);
@@ -289,12 +290,12 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
    let run=runs.get(def.id);
    if(!run){run=await loadRun2d(def);runs.set(def.id,run);}
    if(ticket!==loadingRun)return;
-   runNote=run.def.note??'';sim.setRun(run);statKey='';
+   runNote=(fallback?fallback+' ':'')+(run.def.note??'');sim.setRun(run);statKey='';
    if(!in3d()){scrub.max=String(run.times.length-1);setClock(keepClock?Math.min(sim.clock,run.times.length-1):openingHour(run));}else drawTl();
    showAcknowledgement(def.live?'modelRun':'savedRun');updateCrossings();renderPanels(true);if(handOn())ensureHand();
   }catch(error){
    if(ticket!==loadingRun)return;
-   if(def.live){runNote=`No live model run to show: ${error.message} Showing a saved run instead.`;loadingRun=null;return chooseRun('13z');}
+   if(def.live){const why=`No live model run to show: ${error.message} Showing a saved run instead.`;loadingRun=null;toast(why);return chooseRun('13z',{fallback:why});}
    if(!in3d())timeOut.textContent='The model run could not load';loadError={def,message:error.message};
   }finally{if(ticket===loadingRun){loadingRun=null;loadingDef=null;describe();paintCard();}}
  }
