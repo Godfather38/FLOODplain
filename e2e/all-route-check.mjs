@@ -1,5 +1,6 @@
 // Manual check of the all-route run on the Map tab in installed Chrome, desktop and an emulated
-// Pixel 7: frame load times, memory, page errors, and water at the Brawley Wash and Sandario dips.
+// Pixel 7: frame load times, memory, page errors, water at the Brawley Wash and Sandario dips, and
+// water at the Gates crossings (Sandario south, Kinney Rd) at each one's own peak frame.
 // Serve public/ first (python -m http.server PORT --directory public), then:
 //   node e2e/all-route-check.mjs http://localhost:PORT/ OUTDIR [3d]
 import {chromium,devices} from 'playwright';
@@ -43,6 +44,12 @@ for(const [name,opts] of [['desktop',{viewport:{width:1600,height:900}}],['pixel
  await look('brawley',32.39322,-111.29459,16);
  const cfg=await page.evaluate(async()=>{const c=await import('./config.js');return c.FAILURE_POINTS.filter(p=>/sandario/.test(p.id)).map(p=>[p.id,p.lat,p.lon]);});
  for(const [id,lat,lon] of cfg)await look(id,lat,lon,16);
+ // Gates: each crossing at the frame where its own route point is deepest.
+ const gates=await page.evaluate(async()=>{const pts=(await (await fetch('simulation/data/all-route-13z/route-points.json')).json()).cases.gates.points,c=await import('./config.js');
+  return c.FAILURE_POINTS.filter(p=>p.routes.includes('pr-gates')&&pts[p.id]).map(p=>{const d=pts[p.id].depth;let k=0;d.forEach((v,i)=>{if(v>d[k])k=i;});return[p.id,p.lat,p.lon,k,d[k]];});});
+ r.gatesPeaks=gates.map(([id,,,k,d])=>({id,frame:k,depthM:d}));
+ for(const [id,lat,lon,k] of gates){await page.evaluate(k=>{const s=document.querySelector('[data-m-scrub]');s.value=k;s.dispatchEvent(new Event('input',{bubbles:true}));},k);await look(id,lat,lon,17);r[id].time=await page.textContent('[data-m-time]');}
+ r.labels=await page.evaluate(()=>[...document.querySelectorAll('.quad-label')].map(e=>e.textContent));
  // play 8 frames, timing
  const p0=Date.now();await page.click('[data-m-play]');await page.waitForTimeout(8000);await page.click('[data-m-play]');
  r.playedTo=await page.textContent('[data-m-time]');

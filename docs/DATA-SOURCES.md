@@ -29,13 +29,13 @@ Nov 3, 2026. Add a row whenever a new source is wired in. "Where" names the file
 | IEM archive of issued RFC forecasts | `mesonet.agron.iastate.edu/cgi-bin/request/hml.py` | Every past official river forecast, for scoring | experiment/scene-data-inventory (`docs/PREFAB-FORECAST-STACK.md`) |
 | NOAA HEFS | through NWPS | Forecast spread (ensemble) | `createForecastEngine().ensemble()`, experiment/scene-data-inventory |
 | NOAA Atlas 14 (PFDS) | precipitation frequency at 32.40N, 111.15W | 100- and 1,000-year storm depths for the what-if runs | `tools/sfincs/data/stress-storm-v1/`, `extreme-storm-v1/` |
-| USGS 3DEP lidar | `tnmaccess.nationalmap.gov/api`, `prd-tnm.s3.amazonaws.com/StagedProducts` | Terrain (Pima County 2021), road and bridge-deck heights | experiment/sfincs-engine, experiment/road-heights |
+| USGS 3DEP lidar | `tnmaccess.nationalmap.gov/api`, `prd-tnm.s3.amazonaws.com/StagedProducts` | Terrain (Pima County 2021; the Gates model area also uses AZ_Eastern_PimaCO_2015 1 m where 2021 has no data), road and bridge-deck heights | experiment/sfincs-engine, experiment/road-heights |
 | Pima County RFCD professional data | `gisdata.pima.gov/arcgis1/rest/services/GISOpenData/FloodControl2/MapServer` | 100-year discharge points, cross-sections, structures, study areas | `docs/sfincs/PREPARED-DATA-ACQUISITION.md` |
 | Pima County open data | `gisopendata.pima.gov` | Road intersections (route ledger junctions) | experiment/sfincs-engine ledger |
 | FEMA NFHL | hazards.fema.gov | Mapped floodplains; used only in offline checks | `public/inundation/data/checks.json` |
 | Overture Maps (OpenStreetMap data) | 2026-10-21.0 release | Route lines and stream crossings | `tools/build_routes.py` |
 | Base maps | OpenFreeMap vector tiles, OpenStreetMap tiles, Esri World Imagery | Street map, OpenStreetMap and Satellite map types | `public/street-map.js`, `public/app.js`, `public/preview/geo3d/` |
-| All-route SFINCS results (our own saved run) | `tools/sfincs/data/{northern,picture-rocks,gates-supported}-result-*/compact/` on experiment/sfincs-engine at `3dce053` | The Nov 1 13Z all-route run, repackaged for display in `public/simulation/data/all-route-13z/` | `tools/all-route/build_web_package.py`, `public/simulation/all-route-run.js` |
+| All-route SFINCS results (our own saved run) | `tools/sfincs/data/all-route-results-v2/delivery.json` and its three `*-result-*/compact/` packages (Northern 41382880257, Picture Rocks 41745843031, Gates 41750298470) at `2b8c528` on claude/all-route-expansion-78d5d4 | The Nov 1 13Z all-route run, repackaged for display in `public/simulation/data/all-route-13z/` | `tools/all-route/build_web_package.py`, `public/simulation/all-route-run.js` |
 | SFINCS and HydroMT-SFINCS (Deltares) | github.com/Deltares/SFINCS at `f3647fc`, HydroMT-SFINCS 1.2.2 | The flood model and its setup tool | experiment/sfincs-engine |
 
 ## Known gaps

@@ -326,7 +326,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   const run=sim.run;if(!run)return'';
   const h=Math.min(run.times.length-1,Math.round(sim.clock)),s=run.series[h],name=runName();
   let sfincs=s.wetKm2?`SFINCS: ${s.wetKm2.toFixed(s.wetKm2<10?2:1)} km² of simulated water this ${run.quad?'frame':'hour'} in ${name}.`:`SFINCS: no simulated water this hour in ${name}.`;
-  if(run.quad){const gone=run.quad.missingAt(h);if(gone.length)sfincs+=` ${gone.map(c=>c.label.split(':')[0]).join(', ')}: no result for this frame (the run stopped at its time limit).`;sfincs+=` Gates leaves out a ${run.quad.pkg.gatesGap.areaKm2.toFixed(1)} km² terrain gap.`;}
+  if(run.quad){const gone=run.quad.missingAt(h);if(gone.length)sfincs+=` ${gone.map(c=>c.label.split(':')[0]).join(', ')}: no result for this frame.`;}
   const hn=sim.handNow();let hand='';
   if(!hn||hn.loading)hand='HAND: loading the NOAA HAND grids and river flows…';
   else{

@@ -31,20 +31,22 @@ export function crossingStory(fp,{world,ground,inside,frames,samplers,measured=[
  const known=hours.filter(h=>h.water!=null),peak=known.reduce((a,h)=>!a||h.water>a.water?h:a,null);
  return{inside:true,x,z,groundM,road,hours,peak,coveredHours:road.m==null?null:hours.filter(h=>h.over!=null&&h.over>COVER_M).length,unknownHours:hours.length-known.length};
 }
-export const statusAt=(story,i)=>!story.inside?'outside':story.hours[i].water==null?'unknown':story.road.m==null?'unmeasured':story.hours[i].over>COVER_M?'over':'clear';
+export const statusAt=(story,i)=>!story.inside?'outside':(story.quad?!story.hours[i].known:story.hours[i].water==null)?'unknown':story.road.m==null?'unmeasured':story.hours[i].over>COVER_M?'over':'clear';
 // The all-route run (simulation/all-route-run.js): its 6.25 m cells sit on the road, so the road
 // height is the lidar road at the crossing's own route point (or the bridge deck), and the water is
 // the exact native water surface in that cell. A cell with under 0.03 ft of water is dry: its
 // surface is only the cell's ground. series: run.quad.pointSeries(id), the area built for this
 // crossing's route first; another area's values stay beside it, never averaged.
 export function quadStory(fp,{world,roads,series,iso}){
- if(!series.length)return{inside:false,gap:true};
+ if(!series.length)return{inside:false,quad:true};
  const [fx,fz]=world(fp.lon,fp.lat),bridge=fp.kind==='bridge'||fp.kind==='river';
  let road=null;
  if(roads&&bridge){const d=near(roads.decks,fx,fz,DECK_REACH_M)[0]?.p;if(d)road={m:d.m,x:d.x,z:d.z,source:'Bridge deck, USGS 3DEP 2021 lidar bridge-deck points',measured:true,deck:true};}
  else if(roads){const at=near(roads.stations.filter(s=>fp.routes.includes(s.route)&&!s.deck),fx,fz,25)[0]?.p;if(at)road={m:at.m,x:at.x,z:at.z,source:'Road surface at the route point, USGS 3DEP 1 m lidar',measured:true,deck:false};}
  road??={m:null,x:fx,z:fz,source:bridge?'Deck height not measured.':'No lidar road height at the route point.',measured:false,deck:bridge};
- const hoursOf=s=>iso.map((time,i)=>{const z=s.zs[i],d=s.depth[i],known=!Number.isNaN(z),dry=known&&d<.0091;return{time,water:known?z:null,depth:known?d:null,dry,over:known&&road.m!=null?(dry?-Infinity:z-road.m):null};});
+ // A dry cell can have no stored water surface (SFINCS leaves it blank before water arrives): its
+ // depth of 0 still says dry.
+ const hoursOf=s=>iso.map((time,i)=>{const z=s.zs[i],d=s.depth[i],hasZ=!Number.isNaN(z),known=hasZ||!Number.isNaN(d),dry=d<.0091;return{time,known,water:hasZ?z:null,depth:known?d:null,dry,over:dry?-Infinity:hasZ&&road.m!=null?z-road.m:null};});
  const hours=hoursOf(series[0]),known=hours.filter(h=>h.water!=null&&!h.dry),peak=known.reduce((a,h)=>!a||h.water>a.water?h:a,null);
- return{inside:true,quad:true,area:series[0].label,others:series.slice(1).map(s=>({label:s.label,hours:hoursOf(s)})),x:road.x,z:road.z,groundM:null,road,hours,peak,coveredHours:road.m==null?null:hours.filter(h=>h.over!=null&&h.over>COVER_M).length,unknownHours:hours.filter(h=>h.water==null).length};
+ return{inside:true,quad:true,area:series[0].label,others:series.slice(1).map(s=>({label:s.label,hours:hoursOf(s)})),x:road.x,z:road.z,groundM:null,road,hours,peak,coveredHours:road.m==null?null:hours.filter(h=>h.over!=null&&h.over>COVER_M).length,unknownHours:hours.filter(h=>!h.known).length};
 }

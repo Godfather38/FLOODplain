@@ -166,8 +166,6 @@ html body.mapp-on .mapp{display:block}
  html body.mapp-on>.appbar{min-height:48px}
 }
 .mapp-run-label{flex:1;font-weight:500;padding:0 4px}.mapp-run-label[hidden]{display:none}
-/* The all-route run's labels: a model area's name, a frame it has no result for, and the Gates terrain gap. */
+/* The all-route run's labels: each model area's name. */
 .quad-label span{background:rgba(255,255,255,.92)!important;color:#28323c!important;font-weight:600;white-space:normal!important;width:max-content;max-width:16rem}
-.quad-label.quad-missing span{background:#fff4f2!important;color:#8a2318!important;border:1px dashed #b02e26}
-.quad-label.quad-gap span{background:#fbf3e9!important;color:#6b3f12!important;border:1px dashed #78461a}
 .mapp-overlap{border:0;margin:8px 0 0;padding:0}.mapp-overlap legend{font-weight:600;padding:0;margin-bottom:4px}

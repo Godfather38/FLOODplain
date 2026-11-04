@@ -153,9 +153,9 @@ export function crossingsFor(run,points,pkg){
    // The exact water surface at this crossing's own route point, from each model area that has it.
    // The first listed is the area built for this crossing's routes; another area's value stays beside it.
    const list=run.quad.pointSeries(fp.id).sort((a,b)=>Number(b.routes.includes(fp.routes[0]))-Number(a.routes.includes(fp.routes[0])));
-   if(!list.length)return{fp,inside:false,gap:true};
+   if(!list.length)return{fp,inside:false};
    road??={m:NaN,deck:false,source:'No lidar road height at the route point'};
-   const cases=list.map(c=>({key:c.key,label:c.label,over:c.zs.map((z,k)=>Number.isNaN(z)?NaN:c.depth[k]<.0091?-Infinity:z-road.m),missing:c.zs.map(Number.isNaN)}));
+   const cases=list.map(c=>({key:c.key,label:c.label,over:c.zs.map((z,k)=>c.depth[k]<.0091?-Infinity:Number.isNaN(z)?NaN:z-road.m),missing:c.zs.map((z,k)=>Number.isNaN(z)&&Number.isNaN(c.depth[k]))}));
    return{fp,inside:true,road,cell:-1,over:cases[0].over,cases,quad:true};
   }
   if(pkg&&!road&&!bridge){const low=near(pkg.stations.filter(s=>fp.routes.includes(s.route)&&!s.deck),u.e,u.n,100).reduce((a,o)=>!a||o.p.m<a.m?o.p:a,null);if(low)road={m:low.m,e:low.x,n:low.z,deck:false,source:'Lowest road surface within 100 m, USGS 3DEP 1 m lidar'};}
@@ -175,7 +175,7 @@ export function createSimLayer(L,map){
  const pane=map.getPane('simWater'),canvas=document.createElement('canvas');canvas.className='sim-canvas';pane.append(canvas);
  const flowLayer=L.layerGroup().addTo(map);
  let run=null,clock=0,show={water:true,hand:false,rain:true,flow:true},frame=0,junctions=null,flows=null;
- // The all-route run's labels: each model area's name, its missing frame, and the Gates terrain gap.
+ // The all-route run's labels: each model area's name.
  const quadLabels=L.layerGroup().addTo(map);let quadLabelKey='',frameWait=null;
  // Frames of the all-route run load one at a time: the two at the clock first, then two ahead.
  function needFrames(){
@@ -183,13 +183,8 @@ export function createSimLayer(L,map){
   const now=[i,j].filter(fi=>q.cases.some(c=>c.byTime.has(q.iso[fi])&&q.peek(c,fi)===undefined));
   if(now.length&&!frameWait){const r=run;frameWait=Promise.all(now.map(fi=>q.ensure(fi))).then(()=>{frameWait=null;if(run===r)draw();},e=>{frameWait=null;error?.(e);});}
   if(!now.length)for(const fi of [j+1,j+2])if(fi<run.times.length)q.ensure(fi).catch(()=>{});
-  const key=run.def.id+'|'+q.missingAt(i).map(c=>c.key).join();
-  if(key!==quadLabelKey){quadLabelKey=key;quadLabels.clearLayers();
-   const label=(ll,cls,html)=>L.marker(ll,{interactive:false,keyboard:false,icon:L.divIcon({className:'live-reading quad-label '+cls,html:`<span>${html}</span>`,iconSize:[0,0]})}).addTo(quadLabels);
-   q.pkg.cases.forEach((info,ci)=>{const absent=!q.cases[ci].byTime.has(q.iso[i]);
-    label(info.labelAt,absent?'quad-missing':'',absent?`${info.label}: no result for this frame. The run stopped at its time limit before ${new Date(q.times[i]).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:'2-digit'})} MST.`:`${info.label.split(':')[0]} model area`);});
-   const g=q.pkg.gatesGap,c=q.gap.features[0]?.geometry,ring=c&&(c.type==='MultiPolygon'?c.coordinates[0][0]:c.coordinates[0]);
-   if(ring){const lat=ring.reduce((a,p)=>a+p[1],0)/ring.length,lon=ring.reduce((a,p)=>a+p[0],0)/ring.length;label([lat,lon],'quad-gap',`Not modelled: ${g.areaKm2.toFixed(1)} km² terrain gap in the Gates area. ${g.uncoveredRoutePoints} route points here have no model result.`);}
+  if(run.def.id!==quadLabelKey){quadLabelKey=run.def.id;quadLabels.clearLayers();
+   q.pkg.cases.forEach(info=>L.marker(info.labelAt,{interactive:false,keyboard:false,icon:L.divIcon({className:'live-reading quad-label',html:`<span>${info.label.split(':')[0]} model area</span>`,iconSize:[0,0]})}).addTo(quadLabels));
   }
  }
  let error=null;

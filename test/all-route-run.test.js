@@ -1,6 +1,6 @@
 // The all-route run on the Map tab (public/simulation/all-route-run.js and its package in
-// public/simulation/data/all-route-13z/): exact route-point values, the missing Picture Rocks
-// frame, the Gates gap, overlap drawing that never averages, and the 3D water picture.
+// public/simulation/data/all-route-13z/): exact route-point values, every case complete over the
+// whole window, the Gates mixed-vintage terrain, overlap drawing that never averages, and the 3D water picture.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -9,17 +9,19 @@ const {openAllRoute,rasterize,search}=await import('../public/simulation/all-rou
 const fetchBytes=async url=>new Uint8Array(readFileSync(fileURLToPath(url)));
 const web=await openAllRoute({variant:'web',fetchBytes}),full=await openAllRoute({variant:'full',fetchBytes});
 
-test('three model areas, one saved forecast, 57 quarter-hour frames; Picture Rocks has no 07:00 UTC frame',()=>{
+test('three model areas, one saved forecast, 57 quarter-hour frames each, every route point located',()=>{
  assert.deepEqual(web.cases.map(c=>c.key),['northern','picture-rocks','gates']);
  assert.equal(web.times.length,57);assert.equal(web.frameMs,900e3);
  assert.equal(web.iso[0],'2026-11-01T17:00:00Z');assert.equal(web.iso[56],'2026-11-02T07:00:00Z');
- assert.deepEqual(web.missingAt(56).map(c=>c.key),['picture-rocks']);assert.deepEqual(web.missingAt(55),[]);
+ for(let fi=0;fi<57;fi++)assert.deepEqual(web.missingAt(fi),[]);
+ assert.deepEqual(web.cases.map(c=>c.info.runId),['all-routes-northern-v3-41382880257','all-routes-picture-rocks-v2-41745843031','all-routes-gates-full-v3-41750298470']);
+ assert.deepEqual(web.cases.map(c=>c.info.routePoints.length),[138,189,155]);
  assert.deepEqual(web.pkg.sourceIssues,{NWM:'2026-11-01T13:00:00Z',HRRR:'2026-11-01T14:00:00Z',mode:'frozen_replay'});
- assert.equal(web.pkg.gatesGap.areaKm2,7.4221);assert.equal(web.pkg.gatesGap.uncoveredRoutePoints,59);
- assert.ok(web.gap.features.length>0);
+ assert.equal(web.pkg.mixedTerrain.case,'gates');assert.match(web.pkg.mixedTerrain.source,/2015/);assert.equal(web.pkg.mixedTerrain.cells10m,95919);
+ assert.equal(web.pkg.gatesGap,undefined);assert.equal(web.gap,undefined);
  assert.equal(web.pkg.overlap.maximumDifferenceM,1.4583740234375);
  // Full keeps every native cell; web joins cells far from the routes.
- assert.deepEqual(full.cases.map(c=>c.n),[528201,537476,212035]);
+ assert.deepEqual(full.cases.map(c=>c.n),[528201,537476,384716]);
  web.cases.forEach((c,i)=>assert.ok(c.n<full.cases[i].n));
 });
 
@@ -34,21 +36,26 @@ test('route-point cells carry the exact native values in every frame of both var
     // null in the series is a missing native value: NaN in the frame, never 0.
     const exact=v=>v==null?NaN:Math.fround(v);
     assert.deepEqual(f.routeZs[pt.slot],exact(pt.zs[k]),`${c.key} ${id} zs`);
-    assert.deepEqual(f.routeDepth[pt.slot],exact(pt.depth[k]),`${c.key} ${id} depth`);
+    // The series keeps the signed native value; a frame's depth is never below 0 (max(0, volume) / area).
+    const shown=v=>v==null?NaN:Math.max(0,Math.fround(v));
+    assert.deepEqual(f.routeDepth[pt.slot],shown(pt.depth[k]),`${c.key} ${id} depth`);
     // and the drawn depth at that cell is the exact value, not the millimetre one
     const cell=c.routeIndex[pt.slot],j=search(f.listed,cell);
-    if(j>=0)assert.equal(f.depth[j],exact(pt.depth[k]));
+    if(j>=0)assert.equal(f.depth[j],shown(pt.depth[k]));
    }
   }
  }
 });
 
-test('crossing series keep each model area apart, and the Gates-gap crossings have none',()=>{
+test('crossing series keep each model area apart, and the former Gates-gap crossings have results',()=>{
  const avra=web.pointSeries('sc-avra');
  assert.deepEqual(avra.map(s=>s.key),['northern','picture-rocks']);
- assert.ok(Number.isNaN(avra[1].zs[56])&&Number.isFinite(avra[0].zs[56]));
+ assert.ok(Number.isFinite(avra[1].zs[56])&&Number.isFinite(avra[0].zs[56]));
  assert.notEqual(avra[0].zs[40],avra[1].zs[40]);
- for(const id of ['pr-sandario-south','pr-kinney-javelina','pr-kinney-washes'])assert.deepEqual(web.pointSeries(id),[]);
+ for(const id of ['pr-sandario-south','pr-kinney-javelina','pr-kinney-washes']){const [g,...rest]=web.pointSeries(id);
+  assert.equal(g.key,'gates');assert.deepEqual(rest,[]);assert.ok(g.depth.every(Number.isFinite));}
+ // Water reaches the Sandario-south and Kinney/Javelina route points during the run.
+ assert.ok(Math.max(...web.pointSeries('pr-sandario-south')[0].depth)>.0091);assert.ok(Math.max(...web.pointSeries('pr-kinney-javelina')[0].depth)>.0091);
  assert.equal(web.pointSeries('brawley-dip')[0].key,'northern');
 });
 
@@ -69,12 +76,12 @@ test('overlaps draw one model area at each place, by nearest route or by choice,
  const s=web.series();assert.equal(s.length,57);assert.ok(Math.max(...s.map(v=>v.wetKm2))>100);
 });
 
-test('the 3D picture stores water over each pixel area and is empty where a case has no frame',async()=>{
+test('the 3D picture stores water over each pixel area, through the last frame',async()=>{
  const box={e0:467700,n0:3572300,w:32000,h:34600,cols:512,rows:554};
  await web.ensure(20);await web.ensure(55);await web.ensure(56);
  const a=rasterize(web,20,box);assert.ok(a.some(v=>v>0));
  assert.ok(a.every(v=>v<=255));
- // Only Picture Rocks has no 07:00 frame: its own area draws nothing then.
+ // Picture Rocks now has its 07:00 frame too.
  web.setMode('picture-rocks');const only=rasterize(web,56,box),before=rasterize(web,55,box);web.setMode('nearest');
  assert.ok(before.some(v=>v>0)&&only.some(v=>v>0));
 });
@@ -83,6 +90,7 @@ test('the all-route scenario is on the Map tab with an honest card and the HAND 
  const {RUNS}=await import('../public/preview/geo3d/src/runs.js');
  const r=RUNS.find(r=>r.id==='allroutes');
  assert.equal(r.card.short,'Nov 1 · 13Z all routes');assert.equal(r.handFlows,'run-flows/13z.json');assert.equal(r.frameMinutes,15);
- for(const words of [/1\.46 m/,/not averaged|Nothing is averaged/,/time limit/,/7\.4 km² terrain gap/,/not current conditions/])assert.match(r.note,words);
+ for(const words of [/1\.46 m/,/not averaged|Nothing is averaged/,/mixed-vintage terrain/,/2015/,/not current conditions/])assert.match(r.note,words);
  assert.doesNotMatch(r.note+r.card.blurb,/\bsafe\b/i);
+ assert.doesNotMatch(r.note+r.card.blurb,/time limit|terrain gap/);assert.equal(r.card.wetKm2,139.2);
 });

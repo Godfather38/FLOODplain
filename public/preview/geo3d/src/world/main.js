@@ -278,14 +278,6 @@ function showLayers(){
  const t=Date.parse(run.frames[frameIndex].time),list=[];
  if(showFlow)for(const s of run.inflow){const q=s.points.get(t);if(q!=null)list.push({x:s.x,z:s.z,className:'flow',html:`<span>${s.name} inflow: ${Math.round(q).toLocaleString()} m³/s (${Math.round(q*35.3147).toLocaleString()} ft³/s)</span>`});}
  if(liveNow)for(const c of liveNow.closures){const [x,z]=world(c.lon,c.lat);list.push({x,z,className:'closure',html:`<span aria-hidden="true">⛔</span><em>${c.title.replace(/[<>&]/g,'')}</em>`});}
- // The all-route run: a model area with no result this frame, and the Gates terrain gap.
- if(run.quad){const q=run.quad,within=([x,z])=>Math.abs(x)<SIZE_X/2&&Math.abs(z)<SIZE_Z/2;
-  // 3D blends each frame into the next, so a frame that was never written shows from the one before.
-  const nextFrame=Math.min(run.frames.length-1,frameIndex+1),at=new Date(q.times[nextFrame]).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:'2-digit'});
-  q.missingAt(nextFrame).forEach(c=>{const [lat,lon]=c.info.labelAt,p=world(lon,lat);if(within(p))list.push({x:p[0],z:p[1],className:'place quad-missing',html:`<span>${c.label.split(':')[0]}: no result for ${at} MST (the run stopped at its time limit)</span>`});});
-  const ring=q.gap.features[0]?.geometry;const r0=ring&&(ring.type==='MultiPolygon'?ring.coordinates[0][0]:ring.coordinates[0]);
-  if(r0){const p=world(r0.reduce((a,v)=>a+v[0],0)/r0.length,r0.reduce((a,v)=>a+v[1],0)/r0.length);if(within(p))list.push({x:p[0],z:p[1],className:'place quad-gap',html:`<span>Not modelled: Gates terrain gap</span>`});}
- }
  if(showPlaces)for(const p of config.PLACES.filter(p=>p.area===routesUI.area)){const [x,z]=world(p.lon,p.lat);list.push({x,z,className:'place',html:`<span>${p.name}</span>`});}
  markers.set(list);
 }

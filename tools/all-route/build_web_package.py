@@ -1,7 +1,8 @@
 """Build the Map tab's display package for the three saved all-route SFINCS results.
 
-Reads the published compact packages straight from the pinned Git commit on
-experiment/sfincs-engine (tools/sfincs/data/<case>/compact/ and route-point-series.csv) and writes
+Reads the published compact packages straight from the pinned Git commit of the version 2
+delivery (tools/sfincs/data/all-route-results-v2/delivery.json: <case>/compact/ and
+route-point-series.csv) and writes
 public/simulation/data/all-route-13z/. Nothing is rerun or re-modelled.
 
 Two variants per case:
@@ -19,13 +20,13 @@ import argparse, csv, gzip, hashlib, io, json, struct, subprocess, sys
 from pathlib import Path
 import numpy as np
 
-COMMIT = '3dce053f1b22f80bbfb8cb9d3fbe46636fba6620'
+COMMIT = '2b8c5284eb3e26d00a6d53a70b00a0f417ab10af'  # claude/all-route-expansion-78d5d4
 SRC = 'tools/sfincs/data/'
 CASES = [
     # key, folder, label, source run id
     ('northern', 'northern-result-41382880257', 'Northern: Trico, Avra, both Silverbells', '41382880257'),
-    ('picture-rocks', 'picture-rocks-result-41382872468', 'Picture Rocks: Ina, Twin Peaks, Picture Rocks/Avra', '41382872468'),
-    ('gates', 'gates-supported-result-41382857288', 'Gates (partial terrain)', '41382857288'),
+    ('picture-rocks', 'picture-rocks-result-41745843031', 'Picture Rocks: Ina, Twin Peaks, Picture Rocks/Avra', '41745843031'),
+    ('gates', 'gates-full-result-41750298470', 'Gates: Sandario south, Kinney, Gates Pass', '41750298470'),
 ]
 UNIT = 6.25           # the finest native cell, metres
 WET_M = 0.005         # sparse frames list cells at least this deep (the map's first band is 0.03 ft = 9 mm)
@@ -284,20 +285,23 @@ def main():
         summary['cases'][ci]['labelAt'] = [round(float(la), 6), round(float(lo), 6)]
         lo, la = from_utm(np.array([c['e0'], c['e0'] + (c['ix']*UNIT + c['res']).max()]), np.array([c['n0'], c['n0'] + (c['iy']*UNIT + c['res']).max()]))
         summary['cases'][ci]['bounds'] = [[float(la.min()), float(lo.min())], [float(la.max()), float(lo.max())]]
-    # The open items, read from the delivery: the Picture Rocks frame that was never written and
-    # the Gates terrain gap, plus the Northern / Picture Rocks overlap readout.
-    delivery = json.loads(git_bytes(args.commit, SRC + 'all-route-results-v1/delivery.json'))
+    # The open items, read from the delivery (the Gates mixed-vintage terrain), and the Northern /
+    # Picture Rocks overlap readout, which still applies: Picture Rocks frames 0-55 are unchanged.
+    delivery = json.loads(git_bytes(args.commit, SRC + 'all-route-results-v2/delivery.json'))
+    assert [c['runId'] for c in delivery['cases']] == [c['rid'] for c in cases], 'cases must match the delivery'
+    for d, c in zip(delivery['cases'], summary['cases']):
+        assert hashlib.sha256(git_bytes(args.commit, SRC + d['manifest'][3:])).hexdigest() == d['manifestSha256'] == c['sourceManifestSha256']
+        assert len(c['frames']) == d['frames'] and d['counts']['located'] == d['counts']['retained'] == len(c['routePoints'])
+    v1 = json.loads(git_bytes(args.commit, SRC + 'all-route-results-v1/delivery.json'))
     overlap = json.loads(git_bytes(args.commit, SRC + 'all-route-results-v1/overlap-readout.json'))
-    gap_path = SRC + 'all-route-ready-v3/gates-terrain-recovery/gates-remaining-gap.geojson'
-    (out / 'gates-gap.geojson').write_bytes(git_bytes(args.commit, gap_path))
+    summary['delivery'] = SRC + 'all-route-results-v2/delivery.json'
     summary['openItems'] = delivery['openItems']
-    summary['gatesGap'] = dict(file='gates-gap.geojson', source=gap_path, areaKm2=next(o['areaKm2'] for o in delivery['openItems'] if o['kind'] == 'missing_selected_terrain'),
-                               uncoveredRoutePoints=delivery['distinctEvidenceCounts']['outsideCompletedCases'])
+    summary['mixedTerrain'] = next(dict(case='gates', source=o['source'], cells10m=o['cells10m'], reason=o['reason']) for o in delivery['openItems'] if o['kind'] == 'mixed_vintage_terrain')
     summary['sourceIssues'] = delivery['sourceIssues']
     worst = overlap['maximumAbsoluteDifferenceByIdentity'][0] if 'maximumAbsoluteDifferenceByIdentity' in overlap else None
     summary['overlap'] = dict(casePair=['northern', 'picture-rocks'], maximumDifferenceM=delivery['crossCaseComparison']['maximumAbsoluteMatchedPointSurfaceDifferenceM'],
                               identitiesCompared=overlap.get('identitiesCompared'), worst=worst, source=SRC + 'all-route-results-v1/overlap-readout.json',
-                              meaning=delivery['crossCaseComparison']['interpretation'])
+                              meaning=v1['crossCaseComparison']['interpretation'])
     (out / 'package.json').write_text(json.dumps(summary, separators=(',', ':')) + '\n')
     (out / 'route-points.json').write_text(json.dumps(dict(meaning='Exact native values at each route point: zs = water surface NAVD88 m, depth = native volume / full cell area (m), per frame time; null = no value.', cases=points_out), separators=(',', ':')) + '\n')
     for ci in summary['cases']:

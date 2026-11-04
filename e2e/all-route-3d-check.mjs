@@ -45,10 +45,11 @@ for(const [name,opts] of [['desktop',{viewport:{width:1600,height:900}}],['pixel
  if(/Pause/.test(await page.getAttribute('[data-m-play]','aria-label')))await page.click('[data-m-play]');
  r.mem=await f.evaluate(()=>performance.memory?Math.round(performance.memory.usedJSHeapSize/1048576)+' MB':null);
  r.files=frames.length;
- // the last frame: Picture Rocks has none
+ // the last frame: every area has it now, so no missing-frame or gap labels
  await f.evaluate(()=>window.world.setClock(window.world.run.frames.length-1.5));await page.waitForTimeout(4000);
  r.lastFrameLabels=await f.evaluate(()=>[...document.querySelectorAll('.marker.quad-missing,.marker.quad-gap')].map(e=>e.textContent));
  r.storyBrawley=await f.evaluate(()=>{window.world.routesUI.openDetail('brawley-dip');return document.querySelector('.crossing-view')?.innerText.slice(0,600);});
+ r.storyKinney=await f.evaluate(()=>{window.world.routesUI.openDetail('pr-kinney-javelina');return document.querySelector('.crossing-view')?.innerText.slice(0,600);});
  await page.screenshot({path:`${out}/3d-${name}-lastframe.png`});
  report[name]=r;await ctx.close();
 }

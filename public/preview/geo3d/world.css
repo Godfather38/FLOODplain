@@ -144,6 +144,3 @@ body.embed #screen{position:absolute;inset:76px 76px auto auto;width:min(380px,c
 body.embed #screen>*:not(#routes-ui){display:none}
 body.embed #routes-ui>:not(.crossing-view){display:none}
 body.embed #routes-ui .crossing-view:not([hidden]){display:block;pointer-events:auto;background:var(--surface);border-radius:16px;padding:16px;box-shadow:0 2px 12px #0004}
-/* The all-route run: a model area with no result this frame, and the Gates terrain gap. */
-.marker.quad-missing span{background:#fff4f2;color:#8a2318;border:1px dashed #b02e26}
-.marker.quad-gap span{background:#fbf3e9;color:#6b3f12;border:1px dashed #78461a}

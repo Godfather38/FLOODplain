@@ -29,7 +29,7 @@ async function sha256(bytes){return Array.from(new Uint8Array(await crypto.subtl
 // variant: 'web' or 'full'. fetchBytes(url) -> Uint8Array (raw, maybe gzipped).
 export async function openAllRoute({variant='web',fetchBytes=plainFetch}={}){
  const json=async name=>JSON.parse(new TextDecoder().decode(await gunzip(await fetchBytes(new URL(name,ALL_ROUTE_DATA)))));
- const [pkg,points,gap]=await Promise.all([json('package.json'),json('route-points.json'),json('gates-gap.geojson')]);
+ const [pkg,points]=await Promise.all([json('package.json'),json('route-points.json')]);
  const cases=await Promise.all(pkg.cases.map(async(info,ci)=>{
   const g=info.variants[variant].geometry,raw=await fetchBytes(new URL(`${info.key}/${g.file}`,ALL_ROUTE_DATA));
   if(await sha256(raw)!==g.sha256)throw new Error(`${info.key} cells failed their checksum`);
@@ -115,7 +115,7 @@ export async function openAllRoute({variant='web',fetchBytes=plainFetch}={}){
   return cases.map(c=>{const p=points.cases[c.key]?.points?.[id];if(!p)return null;const at=new Map(points.cases[c.key].times.map((t,k)=>[t,k]));
    return{key:c.key,label:c.label,routes:c.info.routes,zs:iso.map(t=>{const k=at.get(t);return k==null||p.zs[k]==null?NaN:p.zs[k];}),depth:iso.map(t=>{const k=at.get(t);return k==null||p.depth[k]==null?NaN:p.depth[k];})};}).filter(Boolean);
  }
- return{pkg,cases,times,iso,frameMs,variant,gap,load,peek,series,valuesAt,pointSeries,cellAtUtm,
+ return{pkg,cases,times,iso,frameMs,variant,load,peek,series,valuesAt,pointSeries,cellAtUtm,
   get mode(){return mode;},setMode,
   // Load (or wait for) frame fi of every case that has it.
   ensure(fi){return Promise.all(cases.map(c=>load(c,fi)));},
@@ -185,19 +185,15 @@ export function createQuadPainter(run,{colors,bandOf}){
   drawnFrames=used.join();
   return{missing};
  }
- // The model areas' outlines, dashed, and the Gates terrain gap, hatched.
+ // The model areas' outlines, dashed.
  function paintOutlines(ctx,map,fi){
   ctx.save();ctx.lineWidth=1.2;
-  run.pkg.cases.forEach((info,ci)=>{
-   const absent=!run.cases[ci].byTime.has(run.iso[fi]);
-   ctx.strokeStyle=absent?'rgba(176,46,38,.85)':'rgba(40,60,80,.45)';ctx.setLineDash(absent?[6,4]:[2,4]);ctx.beginPath();
+  ctx.strokeStyle='rgba(40,60,80,.45)';ctx.setLineDash([2,4]);
+  run.pkg.cases.forEach(info=>{
+   ctx.beginPath();
    for(const [[a,b],[c2,d]] of info.outline){const p=map.latLngToContainerPoint([a,b]),q=map.latLngToContainerPoint([c2,d]);ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);}
    ctx.stroke();
   });
-  ctx.setLineDash([5,4]);ctx.strokeStyle='rgba(120,70,20,.9)';ctx.fillStyle='rgba(120,70,20,.16)';
-  for(const g of run.gap.features){const polys=g.geometry.type==='MultiPolygon'?g.geometry.coordinates:[g.geometry.coordinates];ctx.beginPath();
-   for(const poly of polys)for(const ring of poly)ring.forEach(([lon,lat],n)=>{const p=map.latLngToContainerPoint([lat,lon]);n?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);});
-   ctx.fill('evenodd');ctx.stroke();}
   ctx.restore();
  }
  // Bounds of the cells at least minM deep in the drawn frame.

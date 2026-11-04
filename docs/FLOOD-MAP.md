@@ -9,7 +9,7 @@ Keep it current when the map changes.
 | Layer | What it is | Covers | Source |
 |---|---|---|---|
 | SFINCS water | A 2D flood model: rain and river flow moving over the ground | Only a strip along the Santa Cruz River (27% of its rectangle). **Not** Avra Valley, Brawley Wash or the Sandario dips. | Our own hourly run (`experiment/live-sfincs`) and four saved runs |
-| SFINCS water, all routes | The same model on all eight routes, cells from 6.25 m on the roads up to 100 m, in three separate model areas | Avra Valley, Brawley Wash, Picture Rocks, the Sandario dips, Gates (except a 7.4 km² terrain gap) | The saved all-route run "Nov 1 · 13Z all routes" (see below) |
+| SFINCS water, all routes | The same model on all eight routes, cells from 6.25 m on the roads up to 100 m, in three separate model areas | Avra Valley, Brawley Wash, Picture Rocks, the Sandario dips, Kinney Rd and Gates Pass (Gates on mixed-vintage terrain) | The saved all-route run "Nov 1 · 13Z all routes" (see below) |
 | HAND | NOAA's "height above nearest drainage": a quick estimate of where a river at a given flow reaches | 25 windows, 3 km each, around crossings. Washes get water only when the National Water Model has a flow for them. | NOAA OWP HAND grids, NOAA National Water Model flows |
 | Rain | The run's own rain input | Whole area | NOAA HRRR forecast, or NOAA Atlas 14 for the what-if storms |
 | Live readings, closures, route ratings | Gauges, county closures and the app's route rules | Whole served area | USGS, Pima County ALERT, county closures, TransView, NWS |
@@ -23,23 +23,31 @@ tab, as real water in 2D and 3D (it used to be point readouts only):
 | Model area | Routes | State |
 |---|---|---|
 | Northern (`northern-result-41382880257`) | Trico, Avra, Silverbell north and south, including the Brawley Wash dip | Complete: 57 quarter-hour frames |
-| Picture Rocks (`picture-rocks-result-41382872468`) | Picture Rocks/Ina, Twin Peaks, Picture Rocks/Avra, including the Sandario dips | Stopped at its 60-minute limit: the last frame (07:00 UTC) is missing |
-| Gates (`gates-supported-result-41382857288`) | Gates | Partial: 59 of 155 route points fall outside it, 21 of them with no model information of any kind (Sandario south of Golden Gate, Kinney Rd, Gates Pass) |
+| Picture Rocks (`picture-rocks-result-41745843031`) | Picture Rocks/Ina, Twin Peaks, Picture Rocks/Avra, including the Sandario dips | Complete: 57 frames, all 189 route points. Rerun to completion; frames 0–55 are byte-identical to the earlier run that stopped at its time limit |
+| Gates (`gates-full-result-41750298470`) | Sandario south, Kinney Rd, Gates Pass, Speedway | Complete: 57 frames, all 155 route points. **Mixed-vintage terrain** (see below) |
+
+**Gates terrain is mixed-vintage.** Most of it is the 2021 Pima County lidar, like the other areas.
+The 2021 lidar has no data in about 7.4 km² around Kinney Rd and Gates Pass (95,919 10 m cells), so
+there Gates uses the USGS 3DEP 2015 Eastern Pima County 1 m lidar. At the seam the 2015 ground sits
+about 0.12 m (0.4 ft) higher than 2021, and it is not adjusted. Owner decision, Nov 3, 2026: keep
+it. The scenario card, its note and the Model tab say so.
 
 All three are **one saved run**: the NOAA forecasts issued Nov 1, 2026 (National Water Model 13Z,
 HRRR 14Z), covering Nov 1 10 AM to Nov 2 midnight Arizona time, in 15-minute frames.
 
 How it is shown:
 - **Display package** `public/simulation/data/all-route-13z/`, built by
-  `tools/all-route/build_web_package.py` straight from the published compact results (pinned commit
-  `3dce053`). No model was rerun. Two variants per area:
-  - *web* (2D map, and 3D on Low and Medium): native cells within 150 m of a route; farther away, cells smaller than 50 m are joined into 50 m blocks whose depth is their total stored water over the block's area (the model's own volume / area rule). 361k + 367k + 145k cells.
-  - *full* (3D on High and Ultra): every native cell, 528k + 537k + 212k.
-  - Cells are stored as three small integers each (they are UTM squares on a 6.25 m lattice), about 40 KB per area. Frames list only cells with at least 5 mm of water, depth to the millimetre, and are loaded one at a time with two ahead. A frame is about 90 KB (web) or 117 KB (full) per area; all frames of all three areas are 11.7 MB (web) and 15.9 MB (full).
-  - **Route points are never changed**: in every frame both variants carry the exact native float32 depth and water surface of each route-point cell, and the builder stops if any of the 23,922 values differs from the area's `route-point-series.csv`. `route-points.json` holds the same exact series for the crossings.
+  `tools/all-route/build_web_package.py` straight from the published compact results listed in
+  `tools/sfincs/data/all-route-results-v2/delivery.json` (pinned commit `2b8c528` on
+  `claude/all-route-expansion-78d5d4`). The builder checks each case's manifest hash against the
+  delivery. No model was rerun. Two variants per area:
+  - *web* (2D map, and 3D on Low and Medium): native cells within 150 m of a route; farther away, cells smaller than 50 m are joined into 50 m blocks whose depth is their total stored water over the block's area (the model's own volume / area rule). 361k + 367k + 262k cells.
+  - *full* (3D on High and Ultra): every native cell, 528k + 537k + 385k.
+  - Cells are stored as three small integers each (they are UTM squares on a 6.25 m lattice), about 40 KB per area. Frames list only cells with at least 5 mm of water, depth to the millimetre, and are loaded one at a time with two ahead. A frame averages about 72 KB (web) or 98 KB (full) per area; all frames of all three areas are 12.4 MB (web) and 16.8 MB (full).
+  - **Route points are never changed**: in every frame both variants carry the exact native float32 depth and water surface of each route-point cell, and the builder stops if any of the 27,474 values differs from the area's `route-point-series.csv`. `route-points.json` holds the same exact series for the crossings.
 - **Overlap.** The areas are separate models and are never averaged. Where they overlap, one is drawn at each place. By default it is the area built for the nearest route (Northern for Trico, Avra and the Silverbells; Picture Rocks for Ina, Twin Peaks and Picture Rocks/Avra; Gates for Gates). Map layers can instead put one area first. A tap on the 2D map lists every area's value at that spot. A crossing in two areas (Santa Cruz at Avra Valley Rd) shows both in the scoreboard and in the 3D crossing card.
-- **Picture Rocks 12:00 AM frame.** It does not exist, because the run stopped at its 60-minute limit. That frame draws nothing for Picture Rocks. Its outline turns red and dashed, a label says why, and its crossings read "No result for this frame".
-- **Gates gap.** The 7.4 km² terrain gap is drawn hatched with a label. The three app crossings in it (Sandario south of Golden Gate, both Kinney Rd ones) are listed as in the gap, not modelled.
+- **Whole window, every route point.** All three areas have all 57 frames and every route point, so the map no longer marks a missing frame or a terrain gap. The Gates crossings (Sandario south of Golden Gate, Kinney Rd at Javelina, the Kinney Rd washes) now have results: 46 of the 155 Gates route points reach 0.03 ft of water during the run; Kinney/Javelina peaks at 0.27 ft (1:45 PM MST), Sandario south at 0.06 ft (2:15 PM), and the Kinney washes stay under 0.03 ft (dry by the map's rule).
+- **Dry cells with no stored water surface.** Early in the Gates run, some dry route cells have depth 0 and a blank water surface (SFINCS writes none before water arrives). They read as no water, not as a missing result.
 - **Crossings scoreboard.** Each crossing's own route point gives the exact water surface, minus the lidar road surface at that point (or the bridge deck). A cell with under 0.03 ft of water counts as no water, because its "water surface" is only the cell's ground. The 100 m runs keep their old rule (the lowest road within 100 m), which would compare a 6.25 m cell with road 100 m away.
 - **3D.** Water is painted from a depth picture of the drawn cells: about 7.8 m pixels on High and Ultra, 15.6 m on Low and Medium. Each pixel's depth is the stored water over its area. It starts at 0.03 ft, like the 2D key. Only the part inside the 3D view’s 32 × 35 km terrain is drawn: all three areas reach past its edges (Gates mostly lies south of it). The 2D map shows all of it.
 - **Not drawn.** The run's own rain (HRRR 14Z) and river inflows are inside 120 MB NetCDF input archives, not in the display package. Rain and river readouts are off for this scenario, and HAND uses the NWM 13Z flows already in `run-flows/13z.json`.
@@ -71,9 +79,9 @@ job may run for up to 6 hours. Measured run times:
 | Model | Time per run |
 |---|---|
 | Coarse Santa Cruz strip (today's live run) | about 15 minutes, so hourly works |
-| Gates | about 15 minutes |
+| Full Gates | about 33 minutes |
 | Northern | about 56 minutes |
-| Picture Rocks | over 60 minutes (hit its cap) |
+| Picture Rocks | about 60 minutes (needs a cap above an hour) |
 
 Running all three areas every hour is not possible for free. What is realistic: run all three side
 by side **when the forecast shows rain over the area**, a few times a day at most, and keep the
@@ -90,8 +98,8 @@ about 90 KB per frame per area, with frames loaded one at a time.
    `docs/SIMULATED-CONTENT.md` say to show it. These conflict.
 2. **Storm-triggered all-route runs.** Turn them on when the HRRR forecast shows rain over the area?
    They are free, but each takes about an hour.
-3. **Gates.** Leave the 59 points labelled as not modelled, or fetch the missing 7.4 km² of terrain
-   (USGS 3DEP, the same lidar the other areas use) and rerun Gates?
+3. ~~**Gates.**~~ Decided Nov 3, 2026: keep the full Gates run, with the 7.4 km² gap filled from the
+   2015 lidar and labelled as mixed-vintage terrain.
 
 ## Cheap things that help accuracy later
 
@@ -106,5 +114,5 @@ about 90 KB per frame per area, with frames loaded one at a time.
 - All-route run: `public/simulation/all-route-run.js` (loader, 2D painter, 3D picture), `public/simulation/data/all-route-13z/`, `tools/all-route/build_web_package.py`; checks in `test/all-route-run.test.js`, browser checks in `e2e/all-route-check.mjs` and `e2e/all-route-3d-check.mjs`.
 - Model runs: `public/preview/geo3d/src/runs.js`; HAND flows: `public/inundation/data/run-flows/` (built by `tools/hand/run_flows.py`).
 - Live run: `.github/workflows/live-sfincs.yml` and `tools/live/run_live_sfincs.py` on `experiment/live-sfincs`, publishing to the `live-model` branch.
-- All-route model runs and the route-point ledger: `tools/sfincs/data/` on `experiment/sfincs-engine` (start at `all-route-results-v1/README.md`).
+- All-route model runs and the route-point ledger: `tools/sfincs/data/` on `experiment/sfincs-engine` (start at `all-route-results-v2/README.md` on `claude/all-route-expansion-78d5d4`).
 - Error and freeze reports: ntfy topic `washwatch-diag-q7m3x9` (`public/diagnostics.js`).
