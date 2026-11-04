@@ -15,7 +15,7 @@ on:
       execution_cap_seconds:
         description: 'Approved maximum native solver runtime in seconds'
         type: choice
-        options: ['120', '1200', '2400', '2700', '3600']
+        options: ['120', '1200', '2400', '2700', '3600', '5400', '7200', '10800']
         default: '3600'
 permissions:
   contents: read
@@ -23,7 +23,7 @@ permissions:
 jobs:
   solver:
     runs-on: ubuntu-24.04
-    timeout-minutes: 75
+    timeout-minutes: 200
     env:
       OMP_NUM_THREADS: '2'
     steps:
@@ -91,7 +91,7 @@ jobs:
           import os, tarfile, json, hashlib
           from pathlib import Path
           cap = int(os.environ['EXECUTION_CAP_SECONDS'])
-          if cap not in {120, 1200, 2400, 2700, 3600}:
+          if cap not in {120, 1200, 2400, 2700, 3600, 5400, 7200, 10800}:
               raise ValueError('Unsupported execution cap')
           archive = Path(os.environ['CASE_ARCHIVE']).resolve()
           root = Path('tools/sfincs/data').resolve()
@@ -99,7 +99,7 @@ jobs:
               raise ValueError('Require committed prepared case under tools/sfincs/data')
           if archive.suffix == '.json':
               manifest = json.loads(archive.read_text())
-              if manifest.get('modelVersion') not in {'silverbell-extension-v1', 'all-routes-northern-v3', 'all-routes-picture-rocks-v2', 'all-routes-gates-supported-v2'}:
+              if manifest.get('modelVersion') not in {'silverbell-extension-v1', 'all-routes-northern-v3', 'all-routes-picture-rocks-v2', 'all-routes-gates-supported-v2', 'all-routes-gates-full-v3'}:
                   raise ValueError('Require a recognized prepared case version')
               combined = Path('prepared-case.tar.gz')
               with combined.open('wb') as target:
