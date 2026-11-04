@@ -352,6 +352,7 @@ const ALERTS = { server: "https://ntfy.sh", prefix: "washwatch" };
 const TEXT_API = "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec";
 const alertTopic = (hhmm, days, mode) => `${ALERTS.prefix}-${hhmm.replace(":", "")}-${days}-${mode}`;
 const REPORT_TOPIC = "washwatch-reports-1o6j4d6";
+const DIAG_TOPIC = "washwatch-diag-q7m3x9";
 const REPORT_QUESTIONS = [
   { id: "kind", q: "What is it?", a: ["A dip: the road goes down through the wash", "A bridge or big culvert: water goes under the road", "Flat road, no wash here", "Not sure"] },
   { id: "often", q: "When it rains hard, does water run across the road here?", a: ["Almost every big storm", "Sometimes", "Rarely", "Never seen it"] },
@@ -717,10 +718,24 @@ function metresToLine(p, line) {
   }
   return best;
 }
+const LEG_CORRECTIONS = [
+  { lat: 32.45113, lon: -111.30429, said: /\bTrico Rd south of Trico Marana Rd\b/i, from: "south of", to: "north of", source: "local report, Nov 4, 2026" }
+];
+function correctLeg(c) {
+  var _a, _b;
+  for (const k of LEG_CORRECTIONS) {
+    const text = (_b = (_a = c.location) != null ? _a : c.headline) != null ? _b : "";
+    if (!k.said.test(text) || Math.hypot((c.lon - k.lon) * 94e3, (c.lat - k.lat) * 110574) > 60) continue;
+    const fixed = text.replace(new RegExp(k.from, "i"), k.to);
+    return { ...c, ...c.location != null ? { location: fixed } : { headline: fixed }, countySaid: text, legCorrection: k.source };
+  }
+  return c;
+}
 function barricadesOnRoute(feature, closures) {
   var _a;
   const g = feature.geometry;
   if (!g || !(closures == null ? void 0 : closures.length)) return [];
+  closures = closures.map(correctLeg);
   const lines = g.type === "LineString" ? [g.coordinates] : g.coordinates;
   const roads = new Set(((_a = feature.properties.legs) != null ? _a : []).map((l) => roadKey(l.road)));
   return closures.filter((c) => {
@@ -856,8 +871,9 @@ function roadEventsOnRoute(feature, events, now) {
       if (overlapM >= ROAD_EVENT_OVERLAP_M) hits.push({ event: e, overlapM: Math.round(overlapM), how: "line_overlap" });
     } else {
       const named = roads.some((road) => ` ${roadKey(e.headline)} `.includes(` ${road} `));
-      const near = e.parts.some((part) => part.some(([lon, lat]) => lines.some((line) => metresToLine({ lon, lat }, line) <= ROUTE_BARRICADE_M)));
-      if (named && near) hits.push({ event: e, overlapM: null, how: "point_named" });
+      const near = e.parts.some((part) => part.some(([lon2, lat2]) => lines.some((line) => metresToLine({ lon: lon2, lat: lat2 }, line) <= ROUTE_BARRICADE_M)));
+      const [lon, lat] = e.parts[0][0], run = routeRunAlongLeg(lines, correctLeg({ lat, lon, location: e.headline }));
+      if (named && near && (run == null || run >= USES_LEG_M)) hits.push({ event: e, overlapM: null, how: "point_named" });
     }
   }
   return hits;

@@ -13,7 +13,7 @@ execFileSync(process.execPath, [fileURLToPath(new URL('../tools/build_gas.mjs', 
 const SRC = readFileSync(OUT, 'utf8');
 const NOW = Date.parse('2026-11-03T02:00:00Z'); // 7 PM Arizona: no scheduled alert in these tests is due.
 
-const tricoClosed = { attributes: { Location: 'Trico Rd south of Trico Marana Rd', Status: 'Closed', Direction: 'Northbound', timeUpdated: '11/02/26, 10:25' }, geometry: { x: -111.30429098657586, y: 32.45112652226325 } };
+const tricoClosed = { attributes: { Location: 'Trico Rd north of Silverbell Rd', Status: 'Closed', Direction: 'Northbound', timeUpdated: '11/02/26, 10:25' }, geometry: { x: -111.30427390008394, y: 32.44702228874744 } }; // a test barricade on the Trico route
 const ok = (body) => ({ getResponseCode: () => 200, getContentText: () => JSON.stringify(body) });
 const down = { getResponseCode: () => 503, getContentText: () => '' };
 
@@ -44,12 +44,12 @@ test('closure push goes only to people who opted in, and only on a change',() =>
   assert.equal(pushes().length, 0, 'the first look only sets the baseline');
   world.closures = [tricoClosed];nextCycle();
   assert.deepEqual(pushes().map((f) => f.url), ['https://ntfy.sh/washwatch-instanton1']);
-  assert.match(pushes()[0].opt.payload, /Road closed: Trico Rd south of Trico Marana Rd/);
+  assert.match(pushes()[0].opt.payload, /Road closed: Trico Rd north of Silverbell Rd/);
   assert.equal(pushes()[0].opt.headers.Title, 'FLOODplain: road closed');
   nextCycle();
   assert.equal(pushes().length, 0, 'still closed is not news');
   world.closures = [];nextCycle();
-  assert.match(pushes()[0].opt.payload, /No longer listed as closed: Trico Rd south of Trico Marana Rd/);
+  assert.match(pushes()[0].opt.payload, /No longer listed as closed: Trico Rd north of Silverbell Rd/);
   assert.doesNotMatch(pushes()[0].opt.payload, /\bsafe\b/i);
 });
 test('a county feed outage is never announced as a reopening',() => {

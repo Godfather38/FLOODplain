@@ -6,7 +6,7 @@ import {readFileSync} from 'node:fs';
 
 import * as cfg from '../public/config.js';
 
-import {rateFailurePoint,rateRoutes,recommend,routeScore,riskScore,barricadesOnRoute,crossingLead,normalizeRoadEvents,roadEventsOnRoute,routeRunAlongLeg,routeClosures} from '../public/logic.js';
+import {rateFailurePoint,rateRoutes,recommend,routeScore,riskScore,barricadesOnRoute,crossingLead,normalizeRoadEvents,roadEventsOnRoute,routeRunAlongLeg,routeClosures,correctLeg} from '../public/logic.js';
 
 import {handCheck,applyHand} from '../public/hand-model.js';
 
@@ -19,6 +19,10 @@ const routes=JSON.parse(readFileSync(new URL('../public/data/routes.geojson',imp
 const avraArea=routes.filter(r=>r.properties.area==='avra');
 
 const calm={now:NOW,flows:{},alert:null,nws:[]};
+// A test barricade on the Trico route's own leg of Trico Rd, between Silverbell Rd and Trico Marana Rd, where only the Trico route runs.
+// (The county's Nov 2 Trico Rd record below names the south leg, but it stands on the north leg:
+// see LEG_CORRECTIONS in logic.js.)
+const onTrico={location:'Trico Rd north of Silverbell Rd',status:'Closed',direction:'Northbound',updated:'11/02/26, 10:25',lat:32.44702228874744,lon:-111.30427390008394};
 
 const nov2=[
 
@@ -40,13 +44,13 @@ const rate=(closures)=>{const d={...calm,closures};const res=Object.fromEntries(
 
 test('a closure on a route between crossings rates it 5 and keeps it from being best',()=>{
 
- const {rated,rec}=rate(nov2),trico=rated.find(r=>r.id==='trico');
+ const {rated,rec}=rate([onTrico,...nov2.slice(1)]),trico=rated.find(r=>r.id==='trico');
 
  assert.equal(trico.score,5);assert.equal(trico.level,'danger');
 
  assert.notEqual(rec.best.id,'trico');
 
- assert.match(trico.points.find(p=>p.routeBarricade).why,/County says CLOSED: Trico Rd south of Trico Marana Rd, northbound/);
+ assert.match(trico.points.find(p=>p.routeBarricade).why,/County says CLOSED: Trico Rd north of Silverbell Rd, northbound/);
 
 });
 
@@ -160,13 +164,14 @@ test('a street crossing the route does not count as on it',()=>{
  assert.equal(roadEventsOnRoute(trico,events,NOW).length,0);
 });
 test('the county wording confirms which leg a barricade is on',()=>{
- assert.ok(routeRunAlongLeg([tricoLine],nov2[0])>=100,'the route runs south from the barricade');
- assert.equal(barricadesOnRoute(trico,[nov2[0]]).length,1);
+ assert.ok(routeRunAlongLeg([tricoLine],onTrico)>=100,'the route runs north from the barricade');
+ assert.equal(barricadesOnRoute(trico,[onTrico]).length,1);
  const farLeg={...nov2[0],location:'Trico Rd north of Trico Marana Rd',direction:'Southbound'};
  assert.equal(barricadesOnRoute(trico,[farLeg]).length,0,'the route turns east here and never takes the north leg');
- const events=normalizeRoadEvents(tvClosures,null);
- const res=Object.fromEntries(cfg.FAILURE_POINTS.map(fp=>[fp.id,rateFailurePoint(fp,{...calm,closures:nov2},cfg)]));
- const r=rateRoutes([trico],res,cfg.FAILURE_POINTS,{closures:nov2,radiusM:cfg.CLOSURE_RADIUS_M,roadEvents:events,now:NOW})[0];
+ const tvOn=[{...tvClosures[0],headline:'Flooding Trico Rd north of Silverbell Rd  Northbound',Geo:`MULTIPOINT ((${onTrico.lon} ${onTrico.lat}))`}];
+ const events=normalizeRoadEvents(tvOn,null),blocked=[onTrico,...nov2.slice(1)];
+ const res=Object.fromEntries(cfg.FAILURE_POINTS.map(fp=>[fp.id,rateFailurePoint(fp,{...calm,closures:blocked},cfg)]));
+ const r=rateRoutes([trico],res,cfg.FAILURE_POINTS,{closures:blocked,radiusM:cfg.CLOSURE_RADIUS_M,roadEvents:events,now:NOW})[0];
  const added=r.points.filter(p=>p.routeBarricade);
  assert.equal(added.length,1,'county point and TransView copy are one barricade');
  assert.ok(!/flooding/i.test(added[0].why),'no reason is claimed');
@@ -178,8 +183,17 @@ test('a failed TransView feed changes nothing',()=>{
  assert.equal(routeScore(r),1);
 });
 
+test('the Nov 2 Trico Rd barricade the county lists as south of Trico Marana Rd is on the north leg, off the route',()=>{
+ // Local report: it stands just north of the intersection; the route turns east there.
+ assert.equal(correctLeg(nov2[0]).location,'Trico Rd north of Trico Marana Rd');assert.equal(correctLeg(nov2[0]).countySaid,'Trico Rd south of Trico Marana Rd');
+ assert.equal(correctLeg({...nov2[0],lat:32.46}).location,nov2[0].location,'a barricade elsewhere is read as the county says');
+ assert.deepEqual(barricadesOnRoute(trico,[nov2[0]]),[]);
+ assert.deepEqual(roadEventsOnRoute(trico,normalizeRoadEvents(tvClosures,null),NOW),[],'nor its TransView copy');
+ const {rated}=rate(nov2);assert.equal(routeClosures(rated.find(r=>r.id==='trico')).length,0);
+});
+
 test('closed routes are identified and always rank behind open ones',()=>{
- const {rated,rec}=rate(nov2);
+ const {rated,rec}=rate([onTrico,...nov2.slice(1)]);
  assert.equal(routeClosures(rated.find(r=>r.id==='trico')).length,1);
  assert.equal(routeClosures(rated.find(r=>r.id==='avra')).length,0,'a caution is not a closure');
  assert.equal(routeClosures(rec.best).length,0);assert.equal(rec.order.at(-1).id,'trico');

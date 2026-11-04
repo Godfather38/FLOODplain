@@ -25,7 +25,7 @@ const server=createServer((req,res)=>{
 await new Promise(r=>server.listen(0,r));
 const origin=`http://localhost:${server.address().port}`;
 
-const tricoClosed={attributes:{Location:'Trico Rd south of Trico Marana Rd',Status:'Closed',Direction:'Northbound',timeUpdated:'11/02/26, 10:25'},geometry:{x:-111.30429098657586,y:32.45112652226325}};
+const tricoClosed={attributes:{Location:'Trico Rd north of Silverbell Rd',Status:'Closed',Direction:'Northbound',timeUpdated:'11/02/26, 10:25'},geometry:{x:-111.30427390008394,y:32.44702228874744}}; // a test barricade on the Trico route
 const json=(route,body)=>route.fulfill({status:200,contentType:'application/json',headers:{'Access-Control-Allow-Origin':'*'},body:JSON.stringify(body)});
 const hours=(n)=>Array.from({length:n},(_,i)=>new Date(Date.now()+i*3600000).toISOString());
 const reach=(id)=>({reach:{reachId:id},shortRange:{series:{referenceTime:new Date(Date.now()-3600000).toISOString(),units:'ft³/s',data:hours(18).map(validTime=>({validTime,flow:400}))}}});
@@ -72,7 +72,7 @@ try{
  await check('home shows the closure, ranks it last, and colors its icons',async()=>{
   const {context,page,errors}=await freshPage({width:375,height:812});
   await page.goto(origin+'/#/');await ready(page);await page.waitForSelector('.closure-banner');
-  assert.match(await page.innerText('.closure-banner'),/Trico Rd south of Trico Marana Rd.*Blocks Trico-Marana/s);
+  assert.match(await page.innerText('.closure-banner'),/Trico Rd north of Silverbell Rd.*Blocks Trico-Marana/s);
   assert.doesNotMatch(await page.innerText('#screen .hero'),/Trico-Marana/);
   // The map redraws when feeds arrive, so wait for icons, and read them in a single step.
   await page.waitForFunction(()=>document.querySelectorAll('.pin:not(.closure-pin)').length>=4);
@@ -161,7 +161,7 @@ try{
   const {context,page}=await freshPage({width:375,height:812});
   await page.goto(origin+'/#/');await page.waitForSelector('.closure-banner a');await page.click('.closure-banner a');await page.waitForSelector('.closure-status');
   const text=await page.innerText('#screen');
-  assert.match(text,/Trico Rd south of Trico Marana Rd/);assert.match(text,/Closed/);assert.match(text,/updated /);assert.match(text,/Blocks Trico-Marana/);assert.doesNotMatch(text,/11\/02\/26/);
+  assert.match(text,/Trico Rd north of Silverbell Rd/);assert.match(text,/Closed/);assert.match(text,/updated /);assert.match(text,/Blocks Trico-Marana/);assert.doesNotMatch(text,/11\/02\/26/);
   await context.close();
  });
  await check('a driver report sends one fixed answer and says thanks',async()=>{
@@ -194,7 +194,7 @@ try{
   await page.evaluate(()=>navigator.serviceWorker.ready);await page.reload();await page.waitForSelector('.closure-banner');await page.waitForTimeout(1500);
   await context.setOffline(true);
   await page.reload();await page.waitForSelector('#screen .hero',{timeout:15000});
-  assert.match(await page.innerText('.closure-banner'),/Trico Rd south of Trico Marana Rd/);
+  assert.match(await page.innerText('.closure-banner'),/Trico Rd north of Silverbell Rd/);
   assert.match(await page.innerText('#check-age'),/Offline/);
   await context.close();
  });

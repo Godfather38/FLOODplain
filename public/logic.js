@@ -360,9 +360,26 @@ function metresToLine(p, line) {
   }
   return best;
 }
+// Where local knowledge says the county names the wrong leg of a road. Matched by the county's
+// words and its point (within 60 m), so a new or moved barricade is read as the county says.
+// - Trico Rd at Trico Marana Rd: the county lists "south of", but the barricade stands just north
+//   of the intersection, on the leg the Trico-Marana route never takes (owner, Nov 4, 2026).
+export const LEG_CORRECTIONS = [
+  { lat: 32.45113, lon: -111.30429, said: /\bTrico Rd south of Trico Marana Rd\b/i, from: 'south of', to: 'north of', source: 'local report, Nov 4, 2026' },
+];
+export function correctLeg(c) {
+  for (const k of LEG_CORRECTIONS) {
+    const text = c.location ?? c.headline ?? '';
+    if (!k.said.test(text) || Math.hypot((c.lon - k.lon) * 94000, (c.lat - k.lat) * 110574) > 60) continue;
+    const fixed = text.replace(new RegExp(k.from, 'i'), k.to);
+    return { ...c, ...(c.location != null ? { location: fixed } : { headline: fixed }), countySaid: text, legCorrection: k.source };
+  }
+  return c;
+}
 export function barricadesOnRoute(feature, closures) {
   const g = feature.geometry;
   if (!g || !closures?.length) return [];
+  closures = closures.map(correctLeg);
   const lines = g.type === 'LineString' ? [g.coordinates] : g.coordinates;
   const roads = new Set((feature.properties.legs ?? []).map((l) => roadKey(l.road)));
   return closures.filter((c) => {
@@ -484,7 +501,9 @@ export function roadEventsOnRoute(feature, events, now) {
     } else {
       const named = roads.some((road) => ` ${roadKey(e.headline)} `.includes(` ${road} `));
       const near = e.parts.some((part) => part.some(([lon, lat]) => lines.some((line) => metresToLine({ lon, lat }, line) <= ROUTE_BARRICADE_M)));
-      if (named && near) hits.push({ event: e, overlapM: null, how: 'point_named' });
+      // A point names its leg like the county does ("south of ..."): the same leg check applies.
+      const [lon, lat] = e.parts[0][0], run = routeRunAlongLeg(lines, correctLeg({ lat, lon, location: e.headline }));
+      if (named && near && (run == null || run >= USES_LEG_M)) hits.push({ event: e, overlapM: null, how: 'point_named' });
     }
   }
   return hits;
