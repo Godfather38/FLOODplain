@@ -187,3 +187,33 @@
 .mapp-diag-list .k-error b,.mapp-diag-list .k-freeze b,.mapp-diag-list .k-3d-failed b{color:var(--sim-red)}
 .mapp-diag-list time{color:var(--muted)}
 .mapp-diag-list small{display:block;color:var(--muted)}
+
+/* how much of the interface shows (map-app.js setUi): everything, the map with a slim time bar, or the map alone */
+.mapp.player-folded .mapp-hud,.mapp.player-folded .mapp-timeline,.mapp.player-folded .mapp-tl-key{display:none}
+.mapp-fold svg{transition:transform .15s}
+.mapp.player-folded .mapp-fold svg{transform:rotate(180deg)}
+.mapp.ui-focus .mapp-panel,.mapp.ui-focus .mapp-search,.mapp.ui-focus .mapp-scen,.mapp.ui-focus .mapp-show-panel,.mapp.ui-focus .mapp-hud,.mapp.ui-focus .mapp-timeline,.mapp.ui-focus .mapp-tl-key,.mapp.ui-focus .mapp-note{display:none!important}
+.mapp.ui-focus .mapp-top{left:12px}
+.mapp.ui-focus .mapp-player{left:12px}
+.mapp.ui-none>*:not(.mapp-show-ui):not(.mapp-load):not(.mapp-toast):not(.model-ack){display:none!important}
+html body.mapp-bare>.appbar,html body.mapp-bare .primary-destinations,html body.mapp-bare #load-status{display:none!important}
+.mapp .mapp-show-ui{position:absolute;top:12px;right:12px;z-index:1300;margin:0}
+.mapp .mapp-show-ui[hidden]{display:none}
+.mapp-view span,.mapp-show-ui span{white-space:nowrap}
+@media (max-width:899px){
+ .mapp .mapp-view span{display:none}
+ .mapp .mapp-view{width:48px;padding:0;justify-content:center;flex:none}
+ .mapp-top{gap:8px}
+ .mapp-search{min-width:0}
+ .mapp .mapp-player{padding:2px 6px 4px}
+ .mapp .mapp-player-row{gap:2px}
+ .mapp .mapp-player-row .mapp-icon{width:40px;height:40px}
+ .mapp .mapp-play{width:40px;height:40px}
+ .mapp .mapp-player-row output{font-size:.75rem;white-space:nowrap}
+ .mapp-sim-badge{display:none}
+ .mapp-player-top select{font-size:.875rem;height:32px}
+ .mapp.player-folded .mapp-stat{display:none}
+ .mapp.ui-focus .mapp-controls,.mapp.ui-none .mapp-controls{bottom:16px}
+ .mapp .mapp-show-ui{top:10px;right:10px}
+}
+.mapp.ui-focus .mapp-top [data-m-layers]{margin-left:auto}

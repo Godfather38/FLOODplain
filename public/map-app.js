@@ -23,6 +23,8 @@ const I={
  prev:svg('M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z'),next:svg('M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'),
  play:svg('M8 5v14l11-7z'),pause:svg('M6 19h4V5H6v14zm8-14v14h4V5h-4z'),
  flask:svg('M7 2v2h1v6.6L3.2 19.2A2 2 0 0 0 5 22h14a2 2 0 0 0 1.8-2.8L16 10.6V4h1V2H7zm3 2h4v7.1l1.6 2.9H8.4L10 11.1V4z'),
+ eye:svg('M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z'),
+ expand:svg('M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z'),
  panel:svg('M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z'),
 };
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
@@ -47,7 +49,9 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   <label class="mapp-search">${I.search}<select data-m-search aria-label="Go to a crossing or place"></select></label>
   <button type="button" class="mapp-fab mapp-scen" data-m-scenarios aria-label="Scenarios">${I.flask}<span>Scenarios</span></button>
   <button type="button" class="mapp-fab" data-m-layers aria-label="Map layers" aria-expanded="false">${I.layers}<span>Layers</span></button>
+  <button type="button" class="mapp-fab mapp-view" data-m-ui aria-label="Show less of the controls" title="Show less of the controls">${I.eye}<span data-m-ui-label>View</span></button>
  </div>
+ <button type="button" class="mapp-fab mapp-show-ui" data-m-show-ui hidden aria-label="Show the map controls">${I.eye}<span>Show controls</span></button>
  <section class="mapp-layers" data-m-layer-panel hidden aria-label="Map layers">
   <header><h2>Map layers</h2><button type="button" class="mapp-icon" data-m-close aria-label="Close map layers">${I.close}</button></header>
   <h3>View</h3>
@@ -82,7 +86,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   <button type="button" class="mapp-ctl lbl" data-m-fit-water aria-label="Zoom to the deepest water">${I.water}<span>Water</span></button>
  </div>
  <div class="mapp-player" role="group" aria-label="Model run and hour">
-  <div class="mapp-player-top"><select data-m-run aria-label="Model run"></select><span class="mapp-run-label" data-m-run-label hidden>Saved Nov 1–2 run · terrain detail</span><span class="mapp-stat" data-m-stat></span><button type="button" class="mapp-icon" data-m-info aria-label="About this run" aria-expanded="false">${I.info}</button></div>
+  <div class="mapp-player-top"><select data-m-run aria-label="Model run"></select><span class="mapp-run-label" data-m-run-label hidden>Saved Nov 1–2 run · terrain detail</span><span class="mapp-stat" data-m-stat></span><button type="button" class="mapp-icon" data-m-info aria-label="About this run" aria-expanded="false">${I.info}</button><button type="button" class="mapp-icon mapp-fold" data-m-fold aria-label="Show readouts and timeline" aria-expanded="false">${I.expand}</button></div>
   <div class="mapp-hud" data-m-hud></div>
   <div class="mapp-timeline" data-m-timeline><canvas aria-hidden="true"></canvas><input type="range" data-m-scrub min="0" max="0" step="0.01" value="0" aria-label="Model hour"></div>
   <div class="mapp-tl-key">${timelineKeyHtml}</div>
@@ -555,8 +559,29 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  });
 
  // Only the Map tab shows the model layers; the other screens keep their live map.
+ // --- how much of the interface shows: everything, the map with a slim time bar, or the map alone ---
+ const UI_MODES=['full','focus','none'];
+ const UI_NEXT={full:'Show less of the controls',focus:'Hide all controls',none:'Show the map controls'};
+ let uiMode=(()=>{try{return localStorage.getItem('mapp-ui')}catch{return null}})();if(!UI_MODES.includes(uiMode))uiMode='full';
+ function setUi(mode){
+  uiMode=mode;try{localStorage.setItem('mapp-ui',mode)}catch{}
+  ui.classList.toggle('ui-focus',mode==='focus');ui.classList.toggle('ui-none',mode==='none');
+  document.body.classList.toggle('mapp-bare',mode==='none'&&location.hash==='#/map');
+  const b=$('[data-m-ui]');b.setAttribute('aria-label',UI_NEXT[mode]);b.title=UI_NEXT[mode];$('[data-m-ui-label]').textContent=mode==='full'?'Less':'Hide all';
+  $('[data-m-show-ui]').hidden=mode!=='none';
+  if(mode!=='full')setLayersOpen(false);
+  requestAnimationFrame(()=>map.invalidateSize());
+ }
+ $('[data-m-ui]').onclick=()=>setUi(uiMode==='full'?'focus':'none');
+ $('[data-m-show-ui]').onclick=()=>setUi('full');
+ // On a phone the time bar starts as one row; the readouts and timeline open on request.
+ let folded=matchMedia('(max-width: 899px)').matches;
+ function setFold(f){folded=f;ui.classList.toggle('player-folded',f);const b=$('[data-m-fold]');b.setAttribute('aria-expanded',String(!f));b.setAttribute('aria-label',f?'Show readouts and timeline':'Hide readouts and timeline');if(!f)requestAnimationFrame(drawTl);}
+ $('[data-m-fold]').onclick=()=>setFold(!folded);
+ setFold(folded);
+
  function onRoute(){
-  const on=location.hash==='#/map';document.body.classList.toggle('mapp-on',on);
+  const on=location.hash==='#/map';document.body.classList.toggle('mapp-on',on);document.body.classList.toggle('mapp-bare',on&&uiMode==='none');
   if(on&&pending3d&&world.ready)enter3d();
   else if(on&&in3d())world.show(true);else if(pending3d)world.park();else world.hide();
   if(!on){setLayersOpen(false);if(st.base==='terrain')window.dispatchEvent(new CustomEvent('flood-terrain-detail',{detail:false}));}
@@ -565,7 +590,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   if(on&&!sim.run&&!loadingRun)chooseRun(st.run);
  }
  addEventListener('hashchange',onRoute);
- setPlaying(false);setTab(tab);paintGraphics();onRoute();
+ setPlaying(false);setTab(tab);paintGraphics();setUi(uiMode);onRoute();
  return{
   // Bring a crossing's card into view: beside the map, or up from the bottom on a phone.
   reveal(){setTab('routes');if(phone())setSheet(true);else setCollapsed(false);},
