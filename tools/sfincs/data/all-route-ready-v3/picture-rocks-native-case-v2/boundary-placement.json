@@ -1,0 +1,97 @@
+{
+  "registryVersion": "all-routes-connected-v2",
+  "case": "picture-rocks-ina-twinpeaks",
+  "inlets": [
+    {
+      "reachId": "15902387",
+      "receivingReachId": "945050134",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": [],
+      "x": 498021.96988352365,
+      "y": 3579699.9599642567,
+      "nativeFaceIndexZeroBased": 43431,
+      "downstreamOffsetM": 52.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15902389",
+      "receivingReachId": "945050134",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": [],
+      "x": 498021.96988352365,
+      "y": 3579699.9599642567,
+      "nativeFaceIndexZeroBased": 43431,
+      "downstreamOffsetM": 52.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15902421",
+      "receivingReachId": "945050135",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": [],
+      "x": 495046.398548323,
+      "y": 3577090.9085682463,
+      "nativeFaceIndexZeroBased": 38972,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15902423",
+      "receivingReachId": "15902419",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": [],
+      "x": 493983.067569625,
+      "y": 3576482.0857270123,
+      "nativeFaceIndexZeroBased": 37218,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15902441",
+      "receivingReachId": "15902429",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": [],
+      "x": 489139.3311063107,
+      "y": 3575100.8036019946,
+      "nativeFaceIndexZeroBased": 29786,
+      "downstreamOffsetM": 21.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15902447",
+      "receivingReachId": "15902413",
+      "cachedOriginal13Z": true,
+      "cacheEvidence": [
+        {
+          "path": "H:\\AI\\Projects\\FloodPLAIN-sfincs\\.sfincs-runs\\current-inputs-catchments-20261101\\short_range-15902447-248731516b518a7290f78623c2b08c4709dde875991e116428af0888804daacc.json",
+          "issue": "2026-11-01T13:00:00Z",
+          "frames": 18,
+          "start": "2026-11-01T14:00:00Z",
+          "end": "2026-11-02T07:00:00Z",
+          "units": "ft\u00c2\u00b3/s"
+        }
+      ],
+      "x": 492533.76733174897,
+      "y": 3577154.5555686224,
+      "nativeFaceIndexZeroBased": 34892,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15902469",
+      "receivingReachId": "15902429",
+      "cachedOriginal13Z": false,
+      "cacheEvidence": [],
+      "x": 489139.3311063107,
+      "y": 3575100.8036019946,
+      "nativeFaceIndexZeroBased": 29786,
+      "downstreamOffsetM": 21.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    }
+  ],
+  "outflowCells": 18,
+  "outflowMethod": "Official HydroMT directed outflow points, 500m corridor, official Deltares native mask builder",
+  "activeCells": 537476,
+  "solverExecuted": false,
+  "status": "Native geometry and boundary locations only; rainfall/case assembly pending"
+}

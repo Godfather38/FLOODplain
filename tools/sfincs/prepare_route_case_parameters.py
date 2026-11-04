@@ -7,10 +7,11 @@ from cht_bathymetry.database import BathymetryDatabase
 from hydromt_sfincs.workflows import cn_to_s
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);p.add_argument('--mesh',type=Path,default=Path('.sfincs-runs/road-dip-refinement-v1/active-refinement-mesh.nc'));p.add_argument('--context',type=Path,default=Path('.sfincs-runs/road-context-rasters-v1'));a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);p.add_argument('--mesh',type=Path,default=Path('.sfincs-runs/road-dip-refinement-v1/active-refinement-mesh.nc'));p.add_argument('--context',type=Path,default=Path('.sfincs-runs/road-context-rasters-v1'));p.add_argument('--extra-fine',type=Path,action='append',default=[],help='1 m window folders whose same-named tiles replace cached ones');a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
  mesh=a.mesh;context=a.context;fine=Path('.sfincs-runs/road-terrain-1m-v1');grid=xu.open_dataset(mesh).load();db=BathymetryDatabase(check_online=False);bathy=[]
  fine_files={p.name:p for p in fine.glob('terrain-1m-*.tif')};fine_files.update({p.name:p for p in Path('.sfincs-runs/silverbell-terrain-v1').glob('terrain-1m-*.tif')})
  fine_files.update({p.name:p for p in Path('.sfincs-runs/all-routes-terrain-v1').glob('terrain-1m-*.tif')})
+ for extra in a.extra_fine:fine_files.update({p.name:p for p in extra.glob('terrain-1m-*.tif')})
  for f in sorted(fine_files.values()):
   db.add_dataset_from_file(f.stem,str(f));bathy.append({'name':f.stem})
  db.add_dataset_from_file('context',str(context/'terrain.tif'));bathy.append({'name':'context'})

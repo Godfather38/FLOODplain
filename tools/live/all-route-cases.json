@@ -1,0 +1,116 @@
+{
+ "schemaVersion": 1,
+ "cases": [
+  {
+   "case": "northern",
+   "modelVersion": "all-routes-northern-v3",
+   "caseManifest": "tools/sfincs/data/all-route-ready-v3/northern-native-case-v3/manifest.json",
+   "archiveSha256": "48b184778f955b1f51ed4cfddd9d00bcef161e97454eeda00dfb3b102b6dbb77",
+   "meshSha256": "767347482d73597a2455ef36942b252f50df13bda3cb59cb660e9c5e6731fe85",
+   "inlets": [
+    {
+     "reachId": "15876623",
+     "x": 468257.6,
+     "y": 3587202.2
+    },
+    {
+     "reachId": "15876639",
+     "x": 468487.1,
+     "y": 3585347.2
+    },
+    {
+     "reachId": "15876641",
+     "x": 468319.4,
+     "y": 3586904.7
+    },
+    {
+     "reachId": "15876653",
+     "x": 468487.1,
+     "y": 3585347.2
+    },
+    {
+     "reachId": "15876707",
+     "x": 472430.9,
+     "y": 3580900.0
+    },
+    {
+     "reachId": "15876711",
+     "x": 472430.9,
+     "y": 3580900.0
+    },
+    {
+     "reachId": "15902351",
+     "x": 488992.4,
+     "y": 3583056.7
+    },
+    {
+     "reachId": "15902363",
+     "x": 488992.4,
+     "y": 3583056.7
+    }
+   ],
+   "inletCheck": "sfincs.src within 0.1 m of boundary-placement.json; each sfincs.dis column equals that reach's frozen series",
+   "faceMapping": {
+    "path": "tools/sfincs/data/northern-result-41382880257/output-to-source-face-id.npy",
+    "sha256": "bd6a84ca663324002180a308ea64b08a07810389c123b5a16ed48f34fc5581fa"
+   },
+   "geometry": {
+    "path": "tools/sfincs/data/northern-result-41382880257/compact/geometry.bin.gz",
+    "sha256": "93f59575fbcdd25a3aec1e4966d0dc8afe3d9be44afc6cee7a12f3f1e7d64665"
+   }
+  },
+  {
+   "case": "picture-rocks",
+   "modelVersion": "all-routes-picture-rocks-v2",
+   "caseManifest": "tools/sfincs/data/all-route-ready-v3/picture-rocks-native-case-v2/manifest.json",
+   "archiveSha256": "626c29c306a3225641b57996b833f0531d25e9ae6bc72cdf2e6e5d1bbc632bdd",
+   "meshSha256": "76b60da1bcceacd448d3817f1ec28383dfc475bbd9a10d86d419a280558059a0",
+   "inlets": [
+    {
+     "reachId": "15902387",
+     "x": 498022.0,
+     "y": 3579700.0
+    },
+    {
+     "reachId": "15902389",
+     "x": 498022.0,
+     "y": 3579700.0
+    },
+    {
+     "reachId": "15902421",
+     "x": 495046.4,
+     "y": 3577090.9
+    },
+    {
+     "reachId": "15902423",
+     "x": 493983.1,
+     "y": 3576482.1
+    },
+    {
+     "reachId": "15902441",
+     "x": 489139.3,
+     "y": 3575100.8
+    },
+    {
+     "reachId": "15902447",
+     "x": 492533.8,
+     "y": 3577154.6
+    },
+    {
+     "reachId": "15902469",
+     "x": 489139.3,
+     "y": 3575100.8
+    }
+   ],
+   "inletCheck": "sfincs.src within 0.1 m of boundary-placement.json; each sfincs.dis column equals that reach's frozen series",
+   "faceMapping": {
+    "path": "tools/sfincs/data/picture-rocks-result-41382872468/output-to-source-face-id.npy",
+    "sha256": "55e8c225cb81831d2b119ce02ccb541211b75660e2f7cfb283d3a8124df09d7f"
+   },
+   "geometry": {
+    "path": "tools/sfincs/data/picture-rocks-result-41382872468/compact/geometry.bin.gz",
+    "sha256": "63e8ff89a772fb9f1a3775bbc0f2d54a9b188efd03b2614c75d2769593ef7fca"
+   }
+  }
+ ]
+}
