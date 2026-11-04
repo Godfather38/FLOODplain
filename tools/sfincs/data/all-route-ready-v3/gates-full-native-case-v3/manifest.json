@@ -1,0 +1,40 @@
+{
+  "modelVersion": "all-routes-gates-full-v3",
+  "kind": "prepared_native_case",
+  "caseId": "gates-full-native-case-v3",
+  "runReady": true,
+  "solverExecuted": false,
+  "approvedExecutionCapSeconds": 5400,
+  "archiveBytes": 88491664,
+  "archiveSha256": "67ee11150eeaf08c0ddc6596509effdd461e03a4ec6133e73aabf95e15a99ea2",
+  "parts": [
+    {
+      "path": "case.part01",
+      "bytes": 40000000,
+      "sha256": "e2b08fb0f4ebd1ffefc15437b46134f9b9569cfcca86999757540befbacc9c55"
+    },
+    {
+      "path": "case.part02",
+      "bytes": 40000000,
+      "sha256": "35fbedb6f3ab72a3c29d65c9d6d4f95299ad10cc2b86576caf6571d81047076c"
+    },
+    {
+      "path": "case.part03",
+      "bytes": 8491664,
+      "sha256": "8b135adcdb11aadae759630b48cf290101d3236f7b46d98cf8636718cf7abbc3"
+    }
+  ],
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "gridCells": 384716,
+  "inlets": 9,
+  "scope": {
+    "status": "full_gates_version3",
+    "includedComponents": "all; topology version 3 merges old components 1 and 4",
+    "domain": "../topology-version3/gates-domain.geojson",
+    "registry": "../topology-version3/gates-boundary-registry.json",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+  },
+  "executionAuthorization": "parent_session_task_full_gates_rerun_frozen_inputs"
+}

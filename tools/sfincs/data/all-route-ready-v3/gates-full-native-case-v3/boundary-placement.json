@@ -1,0 +1,101 @@
+{
+  "registryVersion": "all-routes-connected-v2",
+  "case": "gates-full-components-v3",
+  "inlets": [
+    {
+      "reachId": "15876787",
+      "receivingReachId": "15876775",
+      "linkField": "dnhydroseq",
+      "x": 476053.4123363304,
+      "y": 3570867.355233095,
+      "nativeFaceIndexZeroBased": 3353,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15876869",
+      "receivingReachId": "15876843",
+      "linkField": "dnhydroseq",
+      "x": 480229.72774232493,
+      "y": 3561540.651682731,
+      "nativeFaceIndexZeroBased": 11420,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15876837",
+      "receivingReachId": "15876835",
+      "linkField": "dnhydroseq",
+      "x": 479383.09025185846,
+      "y": 3563100.442047675,
+      "nativeFaceIndexZeroBased": 10119,
+      "downstreamOffsetM": 39.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15876849",
+      "receivingReachId": "15876851",
+      "linkField": "dnhydroseq",
+      "x": 481011.857731178,
+      "y": 3561102.8937190184,
+      "nativeFaceIndexZeroBased": 13061,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15876859",
+      "receivingReachId": "15876823",
+      "linkField": "dnhydroseq",
+      "x": 478600.31438442,
+      "y": 3565012.174104982,
+      "nativeFaceIndexZeroBased": 9017,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15876863",
+      "receivingReachId": "15876829",
+      "linkField": "dnhydroseq",
+      "x": 478866.0612160238,
+      "y": 3564117.805573357,
+      "nativeFaceIndexZeroBased": 9426,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15877627",
+      "receivingReachId": "15876811",
+      "linkField": "dnhydroseq",
+      "x": 477030.1134380489,
+      "y": 3568183.964934648,
+      "nativeFaceIndexZeroBased": 5575,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15903611",
+      "receivingReachId": "15903601",
+      "linkField": "dnhydroseq",
+      "x": 501641.036246788,
+      "y": 3564500.6330129355,
+      "nativeFaceIndexZeroBased": 27692,
+      "downstreamOffsetM": 50.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    },
+    {
+      "reachId": "15903627",
+      "receivingReachId": "15903601",
+      "linkField": "dnhydroseq",
+      "x": 501641.036246788,
+      "y": 3564500.6330129355,
+      "nativeFaceIndexZeroBased": 27692,
+      "downstreamOffsetM": 50.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    }
+  ],
+  "outflowCells": 41,
+  "outflowMethod": "Official HydroMT directed outflow points, 500m corridor, official Deltares native mask builder",
+  "activeCells": 384716,
+  "solverExecuted": false,
+  "status": "Native geometry and boundary locations only; rainfall/case assembly pending"
+}

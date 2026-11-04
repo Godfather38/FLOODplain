@@ -10,12 +10,18 @@ SOURCE={'Name':'AZ_Eastern_PimaCO_2015','OBJECTID':125309,'ProductName':'USGS_3D
 sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--merged',type=Path,required=True,help='terrain-context-2021-v2.tif');p.add_argument('--mask',type=Path,required=True,help='gates-missing-mask-v2.tif');p.add_argument('--context',type=Path,required=True,help='folder with lulc.tif, cn.tif, esa_worldcover_mapping.csv');p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--merged',type=Path,required=True,help='terrain-context-2021-v2.tif');p.add_argument('--mask',type=Path,required=True,help='gates-missing-mask-v2.tif');p.add_argument('--context',type=Path,required=True,help='folder with lulc.tif, cn.tif, esa_worldcover_mapping.csv');p.add_argument('--output',type=Path,required=True);p.add_argument('--domain',type=Path,help='also fill empty cells the mesh touches: within this domain plus --buffer-m');p.add_argument('--buffer-m',type=float,default=200);a=p.parse_args()
  a.output.mkdir(parents=True,exist_ok=False)
  with rasterio.open(a.merged) as d, rasterio.open(a.mask) as m:
   if (d.transform,d.shape,d.crs)!=(m.transform,m.shape,m.crs):raise ValueError('Mask and context grids differ')
   arr=d.read(1);original=arr.copy();profile=d.profile;nodata=d.nodata;gap=m.read(1).astype(bool)
   if not ((arr[gap]==nodata)|~np.isfinite(arr[gap])).all():raise ValueError('Gap mask covers valid 2021 pixels')
+  listed=int(gap.sum())
+  if a.domain:
+   import geopandas as gpd
+   from rasterio.features import geometry_mask
+   region=gpd.read_file(a.domain).to_crs(d.crs).geometry.union_all().buffer(a.buffer_m)
+   gap|=geometry_mask([region],arr.shape,d.transform,invert=True,all_touched=True)&((arr==nodata)|~np.isfinite(arr))
   with rasterio.Env(GDAL_DISABLE_READDIR_ON_OPEN='EMPTY_DIR',CPL_VSIL_CURL_ALLOWED_EXTENSIONS='.tif',GDAL_HTTP_TIMEOUT='45',GDAL_HTTP_MAX_RETRY='2'):
    with rasterio.open(SOURCE['URL']) as src, WarpedVRT(src,crs=d.crs,transform=d.transform,width=d.width,height=d.height,resampling=Resampling.bilinear,nodata=nodata) as v:
     rows,cols=np.nonzero(binary_dilation(gap,iterations=20));win=rasterio.windows.Window(cols.min(),rows.min(),cols.max()-cols.min()+1,rows.max()-rows.min()+1)
@@ -28,10 +34,10 @@ def main():
  ring=binary_dilation(gap,iterations=20)&~gap&keep&valid2015;diff=(fill[ring]-original[ring]).astype('float64')
  seam={'pixels':int(ring.sum()),'ringWidthM':200,'diff2015minus2021M':{'median':float(np.median(diff)),'mean':float(diff.mean()),'p05':float(np.percentile(diff,5)),'p95':float(np.percentile(diff,95)),'maxAbs':float(np.abs(diff).max())}}
  profile.update(compress='deflate',tiled=True);out=a.output/'terrain.tif'
- with rasterio.open(out,'w',**profile) as dst:dst.write(arr,1);dst.update_tags(vertical_datum='NAVD88',units='metres',method='2021-v2 context unchanged; only the 74,221 listed gap pixels taken from USGS 3DEP AZ_Eastern_PimaCO_2015 1 m (bilinear to 10 m)')
+ with rasterio.open(out,'w',**profile) as dst:dst.write(arr,1);dst.update_tags(vertical_datum='NAVD88',units='metres',method='2021-v2 context unchanged; only empty gap cells taken from USGS 3DEP AZ_Eastern_PimaCO_2015 1 m (bilinear to 10 m)')
  profile.update(dtype='uint8',nodata=None)
  with rasterio.open(a.output/'source-2015-mask.tif','w',**profile) as dst:dst.write(gap.astype('uint8'),1)
  for name in ['lulc.tif','cn.tif','esa_worldcover_mapping.csv']:shutil.copyfile(a.context/name,a.output/name)
- report={'status':'complete','kind':'gates_context_terrain_mixed_vintage','filledPixels':int(gap.sum()),'filledKm2':float(gap.sum()*100/1e6),'remainingGapPixels':0,'originalValidPixelsUnchanged':True,'source':SOURCE,'sourceHorizontalCrs':srcCrs,'outputHorizontalCrs':str(d.crs),'method':'Standard GDAL WarpedVRT bilinear 1 m to 10 m, same as the 2021 context patches; no interpolation across the gap, no conditioning or burning','why2015':'USGS AZ_PimaCounty_2021_B21 tile x47y357 returns nodata for all 74,221 gap pixels (checked by window read); the 2015 USGS 3DEP 1 m product covers all of them. The 2011 1/9 arc-second product is older and coarser.','seamCheck':seam,'inputs':{'merged2021':{'path':str(a.merged),'sha256':sha(a.merged)},'mask':{'path':str(a.mask),'sha256':sha(a.mask)},'lulc':sha(a.context/'lulc.tif'),'cn':sha(a.context/'cn.tif')},'output':{'terrain.tif':sha(out),'source-2015-mask.tif':sha(a.output/'source-2015-mask.tif')},'limits':['Gap terrain is a February 2015 survey, not 2021; changes between 2015 and 2021 inside the gap are not represented','10 m context only; route 1 m windows remain 2021']}
+ report={'status':'complete','kind':'gates_context_terrain_mixed_vintage','filledPixels':int(gap.sum()),'listedGapPixels':listed,'edgePixelsAdded':int(gap.sum())-listed,'edgeRule':(f'every empty cell touched by {a.domain.name} buffered {a.buffer_m:g} m' if a.domain else None),'filledKm2':float(gap.sum()*100/1e6),'remainingGapPixels':0,'originalValidPixelsUnchanged':True,'source':SOURCE,'sourceHorizontalCrs':srcCrs,'outputHorizontalCrs':str(d.crs),'method':'Standard GDAL WarpedVRT bilinear 1 m to 10 m, same as the 2021 context patches; no interpolation across the gap, no conditioning or burning','why2015':'USGS AZ_PimaCounty_2021_B21 tile x47y357 returns nodata for all 74,221 gap pixels (checked by window read); the 2015 USGS 3DEP 1 m product covers all of them. The 2011 1/9 arc-second product is older and coarser.','seamCheck':seam,'inputs':{'merged2021':{'path':str(a.merged),'sha256':sha(a.merged)},'mask':{'path':str(a.mask),'sha256':sha(a.mask)},'lulc':sha(a.context/'lulc.tif'),'cn':sha(a.context/'cn.tif')},'output':{'terrain.tif':sha(out),'source-2015-mask.tif':sha(a.output/'source-2015-mask.tif')},'limits':['Gap terrain is a February 2015 survey, not 2021; changes between 2015 and 2021 inside the gap are not represented','10 m context only; route 1 m windows remain 2021']}
  (a.output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8');print(json.dumps({k:report[k] for k in ['status','filledPixels','seamCheck']}))
 if __name__=='__main__':main()

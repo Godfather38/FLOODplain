@@ -123,6 +123,67 @@
     "path": "tools/sfincs/data/picture-rocks-result-41382872468/compact/geometry.bin.gz",
     "sha256": "63e8ff89a772fb9f1a3775bbc0f2d54a9b188efd03b2614c75d2769593ef7fca"
    }
+  },
+  {
+   "case": "gates",
+   "modelVersion": "all-routes-gates-full-v3",
+   "caseManifest": "tools/sfincs/data/all-route-ready-v3/gates-full-native-case-v3/manifest.json",
+   "archiveSha256": "67ee11150eeaf08c0ddc6596509effdd461e03a4ec6133e73aabf95e15a99ea2",
+   "meshSha256": "7f99f1da7d0086c3a4f19e92698048f726ef25ca0c0dcc783568a1910b4139ff",
+   "bounds32612": [
+    473523.5,
+    3559348.5,
+    507391.0,
+    3588298.2
+   ],
+   "inlets": [
+    {
+     "reachId": "15876787",
+     "x": 476053.4,
+     "y": 3570867.4
+    },
+    {
+     "reachId": "15876869",
+     "x": 480229.7,
+     "y": 3561540.7
+    },
+    {
+     "reachId": "15876837",
+     "x": 479383.1,
+     "y": 3563100.4
+    },
+    {
+     "reachId": "15876849",
+     "x": 481011.9,
+     "y": 3561102.9
+    },
+    {
+     "reachId": "15876859",
+     "x": 478600.3,
+     "y": 3565012.2
+    },
+    {
+     "reachId": "15876863",
+     "x": 478866.1,
+     "y": 3564117.8
+    },
+    {
+     "reachId": "15877627",
+     "x": 477030.1,
+     "y": 3568184.0
+    },
+    {
+     "reachId": "15903611",
+     "x": 501641.0,
+     "y": 3564500.6
+    },
+    {
+     "reachId": "15903627",
+     "x": 501641.0,
+     "y": 3564500.6
+    }
+   ],
+   "inletCheck": "sfincs.src within 0.1 m of boundary-placement.json; each sfincs.dis column equals that reach's frozen series"
   }
  ]
 }

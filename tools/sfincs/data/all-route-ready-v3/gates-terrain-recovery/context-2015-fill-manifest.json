@@ -1,0 +1,63 @@
+{
+  "status": "complete",
+  "kind": "gates_context_terrain_mixed_vintage",
+  "filledPixels": 95919,
+  "listedGapPixels": 74221,
+  "edgePixelsAdded": 21698,
+  "edgeRule": "every empty cell touched by gates-domain.geojson buffered 200 m",
+  "filledKm2": 9.5919,
+  "remainingGapPixels": 0,
+  "originalValidPixelsUnchanged": true,
+  "source": {
+    "Name": "AZ_Eastern_PimaCO_2015",
+    "OBJECTID": 125309,
+    "ProductName": "USGS_3DEP 1 m",
+    "StartDate": 20150220,
+    "EndDate": "20150226",
+    "VerticalDatum": "North American Vertical Datum of 1988 (NAVD 88)",
+    "URL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x47y357_AZ_Eastern_PimaCO_2015.tif",
+    "query": "../all-route-ready-v3/gates-terrain-recovery/residual-all-source-query.json"
+  },
+  "sourceHorizontalCrs": "EPSG:26912",
+  "outputHorizontalCrs": "EPSG:32612",
+  "method": "Standard GDAL WarpedVRT bilinear 1 m to 10 m, same as the 2021 context patches; no interpolation across the gap, no conditioning or burning",
+  "why2015": "USGS AZ_PimaCounty_2021_B21 tile x47y357 returns nodata for all 74,221 gap pixels (checked by window read); the 2015 USGS 3DEP 1 m product covers all of them. The 2011 1/9 arc-second product is older and coarser.",
+  "seamCheck": {
+    "pixels": 19202,
+    "ringWidthM": 200,
+    "diff2015minus2021M": {
+      "median": 0.12176513671875,
+      "mean": 0.14178106027672085,
+      "p05": 0.01959228515625,
+      "p95": 0.23564758300781263,
+      "maxAbs": 2.5496826171875
+    }
+  },
+  "inputs": {
+    "merged2021": {
+      "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\remaining-terrain-audit\\alternatives\\prepared-2021-v1\\terrain-context-2021-v2.tif",
+      "sha256": "9906325dc89aee6f797c47b7fd534633c64b4ceb91f805a0d54dd5d73f04d01b"
+    },
+    "mask": {
+      "path": "tools\\sfincs\\data\\all-route-ready-v3\\gates-terrain-recovery\\gates-missing-mask-v2.tif",
+      "sha256": "5458977300a60345c51032715244723d0a9a40fd05d975023338d8a16f628f75"
+    },
+    "lulc": "d2d6a84c5c0656caf1916e1d49fc6077019c858e6b769552a16ab26dc81688a1",
+    "cn": "a489804f576374028966937daead80bdc56060dcc480f8b63d317094ba314e03"
+  },
+  "output": {
+    "terrain.tif": "eb0c17ff422731ab9567f8359ff1025000d936638e1445de39c189d4d7a3d77f",
+    "source-2015-mask.tif": "b81f39234319c829d0d2d8a8ef1a68fd297c4789135d5446f4f1880a95076c39"
+  },
+  "limits": [
+    "Gap terrain is a February 2015 survey, not 2021; changes between 2015 and 2021 inside the gap are not represented",
+    "10 m context only; route 1 m windows remain 2021"
+  ],
+  "committedPatch": {
+    "path": "context-2015-gap-patch.tif",
+    "sha256": "9d610fdbfcdde1022446517154f88fd0db31d1f3753069a4a0a3629ce56b557e",
+    "validCells": 95919
+  },
+  "tool": "tools/sfincs/fill_gates_context_gap.py",
+  "firstAttempt": "Filling only the 74,221 listed cells left 661 empty edge cells inside the v3 domain; the subgrid builder rejected it. This version adds every empty cell within the domain plus 200 m."
+}
