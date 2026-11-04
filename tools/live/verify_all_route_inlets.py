@@ -9,6 +9,7 @@ column must equal that reach's frozen NWM series.
 import hashlib, io, json, tarfile
 from pathlib import Path
 import numpy as np
+from pyproj import Transformer
 
 DATA = Path('tools/sfincs/data')
 TOPO = DATA / 'all-route-ready-v3/topology-version3'
@@ -40,6 +41,14 @@ def frozen_series(prefix):
     return out
 
 
+def bounds32612(prefix):
+    feats = json.loads((TOPO / f'{prefix}-domain.geojson').read_text())['features']
+    flat = lambda c: [c] if isinstance(c[0], (int, float)) else [q for x in c for q in flat(x)]
+    lonlat = np.array([q[:2] for f in feats for q in flat(f['geometry']['coordinates'])])
+    x, y = Transformer.from_crs(4326, 32612, always_xy=True).transform(lonlat[:, 0], lonlat[:, 1])
+    return [round(float(v), 1) for v in (x.min(), y.min(), x.max(), y.max())]
+
+
 def main():
     rows = []
     for name, manifest, prefix, result in CASES:
@@ -61,7 +70,7 @@ def main():
         if sorted(r['reachId'] for r in reaches) != sorted(i['reachId'] for i in registry['externalInlets']):
             raise ValueError(f'{name}: inlets differ from the registry')
         row = {'case': name, 'modelVersion': m['modelVersion'], 'caseManifest': str(path.as_posix()), 'archiveSha256': m['archiveSha256'],
-               'meshSha256': mesh_sha, 'inlets': reaches, 'inletCheck': 'sfincs.src within 0.1 m of boundary-placement.json; each sfincs.dis column equals that reach\'s frozen series'}
+               'meshSha256': mesh_sha, 'bounds32612': bounds32612(prefix), 'inlets': reaches, 'inletCheck': 'sfincs.src within 0.1 m of boundary-placement.json; each sfincs.dis column equals that reach\'s frozen series'}
         if result:
             res = DATA / result
             row['faceMapping'] = {'path': (res / 'output-to-source-face-id.npy').as_posix(), 'sha256': sha((res / 'output-to-source-face-id.npy').read_bytes())}

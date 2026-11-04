@@ -7,6 +7,12 @@
    "caseManifest": "tools/sfincs/data/all-route-ready-v3/northern-native-case-v3/manifest.json",
    "archiveSha256": "48b184778f955b1f51ed4cfddd9d00bcef161e97454eeda00dfb3b102b6dbb77",
    "meshSha256": "767347482d73597a2455ef36942b252f50df13bda3cb59cb660e9c5e6731fe85",
+   "bounds32612": [
+    462548.5,
+    3570654.9,
+    498283.7,
+    3606869.9
+   ],
    "inlets": [
     {
      "reachId": "15876623",
@@ -65,6 +71,12 @@
    "caseManifest": "tools/sfincs/data/all-route-ready-v3/picture-rocks-native-case-v2/manifest.json",
    "archiveSha256": "626c29c306a3225641b57996b833f0531d25e9ae6bc72cdf2e6e5d1bbc632bdd",
    "meshSha256": "76b60da1bcceacd448d3817f1ec28383dfc475bbd9a10d86d419a280558059a0",
+   "bounds32612": [
+    467770.4,
+    3570535.6,
+    499690.4,
+    3606869.9
+   ],
    "inlets": [
     {
      "reachId": "15902387",

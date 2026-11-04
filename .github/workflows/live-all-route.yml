@@ -1,0 +1,139 @@
+name: Live all-route SFINCS when rain is forecast
+# The three all-route cases (6.25 m road cells) with current HRRR rain and NWM flow, one parallel
+# job per case, published to the `live-model` branch under all-route/<case>/ in the same compact
+# format as the frozen results. The hourly live-sfincs job checks the newest HRRR cycle and starts
+# this workflow only for cases whose domain gets at least the threshold rain in the next 18 hours.
+# Start it by hand with `cases` to run without rain (for a timing check).
+on:
+  # A push to these files registers the workflow (and checks the newest cycle once).
+  push:
+    branches: [claude/all-route-expansion-78d5d4, experiment/live-sfincs]
+    paths: [.github/workflows/live-all-route.yml]
+  workflow_dispatch:
+    inputs:
+      cycle:
+        description: 'HRRR cycle, e.g. 2026-11-03T22:00:00Z (empty: newest)'
+        default: ''
+      cases:
+        description: 'Comma-separated cases to run regardless of rain (empty: only cases with rain)'
+        default: ''
+      threshold_mm:
+        description: 'Largest one-hour HRRR rain over a case domain that starts its run'
+        default: '1.0'
+      solver_cap_seconds:
+        description: 'Solver time limit per case'
+        default: '5400'
+permissions:
+  contents: write
+  actions: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    outputs:
+      cycle: ${{ steps.check.outputs.cycle }}
+      cases: ${{ steps.check.outputs.cases }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy h5py eccodes
+      - name: Rain over each case domain
+        id: check
+        env:
+          CYCLE: ${{ inputs.cycle }}
+          CASES: ${{ inputs.cases }}
+          THRESHOLD: ${{ inputs.threshold_mm || '1.0' }}
+        run: |
+          python tools/live/run_live_all_route.py check check.json "$THRESHOLD"
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          c = json.load(open('check.json'))
+          forced = [x.strip() for x in os.environ['CASES'].split(',') if x.strip()]
+          print('cycle=' + (os.environ['CYCLE'] or c['hrrrCycle']))
+          print('cases=' + json.dumps(forced or c['run']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rain-check
+          path: check.json
+          retention-days: 7
+  run:
+    needs: check
+    if: needs.check.outputs.cases != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        case: ${{ fromJSON(needs.check.outputs.cases) }}
+    # One running and one waiting run per case; a newer cycle replaces the waiting one.
+    concurrency:
+      group: live-all-route-${{ matrix.case }}
+      cancel-in-progress: false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      OMP_NUM_THREADS: '4'
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libnetcdf-dev libgfortran5 libgomp1
+          python -m pip install numpy h5py eccodes
+      - name: Find the newest saved engine
+        id: engine
+        run: |
+          id=$(gh api "repos/${{ github.repository }}/actions/artifacts?name=sfincs-engine&per_page=20" --jq '[.artifacts[]|select(.expired|not)][0].workflow_run.id')
+          echo "run=${id:-41290378239}" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        with:
+          name: sfincs-engine
+          path: engine-download
+          run-id: ${{ steps.engine.outputs.run }}
+          github-token: ${{ github.token }}
+      - name: Verify the pinned engine
+        run: |
+          mkdir engine && tar -xzf engine-download/sfincs-engine.tar.gz -C engine
+          (cd engine && sha256sum -c SHA256SUMS)
+          test "$(cat engine/SOURCE_COMMIT)" = f3647fc0289bb15cb2512d60686cef74cb853c78
+          echo "c4917bc54158b0943d6d128b45c4346a33d059fb5d93808d05520c975e38f090  engine/sfincs" | sha256sum -c -
+      - name: Prepare current forcing
+        run: |
+          s=$(date +%s)
+          python tools/live/run_live_all_route.py prepare "${{ matrix.case }}" work "${{ needs.check.outputs.cycle }}"
+          echo "PREPARE_SECONDS=$(( $(date +%s) - s ))" >> "$GITHUB_ENV"
+      - name: Run the solver
+        run: |
+          s=$(date +%s)
+          (cd work && GFORTRAN_UNBUFFERED_ALL=y timeout "${{ inputs.solver_cap_seconds || '5400' }}" "$GITHUB_WORKSPACE/engine/sfincs" > solver.log 2>&1) || echo "solver exited $?"
+          echo "SOLVER_SECONDS=$(( $(date +%s) - s ))" >> "$GITHUB_ENV"
+          tail -5 work/solver.log
+      - name: Export and publish
+        run: |
+          python tools/live/run_live_all_route.py export "${{ matrix.case }}" work out
+          cp work/live-case.json out/
+          python - <<'PY'
+          import json, os
+          p = 'out/manifest.json'; m = json.load(open(p))
+          m['timing'] = {'prepareSeconds': int(os.environ['PREPARE_SECONDS']), 'solverWallSeconds': int(os.environ['SOLVER_SECONDS']),
+                         'ompThreads': int(os.environ['OMP_NUM_THREADS']), 'runner': 'ubuntu-24.04 GitHub-hosted', 'workflowRun': os.environ['GITHUB_RUN_ID']}
+          json.dump(m, open(p, 'w'), indent=1)
+          print(json.dumps({k: m[k] for k in ('runId', 'status', 'validFrom', 'validTo', 'timing')}))
+          PY
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash tools/live/publish_live_model.sh out "all-route/${{ matrix.case }}/compact" "Live all-route ${{ matrix.case }} for HRRR ${{ needs.check.outputs.cycle }}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-${{ matrix.case }}-logs
+          path: |
+            work/solver.log
+            work/live-case.json
+            out/manifest.json
+          retention-days: 7

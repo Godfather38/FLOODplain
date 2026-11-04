@@ -73,9 +73,15 @@ jobs:
                 tail -5 work/solver.log
                 rm -rf out && python tools/live/run_live_sfincs.py export work out
                 cp work/live-case.json out/
-                rm -rf pub && mkdir -p pub/live && cp out/* pub/live/
-                (cd pub && git init -q -b live-model && git add -A && git commit -qm "Live SFINCS run for HRRR $cycle" \
-                  && git push -qf "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" live-model)
+                # Replaces only live/, so the all-route folders stay.
+                bash tools/live/publish_live_model.sh out live "Live SFINCS run for HRRR $cycle" || echo "publish failed"
+                # The all-route cases (6.25 m road cells) run in their own parallel jobs, only when rain is forecast.
+                if python tools/live/run_live_all_route.py check all-route-check.json "${ALL_ROUTE_THRESHOLD_MM:-1.0}"; then
+                  cases=$(python -c "import json;print(','.join(json.load(open('all-route-check.json'))['run']))")
+                  if [ -n "$cases" ]; then
+                    gh workflow run live-all-route.yml --ref "${GITHUB_REF_NAME}" -f cycle="$cycle" -f cases="$cases" && echo "Started all-route runs: $cases"
+                  fi
+                fi
                 last="$cycle"
               else echo "No new HRRR cycle since $last"; fi
             else echo "Prepare failed:"; cat prepare.json || true; fi
