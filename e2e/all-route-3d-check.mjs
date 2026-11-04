@@ -42,7 +42,7 @@ for(const [name,opts] of [['desktop',{viewport:{width:1600,height:900}}],['pixel
  await page.click('[data-m-play]');
  await page.waitForTimeout(10000);
  r.play=await f.evaluate(b=>{const t=window.world.diagnostics.frameTimes.slice();t.sort((a,b)=>a-b);return{from:b,frames:t.length,medianMs:t[t.length>>1],p95Ms:t[Math.floor(t.length*.95)],frameIndex:window.world.frameIndex,time:document.getElementById('time').textContent};},before);
- await page.click('[data-m-play]');
+ if(/Pause/.test(await page.getAttribute('[data-m-play]','aria-label')))await page.click('[data-m-play]');
  r.mem=await f.evaluate(()=>performance.memory?Math.round(performance.memory.usedJSHeapSize/1048576)+' MB':null);
  r.files=frames.length;
  // the last frame: Picture Rocks has none
