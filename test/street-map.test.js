@@ -74,5 +74,5 @@ test('the Map tab is a maps app: 2D model water on every base map, 3D as a layer
  assert.match(read('simulation/world-layer.js'),/preview\/geo3d\/world\.html\?embed=1/);
  const sim=await import(new URL('../public/simulation/sim-2d.js',import.meta.url));
  assert.equal(sim.depthBand(.005),-1);assert.equal(sim.depthBand(.0092),0);assert.equal(sim.depthBand(1),2);assert.equal(sim.depthBand(5),5);
- assert.deepEqual(sim.RUNS.map(r=>r.id),['live','13z','19z','stress','extreme']);
+ assert.deepEqual(sim.RUNS.map(r=>r.id),['live','13z','19z','allroutes','stress','extreme']);
 });

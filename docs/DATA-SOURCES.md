@@ -35,6 +35,7 @@ Nov 3, 2026. Add a row whenever a new source is wired in. "Where" names the file
 | FEMA NFHL | hazards.fema.gov | Mapped floodplains; used only in offline checks | `public/inundation/data/checks.json` |
 | Overture Maps (OpenStreetMap data) | 2026-10-21.0 release | Route lines and stream crossings | `tools/build_routes.py` |
 | Base maps | OpenFreeMap vector tiles, OpenStreetMap tiles, Esri World Imagery | Street map, OpenStreetMap and Satellite map types | `public/street-map.js`, `public/app.js`, `public/preview/geo3d/` |
+| All-route SFINCS results (our own saved run) | `tools/sfincs/data/{northern,picture-rocks,gates-supported}-result-*/compact/` on experiment/sfincs-engine at `3dce053` | The Nov 1 13Z all-route run, repackaged for display in `public/simulation/data/all-route-13z/` | `tools/all-route/build_web_package.py`, `public/simulation/all-route-run.js` |
 | SFINCS and HydroMT-SFINCS (Deltares) | github.com/Deltares/SFINCS at `f3647fc`, HydroMT-SFINCS 1.2.2 | The flood model and its setup tool | experiment/sfincs-engine |
 
 ## Known gaps

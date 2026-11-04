@@ -5,7 +5,7 @@ import {COVER_M} from './simulation/sim-2d.js?v=dev';
 import {canvasRatio} from './graphics.js?v=dev';
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
 const ft=m=>m/.3048;
-const hourText=t=>new Date(t).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric'});
+const hourText=t=>new Date(t).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:new Date(t).getUTCMinutes()?'2-digit':undefined});
 const num=(v,d=1)=>Number.isFinite(v)?v.toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d}):'–';
 
 // --- scenario deck ---
@@ -22,6 +22,8 @@ export function deckHtml(runs,current,live){
 // --- crossing scoreboard ---
 // over: water surface minus road height (m). Neutral words: water over the road, water near it, none.
 export function crossingWord(over){
+ // -Infinity: the model cell at the road holds no water (the all-route run's dry route cells).
+ if(over===-Infinity)return{cls:'dry',text:'No water at the road'};
  if(!Number.isFinite(over))return{cls:'none',text:'No model result'};
  if(over>COVER_M)return{cls:'over',text:`${num(ft(over),1)} ft over the road`};
  if(over>-.3)return{cls:'near',text:`Water within ${num(Math.max(0,ft(-over)),1)} ft of the road`};
@@ -34,10 +36,13 @@ export function scoreboardHtml(list,hour,times){
  const rows=[...inside].sort((a,b)=>(now(b)||-99)-(now(a)||-99)).map(c=>{
   const v=now(c),w=crossingWord(v),peakIdx=c.over.reduce((b,x,k)=>x>(c.over[b]??-99)?k:b,0),peak=c.over[peakIdx];
   const pct=Math.max(0,Math.min(100,(ft(v)+3)/6*100));
-  return `<button type="button" class="sim-row ${w.cls}" data-sim-crossing="${esc(c.fp.id)}"><span class="name">${esc(c.fp.short??c.fp.name)}<small>${c.road.deck?'Bridge deck':'Road'} ${num(ft(c.road.m),1)} ft NAVD88</small></span><span class="meter" aria-hidden="true"><i style="width:${pct}%"></i><b></b></span><span class="word">${w.text}</span><small class="peak">${peak>COVER_M?`Peak ${num(ft(peak),1)} ft over at ${hourText(times[peakIdx])}`:`Highest: ${crossingWord(peak).text.toLowerCase()}`}</small></button>`;
+  // The all-route run: each model area that has this crossing keeps its own value.
+  const area=k=>k.label.split(':')[0];
+  const cases=c.cases?`<small class="peak">${c.cases.map((k,n)=>`${esc(area(k))}${n?'':' (drawn for this route)'}: ${k.missing[hour]?'no result for this frame':crossingWord(k.over[hour]).text.toLowerCase()}`).join(' · ')}${c.cases.length>1?'. Separate models, not averaged.':''}</small>`:'';
+  return `<button type="button" class="sim-row ${w.cls}" data-sim-crossing="${esc(c.fp.id)}"><span class="name">${esc(c.fp.short??c.fp.name)}<small>${c.road.deck?'Bridge deck':'Road'} ${num(ft(c.road.m),1)} ft NAVD88</small></span><span class="meter" aria-hidden="true"><i style="width:${pct}%"></i><b></b></span><span class="word">${c.cases?.[0].missing[hour]?'No result for this frame':w.text}</span><small class="peak">${peak>COVER_M?`Peak ${num(ft(peak),1)} ft over at ${hourText(times[peakIdx])}`:`Highest: ${crossingWord(peak).text.toLowerCase()}`}</small>${cases}</button>`;
  }).join('');
  const outside=list.length-inside.length;
- return `<div class="sim-score"><div class="sim-big"><b>${overCount}</b><span>of ${inside.length} crossings with water over the road this hour</span></div>${rows}${outside?`<p class="sim-muted">${outside} crossing${outside>1?'s are':' is'} outside the model area.</p>`:''}<p class="sim-fig"><b>Table 2.</b> Water surface in the model cell at each crossing's road point minus the lidar road or bridge-deck height. The meter runs from 3 ft below the road to 3 ft over it.</p></div>`;
+ return `<div class="sim-score"><div class="sim-big"><b>${overCount}</b><span>of ${inside.length} crossings with water over the road this hour</span></div>${rows}${outside?`<p class="sim-muted">${outside} crossing${outside>1?'s are':' is'} outside the model area${list.some(c=>c.gap)?`s: ${esc(list.filter(c=>c.gap).map(c=>c.fp.short??c.fp.name).join(', '))} ${outside>1?'are':'is'} in the Gates terrain gap, not modelled`:''}.</p>`:''}<p class="sim-fig"><b>Table 2.</b> ${list.some(c=>c.quad)?"Water surface at each crossing's own route point (the exact value in its 6.25 m model cell)":"Water surface in the model cell at each crossing's road point"} minus the lidar road or bridge-deck height. The meter runs from 3 ft below the road to 3 ft over it.</p></div>`;
 }
 
 // --- timeline figure: rain from the top (a hyetograph), wet area from the bottom, river inflow as
@@ -78,7 +83,7 @@ export function methodsHtml(run,crossings){
  <h4>4 · Roads and crossings</h4>
  <p>Road surfaces every 5 m from USGS 3DEP 1 m lidar; bridge decks from the 2021 lidar's bridge-deck returns. Water over a road = model water surface − road height${crossings?`, at ${crossings.filter(c=>c.inside).length} crossings inside the model`:''}.</p>
  <table class="sim-table"><caption><b>Table 1.</b> The loaded run</caption><tbody>
- ${run?row('Run',esc(run.def.short??run.def.card?.short??run.def.label))+row('Hours',`${s.length} · ${s[0]?hourText(s[0].time):''} to ${s.at(-1)?hourText(s.at(-1).time):''} MST`)+row('Peak wet area',peak?`${num(peak.wetKm2,1)} km² at ${hourText(peak.time)}`:'–')+row('Deepest cell',`${num(ft(deep),1)} ft (cell average; pits and channels count)`)+row('Peak rain (model average)',`${num(Math.max(...s.map(v=>v.rainMmH))/25.4,2)} in/h`)+row('Peak river inflow',`${Math.round(Math.max(...s.map(v=>v.inflowM3s))*35.3147).toLocaleString()} ft³/s`):row('Run','Loading')}
+ ${run?row('Run',esc(run.def.short??run.def.card?.short??run.def.label))+(run.quad?row('Model areas',run.quad.cases.map(c=>`${esc(c.label)}: ${c.info.nativeCells.toLocaleString()} cells, ${c.info.frames.length} frames`).join('<br>'))+row('Cells','6.25 m on the roads up to 100 m (quadtree). The map draws 50 m blocks of stored water farther than 150 m from a route; route-point cells are always exact.'):'')+row(run.quad?'Frames':'Hours',`${s.length} · ${s[0]?hourText(s[0].time):''} to ${s.at(-1)?hourText(s.at(-1).time):''} MST`)+row('Peak wet area',peak?`${num(peak.wetKm2,1)} km² at ${hourText(peak.time)}`:'–')+row('Deepest cell',`${num(ft(deep),1)} ft (cell average; pits and channels count)`)+(run.quad?row('Rain and river inputs','HRRR 14Z rain and NWM 13Z inflows, not in the map package'):row('Peak rain (model average)',`${num(Math.max(...s.map(v=>v.rainMmH))/25.4,2)} in/h`)+row('Peak river inflow',`${Math.round(Math.max(...s.map(v=>v.inflowM3s))*35.3147).toLocaleString()} ft³/s`)):row('Run','Loading')}
  </tbody></table>
  <h4>5 · Limits</h4>
  <ul><li>100 m cells average the ground: a narrow dip can flood while its cell reads shallow.</li><li>No culverts or bridge openings are modeled.</li><li>Live runs cold-start from the warm-up; soil and channel state are model guesses.</li><li>What-if storms are deliberately rare. They are not forecasts.</li></ul>

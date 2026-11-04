@@ -32,6 +32,7 @@
    <label class="field-label" for="model">Model</label>
    <select id="model" class="run-select"><option value="2d">Simulated water · SFINCS</option><option value="hand">Modeled estimate · HAND</option><option value="aggregate">Simulated and modeled combined</option><option value="off">Off - no simulated water</option></select>
    <p id="model-note" class="meta"></p>
+   <div id="overlap-row" hidden><label class="field-label" for="overlap">Where model areas overlap, draw</label><select id="overlap" class="run-select"><option value="nearest">The area built for the nearest route</option><option value="northern">Northern first</option><option value="picture-rocks">Picture Rocks first</option><option value="gates">Gates first</option></select></div>
    <div class="seg base-seg" role="tablist" aria-label="Map view"><button data-base="street" role="tab" aria-selected="true">Street map</button><button data-base="satellite" role="tab" aria-selected="false">Satellite</button></div>
    <label class="switch-row"><input id="rain" type="checkbox" checked><span>Rain</span></label>
    <p id="rain-now" class="meta"></p>

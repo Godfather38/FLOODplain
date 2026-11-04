@@ -10,6 +10,7 @@ import {decodeRoadHeights,roadPackage} from '../preview/geo3d/src/road-package.j
 import {loadHand,flowsForRun,handHour,windowBounds,HAND_COLORS,isSantaCruz,useFetcher} from './hand-runs.js?v=dev';
 export {loadHand,flowsForRun,HAND_COLORS,isSantaCruz};
 import {canvasRatio} from '../graphics.js?v=dev';
+import {openAllRoute,createQuadPainter} from './all-route-run.js?v=dev';
 export {RUNS};
 const DATA=new URL('./data/',import.meta.url);
 // Depth bands in feet, the same as the app's simulated-water key.
@@ -73,6 +74,7 @@ function cellsOf(vertices){
 let baseCells=null;
 // A run, ready for the 2D map: depth per cell per hour, rain and inflow. HAND comes from hand-runs.js.
 export async function loadRun2d(def){
+ if(def.quad)return loadQuad(def);
  if(def.live){
   const bust='?t='+Math.floor(Date.now()/120000);
   const manifest=await fetchJson(LIVE+'manifest.json'+bust).catch(()=>{throw new Error('The live model feed did not answer.');});
@@ -102,6 +104,17 @@ function build(def,cells,waterFrames,rainJson,series,handJson){
  const rain=rainJson?parseRain(rainJson):null;
  return{def,cells,times,surface,depth,rain,inflow,hand,riverM3s,series:hourSeries({cells,times,depth,rain,inflow})};
 }
+// The all-route run (all-route-run.js): three model areas on quadtree cells, frames loaded one
+// at a time. Rain and river inputs are not in its display package, so they read as unknown (NaN).
+async function loadQuad(def){
+ const quad=await openAllRoute({variant:'web',fetchBytes:url=>fetchBytes(url)});
+ const series=quad.series().map(v=>({...v,rainMmH:NaN,inflowM3s:NaN}));
+ // Each cell's corners on the map, worked out once while the run loads.
+ const painter=createQuadPainter(quad,{colors:DEPTH_COLORS,bandOf:m=>depthBand(m)});
+ return{def,quad,painter,cells:null,times:quad.times,frameHours:quad.frameMs/3600e3,series,rain:null,inflow:[],hand:null,riverM3s:quad.times.map(()=>0)};
+}
+// After the overlap choice changes: the timeline counts each place once under the new order.
+export function setQuadOrder(run,mode){run.quad.setMode(mode);run.series=run.quad.series().map(v=>({...v,rainMmH:NaN,inflowM3s:NaN}));}
 // The model cell holding a UTM point, or -1 outside the model.
 export function cellAt(cells,e,n){const k=cells.index.get(Math.floor((e-GRID.x0)/100)*1000+Math.floor((n-GRID.y0)/100));return k??-1;}
 // Per hour, for the timeline: wet area (km²), deepest cell (m), rain averaged over the model
@@ -132,6 +145,19 @@ export function crossingsFor(run,points,pkg){
  return points.map(fp=>{
   const u=toUtm(fp.lon,fp.lat),bridge=fp.kind==='bridge'||fp.kind==='river';let road=null;
   if(pkg&&bridge){const d=near(pkg.decks,u.e,u.n,80)[0]?.p;if(d)road={m:d.m,e:d.x,n:d.z,deck:true,source:'Bridge deck, USGS 3DEP 2021 lidar'};}
+  if(run.quad){
+   // 6.25 m cells sit on the road, so the road height is the lidar road surface at the route point
+   // itself (nearest 5 m station within 25 m), not the lowest road nearby. A cell with less than
+   // 0.03 ft of water is dry: its water surface is only the cell's ground, so it counts as no water.
+   if(pkg&&!road&&!bridge){const at=near(pkg.stations.filter(s=>fp.routes.includes(s.route)&&!s.deck),u.e,u.n,25)[0]?.p;if(at)road={m:at.m,e:at.x,n:at.z,deck:false,source:'Road surface at the route point, USGS 3DEP 1 m lidar'};}
+   // The exact water surface at this crossing's own route point, from each model area that has it.
+   // The first listed is the area built for this crossing's routes; another area's value stays beside it.
+   const list=run.quad.pointSeries(fp.id).sort((a,b)=>Number(b.routes.includes(fp.routes[0]))-Number(a.routes.includes(fp.routes[0])));
+   if(!list.length)return{fp,inside:false,gap:true};
+   road??={m:NaN,deck:false,source:'No lidar road height at the route point'};
+   const cases=list.map(c=>({key:c.key,label:c.label,over:c.zs.map((z,k)=>Number.isNaN(z)?NaN:c.depth[k]<.0091?-Infinity:z-road.m),missing:c.zs.map(Number.isNaN)}));
+   return{fp,inside:true,road,cell:-1,over:cases[0].over,cases,quad:true};
+  }
   if(pkg&&!road&&!bridge){const low=near(pkg.stations.filter(s=>fp.routes.includes(s.route)&&!s.deck),u.e,u.n,100).reduce((a,o)=>!a||o.p.m<a.m?o.p:a,null);if(low)road={m:low.m,e:low.x,n:low.z,deck:false,source:'Lowest road surface within 100 m, USGS 3DEP 1 m lidar'};}
   const at=road??{e:u.e,n:u.n},cell=cellAt(run.cells,at.e,at.n);
   if(cell<0)return{fp,inside:false};
@@ -149,6 +175,24 @@ export function createSimLayer(L,map){
  const pane=map.getPane('simWater'),canvas=document.createElement('canvas');canvas.className='sim-canvas';pane.append(canvas);
  const flowLayer=L.layerGroup().addTo(map);
  let run=null,clock=0,show={water:true,hand:false,rain:true,flow:true},frame=0,junctions=null,flows=null;
+ // The all-route run's labels: each model area's name, its missing frame, and the Gates terrain gap.
+ const quadLabels=L.layerGroup().addTo(map);let quadLabelKey='',frameWait=null;
+ // Frames of the all-route run load one at a time: the two at the clock first, then two ahead.
+ function needFrames(){
+  const q=run.quad,i=Math.min(run.times.length-1,Math.floor(clock)),j=Math.min(run.times.length-1,i+1);
+  const now=[i,j].filter(fi=>q.cases.some(c=>c.byTime.has(q.iso[fi])&&q.peek(c,fi)===undefined));
+  if(now.length&&!frameWait){const r=run;frameWait=Promise.all(now.map(fi=>q.ensure(fi))).then(()=>{frameWait=null;if(run===r)draw();},e=>{frameWait=null;error?.(e);});}
+  if(!now.length)for(const fi of [j+1,j+2])if(fi<run.times.length)q.ensure(fi).catch(()=>{});
+  const key=run.def.id+'|'+q.missingAt(i).map(c=>c.key).join();
+  if(key!==quadLabelKey){quadLabelKey=key;quadLabels.clearLayers();
+   const label=(ll,cls,html)=>L.marker(ll,{interactive:false,keyboard:false,icon:L.divIcon({className:'live-reading quad-label '+cls,html:`<span>${html}</span>`,iconSize:[0,0]})}).addTo(quadLabels);
+   q.pkg.cases.forEach((info,ci)=>{const absent=!q.cases[ci].byTime.has(q.iso[i]);
+    label(info.labelAt,absent?'quad-missing':'',absent?`${info.label}: no result for this frame. The run stopped at its time limit before ${new Date(q.times[i]).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:'2-digit'})} MST.`:`${info.label.split(':')[0]} model area`);});
+   const g=q.pkg.gatesGap,c=q.gap.features[0]?.geometry,ring=c&&(c.type==='MultiPolygon'?c.coordinates[0][0]:c.coordinates[0]);
+   if(ring){const lat=ring.reduce((a,p)=>a+p[1],0)/ring.length,lon=ring.reduce((a,p)=>a+p[0],0)/ring.length;label([lat,lon],'quad-gap',`Not modelled: ${g.areaKm2.toFixed(1)} km² terrain gap in the Gates area. ${g.uncoveredRoutePoints} route points here have no model result.`);}
+  }
+ }
+ let error=null;
  const at=()=>{const i=Math.min(run.times.length-1,Math.floor(clock)),j=Math.min(run.times.length-1,i+1);return{i,j,f:clock-i};};
  function depthAt(k){const {i,j,f}=at(),a=run.depth[i][k],b=run.depth[j][k];return Number.isNaN(a)?NaN:a+((Number.isNaN(b)?a:b)-a)*f;}
  function time(){const {i,j,f}=at();return run.times[i]+(run.times[j]-run.times[i])*f;}
@@ -161,6 +205,7 @@ export function createSimLayer(L,map){
   L.DomUtil.setPosition(canvas,map.containerPointToLayerPoint([0,0]));
   const ctx=canvas.getContext('2d');ctx.setTransform(ratio,0,0,ratio,0,0);ctx.clearRect(0,0,size.x,size.y);
   if(!run)return;
+  if(run.quad)needFrames();
   const t=time(),b=map.getBounds().pad(.05);
   // Rain first, softly, so water reads on top of it.
   if(show.rain&&run.rain){
@@ -189,7 +234,11 @@ export function createSimLayer(L,map){
     ctx.setLineDash(im.noFlow?[3,4]:[]);ctx.strokeStyle=im.noFlow?'rgba(90,90,90,.55)':'rgba(15,111,106,.75)';ctx.lineWidth=1;ctx.strokeRect(p.x+.5,p.y+.5,q.x-p.x,q.y-p.y);ctx.setLineDash([]);
    }
   }
-  if(show.water){
+  if(show.water&&run.quad){
+   run.painter.paintOutlines(ctx,map,Math.min(run.times.length-1,Math.round(clock)));
+   run.painter.paint(ctx,map,clock,size);
+  }
+  if(show.water&&!run.quad){
    const {box,n}=run.cells,south=b.getSouth(),north=b.getNorth(),west=b.getWest(),east=b.getEast();ctx.globalAlpha=.82;
    for(let k=0;k<n;k++){
     if(box[k*4+2]<south||box[k*4]>north||box[k*4+3]<west||box[k*4+1]>east)continue;
@@ -230,19 +279,23 @@ export function createSimLayer(L,map){
    const sc=hh.shown.find(x=>isSantaCruz(x.j)&&Number.isFinite(x.q));
    return{...hh,source:flows.f.source,kind:flows.f.kind,riverM3s:sc?.q??null};
   },
-  setRun(r){run=r;clock=Math.min(clock,r.times.length-1);lastFlowHour=-1;draw();drawFlow();},
+  setRun(r){run=r;clock=Math.min(clock,r.times.length-1);lastFlowHour=-1;quadLabelKey='';quadLabels.clearLayers();draw();drawFlow();},
+  onError(fn){error=fn;},
   setClock(c){if(!run)return;clock=Math.max(0,Math.min(run.times.length-1,c));draw();const h=Math.floor(clock);if(h!==lastFlowHour){lastFlowHour=h;drawFlow();}},
   set(key,on){show[key]=on;draw();if(key==='flow')drawFlow();},
-  show(on){pane.style.display=on?'':'none';on?map.addLayer(flowLayer):map.removeLayer(flowLayer);},
+  show(on){pane.style.display=on?'':'none';on?map.addLayer(flowLayer):map.removeLayer(flowLayer);on?map.addLayer(quadLabels):map.removeLayer(quadLabels);},
   get run(){return run;},get clock(){return clock;},time:()=>run?time():null,
   // Simulated depth at a place, for the readout when the map is tapped.
   depthAt(lat,lon){
-   if(!run)return null;const u=toUtm(lon,lat),k=cellAt(run.cells,u.e,u.n);
+   if(!run)return null;
+   if(run.quad){const fi=Math.min(run.times.length-1,Math.round(clock)),list=run.quad.valuesAt(lat,lon,fi);return list.length?{quad:list,depth:list.find(v=>v.drawn)?.depth??NaN,cell:-1}:null;}
+   const u=toUtm(lon,lat),k=cellAt(run.cells,u.e,u.n);
    return k<0?null:{depth:depthAt(k),cell:k};
   },
   // Corners of every cell deeper than the threshold now, for "fit water".
   wetBounds(minM=.3){
-   if(!run)return null;const {box,n}=run.cells;let s=90,w=180,no=-90,e=-180,any=false;
+   if(!run)return null;if(run.quad)return run.painter.wetBounds(clock,minM);
+   const {box,n}=run.cells;let s=90,w=180,no=-90,e=-180,any=false;
    for(let k=0;k<n;k++){const d=depthAt(k);if(!(d>=minM))continue;any=true;s=Math.min(s,box[k*4]);w=Math.min(w,box[k*4+1]);no=Math.max(no,box[k*4+2]);e=Math.max(e,box[k*4+3]);}
    return any?[[s,w],[no,e]]:null;
   },

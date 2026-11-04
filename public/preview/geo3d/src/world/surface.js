@@ -7,9 +7,15 @@ import * as THREE from 'three/webgpu';
 import {Fn,uniform,float,fract,vec2,vec3,vec4,ivec2,color,texture,textureLoad,attribute,positionLocal,modelWorldMatrix,varying,mix,smoothstep,clamp,max,floor,normalize,dot,select,fwidth,reflect,pow,cameraPosition} from 'three/tsl';
 import {GRID} from '../run-data.js';
 import {W,H,STEP,SIZE_X,SIZE_Z} from './heights.js';
-export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exaggeration,showDepth,handPx=1600}){
+export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exaggeration,showDepth,handPx=1600,finePx=2048}){
  // water: 1 draws the SFINCS water, 0 leaves bare ground. hand: strength of the HAND extent tint.
- const U={alpha:uniform(0),time:uniform(0),E:uniform(exaggeration),show:uniform(showDepth),water:uniform(1),hand:uniform(0),sun:uniform(new THREE.Vector3(-.45,.8,-.35).normalize())};
+ // fine: 1 draws the all-route run's water from the fine depth pictures instead of the 100 m grid.
+ const U={alpha:uniform(0),time:uniform(0),E:uniform(exaggeration),show:uniform(showDepth),water:uniform(1),hand:uniform(0),fine:uniform(0),sun:uniform(new THREE.Vector3(-.45,.8,-.35).normalize())};
+ // The all-route run's water for two frames: depth per pixel over the whole rectangle, coded in
+ // one byte (0 = no water, 1-255 = sqrt of depth up to 16 m), mipmapped so it reads zoomed out.
+ const fineW=finePx,fineH=Math.round(finePx*SIZE_Z/SIZE_X);
+ const fineTex=()=>{const t=new THREE.DataTexture(new Uint8Array(fineW*fineH),fineW,fineH,THREE.RedFormat,THREE.UnsignedByteType);t.magFilter=THREE.LinearFilter;t.minFilter=THREE.LinearMipmapLinearFilter;t.generateMipmaps=true;t.needsUpdate=true;return t;};
+ const fineA=fineTex(),fineB=fineTex();
  // The HAND modeled extent for the hour, painted on a canvas over the whole model rectangle.
  const handCanvas=document.createElement('canvas');handCanvas.width=handPx;handCanvas.height=Math.round(handPx*SIZE_Z/SIZE_X);
  const handTex=new THREE.CanvasTexture(handCanvas);handTex.flipY=false;
@@ -36,6 +42,9 @@ export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exagger
  const pick=(a,b)=>select(a.lessThan(-1e4),b,select(b.lessThan(-1e4),a,mix(a,b,U.alpha)));
  const levelA_=cellValue(texA,-1e4),levelB_=cellValue(texB,-1e4),shareA_=cellValue(shareTexA,-1),shareB_=cellValue(shareTexB,-1);
  const level=Fn(([xz])=>pick(levelA_(xz),levelB_(xz)));
+ const fineUv=xz=>vec2(xz.x.add(SIZE_X/2).div(SIZE_X),xz.y.add(SIZE_Z/2).div(SIZE_Z));
+ const decode=v=>select(v.lessThan(.5/255),float(-1),pow(v.mul(255).sub(1).div(254).max(0),2).mul(16));
+ const fineDepth=Fn(([xz])=>{const uv=fineUv(xz);return mix(decode(texture(fineA,uv).r),decode(texture(fineB,uv).r),U.alpha);});
  const share=Fn(([xz])=>max(pick(shareA_(xz),shareB_(xz)),0));
  const worldXZ=modelWorldMatrix.mul(vec4(positionLocal,1)).xz;
  const blank=new THREE.DataTexture(new Uint8Array([239,232,216,255]),1,1);blank.needsUpdate=true;
@@ -43,13 +52,13 @@ export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exagger
  const mapNode=texture(blank).onObjectUpdate(({object})=>object.userData.map??blank);
  const make=()=>{
   const material=new THREE.MeshBasicNodeMaterial({side:THREE.DoubleSide});
-  const g=ground(worldXZ),depthHere=level(worldXZ).sub(g).mul(U.water);
+  const g=ground(worldXZ),depthHere=select(U.fine.greaterThan(.5),fineDepth(worldXZ),level(worldXZ).sub(g)).mul(U.water);
   // Deep water lifts the surface smoothly; shallow water leaves the ground's shape alone.
   const lift=smoothstep(.4,1.5,depthHere).mul(max(depthHere,0));
   material.positionNode=vec3(positionLocal.x,g.add(lift).mul(U.E).sub(attribute('skirt','float').mul(60)),positionLocal.z);
   const p=varying(worldXZ,'worldXZ'),uv=varying(positionLocal.xz.div(1000),'chunkUV');
   material.colorNode=Fn(()=>{
-   const here=ground(p),water=level(p),depth=select(U.water.greaterThan(.5),water.sub(here),float(-1));
+   const here=ground(p),water=level(p),depth=select(U.water.greaterThan(.5),select(U.fine.greaterThan(.5),fineDepth(p),water.sub(here)),float(-1));
    const dx=ground(p.add(vec2(STEP,0))).sub(ground(p.sub(vec2(STEP,0)))),dz=ground(p.add(vec2(0,STEP))).sub(ground(p.sub(vec2(0,STEP))));
    const normal=normalize(vec3(dx.mul(U.E).negate(),STEP*2,dz.mul(U.E).negate()));
    const light=dot(normal,U.sun).max(0).mul(.5).add(.58);
@@ -75,7 +84,7 @@ export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exagger
    const close=mix(land,waterColour,smoothstep(U.show.sub(edge),U.show.add(edge),depth));
    // Zoomed out, a pixel covers many 10 m samples: show the model cell's wet share instead.
    const summary=mix(land,mix(land.mul(.86),color('#2f8fb8'),.8),smoothstep(.02,.35,share(p)));
-   const modelled=mix(close,summary,smoothstep(10,30,footprint).mul(U.water));
+   const modelled=mix(close,summary,smoothstep(10,30,footprint).mul(U.water).mul(float(1).sub(U.fine)));
    // HAND keeps its own depth colours from the window images, with light diagonal stripes
    // (fading out when zoomed far out) so it never reads as SFINCS water.
    const handPx=texture(handTex,vec2(p.x.add(SIZE_X/2).div(SIZE_X),p.y.add(SIZE_Z/2).div(SIZE_Z)));
@@ -102,5 +111,7 @@ export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exagger
   }
   handTex.needsUpdate=true;
  }
- return{U,make,setHand,setHandImages,handCanvas,setLevels:(a,b,sa,sb)=>{texA.image.data=a;texB.image.data=b;shareTexA.image.data=sa;shareTexB.image.data=sb;for(const t of [texA,texB,shareTexA,shareTexB])t.needsUpdate=true;}};
+ // a, b: Uint8Array depth codes (fineW × fineH, row 0 = north) for this frame and the next.
+ function setFine(a,b){fineA.image.data=a;fineB.image.data=b;fineA.needsUpdate=true;fineB.needsUpdate=true;}
+ return{U,make,setHand,setHandImages,handCanvas,setFine,fineSize:{w:fineW,h:fineH},setLevels:(a,b,sa,sb)=>{texA.image.data=a;texB.image.data=b;shareTexA.image.data=sa;shareTexB.image.data=sb;for(const t of [texA,texB,shareTexA,shareTexB])t.needsUpdate=true;}};
 }

@@ -2,7 +2,7 @@
 // Picture Rocks switch, its routes as list rows, drop pins for the crossings on the safety screen,
 // and a card for each crossing that puts the road's height next to the model's water height.
 import * as THREE from 'three/webgpu';
-import {crossingStory,statusAt,COVER_M} from './crossing-story.js';
+import {crossingStory,quadStory,statusAt,COVER_M} from './crossing-story.js';
 const FT=3.28084,ft=m=>m==null?'—':`${(m*FT).toFixed(1)} ft`,el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const GLYPH={dip:'⌄',flat:'⌄',road:'⌄',bridge:'⌒',river:'≈'};
@@ -42,7 +42,8 @@ export function createRoutesUI({root,panelRoot,camera,config,routes,roads,world,
  // Road under model water, per route and hour: the road-height stations every 5 m (lidar road
  // surface, bridge decks at deck height) where the model has a cell, against the model level there.
  const samples=new Map(routes.features.map(f=>[f.properties.id,(roads?.stations??[]).filter(s=>s.route===f.properties.id&&inside(s.x,s.z)).map(s=>[s.x,s.z,s.m])]));
- function measureRoads(){roadWater=new Map([...samples].map(([id,pts])=>[id,run.samplers.map(s=>{let wet=0,deep=0;for(const [x,z,g] of pts){const d=s(x,z)-g;if(d>.15)wet++;if(d>.5)deep++;}return{wet:wet*5/1000,deep:deep*5/1000};})]));}
+ // The all-route run has exact values at its route points only, so it counts crossings, not road length.
+ function measureRoads(){if(run.quad){roadWater=new Map();return;}roadWater=new Map([...samples].map(([id,pts])=>[id,run.samplers.map(s=>{let wet=0,deep=0;for(const [x,z,g] of pts){const d=s(x,z)-g;if(d>.15)wet++;if(d>.5)deep++;}return{wet:wet*5/1000,deep:deep*5/1000};})]));}
  const km=v=>v>=1?v.toFixed(1)+' km':Math.round(v*1000/10)*10+' m';
  // Live ratings, as the app shows them: a number 1-5 on each pin and route.
  function showLive(){
@@ -55,13 +56,16 @@ export function createRoutesUI({root,panelRoot,camera,config,routes,roads,world,
    const points=FAILURE_POINTS.filter(fp=>fp.routes.includes(em.dataset.route)),over=points.filter(fp=>stories.get(fp.id)&&statusAt(stories.get(fp.id),frameIndex)==='over').length,modelled=points.filter(fp=>stories.get(fp.id)?.inside).length;
    const road=roadWater.get(em.dataset.route)?.[frameIndex],wet=road&&road.wet>=.05;
    const parts=[];if(over)parts.push(`${over} crossing${over===1?'':'s'} with water over the road`);if(wet)parts.push(`${km(road.wet)} of road under model water${road.deep>=.05?`, ${km(road.deep)} of it over 1.6 ft deep`:""}`);
-   em.textContent=!modelled&&!samples.get(em.dataset.route)?.length?'Outside the model area':parts.length?parts.join(' · ')+' this hour':'No model water over the road this hour';
+   const when=run?.quad?' this frame':' this hour';
+   em.textContent=!modelled&&(run?.quad||!samples.get(em.dataset.route)?.length)?'Outside the model area':parts.length?parts.join(' · ')+when:run?.quad?'No crossing with model water over the road'+when:'No model water over the road this hour';
    em.classList.toggle('warn',!!(over||wet));
    list.querySelector(`[data-route-dot="${em.dataset.route}"]`).className='dot '+(over?'danger':wet?'caution':modelled||samples.get(em.dataset.route)?.length?'ok':'');
   }
  }
  function setRun(nextRun){
-  run=nextRun;measureRoads();stories=new Map(FAILURE_POINTS.map(fp=>[fp.id,crossingStory(fp,{world,ground,inside,frames:run.frames,samplers:run.samplers,measured:run.measured,roads})]));
+  run=nextRun;measureRoads();
+  const own=fp=>(a,b)=>Number(b.routes.includes(fp.routes[0]))-Number(a.routes.includes(fp.routes[0]));
+  stories=new Map(FAILURE_POINTS.map(fp=>[fp.id,run.quad?quadStory(fp,{world,roads,series:run.quad.pointSeries(fp.id).sort(own(fp)),iso:run.quad.iso}):crossingStory(fp,{world,ground,inside,frames:run.frames,samplers:run.samplers,measured:run.measured,roads})]));
   if(openId)openDetail(openId);
  }
  function setFrame(i){
@@ -71,23 +75,36 @@ export function createRoutesUI({root,panelRoot,camera,config,routes,roads,world,
  }
  function chart(story){
   // Water level over the run against the road, in feet above the lowest value shown.
-  const vals=[...story.hours.map(h=>h.water).filter(v=>v!=null),story.road.m,story.groundM].filter(v=>v!=null&&Number.isFinite(v));
+  const vals=[...story.hours.map(h=>h.dry?null:h.water).filter(v=>v!=null),story.road.m,story.groundM].filter(v=>v!=null&&Number.isFinite(v));
   if(!vals.length)return'';
   const lo=Math.min(...vals)-.3,hi=Math.max(...vals)+.3,W=300,H=120,x=i=>8+i/(story.hours.length-1)*(W-16),y=v=>H-8-(v-lo)/(hi-lo)*(H-16);
-  const line=story.hours.map((h,i)=>h.water==null?null:`${x(i).toFixed(1)},${y(h.water).toFixed(1)}`),segments=[];let cur=[];
+  const line=story.hours.map((h,i)=>h.water==null||h.dry?null:`${x(i).toFixed(1)},${y(h.water).toFixed(1)}`),segments=[];let cur=[];
   for(const p of line){if(p)cur.push(p);else if(cur.length){segments.push(cur);cur=[];}}if(cur.length)segments.push(cur);
   const road=story.road.m!=null?`<line class="road" x1="8" x2="${W-8}" y1="${y(story.road.m)}" y2="${y(story.road.m)}"/>`:'';
   return`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Model water level by hour against the road height">
-   <line class="ground" x1="8" x2="${W-8}" y1="${y(story.groundM)}" y2="${y(story.groundM)}"/>${road}
+   ${story.groundM!=null?`<line class="ground" x1="8" x2="${W-8}" y1="${y(story.groundM)}" y2="${y(story.groundM)}"/>`:''}${road}
    ${segments.map(s=>`<polyline class="water" points="${s.join(' ')}"/>`).join('')}
    <line class="now" x1="${x(frameIndex)}" x2="${x(frameIndex)}" y1="4" y2="${H-4}"/></svg>
-   <div class="chart-key"><span class="k water">Model water level</span>${story.road.m!=null?'<span class="k road">Road</span>':''}<span class="k ground">Ground (model lidar)</span></div>`;
+   <div class="chart-key"><span class="k water">Model water level</span>${story.road.m!=null?'<span class="k road">Road</span>':''}${story.groundM!=null?'<span class="k ground">Ground (model lidar)</span>':''}</div>`;
  }
  function renderDetail(){
   const fp=FAILURE_POINTS.find(f=>f.id===openId),story=stories.get(openId);
   const routeId=fp.routes[0],hour=story?.hours?.[frameIndex];
   let body;
-  if(!story?.inside)body=`<p class="status none"><span class="dot"></span>${STATUS.outside}</p><p>The saved SFINCS runs compute about 297 km² of 100 m cells around the Santa Cruz River, Cortaro and Trico. This crossing is not in one of those cells, so the model has nothing to show here: not dry, just not modelled.</p>`;
+  if(!story?.inside)body=story?.gap?`<p class="status none"><span class="dot"></span>${STATUS.outside}</p><p>This crossing is in the Gates terrain gap: the Gates model area was built without 7.4 km² of surrounding terrain, so it has no result here. Not dry, just not modelled.</p>`:`<p class="status none"><span class="dot"></span>${STATUS.outside}</p><p>The saved SFINCS runs compute about 297 km² of 100 m cells around the Santa Cruz River, Cortaro and Trico. This crossing is not in one of those cells, so the model has nothing to show here: not dry, just not modelled.</p>`;
+  else if(story.quad){
+   const s=statusAt(story,frameIndex),vs=h=>h.over==null?'—':h.over===-Infinity?'Dry cell':(h.over>=0?'+':'−')+ft(Math.abs(h.over));
+   const other=story.others.map(o=>{const h=o.hours[frameIndex];return`<dt>${esc(o.label.split(':')[0])} model area</dt><dd><strong>${h.water==null?'No result':h.dry?'Dry cell':vs(h)}</strong><small>The same spot in a separate model area. Shown beside it, not averaged.</small></dd>`;}).join('');
+   body=`<p class="status ${TONE[s]}"><span class="dot ${TONE[s]}"></span>${hour.water==null?'No result for this frame':hour.dry?'No water in the model cell at the road':STATUS[s]}${s==='over'&&!hour.dry?`: ${ft(hour.over)} deep`:''}</p>
+   <dl class="heights">
+    <dt>Road height</dt><dd><strong>${ft(story.road.m)}</strong> NAVD88<small>${esc(story.road.source)}</small></dd>
+    <dt>Model water level now</dt><dd><strong>${hour.water==null||hour.dry?'—':ft(hour.water)}</strong>${hour.water==null||hour.dry?'':' NAVD88'}<small>${hour.water==null?(esc(story.area.split(':')[0])+' has no result for this frame: the run stopped at its time limit.'):hour.dry?'Under 0.03 ft of water in the 6.25 m cell.':`${ft(hour.depth)} of stored water in the cell (cell average)`}</small></dd>
+    <dt>Water vs road now</dt><dd><strong>${vs(hour)}</strong><small>${hour.over==null?'Needs both heights.':hour.over>COVER_M?'Model water is above the road.':hour.over>=0?`Model water is level with the road (within ${ft(COVER_M)}).`:'Model water is below the road.'}</small></dd>
+    ${other}
+    <dt>Highest model level</dt><dd><strong>${ft(story.peak?.water)}</strong><small>${story.peak?new Date(story.peak.time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' MST':'No water in the cell in this run'}${story.coveredHours!=null?` · over the road in ${story.coveredHours} of ${story.hours.length} frames`:''}</small></dd>
+   </dl>${chart(story)}
+   <p class="fine">Model water is the exact SFINCS water surface in the ${esc(story.area.split(':')[0])} model area's 6.25 m cell at this crossing's route point, from the saved Nov 1 13Z all-route run, not current conditions. ${story.unknownHours?`${story.unknownHours} frame(s) have no result here. `:''}</p>`;
+  }
   else{
    const s=statusAt(story,frameIndex);
    body=`<p class="status ${TONE[s]}"><span class="dot ${TONE[s]}"></span>${STATUS[s]}${s==='over'?`: ${ft(hour.over)} deep`:''}</p>

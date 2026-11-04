@@ -2,7 +2,7 @@
 // button at the top right. Zoom, locate and fit are at the bottom right, and the model run's time
 // runs along the bottom. Routes, crossings and live conditions are in a side panel (a bottom sheet
 // on a phone). 2D and 3D share one run, one hour and one set of layers.
-import {RUNS,loadRun2d,createSimLayer,onDownloads,loadHand,flowsForRun,HAND_COLORS,loadRoads,crossingsFor,COVER_M,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS} from './simulation/sim-2d.js?v=dev';
+import {RUNS,loadRun2d,createSimLayer,onDownloads,loadHand,flowsForRun,HAND_COLORS,loadRoads,crossingsFor,COVER_M,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS,setQuadOrder} from './simulation/sim-2d.js?v=dev';
 import {deckHtml,scoreboardHtml,drawTimeline,timelineKeyHtml,methodsHtml} from './sim-panels.js?v=dev';
 import {createWorldLayer} from './simulation/world-layer.js?v=dev';
 import {showAcknowledgement} from './model-acknowledgement.js?v=dev';
@@ -59,6 +59,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   <h3>Water</h3>
   <div class="mapp-radios" role="radiogroup" aria-label="Water">${MODELS.map(([v,t])=>`<label><input type="radio" name="mapp-model" value="${v}"> ${t}</label>`).join('')}</div>
   <p class="mapp-hint model-hint" data-m-model-hint aria-live="polite"></p>
+  <fieldset class="mapp-overlap" data-m-overlap hidden><legend>Where model areas overlap, draw</legend><div class="mapp-radios" role="radiogroup" aria-label="Where model areas overlap, draw"></div><p class="mapp-hint">The all-route run is three separate models. Where Northern and Picture Rocks overlap they differ by up to <span data-m-overlap-diff></span> at the same place and time. One is drawn at each place: by default the area built for the nearest route. Tap the map for both. Nothing is averaged.</p></fieldset>
   <h3>Map details</h3>
   <div class="mapp-switches">${DETAILS.map(([k,t])=>`<label><span>${t}</span><input type="checkbox" role="switch" data-m-detail="${k}" checked></label>`).join('')}</div>
   <h3>Graphics</h3>
@@ -256,14 +257,14 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   el.textContent=s.wetKm2?'':'No simulated water this hour';
   const chip=(label,value,unit,cls='')=>`<div class="chip ${cls}"><span>${label}</span><b>${value}</b><small>${unit}</small></div>`;
   const dryLive=run.def.live&&Math.max(...run.series.map(v=>v.wetKm2))<.05;
-  hud.innerHTML=chip('Wet area',s.wetKm2.toFixed(s.wetKm2<10?2:1),'km²')+chip('Deepest cell',(s.deepM/.3048).toFixed(1),'ft')+chip('Over the road',crossings?`${over}/${inside.length}`:'…','crossings',over?'alert':'')+chip('River in',Math.round(s.inflowM3s*35.3147).toLocaleString(),'ft³/s')+chip('Rain',(s.rainMmH/25.4).toFixed(2),'in/h')+((st.model==='hand'||st.model==='aggregate')?(()=>{const hn=sim.handNow();return hn&&!hn.loading?chip('HAND',`${hn.wet}/${hn.windows}`,'windows wet',hn.wet?'hand':''):chip('HAND','…','loading');})():'')+(dryLive?'<button type="button" class="chip try" data-m-try>Dry right now. Try the 100-year storm →</button>':'');
+  hud.innerHTML=chip('Wet area',s.wetKm2.toFixed(s.wetKm2<10?2:1),'km²')+chip('Deepest cell',(s.deepM/.3048).toFixed(1),'ft')+chip('Over the road',crossings?`${over}/${inside.length}`:'…','crossings',over?'alert':'')+(Number.isNaN(s.inflowM3s)?'':chip('River in',Math.round(s.inflowM3s*35.3147).toLocaleString(),'ft³/s'))+(Number.isNaN(s.rainMmH)?'':chip('Rain',(s.rainMmH/25.4).toFixed(2),'in/h'))+(run.quad?chip('Model areas',`${run.quad.cases.length-run.quad.missingAt(h).length}/${run.quad.cases.length}`,'with a result',run.quad.missingAt(h).length?'alert':''):'')+((st.model==='hand'||st.model==='aggregate')?(()=>{const hn=sim.handNow();return hn&&!hn.loading?chip('HAND',`${hn.wet}/${hn.windows}`,'windows wet',hn.wet?'hand':''):chip('HAND','…','loading');})():'')+(dryLive?'<button type="button" class="chip try" data-m-try>Dry right now. Try the 100-year storm →</button>':'');
   hud.querySelector('[data-m-try]')?.addEventListener('click',()=>chooseRun('stress'));
   renderPanels();
  }
  let last=performance.now();
  (function tick(now){
   const dt=Math.min(.25,(now-last)/1000);last=now;
-  if(st.playing&&!in3d()&&st.base!=='terrain'&&sim.run&&location.hash==='#/map'){let c=sim.clock+dt/HOUR_SECONDS;if(c>sim.run.times.length-1)c=0;setClock(c);
+  if(st.playing&&!in3d()&&st.base!=='terrain'&&sim.run&&location.hash==='#/map'){let c=sim.clock+dt/(HOUR_SECONDS*(sim.run.frameHours??1));if(c>sim.run.times.length-1)c=0;setClock(c);
    // Playing is the 2D map's busiest drawing: slow frames there lower an automatic choice a step.
    if(document.visibilityState==='visible'&&frameWatch.add(dt*1000,now)){const before=gfx.preset,next=lowerAuto();if(next.preset!==before)applyGraphics(next,`frames stayed slower than 25 per second on ${PRESET_LABELS[before]} while the 2D map played`);else{record('info',`Frames stayed slower than 25 per second on ${PRESET_LABELS[before]} on the 2D map`);frameWatch.reset(now+60000);}}}
   else frameWatch.reset(now);
@@ -273,6 +274,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  // A run opens at the hour nearest now when it is live, otherwise at its deepest water.
  function openingHour(run){
   if(run.def.live){const now=Date.now();return run.times.reduce((b,t,k)=>Math.abs(t-now)<Math.abs(run.times[b]-now)?k:b,0);}
+  if(run.quad)return run.series.reduce((b,v,k)=>v.wetKm2>run.series[b].wetKm2?k:b,0);
   let best=0,most=-1;run.depth.forEach((d,k)=>{let n=0;for(let i=0;i<d.length;i++)if(d[i]>=.0091)n++;if(n>most){most=n;best=k;}});return best;
  }
  async function chooseRun(id,{keepClock=false}={}){
@@ -295,13 +297,32 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  function describe(){
   const run=sim.run;note.textContent=in3d()?(world.state?.note??''):st.base==='terrain'?'Terrain detail: the saved Nov 1–2 run drawn on 10 m terrain by the flat renderer. Its own time and case controls are in Map layers.':runNote||run?.def.note||'';
   for(const r of $$('input[name=mapp-model]')){r.disabled=false;r.checked=r.value===st.model;}
+  paintOverlap();
   $('[data-m-model-hint]').textContent=modelStatus();
  }
+ // The all-route run: which model area is drawn where areas overlap. The 3D view follows.
+ const overlapBox=$('[data-m-overlap]');
+ function paintOverlap(){
+  const q=sim.run?.quad;overlapBox.hidden=!q;if(!q)return;
+  $('[data-m-overlap-diff]').textContent=`${q.pkg.overlap.maximumDifferenceM.toFixed(2)} m (${(q.pkg.overlap.maximumDifferenceM/.3048).toFixed(1)} ft)`;
+  const box=overlapBox.querySelector('.mapp-radios');
+  if(box.dataset.run!==sim.run.def.id){box.dataset.run=sim.run.def.id;box.innerHTML=`<label><input type="radio" name="mapp-overlap" value="nearest"> The area built for the nearest route</label>`+q.cases.map(c=>`<label><input type="radio" name="mapp-overlap" value="${c.key}"> ${esc(c.label.split(':')[0])} first</label>`).join('');
+   box.querySelectorAll('input').forEach(r=>r.onchange=()=>setOverlap(r.value));}
+  box.querySelectorAll('input').forEach(r=>r.checked=r.value===q.mode);
+ }
+ function setOverlap(first){
+  const run=sim.run;if(!run?.quad)return;
+  setQuadOrder(run,first);
+  if(in3d())world.send('set','overlap',first);
+  statKey='';sim.setClock(sim.clock);hourStat();drawTl();paintOverlap();
+ }
+ sim.onError(e=>toast('A frame of the model run did not download: '+e.message));
  // What the chosen model shows right now, in one sentence.
  function modelStatus(){
   const run=sim.run;if(!run)return'';
   const h=Math.min(run.times.length-1,Math.round(sim.clock)),s=run.series[h],name=runName();
-  const sfincs=s.wetKm2?`SFINCS: ${s.wetKm2.toFixed(s.wetKm2<10?2:1)} km² of simulated water this hour in ${name}.`:`SFINCS: no simulated water this hour in ${name}.`;
+  let sfincs=s.wetKm2?`SFINCS: ${s.wetKm2.toFixed(s.wetKm2<10?2:1)} km² of simulated water this ${run.quad?'frame':'hour'} in ${name}.`:`SFINCS: no simulated water this hour in ${name}.`;
+  if(run.quad){const gone=run.quad.missingAt(h);if(gone.length)sfincs+=` ${gone.map(c=>c.label.split(':')[0]).join(', ')}: no result for this frame (the run stopped at its time limit).`;sfincs+=` Gates leaves out a ${run.quad.pkg.gatesGap.areaKm2.toFixed(1)} km² terrain gap.`;}
   const hn=sim.handNow();let hand='';
   if(!hn||hn.loading)hand='HAND: loading the NOAA HAND grids and river flows…';
   else{
@@ -337,8 +358,9 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   for(const k of keys){
    const on=st[k];
    if(k==='rain'){sim.set('rain',on);if(in3d())world.send('set','rain',on);if(on&&key&&sim.run){const s=sim.run.series,h=Math.round(sim.clock),wet=s.map((v,i)=>v.rainMmH>.1?i:-1).filter(i=>i>=0);
-    if(!sim.run.rain||!wet.length)toast(`No rain input in ${runName()}.`,tryStorm());else if(s[h].rainMmH<=.1)toast(`No rain this hour. Rain falls ${clockText(sim.run.times[wet[0]])} to ${clockText(sim.run.times[wet.at(-1)])} in this run.`,{label:'Go to the rain',run:()=>{setPlaying(false);setClock(wet[0]);}});}}
-   if(k==='flow'){sim.set('flow',on);if(in3d())world.send('set','flow',on);if(on&&key&&sim.run&&!sim.run.inflow.length)toast(`No river inflow in ${runName()}.`,tryStorm());}
+    if(sim.run.quad)toast(`${runName()}: its HRRR rain input is not in the map package, so no rain is drawn.`);
+    else if(!sim.run.rain||!wet.length)toast(`No rain input in ${runName()}.`,tryStorm());else if(s[h].rainMmH<=.1)toast(`No rain this hour. Rain falls ${clockText(sim.run.times[wet[0]])} to ${clockText(sim.run.times[wet.at(-1)])} in this run.`,{label:'Go to the rain',run:()=>{setPlaying(false);setClock(wet[0]);}});}}
+   if(k==='flow'){sim.set('flow',on);if(in3d())world.send('set','flow',on);if(on&&key&&sim.run&&!sim.run.inflow.length)toast(sim.run.quad?`${runName()}: its river inflows are not in the map package.`:`No river inflow in ${runName()}.`,sim.run.quad?undefined:tryStorm());}
    if(k==='routes'){on?map.addLayer(routeLayer):map.removeLayer(routeLayer);if(in3d())world.send('set','show-routes',on);}
    if(k==='places'){mapEl.classList.toggle('hide-places',!on);if(in3d())world.send('set','show-places',on);}
    if(k==='live'){on?map.addLayer(liveLayer):map.removeLayer(liveLayer);}
@@ -387,6 +409,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   pendingHour=Math.round(sim.clock);
   expectRun=st.run;expectAt=performance.now();world.send('set','run',st.run);world.send('set','base',st.base==='satellite'?'satellite':'street');world.send('set','model',st.model);
   for(const [k,id] of [['rain','rain'],['flow','flow'],['routes','show-routes'],['places','show-places']])world.send('set',id,st[k]);
+  if(sim.run?.quad)world.send('set','overlap',sim.run.quad.mode);
  }
  // The 3D view reports what it shows; the player and layers follow it while 3D is on.
  function fromWorld(s){
@@ -463,7 +486,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  const scenBtn=$('[data-m-scenarios]');scenBtn.setAttribute('aria-haspopup','menu');scenBtn.setAttribute('aria-expanded','false');
  function renderMenu(){
   menu.innerHTML=RUNS.map(r=>{const c=r.card??{},on=r.id===st.run;
-   const stats=r.live?'Updates every hour':`${c.rainInH} in/h rain · ${Math.round(c.riverCfs).toLocaleString()} ft³/s river · ${c.wetKm2} km² wet`;
+   const stats=r.live?'Updates every hour':c.rainInH==null?`${c.wetKm2} km² wet · ${c.areas} model areas, 6.25 m cells`:`${c.rainInH} in/h rain · ${Math.round(c.riverCfs).toLocaleString()} ft³/s river · ${c.wetKm2} km² wet`;
    return `<button type="button" role="menuitemradio" aria-checked="${on}" data-menu-run="${r.id}" class="k-${(c.kind??'').toLowerCase().replace(/[^a-z]/g,'')}"><span class="kind">${esc(c.kind??'')}</span><b>${esc(c.short??r.label)}</b><small>${stats}</small></button>`;}).join('')+'<button type="button" role="menuitem" class="more" data-menu-more>Compare scenarios side by side →</button>';
   menu.querySelectorAll('[data-menu-run]').forEach(b=>b.onclick=()=>{setMenu(false);chooseRun(b.dataset.menuRun);});
   menu.querySelector('[data-menu-more]').onclick=()=>{setMenu(false);setCollapsed(false);setTab('scenarios');if(phone())setSheet(true);};
@@ -522,6 +545,11 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   if(location.hash!=='#/map'||in3d()||st.base==='terrain'||st.model==='off'||st.model==='hand'||!sim.run)return;
   const hit=sim.depthAt(e.latlng.lat,e.latlng.lng),t=clockText(sim.time());
   if(!hit){L.popup({className:'mapp-popup'}).setLatLng(e.latlng).setContent(`Outside the model area · ${t}`).openOn(map);return;}
+  if(hit.quad){
+   const line=v=>`<b>${esc(v.label.split(':')[0])}</b>: ${!v.hasFrame?'no result for this frame':!v.loaded?'loading…':v.depth/.3048<.03?'no simulated water':`${(v.depth/.3048).toFixed(v.depth/.3048<1?2:1)} ft`} <span>(${v.sizeM} m cell${v.drawn?', drawn':''})</span>`;
+   L.popup({className:'mapp-popup'}).setLatLng(e.latlng).setContent(`Simulated water · ${t}<br>${hit.quad.map(line).join('<br>')}<br><span>SFINCS cell average (stored water / cell area), not a measured road depth.${hit.quad.length>1?' Separate model areas, shown side by side, not averaged.':''}</span>`).openOn(map);
+   return;
+  }
   const ft=hit.depth/.3048;
   L.popup({className:'mapp-popup'}).setLatLng(e.latlng).setContent(Number.isNaN(hit.depth)?`No model result here · ${t}`:ft<.03?`No simulated water here · ${t}`:`<strong>${ft<1?ft.toFixed(2):ft.toFixed(1)} ft</strong> simulated water · ${t}<br><span>SFINCS cell average over 100 m, not a measured road depth.</span>`).openOn(map);
  });

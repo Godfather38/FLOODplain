@@ -25,6 +25,7 @@ import {mountEmbed} from './embed.js';
 import {startGraphics,mountGraphics,chunkDetail} from './graphics-3d.js';
 import {loadHand,flowsForRun,handHour,windowBounds} from '../../../../simulation/hand-runs.js?v=dev';
 import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY} from '../runs.js';
+import {openAllRoute,rasterize} from '../../../../simulation/all-route-run.js?v=dev';
 const $=id=>document.getElementById(id);
 const DATA='../../../../simulation/data/',E=2,SHOW_DEPTH_M=.05,HOUR_SECONDS=4;
 const diagnostics={ready:false,errors:[],frameTimes:[]};
@@ -104,6 +105,7 @@ const inside=(x,z)=>Math.abs(x)<SIZE_X/2&&Math.abs(z)<SIZE_Z/2;
 // A run, prepared for drawing and for the crossing sheets.
 async function prepareRun(def,display){
  if(def.live)return prepareLive(def);
+ if(def.quad)return prepareQuad(def);
  display??=await json(DATA+def.display);
  const frames=parseFrames(display),levels=await eachFrame(frames,f=>levelGrid(f,data.vertices));
  const [rainJson,inflowJson]=await Promise.all([def.rain&&json(DATA+def.rain),def.inflow&&def.inflow!==def.rain&&json(DATA+def.inflow)]);
@@ -125,18 +127,50 @@ async function prepareLive(def){
  def={...def,note:`Model forecast from public forcing, not observed water: SFINCS run at ${issued} MST from the NOAA HRRR rain forecast of ${new Date(manifest.hrrrCycle).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric'})} MST and NWM river flows, after a 45-hour warm-up. A new run is published every hour.`};
  return{def,frames,levels,shares:await eachFrame(frames,f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:parseRain(rainJson),inflow,...handFields(frames,inflowJson.series),manifest};
 }
+// The all-route run (simulation/all-route-run.js): three separate model areas on 6.25-100 m cells.
+// Its water is drawn from depth pictures rasterised per frame (surface.js setFine); every native
+// cell on High and Ultra, the lighter web cells otherwise. The 100 m grid is left empty for it.
+const blankLevels=new Float32Array(GRID.mmax*GRID.nmax).fill(-1e5),blankShares=new Float32Array(GRID.mmax*GRID.nmax).fill(-2);
+const rawBytes=async url=>{const r=await fetchRetry(url);if(!r.ok)throw new Error(`${String(url).split('/').pop()} answered ${r.status}.`);return readCounted(r,String(url));};
+async function prepareQuad(def){
+ const variant=['high','ultra'].includes(gfx.preset)?'full':'web',quad=await openAllRoute({variant,fetchBytes:rawBytes});
+ const frames=quad.iso.map(time=>({time})),zero=quad.times.map(()=>0);
+ // A point is inside when any of the three areas has a cell there.
+ const inside=(x,z)=>{const u=worldToUtm(x,z);return quad.cases.some(c=>quad.cellAtUtm(c,u.e,u.n)>=0);};
+ return{def,quad,variant,frames,frameMs:quad.frameMs,levels:frames.map(()=>blankLevels),shares:frames.map(()=>blankShares),samplers:frames.map(()=>()=>NaN),measured,rain:null,inflow:[],times:quad.times,riverM3s:zero,inside};
+}
+const gfx=startGraphics(),G=gfx.settings;
 let run,liveProblem=null;
 try{run=await prepareRun(firstRun,firstRun.display===BASE_DISPLAY?firstDisplay:undefined);}
 catch(error){if(!firstRun.live)throw error;liveProblem=error.message;run=await prepareRun(RUNS.find(r=>r.id==='13z'));}
 loading('Starting the 3D view',.8);await breathe();
-const gfx=startGraphics(),G=gfx.settings;
 const renderer=new THREE.WebGPURenderer({antialias:G.antialias,forceWebGL:true,logarithmicDepthBuffer:true,powerPreference:'high-performance'});
 const view=()=>[Math.max(1,$('map').clientWidth),Math.max(1,$('map').clientHeight)];
 renderer.setSize(...view());renderer.toneMapping=THREE.NoToneMapping;
 await renderer.init();$('map').appendChild(renderer.domElement);
 const scene=new THREE.Scene();scene.background=new THREE.Color('#cfe2ec');scene.fog=new THREE.Fog('#cfe2ec',...G.fog);
 const camera=new THREE.PerspectiveCamera(45,view()[0]/view()[1],2,G.far);
-const surface=createSurface({heights,levelA:run.levels[0],levelB:run.levels[1],shareA:run.shares[0],shareB:run.shares[1],noise:makeNoiseTexture(),exaggeration:E,showDepth:SHOW_DEPTH_M,handPx:G.hand});
+// The all-route water picture: about 7.8 m pixels on High and Ultra, 15.6 m on Low and Medium.
+const FINE_PX=['high','ultra'].includes(gfx.preset)?4096:2048;
+const surface=createSurface({heights,levelA:run.levels[0],levelB:run.levels[1],shareA:run.shares[0],shareB:run.shares[1],noise:makeNoiseTexture(),exaggeration:E,showDepth:SHOW_DEPTH_M,handPx:G.hand,finePx:FINE_PX});
+const fineBox={e0:GRID.x0,n0:GRID.y0,w:SIZE_X,h:SIZE_Z,cols:surface.fineSize.w,rows:surface.fineSize.h};
+// Frames i and i+1 of the all-route run, loaded one at a time and rasterised once each.
+const finePics=new Map();let fineWant=-1,fineBusy=false;
+async function showFine(i){
+ fineWant=i;if(fineBusy)return;fineBusy=true;
+ try{
+  while(true){
+   const r=run,at=fineWant,next=Math.min(r.frames.length-1,at+1);
+   await Promise.all([r.quad.ensure(at),r.quad.ensure(next)]);
+   if(r!==run||!r.quad)break;
+   const pic=k=>{const key=r.def.id+'|'+r.quad.mode+'|'+k;if(!finePics.has(key)){if(finePics.size>=4)finePics.delete(finePics.keys().next().value);finePics.set(key,rasterize(r.quad,k,fineBox));}return finePics.get(key);};
+   surface.setFine(pic(at),pic(next));
+   for(const k of [next+1,next+2])if(k<r.frames.length)r.quad.ensure(k).catch(()=>{});
+   if(fineWant===at)break;
+  }
+ }catch(error){$('model-note').textContent='A frame of the all-route run did not download: '+(error?.message??error);}
+ finally{fineBusy=false;}
+}
 const structureMaterial=new THREE.MeshBasicNodeMaterial({vertexColors:true,side:THREE.DoubleSide});
 // The app's routes, painted into the ground; the chosen area's routes stand out.
 routeOverlay.lines=routes.features.map(f=>({id:f.properties.id,area:f.properties.area,parts:(f.geometry.type==='MultiLineString'?f.geometry.coordinates:[f.geometry.coordinates]).map(line=>line.map(([lon,lat])=>world(lon,lat)))}));
@@ -171,16 +205,25 @@ window.fp3dGoto=(lon,lat,id)=>{const [x,z]=world(lon,lat);flyTo(x,z,id?900:1600)
 const rain=createRain(scene,{toLonLat,E,...G.rain});
 let rainOn=true;
 $('rain').onchange=e=>{rainOn=e.target.checked;};
-function frameTime(){const i=Math.min(run.frames.length-2,Math.floor(clock));return Date.parse(run.frames[i].time)+(clock-i)*3600e3;}
+function frameTime(){const i=Math.max(0,Math.min(run.frames.length-2,Math.floor(clock)));return Date.parse(run.frames[i].time)+(clock-i)*(run.frameMs??3600e3);}
 // --- Time and runs ---
 function showFrame(i){
  const next=Math.min(run.frames.length-1,i+1);surface.setLevels(run.levels[i],run.levels[next],run.shares[i],run.shares[next]);frameIndex=i;
+ // The all-route run's fine water starts at the 2D map's first band (0.03 ft), as its cells are
+ // averages over 6.25 m and up rather than single 10 m lidar samples.
+ surface.U.fine.value=run.quad?1:0;surface.U.show.value=run.quad?.0091:SHOW_DEPTH_M;if(run.quad)showFine(i);
  const label=new Date(run.frames[i].time).toLocaleString('en-US',{timeZone:'America/Phoenix',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
  $('time').textContent=`${label} MST`;$('scrub').value=String(i);routesUI.setFrame(i);
  showLayers();
 }
+// What of the all-route run lies outside this view's 32 × 35 km terrain rectangle.
+function quadReach(q){
+ const out=q.pkg.cases.filter(c=>{const [s,w]=c.bounds[0],[n,e]=c.bounds[1],a=world(w,s),b=world(e,n);return a[0]<-SIZE_X/2||b[0]>SIZE_X/2||b[1]<-SIZE_Z/2||a[1]>SIZE_Z/2;}).map(c=>c.label.split(':')[0]);
+ return out.length?` In 3D, only the part inside this view's 32 × 35 km terrain is drawn: ${out.join(', ')} reach${out.length>1?'':'es'} beyond it. The 2D map shows all of it.`:'';
+}
 function describeRun(){
- $('run-note').textContent=(liveProblem&&!run.def.live?'No live model run to show: '+liveProblem+' Showing a saved run instead. ':'')+run.def.note;$('rain').disabled=!run.rain;$('flow').disabled=!run.inflow.length;$('scrub').max=String(run.frames.length-1);
+ $('run-note').textContent=(liveProblem&&!run.def.live?'No live model run to show: '+liveProblem+' Showing a saved run instead. ':'')+run.def.note+(run.quad?quadReach(run.quad)+(run.variant==='full'?' Drawn from every native cell.':' Drawn from the lighter web cells (50 m blocks away from the routes); High and Ultra draw every native cell.'):'');
+ $('overlap-row').hidden=!run.quad;if(run.quad)$('overlap').value=run.quad.mode;$('rain').disabled=!run.rain;$('flow').disabled=!run.inflow.length;$('scrub').max=String(run.frames.length-1);
  for(const o of $('model').options)o.disabled=false;
  applyModel();
  // HAND for this run loads in the background when HAND is shown, never before the run is drawn.
@@ -218,6 +261,7 @@ function showHand(){
  $('model-note').textContent=handNote(m);
 }
 $('model').onchange=applyModel;
+$('overlap').onchange=e=>{if(!run.quad)return;run.quad.setMode(e.target.value);finePics.clear();showFine(frameIndex);showLayers();};
 const markers=createMarkers($('map'),camera,ground,E);
 let showFlow=true,showPlaces=true,liveNow=null,liveTimer=null;
 // With the live run: the app's live ratings and closures, checked again every five minutes.
@@ -234,6 +278,14 @@ function showLayers(){
  const t=Date.parse(run.frames[frameIndex].time),list=[];
  if(showFlow)for(const s of run.inflow){const q=s.points.get(t);if(q!=null)list.push({x:s.x,z:s.z,className:'flow',html:`<span>${s.name} inflow: ${Math.round(q).toLocaleString()} m³/s (${Math.round(q*35.3147).toLocaleString()} ft³/s)</span>`});}
  if(liveNow)for(const c of liveNow.closures){const [x,z]=world(c.lon,c.lat);list.push({x,z,className:'closure',html:`<span aria-hidden="true">⛔</span><em>${c.title.replace(/[<>&]/g,'')}</em>`});}
+ // The all-route run: a model area with no result this frame, and the Gates terrain gap.
+ if(run.quad){const q=run.quad,within=([x,z])=>Math.abs(x)<SIZE_X/2&&Math.abs(z)<SIZE_Z/2;
+  // 3D blends each frame into the next, so a frame that was never written shows from the one before.
+  const nextFrame=Math.min(run.frames.length-1,frameIndex+1),at=new Date(q.times[nextFrame]).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:'2-digit'});
+  q.missingAt(nextFrame).forEach(c=>{const [lat,lon]=c.info.labelAt,p=world(lon,lat);if(within(p))list.push({x:p[0],z:p[1],className:'place quad-missing',html:`<span>${c.label.split(':')[0]}: no result for ${at} MST (the run stopped at its time limit)</span>`});});
+  const ring=q.gap.features[0]?.geometry;const r0=ring&&(ring.type==='MultiPolygon'?ring.coordinates[0][0]:ring.coordinates[0]);
+  if(r0){const p=world(r0.reduce((a,v)=>a+v[0],0)/r0.length,r0.reduce((a,v)=>a+v[1],0)/r0.length);if(within(p))list.push({x:p[0],z:p[1],className:'place quad-gap',html:`<span>Not modelled: Gates terrain gap</span>`});}
+ }
  if(showPlaces)for(const p of config.PLACES.filter(p=>p.area===routesUI.area)){const [x,z]=world(p.lon,p.lat);list.push({x,z,className:'place',html:`<span>${p.name}</span>`});}
  markers.set(list);
 }
@@ -247,6 +299,7 @@ $('zoom-in').onclick=()=>zoomBy(.55);$('zoom-out').onclick=()=>zoomBy(1.8);
 const fitBox=(xs,zs)=>{if(!xs.length)return;let x0=Infinity,x1=-Infinity,z0=Infinity,z1=-Infinity;xs.forEach((x,k)=>{x0=Math.min(x0,x);x1=Math.max(x1,x);z0=Math.min(z0,zs[k]);z1=Math.max(z1,zs[k]);});flyTo((x0+x1)/2,(z0+z1)/2,Math.max(2000,Math.hypot(x1-x0,z1-z0)*1.05));};
 $('fit-routes').onclick=()=>{const pts=routeOverlay.lines.filter(r=>r.area===routesUI.area).flatMap(r=>r.parts.flat());fitBox(pts.map(p=>p[0]),pts.map(p=>p[1]));};
 $('fit-flood').onclick=()=>{
+ if(run.quad){const xs=[],zs=[],q=run.quad;for(const c of q.cases){const f=q.peek(c,frameIndex);if(!f)continue;for(let p=0;p<f.listed.length;p++){const k=f.listed[p];if(f.depth[p]<.3||!c.drawn[c.flags[k]])continue;const s=(1<<c.lvl[k])*6.25,[x,z]=toWorld(c.e0+c.ix[k]*6.25+s/2,c.n0+c.iy[k]*6.25+s/2);if(Math.abs(x)<SIZE_X/2&&Math.abs(z)<SIZE_Z/2){xs.push(x);zs.push(z);}}}return fitBox(xs,zs);}
  // Every model cell with water deeper than 0.3 m this hour.
  const f=run.frames[frameIndex],xs=[],zs=[];data.vertices.forEach((v,k)=>{const s=f.surface[k];if(!Number.isNaN(s)&&s-v[2]>.3){const [x,z]=toWorld(GRID.x0+(v[4]+.5)*GRID.dx,GRID.y0+(v[3]+.5)*GRID.dx);xs.push(x);zs.push(z);}});
  fitBox(xs,zs);
@@ -259,7 +312,7 @@ let switchId=0;
 $('run').onchange=async e=>{
  const ticket=++switchId;
  const def=RUNS.find(r=>r.id===e.target.value);$('run').disabled=true;status('Loading '+def.label);loading('Loading '+def.label,.3);
- try{liveProblem=null;const next=await prepareRun(def);if(ticket!==switchId)return;run=next;loading('Preparing the model water',.8);routesUI.setRun(run);clock=startClock();frameIndex=-1;describeRun();watchLive();status(`${def.label}: ${run.frames.length} hours.`);}
+ try{liveProblem=null;const next=await prepareRun(def);if(ticket!==switchId)return;run=next;loading('Preparing the model water',.8);routesUI.setRun(run);clock=startClock();frameIndex=-1;describeRun();watchLive();status(`${def.label}: ${run.frames.length} ${run.quad?'frames':'hours'}.`);}
  catch(error){if(ticket!==switchId)return;if(def.live){liveProblem=error.message;$('run').value=run.def.id;describeRun();}else fail(error);}finally{if(ticket===switchId){$('run').disabled=false;loaded();}}
 };
 const PLAY='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',PAUSE='<svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
@@ -300,7 +353,7 @@ let drawPaused=false;window.fp3dPause=p=>{drawPaused=!!p;};
 const graphics=mountGraphics({start:gfx,renderer,scene,camera,chunks,rain,size:view,busy:()=>!$('loading').classList.contains('done'),log:message=>{console.info(message);try{if(parent!==window)parent.postMessage({fp3d:'log',kind:'info',message},location.origin);}catch{}}});
 renderer.setAnimationLoop(()=>{if(drawPaused)return;
  const now=performance.now(),dt=Math.max(0,Math.min(200,now-last)),span=run.frames.length-1;last=now;
- if(playing)clock=((clock+dt/1000/HOUR_SECONDS)%span+span)%span;
+ if(playing)clock=((clock+dt/1000/(HOUR_SECONDS*(run.frameMs??3600e3)/3600e3))%span+span)%span;
  const i=Math.min(span-1,Math.floor(clock));if(i!==frameIndex)showFrame(i);
  surface.U.alpha.value=clock-i;surface.U.time.value=now/1000;
  controls.update();followGround();flyStep(now);chunks.update(camera);labels.update();routesUI.update();markers.update();
