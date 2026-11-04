@@ -1,0 +1,48 @@
+{
+  "runId": "all-routes-gates-full-v3-41750298470",
+  "executionMode": "simulated_live_frozen_inputs",
+  "meshFile": "H:\\fp-work\\41750298470\\artifact\\runs\\current\\sfincs.nc",
+  "mapFile": "H:\\fp-work\\41750298470\\artifact\\runs\\current\\sfincs_map.nc",
+  "logFile": "H:\\fp-work\\41750298470\\artifact\\runs\\current\\solver.log",
+  "meshTopology": "mesh2d",
+  "meshFaceIdVariable": "mesh2d_nFaces",
+  "outputMeshTopology": "mesh2d",
+  "faceMapping": {
+    "path": "H:\\fp-work\\41750298470\\inspection\\output-to-source-face-id.npy",
+    "sha256": "e243369c50c81cf7ef8d573e6a97586bf0e36a3fd4bf0500f9d02d76fb0c3bbb"
+  },
+  "volumeVariable": "subgrid_volume",
+  "surfaceVariable": "zs",
+  "projectedCrs": "EPSG:32612",
+  "verticalDatum": "NAVD88",
+  "nativeTimeZone": "UTC",
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "negativeVolumeToleranceM3": 7.161025047302246,
+  "assumptions": [
+    "Frozen NWM 2026-11-01 13Z and HRRR 14Z inputs; not automatically current.",
+    "Native signed volumes and NAVD88 water surfaces are preserved exactly. Volume/full cell area is not validated road depth or wet extent.",
+    "The legacy JSON display clamps negative storage to zero; its declared bound is the observed minimum, not a validated numerical-error tolerance. Compact native columns retain every signed value.",
+    "6.25 m road computational cells; source terrain sampling does not constitute an independent 1 m flow solution.",
+    "Missing bridge/culvert geometry and initial-state assumptions remain explicit; no confidence interval established.",
+    "7.4 km2 of Gates context terrain (plus edge cells) is the USGS 3DEP 2015 survey, about 0.12 m above 2021 at the seam; see current-case.json terrainSources."
+  ],
+  "inputArtifacts": [
+    {
+      "path": "H:\\fp-work\\41750298470\\artifact\\runs\\current\\sfincs.nc",
+      "sha256": "7f99f1da7d0086c3a4f19e92698048f726ef25ca0c0dcc783568a1910b4139ff"
+    },
+    {
+      "path": "H:\\fp-work\\41750298470\\inspection\\output-to-source-face-id.npy",
+      "sha256": "e243369c50c81cf7ef8d573e6a97586bf0e36a3fd4bf0500f9d02d76fb0c3bbb"
+    },
+    {
+      "path": "H:\\fp-work\\41750298470\\artifact\\runs\\current\\GCN10-NOTICE.txt",
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "H:\\fp-work\\41750298470\\artifact\\runs\\current\\GCN10-source-metadata.xml",
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    }
+  ]
+}

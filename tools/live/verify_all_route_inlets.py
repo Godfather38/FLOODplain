@@ -17,7 +17,7 @@ CASES = [
     # case manifest, registry/forcing prefix, frozen result holding the face mapping and compact geometry
     ('northern', 'all-route-ready-v3/northern-native-case-v3/manifest.json', 'northern', 'northern-result-41382880257'),
     ('picture-rocks', 'all-route-ready-v3/picture-rocks-native-case-v2/manifest.json', 'picture-rocks-ina-twinpeaks', 'picture-rocks-result-41382872468'),
-    ('gates', 'all-route-ready-v3/gates-full-native-case-v3/manifest.json', 'gates', None),
+    ('gates', 'all-route-ready-v3/gates-full-native-case-v3/manifest.json', 'gates', 'gates-full-result-41750298470'),
 ]
 sha = lambda b: hashlib.sha256(b).hexdigest()
 

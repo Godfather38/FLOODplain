@@ -1,0 +1,162 @@
+{
+  "runId": "41750298470",
+  "caseId": "gates-full-native-case-v3",
+  "modelVersion": "all-routes-gates-full-v3",
+  "caseRouteIds": [
+    "pr-gates"
+  ],
+  "nativeRunDirectory": "H:\\fp-work\\41750298470\\artifact\\runs\\current",
+  "nativeDirectoryModified": false,
+  "completion": {
+    "logsRead": [
+      "solver.log",
+      "sfincs.log"
+    ],
+    "logsMissing": [],
+    "completionMarkerPresent": true,
+    "approvedExecutionCapSeconds": 5400,
+    "assessment": "complete_to_requested_end",
+    "assessmentBasis": "Actual solver logs, native status variables and recorded times versus the case end; not a GitHub run conclusion and not an expected frame count."
+  },
+  "timeCoverage": {
+    "framesRecorded": 57,
+    "recordedValidFrom": "2026-11-01T17:00:00Z",
+    "recordedValidTo": "2026-11-02T07:00:00Z",
+    "distinctIntervalSeconds": [
+      900
+    ],
+    "requestedEndUtc": "2026-11-02T07:00:00Z",
+    "note": "Frames, interval and endpoints are read from the native output. The normal forecast product is 57 quarter-hour frames from 2026-11-01T17Z through 2026-11-02T07Z, but that count is not assumed here.",
+    "reachesRequestedEnd": true,
+    "shortfallSecondsFromRequestedEnd": 0
+  },
+  "faces": 384716,
+  "faceCorrespondence": {
+    "method": "Exact unique rectangle bounds independently matched between native input/output connectivity",
+    "outputFaces": 384716,
+    "inputFaces": 384716,
+    "matchedFaces": 384716,
+    "identityOrder": true,
+    "maxBoundsDifferenceM": 0.0,
+    "inputFacesNotInOutput": 0
+  },
+  "sourceFaceIdentity": "Exact source native face IDs preserved from this run sfincs.nc",
+  "volumeUnits": "m3",
+  "volumeUnitsAreM3": true,
+  "allVolumeFinite": true,
+  "missingVolumeValues": 0,
+  "negativeVolumeValues": 13460,
+  "negativeValuesPreserved": "Small negative native values remain signed; not clamped",
+  "rawVolumeRangeM3": [
+    -7.161025047302246,
+    9110.771484375
+  ],
+  "cellAreaRangeM2": [
+    39.0625,
+    10000.0
+  ],
+  "volumePerFullCellArea": {
+    "quantity": "volumePerFullCellAreaM",
+    "definition": "Native subgrid_volume divided by the full computational-cell area. Cell-average storage only; NOT validated road depth or passability.",
+    "rangeM": [
+      -0.0007161025047302246,
+      3.398269140625
+    ]
+  },
+  "firstLastTotalStoredVolumeM3": [
+    388446.8654614229,
+    1872922.688166151
+  ],
+  "surfaceElevationRangeM": [
+    577.6815795898438,
+    1347.22607421875
+  ],
+  "surfaceElevationUnits": "m",
+  "surfaceElevationDatum": "NAVD88, not depth",
+  "missingSurfaceValues": 369042,
+  "notInferred": [
+    "passability",
+    "bridge clearance",
+    "velocity",
+    "flow sections",
+    "uncertainty margins",
+    "validated road depth"
+  ],
+  "riverSectionFlow": "Not read; this reader does not derive flow sections",
+  "restartFiles": [
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst",
+    "sfincs.20261102.070000.rst"
+  ],
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "nativeGeometry": {
+    "sourceEpsg": 32612,
+    "epsgDeclaredInNativeFile": 32612,
+    "domainBoundingBox": [
+      473500.0,
+      3559400.0,
+      507300.0,
+      3588300.0
+    ],
+    "reusedPreviousOutputGeometry": false
+  },
+  "hashes": {
+    "sfincs.nc": "7f99f1da7d0086c3a4f19e92698048f726ef25ca0c0dcc783568a1910b4139ff",
+    "sfincs_map.nc": "2dfd864f3b4242985a43c9724d446dfb7752abab22c6e0051fabed18f1a42047",
+    "solver.log": "aac034a9cc7b0ce7944252b99a40abbabbe235072a881cc4fe9ae7df2bf36679",
+    "sfincs.log": "d7ca02413c36bb9a05c877b2b57cc82ea15456384d39e6b529e833477f8ac131"
+  },
+  "caseNativeMeshSha256": "7f99f1da7d0086c3a4f19e92698048f726ef25ca0c0dcc783568a1910b4139ff",
+  "caseMeshHashChecked": true,
+  "status": [
+    0.0
+  ],
+  "total_runtime": [
+    1986.642333984375
+  ],
+  "average_dt": [
+    0.9493680000305176
+  ],
+  "nativePrecipitation": {
+    "quantities": {
+      "precipitation_rate": {
+        "units": "mm h-1",
+        "recordedRange": [
+          0.0,
+          11.242372512817383
+        ],
+        "missingValues": 0
+      }
+    },
+    "units": "As recorded in the native file"
+  },
+  "caseScopeFromMetadata": {
+    "scope": {
+      "status": "full_gates_version3",
+      "includedComponents": "all; topology version 3 merges old components 1 and 4",
+      "domain": "../topology-version3/gates-domain.geojson",
+      "registry": "../topology-version3/gates-boundary-registry.json",
+      "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+    },
+    "fullGatesCoverage": true,
+    "trackedGatesMemberships": 155
+  },
+  "inventoryPointCounts": {
+    "retained": 155,
+    "located": 155,
+    "outsideCurrentNativeDomain": 0,
+    "locatedInInputButAbsentFromOutput": 0,
+    "boundaryAmbiguous": 0
+  }
+}

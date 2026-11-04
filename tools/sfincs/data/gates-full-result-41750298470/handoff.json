@@ -1,0 +1,26 @@
+{
+  "runId": "all-routes-gates-full-v3-41750298470",
+  "manifest": "compact/manifest.json",
+  "manifestSha256": "5d28d21a48875d793f7eefab4631ef4a1654c5016c771cee25cf57f76c93359c",
+  "frames": 57,
+  "nativeFaces": 384716,
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "compressedPayloadBytes": 149656309,
+  "verification": "Every compact volume/surface array exactly matches native float32 after proven face-ID ordering, including NaNs. Payload hashes and native mesh hash match.",
+  "sourceIssues": {
+    "NWM": "2026-11-01T13:00:00Z",
+    "HRRR": "2026-11-01T14:00:00Z",
+    "mode": "frozen_replay"
+  },
+  "pointCounts": {
+    "retained": 155,
+    "located": 155,
+    "outsideCurrentNativeDomain": 0,
+    "locatedInInputButAbsentFromOutput": 0,
+    "boundaryAmbiguous": 0
+  },
+  "productionChanged": false,
+  "status": "complete",
+  "requestedEndReached": true
+}

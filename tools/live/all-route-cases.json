@@ -183,7 +183,15 @@
      "y": 3564500.6
     }
    ],
-   "inletCheck": "sfincs.src within 0.1 m of boundary-placement.json; each sfincs.dis column equals that reach's frozen series"
+   "inletCheck": "sfincs.src within 0.1 m of boundary-placement.json; each sfincs.dis column equals that reach's frozen series",
+   "faceMapping": {
+    "path": "tools/sfincs/data/gates-full-result-41750298470/output-to-source-face-id.npy",
+    "sha256": "e243369c50c81cf7ef8d573e6a97586bf0e36a3fd4bf0500f9d02d76fb0c3bbb"
+   },
+   "geometry": {
+    "path": "tools/sfincs/data/gates-full-result-41750298470/compact/geometry.bin.gz",
+    "sha256": "43d11db3340fa180bdaa2fa7bf1ae2feaa4974481a6a2d6e2d6483b3388a56b9"
+   }
   }
  ]
 }

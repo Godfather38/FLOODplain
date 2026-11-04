@@ -1,0 +1,64 @@
+{
+  "runId": "41750298470",
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/41750298470",
+  "modelVersion": "all-routes-gates-full-v3",
+  "executionCommit": "b596d2672bf492086547546db14b68c5579a6bef",
+  "status": "completed_full_interval",
+  "nativeRuntimeSeconds": [
+    1986.642333984375
+  ],
+  "executionMode": "simulated_live_frozen_inputs",
+  "archiveSha256": "a332f9c0dc2206e39de37457793e46d62250ef4ce20d6cce820d988d9e2ce94c",
+  "archiveBytes": 162276177,
+  "parts": [
+    {
+      "path": "native-output.tar.gz.part00",
+      "bytes": 67108864,
+      "sha256": "68a3bfbc642efc2ad22b787b84db7bd308dba6ef314918a4a0e523c3f4a45e83"
+    },
+    {
+      "path": "native-output.tar.gz.part01",
+      "bytes": 67108864,
+      "sha256": "049e277230ad101e08123295be7f7fd9c185a985d12fb9ec941029843d5a7551"
+    },
+    {
+      "path": "native-output.tar.gz.part02",
+      "bytes": 28058449,
+      "sha256": "8fd5a9ff59dfb70b675833aec2ce30e256e3b6effdb31daecae19be782e1702c"
+    }
+  ],
+  "archiveContents": [
+    "sfincs_map.nc",
+    "sfincs.nc",
+    "solver.log",
+    "sfincs.log",
+    "current-case.json",
+    "execution-started.txt",
+    "GCN10-NOTICE.txt",
+    "GCN10-source-metadata.xml",
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst",
+    "sfincs.20261102.070000.rst"
+  ],
+  "reassembly": "Concatenate parts in order and extract. Unchanged forcing/subgrid inputs remain in the referenced prepared archive.",
+  "nativeInputs": "../all-route-ready-v3/gates-full-native-case-v3/manifest.json",
+  "pointSummary": "route-point-summary.json",
+  "pointSeries": "route-point-series.csv",
+  "compact": "compact/manifest.json",
+  "resultSummary": "result-summary.json",
+  "sourceMeshSha256": "7f99f1da7d0086c3a4f19e92698048f726ef25ca0c0dcc783568a1910b4139ff",
+  "sourceMapSha256": "2dfd864f3b4242985a43c9724d446dfb7752abab22c6e0051fabed18f1a42047",
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "fullGatesCoverage": true
+}

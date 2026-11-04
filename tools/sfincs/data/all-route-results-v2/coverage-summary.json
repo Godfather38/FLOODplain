@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "product": "merged all-route native coverage ledger",
+  "inventory": {
+    "path": "tools\\sfincs\\data\\all-route-ready-v3\\recovered-road-ledger\\coverage-ledger.json",
+    "sha256": "3efde086308b3ca81f54bfd44401119b26855c352d94e38e4d476d30fa3dc2f3",
+    "schema": "all-route-coverage-ledger/v1",
+    "arrays": [
+      "entries",
+      "officialRoadJunctions",
+      "terrainMinimumCandidates"
+    ],
+    "originalsEdited": false
+  },
+  "results": [
+    {
+      "path": "tools\\sfincs\\data\\northern-result-41382880257\\route-point-summary.json",
+      "sha256": "85661228c579ed7ff26c041b6a7edee550bb0d3367ef43ee640f85d4fd4b69d7",
+      "runId": "41382880257",
+      "caseId": "northern-native-case-v3",
+      "caseRouteIds": [
+        "trico",
+        "avra",
+        "silverbell-north",
+        "silverbell-south"
+      ],
+      "reportedCounts": {
+        "retained": 138,
+        "located": 138,
+        "outsideCurrentNativeDomain": 0,
+        "locatedInInputButAbsentFromOutput": 0,
+        "boundaryAmbiguous": 0
+      },
+      "timeCoverage": {
+        "framesRecorded": 57,
+        "recordedValidFrom": "2026-11-01T17:00:00Z",
+        "recordedValidTo": "2026-11-02T07:00:00Z",
+        "distinctIntervalSeconds": [
+          900
+        ],
+        "requestedEndUtc": "2026-11-02T07:00:00Z",
+        "note": "Frames, interval and endpoints are read from the native output. The normal forecast product is 57 quarter-hour frames from 2026-11-01T17Z through 2026-11-02T07Z, but that count is not assumed here.",
+        "reachesRequestedEnd": true,
+        "shortfallSecondsFromRequestedEnd": 0
+      },
+      "frozenRecordedValidInterval": {
+        "recordedValidFrom": "2026-11-01T17:00:00Z",
+        "recordedValidTo": "2026-11-02T07:00:00Z",
+        "framesRecorded": 57,
+        "distinctIntervalSeconds": [
+          900
+        ],
+        "preservedAsRead": true
+      },
+      "joinedInventoryRecords": 138,
+      "joinedWithNativeOutput": 138
+    },
+    {
+      "path": "tools\\sfincs\\data\\picture-rocks-result-41745843031\\route-point-summary.json",
+      "sha256": "acc2f8bb5ba149fa340e9e039d0b8c5251809c44ebc6f2379483b76fc9d9de5d",
+      "runId": "41745843031",
+      "caseId": "picture-rocks-native-case-v2",
+      "caseRouteIds": [
+        "pr-ina",
+        "pr-twinpeaks",
+        "pr-avra"
+      ],
+      "reportedCounts": {
+        "retained": 189,
+        "located": 189,
+        "outsideCurrentNativeDomain": 0,
+        "locatedInInputButAbsentFromOutput": 0,
+        "boundaryAmbiguous": 0
+      },
+      "timeCoverage": {
+        "framesRecorded": 57,
+        "recordedValidFrom": "2026-11-01T17:00:00Z",
+        "recordedValidTo": "2026-11-02T07:00:00Z",
+        "distinctIntervalSeconds": [
+          900
+        ],
+        "requestedEndUtc": "2026-11-02T07:00:00Z",
+        "note": "Frames, interval and endpoints are read from the native output. The normal forecast product is 57 quarter-hour frames from 2026-11-01T17Z through 2026-11-02T07Z, but that count is not assumed here.",
+        "reachesRequestedEnd": true,
+        "shortfallSecondsFromRequestedEnd": 0
+      },
+      "frozenRecordedValidInterval": {
+        "recordedValidFrom": "2026-11-01T17:00:00Z",
+        "recordedValidTo": "2026-11-02T07:00:00Z",
+        "framesRecorded": 57,
+        "distinctIntervalSeconds": [
+          900
+        ],
+        "preservedAsRead": true
+      },
+      "joinedInventoryRecords": 189,
+      "joinedWithNativeOutput": 189
+    },
+    {
+      "path": "tools\\sfincs\\data\\gates-full-result-41750298470\\route-point-summary.json",
+      "sha256": "551d2d41881b2436e189769d70e8486ff70e6392c2687ab2efd47379c8787b73",
+      "runId": "41750298470",
+      "caseId": "gates-full-native-case-v3",
+      "caseRouteIds": [
+        "pr-gates"
+      ],
+      "reportedCounts": {
+        "retained": 155,
+        "located": 155,
+        "outsideCurrentNativeDomain": 0,
+        "locatedInInputButAbsentFromOutput": 0,
+        "boundaryAmbiguous": 0
+      },
+      "timeCoverage": {
+        "framesRecorded": 57,
+        "recordedValidFrom": "2026-11-01T17:00:00Z",
+        "recordedValidTo": "2026-11-02T07:00:00Z",
+        "distinctIntervalSeconds": [
+          900
+        ],
+        "requestedEndUtc": "2026-11-02T07:00:00Z",
+        "note": "Frames, interval and endpoints are read from the native output. The normal forecast product is 57 quarter-hour frames from 2026-11-01T17Z through 2026-11-02T07Z, but that count is not assumed here.",
+        "reachesRequestedEnd": true,
+        "shortfallSecondsFromRequestedEnd": 0
+      },
+      "frozenRecordedValidInterval": {
+        "recordedValidFrom": "2026-11-01T17:00:00Z",
+        "recordedValidTo": "2026-11-02T07:00:00Z",
+        "framesRecorded": 57,
+        "distinctIntervalSeconds": [
+          900
+        ],
+        "preservedAsRead": true
+      },
+      "joinedInventoryRecords": 155,
+      "joinedWithNativeOutput": 155
+    }
+  ],
+  "joinRule": "Exact canonicalId equality, with inventory coordinates and route memberships verified against every joined native reading.",
+  "coverageRule": "native_output_available requires location.status == located_in_current_native_domain in a supplied reading AND native quantities actually present; otherwise outside_completed_cases. Availability is the union over runs, so an outside-domain reading cannot overwrite real coverage from another run.",
+  "outsideCompletedCasesMeaning": "No supplied completed-case native reading covers this point. Not dry, not unflooded, not passable and not evidence of absence of flooding.",
+  "evidenceCountMeaning": "Counts of distinct evidence identities (canonical IDs) joined to native output, not counts of unique confirmed physical dips. Route membership, point containment and native volume/area do not validate road depth and do not establish continuous full-road coverage.",
+  "frozenValidIntervals": "Recorded valid intervals are copied from each native reading unchanged; not merged, widened or re-derived.",
+  "allOutsideRecordsRetained": true,
+  "mergedLedger": "tools\\sfincs\\data\\all-route-results-v2\\coverage-ledger.json",
+  "counts": {
+    "suppliedResults": 3,
+    "overall": {
+      "distinctEvidenceIdentities": 458,
+      "nativeOutputAvailable": 458,
+      "outsideCompletedCases": 0,
+      "withOverlappingAvailableOutputs": 24,
+      "withFullRequestedWindowOutput": 458,
+      "withPartialWindowOutputOnly": 0,
+      "byInventoryArray": {
+        "entries": 88,
+        "officialRoadJunctions": 203,
+        "terrainMinimumCandidates": 167
+      }
+    },
+    "byInventoryArray": {
+      "entries": {
+        "records": 88,
+        "distinctCanonicalIds": 88,
+        "nativeOutputAvailable": 88,
+        "outsideCompletedCases": 0,
+        "withOverlappingAvailableOutputs": 11
+      },
+      "officialRoadJunctions": {
+        "records": 203,
+        "distinctCanonicalIds": 203,
+        "nativeOutputAvailable": 203,
+        "outsideCompletedCases": 0,
+        "withOverlappingAvailableOutputs": 13
+      },
+      "terrainMinimumCandidates": {
+        "records": 167,
+        "distinctCanonicalIds": 167,
+        "nativeOutputAvailable": 167,
+        "outsideCompletedCases": 0,
+        "withOverlappingAvailableOutputs": 0
+      }
+    },
+    "byRouteId": {
+      "avra": {
+        "distinctEvidenceIdentities": 65,
+        "nativeOutputAvailable": 65,
+        "outsideCompletedCases": 0,
+        "withOverlappingAvailableOutputs": 23,
+        "withFullRequestedWindowOutput": 65,
+        "withPartialWindowOutputOnly": 0,
+        "byInventoryArray": {
+          "entries": 22,
+          "officialRoadJunctions": 28,
+          "terrainMinimumCandidates": 15
+        }
+      },
+      "pr-gates": {
+        "distinctEvidenceIdentities": 155,
+        "nativeOutputAvailable": 155,
+        "outsideCompletedCases": 0,
+        "withOverlappingAvailableOutputs": 1,
+        "withFullRequestedWindowOutput": 155,
+        "withPartialWindowOutputOnly": 0,
+        "byInventoryArray": {
+          "entries": 32,
+          "officialRoadJunctions": 60,
+          "terrainMinimumCandidates": 63
+        }
+      },
+      "pr-twinpeaks": {
+        "distinctEvidenceIdentities": 84,
+        "nativeOutputAvailable": 84,
+        "outsideCompletedCases": 0,
+        "withOverlappingAvailableOutputs": 1,
+        "withFullRequestedWindowOutput": 84,
+        "withPartialWindowOutputOnly": 0,
+        "byInventoryArray": {
+          "entries": 12,
+          "officialRoadJunctions": 43,
+          "terrainMinimumCandidates": 29
+        }
+      },
+      "pr-ina": {
+        "distinctEvidenceIdentities": 73,
+        "nativeOutputAvailable": 73,
+        "outsideCompletedCases": 0,
+        "withOverlappingAvailableOutputs": 1,
+        "withFullRequestedWindowOutput": 73,
+        "withPartialWindowOutputOnly": 0,
+        "byInventoryArray": {
+          "entries": 6,
+          "officialRoadJunctions": 46,
+          "terrainMinimumCandidates": 21
+        }
+      },
+      "pr-avra": {
+        "distinctEvidenceIdentities": 64,
+        "nativeOutputAvailable": 64,
+        "outsideCompletedCases": 0,
+        "withOverlappingAvailableOutputs": 24,
+        "withFullRequestedWindowOutput": 64,
+        "withPartialWindowOutputOnly": 0,
+        "byInventoryArray": {
+          "entries": 15,
+          "officialRoadJunctions": 28,
+          "terrainMinimumCandidates": 21
+        }
+      },
+      "silverbell-south": {
+        "distinctEvidenceIdentities": 51,
+        "nativeOutputAvailable": 51,
+        "outsideCompletedCases": 0,
+        "withOverlappingAvailableOutputs": 23,
+        "withFullRequestedWindowOutput": 51,
+        "withPartialWindowOutputOnly": 0,
+        "byInventoryArray": {
+          "entries": 17,
+          "officialRoadJunctions": 22,
+          "terrainMinimumCandidates": 12
+        }
+      },
+      "silverbell-north": {
+        "distinctEvidenceIdentities": 42,
+        "nativeOutputAvailable": 42,
+        "outsideCompletedCases": 0,
+        "withOverlappingAvailableOutputs": 0,
+        "withFullRequestedWindowOutput": 42,
+        "withPartialWindowOutputOnly": 0,
+        "byInventoryArray": {
+          "entries": 10,
+          "officialRoadJunctions": 21,
+          "terrainMinimumCandidates": 11
+        }
+      },
+      "trico": {
+        "distinctEvidenceIdentities": 37,
+        "nativeOutputAvailable": 37,
+        "outsideCompletedCases": 0,
+        "withOverlappingAvailableOutputs": 0,
+        "withFullRequestedWindowOutput": 37,
+        "withPartialWindowOutputOnly": 0,
+        "byInventoryArray": {
+          "entries": 11,
+          "officialRoadJunctions": 17,
+          "terrainMinimumCandidates": 9
+        }
+      }
+    },
+    "overlappingOutputs": {
+      "recordsJoinedToMultipleResults": 24,
+      "recordsWithNativeOutputInMultipleResults": 24,
+      "byRunIdPair": {
+        "41382880257|41745843031": 23,
+        "41745843031|41750298470": 1
+      },
+      "meaning": "One evidence identity read in more than one completed case; the same identity, not additional dips."
+    }
+  }
+}

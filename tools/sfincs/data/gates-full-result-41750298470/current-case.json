@@ -1,0 +1,133 @@
+{
+  "status": "prepared_all_routes_case_not_executed",
+  "runReady": true,
+  "solverExecuted": false,
+  "mode": "simulated-live",
+  "gridCells": 384716,
+  "inlets": 9,
+  "nativeFlowTimestamps": 64,
+  "mapOutputWindow": "Forecast only, 49h after antecedent start; 15-minute maps limit artifact size without shortening initialization",
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "forecastStart": "2026-11-01T17:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "initialization": "Same explicit dry assumed antecedent start; continuous analysis-forced history, not measured initial state",
+  "missing": [],
+  "nativeInputReference": "Pinned SFINCS sfincs_infiltration.f90 requires inffile NetCDF for quadtree; scs units remain inches",
+  "knownLimits": [
+    "Current bridge elevations unknown",
+    "Published CN antecedent assumption; no measured transmission loss",
+    "Terrain dates 2015 (9.6 km2 gap cells only)/2019 peripheral/2021/2023, not 2026 construction survey; the 2015 survey sits a median 0.12 m above 2021 along the seam",
+    "6.25m computational cells are not validated road-depth accuracy"
+  ],
+  "kind": "prepared_current_case",
+  "rainfall": {
+    "units": "mm/h",
+    "intervalSeconds": 3600,
+    "intervalLabel": "start",
+    "lastIntervalEndUtc": "2026-11-02T07:00:00Z",
+    "sourceArtifacts": [
+      {
+        "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\all-route-rainfall\\package\\initialization-rainfall\\resolved-analysis-precipitation.nc",
+        "sha256": "074994ac0a6ee9b811750c810c229847ff81e4b675a4f06239e0a0a86186c845"
+      },
+      {
+        "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\all-route-rainfall\\package\\initialization-rainfall\\forecast-transition-precipitation.nc",
+        "sha256": "e750e1283eba76685ad148bcf28abf2b9ff84be230c8794ad8fd1e5815e62798"
+      },
+      {
+        "path": "C:\\Users\\Marshall\\Documents\\Codex\\2026-10-31\\task-2\\all-route-rainfall\\package\\precipitation.nc",
+        "sha256": "179e277038f0d5e7a3b08d336f988d7be465fb29578e54aa6d2cc5e6b4c4967b"
+      }
+    ]
+  },
+  "publicationHold": [],
+  "executionBudgetSeconds": null,
+  "proposedExecutionCapSeconds": 5400,
+  "executionAuthorization": "parent_session_task_full_gates_rerun_frozen_inputs",
+  "sourceAsOf": "2026-11-01T16:08:30.582Z",
+  "sourceLicensing": {
+    "derivedInfiltrationLicense": "ODbL-1.0",
+    "notice": "GCN10-NOTICE.txt",
+    "sourceMetadata": "GCN10-source-metadata.xml",
+    "derivedDatabase": "infiltration.nc"
+  },
+  "artifacts": [
+    {
+      "path": "GCN10-NOTICE.txt",
+      "bytes": 1349,
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "GCN10-source-metadata.xml",
+      "bytes": 12686,
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    },
+    {
+      "path": "hydromt.log",
+      "bytes": 182,
+      "sha256": "1e7caaf30f55be30e3bf6ca76f3a1829c2997fdec4ca7982a7ab0cef0ff33791"
+    },
+    {
+      "path": "infiltration.nc",
+      "bytes": 1545008,
+      "sha256": "5250373c2ac71437125f2b850194133c0fc835934123999316a95154a65c6012"
+    },
+    {
+      "path": "native-component.json",
+      "bytes": 1180,
+      "sha256": "206aa7e208a2d5c90a33e2c87f58bb6e1853695e8195e313eb3e44ab02d134cf"
+    },
+    {
+      "path": "precip_2d.nc",
+      "bytes": 650093,
+      "sha256": "d002abc1505e3c21065ea32498fe2afceb0514017fb6a8bb5d5f82deb03d7c55"
+    },
+    {
+      "path": "sfincs.dis",
+      "bytes": 5248,
+      "sha256": "7ef01f3754318cc0403c66c6d9076a9abc8f02970ab111d7cd1ee3655155b035"
+    },
+    {
+      "path": "sfincs.inp",
+      "bytes": 1424,
+      "sha256": "2c4bb839bc308542000033158de40c0aa715c925bb8cd6a28ac217a4ab7c389d"
+    },
+    {
+      "path": "sfincs.nc",
+      "bytes": 68806722,
+      "sha256": "7f99f1da7d0086c3a4f19e92698048f726ef25ca0c0dcc783568a1910b4139ff"
+    },
+    {
+      "path": "sfincs.src",
+      "bytes": 180,
+      "sha256": "8ca285e82019717d7612f821ca323f48ce3a3d31c619b1289729ad94126eae17"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "bytes": 125271881,
+      "sha256": "f85657d571c55b309bb8922c27f898aad0850c75d0790c00fc89173ed029f688"
+    }
+  ],
+  "modelVersion": "all-routes-gates-full-v3",
+  "caseId": "gates-full-native-case-v3",
+  "routeIds": [
+    "pr-gates"
+  ],
+  "approvedExecutionCapSeconds": 5400,
+  "fullGatesCoverage": true,
+  "trackedGatesMemberships": 155,
+  "scope": {
+    "status": "full_gates_version3",
+    "includedComponents": "all; topology version 3 merges old components 1 and 4",
+    "domain": "../topology-version3/gates-domain.geojson",
+    "registry": "../topology-version3/gates-boundary-registry.json",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+  },
+  "terrainSources": {
+    "road1m": "USGS 3DEP AZ_PimaCounty_2021_B21 (all 246 road windows; two recovered from the 2021 image service)",
+    "context10m": "2021/2023 with documented 2019 western periphery, plus 95,919 cells (the 7.4221 km2 listed gap and 2.17 km2 of empty cells the mesh touches) from USGS 3DEP AZ_Eastern_PimaCO_2015 1 m where the 2021 tile has no data",
+    "contextManifest": "../gates-terrain-recovery/context-2015-fill-manifest.json"
+  },
+  "nativeMeshSha256": "7f99f1da7d0086c3a4f19e92698048f726ef25ca0c0dcc783568a1910b4139ff"
+}
