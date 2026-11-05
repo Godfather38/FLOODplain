@@ -4,7 +4,7 @@ import { normalizeRoadEvents } from '../public/logic.js';
 import { expectedInputHealth_ } from './generated/input-health.js';
 import routes from './generated/routes.json' with { type: 'json' };
 import { healthy, fixtureNow } from './fixtures/healthy.js';
-import { createAZ511Adapter } from './az511.js';
+import { createAZ511Adapter, az511RoadEvents } from './az511.js';
 
 const forecastPath = /^(gauges\/[A-Z0-9]{3,8}(\/stageflow)?|reaches\/\d{1,14}\/streamflow)$/;
 const unavailable = {error: 'unavailable'};
@@ -55,7 +55,10 @@ export function createWorker({fetcher=fetch, fixture=healthy, clock=()=>Date.now
       const feed=q.get('feed');
       if (!feed) return reply({ok:true,service:'wash-watch-alerts-shadow',sender:'disabled',freePerDay:0,preview:true});
       // Isolated diagnostic feed; no change to existing feeds, ratings or closure matching.
-      if (feed==='az511') return reply(await loadAZ511(env));
+      if (feed==='az511') {
+        const result=await loadAZ511(env);
+        return reply({...result,roadEvents:az511RoadEvents(result)});
+      }
       if (feed==='forecasts') {
         const responses={};
         const paths=[...new Set((q.get('paths')||'').split(',').filter(p=>forecastPath.test(p)))].slice(0,40);

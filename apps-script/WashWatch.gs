@@ -848,9 +848,12 @@ function roadEventActive(e, now) {
 function roadEventLabel(e, now) {
   const state = roadEventTiming(e, now);
   const date = (t) => new Date(t).toLocaleString("en-US", { timeZone: "America/Phoenix", month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }) + " AZ";
+  const clock = (m) => `${Math.floor(m / 60) % 12 || 12}:${String(m % 60).padStart(2, "0")} ${m >= 720 ? "PM" : "AM"}`;
+  const daily = [e.dailyStart, e.dailyEnd].every((v) => Number.isInteger(v) && v >= 0 && v < 1440) && e.dailyStart !== e.dailyEnd ? `daily ${clock(e.dailyStart)} to ${clock(e.dailyEnd)} AZ${e.dailyStart > e.dailyEnd ? " (overnight)" : ""}` : null;
   const window = [
     Number.isFinite(e.start) ? `starts ${date(e.start)}` : null,
-    Number.isFinite(e.stop) ? `anticipated end ${date(e.stop)}` : null
+    Number.isFinite(e.stop) ? `anticipated end ${date(e.stop)}` : null,
+    daily
   ].filter(Boolean).join("; ");
   const label = { active: "Closed during listed window", scheduled: "Scheduled closure; not in effect in this window", ended: "Listed window ended; reopening unconfirmed", unknown: "Closure listed; timing unverified" }[state];
   return `${label}${e.reason ? ` for ${e.reason}` : ""}${window ? ` · ${window}` : ""}`;

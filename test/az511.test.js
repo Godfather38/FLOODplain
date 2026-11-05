@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {normalizeAZ511, createAZ511Adapter} from '../worker/az511.js';
 import {az511Events} from '../worker/fixtures/az511.js';
 import {createWorker} from '../worker/index.js';
-import {roadEventTiming} from '../public/logic.js';
+import {roadEventTiming, roadEventLabel, roadEventsOnRoute} from '../public/logic.js';
 const now = Date.parse('2026-11-04T20:00:00-07:00');
 const env = {PUBLIC_LIVE:'true', AZ511_ENABLED:'true', AZ511_API_KEY:'synthetic-test-key'};
 
@@ -84,7 +84,22 @@ test('Worker diagnostic feed uses adapter but mutations and scheduled sends stay
   const w=createWorker({clock:()=>now,fetcher:async()=>Response.json(az511Events)});
   const request=new Request('http://localhost/?feed=az511');
   assert.equal((await(await w.fetch(request)).json()).status,'disabled');
-  assert.equal((await(await w.fetch(request,env)).json()).events[0].timingStatus,'scheduled');
+  const data=await(await w.fetch(request,env)).json();
+  assert.equal(data.events[0].timingStatus,'scheduled');
+  assert.deepEqual(data.roadEvents,{events:data.events,fetchedAt:now,stale:false});
+  const event=data.roadEvents.events[0];
+  assert.equal(event.type,'POINT'); assert.deepEqual(event.parts,[[[-111.1,32.4]]]);
+  assert.match(roadEventLabel(event,now),/^Scheduled closure/);
+  const route={geometry:{type:'LineString',coordinates:[[-111.1,32.4],[-111.1,32.401]]},properties:{legs:[{road:'Cortaro'}]}};
+  assert.deepEqual(roadEventsOnRoute(route,data.roadEvents.events,now),[]);
   assert.equal((await w.fetch(new Request(request,{method:'POST'}),env)).status,405);
   assert.deepEqual(w.scheduled(),{disabled:true});
+});
+test('geometry uses documented E5 polyline coordinates and rejects malformed geometry',()=>{
+  const event=normalizeAZ511([{ID:9,EncodedPolyline:'_p~iF~ps|U_ulLnnqC_mqNvxq`@'}],now)[0];
+  assert.equal(event.type,'LINESTRING');
+  assert.deepEqual(event.parts,[[[-120.2,38.5],[-120.95,40.7],[-126.453,43.252]]]);
+  for(const row of [{ID:1,EncodedPolyline:'_'},{ID:1,Latitude:91,Longitude:0},{ID:1,Latitude:null,Longitude:null}]) {
+    const e=normalizeAZ511([row],now)[0]; assert.equal(e.geometryUnknown,true); assert.deepEqual(e.parts,[]);
+  }
 });

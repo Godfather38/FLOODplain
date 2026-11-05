@@ -16,7 +16,7 @@ their Apps Script differences from main are not deployed or newly authored here.
   `DirectionOfTravel`, `Organization`, `EventType`, `EventSubType`,
   `LanesAffected`, `EncodedPolyline`, `Recurrence`, `RecurrenceSchedules`
   (strings), `IsFullClosure` (boolean), and Unix-second `Reported`,
-  `LastUpdated`, `StartDate`, `PlannedEndDate`.
+  `LastUpdated`, `StartDate`, `PlannedEndDate`; numeric `Latitude`/`Longitude`.
 - [API overview](https://www.az511.com/developers/doc): ten requests per
   60 seconds. Per-instance coalescing/backoff here is not a distributed quota.
 
@@ -24,16 +24,21 @@ The adapter converts valid timestamps to epoch milliseconds, preserving
 description, source, roadway, direction and official site link. The docs do
 not establish a per-event permalink or recurrence grammar; neither is invented.
 Unknown scope stays unknown. Explicit ramp/frontage text is retained as
-diagnostic scope, never promoted to a mainline closure. Polyline text is
-preserved without inventing geometry or passing events to route matching.
+diagnostic scope, never promoted to a mainline closure. Geometry uses the
+[documented Google E5 polyline format](https://developers.google.com/maps/documentation/utilities/polylinealgorithm)
+linked by AZ511, or a valid single location point when no polyline is supplied.
+Malformed geometry yields empty parts and `geometryUnknown:true`; secondary
+coordinates are not joined into an invented road segment. Every event supplies
+`type`, `parts`, `headline`, `closed` and the shared timing fields.
 
 `timingStatus` is `scheduled` before the start, `active` within a known
 nonrecurring interval, `ended` at/after the end, otherwise `unknown`.
 Intervals are start-inclusive/end-exclusive. Missing/invalid/reversed dates
 set `timingUnknown: true`. Unparsed recurrence does too; daily minutes remain
 null. A future end is a planned bound, not confirmation of a physical reopening.
-Integration update: the four closure-fix commits through
-`d26dc872e9b3dfd3576cf90a176e741b99ca3cf3` have now been cherry-picked.
+Integration update: the closure-fix commits through
+`37be39f2f3edc8a0f65427280356a24b8cb049f5` have now been cherry-picked
+(five commits, including daily-window labels).
 The adapter calls the shared `roadEventTiming` classifier. Unknown timing,
 including unparsed recurrence, survives JSON serialization and always stays
 unknown. The imported UI fix distinguishes scheduled/unknown from active
@@ -46,7 +51,11 @@ absent from Wrangler vars and all public modules. `AZ511_ENABLED=false` and
 `PUBLIC_LIVE=false` keep the adapter disabled. No real key is needed for tests.
 Do not put keys in URLs sent to the browser, logs, repository files or fixtures.
 
-`?feed=az511` is a separate shadow diagnostic feed. Its statuses distinguish
+`?feed=az511` is a separate shadow diagnostic feed, including the existing
+`roadEvents: {events,fetchedAt,stale}` envelope (null on failure). Fixture tests
+transport that envelope through shared labeling and route matching. It is not
+merged into the app's standard `feed=all`: source deduplication and ramp/mainline
+matching policy must be validated first. Its statuses distinguish
 disabled, unconfigured, unavailable and successful (including a valid empty
 array). Fixed-host requests reject redirects and time out after ten seconds;
 errors omit upstream bodies, URLs and exception text. A one-minute per-instance
@@ -69,7 +78,7 @@ summer/winter offsets, start/end boundaries, bad dates, recurrence, malformed
 responses, missing config, fixed endpoint, cache reclassification, coalescing,
 throttled failure, error redaction, empty success and disabled writes/sends.
 
-Local verification after closure integration: all 313 repository tests pass;
+Local verification after final closure/geometry integration: all 314 repository tests pass;
 Worker generation succeeds; the rebuilt Apps Script bundle parses as ES2019.
 Loopback fixture smoke passed before integration. Local Playwright smoke could
 not launch because Chromium revision 1148 is not installed; branch CI installs
@@ -77,9 +86,13 @@ Chromium and runs browser smoke. No live-road visual verification is claimed.
 
 Before any cutover:
 
-1. Establish AZ511 geometry, ramp/mainline matching and source deduplication
+1. Validate AZ511 geometry, ramp/mainline matching and source deduplication
    policy before feeding the adapter into route assessments. Shared classifier
-   integration is complete.
+   integration is complete. Do not blindly combine unknown-timing TransView
+   duplicates with scheduled AZ511 events: the unknown record still blocks
+   navigation. Reconcile verified IDs/geometry/direction and preserve relevant
+   county barricades. Existing closure-page intro and `SRC['road-event']` name
+   TransView; update source labels before any combined UI feed.
 2. Independently authorize secret provisioning and bounded credentialed shadow
    validation. No credentialed calls, account changes or deployment occurred.
 3. Implement shared cache/rate limits, recurrence semantics, last-good/stale

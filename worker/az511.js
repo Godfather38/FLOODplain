@@ -5,6 +5,42 @@ const endpoint = 'https://az511.com/api/v2/get/event';
 const text = value => typeof value === 'string' ? value : '';
 const epoch = value => Number.isInteger(value) && value > 0 && value < 100000000000
   && Number.isFinite(new Date(value * 1000).getTime()) ? value * 1000 : null;
+const validPoint = (lon, lat) => Number.isFinite(lon) && Number.isFinite(lat) && Math.abs(lon)<=180 && Math.abs(lat)<=90;
+
+// Google E5 polyline format linked by the official AZ511 schema.
+function geometry(row) {
+  const encoded=text(row.EncodedPolyline), points=[];
+  if (encoded) {
+    try {
+      if(encoded.length>200000) throw Error('Too long');
+      let index=0, lat=0, lon=0;
+      const delta=()=>{
+        let value=0, shift=0, byte;
+        do {
+          if(index>=encoded.length || shift>30) throw Error('Invalid polyline');
+          byte=encoded.charCodeAt(index++)-63;
+          if(byte<0 || byte>63) throw Error('Invalid polyline');
+          value+=(byte&31)*2**shift; shift+=5;
+        } while(byte&32);
+        return value%2 ? -(Math.floor(value/2)+1) : value/2;
+      };
+      while(index<encoded.length) {
+        lat+=delta(); lon+=delta();
+        const point=[lon/1e5,lat/1e5];
+        if(!validPoint(...point)) throw Error('Invalid coordinate');
+        points.push(point);
+      }
+      if(points.length) return {type:points.length>1?'LINESTRING':'POINT',parts:[points],geometryUnknown:false};
+    } catch { return {type:'UNKNOWN',parts:[],geometryUnknown:true}; }
+  }
+  // A single documented location is a point, not an invented straight road segment.
+  if(validPoint(row.Longitude,row.Latitude)) return {type:'POINT',parts:[[[row.Longitude,row.Latitude]]],geometryUnknown:false};
+  return {type:'UNKNOWN',parts:[],geometryUnknown:true};
+}
+
+export function az511RoadEvents(result) {
+  return result.status==='ok' ? {events:result.events,fetchedAt:result.fetchedAt,stale:false} : null;
+}
 
 export function normalizeAZ511(rows, now) {
   if (!Array.isArray(rows) || !Number.isFinite(now)) throw Error('Invalid AZ511 response');
@@ -24,6 +60,7 @@ export function normalizeAZ511(rows, now) {
     const scope = /\bfrontage\b/i.test(scopeText) ? 'frontage' : /\b(?:ramp|on-ramp|off-ramp)\b/i.test(scopeText) ? 'ramp' : /\bmainline\b/i.test(scopeText) ? 'mainline' : 'unknown';
     return {
       id: `az511-${row.ID}`, source: 'AZ511', sourceId: text(row.SourceId),
+      ...geometry(row),
       headline: description || text(row.RoadwayName), description,
       roadway: text(row.RoadwayName), direction: text(row.DirectionOfTravel),
       jurisdiction: text(row.Organization), link: 'https://www.az511.com/',
@@ -32,7 +69,7 @@ export function normalizeAZ511(rows, now) {
       scope, start, stop, dailyStart: null, dailyEnd: null,
       timingStatus, timingUnknown, recurrence, recurrenceSchedules,
       reported: epoch(row.Reported), updated: epoch(row.LastUpdated),
-      // Retained for later geometry validation; deliberately not fed to route matching.
+      // Keep original geometry for audit; live matching remains a separate cutover step.
       encodedPolyline: text(row.EncodedPolyline),
     };
   });
