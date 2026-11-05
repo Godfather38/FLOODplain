@@ -74,6 +74,18 @@ test('failed responses remain unavailable, redact exceptions, throttle retries',
     assert.deepEqual(await load(env),{status:'unavailable',events:null}); assert.equal(calls,1);
   }
 });
+test('diagnostics expose only fixed stages and HTTP status, never upstream content', async () => {
+  for (const [fetcher,stage,httpStatus] of [
+    [async()=>{throw Error(env.AZ511_API_KEY);},'network',null],
+    [async()=>new Response(env.AZ511_API_KEY,{status:403}),'http',403],
+    [async()=>new Response(env.AZ511_API_KEY),'body',200],
+    [async()=>Response.json({error:'private detail'}),'schema',200],
+  ]) {
+    const result=await createAZ511Adapter({fetcher,clock:()=>now,diagnostics:true})(env);
+    assert.deepEqual(result,{status:'unavailable',events:null,diagnostic:{stage,httpStatus}});
+    assert.ok(!JSON.stringify(result).includes(env.AZ511_API_KEY));
+  }
+});
 test('simultaneous reads coalesce; valid empty upstream stays successful', async () => {
   let calls=0;
   const load=createAZ511Adapter({clock:()=>now,fetcher:async()=>{calls++;return Response.json([]);}});

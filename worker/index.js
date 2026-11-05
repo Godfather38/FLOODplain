@@ -46,7 +46,7 @@ export function compute(raw, now) {
 }
 
 export function createWorker({fetcher=fetch, fixture=healthy, clock=()=>Date.now()}={}) {
-  const loadAZ511 = createAZ511Adapter({fetcher, clock});
+  const loadAZ511 = createAZ511Adapter({fetcher, clock, diagnostics:true});
   return {
     async fetch(request, env={}) {
       const url = new URL(request.url), q=url.searchParams;

@@ -110,7 +110,7 @@ async function readBoundedJSON(response, secret) {
   return rows;
 }
 
-export function createAZ511Adapter({fetcher = fetch, clock = () => Date.now()} = {}) {
+export function createAZ511Adapter({fetcher = fetch, clock = () => Date.now(), diagnostics = false} = {}) {
   let pending, cached, nextAttempt = 0;
   return async function load(env = {}) {
     if (env.PUBLIC_LIVE !== 'true' || env.AZ511_ENABLED !== 'true') return {status:'disabled', events:null};
@@ -121,20 +121,25 @@ export function createAZ511Adapter({fetcher = fetch, clock = () => Date.now()} =
     if (now < nextAttempt) return {status:'unavailable', events:null};
     nextAttempt = now + 60000;
     pending = (async () => {
+      let stage='network', httpStatus=null;
       try {
         const url = new URL(endpoint);
         url.searchParams.set('key', env.AZ511_API_KEY);
         url.searchParams.set('format', 'json');
         const response = await fetcher(url.toString(), {redirect:'error', signal:AbortSignal.timeout(10000)});
+        httpStatus=response.status;
+        stage='http';
         if (!response.ok) throw Error('Unavailable');
+        stage='body';
         const rows = await readBoundedJSON(response, env.AZ511_API_KEY);
+        stage='schema';
         const fetchedAt = clock(), events = normalizeAZ511(rows, fetchedAt);
         cached = {status:'ok', rows, fetchedAt};
         return {status:'ok', events, fetchedAt};
       } catch {
         cached = null;
         // Never expose a key-bearing URL, response body, or fetch error.
-        return {status:'unavailable', events:null};
+        return {status:'unavailable', events:null, ...(diagnostics ? {diagnostic:{stage,httpStatus}} : {})};
       } finally { pending = null; }
     })();
     return pending;
