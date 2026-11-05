@@ -13,5 +13,8 @@
   "workers_dev": true,
   "preview_urls": false,
   "vars": { "PUBLIC_LIVE": "false", "AZ511_ENABLED": "false" },
+  "previews": {
+    "vars": { "PUBLIC_LIVE": "false", "AZ511_ENABLED": "false" }
+  },
   "triggers": { "crons": [] }
 }
