@@ -3,6 +3,7 @@
 // that is loaded; nothing here is observed water.
 import {COVER_M} from './simulation/sim-2d.js?v=dev';
 import {canvasRatio} from './graphics.js?v=dev';
+import {routeAtFrame} from './simulation/route-prediction.js?v=dev';
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
 const ft=m=>m/.3048;
 const hourText=t=>new Date(t).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:new Date(t).getUTCMinutes()?'2-digit':undefined});
@@ -17,6 +18,20 @@ export function deckHtml(runs,current,live){
    :`<dl><div><dt>Peak rain</dt><dd>${num(c.rainInH,2)} in/h</dd></div><div><dt>River</dt><dd>${Math.round(c.riverCfs).toLocaleString()} ft³/s</dd></div><div><dt>Peak wet</dt><dd>${num(c.wetKm2,1)} km²</dd></div></dl>`;
   return `<article class="sim-card k-${(c.kind??'').toLowerCase().replace(/[^a-z]/g,'')}${on?' on':''}"><header><span class="kind">${esc(c.kind??'')}</span>${pips}</header><h4>${esc(c.short??r.label)}</h4><p>${esc(c.blurb??'')}</p>${stats}<button type="button" data-sim-load="${r.id}"${on?' aria-pressed="true"':''}>${on?'Loaded':'Load scenario'}</button></article>`;
  }).join('')}</div>`;
+}
+
+// --- route board: every route's road against this hour's water (simulation/route-prediction.js) ---
+export function routeBoardHtml(pred,hour,nameOf){
+ if(!pred)return'<p class="sim-muted">Loading road heights for every route…</p>';
+ if(pred.error)return`<p class="sim-muted">Route forecast unavailable: ${esc(pred.error)}</p>`;
+ const rows=Object.values(pred.routes).map(r=>{
+  if(!r.samples.length)return{r,html:`<div class="sim-row none"><span class="name">${esc(nameOf(r.routeId))}<small>Outside the model area</small></span><span class="word">No model result</span></div>`,v:-99};
+  const f=routeAtFrame(r,hour),s=f.stretches[0],w=f.maxOver>COVER_M?{cls:'over',text:`${num(ft(f.maxOver),1)} ft over the road`}:f.near?{cls:'near',text:`Water within 1 ft of the road at ${f.near}`}:{cls:'dry',text:'No water at the road'};
+  const detail=f.stretches.length?`${f.stretches.length} ${r.lowPoints?'low point':'stretch'}${f.stretches.length>1?(r.lowPoints?'s':'es'):''} with water over the road`:`${r.samples.length.toLocaleString('en-US')} ${r.lowPoints?'low points':'road stations'} checked`;
+  return{r,v:f.maxOver,html:`<button type="button" class="sim-row ${w.cls}"${s?` data-sim-route-at="${s.lat},${s.lon}"`:''}><span class="name">${esc(nameOf(r.routeId))}<small>${esc(detail)}</small></span><span class="word">${esc(w.text)}</span></button>`};
+ }).sort((a,b)=>(a.v===-99)-(b.v===-99)||(b.v>a.v)-(b.v<a.v));
+ const over=rows.filter(x=>x.v>COVER_M).length;
+ return `<div class="sim-score"><div class="sim-big"><b>${over}</b><span>of ${rows.length} routes with water over the road this hour</span></div>${rows.map(x=>x.html).join('')}<p class="sim-fig"><b>Table 1.</b> Simulated water surface minus the lidar road surface or bridge deck along each whole route${pred.cellM<10?', at every low point on the road (6.25 m cells)':', every 5 m of road in its 100 m model cell'}. Over the road means more than 0.16 ft. A model forecast, not observed water.</p></div>`;
 }
 
 // --- crossing scoreboard ---

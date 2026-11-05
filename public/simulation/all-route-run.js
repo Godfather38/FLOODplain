@@ -115,7 +115,7 @@ export async function openAllRoute({variant='web',fetchBytes=plainFetch}={}){
   return cases.map(c=>{const p=points.cases[c.key]?.points?.[id];if(!p)return null;const at=new Map(points.cases[c.key].times.map((t,k)=>[t,k]));
    return{key:c.key,label:c.label,routes:c.info.routes,zs:iso.map(t=>{const k=at.get(t);return k==null||p.zs[k]==null?NaN:p.zs[k];}),depth:iso.map(t=>{const k=at.get(t);return k==null||p.depth[k]==null?NaN:p.depth[k];})};}).filter(Boolean);
  }
- return{pkg,cases,times,iso,frameMs,variant,load,peek,series,valuesAt,pointSeries,cellAtUtm,
+ return{pkg,points,cases,times,iso,frameMs,variant,load,peek,series,valuesAt,pointSeries,cellAtUtm,
   get mode(){return mode;},setMode,
   // Load (or wait for) frame fi of every case that has it.
   ensure(fi){return Promise.all(cases.map(c=>load(c,fi)));},

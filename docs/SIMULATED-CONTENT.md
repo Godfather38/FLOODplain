@@ -13,6 +13,8 @@ Simulated or modeled water is identified by two things only:
 | `simulated` | This water is simulated (3D) |
 | `estimate` | This water is a model estimate (HAND) |
 
+SFINCS also predicts water over the road along every route, and that prediction counts in the route ratings. See `SFINCS-ROUTE-PREDICTION.md`. Being simulated is never a reason to keep model water out of the routes.
+
 Don't add permanent banners, tags or labels for this. Don't hide, gate or remove simulator features or data either: the owner decides how the app is used. Keep the tone neutral: don't call anything "safe", and don't inflate risk.
 
 `test/model-acknowledgement.test.js` checks the notice, the wording, and that the simulator controls stay where the design puts them.

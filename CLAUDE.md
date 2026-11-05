@@ -2,6 +2,8 @@
 
 **Simulated and modeled water is identified only by one dismissible acknowledgement and the wording already on screen.** SFINCS and the simulator stay where the map design puts them. See `docs/SIMULATED-CONTENT.md`.
 
+**SFINCS predicts flooding on whole routes and counts in the route ratings.** Crossings and whole roads get a flood prediction from the lidar road heights. Never remove it, switch it off or make it "context only". Don't reason "it's a model, so keep it out of the ratings". See `docs/SFINCS-ROUTE-PREDICTION.md`.
+
 ## How the owner wants to work (read first)
 - **One continuous conversation.** Every message adds to the same task. A new message, an interruption, or a stopped tool call is not a reset. Earlier instructions stay in force until the owner changes them.
 - **Avoid recency bias.** Recency bias is an AI giving too much weight to the most recent input over earlier context. Don't let the latest message, hook or reminder push out what was already asked. Before acting, re-read the open requests from earlier messages. Before stopping, check that none were dropped.

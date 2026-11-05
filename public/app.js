@@ -18,7 +18,7 @@ import { resolveScreen } from './routing.js?v=dev';
 import { UNDERPASSES } from './underpasses.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl, parseCountyClosures,
-  riskScore, routeScore, goodSigns, againstIt, routeClosures, roadEventActive, roadEventTiming, roadEventLabel, driveSummary, bridgeHeightComparison, crossingLead,
+  riskScore, routeScore, goodSigns, againstIt, routeClosures, worst, roadEventActive, roadEventTiming, roadEventLabel, driveSummary, bridgeHeightComparison, crossingLead,
 } from './logic.js?v=dev';
 
 // Error and freeze logging first, so the rest of startup is covered (diagnostics.js).
@@ -29,11 +29,12 @@ const COLOR = RISK_COLORS;
 const LEVEL_SENTENCE = { ok: 'Nothing in the data points to water here.', watch: 'Some water around. Usually passable; look as you go.', caution: 'Water likely at or near the road.', danger: 'Closed, or a flood is running.', unknown: 'Missing data. That is not the same as fine.' };
 const SRC = {
   none: ['…', 'Live readings'], county: ['🚧', 'County barricade'], nws: ['📢', 'Weather service'], river: ['🌊', 'River'], 'river-early': ['⤴️', 'Creeks upstream'],
-  hand: ['🗺️', 'Flood model'], 'road-event': ['🚧', 'TransView'], wash: ['〰️', 'Wash flow upstream'], 'road-status': ['🛑', 'This crossing itself'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
+  hand: ['🗺️', 'Flood model'], sfincs: ['🌊', 'Flood model along the road (SFINCS)'], 'road-event': ['🚧', 'TransView'], wash: ['〰️', 'Wash flow upstream'], 'road-status': ['🛑', 'This crossing itself'], 'rain-local': ['🌧️', 'Rain here'], 'rain-basin': ['🌧️', 'Rain upstream'], 'rain-road': ['🌧️', 'Rain'],
 };
 const KIND_ICON = { dip: '〰️', flat: '〰️', bridge: '🌉', river: '🌉', road: '🛣️' };
 const REFRESH_MS = 5 * 60 * 1000;
 const HAND_DOWN = 'Flood model not responding';
+const SFINCS_DOWN = 'Road flood forecast (SFINCS) not responding';
 const NAV_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4.5 20.3l.7.7L12 18l6.8 3 .7-.7z"/></svg>';
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -193,12 +194,43 @@ async function refreshHand() {
   if (!['report', 'alerts'].includes(where().screen)) render();
 }
 
+// The SFINCS road forecast: the hourly live run compared with lidar road heights along every
+// route (simulation/route-prediction.js). It loads after the first screen like HAND, and counts in
+// the route ratings whenever the run covers the current time. docs/SFINCS-ROUTE-PREDICTION.md.
+let sfincsModel = null;
+let sfincsRun = 0;
+async function refreshSfincs() {
+  const run = ++sfincsRun;
+  let sfincs = null;
+  try {
+    sfincsModel ??= await import('./simulation/route-prediction.js?v=dev');
+    sfincs = await sfincsModel.loadLivePrediction();
+  } catch (e) { sfincs = { status: 'unavailable', reason: `The road flood forecast did not load (${e.message}).` }; }
+  if (run !== sfincsRun || !data) return;
+  data.sfincs = sfincs;
+  data.errors = data.errors.filter((e) => e !== SFINCS_DOWN);
+  if (sfincs.status === 'unavailable') data.errors.push(SFINCS_DOWN);
+  view = compute(data);
+  if (!['report', 'alerts'].includes(where().screen)) render();
+}
+// One rating row per route from the SFINCS forecast, while the run covers now. It can only raise
+// the route's level: worst() keeps a closure or a gauge reading where it was.
+function addSfincs(r, d) {
+  const s = d.sfincs;
+  if (s?.status !== 'ok' || !sfincsModel) return r;
+  const o = sfincsModel.routeOutlook(s.pred, r.id, d.now);
+  r.sfincs = o;
+  if (o.status !== 'current') return r;
+  const point = sfincsModel.predictionPoint(r.id, o, s.manifest?.issuedAt);
+  return { ...r, sfincs: o, points: [...r.points, point], level: worst([r.level, point.level]) };
+}
+
 function compute(d) {
   const structureRecords=Object.fromEntries(FAILURE_POINTS.map(fp=>[fp.id,bridgeRecordFor(fp,bridgeEvidence?.registry)]));
   const fpResults = Object.fromEntries(FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, {...d,bridgeEvidence:structureRecords}, cfg)]));
   // HAND only adds to the result, so a fault in it can't take the ratings down with it.
   try { handModel?.applyHand(fpResults, d.hand); } catch { /* ratings stand without it */ }
-  const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS, { closures: d.closures, radiusM: cfg.CLOSURE_RADIUS_M, roadEvents: d.roadEvents, now: d.now }).map((r) => { const score = routeScore(r); return { ...r, score: score == null ? score : Math.max(score, ...r.points.map((p) => pointScore(p) ?? 1)) }; });
+  const rated = rateRoutes(routeFeatures, fpResults, FAILURE_POINTS, { closures: d.closures, radiusM: cfg.CLOSURE_RADIUS_M, roadEvents: d.roadEvents, now: d.now }).map((r) => addSfincs(r, d)).map((r) => { const score = routeScore(r); return { ...r, score: score == null ? score : Math.max(score, ...r.points.map((p) => pointScore(p) ?? 1)) }; });
   const nwsQuiet = Array.isArray(d.nws) && !d.nws.some((a) => /flood/i.test(a.event));
   const underpasses = UNDERPASSES.map((up) => ({ ...up, result: rateFailurePoint(up, d, cfg) }));
   // Readable times and names for the screen; alerts keep the source wording.
@@ -329,6 +361,9 @@ function routeScreen(rid) {
       <span class="chev">›</span>
     </a>`;
   const closed = routeClosures(r).length > 0;
+  // The SFINCS road forecast's state when it isn't in the rating: loading, unreachable, stale or outside the run.
+  const sf = data.sfincs, sfNote = !sf ? 'Loading the road flood forecast.' : sf.status !== 'ok' ? sf.reason : r.sfincs && r.sfincs.status !== 'current' ? r.sfincs.reason : '';
+  if (r.sfincs?.peak?.stretches.length) import('./model-acknowledgement.js?v=dev').then((m) => m.showAcknowledgement('modelRun')).catch(() => {});
   return `
     ${closureBanner([r])}
     <article class="hero">
@@ -338,6 +373,7 @@ function routeScreen(rid) {
     ${saveButton(rid)}<p id="save-notice" class="meta" role="status">${esc(saveNotice)}</p>
     ${flagged.length ? `<h3 class="section">Working against it</h3><div class="list">${flagged.map(row).join('')}</div>` : ''}
     ${normal.length ? `<h3 class="section">${flagged.length ? 'Looks normal' : 'Every stretch looks normal'}</h3><div class="list">${normal.map(row).join('')}</div>` : ''}
+    ${sfNote ? `<p class="fine">Flood model along this road (SFINCS): ${esc(sfNote)}</p>` : ''}
     <div class="bottom-bar">${navBtn(r)}</div>`;
 }
 
@@ -709,6 +745,11 @@ function wireReport() {
 
 // Newest first. Add a line here whenever something people can notice changes.
 const UPDATES = [
+  ['November 5, 2026', [
+    'Back: SFINCS road flood forecast on every route. The hourly SFINCS run is compared with the lidar road surface along the whole route, not only the listed crossings. When it shows water over a road during the forecast hours, that route\'s number goes up and the route screen says where, how deep and when. It can raise a number but never lower one.',
+    'The Map tab lists every route with water over the road at the hour shown, for the live run and the saved runs.',
+    'Texts and push alerts don\'t use the SFINCS road forecast yet.',
+  ]],
   ['November 1, 2026', [
     'New: accessible colors on every map icon, visible Back and Refresh labels, a 3-step guide, heights in feet, and coverage and gauge tracking for every location on a route.',
     'New: Road closures list, one-tap driver reports, instant closure alerts you can turn on, and the app now opens with the last check when there is no signal.',
@@ -1035,6 +1076,7 @@ async function check() {
     // With nothing answering, keep showing the last good check instead of an empty one.
     if (data && !next.closures && !next.alert && !next.nws && !Object.values(next.flows).some((f) => f.fresh)) throw new Error('No feeds answered');
     next.hand = data?.hand ?? null; // Keep the last HAND result until the new one arrives.
+    next.sfincs = data?.sfincs ?? null; // And the last SFINCS road forecast.
     const nextView = compute(next);
     data = next;
     view = nextView;
@@ -1042,6 +1084,7 @@ async function check() {
     store.set('lastCheck', { now: next.now, flows: next.flows, closures: next.closures, alert: next.alert, nws: next.nws, roadEvents: next.roadEvents, drive: next.drive, errors: [] });
     render();
     refreshHand();
+    refreshSfincs();
   } catch (e) {
     if (!view) throw e;
     $('#load-status').textContent = 'Couldn’t update conditions. Showing the previous check. Tap Check again to retry.';

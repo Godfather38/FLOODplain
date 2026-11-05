@@ -3,7 +3,10 @@
 // runs along the bottom. Routes, crossings and live conditions are in a side panel (a bottom sheet
 // on a phone). 2D and 3D share one run, one hour and one set of layers.
 import {RUNS,loadRun2d,createSimLayer,onDownloads,loadHand,flowsForRun,HAND_COLORS,loadRoads,crossingsFor,COVER_M,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS,setQuadOrder} from './simulation/sim-2d.js?v=dev';
-import {deckHtml,scoreboardHtml,drawTimeline,timelineKeyHtml,methodsHtml} from './sim-panels.js?v=dev';
+import {deckHtml,scoreboardHtml,routeBoardHtml,drawTimeline,timelineKeyHtml,methodsHtml} from './sim-panels.js?v=dev';
+import {predictFromGrid,predictFromAllRoute,routeStations,loadRoadLines,gridCellOf} from './simulation/route-prediction.js?v=dev';
+import {toUtm} from './preview/geo3d/src/utm.js?v=dev';
+import {ROUTE_INFO} from './config.js?v=dev';
 import {createWorldLayer} from './simulation/world-layer.js?v=dev';
 import {showAcknowledgement} from './model-acknowledgement.js?v=dev';
 import {entries,onEntry,clear as clearLog,reportText,send as sendLog,crumb,record} from './diagnostics.js?v=dev';
@@ -237,10 +240,12 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  function drawTl(){drawTimeline(tlCanvas,st.base==='terrain'&&!in3d()?null:sim.run,sim.clock,overByHour());}
  addEventListener('resize',drawTl);
  // Crossings: road and deck heights against each hour's water, for the scoreboard and the HUD.
- let crossings=null,crossingsRun=null;
+ let crossings=null,crossingsRun=null,routePred=null;
  async function updateCrossings(){
   const run=sim.run;if(!run||crossingsRun===run)return;crossingsRun=run;crossings=null;renderPanels(true);
   try{const pkg=await loadRoads();if(sim.run===run)crossings=crossingsFor(run,points,pkg);}catch{if(sim.run===run)crossings=crossingsFor(run,points,null);}
+  // Whole routes: every road station (or, on the all-route run, every low point) against this run's water.
+  routePred=null;try{const stations=routeStations(await loadRoadLines());if(sim.run===run)routePred=run.quad?predictFromAllRoute(run.quad.pkg,run.quad.points,stations,run.times):predictFromGrid(run,stations,gridCellOf(run.cells.index,toUtm));}catch(e){routePred={error:e.message};}
   if(sim.run===run){renderPanels(true);drawTl();statKey='';hourStat();}
  }
  const overByHour=()=>crossings&&sim.run?sim.run.times.map((_,h)=>crossings.filter(c=>c.inside&&c.over[h]>COVER_M).length):null;
@@ -248,7 +253,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  function renderPanels(force){
   const h=Math.round(sim.clock),key=[tab,st.run,h,!!crossings,!!sim.run].join();if(!force&&key===panelKey)return;panelKey=key;
   if(tab==='scenarios'){const ls=runs.get('live')?.series;$('[data-m-deck]').innerHTML=deckHtml(RUNS,st.run,ls&&{wetKm2:Math.max(...ls.map(v=>v.wetKm2)),rainInH:Math.max(...ls.map(v=>v.rainMmH))/25.4,riverCfs:Math.max(...ls.map(v=>v.inflowM3s))*35.3147});$$('[data-sim-load]').forEach(b=>b.onclick=()=>{chooseRun(b.dataset.simLoad);if(phone())setSheet(false);});}
-  if(tab==='crossings'){$('[data-m-score]').innerHTML=sim.run?scoreboardHtml(crossings,h,sim.run.times):'<p class="sim-muted">Loading the model run…</p>';$$('[data-sim-crossing]').forEach(b=>b.onclick=()=>{const fp=points.find(p=>p.id===b.dataset.simCrossing);if(!fp)return;if(in3d())world.goto(fp.lon,fp.lat,fp.id);else map.flyTo([fp.lat,fp.lon],15,{duration:.8});});}
+  if(tab==='crossings'){$('[data-m-score]').innerHTML=sim.run?routeBoardHtml(routePred,h,id=>ROUTE_INFO[id]?.name??id)+scoreboardHtml(crossings,h,sim.run.times):'<p class="sim-muted">Loading the model run…</p>';$$('[data-sim-route-at]').forEach(b=>b.onclick=()=>{const [lat,lon]=b.dataset.simRouteAt.split(',').map(Number);if(in3d())world.goto(lon,lat);else map.flyTo([lat,lon],16,{duration:.8});});$$('[data-sim-crossing]').forEach(b=>b.onclick=()=>{const fp=points.find(p=>p.id===b.dataset.simCrossing);if(!fp)return;if(in3d())world.goto(fp.lon,fp.lat,fp.id);else map.flyTo([fp.lat,fp.lon],15,{duration:.8});});}
   if(tab==='model')$('[data-m-methods]').innerHTML=methodsHtml(sim.run,crossings);
  }
  // How much water the model has this hour, so a dry hour reads as dry rather than as missing.
