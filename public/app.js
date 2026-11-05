@@ -18,7 +18,7 @@ import { resolveScreen } from './routing.js?v=dev';
 import { UNDERPASSES } from './underpasses.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
-  riskScore, routeScore, goodSigns, againstIt, routeClosures, roadEventActive, driveSummary, bridgeHeightComparison, crossingLead,
+  riskScore, routeScore, goodSigns, againstIt, routeClosures, roadEventActive, roadEventTiming, roadEventLabel, driveSummary, bridgeHeightComparison, crossingLead,
 } from './logic.js?v=dev';
 
 // Error and freeze logging first, so the rest of startup is covered (diagnostics.js).
@@ -205,7 +205,7 @@ function compute(d) {
   for (const p of new Set([...Object.values(fpResults), ...rated.flatMap((r) => r.points), ...underpasses.map((u) => u.result)])) { plain(p); p.checks?.forEach(plain); }
   // Every official closure for the map, whether or not a route uses it.
   const closedPoints = (d.closures ?? []).filter((c) => /clos/i.test(c.status ?? '') && Number.isFinite(c.lat)).map((c) => ({ lat: c.lat, lon: c.lon, title: `Closed: ${c.location}${c.direction ? `, ${c.direction.toLowerCase()}` : ''}${c.updated ? ` (updated ${c.updated})` : ''}` }));
-  const closedEvents = (d.roadEvents ?? []).filter((e) => e.closed && roadEventActive(e, d.now));
+  const closedEvents = (d.roadEvents ?? []).filter((e) => e.closed && roadEventTiming(e, d.now) === 'active');
   const repeated = (lon, lat) => closedPoints.some((c) => Math.hypot((c.lon - lon) * 94000, (c.lat - lat) * 110574) <= 15);
   for (const e of closedEvents) if (!e.type.includes('LINE')) for (const part of e.parts) for (const [lon, lat] of part) if (!repeated(lon, lat)) closedPoints.push({ lat, lon, title: `Closed: ${e.headline.trim()}` });
   const closedLines = closedEvents.filter((e) => e.type.includes('LINE')).flatMap((e) => e.parts.map((part) => ({ title: `Closed: ${e.headline.trim()}`, coords: part.map(([lon, lat]) => [lat, lon]) })));
@@ -249,7 +249,7 @@ const navBtn = (r, cls = 'btn btn-primary') => {
   if (!routeClosures(r).length) return `<button type="button" class="${cls}" data-nav="${r.id}">${NAV_ICON}Navigate</button>`;
   // Google Maps doesn't know about county closures, so a closed route gets no directions.
   const open = view.rec.order.find((x) => !routeClosures(x).length);
-  return `<p class="closed-note">Road closed on this route, so no directions.</p>${open ? `<button type="button" class="${cls}" data-nav="${open.id}">${NAV_ICON}Navigate ${esc(ROUTE_INFO[open.id].name)} instead</button>` : ''}`;
+  return `<p class="closed-note">A closure is reported on this route. Check its timing before driving; directions are withheld.</p>${open ? `<button type="button" class="${cls}" data-nav="${open.id}">${NAV_ICON}Navigate ${esc(ROUTE_INFO[open.id].name)} instead</button>` : ''}`;
 };
 // The closures on this area's routes, at the top of the screen.
 const closureBanner = (routes) => {
@@ -259,7 +259,7 @@ const closureBanner = (routes) => {
     byPlace.get(p.short).push(ROUTE_INFO[r.id].name);
   }
   if (!byPlace.size) return '';
-  return `<section class="closure-banner" role="alert"><h2><span aria-hidden="true">⛔</span> Road closed</h2><ul>${[...byPlace].map(([place, names]) => `<li><b>${esc(place)}</b>. Blocks ${esc(names.join(', '))}.</li>`).join('')}</ul><a href="#/closures">All road closures</a></section>`;
+  return `<section class="closure-banner" role="alert"><h2><span aria-hidden="true">⛔</span> Reported road closure</h2><ul>${[...byPlace].map(([place, names]) => `<li><b>${esc(place)}</b>. Blocks ${esc(names.join(', '))}.</li>`).join('')}</ul><a href="#/closures">All road closures</a></section>`;
 };
 
 // ---------------- screens ----------------
@@ -270,7 +270,7 @@ function homeScreen() {
   const against = againstIt(best).slice(0, 2);
   const others = rec.order.filter((r) => r.id !== best.id);
   const allClosed = routeClosures(best).length > 0;
-  const overline = allClosed ? 'Every route has a road closure' : best.score <= 2 ? 'Best route right now' : 'Least going against it';
+  const overline = allClosed ? 'Every route has a closure report' : best.score <= 2 ? 'Best route right now' : 'Least going against it';
   const areaSwitch = `<div class="seg" role="tablist" aria-label="Area">${AREAS.map((x) => `<button type="button" role="tab" data-area="${x.id}" aria-selected="${x.id === area}">${esc(x.name)}</button>`).join('')}</div>`;
   return `
     ${areaSwitch}
@@ -453,10 +453,10 @@ function closuresScreen() {
   for (const r of view.rated) for (const p of routeClosures(r)) blocks.set(p.short, [...(blocks.get(p.short) ?? []), ROUTE_INFO[r.id].name]);
   const county = (data.closures ?? []).filter((c) => /clos|caution/i.test(c.status ?? '') && c.location).map((c) => ({ place: c.location, closed: /clos/i.test(c.status), status: c.status, direction: c.direction, age: plainAge(countyTime(c.updated), now), lat: c.lat, lon: c.lon }));
   const known = (lat2, lon2) => county.some((c) => Math.hypot((c.lon - lon2) * 94000, (c.lat - lat2) * 110574) <= 15);
-  const other = (data.roadEvents ?? []).filter((e) => e.closed && roadEventActive(e, data.now)).map((e) => ({ place: e.headline.trim(), closed: true, status: `Closed${e.reason ? ` for ${e.reason}` : ''}`, age: null, lon: e.parts[0][0][0], lat: e.parts[0][0][1] })).filter((e) => !known(e.lat, e.lon));
+  const other = (data.roadEvents ?? []).filter((e) => e.closed && e.parts?.[0]?.[0]).map((e) => ({ place: e.headline.trim(), closed: roadEventTiming(e, now) === 'active', status: roadEventLabel(e, now), age: null, lon: e.parts[0][0][0], lat: e.parts[0][0][1] })).filter((e) => !known(e.lat, e.lon));
   const rows = [...county, ...other].map((c) => ({ ...c, miles: milesBetween(hub, c) })).filter((c) => c.miles <= 40).sort((a, b) => Number(b.closed) - Number(a.closed) || a.miles - b.miles);
   const missing = !data.closures ? '<p class="note">The county closure feed isn\'t answering right now. That does not mean roads are open.</p>' : '';
-  return `<div class="page"><p>Near ${esc(areaInfo().hub)}, closed first, then nearest. From Pima County and TransView. Barricades can stay listed after a road reopens, so check the time.</p>${missing}</div>
+  return `<div class="page"><p>Near ${esc(areaInfo().hub)}, closed first, then nearest. From Pima County and TransView. Scheduled closures are shown separately from closures in their listed window. Missing timing is unverified, not proof a road is open. Barricades can stay listed after a road reopens.</p>${missing}</div>
     ${rows.length ? `<div class="list">${rows.map((c) => `<div class="row"><span class="lead-icon" aria-hidden="true">${c.closed ? '⛔' : '⚠️'}</span><span class="text"><div class="t">${esc(c.place)}</div><div class="st"><span class="closure-status">${esc(c.status)}</span>${c.direction ? ` · ${esc(c.direction.toLowerCase())}` : ''} · ${Math.round(c.miles)} mi away${c.age ? ` · updated ${esc(c.age)}` : ''}${blocks.has(c.place) ? ` · Blocks ${esc(blocks.get(c.place).join(', '))}` : ''}</div></span></div>`).join('')}</div>` : '<div class="page"><p>None listed within 40 miles right now.</p></div>'}`;
 }
 function settingsScreen() {
@@ -1100,3 +1100,4 @@ init().catch((e) => {
   $('#screen').innerHTML = `<p class="loading">Couldn't load: ${esc(e.message)}</p><button type="button" class="btn btn-primary" id="retry-load">Try again</button>`;
   $('#retry-load').addEventListener('click', () => location.reload());
 });
+
