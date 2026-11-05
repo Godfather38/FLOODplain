@@ -5,3 +5,5 @@ node_modules/
 __pycache__/
 apps-script/Secrets.gs
 .hand-cache/
+.wrangler/
+worker/.dev.vars*
