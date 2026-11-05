@@ -1,5 +1,6 @@
 // Server-only adapter. Official schema: https://www.az511.com/help/endpoint/event
 // Do not import this module into public/. No credential or upstream URL is returned.
+import { roadEventTiming } from '../public/logic.js';
 const endpoint = 'https://az511.com/api/v2/get/event';
 const text = value => typeof value === 'string' ? value : '';
 const epoch = value => Number.isInteger(value) && value > 0 && value < 100000000000
@@ -15,7 +16,8 @@ export function normalizeAZ511(rows, now) {
     const invalid = start === null || stop === null || stop <= start;
     const recurring = !!(recurrence.trim() || recurrenceSchedules.trim()) ||
       [row.Recurrence, row.RecurrenceSchedules].some(v => v != null && typeof v !== 'string');
-    const timingStatus = invalid ? 'unknown' : now < start ? 'scheduled' : now >= stop ? 'ended' : recurring ? 'unknown' : 'active';
+    const timingUnknown = invalid || recurring;
+    const timingStatus = roadEventTiming({start, stop, timingUnknown, dailyStart:null, dailyEnd:null}, now);
     const description = text(row.Description);
     const scopeText = `${text(row.RoadwayName)} ${description} ${text(row.EventSubType)}`;
     // Diagnostic scope only; never convert a ramp/frontage closure to a mainline closure.
@@ -28,7 +30,7 @@ export function normalizeAZ511(rows, now) {
       eventType: text(row.EventType), eventSubType: text(row.EventSubType),
       lanesAffected: text(row.LanesAffected), closed: row.IsFullClosure === true,
       scope, start, stop, dailyStart: null, dailyEnd: null,
-      timingStatus, timingUnknown: invalid || recurring, recurrence, recurrenceSchedules,
+      timingStatus, timingUnknown, recurrence, recurrenceSchedules,
       reported: epoch(row.Reported), updated: epoch(row.LastUpdated),
       // Retained for later geometry validation; deliberately not fed to route matching.
       encodedPolyline: text(row.EncodedPolyline),

@@ -32,8 +32,12 @@ nonrecurring interval, `ended` at/after the end, otherwise `unknown`.
 Intervals are start-inclusive/end-exclusive. Missing/invalid/reversed dates
 set `timingUnknown: true`. Unparsed recurrence does too; daily minutes remain
 null. A future end is a planned bound, not confirmation of a physical reopening.
-The separate closure worker owns the common classifier; adopt its verified
-contract once its commit is available, without relaxing unknown recurrence.
+Integration update: the four closure-fix commits through
+`d26dc872e9b3dfd3576cf90a176e741b99ca3cf3` have now been cherry-picked.
+The adapter calls the shared `roadEventTiming` classifier. Unknown timing,
+including unparsed recurrence, survives JSON serialization and always stays
+unknown. The imported UI fix distinguishes scheduled/unknown from active
+closures; the existing navigation blocker remains conservative for unknowns.
 
 ## Configuration and isolation
 
@@ -49,9 +53,11 @@ errors omit upstream bodies, URLs and exception text. A one-minute per-instance
 cache retains observation time and reclassifies timing on each read. Failures
 are not interpreted as no closures. No old response is relabeled fresh.
 
-Existing feed envelopes, public app, TEXT_API, route ratings, write handlers,
-Apps Script service and alerts are unchanged by this phase. The Worker still
-rejects mutations and has no operational scheduled sender.
+The adapter leaves existing feed envelopes, TEXT_API and write handlers untouched.
+The Worker still rejects mutations and has no operational scheduled sender.
+The subsequent integrated
+closure fix changes local public logic/UI/engine and the regenerated Apps Script
+bundle, but nothing has been deployed. TEXT_API and write handlers are unchanged.
 
 ## Verification and remaining work
 
@@ -63,10 +69,17 @@ summer/winter offsets, start/end boundaries, bad dates, recurrence, malformed
 responses, missing config, fixed endpoint, cache reclassification, coalescing,
 throttled failure, error redaction, empty success and disabled writes/sends.
 
+Local verification after closure integration: all 313 repository tests pass;
+Worker generation succeeds; the rebuilt Apps Script bundle parses as ES2019.
+Loopback fixture smoke passed before integration. Local Playwright smoke could
+not launch because Chromium revision 1148 is not installed; branch CI installs
+Chromium and runs browser smoke. No live-road visual verification is claimed.
+
 Before any cutover:
 
-1. Reuse/test the shared closure classifier after the parallel fix lands;
-   establish geometry, ramp/mainline matching and source deduplication policy.
+1. Establish AZ511 geometry, ramp/mainline matching and source deduplication
+   policy before feeding the adapter into route assessments. Shared classifier
+   integration is complete.
 2. Independently authorize secret provisioning and bounded credentialed shadow
    validation. No credentialed calls, account changes or deployment occurred.
 3. Implement shared cache/rate limits, recurrence semantics, last-good/stale

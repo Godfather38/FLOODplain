@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {normalizeAZ511, createAZ511Adapter} from '../worker/az511.js';
 import {az511Events} from '../worker/fixtures/az511.js';
 import {createWorker} from '../worker/index.js';
+import {roadEventTiming} from '../public/logic.js';
 const now = Date.parse('2026-11-04T20:00:00-07:00');
 const env = {PUBLIC_LIVE:'true', AZ511_ENABLED:'true', AZ511_API_KEY:'synthetic-test-key'};
 
@@ -27,6 +28,7 @@ test('missing, invalid, reversed, millisecond and string dates never claim activ
   for (const value of [null,undefined,0,-1,'1790000000',now,NaN]) {
     const e=normalizeAZ511([{...az511Events[2],StartDate:value}],now)[0];
     assert.equal(e.timingStatus,'unknown'); assert.equal(e.timingUnknown,true);
+    assert.equal(roadEventTiming(JSON.parse(JSON.stringify(e)),now),'unknown');
   }
   assert.equal(normalizeAZ511([{...az511Events[2],PlannedEndDate:1}],now)[0].timingStatus,'unknown');
 });
