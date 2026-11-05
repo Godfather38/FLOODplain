@@ -8,7 +8,7 @@
     "test": "node --test test/*.test.js",
     "build:worker": "node tools/build_worker.mjs",
     "preview:worker": "node worker/serve.mjs",
-    "test:worker": "node --test test/cloudflare-worker.test.js",
+    "test:worker": "node --test test/cloudflare-worker.test.js test/az511.test.js",
     "build:gas": "node tools/build_gas.mjs",
     "test:browser": "node e2e/smoke.mjs",
     "serve": "python3 -m http.server -d public 8080"

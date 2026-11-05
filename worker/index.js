@@ -4,6 +4,7 @@ import { normalizeRoadEvents } from '../public/logic.js';
 import { expectedInputHealth_ } from './generated/input-health.js';
 import routes from './generated/routes.json' with { type: 'json' };
 import { healthy, fixtureNow } from './fixtures/healthy.js';
+import { createAZ511Adapter } from './az511.js';
 
 const forecastPath = /^(gauges\/[A-Z0-9]{3,8}(\/stageflow)?|reaches\/\d{1,14}\/streamflow)$/;
 const unavailable = {error: 'unavailable'};
@@ -45,6 +46,7 @@ export function compute(raw, now) {
 }
 
 export function createWorker({fetcher=fetch, fixture=healthy, clock=()=>Date.now()}={}) {
+  const loadAZ511 = createAZ511Adapter({fetcher, clock});
   return {
     async fetch(request, env={}) {
       const url = new URL(request.url), q=url.searchParams;
@@ -52,6 +54,8 @@ export function createWorker({fetcher=fetch, fixture=healthy, clock=()=>Date.now
       if (request.method!=='GET' || q.has('hit') || q.has('new') || q.has('fail') || q.has('action')) return reply({ok:false,error:'Mutations disabled in shadow preview'},405);
       const feed=q.get('feed');
       if (!feed) return reply({ok:true,service:'wash-watch-alerts-shadow',sender:'disabled',freePerDay:0,preview:true});
+      // Isolated diagnostic feed; no change to existing feeds, ratings or closure matching.
+      if (feed==='az511') return reply(await loadAZ511(env));
       if (feed==='forecasts') {
         const responses={};
         const paths=[...new Set((q.get('paths')||'').split(',').filter(p=>forecastPath.test(p)))].slice(0,40);

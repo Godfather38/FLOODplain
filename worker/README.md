@@ -1,5 +1,9 @@
 # Cloudflare shadow preview — not a completed migration
 
+Phase 1 now merges main and adds a disabled server-only AZ511 diagnostic adapter.
+See [AZ511 phase 1](AZ511-PHASE1.md) for schema evidence, configuration, tests and
+remaining blockers. Historical verification below describes the earlier preview.
+
 Isolated branch: `experimental/cloudflare-backend-20261103`.
 Baseline: owner-health `35ced2e2266f8575a8631fe26bc6ac73dc0ad512`, based on published-default checkout `e82d682` (`ccr-ae06b197-a01a6o`). Owner-health is not deployed. No edits to Apps Script, public assets, ratings, TEXT_API, deployment workflows, credentials or Claude's wording work.
 
