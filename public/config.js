@@ -257,6 +257,9 @@ export const alertTopic = (hhmm, days, mode) => `${ALERTS.prefix}-${hhmm.replace
 // Where crossing reports go before the alert service is connected: an ntfy topic the
 // owner subscribes to. Reports carry no contact details on this path (topics are public).
 export const REPORT_TOPIC = 'washwatch-reports-1o6j4d6';
+// Error and freeze reports from the app (diagnostics.js): device, recent taps and the log, never
+// a location or personal details. Public like the topics above, so nothing private goes in it.
+export const DIAG_TOPIC = 'washwatch-diag-q7m3x9';
 
 // Plain questions for drivers, asked about any crossing. Answers fill the gaps in the map data.
 export const REPORT_QUESTIONS = [

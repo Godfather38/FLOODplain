@@ -1,6 +1,6 @@
 // Keeps the app openable with weak or no signal. Always tries the network first, so people
 // never get an old version while they have service. Feeds and map tiles are not stored here.
-const CACHE = 'floodplain-app-v1';
+const CACHE = 'floodplain-app-v2';
 const WAIT_MS = 5000;
 const SKIP = /\/simulation\/data\/|\/simulation\/renderer-chunks\/|\/inundation\/data\//;
 const storable = (url) => url.origin === self.location.origin && !SKIP.test(url.pathname);
@@ -24,16 +24,26 @@ self.addEventListener('message', (event) => {
   })());
 });
 
+// A slow answer is never cut off: a slow host would otherwise break a page's code for good. After
+// WAIT_MS a saved copy is used if there is one; with none, the network answer is awaited.
 async function fromNetworkFirst(request) {
   const cache = await caches.open(CACHE);
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), WAIT_MS);
-  try {
-    const response = await fetch(request, { signal: controller.signal });
+  // The app's home page stands in only for the app's own top-level page, never for another page
+  // (such as the 3D view in its frame), which would then load the wrong document.
+  const home = new URL('./', self.location).href, url = new URL(request.url);
+  const isAppPage = request.mode === 'navigate' && request.destination === 'document' && (url.href.split(/[?#]/)[0] === home || url.pathname.endsWith('/index.html') && new URL('index.html', home).pathname === url.pathname);
+  const savedCopy = async () => (await cache.match(request)) ?? (request.mode === 'navigate' ? (await cache.match(request, { ignoreSearch: true })) ?? (isAppPage ? await cache.match(home) : null) : null);
+  const network = (async () => {
+    const response = await fetch(request);
     if (response.ok && storable(new URL(request.url))) cache.put(request, response.clone());
     return response;
+  })();
+  let timer;
+  const slow = new Promise((resolve) => { timer = setTimeout(resolve, WAIT_MS); }).then(savedCopy).then((saved) => saved ?? network);
+  try {
+    return await Promise.race([network, slow]);
   } catch (error) {
-    const saved = await cache.match(request) ?? (request.mode === 'navigate' ? await cache.match(new URL('./', self.location).href) ?? await cache.match(request, { ignoreSearch: true }) : null);
+    const saved = await savedCopy();
     if (saved) return saved;
     throw error;
   } finally { clearTimeout(timer); }

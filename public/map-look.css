@@ -1,0 +1,141 @@
+/* The 2D map in the 3D map page's look (preview/geo3d/world.css on experiment/geographic-3d-layer):
+   the painted street map, its names, drop pins for crossings, place and reading pills, and on the
+   Map tab a side column of cards. Built on style.css tokens, so dark mode follows. */
+.leaflet-container{background:#efe8d8}
+.street-tiles,.street-hybrid{pointer-events:none}
+
+/* names */
+.map-labels{position:absolute;left:0;top:0;pointer-events:none}
+.map-label{position:absolute;left:0;top:0;white-space:nowrap;font:500 12px/1.2 Roboto,system-ui,sans-serif;color:#3a3630;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 2px #fff}
+.map-label.place{font-size:15px;color:#2a2622}
+.map-label.road{color:#5a5348}
+.map-label.wash{font-style:italic;color:#2f6f86}
+
+/* drop pins for crossings, in the rating's colour with its number */
+.pin.drop-pin{display:block;position:relative;width:32px;height:40px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));cursor:pointer}
+.drop-pin::before{content:'';position:absolute;left:2px;top:0;width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--sq);border:2px solid #fff;box-sizing:border-box}
+.drop-pin.s1::before{background:var(--s1)}.drop-pin.s2::before{background:var(--s2)}.drop-pin.s3::before{background:var(--s3)}
+.drop-pin.s4::before{background:var(--s4)}.drop-pin.s5::before{background:var(--s5)}.drop-pin.sq::before{background:var(--sq)}
+.drop-pin .glyph{position:absolute;left:0;top:5px;width:32px;text-align:center;font:700 13px/18px Roboto,system-ui,sans-serif;color:#fff;letter-spacing:-.02em}
+.drop-pin.open::before{border-width:3px;border-color:var(--on)}
+
+/* places and readings as pills */
+.place-pin::before{content:'';position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:#3c3b38;border:2px solid #fff;box-sizing:border-box}
+.place-pin .place{left:10px;top:-11px;padding:2px 8px;border-radius:10px;background:#fff;color:#1b1b1a;font:500 13px/1.2 Roboto,system-ui,sans-serif;text-shadow:none;box-shadow:0 1px 3px #0003}
+.place-pin .place.below{left:0;top:9px;transform:translateX(-50%)}
+.place-pin .place.above-left{left:auto;right:10px;top:-26px}
+.gauge-pin::after{background:#19a7a0}
+.gauge{border-radius:10px;background:#0f6f6a;color:#fff}
+.live-reading span{border:0;border-radius:10px;padding:3px 8px;background:#0f6f6a;font:600 12px/1.2 Roboto,system-ui,sans-serif;box-shadow:0 1px 3px #0003}
+.live-reading.closure span{background:var(--s5)}
+
+/* Map tab: the side column of cards beside the map (under it on a phone) */
+.map-side{display:none}
+.map-first .map-side{display:block;padding:16px}
+.map-side>*+*{margin-top:12px}
+.map-side .hero{padding:16px 20px}
+.map-side .overline{margin:0 0 8px}
+.map-side h3.section{margin:20px 4px 8px}
+.map-side .map-dock{position:static;inset:auto;width:auto;max-width:none;max-height:none;overflow:visible;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;background:none;color:inherit;display:block}
+.map-side .dock-actions{display:flex;gap:8px;margin-top:12px}
+.map-side .dock-actions [data-panel=routes],.map-side .dock-actions [data-panel=options]{display:none}
+.map-side .dock-actions button{flex:1;min-height:48px;border:0;border-radius:24px;background:var(--surface-2);color:var(--on);font:inherit;font-weight:500;cursor:pointer}
+.map-side .flood-time output{display:block;margin:4px 0 8px;font-size:1.125rem;font-weight:500}
+.map-side .flood-time-controls{display:flex;align-items:center;gap:8px}
+.map-side .flood-time-controls input{flex:1;min-width:0;accent-color:var(--primary)}
+.map-side .flood-time-controls button{width:48px;height:48px;min-height:48px;border:0;border-radius:50%;background:var(--surface-2);color:var(--on);font-size:1.25rem;cursor:pointer}
+.map-side .dock-status,.map-side .source-age{font-size:.875rem;color:var(--muted);margin-top:6px;padding:0}
+.map-side .dock-key{margin-top:10px;font-size:.875rem;color:var(--muted)}
+.map-side select{width:100%;min-height:48px;font:inherit;font-size:1rem;color:var(--on);padding:10px 12px;border-radius:12px;border:1px solid var(--divider);background:var(--bg)}
+.map-side .flood-row label{display:block;color:var(--muted);font-size:.9375rem}
+.map-side .flood-row label select{margin-top:6px}
+.map-side .base-seg{margin:12px 0 4px}
+.map-side .flood-extra>summary,.map-side details>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:500}
+.map-side .flood-extra .flood-row{display:block}
+.map-side .flood-extra .flood-row label{display:flex;align-items:center;gap:12px;margin-top:8px;font-size:1rem;color:var(--on);cursor:pointer}
+.map-side .flood-extra .flood-row input{width:22px;height:22px;min-height:0;accent-color:var(--primary)}
+.map-side .flood-extra .flood-row label:has(input:disabled){color:var(--muted)}
+.map-side .sheet-actions{display:flex;gap:8px;margin:0 0 12px}
+.map-side .sheet-actions button,.map-side .flood-viewport button,.map-side [data-panel-content=options]>button{flex:1;min-height:48px;border:0;border-radius:24px;background:var(--surface-2);color:var(--on);font:inherit;font-weight:500;cursor:pointer;padding:0 16px}
+.map-side [data-panel-content=options]>button{width:100%}
+.map-side .flood-tag{font-size:.75rem;letter-spacing:.08em;color:var(--muted);margin:0 0 8px}
+.map-side [data-status],.map-side .fine,.map-side [data-source]{font-size:.875rem;color:var(--muted)}
+.map-side .embedded-live{margin:12px 0 0;background:var(--surface-2)}
+.map-side .official-forecast-link{display:block;margin-top:12px}
+
+/* the layers card in the 3D page's order: model, base map, layers, fit buttons, key, then sources */
+.map-side [data-panel-content=options]{display:flex;flex-direction:column;gap:10px}
+.map-side [data-panel-content=options]>*{margin-top:0;margin-bottom:0}
+.map-side [data-panel-content=options]>.flood-extra{order:4}
+.map-side [data-panel-content=options]>.sheet-actions{order:5}
+.map-side [data-panel-content=options]>.fine{order:6}
+.map-side [data-panel-content=options]>[data-status]{order:7}
+.map-side [data-panel-content=options]>details:not(.flood-extra){order:8}
+.map-side [data-panel-content=options]>.embedded-live{order:9}
+.map-side [data-panel-content=options]>button{order:10}
+.map-side [data-panel-content=options]>.official-forecast-link{order:11}
+
+/* route rows and the crossing card */
+.map-routes .row.route .status{white-space:normal}
+.map-routes .row.route .t,.map-routes .row.route .st{display:block}
+.map-routes .row.route[aria-pressed="true"]{background:var(--surface-2);box-shadow:inset 4px 0 0 var(--primary)}
+.map-routes .row.route .status{color:var(--muted)}
+.map-routes .row.route .status.warn{color:var(--on);font-weight:500}
+.map-routes .row.route+.row.route{border-top:1px solid var(--divider)}
+.crossing-view .back{min-height:48px;padding:0 8px;height:auto;justify-content:flex-start}
+.crossing-view h2{font-size:1.5rem;line-height:1.2;font-weight:500;margin:0}
+.crossing-view .meta{margin:6px 0 0}
+.crossing-view .status{display:flex;align-items:center;gap:10px;margin:14px 0;padding:10px 14px;border-radius:12px;background:var(--surface-2);font-weight:500}
+.crossing-view .status.danger{background:color-mix(in srgb,var(--s5) 14%,var(--surface))}
+.crossing-view .status.caution{background:color-mix(in srgb,var(--s3) 16%,var(--surface))}
+.crossing-view .status.ok{background:color-mix(in srgb,var(--s1) 12%,var(--surface))}
+.crossing-view .checks{background:var(--surface-2)}
+.crossing-view .checks .t,.crossing-view .checks .st{display:block}
+.crossing-view .checks .st{white-space:normal}
+.crossing-view .checks .st .dot{display:inline-block;margin-right:4px}
+.crossing-view .actions .btn{flex:1}
+
+/* map buttons: zoom and locate at the bottom right */
+.map-first .map-camera{top:auto;left:auto;right:12px;bottom:44px;flex-direction:column;flex-wrap:nowrap;gap:0;max-width:none;border-radius:24px;background:var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.3);overflow:hidden}
+.map-first .map-camera button{width:48px;min-width:48px;height:48px;min-height:48px;padding:0;border-radius:0;background:transparent;box-shadow:none;color:var(--on);font-size:1.5rem;line-height:1}
+.map-first .map-camera button+button{border-top:1px solid var(--divider)}
+.map-first .map-camera button:last-child{font-size:.6875rem;font-weight:600}
+.map-first .map-camera button[data-fit],.map-first .map-camera button[data-home]{display:none}
+.map-first.panel-open .map-camera{left:auto}
+
+@media (min-width:900px){
+ .map-first main{display:flex;flex-direction:row;position:relative}
+ .map-first .map-side{order:0;width:420px;flex:none;overflow-y:auto;padding:16px}
+ .map-first .safety-map{position:relative;inset:auto;order:1;flex:1;margin:0 16px 16px 0;border-radius:var(--radius);overflow:hidden}
+ .map-first .safety-map>#map{position:absolute;inset:0}
+ .map-first .map-sheet{left:452px}
+}
+@media (max-width:899px){
+ .map-first{height:auto;overflow:auto}
+ .map-first main{display:flex;flex-direction:column;height:auto;overflow:visible;position:relative}
+ .map-first .safety-map{position:relative;inset:auto;height:56vh;min-height:300px;margin:0 16px;border-radius:var(--radius);overflow:hidden}
+ .map-first .safety-map>#map{position:absolute;inset:0}
+ .map-first .map-sheet{position:fixed}
+}
+.map-first.panel-open .map-side .map-dock{display:block}
+
+/* 2D or 3D, then the base map; 3D sits in a frame over the map and the side column drives it */
+.map-side .view-seg{margin:4px 0 0}
+.world-layer{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1001;background:#cfe2ec}
+.world-layer[hidden]{display:none}
+.map-side .world-run{display:block}
+.map-side .world-run[hidden]{display:none}
+.map-side .world-run .field-label{display:block;color:var(--muted);font-size:.9375rem}
+.map-side .world-run select{margin-top:6px}
+.map-side .world-run .meta{font-size:.875rem;color:var(--muted);margin:8px 0 0}
+.map-side .world-run .meta:empty{display:none}
+.map-side .world-run .clock{display:block;margin:10px 0 8px;font-size:1.125rem;font-weight:500}
+.map-side .world-run .time-row{display:flex;align-items:center;gap:8px}
+.map-side .world-run .time-row input{flex:1;min-width:0;accent-color:var(--primary)}
+.map-side .world-run .time-row button{width:48px;height:48px;min-height:48px;border:0;border-radius:50%;background:var(--surface-2);color:var(--on);font-size:1.25rem;cursor:pointer;display:grid;place-items:center}
+.map-side .world-run .time-row svg{width:22px;height:22px;fill:currentColor}
+.map-side .world-places{display:flex;align-items:center;gap:12px;margin-top:10px;cursor:pointer}
+.map-side .world-places input{width:22px;height:22px;accent-color:var(--primary)}
+.world-places[hidden]{display:none!important}
+/* the 3D view has its own zoom and compass; the 2D map's zoom and Locate wait for 2D */
+body.world3d-on .safety-map .map-camera{display:none}

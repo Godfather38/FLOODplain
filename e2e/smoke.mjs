@@ -62,7 +62,6 @@ async function dismissNotice(page){await page.waitForSelector('dialog.model-ack'
 const brawley='west-avra-valley-road-32-39322-111-29459';
 async function chooseHand(page){
  await dismissNotice(page);
- await page.click('[data-panel=options]');
  await page.selectOption('[data-model]','hand');
  await page.waitForFunction(()=>document.querySelector('[data-site]')?.options.length>0);
  await page.selectOption('[data-site]',brawley);
@@ -74,11 +73,11 @@ try{
   const {context,page,errors}=await freshPage({width:375,height:812});
   await page.goto(origin+'/#/');await ready(page);await page.waitForSelector('.closure-banner');
   assert.match(await page.innerText('.closure-banner'),/Trico Rd south of Trico Marana Rd.*Blocks Trico-Marana/s);
-  assert.doesNotMatch(await page.innerText('.hero'),/Trico-Marana/);
+  assert.doesNotMatch(await page.innerText('#screen .hero'),/Trico-Marana/);
   // The map redraws when feeds arrive, so wait for icons, and read them in a single step.
   await page.waitForFunction(()=>document.querySelectorAll('.pin:not(.closure-pin)').length>=4);
   await page.waitForTimeout(800);
-  const colors=await page.$$eval('.pin:not(.closure-pin)',p=>[...new Set(p.map(e=>getComputedStyle(e).backgroundColor))]);
+  const colors=await page.$$eval('.pin:not(.closure-pin)',p=>[...new Set(p.map(e=>getComputedStyle(e,'::before').backgroundColor))]);
   assert.ok(colors.length&&colors.every(c=>/^rgb\(37, 107, 43\)|^rgb\(39, 95, 163\)|^rgb\(128, 85, 0\)|^rgb\(173, 67, 21\)|^rgb\(181, 31, 42\)|^rgb\(98, 87, 111\)/.test(c)),colors.join());
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'no sideways scroll');
   assert.deepEqual(errors,[]);await context.close();
@@ -93,10 +92,12 @@ try{
   const {context,page}=await freshPage();
   await page.goto(origin+'/#/map');await ready(page);
   await page.waitForSelector('dialog.model-ack',{timeout:30000});
-  assert.match(await page.innerText('dialog.model-ack'),/saved run.*turn around, don't drown\./s);
+  // The live run when it is published and fresh, otherwise a saved run: either way, one notice.
+  assert.match(await page.innerText('dialog.model-ack'),/(saved run|model forecast).*turn around, don't drown\./s);
   await page.click('dialog.model-ack button');
-  await page.waitForFunction(()=>document.querySelector('.dock-status')?.innerText.includes('Simulated water'),null,{timeout:30000});
-  assert.equal(await page.$eval('[data-model]',e=>e.value),'2d');
+  await page.waitForFunction(()=>/MST/.test(document.querySelector('[data-m-time]')?.innerText||''),null,{timeout:30000});
+  assert.equal(await page.$eval('input[name=mapp-model]:checked',e=>e.value),'2d','simulated water is on by default');
+  assert.match(await page.innerText('[data-m-model-hint]'),/SFINCS/);
   const box=await page.evaluate(()=>{const m=document.querySelector('#map').getBoundingClientRect(),p=[...document.querySelectorAll('.pin')].map(e=>e.getBoundingClientRect()).filter(b=>b.width);return {n:p.length,inside:p.every(b=>b.x>=m.left-1&&b.x<=m.right+1&&b.y>=m.top-1&&b.y<=m.bottom+1)}});
   assert.ok(box.inside,'crossings stay on the map');
   assert.ok(await page.locator('.home-outlook').count()>=0);
@@ -104,26 +105,55 @@ try{
   assert.equal(await page.locator('dialog.model-ack').count(),0,'once per session');
   await context.close();
  });
- await check('Map options panel matches the sheet instead of a dark box',async()=>{
+ await check('Current conditions in the Layers & view card match the cards instead of a dark box',async()=>{
   const {context,page}=await freshPage();
-  await page.goto(origin+'/#/map');await ready(page);await dismissNotice(page);await page.click('[data-panel=options]');
+  await page.goto(origin+'/#/map');await ready(page);await dismissNotice(page);
+  await page.click('[data-m-tab=routes]');
   const s=await page.$eval('.live-map-panel',p=>{const c=getComputedStyle(p),r=p.getBoundingClientRect(),b=p.querySelector('[data-refresh]').getBoundingClientRect();return {bg:c.backgroundColor,color:c.color,inset:r.right-b.right}});
   assert.equal(s.bg,'rgb(239, 239, 236)');assert.equal(s.color,'rgb(27, 27, 26)');assert.ok(s.inset>=8,'refresh inset '+s.inset);
   await context.close();
  });
+ await check('Map tab lists routes with live ratings, and a pin opens its crossing card',async()=>{
+  const {context,page,errors}=await freshPage();
+  await page.goto(origin+'/#/map');await ready(page);await dismissNotice(page);
+  await page.click('[data-m-tab=routes]');
+  await page.waitForSelector('[data-map-route]');
+  const rows=await page.$$eval('[data-map-route]',r=>r.map(x=>x.innerText));
+  assert.ok(rows.length>=3&&rows.every(t=>/\d(\.5)? of 5 · /.test(t)),rows.join(' | '));
+  await page.click('[data-map-route="trico"]');
+  assert.equal(await page.getAttribute('[data-map-route="trico"]','aria-pressed'),'true');
+  // A pin that is not under the side panel or the time bar.
+  const pin=await page.evaluate(()=>{for(const p of document.querySelectorAll('.leaflet-marker-icon .drop-pin')){const r=p.getBoundingClientRect(),x=r.x+r.width/2,y=r.y+r.height/3;if(r.width&&p.contains(document.elementFromPoint(x,y)))return{x,y};}return null;});
+  assert.ok(pin,'a crossing pin is visible on the map');
+  await page.mouse.click(pin.x,pin.y);
+  await page.waitForSelector('.crossing-view h2');
+  assert.match(await page.innerText('.crossing-view'),/of 5|Low|Minor|Moderate|High|Severe/);
+  assert.match(await page.getAttribute('.crossing-view a.btn-primary','href'),/^#\/r\/[\w-]+\/[\w-]+$/);
+  assert.equal(new URL(page.url()).hash,'#/map','the Map tab stays open');
+  await page.click('[data-map-close]');await page.waitForSelector('[data-map-route]');
+  assert.deepEqual(errors,[]);await context.close();
+ });
  await check('HAND water from the Model menu is drawn around the crossing in water colors',async()=>{
   const {context,page}=await freshPage();
-  await page.addInitScript(()=>{window.addEventListener('current-hand-layers',e=>{if(e.detail.layers.length)window.__hand=e.detail.layers.map(l=>({fill:l.options.fillColor,b:l.getBounds()}))})});
   await page.goto(origin+'/#/map');await ready(page);await dismissNotice(page);
-  await page.click('[data-panel=options]');await page.selectOption('[data-model]','hand');
-  await page.waitForFunction(()=>document.querySelector('[data-site]')?.options.length>0);
-  await page.selectOption('[data-site]',brawley);
-  await page.waitForFunction(()=>window.__hand?.length>0,null,{timeout:20000});
-  const r=await page.evaluate(()=>{const fills=[...new Set(window.__hand.map(h=>h.fill))];let s=90,n=-90,w=180,e=-180;for(const {b} of window.__hand){s=Math.min(s,b._southWest.lat);n=Math.max(n,b._northEast.lat);w=Math.min(w,b._southWest.lng);e=Math.max(e,b._northEast.lng)}return {fills,s,n,w,e}});
-  assert.ok(r.fills.every(f=>{const [x,,z]=f.match(/\d+/g).map(Number);return z>x}),'water colors only: '+r.fills);
-  assert.ok(r.s<32.39322&&r.n>32.39322&&r.w<-111.29459&&r.e>-111.29459,'water surrounds the crossing');
-  await page.click('.map-sheet [data-close]');
-  await page.waitForFunction(()=>/HAND modeled water depth estimate/.test(document.querySelector('.map-dock .dock-key')?.innerText||''),null,{timeout:15000});
+  // The Nov 1 13Z run carries archived NWM flows for every HAND window, Brawley Wash included.
+  await page.click('[data-m-scenarios]');await page.click('.mapp-menu [data-menu-run="13z"]');
+  await page.waitForFunction(()=>/Nov/.test(document.querySelector('[data-m-time]')?.innerText||''),null,{timeout:30000});
+  await page.click('[data-m-layers]');await page.click('input[name=mapp-model][value=hand]');
+  await page.waitForFunction(()=>/HAND: water in \d+ of 25 windows/.test(document.querySelector('[data-m-model-hint]')?.innerText||''),null,{timeout:30000});
+  await page.click('[data-m-close]');
+  // Centre the map on the Brawley Wash crossing and read the HAND colours drawn around it.
+  const r=await page.evaluate(async([lat,lon])=>{
+   const c=document.querySelector('canvas.sim-canvas');const m=document.getElementById('map').getBoundingClientRect();
+   const sel=document.querySelector('[data-m-search]');const opt=[...sel.options].find(o=>/Brawley/.test(o.textContent));sel.value=opt.value;sel.dispatchEvent(new Event('change'));
+   await new Promise(r=>setTimeout(r,2500));
+   const ctx=c.getContext('2d'),ratio=c.width/c.clientWidth,d=ctx.getImageData(0,0,c.width,c.height).data;
+   let water=0,other=0;const cx=c.width/2,cy=c.height/2,R=180*ratio;
+   for(let y=Math.max(0,cy-R|0);y<Math.min(c.height,cy+R);y+=2)for(let x=Math.max(0,cx-R|0);x<Math.min(c.width,cx+R);x+=2){const i=(y*c.width+x)*4;if(d[i+3]<40)continue;if(d[i+2]>d[i])water++;else other++;}
+   return{water,other};
+  },[32.39322,-111.29459]);
+  assert.ok(r.water>0,'HAND water drawn around the Brawley Wash crossing');
+  assert.ok(r.water>r.other*4,'water colours: '+JSON.stringify(r));
   assert.equal(await page.locator('dialog.model-ack').count(),0,'one notice a session');
   await context.close();
  });
@@ -163,7 +193,7 @@ try{
   await page.goto(origin+'/#/');await page.waitForSelector('.closure-banner');
   await page.evaluate(()=>navigator.serviceWorker.ready);await page.reload();await page.waitForSelector('.closure-banner');await page.waitForTimeout(1500);
   await context.setOffline(true);
-  await page.reload();await page.waitForSelector('.hero',{timeout:15000});
+  await page.reload();await page.waitForSelector('#screen .hero',{timeout:15000});
   assert.match(await page.innerText('.closure-banner'),/Trico Rd south of Trico Marana Rd/);
   assert.match(await page.innerText('#check-age'),/Offline/);
   await context.close();

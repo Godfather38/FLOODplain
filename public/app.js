@@ -1,3 +1,4 @@
+import {mountDiagnostics} from './diagnostics.js?v=dev';
 import { RISK_COLORS, UNKNOWN_COLOR, installRiskColors } from './semantic-colors.js?v=dev';
 import './show-me-how.js?v=dev';
 import {mountRouteTracking} from './simulation/route-tracking.js?v=dev';
@@ -6,6 +7,9 @@ import { imperialSourceText } from './display-units.js?v=dev';
 import {loadBridgeEvidence,bridgeRecordFor,bridgeHistory} from './simulation/bridge-evidence.js?v=dev';
 import {mountFloodLayers} from './simulation/map-layers.js?v=dev';
 import {mountLiveMap} from './live-map.js?v=dev';
+import {createStreetMap} from './street-map.js?v=dev';
+import {routeRowsHtml,crossingCardHtml} from './map-routes.js?v=dev';
+import {mountMapApp} from './map-app.js?v=dev';
 import { savedRoutes, toggleSavedRoute, checkAge, countyTime, plainAge, plainWords } from './preferences.js?v=dev';
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
@@ -17,6 +21,8 @@ import {
   riskScore, routeScore, goodSigns, againstIt, routeClosures, roadEventActive, driveSummary, bridgeHeightComparison, crossingLead,
 } from './logic.js?v=dev';
 
+// Error and freeze logging first, so the rest of startup is covered (diagnostics.js).
+mountDiagnostics();
 const { SOURCES, USGS_SITES, FAILURE_POINTS, NAV, LINKS, STALE_MS, ROUTE_INFO, RIVER_EARLY, PLACES, AREAS } = cfg;
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
 const COLOR = RISK_COLORS;
@@ -745,6 +751,8 @@ function privacyScreen() {
     <p>You sign up on the Alerts page and confirm with a 4-digit code we text you. To stop, reply <b>STOP</b> to any message or use <b>Stop texts</b> on the Alerts page. Reply <b>HELP</b> for help. Message and data rates may apply. Carriers aren't liable for delayed or undelivered messages.</p>
     <h4>Your information</h4>
     <p>We keep only your phone number, the times and days you chose, and when we last texted you. It's stored privately by the person who runs FLOODplain and used only to send these texts. It's never sold, shared or used for marketing. Stopping texts deletes your number.</p>
+    <h4>Error reports</h4>
+    <p>When the app hits an error, a download fails or the page freezes, it sends a short report so the problem can be fixed: the kind of device and browser, the screen size, what was tapped just before, and the error. It never includes your location, phone number or anything you typed. Reports go to a public notification channel, so nothing private is ever put in them.</p>
     <h4>Text waitlist</h4>
     <p>If you join the waitlist, we keep your number and the date you joined, and send you exactly one text when texts work on every carrier. Nothing else unless you then sign up. To leave the waitlist, use <b>Stop texts for this number</b> on the Alerts page.</p>
     <h4>No guarantee</h4>
@@ -861,14 +869,29 @@ function wire(w) {
 
 // ---------------- map ----------------
 const map = L.map('map', { zoomSnap: 0.25, zoomControl: false, attributionControl: true });
-const streetTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
+// Base maps: the street map painted from OpenFreeMap vector tiles in the 3D map's look, the
+// plain OpenStreetMap tiles, and satellite. If the painted tiles stop answering, OpenStreetMap
+// takes the street map's place.
+const osmTiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' });
+const baseMaps = createStreetMap(L, map, { onUnavailable: () => {
+  if (map.hasLayer(baseMaps.street)) { map.removeLayer(baseMaps.street); map.addLayer(osmTiles); map.removeLayer(baseMaps.names); }
+  baseMaps.street = osmTiles;
+} });
+baseMaps.osm = osmTiles;
+baseMaps.street.addTo(map);
+baseMaps.names.addTo(map);
 map.attributionControl.setPrefix(false);
 const layer = L.layerGroup().addTo(map);
 const liveObservations=L.layerGroup().addTo(map);
 const rendererRoutes=L.layerGroup([layer,liveObservations]).addTo(map);
-mountFloodLayers(map,{routeLayer:rendererRoutes,streetTiles});
+mountFloodLayers(map,{routeLayer:rendererRoutes,baseMaps});
 document.querySelector('[data-home]').onclick=()=>map.fitBounds(allBounds,{paddingTopLeft:[24,30],paddingBottomRight:[24,30],animate:false});
 const liveMap=mountLiveMap(map,{refresh:()=>check(),observations:liveObservations,embedded:true});
+// The Map tab in a maps-app layout, with the 2D and 3D model layers (map-app.js).
+const mapApp=mountMapApp({L,map,baseMaps,routeLayer:layer,liveLayer:liveObservations,
+  fitRoutes:(opts)=>allBounds&&map.fitBounds(allBounds,opts),
+  targets:()=>[...FAILURE_POINTS.map((fp)=>({kind:'crossing',id:fp.id,name:fp.short??fp.name,lat:fp.lat,lon:fp.lon})),...PLACES.map((p)=>({kind:'place',name:p.name,lat:p.lat,lon:p.lon}))],
+  openCrossing:(id)=>{mapCrossing=id;drawMap(where());revealCrossing();},points:FAILURE_POINTS});
 let allBounds;
 const lineCoords = (g) => (g.type === 'LineString' ? [g.coordinates] : g.coordinates);
 function stretchAround(coords, lat, lon, m) {
@@ -882,18 +905,53 @@ function stretchAround(coords, lat, lon, m) {
   return runs.filter((r) => r.length > 1);
 }
 let mapCameraSet=false;
+// The Map tab's own choice of route and crossing, as on the 3D map page's routes panel.
+let mapRoute = null, mapCrossing = null;
+function renderMapRoutes() {
+  const root = $('[data-map-routes]');
+  if (!root || !view) return;
+  const fp = mapCrossing && FAILURE_POINTS.find((x) => x.id === mapCrossing);
+  if (fp) {
+    const routeId = fp.routes.includes(mapRoute) ? mapRoute : fp.routes.find((rid) => view.byId[rid]) ?? fp.routes[0];
+    root.innerHTML = `<div class="crossing-view">${crossingCardHtml({ fp, result: view.fpResults[fp.id], score: pointScore(view.fpResults[fp.id]), routeId, sources: SRC, sentence: LEVEL_SENTENCE })}</div>`;
+    root.querySelector('[data-map-close]').addEventListener('click', () => { mapCrossing = null; drawMap(where()); });
+    return;
+  }
+  root.innerHTML = routeRowsHtml({ areas: AREAS, area, routes: view.rated, info: ROUTE_INFO, features: routeFeatures, crossings: FAILURE_POINTS, selected: mapRoute, issue: topIssue });
+  root.querySelectorAll('[data-map-area]').forEach((b) => b.addEventListener('click', () => {
+    if (b.dataset.mapArea === area) return;
+    mapRoute = null; useArea(b.dataset.mapArea); view = compute(data); mapCameraSet = false; render();
+  }));
+  root.querySelectorAll('[data-map-route]').forEach((b) => b.addEventListener('click', () => {
+    mapRoute = mapRoute === b.dataset.mapRoute ? null : b.dataset.mapRoute;
+    drawMap(where());
+    const f = routeFeatures.find((x) => x.properties.id === mapRoute);
+    map.fitBounds(f ? L.geoJSON(f).getBounds() : allBounds, { paddingTopLeft: [24, 30], paddingBottomRight: [24, 30] });
+  }));
+}
+// The crossing card sits beside the map, or under it on a phone: bring it into view.
+function revealCrossing() {
+  mapApp.reveal();
+  const card = $('[data-map-routes]'), side = card?.closest('.mapp-panel-body') ?? $('.map-side');
+  if (!card || !side) return;
+  if (!side.classList.contains('mapp-panel-body') && matchMedia('(max-width: 899px)').matches) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  else side.scrollTo({ top: card.offsetTop - side.offsetTop - 16, behavior: 'smooth' });
+}
 function drawMap(w) {
   if ($('#map').hidden) return;
   map.invalidateSize();
   layer.clearLayers();
-  const focus = w.route ?? view.rec.best.id;
-  for (const f of routeFeatures) {
+  const onMap = w.screen === 'map';
+  if (!onMap) mapCrossing = null;
+  if (mapRoute && !routeFeatures.some((f) => f.properties.id === mapRoute)) mapRoute = null;
+  // Routes in blue as on the 3D map: the chosen one darker and wider, the rest lighter beside it.
+  const focus = onMap ? mapRoute : w.route ?? view.rec.best.id;
+  for (const f of [...routeFeatures].sort((a, b) => (a.properties.id === focus) - (b.properties.id === focus))) {
     const on = f.properties.id === focus;
-    L.geoJSON(f, { style: { color: on ? '#3c3b38' : '#9b9a94', weight: on ? 6 : 3, opacity: on ? 0.9 : 0.5 }, interactive: false }).addTo(layer);
+    L.geoJSON(f, { style: { color: on ? '#0b5cad' : focus ? '#8fb1d6' : '#2f76c4', weight: on ? 6 : 4, opacity: 0.9, lineCap: 'round', lineJoin: 'round' }, interactive: false }).addTo(layer);
   }
   // The fixed places: valley hub and the two I-10 exits.
   for (const pl of PLACES.filter((x) => (x.area ?? 'avra') === area)) {
-    L.circleMarker([pl.lat, pl.lon], { radius: 6, color: '#fff', weight: 2, fillColor: '#3c3b38', fillOpacity: 1, interactive: false }).addTo(layer);
     L.marker([pl.lat, pl.lon], { icon: L.divIcon({ className: 'place-pin', html: `<span class="place ${pl.side ?? 'right'}">${esc(pl.name)}</span>`, iconSize: [0, 0] }), interactive: false }).addTo(layer);
   }
   // Keep every mapped junction in the selected area visible across route views.
@@ -904,19 +962,24 @@ function drawMap(w) {
     for (const rid of fp.routes.filter((x) => inArea.has(x))) {
       for (const line of lineCoords(routeFeatures.find((f) => f.properties.id === rid).geometry)) {
         for (const run of stretchAround(line, fp.lat, fp.lon, fp.kind === 'road' ? 2500 : 450)) {
+          // A white edge keeps the rating colour apart from the blue route under it.
+          L.polyline(run, { color: '#fff', weight: (rid === focus ? 9 : 5) + 3, opacity: 0.9, lineCap: 'round', interactive: false }).addTo(layer);
           L.polyline(run, { color: COLOR[Math.floor(s)] ?? UNKNOWN_COLOR, weight: rid === focus ? 9 : 5, opacity: 0.95, lineCap: 'round', interactive: false }).addTo(layer);
         }
       }
     }
     const rid = fp.routes.includes(focus) ? focus : fp.routes.find((x) => inArea.has(x));
-    L.marker([fp.lat, fp.lon], { color: COLOR[Math.floor(s)] ?? UNKNOWN_COLOR, title: fp.short, alt: fp.short, icon: L.divIcon({ className: '', html: `<div class="pin ${s ? `s${Math.floor(s)}` : 'sq'}">${s ?? '?'}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
-      .on('click', () => { location.hash = `#/r/${rid}/${fp.id}`; })
+    // Drop pins as on the 3D map, in the rating's colour with its number.
+    L.marker([fp.lat, fp.lon], { color: COLOR[Math.floor(s)] ?? UNKNOWN_COLOR, title: fp.short, alt: fp.short, riseOnHover: true, icon: L.divIcon({ className: '', html: `<div class="pin drop-pin ${s ? `s${Math.floor(s)}` : 'sq'}${fp.id === mapCrossing ? ' open' : ''}"><span class="glyph">${s ?? '?'}</span></div>`, iconSize: [32, 40], iconAnchor: [16, 40] }) })
+      .on('click', () => { if (onMap) { mapCrossing = fp.id; drawMap(w); revealCrossing(); } else location.hash = `#/r/${rid}/${fp.id}`; })
       .addTo(layer);
   }
   // Official closures, whether or not a route uses them, near this area's routes.
   const areaBounds = L.latLngBounds(routeFeatures.flatMap((f) => lineCoords(f.geometry).flat().map(([lon, lat]) => [lat, lon]))).pad(0.1);
   for (const c of view.closedLines) {
-    if (c.coords.some((q) => areaBounds.contains(q))) L.polyline(c.coords, { color: COLOR[5], weight: 8, opacity: 0.95 }).bindPopup(esc(c.title)).addTo(layer);
+    if (!c.coords.some((q) => areaBounds.contains(q))) continue;
+    L.polyline(c.coords, { color: '#fff', weight: 11, opacity: 0.9, interactive: false }).addTo(layer);
+    L.polyline(c.coords, { color: COLOR[5], weight: 8, opacity: 0.95 }).bindPopup(esc(c.title)).addTo(layer);
   }
   for (const c of view.closedPoints) {
     if (!areaBounds.contains([c.lat, c.lon])) continue;
@@ -938,10 +1001,11 @@ function drawMap(w) {
   } else if (w.screen === 'route') {
     map.fitBounds(L.geoJSON(routeFeatures.find((f) => f.properties.id === w.route)).getBounds(), opts);
   } else if(w.screen!=='map'||!mapCameraSet) {
-    map.fitBounds(allBounds, opts);
+    map.fitBounds(allBounds, w.screen==='map' ? mapApp.padding() : opts);
     // The Map screen keeps wherever the driver moved it after this first fit.
     if(w.screen==='map')mapCameraSet=true;
   }
+  if (onMap) renderMapRoutes();
 }
 function gaugesFor(fp, c) {
   if (!c) return [];

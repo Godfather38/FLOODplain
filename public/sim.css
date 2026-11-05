@@ -1,0 +1,219 @@
+/* The simulator on the Map tab (map-app.js, sim-panels.js): a homemade lab instrument. Serif for
+   the write-up, monospace for numbers, small caps for labels, hairline rules. Built on style.css
+   tokens, so dark mode follows. */
+.mapp{--mono:ui-monospace,'JetBrains Mono','Cascadia Mono',Consolas,monospace;--serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;--sim-red:#d6304f;--sim-amber:#e08a1e;--sim-blue:#2272b5}
+
+/* scenarios button */
+.mapp .mapp-scen{margin-left:0}
+.mapp-scen svg{color:var(--sim-blue)}
+
+/* tabs */
+.mapp-tabs{display:flex;gap:2px;padding:8px 52px 0 12px;border-bottom:1px solid var(--divider);flex:none}
+.mapp .mapp-tabs button{flex:1;min-height:44px;border:0;background:none;border-bottom:3px solid transparent;font-weight:500;font-size:.875rem;color:var(--muted);padding:0 4px}
+.mapp .mapp-tabs button[aria-selected=true]{color:var(--primary);border-bottom-color:var(--primary)}
+.sim-h{font-family:var(--serif);font-size:1.375rem;font-weight:600;margin:4px 0 2px;letter-spacing:-.01em}
+.sim-muted{color:var(--muted);font-size:.875rem;margin:4px 0 12px}
+
+/* scenario cards */
+.sim-deck{display:flex;flex-direction:column;gap:12px}
+.sim-card{position:relative;border:1px solid var(--divider);border-radius:14px;padding:12px 14px 14px 18px;background:var(--surface);overflow:hidden}
+.sim-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--sim-blue)}
+.sim-card.k-whatif::before{background:var(--sim-red)}
+.sim-card.k-live::before{background:#0f6f6a}
+.sim-card.on{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary) inset}
+.sim-card header{display:flex;justify-content:space-between;align-items:center}
+.sim-card .kind{font:600 .6875rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.sim-card .sev{display:flex;gap:3px;align-items:center;font:600 .6875rem var(--mono);color:var(--muted)}
+.sim-card .sev i{width:10px;height:10px;border-radius:2px;background:var(--divider)}
+.sim-card .sev i.on{background:var(--sim-red)}
+.sim-card.k-forecast .sev i.on{background:var(--sim-amber)}
+.sim-card .live-dot i{border-radius:50%;background:#19a7a0;margin-right:4px;animation:sim-pulse 1.6s infinite}
+.sim-card h4{font-family:var(--serif);font-size:1.1875rem;margin:6px 0 4px}
+.sim-card p{margin:0 0 10px;font-size:.875rem;line-height:1.45;color:var(--muted)}
+.sim-card dl{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 12px}
+.sim-card dl div{background:var(--surface-2);border-radius:8px;padding:6px 8px}
+.sim-card dt{font-size:.6875rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.sim-card dd{margin:2px 0 0;font:600 .875rem var(--mono)}
+.mapp .sim-card button{width:100%;min-height:44px;border:0;border-radius:22px;background:var(--primary);color:var(--on-primary,#fff);font-weight:600}
+.mapp .sim-card button[aria-pressed=true]{background:var(--surface-2);color:var(--on)}
+@keyframes sim-pulse{50%{opacity:.35}}
+
+/* crossing scoreboard */
+.sim-big{display:flex;align-items:baseline;gap:10px;margin:4px 0 12px}
+.sim-big b{font:700 2.5rem/1 var(--mono);color:var(--sim-red)}
+.sim-big span{font-size:.875rem;color:var(--muted)}
+.mapp .sim-row{display:grid;grid-template-columns:1fr;gap:4px;width:100%;text-align:left;border:0;border-top:1px solid var(--divider);background:none;padding:10px 2px}
+.sim-row .name{font-weight:600;display:flex;justify-content:space-between;gap:8px}
+.sim-row .name small{font:400 .75rem var(--mono);color:var(--muted);white-space:nowrap}
+.sim-row .meter{position:relative;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--surface-2) 0 50%,color-mix(in srgb,var(--sim-red) 18%,var(--surface-2)) 50%)}
+.sim-row .meter i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:#7aa9cf}
+.sim-row.over .meter i{background:var(--sim-red)}
+.sim-row.near .meter i{background:var(--sim-amber)}
+.sim-row .meter b{position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;background:var(--on)}
+.sim-row .word{font-size:.875rem;font-weight:500}
+.sim-row.over .word{color:var(--sim-red)}
+.sim-row .peak{font:.75rem var(--mono);color:var(--muted)}
+.sim-fig{font-size:.75rem;color:var(--muted);margin-top:12px;font-family:var(--serif)}
+
+/* HUD */
+.mapp-hud{display:flex;gap:6px;margin:6px 0 4px;overflow-x:auto;scrollbar-width:none}
+.mapp-hud:empty{display:none}
+.mapp-hud .chip{flex:1 0 auto;display:flex;flex-direction:column;min-width:76px;padding:5px 8px;border-radius:10px;background:var(--surface-2);border:1px solid var(--divider)}
+.mapp-hud .chip span{font-size:.625rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.mapp-hud .chip b{font:700 1.125rem/1.15 var(--mono)}
+.mapp-hud .chip small{font:.625rem var(--mono);color:var(--muted)}
+.mapp-hud .chip.alert{border-color:var(--sim-red);background:color-mix(in srgb,var(--sim-red) 10%,var(--surface))}
+.mapp-hud .chip.alert b{color:var(--sim-red)}
+.mapp .mapp-hud .chip.try{justify-content:center;border:1px dashed var(--sim-red);color:var(--sim-red);font-weight:600;font-size:.8125rem;background:var(--surface)}
+
+/* timeline figure */
+.mapp-timeline{position:relative;height:64px;margin:4px 0 2px;border:1px solid var(--divider);border-radius:8px;background:var(--surface)}
+.mapp-timeline canvas{position:absolute;inset:0;width:100%;height:100%}
+.mapp-timeline input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.mapp-timeline:focus-within{outline:3px solid var(--primary);outline-offset:2px}
+.mapp-tl-key{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.6875rem;color:var(--muted);margin:2px 2px 4px}
+.mapp-tl-key i{display:inline-block;width:10px;height:8px;margin-right:4px;border-radius:2px}
+.mapp-tl-key .k-rain{background:#3cbf4a}.mapp-tl-key .k-wet{background:rgba(58,159,208,.7)}.mapp-tl-key .k-q{height:0;border-top:2px dashed #0f6f6a;border-radius:0;vertical-align:middle}.mapp-tl-key .k-x{background:var(--sim-red);border-radius:50%;width:8px}
+.mapp.terrain-on .mapp-timeline,.mapp.terrain-on .mapp-tl-key,.mapp.terrain-on .mapp-hud{display:none}
+.mapp-sim-badge{font:700 .6875rem var(--mono);letter-spacing:.14em;padding:3px 6px;border-radius:4px;border:1px solid var(--divider);color:var(--muted);margin-left:4px}
+.mapp.playing .mapp-sim-badge{color:#fff;background:var(--sim-red);border-color:var(--sim-red);animation:sim-pulse 1.2s infinite}
+.mapp .mapp-player-row output{font-family:var(--mono);font-size:.875rem;margin-left:auto}
+.mapp .mapp-player{max-width:780px}
+.mapp .mapp-controls{bottom:250px}
+
+/* methods note */
+.sim-paper{font-family:var(--serif);font-size:.9375rem;line-height:1.55}
+.sim-paper .sim-eyebrow{font:600 .6875rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:4px 0}
+.sim-paper h3{font-size:1.3125rem;line-height:1.25;margin:4px 0 10px}
+.sim-paper h4{font-size:1rem;margin:18px 0 4px;font-variant:small-caps;letter-spacing:.04em}
+.sim-paper p,.sim-paper li{margin:0 0 8px}
+.sim-abstract{padding:10px 12px;border-left:3px solid var(--primary);background:var(--surface-2);border-radius:0 8px 8px 0;font-size:.875rem}
+.sim-eq{font-style:italic;text-align:center;padding:10px 6px;margin:8px 0;border-top:1px solid var(--divider);border-bottom:1px solid var(--divider);overflow-x:auto;white-space:nowrap}
+.sim-table{width:100%;border-collapse:collapse;font-size:.8125rem;margin:12px 0}
+.sim-table caption{text-align:left;font-size:.8125rem;margin-bottom:4px;color:var(--muted)}
+.sim-table th,.sim-table td{border-top:1px solid var(--divider);padding:5px 4px;text-align:left;vertical-align:top}
+.sim-table td{font-family:var(--mono);font-size:.75rem}
+.sim-table tbody tr:first-child>*{border-top:2px solid var(--on)}
+.sim-table tbody tr:last-child>*{border-bottom:2px solid var(--on)}
+.sim-refs{font-size:.75rem;padding-left:18px;color:var(--muted)}
+.sim-cite{font-size:.8125rem;padding:8px 10px;border:1px dashed var(--divider);border-radius:8px}
+
+@media (max-width:899px){
+ .mapp-scen span{display:none}
+ .mapp .mapp-scen{width:48px;padding:0;justify-content:center;flex:none}
+ .mapp-hud .chip{min-width:64px;padding:3px 6px}
+ .mapp-hud .chip b{font-size:.9375rem}
+ .mapp-timeline{height:40px}
+ .mapp-tl-key{display:none}
+ .mapp .mapp-controls{bottom:calc(30% + 12px)}
+ .mapp-tabs{padding:0 8px}
+}
+
+/* phone: one slim app bar row */
+@media (max-width:899px){
+ html body.mapp-on>.appbar{display:flex;flex-wrap:nowrap;align-items:center;gap:6px;min-height:48px;padding:4px 8px}
+ html body.mapp-on>.appbar #back>span{display:none}
+ html body.mapp-on>.appbar .titles{flex:1;min-width:0}
+ html body.mapp-on>.appbar #title{font-size:1.125rem;margin:0}
+ html body.mapp-on>.appbar #logo{display:none}
+}
+
+/* 3D loading out of sight: it keeps rendering, but the 2D map underneath gets every click */
+.world-layer.warming{opacity:0;pointer-events:none}
+.mapp-tile[data-loading]:not([data-loading=""])::after{content:attr(data-loading);font:600 .6875rem var(--mono);color:var(--primary)}
+
+/* the loading card: what is downloading or being built, how far along, and a way out */
+.mapp-load{position:absolute;top:76px;left:50%;transform:translateX(-50%);z-index:1160;width:min(420px,calc(100% - 24px));padding:12px 14px;border-radius:14px;background:var(--surface);color:var(--on);box-shadow:0 1px 3px rgba(0,0,0,.25),0 6px 18px rgba(0,0,0,.16)}
+.mapp-load[hidden]{display:none}
+.mapp-load-head{display:flex;align-items:center;gap:10px}
+.mapp-load-head strong{flex:1;font-weight:600}
+.mapp-load-time{font:.75rem var(--mono);color:var(--muted)}
+.mapp-spin{width:18px;height:18px;border-radius:50%;border:3px solid var(--surface-2);border-top-color:var(--primary);animation:mapp-spin .8s linear infinite;flex:none}
+.mapp-load.failed .mapp-spin{animation:none;border-color:var(--sim-red)}
+@keyframes mapp-spin{to{transform:rotate(360deg)}}
+.mapp-load p{margin:6px 0 8px;font:.8125rem/1.4 var(--mono);color:var(--muted)}
+.mapp-load-bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.mapp-load-bar i{display:block;height:100%;background:var(--primary);transition:width .3s}
+.mapp-load.failed .mapp-load-bar i{background:var(--sim-red)}
+.mapp-load-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
+.mapp .mapp-load-actions button{min-height:40px;padding:0 16px;border:0;border-radius:20px;background:var(--surface-2);color:var(--on);font-weight:600}
+.mapp .mapp-load-actions [data-l-retry]{background:var(--primary);color:var(--on-primary,#fff)}
+@media (prefers-reduced-motion:reduce){.mapp-spin{animation:none}}
+
+/* the scenario menu */
+.mapp-menu{position:absolute;z-index:1250;width:min(360px,calc(100% - 16px));max-height:calc(100% - 90px);overflow:auto;padding:6px;border-radius:14px;background:var(--surface);box-shadow:0 2px 6px rgba(0,0,0,.2),0 10px 28px rgba(0,0,0,.18)}
+.mapp-menu[hidden]{display:none}
+.mapp .mapp-menu button{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;width:100%;text-align:left;padding:10px 12px 10px 14px;border:0;border-radius:10px;background:none;position:relative}
+.mapp .mapp-menu button:hover,.mapp .mapp-menu button:focus-visible{background:var(--surface-2)}
+.mapp-menu button::before{content:"";position:absolute;left:4px;top:10px;bottom:10px;width:4px;border-radius:2px;background:var(--sim-blue)}
+.mapp-menu button.k-whatif::before{background:var(--sim-red)}
+.mapp-menu button.k-live::before{background:#0f6f6a}
+.mapp-menu button.more::before{display:none}
+.mapp-menu .kind{grid-row:1;font:600 .625rem/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mapp-menu b{grid-row:1;font-weight:600}
+.mapp-menu small{grid-column:1/-1;font:.75rem var(--mono);color:var(--muted)}
+.mapp-menu [aria-checked=true]{background:color-mix(in srgb,var(--primary) 10%,var(--surface))}
+.mapp-menu [aria-checked=true] b::after{content:"  ✓";color:var(--primary)}
+.mapp .mapp-menu .more{display:block;color:var(--primary);font-weight:600;border-top:1px solid var(--divider);border-radius:0 0 10px 10px;margin-top:4px}
+/* phone: the card sits left of the map buttons, never over them; above the layers sheet everywhere */
+.mapp-load{z-index:1260}
+@media (max-width:899px){.mapp-load{top:auto;bottom:calc(30% + 12px);left:12px;right:72px;width:auto;transform:none}}
+
+/* map buttons say what they do */
+.mapp .mapp-ctl.lbl{width:56px;height:56px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.mapp-ctl.lbl span{font:600 .625rem/1 var(--mono,inherit);letter-spacing:.04em;color:var(--muted)}
+.mapp-ctl.lbl svg{width:22px;height:22px}
+.mapp .mapp-zoom{width:56px}.mapp .mapp-zoom .mapp-ctl{width:56px}
+
+/* a short message on the map, with the next step */
+.mapp-toast{position:absolute;left:50%;bottom:290px;transform:translateX(-50%);z-index:1270;display:flex;align-items:center;gap:12px;width:max-content;max-width:min(560px,calc(100% - 24px));padding:10px 12px 10px 16px;border-radius:12px;background:#1f2328;color:#fff;font-size:.875rem;line-height:1.4;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.mapp-toast[hidden]{display:none}
+.mapp .mapp-toast button{flex:none;min-height:36px;padding:0 12px;border:0;border-radius:18px;background:#8ab4f8;color:#0b1d36;font-weight:600}
+@media (max-width:899px){.mapp-toast{bottom:calc(30% + 16px);left:12px;right:76px;width:auto;max-width:none;transform:none}}
+
+.mapp .model-hint{font-size:.8125rem;color:var(--on);background:var(--surface-2);border-radius:8px;padding:8px 10px}
+.mapp-hud .chip.hand{border-color:#19a7a0}.mapp-hud .chip.hand b{color:#0f8f88}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* diagnostics in the layers sheet */
+.mapp-diag{margin-top:12px;border-top:1px solid var(--divider);padding-top:4px;font-size:.875rem}
+.mapp-diag summary{min-height:44px;display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:500}
+.mapp-diag summary .bad{color:var(--sim-red);font-weight:700}
+.mapp-diag-actions{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.mapp .mapp-diag-actions button{min-height:36px;padding:0 12px;border:0;border-radius:18px;background:var(--surface-2);color:var(--on);font-weight:600}
+.mapp-diag-list{list-style:none;margin:0;padding:0;max-height:260px;overflow:auto;font:.75rem/1.4 var(--mono)}
+.mapp-diag-list li{padding:6px 0;border-top:1px solid var(--divider)}
+.mapp-diag-list li b{font-weight:700}
+.mapp-diag-list .k-error b,.mapp-diag-list .k-freeze b,.mapp-diag-list .k-3d-failed b{color:var(--sim-red)}
+.mapp-diag-list time{color:var(--muted)}
+.mapp-diag-list small{display:block;color:var(--muted)}
+
+/* how much of the interface shows (map-app.js setUi): everything, the map with a slim time bar, or the map alone */
+.mapp.player-folded .mapp-hud,.mapp.player-folded .mapp-timeline,.mapp.player-folded .mapp-tl-key{display:none}
+.mapp-fold svg{transition:transform .15s}
+.mapp.player-folded .mapp-fold svg{transform:rotate(180deg)}
+.mapp.ui-focus .mapp-panel,.mapp.ui-focus .mapp-search,.mapp.ui-focus .mapp-scen,.mapp.ui-focus .mapp-show-panel,.mapp.ui-focus .mapp-hud,.mapp.ui-focus .mapp-timeline,.mapp.ui-focus .mapp-tl-key,.mapp.ui-focus .mapp-note{display:none!important}
+.mapp.ui-focus .mapp-top{left:12px}
+.mapp.ui-focus .mapp-player{left:12px}
+.mapp.ui-none>*:not(.mapp-show-ui):not(.mapp-load):not(.mapp-toast):not(.model-ack){display:none!important}
+html body.mapp-bare>.appbar,html body.mapp-bare .primary-destinations,html body.mapp-bare #load-status{display:none!important}
+.mapp .mapp-show-ui{position:absolute;top:12px;right:12px;z-index:1300;margin:0}
+.mapp .mapp-show-ui[hidden]{display:none}
+.mapp-view span,.mapp-show-ui span{white-space:nowrap}
+@media (max-width:899px){
+ .mapp .mapp-view span{display:none}
+ .mapp .mapp-view{width:48px;padding:0;justify-content:center;flex:none}
+ .mapp-top{gap:8px}
+ .mapp-search{min-width:0}
+ .mapp .mapp-player{padding:2px 6px 4px}
+ .mapp .mapp-player-row{gap:2px}
+ .mapp .mapp-player-row .mapp-icon{width:40px;height:40px}
+ .mapp .mapp-play{width:40px;height:40px}
+ .mapp .mapp-player-row output{font-size:.75rem;white-space:nowrap}
+ .mapp-sim-badge{display:none}
+ .mapp-player-top select{font-size:.875rem;height:32px}
+ .mapp.player-folded .mapp-stat{display:none}
+ .mapp.ui-focus .mapp-controls,.mapp.ui-none .mapp-controls{bottom:16px}
+ .mapp .mapp-show-ui{top:10px;right:10px}
+}
+.mapp.ui-focus .mapp-top [data-m-layers]{margin-left:auto}
