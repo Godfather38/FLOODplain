@@ -66,6 +66,4 @@ jobs:
         if: steps.auth.outputs.ok == 'true'
         run: |
           sleep 10
-          URL="https://script.google.com/macros/s/$DEPLOYMENT_ID/exec"
-          curl -sSL "$URL" ; echo
-          curl -sSL "$URL?feed=usgs" | python3 -c "import json,sys; d=json.load(sys.stdin); print('river gauges via service:', 'OK, fetched ' + str(d.get('fetched_at')) if d.get('fetched_at') else d)"
+          node tools/check_service.mjs
