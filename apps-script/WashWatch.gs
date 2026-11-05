@@ -1690,10 +1690,8 @@ function computeVerdicts_() {
     try {
       cached = JSON.parse(hit);
     } catch (err) {
-      throw ownerComputeError_("Cached assessment is malformed; refresh the verdict cache");
     }
-    if (!validOwnerVerdicts_(cached, Date.now())) throw ownerComputeError_("Cached assessment is incomplete, malformed or stale; refresh the verdict cache");
-    return cached;
+    if (validOwnerVerdicts_(cached, Date.now())) return cached;
   }
   const urls = sourceUrls(PropertiesService.getScriptProperties().getProperty("USGS_API_KEY"));
   const sites = Object.keys(urls.usgs);

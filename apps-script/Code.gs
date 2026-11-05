@@ -491,9 +491,11 @@ function computeVerdicts_() {
   const hit = cache.get('verdicts');
   if (hit) {
     let cached;
-    try { cached = JSON.parse(hit); } catch (err) { throw ownerComputeError_('Cached assessment is malformed; refresh the verdict cache'); }
-    if (!validOwnerVerdicts_(cached, Date.now())) throw ownerComputeError_('Cached assessment is incomplete, malformed or stale; refresh the verdict cache');
-    return cached; // Cache hits never mark compute health recovered.
+    try { cached = JSON.parse(hit); } catch (err) { /* Rebuild an unusable cache below. */ }
+    if (validOwnerVerdicts_(cached, Date.now())) return cached; // Cache hits never mark compute health recovered.
+    // Assessment age starts before evaluation, but the cache TTL starts on put.
+    // Refresh stale or invalid entries now instead of reporting a compute outage
+    // until CacheService expires them. Only a validated new result can recover.
   }
   const urls = sourceUrls(PropertiesService.getScriptProperties().getProperty('USGS_API_KEY'));
   const sites = Object.keys(urls.usgs);

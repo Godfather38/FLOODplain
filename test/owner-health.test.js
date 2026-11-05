@@ -36,12 +36,60 @@ test('failed current computation prevents pending source recovery',()=>{const {g
 test('healthy input diagnostics still send when closure monitor throws',()=>{const {gas}=setup(SRC+'\nfunction closureWatch_(){throw Error("closure");}');gas.cache.set('verdicts','{}');gas.api.noteOwnerHealth_([{id:'rain:6110',reason:'Stale reading',expected:'Rain',crossings:'Brawley'}],now);gas.api.tick();assert.equal(gas.mails.length,1);assert.match(gas.mails[0].body,/rain:6110/);});
 
 function cachedVerdicts(){return Object.fromEntries(['avra','picture-rocks'].map(id=>[id,{at:new Date(now).toISOString(),text:'Estimate',sms:'Estimate',spoken:'Estimate',title:'Estimate',off:false,closed:[],closuresKnown:true}]));}
+function liveSetup() {
+  const clock = { now };
+  let batches = 0;
+  const gas = makeGas(clock, SRC, reqs => {
+    batches++;
+    const raw = healthy();
+    return reqs.map(({url}) => {
+      const site = /USGS-(\d+)/.exec(url)?.[1];
+      const body = site ? raw.usgs[site] : url.includes('arcgis') ? raw.closures
+        : url.includes('currain') ? raw.rain : url.includes('currentstream') ? raw.stream
+        : url.includes('weather.gov') ? raw.nws : url.includes('GetConstructionEvents') ? raw.tvWork : raw.tvClosures;
+      return {getResponseCode: () => 200, getContentText: () => JSON.stringify(body)};
+    });
+  });
+  return {gas, clock, batches: () => batches};
+}
+test('expired assessment still in the cache refreshes immediately without an outage email', () => {
+  const {gas, clock, batches} = liveSetup();
+  gas.cache.set('verdicts', JSON.stringify(cachedVerdicts()));
+  // The timestamp is captured before evaluation; CacheService TTL starts later,
+  // on cache.put. At this boundary the cached entry can still exist but be stale.
+  clock.now += 4 * 60000 + 1;
+  gas.api.tick();
+  assert.equal(batches(), 1);
+  assert.equal(gas.mails.length, 0);
+  assert.equal(gas.api.computeVerdict_('avra').at, new Date(clock.now).toISOString());
+  assert.equal(batches(), 1, 'reuse the refreshed answer within the same tick');
+});
+test('invalid cached assessments are rebuilt rather than served or left until expiry', () => {
+  for (const cache of ['null', '{', '{}', JSON.stringify({avra:cachedVerdicts().avra})]) {
+    const {gas, batches} = liveSetup();
+    gas.cache.set('verdicts', cache);
+    const v = gas.api.computeVerdict_('avra');
+    assert.equal(v.at, new Date(now).toISOString());
+    assert.equal(batches(), 1);
+    assert.equal(JSON.parse(gas.props.get('ownerHealth:compute')).reason, '');
+  }
+});
+test('a stale cache with a failed refresh still alerts and never returns stale results', () => {
+  const {gas, clock} = setup();
+  gas.cache.set('verdicts', JSON.stringify(cachedVerdicts()));
+  clock.now += 4 * 60000 + 1;
+  assert.throws(() => gas.api.computeVerdict_('avra'), /network/);
+  gas.api.tick();
+  assert.equal(gas.mails.length, 1);
+  assert.match(gas.mails[0].body, /PROBLEM: compute/);
+  assert.ok(JSON.parse(gas.props.get('ownerHealth:compute')).reason);
+});
 test('missing engine and null all-area result produce actionable compute incidents',()=>{
   for(const [suffix,pattern] of [['\nevaluate=undefined;',/engine unavailable/],['\nfunction computeVerdicts_(){return null;}',/output is missing/]]){
     const {gas}=setup(SRC+suffix);gas.cache.set('verdicts',JSON.stringify(cachedVerdicts()));gas.api.tick();assert.equal(gas.mails.length,1);assert.match(gas.mails[0].body,pattern);
   }
 });
-test('malformed and incomplete cached verdicts alert; valid cache cannot recover an incident',()=>{
+test('failed refresh of invalid cached verdicts alerts; valid cache cannot recover an incident',()=>{
   const {gas}=setup();for(const cache of ['null','{','{}',JSON.stringify({avra:cachedVerdicts().avra})]){gas.cache.set('verdicts',cache);gas.api.tick();assert.ok(JSON.parse(gas.props.get('ownerHealth:compute')).reason);}
   const count=gas.mails.length;gas.cache.set('verdicts',JSON.stringify(cachedVerdicts()));gas.api.tick();assert.equal(gas.mails.length,count);assert.ok(JSON.parse(gas.props.get('ownerHealth:compute')).reason);assert.ok(gas.mails.every(m=>!m.body.includes('RECOVERED')));
 });
