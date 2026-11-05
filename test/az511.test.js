@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {normalizeAZ511, createAZ511Adapter} from '../worker/az511.js';
+import {normalizeAZ511, createAZ511Adapter, AZ511_LIMITS} from '../worker/az511.js';
 import {az511Events} from '../worker/fixtures/az511.js';
 import {createWorker} from '../worker/index.js';
 import {roadEventTiming, roadEventLabel, roadEventsOnRoute} from '../public/logic.js';
@@ -102,4 +102,30 @@ test('geometry uses documented E5 polyline coordinates and rejects malformed geo
   for(const row of [{ID:1,EncodedPolyline:'_'},{ID:1,Latitude:91,Longitude:0},{ID:1,Latitude:null,Longitude:null}]) {
     const e=normalizeAZ511([row],now)[0]; assert.equal(e.geometryUnknown,true); assert.deepEqual(e.parts,[]);
   }
+});
+test('event, string and polyline limits reject whole input without silently truncating restrictions',()=>{
+  assert.throws(()=>normalizeAZ511(Array(AZ511_LIMITS.events+1).fill({ID:1}),now));
+  assert.throws(()=>normalizeAZ511([{ID:1,Description:'x'.repeat(AZ511_LIMITS.stringChars+1)}],now));
+  assert.throws(()=>normalizeAZ511([{ID:1,EncodedPolyline:'?'.repeat(AZ511_LIMITS.polylineChars+1)}],now));
+  const e=normalizeAZ511([{ID:1,EncodedPolyline:'??'.repeat(AZ511_LIMITS.pointsPerEvent+1)}],now)[0];
+  assert.equal(e.geometryUnknown,true);assert.deepEqual(e.parts,[]);
+  assert.throws(()=>normalizeAZ511(Array(9).fill({ID:1,EncodedPolyline:'??'.repeat(4096)}),now));
+});
+test('response byte cap rejects declared and streamed oversized bodies and cancels stream',async()=>{
+  let cancelled=false;
+  const stream=()=>new Response(new ReadableStream({
+    start(controller){controller.enqueue(new Uint8Array(AZ511_LIMITS.responseBytes+1));},
+    cancel(){cancelled=true;}
+  }));
+  for(const fetcher of [async()=>new Response('[]',{headers:{'Content-Length':String(AZ511_LIMITS.responseBytes+1)}}),async()=>stream()]){
+    const load=createAZ511Adapter({clock:()=>now,fetcher});
+    assert.deepEqual(await load(env),{status:'unavailable',events:null});
+  }
+  assert.equal(cancelled,true);
+});
+test('upstream secret echo is not cached or exposed even inside a plausible event',async()=>{
+  const load=createAZ511Adapter({clock:()=>now,fetcher:async()=>Response.json([{ID:1,Description:env.AZ511_API_KEY}])});
+  assert.deepEqual(await load(env),{status:'unavailable',events:null});
+  const escaped=createAZ511Adapter({clock:()=>now,fetcher:async()=>new Response('[{"ID":1,"Description":"synthetic\\u002dtest-key"}]')});
+  assert.deepEqual(await escaped(env),{status:'unavailable',events:null});
 });

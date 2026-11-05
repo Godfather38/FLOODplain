@@ -70,6 +70,56 @@ bundle, but nothing has been deployed. TEXT_API and write handlers are unchanged
 
 ## Verification and remaining work
 
+### Offline reconciliation policy
+
+`reconcile-road-events.js` is an offline experiment, not imported by the Worker
+or browser. It receives normalized events plus a trusted, operator-reviewed
+`verifiedLinks` crosswalk. Each link names exact source-qualified event IDs and
+an HTTPS evidence reference. An evidence URL is provenance supplied by the
+caller, not something this function verifies online. No real crosswalk is
+included: the AZ511 `SourceId` documentation does not establish a common ID
+namespace with TransView or county records. Equal-looking IDs, nearby geometry
+and similar headlines alone never deduplicate records.
+
+A linked pair is equivalent only when known scope (ramp/mainline/frontage/local),
+known travel direction, normalized road name, exact geometry, boolean closure,
+known timing and all interval/daily boundaries agree. Reverse line vertex order
+is allowed only with independently matching travel direction. Parallel lines,
+points versus lines, nearby ramps versus mainline, missing scope/direction,
+unparsed recurrence and unknown/conflicting timing retain both records with
+explicit conflict reasons. No proximity threshold promotes a ramp to mainline.
+
+Equivalent groups retain every original and source provenance. Unmatched county
+barricades are untouched. Transitive joins recheck every member; groups are
+limited to 16 members, inputs to 5,000 events and 5,000 links. Consumers must
+retain the groups/decisions alongside any projected event list. The helper does
+not select a more authoritative source to resolve conflicts or change routing.
+Fixture evidence links are synthetic, not evidence of actual source identity.
+
+### Resource and credential limits
+
+The server adapter allows at most 4 MiB decoded response bytes, 5,000 events,
+16,384 characters per retained text field, 65,536 encoded-polyline characters,
+4,096 decoded points per event and 32,768 decoded points per response. Streaming
+reads enforce the byte cap even without Content-Length, using fixed storage;
+oversized responses/counts/text and aggregate geometry limits fail the response
+as unavailable, not an empty success. No description is truncated. Invalid or
+over-complex individual geometry retains its event with empty parts and
+`geometryUnknown:true`, never a fabricated line. These limits need validation
+against authorized real samples before production use.
+
+Fixed-host requests, denied redirects, ten-second request timeout and generic
+errors remain. Raw or JSON-escaped key echoes in upstream responses are rejected
+before caching/output. No secret is written to browser modules, logs, fixtures,
+config vars or source control. The cache/coalescer and one-attempt-per-minute
+backoff are **per Worker instance**, not a global ten-per-minute quota. Multiple
+instances can still exceed AZ511's quota; shared limiting is a cutover blocker.
+
+Cloudflare account and production Worker target remain unverified. No account
+metadata connector or authenticated deployment target has been established;
+the shadow configuration is not evidence of an existing deployment. No login,
+credential inspection or account/access changes were performed.
+
 Synthetic fixtures use the documented fields. They represent future Cortaro
 ramp and Massingale–Cortaro frontage schedules, an ongoing explicit mainline
 example and an expired example. They are not fetched live records or evidence
@@ -78,7 +128,7 @@ summer/winter offsets, start/end boundaries, bad dates, recurrence, malformed
 responses, missing config, fixed endpoint, cache reclassification, coalescing,
 throttled failure, error redaction, empty success and disabled writes/sends.
 
-Local verification after final closure/geometry integration: all 314 repository tests pass;
+Local verification after reconciliation/resource limits: all 326 repository tests pass;
 Worker generation succeeds; the rebuilt Apps Script bundle parses as ES2019.
 Loopback fixture smoke passed before integration. Local Playwright smoke could
 not launch because Chromium revision 1148 is not installed; branch CI installs
