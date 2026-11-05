@@ -10,19 +10,24 @@
 // (see docs/SFINCS-ROUTE-PREDICTION.md). It is a model forecast, worded as one on screen.
 // It only raises a route's rating: a dry prediction never lowers a closure or a gauge reading.
 
-export const WET_M = 0.0091;     // 0.03 ft: below this a cell holds no water
-export const COVER_M = 0.05;     // more than about 2 in over the road counts as water over the road
-export const DEEP_M = 0.3;       // 1 ft or more over the road
+// One set of thresholds for the app and the alert service (road-forecast.js).
+import { WET_M, COVER_M, DEEP_M, levelFor } from '../road-forecast.js?v=dev';
+export { WET_M, COVER_M, DEEP_M, levelFor };
 export const NEAR_M = 0.3;       // water within 1 ft below the road is listed as near it
 const FT = 3.28084;
 export const ft = (m) => m * FT;
 
 // Water over the road at one station, for every frame. -Infinity: dry cell. NaN: no model value.
-function overSeries(surface, depth, roadM) {
+// capAtDepth (100 m cells): a road below the cell's average ground would read the cell's whole
+// height difference as water over the road as soon as the cell is barely wet. There the estimate is
+// the cell's own water depth instead: min(surface - road, surface - ground). road-forecast.js does
+// the same, so the app and the alerts agree.
+function overSeries(surface, depth, roadM, capAtDepth = false) {
   return surface.map((z, k) => {
     const d = depth[k];
     if (Number.isFinite(d) && d < WET_M) return -Infinity;
-    return Number.isFinite(z) ? z - roadM : NaN;
+    if (!Number.isFinite(z)) return NaN;
+    return capAtDepth && Number.isFinite(d) ? Math.min(z - roadM, d) : z - roadM;
   });
 }
 
@@ -48,7 +53,7 @@ export function predictFromGrid(run, stations, cellOf) {
     for (const s of list) {
       const cell = cellOf(s.lon, s.lat);
       if (cell < 0) { outside++; continue; }
-      samples.push({ ...s, cell, over: overSeries(run.surface.map((f) => f[cell]), run.depth.map((f) => f[cell]), s.roadM) });
+      samples.push({ ...s, cell, over: overSeries(run.surface.map((f) => f[cell]), run.depth.map((f) => f[cell]), s.roadM, true) });
     }
     routes[routeId] = { routeId, samples, stations: list.length, outside };
   }
@@ -104,7 +109,6 @@ export function routeAtFrame(route, k) {
   return { maxOver, stretches: stretches.sort((a, b) => b.maxOver - a.maxOver), wetCount: wet.length, near, known };
 }
 
-export const levelFor = (maxOver) => (maxOver >= DEEP_M ? 'danger' : maxOver > COVER_M ? 'caution' : 'ok');
 
 // The forecast still ahead for one route: from the frame holding `now` to the end of the run.
 // status 'current' when the run covers now, otherwise 'not_current' with the reason.

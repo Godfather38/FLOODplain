@@ -31,3 +31,15 @@ jobs:
           PY
       - name: County rain feed through the service
         run: curl -sSL -m 90 "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=alert" | head -c 600 ; echo
+      - name: SFINCS road forecast the texts and pushes are using
+        if: always()
+        run: |
+          curl -sSL -m 90 "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec?feed=roadforecast" > roadforecast.json
+          python3 - <<'PY'
+          import json
+          d = json.load(open('roadforecast.json'))
+          print('status', d.get('status'), d.get('runId'), d.get('issuedAt'), d.get('reason', ''))
+          for k, v in (d.get('routes') or {}).items():
+              print(k, v.get('level'), 'cells', v.get('cells'), 'max over road (m)', v.get('maxOver'))
+          raise SystemExit(0 if d.get('status') == 'ok' else 'SFINCS road forecast not in use: ' + str(d.get('reason')))
+          PY

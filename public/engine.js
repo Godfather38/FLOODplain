@@ -3,7 +3,9 @@
 import * as cfg from './config.js';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, routeScore, againstIt, routeClosures, parseCountyClosures,
+  worst,
 } from './logic.js';
+import { roadForecastPoint } from './road-forecast.js';
 
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
 const RAIN_KEYS = ['m10', 'm30', 'h1', 'h3', 'h6', 'd1', 'd3', 'd7', 'd30'];
@@ -29,7 +31,10 @@ export function alertSnapshot(rainData, streamData, fetchedAt) {
   };
 }
 
-// raw = { now, usgs: {site: json|null}, closures: arcgisJson|null, alert: snapshot|null, nws: geojson|null, roadEvents: [normalized]|null, routes: [features] }
+// raw = { now, usgs: {site: json|null}, closures: arcgisJson|null, alert: snapshot|null, nws: geojson|null, roadEvents: [normalized]|null, routes: [features],
+//         sfincs: roadForecast() result | null }
+// The SFINCS road forecast adds one row per route while the live run covers now (road-forecast.js).
+// It can raise a route's level, never lower it. docs/SFINCS-ROUTE-PREDICTION.md: do not remove.
 export function evaluate(raw, area = 'avra') {
   const now = raw.now;
   const flows = Object.fromEntries(Object.keys(cfg.USGS_SITES).map((s) => [s, summarizeFlow(raw.usgs?.[s] ? parseContinuous(raw.usgs[s]) : {}, now, cfg.STALE_MS)]));
@@ -39,11 +44,19 @@ export function evaluate(raw, area = 'avra') {
   const d = { now, flows, closures, alert: raw.alert, nws };
   const fpResults = Object.fromEntries(cfg.FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
   const routes = raw.routes.filter((f) => (f.properties.area ?? 'avra') === area);
-  const rated = rateRoutes(routes, fpResults, cfg.FAILURE_POINTS, { closures, radiusM: cfg.CLOSURE_RADIUS_M, roadEvents: raw.roadEvents ?? null, now }).map((r) => ({ ...r, score: routeScore(r) }));
+  const rated = rateRoutes(routes, fpResults, cfg.FAILURE_POINTS, { closures, radiusM: cfg.CLOSURE_RADIUS_M, roadEvents: raw.roadEvents ?? null, now })
+    .map((r) => withRoadForecast(r, raw.sfincs)).map((r) => ({ ...r, score: routeScore(r) }));
   const { best, order } = recommend(rated);
-  const missing = [!county.complete && 'county', !raw.alert && 'rain', !Object.values(flows).some((f) => f.fresh) && 'river'].filter(Boolean);
+  const missing = [!county.complete && 'county', !raw.alert && 'rain', !Object.values(flows).some((f) => f.fresh) && 'river', raw.sfincs && raw.sfincs.status !== 'ok' && 'flood model'].filter(Boolean);
   const closed = [...new Set(rated.flatMap((r) => routeClosures(r).map((p) => p.short)))].sort();
-  return { rated, best, order, missing, closed, closuresKnown: county.complete, ...message(best, order, rated, missing, now, area, !county.complete && closures !== null) };
+  return { rated, best, order, missing, closed, closuresKnown: county.complete, sfincs: raw.sfincs ? raw.sfincs.status : 'not_loaded', ...message(best, order, rated, missing, now, area, !county.complete && closures !== null) };
+}
+
+export function withRoadForecast(r, sfincs) {
+  const f = sfincs && sfincs.status === 'ok' ? sfincs.routes[r.id] : null;
+  if (!f || !f.cells) return r;
+  const point = roadForecastPoint(r.id, f);
+  return { ...r, points: [...r.points, point], level: worst([r.level, point.level]) };
 }
 
 export function message(best, order, rated, missing, now, area = 'avra', countyIncomplete = false) {

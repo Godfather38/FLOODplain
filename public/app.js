@@ -748,7 +748,7 @@ const UPDATES = [
   ['November 5, 2026', [
     'Back: SFINCS road flood forecast on every route. The hourly SFINCS run is compared with the lidar road surface along the whole route, not only the listed crossings. When it shows water over a road during the forecast hours, that route\'s number goes up and the route screen says where, how deep and when. It can raise a number but never lower one.',
     'The Map tab lists every route with water over the road at the hour shown, for the live run and the saved runs.',
-    'Texts and push alerts don\'t use the SFINCS road forecast yet.',
+    'Texts and push alerts use the SFINCS road forecast too, so they give the same number as the app.',
   ]],
   ['November 1, 2026', [
     'New: accessible colors on every map icon, visible Back and Refresh labels, a 3-step guide, heights in feet, and coverage and gauge tracking for every location on a route.',

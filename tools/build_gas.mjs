@@ -27,6 +27,8 @@ if (typeof URLSearchParams === 'undefined') {
 
 // ===== public/config.js =====
 ${strip(read('public/config.js'))}
+// ===== public/road-forecast.js =====
+${strip(read('public/road-forecast.js'))}
 // ===== public/logic.js =====
 ${strip(read('public/logic.js'))}
 // ===== public/engine.js =====
@@ -34,6 +36,8 @@ ${strip(read('public/engine.js')).replace(/\bcfg\./g, 'CFG_.')}
 const CFG_ = { AREAS, SOURCES, USGS_SITES, STALE_MS, SNAPSHOT_STALE_MS, RIVER, RAIN, RAIN_GAUGES, WASH, FAILURE_POINTS, RIVER_EARLY, CLOSURE_RADIUS_M, CLOSURE_BOUNDS, ROUTE_INFO };
 const cfg = CFG_;
 const ROUTE_FEATURES = ${JSON.stringify(routes)};
+// Road heights per SFINCS model cell, from public/data/road-cells.json (tools/build_road_cells.mjs).
+const ROAD_CELLS = ${JSON.stringify({ routes: JSON.parse(read('public/data/road-cells.json')).routes })};
 
 // ===== apps-script/Code.gs =====
 ${read('apps-script/Code.gs')}

@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { gzipSync } from 'node:zlib';
 import { execFileSync } from 'node:child_process';
 import { makeGas } from './gas-mock.js';
 
@@ -13,10 +14,25 @@ execFileSync(process.execPath, [fileURLToPath(new URL('../tools/build_gas.mjs', 
 const SRC = readFileSync(OUT, 'utf8');
 const fx = (n) => readFileSync(new URL(`./fixtures/${n}`, import.meta.url), 'utf8');
 
+// A live SFINCS run around `now`: dry everywhere, or `overM` of water over the lowest road cell of
+// `route` three hours ahead. Cell order follows public/data/road-cells.json.
+const CELLS = JSON.parse(readFileSync(new URL('../public/data/road-cells.json', import.meta.url), 'utf8'));
+function liveSfincs(now, { overM = null, route = 'avra', ageH = 1 } = {}) {
+  const issued = now - ageH * 3600e3, times = Array.from({ length: 8 }, (_, k) => issued - 3600e3 + k * 3600e3);
+  const low = CELLS.routes[route].filter((c) => c[2] <= c[1]).reduce((a, c) => (c[1] < a[1] ? c : a)); // a cell whose ground is at or below the road
+  const frames = times.map((t, k) => { const surfaceM = new Array(CELLS.cellCount).fill(-99999); if (overM != null && k === 4) surfaceM[low[0]] = low[1] + overM; return { time: new Date(t).toISOString(), surfaceM }; });
+  return { manifest: JSON.stringify({ runId: 'live-test', issuedAt: new Date(issued).toISOString() }), water: gzipSync(JSON.stringify({ cellOrder: 'test', frames })) };
+}
+
 // Recorded responses from Oct 31, 2026 (light rain). Time-shift USGS so it reads as current.
-function feeds(now, { failRain = false } = {}) {
+function feeds(now, { failRain = false, sfincs = liveSfincs(now), failSfincs = false } = {}) {
   return (reqs) => reqs.map(({ url }) => {
     let body = null;
+    if (url.includes('live-model/live/')) {
+      if (failSfincs) return { getResponseCode: () => 404, getContentText: () => '', getBlob: () => ({ bytes: Buffer.alloc(0), setContentType() { return this; } }) };
+      if (url.includes('manifest.json')) return { getResponseCode: () => 200, getContentText: () => sfincs.manifest };
+      return { getResponseCode: () => 200, getContentText: () => '', getBlob: () => ({ bytes: sfincs.water, setContentType() { return this; } }) };
+    }
     const site = /USGS-(\d+)/.exec(url)?.[1];
     if (site) {
       let j;
@@ -65,4 +81,27 @@ test('bundle serves the river gauges to the app in one request', () => {
   const u = g.api.doGet({ parameter: { feed: 'usgs' } });
   assert.ok(u.series['09486500'].features.length > 0);
   assert.ok('time' in u.series['09486500'].features[0].properties);
+});
+
+test('texts and pushes use the SFINCS road forecast: water over the road raises that route', () => {
+  const dry = makeGas({ now: NOW, verdict: null }, SRC, feeds(NOW)).api;
+  const base = dry.computeVerdict_();
+  assert.doesNotMatch(base.sms, /flood model/);
+  const f = dry.doGet({ parameter: { feed: 'roadforecast' } });
+  assert.equal(f.status, 'ok');assert.equal(f.routes.avra.level, 'ok');
+  const wet = makeGas({ now: NOW, verdict: null }, SRC, feeds(NOW, { sfincs: liveSfincs(NOW, { overM: 0.4 }) })).api;
+  const v = wet.computeVerdict_();
+  assert.match(v.sms, /Avra Valley Rd 5/, 'a foot or more over the road is a 5');
+  assert.equal(wet.doGet({ parameter: { feed: 'roadforecast' } }).routes.avra.level, 'danger');
+  const shallow = makeGas({ now: NOW, verdict: null }, SRC, feeds(NOW, { sfincs: liveSfincs(NOW, { overM: 0.1 }) })).api.computeVerdict_();
+  assert.match(shallow.sms, /Avra Valley Rd 3/);
+});
+
+test('a stale or missing SFINCS run leaves a numbered verdict and says so', () => {
+  for (const opt of [{ failSfincs: true }, { sfincs: liveSfincs(NOW, { ageH: 5, overM: 1 }) }]) {
+    const v = makeGas({ now: NOW, verdict: null }, SRC, feeds(NOW, opt)).api.computeVerdict_();
+    assert.match(v.sms, /\d\/5/);
+    assert.match(v.sms, /No live flood model data/);
+    assert.doesNotMatch(v.sms, /Avra Valley Rd 5/);
+  }
 });

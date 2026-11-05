@@ -7,8 +7,9 @@ name: Deploy alert service
 
 on:
   push:
-    branches: [main]
-    paths: ['apps-script/**', 'public/config.js', 'public/logic.js', 'public/engine.js', 'tools/build_gas.mjs']
+    # The default branch publishes until main exists (CLAUDE.md), so it deploys the service too.
+    branches: [main, ccr-ae06b197-a01a6o]
+    paths: ['apps-script/**', 'public/config.js', 'public/logic.js', 'public/engine.js', 'public/road-forecast.js', 'public/data/road-cells.json', 'tools/build_gas.mjs']
   workflow_dispatch:
 
 concurrency: { group: deploy-service, cancel-in-progress: false }

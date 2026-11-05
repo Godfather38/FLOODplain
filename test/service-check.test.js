@@ -50,5 +50,7 @@ test('deployment invokes bounded checker without adding upload triggers', () => 
   const workflow = readFileSync(new URL('../.github/workflows/deploy-service.yml', import.meta.url), 'utf8');
   assert.match(workflow, /node tools\/check_service\.mjs/);
   assert.doesNotMatch(workflow, /curl -sSL/);
-  assert.match(workflow, /paths: \['apps-script\/\*\*', 'public\/config.js', 'public\/logic.js', 'public\/engine.js', 'tools\/build_gas.mjs'\]/);
+  // The SFINCS road forecast is part of the service (docs/SFINCS-ROUTE-PREDICTION.md).
+  assert.match(workflow, /paths: \['apps-script\/\*\*', 'public\/config.js', 'public\/logic.js', 'public\/engine.js', 'public\/road-forecast.js', 'public\/data\/road-cells.json', 'tools\/build_gas.mjs'\]/);
+  assert.match(workflow, /branches: \[main, ccr-ae06b197-a01a6o\]/);
 });

@@ -23,6 +23,8 @@
  */
 const CONFIG = {
   VERDICT_URL: 'https://raw.githubusercontent.com/godfather38/floodplain/data/verdict.json',
+  // The hourly live SFINCS run (the same files the app's map reads, preview/geo3d/src/runs.js).
+  LIVE_SFINCS: 'https://raw.githubusercontent.com/Godfather38/FLOODplain/live-model/live/',
   APP_URL: 'https://godfather38.github.io/FLOODplain/',
   GATEWAY: 'vtext.com',
   TZ: 'America/Phoenix',
@@ -67,6 +69,12 @@ function doGet(e) {
     return json_({ ok: true });
   }
   if (e && e.parameter && e.parameter.feed === 'health') return json_({ ok: true, sources: healthState_() });
+  // The SFINCS road forecast the texts and pushes are using, per route.
+  if (e && e.parameter && e.parameter.feed === 'roadforecast') {
+    computeVerdicts_();
+    const f = CacheService.getScriptCache().get('roadforecast');
+    return json_(f ? JSON.parse(f) : { status: 'unavailable', reason: 'Not computed yet' });
+  }
   if (e && e.parameter && e.parameter.feed === 'forecasts') return json_(sharedForecasts_(String(e.parameter.paths || '')));
   // Everything the app reads on each check, in one request.
   if (e && e.parameter && e.parameter.feed === 'all') {
@@ -508,11 +516,17 @@ function computeVerdicts_() {
     { url: urls.nws, muteHttpExceptions: true, headers: { ...ua, Accept: 'application/geo+json' } },
     transview_('GetData', { theDataType: 'RoadClosure' }, ua),
     transview_('GetConstructionEvents', { type: '' }, ua),
+    { url: CONFIG.LIVE_SFINCS + 'manifest.json?t=' + Math.floor(Date.now() / 120000), muteHttpExceptions: true, headers: ua },
+    { url: CONFIG.LIVE_SFINCS + 'water.json.gz?t=' + Math.floor(Date.now() / 120000), muteHttpExceptions: true, headers: ua },
   ];
-  const res = UrlFetchApp.fetchAll(reqs).map((r) => {
-    if (r.getResponseCode() !== 200) return null;
+  const answers = UrlFetchApp.fetchAll(reqs);
+  const parse = (r) => {
+    if (!r || r.getResponseCode() !== 200) return null;
     try { return JSON.parse(r.getContentText()); } catch (err) { return null; }
-  });
+  };
+  // The last two answers are the live SFINCS manifest and water; the water is gzip, read below.
+  const res = answers.slice(0, reqs.length - 2).map(parse);
+  const sfincs = sfincsForecast_(parse(answers[reqs.length - 2]), answers[reqs.length - 1], Date.now());
   const now = Date.now();
   const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
   const [hc, hr, hs, hn, htc, htw] = res.slice(sites.length);
@@ -534,15 +548,30 @@ function computeVerdicts_() {
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
   const out = {};
   for (const id of AREA_IDS) {
-    const v = evaluate({ now, usgs, closures, alert, nws, roadEvents: eventsForRating, routes: ROUTE_FEATURES }, id);
+    const v = evaluate({ now, usgs, closures, alert, nws, roadEvents: eventsForRating, routes: ROUTE_FEATURES, sfincs }, id);
     if (!v) throw ownerComputeError_('Assessment output is missing; inspect the evaluator and area configuration');
     out[id] = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title, closed: v.closed, closuresKnown: v.closuresKnown };
   }
   if (!validOwnerVerdicts_(out, now)) throw ownerComputeError_('Assessment output is incomplete or malformed; inspect the evaluator and area configuration');
   noteOwnerHealth_([{ id: 'compute', reason: '', expected: 'Successful evaluation for every area', crossings: 'All configured crossings' }], now);
   cache.put('verdicts', JSON.stringify(out), 240);
+  cache.put('roadforecast', JSON.stringify(sfincs.status === 'ok' ? { status: 'ok', runId: sfincs.runId, issuedAt: sfincs.issuedAt, routes: sfincs.routes } : sfincs), 300);
   if (alert) cache.put('alert', JSON.stringify(alert), 300);
   return out;
+}
+
+// The SFINCS road forecast for the ratings (public/road-forecast.js, ROAD_CELLS from
+// public/data/road-cells.json). Water over a road raises that route's number in texts and pushes,
+// the same as in the app. Any failure here leaves the other sources rating the routes.
+function sfincsForecast_(manifest, waterAnswer, now) {
+  try {
+    if (!manifest || !waterAnswer || waterAnswer.getResponseCode() !== 200) return { status: 'unavailable', reason: 'The live SFINCS run did not answer.' };
+    const blob = waterAnswer.getBlob().setContentType('application/x-gzip');
+    const water = JSON.parse(Utilities.ungzip(blob).getDataAsString());
+    return roadForecast(ROAD_CELLS, manifest, water, now);
+  } catch (err) {
+    return { status: 'unavailable', reason: 'The live SFINCS run could not be read: ' + err.message };
+  }
 }
 
 function verdict_(area) {

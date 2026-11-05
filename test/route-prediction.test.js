@@ -69,3 +69,32 @@ test('the app counts the forecast in route ratings and the map lists every route
  const doc=read('docs/SFINCS-ROUTE-PREDICTION.md');
  assert.match(doc,/Do not remove/);assert.match(read('CLAUDE.md'),/SFINCS-ROUTE-PREDICTION\.md/);
 });
+
+test('the alert service and the app give every route the same SFINCS level from the same water',async()=>{
+ const {gunzipSync}=await import('node:zlib');
+ const {decodeRoadHeights}=await import('../public/preview/geo3d/src/road-package.js');
+ const {toUtm}=await import('../public/preview/geo3d/src/utm.js');
+ const {gridCellOf}=await import('../public/simulation/route-prediction.js');
+ const {roadForecast}=await import('../public/road-forecast.js');
+ const table=JSON.parse(read('public/data/road-cells.json'));
+ const disp=JSON.parse(gunzipSync(readFileSync(new URL('../public/simulation/data/frozen-terrain-display.json.gz',import.meta.url))));
+ const index=new Map(),bed=disp.vertices.map(v=>v[2]);disp.vertices.forEach((v,i)=>index.set(Math.floor(v[0]/100)*1000+Math.floor(v[1]/100),i));
+ const b=gunzipSync(readFileSync(new URL('../public/simulation/data/road-heights/routes.bin.gz',import.meta.url)));
+ const stations=routeStations(decodeRoadHeights(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength)).lines);
+ // Water on every route cell at road height plus a different offset per cell and hour, some dry.
+ let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+ const times=[0,1,2,3].map(k=>T0+k*H),frames=times.map(t=>({time:new Date(t).toISOString(),surfaceM:new Array(disp.vertices.length).fill(-99999)}));
+ Object.values(table.routes).forEach((list,r)=>{const amp=[.1,.3,1][r%3];for(const [cell,roadM] of list)for(const f of frames)if(rnd()<.5)f.surfaceM[cell]=Math.max(roadM,bed[cell])+(rnd()-.6)*amp;});
+ const surface=frames.map(f=>Float32Array.from(f.surfaceM)),depth=surface.map(s=>s.map((z,i)=>Math.max(0,z-bed[i])));
+ const app=predictFromGrid({times,surface,depth},stations,gridCellOf(index,toUtm));
+ const gas=roadForecast(table,{issuedAt:new Date(T0).toISOString()},{frames},T0+60e3);
+ assert.equal(gas.status,'ok');
+ const levels=new Set();
+ for(const id of Object.keys(table.routes)){
+  if(!table.routes[id].length)continue;
+  const o=routeOutlook(app,id,T0+60e3);
+  assert.equal(gas.routes[id].level,o.level,id);levels.add(o.level);
+  assert.ok(Math.abs(gas.routes[id].maxOver-o.peak.maxOver)<1e-3,id);
+ }
+ assert.ok(levels.size>1,'the fixture exercises more than one level');
+});

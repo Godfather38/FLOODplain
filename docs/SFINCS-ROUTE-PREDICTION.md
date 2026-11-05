@@ -20,7 +20,7 @@ SFINCS is a flood model. It works out where rain and river water go across the g
 - **Map tab.** The Crossings panel lists every route with water over the road at the hour shown, for whichever run is loaded. On the saved all-route run, which has 6.25 m cells, it checks every low point along each road.
 - **When it can't be used.** If the run is older than 3 hours, doesn't answer, or doesn't cover now, the route screen says so in one line. The rating stands on the other sources. It never shows "?".
 
-Code: `public/simulation/route-prediction.js`, wired in by `addSfincs()` in `public/app.js` and `routeBoardHtml()` in `public/sim-panels.js`. Tests: `test/route-prediction.test.js`.
+Code: `public/simulation/route-prediction.js` (app), `public/road-forecast.js` (shared thresholds, and the alert service's copy), wired in by `addSfincs()` in `public/app.js`, `withRoadForecast()` in `public/engine.js` and `routeBoardHtml()` in `public/sim-panels.js`. Tests: `test/route-prediction.test.js` and `test/bundle.test.js`.
 
 ## Do not remove it again
 
@@ -49,7 +49,22 @@ What is still fine: using a run only for the hours it covers, saying when a run 
 
 Any change that would reduce what SFINCS route prediction does needs the owner's explicit OK first, in their own words.
 
-## Not done yet
+## Texts and push alerts
 
-- Texts and push alerts (`apps-script/WashWatch.gs`) don't use the SFINCS road prediction yet. The Apps Script service would need the live run and the road heights.
-- The live run is a 100 m grid. A 5 m road station takes the water surface of its whole 100 m cell. A road on a raised fill in a wet cell reads as dry, which is correct. A road in a small dip inside a mostly dry cell can be missed.
+The Apps Script alert service (`apps-script/WashWatch.gs`) uses the same forecast, so texts and pushes give the same number as the app.
+
+- **Small table.** The service can't decode the 5 m road heights every minute. `tools/build_road_cells.mjs` reduces them to `public/data/road-cells.json` (about 18 KB). For each route, it lists every 100 m model cell the road passes through, with the lowest road height in that cell. `tools/build_gas.mjs` builds the table into the script. Re-run both scripts when the road heights or the model grid change.
+- **Each check (every 4 minutes).** The service fetches the live run's `manifest.json` and `water.json.gz` from the `live-model` branch, about 14 KB zipped. `roadForecast()` in `public/road-forecast.js` then rates each route. `withRoadForecast()` in `public/engine.js` adds the row, the same way the app does.
+- **Same answer as the app.** The lowest road in a cell is where the app's deepest 5 m station is, so the level matches. `test/route-prediction.test.js` checks that on every route.
+- **When it can't be used.** If the live run is missing, older than 3 hours, or doesn't cover now, the text still has a number and ends with "(No live flood model data.)".
+- **Checking it.** `?feed=roadforecast` on the service shows what it is using right now. `.github/workflows/service-check.yml` prints it and fails if it isn't in use.
+- **Deploying.** `.github/workflows/deploy-service.yml` redeploys the script when `public/road-forecast.js` or `public/data/road-cells.json` change. It also runs on the default branch, since `main` doesn't exist yet.
+
+## Roads below the cell's ground
+
+A 100 m cell has one average ground height. Where a road runs through a dip or cut, the road can sit feet below that average (common along Ina). Comparing the cell's water level with the road there would read a barely wet cell as feet of water over the road. In those cells the estimate is the cell's own water depth instead: `min(water surface − road, water surface − cell ground)`. The app and the alerts use the same rule. The 6.25 m all-route run doesn't need it, because its cells sit on the road.
+
+## Limits
+
+- The live run is a 100 m grid. A road on a raised fill in a wet cell reads as dry, which is correct. A road in a small dip inside a mostly dry cell can be missed.
+- Gates Pass is outside the live run's model area. It gets no SFINCS row and is rated on the other sources.
