@@ -171,6 +171,39 @@ export function checkWash(snapshot, flows, fp, now, staleMs, names, rules) {
 }
 
 // 4. Pima County's own barricade points near this spot.
+// A readable response may still contain an incomplete record. Keep its unknown
+// status and all other usable records; never turn a malformed response into [].
+export function parseCountyClosures(body) {
+  if (!body) return { points: null, complete: false, issues: [], reason: 'Source unavailable' };
+  if (body.error || !Array.isArray(body.features)) {
+    return { points: null, complete: false, issues: [], reason: 'Malformed county event list: expected a features array' };
+  }
+  const statuses = [
+    'Open', 'Closed', 'Proceed with Caution', 'Road open - Watch for snow and ice',
+    'Road open with restrictions of vehicles with chains and/or 4x4 (all wheel drives) depending on conditions',
+    'Road closed except residents, employees, and renters with chains and/or 4x4 (all wheel drives) depending on conditions',
+    'Road closed except residents and employees',
+  ];
+  const points = [], issues = [];
+  for (const [index, row] of body.features.entries()) {
+    const a = row?.attributes, g = row?.geometry;
+    const location = typeof a?.Location === 'string' && a.Location.trim() ? a.Location.trim() : `County record ${index + 1}`;
+    const status = typeof a?.Status === 'string' ? a.Status.trim() : '';
+    const fields = [];
+    if (!a || typeof a !== 'object' || Array.isArray(a)) fields.push('missing attributes');
+    else if (!status) fields.push('missing Status');
+    else if (!statuses.includes(status)) fields.push('unrecognized Status');
+    const positioned = Number.isFinite(g?.x) && Number.isFinite(g?.y) && Math.abs(g.x) <= 180 && Math.abs(g.y) <= 90;
+    if (!positioned) fields.push('missing or invalid geometry');
+    if (fields.length) issues.push({ location, reason: fields.join(', ') });
+    if (positioned) points.push({ location, status, statusKnown: statuses.includes(status), direction: typeof a?.Direction === 'string' ? a.Direction : '', updated: typeof a?.timeUpdated === 'string' ? a.timeUpdated : null, lat: g.y, lon: g.x });
+  }
+  if (body.exceededTransferLimit === true) issues.push({ location: 'County event list', reason: 'response was truncated' });
+  const descriptions = issues.map(i => `${i.location.replace(/[\r\n]/g, ' ').slice(0, 120)}: ${i.reason}`).sort();
+  const reason = descriptions.length ? 'Incomplete county records: ' + descriptions.slice(0, 5).join('; ') + (descriptions.length > 5 ? `; ${descriptions.length - 5} more` : '') : '';
+  return { points, complete: !issues.length, issues, reason };
+}
+
 const metres = (a, b) => {
   const ky = 111_320;
   const kx = ky * Math.cos((a.lat * Math.PI) / 180);
@@ -190,11 +223,11 @@ export function checkClosures(points, now = null) {
   const dir = (p) => (p.direction && !/^all directions$/i.test(p.direction.trim()) ? `, ${p.direction.trim().toLowerCase()}` : '');
   const said = (p) => (p.status?.trim() ? p.status.trim() : 'no status in the county feed');
   const detail = points.map((p) => `${p.location}: ${said(p)}${dir(p)}${when(p)}`).join(' · ');
-  const closed = points.find((p) => /clos/i.test(p.status));
+  const closed = points.find((p) => p.statusKnown !== false && /clos/i.test(p.status));
   if (closed) return { level: 'danger', detail, why: `County says CLOSED: ${closed.location}${dir(closed)}${when(closed)}` };
-  const careful = points.find((p) => /caution/i.test(p.status));
+  const careful = points.find((p) => p.statusKnown !== false && /caution/i.test(p.status));
   if (careful) return { level: 'caution', detail, why: `County says Proceed with Caution: ${careful.location}${dir(careful)}${when(careful)}` };
-  const unreadable = points.filter((p) => !OPEN_STATUS.test(p.status?.trim() ?? ''));
+  const unreadable = points.filter((p) => p.statusKnown === false || !OPEN_STATUS.test(p.status?.trim() ?? ''));
   if (unreadable.length) {
     return { level: 'unknown', detail, roadStatus: 'unknown', why: `county barricade point status is not readable: ${unreadable.map((p) => `${p.location} says "${said(p)}"`).join(', ')}` };
   }
@@ -366,7 +399,7 @@ export function barricadesOnRoute(feature, closures) {
   const lines = g.type === 'LineString' ? [g.coordinates] : g.coordinates;
   const roads = new Set((feature.properties.legs ?? []).map((l) => roadKey(l.road)));
   return closures.filter((c) => {
-    if (!/clos|caution/i.test(c.status ?? '') || !roads.has(barricadeRoad(c.location))) return false;
+    if (c.statusKnown === false || !/clos|caution/i.test(c.status ?? '') || !roads.has(barricadeRoad(c.location))) return false;
     if (!lines.some((line) => metresToLine(c, line) <= ROUTE_BARRICADE_M)) return false;
     const run = routeRunAlongLeg(lines, c);
     return run == null || run >= USES_LEG_M;

@@ -374,6 +374,6 @@ test('every path that loads county points asks for Direction and carries it', ()
   for (const file of ['../public/app.js', '../public/engine.js']) {
     const src = readFileSync(new URL(file, import.meta.url), 'utf8');
     assert.match(src, /outFields: 'Location,Status,Direction,timeUpdated'/, `${file} requests Direction`);
-    assert.match(src, /direction: f\.attributes\.Direction/, `${file} carries Direction through`);
+    assert.match(src, /parseCountyClosures/, `${file} uses the shared parser that carries Direction through`);
   }
 });

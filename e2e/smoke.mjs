@@ -88,6 +88,17 @@ try{
   const navs=await page.$$eval('[data-nav]',b=>b.map(x=>x.dataset.nav));assert.ok(!navs.includes('trico'),navs.join());
   await context.close();
  });
+ await check('incomplete county row reports its gap without losing the usable closure',async()=>{
+  const {context,page,errors}=await freshPage();
+  const gap=JSON.parse(readFileSync(join(repo,'test/fixtures/county-incomplete-2026-11-05.json'),'utf8')).features[0];
+  await page.route(/services2\.arcgis\.com/,route=>json(route,{features:[tricoClosed,gap,null]}));
+  await page.goto(origin+'/#/');await ready(page);await page.waitForSelector('.closure-banner');
+  assert.match(await page.innerText('.closure-banner'),/Trico Rd south of Trico Marana Rd/);
+  assert.match(await page.innerText('.check-status'),/W Gates Pass Rd: missing Status/);
+  assert.doesNotMatch(await page.innerText('#screen .hero'),/Trico-Marana/);
+  assert.deepEqual(errors,[]);
+  await context.close();
+ });
  await check('Map opens with simulated water, its notice once, then 3D with the 3D wording',async()=>{
   const {context,page}=await freshPage();
   await page.goto(origin+'/#/map');await ready(page);

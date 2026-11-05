@@ -1,6 +1,6 @@
 import { AREAS } from '../public/config.js';
 import { evaluate, alertSnapshot, sourceUrls } from '../public/engine.js';
-import { normalizeRoadEvents } from '../public/logic.js';
+import { normalizeRoadEvents, parseCountyClosures } from '../public/logic.js';
 import { expectedInputHealth_ } from './generated/input-health.js';
 import routes from './generated/routes.json' with { type: 'json' };
 import { healthy, fixtureNow } from './fixtures/healthy.js';
@@ -38,7 +38,7 @@ export function compute(raw, now) {
   const events = raw.tvClosures || raw.tvWork ? normalizeRoadEvents(raw.tvClosures?.d, raw.tvWork?.d, [-111.45,32.1,-110.9,32.6]) : null;
   const verdicts = Object.fromEntries(AREAS.map(({id}) => [id, evaluate({now,usgs:raw.usgs,closures:raw.closures,alert,nws:raw.nws,roadEvents:events,routes},id)]));
   if (!validAssessments(verdicts)) throw Error('Incomplete all-area assessment');
-  const sources = Object.fromEntries(Object.entries({usgs:Object.values(raw.usgs).some(Boolean),county:!!raw.closures,rain:!!raw.rain,stream:!!raw.stream,weather:!!raw.nws,transview:!!events}).map(([id,ok]) => [id,ok?{lastOk:now}:{downSince:now}]));
+  const sources = Object.fromEntries(Object.entries({usgs:Object.values(raw.usgs).some(Boolean),county:parseCountyClosures(raw.closures).complete,rain:!!raw.rain,stream:!!raw.stream,weather:!!raw.nws,transview:!!events}).map(([id,ok]) => [id,ok?{lastOk:now}:{downSince:now}]));
   return {inputs, verdicts, sources, feeds:{
     usgs:{fetched_at:new Date(now).toISOString(),series:Object.fromEntries(Object.entries(raw.usgs).map(([id,v]) => [id,v?{features:(v.features||[]).map(f=>({properties:f.properties}))}:null]))},
     alert, roadEvents:events?{events,fetchedAt:now,stale:false}:null, drive:[],

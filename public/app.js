@@ -17,7 +17,7 @@ import { loadGaugeReadings } from './gauge-feed.js?v=dev';
 import { resolveScreen } from './routing.js?v=dev';
 import { UNDERPASSES } from './underpasses.js?v=dev';
 import {
-  parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl,
+  parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl, parseCountyClosures,
   riskScore, routeScore, goodSigns, againstIt, routeClosures, roadEventActive, roadEventTiming, roadEventLabel, driveSummary, bridgeHeightComparison, crossingLead,
 } from './logic.js?v=dev';
 
@@ -77,8 +77,7 @@ async function loadClosures() {
     geometry: cfg.CLOSURE_BOUNDS, geometryType: 'esriGeometryEnvelope', inSR: '4326', spatialRel: 'esriSpatialRelIntersects',
   });
   const j = await getJson(`${SOURCES.closures}/query?${q}`);
-  if (j.error) throw new Error(j.error.message);
-  return j.features.map((f) => ({ location: f.attributes.Location?.trim(), status: f.attributes.Status ?? '', direction: f.attributes.Direction ?? '', updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x }));
+  return parseCountyClosures(j);
 }
 // County rain/stream feed: live through the alert service when it's connected, else GitHub's copy.
 async function loadAlert(sharedFeed) {
@@ -110,17 +109,19 @@ async function gather() {
   const sites = Object.keys(USGS_SITES);
   // One request for everything the alert service provides. Each reader has its own fallback.
   const sharedFeed = cfg.TEXT_API ? getJson(`${cfg.TEXT_API}?feed=all`).catch(() => null) : Promise.resolve(null);
-  const [flowsArr, closures, alert, nws, roadEvents] = await Promise.all([
+  const [flowsArr, county, alert, nws, roadEvents] = await Promise.all([
     loadUsgsAll(sites, sharedFeed),
     settle('county barricades', loadClosures()),
     settle('rain gauges', loadAlert(sharedFeed)),
     settle('weather service', loadNws()),
     settle('TransView closures', loadRoadEvents(sharedFeed, now)),
   ]);
+  const closures = county?.points ?? null;
+  if (county?.reason) errors.push(county.reason);
   const flows = Object.fromEntries(sites.map((s, i) => [s, summarizeFlow(flowsArr[i], now, STALE_MS)]));
   if (!Object.values(flows).some((f) => f.fresh)) errors.push(usgsBusy ? 'river gauges busy, retrying' : 'river gauges not responding');
   const service = await sharedFeed;
-  reportFailures({ service: cfg.TEXT_API && !service, county: !closures, rain: !alert, weather: !nws, closures: cfg.TEXT_API && !roadEvents });
+  reportFailures({ service: cfg.TEXT_API && !service, county: !county?.complete, rain: !alert, weather: !nws, closures: cfg.TEXT_API && !roadEvents });
   return { now, flows, closures, alert, nws, roadEvents, drive: service?.drive ?? data?.drive ?? [], errors: [...new Set(errors)] };
 }
 
@@ -204,7 +205,7 @@ function compute(d) {
   const plain = (o) => { o.why = plainWords(o.why, d.now); if (o.detail) o.detail = plainWords(o.detail, d.now); };
   for (const p of new Set([...Object.values(fpResults), ...rated.flatMap((r) => r.points), ...underpasses.map((u) => u.result)])) { plain(p); p.checks?.forEach(plain); }
   // Every official closure for the map, whether or not a route uses it.
-  const closedPoints = (d.closures ?? []).filter((c) => /clos/i.test(c.status ?? '') && Number.isFinite(c.lat)).map((c) => ({ lat: c.lat, lon: c.lon, title: `Closed: ${c.location}${c.direction ? `, ${c.direction.toLowerCase()}` : ''}${c.updated ? ` (updated ${c.updated})` : ''}` }));
+  const closedPoints = (d.closures ?? []).filter((c) => c.statusKnown !== false && /clos/i.test(c.status ?? '') && Number.isFinite(c.lat)).map((c) => ({ lat: c.lat, lon: c.lon, title: `Closed: ${c.location}${c.direction ? `, ${c.direction.toLowerCase()}` : ''}${c.updated ? ` (updated ${c.updated})` : ''}` }));
   const closedEvents = (d.roadEvents ?? []).filter((e) => e.closed && roadEventTiming(e, d.now) === 'active');
   const repeated = (lon, lat) => closedPoints.some((c) => Math.hypot((c.lon - lon) * 94000, (c.lat - lat) * 110574) <= 15);
   for (const e of closedEvents) if (!e.type.includes('LINE')) for (const part of e.parts) for (const [lon, lat] of part) if (!repeated(lon, lat)) closedPoints.push({ lat, lon, title: `Closed: ${e.headline.trim()}` });
@@ -451,7 +452,7 @@ function closuresScreen() {
   const [lat, lon] = areaInfo().hubAt, hub = { lat, lon }, now = Date.now();
   const blocks = new Map();
   for (const r of view.rated) for (const p of routeClosures(r)) blocks.set(p.short, [...(blocks.get(p.short) ?? []), ROUTE_INFO[r.id].name]);
-  const county = (data.closures ?? []).filter((c) => /clos|caution/i.test(c.status ?? '') && c.location).map((c) => ({ place: c.location, closed: /clos/i.test(c.status), status: c.status, direction: c.direction, age: plainAge(countyTime(c.updated), now), lat: c.lat, lon: c.lon }));
+  const county = (data.closures ?? []).filter((c) => c.statusKnown !== false && /clos|caution/i.test(c.status ?? '') && c.location).map((c) => ({ place: c.location, closed: /clos/i.test(c.status), status: c.status, direction: c.direction, age: plainAge(countyTime(c.updated), now), lat: c.lat, lon: c.lon }));
   const known = (lat2, lon2) => county.some((c) => Math.hypot((c.lon - lon2) * 94000, (c.lat - lat2) * 110574) <= 15);
   const other = (data.roadEvents ?? []).filter((e) => e.closed && e.parts?.[0]?.[0]).map((e) => ({ place: e.headline.trim(), closed: roadEventTiming(e, now) === 'active', status: roadEventLabel(e, now), age: null, lon: e.parts[0][0][0], lat: e.parts[0][0][1] })).filter((e) => !known(e.lat, e.lon));
   const rows = [...county, ...other].map((c) => ({ ...c, miles: milesBetween(hub, c) })).filter((c) => c.miles <= 40).sort((a, b) => Number(b.closed) - Number(a.closed) || a.miles - b.miles);

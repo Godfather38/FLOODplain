@@ -61,6 +61,19 @@ test('a county feed outage is never announced as a reopening',() => {
   world.closuresDown = false;nextCycle();
   assert.equal(pushes().length, 0, 'unchanged once the feed returns');
 });
+test('an incomplete county record cannot announce reopening, but valid new closures still alert', () => {
+  const { world, gas, pushes, nextCycle } = setup();
+  sub(gas, 'washwatch-instanton1', true);
+  nextCycle();
+  const gap = { attributes: { Location: 'W Gates Pass Rd', Status: null }, geometry: { x: -111.0856, y: 32.2265 } };
+  world.closures = [tricoClosed, gap]; nextCycle();
+  assert.match(pushes()[0].opt.payload, /Road closed: Trico Rd/);
+  world.closures = [{ ...tricoClosed, attributes: { ...tricoClosed.attributes, Status: null } }, gap]; nextCycle();
+  assert.equal(pushes().length, 0);
+  assert.ok(JSON.parse(gas.props.get('closed_avra')).includes(tricoClosed.attributes.Location));
+  world.closures = []; nextCycle();
+  assert.match(pushes()[0].opt.payload, /No longer listed as closed: Trico Rd/);
+});
 test('closure pushes stop at the daily cap',() => {
   const { world, gas, pushes, nextCycle } = setup();
   sub(gas, 'washwatch-instanton1', true);nextCycle();

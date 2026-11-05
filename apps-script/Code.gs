@@ -395,11 +395,15 @@ function closureWatch_() {
   const rows = pushSheet_().getDataRange().getValues().slice(1);
   for (const id of AREA_IDS) {
     const v = all[id];
-    if (!v || !v.closuresKnown || !Array.isArray(v.closed)) continue; // A failed feed is never read as "reopened".
+    if (!v || !Array.isArray(v.closed)) continue;
     const key = `closed_${id}`, saved = props.getProperty(key);
-    props.setProperty(key, JSON.stringify(v.closed));
+    // An incomplete county list can still report a real closure. Keep additions,
+    // but never remove a previous closure or call it reopened on unknown input.
+    if (!v.closuresKnown && saved === null && !v.closed.length) continue;
+    const closed = v.closuresKnown ? v.closed : [...new Set([...JSON.parse(saved || '[]'), ...v.closed])].sort();
+    props.setProperty(key, JSON.stringify(closed));
     if (saved === null) continue; // First look sets the baseline.
-    const change = closureChanges(JSON.parse(saved), v.closed);
+    const change = closureChanges(JSON.parse(saved), closed);
     if (!change.closed.length && !change.reopened.length) continue;
     const [day, n] = String(props.getProperty(`closure_pushes_${id}`) || '').split(' ');
     const count = day === today ? Number(n) || 0 : 0;
@@ -524,7 +528,7 @@ function computeVerdicts_() {
   // If TransView is down, keep using its last answer for up to six hours and say how old it is.
   const lastGood = roadEvents ? null : JSON.parse(cache.get('roadevents_good') || 'null');
   const eventsForRating = roadEvents || (lastGood && lastGood.events) || null;
-  noteHealth_({ usgs: sites.some((s) => usgs[s]), county: !!closures, rain: !!rain, stream: !!stream, weather: !!nws, transview: !!roadEvents }, now);
+  noteHealth_({ usgs: sites.some((s) => usgs[s]), county: parseCountyClosures(closures).complete, rain: !!rain, stream: !!stream, weather: !!nws, transview: !!roadEvents }, now);
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
   const out = {};
   for (const id of AREA_IDS) {
@@ -787,10 +791,12 @@ function expectedInputHealth_(raw, now) {
       add(kind+':'+id, (RAIN_GAUGES[id] || id)+(kind === 'rain' ? ' rain windows '+windows.join('/')+' within 24 hours' : ' stream discharge within 3 hours'), points, reason, row?.last_rpt ? row.last_rpt+'-07:00' : null);
     }
   }
-  for (const [id, body, field] of [['county',raw.closures,'features'],['weather',raw.nws,'features'],['transview-closures',raw.tvClosures,'d'],['transview-work',raw.tvWork,'d']]) {
+  const county = parseCountyClosures(raw.closures);
+  add('county', 'Readable county event list with reported statuses (empty is valid)', county.issues.map(i => i.location), county.reason);
+  for (const [id, body, field] of [['weather',raw.nws,'features'],['transview-closures',raw.tvClosures,'d'],['transview-work',raw.tvWork,'d']]) {
     const list = body?.[field];
     const valid = Array.isArray(list) || (id === 'transview-work' && list && typeof list === 'object');
-    const malformed = valid && Object.values(list).some(r => !r || typeof r !== 'object' || (id === 'county' && (!r.attributes || !r.geometry || !Number.isFinite(r.geometry.x) || !Number.isFinite(r.geometry.y) || !['Open','Closed','Proceed with Caution'].includes(r.attributes.Status))) || (id === 'weather' && typeof r.properties?.event !== 'string') || (id === 'transview-closures' && (typeof r.Geo !== 'string' || r.KeyID == null)) || (id === 'transview-work' && (typeof r.Geography !== 'string' || r.KeyID == null)));
+    const malformed = valid && Object.values(list).some(r => !r || typeof r !== 'object' || (id === 'weather' && typeof r.properties?.event !== 'string') || (id === 'transview-closures' && (typeof r.Geo !== 'string' || r.KeyID == null)) || (id === 'transview-work' && (typeof r.Geography !== 'string' || r.KeyID == null)));
     add(id, 'Readable '+id+' event list (empty is valid)', [], !body ? 'Source unavailable' : !valid || malformed ? 'Malformed event list' : '');
   }
   return out;

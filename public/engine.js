@@ -2,7 +2,7 @@
 // Inputs are already-fetched raw responses; output is the rated routes plus a short message.
 import * as cfg from './config.js';
 import {
-  parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, routeScore, againstIt, routeClosures,
+  parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, routeScore, againstIt, routeClosures, parseCountyClosures,
 } from './logic.js';
 
 const WORD = { 1: 'Low', 2: 'Minor', 3: 'Moderate', 4: 'High', 5: 'Severe' };
@@ -33,28 +33,31 @@ export function alertSnapshot(rainData, streamData, fetchedAt) {
 export function evaluate(raw, area = 'avra') {
   const now = raw.now;
   const flows = Object.fromEntries(Object.keys(cfg.USGS_SITES).map((s) => [s, summarizeFlow(raw.usgs?.[s] ? parseContinuous(raw.usgs[s]) : {}, now, cfg.STALE_MS)]));
-  const closures = raw.closures?.features?.map((f) => ({ location: f.attributes.Location?.trim(), status: f.attributes.Status ?? '', direction: f.attributes.Direction ?? '', updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x })) ?? null;
+  const county = parseCountyClosures(raw.closures);
+  const closures = county.points;
   const nws = raw.nws ? (raw.nws.features ?? []).map((f) => ({ event: f.properties.event })) : null;
   const d = { now, flows, closures, alert: raw.alert, nws };
   const fpResults = Object.fromEntries(cfg.FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
   const routes = raw.routes.filter((f) => (f.properties.area ?? 'avra') === area);
   const rated = rateRoutes(routes, fpResults, cfg.FAILURE_POINTS, { closures, radiusM: cfg.CLOSURE_RADIUS_M, roadEvents: raw.roadEvents ?? null, now }).map((r) => ({ ...r, score: routeScore(r) }));
   const { best, order } = recommend(rated);
-  const missing = [!closures && 'county', !raw.alert && 'rain', !Object.values(flows).some((f) => f.fresh) && 'river'].filter(Boolean);
+  const missing = [!county.complete && 'county', !raw.alert && 'rain', !Object.values(flows).some((f) => f.fresh) && 'river'].filter(Boolean);
   const closed = [...new Set(rated.flatMap((r) => routeClosures(r).map((p) => p.short)))].sort();
-  return { rated, best, order, missing, closed, closuresKnown: !!closures, ...message(best, order, rated, missing, now, area) };
+  return { rated, best, order, missing, closed, closuresKnown: county.complete, ...message(best, order, rated, missing, now, area, !county.complete && closures !== null) };
 }
 
-export function message(best, order, rated, missing, now, area = 'avra') {
+export function message(best, order, rated, missing, now, area = 'avra', countyIncomplete = false) {
   const areaName = area === 'avra' ? '' : ` (${(cfg.AREAS.find((a) => a.id === area) ?? {}).name})`;
   const name = (r) => cfg.ROUTE_INFO[r.id].name;
   const issue = (r) => { const a = againstIt(r)[0]; return a ? `${a.short}: ${a.why}` : null; };
+  const unavailable = countyIncomplete ? missing.filter(id => id !== 'county') : missing;
   const text = [
     routeClosures(best).length ? `FLOODplain${areaName}: every route has a reported road closure; check timing in the app.` : `FLOODplain${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
     issue(best) ? `Watch for ${issue(best)}.` : null,
     `Others: ${order.filter((r) => r !== best).map((r) => `${name(r)} ${r.score}`).join(', ')}.`,
     ...order.filter((r) => r !== best && r.score >= 4).map((r) => `${name(r)}: ${issue(r)}.`),
-    missing.length ? `(No live ${missing.join('/')} data.)` : null,
+    countyIncomplete ? '(County data is incomplete.)' : null,
+    unavailable.length ? `(No live ${unavailable.join('/')} data.)` : null,
     'https://godfather38.github.io/FLOODplain/',
   ].filter(Boolean).join(' ');
   return {

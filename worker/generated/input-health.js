@@ -1,5 +1,6 @@
 // GENERATED from apps-script/Code.gs by tools/build_worker.mjs. Do not edit.
 import { FAILURE_POINTS, USGS_SITES, STALE_MS, RAIN, RAIN_GAUGES } from '../../public/config.js';
+import { parseCountyClosures } from '../../public/logic.js';
 export function expectedInputHealth_(raw, now) {
   const out = [];
   const affected = test => FAILURE_POINTS.filter(test).map(p => p.short);
@@ -32,10 +33,12 @@ export function expectedInputHealth_(raw, now) {
       add(kind+':'+id, (RAIN_GAUGES[id] || id)+(kind === 'rain' ? ' rain windows '+windows.join('/')+' within 24 hours' : ' stream discharge within 3 hours'), points, reason, row?.last_rpt ? row.last_rpt+'-07:00' : null);
     }
   }
-  for (const [id, body, field] of [['county',raw.closures,'features'],['weather',raw.nws,'features'],['transview-closures',raw.tvClosures,'d'],['transview-work',raw.tvWork,'d']]) {
+  const county = parseCountyClosures(raw.closures);
+  add('county', 'Readable county event list with reported statuses (empty is valid)', county.issues.map(i => i.location), county.reason);
+  for (const [id, body, field] of [['weather',raw.nws,'features'],['transview-closures',raw.tvClosures,'d'],['transview-work',raw.tvWork,'d']]) {
     const list = body?.[field];
     const valid = Array.isArray(list) || (id === 'transview-work' && list && typeof list === 'object');
-    const malformed = valid && Object.values(list).some(r => !r || typeof r !== 'object' || (id === 'county' && (!r.attributes || !r.geometry || !Number.isFinite(r.geometry.x) || !Number.isFinite(r.geometry.y) || !['Open','Closed','Proceed with Caution'].includes(r.attributes.Status))) || (id === 'weather' && typeof r.properties?.event !== 'string') || (id === 'transview-closures' && (typeof r.Geo !== 'string' || r.KeyID == null)) || (id === 'transview-work' && (typeof r.Geography !== 'string' || r.KeyID == null)));
+    const malformed = valid && Object.values(list).some(r => !r || typeof r !== 'object' || (id === 'weather' && typeof r.properties?.event !== 'string') || (id === 'transview-closures' && (typeof r.Geo !== 'string' || r.KeyID == null)) || (id === 'transview-work' && (typeof r.Geography !== 'string' || r.KeyID == null)));
     add(id, 'Readable '+id+' event list (empty is valid)', [], !body ? 'Source unavailable' : !valid || malformed ? 'Malformed event list' : '');
   }
   return out;

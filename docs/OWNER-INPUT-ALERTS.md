@@ -8,6 +8,7 @@ Owner alerts compare fetched inputs with the configured inventory; they do not u
 - Rain stations referenced by `FAILURE_POINTS.rain` (currently nine): nonnegative values for the windows used by their configured rules, including h6; timestamp no more than 24 hours old, matching existing rain evaluation. Maintenance is reported separately.
 - Stream stations referenced by `FAILURE_POINTS.wash.alert` (currently 6443): nonnegative flow and a timestamp no more than three hours old.
 - County, NWS, and both TransView event lists: valid expected structure. Empty lists are healthy. No particular event or nearby barricade is required.
+- County records with a missing/unrecognized status or invalid geometry identify the affected record and field, rather than marking the whole response malformed. The Nov 5, 2026 incident was a readable response containing W Gates Pass Rd with a null Status. This remains an input gap until the county supplies a readable status; the app does not invent one. All seven official county status codes are accepted.
 - Successful evaluation of every configured area.
 
 No local pavement sensor, retired USGS gauge, bridge model, structure elevation, driver report, or site-specific flow-to-road relation is required. These are not monitored outages. In particular Sanders uses Cortaro and Trico remote measurements; its structural unknown assessment is not an owner alert.
@@ -23,6 +24,8 @@ State is stored in individual `ownerHealth:<input>` script properties plus `owne
 Failed delivery is retried with delays of 2, 4, 8, and 16 minutes (five total attempts per reason transition); attempts persist across runs. Delivery is marked only after MailApp returns successfully. After five failures it stays pending without further sends until the condition changes; inspect the per-input state to diagnose delivery. MailApp cannot guarantee exactly-once delivery if a process stops after acceptance but before state persistence. A script lock serializes owner delivery.
 
 The legacy aggregate `feed=health` response is retained for compatibility; it is not the source of the new owner alerts. The detailed inventory is persisted in script properties, not exposed as a new public endpoint.
+
+County parsing is shared by the browser, assessment engine, Apps Script diagnostics, and Worker. Readable points survive a partial failure, while missing, malformed, and truncated responses stay distinct from a valid empty list. Closure change notifications can add a confirmed closure from a partial list, but cannot announce a reopening until county input is complete again.
 
 ## Validation
 

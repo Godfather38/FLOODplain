@@ -11,6 +11,19 @@ execFileSync(process.execPath,['tools/build_gas.mjs'],{env:{...process.env,GAS_O
 const SRC=readFileSync(out,'utf8'), now=Date.parse('2026-11-03T02:00:00Z');
 function setup(src=SRC){const clock={now}; const gas=makeGas(clock,src,()=>{throw Error('network');});return {clock,gas};}
 function healthy(){return {usgs:Object.fromEntries(Object.keys(USGS_SITES).map(id=>[id,{features:[{properties:{parameter_code:'00060',value:0,time:new Date(now).toISOString()}}]}])),rain:{data:Object.keys(RAIN_GAUGES).map(site=>({site,last_rpt:'2026-11-02T19:00:00',rain:Array(9).fill(0)}))},stream:{data:[{site:'6443',last_rpt:'2026-11-02T19:00:00',flow:0}]},closures:{features:[]},nws:{features:[]},tvClosures:{d:[]},tvWork:{d:{}}};}
+test('incomplete county record stays an incident until its actual status returns', () => {
+  const { gas } = setup();
+  const raw = healthy();
+  raw.closures = JSON.parse(readFileSync(new URL('./fixtures/county-incomplete-2026-11-05.json', import.meta.url)));
+  const cycle = () => { gas.api.noteOwnerHealth_(gas.api.expectedInputHealth_(raw, now), now); gas.api.ownerHealthWatch_(now); };
+  cycle(); cycle();
+  assert.equal(gas.mails.length, 1);
+  assert.match(gas.mails[0].body, /W Gates Pass Rd: missing Status/);
+  assert.doesNotMatch(gas.mails[0].body, /RECOVERED/);
+  raw.closures.features[0].attributes.Status = 'Open'; cycle();
+  assert.equal(gas.mails.length, 2);
+  assert.match(gas.mails[1].body, /RECOVERED/);
+});
 test('configured inventory healthy with no pavement sensor, bridge model or local gauge; empty event lists valid',()=>{const {gas}=setup();const rows=gas.api.expectedInputHealth_(healthy(),now);assert.equal(rows.length,20);assert.ok(rows.every(r=>!r.reason));gas.api.noteOwnerHealth_(rows,now);gas.api.ownerHealthWatch_(now);assert.equal(gas.mails.length,0);assert.ok(rows.find(r=>r.id==='usgs:09486500').crossings.includes('Sanders'));});
 test('partial outage, stale, malformed 200, incomplete rain, future time and empty measurements detected',()=>{const {gas}=setup();for(const mutation of [r=>r.usgs['09486500']=null,r=>r.usgs['09486500']={features:[]},r=>r.usgs['09486500'].features[0].properties.value='',r=>r.usgs['09486500'].features[0].properties.time='2026-11-01T00:00:00Z',r=>r.usgs['09486500'].features[0].properties.time='2027-01-01T00:00:00Z']){const raw=healthy();mutation(raw);const bad=gas.api.expectedInputHealth_(raw,now).filter(r=>r.reason);assert.equal(bad.length,1);assert.equal(bad[0].id,'usgs:09486500');}const raw=healthy();raw.rain.data[0].rain[4]=null;raw.stream={};raw.nws={};raw.tvWork=null;assert.equal(gas.api.expectedInputHealth_(raw,now).filter(r=>r.reason).length,4);});
 test('stable issue deduplicates, meaningful change alerts, recovery only after validated input',()=>{const {gas,clock}=setup();const raw=healthy();raw.usgs['09486500']=null;const cycle=()=>{gas.api.noteOwnerHealth_(gas.api.expectedInputHealth_(raw,clock.now),clock.now);gas.api.ownerHealthWatch_(clock.now);};cycle();cycle();assert.equal(gas.mails.length,1);assert.equal(gas.mails[0].to,'owner@example.com');assert.match(gas.mails[0].body,/Expected:.*Cortaro/);assert.match(gas.mails[0].body,/Sanders/);raw.usgs['09486500']={features:[]};cycle();assert.equal(gas.mails.length,2);cycle();assert.equal(gas.mails.length,2);raw.usgs=healthy().usgs;cycle();assert.equal(gas.mails.length,3);assert.match(gas.mails[2].body,/RECOVERED/);cycle();assert.equal(gas.mails.length,3);assert.equal(gas.fetches.length,0);});

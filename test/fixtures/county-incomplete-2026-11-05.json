@@ -1,0 +1,8 @@
+{
+  "features": [
+    {
+      "attributes": { "Location": "W Gates Pass Rd", "Status": null, "Direction": null, "timeUpdated": null },
+      "geometry": { "x": -111.08560396486892, "y": 32.22650297079469 }
+    }
+  ]
+}

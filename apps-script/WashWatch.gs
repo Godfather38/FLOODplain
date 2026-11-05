@@ -552,6 +552,39 @@ function checkWash(snapshot, flows, fp, now, staleMs, names, rules) {
   }
   return { level: "unknown", contextOnly: true, upstream: true, observations, detail, why: `${at}, ${sensorPlace(fp, top)}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
 }
+function parseCountyClosures(body) {
+  if (!body) return { points: null, complete: false, issues: [], reason: "Source unavailable" };
+  if (body.error || !Array.isArray(body.features)) {
+    return { points: null, complete: false, issues: [], reason: "Malformed county event list: expected a features array" };
+  }
+  const statuses = [
+    "Open",
+    "Closed",
+    "Proceed with Caution",
+    "Road open - Watch for snow and ice",
+    "Road open with restrictions of vehicles with chains and/or 4x4 (all wheel drives) depending on conditions",
+    "Road closed except residents, employees, and renters with chains and/or 4x4 (all wheel drives) depending on conditions",
+    "Road closed except residents and employees"
+  ];
+  const points = [], issues = [];
+  for (const [index, row] of body.features.entries()) {
+    const a = row == null ? void 0 : row.attributes, g = row == null ? void 0 : row.geometry;
+    const location = typeof (a == null ? void 0 : a.Location) === "string" && a.Location.trim() ? a.Location.trim() : `County record ${index + 1}`;
+    const status = typeof (a == null ? void 0 : a.Status) === "string" ? a.Status.trim() : "";
+    const fields = [];
+    if (!a || typeof a !== "object" || Array.isArray(a)) fields.push("missing attributes");
+    else if (!status) fields.push("missing Status");
+    else if (!statuses.includes(status)) fields.push("unrecognized Status");
+    const positioned = Number.isFinite(g == null ? void 0 : g.x) && Number.isFinite(g == null ? void 0 : g.y) && Math.abs(g.x) <= 180 && Math.abs(g.y) <= 90;
+    if (!positioned) fields.push("missing or invalid geometry");
+    if (fields.length) issues.push({ location, reason: fields.join(", ") });
+    if (positioned) points.push({ location, status, statusKnown: statuses.includes(status), direction: typeof (a == null ? void 0 : a.Direction) === "string" ? a.Direction : "", updated: typeof (a == null ? void 0 : a.timeUpdated) === "string" ? a.timeUpdated : null, lat: g.y, lon: g.x });
+  }
+  if (body.exceededTransferLimit === true) issues.push({ location: "County event list", reason: "response was truncated" });
+  const descriptions = issues.map((i) => `${i.location.replace(/[\r\n]/g, " ").slice(0, 120)}: ${i.reason}`).sort();
+  const reason = descriptions.length ? "Incomplete county records: " + descriptions.slice(0, 5).join("; ") + (descriptions.length > 5 ? `; ${descriptions.length - 5} more` : "") : "";
+  return { points, complete: !issues.length, issues, reason };
+}
 const metres = (a, b) => {
   const ky = 111320;
   const kx = ky * Math.cos(a.lat * Math.PI / 180);
@@ -571,13 +604,13 @@ function checkClosures(points, now = null) {
     return ((_a = p.status) == null ? void 0 : _a.trim()) ? p.status.trim() : "no status in the county feed";
   };
   const detail = points.map((p) => `${p.location}: ${said(p)}${dir(p)}${when(p)}`).join(" · ");
-  const closed = points.find((p) => /clos/i.test(p.status));
+  const closed = points.find((p) => p.statusKnown !== false && /clos/i.test(p.status));
   if (closed) return { level: "danger", detail, why: `County says CLOSED: ${closed.location}${dir(closed)}${when(closed)}` };
-  const careful = points.find((p) => /caution/i.test(p.status));
+  const careful = points.find((p) => p.statusKnown !== false && /caution/i.test(p.status));
   if (careful) return { level: "caution", detail, why: `County says Proceed with Caution: ${careful.location}${dir(careful)}${when(careful)}` };
   const unreadable = points.filter((p) => {
     var _a, _b;
-    return !OPEN_STATUS.test((_b = (_a = p.status) == null ? void 0 : _a.trim()) != null ? _b : "");
+    return p.statusKnown === false || !OPEN_STATUS.test((_b = (_a = p.status) == null ? void 0 : _a.trim()) != null ? _b : "");
   });
   if (unreadable.length) {
     return { level: "unknown", detail, roadStatus: "unknown", why: `county barricade point status is not readable: ${unreadable.map((p) => `${p.location} says "${said(p)}"`).join(", ")}` };
@@ -726,7 +759,7 @@ function barricadesOnRoute(feature, closures) {
   const roads = new Set(((_a = feature.properties.legs) != null ? _a : []).map((l) => roadKey(l.road)));
   return closures.filter((c) => {
     var _a2;
-    if (!/clos|caution/i.test((_a2 = c.status) != null ? _a2 : "") || !roads.has(barricadeRoad(c.location))) return false;
+    if (c.statusKnown === false || !/clos|caution/i.test((_a2 = c.status) != null ? _a2 : "") || !roads.has(barricadeRoad(c.location))) return false;
     if (!lines.some((line) => metresToLine(c, line) <= ROUTE_BARRICADE_M)) return false;
     const run = routeRunAlongLeg(lines, c);
     return run == null || run >= USES_LEG_M;
@@ -1072,30 +1105,28 @@ function alertSnapshot(rainData, streamData, fetchedAt) {
   };
 }
 function evaluate(raw, area = "avra") {
-  var _a, _b, _c, _d, _e;
+  var _a, _b;
   const now = raw.now;
   const flows = Object.fromEntries(Object.keys(CFG_.USGS_SITES).map((s) => {
     var _a2;
     return [s, summarizeFlow(((_a2 = raw.usgs) == null ? void 0 : _a2[s]) ? parseContinuous(raw.usgs[s]) : {}, now, CFG_.STALE_MS)];
   }));
-  const closures = (_c = (_b = (_a = raw.closures) == null ? void 0 : _a.features) == null ? void 0 : _b.map((f) => {
-    var _a2, _b2, _c2;
-    return { location: (_a2 = f.attributes.Location) == null ? void 0 : _a2.trim(), status: (_b2 = f.attributes.Status) != null ? _b2 : "", direction: (_c2 = f.attributes.Direction) != null ? _c2 : "", updated: f.attributes.timeUpdated, lat: f.geometry.y, lon: f.geometry.x };
-  })) != null ? _c : null;
-  const nws = raw.nws ? ((_d = raw.nws.features) != null ? _d : []).map((f) => ({ event: f.properties.event })) : null;
+  const county = parseCountyClosures(raw.closures);
+  const closures = county.points;
+  const nws = raw.nws ? ((_a = raw.nws.features) != null ? _a : []).map((f) => ({ event: f.properties.event })) : null;
   const d = { now, flows, closures, alert: raw.alert, nws };
   const fpResults = Object.fromEntries(CFG_.FAILURE_POINTS.map((fp) => [fp.id, rateFailurePoint(fp, d, cfg)]));
   const routes = raw.routes.filter((f) => {
     var _a2;
     return ((_a2 = f.properties.area) != null ? _a2 : "avra") === area;
   });
-  const rated = rateRoutes(routes, fpResults, CFG_.FAILURE_POINTS, { closures, radiusM: CFG_.CLOSURE_RADIUS_M, roadEvents: (_e = raw.roadEvents) != null ? _e : null, now }).map((r) => ({ ...r, score: routeScore(r) }));
+  const rated = rateRoutes(routes, fpResults, CFG_.FAILURE_POINTS, { closures, radiusM: CFG_.CLOSURE_RADIUS_M, roadEvents: (_b = raw.roadEvents) != null ? _b : null, now }).map((r) => ({ ...r, score: routeScore(r) }));
   const { best, order } = recommend(rated);
-  const missing = [!closures && "county", !raw.alert && "rain", !Object.values(flows).some((f) => f.fresh) && "river"].filter(Boolean);
+  const missing = [!county.complete && "county", !raw.alert && "rain", !Object.values(flows).some((f) => f.fresh) && "river"].filter(Boolean);
   const closed = [...new Set(rated.flatMap((r) => routeClosures(r).map((p) => p.short)))].sort();
-  return { rated, best, order, missing, closed, closuresKnown: !!closures, ...message(best, order, rated, missing, now, area) };
+  return { rated, best, order, missing, closed, closuresKnown: county.complete, ...message(best, order, rated, missing, now, area, !county.complete && closures !== null) };
 }
-function message(best, order, rated, missing, now, area = "avra") {
+function message(best, order, rated, missing, now, area = "avra", countyIncomplete = false) {
   var _a;
   const areaName = area === "avra" ? "" : ` (${((_a = CFG_.AREAS.find((a) => a.id === area)) != null ? _a : {}).name})`;
   const name = (r) => CFG_.ROUTE_INFO[r.id].name;
@@ -1103,12 +1134,14 @@ function message(best, order, rated, missing, now, area = "avra") {
     const a = againstIt(r)[0];
     return a ? `${a.short}: ${a.why}` : null;
   };
+  const unavailable = countyIncomplete ? missing.filter((id) => id !== "county") : missing;
   const text = [
     routeClosures(best).length ? `FLOODplain${areaName}: every route has a reported road closure; check timing in the app.` : `FLOODplain${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
     issue(best) ? `Watch for ${issue(best)}.` : null,
     `Others: ${order.filter((r) => r !== best).map((r) => `${name(r)} ${r.score}`).join(", ")}.`,
     ...order.filter((r) => r !== best && r.score >= 4).map((r) => `${name(r)}: ${issue(r)}.`),
-    missing.length ? `(No live ${missing.join("/")} data.)` : null,
+    countyIncomplete ? "(County data is incomplete.)" : null,
+    unavailable.length ? `(No live ${unavailable.join("/")} data.)` : null,
     "https://godfather38.github.io/FLOODplain/"
   ].filter(Boolean).join(" ");
   return {
@@ -1551,11 +1584,13 @@ function closureWatch_() {
   const rows = pushSheet_().getDataRange().getValues().slice(1);
   for (const id of AREA_IDS) {
     const v = all[id];
-    if (!v || !v.closuresKnown || !Array.isArray(v.closed)) continue;
+    if (!v || !Array.isArray(v.closed)) continue;
     const key = `closed_${id}`, saved = props.getProperty(key);
-    props.setProperty(key, JSON.stringify(v.closed));
+    if (!v.closuresKnown && saved === null && !v.closed.length) continue;
+    const closed = v.closuresKnown ? v.closed : [.../* @__PURE__ */ new Set([...JSON.parse(saved || "[]"), ...v.closed])].sort();
+    props.setProperty(key, JSON.stringify(closed));
     if (saved === null) continue;
-    const change = closureChanges(JSON.parse(saved), v.closed);
+    const change = closureChanges(JSON.parse(saved), closed);
     if (!change.closed.length && !change.reopened.length) continue;
     const [day, n] = String(props.getProperty(`closure_pushes_${id}`) || "").split(" ");
     const count = day === today ? Number(n) || 0 : 0;
@@ -1697,7 +1732,7 @@ function computeVerdicts_() {
   }
   const lastGood = roadEvents ? null : JSON.parse(cache.get("roadevents_good") || "null");
   const eventsForRating = roadEvents || lastGood && lastGood.events || null;
-  noteHealth_({ usgs: sites.some((s) => usgs[s]), county: !!closures, rain: !!rain, stream: !!stream, weather: !!nws, transview: !!roadEvents }, now);
+  noteHealth_({ usgs: sites.some((s) => usgs[s]), county: parseCountyClosures(closures).complete, rain: !!rain, stream: !!stream, weather: !!nws, transview: !!roadEvents }, now);
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
   const out = {};
   for (const id of AREA_IDS) {
@@ -1991,12 +2026,14 @@ function expectedInputHealth_(raw, now) {
       add(kind + ":" + id, (RAIN_GAUGES[id] || id) + (kind === "rain" ? " rain windows " + windows.join("/") + " within 24 hours" : " stream discharge within 3 hours"), points, reason, (row == null ? void 0 : row.last_rpt) ? row.last_rpt + "-07:00" : null);
     }
   }
-  for (const [id, body, field] of [["county", raw.closures, "features"], ["weather", raw.nws, "features"], ["transview-closures", raw.tvClosures, "d"], ["transview-work", raw.tvWork, "d"]]) {
+  const county = parseCountyClosures(raw.closures);
+  add("county", "Readable county event list with reported statuses (empty is valid)", county.issues.map((i) => i.location), county.reason);
+  for (const [id, body, field] of [["weather", raw.nws, "features"], ["transview-closures", raw.tvClosures, "d"], ["transview-work", raw.tvWork, "d"]]) {
     const list = body == null ? void 0 : body[field];
     const valid = Array.isArray(list) || id === "transview-work" && list && typeof list === "object";
     const malformed = valid && Object.values(list).some((r) => {
       var _a;
-      return !r || typeof r !== "object" || id === "county" && (!r.attributes || !r.geometry || !Number.isFinite(r.geometry.x) || !Number.isFinite(r.geometry.y) || !["Open", "Closed", "Proceed with Caution"].includes(r.attributes.Status)) || id === "weather" && typeof ((_a = r.properties) == null ? void 0 : _a.event) !== "string" || id === "transview-closures" && (typeof r.Geo !== "string" || r.KeyID == null) || id === "transview-work" && (typeof r.Geography !== "string" || r.KeyID == null);
+      return !r || typeof r !== "object" || id === "weather" && typeof ((_a = r.properties) == null ? void 0 : _a.event) !== "string" || id === "transview-closures" && (typeof r.Geo !== "string" || r.KeyID == null) || id === "transview-work" && (typeof r.Geography !== "string" || r.KeyID == null);
     });
     add(id, "Readable " + id + " event list (empty is valid)", [], !body ? "Source unavailable" : !valid || malformed ? "Malformed event list" : "");
   }
