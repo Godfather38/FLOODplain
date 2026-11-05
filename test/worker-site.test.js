@@ -48,7 +48,8 @@ test('root configuration packages frontend and reserves API paths without SPA fa
   assert.equal(config.name,'floodplain');
   assert.equal(config.main,'worker/site.js');
   assert.deepEqual(config.assets,{directory:'./public',binding:'ASSETS',run_worker_first:['/api','/api/*'],not_found_handling:'none'});
-  assert.deepEqual(config.vars,{PUBLIC_LIVE:'false',AZ511_ENABLED:'false'});
+  assert.deepEqual(config.vars,{PUBLIC_LIVE:'true',AZ511_ENABLED:'true'});
+  assert.deepEqual(config.previews.vars,{PUBLIC_LIVE:'false',AZ511_ENABLED:'false'});
   assert.deepEqual(config.triggers.crons,[]);
   assert.equal(config.routes,undefined);
 });

@@ -12,7 +12,7 @@
   },
   "workers_dev": true,
   "preview_urls": false,
-  "vars": { "PUBLIC_LIVE": "false", "AZ511_ENABLED": "false" },
+  "vars": { "PUBLIC_LIVE": "true", "AZ511_ENABLED": "true" },
   "previews": {
     "vars": { "PUBLIC_LIVE": "false", "AZ511_ENABLED": "false" }
   },
