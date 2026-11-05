@@ -1753,7 +1753,7 @@ function computeVerdicts_() {
       cached = JSON.parse(hit);
     } catch (err) {
     }
-    if (validOwnerVerdicts_(cached, Date.now())) return cached;
+    if (validOwnerVerdicts_(cached, Date.now()) && cache.get("roadforecast")) return cached;
   }
   const urls = sourceUrls(PropertiesService.getScriptProperties().getProperty("USGS_API_KEY"));
   const sites = Object.keys(urls.usgs);

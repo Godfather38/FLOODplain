@@ -500,7 +500,8 @@ function computeVerdicts_() {
   if (hit) {
     let cached;
     try { cached = JSON.parse(hit); } catch (err) { /* Rebuild an unusable cache below. */ }
-    if (validOwnerVerdicts_(cached, Date.now())) return cached; // Cache hits never mark compute health recovered.
+    // A cache from before the SFINCS road forecast existed (just after a deploy) is rebuilt too.
+    if (validOwnerVerdicts_(cached, Date.now()) && cache.get('roadforecast')) return cached; // Cache hits never mark compute health recovered.
     // Assessment age starts before evaluation, but the cache TTL starts on put.
     // Refresh stale or invalid entries now instead of reporting a compute outage
     // until CacheService expires them. Only a validated new result can recover.
