@@ -427,33 +427,64 @@ function parseWkt(text) {
 }
 // The feed's dates are Arizona local time; Arizona is UTC-7 all year.
 function azDate(text) {
+  if (text == null || String(text).trim() === '') return null;
   const m = /^(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+) (AM|PM)$/.exec((text ?? '').trim());
-  if (!m) return null;
+  if (!m || +m[1] < 1 || +m[1] > 12 || +m[2] < 1 || +m[2] > new Date(Date.UTC(+m[3], +m[1], 0)).getUTCDate()
+      || +m[3] < 2000 || +m[4] < 1 || +m[4] > 12 || +m[5] > 59 || +m[6] > 59) return NaN;
   return Date.UTC(+m[3], +m[1] - 1, +m[2], (+m[4] % 12) + (m[7] === 'PM' ? 12 : 0) + 7, +m[5], +m[6]);
 }
-const dayMinutes = (text) => { const m = /^(\d+):(\d+)/.exec(text ?? ''); return m ? +m[1] * 60 + +m[2] : null; };
+const dayMinutes = (text) => { if (text == null || String(text).trim() === '') return null; const m = /^(\d{1,2}):(\d{2})(?::\d{2})?$/.exec(text); return m && +m[1] < 24 && +m[2] < 60 ? +m[1] * 60 + +m[2] : NaN; };
 // County closures carry no reason: the county's reason field says Flooding even on closures for other work.
 export function normalizeRoadEvents(closures, construction, box = null) {
   const events = [];
   for (const r of closures ?? []) {
     const { type, parts } = parseWkt(r.Geo);
-    events.push({ id: `closure-${r.KeyID}`, headline: r.headline ?? '', closed: /road closed/i.test(r.trafficImpacts ?? ''), reason: null, jurisdiction: r.jurisdiction ?? null, type, parts, start: null, stop: null, dailyStart: null, dailyEnd: null, link: null });
+    events.push({ id: `closure-${r.KeyID}`, headline: r.headline ?? '', description: r.description ?? '', source: 'TransView', closed: /road closed/i.test(r.trafficImpacts ?? ''), reason: null, jurisdiction: r.jurisdiction ?? null, type, parts, start: null, stop: null, dailyStart: null, dailyEnd: null, link: null });
   }
   for (const r of Object.values(construction ?? {})) {
     const { type, parts } = parseWkt(r.Geography);
     const sub = r.EventSubTypes ?? [];
-    events.push({ id: `work-${r.KeyID}`, headline: r.Headline ?? '', closed: sub.some((s) => /ROAD_CLOSED/.test(s)), reason: sub.some((s) => /UTILITY/.test(s)) ? 'utility work' : 'construction', jurisdiction: r.Jurisdiction ?? null, type, parts, start: azDate(r.StartDate), stop: azDate(r.StopDate), dailyStart: dayMinutes(r.DailyStartTime), dailyEnd: dayMinutes(r.DailyEndTime), link: (r.Links ?? []).find(Boolean) ?? null });
+    events.push({ id: `work-${r.KeyID}`, headline: r.Headline ?? '', source: 'TransView', closed: sub.some((s) => /ROAD_CLOSED/.test(s)), reason: sub.some((s) => /UTILITY/.test(s)) ? 'utility work' : 'construction', jurisdiction: r.Jurisdiction ?? null, type, parts, start: azDate(r.StartDate), stop: azDate(r.StopDate), dailyStart: dayMinutes(r.DailyStartTime), dailyEnd: dayMinutes(r.DailyEndTime), link: (r.Links ?? []).find(Boolean) ?? null });
   }
+  for (const e of events) e.timingUnknown = ['start', 'stop', 'dailyStart', 'dailyEnd'].some((k) => e[k] != null && !Number.isFinite(e[k]));
   return events.filter((e) => e.parts.length && (!box || e.parts.some((part) => part.some(([x, y]) => x >= box[0] && x <= box[2] && y >= box[1] && y <= box[3]))));
 }
-export function roadEventActive(e, now) {
-  if (e.start != null && now < e.start) return false;
-  if (e.stop != null && now > e.stop) return false;
-  if (e.dailyStart != null && e.dailyEnd != null) {
-    const az = new Date(now - 7 * 3600000), minute = az.getUTCHours() * 60 + az.getUTCMinutes();
-    if (minute < e.dailyStart || minute > e.dailyEnd) return false;
+// A listing is not proof that its closure is in effect now. Missing/invalid times
+// stay unknown, and an anticipated end is not evidence the road has reopened.
+export function roadEventTiming(e, now) {
+  if (!Number.isFinite(now) || e.timingUnknown === true) return 'unknown';
+  const supplied = (v) => v !== null && v !== undefined;
+  if (['start', 'stop'].some((k) => supplied(e[k]) && !Number.isFinite(e[k]))) return 'unknown';
+  if (e.start != null && e.stop != null && e.stop <= e.start) return 'unknown';
+  if (e.start != null && now < e.start) return 'scheduled';
+  if (e.stop != null && now >= e.stop) return 'ended';
+  const hasDaily = supplied(e.dailyStart) || supplied(e.dailyEnd);
+  if (hasDaily) {
+    if (![e.dailyStart, e.dailyEnd].every((v) => Number.isInteger(v) && v >= 0 && v < 1440)
+        || e.dailyStart === e.dailyEnd) return 'unknown';
+    const az = new Date(now - 7 * 3600000);
+    const minute = az.getUTCHours() * 60 + az.getUTCMinutes();
+    const inWindow = e.dailyStart < e.dailyEnd
+      ? minute >= e.dailyStart && minute < e.dailyEnd
+      : minute >= e.dailyStart || minute < e.dailyEnd;
+    if (!inWindow) return 'scheduled';
   }
-  return true;
+  // A future end alone does not tell us when the closure begins.
+  if (e.start == null) return 'unknown';
+  return 'active';
+}
+// Legacy callers use this as a conservative route blocker. Unknown reports still
+// block navigation; display callers must use roadEventTiming before saying Closed.
+export function roadEventActive(e, now) {
+  return ['active', 'unknown'].includes(roadEventTiming(e, now));
+}
+export function roadEventLabel(e, now) {
+  const state = roadEventTiming(e, now);
+  const date = (t) => new Date(t).toLocaleString('en-US', { timeZone: 'America/Phoenix', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) + ' AZ';
+  const window = [Number.isFinite(e.start) ? `starts ${date(e.start)}` : null,
+    Number.isFinite(e.stop) ? `anticipated end ${date(e.stop)}` : null].filter(Boolean).join('; ');
+  const label = { active: 'Closed during listed window', scheduled: 'Scheduled closure; not in effect in this window', ended: 'Listed window ended; reopening unconfirmed', unknown: 'Closure listed; timing unverified' }[state];
+  return `${label}${e.reason ? ` for ${e.reason}` : ''}${window ? ` · ${window}` : ''}`;
 }
 function overlapMetres(part, lines) {
   let total = 0;
@@ -480,18 +511,18 @@ export function roadEventsOnRoute(feature, events, now) {
     if (!e.closed || !roadEventActive(e, now)) continue;
     if (e.type.includes('LINE')) {
       const overlapM = e.parts.reduce((sum, part) => sum + overlapMetres(part, lines), 0);
-      if (overlapM >= ROAD_EVENT_OVERLAP_M) hits.push({ event: e, overlapM: Math.round(overlapM), how: 'line_overlap' });
+      if (overlapM >= ROAD_EVENT_OVERLAP_M) hits.push({ event: e, overlapM: Math.round(overlapM), how: 'line_overlap', timing: roadEventTiming(e, now) });
     } else {
       const named = roads.some((road) => ` ${roadKey(e.headline)} `.includes(` ${road} `));
       const near = e.parts.some((part) => part.some(([lon, lat]) => lines.some((line) => metresToLine({ lon, lat }, line) <= ROUTE_BARRICADE_M)));
-      if (named && near) hits.push({ event: e, overlapM: null, how: 'point_named' });
+      if (named && near) hits.push({ event: e, overlapM: null, how: 'point_named', timing: roadEventTiming(e, now) });
     }
   }
   return hits;
 }
-const roadEventPoint = ({ event: e, overlapM, how }) => {
+const roadEventPoint = ({ event: e, overlapM, how, timing }) => {
   const [lon, lat] = e.parts[0][0];
-  const why = `TransView lists this road closed${e.reason ? ` for ${e.reason}` : ''}: ${e.headline.trim()}${overlapM ? `. The closure overlaps this route for about ${Math.round(overlapM * 3.28084)} ft` : ''}`;
+  const why = `${e.source ?? 'TransView'} lists this road closed${e.reason ? ` for ${e.reason}` : ''}${timing === 'unknown' ? ', but the timing is unverified; directions remain withheld' : ''}: ${e.headline.trim()}${overlapM ? `. The closure overlaps this route for about ${Math.round(overlapM * 3.28084)} ft` : ''}`;
   return { id: e.id, short: e.headline.trim(), name: e.headline.trim(), where: 'On this route', kind: 'road', lat, lon, level: 'danger', why, routeFit: how, evidenceAvailable: true, closurePts: [], routeBarricade: true,
     checks: [{ src: 'road-event', level: 'danger', why, detail: e.link ?? undefined }] };
 };
@@ -623,3 +654,4 @@ export function againstIt(route) {
     .sort((a, b) => order[a.level] - order[b.level])
     .map((p) => ({ level: p.level, short: p.short, why: p.why }));
 }
+
