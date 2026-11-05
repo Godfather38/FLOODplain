@@ -352,6 +352,7 @@ const ALERTS = { server: "https://ntfy.sh", prefix: "washwatch" };
 const TEXT_API = "https://script.google.com/macros/s/AKfycbyUBBx52nXVcdFB-AFy-dXslYBOKA6XrTzxeaAadGcWZ7xeafEa_BdsljbYwp8tk_EBGg/exec";
 const alertTopic = (hhmm, days, mode) => `${ALERTS.prefix}-${hhmm.replace(":", "")}-${days}-${mode}`;
 const REPORT_TOPIC = "washwatch-reports-1o6j4d6";
+const DIAG_TOPIC = "washwatch-diag-q7m3x9";
 const REPORT_QUESTIONS = [
   { id: "kind", q: "What is it?", a: ["A dip: the road goes down through the wash", "A bridge or big culvert: water goes under the road", "Flat road, no wash here", "Not sure"] },
   { id: "often", q: "When it rains hard, does water run across the road here?", a: ["Almost every big storm", "Sometimes", "Rarely", "Never seen it"] },
@@ -798,36 +799,64 @@ function parseWkt(text) {
   return { type, parts: parts.filter((part) => part.every((q) => q.length === 2 && q.every(Number.isFinite))) };
 }
 function azDate(text) {
+  if (text == null || String(text).trim() === "") return null;
   const m = /^(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+) (AM|PM)$/.exec((text != null ? text : "").trim());
-  if (!m) return null;
+  if (!m || +m[1] < 1 || +m[1] > 12 || +m[2] < 1 || +m[2] > new Date(Date.UTC(+m[3], +m[1], 0)).getUTCDate() || +m[3] < 2e3 || +m[4] < 1 || +m[4] > 12 || +m[5] > 59 || +m[6] > 59) return NaN;
   return Date.UTC(+m[3], +m[1] - 1, +m[2], +m[4] % 12 + (m[7] === "PM" ? 12 : 0) + 7, +m[5], +m[6]);
 }
 const dayMinutes = (text) => {
-  const m = /^(\d+):(\d+)/.exec(text != null ? text : "");
-  return m ? +m[1] * 60 + +m[2] : null;
+  if (text == null || String(text).trim() === "") return null;
+  const m = /^(\d{1,2}):(\d{2})(?::\d{2})?$/.exec(text);
+  return m && +m[1] < 24 && +m[2] < 60 ? +m[1] * 60 + +m[2] : NaN;
 };
 function normalizeRoadEvents(closures, construction, box = null) {
-  var _a, _b, _c, _d, _e, _f, _g, _h;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i;
   const events = [];
   for (const r of closures != null ? closures : []) {
     const { type, parts } = parseWkt(r.Geo);
-    events.push({ id: `closure-${r.KeyID}`, headline: (_a = r.headline) != null ? _a : "", closed: /road closed/i.test((_b = r.trafficImpacts) != null ? _b : ""), reason: null, jurisdiction: (_c = r.jurisdiction) != null ? _c : null, type, parts, start: null, stop: null, dailyStart: null, dailyEnd: null, link: null });
+    events.push({ id: `closure-${r.KeyID}`, headline: (_a = r.headline) != null ? _a : "", description: (_b = r.description) != null ? _b : "", source: "TransView", closed: /road closed/i.test((_c = r.trafficImpacts) != null ? _c : ""), reason: null, jurisdiction: (_d = r.jurisdiction) != null ? _d : null, type, parts, start: null, stop: null, dailyStart: null, dailyEnd: null, link: null });
   }
   for (const r of Object.values(construction != null ? construction : {})) {
     const { type, parts } = parseWkt(r.Geography);
-    const sub = (_d = r.EventSubTypes) != null ? _d : [];
-    events.push({ id: `work-${r.KeyID}`, headline: (_e = r.Headline) != null ? _e : "", closed: sub.some((s) => /ROAD_CLOSED/.test(s)), reason: sub.some((s) => /UTILITY/.test(s)) ? "utility work" : "construction", jurisdiction: (_f = r.Jurisdiction) != null ? _f : null, type, parts, start: azDate(r.StartDate), stop: azDate(r.StopDate), dailyStart: dayMinutes(r.DailyStartTime), dailyEnd: dayMinutes(r.DailyEndTime), link: (_h = ((_g = r.Links) != null ? _g : []).find(Boolean)) != null ? _h : null });
+    const sub = (_e = r.EventSubTypes) != null ? _e : [];
+    events.push({ id: `work-${r.KeyID}`, headline: (_f = r.Headline) != null ? _f : "", source: "TransView", closed: sub.some((s) => /ROAD_CLOSED/.test(s)), reason: sub.some((s) => /UTILITY/.test(s)) ? "utility work" : "construction", jurisdiction: (_g = r.Jurisdiction) != null ? _g : null, type, parts, start: azDate(r.StartDate), stop: azDate(r.StopDate), dailyStart: dayMinutes(r.DailyStartTime), dailyEnd: dayMinutes(r.DailyEndTime), link: (_i = ((_h = r.Links) != null ? _h : []).find(Boolean)) != null ? _i : null });
   }
+  for (const e of events) e.timingUnknown = ["start", "stop", "dailyStart", "dailyEnd"].some((k) => e[k] != null && !Number.isFinite(e[k]));
   return events.filter((e) => e.parts.length && (!box || e.parts.some((part) => part.some(([x, y]) => x >= box[0] && x <= box[2] && y >= box[1] && y <= box[3]))));
 }
-function roadEventActive(e, now) {
-  if (e.start != null && now < e.start) return false;
-  if (e.stop != null && now > e.stop) return false;
-  if (e.dailyStart != null && e.dailyEnd != null) {
-    const az = new Date(now - 7 * 36e5), minute = az.getUTCHours() * 60 + az.getUTCMinutes();
-    if (minute < e.dailyStart || minute > e.dailyEnd) return false;
+function roadEventTiming(e, now) {
+  if (!Number.isFinite(now) || e.timingUnknown === true) return "unknown";
+  const supplied = (v) => v !== null && v !== void 0;
+  if (["start", "stop"].some((k) => supplied(e[k]) && !Number.isFinite(e[k]))) return "unknown";
+  if (e.start != null && e.stop != null && e.stop <= e.start) return "unknown";
+  if (e.start != null && now < e.start) return "scheduled";
+  if (e.stop != null && now >= e.stop) return "ended";
+  const hasDaily = supplied(e.dailyStart) || supplied(e.dailyEnd);
+  if (hasDaily) {
+    if (![e.dailyStart, e.dailyEnd].every((v) => Number.isInteger(v) && v >= 0 && v < 1440) || e.dailyStart === e.dailyEnd) return "unknown";
+    const az = new Date(now - 7 * 36e5);
+    const minute = az.getUTCHours() * 60 + az.getUTCMinutes();
+    const inWindow = e.dailyStart < e.dailyEnd ? minute >= e.dailyStart && minute < e.dailyEnd : minute >= e.dailyStart || minute < e.dailyEnd;
+    if (!inWindow) return "scheduled";
   }
-  return true;
+  if (e.start == null) return "unknown";
+  return "active";
+}
+function roadEventActive(e, now) {
+  return ["active", "unknown"].includes(roadEventTiming(e, now));
+}
+function roadEventLabel(e, now) {
+  const state = roadEventTiming(e, now);
+  const date = (t) => new Date(t).toLocaleString("en-US", { timeZone: "America/Phoenix", month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }) + " AZ";
+  const clock = (m) => `${Math.floor(m / 60) % 12 || 12}:${String(m % 60).padStart(2, "0")} ${m >= 720 ? "PM" : "AM"}`;
+  const daily = [e.dailyStart, e.dailyEnd].every((v) => Number.isInteger(v) && v >= 0 && v < 1440) && e.dailyStart !== e.dailyEnd ? `daily ${clock(e.dailyStart)} to ${clock(e.dailyEnd)} AZ${e.dailyStart > e.dailyEnd ? " (overnight)" : ""}` : null;
+  const window = [
+    Number.isFinite(e.start) ? `starts ${date(e.start)}` : null,
+    Number.isFinite(e.stop) ? `anticipated end ${date(e.stop)}` : null,
+    daily
+  ].filter(Boolean).join("; ");
+  const label = { active: "Closed during listed window", scheduled: "Scheduled closure; not in effect in this window", ended: "Listed window ended; reopening unconfirmed", unknown: "Closure listed; timing unverified" }[state];
+  return `${label}${e.reason ? ` for ${e.reason}` : ""}${window ? ` · ${window}` : ""}`;
 }
 function overlapMetres(part, lines) {
   let total = 0;
@@ -853,19 +882,19 @@ function roadEventsOnRoute(feature, events, now) {
     if (!e.closed || !roadEventActive(e, now)) continue;
     if (e.type.includes("LINE")) {
       const overlapM = e.parts.reduce((sum, part) => sum + overlapMetres(part, lines), 0);
-      if (overlapM >= ROAD_EVENT_OVERLAP_M) hits.push({ event: e, overlapM: Math.round(overlapM), how: "line_overlap" });
+      if (overlapM >= ROAD_EVENT_OVERLAP_M) hits.push({ event: e, overlapM: Math.round(overlapM), how: "line_overlap", timing: roadEventTiming(e, now) });
     } else {
       const named = roads.some((road) => ` ${roadKey(e.headline)} `.includes(` ${road} `));
       const near = e.parts.some((part) => part.some(([lon, lat]) => lines.some((line) => metresToLine({ lon, lat }, line) <= ROUTE_BARRICADE_M)));
-      if (named && near) hits.push({ event: e, overlapM: null, how: "point_named" });
+      if (named && near) hits.push({ event: e, overlapM: null, how: "point_named", timing: roadEventTiming(e, now) });
     }
   }
   return hits;
 }
-const roadEventPoint = ({ event: e, overlapM, how }) => {
-  var _a;
+const roadEventPoint = ({ event: e, overlapM, how, timing }) => {
+  var _a, _b;
   const [lon, lat] = e.parts[0][0];
-  const why = `TransView lists this road closed${e.reason ? ` for ${e.reason}` : ""}: ${e.headline.trim()}${overlapM ? `. The closure overlaps this route for about ${Math.round(overlapM * 3.28084)} ft` : ""}`;
+  const why = `${(_a = e.source) != null ? _a : "TransView"} lists this road closed${e.reason ? ` for ${e.reason}` : ""}${timing === "unknown" ? ", but the timing is unverified; directions remain withheld" : ""}: ${e.headline.trim()}${overlapM ? `. The closure overlaps this route for about ${Math.round(overlapM * 3.28084)} ft` : ""}`;
   return {
     id: e.id,
     short: e.headline.trim(),
@@ -880,7 +909,7 @@ const roadEventPoint = ({ event: e, overlapM, how }) => {
     evidenceAvailable: true,
     closurePts: [],
     routeBarricade: true,
-    checks: [{ src: "road-event", level: "danger", why, detail: (_a = e.link) != null ? _a : void 0 }]
+    checks: [{ src: "road-event", level: "danger", why, detail: (_b = e.link) != null ? _b : void 0 }]
   };
 };
 function rateRoutes(routeFeatures, fpResults, fps, { closures = null, radiusM = 0, roadEvents = null, now = Date.now() } = {}) {
@@ -1075,7 +1104,7 @@ function message(best, order, rated, missing, now, area = "avra") {
     return a ? `${a.short}: ${a.why}` : null;
   };
   const text = [
-    routeClosures(best).length ? `FLOODplain${areaName}: every route has a road closure right now.` : `FLOODplain${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
+    routeClosures(best).length ? `FLOODplain${areaName}: every route has a reported road closure; check timing in the app.` : `FLOODplain${areaName}: take ${name(best)} (${best.score}/5 ${WORD[best.score]}, ${Math.round(best.minutes)} min).`,
     issue(best) ? `Watch for ${issue(best)}.` : null,
     `Others: ${order.filter((r) => r !== best).map((r) => `${name(r)} ${r.score}`).join(", ")}.`,
     ...order.filter((r) => r !== best && r.score >= 4).map((r) => `${name(r)}: ${issue(r)}.`),
@@ -1406,6 +1435,15 @@ function notifyWaitlist_() {
   }
 }
 function tick() {
+  try {
+    if (!validOwnerVerdicts_(computeVerdicts_(), Date.now())) throw ownerComputeError_("Assessment output is missing or malformed; inspect the evaluator and area configuration");
+  } catch (err) {
+    noteOwnerHealth_([{ id: "compute", reason: err.ownerReason || "Assessment computation failed", expected: "Successful evaluation for every area", crossings: "All configured crossings" }], Date.now());
+  }
+  try {
+    ownerHealthWatch_(Date.now());
+  } catch (err) {
+  }
   const now = /* @__PURE__ */ new Date();
   const today = Utilities.formatDate(now, CONFIG.TZ, "yyyy-MM-dd");
   const props = PropertiesService.getScriptProperties();
@@ -1417,7 +1455,6 @@ function tick() {
   props.setProperty("last_min", String(nowMin));
   try {
     closureWatch_();
-    healthWatch_(Date.now());
   } catch (err) {
   }
   if (from > nowMin) return;
@@ -1504,25 +1541,6 @@ function noteHealth_(results, now) {
     state[name] = s;
   }
   PropertiesService.getScriptProperties().setProperty("health", JSON.stringify(state));
-}
-function healthWatch_(now) {
-  const props = PropertiesService.getScriptProperties();
-  const state = healthState_();
-  const down = [], back = [];
-  for (const [name, s] of Object.entries(state)) {
-    if (s.downSince && now - s.downSince >= HEALTH_DOWN_MS && !s.told) {
-      s.told = true;
-      down.push(name);
-    }
-    if (!s.downSince && s.told) {
-      delete s.told;
-      back.push(name);
-    }
-  }
-  if (!down.length && !back.length) return;
-  props.setProperty("health", JSON.stringify(state));
-  const lines = [down.length ? `Not answering for 30 minutes or more: ${down.join(", ")}.` : "", back.length ? `Answering again: ${back.join(", ")}.` : ""].filter(Boolean).join("\n");
-  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), `FLOODplain feeds: ${down.length ? "problem" : "recovered"}`, lines);
 }
 const MAX_CLOSURE_PUSHES_PER_DAY = 12;
 function closureWatch_() {
@@ -1630,9 +1648,18 @@ function transview_(method, body, ua) {
 }
 function computeVerdicts_() {
   const cache = CacheService.getScriptCache();
+  if (typeof evaluate !== "function") throw ownerComputeError_("Assessment engine unavailable; rebuild and install the complete Apps Script bundle");
   const hit = cache.get("verdicts");
-  if (hit) return JSON.parse(hit);
-  if (typeof evaluate !== "function") return null;
+  if (hit) {
+    let cached;
+    try {
+      cached = JSON.parse(hit);
+    } catch (err) {
+      throw ownerComputeError_("Cached assessment is malformed; refresh the verdict cache");
+    }
+    if (!validOwnerVerdicts_(cached, Date.now())) throw ownerComputeError_("Cached assessment is incomplete, malformed or stale; refresh the verdict cache");
+    return cached;
+  }
   const urls = sourceUrls(PropertiesService.getScriptProperties().getProperty("USGS_API_KEY"));
   const sites = Object.keys(urls.usgs);
   const ua = { "User-Agent": "FLOODplain/1.0 (github.com/godfather38/floodplain)" };
@@ -1655,6 +1682,8 @@ function computeVerdicts_() {
   });
   const now = Date.now();
   const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
+  const [hc, hr, hs, hn, htc, htw] = res.slice(sites.length);
+  noteOwnerHealth_(expectedInputHealth_({ usgs, closures: hc, rain: hr, stream: hs, nws: hn, tvClosures: htc, tvWork: htw }, now), now);
   const trimmed = Object.fromEntries(sites.map((s) => [s, usgs[s] ? { features: (usgs[s].features || []).map((f) => ({ properties: f.properties })) } : null]));
   cache.put("usgs", JSON.stringify({ fetched_at: new Date(Date.now()).toISOString(), series: trimmed }), 300);
   const [closures, rain, stream, nws, tvClosures, tvWork] = res.slice(sites.length);
@@ -1673,8 +1702,11 @@ function computeVerdicts_() {
   const out = {};
   for (const id of AREA_IDS) {
     const v = evaluate({ now, usgs, closures, alert, nws, roadEvents: eventsForRating, routes: ROUTE_FEATURES }, id);
+    if (!v) throw ownerComputeError_("Assessment output is missing; inspect the evaluator and area configuration");
     out[id] = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title, closed: v.closed, closuresKnown: v.closuresKnown };
   }
+  if (!validOwnerVerdicts_(out, now)) throw ownerComputeError_("Assessment output is incomplete or malformed; inspect the evaluator and area configuration");
+  noteOwnerHealth_([{ id: "compute", reason: "", expected: "Successful evaluation for every area", crossings: "All configured crossings" }], now);
   cache.put("verdicts", JSON.stringify(out), 240);
   if (alert) cache.put("alert", JSON.stringify(alert), 300);
   return out;
@@ -1900,4 +1932,133 @@ function pad_(n) {
 }
 function json_(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
+}
+function ownerComputeError_(reason) {
+  const err = new Error(reason);
+  err.ownerReason = reason;
+  return err;
+}
+function validOwnerVerdicts_(all, now) {
+  return all && typeof all === "object" && AREA_IDS.every((id) => {
+    const v = all[id], t = Date.parse(v == null ? void 0 : v.at);
+    return v && Number.isFinite(t) && t <= now && now - t <= 4 * 6e4 && ["text", "sms", "spoken", "title"].every((k) => typeof v[k] === "string" && v[k].trim()) && typeof v.off === "boolean" && typeof v.closuresKnown === "boolean" && Array.isArray(v.closed) && v.closed.every((x) => typeof x === "string");
+  });
+}
+function expectedInputHealth_(raw, now) {
+  const out = [];
+  const affected = (test) => FAILURE_POINTS.filter(test).map((p) => p.short);
+  const add = (id, expected, crossings, reason, observedAt = null) => {
+    const t = Date.parse(observedAt);
+    out.push({ id, expected, crossings: crossings.join(", ") || "Regional context", reason, observedAt: Number.isFinite(t) ? new Date(t).toISOString() : null, ageMinutes: Number.isFinite(t) ? Math.floor((now - t) / 6e4) : null });
+  };
+  const numeric = (v) => v != null && String(v).trim() !== "" && Number.isFinite(Number(v)) && Number(v) >= 0;
+  const reading = (valid, time, age) => {
+    if (!valid) return "Missing or malformed reading";
+    const t = Date.parse(time);
+    if (!Number.isFinite(t) || t > now) return "Missing or invalid observation time";
+    return now - t > age ? "Stale reading" : "";
+  };
+  for (const [id, site] of Object.entries(USGS_SITES)) {
+    const body = raw.usgs[id];
+    const rows = Array.isArray(body == null ? void 0 : body.features) ? body.features.filter((f) => {
+      var _a;
+      return ((_a = f == null ? void 0 : f.properties) == null ? void 0 : _a.parameter_code) === "00060";
+    }).map((f) => f.properties).sort((a, b) => Date.parse(b.time) - Date.parse(a.time)) : [];
+    const p = rows[0];
+    add("usgs:" + id, site.name + " discharge within 3 hours", affected((p2) => {
+      var _a;
+      return (p2.river || []).includes(id) || (((_a = p2.wash) == null ? void 0 : _a.usgs) || []).includes(id);
+    }), !body ? "Source unavailable" : reading(numeric(p == null ? void 0 : p.value), p == null ? void 0 : p.time, STALE_MS), p == null ? void 0 : p.time);
+  }
+  for (const kind of ["rain", "stream"]) {
+    const body = raw[kind];
+    const ids = kind === "rain" ? [...new Set(FAILURE_POINTS.flatMap((p) => Object.values(p.rain || {}).flat()))] : [...new Set(FAILURE_POINTS.flatMap((p) => {
+      var _a;
+      return ((_a = p.wash) == null ? void 0 : _a.alert) || [];
+    }))];
+    for (const id of ids) {
+      const row = Array.isArray(body == null ? void 0 : body.data) ? body.data.find((d) => String(d.site) === id) : null;
+      const points = affected((p) => {
+        var _a;
+        return kind === "rain" ? Object.values(p.rain || {}).flat().includes(id) : (((_a = p.wash) == null ? void 0 : _a.alert) || []).includes(id);
+      });
+      const windows = kind === "rain" ? [...new Set(FAILURE_POINTS.flatMap((p) => Object.entries(p.rain || {}).filter(([, ids2]) => ids2.includes(id)).flatMap(([rule]) => ["h6", ...Object.values(RAIN[rule]).flatMap((r) => Object.keys(r))])))] : [];
+      const values = kind === "rain" ? windows.map((w) => {
+        var _a;
+        return (_a = row == null ? void 0 : row.rain) == null ? void 0 : _a[["m10", "m30", "h1", "h3", "h6", "d1", "d3", "d7", "d30"].indexOf(w)];
+      }) : [row == null ? void 0 : row.flow];
+      const reason = !body ? "Source unavailable" : !row ? "Expected station absent" : row.UnderMaintenance ? "Station under maintenance" : reading(values.every(numeric), row.last_rpt ? row.last_rpt + "-07:00" : null, kind === "rain" ? 24 * 36e5 : STALE_MS);
+      add(kind + ":" + id, (RAIN_GAUGES[id] || id) + (kind === "rain" ? " rain windows " + windows.join("/") + " within 24 hours" : " stream discharge within 3 hours"), points, reason, (row == null ? void 0 : row.last_rpt) ? row.last_rpt + "-07:00" : null);
+    }
+  }
+  for (const [id, body, field] of [["county", raw.closures, "features"], ["weather", raw.nws, "features"], ["transview-closures", raw.tvClosures, "d"], ["transview-work", raw.tvWork, "d"]]) {
+    const list = body == null ? void 0 : body[field];
+    const valid = Array.isArray(list) || id === "transview-work" && list && typeof list === "object";
+    const malformed = valid && Object.values(list).some((r) => {
+      var _a;
+      return !r || typeof r !== "object" || id === "county" && (!r.attributes || !r.geometry || !Number.isFinite(r.geometry.x) || !Number.isFinite(r.geometry.y) || !["Open", "Closed", "Proceed with Caution"].includes(r.attributes.Status)) || id === "weather" && typeof ((_a = r.properties) == null ? void 0 : _a.event) !== "string" || id === "transview-closures" && (typeof r.Geo !== "string" || r.KeyID == null) || id === "transview-work" && (typeof r.Geography !== "string" || r.KeyID == null);
+    });
+    add(id, "Readable " + id + " event list (empty is valid)", [], !body ? "Source unavailable" : !valid || malformed ? "Malformed event list" : "");
+  }
+  return out;
+}
+function noteOwnerHealth_(results, now) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(1e4);
+  try {
+    saveOwnerHealth_(results, now);
+  } finally {
+    lock.releaseLock();
+  }
+}
+function saveOwnerHealth_(results, now) {
+  const props = PropertiesService.getScriptProperties();
+  const ids = JSON.parse(props.getProperty("ownerHealthIds") || "[]");
+  for (const result of results) {
+    if (!ids.includes(result.id)) ids.push(result.id);
+    const key = "ownerHealth:" + result.id;
+    const s = JSON.parse(props.getProperty(key) || "{}");
+    if (s.checked > now) continue;
+    const fingerprint = result.reason || "";
+    if (s.reason !== fingerprint) {
+      s.since = now;
+      s.attempts = 0;
+      s.nextTry = 0;
+    }
+    Object.assign(s, result, { reason: fingerprint, checked: now });
+    props.setProperty(key, JSON.stringify(s));
+  }
+  props.setProperty("ownerHealthIds", JSON.stringify(ids));
+}
+function ownerHealthWatch_(now) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(1e3);
+  try {
+    deliverOwnerHealth_(now);
+  } finally {
+    lock.releaseLock();
+  }
+}
+function deliverOwnerHealth_(now) {
+  const props = PropertiesService.getScriptProperties();
+  const pending = [];
+  const computeFailed = JSON.parse(props.getProperty("ownerHealth:compute") || "{}").reason;
+  for (const id of JSON.parse(props.getProperty("ownerHealthIds") || "[]")) {
+    const key = "ownerHealth:" + id, s = JSON.parse(props.getProperty(key) || "{}");
+    if ((s.reason || "") === (s.delivered || "") || (s.attempts || 0) >= 5 || now < (s.nextTry || 0)) continue;
+    if (!s.reason && (now - s.checked > 5 * 6e4 || id !== "compute" && computeFailed)) continue;
+    pending.push({ key, s });
+  }
+  if (!pending.length) return;
+  const body = ["FLOODplain expected-input check", "Checked: " + new Date(now).toISOString(), ...pending.map(({ s }) => [s.reason ? "PROBLEM: " + s.id : "RECOVERED: " + s.id, "Expected: " + s.expected, "Crossings: " + s.crossings, "Result: " + (s.reason || "Expected input is valid again"), "Since: " + new Date(s.since).toISOString(), ...s.observedAt ? ["Last observation: " + s.observedAt, "Observation age at check: " + s.ageMinutes + " minutes"] : []].join("\n")), "Action: inspect the named source or station and its timestamps; restore the feed or correct its configuration. Recovery confirms input availability, not road conditions."].join("\n\n");
+  for (const { key, s } of pending) {
+    s.attempts = (s.attempts || 0) + 1;
+    s.nextTry = now + Math.min(60, 2 ** s.attempts) * 6e4;
+    props.setProperty(key, JSON.stringify(s));
+  }
+  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), "FLOODplain: expected input " + (pending.some((p) => p.s.reason) ? "needs attention" : "recovered"), body);
+  for (const { key, s } of pending) {
+    s.delivered = s.reason;
+    props.setProperty(key, JSON.stringify(s));
+  }
 }
