@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "requestId": "highres-20261106T083534Z",
-  "requestedAt": "2026-11-06T08:35:34Z",
-  "modelCommit": "87a682fc2f95b54b1536d1bc63b2e4335670ef01",
+  "requestId": "highres-20261106T084254Z",
+  "requestedAt": "2026-11-06T08:42:54Z",
+  "modelCommit": "c71fe5912082fa13bf4c3e4c0045bf97c302abec",
   "cases": [
     "northern",
     "picture-rocks",
