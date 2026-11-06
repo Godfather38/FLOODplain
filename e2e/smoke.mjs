@@ -82,10 +82,12 @@ try{
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'no sideways scroll');
   assert.deepEqual(errors,[]);await context.close();
  });
- await check('a closed route offers no directions',async()=>{
-  const {context,page}=await freshPage();
-  await page.goto(origin+'/#/r/trico');await page.waitForSelector('.closed-note');
+ await check('a route-first startup loads the high-resolution forecast and a closed route offers no directions',async()=>{
+  const {context,page,errors}=await freshPage();
+  const forecast=page.waitForRequest(r=>r.url().includes('/all-route/northern/compact/road-forecast.json'));
+  await page.goto(origin+'/#/r/trico');await page.waitForSelector('.closed-note');await forecast;
   const navs=await page.$$eval('[data-nav]',b=>b.map(x=>x.dataset.nav));assert.ok(!navs.includes('trico'),navs.join());
+  assert.deepEqual(errors,[],'route-first rendering must not dereference the model module before it loads');
   await context.close();
  });
  await check('incomplete county row reports its gap without losing the usable closure',async()=>{
