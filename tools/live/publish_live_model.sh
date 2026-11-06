@@ -14,7 +14,7 @@ for try in 1 2 3 4 5 6; do
   rm -rf "./$dest" && mkdir -p "./$dest" && cp -r "$src"/. "./$dest"/
   git add -A && git commit -qm "$msg"
   if [ -n "$lease" ]; then
-    git push -qf --force-with-lease="live-model:$lease" "$repo" HEAD:live-model && exit 0
+    git push -q --force-with-lease="live-model:$lease" "$repo" HEAD:live-model && exit 0
   else
     git push -q "$repo" HEAD:live-model && exit 0
   fi
