@@ -7,7 +7,7 @@ on:
   # A push to this file registers the workflow (and runs one hour); after that the jobs chain.
   push:
     branches: [experiment/live-sfincs]
-    paths: [.github/workflows/live-sfincs.yml, tools/live/run_live_sfincs.py]
+    paths: [.github/workflows/live-sfincs.yml, tools/live/run_live_sfincs.py, tools/live/refresh_highres_models.py]
   workflow_dispatch:
     inputs:
       hours:
@@ -66,6 +66,11 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           last=""
           for i in $(seq 1 "${{ inputs.hours || 5 }}"); do
+            # High-resolution cases refresh independently of the coarse solver,
+            # including dry days. The helper skips busy cases and repeat cycles.
+            if python tools/live/run_live_all_route.py check all-route-check.json "${ALL_ROUTE_THRESHOLD_MM:-1.0}"; then
+              python tools/live/refresh_highres_models.py --rain-check all-route-check.json --dispatch || echo "High-res refresh check/dispatch failed; retry on the next cycle"
+            else echo "High-res rain check failed; no model dispatch"; fi
             if python tools/live/run_live_sfincs.py prepare tools/sfincs/data/stress-storm-v1/case.tar.gz work > prepare.json; then
               cycle=$(python -c "import json;print(json.load(open('prepare.json'))['hrrrCycle'])")
               if [ "$cycle" != "$last" ]; then
@@ -75,13 +80,6 @@ jobs:
                 cp work/live-case.json out/
                 # Replaces only live/, so the all-route folders stay.
                 bash tools/live/publish_live_model.sh out live "Live SFINCS run for HRRR $cycle" || echo "publish failed"
-                # The all-route cases (6.25 m road cells) run in their own parallel jobs, only when rain is forecast.
-                if python tools/live/run_live_all_route.py check all-route-check.json "${ALL_ROUTE_THRESHOLD_MM:-1.0}"; then
-                  cases=$(python -c "import json;print(','.join(json.load(open('all-route-check.json'))['run']))")
-                  if [ -n "$cases" ]; then
-                    gh workflow run live-all-route.yml --ref "${ALL_ROUTE_REF:-experiment/all-route-models}" -f cycle="$cycle" -f cases="$cases" && echo "Started all-route runs: $cases"
-                  fi
-                fi
                 last="$cycle"
               else echo "No new HRRR cycle since $last"; fi
             else echo "Prepare failed:"; cat prepare.json || true; fi
