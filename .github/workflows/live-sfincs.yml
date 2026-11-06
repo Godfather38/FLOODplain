@@ -65,6 +65,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           last=""
+          failures=0
           for i in $(seq 1 "${{ inputs.hours || 5 }}"); do
             # High-resolution cases refresh independently of the coarse solver,
             # including dry days. The helper skips busy cases and repeat cycles.
@@ -74,20 +75,21 @@ jobs:
             if python tools/live/run_live_sfincs.py prepare tools/sfincs/data/stress-storm-v1/case.tar.gz work > prepare.json; then
               cycle=$(python -c "import json;print(json.load(open('prepare.json'))['hrrrCycle'])")
               if [ "$cycle" != "$last" ]; then
-                (cd work && timeout 900 "$GITHUB_WORKSPACE/engine/sfincs" > solver.log 2>&1) || echo "solver exited $?"
-                tail -5 work/solver.log
-                rm -rf out && python tools/live/run_live_sfincs.py export work out
-                cp work/live-case.json out/
-                # Replaces only live/, so the all-route folders stay.
-                bash tools/live/publish_live_model.sh out live "Live SFINCS run for HRRR $cycle" || echo "publish failed"
-                last="$cycle"
+                if bash tools/live/run_live_cycle.sh work out "$cycle"; then
+                  last="$cycle"
+                else
+                  echo "::error::Current model did not finish, verify, or publish; previous data retained"
+                  failures=$((failures+1))
+                fi
               else echo "No new HRRR cycle since $last"; fi
-            else echo "Prepare failed:"; cat prepare.json || true; fi
+            else echo "::error::Current model preparation failed; no forecast was published"; cat prepare.json || true; failures=$((failures+1)); fi
             [ "$i" = "${{ inputs.hours || 5 }}" ] && break
             # The next cycle's 18-hour file is usually out about 55 minutes past the hour.
             now=$(date -u +%s); next=$(( (now/3600+1)*3600 + 58*60 )); [ $((next-now)) -gt 3900 ] && next=$((next-3600))
             sleep $((next-now))
           done
+          # Report failed cycles honestly, but leave the existing self-chain below intact.
+          [ "$failures" -eq 0 ]
       # Not after a cancel, so cancelling a job stops the chain.
       - name: Start the next job
         if: success() || failure()

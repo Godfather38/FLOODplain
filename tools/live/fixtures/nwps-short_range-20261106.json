@@ -1,0 +1,29 @@
+{
+  "reach": {
+    "reachId": "15902351",
+    "name": "Santa Cruz River",
+    "latitude": 32.4198,
+    "longitude": -111.064,
+    "streamflow": [
+      "medium_range",
+      "analysis_assimilation",
+      "short_range",
+      "long_range",
+      "medium_range_blend"
+    ],
+    "route": {
+      "upstream": [],
+      "downstream": [
+        {
+          "reachId": "15890430",
+          "streamOrder": "1"
+        }
+      ]
+    }
+  },
+  "analysisAssimilation": {},
+  "shortRange": {},
+  "mediumRange": {},
+  "longRange": {},
+  "mediumRangeBlend": {}
+}

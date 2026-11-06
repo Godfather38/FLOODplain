@@ -82,10 +82,10 @@ def prepare(name, work, cycle_iso):
             v, la, lo = apcp_hour(src, fh); P[k, :, :] = regrid(v, la, lo, tlat, tlon)
             sources.append({'start': ISO(t), 'cycle': ISO(src), 'forecastHour': fh})
         P.attrs['data_role'] = np.bytes_('hrrr_first_hour_then_forecast')
-    dis, notes = [], []
+    dis, notes, flow_sources = [], [], []
     for inlet in c['inlets']:
-        q, missing = nwm_hourly(inlet['reachId'], start, hours); dis.append(q)
-        if missing: notes.append(f"NWM reach {inlet['reachId']}: {missing} of {hours + 1} hours carried from the nearest earlier hour")
+        q, missing = nwm_hourly(inlet['reachId'], start, hours, flow_sources, [i['reachId'] for i in c['inlets']]); dis.append(q)
+        if flow_sources[-1]['provider'] == 'NOAA NODD': notes.append(f"NWM reach {inlet['reachId']}: verified NOAA NODD hourly files used because NWPS is unavailable or incomplete")
     with open(work / 'sfincs.dis', 'w') as o:
         for k in range(hours + 1): o.write(f'{k * 3600.0:10.1f} ' + ' '.join(f'{d[k]:12.6f}' for d in dis) + '\n')
     stamp = lambda t: t.strftime('%Y%m%d %H%M%S')
@@ -96,7 +96,7 @@ def prepare(name, work, cycle_iso):
     (work / 'sfincs.inp').write_text('\n'.join(inp) + '\n')
     meta = {'schemaVersion': 1, 'kind': 'live_all_route_case', 'case': name, 'modelVersion': c['modelVersion'], 'caseArchiveSha256': c['archiveSha256'],
             'hrrrCycle': ISO(cycle), 'start': ISO(start), 'end': ISO(start + dt.timedelta(hours=hours)), 'preparedAt': ISO(dt.datetime.now(dt.timezone.utc)),
-            'rainSources': sources, 'flowNotes': notes, 'inlets': [i['reachId'] for i in c['inlets']],
+            'rainSources': sources, 'flowNotes': notes, 'flowSources': flow_sources, 'inlets': [i['reachId'] for i in c['inlets']],
             'method': f'Prepared all-route case with forcing replaced: cold start {SPIN} h before the HRRR cycle; HRRR first-hour rain of each past cycle, then the cycle\'s {AHEAD} h forecast; NWM analysis then short-range flow at the case\'s registry inlets.'}
     (work / 'live-case.json').write_text(json.dumps(meta, indent=1))
     print(json.dumps({k: meta[k] for k in ('case', 'hrrrCycle', 'start', 'end', 'flowNotes')}))
@@ -143,9 +143,9 @@ def export(name, work, out, run_id=None):
                 'validFrom': frames[0]['time'] if frames else None, 'validTo': frames[-1]['time'] if frames else None,
                 'geometry': {'path': 'geometry.bin.gz', 'sha256': c['geometry']['sha256'], 'bytes': geom.stat().st_size, 'sameAs': c['geometry']['path']},
                 'frames': frames, 'quantity': {'name': 'cell_average_depth', 'units': 'm', 'definition': 'Native volume divided by each full native polygon area'},
-                'sourceIssues': {'HRRR': meta.get('hrrrCycle'), 'NWM': 'NWPS analysis_assimilation then short_range at prepare time', 'mode': 'live'},
+                'sourceIssues': {'HRRR': meta.get('hrrrCycle'), 'NWM': 'NWPS or verified NOAA NODD analysis then short-range flow; see flowSources', 'mode': 'live'},
                 'solverCompletion': {'status': 'complete' if finished else 'not_finished', 'nativeStatus': status, 'nativeRuntimeSeconds': runtime},
-                'flowNotes': meta.get('flowNotes', []), 'caseArchiveSha256': c['archiveSha256'], 'issuedAt': ISO(dt.datetime.now(dt.timezone.utc)),
+                'flowNotes': meta.get('flowNotes', []), 'flowSources': meta.get('flowSources', []), 'caseArchiveSha256': c['archiveSha256'], 'issuedAt': ISO(dt.datetime.now(dt.timezone.utc)),
                 'uncertainty': {'status': 'not_quantified', 'plusMinus': None},
                 'limits': 'Model forecast from public forcing, not observed water. Cold start: soil and channel state come only from the 45 h warm-up. No bridge or culvert openings. 6.25 m road cells are not validated road depth.'}
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=1) + '\n')
