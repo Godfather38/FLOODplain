@@ -9,6 +9,7 @@ import datetime as dt
 import io
 import math
 import time
+import urllib.error
 import urllib.request
 
 import h5py
@@ -17,6 +18,7 @@ import numpy as np
 BASE = 'https://noaa-nwm-pds.s3.amazonaws.com/'
 BLOCK = 65536
 MAX_FILE = 32 * 1024 * 1024
+HEAD_RETRY_DELAYS = (15, 45)
 _RECORDS = {}
 
 
@@ -39,9 +41,23 @@ class RangeFile(io.RawIOBase):
         self.url, self.pos, self.cache = url, 0, {}
         self.bytes_read = 0
         self.requests = 0
-        with urllib.request.urlopen(urllib.request.Request(url, method='HEAD'), timeout=30) as r:
-            self.size = int(r.headers['Content-Length'])
-            self.etag = r.headers.get('ETag')
+        # NOAA publishes a cycle's files individually. Wait briefly for this
+        # exact object; never switch cycles or manufacture a missing hour.
+        for attempt in range(len(HEAD_RETRY_DELAYS) + 1):
+            try:
+                with urllib.request.urlopen(urllib.request.Request(url, method='HEAD'), timeout=30) as r:
+                    self.size = int(r.headers['Content-Length'])
+                    self.etag = r.headers.get('ETag')
+                break
+            except urllib.error.HTTPError as error:
+                transient = error.code in (404, 408, 429) or 500 <= error.code < 600
+                if not transient or attempt == len(HEAD_RETRY_DELAYS):
+                    raise
+                time.sleep(HEAD_RETRY_DELAYS[attempt])
+            except OSError:
+                if attempt == len(HEAD_RETRY_DELAYS):
+                    raise
+                time.sleep(HEAD_RETRY_DELAYS[attempt])
         if not self.etag:
             raise ValueError('NWM source has no ETag for consistent range reads')
         if not 0 < self.size <= MAX_FILE:
