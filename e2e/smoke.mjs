@@ -47,7 +47,7 @@ async function fakeWorld(context){
   return route.abort();
  });
 }
-const browser=await chromium.launch(process.env.E2E_CHROME?{channel:'chrome'}:{});
+const browser=await chromium.launch(process.env.E2E_EXECUTABLE?{executablePath:process.env.E2E_EXECUTABLE}:process.env.E2E_CHROME?{channel:'chrome'}:{});
 const failures=[];
 async function check(name,fn){try{await fn();console.log('ok  ',name)}catch(e){failures.push(name);console.error('FAIL',name,'\n    ',String(e.message).split('\n').slice(0,6).join('\n     '))}}
 async function freshPage(size={width:1024,height:768},serviceWorkers='block'){

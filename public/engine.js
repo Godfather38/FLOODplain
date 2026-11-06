@@ -47,7 +47,7 @@ export function evaluate(raw, area = 'avra') {
   const rated = rateRoutes(routes, fpResults, cfg.FAILURE_POINTS, { closures, radiusM: cfg.CLOSURE_RADIUS_M, roadEvents: raw.roadEvents ?? null, now })
     .map((r) => withRoadForecast(r, raw.sfincs)).map((r) => ({ ...r, score: routeScore(r) }));
   const { best, order } = recommend(rated);
-  const missing = [!county.complete && 'county', !raw.alert && 'rain', !Object.values(flows).some((f) => f.fresh) && 'river', raw.sfincs && raw.sfincs.status !== 'ok' && 'flood model'].filter(Boolean);
+  const missing = [!county.complete && 'county', !raw.alert && 'rain', !Object.values(flows).some((f) => f.fresh) && 'river', raw.sfincs && (raw.sfincs.status !== 'ok' || rated.some((r) => !(raw.sfincs.routes?.[r.id]?.cells > 0))) && 'flood model'].filter(Boolean);
   const closed = [...new Set(rated.flatMap((r) => routeClosures(r).map((p) => p.short)))].sort();
   return { rated, best, order, missing, closed, closuresKnown: county.complete, sfincs: raw.sfincs ? raw.sfincs.status : 'not_loaded', ...message(best, order, rated, missing, now, area, !county.complete && closures !== null) };
 }

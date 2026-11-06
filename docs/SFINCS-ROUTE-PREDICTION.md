@@ -68,3 +68,32 @@ A 100 m cell has one average ground height. Where a road runs through a dip or c
 
 - The live run is a 100 m grid. A road on a raised fill in a wet cell reads as dry, which is correct. A road in a small dip inside a mostly dry cell can be missed.
 - Gates Pass is outside the live run's model area. It gets no SFINCS row and is rated on the other sources.
+
+## Current high-resolution road summaries (experimental integration, Nov 6, 2026)
+
+The app and alert service share `highResolutionRoadForecast` and `mergeRoadForecasts` in
+`public/road-forecast.js`. Each of the three live native models publishes a small
+`all-route/<case>/compact/road-forecast.json` on the `live-model` branch. It compares the existing
+lidar road/deck stations with native model water, keeping missing road heights and model values
+separate from dry results. The full map frame packages and saved Nov 1 scenario are unchanged.
+
+- Northern owns Trico, Avra and both Silverbell routes. Picture Rocks owns Ina, Twin Peaks and
+  Picture Rocks/Avra. Gates owns the Gates route. Overlapping model areas are not averaged.
+- Only a completed live run issued within three hours, whose time window contains now, can
+  supply current road ratings. Saved runs, missing cases, partial solver output and invalid times
+  are not current evidence. Issue times more than five minutes ahead are rejected.
+- Complete high-resolution road coverage takes priority over the coarse forecast for that route.
+  Partial coverage can add a wet indication, but cannot make an unknown road dry or erase a
+  stronger current coarse indication. The route row states when coverage is incomplete.
+- If the owning case is unavailable or stale, the current coarse model remains a clearly labeled
+  fallback on the road cells it actually covers. A route with no model coverage gets no model
+  rating row. Live gauges, closures and the remaining sources still rate it.
+- App and Apps Script fetch the same three summaries and run the same selector. The service's
+  cached road forecast has `forecastVersion: 2`; an earlier cache is rebuilt once on installation.
+- Model water can raise a route's rating, never lower an official closure or gauge warning. Road
+  elevations and native cells do not resolve bridge openings or establish verified road clearance.
+
+Verification: `node --test test/highres-road-forecast.test.js` checks freshness, wrong/saved cases,
+missing and partial coverage, coarse fallback, independent failures, closure preservation and
+exact browser/Apps Script parity. `npm run build:gas` validates the generated ES2019 service.
+This integration stays on an experimental branch until separately reviewed and deployed.

@@ -501,7 +501,7 @@ function computeVerdicts_() {
     let cached;
     try { cached = JSON.parse(hit); } catch (err) { /* Rebuild an unusable cache below. */ }
     // A cache from before the SFINCS road forecast existed (just after a deploy) is rebuilt too.
-    if (validOwnerVerdicts_(cached, Date.now()) && cache.get('roadforecast')) return cached; // Cache hits never mark compute health recovered.
+    if (validOwnerVerdicts_(cached, Date.now()) && currentRoadForecastCache_(cache.get('roadforecast'))) return cached; // Cache hits never mark compute health recovered.
     // Assessment age starts before evaluation, but the cache TTL starts on put.
     // Refresh stale or invalid entries now instead of reporting a compute outage
     // until CacheService expires them. Only a validated new result can recover.
@@ -519,15 +519,19 @@ function computeVerdicts_() {
     transview_('GetConstructionEvents', { type: '' }, ua),
     { url: CONFIG.LIVE_SFINCS + 'manifest.json?t=' + Math.floor(Date.now() / 120000), muteHttpExceptions: true, headers: ua },
     { url: CONFIG.LIVE_SFINCS + 'water.json.gz?t=' + Math.floor(Date.now() / 120000), muteHttpExceptions: true, headers: ua },
+    ...Object.keys(ALL_ROUTE_CASES).map((name) => ({ url: ALL_ROUTE_LIVE + name + '/compact/road-forecast.json?t=' + Math.floor(Date.now() / 120000), muteHttpExceptions: true, headers: ua })),
   ];
   const answers = UrlFetchApp.fetchAll(reqs);
   const parse = (r) => {
     if (!r || r.getResponseCode() !== 200) return null;
     try { return JSON.parse(r.getContentText()); } catch (err) { return null; }
   };
-  // The last two answers are the live SFINCS manifest and water; the water is gzip, read below.
-  const res = answers.slice(0, reqs.length - 2).map(parse);
-  const sfincs = sfincsForecast_(parse(answers[reqs.length - 2]), answers[reqs.length - 1], Date.now());
+  // Keep all three high-resolution cases independent, with the original coarse run as fallback.
+  const modelAt = reqs.length - 2 - Object.keys(ALL_ROUTE_CASES).length;
+  const res = answers.slice(0, modelAt).map(parse);
+  const coarse = sfincsForecast_(parse(answers[modelAt]), answers[modelAt + 1], Date.now());
+  const caseSummaries = Object.fromEntries(Object.keys(ALL_ROUTE_CASES).map((name, i) => [name, parse(answers[modelAt + 2 + i])]));
+  const sfincs = mergeRoadForecasts(coarse, caseSummaries, Date.now());
   const now = Date.now();
   const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
   const [hc, hr, hs, hn, htc, htw] = res.slice(sites.length);
@@ -556,9 +560,13 @@ function computeVerdicts_() {
   if (!validOwnerVerdicts_(out, now)) throw ownerComputeError_('Assessment output is incomplete or malformed; inspect the evaluator and area configuration');
   noteOwnerHealth_([{ id: 'compute', reason: '', expected: 'Successful evaluation for every area', crossings: 'All configured crossings' }], now);
   cache.put('verdicts', JSON.stringify(out), 240);
-  cache.put('roadforecast', JSON.stringify(sfincs.status === 'ok' ? { status: 'ok', runId: sfincs.runId, issuedAt: sfincs.issuedAt, routes: sfincs.routes } : sfincs), 300);
+  cache.put('roadforecast', JSON.stringify(sfincs), 300);
   if (alert) cache.put('alert', JSON.stringify(alert), 300);
   return out;
+}
+
+function currentRoadForecastCache_(text) {
+  try { return JSON.parse(text || 'null')?.forecastVersion === 2; } catch (err) { return false; }
 }
 
 // The SFINCS road forecast for the ratings (public/road-forecast.js, ROAD_CELLS from

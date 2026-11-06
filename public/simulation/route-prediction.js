@@ -11,8 +11,8 @@
 // It only raises a route's rating: a dry prediction never lowers a closure or a gauge reading.
 
 // One set of thresholds for the app and the alert service (road-forecast.js).
-import { WET_M, COVER_M, DEEP_M, levelFor } from '../road-forecast.js?v=dev';
-export { WET_M, COVER_M, DEEP_M, levelFor };
+import { WET_M, COVER_M, DEEP_M, levelFor, roadForecastPoint } from '../road-forecast.js?v=dev';
+export { WET_M, COVER_M, DEEP_M, levelFor, roadForecastPoint };
 export const NEAR_M = 0.3;       // water within 1 ft below the road is listed as near it
 const FT = 3.28084;
 export const ft = (m) => m * FT;
@@ -191,17 +191,7 @@ export function gridCellOf(index, toUtm) {
   return (lon, lat) => { const u = toUtm(lon, lat); return index.get(Math.floor((u.e - GRID.x0) / 100) * 1000 + Math.floor((u.n - GRID.y0) / 100)) ?? -1; };
 }
 // -> {status:'ok', pred, manifest} or {status:'stale'|'unavailable', reason}
-export async function loadLivePrediction({ now = Date.now() } = {}) {
-  const [{ LIVE, LIVE_MAX_AGE_H }, { toUtm }] = await Promise.all([import('../preview/geo3d/src/runs.js?v=dev'), import('../preview/geo3d/src/utm.js?v=dev')]);
-  const bust = '?t=' + Math.floor(now / 120000);
-  let manifest;
-  try { manifest = await jsonOf(LIVE + 'manifest.json' + bust); } catch (e) { return { status: 'unavailable', reason: `The live SFINCS run did not answer (${e.message}).` }; }
-  const age = (now - Date.parse(manifest.issuedAt)) / 3600e3;
-  if (!(age <= LIVE_MAX_AGE_H)) return { status: 'stale', manifest, reason: `The newest live SFINCS run is ${Number.isFinite(age) ? age.toFixed(1) + ' hours' : 'of unknown'} old, older than ${LIVE_MAX_AGE_H} hours.` };
-  const [water, lines, grid] = await Promise.all([jsonOf(LIVE + 'water.json.gz' + bust), loadRoadLines(), loadGrid()]);
-  const times = water.frames.map((f) => Date.parse(f.time));
-  const surface = water.frames.map((f) => Float32Array.from(f.surfaceM, (z) => (z == null ? NaN : z)));
-  const depth = surface.map((s) => s.map((z, i) => (Number.isNaN(z) ? NaN : Math.max(0, z - grid.bed[i]))));
-  const pred = predictFromGrid({ times, surface, depth }, routeStations(lines), gridCellOf(grid.index, toUtm));
-  return { status: 'ok', manifest, pred };
+export async function loadLivePrediction(options = {}) {
+  const { loadRoadForecasts } = await import('./live-road-forecast.js?v=dev');
+  return loadRoadForecasts(options);
 }

@@ -218,11 +218,10 @@ async function refreshSfincs() {
 function addSfincs(r, d) {
   const s = d.sfincs;
   if (s?.status !== 'ok' || !sfincsModel) return r;
-  const o = sfincsModel.routeOutlook(s.pred, r.id, d.now);
-  r.sfincs = o;
-  if (o.status !== 'current') return r;
-  const point = sfincsModel.predictionPoint(r.id, o, s.manifest?.issuedAt);
-  return { ...r, sfincs: o, points: [...r.points, point], level: worst([r.level, point.level]) };
+  const forecast = s.routes?.[r.id];
+  if (!forecast) return { ...r, sfincs: { status: 'unavailable', reason: s.routeStatus?.[r.id]?.reason || 'This route has no current model coverage.' } };
+  const point = sfincsModel.roadForecastPoint(r.id, forecast);
+  return { ...r, sfincs: { ...forecast, status: 'current' }, points: [...r.points, point], level: worst([r.level, point.level]) };
 }
 
 function compute(d) {
@@ -363,7 +362,7 @@ function routeScreen(rid) {
   const closed = routeClosures(r).length > 0;
   // The SFINCS road forecast's state when it isn't in the rating: loading, unreachable, stale or outside the run.
   const sf = data.sfincs, sfNote = !sf ? 'Loading the road flood forecast.' : sf.status !== 'ok' ? sf.reason : r.sfincs && r.sfincs.status !== 'current' ? r.sfincs.reason : '';
-  if (r.sfincs?.peak?.stretches.length) import('./model-acknowledgement.js?v=dev').then((m) => m.showAcknowledgement('modelRun')).catch(() => {});
+  if (r.sfincs?.maxOver > sfincsModel?.COVER_M) import('./model-acknowledgement.js?v=dev').then((m) => m.showAcknowledgement('modelRun')).catch(() => {});
   return `
     ${closureBanner([r])}
     <article class="hero">

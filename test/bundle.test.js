@@ -20,7 +20,7 @@ const CELLS = JSON.parse(readFileSync(new URL('../public/data/road-cells.json', 
 function liveSfincs(now, { overM = null, route = 'avra', ageH = 1 } = {}) {
   const issued = now - ageH * 3600e3, times = Array.from({ length: 8 }, (_, k) => issued - 3600e3 + k * 3600e3);
   const low = CELLS.routes[route].filter((c) => c[2] <= c[1]).reduce((a, c) => (c[1] < a[1] ? c : a)); // a cell whose ground is at or below the road
-  const frames = times.map((t, k) => { const surfaceM = new Array(CELLS.cellCount).fill(-99999); if (overM != null && k === 4) surfaceM[low[0]] = low[1] + overM; return { time: new Date(t).toISOString(), surfaceM }; });
+  const frames = times.map((t, k) => { const surfaceM = new Array(CELLS.cellCount).fill(-99999); for (const list of Object.values(CELLS.routes)) for (const [cell, , bedM] of list) surfaceM[cell] = bedM; if (overM != null && k === 4) surfaceM[low[0]] = low[1] + overM; return { time: new Date(t).toISOString(), surfaceM }; });
   return { manifest: JSON.stringify({ runId: 'live-test', issuedAt: new Date(issued).toISOString() }), water: gzipSync(JSON.stringify({ cellOrder: 'test', frames })) };
 }
 
