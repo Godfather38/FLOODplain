@@ -164,6 +164,62 @@ class RangeReaderTests(unittest.TestCase):
                 self.assertEqual(f.read(),payload);self.assertEqual(f.bytes_read,10)
         self.assertEqual(len(requests),2)
 
+    def test_head_publication_gap_retries_same_object_then_validates(self):
+        missing = lambda: nodd.urllib.error.HTTPError(URL, 404, 'Not Found', {}, None)
+        responses = [missing(), missing(), Response(**{'Content-Length': '10', 'ETag': '"fixed"'})]
+        with patch.object(nodd.urllib.request, 'urlopen', side_effect=responses) as request, patch.object(nodd.time, 'sleep') as sleep:
+            with nodd.RangeFile(URL) as source:
+                self.assertEqual((source.url, source.size, source.etag), (URL, 10, '"fixed"'))
+        self.assertEqual(request.call_count, 3)
+        for call in request.call_args_list:
+            self.assertEqual(call.args[0].full_url, URL)
+            self.assertEqual(call.args[0].get_method(), 'HEAD')
+            self.assertEqual(call.kwargs['timeout'], 30)
+        self.assertEqual([call.args[0] for call in sleep.call_args_list], [15, 45])
+
+    def test_head_permanent_absence_is_bounded_and_never_cached(self):
+        missing = nodd.urllib.error.HTTPError(URL, 404, 'Not Found', {}, None)
+        nodd._RECORDS.clear()
+        with patch.object(nodd.urllib.request, 'urlopen', side_effect=missing) as request, patch.object(nodd.time, 'sleep') as sleep:
+            with self.assertRaisesRegex(RuntimeError, '404.*Source:'):
+                nodd.read_channel_args((URL, CONFIG, REF, VALID, REACHES))
+        self.assertEqual(request.call_count, 3)
+        self.assertEqual(sleep.call_count, 2)
+        self.assertFalse(nodd._RECORDS)
+
+    def test_head_transient_network_and_server_errors_are_retried(self):
+        errors = [nodd.urllib.error.URLError('connection reset'), TimeoutError('timed out')]
+        errors += [nodd.urllib.error.HTTPError(URL, code, 'Unavailable', {}, None)
+                   for code in [408, 429, 500, 502, 503, 504]]
+        for error in errors:
+            with self.subTest(error=error):
+                response = Response(**{'Content-Length': '10', 'ETag': '"fixed"'})
+                with patch.object(nodd.urllib.request, 'urlopen', side_effect=[error, response]) as request, patch.object(nodd.time, 'sleep') as sleep:
+                    with nodd.RangeFile(URL) as source:
+                        self.assertEqual(source.size, 10)
+                self.assertEqual(request.call_count, 2)
+                sleep.assert_called_once_with(15)
+
+    def test_head_other_http_errors_do_not_wait_for_publication(self):
+        for status in [401, 403, 412]:
+            with self.subTest(status=status):
+                error = nodd.urllib.error.HTTPError(URL, status, 'Rejected', {}, None)
+                with patch.object(nodd.urllib.request, 'urlopen', side_effect=error) as request, patch.object(nodd.time, 'sleep') as sleep:
+                    with self.assertRaises(nodd.urllib.error.HTTPError):
+                        nodd.RangeFile(URL)
+                self.assertEqual(request.call_count, 1)
+                sleep.assert_not_called()
+
+    def test_head_retry_does_not_accept_invalid_metadata(self):
+        for headers in [{'Content-Length': '10'}, {'Content-Length': '0', 'ETag': '"fixed"'}]:
+            with self.subTest(headers=headers):
+                missing = nodd.urllib.error.HTTPError(URL, 404, 'Not Found', {}, None)
+                with patch.object(nodd.urllib.request, 'urlopen', side_effect=[missing, Response(**headers)]) as request, patch.object(nodd.time, 'sleep') as sleep:
+                    with self.assertRaises(ValueError):
+                        nodd.RangeFile(URL)
+                self.assertEqual(request.call_count, 2)
+                sleep.assert_called_once_with(15)
+
     def test_ignored_range_or_truncated_bytes_rejected(self):
         for result in [Response(b'abc',200),Response(b'abc',206,**{'Content-Range':'bytes 0-9/10'})]:
             with self.subTest(status=result.status):
