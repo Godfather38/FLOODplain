@@ -147,6 +147,20 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(p['dispatch'], 'accepted')
         self.assertEqual(g.state['cases']['gates']['dispatchStatus'], 'accepted')
 
+    def test_busy_snapshot_precedes_summaries_to_avoid_completion_race(self):
+        g = FakeGitHub(); reads = []
+        def read_file(path):
+            reads.append(path)
+            return None, None
+        def busy():
+            reads.append('busy')
+            return set(CASES)
+        g.read_file, g.busy_cases = read_file, busy
+        p = refresh(g, rain(), NOW, dispatch=True)
+        self.assertEqual(p['run'], [])
+        self.assertLess(reads.index('busy'), reads.index('all-route/northern/compact/road-forecast.json'))
+        self.assertEqual(g.events, [])
+
     def test_read_failure_does_not_dispatch(self):
         g = FakeGitHub(fail_read=True)
         with self.assertRaises(RuntimeError): refresh(g, rain(), NOW, dispatch=True)

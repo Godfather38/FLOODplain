@@ -187,9 +187,12 @@ def refresh(github, rain, now, *, dispatch=False, ref='experiment/all-route-mode
     state = state or {'schemaVersion': 1, 'cases': {}}
     if state.get('schemaVersion') != 1 or not isinstance(state.get('cases'), dict):
         raise ValueError('Invalid high-res attempt ledger; refusing duplicate dispatch risk')
+    # Snapshot activity first. A case completing during these reads stays busy
+    # for this poll rather than looking idle against its older summary.
+    busy = github.busy_cases()
     summaries = {case: github.read_file(f'all-route/{case}/compact/road-forecast.json')[0]
                  for case in CASES}
-    plan = plan_refresh(rain, summaries, state, github.busy_cases(), now)
+    plan = plan_refresh(rain, summaries, state, busy, now)
     plan['dispatch'] = 'not_requested'
     if dispatch and plan['run']:
         reserved, reserved_sha = github.reserve(plan, state, state_sha, ref)
