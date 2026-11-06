@@ -152,7 +152,7 @@ class PackageTests(unittest.TestCase):
 
 class WorkflowTests(unittest.TestCase):
     def setUp(self):
-        source = Path('.github/workflows/live-all-route.yml').read_text()
+        source = self.source = Path('.github/workflows/live-all-route.yml').read_text()
         self.blocks = []
         for name, end in [('Run the solver', '      - name: Export and publish'),
                           ('Export and publish', '      - uses: actions/upload-artifact@v4')]:
@@ -199,6 +199,14 @@ esac''')
         self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertFalse((self.root / 'published').exists())
         self.assertEqual((self.root / 'previous-model').read_text(), 'original')
+
+    def test_check_checkout_includes_workflow_harness_inputs(self):
+        check = self.source.split('\n  check:\n', 1)[1].split('\n  run:\n', 1)[0]
+        checkout = check.split('      - uses: actions/checkout@v4\n', 1)[1].split('      - uses:', 1)[0]
+        lines = checkout.splitlines()
+        self.assertIn('          sparse-checkout: |', lines)
+        self.assertIn('            tools/live', lines)
+        self.assertIn('            .github/workflows', lines)
 
     def test_complete_validated_workflow_publishes(self):
         result = self.run_workflow()

@@ -56,10 +56,12 @@ jobs:
       cycle: ${{ steps.check.outputs.cycle }}
       cases: ${{ steps.check.outputs.cases }}
     steps:
-      # The repository carries large case archives; the check needs only tools/live.
+      # Keep large case archives out; workflow harness tests also read the workflow.
       - uses: actions/checkout@v4
         with:
-          sparse-checkout: tools/live
+          sparse-checkout: |
+            tools/live
+            .github/workflows
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
