@@ -7,9 +7,15 @@ main branch is changed by this exporter.
 
 ## Input and spatial binding
 
-`road-stations/routes.bin.gz` is an unmodified, 84,758-byte copy of the published
-app's route height tile. `road-stations/source.json` pins its hash, source commit,
-original path, source manifest hash and counts. The tile has centimeter-quantized
+`road-stations/routes.bin.gz` is an 85,021-byte derivative of the published
+app's route height tile. Only two missing Gates road heights have been recovered
+from measured USGS 2021 pixels. All 66,483 previously valid heights, coordinates,
+station distances and original header metadata remain unchanged.
+`road-stations/source.json` pins the corrected hash and counts; `baseSource`
+retains the original hash, source commit, path and source manifest hash. Its
+`repairs` entry binds the evidence and raw source-pixel window. See
+`road-stations/repairs/README.md` for the exact source, method and backfill guard.
+The tile has centimeter-quantized
 NAVD88 lidar-derived road elevations, lidar bridge decks, approach-estimated decks
 and explicit missing-height flags. Its original provenance and attribution are
 included in each summary. Only route lines are used, not the tile's freeways.

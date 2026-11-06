@@ -185,7 +185,8 @@ class SourceAndIntegrationTests(unittest.TestCase):
         for case in CASE_ROUTES:
             routes, source, metadata = load_roads(case)
             ids.update(routes)
-            self.assertEqual(source['sha256'], '94a2693e697bf4ded78f3853d920aad6d2fbee16db584194ad2f5bb1fc34ee97')
+            self.assertEqual(source['sha256'], 'dc8dcf3e5420f623444c534a005e2dbd8225f1ae890edc9baa0b956b233efe99')
+            self.assertEqual(source['baseSource']['sha256'], '94a2693e697bf4ded78f3853d920aad6d2fbee16db584194ad2f5bb1fc34ee97')
             self.assertIn('NAVD88', metadata['elevation'])
         self.assertEqual(len(ids), 8)
 
