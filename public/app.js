@@ -14,7 +14,8 @@ import { savedRoutes, toggleSavedRoute, checkAge, countyTime, plainAge, plainWor
 import * as cfg from './config.js?v=dev';
 import { getJson } from './network.js?v=dev';
 import { loadGaugeReadings } from './gauge-feed.js?v=dev';
-import { resolveScreen } from './routing.js?v=dev';
+import { resolveScreen, routeAreaForHash } from './routing.js?v=dev';
+import { conditionsNotEstablished, groupRoutePoints } from './route-status.js?v=dev';
 import { UNDERPASSES } from './underpasses.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl, parseCountyClosures,
@@ -263,7 +264,7 @@ function angelText(r) {
 }
 const topIssue = (r) => {
   const a = againstIt(r)[0];
-  return a ? `${a.short}: ${a.why}` : 'Nothing working against it';
+  return a ? `${a.short}: ${a.why}` : r.points.some(conditionsNotEstablished) ? 'Conditions not established' : 'No warning in available data';
 };
 function bridgeCardEvidence(p) {
   const c=p.checks.find(c=>c.heightComparison?.status==='estimated'),h=c?.heightComparison;
@@ -346,8 +347,7 @@ function homeScreen() {
 function routeScreen(rid) {
   const r = view.byId[rid];
   const info = ROUTE_INFO[rid];
-  const flagged = r.points.filter((p) => pointScore(p) !== 1);
-  const normal = r.points.filter((p) => pointScore(p) === 1);
+  const { concerns, unestablished, quiet } = groupRoutePoints(r.points, pointScore);
   // A barricade between crossings has no stretch page; its row states the county's own words.
   const row = (p) => p.routeBarricade ? `
     <div class="row">
@@ -370,8 +370,9 @@ function routeScreen(rid) {
       ${closed ? '' : `<div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(r))}</p></div>`}
     </article>
     ${saveButton(rid)}<p id="save-notice" class="meta" role="status">${esc(saveNotice)}</p>
-    ${flagged.length ? `<h3 class="section">Working against it</h3><div class="list">${flagged.map(row).join('')}</div>` : ''}
-    ${normal.length ? `<h3 class="section">${flagged.length ? 'Looks normal' : 'Every stretch looks normal'}</h3><div class="list">${normal.map(row).join('')}</div>` : ''}
+    ${concerns.length ? `<h3 class="section">Warnings and concerns</h3><div class="list">${concerns.map(row).join('')}</div>` : ''}
+    ${unestablished.length ? `<h3 class="section">Conditions not established</h3><div class="list">${unestablished.map(row).join('')}</div>` : ''}
+    ${quiet.length ? `<h3 class="section">No warning in available data</h3><div class="list">${quiet.map(row).join('')}</div>` : ''}
     ${sfNote ? `<p class="fine">Flood model along this road (SFINCS): ${esc(sfNote)}</p>` : ''}
     <div class="bottom-bar">${navBtn(r)}</div>`;
 }
@@ -814,6 +815,14 @@ function sourcesScreen() {
 // ---------------- render ----------------
 function render() {
   if (!view) return;
+  const linkedArea = routeAreaForHash(location.hash, allRoutes);
+  if (linkedArea && linkedArea !== area) {
+    useArea(linkedArea);
+    mapRoute = null;
+    mapCrossing = null;
+    mapCameraSet = false;
+    view = compute(data);
+  }
   const w = where();
   const sub = w.screen !== 'home';
   $('.appbar').classList.toggle('sub', sub);
@@ -1106,7 +1115,7 @@ function registerOffline() {
 async function init() {
   loadBridgeEvidence().then(result=>{bridgeEvidence=result;if(data&&view){view=compute(data);if(!['report','alerts'].includes(where().screen))render()}});
   allRoutes = (await getJson('data/routes.geojson')).features;
-  useArea(store.get('area') ?? 'avra');
+  useArea(routeAreaForHash(location.hash, allRoutes) ?? store.get('area') ?? 'avra');
   map.fitBounds(allBounds, { animate: false });
   window.addEventListener('hashchange', () => { saveNotice = ''; openSource = null; render(); window.scrollTo(0, 0); });
   $('#back').addEventListener('click', () => {

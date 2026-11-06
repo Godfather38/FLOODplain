@@ -90,6 +90,39 @@ try{
   assert.deepEqual(errors,[],'route-first rendering must not dereference the model module before it loads');
   await context.close();
  });
+ await check('route deep links override the saved area on startup, reload and browser history',async()=>{
+  const {context,page,errors}=await freshPage();
+  await page.addInitScript(()=>localStorage.setItem('area',JSON.stringify('avra')));
+  await page.goto(origin+'/#/r/pr-gates');await ready(page);
+  await page.waitForFunction(()=>document.querySelector('#title')?.textContent==='Gates Pass');
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('area'))),'picture-rocks');
+  await page.reload();await ready(page);
+  await page.waitForFunction(()=>document.querySelector('#title')?.textContent==='Gates Pass');
+  await page.goto(origin+'/#/r/trico');
+  await page.waitForFunction(()=>document.querySelector('#title')?.textContent==='Trico-Marana');
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('area'))),'avra');
+  await page.goBack();
+  await page.waitForFunction(()=>document.querySelector('#title')?.textContent==='Gates Pass');
+  await page.goForward();
+  await page.waitForFunction(()=>document.querySelector('#title')?.textContent==='Trico-Marana');
+  await page.goto(origin+'/#/r/pr-ina/sc-ina');
+  await page.waitForFunction(()=>document.querySelector('#title')?.textContent==='Ina Rd river bridge');
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('area'))),'picture-rocks');
+  await page.goto(origin+'/#/r/trico/sc-ina');
+  await page.waitForFunction(()=>document.querySelector('#title')?.textContent==='Trico-Marana');
+  assert.deepEqual(errors,[]);await context.close();
+ });
+ await check('missing crossing evidence is separated from quiet data without claiming normal road conditions',async()=>{
+  const {context,page,errors}=await freshPage();
+  await page.goto(origin+'/#/r/avra');await ready(page);
+  await page.waitForFunction(()=>document.querySelector('#screen')?.textContent.includes('Conditions not established'));
+  const screen=await page.innerText('#screen');
+  assert.match(screen,/Conditions not established/);
+  assert.doesNotMatch(screen,/Every stretch looks normal|Looks normal/);
+  const unknown=page.locator('h3.section').filter({hasText:'Conditions not established'});
+  assert.match(await unknown.locator('xpath=following-sibling::div[1]').innerText(),/Avra Valley Rd river bridge/);
+  assert.deepEqual(errors,[]);await context.close();
+ });
  await check('incomplete county row reports its gap without losing the usable closure',async()=>{
   const {context,page,errors}=await freshPage();
   const gap=JSON.parse(readFileSync(join(repo,'test/fixtures/county-incomplete-2026-11-05.json'),'utf8')).features[0];
