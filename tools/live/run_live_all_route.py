@@ -17,6 +17,7 @@ import h5py, numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from run_live_sfincs import ISO, SPIN, AHEAD, apcp_hour, newest_cycle, nwm_hourly, regrid, utm_to_lonlat
+from export_road_forecast import RoadForecast
 
 CASES = Path(__file__).resolve().parent / 'all-route-cases.json'
 SHOW_BACK, DTOUT, MARGIN_DEG = 3, 1800, 0.05
@@ -124,6 +125,7 @@ def export(name, work, out, run_id=None):
     ids = np.load(face); order = np.argsort(ids)
     if not np.array_equal(ids[order], np.arange(len(ids))): raise ValueError('Face mapping is not a permutation of mesh faces')
     shutil.copyfile(geom, out / 'geometry.bin.gz')
+    road_forecast = RoadForecast.load(name, geom, c['geometry']['sha256'])
     run_id = run_id or f"{c['modelVersion']}-live-{meta['hrrrCycle'][:13].replace('-', '').replace('T', '-')}z"
     frames = []
     with h5py.File(work / 'sfincs_map.nc', 'r') as f:
@@ -134,6 +136,7 @@ def export(name, work, out, run_id=None):
             for key, var in (('nativeVolumeM3', 'subgrid_volume'), ('waterSurfaceM', 'zs')):
                 v = f[var][i].astype('float32'); v[v == np.float32(-99999.0)] = np.nan; cols[key] = v[order]
             frames.append(dict(time=t, **pack(out / f'frame-{i}.bin.gz', {'schemaVersion': 1, 'runId': run_id, 'geometrySha256': c['geometry']['sha256'], 'time': t}, cols)))
+            road_forecast.add_frame(t, cols['nativeVolumeM3'], cols['waterSurfaceM'])
         status = [int(v) for v in f['status'][()].ravel()] if 'status' in f else None
         runtime = float(np.ravel(f['total_runtime'][()])[0]) if 'total_runtime' in f else None
     log = (work / 'solver.log').read_text(errors='replace') if (work / 'solver.log').exists() else ''
@@ -148,6 +151,7 @@ def export(name, work, out, run_id=None):
                 'flowNotes': meta.get('flowNotes', []), 'caseArchiveSha256': c['archiveSha256'], 'issuedAt': ISO(dt.datetime.now(dt.timezone.utc)),
                 'uncertainty': {'status': 'not_quantified', 'plusMinus': None},
                 'limits': 'Model forecast from public forcing, not observed water. Cold start: soil and channel state come only from the 45 h warm-up. No bridge or culvert openings. 6.25 m road cells are not validated road depth.'}
+    manifest['roadForecast'] = road_forecast.write(out / 'road-forecast.json', manifest)
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=1) + '\n')
     print(json.dumps({k: manifest[k] for k in ('runId', 'status', 'validFrom', 'validTo')} | {'frames': len(frames)}))
 

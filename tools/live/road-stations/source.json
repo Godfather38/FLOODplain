@@ -1,0 +1,15 @@
+{
+  "tier": "routes",
+  "path": "routes.bin.gz",
+  "sha256": "94a2693e697bf4ded78f3853d920aad6d2fbee16db584194ad2f5bb1fc34ee97",
+  "bytes": 84758,
+  "decodedBytes": 1271809,
+  "lineCount": 244,
+  "stationCount": 66485,
+  "repository": "Godfather38/FLOODplain",
+  "sourceCommit": "18bd493b9e15010357532c6805731f5663c89c1c",
+  "sourcePath": "public/simulation/data/road-heights/routes.bin.gz",
+  "sourceManifestPath": "public/simulation/data/road-heights/manifest.json",
+  "sourceManifestSha256": "80d025260d44ee59c3c67dcf3f1d04564da6c9d0b759a9c6beed5912b5f43c74",
+  "meaning": "Unmodified route/freeway station tile from the published app. Only kind=route stations belonging to each all-route case are used. Unknown heights are retained in coverage counts."
+}
