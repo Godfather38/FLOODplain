@@ -74,7 +74,7 @@ test('overall daily budget stops texts and emails the owner once', () => {
   const t = setup();
   t.props.set('budget', '2026-11-02 150');
   const r = t.post({ action: 'signup', phone: '5205550133', times: ['06:00'] });
-  assert.equal(r.ok, true);
+  assert.equal(r.ok, false, 'do not claim a code was sent when budget prevents it');
   assert.equal(t.sent.length, 0, 'no text sent past budget');
   assert.equal(t.mails.filter((m) => /budget/.test(m.subject)).length, 1);
 });
@@ -184,7 +184,7 @@ test('waitlist: no text while Twilio is off; one text each once it is on; stop r
   minute(t.clock); t.api.tick();
   assert.equal(t.sent.length, 1);
   assert.equal(t.sent[0].to, '+15205550177');
-  assert.match(t.sent[0].body, /every carrier/);
+  assert.match(t.sent[0].body, /all-carrier signup/);
   minute(t.clock); t.api.tick();
   assert.equal(t.sent.length, 1, 'only once');
 });

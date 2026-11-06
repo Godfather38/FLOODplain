@@ -1376,7 +1376,7 @@ const CONFIG = {
   NTFY: "https://ntfy.sh/washwatch",
   MAX_NEW_SIGNUPS_PER_DAY: 40
 };
-const HEADER = ["phone", "times", "days", "mode", "verified", "code", "code_sent", "last_sent", "created", "key", "sent_day", "sent_count", "codes_day", "area"];
+const HEADER = ["phone", "times", "days", "mode", "verified", "code", "code_sent", "last_sent", "created", "key", "sent_day", "sent_count", "codes_day", "area", "consent_version", "consent_at"];
 const KEYS_HEADER = ["key", "texts_per_day", "note"];
 const C = { phone: 1, times: 2, days: 3, mode: 4, verified: 5, code: 6, codeSent: 7, lastSent: 8, created: 9, key: 10, sentDay: 11, sentCount: 12, codesDay: 13, area: 14 };
 const AREA_IDS = ["avra", "picture-rocks"];
@@ -1513,11 +1513,17 @@ function signup_(phone, b) {
     keep[C.sentDay - 1] || "",
     keep[C.sentCount - 1] || 0,
     `${today} ${codesToday + 1}`,
-    validArea_(b.area)
+    validArea_(b.area),
+    b.consentVersion === "2026-11-06" ? b.consentVersion : "legacy-button",
+    /* @__PURE__ */ new Date()
   ];
+  sh.getRange(1, 1, 1, HEADER.length).setValues([HEADER]);
   if (row) sh.getRange(row, 1, 1, HEADER.length).setValues([values]);
   else sh.appendRow(values);
-  text_(phone, `FLOODplain code: ${code}. Enter it in the app to start your texts. If you didn't ask for this, ignore it.`, true);
+  if (!text_(phone, `FLOODplain code: ${code}. Enter it in the app to start texts. Expires in 10 minutes. Msg & data rates may apply. ${textHelp_()}`, true)) {
+    sh.getRange(row || sh.getLastRow(), C.code).setValue("");
+    return { ok: false, error: "We could not confirm that the text provider accepted the code. Check your number and try again after 2 minutes. If you replied STOP, send START or UNSTOP to the toll-free sender first." };
+  }
   return { ok: true, step: "confirm" };
 }
 function request_(b) {
@@ -1532,7 +1538,7 @@ function request_(b) {
   props.setProperty("requests", `${today} ${count + 1}`);
   MailApp.sendEmail(
     Session.getEffectiveUser().getEmail(),
-    "FLOODplain: request for more texts",
+    b.purpose === "support" ? "FLOODplain: support request" : "FLOODplain: request for more texts",
     `From: ${contact}
 
 ${message2}
@@ -1603,11 +1609,14 @@ function keyLimit_(key) {
 function confirm_(phone, code) {
   const sh = sheet_();
   const row = findRow_(sh, phone);
-  if (!row || String(sh.getRange(row, C.code).getValue()) !== code) return { ok: false, error: "That code doesn't match." };
-  sh.getRange(row, C.verified).setValue(true);
+  if (!row || !/^\d{4}$/.test(code) || String(sh.getRange(row, C.code).getValue()) !== code) return { ok: false, error: "That code doesn't match." };
+  if (sh.getRange(row, C.verified).getValue() === true) return { ok: true, step: "done" };
+  if (Date.now() - Number(sh.getRange(row, C.codeSent).getValue()) > 10 * 60 * 1e3) return { ok: false, error: "That code expired. Request a new code." };
   const times = String(sh.getRange(row, C.times).getValue()).split(",").map(label_).join(" & ");
   const days = daysLabel_(String(sh.getRange(row, C.days).getValue()));
-  text_(phone, `FLOODplain texts are on: ${times}, ${days}. To stop, use Stop texts in the app's Alerts screen.`);
+  const limit = String(sh.getRange(row, C.times).getValue()).split(",").length;
+  if (!text_(phone, `FLOODplain texts are on: ${times}, ${days}. Up to ${limit} alerts/day. Msg & data rates may apply. ${textHelp_()}`)) return { ok: false, error: "We could not confirm provider acceptance of the confirmation. Texts are not activated. Try again later." };
+  sh.getRange(row, C.verified).setValue(true);
   return { ok: true, step: "done" };
 }
 function stop_(phone) {
@@ -1627,7 +1636,7 @@ function waitSheet_() {
   let w = ss.getSheetByName("waitlist");
   if (!w) {
     w = ss.insertSheet("waitlist");
-    w.appendRow(["phone", "area", "joined", "texted"]);
+    w.appendRow(["phone", "area", "joined", "texted", "consent_version"]);
   }
   return w;
 }
@@ -1640,7 +1649,8 @@ function waitlist_(phone, b) {
   const count = day === today ? Number(n) || 0 : 0;
   if (count >= 100) return { ok: false, error: "Lots of sign-ups today. Try tomorrow." };
   props.setProperty("waitlist", `${today} ${count + 1}`);
-  ws.appendRow([phone, validArea_(b.area), /* @__PURE__ */ new Date(), ""]);
+  ws.getRange(1, 5).setValue("consent_version");
+  ws.appendRow([phone, validArea_(b.area), /* @__PURE__ */ new Date(), "", b.consentVersion === "2026-11-06" ? b.consentVersion : "legacy-button"]);
   return { ok: true, step: "waitlisted" };
 }
 function notifyWaitlist_() {
@@ -1650,7 +1660,7 @@ function notifyWaitlist_() {
   for (let i = 0; i < rows.length && sent < 30; i++) {
     if (rows[i][3]) continue;
     const phone = String(rows[i][0]);
-    if (!text_(phone, `FLOODplain: texts now work on every carrier. You asked to hear when. Sign up here: ${CONFIG.APP_URL}#/alerts . This is the only waitlist text; nothing more unless you sign up.`)) return;
+    if (!text_(phone, `FLOODplain: all-carrier signup is available: ${CONFIG.APP_URL}#/alerts . Your one requested waitlist text; no recurring alerts unless you sign up. Msg & data rates may apply. Reply STOP to cancel, HELP for help.`)) return;
     ws.getRange(i + 2, 4).setValue(/* @__PURE__ */ new Date());
     sent += 1;
   }
@@ -1731,7 +1741,10 @@ function tick() {
       if (r[C.mode - 1] === "off" && fresh && !v.off) continue;
       let count = r[C.sentDay - 1] === m.day ? Number(r[C.sentCount - 1]) || 0 : 0;
       if (count >= limit) continue;
-      if (!text_(phone, msg)) continue;
+      const branded = /^FLOODplain\b/.test(msg) ? msg : `FLOODplain: ${msg}`;
+      const footer = textHelp_();
+      const summary = branded.length + footer.length + 1 > 320 ? branded.slice(0, 316 - footer.length) + "..." : branded;
+      if (!text_(phone, `${summary} ${footer}`)) continue;
       count += 1;
       r[C.sentDay - 1] = m.day;
       r[C.sentCount - 1] = count;
@@ -2034,6 +2047,9 @@ function twilio_() {
   }
   return from ? { sid, token, from } : null;
 }
+function textHelp_() {
+  return twilio_() ? "Reply STOP to cancel, HELP for help." : `Stop or get help: ${CONFIG.APP_URL}support.html`;
+}
 function text_(phone, body, isCode) {
   const props = PropertiesService.getScriptProperties();
   const today = today_();
@@ -2053,17 +2069,34 @@ function text_(phone, body, isCode) {
   props.setProperty("budget", `${today} ${used + 1}`);
   const t = twilio_();
   if (t) {
-    UrlFetchApp.fetch(`https://api.twilio.com/2010-04-01/Accounts/${t.sid}/Messages.json`, {
-      method: "post",
-      muteHttpExceptions: true,
-      headers: { Authorization: "Basic " + Utilities.base64Encode(`${t.sid}:${t.token}`) },
-      payload: { To: `+1${phone}`, From: t.from, Body: body.slice(0, 320) }
-    });
-    return true;
+    try {
+      const response = UrlFetchApp.fetch(`https://api.twilio.com/2010-04-01/Accounts/${t.sid}/Messages.json`, {
+        method: "post",
+        muteHttpExceptions: true,
+        headers: { Authorization: "Basic " + Utilities.base64Encode(`${t.sid}:${t.token}`) },
+        payload: { To: `+1${phone}`, From: t.from, Body: body }
+      });
+      const status = response.getResponseCode();
+      const result = JSON.parse(response.getContentText());
+      if (Number(result.code || result.error_code) === 21610) {
+        const subscribers = sheet_(), row = findRow_(subscribers, phone);
+        if (row) subscribers.getRange(row, C.verified).setValue(false);
+        const waiting = waitSheet_(), waitRow = findRow_(waiting, phone);
+        if (waitRow) waiting.getRange(waitRow, 4).setValue("opted out");
+      }
+      return status >= 200 && status < 300 && !!result.sid && !result.error_code && !["failed", "undelivered", "canceled"].includes(result.status);
+    } catch (err) {
+      return false;
+    }
   }
+  if (props.getProperty("TWILIO_APPROVED") === "yes") return false;
   if (MailApp.getRemainingDailyQuota() < 1) return false;
-  MailApp.sendEmail({ to: `${phone}@${CONFIG.GATEWAY}`, subject: "", body: body.slice(0, 300), name: "FLOODplain" });
-  return true;
+  try {
+    MailApp.sendEmail({ to: `${phone}@${CONFIG.GATEWAY}`, subject: "", body, name: "FLOODplain" });
+    return true;
+  } catch (err) {
+    return false;
+  }
 }
 function sheet_() {
   const props = PropertiesService.getScriptProperties();

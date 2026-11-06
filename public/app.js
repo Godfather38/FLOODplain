@@ -551,12 +551,12 @@ function alertsScreen() {
     ? '<p class="fine" style="text-align:left;margin:0">Text sign-up is being connected. Use the free phone notification below until then.</p>'
     : textFlow.step === 'confirm'
       ? `<label class="field">Code we texted to ${esc(textFlow.phone)}<input id="t-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="4"></label>
-         <button type="button" class="btn btn-primary" id="t-confirm">Start texts</button>`
+         <button type="button" class="btn btn-primary" id="t-confirm">Start texts</button><button type="button" class="btn btn-text" id="t-back">Change number or request another code</button>`
       : textFlow.step === 'done'
-        ? `<p>Texts are on for ${esc(textFlow.phone)}. A confirmation text is on its way.</p>`
+        ? `<p>Texts are on for ${esc(textFlow.phone)}. The provider accepted your confirmation text. Delivery can be delayed.</p>`
         : `<label class="field">${textFlow.sender === 'any' ? 'Mobile number' : 'Mobile number on Verizon’s towers'}<input id="t-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123" value="${esc(textFlow.phone)}"></label>
            <label class="field">Access key (optional, for more than 2 texts a day)<input id="t-key" type="text" autocomplete="off" value="${esc(textFlow.key ?? '')}"></label>
-           <p class="consent">By tapping <b>Text me a code</b>, you agree to get recurring FLOODplain road-flooding texts: one text at each time you pick, at most 4 msgs/day, plus a one-time sign-up code. Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. No marketing; your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
+           <p class="consent">By tapping <b>Text me a code</b>, you agree to get recurring FLOODplain road-flooding texts: one text at each time you pick, up to 2 scheduled alerts/day (up to 4 with an access key), plus requested verification codes and a signup confirmation. Message and data rates may apply. ${textFlow.sender === 'any' ? 'Reply STOP to cancel, HELP for help.' : 'During the Verizon beta, use Stop texts below or Support; replies to the email gateway are not monitored.'} No marketing. SMS opt-in data and consent are not shared for third-party marketing. <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>. <a href="support.html" target="_blank" rel="noopener">Support</a>.</p>
            <button type="button" class="btn btn-primary" id="t-signup">Text me a code</button>
            <button type="button" class="btn btn-text" id="t-stop">Stop texts for this number</button>`;
   return `<div class="page">
@@ -611,7 +611,7 @@ function alertsScreen() {
     ${textFlow.waitMsg ? `<p class="note">${esc(textFlow.waitMsg)}</p>` : ''}
     ${textFlow.waitDone ? '' : `<p>Leave your number and we'll send <b>one text</b> when texts work on every carrier. Then you sign up here like anyone else.</p>
     <label class="field">Mobile number<input id="w-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="520 555 0123"></label>
-    <p class="consent">By tapping <b>Join the waitlist</b>, you agree to get one FLOODplain text when texts open to all carriers. No other texts unless you sign up. Msg &amp; data rates may apply. Your number is never shared. <a href="#/privacy">Privacy &amp; terms</a></p>
+    <p class="consent">By tapping <b>Join the waitlist</b>, you agree to get one FLOODplain text when texts open to all carriers. No other texts unless you sign up. Message and data rates may apply. Reply STOP to cancel, HELP for help when the toll-free text arrives. Before then, use Stop texts above to leave the waitlist. No marketing; SMS opt-in data and consent are not shared for third-party marketing. <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>. <a href="support.html" target="_blank" rel="noopener">Support</a>.</p>
     <button type="button" class="btn btn-primary" id="w-join">Join the waitlist</button>`}
   </div>` : ''}
   ${cfg.TEXT_API ? `<h3 class="section">Need more texts?</h3>
@@ -627,6 +627,7 @@ function alertsScreen() {
 
 async function textApi(body) {
   const r = await fetch(cfg.TEXT_API, { method: 'POST', body: JSON.stringify(body), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
+  if (!r.ok) throw new Error("Text service unavailable");
   return r.json();
 }
 function wireAlerts() {
@@ -686,16 +687,23 @@ function wireAlerts() {
   $('#a-mode')?.addEventListener('change', (e) => { a.mode = e.target.value; save(); });
   $('#a-instant')?.addEventListener('change', (e) => { a.instant = e.target.checked; save(); });
   const run = async (body, next) => {
+    if (textFlow.busy) return false;
+    textFlow.busy = true;
+    let ok = false;
     textFlow.msg = 'Working…'; render();
     try {
       const r = await textApi(body);
+      ok = r.ok === true;
       textFlow = r.ok ? { ...textFlow, step: next, msg: '' } : { ...textFlow, msg: r.error || 'Something went wrong.' };
     } catch { textFlow.msg = 'Couldn’t reach the text service. Try again in a minute.'; }
+    textFlow.busy = false;
     render();
+    return ok;
   };
+  $('#t-back')?.addEventListener('click', () => { if (!textFlow.busy) { textFlow.step = 'start'; textFlow.msg = ''; render(); } });
   $('#t-signup')?.addEventListener('click', () => {
     textFlow.phone = $('#t-phone').value.trim(); textFlow.key = $('#t-key')?.value.trim() ?? '';
-    run({ action: 'signup', phone: textFlow.phone, area, key: textFlow.key, times: a.times, days: a.days, mode: a.mode }, 'confirm');
+    run({ action: 'signup', consentVersion: '2026-11-06', phone: textFlow.phone, area, key: textFlow.key, times: a.times, days: a.days, mode: a.mode }, 'confirm');
   });
   $('#r-send')?.addEventListener('click', async () => {
     try {
@@ -704,16 +712,17 @@ function wireAlerts() {
     } catch { textFlow.reqMsg = 'Couldn’t reach the text service. Try again in a minute.'; }
     render();
   });
-  $('#w-join')?.addEventListener('click', async () => {
+  $('#w-join')?.addEventListener('click', async (e) => {
+    e.currentTarget.disabled = true;
     const phone = $('#w-phone').value.trim();
     try {
-      const r = await textApi({ action: 'waitlist', phone, area });
+      const r = await textApi({ action: 'waitlist', consentVersion: '2026-11-06', phone, area });
       textFlow.waitMsg = r.ok ? `You're on the waitlist (${phone}). One text when texts work on every carrier.` : (r.error || 'Something went wrong.');
       textFlow.waitDone = !!r.ok;
     } catch { textFlow.waitMsg = 'Couldn’t reach the text service. Try again in a minute.'; }
     render();
   });
-  $('#t-stop')?.addEventListener('click', () => { textFlow.phone = $('#t-phone').value.trim(); run({ action: 'stop', phone: textFlow.phone }, 'start').then(() => { textFlow.msg = 'If that number was signed up, its texts are stopped.'; render(); }); });
+  $('#t-stop')?.addEventListener('click', () => { textFlow.phone = $('#t-phone').value.trim(); run({ action: 'stop', phone: textFlow.phone }, 'start').then((ok) => { if (ok) { textFlow.msg = 'If that number was signed up, its texts and waitlist entry are stopped.'; render(); } }); });
   $('#t-confirm')?.addEventListener('click', () => run({ action: 'confirm', phone: textFlow.phone, code: $('#t-code').value.trim() }, 'done'));
 }
 
@@ -785,24 +794,7 @@ function updatesScreen() {
   <div class="page"><ul>${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>`).join('');
 }
 
-function privacyScreen() {
-  return `<div class="page">
-    <h4>What you get</h4>
-    <p>FLOODplain is a free, non-commercial road-flooding guide for Avra Valley, AZ. If you sign up for texts, you get a short message with the current flood risk for the routes between Avra Valley and I-10, one text at each time you choose, at most 4 texts a day, plus a one-time sign-up code. No marketing.</p>
-    <h4>Signing up and stopping</h4>
-    <p>You sign up on the Alerts page and confirm with a 4-digit code we text you. To stop, reply <b>STOP</b> to any message or use <b>Stop texts</b> on the Alerts page. Reply <b>HELP</b> for help. Message and data rates may apply. Carriers aren't liable for delayed or undelivered messages.</p>
-    <h4>Your information</h4>
-    <p>We keep only your phone number, the times and days you chose, and when we last texted you. It's stored privately by the person who runs FLOODplain and used only to send these texts. It's never sold, shared or used for marketing. Stopping texts deletes your number.</p>
-    <h4>Error reports</h4>
-    <p>When the app hits an error, a download fails or the page freezes, it sends a short report so the problem can be fixed: the kind of device and browser, the screen size, what was tapped just before, and the error. It never includes your location, phone number or anything you typed. Reports go to a public notification channel, so nothing private is ever put in them.</p>
-    <h4>Text waitlist</h4>
-    <p>If you join the waitlist, we keep your number and the date you joined, and send you exactly one text when texts work on every carrier. Nothing else unless you then sign up. To leave the waitlist, use <b>Stop texts for this number</b> on the Alerts page.</p>
-    <h4>No guarantee</h4>
-    <p>Ratings come from public, provisional data (USGS, Pima County, National Weather Service) and can be late or wrong. What you see at the crossing comes first. Never drive into water crossing the road.</p>
-    <h4>Contact</h4>
-    <p>Reply HELP to any FLOODplain text to reach the person who runs it.</p>
-  </div>`;
-}
+function privacyScreen() { return `<p><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a></p>`; }
 function sourcesScreen() {
   return `<div class="page"><h4>Where the readings come from</h4>
     <p>These are regional gauges, not sensors at every crossing. Brawley Wash drains into Los Robles, but upstream flow does not tell us the water depth or arrival time at the Los Robles crossing on Trico Road.</p>
@@ -814,7 +806,7 @@ function sourcesScreen() {
 
 // ---------------- render ----------------
 function render() {
-  if (!view) return;
+  if (/^#\/(privacy|terms)\/?$/.test(location.hash) || !view) return;
   const linkedArea = routeAreaForHash(location.hash, allRoutes);
   if (linkedArea && linkedArea !== area) {
     useArea(linkedArea);
