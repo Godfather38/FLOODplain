@@ -142,12 +142,20 @@ jobs:
           echo "PREPARE_SECONDS=$(( $(date +%s) - s ))" >> "$GITHUB_ENV"
       - name: Run the solver
         run: |
+          set -euo pipefail
           s=$(date +%s)
-          (cd work && GFORTRAN_UNBUFFERED_ALL=y timeout "${{ inputs.solver_cap_seconds || '5400' }}" "$GITHUB_WORKSPACE/engine/sfincs" > solver.log 2>&1) || echo "solver exited $?"
+          if (cd work && GFORTRAN_UNBUFFERED_ALL=y timeout "${{ inputs.solver_cap_seconds || '5400' }}" "$GITHUB_WORKSPACE/engine/sfincs" > solver.log 2>&1); then
+            tail -5 work/solver.log
+          else
+            status=$?
+            tail -5 work/solver.log || true
+            echo "::error::SFINCS solver failed or timed out (exit $status); previous model retained"
+            exit "$status"
+          fi
           echo "SOLVER_SECONDS=$(( $(date +%s) - s ))" >> "$GITHUB_ENV"
-          tail -5 work/solver.log
       - name: Export and publish
         run: |
+          set -euo pipefail
           python tools/live/run_live_all_route.py export "${{ matrix.case }}" work out
           cp work/live-case.json out/
           python - <<'PY'
@@ -158,6 +166,7 @@ jobs:
           json.dump(m, open(p, 'w'), indent=1)
           print(json.dumps({k: m[k] for k in ('runId', 'status', 'validFrom', 'validTo', 'timing')}))
           PY
+          python tools/live/verify_all_route_package.py out "${{ matrix.case }}" "${{ needs.check.outputs.cycle }}"
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           bash tools/live/publish_live_model.sh out "all-route/${{ matrix.case }}/compact" "Live all-route ${{ matrix.case }} for HRRR ${{ needs.check.outputs.cycle }}"

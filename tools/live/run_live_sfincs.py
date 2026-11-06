@@ -9,7 +9,7 @@ infiltration, mask and solver settings are the stress case's, unchanged (the 19Z
   (run the pinned SFINCS engine in WORK)
   python run_live_sfincs.py export WORK OUT            # water, rain and inflow for the app
 """
-import datetime as dt, gzip, hashlib, json, shutil, sys, tarfile, time, urllib.request
+import datetime as dt, gzip, hashlib, json, math, shutil, sys, tarfile, time, urllib.request
 from pathlib import Path
 import h5py, numpy as np
 
@@ -82,20 +82,119 @@ def utm_to_lonlat(e, n):
     return np.degrees(lon) - 111.0, np.degrees(lat)
 
 
-def nwm_hourly(reach, start, hours):
-    """m3/s at start, start+1h, ... from NWM analysis (past) then short range (ahead)."""
-    flows = {}
+class NwmInputError(RuntimeError):
+    """The upstream flow data cannot support a current model run."""
+
+
+def nwm_time(value):
+    if not isinstance(value, str):
+        raise ValueError('timestamp is missing')
+    parsed = dt.datetime.fromisoformat(value.replace('Z', '+00:00'))
+    if parsed.tzinfo is None:
+        raise ValueError('timestamp has no timezone')
+    return parsed.astimezone(dt.timezone.utc).replace(tzinfo=None)
+
+
+def nwm_series(reach, series, key, tries=3, metadata=None):
+    """Retry HTTP-200 empty/malformed NWPS responses, then fail with the source named."""
+    url = NWM.format(r=reach, s=series)
+    for attempt in range(tries):
+        try:
+            body = json.loads(get(url, tries=1))
+            if not isinstance(body, dict) or str((body.get('reach') or {}).get('reachId')) != str(reach):
+                raise ValueError('response is for a missing or different reach')
+            group = body.get(key)
+            data = group.get('series') if isinstance(group, dict) else None
+            if not isinstance(data, dict):
+                raise ValueError(f'{key}.series is missing or empty')
+            reference = nwm_time(data.get('referenceTime'))
+            if reference > dt.datetime.now(dt.timezone.utc).replace(tzinfo=None) + dt.timedelta(minutes=5):
+                raise ValueError('referenceTime is in the future')
+            unit = data.get('units')
+            factors = {'ft³/s': FT3, 'ft^3/s': FT3, 'ft3/s': FT3, 'm³/s': 1.0, 'm^3/s': 1.0, 'm3/s': 1.0}
+            if unit not in factors:
+                raise ValueError(f'unknown flow units {unit!r}')
+            points = data.get('data')
+            if not isinstance(points, list) or not points:
+                raise ValueError('series has no flow readings')
+            flows = {}
+            for point in points:
+                if not isinstance(point, dict):
+                    raise ValueError('malformed flow reading')
+                t = nwm_time(point.get('validTime'))
+                if t.minute or t.second or t.microsecond:
+                    raise ValueError('flow reading is not on an exact hour')
+                value = point.get('flow')
+                if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
+                    raise ValueError(f'invalid or missing flow at {ISO(t)}')
+                flow = value * factors[unit]
+                if t in flows and flows[t] != flow:
+                    raise ValueError(f'conflicting flow readings at {ISO(t)}')
+                flows[t] = flow
+            if metadata is not None:
+                metadata.append({'url': url, 'series': series, 'referenceTime': ISO(reference),
+                                 'firstValidTime': ISO(min(flows)), 'lastValidTime': ISO(max(flows)),
+                                 'units': unit})
+            return flows
+        except (RuntimeError, ValueError, TypeError, AttributeError, OverflowError) as error:
+            if attempt + 1 == tries:
+                raise NwmInputError(f'NWM reach {reach} {series} unavailable after {tries} attempts: {error}. '
+                                    f'Source: {url}. No model run published; check upstream data availability.') from error
+            time.sleep(2 * (attempt + 1))
+
+
+def nwps_hourly(reach, start, hours, metadata=None, expected_cycle=None):
+    """Require a real finite flow for every forcing hour; never invent zero/carry values."""
+    if start.tzinfo is not None:
+        start = start.astimezone(dt.timezone.utc).replace(tzinfo=None)
+    if start.minute or start.second or start.microsecond or type(hours) is not int or hours < 0:
+        raise ValueError('NWM forcing window must contain whole hours')
+    cycle = expected_cycle if expected_cycle is not None else start + dt.timedelta(hours=SPIN)
+    if cycle.tzinfo is not None: cycle = cycle.astimezone(dt.timezone.utc).replace(tzinfo=None)
+    flows, receipts = {}, []
     for series, key in (('analysis_assimilation', 'analysisAssimilation'), ('short_range', 'shortRange')):
-        d = json.loads(get(NWM.format(r=reach, s=series)))[key]['series']
-        unit = FT3 if 'ft' in (d.get('units') or 'ft') else 1.0
-        for p in d['data']:
-            if p['flow'] is not None and p['flow'] >= 0: flows[p['validTime'][:13]] = p['flow'] * unit
-    out, missing = [], 0
-    for k in range(hours + 1):
-        t = (start + dt.timedelta(hours=k)).strftime('%Y-%m-%dT%H')
-        if t in flows: out.append(flows[t])
-        else: out.append(out[-1] if out else 0.0); missing += 1
-    return out, missing
+        source = nwm_series(reach, series, key, metadata=receipts)
+        if series == 'short_range' and nwm_time(receipts[-1]['referenceTime']) != cycle:
+            raise NwmInputError(f'NWM reach {reach} short_range reference {receipts[-1]["referenceTime"]} '
+                                f'differs from requested HRRR cycle {ISO(cycle)}. Source: {receipts[-1]["url"]}')
+        # Never overwrite historical analysis with forecasts, or extrapolate
+        # analysis readings into forecast hours when short range is unavailable.
+        flows.update({t: q for t, q in source.items() if (t <= cycle if series == 'analysis_assimilation' else t > cycle)})
+    needed = [start + dt.timedelta(hours=k) for k in range(hours + 1)]
+    missing = [t for t in needed if t not in flows]
+    if missing:
+        if not flows:
+            raise NwmInputError(f'NWM reach {reach} has no analysis hours at/before or forecast hours after '
+                                f'the requested cycle {ISO(cycle)}; no flow can be substituted.')
+        newest = max(flows)
+        kind = 'stale or too short' if newest < needed[-1] else 'incomplete'
+        raise NwmInputError(f'NWM reach {reach} forcing is {kind}: {len(missing)} of {hours + 1} required hours missing '
+                            f'({ISO(missing[0])} through {ISO(missing[-1])}); newest reading {ISO(newest)}, '
+                            f'required through {ISO(needed[-1])}. No zero or carried flow substituted; '
+                            'wait for complete upstream data or restore a verified NWM source.')
+    if metadata is not None: metadata.extend(receipts)
+    return [flows[t] for t in needed], 0
+
+
+def nwm_hourly(reach, start, hours, sources=None, all_reaches=None):
+    """Use complete NWPS data, otherwise verify NOAA's original NODD files."""
+    try:
+        receipts = []
+        values, missing = nwps_hourly(reach, start, hours, receipts)
+        source = {'provider': 'NWPS', 'reachId': str(reach), 'start': ISO(start),
+                  'end': ISO(start + dt.timedelta(hours=hours)),
+                  'hrrrCycle': ISO(start + dt.timedelta(hours=SPIN)), 'series': receipts}
+    except NwmInputError as nwps_error:
+        from nodd_flows import hourly
+        try:
+            values, source = hourly(reach, start, hours, start + dt.timedelta(hours=SPIN), all_reaches)
+        except (RuntimeError, ValueError, OSError) as nodd_error:
+            raise NwmInputError(f'{nwps_error} Official NOAA NODD fallback also failed: {nodd_error}') from nodd_error
+        source['nwpsIssue'] = str(nwps_error)
+        missing = 0
+    if sources is not None:
+        sources.append(source)
+    return values, missing
 
 
 def prepare(case_tar, work):
@@ -121,10 +220,10 @@ def prepare(case_tar, work):
             P[k, :, :] = regrid(v, la, lo, tlat, tlon)
             sources.append({'start': ISO(t), 'cycle': ISO(c), 'forecastHour': fh})
         f['Precipitation'].attrs['data_role'] = np.bytes_('hrrr_first_hour_then_forecast')
-    dis, notes = [], []
+    dis, notes, flow_sources = [], [], []
     for reach, name in REACHES:
-        q, missing = nwm_hourly(reach, start, hours); dis.append(q)
-        if missing: notes.append(f'{name}: {missing} of {hours + 1} hours carried from the nearest earlier hour')
+        q, missing = nwm_hourly(reach, start, hours, flow_sources, [r for r, _ in REACHES]); dis.append(q)
+        if flow_sources[-1]['provider'] == 'NOAA NODD': notes.append(f'{name}: verified NOAA NODD hourly files used because NWPS is unavailable or incomplete')
     with open(work / 'sfincs.dis', 'w') as o:
         for k in range(hours + 1): o.write(f'{k * 3600.0:10.1f} ' + ' '.join(f'{d[k]:9.3f}' for d in dis) + '\n')
     inp = (work / 'sfincs.inp').read_text().splitlines()
@@ -133,7 +232,7 @@ def prepare(case_tar, work):
     inp = [f'{l.split("=")[0].strip():<20} = {keys[l.split("=")[0].strip()]}' if '=' in l and l.split('=')[0].strip() in keys else l for l in inp]
     (work / 'sfincs.inp').write_text('\n'.join(inp) + '\n')
     meta = {'schemaVersion': 1, 'kind': 'live_sfincs_case', 'hrrrCycle': ISO(cycle), 'start': ISO(start), 'end': ISO(start + dt.timedelta(hours=hours)),
-            'preparedAt': ISO(dt.datetime.now(dt.timezone.utc)), 'rainSources': sources, 'flowNotes': notes,
+            'preparedAt': ISO(dt.datetime.now(dt.timezone.utc)), 'rainSources': sources, 'flowNotes': notes, 'flowSources': flow_sources,
             'method': f'Cold start {SPIN} h before the HRRR cycle; HRRR first-hour rain of each past cycle, then the cycle\'s {AHEAD} h forecast; NWM analysis then short-range flow at the two model inlets.'}
     (work / 'live-case.json').write_text(json.dumps(meta, indent=1))
     print(json.dumps({k: meta[k] for k in ('hrrrCycle', 'start', 'end', 'flowNotes')}))
@@ -175,7 +274,7 @@ def export(work, out):
     log = (work / 'solver.log').read_text(errors='replace') if (work / 'solver.log').exists() else ''
     manifest = {'schemaVersion': 1, 'kind': 'live_sfincs_run', 'runId': run_id, 'hrrrCycle': meta['hrrrCycle'], 'issuedAt': ISO(dt.datetime.now(dt.timezone.utc)),
                 'firstFrame': frames[0]['time'], 'lastFrame': frames[-1]['time'], 'frameCount': len(frames), 'finished': 'Simulation finished' in log,
-                'method': meta['method'], 'flowNotes': meta['flowNotes'],
+                'method': meta['method'], 'flowNotes': meta['flowNotes'], 'flowSources': meta.get('flowSources', []),
                 'limits': 'Model forecast from public forcing, not observed water. Cold start: soil and channel state come only from the 45 h warm-up. No bridge or culvert openings. 100 m cells.',
                 'files': {p.name: {'sha256': sha(p), 'bytes': p.stat().st_size} for p in out.iterdir() if p.name != 'manifest.json'}}
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=1))
