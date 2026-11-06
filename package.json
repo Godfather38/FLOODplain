@@ -11,6 +11,8 @@
     "preview:worker": "node worker/serve.mjs",
     "test:worker": "node --test test/cloudflare-worker.test.js test/az511.test.js test/road-event-reconciliation.test.js test/worker-site.test.js",
     "build:gas": "node tools/build_gas.mjs",
+    "build:policies": "node tools/build-policies.mjs",
+    "test:sms-browser": "node e2e/sms-compliance.mjs",
     "test:browser": "node e2e/smoke.mjs",
     "serve": "python3 -m http.server -d public 8080"
   },

@@ -1,0 +1,6 @@
+body.policy-document{font:17px/1.6 system-ui,sans-serif;color:#192c35;background:#f7faf9;margin:0;padding:24px}
+.policy-copy{max-width:760px;margin:0 auto;padding:24px;background:white;border:1px solid #d5e0df;border-radius:12px;overflow-wrap:anywhere}
+.policy-copy h1{font-size:1.8rem;line-height:1.2}.policy-copy h2{margin-top:2rem}.policy-copy a{color:#075c69;text-decoration:underline}.policy-copy nav{line-height:2}
+.policy-copy input,.policy-copy textarea,.policy-copy button{box-sizing:border-box;width:100%;font:inherit;margin:6px 0 16px;padding:12px}.policy-copy label{display:block}.policy-copy button{color:white;background:#075c69;border:0;border-radius:6px;cursor:pointer}.policy-copy button:disabled{opacity:.6}
+body.policy-open> :not(#legacy-policy):not(script){display:none!important}body.policy-open{overflow:auto!important;height:auto!important;padding:16px;background:#f7faf9}#legacy-policy{font:17px/1.6 system-ui,sans-serif;color:#192c35}#legacy-policy[hidden]{display:none}
+@media(max-width:480px){body.policy-document{padding:12px}.policy-copy{padding:18px}.policy-copy h1{font-size:1.5rem}}
