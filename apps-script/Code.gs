@@ -287,7 +287,15 @@ function notifyWaitlist_() {
 
 // ---------- every minute ----------
 function tick() {
-  try { if (!validOwnerVerdicts_(computeVerdicts_(), Date.now())) throw ownerComputeError_('Assessment output is missing or malformed; inspect the evaluator and area configuration'); } catch (err) { noteOwnerHealth_([{ id: 'compute', reason: err.ownerReason || 'Assessment computation failed', expected: 'Successful evaluation for every area', crossings: 'All configured crossings' }], Date.now()); }
+  try {
+    let all = computeVerdicts_();
+    // A valid cache hit may cross its age limit before this second check. Try a
+    // fresh computation once; normal expiry is not a malformed assessment.
+    if (!validOwnerVerdicts_(all, Date.now())) {
+      all = computeVerdicts_(true);
+      if (!validOwnerVerdicts_(all, Date.now())) throw ownerComputeError_('Assessment output is missing or malformed; inspect the evaluator and area configuration');
+    }
+  } catch (err) { noteOwnerHealth_([{ id: 'compute', reason: err.ownerReason || 'Assessment computation failed', expected: 'Successful evaluation for every area', crossings: 'All configured crossings' }], Date.now()); }
   try { ownerHealthWatch_(Date.now()); } catch (err) { /* bounded retries on later ticks */ }
 
   const now = new Date();
@@ -493,15 +501,15 @@ function countFailures_(names) {
 function transview_(method, body, ua) {
   return { url: `https://transview.org/Map.aspx/${method}`, method: 'post', contentType: 'application/json; charset=utf-8', payload: JSON.stringify(body), muteHttpExceptions: true, headers: { ...ua, Referer: 'https://transview.org/Map.aspx' } };
 }
-function computeVerdicts_() {
+function computeVerdicts_(forceRefresh = false) {
   const cache = CacheService.getScriptCache();
   if (typeof evaluate !== 'function') throw ownerComputeError_('Assessment engine unavailable; rebuild and install the complete Apps Script bundle');
-  const hit = cache.get('verdicts');
+  const hit = forceRefresh ? null : cache.get('verdicts');
   if (hit) {
     let cached;
     try { cached = JSON.parse(hit); } catch (err) { /* Rebuild an unusable cache below. */ }
     // A cache from before the SFINCS road forecast existed (just after a deploy) is rebuilt too.
-    if (validOwnerVerdicts_(cached, Date.now()) && currentRoadForecastCache_(cache.get('roadforecast'))) return cached; // Cache hits never mark compute health recovered.
+    if (currentRoadForecastCache_(cache.get('roadforecast')) && validOwnerVerdicts_(cached, Date.now())) return cached; // Cache hits never mark compute health recovered.
     // Assessment age starts before evaluation, but the cache TTL starts on put.
     // Refresh stale or invalid entries now instead of reporting a compute outage
     // until CacheService expires them. Only a validated new result can recover.

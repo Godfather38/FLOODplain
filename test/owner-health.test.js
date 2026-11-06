@@ -64,6 +64,33 @@ test('expired assessment still in the cache refreshes immediately without an out
   assert.equal(gas.api.computeVerdict_('avra').at, new Date(clock.now).toISOString());
   assert.equal(batches(), 1, 'reuse the refreshed answer within the same tick');
 });
+function crossExpiryOnSecondClockRead(clock) {
+  let value = now + 4 * 60000 - 1, reads = 0;
+  Object.defineProperty(clock, 'now', {
+    get() { if (++reads === 2) value += 2; return value; },
+    set(next) { value = next; },
+  });
+}
+test('a verdict expiring between cache selection and tick validation is refreshed, not reported malformed', () => {
+  const {gas, clock, batches} = liveSetup();
+  gas.cache.set('verdicts', JSON.stringify(cachedVerdicts()));
+  gas.cache.set('roadforecast', JSON.stringify({forecastVersion: 2}));
+  crossExpiryOnSecondClockRead(clock);
+  gas.api.tick();
+  assert.equal(gas.mails.length, 0);
+  assert.equal(batches(), 1);
+  assert.equal(gas.api.computeVerdict_('avra').at, new Date(clock.now).toISOString());
+});
+test('a failed boundary refresh still produces a compute incident', () => {
+  const {gas, clock} = setup();
+  gas.cache.set('verdicts', JSON.stringify(cachedVerdicts()));
+  gas.cache.set('roadforecast', JSON.stringify({forecastVersion: 2}));
+  crossExpiryOnSecondClockRead(clock);
+  gas.api.tick();
+  assert.equal(gas.mails.length, 1);
+  assert.match(gas.mails[0].body, /Assessment computation failed/);
+  assert.ok(JSON.parse(gas.props.get('ownerHealth:compute')).reason);
+});
 test('invalid cached assessments are rebuilt rather than served or left until expiry', () => {
   for (const cache of ['null', '{', '{}', JSON.stringify({avra:cachedVerdicts().avra})]) {
     const {gas, batches} = liveSetup();
