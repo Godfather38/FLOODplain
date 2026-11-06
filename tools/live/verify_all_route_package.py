@@ -15,6 +15,50 @@ from export_road_forecast import read_columns
 from run_live_all_route import AHEAD, DTOUT, SHOW_BACK, SPIN, case_entry
 
 
+# Publication materiality limit, NOT a solver accuracy or positivity guarantee.
+# The pinned SFINCS f3647fc source permits negative z_volume after a flux update
+# (sfincs_continuity.f90:666,686-690) and stops its further outflow
+# (sfincs_momentum.f90:735-745). Its subgrid table/interpolation vertical floor is
+# 0.001 m (sfincs_subgrid.F90:954-959,1018). Limit accepted residuals to that scale,
+# below the road export's 0.0091 m wet threshold. huthresh is not an error bound
+# and the NetCDF subgrid reader resets it to zero, so do not derive this from it.
+# https://github.com/Deltares/SFINCS/tree/f3647fc0289bb15cb2512d60686cef74cb853c78/source/src
+# Every negative sample remains raw and UNKNOWN in RoadForecast.add_frame.
+NEGATIVE_RESIDUAL_DEPTH_M = 0.001
+
+
+def verify_native_data(volume, surface, area, label):
+    """Check area-equivalent residuals without modifying any native array."""
+    volume, surface, area = (np.asarray(v) for v in (volume, surface, area))
+    if (volume.ndim != 1 or surface.ndim != 1 or area.ndim != 1
+            or len(volume) != len(area) or len(surface) != len(area)):
+        raise ValueError(f'{label}: invalid native cell data counts/shapes: '
+                         f'volume={volume.shape}, surface={surface.shape}, area={area.shape}')
+    if not len(area) or not np.isfinite(area).all() or np.any(area <= 0):
+        raise ValueError(f'{label}: invalid native cell areas')
+    finite = np.isfinite(volume)
+    if not (finite & (volume >= 0)).any() or np.isinf(volume).any() or np.isinf(surface).any():
+        raise ValueError(f'{label}: invalid native cell data: finiteVolumes={int(finite.sum())}, '
+                         f'nonnegativeVolumes={int((finite & (volume >= 0)).sum())}, '
+                         f'infiniteVolumes={int(np.isinf(volume).sum())}, '
+                         f'infiniteSurfaces={int(np.isinf(surface).sum())}')
+    negative = np.flatnonzero(finite & (volume < 0))
+    if not len(negative):
+        return 0, 0.0
+    depth = volume[negative].astype('float64') / area[negative].astype('float64')
+    lowest = int(np.argmin(depth))
+    index, minimum = int(negative[lowest]), float(depth[lowest])
+    # Compact native volumes are float32. Allow only their single-precision
+    # rounding at the limit, not an additional physical tolerance.
+    limit = NEGATIVE_RESIDUAL_DEPTH_M * (1 + np.finfo(np.float32).eps)
+    if minimum < -limit:
+        raise ValueError(f'{label}: invalid native cell data: {len(negative)} negative volumes; '
+                         f'cell={index}, volumeM3={float(volume[index]):.12g}, '
+                         f'areaM2={float(area[index]):.12g}, minimumDepthM={minimum:.12g}; '
+                         f'negative residual limit={NEGATIVE_RESIDUAL_DEPTH_M} m')
+    return len(negative), minimum
+
+
 def parse(value):
     if not isinstance(value, str):
         raise ValueError('Missing timestamp')
@@ -66,9 +110,9 @@ def verify(folder, case, cycle_iso):
         raise ValueError('All-route geometry differs from the pinned case')
     geometry_path = verified_file(folder, geometry)
     _, geometry_columns = read_columns(geometry_path, 'floodplain-columns-v1', geometry['sha256'])
-    count = len(geometry_columns['areaM2'])
-    if not count:
-        raise ValueError('All-route geometry contains no cells')
+    area = geometry_columns['areaM2']
+    count = len(area)
+    negative_count, minimum_depth = 0, 0.0
     for frame in frames:
         path = verified_file(folder, frame)
         header, columns = read_columns(path, 'floodplain-columns-v1', frame['sha256'])
@@ -77,10 +121,9 @@ def verify(folder, case, cycle_iso):
                 or metadata.get('geometrySha256') != geometry['sha256']):
             raise ValueError('All-route frame identity differs from its manifest')
         volume, surface = columns['nativeVolumeM3'], columns['waterSurfaceM']
-        if (len(volume) != count or len(surface) != count or not np.isfinite(volume).any()
-                or np.isinf(volume).any() or np.isinf(surface).any()
-                or np.any(volume[np.isfinite(volume)] < 0)):
-            raise ValueError('All-route frame has missing or invalid native cell data')
+        negatives, minimum = verify_native_data(volume, surface, area, frame['path'])
+        negative_count += negatives
+        minimum_depth = min(minimum_depth, minimum)
     road = json.loads(verified_file(folder, manifest.get('roadForecast') or {}).read_text())
     if (road.get('kind') != 'live_all_route_road_forecast' or road.get('status') != 'complete'
             or road.get('case') != case or road.get('runId') != manifest['runId']
@@ -89,7 +132,10 @@ def verify(folder, case, cycle_iso):
             or parse(road.get('validFrom')) != expected[0] or parse(road.get('validTo')) != expected[-1]
             or (road.get('provenance') or {}).get('geometrySha256') != geometry['sha256']):
         raise ValueError('Road forecast does not match the completed all-route package')
-    print(f'Verified completed all-route {case}: {len(frames)} half-hour frames, {count} cells')
+    print(f'Verified completed all-route {case}: {len(frames)} half-hour frames, {count} cells; '
+          f'{negative_count} negative native samples retained unchanged/unknown, '
+          f'minimum area-equivalent depth={minimum_depth:.12g} m '
+          f'(residual limit {NEGATIVE_RESIDUAL_DEPTH_M} m)')
 
 
 if __name__ == '__main__':

@@ -8,11 +8,13 @@ import subprocess
 import sys
 import tempfile
 import textwrap
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
 import numpy as np
 
+from export_road_forecast import RoadForecast
 from run_live_all_route import pack
 import verify_all_route_package as validator
 
@@ -135,6 +137,18 @@ class PackageTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'native cell data'):
                     self.verify()
 
+    def test_small_negative_residual_keeps_package_bytes_unchanged(self):
+        frame = self.manifest['frames'][0]
+        path = self.folder / frame['path']
+        frame.update(pack(path, {'runId': self.manifest['runId'], 'time': frame['time'],
+                                'geometrySha256': self.entry['geometry']['sha256']},
+                          {'nativeVolumeM3': np.array([-.003643210045993328, 1., np.nan]),
+                           'waterSurfaceM': np.array([np.nan, 20., np.nan])}))
+        write_json(self.folder / 'manifest.json', self.manifest)
+        before = {p.name: p.read_bytes() for p in self.folder.iterdir()}
+        self.verify()
+        self.assertEqual({p.name: p.read_bytes() for p in self.folder.iterdir()}, before)
+
     def test_incomplete_road_forecast_and_prepared_window_rejected(self):
         for edit in [{'status': 'partial'}, {'times': self.road['times'][:-1]}, {'runId': 'other'}]:
             with self.subTest(edit=edit):
@@ -148,6 +162,54 @@ class PackageTests(unittest.TestCase):
                    'start': CYCLE, 'end': self.road['validTo']})
         with self.assertRaisesRegex(ValueError, 'Prepared forcing'):
             self.verify()
+
+
+class NativeResidualTests(unittest.TestCase):
+    def test_verified_prior_picture_rocks_residuals_preserved(self):
+        # From published 00Z frame-0, SHA256 5a0d901757add37e8a73c78a57901ade5
+        # ec074567a48a2327e7bd85c1b58e589. Pinned geometry SHA256 63e8ff89a772fb9f
+        # 1a3775bbc0f2d54a9b188efd03b2614c75d2769593ef7fca; native indices 270538,
+        # 271974 each have area 156.25 m2. These are NOT the unavailable 07Z frames.
+        volume = np.array([-.002965580904856324, -.003643210045993328, 0.], dtype='float32')
+        surface = np.array([np.nan, np.nan, np.nan], dtype='float32')
+        area = np.array([156.25, 156.25, 156.25])
+        original = volume.tobytes(), surface.tobytes(), area.tobytes()
+        count, minimum = validator.verify_native_data(volume, surface, area, 'prior-frame-0')
+        self.assertEqual(count, 2)
+        self.assertAlmostEqual(minimum, -2.3316544294357298e-05)
+        self.assertEqual((volume.tobytes(), surface.tobytes(), area.tobytes()), original)
+
+    def test_residual_bound_scales_with_area_and_handles_float32_boundary(self):
+        area = np.array([39.0625, 156.25, 10000., 25.])
+        volume = np.array([-validator.NEGATIVE_RESIDUAL_DEPTH_M * a for a in area], dtype='float32')
+        volume[-1] = 0
+        self.assertEqual(validator.verify_native_data(volume, np.full(4, np.nan), area, 'boundary')[0], 3)
+        for index in range(3):
+            invalid = volume.copy()
+            invalid[index] = -area[index] * (validator.NEGATIVE_RESIDUAL_DEPTH_M + 1e-6)
+            with self.subTest(index=index), self.assertRaisesRegex(ValueError, 'minimumDepthM=.*negative residual limit'):
+                validator.verify_native_data(invalid, np.full(4, np.nan), area, 'too-negative')
+
+    def test_invalid_geometry_and_no_usable_native_samples_rejected(self):
+        for area in [np.array([0., 25.]), np.array([-1., 25.]), np.array([np.nan, 25.]), np.array([np.inf, 25.])]:
+            with self.subTest(area=area), self.assertRaisesRegex(ValueError, 'invalid native cell areas'):
+                validator.verify_native_data(np.zeros(2), np.zeros(2), area, 'bad-geometry')
+        for volume in [np.full(2, np.nan), np.full(2, -.001)]:
+            with self.subTest(volume=volume), self.assertRaisesRegex(ValueError, 'nonnegativeVolumes=0'):
+                validator.verify_native_data(volume, np.full(2, np.nan), np.full(2, 25.), 'unusable')
+
+    def test_accepted_residual_road_station_remains_unknown_not_dry(self):
+        area = np.array([156.25, 156.25])
+        volume, surface = np.array([-.003643210045993328, 0.]), np.array([np.nan, np.nan])
+        validator.verify_native_data(volume, surface, area, 'unknown-station')
+        geometry = SimpleNamespace(area=area, locate=lambda lon, lat: 0)
+        station = {'lon': 0., 'lat': 0., 'roadM': 20., 'flags': 0}
+        road = RoadForecast(CASE, geometry, {'route': [station]}, {}, {})
+        road.add_frame(CYCLE, volume, surface)
+        frame = road.routes['route']['frames'][0]
+        self.assertEqual(frame['coverage'], 'unavailable')
+        self.assertEqual(frame['validStations'], 0)
+        self.assertIsNone(frame['peakRoadDepthM'])
 
 
 class WorkflowTests(unittest.TestCase):
