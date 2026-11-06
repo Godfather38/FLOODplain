@@ -7,8 +7,8 @@ name: Live all-route SFINCS when rain is forecast
 on:
   # A push to these files registers the workflow (and checks the newest cycle once).
   push:
-    branches: [claude/all-route-expansion-78d5d4, experiment/live-sfincs]
-    paths: [.github/workflows/live-all-route.yml]
+    branches: [claude/all-route-expansion-78d5d4, experiment/live-sfincs, experiment/all-route-models]
+    paths: [.github/workflows/live-all-route.yml, tools/live/all-route-run-request.json]
   workflow_dispatch:
     inputs:
       cycle:
@@ -26,8 +26,30 @@ on:
 permissions:
   contents: write
   actions: read
+# Serialize explicit request commits. Ordinary manual/rain runs keep their
+# per-case concurrency below; the request validator refuses overlapping runs.
+concurrency:
+  group: live-all-route-request-${{ github.event_name == 'push' && github.ref == 'refs/heads/experiment/all-route-models' && 'serial' || github.run_id }}
+  cancel-in-progress: false
 jobs:
+  request:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.request.outputs.run }}
+      cases: ${{ steps.request.outputs.cases }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: tools/live
+      - name: Validate an explicit experimental model request
+        id: request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/live/validate_highres_run_request.py
   check:
+    needs: request
+    if: needs.request.outputs.run == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     outputs:
@@ -46,7 +68,7 @@ jobs:
         id: check
         env:
           CYCLE: ${{ inputs.cycle }}
-          CASES: ${{ inputs.cases }}
+          CASES: ${{ inputs.cases || needs.request.outputs.cases }}
           THRESHOLD: ${{ inputs.threshold_mm || '1.0' }}
         run: |
           python tools/live/run_live_all_route.py check check.json "$THRESHOLD"
