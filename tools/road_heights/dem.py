@@ -14,6 +14,7 @@ import rasterio
 import requests
 from pyproj import Transformer
 from rasterio.windows import Window
+from known_dem_tiles import supplement_tiles
 
 TNM ="https://tnmaccess.nationalmap.gov/api/v1/products"
 DATASET = "Digital Elevation Model (DEM) 1 meter"
@@ -41,7 +42,7 @@ def tile_index(box):
         tiles.append({"project": project, "year": int(year.group(1)) if year else 0, "url": i["downloadURL"],
                       "bytes": i.get("sizeInBytes"), "box": (b["minX"], b["minY"], b["maxX"], b["maxY"]),
                       "published": i.get("publicationDate")})
-    return sorted(tiles, key=lambda t: (-t["year"], t["url"]))
+    return sorted(supplement_tiles(tiles, box), key=lambda t: (-t["year"], t["url"]))
 
 
 def download(tile, cache_dir):
@@ -126,3 +127,4 @@ def sample(lon, lat, cache_dir, box, log=print):
             z[idx[hit]] = v[hit]
             src[idx[hit]] = projects.index(project)
     return z, src, projects
+

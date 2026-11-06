@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "id": "gates-2021-omitted-tile",
+  "inputSha256": "94a2693e697bf4ded78f3853d920aad6d2fbee16db584194ad2f5bb1fc34ee97",
+  "reason": "TNM 1 m catalog omits existing USGS 2021 tile x47y357. Its measured pixels cover both missing Kinney Road stations.",
+  "source": {
+    "project": "AZ_PimaCounty_2021_B21",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y357_AZ_PimaCounty_2021_B21.tif",
+    "horizontalCrs": "EPSG:26912",
+    "verticalDatum": "NAVD88 metres",
+    "acquisitionDates": [
+      "2021-09-27",
+      "2021-11-20"
+    ],
+    "metadataEvidence": "https://github.com/Godfather38/FLOODplain/blob/633b95cc3acabeb9c0814bcbf348676a8b9efeed/tools/sfincs/data/all-route-ready-v3/gates-terrain-recovery/manifest.json",
+    "geoTransform": [
+      469999.98341356986,
+      1.0,
+      0.0,
+      3570000.000044329,
+      0.0,
+      -1.0
+    ],
+    "nodata": -999999.0,
+    "rasterSize": [
+      10000,
+      10001
+    ],
+    "httpIdentity": {
+      "etag": "\"212a5e55704f9b92396a571584d23c1a-49\"",
+      "lastModified": "Thu, 12 Feb 2026 23:02:20 GMT",
+      "bytes": 255681315,
+      "meaning": "HTTP object identity, not a whole-file SHA256; extracted raw pixels are SHA256-pinned separately."
+    }
+  },
+  "window": {
+    "path": "gates-2021-pixels.f32.gz",
+    "sha256": "f9e05a62899f68d21357ef35ac23876f3ed7b5b451c7ed65b5644addff49ef78",
+    "decodedSha256": "ec76464817f5749057bbff43cd12469d29eeac072320e657e3aaec69d903cb95",
+    "dtype": "<f4",
+    "col": 9744,
+    "row": 0,
+    "width": 32,
+    "height": 32,
+    "method": "Unresampled GDAL ReadAsArray window from source GeoTIFF; row-major raw source pixel values."
+  },
+  "method": "Original road-heights recipe: at each 5 m route station, sample -3,-1.5,0,1.5,3 m across the normal; bilinear within each finite 2x2 source footprint, median of five samples, centimetre quantization. No nodata interpolation or nearest-station filling.",
+  "routeGeometry": {
+    "path": "public/data/routes.geojson",
+    "sha256": "83a64628a02aebca3991b61d5ff06eba442b376245d8821d44315fc95a60ce66",
+    "method": "EPSG:4326 to EPSG:32612; original 5 m resampling and numpy.gradient tangent; encoded coordinates checked against pinned route source."
+  },
+  "stations": [
+    {
+      "routeId": "pr-gates",
+      "lineIndex": 34,
+      "stationIndex": 5053,
+      "globalIndex": 29114,
+      "distanceM": 25265.0,
+      "originalLonLat": [
+        -111.21491621700021,
+        32.266399102281284
+      ],
+      "lon": -111.214916,
+      "lat": 32.266399,
+      "samples": [
+        {
+          "offsetM": -3.0,
+          "utm32612": [
+            479761.2692995827,
+            3569986.761845594
+          ],
+          "sourceXY": [
+            479761.2692994886,
+            3569986.761745292
+          ],
+          "pixelCentreCoordinates": [
+            9760.78588591871,
+            12.738299036864191
+          ]
+        },
+        {
+          "offsetM": -1.5,
+          "utm32612": [
+            479760.0884941398,
+            3569985.836805862
+          ],
+          "sourceXY": [
+            479760.08849404537,
+            3569985.8367055603
+          ],
+          "pixelCentreCoordinates": [
+            9759.605080475507,
+            13.663338768761605
+          ]
+        },
+        {
+          "offsetM": 0.0,
+          "utm32612": [
+            479758.9076886969,
+            3569984.9117661295
+          ],
+          "sourceXY": [
+            479758.90768860246,
+            3569984.911665828
+          ],
+          "pixelCentreCoordinates": [
+            9758.424275032594,
+            14.58837850112468
+          ]
+        },
+        {
+          "offsetM": 1.5,
+          "utm32612": [
+            479757.7268832541,
+            3569983.986726397
+          ],
+          "sourceXY": [
+            479757.72688315983,
+            3569983.986626096
+          ],
+          "pixelCentreCoordinates": [
+            9757.243469589972,
+            15.513418233022094
+          ]
+        },
+        {
+          "offsetM": 3.0,
+          "utm32612": [
+            479756.54607781116,
+            3569983.0616866653
+          ],
+          "sourceXY": [
+            479756.5460777163,
+            3569983.061586364
+          ],
+          "pixelCentreCoordinates": [
+            9756.062664146419,
+            16.438457964919508
+          ]
+        }
+      ],
+      "original": {
+        "encodedHeightCm": 73463,
+        "flags": 4,
+        "source": -1,
+        "lateralDm": 255
+      }
+    },
+    {
+      "routeId": "pr-gates",
+      "lineIndex": 34,
+      "stationIndex": 5054,
+      "globalIndex": 29115,
+      "distanceM": 25270.0,
+      "originalLonLat": [
+        -111.21494904017885,
+        32.26643455484937
+      ],
+      "lon": -111.214949,
+      "lat": 32.266435,
+      "samples": [
+        {
+          "offsetM": -3.0,
+          "utm32612": [
+            479758.18583380897,
+            3569990.6978637367
+          ],
+          "sourceXY": [
+            479758.1858337142,
+            3569990.697763435
+          ],
+          "pixelCentreCoordinates": [
+            9757.702420144342,
+            8.802280894014984
+          ]
+        },
+        {
+          "offsetM": -1.5,
+          "utm32612": [
+            479757.00502836605,
+            3569989.7728240043
+          ],
+          "sourceXY": [
+            479757.005028272,
+            3569989.772723703
+          ],
+          "pixelCentreCoordinates": [
+            9756.521614702127,
+            9.727320625912398
+          ]
+        },
+        {
+          "offsetM": 0.0,
+          "utm32612": [
+            479755.82422292314,
+            3569988.8477842724
+          ],
+          "sourceXY": [
+            479755.8242228288,
+            3569988.847683971
+          ],
+          "pixelCentreCoordinates": [
+            9755.340809258923,
+            10.652360358275473
+          ]
+        },
+        {
+          "offsetM": 1.5,
+          "utm32612": [
+            479754.6434174802,
+            3569987.9227445405
+          ],
+          "sourceXY": [
+            479754.64341738593,
+            3569987.922644239
+          ],
+          "pixelCentreCoordinates": [
+            9754.160003816069,
+            11.577400090172887
+          ]
+        },
+        {
+          "offsetM": 3.0,
+          "utm32612": [
+            479753.4626120373,
+            3569986.997704808
+          ],
+          "sourceXY": [
+            479753.4626119421,
+            3569986.997604507
+          ],
+          "pixelCentreCoordinates": [
+            9752.979198372224,
+            12.5024398220703
+          ]
+        }
+      ],
+      "original": {
+        "encodedHeightCm": 73463,
+        "flags": 4,
+        "source": -1,
+        "lateralDm": 255
+      }
+    }
+  ],
+  "inputDecodedSha256": "c9db0d3d2d69757379a649531ff4626f951c52e38f5e5590339bdbeb67b3169d",
+  "recipe": {
+    "repository": "Godfather38/FLOODplain",
+    "commit": "c4a513729215fa5b3b704f4f69388d6e0c2180ed",
+    "paths": [
+      "tools/road_heights/build_road_heights.py",
+      "tools/road_heights/bridges.py",
+      "tools/road_heights/dem.py",
+      "tools/road_heights/encoding.py"
+    ]
+  }
+}
