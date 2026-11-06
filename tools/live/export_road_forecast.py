@@ -203,7 +203,10 @@ class RoadForecast:
             valid = dry | (np.isfinite(depth) & (depth >= WET_M) & np.isfinite(z) & (z != -99999.0))
             road_depth = np.zeros(len(candidates), dtype=float)
             wet = valid & ~dry
-            road_depth[wet] = np.minimum(np.maximum(z[wet] - heights[candidates[wet]], 0), depth[wet])
+            # Preserve the existing high-resolution all-route prediction: native
+            # depth establishes dry/wet, but is not a cap on road/deck depth. The
+            # average-depth cap belongs only to the separate 100 m coarse model.
+            road_depth[wet] = np.maximum(z[wet] - heights[candidates[wet]], 0)
             valid_count = int(valid.sum())
             peak, station = None, None
             if valid_count:
@@ -230,7 +233,7 @@ class RoadForecast:
             'issuedAt': manifest['issuedAt'], 'hrrrCycle': manifest['sourceIssues']['HRRR'],
             'validFrom': self.times[0] if self.times else None, 'validTo': self.times[-1] if self.times else None,
             'times': self.times, 'routes': self.routes, 'dryThresholdM': WET_M,
-            'quantity': {'units': 'm', 'definition': 'max(0, min(waterSurface - roadOrDeckHeight, nativeVolume / nativePolygonArea)); finite native depth below dryThresholdM is zero'},
+            'quantity': {'units': 'm', 'definition': 'max(0, waterSurface - roadOrDeckHeight); finite native depth below dryThresholdM is zero; no cell-average-depth cap for the high-resolution all-route model'},
             'provenance': {
                 'geometrySha256': manifest['geometry']['sha256'],
                 'caseArchiveSha256': manifest['caseArchiveSha256'],

@@ -58,7 +58,11 @@ there is no valid station. `wetStations` counts values at least 0.0091 m.
 Depth comes from native volume / full native polygon area. A finite, nonnegative
 native depth below 0.0091 m proves that cell is dry even if its water surface is
 missing. Otherwise both native depth and water surface must be finite. Road water
-is `max(0, min(waterSurface - roadOrDeckHeight, nativeDepth))`. An unknown height,
+is `max(0, waterSurface - roadOrDeckHeight)`, matching the established high-resolution
+all-route prediction in `public/simulation/route-prediction.js`. Native cell-average
+depth is used for the dry test, not as an upper cap on water above the road. The
+average-depth cap documented in `docs/SFINCS-ROUTE-PREDICTION.md` belongs only to
+the separate 100 m coarse model. An unknown height,
 missing native volume, missing wet-cell water surface, negative volume, outside
 station or ambiguous face is unknown, never zero.
 

@@ -89,18 +89,18 @@ class GeometryTests(unittest.TestCase):
 
 
 class ForecastTests(unittest.TestCase):
-    def test_wet_depth_capped_at_native_volume_and_deck_height(self):
+    def test_high_resolution_water_above_road_and_deck_is_not_capped_at_native_depth(self):
         f = forecast([station(height=9.5, flags=2), station(lon=1.5, height=20)])
-        f.add_frame('2026-11-06T12:00:00Z', np.array([100., 5., 0.]), np.array([21., 10., 0.]))
+        f.add_frame('2026-11-06T12:00:00Z', np.array([100., 5., 0.]), np.array([21.5, 10., 0.]))
         frame = f.routes['trico']['frames'][0]
-        self.assertEqual(frame['peakRoadDepthM'], 1.)
+        self.assertEqual(frame['peakRoadDepthM'], 1.5)  # native average depth is only 1 m
         self.assertEqual(frame['wetStations'], 2)
         self.assertEqual(frame['lon'], 1.5)
         self.assertFalse(frame['deck'])
         # Test an approach-estimated bridge deck as peak, not ground beneath it.
         f = forecast([station(height=9.5, flags=2)])
         f.add_frame('2026-11-06T12:00:00Z', np.array([0., 5., 0.]), np.array([0., 10., 0.]))
-        self.assertEqual(f.routes['trico']['frames'][0]['peakRoadDepthM'], .2)
+        self.assertEqual(f.routes['trico']['frames'][0]['peakRoadDepthM'], .5)  # native depth is 0.2 m
         self.assertTrue(f.routes['trico']['frames'][0]['deck'])
 
     def test_finite_dry_volume_with_missing_surface_is_known_dry(self):
@@ -145,7 +145,7 @@ class ForecastTests(unittest.TestCase):
     def test_native_dry_threshold_boundary(self):
         f = forecast([station(height=0.)])
         f.add_frame('2026-11-06T12:00:00Z', np.array([0., WET_M * 25, 0.]), np.array([0., 10., 0.]))
-        self.assertEqual(f.routes['trico']['frames'][0]['peakRoadDepthM'], WET_M)
+        self.assertEqual(f.routes['trico']['frames'][0]['peakRoadDepthM'], 10.)
         self.assertEqual(f.routes['trico']['frames'][0]['wetStations'], 1)
 
     def test_invalid_frame_order_and_length_rejected(self):
@@ -223,7 +223,7 @@ class SourceAndIntegrationTests(unittest.TestCase):
             with patch.object(live, 'case_entry', return_value=case), patch.object(RoadForecast, 'load', side_effect=loader):
                 live.export('northern', work, out, 'fixture-live')
                 result = json.loads((out / 'road-forecast.json').read_text())
-                self.assertEqual(result['routes']['trico']['frames'][0]['peakRoadDepthM'], .2)
+                self.assertEqual(result['routes']['trico']['frames'][0]['peakRoadDepthM'], .5)
                 self.assertEqual(result['routes']['trico']['frames'][1]['peakRoadDepthM'], 0.)
                 published = json.loads((out / 'manifest.json').read_text())
                 self.assertEqual(published['roadForecast']['sha256'], digest((out / 'road-forecast.json').read_bytes()))
