@@ -96,7 +96,7 @@ test('times sent with a zone are compared as sent, across Arizona midnight', () 
 });
 
 // ---------- the Nov 7 episode, replayed ----------
-test('Nov 7 replay: a future time is an upstream time error, held, and silent when it clears within the hour', () => {
+test('Nov 7 replay: a future time alerts on the first failed check, deduplicates, and recovers once valid', () => {
   const { gas, clock, check } = setup(AZ('2026-11-06T23:59:00'));
   check(raw('2026-11-06T23:00:00', '2026-11-06T23:45:00', clock.now));
   assert.equal(gas.mails.length, 0);
@@ -110,35 +110,51 @@ test('Nov 7 replay: a future time is an upstream time error, held, and silent wh
     assert.equal(x.aheadMinutes, 1015); // the -1015 minutes in the real email
     assert.equal(x.observedAt, null, 'a future time is not reported as the last observation');
   }
-  for (let m = 0; m <= 58; m += 1) { clock.now = Date.parse('2026-11-07T07:05:59.635Z') + m * 60000; check(raw('2026-11-07T17:00:00', '2026-11-07T17:00:00', clock.now)); }
-  assert.equal(gas.mails.length, 0, 'held during the confirmation window');
+  // First failed check: one email right away, no waiting period.
+  check(raw('2026-11-07T17:00:00', '2026-11-07T17:00:00', clock.now));
+  assert.equal(gas.mails.length, 1, 'alerted on the first failed check');
+  const body = gas.mails[0].body;
+  for (const id of alertIds) assert.match(body, new RegExp(`PROBLEM: ${id}\\n`));
+  assert.match(body, /Result: Upstream time error: observation time is in the future\nType: Upstream data error: the source answered/);
+  assert.doesNotMatch(body, /Type: Lost connection/);
+  assert.doesNotMatch(body, /\bheld\b|\bhold\b|before sending/i);
+  assert.match(body, /Time as sent by the source: 2026-11-07T17:00:00 \(read as Arizona time when it has no zone; 1015 minutes after this check\)/);
+  assert.doesNotMatch(body, /Observation age at check: -/);
+  // The same reason for the next hour is not sent again.
+  for (let m = 1; m <= 58; m += 1) { clock.now = Date.parse('2026-11-07T07:05:59.635Z') + m * 60000; check(raw('2026-11-07T17:00:00', '2026-11-07T17:00:00', clock.now)); }
+  assert.equal(gas.mails.length, 1, 'deduplicated while unchanged');
   clock.now = AZ('2026-11-07T01:04:05'); // recovered at 08:04:05Z
   check(raw('2026-11-07T01:00:00', '2026-11-07T01:00:00', clock.now));
-  assert.equal(gas.mails.length, 0, 'no problem was sent, so no recovery is sent');
+  assert.equal(gas.mails.length, 2, 'validated recovery is sent after a delivered problem');
+  for (const id of alertIds) assert.match(gas.mails[1].body, new RegExp(`RECOVERED: ${id}\\n`));
   const state = JSON.parse(gas.props.get('ownerHealth:rain:6110'));
   assert.equal(state.reason, '');
   assert.equal(state.sourceTime, undefined, 'cleared fields do not linger');
 });
 
-test('a future time that persists past the hold is sent, explained, then recovers', () => {
-  const { gas, clock, check } = setup(AZ('2026-11-07T00:06:00'));
-  const future = () => raw('2026-11-07T17:00:00', '2026-11-07T17:00:00', clock.now);
-  check(future());
-  clock.now += 74 * 60000; check(future());
-  assert.equal(gas.mails.length, 0);
-  clock.now += 2 * 60000; check(future());
-  assert.equal(gas.mails.length, 1);
-  const body = gas.mails[0].body;
-  assert.match(body, /PROBLEM: rain:6110/);
-  assert.match(body, /Upstream time error: observation time is in the future/);
-  assert.match(body, /Type: Upstream data error: the source answered/);
-  assert.doesNotMatch(body, /Lost connection/);
-  assert.match(body, /Time as sent by the source: 2026-11-07T17:00:00 \(read as Arizona time when it has no zone; \d+ minutes after this check\)/);
-  assert.match(body, /Held 75 minutes before sending/);
-  assert.doesNotMatch(body, /Observation age at check: -/);
-  clock.now += 60000; check(raw('2026-11-07T01:00:00', '2026-11-07T01:00:00', clock.now));
+test('one future-stamped station alerts at once with nothing deferred, then recovers', () => {
+  const now = AZ('2026-11-07T00:06:00');
+  const { gas, clock, check } = setup(now);
+  const r = raw('2026-11-07T00:00:00', '2026-11-07T00:00:00', now);
+  r.rain.data.find((d) => d.site === '6110').last_rpt = '2026-11-07T00:07:00'; // one minute ahead
+  const [issue] = bad(gas, r, now);
+  assert.equal(issue.id, 'rain:6110');
+  assert.equal(issue.aheadMinutes, 1);
+  assert.deepEqual(Object.keys(issue).filter((k) => /confirm|hold|defer/i.test(k)), [], 'no hold field of any kind');
+  check(r);
+  assert.equal(gas.mails.length, 1, 'sent on the first failed check');
+  assert.equal(gas.mails[0].body.match(/PROBLEM:/g).length, 1);
+  assert.equal(JSON.parse(gas.props.get('ownerHealth:rain:6110')).delivered, issue.reason);
+  clock.now += 60000;
+  check(raw('2026-11-07T00:00:00', '2026-11-07T00:00:00', clock.now));
   assert.equal(gas.mails.length, 2);
   assert.match(gas.mails[1].body, /RECOVERED: rain:6110/);
+});
+
+test('the hold is gone from the shipped Apps Script bundle', () => {
+  assert.doesNotMatch(SRC, /INPUT_FUTURE_CONFIRM_MS|confirmAfterMs|Held \d|before sending/);
+  assert.doesNotMatch(readFileSync('apps-script/WashWatch.gs', 'utf8'), /INPUT_FUTURE_CONFIRM_MS|confirmAfterMs/);
+  assert.doesNotMatch(readFileSync('worker/generated/input-health.js', 'utf8'), /INPUT_FUTURE_CONFIRM_MS|confirmAfterMs/);
 });
 
 // ---------- real outages still alert at once ----------
@@ -172,11 +188,11 @@ test('genuinely stale and missing stations alert at once, each with its own type
   assert.equal(byId['rain:6440'].reason, 'Upstream time error: unreadable observation time');
   assert.equal(byId['rain:6440'].sourceTime, '2026-11-31T00:00:00');
   check(r);
-  assert.equal(gas.mails.length, 1, 'no hold for stale, absent, missing or unreadable times');
+  assert.equal(gas.mails.length, 1, 'stale, absent, missing and unreadable times alert on the first check');
   assert.match(gas.mails[0].body, /Type: Stale: the source answered/);
 });
 
-test('a future USGS time is reported at once (the hold is only for the county ALERT feed)', () => {
+test('a future USGS time is reported at once as an upstream time error', () => {
   const now = AZ('2026-11-07T00:06:00');
   const { gas, check } = setup(now);
   const r = raw('2026-11-07T00:00:00', '2026-11-07T00:00:00', now);
@@ -184,10 +200,9 @@ test('a future USGS time is reported at once (the hold is only for the county AL
   const issue = bad(gas, r, now);
   assert.equal(issue.length, 1);
   assert.equal(issue[0].kind, 'upstream-time');
-  assert.equal(issue[0].confirmAfterMs, undefined);
   check(r);
   assert.equal(gas.mails.length, 1);
-  assert.doesNotMatch(gas.mails[0].body, /Held/);
+  assert.match(gas.mails[0].body, /PROBLEM: usgs:09486500/);
   // A USGS time with no zone is unreadable, not assumed to be Arizona.
   r.usgs['09486500'].features[0].properties.time = '2026-11-07T00:00:00';
   assert.equal(bad(gas, r, now)[0].reason, 'Upstream time error: unreadable observation time');
