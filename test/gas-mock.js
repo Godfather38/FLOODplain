@@ -41,7 +41,11 @@ export function makeGas(clock, SRC, fetchAllImpl) {
     CacheService: { getScriptCache: () => ({ get: (k) => cache.get(k) ?? null, put: (k, v) => { if (clock.onCacheWrite) clock.onCacheWrite(k, v); return cache.set(k, v); } }) },
     UrlFetchApp: { fetchAll: (reqs) => fetchAllImpl(reqs), fetch: (url, opt = {}) => {
       fetches.push({ url, opt });
-      if (url.includes('api.twilio.com')) sent.push({ to: opt.payload.To, body: opt.payload.Body });
+      if (url.includes('api.twilio.com')) {
+        if (clock.twilioThrow) throw new Error('network unavailable');
+        sent.push({ to: opt.payload.To, body: opt.payload.Body });
+        return { getResponseCode: () => clock.twilioStatus ?? 201, getContentText: () => clock.twilioRaw ?? JSON.stringify(clock.twilioBody ?? {sid:'SM-test',status:'queued'}) };
+      }
       return { getContentText: () => JSON.stringify(clock.verdict) };
     } },
     MailApp: { sendEmail: (a, b, c) => { if (clock.onMail) clock.onMail(); if (clock.mailFailure) throw new Error('mail unavailable'); const m = typeof a === 'object' ? a : { to: a, subject: b, body: c }; if (m.to.endsWith('@vtext.com')) sent.push({ to: m.to, body: m.body }); else mails.push(m); }, getRemainingDailyQuota: () => 100 },
