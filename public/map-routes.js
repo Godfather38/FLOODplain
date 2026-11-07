@@ -1,3 +1,4 @@
+import { routeModelText } from './road-forecast.js?v=dev';
 // The Map tab's routes and crossings, laid out like the 3D map page's routes panel
 // (preview/geo3d/src/world/routes-ui.js): the area switch, one row per route with a status dot,
 // and a card for a crossing tapped on the map. Everything here is from the live check.
@@ -11,7 +12,7 @@ export function routeRowsHtml({ areas, area, routes, info, features, crossings, 
   const tabs = `<div class="seg" role="tablist" aria-label="Area">${areas.map((a) => `<button type="button" role="tab" data-map-area="${esc(a.id)}" aria-selected="${a.id === area}">${esc(a.name)}</button>`).join('')}</div>`;
   const rows = routes.map((r) => {
     const f = features.find((x) => x.properties.id === r.id), count = crossings.filter((fp) => fp.routes.includes(r.id)).length;
-    return `<button type="button" class="row route" data-map-route="${esc(r.id)}" aria-pressed="${r.id === selected}"><span class="dot ${esc(r.level)}" aria-hidden="true"></span><span class="text"><span class="t">${esc(info[r.id]?.name ?? r.id)}</span><span class="st">${esc(info[r.id]?.via ?? '')}${f ? ` · ${f.properties.km} km` : ''} · ${count} crossing${count === 1 ? '' : 's'}</span><span class="st status${r.score >= 3 ? ' warn' : ''}">${esc(ratingText(r.score))} · ${esc(issue(r))}</span></span><span class="chev" aria-hidden="true">›</span></button>`;
+    return `<button type="button" class="row route" data-map-route="${esc(r.id)}" aria-pressed="${r.id === selected}"><span class="dot ${esc(r.level)}" aria-hidden="true"></span><span class="text"><span class="t">${esc(info[r.id]?.name ?? r.id)}</span><span class="st">${esc(info[r.id]?.via ?? '')}${f ? ` · ${f.properties.km} km` : ''} · ${count} crossing${count === 1 ? '' : 's'}</span><span class="st status${r.score >= 3 ? ' warn' : ''}">${esc(ratingText(r.score))} · ${esc(issue(r))}</span><span class="st model-prediction">${esc(routeModelText(r))}</span></span><span class="chev" aria-hidden="true">›</span></button>`;
   }).join('');
   return `${tabs}<h3 class="section">Routes</h3><div class="list">${rows}</div>`;
 }

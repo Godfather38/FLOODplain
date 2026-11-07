@@ -1,3 +1,4 @@
+import { routeModelText } from './road-forecast.js?v=dev';
 import {mountDiagnostics} from './diagnostics.js?v=dev';
 import { RISK_COLORS, UNKNOWN_COLOR, installRiskColors } from './semantic-colors.js?v=dev';
 import './show-me-how.js?v=dev';
@@ -218,7 +219,7 @@ async function refreshSfincs() {
 // the route's level: worst() keeps a closure or a gauge reading where it was.
 function addSfincs(r, d) {
   const s = d.sfincs;
-  if (s?.status !== 'ok' || !sfincsModel) return r;
+  if (s?.status !== 'ok' || !sfincsModel) return { ...r, sfincs: { status: s?.status || 'loading', reason: s?.reason } };
   const forecast = s.routes?.[r.id];
   if (!forecast) return { ...r, sfincs: { status: 'unavailable', reason: s.routeStatus?.[r.id]?.reason || 'This route has no current model coverage.' } };
   const point = sfincsModel.roadForecastPoint(r.id, forecast);
@@ -314,18 +315,19 @@ function homeScreen() {
       <p class="meta">${minutes(best)} · ${esc(viaText(best.id))}</p>
       ${allClosed ? '' : `<div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(best))}</p></div>`}
       ${against.length ? `<ul class="against">${against.map((a) => `<li><span class="dot ${a.level}"></span><span>${esc(a.short)}: ${esc(a.why)}</span></li>`).join('')}</ul>` : ''}
+      <p class="meta model-prediction">${esc(routeModelText(best))}</p>
       ${routeBridgeEvidence(best)}
       <div class="actions">${navBtn(best)}<a class="btn btn-text" href="#/r/${best.id}">Details</a></div>
     </article>
     <section class="saved-routes" aria-labelledby="saved-title"><h3 id="saved-title" class="section">Your saved routes</h3>
-    ${favorites.some((id) => view.byId[id]) ? `<div class="list">${favorites.filter((id) => view.byId[id]).map((id) => `<a class="row" href="#/r/${id}">${badge(view.byId[id].score)}<span class="text"><span class="t">${esc(ROUTE_INFO[id].name)}</span><span class="st">${esc(topIssue(view.byId[id]))}</span>${routeBridgeEvidence(view.byId[id])}</span><span class="chev" aria-hidden="true">›</span></a>`).join('')}</div>` : '<p class="meta">Open a route and choose Save route to keep it here for this area.</p>'}
+    ${favorites.some((id) => view.byId[id]) ? `<div class="list">${favorites.filter((id) => view.byId[id]).map((id) => `<a class="row" href="#/r/${id}">${badge(view.byId[id].score)}<span class="text"><span class="t">${esc(ROUTE_INFO[id].name)}</span><span class="st">${esc(topIssue(view.byId[id]))}</span><span class="st model-prediction">${esc(routeModelText(view.byId[id]))}</span>${routeBridgeEvidence(view.byId[id])}</span><span class="chev" aria-hidden="true">›</span></a>`).join('')}</div>` : '<p class="meta">Open a route and choose Save route to keep it here for this area.</p>'}
     <p class="meta">Saved on this browser. Ratings still use the current check.</p></section>
     <h3 class="section">Other routes</h3>
     <div class="list">
       ${others.map((r) => `
         <a class="row" href="#/r/${r.id}">
           ${badge(r.score)}
-          <span class="text"><div class="t">${esc(ROUTE_INFO[r.id].name)}</div><div class="st">${minutes(r)} · ${esc(topIssue(r))}</div>${routeBridgeEvidence(r)}</span>
+          <span class="text"><div class="t">${esc(ROUTE_INFO[r.id].name)}</div><div class="st">${minutes(r)} · ${esc(topIssue(r))}</div><div class="st model-prediction">${esc(routeModelText(r))}</div>${routeBridgeEvidence(r)}</span>
           <span class="chev">›</span>
         </a>`).join('')}
     </div>
@@ -368,6 +370,7 @@ function routeScreen(rid) {
     <article class="hero">
       <div class="hero-top"><div style="flex:1"><p class="meta" style="margin:0">${minutes(r)} · ${esc(viaText(rid))}</p></div>${badgeWithWord(r.score)}</div>
       ${closed ? '' : `<div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(r))}</p></div>`}
+      <p class="meta model-prediction">${esc(routeModelText(r))}</p>
     </article>
     ${saveButton(rid)}<p id="save-notice" class="meta" role="status">${esc(saveNotice)}</p>
     ${concerns.length ? `<h3 class="section">Warnings and concerns</h3><div class="list">${concerns.map(row).join('')}</div>` : ''}
@@ -404,7 +407,7 @@ function stretchScreen(rid, fpId) {
           <summary class="row"><span class="lead-icon">${icon}</span>
             <span class="text"><div class="t">${label}</div><div class="st"><span class="dot ${c.level}" style="display:inline-block;margin-right:6px"></span>${esc(c.why)}</div></span>
             <span class="chev">›</span></summary>
-          <div class="more"><p>${esc(c.why)}</p>${c.detail ? `<p>${esc(c.detail)}</p>` : ''}${c.src === 'hand' && data.hand?.byFp[fpId]?.status === 'supported' ? `<p><a href="inundation/index.html#${esc(data.hand.byFp[fpId].id)}">See the estimated flood extent map</a></p>` : ''}</div>
+          <div class="more"><p>${esc(c.why)}</p>${c.detail ? `<p>${esc(c.detail)}</p>` : ''}${c.src === 'hand' && data.hand?.byFp[fpId]?.status === 'supported' ? `<p><a href="#/map">See predicted water on the map</a></p>` : ''}</div>
         </details>`;
       }).join('')}
     </div>
@@ -938,7 +941,7 @@ mountFloodLayers(map,{routeLayer:rendererRoutes,baseMaps});
 document.querySelector('[data-home]').onclick=()=>map.fitBounds(allBounds,{paddingTopLeft:[24,30],paddingBottomRight:[24,30],animate:false});
 const liveMap=mountLiveMap(map,{refresh:()=>check(),observations:liveObservations,embedded:true});
 // The Map tab in a maps-app layout, with the 2D and 3D model layers (map-app.js).
-const mapApp=mountMapApp({L,map,baseMaps,routeLayer:layer,liveLayer:liveObservations,
+const mapApp=mountMapApp({L,map,baseMaps,routeLayer:layer,liveLayer:liveObservations,roadForecast:()=>data?.sfincs,
   fitRoutes:(opts)=>allBounds&&map.fitBounds(allBounds,opts),
   targets:()=>[...FAILURE_POINTS.map((fp)=>({kind:'crossing',id:fp.id,name:fp.short??fp.name,lat:fp.lat,lon:fp.lon})),...PLACES.map((p)=>({kind:'place',name:p.name,lat:p.lat,lon:p.lon}))],
   openCrossing:(id)=>{mapCrossing=id;drawMap(where());revealCrossing();},points:FAILURE_POINTS});

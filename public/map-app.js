@@ -5,6 +5,8 @@
 import {RUNS,loadRun2d,createSimLayer,onDownloads,loadHand,flowsForRun,HAND_COLORS,loadRoads,crossingsFor,COVER_M,DEPTH_FT,DEPTH_COLORS,RAIN_MMH,RAIN_COLORS,setQuadOrder} from './simulation/sim-2d.js?v=dev';
 import {deckHtml,scoreboardHtml,routeBoardHtml,drawTimeline,timelineKeyHtml,methodsHtml} from './sim-panels.js?v=dev';
 import {predictFromGrid,predictFromAllRoute,routeStations,loadRoadLines,gridCellOf} from './simulation/route-prediction.js?v=dev';
+import {nearestRoadSample,roadComparison,forecastComparison,comparisonLines} from './simulation/road-comparison.js?v=dev';
+import {roadForecastText} from './road-forecast.js?v=dev';
 import {toUtm} from './preview/geo3d/src/utm.js?v=dev';
 import {ROUTE_INFO} from './config.js?v=dev';
 import {createWorldLayer} from './simulation/world-layer.js?v=dev';
@@ -38,7 +40,7 @@ const DETAILS=[['rain','Rain'],['flow','River flow'],['routes','Routes & crossin
 const HOUR_SECONDS=4;
 const clockText=t=>new Date(t).toLocaleString('en-US',{timeZone:'America/Phoenix',weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' MST';
 
-export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targets,openCrossing,points=[]}){
+export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targets,openCrossing,points=[],roadForecast=()=>null}){
  const wrap=document.querySelector('.safety-map'),mapEl=document.getElementById('map');
  const st={view:'2d',base:'street',run:RUNS[0].id,model:'2d',rain:true,flow:true,routes:true,places:true,live:true,playing:false};
  const sim=createSimLayer(L,map);
@@ -79,7 +81,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
    <p>HAND estimated depth (ft) · Santa Cruz windows</p><div class="ramp">${HAND_COLORS.map((c,i)=>`<span><i style="background:${c}"></i>${['0–0.3','0.3–1','1–3.3','3.3–6.6','6.6–13.1','13.1+'][i]}</span>`).join('')}</div>
   </div>
   <details class="mapp-diag" data-m-diag><summary>Diagnostics <span data-m-diag-count></span></summary><p class="mapp-hint">Errors, failed downloads and freezes on this device, with what was tapped just before. Errors and freezes are sent to the developer automatically; no location or personal details are included.</p><div class="mapp-diag-actions"><button type="button" data-m-diag-send>Send log now</button><button type="button" data-m-diag-copy>Copy log</button><button type="button" data-m-diag-clear>Clear</button></div><ol class="mapp-diag-list" data-m-diag-list></ol></details>
-  <details class="mapp-about"><summary>About this map</summary><div data-m-about><p>Water is each 100 m SFINCS model cell's simulated depth: the run's water surface minus the cell's mean terrain. It is a model, not observed water. Rain is the run's own rainfall input, river flow its inflow at the model's inlets. Live readings and route ratings come from gauges, the county and the weather service, checked separately.</p></div></details>
+  <details class="mapp-about"><summary>About this map</summary><div data-m-about><p>Water is each 100 m SFINCS model cell's simulated depth: the run's water surface minus the cell's mean terrain. It is a model, not observed water. Rain is the run's own rainfall input, river flow its inflow at the model's inlets. Route ratings include predicted water above the lidar road or bridge-deck height, together with gauges, county reports and weather alerts. Tap a road to compare its height with the predicted water height.</p></div></details>
  </section>
  <div class="mapp-controls">
   <button type="button" class="mapp-ctl lbl" data-m-north aria-label="Turn to north up" hidden>${I.north}<span>North</span></button>
@@ -112,15 +114,14 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  move('[data-map-routes]',routesPane);move('.embedded-live',routesPane);
  const links=document.createElement('div');links.className='mapp-links';routesPane.append(links);
  const history=[...document.querySelectorAll('[data-panel-content=options]>button')].find(b=>/Recent gauge readings/.test(b.textContent));if(history)links.append(history);
- move('.official-forecast-link',links);
- const exp=document.querySelector('.exp-link a');if(exp)links.append(exp.cloneNode(true));
+ document.querySelector('.official-forecast-link')?.remove();
  // The risk key is drawn with the route screens, after this runs: adopt it when it appears.
  const adopt=()=>{const k=document.querySelector('details.risk-key');if(k&&!routesPane.contains(k))routesPane.append(k);};
  adopt();addEventListener('flood-screen-rendered',adopt);
 
  // --- panel tabs ---
- let tab=(()=>{try{return localStorage.getItem('mapp-tab')}catch{return null}})()||'scenarios';
- function setTab(k){tab=k;try{localStorage.setItem('mapp-tab',k)}catch{}
+ let tab=(()=>{try{return localStorage.getItem('mapp-road-tab')}catch{return null}})()||'routes';
+ function setTab(k){tab=k;try{localStorage.setItem('mapp-road-tab',k)}catch{}
   $$('[data-m-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.mTab===k)));
   $$('[data-m-pane]').forEach(p=>p.hidden=p.dataset.mPane!==k);
   if(k==='routes')adopt();renderPanels(true);
@@ -240,13 +241,13 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  function drawTl(){drawTimeline(tlCanvas,st.base==='terrain'&&!in3d()?null:sim.run,sim.clock,overByHour());}
  addEventListener('resize',drawTl);
  // Crossings: road and deck heights against each hour's water, for the scoreboard and the HUD.
- let crossings=null,crossingsRun=null,routePred=null;
+ let crossings=null,crossingsRun=null,routePred=null,roadStations=null;
  async function updateCrossings(){
-  const run=sim.run;if(!run||crossingsRun===run)return;crossingsRun=run;crossings=null;renderPanels(true);
+  const run=sim.run;if(!run||crossingsRun===run)return;crossingsRun=run;crossings=null;routePred=null;renderPanels(true);
   try{const pkg=await loadRoads();if(sim.run===run)crossings=crossingsFor(run,points,pkg);}catch{if(sim.run===run)crossings=crossingsFor(run,points,null);}
   // Whole routes: every road station (or, on the all-route run, every low point) against this run's water.
-  routePred=null;try{const stations=routeStations(await loadRoadLines());if(sim.run===run)routePred=run.quad?predictFromAllRoute(run.quad.pkg,run.quad.points,stations,run.times):predictFromGrid(run,stations,gridCellOf(run.cells.index,toUtm));}catch(e){routePred={error:e.message};}
-  if(sim.run===run){renderPanels(true);drawTl();statKey='';hourStat();}
+  try{const stations=routeStations(await loadRoadLines());roadStations=stations;if(sim.run===run)routePred=run.quad?predictFromAllRoute(run.quad.pkg,run.quad.points,stations,run.times):predictFromGrid(run,stations,gridCellOf(run.cells.index,toUtm));}catch(e){if(sim.run===run)routePred={error:e.message};}
+  if(sim.run===run){renderPanels(true);drawTl();statKey='';hourStat();paintForecastPoints();}
  }
  const overByHour=()=>crossings&&sim.run?sim.run.times.map((_,h)=>crossings.filter(c=>c.inside&&c.over[h]>COVER_M).length):null;
  let panelKey='';
@@ -546,13 +547,38 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   hourStat();
   if(!in3d()&&!terrainOn&&sim.run){scrub.min='0';scrub.max=String(sim.run.times.length-1);setClock(sim.clock);}
   if(terrainOn){timeOut.textContent=oldClock?.textContent??'';}
-  describe();
+  describe();paintForecastPoints();
  }
+
+ // Current scored forecast points stay on the main map, using the same route records as
+ // the scores. The popup gives the forecast peak time, not the coarse map player's hour.
+ const forecastPoints=L.layerGroup();let forecastPointsKey='';
+ function paintForecastPoints(){
+  const active=location.hash==='#/map'&&!in3d()&&st.base!=='terrain'&&st.model!=='off'&&st.model!=='hand'&&st.run==='live';
+  if(!active){map.removeLayer(forecastPoints);return;}
+  map.addLayer(forecastPoints);
+  const forecast=roadForecast(),key=forecast?.status+JSON.stringify(forecast?.routes??{})+!!roadStations;
+  if(key===forecastPointsKey)return;forecastPointsKey=key;forecastPoints.clearLayers();
+  if(forecast?.status!=='ok')return;
+  for(const [id,r] of Object.entries(forecast.routes??{})){
+   if(!Number.isFinite(r.lat)||!Number.isFinite(r.lon))continue;
+   const comparison=forecastComparison(r,roadStations?.get(id));
+   const value=r.maxOver>0?(r.maxOver/.3048<.01?'<0.01':(r.maxOver/.3048).toFixed(2))+' ft':'No water over road';
+   const icon=L.divIcon({className:'road-forecast-pin',html:`<span data-road-comparison="${comparison.status}" class="${r.maxOver>0?'wet':'dry'}">${esc(value)}</span>`,iconSize:[0,0]});
+   L.marker([r.lat,r.lon],{icon,bubblingMouseEvents:false,title:ROUTE_INFO[id]?.name??id})
+    .bindPopup(`<strong>${esc(ROUTE_INFO[id]?.name??id)}</strong><br>${esc(roadForecastText(r))}<br><small>${r.time==null?'Forecast window':`Peak ${esc(clockText(r.time))}`} · issued ${esc(clockText(r.issuedAt))}</small><hr>${comparisonLines(comparison).map(esc).join('<br>')}<br><small>Same forecast used in this route’s score. Heights use NAVD88.</small>`,{className:'mapp-popup road-comparison'})
+    .addTo(forecastPoints);
+  }
+ }
+ addEventListener('flood-screen-rendered',paintForecastPoints);
 
  // Tap the 2D map for the simulated depth there.
  map.on('click',e=>{
   if(location.hash!=='#/map'||in3d()||st.base==='terrain'||st.model==='off'||st.model==='hand'||!sim.run)return;
-  const hit=sim.depthAt(e.latlng.lat,e.latlng.lng),t=clockText(sim.time());
+  const station=nearestRoadSample(routePred,{lat:e.latlng.lat,lon:e.latlng.lng});
+  const t=clockText(sim.time());
+  if(station){const r=roadComparison(station,Math.round(sim.clock));L.popup({className:'mapp-popup road-comparison'}).setLatLng(e.latlng).setContent(`<strong>${esc(ROUTE_INFO[station.routeId]?.name??station.routeId)}</strong><br>${comparisonLines(r).map(esc).join('<br>')}<br><small>${esc(sim.run.def.live?'Current coarse SFINCS map frame':'Selected SFINCS run')} · ${clockText(sim.run.times[Math.round(sim.clock)])}</small>`).openOn(map);return;}
+  const hit=sim.depthAt(e.latlng.lat,e.latlng.lng);
   if(!hit){L.popup({className:'mapp-popup'}).setLatLng(e.latlng).setContent(`Outside the model area · ${t}`).openOn(map);return;}
   if(hit.quad){
    const line=v=>`<b>${esc(v.label.split(':')[0])}</b>: ${!v.hasFrame?'no result for this frame':!v.loaded?'loading…':v.depth/.3048<.03?'no simulated water':`${(v.depth/.3048).toFixed(v.depth/.3048<1?2:1)} ft`} <span>(${v.sizeM} m cell${v.drawn?', drawn':''})</span>`;

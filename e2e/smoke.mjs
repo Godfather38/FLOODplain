@@ -9,6 +9,8 @@ import {tmpdir} from 'node:os';
 import {extname,join,normalize} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {chromium} from 'playwright';
+import {gunzipSync} from 'node:zlib';
+import {decodeRoadHeights} from '../public/preview/geo3d/src/road-package.js';
 
 const repo=fileURLToPath(new URL('..',import.meta.url));
 const site=mkdtempSync(join(tmpdir(),'floodplain-e2e-'));
@@ -69,6 +71,35 @@ async function chooseHand(page){
 }
 
 try{
+ await check('scores and the main map expose predicted water against road height without a separate estimate page',async()=>{
+  const {context,page,errors}=await freshPage({width:1024,height:768});
+  const raw=gunzipSync(readFileSync(join(repo,'public/simulation/data/road-heights/routes.bin.gz')));
+  const lines=decodeRoadHeights(raw.buffer.slice(raw.byteOffset,raw.byteOffset+raw.byteLength)).lines;
+  const station=lines.find(l=>l.kind==='route'&&l.routeId==='avra').stations.find(p=>p.elevationM!=null);
+  const times=Array.from({length:3},(_,k)=>new Date(Date.now()+(k-1)*3600e3).toISOString());
+  const summary={schemaVersion:1,kind:'live_all_route_road_forecast',executionMode:'live_current_forcing',status:'complete',case:'northern',runId:'browser-road-check',issuedAt:new Date().toISOString(),validFrom:times[0],validTo:times[2],times,
+   routes:{avra:{totalStations:1,mappedStations:1,outsideStations:0,unknownHeightStations:0,frames:times.map(()=>({peakRoadDepthM:.04,validStations:1,wetStations:1,lat:station.lat,lon:station.lon,deck:false,coverage:'complete'}))}}};
+  const display=JSON.parse(gunzipSync(readFileSync(join(repo,'public/simulation/data/frozen-terrain-display.json.gz'))));
+  await context.route('**/all-route/northern/compact/road-forecast.json*',r=>json(r,summary));
+  await context.route('**/live-model/live/manifest.json*',r=>json(r,{issuedAt:new Date().toISOString(),hrrrCycle:times[0],runId:'browser-coarse-check'}));
+  await context.route('**/live-model/live/water.json.gz*',r=>json(r,{frames:times.map((time,k)=>({time,surfaceM:display.waterFrames[k].surfaceM}))}));
+  await context.route('**/live-model/live/rainfall.json*',r=>json(r,{frames:[]}));
+  await context.route('**/live-model/live/inflow.json*',r=>json(r,{series:[]}));
+  await page.goto(origin+'/#/');await ready(page);
+  await page.waitForFunction(()=>document.querySelector('#screen')?.textContent.includes('0.1 ft'));
+  assert.equal(await page.locator('.exp-link').count(),0,'no alternate estimate destination');
+  await page.click('[data-destination=map]');await dismissNotice(page);
+  assert.equal(await page.getAttribute('[data-m-tab=routes]','aria-selected'),'true');
+  await page.waitForSelector('.road-forecast-pin [data-road-comparison=water]');
+  await page.click('.road-forecast-pin [data-road-comparison=water]');
+  await page.waitForFunction(()=>document.querySelector('.road-comparison')?.textContent.includes('Predicted water:'));
+  const comparison=await page.innerText('.road-comparison');
+  assert.match(comparison,/Road:.*ft NAVD88.*Predicted water:.*ft NAVD88.*0.13 ft above the road/s);
+  await page.click('.leaflet-popup-close-button');
+  await page.click('[data-destination=routes]');await page.click('[data-destination=map]');
+  assert.equal(await page.locator('.road-forecast-pin').count(),1,'one marker after repeated navigation');
+  assert.deepEqual(errors,[]);await context.close();
+ });
  await check('home shows the closure, ranks it last, and colors its icons',async()=>{
   const {context,page,errors}=await freshPage({width:375,height:812});
   await page.goto(origin+'/#/');await ready(page);await page.waitForSelector('.closure-banner');
