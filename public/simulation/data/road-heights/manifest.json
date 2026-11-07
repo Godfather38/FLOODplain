@@ -11,11 +11,17 @@
   {
    "tier": "routes",
    "path": "routes.bin.gz",
-   "sha256": "94a2693e697bf4ded78f3853d920aad6d2fbee16db584194ad2f5bb1fc34ee97",
-   "bytes": 84758,
+   "sha256": "dc8dcf3e5420f623444c534a005e2dbd8225f1ae890edc9baa0b956b233efe99",
+   "bytes": 85021,
    "decodedBytes": 1271809,
    "lineCount": 244,
-   "stationCount": 66485
+   "stationCount": 66485,
+   "source": {
+    "path": "source.json",
+    "sha256": "dec984f7d693f62a3a17b182929bbc633fa8914724ef0acf729db6067ca67873",
+    "commit": "97f9291cfb93cdb01a63b68c9b34f50598beeeff",
+    "sourcePath": "tools/live/road-stations/routes.bin.gz"
+   }
   },
   {
    "tier": "area",
