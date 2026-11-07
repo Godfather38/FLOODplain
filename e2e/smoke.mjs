@@ -91,7 +91,7 @@ try{
   await page.click('[data-destination=map]');await dismissNotice(page);
   assert.equal(await page.getAttribute('[data-m-tab=routes]','aria-selected'),'true');
   await page.waitForSelector('.road-forecast-pin [data-road-comparison=water]');
-  await page.click('.road-forecast-pin');
+  await page.click('.road-forecast-pin [data-road-comparison=water]');
   await page.waitForFunction(()=>document.querySelector('.road-comparison')?.textContent.includes('Predicted water:'));
   const comparison=await page.innerText('.road-comparison');
   assert.match(comparison,/Road:.*ft NAVD88.*Predicted water:.*ft NAVD88.*0.13 ft above the road/s);

@@ -243,10 +243,10 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  // Crossings: road and deck heights against each hour's water, for the scoreboard and the HUD.
  let crossings=null,crossingsRun=null,routePred=null,roadStations=null;
  async function updateCrossings(){
-  const run=sim.run;if(!run||crossingsRun===run)return;crossingsRun=run;crossings=null;renderPanels(true);
+  const run=sim.run;if(!run||crossingsRun===run)return;crossingsRun=run;crossings=null;routePred=null;renderPanels(true);
   try{const pkg=await loadRoads();if(sim.run===run)crossings=crossingsFor(run,points,pkg);}catch{if(sim.run===run)crossings=crossingsFor(run,points,null);}
   // Whole routes: every road station (or, on the all-route run, every low point) against this run's water.
-  routePred=null;try{const stations=routeStations(await loadRoadLines());roadStations=stations;if(sim.run===run)routePred=run.quad?predictFromAllRoute(run.quad.pkg,run.quad.points,stations,run.times):predictFromGrid(run,stations,gridCellOf(run.cells.index,toUtm));}catch(e){routePred={error:e.message};}
+  try{const stations=routeStations(await loadRoadLines());roadStations=stations;if(sim.run===run)routePred=run.quad?predictFromAllRoute(run.quad.pkg,run.quad.points,stations,run.times):predictFromGrid(run,stations,gridCellOf(run.cells.index,toUtm));}catch(e){if(sim.run===run)routePred={error:e.message};}
   if(sim.run===run){renderPanels(true);drawTl();statKey='';hourStat();paintForecastPoints();}
  }
  const overByHour=()=>crossings&&sim.run?sim.run.times.map((_,h)=>crossings.filter(c=>c.inside&&c.over[h]>COVER_M).length):null;
@@ -577,7 +577,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   if(location.hash!=='#/map'||in3d()||st.base==='terrain'||st.model==='off'||st.model==='hand'||!sim.run)return;
   const station=nearestRoadSample(routePred,{lat:e.latlng.lat,lon:e.latlng.lng});
   const t=clockText(sim.time());
-  if(station){const r=roadComparison(station,Math.round(sim.clock));L.popup({className:'mapp-popup road-comparison'}).setLatLng(e.latlng).setContent(`<strong>${esc(ROUTE_INFO[station.routeId]?.name??station.routeId)}</strong><br>${comparisonLines(r).map(esc).join('<br>')}<br><small>${esc(sim.run.def.live?'Current coarse SFINCS map frame':'Selected SFINCS run')} · ${t}</small>`).openOn(map);return;}
+  if(station){const r=roadComparison(station,Math.round(sim.clock));L.popup({className:'mapp-popup road-comparison'}).setLatLng(e.latlng).setContent(`<strong>${esc(ROUTE_INFO[station.routeId]?.name??station.routeId)}</strong><br>${comparisonLines(r).map(esc).join('<br>')}<br><small>${esc(sim.run.def.live?'Current coarse SFINCS map frame':'Selected SFINCS run')} · ${clockText(sim.run.times[Math.round(sim.clock)])}</small>`).openOn(map);return;}
   const hit=sim.depthAt(e.latlng.lat,e.latlng.lng);
   if(!hit){L.popup({className:'mapp-popup'}).setLatLng(e.latlng).setContent(`Outside the model area · ${t}`).openOn(map);return;}
   if(hit.quad){
