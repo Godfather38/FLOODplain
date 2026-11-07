@@ -1,0 +1,367 @@
+dip_depth_m,lon,lat,road_name,road_class,finest_live_model_cell_m,road_flags
+5.26,-111.35091,32.22342,West Cocorague Ranch Road,unclassified,,0
+3.95,-111.4153,32.44788,North Red Hill Road,residential,,0
+3.92,-111.41533,32.4496,North Red Hill Road,residential,,0
+3.69,-111.42061,32.36498,North Agua Dulce Ranch Road,unclassified,,0
+3.29,-111.35084,32.23074,West Cocorague Ranch Road,unclassified,,0
+3.15,-111.41653,32.4466,West Silverbell Road,tertiary,,0
+2.74,-111.2022,32.27319,Hohokam Road,unclassified,100,0
+2.74,-111.21133,32.26343,North Kinney Road,tertiary,6.25,0
+2.56,-111.21332,32.27691,Golden Gate Road,unclassified,12.5,0
+2.54,-111.23321,32.45157,West Nicholas Drive,residential,6.25,0
+2.47,-111.407,32.44485,West Silverbell Road,tertiary,,0
+2.31,-111.42176,32.36061,North Agua Dulce Ranch Road,unclassified,,0
+2.26,-111.37166,32.44924,North Pump Station Road,unclassified,,0
+2.24,-111.20915,32.28988,Signal Hill Road,unclassified,100,0
+2.04,-111.35292,32.33516,West Tucker Road,residential,,0
+2.0,-111.20534,32.32398,North Featherstone Trail,residential,12.5,0
+1.91,-111.41964,32.36856,North Agua Dulce Ranch Road,unclassified,,0
+1.75,-111.22107,32.44518,West Rodeo Trail,residential,100,0
+1.73,-111.20929,32.16177,West Snyder Hill Road,unclassified,,0
+1.69,-111.37036,32.38465,North Pump Station Road,unclassified,,0
+1.67,-111.3193,32.4366,West Moore Road,residential,100,0
+1.65,-111.20443,32.33086,North Spring Wagon Drive,residential,25,0
+1.65,-111.20443,32.23718,North Camino Del Sapo,residential,100,0
+1.64,-111.20375,32.23616,North Camino Del Sapo,residential,100,0
+1.62,-111.20551,32.23883,North Camino Del Sapo,residential,100,0
+1.61,-111.31648,32.36422,,residential,,0
+1.6,-111.21977,32.33656,West Grey Stone Loop,residential,12.5,0
+1.59,-111.36798,32.3637,,residential,,0
+1.59,-111.41403,32.44551,West Silverbell Road,tertiary,,0
+1.52,-111.3374,32.39329,West Lambert Lane,residential,,0
+1.49,-111.21815,32.28882,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+1.49,-111.26511,32.43422,West Hiram Drive,residential,100,0
+1.45,-111.24238,32.24812,West Mile Wide Road,tertiary,100,0
+1.4,-111.33718,32.40046,West Whitewing Way,unclassified,,0
+1.39,-111.22548,32.23112,West Ranchito Verde,residential,100,0
+1.39,-111.33495,32.40047,West Whitewing Way,unclassified,,0
+1.38,-111.23361,32.35162,West Magee Road,residential,100,0
+1.37,-111.33634,32.40774,West Jaguar Lane,residential,100,0
+1.34,-111.42351,32.35412,North Agua Dulce Ranch Road,unclassified,,0
+1.32,-111.29175,32.15817,Garcia Ranch Road,unclassified,,0
+1.27,-111.42276,32.40554,North Waterman Mountain Road,unclassified,,0
+1.24,-111.2246,32.33522,West Ina Road,residential,100,0
+1.24,-111.28702,32.29176,West Manville Road,tertiary,,0
+1.24,-111.29463,32.39322,West Avra Valley Road,secondary,6.25,0
+1.21,-111.37099,32.39047,North Pump Station Road,unclassified,100,0
+1.21,-111.42109,32.36341,North Agua Dulce Ranch Road,unclassified,,0
+1.2,-111.20968,32.24756,North Camino Del Sapo,residential,100,0
+1.2,-111.21816,32.29406,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+1.19,-111.21867,32.27413,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+1.16,-111.41987,32.36735,North Agua Dulce Ranch Road,unclassified,,0
+1.13,-111.21817,32.29739,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+1.12,-111.26719,32.29176,West Manville Road,tertiary,,0
+1.11,-111.21802,32.21929,South Sandario Road,secondary,100,0
+1.11,-111.40963,32.44209,West Mullins Lane,residential,,0
+1.1,-111.2112,32.33895,North Aloe Green Drive,residential,12.5,0
+1.1,-111.24058,32.33111,West Picture Rock Road,residential,100,0
+1.1,-111.33349,32.39323,West Lambert Lane,residential,,0
+1.1,-111.33417,32.41879,North Musket Road,residential,100,0
+1.09,-111.21819,32.25067,North Sandario Road,secondary,100,0
+1.07,-111.30709,32.247,West Cocorague Ranch Road,unclassified,,0
+1.06,-111.22663,32.24101,West Calle Pima,residential,100,0
+1.05,-111.2606,32.29175,West Manville Road,tertiary,100,0
+1.05,-111.37208,32.41374,North Pump Station Road,unclassified,,0
+1.04,-111.21816,32.28022,North Sandario Road,secondary,6.25,0
+1.03,-111.2163,32.4418,West Fayes Glen Drive,residential,100,0
+1.03,-111.27671,32.3354,West Tucker Road,residential,100,0
+1.02,-111.21658,32.38061,Sandario Rd -> Twin Peaks Rd,route,6.25,0
+1.02,-111.21682,32.39834,North Sandario Road,secondary,6.25,0
+1.02,-111.21817,32.24887,North Sandario Road,secondary,100,0
+1.01,-111.29102,32.15309,Garcia Ranch Road,unclassified,,0
+1.0,-111.42381,32.35234,North Agua Dulce Ranch Road,unclassified,,0
+0.99,-111.309,32.44406,Gold Bell Road,residential,12.5,0
+0.99,-111.32573,32.46055,,residential,100,0
+0.99,-111.33429,32.44241,North Musket Road,residential,,0
+0.98,-111.29124,32.15942,Garcia Ranch Road,unclassified,,0
+0.97,-111.29095,32.16127,Garcia Ranch Road,unclassified,,0
+0.96,-111.26315,32.29176,West Manville Road,tertiary,100,0
+0.96,-111.29733,32.34985,North Mesquite Oasis Road,residential,,0
+0.93,-111.42025,32.46697,,unclassified,,0
+0.92,-111.26999,32.45674,Berry Street,tertiary,12.5,0
+0.92,-111.36157,32.42933,West El Tiro Road,unclassified,,0
+0.92,-111.42417,32.3502,North Agua Dulce Ranch Road,unclassified,,0
+0.9,-111.23993,32.17565,West Donaldson Ranch Road,unclassified,,0
+0.9,-111.3716,32.45276,North Pump Station Road,unclassified,,0
+0.88,-111.28348,32.33535,West Tucker Road,residential,,0
+0.87,-111.23075,32.43992,West Reyher Farms Loop,residential,12.5,0
+0.87,-111.32408,32.43881,North Flintlock Road,residential,100,0
+0.86,-111.31104,32.39189,Avra Vista,residential,100,0
+0.86,-111.31515,32.43301,West Sandy Street,residential,100,0
+0.85,-111.21804,32.22245,South Sandario Road,secondary,100,0
+0.85,-111.26846,32.29177,West Manville Road,tertiary,,0
+0.85,-111.28247,32.45145,West Trico Marana Road,secondary,6.25,0
+0.85,-111.37249,32.36496,Pump Station Road,residential,,0
+0.85,-111.40411,32.44305,North Waterman Mountain Road,residential,,0
+0.84,-111.26559,32.29176,West Manville Road,tertiary,,0
+0.83,-111.20714,32.24014,North Camino Del Sapo,residential,100,0
+0.83,-111.36908,32.34246,Blanco Wash Trail,residential,,0
+0.81,-111.20895,32.46214,North Spear Point Way,residential,100,0
+0.81,-111.21801,32.20179,South Sandario Road,secondary,100,0
+0.81,-111.32518,32.43908,West Savage Road,residential,100,0
+0.8,-111.21089,32.45979,North Adonis Road,tertiary,50,0
+0.8,-111.30628,32.44326,Gold Bell Road,residential,12.5,0
+0.8,-111.34703,32.44037,North Cocio Road,tertiary,,0
+0.79,-111.20889,32.43119,North Sandby Green Drive,residential,100,0
+0.79,-111.26137,32.34977,West Dally Road,residential,100,0
+0.79,-111.31275,32.3824,West Avra Valley Road,secondary,100,0
+0.78,-111.21817,32.24295,South Sandario Road,secondary,100,0
+0.78,-111.21818,32.30213,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+0.77,-111.21818,32.25536,North Sandario Road,secondary,100,0
+0.77,-111.23537,32.28191,North Sanders Road,residential,100,0
+0.77,-111.33833,32.23407,West Cocorague Ranch Road,unclassified,,0
+0.77,-111.34705,32.30597,North Axtell Avenue,residential,,0
+0.76,-111.30935,32.39092,North Cotton Tail Drive,residential,12.5,0
+0.76,-111.33175,32.44134,West Gatling Road,residential,100,0
+0.76,-111.41528,32.44013,North Red Hill Road,residential,,0
+0.75,-111.20454,32.46397,North Stonepipe Way,residential,100,0
+0.75,-111.21162,32.43174,West Bolney Gate Drive,residential,100,0
+0.75,-111.21384,32.24314,West Lizard Lane,residential,100,0
+0.75,-111.21806,32.22606,South Sandario Road,secondary,100,0
+0.75,-111.37214,32.40743,North Pump Station Road,unclassified,,0
+0.74,-111.21318,32.43247,West Granville Drive,residential,100,0
+0.74,-111.33054,32.44348,West Sharps Road,residential,100,0
+0.74,-111.33922,32.45104,West Trico Marana Road,residential,,0
+0.73,-111.21259,32.44062,West Fayes Glen Drive,residential,100,0
+0.73,-111.21514,32.26665,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+0.73,-111.30533,32.32051,West Orange Grove Road,residential,,0
+0.73,-111.31119,32.44474,Gold Bell Road,residential,100,0
+0.73,-111.31861,32.43238,West Sandy Street,residential,100,0
+0.72,-111.21074,32.46237,West Magic Song Street,residential,50,0
+0.72,-111.21818,32.2541,North Sandario Road,secondary,100,0
+0.72,-111.2208,32.44269,West Fontenelle Drive,residential,100,0
+0.72,-111.28537,32.33711,West Little Williams Drive,residential,,0
+0.72,-111.29465,32.16766,Garcia Ranch Road,unclassified,,0
+0.72,-111.30427,32.45031,Trico Rd -> Trico-Marana Rd -> Marana Rd,route,6.25,0
+0.72,-111.37103,32.38266,North Pump Station Road,unclassified,,0
+0.72,-111.37199,32.42159,North Pump Station Road,unclassified,,0
+0.72,-111.42414,32.40177,North Waterman Mountain Road,unclassified,,0
+0.71,-111.2272,32.44072,West Fianchetto Drive,residential,100,0
+0.71,-111.2353,32.25288,North Sanders Road,residential,100,0
+0.7,-111.21205,32.46301,North Adonis Road,tertiary,12.5,0
+0.69,-111.21805,32.22462,South Sandario Road,secondary,100,0
+0.69,-111.32346,32.43741,North Flintlock Road,residential,100,0
+0.68,-111.23529,32.25414,North Sanders Road,residential,100,0
+0.68,-111.23531,32.25179,North Sanders Road,residential,100,0
+0.68,-111.29165,32.15624,Garcia Ranch Road,unclassified,,0
+0.68,-111.34045,32.29882,Curtis Street,residential,,0
+0.68,-111.37195,32.42547,North Pump Station Road,unclassified,,0
+0.68,-111.37204,32.41717,North Pump Station Road,unclassified,,0
+0.67,-111.22864,32.24139,North San Joaquin Road,tertiary,100,0
+0.67,-111.34288,32.38552,North Bearcat Lane,residential,,0
+0.66,-111.26653,32.43266,North Hong Street,residential,25,0
+0.66,-111.30566,32.45115,West Trico Marana Road,tertiary,12.5,0
+0.65,-111.29201,32.32985,West Drillers Road,residential,,0
+0.65,-111.30949,32.44241,North Trico Road,residential,12.5,0
+0.65,-111.34358,32.30601,North Axtell Avenue,residential,,0
+0.64,-111.20372,32.46348,North Via Trincheras,residential,100,0
+0.64,-111.31482,32.38636,West Culver Road,residential,100,0
+0.64,-111.3722,32.40193,North Pump Station Road,unclassified,,0
+0.63,-111.22049,32.43498,North Blondin Drive,residential,100,0
+0.63,-111.23533,32.25044,North Sanders Road,residential,100,0
+0.63,-111.26775,32.34978,West Magee Road,residential,100,0
+0.62,-111.21816,32.27887,North Sandario Road,secondary,6.25,0
+0.61,-111.21222,32.45226,Marana Main Street,unclassified,100,0
+0.61,-111.21815,32.32387,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+0.61,-111.30769,32.43301,West Sandy Street,residential,12.5,0
+0.61,-111.32989,32.44482,North Derringer Road,tertiary,100,0
+0.6,-111.21819,32.31471,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+0.6,-111.3469,32.29328,North Eakers Avenue,residential,,0
+0.59,-111.37176,32.44004,North Pump Station Road,unclassified,,0
+0.58,-111.20003,32.45367,Grier Road,tertiary,,0
+0.58,-111.21672,32.37883,Sandario Rd -> Twin Peaks Rd,route,6.25,0
+0.58,-111.21809,32.23011,South Sandario Road,secondary,100,0
+0.58,-111.21815,32.23874,South Sandario Road,secondary,100,0
+0.58,-111.22071,32.43372,West Rocky Cove Drive,residential,100,0
+0.58,-111.32315,32.37871,West Avra Valley Road,tertiary,,0
+0.57,-111.2551,32.34977,West Dally Road,residential,100,0
+0.57,-111.33177,32.2879,West Polo Lane,residential,,0
+0.57,-111.33531,32.46753,West Silverbell Road,tertiary,100,0
+0.57,-111.34057,32.40335,,residential,100,0
+0.56,-111.2334,32.30018,North Old West Road,residential,100,0
+0.56,-111.31796,32.43301,West Sandy Street,residential,100,0
+0.56,-111.32017,32.29849,North Sabi Road,residential,,0
+0.56,-111.42366,32.40287,North Waterman Mountain Road,unclassified,,0
+0.55,-111.31125,32.32793,West Scrub Brush Road,residential,,0
+0.55,-111.33423,32.43722,North Musket Road,residential,100,0
+0.55,-111.42294,32.35612,North Agua Dulce Ranch Road,unclassified,,0
+0.54,-111.21867,32.43522,North Greenberry Drive,residential,100,0
+0.54,-111.25094,32.31998,Spur Off Vaqueros Road,residential,100,0
+0.54,-111.28734,32.43751,West Silverbell Road,tertiary,6.25,0
+0.54,-111.29274,32.32805,West Scrub Brush Road,residential,,0
+0.54,-111.30426,32.43608,North Trico Road,secondary,6.25,0
+0.54,-111.30997,32.24589,West Cocorague Ranch Road,unclassified,,0
+0.54,-111.36927,32.34848,Blanco Wash Trail,residential,,0
+0.54,-111.42265,32.35816,North Agua Dulce Ranch Road,unclassified,,0
+0.53,-111.20164,32.42477,West Tangerine Road,secondary,100,0
+0.53,-111.21808,32.43451,North Boscombe Drive,residential,100,0
+0.53,-111.24237,32.28327,West Virgil Drive,residential,100,0
+0.53,-111.34019,32.44918,West Babocomari Road,residential,,0
+0.52,-111.21813,32.33156,Sandario Rd -> Twin Peaks Rd,route,6.25,0
+0.52,-111.23249,32.45047,West Barnett Farms Drive,residential,12.5,0
+0.52,-111.23808,32.28617,Old Ranch Road,residential,100,0
+0.52,-111.25223,32.31874,North Avra Road,residential,100,0
+0.52,-111.27487,32.45837,West Linda Lane,residential,6.25,0
+0.52,-111.31706,32.29367,North Buckmeister Way,residential,,0
+0.52,-111.33562,32.42936,West El Tiro Road,tertiary,100,0
+0.52,-111.37157,32.4542,North Pump Station Road,unclassified,,0
+0.52,-111.37178,32.43742,North Pump Station Road,unclassified,,0
+0.51,-111.21816,32.26936,North Sandario Road,secondary,12.5,0
+0.51,-111.219,32.44547,West Rodeo Trail,residential,100,0
+0.51,-111.30946,32.4221,West El Camino de Tres Arroyos,tertiary,12.5,0
+0.51,-111.34447,32.27704,,residential,,0
+0.51,-111.36845,32.33689,Blanco Wash Trail,residential,,0
+0.5,-111.21817,32.24732,South Sandario Road,secondary,100,0
+0.5,-111.28298,32.24572,West Cocorague Ranch Road,unclassified,,0
+0.5,-111.29818,32.35707,West Prickle Desert Drive,residential,,0
+0.5,-111.2996,32.1959,West Garcia Ranch Road,unclassified,,0
+0.5,-111.3427,32.29657,North Axtell Avenue,residential,,0
+0.5,-111.41241,32.44449,West Silverbell Road,tertiary,,0
+0.49,-111.23538,32.29003,North Sanders Road,residential,100,0
+0.49,-111.26902,32.34979,West Magee Road,residential,100,0
+0.49,-111.32073,32.40418,West Spur Bell Lane,residential,100,0
+0.48,-111.22243,32.24512,North Camino Altar,residential,100,0
+0.48,-111.23808,32.291,Old Ranch Road,residential,100,0
+0.48,-111.24629,32.17575,West Donaldson Ranch Road,unclassified,,0
+0.48,-111.29494,32.17171,Garcia Ranch Road,unclassified,,0
+0.47,-111.23043,32.43612,West Sandy Street,residential,12.5,0
+0.47,-111.23781,32.16146,West Snyder Hill Road,residential,,0
+0.47,-111.31053,32.43058,North Avenida Galaxia,residential,50,0
+0.47,-111.32217,32.4365,West Moore Road,residential,100,0
+0.47,-111.32413,32.30611,West Sunset Road,residential,,0
+0.47,-111.3693,32.35473,North Egyptian Mau Trail,residential,,0
+0.46,-111.217,32.27038,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+0.46,-111.21814,32.32904,Sandario Rd -> Twin Peaks Rd,route,6.25,0
+0.46,-111.22475,32.35017,North Steele Drive,residential,100,0
+0.46,-111.23237,32.29529,North Old West Road,residential,100,0
+0.46,-111.23809,32.28156,Old Ranch Road,residential,100,0
+0.46,-111.26107,32.26283,West Fort Lowell Road,unclassified,,0
+0.46,-111.26771,32.17769,West Donaldson Ranch Road,unclassified,,0
+0.46,-111.2802,32.2048,West Garcia Ranch Road,unclassified,,0
+0.46,-111.32879,32.44635,North Flintlock Road,residential,100,0
+0.46,-111.36833,32.33581,Blanco Wash Trail,residential,,0
+0.46,-111.37191,32.42791,North Pump Station Road,unclassified,,0
+0.45,-111.20187,32.46033,North Stove Palisade Drive,residential,,0
+0.45,-111.20904,32.24361,North Camino Del Sapo,residential,100,0
+0.45,-111.21815,32.28129,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+0.45,-111.22442,32.44195,North Fox Hollow Drive,residential,100,0
+0.45,-111.23539,32.29111,North Sanders Road,residential,100,0
+0.45,-111.23658,32.16673,West Blue Aloe Street,residential,,0
+0.45,-111.26049,32.32094,West Orange Grove Road,residential,100,0
+0.45,-111.2799,32.29175,West Manville Road,tertiary,,0
+0.45,-111.31415,32.34243,West Alibi Drive,residential,,0
+0.44,-111.20536,32.45385,North Casa Grande Highway,tertiary,100,0
+0.44,-111.21801,32.21505,South Sandario Road,secondary,100,0
+0.44,-111.21818,32.25301,North Sandario Road,secondary,100,0
+0.44,-111.22244,32.2472,North Camino Altar,residential,100,0
+0.44,-111.24261,32.28088,West Virgil Drive,residential,100,0
+0.44,-111.24635,32.39893,West Avra Valley Road,secondary,6.25,0
+0.44,-111.26176,32.32094,West Orange Grove Road,residential,100,0
+0.44,-111.26754,32.26278,West Fort Lowell Road,unclassified,,0
+0.44,-111.28888,32.3444,,residential,,0
+0.44,-111.30275,32.35704,West Prickle Desert Drive,residential,100,0
+0.43,-111.21126,32.46375,North Chaco Journey Avenue,residential,50,0
+0.43,-111.22882,32.24725,North Halo Drive,residential,100,0
+0.43,-111.23513,32.29604,North Sanders Road,tertiary,100,0
+0.43,-111.25124,32.44495,North Wentz Road,residential,100,0
+0.42,-111.21256,32.44255,West Tom Henry Way,residential,100,0
+0.42,-111.21451,32.43168,North Tangerine Farms Road,secondary,100,0
+0.42,-111.21548,32.26716,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+0.42,-111.21567,32.43274,West Gladden Farms Drive,tertiary,100,0
+0.42,-111.22665,32.24952,North Camino Avra,residential,100,0
+0.42,-111.23536,32.27982,North Sanders Road,residential,100,0
+0.41,-111.20254,32.45982,North Swift Spear Drive,residential,100,0
+0.41,-111.2249,32.44312,West Amarissa Drive,residential,100,0
+0.41,-111.25091,32.22232,North Avra Road,unclassified,,0
+0.41,-111.31142,32.33337,,residential,,0
+0.41,-111.33088,32.43951,West Weatherby Road,residential,,0
+0.41,-111.33254,32.28424,North Musket Road,residential,,0
+0.4,-111.20552,32.43422,West Harvester Drive,residential,100,0
+0.4,-111.20923,32.46733,West Pipestone Street,residential,100,0
+0.4,-111.21452,32.43801,West Emmer Drive,residential,100,0
+0.4,-111.21684,32.40232,Sandario Rd -> Avra Valley Rd,route,6.25,0
+0.4,-111.24672,32.37702,,residential,100,0
+0.4,-111.24777,32.4425,North Wentz Road,residential,100,0
+0.4,-111.2892,32.34259,West Alibi Drive,residential,,0
+0.4,-111.36657,32.37281,West Avra Valley Road,tertiary,,0
+0.39,-111.21528,32.44975,West Bill Gaudette Drive,unclassified,100,0
+0.39,-111.22848,32.43612,West Sandy Street,residential,12.5,0
+0.39,-111.2515,32.23449,,unclassified,,0
+0.39,-111.27644,32.3933,West Avra Valley Road,secondary,6.25,0
+0.39,-111.29248,32.3226,West Running Horse Road,residential,,0
+0.39,-111.30755,32.42211,West El Camino de Tres Arroyos,tertiary,12.5,0
+0.38,-111.2166,32.35244,Sandario Rd -> Twin Peaks Rd,route,6.25,0
+0.38,-111.26776,32.45674,Berry Street,tertiary,12.5,0
+0.38,-111.30515,32.32796,West Scrub Brush Road,residential,,0
+0.38,-111.31136,32.24506,West Cocorague Ranch Road,unclassified,,0
+0.38,-111.31202,32.39316,West Lambert Lane,residential,100,0
+0.38,-111.33653,32.46963,North Aguirre Road,residential,100,0
+0.38,-111.3693,32.35127,Blanco Wash Trail,residential,,0
+0.37,-111.21662,32.35885,Sandario Rd -> Twin Peaks Rd,route,6.25,0
+0.37,-111.21801,32.20026,South Sandario Road,secondary,100,0
+0.37,-111.22287,32.46055,West Marana Road,tertiary,6.25,0
+0.37,-111.22505,32.44099,North Fox Hollow Drive,residential,100,0
+0.37,-111.2323,32.44048,North Ong Drive,residential,12.5,0
+0.37,-111.23884,32.18119,South Marstellar Road,residential,,0
+0.37,-111.23888,32.18038,South Marstellar Road,residential,,0
+0.37,-111.28013,32.33539,West Tucker Road,residential,100,0
+0.37,-111.29223,32.34437,,residential,,0
+0.37,-111.29504,32.17315,Garcia Ranch Road,unclassified,,0
+0.37,-111.30642,32.32796,West Scrub Brush Road,residential,,0
+0.37,-111.37243,32.37696,North Pump Station Road,unclassified,,0
+0.36,-111.21817,32.30326,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+0.36,-111.22664,32.24348,North Camino Avra,residential,100,0
+0.36,-111.29217,32.39323,Avra Valley Rd (I-10 Avra Valley exit),route,6.25,0
+0.36,-111.31295,32.30608,North Antelope Road,residential,,0
+0.36,-111.34967,32.29156,West Manville Road,unclassified,,0
+0.36,-111.3721,32.41167,North Pump Station Road,unclassified,,0
+0.35,-111.20171,32.43082,West Caracara Drive,residential,100,0
+0.35,-111.23503,32.16078,South Marstellar Road,residential,,0
+0.35,-111.24319,32.38617,,residential,100,0
+0.35,-111.32126,32.37429,North Anway Road,tertiary,,0
+0.35,-111.32655,32.39663,West Elk Trail,residential,,0
+0.35,-111.34265,32.39788,West Whitewing Way,residential,,0
+0.35,-111.34703,32.43757,North Cocio Road,tertiary,,0
+0.34,-111.20295,32.42674,West Dawnlight Drive,residential,100,0
+0.34,-111.30864,32.40423,West Spur Bell Lane,residential,12.5,0
+0.34,-111.33506,32.3932,West Lambert Lane,residential,,0
+0.34,-111.34659,32.46365,West Silverbell Road,tertiary,,0
+0.34,-111.36879,32.33985,Blanco Wash Trail,residential,,0
+0.33,-111.2019,32.45139,North Casa Grande Highway,tertiary,100,0
+0.33,-111.20379,32.43464,North Lon Adams Road,tertiary,100,0
+0.33,-111.21315,32.16004,West Eagles Wing Way,residential,,0
+0.33,-111.21658,32.34748,Sandario Rd -> Twin Peaks Rd,route,6.25,0
+0.33,-111.21801,32.21361,South Sandario Road,secondary,100,0
+0.33,-111.23288,32.2932,North Old West Road,residential,100,0
+0.33,-111.23809,32.28309,Old Ranch Road,residential,100,0
+0.33,-111.28655,32.20481,West Garcia Ranch Road,unclassified,,0
+0.33,-111.29683,32.18306,West Garcia Ranch Road,unclassified,,0
+0.33,-111.31467,32.3029,North Whitetail Road,residential,,0
+0.33,-111.31523,32.30606,West Sunset Road,residential,,0
+0.33,-111.32125,32.3561,North Anway Road,tertiary,,0
+0.33,-111.33413,32.41582,North Musket Road,residential,100,0
+0.33,-111.33424,32.42423,North Musket Road,residential,100,0
+0.33,-111.34431,32.38537,North Needmore Way,residential,,0
+0.32,-111.21905,32.43222,West Rocky Cove Drive,residential,100,0
+0.32,-111.23699,32.17393,South Marstellar Road,residential,,0
+0.32,-111.32559,32.27066,North Sassy Drive,residential,,0
+0.32,-111.32764,32.23894,West Cocorague Ranch Road,unclassified,,0
+0.32,-111.37229,32.39471,North Pump Station Road,unclassified,100,0
+0.31,-111.21197,32.44614,West Barnett Road,tertiary,100,0
+0.31,-111.21655,32.33967,Sandario Rd -> Twin Peaks Rd,route,6.25,0
+0.31,-111.21816,32.27786,Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway,route,6.25,0
+0.31,-111.22041,32.43645,North Tangerine Farms Road,secondary,100,0
+0.31,-111.22435,32.43958,North Fox Hollow Drive,residential,100,0
+0.31,-111.22543,32.43532,North Steele Drive,residential,100,0
+0.31,-111.23506,32.16512,,residential,,0
+0.31,-111.23538,32.28895,North Sanders Road,residential,100,0
+0.31,-111.27727,32.4565,West Trico Marana Road,secondary,6.25,0
+0.31,-111.28855,32.24604,West Cocorague Ranch Road,unclassified,,0
+0.31,-111.32287,32.40786,West Jaguar Lane,residential,100,0
+0.31,-111.32795,32.39839,West Falcon Lane,residential,100,0
+0.3,-111.21724,32.33373,Sandario Rd -> Twin Peaks Rd,route,6.25,0
+0.3,-111.22666,32.24674,North Camino Avra,residential,100,0
+0.3,-111.23332,32.45325,West Grier Road,tertiary,6.25,0
+0.3,-111.2603,32.29901,West Curtis Road,residential,100,0
+0.3,-111.33829,32.34234,North Aguirre Road,residential,,0
+0.3,-111.34899,32.33516,West Tucker Road,residential,,0
