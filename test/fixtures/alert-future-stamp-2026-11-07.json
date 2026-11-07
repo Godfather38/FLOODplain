@@ -1,0 +1,175 @@
+{
+ "capturedAt": "2026-11-07T17:51:08Z",
+ "source": "https://alertmap.rfcd.pima.gov/gmap/gmap_files/php/currain.php (raw rows, unmodified; subset)",
+ "note": "Captured at 10:51 Arizona time. Six stations already carry last_rpt 2026-11-07T17:00:00, which is 5 PM Arizona = midnight UTC on Nov 8, about six hours in the future.",
+ "data": [
+  {
+   "site": "541",
+   "longitude": "-108.939163",
+   "latitude": "32.865002",
+   "null": "-999",
+   "name": "Raeburn Mill Precip",
+   "last_rpt": "2026-11-07T17:00:00",
+   "rain": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1.42,
+    2.01
+   ],
+   "source": "greenlee",
+   "UnderMaintenance": false
+  },
+  {
+   "site": "2180",
+   "longitude": "-110.801208",
+   "latitude": "32.305683",
+   "null": "-999",
+   "name": "Bear Canyon Wash near Bear Canyon Rd",
+   "last_rpt": "2026-11-07T17:00:00",
+   "rain": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2.01,
+    2.56
+   ],
+   "source": "pima",
+   "UnderMaintenance": false
+  },
+  {
+   "site": "3052",
+   "longitude": "-110.265831",
+   "latitude": "31.368059",
+   "null": "-999",
+   "name": "Ash Canyon",
+   "last_rpt": "2026-11-07T17:00:00",
+   "rain": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1.54,
+    3.15
+   ],
+   "source": "cochise",
+   "UnderMaintenance": false
+  },
+  {
+   "site": "4100",
+   "longitude": "-111.411942",
+   "latitude": "32.338520",
+   "null": "-999",
+   "name": "AZGFD1",
+   "last_rpt": "2026-11-07T17:00:00",
+   "rain": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1.3,
+    1.42
+   ],
+   "source": "pima",
+   "UnderMaintenance": false
+  },
+  {
+   "site": "5030",
+   "longitude": "-111.328484",
+   "latitude": "32.166950",
+   "null": "-999",
+   "name": "AZGFD 3",
+   "last_rpt": "2026-11-07T17:00:00",
+   "rain": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2.01,
+    2.83
+   ],
+   "source": "pima",
+   "UnderMaintenance": false
+  },
+  {
+   "site": "6110",
+   "longitude": "-111.225060",
+   "latitude": "32.429016",
+   "null": "-999",
+   "name": "Marana High Plains - Santa Cruz Basin",
+   "last_rpt": "2026-11-07T10:00:00",
+   "rain": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1.61,
+    2.17
+   ],
+   "source": "pima",
+   "UnderMaintenance": false
+  },
+  {
+   "site": "6200",
+   "longitude": "-110.943886",
+   "latitude": "32.066944",
+   "null": "-999",
+   "name": "Summit Elementary - Franco Basin",
+   "last_rpt": "2026-11-07T17:00:00",
+   "rain": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2.09,
+    2.87
+   ],
+   "source": "pima",
+   "UnderMaintenance": false
+  },
+  {
+   "site": "6460",
+   "longitude": "-111.235558",
+   "latitude": "32.309166",
+   "null": "-999",
+   "name": "Picture Rocks Community Center - Brawley Basin",
+   "last_rpt": "2026-11-07T10:00:00",
+   "rain": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2.09,
+    2.68
+   ],
+   "source": "pima",
+   "UnderMaintenance": false
+  }
+ ]
+}

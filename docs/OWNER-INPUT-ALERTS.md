@@ -27,6 +27,22 @@ The legacy aggregate `feed=health` response is retained for compatibility; it is
 
 County parsing is shared by the browser, assessment engine, Apps Script diagnostics, and Worker. Readable points survive a partial failure, while missing, malformed, and truncated responses stay distinct from a valid empty list. Closure change notifications can add a confirmed closure from a partial list, but cannot announce a reopening until county input is complete again.
 
+## Kinds of problem, and source times
+
+Every input problem carries a kind, shown in the email as a `Type:` line, so a lost connection can be told apart from a source that answered with bad data:
+
+- **Lost connection** (`connection`): the source did not answer, or its answer was not readable JSON.
+- **Upstream data error, time** (`upstream-time`): the source answered, but the time it gave for the reading is missing, unreadable, or in the future. The reading is not used in ratings while this lasts.
+- **Upstream data error** (`upstream-data`): the source answered, but a station is missing from its list, a reading is missing or malformed, or a county record is incomplete.
+- **Stale** (`stale`): the source answered, but its newest reading is older than the limit.
+- **Maintenance** (`maintenance`): the source marks the station as under maintenance.
+
+Pima ALERT `last_rpt` has no zone and is Arizona time (UTC-7 all year). A time that already carries a zone (`Z`, `+00:00`) keeps it and is never given a second one. A time that isn't a real date and time is reported as unreadable, never guessed. A future time is never shifted, replaced, or treated as fresh. The email shows the time exactly as the source sent it.
+
+**Nov 6 and 7, 2026.** Just after Arizona midnight, the county feed sent `last_rpt` `<that day>T17:00:00` for rain stations 6110, 6130, 6420, 6440, 6460, 6480, 6490, 6520 and stream 6443 (five on Nov 6). 5 PM Arizona is midnight UTC on the next day, so these readings were stamped about 17 hours in the future. The values cleared at about 01:04 Arizona both nights. The same `T17:00:00` stamp shows up during the day on other county stations (six at 10:51 AM on Nov 7: 541, 2180, 3052, 4100, 5030, 6200; see `test/fixtures/alert-future-stamp-2026-11-07.json`). What the county's feed does internally is not known. Because this kind of problem has cleared on its own within about an hour, a future time is held 75 minutes before the owner email is sent. If it lasts longer, it is sent with the hold explained. If it clears first, nothing is sent: no problem email means no recovery email. Lost connections, stale readings, missing stations, and missing or unreadable times are never held.
+
+**County W Gates Pass Rd.** The county's own record (ArcGIS objectid 1608, created Aug 24, 2026, last edited Aug 26, 2026) has `Status`, `Event`, `Direction` and `timeUpdated` all null. The `Status` field still exists, and every other record fills it in. The value is missing at the county. It isn't a schema change or a parser error. The alert began Nov 5 because that day's change started checking record status. It remains an upstream data error until the county fills in the status. In the legacy `feed=health`, `county` now means the county list answered and was readable, and the new `countyRecords` entry tracks whether every record was complete. Before this change, `county` was marked down because of that one blank record.
+
 ## Validation
 
 `npm test`: full repository suite, including owner-health tests for expected inventory, structural non-alerts, partial outages, stale/future/malformed/empty readings, valid empty event lists, stable deduplication, reason changes, recovery, failed sends, retry limits, compute failure, and closure-monitor isolation without subscribers. All sends are mocked.

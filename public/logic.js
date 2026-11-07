@@ -170,6 +170,22 @@ export function checkWash(snapshot, flows, fp, now, staleMs, names, rules) {
   return { level: 'unknown', contextOnly: true, upstream: true, observations, detail, why: `${at}, ${sensorPlace(fp, top)}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
 }
 
+// Pima ALERT last_rpt is Arizona wall-clock time with no zone (UTC-7 all year, no DST).
+// A value that already carries a zone (Z or +hh:mm) keeps it; it is never given a second one.
+// Anything that isn't a real calendar date and time is unreadable (null), never guessed.
+// This only reads the time. Whether it is in the future or too old is decided by the caller.
+export function alertTimeIso(value) {
+  if (typeof value !== 'string') return null;
+  const m = /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2})(\.\d{1,3})?)?\s*(Z|[+-]\d{2}:?\d{2})?$/i.exec(value.trim());
+  if (!m) return null;
+  const [, y, mo, d, h, mi, s = '00', frac = ''] = m;
+  const day = new Date(Date.UTC(+y, +mo - 1, +d));
+  if (day.getUTCFullYear() !== +y || day.getUTCMonth() !== +mo - 1 || day.getUTCDate() !== +d || +h > 23 || +mi > 59 || +s > 59) return null;
+  const zone = !m[8] ? '-07:00' : /^z$/i.test(m[8]) ? 'Z' : m[8].replace(/^([+-]\d{2}):?(\d{2})$/, '$1:$2');
+  if (zone !== 'Z' && (+zone.slice(1, 3) > 14 || +zone.slice(4) > 59)) return null;
+  return `${y}-${mo}-${d}T${h}:${mi}:${s}${frac}${zone}`;
+}
+
 // 4. Pima County's own barricade points near this spot.
 // A readable response may still contain an incomplete record. Keep its unknown
 // status and all other usable records; never turn a malformed response into [].

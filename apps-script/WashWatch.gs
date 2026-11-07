@@ -737,6 +737,17 @@ function checkWash(snapshot, flows, fp, now, staleMs, names, rules) {
   }
   return { level: "unknown", contextOnly: true, upstream: true, observations, detail, why: `${at}, ${sensorPlace(fp, top)}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
 }
+function alertTimeIso(value) {
+  if (typeof value !== "string") return null;
+  const m = /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2})(\.\d{1,3})?)?\s*(Z|[+-]\d{2}:?\d{2})?$/i.exec(value.trim());
+  if (!m) return null;
+  const [, y, mo, d, h, mi, s = "00", frac = ""] = m;
+  const day = new Date(Date.UTC(+y, +mo - 1, +d));
+  if (day.getUTCFullYear() !== +y || day.getUTCMonth() !== +mo - 1 || day.getUTCDate() !== +d || +h > 23 || +mi > 59 || +s > 59) return null;
+  const zone = !m[8] ? "-07:00" : /^z$/i.test(m[8]) ? "Z" : m[8].replace(/^([+-]\d{2}):?(\d{2})$/, "$1:$2");
+  if (zone !== "Z" && (+zone.slice(1, 3) > 14 || +zone.slice(4) > 59)) return null;
+  return `${y}-${mo}-${d}T${h}:${mi}:${s}${frac}${zone}`;
+}
 function parseCountyClosures(body) {
   if (!body) return { points: null, complete: false, issues: [], reason: "Source unavailable" };
   if (body.error || !Array.isArray(body.features)) {
@@ -1257,7 +1268,7 @@ function alertSnapshot(rainData, streamData, fetchedAt) {
     return x >= BOX[0] && x <= BOX[2] && y >= BOX[1] && y <= BOX[3];
   };
   const ours = (d) => inside(d) && (d.source === "pima" || d.source === "pinal");
-  const iso = (t) => t ? `${t}-07:00` : null;
+  const iso = alertTimeIso;
   const num = (v) => {
     if (v == null || String(v).trim() === "") return null;
     const n = Number(v);
@@ -1952,7 +1963,7 @@ function computeVerdicts_(forceRefresh = false) {
   }
   const lastGood = roadEvents ? null : JSON.parse(cache.get("roadevents_good") || "null");
   const eventsForRating = roadEvents || lastGood && lastGood.events || null;
-  bestEffortHealth_("legacy-health", () => noteHealth_({ usgs: sites.some((s) => usgs[s]), county: parseCountyClosures(closures).complete, rain: !!rain, stream: !!stream, weather: !!nws, transview: !!roadEvents }, now));
+  bestEffortHealth_("legacy-health", () => noteHealth_({ usgs: sites.some((s) => usgs[s]), county: parseCountyClosures(closures).points !== null, countyRecords: parseCountyClosures(closures).complete, rain: !!rain, stream: !!stream, weather: !!nws, transview: !!roadEvents }, now));
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
   const out = {};
   for (const id of AREA_IDS) {
@@ -2219,18 +2230,36 @@ function validOwnerVerdicts_(all, now) {
   });
 }
 function expectedInputHealth_(raw, now) {
+  const INPUT_FUTURE_CONFIRM_MS = 75 * 6e4;
   const out = [];
   const affected = (test) => FAILURE_POINTS.filter(test).map((p) => p.short);
-  const add = (id, expected, crossings, reason, observedAt = null) => {
+  const add = (id, expected, crossings, verdict, observedAt = null, sourceTime = null) => {
+    const v = typeof verdict === "string" ? { reason: verdict, kind: verdict ? "upstream-data" : "" } : verdict;
     const t = Date.parse(observedAt);
-    out.push({ id, expected, crossings: crossings.join(", ") || "Regional context", reason, observedAt: Number.isFinite(t) ? new Date(t).toISOString() : null, ageMinutes: Number.isFinite(t) ? Math.floor((now - t) / 6e4) : null });
+    const known = Number.isFinite(t) && t <= now;
+    const row = {
+      id,
+      expected,
+      crossings: crossings.join(", ") || "Regional context",
+      reason: v.reason,
+      kind: v.kind || "",
+      observedAt: known ? new Date(t).toISOString() : null,
+      ageMinutes: known ? Math.floor((now - t) / 6e4) : null
+    };
+    if (v.reason && sourceTime != null) row.sourceTime = String(sourceTime).replace(/[\r\n]/g, " ").slice(0, 40);
+    if (v.kind === "upstream-time" && Number.isFinite(t) && t > now) row.aheadMinutes = Math.ceil((t - now) / 6e4);
+    if (v.confirmAfterMs) row.confirmAfterMs = v.confirmAfterMs;
+    out.push(row);
   };
+  const unavailable = { reason: "Source unavailable", kind: "connection" };
   const numeric = (v) => v != null && String(v).trim() !== "" && Number.isFinite(Number(v)) && Number(v) >= 0;
-  const reading = (valid, time, age) => {
-    if (!valid) return "Missing or malformed reading";
+  const reading = (valid, time, sent, age, hold = false) => {
+    if (!valid) return { reason: "Missing or malformed reading", kind: "upstream-data" };
+    if (sent == null || String(sent).trim() === "") return { reason: "Upstream time error: no observation time", kind: "upstream-time" };
     const t = Date.parse(time);
-    if (!Number.isFinite(t) || t > now) return "Missing or invalid observation time";
-    return now - t > age ? "Stale reading" : "";
+    if (!time || !Number.isFinite(t)) return { reason: "Upstream time error: unreadable observation time", kind: "upstream-time" };
+    if (t > now) return { reason: "Upstream time error: observation time is in the future", kind: "upstream-time", ...hold ? { confirmAfterMs: INPUT_FUTURE_CONFIRM_MS } : {} };
+    return now - t > age ? { reason: "Stale reading", kind: "stale" } : { reason: "", kind: "" };
   };
   for (const [id, site] of Object.entries(USGS_SITES)) {
     const body = raw.usgs[id];
@@ -2239,10 +2268,11 @@ function expectedInputHealth_(raw, now) {
       return ((_a = f == null ? void 0 : f.properties) == null ? void 0 : _a.parameter_code) === "00060";
     }).map((f) => f.properties).sort((a, b) => Date.parse(b.time) - Date.parse(a.time)) : [];
     const p = rows[0];
+    const usgsTime = typeof (p == null ? void 0 : p.time) === "string" && /(?:Z|[+-]\d\d:?\d\d)$/i.test(p.time.trim()) ? p.time.trim() : null;
     add("usgs:" + id, site.name + " discharge within 3 hours", affected((p2) => {
       var _a;
       return (p2.river || []).includes(id) || (((_a = p2.wash) == null ? void 0 : _a.usgs) || []).includes(id);
-    }), !body ? "Source unavailable" : reading(numeric(p == null ? void 0 : p.value), p == null ? void 0 : p.time, STALE_MS), p == null ? void 0 : p.time);
+    }), !body ? unavailable : reading(numeric(p == null ? void 0 : p.value), usgsTime, p == null ? void 0 : p.time, STALE_MS), usgsTime, p == null ? void 0 : p.time);
   }
   for (const kind of ["rain", "stream"]) {
     const body = raw[kind];
@@ -2261,12 +2291,13 @@ function expectedInputHealth_(raw, now) {
         var _a;
         return (_a = row == null ? void 0 : row.rain) == null ? void 0 : _a[["m10", "m30", "h1", "h3", "h6", "d1", "d3", "d7", "d30"].indexOf(w)];
       }) : [row == null ? void 0 : row.flow];
-      const reason = !body ? "Source unavailable" : !row ? "Expected station absent" : row.UnderMaintenance ? "Station under maintenance" : reading(values.every(numeric), row.last_rpt ? row.last_rpt + "-07:00" : null, kind === "rain" ? 24 * 36e5 : STALE_MS);
-      add(kind + ":" + id, (RAIN_GAUGES[id] || id) + (kind === "rain" ? " rain windows " + windows.join("/") + " within 24 hours" : " stream discharge within 3 hours"), points, reason, (row == null ? void 0 : row.last_rpt) ? row.last_rpt + "-07:00" : null);
+      const observed = alertTimeIso(row == null ? void 0 : row.last_rpt);
+      const verdict = !body ? unavailable : !Array.isArray(body.data) ? { reason: "Malformed station list", kind: "upstream-data" } : !row ? { reason: "Expected station absent", kind: "upstream-data" } : row.UnderMaintenance ? { reason: "Station under maintenance", kind: "maintenance" } : reading(values.every(numeric), observed, row.last_rpt, kind === "rain" ? 24 * 36e5 : STALE_MS, true);
+      add(kind + ":" + id, (RAIN_GAUGES[id] || id) + (kind === "rain" ? " rain windows " + windows.join("/") + " within 24 hours" : " stream discharge within 3 hours"), points, verdict, observed, row == null ? void 0 : row.last_rpt);
     }
   }
   const county = parseCountyClosures(raw.closures);
-  add("county", "Readable county event list with reported statuses (empty is valid)", county.issues.map((i) => i.location), county.reason);
+  add("county", "Readable county event list with reported statuses (empty is valid)", county.issues.map((i) => i.location), !raw.closures ? unavailable : { reason: county.reason, kind: county.reason ? "upstream-data" : "" });
   for (const [id, body, field] of [["weather", raw.nws, "features"], ["transview-closures", raw.tvClosures, "d"], ["transview-work", raw.tvWork, "d"]]) {
     const list = body == null ? void 0 : body[field];
     const valid = Array.isArray(list) || id === "transview-work" && list && typeof list === "object";
@@ -2274,9 +2305,26 @@ function expectedInputHealth_(raw, now) {
       var _a;
       return !r || typeof r !== "object" || id === "weather" && typeof ((_a = r.properties) == null ? void 0 : _a.event) !== "string" || id === "transview-closures" && (typeof r.Geo !== "string" || r.KeyID == null) || id === "transview-work" && (typeof r.Geography !== "string" || r.KeyID == null);
     });
-    add(id, "Readable " + id + " event list (empty is valid)", [], !body ? "Source unavailable" : !valid || malformed ? "Malformed event list" : "");
+    add(id, "Readable " + id + " event list (empty is valid)", [], !body ? unavailable : !valid || malformed ? "Malformed event list" : "");
   }
   return out;
+}
+const INPUT_KIND_TEXT = {
+  connection: "Lost connection: the source did not answer, or its answer was not readable JSON.",
+  "upstream-time": "Upstream data error: the source answered, but the time it gave for this reading cannot be trusted. The reading is not used in ratings while this lasts.",
+  "upstream-data": "Upstream data error: the source answered, but this part of its data is missing or malformed.",
+  stale: "Stale: the source answered, but its newest reading is older than the limit.",
+  maintenance: "The source marks this station as under maintenance."
+};
+function ownerIncidentLines_(s) {
+  const lines = [s.reason ? "PROBLEM: " + s.id : "RECOVERED: " + s.id, "Expected: " + s.expected, "Crossings: " + s.crossings, "Result: " + (s.reason || "Expected input is valid again")];
+  if (s.reason && INPUT_KIND_TEXT[s.kind]) lines.push("Type: " + INPUT_KIND_TEXT[s.kind]);
+  if (s.diagnostic) lines.push("Diagnostic: " + s.diagnostic);
+  lines.push("Since: " + new Date(s.since).toISOString());
+  if (s.reason && s.confirmAfterMs) lines.push("Held " + Math.round(s.confirmAfterMs / 6e4) + " minutes before sending: this county ALERT feed has sent future times around Arizona midnight that cleared on their own within about an hour (Nov 6 and 7, 2026). This one did not.");
+  if (s.reason && s.sourceTime != null) lines.push("Time as sent by the source: " + s.sourceTime + (s.aheadMinutes ? " (read as Arizona time when it has no zone; " + s.aheadMinutes + " minutes after this check)" : ""));
+  if (s.observedAt) lines.push("Last observation: " + s.observedAt, "Observation age at check: " + s.ageMinutes + " minutes");
+  return lines.join("\n");
 }
 function noteOwnerHealth_(results, now) {
   return bestEffortHealth_("owner-observation", () => {
@@ -2338,6 +2386,7 @@ function saveOwnerHealth_(results, now) {
       s.attempts = 0;
       s.nextTry = 0;
     }
+    for (const k of ["kind", "sourceTime", "aheadMinutes", "confirmAfterMs"]) if (!(k in result)) delete s[k];
     Object.assign(s, result, { reason: fingerprint, checked: now });
     updates[key] = JSON.stringify(s);
   }
@@ -2360,7 +2409,7 @@ function ownerHealthWatch_(now, computationFailed = false) {
   if (!claim) return false;
   let sent = false;
   try {
-    const body = ["FLOODplain expected-input check", "Checked: " + new Date(now).toISOString(), ...claim.pending.map(({ s }) => [s.reason ? "PROBLEM: " + s.id : "RECOVERED: " + s.id, "Expected: " + s.expected, "Crossings: " + s.crossings, "Result: " + (s.reason || "Expected input is valid again"), ...s.diagnostic ? ["Diagnostic: " + s.diagnostic] : [], "Since: " + new Date(s.since).toISOString(), ...s.observedAt ? ["Last observation: " + s.observedAt, "Observation age at check: " + s.ageMinutes + " minutes"] : []].join("\n")), "Action: inspect the named source or station and its timestamps; restore the feed or correct its configuration. Recovery confirms input availability, not road conditions."].join("\n\n");
+    const body = ["FLOODplain expected-input check", "Checked: " + new Date(now).toISOString(), ...claim.pending.map(({ s }) => ownerIncidentLines_(s)), "Action: a lost connection means checking whether the source answers. An upstream data error means the source answered but sent bad or missing data; check the named station or record at the source. Recovery confirms input availability, not road conditions."].join("\n\n");
     MailApp.sendEmail(Session.getEffectiveUser().getEmail(), "FLOODplain: expected input " + (claim.pending.some((p) => p.s.reason) ? "needs attention" : "recovered"), body);
     sent = true;
     return true;
@@ -2378,6 +2427,7 @@ function claimOwnerHealth_(now, computationFailed) {
   for (const id of JSON.parse(stored.ownerHealthIds || "[]")) {
     const key = "ownerHealth:" + id, s = JSON.parse(stored[key] || "{}");
     if ((s.reason || "") === (s.delivered || "") || (s.attempts || 0) >= 5 || now < (s.nextTry || 0)) continue;
+    if (s.reason && s.confirmAfterMs && now - s.since < s.confirmAfterMs) continue;
     if (!s.reason && (computationFailed || now - s.checked > 5 * 6e4 || id !== "compute" && computeFailed)) continue;
     pending.push({ key, s });
   }

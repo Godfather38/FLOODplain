@@ -72,7 +72,10 @@ test('Worker health and all-area assessments retain the incomplete county diagno
   const county = result.inputs.find(i => i.id === 'county');
   assert.match(county.reason, /W Gates Pass Rd: missing Status/);
   assert.equal(county.crossings, 'W Gates Pass Rd');
-  assert.deepEqual(result.sources.county, { downSince: now });
+  // The county answered, so the source is up; the blank record is tracked on its own.
+  assert.deepEqual(result.sources.county, { lastOk: now });
+  assert.deepEqual(result.sources.countyRecords, { downSince: now });
+  assert.equal(county.kind, 'upstream-data');
   assert.ok(Object.values(result.verdicts).every(v => !v.closuresKnown));
 });
 

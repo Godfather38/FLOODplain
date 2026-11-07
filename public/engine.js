@@ -3,7 +3,7 @@
 import * as cfg from './config.js';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, routeScore, againstIt, routeClosures, parseCountyClosures,
-  worst,
+  worst, alertTimeIso,
 } from './logic.js';
 import { roadForecastPoint } from './road-forecast.js';
 
@@ -12,11 +12,12 @@ const RAIN_KEYS = ['m10', 'm30', 'h1', 'h3', 'h6', 'd1', 'd3', 'd7', 'd30'];
 const BOX = [-111.50, 32.05, -110.95, 32.56];
 
 // Pima ALERT currain.php / currentstream.php "data" arrays -> the snapshot shape the rules use.
-// Same as tools/snapshot_alert.py. ALERT times are Arizona local (UTC-7, no DST).
+// Same as tools/snapshot_alert.py. ALERT times are Arizona local (UTC-7, no DST) unless they carry a zone.
+// An unreadable time becomes null; a future time is kept as sent and the rules refuse to use it.
 export function alertSnapshot(rainData, streamData, fetchedAt) {
   const inside = (d) => { const x = Number(d.longitude); const y = Number(d.latitude); return x >= BOX[0] && x <= BOX[2] && y >= BOX[1] && y <= BOX[3]; };
   const ours = (d) => inside(d) && (d.source === 'pima' || d.source === 'pinal');
-  const iso = (t) => (t ? `${t}-07:00` : null);
+  const iso = alertTimeIso;
   const num = (v) => { if (v == null || String(v).trim() === '') return null; const n = Number(v); return Number.isFinite(n) && n > -90 ? n : null; };
   return {
     fetched_at: new Date(fetchedAt).toISOString(),

@@ -34,10 +34,16 @@ def inside(d):
 
 
 def iso(local):
+    """ALERT last_rpt is Arizona wall-clock time with no zone. A value that already
+    carries a zone keeps it (replacing it would move the time). Unreadable -> None.
+    A future time is kept as sent; the rules refuse to use it."""
+    if not isinstance(local, str) or len(local.strip()) < 16:  # a date alone has no time
+        return None
     try:
-        return datetime.fromisoformat(local).replace(tzinfo=AZ).isoformat()
+        t = datetime.fromisoformat(local.strip().replace("Z", "+00:00").replace("z", "+00:00"))
     except (TypeError, ValueError):
         return None
+    return (t if t.tzinfo else t.replace(tzinfo=AZ)).isoformat()
 
 
 def num(v):
