@@ -41,6 +41,23 @@ decoded package hash. This also proves that coordinates, metadata and all other
 station values are unchanged. The road-cell table and generated service bundle
 were rebuilt; these two stations are outside the coarse grid, so neither changes.
 
+## Alert-lock resilience
+
+Integrated service repair `05bfc035` keeps diagnostic health recording from
+blocking assessment, caching, scheduled texts or pushes. Health-state lock
+attempts are limited to 100 ms and property writes are batched. Owner health
+email is attempted after subscriber delivery and outside the shared script lock.
+Exception diagnostics are bounded and scrubbed of credentials, URLs and contact
+details. Recovery is recorded only after the replacement assessment is cached.
+
+A ten-minute lease prevents concurrent owner email attempts. Completion merges
+only the delivered fingerprint, preserving any newer observation or recovery.
+If email was accepted but its final state cannot be saved, a later retry may
+duplicate that owner email after lease expiry. Tests explicitly cover this
+uncertain outcome; the service does not promise exactly-once email. Retries are
+limited to five attempts per reason transition. This patch does not claim that
+earlier subscriber alerts were missed, and does not send any live test messages.
+
 ## Kept separate for review
 
 [Draft PR #13](https://github.com/Godfather38/FLOODplain/pull/13), head `3064a539`,
@@ -48,8 +65,8 @@ contains SMS provider-acceptance fixes, consent wording, public policies and
 support pages. It is not included. Its wording and operational claims still
 need review. A merge-tree compatibility check against `1bdd77d` found an
 `index.html` conflict between the map entry change and the new policy links.
-App and generated service files merged textually at that baseline, but that
-does not establish behavioral compatibility with the new alert-lock repair.
+App, source/generated service and service-test mock files merge textually with
+the combined build too, but that does not establish behavioral compatibility.
 Resolve from source, regenerate the service and rerun both browser suites before
 any later approved integration. Do not enable Twilio, resubmit registration or
 send live texts as part of this build.
@@ -58,6 +75,9 @@ send live texts as part of this build.
 
 - Baseline: 393 unit tests passed; the generated service parses as ES2019 and
   rebuilding it produces no diff.
+- Combined build: 410 unit tests passed, including the four Gates input tests
+  and thirteen new alert-lock tests. The service bundle was regenerated and
+  parses as ES2019. Rebuilding again produces no diff.
 - Baseline browser evidence: all 15 checks passed for `1bdd77d` on GitHub runs
   [42317836938](https://github.com/Godfather38/FLOODplain/actions/runs/42317836938)
   and [42317258103](https://github.com/Godfather38/FLOODplain/actions/runs/42317258103).

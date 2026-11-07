@@ -15,13 +15,13 @@ No local pavement sensor, retired USGS gauge, bridge model, structure elevation,
 
 ## Delivery
 
-Every tick attempts computation before subscriber scheduling and independently of the closure monitor. The existing four-minute verdict cache is retained: alerts occur on the first actual failed check, normally within four minutes plus trigger delay. A stopped Apps Script trigger cannot report its own failure.
+Every tick attempts computation before subscriber scheduling and independently of the closure monitor. Owner email runs after subscriber delivery, including on an early return for an already-handled minute. Owner diagnostics, their persistence, and email failures cannot abort assessment or scheduled texts and pushes. The existing four-minute verdict cache is retained: alerts occur on the first actual failed check, normally within four minutes plus trigger delay. A stopped Apps Script trigger cannot report its own failure.
 
 Messages go only through MailApp to Session.getEffectiveUser().getEmail(), the established owner destination. No public/private push topics are used. Check the trigger's effective owner and MailApp authorization before any separately approved deployment.
 
 State is stored in individual `ownerHealth:<input>` script properties plus `ownerHealthIds`. Identical reasons are sent once; changed reasons are new incidents. A validated input recovery is sent only after a delivered problem. Unchecked inputs do not recover. Computation failure suppresses pending input recovery. Recovery describes input availability, never road conditions.
 
-Failed delivery is retried with delays of 2, 4, 8, and 16 minutes (five total attempts per reason transition); attempts persist across runs. Delivery is marked only after MailApp returns successfully. After five failures it stays pending without further sends until the condition changes; inspect the per-input state to diagnose delivery. MailApp cannot guarantee exactly-once delivery if a process stops after acceptance but before state persistence. A script lock serializes owner delivery.
+Failed delivery is retried with delays of 2, 4, 8, and 16 minutes (five total attempts per reason transition); attempts persist across runs. Delivery is marked only after MailApp returns successfully. After five failures it stays pending without further sends until the condition changes; inspect the per-input state to diagnose delivery. MailApp cannot guarantee exactly-once delivery if a process stops after acceptance but before state persistence. A ten-minute delivery lease serializes owner email attempts. The shared script lock covers only reading and updating state, never the MailApp network call. A failed final state save leaves the lease in place until it expires, after which a bounded retry may duplicate an already accepted email. This is reported in the private execution log, not claimed as exactly-once delivery.
 
 The legacy aggregate `feed=health` response is retained for compatibility; it is not the source of the new owner alerts. The detailed inventory is persisted in script properties, not exposed as a new public endpoint.
 
@@ -39,4 +39,10 @@ Missing evaluator, null output, incomplete area coverage, malformed verdict fiel
 
 Reading diagnostics include the actual last observation timestamp and its age at the input check. These fields update without becoming part of the reason fingerprint, so increasing age alone does not resend an alert.
 
-Observation writes and delivery share the script lock. An observation older than the stored check is ignored. This prevents delivery's final save from overwriting an interleaved newer observation. The mock exercises lock contention and the subsequent newer-state update.
+Observation and delivery state updates use a 100 ms `tryLock` and batched property writes. Contention defers observations to the next fresh input check and delivery to a later tick; it does not throw into the assessment path. Signup and report locks are unchanged. An observation older than the stored check is ignored. Email completion merges only the delivered reason into the latest state, preserving observations and recoveries that arrived during the send.
+
+Unexpected compute exceptions retain a bounded diagnostic: error type, scrubbed message, and first function/line when available. Configured credentials, URLs, contact details, common response-body suffixes, and raw stacks are excluded. The diagnostic appears only in the existing private owner email, script properties, and execution log, never the public health feed. Details update without changing the incident's deduplication fingerprint. Logging remains best effort if properties or diagnostics themselves fail.
+
+Computation recovery is recorded only after validated fresh output and its cache writes succeed. A current computation failure suppresses all recovery emails for that tick even if its failure could not be persisted.
+
+Regression tests cover busy and throwing locks, property/cache quota errors, diagnostic-validator errors, SMS/push delivery under contention, subscriber-first ordering, email failures, concurrent observation and recovery writes, lease expiry after an uncertain final save, and diagnostic redaction. Tests use mocked services; no live SMS, email, or deployment is performed.

@@ -287,6 +287,14 @@ function notifyWaitlist_() {
 
 // ---------- every minute ----------
 function tick() {
+  const health = { computeFailed: false };
+  try { tickAlerts_(health); } finally {
+    // Subscriber delivery gets priority over optional owner email, even when a
+    // repeated minute returns early or a separate alert task fails.
+    bestEffortHealth_('owner-delivery', () => ownerHealthWatch_(Date.now(), health.computeFailed));
+  }
+}
+function tickAlerts_(health) {
   try {
     let all = computeVerdicts_();
     // A valid cache hit may cross its age limit before this second check. Try a
@@ -295,8 +303,12 @@ function tick() {
       all = computeVerdicts_(true);
       if (!validOwnerVerdicts_(all, Date.now())) throw ownerComputeError_('Assessment output is missing or malformed; inspect the evaluator and area configuration');
     }
-  } catch (err) { noteOwnerHealth_([{ id: 'compute', reason: err.ownerReason || 'Assessment computation failed', expected: 'Successful evaluation for every area', crossings: 'All configured crossings' }], Date.now()); }
-  try { ownerHealthWatch_(Date.now()); } catch (err) { /* bounded retries on later ticks */ }
+  } catch (err) {
+    health.computeFailed = true;
+    const diagnostic = ownerErrorDiagnostic_(err);
+    logOwnerDiagnostic_('compute', diagnostic);
+    noteOwnerHealth_([{ id: 'compute', reason: err && err.ownerReason || 'Assessment computation failed', diagnostic, expected: 'Successful evaluation for every area', crossings: 'All configured crossings' }], Date.now());
+  }
 
   const now = new Date();
   const today = Utilities.formatDate(now, CONFIG.TZ, 'yyyy-MM-dd');
@@ -543,7 +555,7 @@ function computeVerdicts_(forceRefresh = false) {
   const now = Date.now();
   const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
   const [hc, hr, hs, hn, htc, htw] = res.slice(sites.length);
-  noteOwnerHealth_(expectedInputHealth_({ usgs, closures: hc, rain: hr, stream: hs, nws: hn, tvClosures: htc, tvWork: htw }, now), now);
+  bestEffortHealth_('input-validation', () => noteOwnerHealth_(expectedInputHealth_({ usgs, closures: hc, rain: hr, stream: hs, nws: hn, tvClosures: htc, tvWork: htw }, now), now));
   // Keep a trimmed copy for the app (?feed=usgs): just time, value, parameter per reading.
   const trimmed = Object.fromEntries(sites.map((s) => [s, usgs[s] ? { features: (usgs[s].features || []).map((f) => ({ properties: f.properties })) } : null]));
   cache.put('usgs', JSON.stringify({ fetched_at: new Date(Date.now()).toISOString(), series: trimmed }), 300);
@@ -557,7 +569,7 @@ function computeVerdicts_(forceRefresh = false) {
   // If TransView is down, keep using its last answer for up to six hours and say how old it is.
   const lastGood = roadEvents ? null : JSON.parse(cache.get('roadevents_good') || 'null');
   const eventsForRating = roadEvents || (lastGood && lastGood.events) || null;
-  noteHealth_({ usgs: sites.some((s) => usgs[s]), county: parseCountyClosures(closures).complete, rain: !!rain, stream: !!stream, weather: !!nws, transview: !!roadEvents }, now);
+  bestEffortHealth_('legacy-health', () => noteHealth_({ usgs: sites.some((s) => usgs[s]), county: parseCountyClosures(closures).complete, rain: !!rain, stream: !!stream, weather: !!nws, transview: !!roadEvents }, now));
   const alert = rain && stream ? alertSnapshot(rain.data, stream.data, now) : null;
   const out = {};
   for (const id of AREA_IDS) {
@@ -566,10 +578,11 @@ function computeVerdicts_(forceRefresh = false) {
     out[id] = { at: v.at, text: v.text, sms: v.sms, spoken: v.spoken, off: v.off, title: v.title, closed: v.closed, closuresKnown: v.closuresKnown };
   }
   if (!validOwnerVerdicts_(out, now)) throw ownerComputeError_('Assessment output is incomplete or malformed; inspect the evaluator and area configuration');
-  noteOwnerHealth_([{ id: 'compute', reason: '', expected: 'Successful evaluation for every area', crossings: 'All configured crossings' }], now);
   cache.put('verdicts', JSON.stringify(out), 240);
   cache.put('roadforecast', JSON.stringify(sfincs), 300);
   if (alert) cache.put('alert', JSON.stringify(alert), 300);
+  // Report recovery only after the complete new assessment has been cached.
+  noteOwnerHealth_([{ id: 'compute', reason: '', diagnostic: '', expected: 'Successful evaluation for every area', crossings: 'All configured crossings' }], now);
   return out;
 }
 
@@ -850,47 +863,123 @@ function expectedInputHealth_(raw, now) {
   return out;
 }
 function noteOwnerHealth_(results, now) {
-  const lock = LockService.getScriptLock();
-  lock.waitLock(10000);
-  try { saveOwnerHealth_(results, now); } finally { lock.releaseLock(); }
+  return bestEffortHealth_('owner-observation', () => {
+    const lock = LockService.getScriptLock();
+    // Diagnostics never wait behind a signup or stop the assessment or its texts.
+    if (!lock.tryLock(100)) { logOwnerDiagnostic_('owner-observation', 'Script lock busy; observation deferred until the next fresh check'); return false; }
+    try { saveOwnerHealth_(results, now); return true; } finally { lock.releaseLock(); }
+  });
+}
+
+// Only bounded, scrubbed exception details go to private owner diagnostics/logs.
+// Remove response-body suffixes, URLs, contact data, raw stacks and configured secrets.
+function ownerErrorDiagnostic_(err) {
+  try {
+    let message = String(err && err.message || err || 'Unknown error');
+    const props = PropertiesService.getScriptProperties();
+    const file = typeof TWILIO === 'object' && TWILIO ? TWILIO : {};
+    for (const secret of [props.getProperty('TWILIO_SID'), props.getProperty('TWILIO_TOKEN'), props.getProperty('TWILIO_FROM'), props.getProperty('USGS_API_KEY'), file.SID, file.TOKEN, file.FROM]) {
+      if (secret) message = message.split(String(secret)).join('[redacted]');
+    }
+    message = message
+      .replace(/https?:\/\/[^\s<>"']+/gi, '[url]')
+      .replace(/\b(?:Bearer|Basic)\s+[^\s,;]+/gi, '[authorization]')
+      .replace(/(["']?(?:api[_-]?key|token|secret|password|authorization|cookie|sid)["']?\s*[:=]\s*)(?:"[^"]*"|'[^']*'|[^\s,;}]+)/gi, '$1[redacted]')
+      .replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, '[email]')
+      .replace(/\+?\d[\d ().-]{8,}\d/g, '[number]')
+      .replace(/\b[A-Za-z0-9_+/=-]{32,}\b/g, '[opaque value]')
+      .split(/(?:\b(?:response|payload|body)\s*[:=]|\n\s*at\s|<html\b|<!doctype)/i)[0]
+      .replace(/[\r\n\t]+/g, ' ').slice(0, 320);
+    const name = /^(?:Error|TypeError|RangeError|ReferenceError|SyntaxError|Exception)$/.test(err && err.name) ? err.name : 'Error';
+    // Keep the code location without a URL, local path, arguments or stack body.
+    const frame = /\bat ([A-Za-z_$][\w$]*)\s*\([^\n]*?:(\d+)(?::\d+)?\)/.exec(String(err && err.stack || ''));
+    return name + ': ' + message + (frame ? ' [' + frame[1] + ':' + frame[2] + ']' : '');
+  } catch (ignored) { return 'Error: diagnostic details unavailable'; }
+}
+function logOwnerDiagnostic_(stage, diagnostic) {
+  try { console.warn('FLOODplain ' + stage + ': ' + diagnostic); } catch (ignored) { /* Logging must never affect alerts. */ }
+}
+function bestEffortHealth_(stage, work) {
+  try { return work(); } catch (err) { logOwnerDiagnostic_(stage, ownerErrorDiagnostic_(err)); return false; }
 }
 function saveOwnerHealth_(results, now) {
   const props = PropertiesService.getScriptProperties();
-  const ids = JSON.parse(props.getProperty('ownerHealthIds') || '[]');
+  const stored = props.getProperties(), updates = {};
+  const ids = JSON.parse(stored.ownerHealthIds || '[]');
   for (const result of results) {
     if (!ids.includes(result.id)) ids.push(result.id);
     const key = 'ownerHealth:'+result.id;
-    const s = JSON.parse(props.getProperty(key) || '{}');
+    const s = JSON.parse(updates[key] || stored[key] || '{}');
     if (s.checked > now) continue; // Do not overwrite a newer observation from another execution.
     const fingerprint = result.reason || '';
     if (s.reason !== fingerprint) { s.since = now; s.attempts = 0; s.nextTry = 0; }
     Object.assign(s, result, {reason: fingerprint, checked: now});
-    props.setProperty(key, JSON.stringify(s));
+    updates[key] = JSON.stringify(s);
   }
-  props.setProperty('ownerHealthIds', JSON.stringify(ids));
+  updates.ownerHealthIds = JSON.stringify(ids);
+  props.setProperties(updates); // One batched write keeps the critical section short.
 }
-function ownerHealthWatch_(now) {
+// A lease serializes email attempts without holding the shared script lock while
+// MailApp waits on the network. Ten minutes outlives an Apps Script execution;
+// an interrupted execution can be retried later, still within the five-attempt cap.
+const OWNER_HEALTH_LEASE_MS = 10 * 60000;
+function ownerHealthWatch_(now, computationFailed = false) {
   const lock = LockService.getScriptLock();
-  lock.waitLock(1000);
-  try { deliverOwnerHealth_(now); } finally { lock.releaseLock(); }
+  if (!lock.tryLock(100)) { logOwnerDiagnostic_('owner-delivery', 'Script lock busy; email deferred until the next tick'); return false; }
+  let claim;
+  try { claim = claimOwnerHealth_(now, computationFailed); } finally { lock.releaseLock(); }
+  if (!claim) return false;
+  let sent = false;
+  try {
+    const body = ['FLOODplain expected-input check', 'Checked: '+new Date(now).toISOString(), ...claim.pending.map(({s}) => [s.reason ? 'PROBLEM: '+s.id : 'RECOVERED: '+s.id, 'Expected: '+s.expected, 'Crossings: '+s.crossings, 'Result: '+(s.reason || 'Expected input is valid again'), ...(s.diagnostic ? ['Diagnostic: '+s.diagnostic] : []), 'Since: '+new Date(s.since).toISOString(), ...(s.observedAt ? ['Last observation: '+s.observedAt, 'Observation age at check: '+s.ageMinutes+' minutes'] : [])].join('\n')), 'Action: inspect the named source or station and its timestamps; restore the feed or correct its configuration. Recovery confirms input availability, not road conditions.'].join('\n\n');
+    MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'FLOODplain: expected input '+(claim.pending.some(p => p.s.reason) ? 'needs attention' : 'recovered'), body);
+    sent = true;
+    return true;
+  } finally {
+    bestEffortHealth_('owner-delivery-save', () => finishOwnerHealth_(claim, sent));
+  }
 }
-function deliverOwnerHealth_(now) {
+function claimOwnerHealth_(now, computationFailed) {
   const props = PropertiesService.getScriptProperties();
+  const stored = props.getProperties(), updates = {};
+  const lease = JSON.parse(stored.ownerHealthDelivery || '{}');
+  if (lease.until > now) return null;
   const pending = [];
-  const computeFailed = JSON.parse(props.getProperty('ownerHealth:compute') || '{}').reason;
-  for (const id of JSON.parse(props.getProperty('ownerHealthIds') || '[]')) {
-    const key = 'ownerHealth:'+id, s = JSON.parse(props.getProperty(key) || '{}');
+  const computeFailed = JSON.parse(stored['ownerHealth:compute'] || '{}').reason;
+  for (const id of JSON.parse(stored.ownerHealthIds || '[]')) {
+    const key = 'ownerHealth:'+id, s = JSON.parse(stored[key] || '{}');
     if ((s.reason || '') === (s.delivered || '') || (s.attempts || 0) >= 5 || now < (s.nextTry || 0)) continue;
-    if (!s.reason && (now-s.checked > 5*60000 || (id !== 'compute' && computeFailed))) continue;
+    if (!s.reason && (computationFailed || now-s.checked > 5*60000 || (id !== 'compute' && computeFailed))) continue;
     pending.push({key,s});
   }
-  if (!pending.length) return;
-  const body = ['FLOODplain expected-input check', 'Checked: '+new Date(now).toISOString(), ...pending.map(({s}) => [s.reason ? 'PROBLEM: '+s.id : 'RECOVERED: '+s.id, 'Expected: '+s.expected, 'Crossings: '+s.crossings, 'Result: '+(s.reason || 'Expected input is valid again'), 'Since: '+new Date(s.since).toISOString(), ...(s.observedAt ? ['Last observation: '+s.observedAt, 'Observation age at check: '+s.ageMinutes+' minutes'] : [])].join('\n')), 'Action: inspect the named source or station and its timestamps; restore the feed or correct its configuration. Recovery confirms input availability, not road conditions.'].join('\n\n');
+  if (!pending.length) return null;
+  const token = Utilities.getUuid();
+  updates.ownerHealthDelivery = JSON.stringify({token, until: now+OWNER_HEALTH_LEASE_MS});
   for (const {key,s} of pending) {
     s.attempts = (s.attempts || 0)+1;
     s.nextTry = now+Math.min(60, 2**s.attempts)*60000;
-    props.setProperty(key, JSON.stringify(s));
+    updates[key] = JSON.stringify(s);
   }
-  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'FLOODplain: expected input '+(pending.some(p => p.s.reason) ? 'needs attention' : 'recovered'), body);
-  for (const {key,s} of pending) { s.delivered = s.reason; props.setProperty(key, JSON.stringify(s)); }
+  props.setProperties(updates);
+  return {token, pending};
+}
+function finishOwnerHealth_(claim, sent) {
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(100)) { logOwnerDiagnostic_('owner-delivery-save', 'Script lock busy; delivery outcome not persisted, retry possible after lease expires'); return false; }
+  try {
+    const props = PropertiesService.getScriptProperties();
+    const stored = props.getProperties(), updates = {};
+    const lease = JSON.parse(stored.ownerHealthDelivery || '{}');
+    if (lease.token !== claim.token) return false;
+    if (sent) for (const {key,s} of claim.pending) {
+      // A fresh observation may have arrived while MailApp was sending. Update
+      // only the delivered fingerprint, never overwrite that newer observation.
+      const current = JSON.parse(stored[key] || '{}');
+      current.delivered = s.reason;
+      updates[key] = JSON.stringify(current);
+    }
+    if (sent) props.setProperties(updates);
+    props.deleteProperty('ownerHealthDelivery');
+    return true;
+  } finally { lock.releaseLock(); }
 }
