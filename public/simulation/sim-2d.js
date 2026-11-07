@@ -155,15 +155,16 @@ export function crossingsFor(run,points,pkg){
    const list=run.quad.pointSeries(fp.id).sort((a,b)=>Number(b.routes.includes(fp.routes[0]))-Number(a.routes.includes(fp.routes[0])));
    if(!list.length)return{fp,inside:false};
    road??={m:NaN,deck:false,source:'No lidar road height at the route point'};
-   const cases=list.map(c=>({key:c.key,label:c.label,over:c.zs.map((z,k)=>c.depth[k]<.0091?-Infinity:Number.isNaN(z)?NaN:z-road.m),missing:c.zs.map((z,k)=>Number.isNaN(z)&&Number.isNaN(c.depth[k]))}));
-   return{fp,inside:true,road,cell:-1,over:cases[0].over,cases,quad:true};
+   const cases=list.map(c=>({key:c.key,label:c.label,surface:c.zs,depth:c.depth,over:c.zs.map((z,k)=>!Number.isFinite(road.m)||!Number.isFinite(z)||!Number.isFinite(c.depth[k])?NaN:c.depth[k]<.0091?-Infinity:z-road.m),missing:c.zs.map((z,k)=>Number.isNaN(z)&&Number.isNaN(c.depth[k]))}));
+   return{fp,inside:true,road,cell:-1,over:cases[0].over,surface:cases[0].surface,depth:cases[0].depth,cases,quad:true};
   }
   if(pkg&&!road&&!bridge){const low=near(pkg.stations.filter(s=>fp.routes.includes(s.route)&&!s.deck),u.e,u.n,100).reduce((a,o)=>!a||o.p.m<a.m?o.p:a,null);if(low)road={m:low.m,e:low.x,n:low.z,deck:false,source:'Lowest road surface within 100 m, USGS 3DEP 1 m lidar'};}
   const at=road??{e:u.e,n:u.n},cell=cellAt(run.cells,at.e,at.n);
   if(cell<0)return{fp,inside:false};
-  if(!road)road={m:run.cells.bed[cell],deck:false,source:'Model cell mean terrain (no road height found)'};
-  const over=run.surface.map(s=>Number.isNaN(s[cell])?NaN:s[cell]-road.m);
-  return{fp,inside:true,road,cell,over};
+  if(!road)road={m:NaN,deck:false,source:'Road height unavailable'};
+  const surface=run.surface.map(s=>s[cell]),depth=run.depth.map(d=>d[cell]);
+  const over=surface.map((z,k)=>!Number.isFinite(road.m)||!Number.isFinite(z)||!Number.isFinite(depth[k])?NaN:depth[k]<.0091?-Infinity:z-road.m);
+  return{fp,inside:true,road,cell,over,surface,depth};
  });
 }
 export const depthBand=m=>{const ft=m/.3048;let k=-1;for(let i=0;i<DEPTH_FT.length;i++)if(ft>=DEPTH_FT[i])k=i;return k;};

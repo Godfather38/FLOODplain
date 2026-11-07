@@ -114,3 +114,14 @@ test('one available case does not hide missing model coverage in another alert a
   assert.ok(v.missing.includes('flood model'));
   assert.match(v.sms,/flood model/);
 });
+
+test('partial tiny positive water stays visible below the warning threshold',()=>{
+  const s=summary('gates',.01);s.routes['pr-gates'].outsideStations=1;s.routes['pr-gates'].mappedStations=2;
+  s.routes['pr-gates'].frames.forEach(f=>{f.validStations=2;f.coverage='partial';});
+  const r=mergeRoadForecasts(null,{gates:s},NOW).routes['pr-gates'];
+  assert.equal(r.maxOver,.01);assert.equal(r.level,'ok');assert.equal(r.coverage,'partial');
+  assert.match(roadForecastPoint('pr-gates',r).why,/0\.03 ft of modeled water/);
+  assert.match(roadForecastPoint('pr-gates',r).why,/coverage is incomplete/);
+  s.routes['pr-gates'].frames.forEach(f=>f.peakRoadDepthM=0);
+  assert.equal(mergeRoadForecasts(null,{gates:s},NOW).routes['pr-gates'],undefined);
+});

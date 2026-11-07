@@ -169,3 +169,8 @@ html body.mapp-on .mapp{display:block}
 /* The all-route run's labels: each model area's name. */
 .quad-label span{background:rgba(255,255,255,.92)!important;color:#28323c!important;font-weight:600;white-space:normal!important;width:max-content;max-width:16rem}
 .mapp-overlap{border:0;margin:8px 0 0;padding:0}.mapp-overlap legend{font-weight:600;padding:0;margin-bottom:4px}
+
+/* Predicted road water, from the same forecast records used by the route score. */
+.road-forecast-pin span{display:block;width:max-content;max-width:9rem;white-space:normal;padding:3px 7px;background:var(--surface,#fff);color:var(--on,#222);border:2px solid #397d9a;border-radius:9px;font-size:11px;font-weight:700;box-shadow:0 1px 4px #0005;transform:translate(-50%,-100%)}
+.road-forecast-pin .wet{border-color:#ae4d18;background:#fff5ed;color:#71330d}
+.road-comparison{line-height:1.5}

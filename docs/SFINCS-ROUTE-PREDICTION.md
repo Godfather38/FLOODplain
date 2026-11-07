@@ -97,3 +97,20 @@ Verification: `node --test test/highres-road-forecast.test.js` checks freshness,
 missing and partial coverage, coarse fallback, independent failures, closure preservation and
 exact browser/Apps Script parity. `npm run build:gas` validates the generated ES2019 service.
 This integration stays on an experimental branch until separately reviewed and deployed.
+
+## Direct road-water display (Nov 7, 2026)
+
+Model predictions belong in the existing scores and map. Every route card and map score row
+shows its model water result, including positive depths below the scoring threshold. Missing
+or incomplete data stays explicit. The map opens on Routes rather than Scenarios. The separate
+HAND extent page remains available at its existing URL, but is no longer a competing destination
+from the home page, source rows or main map.
+
+Current forecast point labels use the same selected high-resolution/coarse records as scoring.
+Their popups show the forecast peak time, road elevation, predicted water elevation and their
+difference in feet, using NAVD88 for both elevations. A positive high-resolution depth can recover
+the surface only when its exact station matches the published road-height tile; zero depth cannot
+recover a surface. The coarse grid retains the actual surface and its scoring depth cap separately.
+Tapping a road in the selected map run compares its own road and water heights for that frame.
+Saved runs remain explicitly dated and never alter today's score. Missing road height is never
+replaced by the model cell's mean ground height.

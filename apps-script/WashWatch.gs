@@ -411,19 +411,33 @@ function roadForecast(table, manifest, water, now) {
         validCells.add(cell);
         if (z - bedM < WET_M) continue;
         const over = Math.min(z - roadM, z - bedM);
-        if (over > best.maxOver) best = { maxOver: over, time: times[k], lat, lon, deck: !!deck };
+        if (over > best.maxOver) best = { maxOver: over, time: times[k], lat, lon, deck: !!deck, roadM, waterM: z, groundM: bedM };
       }
     }
     routes[id] = { ...best, level: levelFor(best.maxOver), cells: validCells.size, mappedCells: table.routes[id].length };
   }
   return { status: "ok", issuedAt: manifest.issuedAt, runId: manifest.runId, times, routes };
 }
-function roadForecastPoint(id, r) {
-  const hour = r.time == null ? "" : ` at ${new Date(r.time).toLocaleTimeString("en-US", { timeZone: "America/Phoenix", hour: "numeric", minute: "2-digit" })}`;
+function roadForecastText(r) {
+  if (!r || r.status && !["current", "ok"].includes(r.status) || r.cells === 0 || !(Number.isFinite(r.maxOver) || r.maxOver === -Infinity && r.cells > 0)) {
+    return `Model prediction unavailable${(r == null ? void 0 : r.reason) ? `: ${r.reason}` : "."}`;
+  }
   const model = r.source === "high_resolution" ? "High-resolution SFINCS forecast" : "SFINCS forecast";
-  let why = r.maxOver > COVER_M ? `${model}: ${(r.maxOver * 3.28084).toFixed(1)} ft of modeled water over the ${r.deck ? "bridge deck" : "road"}${hour}` : `${model}: no water over the checked road locations`;
-  if (r.coverage === "partial") why += ". Road coverage is incomplete.";
-  if (r.source === "coarse_fallback") why += ` Coarse model fallback: ${r.fallbackReason}`;
+  const feet = r.maxOver * 3.28084;
+  const depth = feet < 0.01 ? "less than 0.01" : feet < 0.1 ? feet.toFixed(2) : feet.toFixed(1);
+  let text = r.maxOver > 0 ? `${model}: ${depth} ft of modeled water over the ${r.deck ? "bridge deck" : "road"}` : `${model}: no water predicted over the checked road locations`;
+  if (r.coverage === "partial") text += ". Road coverage is incomplete.";
+  if (r.source === "coarse_fallback") text += " Coarse model fallback.";
+  return text;
+}
+function routeModelText(route) {
+  var _a;
+  return ((_a = route == null ? void 0 : route.sfincs) == null ? void 0 : _a.status) === "loading" ? "Model prediction loading." : roadForecastText(route == null ? void 0 : route.sfincs);
+}
+function roadForecastPoint(id, r) {
+  let why = roadForecastText(r);
+  if (r.maxOver > 0 && r.time != null) why += ` Peak at ${new Date(r.time).toLocaleTimeString("en-US", { timeZone: "America/Phoenix", hour: "numeric", minute: "2-digit" })} Arizona time.`;
+  if (r.source === "coarse_fallback" && r.fallbackReason) why += ` ${r.fallbackReason}`;
   if (r.issuedAt) why += ` Run issued ${new Date(r.issuedAt).toLocaleString("en-US", { timeZone: "America/Phoenix", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} Arizona time.`;
   return {
     id: `sfincs-${id}`,
@@ -531,7 +545,7 @@ function mergeRoadForecasts(coarse, cases, now) {
     for (const id of ids) {
       const h = (_a = high.routes) == null ? void 0 : _a[id], c = (coarse == null ? void 0 : coarse.status) === "ok" && ((_c = (_b = coarse.routes) == null ? void 0 : _b[id]) == null ? void 0 : _c.cells) > 0 ? coarse.routes[id] : null;
       const fallback = h ? high.routeStatus[id] : ((_d = high.routeStatus) == null ? void 0 : _d[id]) || high.reason;
-      if (h && (h.coverage === "complete" || h.maxOver > COVER_M) && !(h.coverage === "partial" && c && c.maxOver > h.maxOver)) routes[id] = h;
+      if (h && (h.coverage === "complete" || h.maxOver > 0) && !(h.coverage === "partial" && c && c.maxOver > h.maxOver)) routes[id] = h;
       else if (c) routes[id] = {
         ...c,
         source: "coarse_fallback",

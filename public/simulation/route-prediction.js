@@ -53,7 +53,8 @@ export function predictFromGrid(run, stations, cellOf) {
     for (const s of list) {
       const cell = cellOf(s.lon, s.lat);
       if (cell < 0) { outside++; continue; }
-      samples.push({ ...s, cell, over: overSeries(run.surface.map((f) => f[cell]), run.depth.map((f) => f[cell]), s.roadM, true) });
+      const surface = run.surface.map((f) => f[cell]), depth = run.depth.map((f) => f[cell]);
+      samples.push({ ...s, cell, surface, depth, over: overSeries(surface, depth, s.roadM, true) });
     }
     routes[routeId] = { routeId, samples, stations: list.length, outside };
   }
@@ -79,7 +80,7 @@ export function predictFromAllRoute(pkg, pointsJson, stations, times) {
       if (!series || !road) { outside++; continue; }
       const z = iso.map((t) => { const k = at.get(t); return k == null || series.zs[k] == null ? NaN : series.zs[k]; });
       const d = iso.map((t) => { const k = at.get(t); return k == null || series.depth[k] == null ? NaN : series.depth[k]; });
-      samples.push({ lon: p.lon, lat: p.lat, stationM: road.stationM, roadM: road.roadM, deck: road.deck, over: overSeries(z, d, road.roadM) });
+      samples.push({ lon: p.lon, lat: p.lat, stationM: road.stationM, roadM: road.roadM, deck: road.deck, surface: z, depth: d, over: overSeries(z, d, road.roadM) });
     }
     samples.sort((a, b) => a.stationM - b.stationM);
     routes[routeId] = { routeId, samples, stations: list.length, outside, lowPoints: true };
@@ -98,7 +99,7 @@ function nearest(list, p, reach) {
 export function routeAtFrame(route, k) {
   const wet = route.samples.filter((s) => s.over[k] > COVER_M);
   const near = route.samples.filter((s) => s.over[k] > -NEAR_M && !(s.over[k] > COVER_M)).length;
-  const known = route.samples.filter((s) => !Number.isNaN(s.over[k])).length;
+  const known = route.samples.filter((s) => s.over[k] === -Infinity || Number.isFinite(s.over[k])).length;
   const stretches = [];
   for (const s of wet) {
     const last = stretches.at(-1);

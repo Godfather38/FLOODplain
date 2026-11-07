@@ -89,7 +89,7 @@ test('existing wording says simulated, modeled or estimated',()=>{
  assert.match(geo,/Simulated water: 10 m terrain-intersected display/);assert.match(geo,/Simulated water\. Terrain intersection/);assert.match(geo,/ft simulated cell-average depth/);
  assert.match(app,/Live readings, model estimates and simulated water/);
  assert.match(page,/<h1>Modeled flood extent estimate<\/h1>/);assert.match(page,/Modeled at this flow/);
- assert.match(read('index.html'),/Experimental: modeled flood extent estimate/);
+ assert.doesNotMatch(read('index.html'),/Experimental: modeled flood extent estimate/);
 });
 test('the simulator is where the original design put it, not behind a mode',()=>{
  const layers=read('simulation/map-layers.js'),shell=read('simulation/map-shell.js'),app=read('app.js');
@@ -97,7 +97,7 @@ test('the simulator is where the original design put it, not behind a mode',()=>
  assert.match(layers,/<select data-case>/);assert.match(layers,/<option value="2d">/);assert.match(layers,/<option value="aggregate">/);assert.match(layers,/data-3d/);
  assert.match(layers,/async function enterMap\(\)\{if\(location\.hash!=='#\/map'\)return;/);assert.match(layers,/q\('\[data-model\]'\)\.value='2d'/);
  assert.match(shell,/<button data-panel="time">Time<\/button>/);assert.match(shell,/mapWrap\.append\(preview\)/);
- assert.match(read('index.html'),/<nav class="exp-link"/);
+ assert.doesNotMatch(read('index.html'),/<nav class="exp-link"/);
  assert.match(read('simulation/bridge-evidence.js'),/current-sfincs-manifest\.json/);
  assert.match(read('inundation/index.html'),/id="recorded"/);
 });
