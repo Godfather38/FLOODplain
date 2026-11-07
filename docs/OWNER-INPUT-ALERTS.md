@@ -31,7 +31,7 @@ County parsing is shared by the browser, assessment engine, Apps Script diagnost
 
 Every input problem carries a kind, shown in the email as a `Type:` line, so a lost connection can be told apart from a source that answered with bad data:
 
-- **Lost connection** (`connection`): the source did not answer, or its answer was not readable JSON.
+- **Lost connection** (`connection`): the source did not answer, or answered with an HTTP error. An HTTP 200 answer that is empty or isn't JSON is now a malformed response (`upstream-data`), not a lost connection.
 - **Upstream data error, time** (`upstream-time`): the source answered, but the time it gave for the reading is missing, unreadable, or in the future. The reading is not used in ratings while this lasts.
 - **Upstream data error** (`upstream-data`): the source answered, but a station is missing from its list, a reading is missing or malformed, or a county record is incomplete.
 - **Stale** (`stale`): the source answered, but its newest reading is older than the limit.
@@ -62,3 +62,28 @@ Unexpected compute exceptions retain a bounded diagnostic: error type, scrubbed 
 Computation recovery is recorded only after validated fresh output and its cache writes succeed. A current computation failure suppresses all recovery emails for that tick even if its failure could not be persisted.
 
 Regression tests cover busy and throwing locks, property/cache quota errors, diagnostic-validator errors, SMS/push delivery under contention, subscriber-first ordering, email failures, concurrent observation and recovery writes, lease expiry after an uncertain final save, and diagnostic redaction. Tests use mocked services; no live SMS, email, or deployment is performed.
+
+## Failure diagnostics (experimental, Nov 7, 2026)
+
+**Why.** On Nov 7, 2026, stream station 6443 (Brawley Wash at Milewide Rd) was reported missing at 21:54 UTC. It recovered at 21:59 UTC with an observation from 21:00 UTC. The old check gave the same reason, "Expected station absent", for a readable list without 6443 and for a list it couldn't read entry by entry. The original response wasn't kept, so which one happened can't be established. A `null` entry in the list also made the whole check throw, so nothing was recorded for any input on that tick.
+
+**What is reported now.** Each case has its own reason:
+
+| What came back | Reason | Kind |
+|---|---|---|
+| No answer, or an HTTP error | Source unavailable | connection |
+| HTTP 200, empty body | Malformed response: empty body | upstream-data |
+| HTTP 200, not JSON | Malformed response: not readable JSON | upstream-data |
+| JSON with no `data` list, or no entry with a readable station ID | Malformed station list | upstream-data |
+| `data: []` | Empty station list | upstream-data |
+| Readable list, station not in it, some entries unreadable | Expected station absent; some list entries unreadable | upstream-data |
+| Readable list, station not in it | Expected station absent from a readable list | upstream-data |
+| Station present: stale, future, unreadable or missing time | unchanged reasons | stale / upstream-time |
+
+Station IDs match whether the county sends `"6443"` or `6443`. Surrounding spaces are ignored. Leading zeros are not ignored, because `06443` could be a different station.
+
+**Metadata kept with a problem.** These fields are kept: check time, HTTP status, body size in characters, JSON or not, and top-level shape (key names only, at most eight, with odd names shown as `?`). For station lists they also include the number of entries, how many IDs were text, number or unreadable, and the station checked. The email shows them on one `Diagnostic:` line of at most 320 characters, and the same fields are stored as `response` in `ownerHealth:<input>`. Body text, values, URLs (the USGS URL can carry the API key), headers and contact details are never kept. The fields exist only while there is a problem and are removed on recovery.
+
+**No new delay.** Diagnostics don't change when an alert is sent. A missing station is reported on the first failed check. Only a change of reason sends a new email: metadata that changes from check to check, such as the check time or size, does not resend. Recovery still needs a validated good reading after a delivered problem.
+
+**Where.** `sourceResponse`, `jsonShape` and `findAlertStation` are in `public/logic.js` and shared by the Apps Script bundle and the Cloudflare shadow worker. They are used in `expectedInputHealth_` in `apps-script/Code.gs`. Tests are in `test/station-diagnostics.test.js`. This is on an experimental branch and is not deployed.

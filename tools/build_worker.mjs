@@ -8,7 +8,7 @@ if (start < 0 || end < 0) throw Error('Owner-health extraction boundary missing'
 writeFileSync(new URL('worker/generated/input-health.js', root),
   '// GENERATED from apps-script/Code.gs by tools/build_worker.mjs. Do not edit.\n' +
   "import { FAILURE_POINTS, USGS_SITES, STALE_MS, RAIN, RAIN_GAUGES } from '../../public/config.js';\n" +
-  "import { parseCountyClosures, alertTimeIso } from '../../public/logic.js';\n" +
+  "import { parseCountyClosures, alertTimeIso, findAlertStation } from '../../public/logic.js';\n" +
   'export ' + source.slice(start, end));
 const routes = JSON.parse(readFileSync(new URL('public/data/routes.geojson', root))).features
   .map(({properties}) => ({properties}));

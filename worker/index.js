@@ -1,6 +1,6 @@
 import { AREAS } from '../public/config.js';
 import { evaluate, alertSnapshot, sourceUrls } from '../public/engine.js';
-import { normalizeRoadEvents, parseCountyClosures } from '../public/logic.js';
+import { normalizeRoadEvents, parseCountyClosures, sourceResponse } from '../public/logic.js';
 import { expectedInputHealth_ } from './generated/input-health.js';
 import routes from './generated/routes.json' with { type: 'json' };
 import { healthy, fixtureNow } from './fixtures/healthy.js';
@@ -15,16 +15,21 @@ export async function loadPublic(fetcher = fetch) {
     ...['closures','rain','stream','nws'].map(id => [id,urls[id]]),
     ['tvClosures','https://transview.org/Map.aspx/GetData',{theDataType:'RoadClosure'}],
     ['tvWork','https://transview.org/Map.aspx/GetConstructionEvents',{type:''}]];
-  const raw = {usgs:{}};
+  const raw = {usgs:{}, meta:{usgs:{}}};
   await Promise.all(jobs.map(async ([id,url,body]) => {
-    let value = null;
+    let status = null, text = null;
     try {
       const response = await fetcher(url, {signal:AbortSignal.timeout(10000), redirect:'error',
         headers:{'User-Agent':'FLOODplain-shadow/1.0', ...(body ? {'Content-Type':'application/json; charset=utf-8', Referer:'https://transview.org/Map.aspx'} : {})},
         ...(body ? {method:'POST',body:JSON.stringify(body)} : {})});
-      if (response.ok) value = await response.json();
+      status = response.status;
+      // Same rule as the alert service: only HTTP 200 JSON is a value.
+      if (status === 200) text = await response.text();
     } catch { /* failed sources remain null, never an empty successful list */ }
-    if (id.startsWith('usgs:')) raw.usgs[id.slice(5)] = value; else raw[id] = value;
+    // Bounded, sanitized metadata only (status, size, JSON or not, shape); never the body or URL.
+    const {value, meta} = sourceResponse(status, text);
+    if (id.startsWith('usgs:')) { raw.usgs[id.slice(5)] = value; raw.meta.usgs[id.slice(5)] = meta; }
+    else { raw[id] = value; raw.meta[id] = meta; }
   }));
   return raw;
 }

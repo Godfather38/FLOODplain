@@ -748,6 +748,48 @@ function alertTimeIso(value) {
   if (zone !== "Z" && (+zone.slice(1, 3) > 14 || +zone.slice(4) > 59)) return null;
   return `${y}-${mo}-${d}T${h}:${mi}:${s}${frac}${zone}`;
 }
+const SHAPE_KEY = /^[A-Za-z_][A-Za-z0-9_-]{0,23}$/;
+function jsonShape(v) {
+  if (v === null) return "null";
+  if (Array.isArray(v)) return `array(${v.length})`;
+  if (typeof v !== "object") return typeof v;
+  const keys = Object.keys(v);
+  return "object{" + keys.slice(0, 8).map((k) => SHAPE_KEY.test(k) ? k : "?").join(",") + (keys.length > 8 ? `,+${keys.length - 8}` : "") + "}";
+}
+function sourceResponse(status, text) {
+  const meta = { httpStatus: Number.isInteger(status) ? status : null, bytes: typeof text === "string" ? text.length : null };
+  if (meta.httpStatus === null) return { value: null, meta: { ...meta, outcome: "no-response" } };
+  if (meta.httpStatus !== 200) return { value: null, meta: { ...meta, outcome: "http-error" } };
+  if (typeof text !== "string" || !text.trim()) return { value: null, meta: { ...meta, outcome: "empty" } };
+  let value;
+  try {
+    value = JSON.parse(text);
+  } catch (err) {
+    return { value: null, meta: { ...meta, outcome: "not-json" } };
+  }
+  return { value, meta: { ...meta, outcome: "json", shape: jsonShape(value) } };
+}
+function findAlertStation(body, id) {
+  const want = String(id).trim();
+  const list = body && typeof body === "object" && !Array.isArray(body) ? body.data : void 0;
+  if (!Array.isArray(list)) {
+    const where = body && typeof body === "object" && !Array.isArray(body) && "data" in body ? "data is " + jsonShape(list) : "no data list";
+    return { status: "malformed", row: null, stationCount: null, detail: where };
+  }
+  let stringIds = 0, numericIds = 0, unreadable = 0, row = null;
+  for (const d of list) {
+    const site = d && typeof d === "object" && !Array.isArray(d) ? d.site : void 0;
+    if (typeof site === "string" && site.trim()) stringIds++;
+    else if (typeof site === "number" && Number.isFinite(site)) numericIds++;
+    else {
+      unreadable++;
+      continue;
+    }
+    if (!row && String(site).trim() === want) row = d;
+  }
+  const status = row ? "present" : !list.length ? "empty" : !(stringIds + numericIds) ? "malformed" : unreadable ? "partial" : "absent";
+  return { status, row, stationCount: list.length, stringIds, numericIds, unreadable };
+}
 function parseCountyClosures(body) {
   if (!body) return { points: null, complete: false, issues: [], reason: "Source unavailable" };
   if (body.error || !Array.isArray(body.features)) {
@@ -1942,14 +1984,36 @@ function computeVerdicts_(forceRefresh = false) {
     }
   };
   const modelAt = reqs.length - 2 - Object.keys(ALL_ROUTE_CASES).length;
-  const res = answers.slice(0, modelAt).map(parse);
+  const read = (r) => {
+    let status = null, text = null;
+    try {
+      if (r) {
+        status = r.getResponseCode();
+        text = r.getContentText();
+      }
+    } catch (err) {
+    }
+    return sourceResponse(status, text);
+  };
+  const answered = answers.slice(0, modelAt).map(read);
+  const res = answered.map((a) => a.value);
+  const metas = answered.map((a) => a.meta);
   const coarse = sfincsForecast_(parse(answers[modelAt]), answers[modelAt + 1], Date.now());
   const caseSummaries = Object.fromEntries(Object.keys(ALL_ROUTE_CASES).map((name, i) => [name, parse(answers[modelAt + 2 + i])]));
   const sfincs = mergeRoadForecasts(coarse, caseSummaries, Date.now());
   const now = Date.now();
   const usgs = Object.fromEntries(sites.map((s, i) => [s, res[i]]));
   const [hc, hr, hs, hn, htc, htw] = res.slice(sites.length);
-  bestEffortHealth_("input-validation", () => noteOwnerHealth_(expectedInputHealth_({ usgs, closures: hc, rain: hr, stream: hs, nws: hn, tvClosures: htc, tvWork: htw }, now), now));
+  bestEffortHealth_("input-validation", () => noteOwnerHealth_(expectedInputHealth_({
+    usgs,
+    closures: hc,
+    rain: hr,
+    stream: hs,
+    nws: hn,
+    tvClosures: htc,
+    tvWork: htw,
+    meta: { usgs: Object.fromEntries(sites.map((s, i) => [s, metas[i]])), ...Object.fromEntries(["closures", "rain", "stream", "nws", "tvClosures", "tvWork"].map((k, i) => [k, metas[sites.length + i]])) }
+  }, now), now));
   const trimmed = Object.fromEntries(sites.map((s) => [s, usgs[s] ? { features: (usgs[s].features || []).map((f) => ({ properties: f.properties })) } : null]));
   cache.put("usgs", JSON.stringify({ fetched_at: new Date(Date.now()).toISOString(), series: trimmed }), 300);
   const [closures, rain, stream, nws, tvClosures, tvWork] = res.slice(sites.length);
@@ -2230,9 +2294,33 @@ function validOwnerVerdicts_(all, now) {
   });
 }
 function expectedInputHealth_(raw, now) {
+  var _a;
   const out = [];
   const affected = (test) => FAILURE_POINTS.filter(test).map((p) => p.short);
-  const add = (id, expected, crossings, verdict, observedAt = null, sourceTime = null) => {
+  const meta = raw.meta || {};
+  const checkedAt = new Date(now).toISOString();
+  const describe = (m, found, station) => {
+    const r = { checkedAt };
+    if (m) {
+      r.httpStatus = m.httpStatus;
+      r.outcome = m.outcome;
+      if (m.bytes != null) r.bytes = m.bytes;
+      if (m.shape) r.shape = m.shape;
+    }
+    if (station != null) r.checkedStation = String(station).slice(0, 12);
+    if (found) {
+      for (const k of ["stationCount", "stringIds", "numericIds", "unreadable", "detail"]) if (found[k] != null) r[k] = found[k];
+    }
+    const parts = [];
+    if (m) parts.push((m.httpStatus == null ? "no HTTP response" : "HTTP " + m.httpStatus) + ({ json: ", JSON " + m.shape, "not-json": ", not JSON", empty: ", empty body" }[m.outcome] || "") + (m.bytes != null ? ", " + m.bytes + " bytes" : ""));
+    else parts.push("response details not recorded");
+    if (found == null ? void 0 : found.detail) parts.push(found.detail);
+    if ((found == null ? void 0 : found.stationCount) != null) parts.push(found.stationCount + " station entries (" + found.stringIds + " text IDs, " + found.numericIds + " number IDs, " + found.unreadable + " unreadable)");
+    if (station != null) parts.push("checked station " + r.checkedStation);
+    parts.push("checked at " + checkedAt);
+    return { response: r, diagnostic: parts.join("; ").slice(0, 320) };
+  };
+  const add = (id, expected, crossings, verdict, observedAt = null, sourceTime = null, info = null) => {
     const v = typeof verdict === "string" ? { reason: verdict, kind: verdict ? "upstream-data" : "" } : verdict;
     const t = Date.parse(observedAt);
     const known = Number.isFinite(t) && t <= now;
@@ -2247,9 +2335,10 @@ function expectedInputHealth_(raw, now) {
     };
     if (v.reason && sourceTime != null) row.sourceTime = String(sourceTime).replace(/[\r\n]/g, " ").slice(0, 40);
     if (v.kind === "upstream-time" && Number.isFinite(t) && t > now) row.aheadMinutes = Math.ceil((t - now) / 6e4);
+    if (v.reason) Object.assign(row, describe(info == null ? void 0 : info.meta, info == null ? void 0 : info.found, info == null ? void 0 : info.station));
     out.push(row);
   };
-  const unavailable = { reason: "Source unavailable", kind: "connection" };
+  const unavailableFor = (m) => (m == null ? void 0 : m.outcome) === "not-json" ? { reason: "Malformed response: not readable JSON", kind: "upstream-data" } : (m == null ? void 0 : m.outcome) === "empty" ? { reason: "Malformed response: empty body", kind: "upstream-data" } : { reason: "Source unavailable", kind: "connection" };
   const numeric = (v) => v != null && String(v).trim() !== "" && Number.isFinite(Number(v)) && Number(v) >= 0;
   const reading = (valid, time, sent, age) => {
     if (!valid) return { reason: "Missing or malformed reading", kind: "upstream-data" };
@@ -2262,53 +2351,63 @@ function expectedInputHealth_(raw, now) {
   for (const [id, site] of Object.entries(USGS_SITES)) {
     const body = raw.usgs[id];
     const rows = Array.isArray(body == null ? void 0 : body.features) ? body.features.filter((f) => {
-      var _a;
-      return ((_a = f == null ? void 0 : f.properties) == null ? void 0 : _a.parameter_code) === "00060";
+      var _a2;
+      return ((_a2 = f == null ? void 0 : f.properties) == null ? void 0 : _a2.parameter_code) === "00060";
     }).map((f) => f.properties).sort((a, b) => Date.parse(b.time) - Date.parse(a.time)) : [];
     const p = rows[0];
     const usgsTime = typeof (p == null ? void 0 : p.time) === "string" && /(?:Z|[+-]\d\d:?\d\d)$/i.test(p.time.trim()) ? p.time.trim() : null;
+    const m = (_a = meta.usgs) == null ? void 0 : _a[id];
     add("usgs:" + id, site.name + " discharge within 3 hours", affected((p2) => {
-      var _a;
-      return (p2.river || []).includes(id) || (((_a = p2.wash) == null ? void 0 : _a.usgs) || []).includes(id);
-    }), !body ? unavailable : reading(numeric(p == null ? void 0 : p.value), usgsTime, p == null ? void 0 : p.time, STALE_MS), usgsTime, p == null ? void 0 : p.time);
+      var _a2;
+      return (p2.river || []).includes(id) || (((_a2 = p2.wash) == null ? void 0 : _a2.usgs) || []).includes(id);
+    }), !body ? unavailableFor(m) : reading(numeric(p == null ? void 0 : p.value), usgsTime, p == null ? void 0 : p.time, STALE_MS), usgsTime, p == null ? void 0 : p.time, { meta: m });
   }
   for (const kind of ["rain", "stream"]) {
     const body = raw[kind];
     const ids = kind === "rain" ? [...new Set(FAILURE_POINTS.flatMap((p) => Object.values(p.rain || {}).flat()))] : [...new Set(FAILURE_POINTS.flatMap((p) => {
-      var _a;
-      return ((_a = p.wash) == null ? void 0 : _a.alert) || [];
+      var _a2;
+      return ((_a2 = p.wash) == null ? void 0 : _a2.alert) || [];
     }))];
     for (const id of ids) {
-      const row = Array.isArray(body == null ? void 0 : body.data) ? body.data.find((d) => String(d.site) === id) : null;
+      const found = body ? findAlertStation(body, id) : null;
+      const row = (found == null ? void 0 : found.row) || null;
       const points = affected((p) => {
-        var _a;
-        return kind === "rain" ? Object.values(p.rain || {}).flat().includes(id) : (((_a = p.wash) == null ? void 0 : _a.alert) || []).includes(id);
+        var _a2;
+        return kind === "rain" ? Object.values(p.rain || {}).flat().includes(id) : (((_a2 = p.wash) == null ? void 0 : _a2.alert) || []).includes(id);
       });
       const windows = kind === "rain" ? [...new Set(FAILURE_POINTS.flatMap((p) => Object.entries(p.rain || {}).filter(([, ids2]) => ids2.includes(id)).flatMap(([rule]) => ["h6", ...Object.values(RAIN[rule]).flatMap((r) => Object.keys(r))])))] : [];
       const values = kind === "rain" ? windows.map((w) => {
-        var _a;
-        return (_a = row == null ? void 0 : row.rain) == null ? void 0 : _a[["m10", "m30", "h1", "h3", "h6", "d1", "d3", "d7", "d30"].indexOf(w)];
+        var _a2;
+        return (_a2 = row == null ? void 0 : row.rain) == null ? void 0 : _a2[["m10", "m30", "h1", "h3", "h6", "d1", "d3", "d7", "d30"].indexOf(w)];
       }) : [row == null ? void 0 : row.flow];
       const observed = alertTimeIso(row == null ? void 0 : row.last_rpt);
-      const verdict = !body ? unavailable : !Array.isArray(body.data) ? { reason: "Malformed station list", kind: "upstream-data" } : !row ? { reason: "Expected station absent", kind: "upstream-data" } : row.UnderMaintenance ? { reason: "Station under maintenance", kind: "maintenance" } : reading(values.every(numeric), observed, row.last_rpt, kind === "rain" ? 24 * 36e5 : STALE_MS);
-      add(kind + ":" + id, (RAIN_GAUGES[id] || id) + (kind === "rain" ? " rain windows " + windows.join("/") + " within 24 hours" : " stream discharge within 3 hours"), points, verdict, observed, row == null ? void 0 : row.last_rpt);
+      const listProblem = {
+        malformed: { reason: "Malformed station list", kind: "upstream-data" },
+        empty: { reason: "Empty station list", kind: "upstream-data" },
+        partial: { reason: "Expected station absent; some list entries unreadable", kind: "upstream-data" },
+        absent: { reason: "Expected station absent from a readable list", kind: "upstream-data" }
+      }[found == null ? void 0 : found.status];
+      const verdict = !body ? unavailableFor(meta[kind]) : listProblem || (row.UnderMaintenance ? { reason: "Station under maintenance", kind: "maintenance" } : reading(values.every(numeric), observed, row.last_rpt, kind === "rain" ? 24 * 36e5 : STALE_MS));
+      add(kind + ":" + id, (RAIN_GAUGES[id] || id) + (kind === "rain" ? " rain windows " + windows.join("/") + " within 24 hours" : " stream discharge within 3 hours"), points, verdict, observed, row == null ? void 0 : row.last_rpt, { meta: meta[kind], found, station: id });
     }
   }
   const county = parseCountyClosures(raw.closures);
-  add("county", "Readable county event list with reported statuses (empty is valid)", county.issues.map((i) => i.location), !raw.closures ? unavailable : { reason: county.reason, kind: county.reason ? "upstream-data" : "" });
+  add("county", "Readable county event list with reported statuses (empty is valid)", county.issues.map((i) => i.location), !raw.closures ? unavailableFor(meta.closures) : { reason: county.reason, kind: county.reason ? "upstream-data" : "" }, null, null, { meta: meta.closures });
   for (const [id, body, field] of [["weather", raw.nws, "features"], ["transview-closures", raw.tvClosures, "d"], ["transview-work", raw.tvWork, "d"]]) {
     const list = body == null ? void 0 : body[field];
     const valid = Array.isArray(list) || id === "transview-work" && list && typeof list === "object";
     const malformed = valid && Object.values(list).some((r) => {
-      var _a;
-      return !r || typeof r !== "object" || id === "weather" && typeof ((_a = r.properties) == null ? void 0 : _a.event) !== "string" || id === "transview-closures" && (typeof r.Geo !== "string" || r.KeyID == null) || id === "transview-work" && (typeof r.Geography !== "string" || r.KeyID == null);
+      var _a2;
+      return !r || typeof r !== "object" || id === "weather" && typeof ((_a2 = r.properties) == null ? void 0 : _a2.event) !== "string" || id === "transview-closures" && (typeof r.Geo !== "string" || r.KeyID == null) || id === "transview-work" && (typeof r.Geography !== "string" || r.KeyID == null);
     });
-    add(id, "Readable " + id + " event list (empty is valid)", [], !body ? unavailable : !valid || malformed ? "Malformed event list" : "");
+    const m = meta[{ weather: "nws", "transview-closures": "tvClosures", "transview-work": "tvWork" }[id]];
+    add(id, "Readable " + id + " event list (empty is valid)", [], !body ? unavailableFor(m) : !valid || malformed ? "Malformed event list" : "", null, null, { meta: m });
   }
   return out;
 }
 const INPUT_KIND_TEXT = {
-  connection: "Lost connection: the source did not answer, or its answer was not readable JSON.",
+  connection: "Lost connection: the source did not answer, or answered with an HTTP error.",
+  // An HTTP 200 answer that is empty or not JSON is reported as upstream-data (malformed response).
   "upstream-time": "Upstream data error: the source answered, but the time it gave for this reading cannot be trusted. The reading is not used in ratings while this lasts.",
   "upstream-data": "Upstream data error: the source answered, but this part of its data is missing or malformed.",
   stale: "Stale: the source answered, but its newest reading is older than the limit.",
@@ -2383,7 +2482,7 @@ function saveOwnerHealth_(results, now) {
       s.attempts = 0;
       s.nextTry = 0;
     }
-    for (const k of ["kind", "sourceTime", "aheadMinutes"]) if (!(k in result)) delete s[k];
+    for (const k of ["kind", "sourceTime", "aheadMinutes", "response", "diagnostic"]) if (!(k in result)) delete s[k];
     Object.assign(s, result, { reason: fingerprint, checked: now });
     updates[key] = JSON.stringify(s);
   }

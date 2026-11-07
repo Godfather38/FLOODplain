@@ -183,7 +183,7 @@ test('genuinely stale and missing stations alert at once, each with its own type
   assert.equal(byId['stream:6443'].reason, 'Stale reading'); assert.equal(byId['stream:6443'].kind, 'stale');
   assert.equal(byId['stream:6443'].ageMinutes, 246);
   assert.equal(byId['rain:6460'].kind, 'stale');
-  assert.equal(byId['rain:6110'].reason, 'Expected station absent'); assert.equal(byId['rain:6110'].kind, 'upstream-data');
+  assert.equal(byId['rain:6110'].reason, 'Expected station absent from a readable list'); assert.equal(byId['rain:6110'].kind, 'upstream-data');
   assert.equal(byId['rain:6480'].reason, 'Upstream time error: no observation time');
   assert.equal(byId['rain:6440'].reason, 'Upstream time error: unreadable observation time');
   assert.equal(byId['rain:6440'].sourceTime, '2026-11-31T00:00:00');

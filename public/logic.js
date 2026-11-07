@@ -186,6 +186,54 @@ export function alertTimeIso(value) {
   return `${y}-${mo}-${d}T${h}:${mi}:${s}${frac}${zone}`;
 }
 
+// Owner diagnostics for a source answer. Bounded and sanitized: it keeps the HTTP status,
+// the size, whether the body was JSON and the top-level shape (key names only). It never
+// keeps body text, values, URLs (one carries the USGS key), headers or contact data.
+const SHAPE_KEY = /^[A-Za-z_][A-Za-z0-9_-]{0,23}$/;
+export function jsonShape(v) {
+  if (v === null) return 'null';
+  if (Array.isArray(v)) return `array(${v.length})`;
+  if (typeof v !== 'object') return typeof v;
+  const keys = Object.keys(v);
+  return 'object{' + keys.slice(0, 8).map((k) => (SHAPE_KEY.test(k) ? k : '?')).join(',') + (keys.length > 8 ? `,+${keys.length - 8}` : '') + '}';
+}
+// status: HTTP status or null when nothing came back. text: the body, or null.
+// outcome: no-response | http-error | empty | not-json | json. value is the parsed body,
+// only for HTTP 200 JSON (the same rule the service already used).
+export function sourceResponse(status, text) {
+  const meta = { httpStatus: Number.isInteger(status) ? status : null, bytes: typeof text === 'string' ? text.length : null };
+  if (meta.httpStatus === null) return { value: null, meta: { ...meta, outcome: 'no-response' } };
+  if (meta.httpStatus !== 200) return { value: null, meta: { ...meta, outcome: 'http-error' } };
+  if (typeof text !== 'string' || !text.trim()) return { value: null, meta: { ...meta, outcome: 'empty' } };
+  let value;
+  try { value = JSON.parse(text); } catch (err) { return { value: null, meta: { ...meta, outcome: 'not-json' } }; }
+  return { value, meta: { ...meta, outcome: 'json', shape: jsonShape(value) } };
+}
+// Find one Pima ALERT station in a station-list body ({data: [...]}) and say what the list
+// looked like. Station IDs may come as strings or numbers ("6443" or 6443); surrounding
+// spaces are ignored, leading zeros are not (they could be another station).
+// status: present | absent (readable list without it) | empty (data: []) |
+// partial (it is absent and some entries had no readable ID) | malformed (no data list,
+// or no entry with a readable ID). Never throws on null or odd entries.
+export function findAlertStation(body, id) {
+  const want = String(id).trim();
+  const list = body && typeof body === 'object' && !Array.isArray(body) ? body.data : undefined;
+  if (!Array.isArray(list)) {
+    const where = body && typeof body === 'object' && !Array.isArray(body) && 'data' in body ? 'data is ' + jsonShape(list) : 'no data list';
+    return { status: 'malformed', row: null, stationCount: null, detail: where };
+  }
+  let stringIds = 0, numericIds = 0, unreadable = 0, row = null;
+  for (const d of list) {
+    const site = d && typeof d === 'object' && !Array.isArray(d) ? d.site : undefined;
+    if (typeof site === 'string' && site.trim()) stringIds++;
+    else if (typeof site === 'number' && Number.isFinite(site)) numericIds++;
+    else { unreadable++; continue; }
+    if (!row && String(site).trim() === want) row = d;
+  }
+  const status = row ? 'present' : !list.length ? 'empty' : !(stringIds + numericIds) ? 'malformed' : unreadable ? 'partial' : 'absent';
+  return { status, row, stationCount: list.length, stringIds, numericIds, unreadable };
+}
+
 // 4. Pima County's own barricade points near this spot.
 // A readable response may still contain an incomplete record. Keep its unknown
 // status and all other usable records; never turn a malformed response into [].
