@@ -7,10 +7,14 @@ This is incomplete review work, not deployment or submission approval. No live p
 ## Reconciliation
 
 - Applied PR #13 source hunks onto the current release, retaining current map/scenario controls, route predictions, repaired road heights and owner-health handling.
-- Resolved the removed footer by adding only Privacy Policy, Terms of Service and Support links; did not restore the retired experimental-map link. Existing map CSS hides this footer in full-map mode; the signup and settings policy links remain.
+- Resolved the removed footer by adding only Privacy Policy, Terms of Service and Support links; did not restore the retired experimental-map link. Dedicated policy CSS hides this footer in full-map mode; the signup and settings policy links remain.
 - Combined Twilio acceptance mocks with the release's cache-write failure hook, preserving health regression coverage.
 - Retained PR #13 screenshots as historical mocked preview evidence; they are not screenshots of this reconciliation or of an approved/live sender.
 - Deliberately retained the release's generated `apps-script/WashWatch.gs` unchanged. The environment has no usable shell, so `npm run build:gas` cannot be run here. Do not deploy this branch until that bundle is regenerated from the reconciled sources and checked. The old bundle does NOT include the source fixes.
+
+## Fresh CI follow-up
+
+[CI run 42397987468](https://github.com/Godfather38/FLOODplain/actions/runs/42397987468) ran npm test at 7265442: 416 passed, 1 failed. All seven SMS compliance tests passed. The failure was the existing simulator guard forbidding the retired exp-link nav. Corrected by giving the policy-only navigation its own policy-links class and styling, without weakening the test or changing simulator placement. Browser CI was still running when this follow-up was recorded; follow-up CI results must be checked. The generated GAS bundle still requires regeneration.
 
 ## Fresh checks and limitations
 

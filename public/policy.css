@@ -4,3 +4,7 @@ body.policy-document{font:17px/1.6 system-ui,sans-serif;color:#192c35;background
 .policy-copy input,.policy-copy textarea,.policy-copy button{box-sizing:border-box;width:100%;font:inherit;margin:6px 0 16px;padding:12px}.policy-copy label{display:block}.policy-copy button{color:white;background:#075c69;border:0;border-radius:6px;cursor:pointer}.policy-copy button:disabled{opacity:.6}
 body.policy-open> :not(#legacy-policy):not(script){display:none!important}body.policy-open{overflow:auto!important;height:auto!important;padding:16px;background:#f7faf9}#legacy-policy{font:17px/1.6 system-ui,sans-serif;color:#192c35}#legacy-policy[hidden]{display:none}
 @media(max-width:480px){body.policy-document{padding:12px}.policy-copy{padding:18px}.policy-copy h1{font-size:1.5rem}}
+
+/* Public policy navigation stays in document flow, outside the full-screen map. */
+.policy-links{padding:8px 16px 16px;font-size:13px;line-height:2}
+html body.mapp-on>.policy-links{display:none}
