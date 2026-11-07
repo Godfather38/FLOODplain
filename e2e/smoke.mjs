@@ -90,7 +90,7 @@ try{
   assert.equal(await page.locator('.exp-link').count(),0,'no alternate estimate destination');
   await page.click('[data-destination=map]');await dismissNotice(page);
   assert.equal(await page.getAttribute('[data-m-tab=routes]','aria-selected'),'true');
-  await page.waitForSelector('.road-forecast-pin');
+  await page.waitForSelector('.road-forecast-pin [data-road-comparison=water]');
   await page.click('.road-forecast-pin');
   await page.waitForFunction(()=>document.querySelector('.road-comparison')?.textContent.includes('Predicted water:'));
   const comparison=await page.innerText('.road-comparison');

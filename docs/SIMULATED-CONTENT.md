@@ -1,6 +1,6 @@
 # Simulated and modeled content
 
-SFINCS runs, the 3D simulation and HAND estimates are part of the live app, where the map design puts them. The Map opens with simulated water showing. The Model, Case, Time and 3D controls are in the map tools, the 2-hour simulated outlook button is under the map, and the experimental estimate link is in its usual place.
+SFINCS runs, the 3D simulation and HAND estimates are part of the live app, where the map design puts them. The Map opens with simulated water showing. The Model, Case, Time and 3D controls are in the map tools, the 2-hour simulated outlook button is under the map, and road-height comparisons are part of the map and route scores. The separate HAND extent page remains at its existing URL, but is not the route from the main app to predicted road water.
 
 Simulated or modeled water is identified by two things only:
 

@@ -564,7 +564,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
    if(!Number.isFinite(r.lat)||!Number.isFinite(r.lon))continue;
    const comparison=forecastComparison(r,roadStations?.get(id));
    const value=r.maxOver>0?(r.maxOver/.3048<.01?'<0.01':(r.maxOver/.3048).toFixed(2))+' ft':'No water over road';
-   const icon=L.divIcon({className:'road-forecast-pin',html:`<span class="${r.maxOver>0?'wet':'dry'}">${esc(value)}</span>`,iconSize:[0,0]});
+   const icon=L.divIcon({className:'road-forecast-pin',html:`<span data-road-comparison="${comparison.status}" class="${r.maxOver>0?'wet':'dry'}">${esc(value)}</span>`,iconSize:[0,0]});
    L.marker([r.lat,r.lon],{icon,bubblingMouseEvents:false,title:ROUTE_INFO[id]?.name??id})
     .bindPopup(`<strong>${esc(ROUTE_INFO[id]?.name??id)}</strong><br>${esc(roadForecastText(r))}<br><small>${r.time==null?'Forecast window':`Peak ${esc(clockText(r.time))}`} · issued ${esc(clockText(r.issuedAt))}</small><hr>${comparisonLines(comparison).map(esc).join('<br>')}<br><small>Same forecast used in this route’s score. Heights use NAVD88.</small>`,{className:'mapp-popup road-comparison'})
     .addTo(forecastPoints);
