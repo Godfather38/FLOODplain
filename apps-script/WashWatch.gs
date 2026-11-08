@@ -625,7 +625,7 @@ function checkRiver(flows, siteIds, names, R) {
     var _a;
     return (_a = p.f) == null ? void 0 : _a.fresh;
   });
-  if (!parts.length) return { level: "unknown", why: "no live river gauge reading" };
+  if (!parts.length) return { level: "unknown", evidence: "missing", why: "no live river gauge reading" };
   let out = { level: "ok", why: `river at normal level (${parts.map((p) => `${fmtCfs(p.f.cfs)} cfs`).join(", ")})` };
   for (const { id, f } of parts) {
     const at = `${fmtCfs(f.cfs)} cfs at ${siteName(names, id)}`;
@@ -635,7 +635,7 @@ function checkRiver(flows, siteIds, names, R) {
     else if (f.cfs >= R.watchCfs || f.risingFast) c = { level: "watch", why: `${at}${f.risingFast ? " and rising" : ""}: elevated river flow; water level relative to this bridge is not established` };
     if (c && rank(c.level) > rank(out.level)) out = c;
   }
-  return { ...out, observations: parts.map(({ id, f }) => ({ siteId: id, cfs: f.cfs, time: f.time })), detail: parts.map(({ id, f }) => siteName(names, id) + ": " + fmtCfs(f.cfs) + " cfs; observed " + (Number.isFinite(f.time) ? new Date(f.time).toISOString() : "time unavailable")).join("; ") };
+  return { ...out, evidence: "remote", gaugeIds: parts.map((p) => p.id), observations: parts.map(({ id, f }) => ({ siteId: id, cfs: f.cfs, time: f.time })), detail: parts.map(({ id, f }) => siteName(names, id) + ": " + fmtCfs(f.cfs) + " cfs; observed " + (Number.isFinite(f.time) ? new Date(f.time).toISOString() : "time unavailable")).join("; ") };
 }
 function checkRiverEarly(flows, siteIds, names, R) {
   const running = siteIds.filter((id) => {
@@ -643,7 +643,7 @@ function checkRiverEarly(flows, siteIds, names, R) {
     return ((_a = flows[id]) == null ? void 0 : _a.fresh) && flows[id].cfs >= R.earlyCfs;
   });
   if (!running.length) return null;
-  return { level: "watch", why: `${running.map((id) => `${siteName(names, id)} at ${fmtCfs(flows[id].cfs)} cfs`).join(", ")}: that water reaches the Santa Cruz bridges in a few hours` };
+  return { level: "watch", evidence: "remote", gaugeIds: running, why: `${running.map((id) => `${siteName(names, id)} at ${fmtCfs(flows[id].cfs)} cfs`).join(", ")}: that water reaches the Santa Cruz bridges in a few hours` };
 }
 function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
   var _a, _b, _c;
@@ -652,7 +652,7 @@ function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
     var _a2;
     return g.last_rpt && !g.maintenance && Date.parse(g.last_rpt) <= now && now - Date.parse(g.last_rpt) <= Math.max(staleMs, 24 * 36e5) && Object.values((_a2 = g.in) != null ? _a2 : {}).some((v) => Number.isFinite(v) && v >= 0);
   });
-  if (!fresh.length) return { level: "unknown", why: "no rain gauge reading" };
+  if (!fresh.length) return { level: "unknown", evidence: "missing", why: "no rain gauge reading" };
   const ageMin = snapshot.fetched_at ? (now - Date.parse(snapshot.fetched_at)) / 6e4 : 0;
   const asOf = ageMin > 45 ? ` (rain readings from ${new Date(Date.parse(snapshot.fetched_at)).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Phoenix" })})` : "";
   const valid = (v) => Number.isFinite(v) && v >= 0;
@@ -668,19 +668,20 @@ function checkRain(snapshot, gaugeIds, rules, names, now, staleMs) {
     var _a2;
     return (_a2 = names[g.site]) != null ? _a2 : g.name;
   }).join(", ")})`;
+  const read = { evidence: "remote", gaugeIds: fresh.map((g) => g.site) };
   for (const level of ["danger", "caution", "watch"]) {
     for (const [win, limit] of Object.entries((_b = rules[level]) != null ? _b : {})) {
       const hit = fresh.filter((g) => {
         var _a2;
         return valid((_a2 = g.in) == null ? void 0 : _a2[win]) && g.in[win] >= limit;
       }).sort((a, b) => b.in[win] - a.in[win])[0];
-      if (hit) return { level, detail, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${(_c = names[hit.site]) != null ? _c : hit.name}${asOf}` };
+      if (hit) return { ...read, level, detail, why: `${fmtIn(hit.in[win])} of rain in the last ${WINDOW_WORDS[win]} at ${(_c = names[hit.site]) != null ? _c : hit.name}${asOf}` };
     }
   }
   const h6 = most("h6");
   const required = /* @__PURE__ */ new Set(["h6", ...Object.values(rules).flatMap((rule) => Object.keys(rule))]);
-  if ([...required].some((w) => most(w) == null)) return { level: "unknown", detail, why: "rain gauge readings are incomplete" + asOf };
-  return { level: "ok", detail, why: (h6 > 0 ? `light rain only (${fmtIn(h6)} in the last 6 hours)` : "no rain in the last 6 hours") + asOf };
+  if ([...required].some((w) => most(w) == null)) return { ...read, level: "unknown", detail, why: "rain gauge readings are incomplete" + asOf };
+  return { ...read, level: "ok", detail, why: (h6 > 0 ? `light rain only (${fmtIn(h6)} in the last 6 hours)` : "no rain in the last 6 hours") + asOf };
 }
 const WASH_RULES = { bigFlowCfs: 500 };
 const MILE_M = 1609.344;
@@ -714,18 +715,20 @@ function checkWash(snapshot, flows, fp, now, staleMs, names, rules) {
       readings.push({ id, name: siteName(names, id), cfs: f.cfs, risingFast: f.risingFast, lat: (_e = names[id]) == null ? void 0 : _e.lat, lon: (_f = names[id]) == null ? void 0 : _f.lon, time: f.time, observedAt: new Date(f.time).toISOString() });
     }
   }
-  if (!readings.length) return { level: "unknown", why: "no wash flow sensor reading" };
+  if (!readings.length) return { level: "unknown", evidence: "missing", why: "no wash flow sensor reading" };
   readings.sort((a, b) => b.cfs - a.cfs);
   const top = readings[0];
   const observations = readings.map((r) => ({ siteId: r.id, name: r.name, cfs: r.cfs, milesAway: milesFrom(fp, r), time: r.time, observedAt: r.observedAt }));
   const when = (r) => azClock(r.time) ? ` at ${azClock(r.time)}` : "";
   const detail = readings.map((r) => `${r.name}: ${fmtCfs(r.cfs)} cfs${when(r)}, ${sensorPlace(fp, r)}`).join("; ") + ". No rating curve, travel time or channel-loss relation between these sensors and this crossing has been established, so these numbers give no depth and no arrival time here.";
-  if (top.cfs < 1) return { level: "ok", observations, detail, why: "Brawley Wash upstream is dry" };
+  const read = { evidence: "remote", gaugeIds: readings.map((r) => r.id) };
+  if (top.cfs < 1) return { ...read, level: "ok", observations, detail, why: "Brawley Wash upstream is dry" };
   const at = `${fmtCfs(top.cfs)} cfs in ${top.name}`;
   const big = top.cfs >= R.bigFlowCfs || top.risingFast;
   const rising = top.risingFast ? ", rising fast" : "";
   if (fp.kind === "dip") {
     return {
+      ...read,
       level: "watch",
       upstream: true,
       upstreamAlert: big ? "big-flow" : "running",
@@ -735,7 +738,7 @@ function checkWash(snapshot, flows, fp, now, staleMs, names, rules) {
       why: `${at}${rising}, ${sensorPlace(fp, top)}: ${big ? "a big flow is running in the wash upstream of here" : "water is running in the wash upstream of here"}. Whether it reaches this crossing, when, and how deep is not established.`
     };
   }
-  return { level: "unknown", contextOnly: true, upstream: true, observations, detail, why: `${at}, ${sensorPlace(fp, top)}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
+  return { ...read, level: "unknown", contextOnly: true, upstream: true, observations, detail, why: `${at}, ${sensorPlace(fp, top)}: upstream measurement; no site-specific roadway elevation comparison is available for this bridge` };
 }
 function alertTimeIso(value) {
   if (typeof value !== "string") return null;
@@ -843,15 +846,15 @@ function checkClosures(points, now = null) {
   };
   const detail = points.map((p) => `${p.location}: ${said(p)}${dir(p)}${when(p)}`).join(" · ");
   const closed = points.find((p) => p.statusKnown !== false && /clos/i.test(p.status));
-  if (closed) return { level: "danger", detail, why: `County says CLOSED: ${closed.location}${dir(closed)}${when(closed)}` };
+  if (closed) return { level: "danger", evidence: "observed", detail, why: `County says CLOSED: ${closed.location}${dir(closed)}${when(closed)}` };
   const careful = points.find((p) => p.statusKnown !== false && /caution/i.test(p.status));
-  if (careful) return { level: "caution", detail, why: `County says Proceed with Caution: ${careful.location}${dir(careful)}${when(careful)}` };
+  if (careful) return { level: "caution", evidence: "observed", detail, why: `County says Proceed with Caution: ${careful.location}${dir(careful)}${when(careful)}` };
   const unreadable = points.filter((p) => {
     var _a, _b;
     return p.statusKnown === false || !OPEN_STATUS.test((_b = (_a = p.status) == null ? void 0 : _a.trim()) != null ? _b : "");
   });
   if (unreadable.length) {
-    return { level: "unknown", detail, roadStatus: "unknown", why: `county barricade point status is not readable: ${unreadable.map((p) => `${p.location} says "${said(p)}"`).join(", ")}` };
+    return { level: "unknown", evidence: "observed", detail, roadStatus: "unknown", why: `county barricade point status is not readable: ${unreadable.map((p) => `${p.location} says "${said(p)}"`).join(", ")}` };
   }
   const stampOf = (p) => {
     var _a;
@@ -860,17 +863,17 @@ function checkClosures(points, now = null) {
   };
   const stamps = points.map(stampOf);
   const staleOpen = Number.isFinite(now) && stamps.every((t) => t !== null && now - t > STALE_OPEN_MS);
-  if (staleOpen) return { level: "ok", detail, why: "county barricade point marked Open, but not updated recently", official: true, staleOpen: true };
-  return { level: "ok", detail, why: "county barricade point marked Open", official: true };
+  if (staleOpen) return { level: "ok", evidence: "observed", detail, why: "county barricade point marked Open, but not updated recently", official: true, staleOpen: true };
+  return { level: "ok", evidence: "observed", detail, why: "county barricade point marked Open", official: true };
 }
 function checkNws(alerts, kind) {
   if (!alerts) return null;
   const names = alerts.map((a) => a.event);
   if (names.some((e) => /Flash Flood Warning/i.test(e))) {
-    return { level: kind === "dip" ? "caution" : "watch", why: "NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area" };
+    return { level: kind === "dip" ? "caution" : "watch", evidence: "official", why: "NWS Flash Flood Warning in effect: flooding is happening or about to somewhere in the area" };
   }
   if (kind === "dip" && names.some((e) => /Flood (Warning|Advisory)|Flash Flood Statement/i.test(e))) {
-    return { level: "watch", why: `NWS ${names.find((e) => /Flood/i.test(e))} in effect for the area` };
+    return { level: "watch", evidence: "official", why: `NWS ${names.find((e) => /Flood/i.test(e))} in effect for the area` };
   }
   return null;
 }
@@ -898,15 +901,67 @@ function bridgeRiverCheck(check, record, now, policy) {
   return {
     ...check,
     level: assessedLevel,
+    modelEstimate: heightComparison.status === "estimated",
     bridgePoints: heightComparison.assessment === "warning" ? policy.warningPoints : heightComparison.assessment === "roadway_concern" ? policy.roadwayPoints : 0,
     modeledRoadConcern,
     dischargeLevel: check.level,
     bridgeClearance: "unknown",
-    why: heightComparison.status === "estimated" ? `${heightComparison.assessmentLabel}: estimated road ${heightComparison.roadM.toFixed(2)} m, modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}. Official closure status is separate.` : heightComparison.reason + " Gauge discharge is context only.",
+    why: heightComparison.status === "estimated" ? `${heightComparison.assessmentLabel}: estimated road ${heightComparison.roadM.toFixed(2)} m, modeled water ${heightComparison.waterM.toFixed(2)} m ${heightComparison.datum} at ${heightComparison.time}. Official closure status is separate.` : heightComparison.reason + (check.level === "unknown" ? " No river gauge reading either." : " The river gauge readings are listed, but they measure the river, not water on this bridge."),
     detail: (check.detail ? check.detail + ". " : "") + (record ? "Site-linked structure record " + record.id + ". " : "No exact structure record. ") + (history.length ? "Historical flooding is documented for this site; it is not a current closure or measured flow-to-road threshold. " : "No site-linked flooding history establishes a current road threshold. ") + ((record == null ? void 0 : record.roadwayEstimate) ? "A provisional roadway-height comparison is shown in height & history; it is not surveyed deck or underside clearance. " : "Current roadway elevation is unavailable. ") + "Clearance is unknown, not confirmed clear.",
     heightComparison,
     bridgeEvidence: { recordId: (_c = record == null ? void 0 : record.id) != null ? _c : null, historyDates: history.map((h) => h.date), clearance: "unknown" }
   };
+}
+const GAUGE_KIND = { river: "river", "river-early": "river", wash: "wash", "rain-local": "rain", "rain-basin": "rain", "rain-road": "rain" };
+function evidenceState(checks) {
+  var _a, _b;
+  const of = (kind) => (checks != null ? checks : []).filter((c) => c.evidence === kind);
+  const sites = { river: /* @__PURE__ */ new Set(), wash: /* @__PURE__ */ new Set(), rain: /* @__PURE__ */ new Set(), other: /* @__PURE__ */ new Set() };
+  for (const c of of("remote")) for (const id of (_a = c.gaugeIds) != null ? _a : [c.src]) sites[(_b = GAUGE_KIND[c.src]) != null ? _b : "other"].add(id);
+  const byKind = {};
+  for (const kind of Object.keys(sites)) byKind[kind] = sites[kind].size;
+  return {
+    remoteGauges: byKind.river + byKind.wash + byKind.rain + byKind.other,
+    remoteByKind: byKind,
+    model: (checks != null ? checks : []).some((c) => c.evidence === "model" || c.modelEstimate === true),
+    observed: of("observed").length > 0,
+    official: of("official").length > 0,
+    missing: of("missing").map((c) => c.src),
+    stale: of("stale").map((c) => c.src),
+    unsupported: of("unsupported").map((c) => c.src)
+  };
+}
+const GAUGE_WORDS = { river: ["river gauge", "river gauges"], wash: ["wash flow sensor", "wash flow sensors"], rain: ["rain gauge", "rain gauges"], other: ["gauge", "gauges"] };
+function gaugePhrases(state) {
+  var _a;
+  const byKind = (_a = state == null ? void 0 : state.remoteByKind) != null ? _a : {};
+  return Object.keys(byKind).filter((kind) => byKind[kind] > 0).map((kind) => {
+    var _a2;
+    return `${byKind[kind]} ${((_a2 = GAUGE_WORDS[kind]) != null ? _a2 : GAUGE_WORDS.other)[byKind[kind] === 1 ? 0 : 1]}`;
+  });
+}
+const listWords = (xs) => {
+  var _a;
+  return xs.length > 1 ? `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}` : (_a = xs[0]) != null ? _a : "";
+};
+const NO_READINGS = "No live readings right now; current road conditions are not established";
+function evidenceSentence(state) {
+  const have = [];
+  const gauges = gaugePhrases(state);
+  if (gauges.length) have.push(`${listWords(gauges)} reporting`);
+  if (state == null ? void 0 : state.model) have.push("a model estimate");
+  if (!have.length) return NO_READINGS;
+  const said = have.join(" plus ");
+  return `${said.charAt(0).toUpperCase()}${said.slice(1)}, nothing measuring this road itself`;
+}
+function evidenceDetail(state) {
+  const road = state.observed ? "The county point at this crossing has no status we can read." : "No gauge sits at this crossing and nobody has reported the road itself.";
+  const rest = state.remoteGauges || state.model ? "Conditions on this road are inferred from readings taken elsewhere, not measured here." : "Nothing else answered either.";
+  return `${road} ${rest} Each source below carries its own time.`;
+}
+function noRatingRow(checks) {
+  const state = evidenceState(checks);
+  return { src: state.remoteGauges || state.model ? "remote-only" : "none", level: "ok", evidence: "summary", why: evidenceSentence(state), detail: evidenceDetail(state) };
 }
 function rateFailurePoint(fp, d, cfg2) {
   var _a, _b, _c, _d, _e;
@@ -935,7 +990,7 @@ function rateFailurePoint(fp, d, cfg2) {
     });
   }
   for (const [ruleName, ids] of Object.entries((_b = fp.rain) != null ? _b : {})) {
-    const c = d.alert ? checkRain(d.alert, ids, cfg2.RAIN[ruleName], cfg2.RAIN_GAUGES, now, cfg2.STALE_MS) : { level: "unknown", why: "rain gauges unreachable right now" };
+    const c = d.alert ? checkRain(d.alert, ids, cfg2.RAIN[ruleName], cfg2.RAIN_GAUGES, now, cfg2.STALE_MS) : { level: "unknown", evidence: "missing", why: "rain gauges unreachable right now" };
     if (["bridge", "river"].includes(fp.kind) && c.level !== "unknown" && c.level !== "ok") {
       c.sourceLevel = c.level;
       c.level = "unknown";
@@ -953,7 +1008,7 @@ function rateFailurePoint(fp, d, cfg2) {
   }
   const known = checks.filter((c) => c.level !== "unknown");
   let level = known.length ? worst(known.map((c) => c.level)) : "ok";
-  if (!known.length) checks.unshift({ src: "none", level: "ok", why: "No live readings right now; current road conditions are not established" });
+  if (!known.length) checks.unshift(noRatingRow(checks));
   if ((fp.kind === "road" || fp.kind === "flat") && level === "danger" && (closure == null ? void 0 : closure.level) !== "danger") level = "caution";
   const pref = ["county", "wash", "rain-local", "river", "rain-road", "rain-basin", "river-early", "nws", "road-status"];
   const atLevel = checks.filter((c) => c.level === level && !(c.official && level === "ok"));
@@ -1279,8 +1334,12 @@ function routeScore(route) {
 function goodSigns(route, nwsQuiet) {
   const kind = (src) => src.startsWith("rain") ? "rain" : src === "river-early" ? "river" : src;
   const checks = route.points.flatMap((p) => p.checks);
-  const bad = new Set(checks.filter((c) => c.level !== "ok").map((c) => kind(c.src)));
-  const ok = checks.filter((c) => c.level === "ok" && !bad.has(kind(c.src)));
+  const signLevel = (c) => {
+    var _a;
+    return c.src === "river" ? (_a = c.dischargeLevel) != null ? _a : c.level : c.level;
+  };
+  const bad = new Set(checks.filter((c) => signLevel(c) !== "ok").map((c) => kind(c.src)));
+  const ok = checks.filter((c) => signLevel(c) === "ok" && !bad.has(kind(c.src)));
   const out = [];
   const add = (t) => {
     if (!out.includes(t)) out.push(t);

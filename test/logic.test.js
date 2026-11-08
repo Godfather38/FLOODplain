@@ -182,7 +182,7 @@ test('angel never praises a source that is bad elsewhere on the same route', () 
 });
 test('dry morning: angel lists the good signs, nothing against', () => {
   const r = choose(data());
-  assert.deepEqual(goodSigns(r.best, true), ['Brawley Wash upstream is dry', 'no rain in the last 6 hours', 'no weather-service flood alerts']);
+  assert.deepEqual(goodSigns(r.best, true), ['the Santa Cruz is at its everyday flow', 'Brawley Wash upstream is dry', 'no rain in the last 6 hours', 'no weather-service flood alerts']);
   assert.equal(againstIt(r.best).length, 0);
 });
 
