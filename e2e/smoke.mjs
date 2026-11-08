@@ -131,6 +131,11 @@ try{
   const text=await page.innerText('.local-road-comparison');
   assert.match(text,/W Snyder Hill Rd.*Model: water about 1\.0 ft \(0\.31 m\) above this road at its highest.*Road: .* ft NAVD88.*Run issued .*bare-earth lidar, not a surveyed road or bridge deck.*not part of the route scores/s);
   assert.doesNotMatch(text,/\bsafe\b/i);
+  assert.doesNotMatch(text,/missing/i);
+  // An over point with some frames missing stays over and says so.
+  await page.locator('path.local-road-over').nth(1).dispatchEvent('click');
+  await page.waitForFunction(()=>/Some model hours are missing for this point, so the water may have been higher\./.test(document.querySelector('.local-road-comparison')?.textContent||''));
+  assert.match(await page.innerText('.local-road-comparison'),/Missing model readings: 2 of 35 model times\./);
   assert.deepEqual(errors,[]);await context.close();
  });
  await check('a missing neighborhood road file draws nothing and says so in the model sources',async()=>{

@@ -11,6 +11,11 @@ self.addEventListener('activate', (event) => event.waitUntil((async () => {
   await self.clients.claim();
 })()));
 
+// Files the map loads later than startup (so they are never in the page's list) that are kept
+// through the cleanup when already saved: the neighborhood road station list. Its address does not
+// change between releases, and the network-first fetch below replaces it whenever there is signal.
+const KEEP_LAZY = /\/data\/local-roads\/[^/]+-stations\.json$/;
+
 // The page sends the files it just loaded, because they load before this worker takes control.
 // Anything from an older release is dropped at the same time.
 self.addEventListener('message', (event) => {
@@ -20,7 +25,9 @@ self.addEventListener('message', (event) => {
     const urls = event.data.urls.filter((u) => storable(new URL(u)));
     await Promise.allSettled(urls.map((u) => cache.add(u)));
     const keep = new Set(urls);
-    for (const request of await cache.keys()) if (!keep.has(request.url)) await cache.delete(request);
+    for (const request of await cache.keys()) {
+      if (!keep.has(request.url) && !KEEP_LAZY.test(new URL(request.url).pathname)) await cache.delete(request);
+    }
   })());
 });
 

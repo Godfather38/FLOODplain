@@ -8,7 +8,7 @@ import { createHash } from 'node:crypto';
 import {
   parseLocalRoadForecast, parseLocalRoadStations, localRoadsAt, loadLocalRoadForecast, loadLocalRoadStations,
   resetLocalRoadStations, stationLine, stationDetails, nearestLocalStation, localRoadStatusText, LOCAL_ROAD_URL,
-  LOCAL_ROAD_STATIONS_URL, LOCAL_ROAD_STATES, LOCAL_ROAD_METHOD, LOCAL_ROAD_PARTIAL_NOTE,
+  LOCAL_ROAD_STATIONS_URL, LOCAL_ROAD_STATES, LOCAL_ROAD_METHOD, LOCAL_ROAD_PARTIAL_NOTE, LOCAL_ROAD_SOME_MISSING,
 } from '../public/simulation/local-road-forecast.js';
 
 const raw = (p) => readFileSync(new URL(p, import.meta.url));
@@ -141,28 +141,75 @@ test('a malformed file shows nothing, and is never read as dry', () => {
   }
 });
 
-test('a listed station that contradicts its own state is dropped, not guessed and not dry', () => {
-  const at = (f, state) => f.listed.state.indexOf(['over', 'below', 'unknown', 'no-cell'].indexOf(state));
-  const bad = {
-    overZero: (f) => { const k = at(f, 'over'); f.listed.maxOverCm[k] = 0; f.listed.maxWseCm[k] = 71242; }, // water exactly at road 712.42 m
-    overDiff: (f) => { f.listed.maxOverCm[at(f, 'over')] += 5; },
-    overNoTime: (f) => { f.listed.firstOverMin[at(f, 'over')] = null; },
-    overLate: (f) => { f.listed.firstOverMin[at(f, 'over')] = 100000; },
-    overFloat: (f) => { f.listed.maxWseCm[at(f, 'over')] += 0.5; },
-    belowAbove: (f) => { const k = at(f, 'below'); f.listed.maxWseCm[k] += 100; f.listed.maxOverCm[k] += 100; },
-    belowTime: (f) => { f.listed.firstOverMin[at(f, 'below')] = 10; },
-    unknownValue: (f) => { f.listed.maxWseCm[at(f, 'unknown')] = 70000; },
-    unknownFrames: (f) => { f.listed.unknownFrames[at(f, 'unknown')] = 0; },
-    noCellCell: (f) => { f.listed.cellSizeM[at(f, 'no-cell')] = 6.25; },
-  };
-  for (const [name, change] of Object.entries(bad)) {
-    const f = sample(); change(f);
-    const r = parse(f);
-    assert.equal(r.status, 'ok', name);
-    assert.equal(r.unreadable, 1, name);
-    assert.equal(r.stations.length, 19, name);
-    assert.equal(r.stations.filter((s) => s.state === 'dry').length, 3, name + ': never turned into dry');
+// Shared with the model branch (tools/live/fixtures/local-roads/): the publish verifier and this
+// parser are run against the same cases. The pinned sha256 is the same in both test files, so a
+// change to one copy fails until the other is updated with it.
+const CASES_RAW = raw('./fixtures/local-road-contract-cases.json');
+const CONTRACT_CASES_SHA256 = '7a09c726f1f5b9335a0b477a71008e85d4de93391236b50f0831c30ffad5d9ef';
+const LISTED_COLUMNS = ['index', 'state', 'maxWseCm', 'maxOverCm', 'firstOverMin', 'cellSizeM', 'unknownFrames'];
+function applyOps(f, ops) {
+  const at = (path) => { let o = f; for (const p of path.slice(0, -1)) o = o[p]; return [o, path[path.length - 1]]; };
+  for (const op of ops) {
+    if (op.op === 'set') { const [o, k] = at(op.path); o[k] = op.value; }
+    else if (op.op === 'add') { const [o, k] = at(op.path); o[k] += op.value; }
+    else if (op.op === 'delete') { const [o, k] = at(op.path); delete o[k]; }
+    else if (op.op === 'pop') { const [o, k] = at(op.path); o[k].pop(); }
+    else if (op.op === 'dropEntry') { for (const c of LISTED_COLUMNS) f.listed[c].splice(op.at, 1); }
+    else if (op.op === 'swapEntries') { const [a, b] = op.at; for (const c of LISTED_COLUMNS) [f.listed[c][a], f.listed[c][b]] = [f.listed[c][b], f.listed[c][a]]; }
+    else if (op.op === 'insertEntry') { for (const c of LISTED_COLUMNS) f.listed[c].splice(op.at, 0, op.entry[c]); }
+    else throw Error('unknown op ' + op.op);
   }
+  return f;
+}
+
+test('the shared contract cases: the app agrees with the publish verifier', () => {
+  assert.equal(sha(CASES_RAW), CONTRACT_CASES_SHA256, 'update the model copy and both pinned hashes together');
+  assert.equal(sha(raw('./fixtures/local-road-forecast-sample.json')), '5d8063712eba660ff2100c77d26097b11588a1ae47ecb595c2afa6f3982268e5');
+  assert.equal(sha(STATIC), '0df117b6978b7cced69d7f1f3b053cd197e0406170df6c7cb4a8758799f17d53');
+  const { cases } = JSON.parse(CASES_RAW);
+  assert.ok(cases.length >= 40);
+  for (const c of cases) {
+    const r = parse(applyOps(sample(), c.ops));
+    if (c.expect === 'reject') {
+      assert.notEqual(r.status, 'ok', c.name);
+      assert.deepEqual(r.stations, [], c.name);
+      assert.ok(r.reason, c.name);
+      continue;
+    }
+    assert.equal(r.status, 'ok', c.name);
+    const bad = c.expect === 'unreadable' ? 1 : 0;
+    assert.equal(r.unreadable, bad, c.name);
+    assert.equal(r.unreadableStations.length, bad, c.name);
+    assert.equal(r.stations.length, 20 - bad, c.name);
+    assert.equal(r.stations.filter((s) => s.state === 'dry').length, 3, c.name + ': never turned into dry');
+    if (bad) assert.match(localRoadStatusText(r), /; 1 road point could not be read in the run/, c.name);
+    else assert.doesNotMatch(localRoadStatusText(r), /could not be read/, c.name);
+  }
+});
+
+test('an over station with missing hours stays over and says some hours are missing', () => {
+  const r = parse(sample()), s = r.stations[1];
+  assert.deepEqual([s.state, s.unknownFrames], ['over', 2]);
+  assert.match(stationLine(s), /above this road at its highest\. .* Some model hours are missing for this point, so the water may have been higher\.$/);
+  assert.ok(stationDetails(s, r.frames).includes('Missing model readings: 2 of 35 model times.'));
+  assert.equal(LOCAL_ROAD_SOME_MISSING, 'Some model hours are missing for this point, so the water may have been higher.');
+  assert.doesNotMatch(stationLine(r.stations[0]), /missing/);
+});
+
+test('an unreadable station is counted in the model line and a tap on it never falls through to a neighbour', () => {
+  const f = sample();
+  f.listed.unknownFrames[2] = 1; // below with a missing frame: no longer a firm below
+  const r = parse(f), st = stationSet().stations[2];
+  assert.equal(r.unreadable, 1);
+  assert.equal(r.stations.some((s) => s.index === 2), false, 'not drawn');
+  assert.match(localRoadStatusText(r), /model water above 6 of 20 road points; 2 unknown \(missing model readings\); 1 road point could not be read in the run issued/);
+  const hit = nearestLocalStation(r, { lat: st.lat, lon: st.lon });
+  assert.equal(hit.index, 2);
+  assert.equal(hit.state, 'unreadable');
+  assert.equal(stationLine(hit), 'Model: the model values for this point could not be read, so nothing is shown for it.');
+  assert.doesNotMatch([stationLine(hit), ...stationDetails(hit, 35)].join(' '), /\bsafe\b|dry|undefined|NaN|null/i);
+  const two = sample(); two.listed.cellSizeM[2] = 0; two.listed.cellSizeM[4] = null;
+  assert.match(localRoadStatusText(parse(two)), /; 2 road points could not be read/);
 });
 
 test('a partial run is shown with the partial wording', () => {

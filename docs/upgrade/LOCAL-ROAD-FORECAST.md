@@ -86,14 +86,34 @@ means regenerating this file in the same change.
 - `maxWse` is the highest cell water-surface elevation `zs` over the frames where the native cell
   is wet. The comparison is `zs` against the road height; average cell depth is never used as
   road depth.
-- Centimetres, rounded up so water is never understated: `maxWseCm = ceil(maxWse × 100)` and
-  `maxOverCm = maxWseCm − roadZCm` exactly. The state is authoritative. An `over` station always
-  has `maxOverCm ≥ 1` (water 0.2 mm above the road is 1 cm, never 0). A `below` station has
-  `maxOverCm ≤ 0`.
-- `firstOverMin` is minutes after `forecastStart` when water first rises above the road (`over` only).
-- `unknown`: the cell was never wet where readings exist, but at least one frame had no valid
-  reading (`unknownFrames ≥ 1`). It is never shown as dry. `no-cell`: the point is in no active
-  model cell, or on a shared cell edge; all values are null.
+- Centimetres. `roadZCm = round(roadZ × 100)` is the static list's value. Let
+  `c = ceil(maxWse × 100)`, with `maxWse × 100` first rounded to 6 decimal places so float noise
+  never adds a centimetre. The state (decided in metres) is authoritative, and `c` is clamped to
+  agree with it:
+  - `over`: `maxWseCm = max(c, roadZCm + 1)`;
+  - `below`: `maxWseCm = min(c, roadZCm)`;
+  - then `maxOverCm = maxWseCm − roadZCm` exactly.
+
+  So an `over` station always has `maxOverCm ≥ 1` (water 0.2 mm above the road is 1 cm, never 0),
+  and a `below` station has `maxOverCm ≤ 0`. Because the road height is rounded to the nearest
+  centimetre and the clamp only moves `c` toward the state, `maxWseCm` can differ from
+  `ceil(maxWse × 100)` by 1 cm: an `over` station can show water up to 1 cm higher than that, and
+  a `below` station up to 1 cm lower (never above the road).
+- `firstOverMin` is minutes after `forecastStart` when water first rises above the road (`over`
+  only, `0 ≤ firstOverMin ≤` the window length in minutes).
+- `unknownFrames` is the number of frames with no valid reading in the station's cell.
+- A frame with no valid reading could be the one where water rose over the road, so it never
+  leaves a firm `below` or `dry`:
+  - `over`: water above the road in at least one valid frame. It keeps `over` and carries
+    `unknownFrames` (`0 ≤ unknownFrames < frames`). When it is 1 or more the app adds that some
+    model hours are missing.
+  - `below`: wet but never above the road, and every frame valid (`unknownFrames = 0`).
+  - `unknown`: not above the road in any valid frame, and at least one frame without a valid
+    reading (`1 ≤ unknownFrames ≤ frames`). Water values are null; `cellSizeM` is set. It is never
+    shown as dry or below.
+  - `no-cell`: the point is in no active model cell, or on a shared cell edge. All five value
+    columns, `cellSizeM` and `unknownFrames` included, are null.
+- `cellSizeM > 0` for `over`, `below` and `unknown`.
 - `status`: `ok` when the package and the solver both finished, otherwise `partial`. The
   publishing workflow's verifier only accepts `ok`, so a `partial` file is not published today;
   the app still handles one.
@@ -103,13 +123,22 @@ means regenerating this file in the same change.
 
 The exporter (`tools/live/export_road_forecast.py local CASE COMPACT_DIR OUTPUT [STATIONS SHA]`)
 writes it. `tools/live/verify_all_route_package.py` rebuilds the static list from the registry's
-pinned station file and rejects a live file whose `stationsSha256`, counts or summary disagree.
+pinned station file. Its `verify_local_contract` enforces every rule the app enforces (below), and
+rejects the whole file where the app would drop a single station as unreadable; `verify_local`
+adds the package checks (run id, window, frame count, geometry, `status` ok). The verifier and the
+app parser run against the same cases: `local-road-contract-cases.json`, with the two sample files,
+is byte-identical in the app's `test/fixtures/` and the model's `tools/live/fixtures/local-roads/`,
+and both tests pin the same sha256 values.
 
 ## How the app reads it (`public/simulation/local-road-forecast.js`)
 
 - The static list is fetched once with normal caching. It is a same-origin file, so the service
-  worker keeps it for offline use. The app hashes the exact bytes it received (SHA-256). A failed
-  load is tried again on the next cycle.
+  worker saves it when it is fetched. It loads lazily when the map opens, so it is never in the
+  page's startup file list; `public/sw.js` keeps a saved `data/local-roads/*-stations.json`
+  through its startup-file cleanup (`KEEP_LAZY`), and the network-first fetch replaces it whenever
+  there is signal. The live file is cross-origin and is not saved, so offline the map shows no
+  local-road points and says the comparison did not load. The app hashes the exact bytes it
+  received (SHA-256). A failed load is tried again on the next cycle.
 - The live file is fetched like the route summaries: `cache: 'no-store'`, a 15 s timeout, and a
   `?t=` cache-buster that changes every 2 minutes. When `runId`, `issuedAt`, `status` and
   `stationsSha256` are unchanged, the loaded comparison is kept as is: no rebuild and no redraw.
@@ -121,7 +150,7 @@ pinned station file and rejects a live file whose `stationsSha256`, counts or su
   5 minutes in the future, and the current time inside `forecastStart`..`forecastEnd`. The check
   runs again each time the map reads the data.
 - Whole-file rejection (nothing drawn, an honest note in the model line, never dry):
-  - wrong header, times or `status`;
+  - wrong header, times, `status`, or `frames` not an integer of at least 1;
   - the station list not loaded;
   - `stationsSha256` or `stationCount` different from the static list. The note says the run was
     computed for a different neighborhood road list than this version of the app has;
@@ -129,9 +158,12 @@ pinned station file and rejects a live file whose `stationsSha256`, counts or su
     no-height station listed;
   - `summary` different from the counts implied by `listed` and the static list. This also catches
     a station dropped from the list, which would otherwise turn into "dry".
-- Per-station rejection: a listed station whose values contradict its state is dropped and
-  counted as unreadable. It is not drawn and not offered as dry. For example, `over` with
-  `maxOverCm < 1` or not equal to `maxWseCm − roadZCm`, or `unknown` with a water height.
+- Per-station rejection: a listed station whose values break a rule of its state (the list in
+  "Live file" above: `maxOverCm = maxWseCm − roadZCm`, the sign of `maxOverCm`, `firstOverMin`
+  inside the window, nulls by state, `cellSizeM`, `unknownFrames`) is unreadable. It is not drawn
+  and never offered as dry or below. The model line counts it ("1 road point could not be read"),
+  and a tap where it is shows "Model: the model values for this point could not be read, so
+  nothing is shown for it." instead of the nearest neighbouring point.
 
 ## What the map shows
 
@@ -142,21 +174,24 @@ On the Map tab, with the live run and the SFINCS water layer on:
   stations are not drawn. A tap within 25 m of any station shows its line.
 - Popup lines:
   - "Model: water about 1.0 ft (0.31 m) above this road at its highest. Water first reaches above
-    the road around Sun, Nov 1, 2 PM MST."
-  - "Model: water stays below this road. …"
+    the road around Sun, Nov 1, 2 PM MST." When some frames had no reading it adds: "Some model
+    hours are missing for this point, so the water may have been higher."
+  - "Model: water stays below this road. …" (only when every frame had a reading)
   - "Model: no water here in this run." In a partial run: "Model: no water here in the hours this
     partial run covers."
   - "Model: unknown here. Some model readings are missing for this point, so it is not shown as dry."
-  - Or that there is no road height or no model cell.
+  - Or that there is no road height or no model cell, or that the values could not be read.
 - Below the line: the road and highest water heights (feet, NAVD88), the cell size, the number of
-  missing model times for an unknown point, a bridge note when the deck flags are set, the run
+  missing model times for an unknown point or an over point with missing hours, a bridge note when the deck flags are set, the run
   time, and that the comparison uses bare-earth lidar and is not part of the route scores.
 - A partial run adds "Partial model run: some forecast hours are unavailable." to the popup and
   to the model line under Map layers. This follows the app's other partial-run wording ("partial
   saved run … hours unavailable").
 - The model line adds one sentence, for example "Neighborhood roads (west Avra Valley): model
   water above 6 of 20 road points; 2 unknown (missing model readings) in the run issued Nov 1,
-  6:50 AM MST. Map only." When nothing can be shown it says "not shown." and gives the reason.
+  6:50 AM MST. Map only." Unreadable points are in the total and named: "…; 1 road point could
+  not be read in the run issued …". When nothing can be shown it says "not shown." and gives the
+  reason.
 
 The contract has no peak time, so the popup gives the first time water is above the road.
 
@@ -182,11 +217,17 @@ first.
 - `test/local-road-forecast.test.js` uses `test/fixtures/local-road-stations-sample.json` (20
   synthetic stations, made with the exporter's own encoder) and
   `test/fixtures/local-road-forecast-sample.json` (6 over, 4 below, 3 dry, 2 unknown,
-  3 no-road-height, 2 no-cell; not model output). It also checks that the shipped static list
-  parses: 58,140 stations, 571 with no height, under 1.5 MB, LF.
+  3 no-road-height, 2 no-cell; one over point has 2 missing frames; not model output). It runs the
+  49 shared cases in `test/fixtures/local-road-contract-cases.json` (ok, one station unreadable,
+  or whole file rejected), the same cases the model-side verifier test runs. It also checks that
+  the shipped static list parses: 58,140 stations, 571 with no height, under 1.5 MB, LF.
+- `test/service-worker-cache.test.js` runs `public/sw.js` against a fake cache: a saved station
+  list survives the startup-file cleanup, old startup files do not.
 - `e2e/smoke.mjs` serves both fixtures with the times shifted to now. It expects 12 points
   (6 + 4 + 2 unknown), the popup wording and the model line. A missing live file draws nothing
   and the line says so.
 - Model side: `tools/live/test_local_road_forecast.py` covers the static round trip and
-  determinism, all-dry runs listing nothing, unknown never dry, rounding (never 0 for `over`), the
-  partial status, the inflow summary, and export through verification.
+  determinism, all-dry runs listing nothing, unknown never dry, a missing frame turning a would-be
+  `below` into `unknown` (and an `over` keeping its `unknownFrames`), rounding (never 0 for
+  `over`), the partial status, the inflow summary, export through verification, and the shared
+  contract cases.

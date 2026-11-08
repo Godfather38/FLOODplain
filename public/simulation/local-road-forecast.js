@@ -5,7 +5,8 @@
 //
 // Two files:
 // - the static station list (public/data/local-roads/brawley-avra-west-stations.json) ships with
-//   the app and is fetched once with normal caching (the service worker keeps it offline);
+//   the app and is fetched once with normal caching (the service worker keeps it offline: sw.js
+//   keeps it through the startup-file cleanup);
 // - the live local-road-forecast.json lists only stations that are not plain dry, indexed into the
 //   static list and pinned to it by its sha256 (stationsSha256). It is fetched from the same
 //   live-model location, with the same no-store fetch, 2-minute cadence and 3-hour freshness limit
@@ -26,7 +27,7 @@ export const LOCAL_ROAD_PARTIAL_NOTE = 'Partial model run: some forecast hours a
 const SUMMARY_KEYS = { over: 'over', below: 'below', dry: 'dry', unknown: 'unknown', 'no-road-height': 'noRoadHeight', 'no-cell': 'noCell' };
 const LISTED_KEYS = ['index', 'state', 'maxWseCm', 'maxOverCm', 'firstOverMin', 'cellSizeM', 'unknownFrames'];
 // A loose box around west Avra Valley and Brawley Wash: a station outside it is not from this case.
-const BOX = { west: -111.75, east: -110.85, south: 31.9, north: 32.6 };
+const BOX = { west: -111.75, east: -111.0, south: 31.9, north: 32.6 };
 
 const num = (v) => typeof v === 'number' && Number.isFinite(v);
 const int = (v) => Number.isInteger(v);
@@ -103,23 +104,30 @@ export function loadLocalRoadStations({ fetchImpl = fetch, url = LOCAL_ROAD_STAT
 export function resetLocalRoadStations() { stationsPromise = null; }
 
 // One live list entry against its static station. Returns the merged station or null when the
-// values contradict the state (that station is then unreadable: not drawn, never dry).
-function readEntry(st, state, wse, over, first, cell, unknownFrames, windowMin, start) {
+// values contradict the state (that station is then unreadable: counted, not drawn, never dry).
+// The same rules as the publish verifier (tools/live/verify_all_route_package.local_entry_problem);
+// both are tested against test/fixtures/local-road-contract-cases.json.
+function readEntry(st, state, wse, over, first, cell, unknownFrames, windowMin, frames, start) {
   const cellOk = num(cell) && cell > 0;
   if (state === 'over' || state === 'below') {
     if (!int(wse) || !int(over) || over !== wse - st.roadZCm || !cellOk) return null;
-    if (state === 'over' && !(over >= 1 && int(first) && first >= 0 && first <= windowMin)) return null;
-    if (state === 'below' && !(over <= 0 && first === null)) return null;
+    if (state === 'over' && !(over >= 1 && int(first) && first >= 0 && first <= windowMin &&
+        int(unknownFrames) && unknownFrames >= 0 && unknownFrames < frames)) return null;
+    // A frame without a valid reading could have had water over the road: a firm below needs none.
+    if (state === 'below' && !(over <= 0 && first === null && unknownFrames === 0)) return null;
   } else if (state === 'unknown') {
-    if (wse !== null || over !== null || first !== null || !cellOk || !(int(unknownFrames) && unknownFrames >= 1)) return null;
-  } else if (wse !== null || over !== null || first !== null || cell !== null) return null; // no-cell
+    if (wse !== null || over !== null || first !== null || !cellOk ||
+        !(int(unknownFrames) && unknownFrames >= 1 && unknownFrames <= frames)) return null;
+  } else if (wse !== null || over !== null || first !== null || cell !== null || unknownFrames !== null) return null; // no-cell
   return { ...st, state, maxWse: int(wse) ? wse / 100 : null, maxOver: int(over) ? over / 100 : null,
     firstOverTime: int(first) ? new Date(start + first * 60e3).toISOString() : null,
-    cellSizeM: cellOk ? cell : null, unknownFrames: state === 'unknown' ? unknownFrames : null };
+    cellSizeM: cellOk ? cell : null, unknownFrames: state === 'over' || state === 'unknown' ? unknownFrames : null };
 }
+const blank = { maxWse: null, maxOver: null, firstOverTime: null, cellSizeM: null, unknownFrames: null };
 
 // The live file against the static list.
-// -> {status:'ok', partial, runId, issuedAt, forecastStart, forecastEnd, frames, stationsSha256, stations, unreadable}
+// -> {status:'ok', partial, runId, issuedAt, forecastStart, forecastEnd, frames, stationsSha256, stations,
+//     unreadable (count), unreadableStations (state 'unreadable': not drawn, but a tap there says so)}
 // or {status:'unavailable'|'stale'|'mismatch', reason, stations: []}.
 export function parseLocalRoadForecast(file, stationSet, now = Date.now()) {
   const no = (status, reason) => ({ status, reason, stations: [] });
@@ -134,7 +142,7 @@ export function parseLocalRoadForecast(file, stationSet, now = Date.now()) {
     return no('unavailable', 'The neighborhood road comparison is missing its times.');
   }
   const issued = Date.parse(file.issuedAt), start = Date.parse(file.forecastStart), end = Date.parse(file.forecastEnd);
-  if (end <= start) return no('unavailable', 'The neighborhood road comparison times are invalid.');
+  if (end <= start || !int(file.frames) || file.frames < 1) return no('unavailable', 'The neighborhood road comparison times are invalid.');
   if (!stationSet || stationSet.status !== 'ok') return no('unavailable', stationSet?.reason || 'The neighborhood road station list did not load.');
   if (file.stationsSha256 !== stationSet.sha256 || file.stationCount !== stationSet.stations.length) {
     return no('mismatch', 'This run was computed for a different neighborhood road list than this version of the app has, so it is not shown. Reloading the app may fix this.');
@@ -159,25 +167,25 @@ export function parseLocalRoadForecast(file, stationSet, now = Date.now()) {
     return no('unavailable', 'The neighborhood road comparison summary does not match its stations.');
   }
   const windowMin = Math.round((end - start) / 60e3);
-  const stations = [];
-  let unreadable = 0, k = 0;
+  const stations = [], unreadableStations = [];
+  let k = 0;
   for (const st of stationSet.stations) {
     if (k < L.index.length && L.index[k] === st.index) {
       const e = readEntry(st, LOCAL_ROAD_LIVE_STATES[L.state[k]], L.maxWseCm[k], L.maxOverCm[k], L.firstOverMin[k],
-        L.cellSizeM[k], L.unknownFrames[k], windowMin, start);
+        L.cellSizeM[k], L.unknownFrames[k], windowMin, file.frames, start);
       k++;
-      if (e) stations.push(e); else unreadable++;
+      if (e) stations.push(e); else unreadableStations.push({ ...st, state: 'unreadable', ...blank });
     } else if (st.noHeight) {
-      stations.push({ ...st, state: 'no-road-height', maxWse: null, maxOver: null, firstOverTime: null, cellSizeM: null, unknownFrames: null });
+      stations.push({ ...st, state: 'no-road-height', ...blank });
     } else {
       // Absent from the list, with a road height: known dry in every frame of the run.
-      stations.push({ ...st, state: 'dry', maxWse: null, maxOver: null, firstOverTime: null, cellSizeM: null, unknownFrames: null });
+      stations.push({ ...st, state: 'dry', ...blank });
     }
   }
   if (!stations.length) return no('unavailable', 'The neighborhood road comparison has no readable stations.');
   return { status: 'ok', partial: file.status === 'partial', runId: file.runId, issuedAt: file.issuedAt,
-    forecastStart: file.forecastStart, forecastEnd: file.forecastEnd, frames: int(file.frames) ? file.frames : null,
-    stationsSha256: file.stationsSha256, stations, unreadable };
+    forecastStart: file.forecastStart, forecastEnd: file.forecastEnd, frames: file.frames,
+    stationsSha256: file.stationsSha256, stations, unreadable: unreadableStations.length, unreadableStations };
 }
 
 // A loaded comparison goes stale on screen as time passes: check it again whenever it is read.
@@ -218,11 +226,13 @@ export function amountText(m) {
 export function hourText(iso) {
   return new Date(iso).toLocaleString('en-US', { timeZone: 'America/Phoenix', weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric' }) + ' MST';
 }
+export const LOCAL_ROAD_SOME_MISSING = 'Some model hours are missing for this point, so the water may have been higher.';
 export function stationLine(s, partial = false) {
-  if (s.state === 'over') return `Model: water ${amountText(s.maxOver)} above this road at its highest. Water first reaches above the road around ${hourText(s.firstOverTime)}.`;
+  if (s.state === 'over') return `Model: water ${amountText(s.maxOver)} above this road at its highest. Water first reaches above the road around ${hourText(s.firstOverTime)}.` + (int(s.unknownFrames) && s.unknownFrames >= 1 ? ' ' + LOCAL_ROAD_SOME_MISSING : '');
   if (s.state === 'below') return `Model: water stays below this road. At its highest it is ${amountText(s.maxOver)} below the road.`;
   if (s.state === 'dry') return partial ? 'Model: no water here in the hours this partial run covers.' : 'Model: no water here in this run.';
   if (s.state === 'unknown') return 'Model: unknown here. Some model readings are missing for this point, so it is not shown as dry.';
+  if (s.state === 'unreadable') return 'Model: the model values for this point could not be read, so nothing is shown for it.';
   if (s.state === 'no-road-height') return 'Model: no road height here, so the model water cannot be compared with this road.';
   return 'Model: this point is outside the model’s active cells, so there is no model water to compare.';
 }
@@ -231,7 +241,7 @@ export function stationDetails(s, frames = null) {
   if (num(s.roadZ)) lines.push(`Road: ${(ft(s.roadZ)).toFixed(2)} ft NAVD88`);
   if (num(s.maxWse)) lines.push(`Highest model water: ${(ft(s.maxWse)).toFixed(2)} ft NAVD88`);
   if (num(s.cellSizeM)) lines.push(`Model cell: ${s.cellSizeM < 10 ? s.cellSizeM.toFixed(2) : Math.round(s.cellSizeM)} m`);
-  if (s.state === 'unknown' && int(s.unknownFrames)) lines.push(`Missing model readings: ${s.unknownFrames}${int(frames) ? ` of ${frames}` : ''} model times.`);
+  if ((s.state === 'unknown' || s.state === 'over') && int(s.unknownFrames) && s.unknownFrames >= 1) lines.push(`Missing model readings: ${s.unknownFrames}${int(frames) ? ` of ${frames}` : ''} model times.`);
   if (s.flags & (LOCAL_ROAD_FLAGS.deckLidar | LOCAL_ROAD_FLAGS.deckApproach | LOCAL_ROAD_FLAGS.structureUntagged)) {
     lines.push('Near a bridge or culvert: the height is from lidar, not a surveyed deck.');
   }
@@ -239,24 +249,29 @@ export function stationDetails(s, frames = null) {
 }
 export const LOCAL_ROAD_METHOD = 'Neighborhood roads, west Avra Valley and Brawley Wash. Compares the model’s water-surface height in the road’s cell with the road height from bare-earth lidar, not a surveyed road or bridge deck. Shown on the map only; not part of the route scores.';
 
+// An unreadable station is a candidate too, so a tap on it says it could not be read instead of
+// falling through to a neighbouring (possibly dry) station.
 export function nearestLocalStation(forecast, point, radiusM = 25) {
   let best = null, metres = radiusM;
-  for (const s of forecast?.status === 'ok' ? forecast.stations : []) {
+  const ok = forecast?.status === 'ok';
+  for (const s of ok ? [...forecast.stations, ...(forecast.unreadableStations || [])] : []) {
     const d = Math.hypot((s.lat - point.lat) * 110574, (s.lon - point.lon) * 111320 * Math.cos(point.lat * Math.PI / 180));
     if (d < metres) { best = s; metres = d; }
   }
   return best;
 }
 
-// One sentence (two for a partial run) for the map's list of model sources.
+// One sentence (two for a partial run) for the map's list of model sources. Unreadable stations are
+// counted in the total and named, never left out silently.
 export function localRoadStatusText(f) {
   if (!f) return 'Neighborhood roads (west Avra Valley): loading.';
   if (f.status !== 'ok') return `Neighborhood roads (west Avra Valley): not shown. ${f.reason}`;
   let over = 0, unknown = 0;
   for (const s of f.stations) { if (s.state === 'over') over++; else if (s.state === 'unknown') unknown++; }
-  const total = f.stations.length;
+  const bad = int(f.unreadable) ? f.unreadable : 0, total = f.stations.length + bad;
   const water = over ? `model water above ${over} of ${total} road points` : `no model water above any of ${total} road points`;
-  const unk = unknown ? `; ${unknown} unknown (missing model readings)` : '';
+  const unk = (unknown ? `; ${unknown} unknown (missing model readings)` : '') +
+    (bad ? `; ${bad} road point${bad === 1 ? '' : 's'} could not be read` : '');
   const when = new Date(f.issuedAt).toLocaleString('en-US', { timeZone: 'America/Phoenix', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
   return `Neighborhood roads (west Avra Valley): ${water}${unk} in the run issued ${when} MST. ${f.partial ? LOCAL_ROAD_PARTIAL_NOTE + ' ' : ''}Map only.`;
 }
