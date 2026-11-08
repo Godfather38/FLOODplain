@@ -139,6 +139,9 @@ jobs:
           test "$(cat engine/SOURCE_COMMIT)" = f3647fc0289bb15cb2512d60686cef74cb853c78
           echo "c4917bc54158b0943d6d128b45c4346a33d059fb5d93808d05520c975e38f090  engine/sfincs" | sha256sum -c -
       - name: Prepare current forcing
+        env:
+          # Optional; sent only as a request header to the USGS Water Data OGC API (usgs_flows.py), never printed.
+          USGS_API_KEY: ${{ secrets.USGS_API_KEY }}
         run: |
           s=$(date +%s)
           python tools/live/run_live_all_route.py prepare "${{ matrix.case }}" work "${{ needs.check.outputs.cycle }}"

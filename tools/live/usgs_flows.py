@@ -17,6 +17,7 @@ part of a URL or of the recorded provenance.
 """
 import datetime as dt
 import hashlib
+import http.client
 import json
 import math
 import os
@@ -25,7 +26,8 @@ import urllib.parse
 import urllib.request
 
 CFS = 0.0283168  # m3/s per ft3/s, the factor build_brawley_inflow.py used
-UNITS = {'ft3/s': CFS, 'ft^3/s': CFS, 'ftÂ³/s': CFS, 'cfs': CFS, 'm3/s': 1.0, 'm^3/s': 1.0, 'mÂ³/s': 1.0}
+# Unit codes as the services write them: ASCII forms and the superscript three (U+00B3).
+UNITS = {'ft3/s': CFS, 'ft^3/s': CFS, 'ft\u00b3/s': CFS, 'cfs': CFS, 'm3/s': 1.0, 'm^3/s': 1.0, 'm\u00b3/s': 1.0}
 NWIS = 'https://waterservices.usgs.gov/nwis/iv/'
 OGC = 'https://api.waterdata.usgs.gov/ogcapi/v0/collections/continuous/items'
 BRACKET = dt.timedelta(minutes=15)
@@ -39,7 +41,10 @@ class UsgsFormatError(ValueError):
 def utc_naive(text):
     if not isinstance(text, str):
         raise UsgsFormatError('reading has no timestamp')
-    t = dt.datetime.fromisoformat(text.replace('Z', '+00:00'))
+    try:
+        t = dt.datetime.fromisoformat(text.replace('Z', '+00:00'))
+    except ValueError as error:
+        raise UsgsFormatError(f'reading timestamp {text[:40]!r} is not ISO 8601') from error
     if t.tzinfo is None:
         raise UsgsFormatError('reading timestamp has no time zone')
     return t.astimezone(dt.timezone.utc).replace(tzinfo=None)
@@ -62,9 +67,14 @@ def add(values, conflicts, t, v, qualifiers):
     if t in conflicts:
         return
     if t in values and values[t]['value'] != v:
-        # Two different readings for one time: neither can be trusted.
+        # Two different readings for one time: neither can be trusted, and the time stays in
+        # `conflicts` so lookup() treats it as missing rather than interpolating across it.
         del values[t]; conflicts.add(t); return
-    values[t] = {'value': v, 'qualifiers': sorted(set(qualifiers))}
+    values[t] = {'value': v, 'qualifiers': sorted({str(q) for q in qualifiers})}
+
+
+def qualifier_list(q):
+    return q if isinstance(q, list) else [q] if isinstance(q, str) else []
 
 
 def parse_nwis(body, site, parameter):
@@ -81,6 +91,8 @@ def parse_nwis(body, site, parameter):
         try:
             codes = {c['value'] for c in ts['sourceInfo']['siteCode']}
             variables = {c['value'] for c in ts['variable']['variableCode']}
+            if not isinstance(ts, dict):
+                raise TypeError('time series is not an object')
             unit = ts['variable']['unit']['unitCode']
             nodata = ts['variable'].get('noDataValue')
             blocks = ts['values']
@@ -93,15 +105,24 @@ def parse_nwis(body, site, parameter):
         if factor is not None and UNITS[unit] != factor:
             raise UsgsFormatError('time series disagree on units')
         factor = UNITS[unit]
+        if not isinstance(blocks, list):
+            raise UsgsFormatError('values is not a list')
         for block in blocks:
-            for x in (block or {}).get('value') or []:
+            if block is None:
+                continue
+            if not isinstance(block, dict):
+                raise UsgsFormatError('malformed values block')
+            rows = block.get('value') or []
+            if not isinstance(rows, list):
+                raise UsgsFormatError('readings are not a list')
+            for x in rows:
                 if not isinstance(x, dict):
                     raise UsgsFormatError('malformed reading')
                 v = reading(x.get('value'), nodata)
                 if v is None:
                     continue
-                add(values, conflicts, utc_naive(x.get('dateTime')), v, x.get('qualifiers') or [])
-    return values, factor
+                add(values, conflicts, utc_naive(x.get('dateTime')), v, qualifier_list(x.get('qualifiers')))
+    return values, factor, conflicts
 
 
 def parse_ogc(body, site, parameter):
@@ -132,23 +153,34 @@ def parse_ogc(body, site, parameter):
             continue
         status = p.get('approval_status')
         quals = ['P'] if status == 'Provisional' else ['A'] if status == 'Approved' else []
-        extra = p.get('qualifier')
-        quals += extra if isinstance(extra, list) else [extra] if isinstance(extra, str) else []
-        add(values, conflicts, utc_naive(p.get('time')), v, quals)
-    return values, factor
+        add(values, conflicts, utc_naive(p.get('time')), v, quals + qualifier_list(p.get('qualifier')))
+    return values, factor, conflicts
 
 
-def at(values, t):
-    """Instantaneous value at t; straight line between the two neighbours within 15 min. None if not bracketed."""
+def lookup(values, t, conflicts=()):
+    """(value, qualifiers, how) at t. how is 'exact', 'interpolated' (straight line between the two
+    neighbours within 15 min), 'conflict' (conflicting readings at t or between those neighbours)
+    or 'no_bracket'. value is None unless how is 'exact' or 'interpolated'."""
+    if t in conflicts:
+        return None, None, 'conflict'
     if t in values:
-        return values[t]['value'], values[t]['qualifiers']
+        return values[t]['value'], values[t]['qualifiers'], 'exact'
     before = [k for k in values if k < t and t - k <= BRACKET]
     after = [k for k in values if k > t and k - t <= BRACKET]
     if not before or not after:
-        return None, None
-    a, b = max(before), min(after); w = (t - a) / (b - a)
+        return None, None, 'no_bracket'
+    a, b = max(before), min(after)
+    if any(a < c < b for c in conflicts):
+        return None, None, 'conflict'
+    w = (t - a) / (b - a)
     quals = sorted(set(values[a]['qualifiers']) | set(values[b]['qualifiers']))
-    return values[a]['value'] + w * (values[b]['value'] - values[a]['value']), quals
+    return values[a]['value'] + w * (values[b]['value'] - values[a]['value']), quals, 'interpolated'
+
+
+def at(values, t, conflicts=()):
+    """Instantaneous value at t; straight line between the two neighbours within 15 min. None if not bracketed."""
+    v, quals, _ = lookup(values, t, conflicts)
+    return v, quals
 
 
 def http_get(url, headers=None, timeout=30):
@@ -158,7 +190,10 @@ def http_get(url, headers=None, timeout=30):
             return r.status, r.read(), None
     except urllib.error.HTTPError as error:
         return error.code, None, f'HTTP {error.code}'
-    except (OSError, ValueError) as error:
+    except (OSError, ValueError, http.client.HTTPException) as error:
+        # HTTPException covers a truncated body (IncompleteRead) and a bad status line.
+        return None, None, f'{type(error).__name__}: {error}'
+    except Exception as error:  # noqa: BLE001 - one gauge request must never stop the run
         return None, None, f'{type(error).__name__}: {error}'
 
 
@@ -183,40 +218,55 @@ def observed_flows(observed, start, hours, cycle, nwm, get=None, now=None):
     times = [start + dt.timedelta(hours=k) for k in range(hours + 1)]
     past = [t for t in times if t <= cycle]
     fetched = ISO(now or dt.datetime.now(dt.timezone.utc))
-    attempts, values, factor, used = [], {}, None, None
+    attempts, values, conflicts, factor, used = [], {}, set(), None, None
     if past:
-        for provider, url, parse, headers in requests_for(site, parameter, past[0] - BRACKET, past[-1] + BRACKET):
-            status, body, error = get(url, headers)
-            attempt = {'provider': provider, 'url': url, 'httpStatus': status, 'fetchedAt': fetched}
-            if body is not None:
-                attempt.update(bytes=len(body), sha256=hashlib.sha256(body).hexdigest())
-                try:
-                    got, unit_factor = parse(body, site, parameter)
-                    in_window = {t: v for t, v in got.items() if past[0] - BRACKET <= t <= past[-1] + BRACKET}
-                    attempt.update(readings=len(in_window), unitFactorM3s=unit_factor)
-                    if in_window:
-                        values, factor, used = in_window, unit_factor, provider
+        lo, hi = past[0] - BRACKET, past[-1] + BRACKET
+        for provider, url, parse, headers in requests_for(site, parameter, lo, hi):
+            attempt = {'provider': provider, 'url': url, 'httpStatus': None, 'fetchedAt': fetched}
+            try:
+                status, body, error = get(url, headers)
+                attempt['httpStatus'] = status
+                if body is None:
+                    attempt['error'] = error or 'no response body'
+                else:
+                    attempt.update(bytes=len(body), sha256=hashlib.sha256(body).hexdigest())
+                    if status not in (None, 200):
+                        raise UsgsFormatError(f'HTTP {status}')
+                    got, unit_factor, clash = parse(body, site, parameter)
+                    in_window = {t: v for t, v in got.items() if lo <= t <= hi}
+                    clash = {t for t in clash if lo <= t <= hi}
+                    usable = sum(lookup(in_window, t, clash)[0] is not None for t in past)
+                    attempt.update(readings=len(in_window), conflictingTimes=len(clash), usableHours=usable, unitFactorM3s=unit_factor)
+                    if usable:
+                        values, conflicts, factor, used = in_window, clash, unit_factor, provider
                         attempts.append(attempt); break
-                    attempt['error'] = 'no valid readings in the requested window'
-                except UsgsFormatError as e:
-                    attempt['error'] = f'malformed: {e}'
-            else:
-                attempt['error'] = error
+                    # Readings that bracket no top-of-hour time are no better than none: try the next provider.
+                    attempt['error'] = ('readings in the window, but none at or bracketing (within 15 min) a top-of-hour time'
+                                        if in_window else 'no valid readings in the requested window')
+            except UsgsFormatError as e:
+                attempt['error'] = f'malformed: {e}'
+            except Exception as e:  # noqa: BLE001 - an unreadable response means: next provider, then NWM
+                attempt['error'] = f'malformed: {type(e).__name__}: {e}'
             attempts.append(attempt)
     out, hourly = [], []
     for k, t in enumerate(times):
         if t > cycle:
             out.append(nwm[k]); hourly.append({'time': ISO(t), 'source': 'nwm', 'reason': 'forecast_hour'}); continue
-        v, quals = at(values, t) if values else (None, None)
+        v, quals, how = lookup(values, t, conflicts)
         if v is None:
-            out.append(nwm[k]); hourly.append({'time': ISO(t), 'source': 'nwm', 'reason': 'no_valid_usgs_value', 'flagged': True}); continue
+            reason = 'conflicting_usgs_readings' if how == 'conflict' else 'no_valid_usgs_value'
+            out.append(nwm[k]); hourly.append({'time': ISO(t), 'source': 'nwm', 'reason': reason, 'flagged': True}); continue
         q = round(v * factor, 6)
         out.append(q)
-        hourly.append({'time': ISO(t), 'source': 'usgs', 'qualifiers': quals, 'provisional': 'P' in quals})
+        hourly.append({'time': ISO(t), 'source': 'usgs', 'method': how, 'qualifiers': quals, 'provisional': 'P' in quals})
     usgs_hours = sum(h['source'] == 'usgs' for h in hourly)
-    fallback = sum(h.get('reason') == 'no_valid_usgs_value' for h in hourly)
+    fallback = sum(bool(h.get('flagged')) for h in hourly)
+    conflict_hours = sum(h.get('reason') == 'conflicting_usgs_readings' for h in hourly)
+    interpolated = sum(h.get('method') == 'interpolated' for h in hourly)
     provisional = sum(bool(h.get('provisional')) for h in hourly)
-    reached = any(a.get('httpStatus') == 200 and 'readings' in a for a in attempts)
+    reached = [a for a in attempts if 'readings' in a]
+    if not usgs_hours:
+        used = None  # no hour used a USGS value, so no provider is named
     if not past:
         status = 'no_past_hours'
     elif usgs_hours == len(past):
@@ -232,12 +282,17 @@ def observed_flows(observed, start, hours, cycle, nwm, get=None, now=None):
         note = f'USGS {site} observed discharge for all {usgs_hours} past hours'
     elif status == 'partial':
         note = f'USGS {site} observed discharge for {usgs_hours} of {len(past)} past hours; {fallback} hours with no valid USGS value use NWM (flagged)'
+    elif status == 'stale' and any(a['readings'] for a in reached):
+        note = (f'USGS {site} returned readings in the past window, but none at or bracketing (within 15 min) a top-of-hour time; '
+                'NWM used for all hours (flagged)')
     elif status == 'stale':
-        note = f'USGS {site} had no valid reading in the past window; NWM used for all hours'
+        note = f'USGS {site} had no valid reading in the past window; NWM used for all hours (flagged)'
     elif status == 'unavailable':
-        note = f'USGS {site} could not be read; NWM used for all hours'
+        note = f'USGS {site} could not be read; NWM used for all hours (flagged)'
     else:
         note = 'No past hours in the window; NWM used for all hours'
+    if conflict_hours:
+        note += f'; {conflict_hours} hours had conflicting USGS readings and use NWM (flagged)'
     if provisional:
         note += f' ({provisional} provisional hours, subject to revision)'
     return out, {
@@ -245,10 +300,11 @@ def observed_flows(observed, start, hours, cycle, nwm, get=None, now=None):
         'requests': attempts, 'httpStatus': attempts[-1]['httpStatus'] if attempts else None,
         'counts': {'hours': len(times), 'pastHours': len(past), 'usgsHours': usgs_hours, 'nwmFallbackHours': fallback,
                    'nwmForecastHours': len(times) - len(past), 'provisionalHours': provisional},
+        'usgsInterpolatedHours': interpolated, 'conflictHours': conflict_hours,
         'provisional': provisional > 0, 'newestReading': ISO(newest) if newest else None,
         'method': ('Past hours (at or before the HRRR cycle): USGS instantaneous discharge at the top of the hour, or the straight line '
                    'between the two readings within 15 minutes; cfs x 0.0283168 = m3/s. An hour with no valid USGS value uses that '
-                   "hour's NWM value (flagged). Forecast hours: NWM short-range unchanged; no bias correction, no recession added. "
+                   "hour's NWM value (flagged), and so does an hour with conflicting readings at or around it. Forecast hours: NWM short-range unchanged; no bias correction, no recession added. "
                    'Missing readings are never zero flow.'),
         'note': note, 'hourly': hourly,
     }

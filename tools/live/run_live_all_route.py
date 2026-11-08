@@ -67,6 +67,26 @@ def unpack(c, work):
     if sha((work / 'sfincs.nc').read_bytes()) != c['meshSha256']: raise ValueError('Mesh differs from the pinned case')
 
 
+def gauged_flows(inlet, start, hours, cycle, nwm):
+    """observed_flows for one inlet; any error there leaves that inlet on NWM for every hour (flagged), never stops the run."""
+    try:
+        return observed_flows(inlet['observed'], start, hours, cycle, nwm)
+    except Exception as error:  # noqa: BLE001 - one inlet's gauge must never stop the run
+        past = sum(start + dt.timedelta(hours=k) <= cycle for k in range(hours + 1))
+        site = str((inlet.get('observed') or {}).get('usgsSite'))
+        note = f'USGS {site} observed inflow could not be prepared ({type(error).__name__}); NWM used for all hours (flagged)'
+        return list(nwm), {
+            'provider': None, 'usgsSite': site, 'parameterCd': str((inlet.get('observed') or {}).get('parameterCd', '00060')),
+            'status': 'error', 'error': f'{type(error).__name__}: {error}', 'fetchedAt': ISO(dt.datetime.now(dt.timezone.utc)),
+            'requests': [], 'httpStatus': None,
+            'counts': {'hours': hours + 1, 'pastHours': past, 'usgsHours': 0, 'nwmFallbackHours': past,
+                       'nwmForecastHours': hours + 1 - past, 'provisionalHours': 0},
+            'provisional': False, 'newestReading': None, 'note': note,
+            'hourly': [{'time': ISO(start + dt.timedelta(hours=k)), 'source': 'nwm',
+                        **({'reason': 'usgs_error', 'flagged': True} if start + dt.timedelta(hours=k) <= cycle else {'reason': 'forecast_hour'})}
+                       for k in range(hours + 1)]}
+
+
 def prepare(name, work, cycle_iso):
     c = case_entry(name); work = Path(work); shutil.rmtree(work, ignore_errors=True); work.mkdir(parents=True)
     unpack(c, work)
@@ -93,7 +113,7 @@ def prepare(name, work, cycle_iso):
         if nwm_provider == 'NOAA NODD': notes.append(f"NWM reach {inlet['reachId']}: verified NOAA NODD hourly files used because NWPS is unavailable or incomplete")
         if inlet.get('observed'):
             # Past hours from the USGS gauge where it has a valid reading; NWM otherwise (flagged) and for the forecast.
-            q, obs = observed_flows(inlet['observed'], start, hours, cycle, q)
+            q, obs = gauged_flows(inlet, start, hours, cycle, q)
             flow_sources[-1]['observed'] = obs
             notes.append(f"Inlet reach {inlet['reachId']}: {obs['note']}")
             inflow.append({'reachId': inlet['reachId'], 'source': 'usgs+nwm' if obs['counts']['usgsHours'] else 'nwm',
