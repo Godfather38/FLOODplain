@@ -1,0 +1,44 @@
+{
+ "modelVersion": "all-routes-brawley-avra-west-v1",
+ "routeIds": [],
+ "approvedExecutionCapSeconds": 5400,
+ "proposedExecutionCapSeconds": 5400,
+ "executionAuthorization": "orchestrator_task_brawley_avra_west_frozen_run_cap_5400_experimental_branch_only",
+ "knownLimits": [
+  "Current bridge and culvert elevations unknown; no structure openings",
+  "Published CN antecedent assumption (GCN10 fair ARCII undrained); no measured transmission loss",
+  "Terrain is bare-earth lidar: 1 m PimaCounty_2021_B21 and Eastern_PimaCO_2015 in road/wash windows (2015 covers most of the mid/upper Brawley mainstem and San Joaquin/Black Wash); 10 m context mixes all-route-context-v2, 2021, BrawleyRillito 2018 (flown 2019), 2015 and 0.98 km2 of USGS 1/3 arc-second; not a 2026 survey",
+  "2021 minus 2015 seam offset about -0.11 m median in 7 road windows; not corrected",
+  "6.25 m computational cells are not validated road-depth accuracy; compare cell water-surface elevation zs with road height, never averaged depth",
+  "The 27.47 km2 local catchment of 15876941 below USGS 09487000 is excluded; its runoff enters only through the inlet series",
+  "Directed network independence does not prove no cross-divide overland exchange; overlaps Gates by 139.42 km2; west-valley subtrees drain toward Northern, which keeps its own NWM inlets (independent model)",
+  "Domain v2 (1240 km2) adds the west-valley subtrees of Northern inlets 15876639/653/641/623, Pump Station tributaries 15876613/15876627 and terminal subtrees 15876757/719/669/675; 19 candidate dips (6 >= 1 m, mostly W Silverbell Rd and N Red Hill Rd near 32.445 N) remain in no model",
+  "Road heights exist only inside the floodplain-road-heights-v1 tile box (about lon >= -111.44, lat >= 32.146); roads outside it have no comparison"
+ ],
+ "terrainSources": {
+  "road1m": "USGS 3DEP 1 m windows .sfincs-runs/brawley-avra-west-terrain-1m-v1 (162 new + reused) plus -v2 top-up (146 new); PimaCounty_2021_B21 > BrawleyRillito_2018_D19 > Eastern_PimaCO_2015",
+  "context10m": ".sfincs-runs/brawley-avra-west-context-v2 (16.97 km2 USGS 1/3 arc-second where no 1 m exists; no L3/L4 zone there)"
+ },
+ "scope": {
+  "status": "brawley_avra_west_version3",
+  "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+  "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+  "areaKm2": 1240.369838309587,
+  "externalInlets": [
+   {
+    "reachId": "15876941",
+    "receivingReachId": "15876923"
+   }
+  ],
+  "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+  "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+  "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+ },
+ "caseId": "brawley-avra-west-native-case-v2",
+ "inflow": {
+  "kind": "nwm_frozen",
+  "history": "../topology-version3/brawley-avra-west-history.json",
+  "forecast": "../topology-version3/brawley-avra-west-forecast.json",
+  "note": "Live-style frozen NWM inflow: analysis_assim to 2026-11-01T14Z (peak 46.8 m3/s at 23Z in the full analysis, not used after 14Z), then short_range issue 13Z, which peaks at only 1.70 m3/s; observed USGS 09487000 peak 49.27 m3/s. The live pipeline replaces past hours with the observed gauge."
+ }
+}

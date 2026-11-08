@@ -8,6 +8,7 @@
 #                --extra-fine in order (later wins on a same-named window), default "v1"
 #   CONTEXT_TAG  .sfincs-runs/brawley-avra-west-context-<tag>, default v1
 #   RAIN_TAG     .sfincs-runs/brawley-avra-west-rainfall-<tag>, default v1
+#   LABEL_TAG    use tools/sfincs/brawley/labels-<tag>-{nwm,observed-inflow}.json (default: the v1 label files)
 # Domain v2: TERRAIN_TAG="v1 v2" CONTEXT_TAG=v2 RAIN_TAG=v2 bash tools/sfincs/brawley/build_case_chain.sh v2 \
 #   .sfincs-runs/brawley-avra-west-mesh-v2 tools/sfincs/data/brawley-avra-west-v2/components
 set -euo pipefail
@@ -31,8 +32,8 @@ step "boundaries"
   --parameters "$P" --network "$COMP/brawley-avra-west-network.geojson" --output "$B"
 for V in nwm observed; do
   C=$R/brawley-avra-west-case-$TAG-$V
-  if [ $V = nwm ]; then H=$D/brawley-avra-west-history.json; F=$D/brawley-avra-west-forecast.json; L=tools/sfincs/brawley/labels-nwm.json; OUT=tools/sfincs/data/all-route-ready-v3/brawley-avra-west-native-case-$TAG
-  else H=$D/brawley-avra-west-history-observed.json; F=$D/brawley-avra-west-forecast-observed.json; L=tools/sfincs/brawley/labels-observed-inflow.json; OUT=tools/sfincs/data/all-route-ready-v3/brawley-avra-west-native-case-$TAG-observed-inflow; fi
+  if [ $V = nwm ]; then H=$D/brawley-avra-west-history.json; F=$D/brawley-avra-west-forecast.json; L=tools/sfincs/brawley/labels${LABEL_TAG:+-$LABEL_TAG}-nwm.json; OUT=tools/sfincs/data/all-route-ready-v3/brawley-avra-west-native-case-$TAG
+  else H=$D/brawley-avra-west-history-observed.json; F=$D/brawley-avra-west-forecast-observed.json; L=tools/sfincs/brawley/labels${LABEL_TAG:+-$LABEL_TAG}-observed-inflow.json; OUT=tools/sfincs/data/all-route-ready-v3/brawley-avra-west-native-case-$TAG-observed-inflow; fi
   step "stage $V"
   "$PY" -u tools/sfincs/stage_route_case_native.py --boundaries "$B" --parameters "$P" --history "$H" --forecast "$F" --output "$C"
   step "rain $V"
