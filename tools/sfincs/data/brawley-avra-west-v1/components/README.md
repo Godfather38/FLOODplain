@@ -71,7 +71,7 @@ python tools/sfincs/prepare_route_case_mesh.py --builder .sfincs-runs/cht-refine
 6. **Brawley mainstem.** Levelpath 720005313 inside the local set: 10 reaches, 33.46 km, from 15876923 to 15876711.
 7. **Refinement zones.** Cell size = 100/2^L m.
 
-   | Level | Cell | What it covers | km² | Cells at level |
+   | Level | Cell | What it covers | km² | Estimated cells (line-19 formula, not the built mesh; see 8.) |
    |---|---|---|---|---|
    | L4 | 6.25 m | 200 m squares at 48 dips and 91 road–wash crossings, all inside the domain and outside the live domains | 4.634 | 118,630 |
    | L3 | 12.5 m | Within 100 m of the priority roads and of the Brawley mainstem | 16.925 | 108,321 |

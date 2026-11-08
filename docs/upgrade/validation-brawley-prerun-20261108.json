@@ -1,0 +1,1528 @@
+{
+ "mesh": {
+  "faces": 408207,
+  "levelCounts": {
+   "1": 70760,
+   "2": 31751,
+   "3": 42124,
+   "4": 131285,
+   "5": 132287
+  },
+  "start_index": 0
+ },
+ "l4": {
+  "n": 139,
+  "byKind": {
+   "dip": 48,
+   "crossing": 91
+  },
+  "cellSizes": {
+   "6.25": 139
+  },
+  "notFinest": []
+ },
+ "csvDips": {
+  "csvRows": 366,
+  "insideNewDomain": 121,
+  "insideNewOutsideLive": 48,
+  "cellSizesOutsideLive": {
+   "6.25": 48
+  },
+  "cellSizesInLiveOverlap": {
+   "100.0": 26,
+   "12.5": 35,
+   "50.0": 11,
+   "25.0": 1
+  },
+  "overlapRows": [
+   {
+    "road": "Hohokam Road",
+    "depth": 2.74,
+    "lon": -111.2022,
+    "lat": 32.27319,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Kinney Road",
+    "depth": 2.74,
+    "lon": -111.21133,
+    "lat": 32.26343,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "6.25"
+   },
+   {
+    "road": "Golden Gate Road",
+    "depth": 2.56,
+    "lon": -111.21332,
+    "lat": 32.27691,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "12.5"
+   },
+   {
+    "road": "Signal Hill Road",
+    "depth": 2.24,
+    "lon": -111.20915,
+    "lat": 32.28988,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Camino Del Sapo",
+    "depth": 1.65,
+    "lon": -111.20443,
+    "lat": 32.23718,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Camino Del Sapo",
+    "depth": 1.64,
+    "lon": -111.20375,
+    "lat": 32.23616,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Camino Del Sapo",
+    "depth": 1.62,
+    "lon": -111.20551,
+    "lat": 32.23883,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway",
+    "depth": 1.49,
+    "lon": -111.21815,
+    "lat": 32.28882,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "6.25"
+   },
+   {
+    "road": "West Mile Wide Road",
+    "depth": 1.45,
+    "lon": -111.24238,
+    "lat": 32.24812,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "West Ranchito Verde",
+    "depth": 1.39,
+    "lon": -111.22548,
+    "lat": 32.23112,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Camino Del Sapo",
+    "depth": 1.2,
+    "lon": -111.20968,
+    "lat": 32.24756,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway",
+    "depth": 1.2,
+    "lon": -111.21816,
+    "lat": 32.29406,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "6.25"
+   },
+   {
+    "road": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway",
+    "depth": 1.19,
+    "lon": -111.21867,
+    "lat": 32.27413,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "6.25"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 1.11,
+    "lon": -111.21802,
+    "lat": 32.21929,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sandario Road",
+    "depth": 1.09,
+    "lon": -111.21819,
+    "lat": 32.25067,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "West Calle Pima",
+    "depth": 1.06,
+    "lon": -111.22663,
+    "lat": 32.24101,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "West Manville Road",
+    "depth": 1.05,
+    "lon": -111.2606,
+    "lat": 32.29175,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sandario Road",
+    "depth": 1.04,
+    "lon": -111.21816,
+    "lat": 32.28022,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "6.25"
+   },
+   {
+    "road": "West Tucker Road",
+    "depth": 1.03,
+    "lon": -111.27671,
+    "lat": 32.3354,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sandario Road",
+    "depth": 1.02,
+    "lon": -111.21817,
+    "lat": 32.24887,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "West Manville Road",
+    "depth": 0.96,
+    "lon": -111.26315,
+    "lat": 32.29176,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 0.85,
+    "lon": -111.21804,
+    "lat": 32.22245,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Camino Del Sapo",
+    "depth": 0.83,
+    "lon": -111.20714,
+    "lat": 32.24014,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 0.81,
+    "lon": -111.21801,
+    "lat": 32.20179,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 0.78,
+    "lon": -111.21817,
+    "lat": 32.24295,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sandario Road",
+    "depth": 0.77,
+    "lon": -111.21818,
+    "lat": 32.25536,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sanders Road",
+    "depth": 0.77,
+    "lon": -111.23537,
+    "lat": 32.28191,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "West Lizard Lane",
+    "depth": 0.75,
+    "lon": -111.21384,
+    "lat": 32.24314,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 0.75,
+    "lon": -111.21806,
+    "lat": 32.22606,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway",
+    "depth": 0.73,
+    "lon": -111.21514,
+    "lat": 32.26665,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "6.25"
+   },
+   {
+    "road": "North Sandario Road",
+    "depth": 0.72,
+    "lon": -111.21818,
+    "lat": 32.2541,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sanders Road",
+    "depth": 0.71,
+    "lon": -111.2353,
+    "lat": 32.25288,
+    "cellM": 50.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 0.69,
+    "lon": -111.21805,
+    "lat": 32.22462,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sanders Road",
+    "depth": 0.68,
+    "lon": -111.23529,
+    "lat": 32.25414,
+    "cellM": 50.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sanders Road",
+    "depth": 0.68,
+    "lon": -111.23531,
+    "lat": 32.25179,
+    "cellM": 50.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North San Joaquin Road",
+    "depth": 0.67,
+    "lon": -111.22864,
+    "lat": 32.24139,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sanders Road",
+    "depth": 0.63,
+    "lon": -111.23533,
+    "lat": 32.25044,
+    "cellM": 50.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "West Magee Road",
+    "depth": 0.63,
+    "lon": -111.26775,
+    "lat": 32.34978,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sandario Road",
+    "depth": 0.62,
+    "lon": -111.21816,
+    "lat": 32.27887,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "6.25"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 0.58,
+    "lon": -111.21809,
+    "lat": 32.23011,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 0.58,
+    "lon": -111.21815,
+    "lat": 32.23874,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "West Virgil Drive",
+    "depth": 0.53,
+    "lon": -111.24237,
+    "lat": 32.28327,
+    "cellM": 50.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "Old Ranch Road",
+    "depth": 0.52,
+    "lon": -111.23808,
+    "lat": 32.28617,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sandario Road",
+    "depth": 0.51,
+    "lon": -111.21816,
+    "lat": 32.26936,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "12.5"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 0.5,
+    "lon": -111.21817,
+    "lat": 32.24732,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sanders Road",
+    "depth": 0.49,
+    "lon": -111.23538,
+    "lat": 32.29003,
+    "cellM": 50.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "West Magee Road",
+    "depth": 0.49,
+    "lon": -111.26902,
+    "lat": 32.34979,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Camino Altar",
+    "depth": 0.48,
+    "lon": -111.22243,
+    "lat": 32.24512,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "Old Ranch Road",
+    "depth": 0.48,
+    "lon": -111.23808,
+    "lat": 32.291,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway",
+    "depth": 0.46,
+    "lon": -111.217,
+    "lat": 32.27038,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "6.25"
+   },
+   {
+    "road": "North Old West Road",
+    "depth": 0.46,
+    "lon": -111.23237,
+    "lat": 32.29529,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "Old Ranch Road",
+    "depth": 0.46,
+    "lon": -111.23809,
+    "lat": 32.28156,
+    "cellM": 50.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Camino Del Sapo",
+    "depth": 0.45,
+    "lon": -111.20904,
+    "lat": 32.24361,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway",
+    "depth": 0.45,
+    "lon": -111.21815,
+    "lat": 32.28129,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "6.25"
+   },
+   {
+    "road": "North Sanders Road",
+    "depth": 0.45,
+    "lon": -111.23539,
+    "lat": 32.29111,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 0.44,
+    "lon": -111.21801,
+    "lat": 32.21505,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sandario Road",
+    "depth": 0.44,
+    "lon": -111.21818,
+    "lat": 32.25301,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Camino Altar",
+    "depth": 0.44,
+    "lon": -111.22244,
+    "lat": 32.2472,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "West Virgil Drive",
+    "depth": 0.44,
+    "lon": -111.24261,
+    "lat": 32.28088,
+    "cellM": 50.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Halo Drive",
+    "depth": 0.43,
+    "lon": -111.22882,
+    "lat": 32.24725,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sanders Road",
+    "depth": 0.43,
+    "lon": -111.23513,
+    "lat": 32.29604,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway",
+    "depth": 0.42,
+    "lon": -111.21548,
+    "lat": 32.26716,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "6.25"
+   },
+   {
+    "road": "North Camino Avra",
+    "depth": 0.42,
+    "lon": -111.22665,
+    "lat": 32.24952,
+    "cellM": 50.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Sanders Road",
+    "depth": 0.42,
+    "lon": -111.23536,
+    "lat": 32.27982,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 0.37,
+    "lon": -111.21801,
+    "lat": 32.20026,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Camino Avra",
+    "depth": 0.36,
+    "lon": -111.22664,
+    "lat": 32.24348,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "South Sandario Road",
+    "depth": 0.33,
+    "lon": -111.21801,
+    "lat": 32.21361,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Old West Road",
+    "depth": 0.33,
+    "lon": -111.23288,
+    "lat": 32.2932,
+    "cellM": 50.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "Old Ranch Road",
+    "depth": 0.33,
+    "lon": -111.23809,
+    "lat": 32.28309,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "Sandario Rd -> Kinney Rd -> Gates Pass -> Speedway",
+    "depth": 0.31,
+    "lon": -111.21816,
+    "lat": 32.27786,
+    "cellM": 12.5,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "6.25"
+   },
+   {
+    "road": "North Sanders Road",
+    "depth": 0.31,
+    "lon": -111.23538,
+    "lat": 32.28895,
+    "cellM": 100.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "North Camino Avra",
+    "depth": 0.3,
+    "lon": -111.22666,
+    "lat": 32.24674,
+    "cellM": 25.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   },
+   {
+    "road": "West Curtis Road",
+    "depth": 0.3,
+    "lon": -111.2603,
+    "lat": 32.29901,
+    "cellM": 50.0,
+    "liveDomains": [
+     "gates"
+    ],
+    "finestLive": "100"
+   }
+  ]
+ },
+ "stations": {
+  "n": 31680,
+  "noHeight": 8,
+  "noHeightIds": [
+   "area_m1113_321:1:600",
+   "area_m1113_321:2:11900",
+   "area_m1113_321:2:12000",
+   "area_m1113_321:2:12100",
+   "area_m1113_321:2:12200",
+   "area_m1113_321:29:700",
+   "area_m1113_321:50:57700",
+   "area_m1113_321:50:57800"
+  ],
+  "noCell": 28,
+  "noCellSample": [
+   "area_m1111_321:717:200",
+   "area_m1111_321:720:400",
+   "area_m1111_321:720:500",
+   "area_m1111_321:720:600",
+   "area_m1111_321:720:700",
+   "area_m1111_321:720:800",
+   "area_m1111_321:721:300",
+   "area_m1111_321:721:400",
+   "area_m1111_321:721:500",
+   "area_m1111_321:721:600",
+   "area_m1111_321:721:700",
+   "area_m1111_321:721:800",
+   "area_m1111_321:725:200",
+   "area_m1113_323:65:7000",
+   "area_m1113_323:65:7100",
+   "area_m1113_323:65:7200",
+   "area_m1114_322:33:1100",
+   "area_m1114_322:54:3200",
+   "area_m1114_322:54:3300",
+   "area_m1114_322:54:3400"
+  ],
+  "cellSizes": {
+   "100.0": 17260,
+   "50.0": 4312,
+   "25.0": 2024,
+   "12.5": 4161,
+   "6.25": 3895,
+   "None": 28
+  },
+  "declaredCounts": {
+   "tileStations": 551122,
+   "insideDomain": 44131,
+   "insideLiveDomain": 12451,
+   "selected": 31680,
+   "selectedNoHeight": 8
+  }
+ },
+ "stationCellByPriorityRoad": {
+  "Snyder Hill": {
+   "12.5": 1001,
+   "6.25": 271
+  },
+  "Garcia Ranch": {
+   "12.5": 471,
+   "6.25": 252
+  },
+  "Sandario": {
+   "12.5": 415,
+   "6.25": 38
+  },
+  "Manville": {
+   "12.5": 404,
+   "6.25": 87
+  },
+  "Mile Wide": {
+   "6.25": 43,
+   "12.5": 269
+  },
+  "Tucker": {
+   "6.25": 37,
+   "12.5": 31
+  },
+  "Nelson Quihuis": {
+   "12.5": 245
+  },
+  "Cocorague": {
+   "12.5": 183,
+   "6.25": 42
+  }
+ },
+ "coverage": {
+  "commit": "39b34afddc229d8e10ac75906f6706b570a73d4a",
+  "box": "lon<=-111.15, lat 31.9..32.45",
+  "byRoad": {
+   "Agua Dulce": {
+    "total": 639,
+    "live": 0,
+    "new": 0,
+    "none": 639
+   },
+   "Manville": {
+    "total": 2030,
+    "live": 449,
+    "new": 491,
+    "none": 1090
+   },
+   "Anway": {
+    "total": 1760,
+    "live": 602,
+    "new": 0,
+    "none": 1158
+   },
+   "Cocorague": {
+    "total": 839,
+    "live": 0,
+    "new": 225,
+    "none": 614
+   },
+   "Avra Valley": {
+    "total": 2718,
+    "live": 1705,
+    "new": 0,
+    "none": 1013
+   },
+   "Tucker": {
+    "total": 703,
+    "live": 97,
+    "new": 68,
+    "none": 538
+   },
+   "Garcia Ranch": {
+    "total": 873,
+    "live": 0,
+    "new": 723,
+    "none": 150
+   },
+   "Snyder Hill": {
+    "total": 1008,
+    "live": 0,
+    "new": 1008,
+    "none": 0
+   },
+   "Sandario": {
+    "total": 2915,
+    "live": 2462,
+    "new": 453,
+    "none": 0
+   },
+   "Mile Wide": {
+    "total": 903,
+    "live": 591,
+    "new": 312,
+    "none": 0
+   },
+   "Nelson Quihuis": {
+    "total": 245,
+    "live": 0,
+    "new": 245,
+    "none": 0
+   }
+  },
+  "totals": {
+   "total": 14633,
+   "none": 5202,
+   "live": 5906,
+   "new": 3525
+  }
+ },
+ "flowKeys": [
+  "time",
+  "flowM3s",
+  "nudgeM3s"
+ ],
+ "flows": {
+  "15876941": {
+   "frozen": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 1.7,
+    "peakTime": "2026-11-02T07:00:00Z",
+    "volumeM3": 36324,
+    "nan": 0
+   },
+   "analysis": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 46.8,
+    "peakTime": "2026-11-01T23:00:00Z",
+    "volumeM3": 927036,
+    "nan": 0
+   }
+  },
+  "15876811": {
+   "frozen": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 0.35,
+    "peakTime": "2026-11-02T07:00:00Z",
+    "volumeM3": 61488,
+    "nan": 0
+   },
+   "analysis": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 39.13,
+    "peakTime": "2026-11-02T02:00:00Z",
+    "volumeM3": 936828,
+    "nan": 0
+   }
+  },
+  "15876815": {
+   "frozen": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 0.16,
+    "peakTime": "2026-10-30T16:00:00Z",
+    "volumeM3": 36864,
+    "nan": 0
+   },
+   "analysis": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 0.33,
+    "peakTime": "2026-11-02T00:00:00Z",
+    "volumeM3": 41292,
+    "nan": 0
+   }
+  },
+  "15876711": {
+   "frozen": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 0.27,
+    "peakTime": "2026-10-30T16:00:00Z",
+    "volumeM3": 62208,
+    "nan": 0
+   },
+   "analysis": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 37.77,
+    "peakTime": "2026-11-02T03:00:00Z",
+    "volumeM3": 821844,
+    "nan": 0
+   }
+  },
+  "15876707": {
+   "frozen": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 0.0,
+    "peakTime": "2026-10-30T16:00:00Z",
+    "volumeM3": 0,
+    "nan": 0
+   },
+   "analysis": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 0.0,
+    "peakTime": "2026-10-30T16:00:00Z",
+    "volumeM3": 0,
+    "nan": 0
+   }
+  },
+  "711+707": {
+   "frozen": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 0.27,
+    "peakTime": "2026-10-30T16:00:00Z",
+    "volumeM3": 62208,
+    "nan": 0
+   },
+   "analysis": {
+    "n": 64,
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T07:00:00Z",
+    "peak": 37.77,
+    "peakTime": "2026-11-02T03:00:00Z",
+    "volumeM3": 821844,
+    "nan": 0
+   }
+  }
+ },
+ "northernInjected": {
+  "15876711": {
+   "n": 64,
+   "start": "2026-10-30T16:00:00Z",
+   "end": "2026-11-02T07:00:00Z",
+   "peak": 0.27,
+   "peakTime": "2026-10-30T16:00:00Z",
+   "volumeM3": 62208,
+   "nan": 0
+  },
+  "15876707": {
+   "n": 64,
+   "start": "2026-10-30T16:00:00Z",
+   "end": "2026-11-02T07:00:00Z",
+   "peak": 0.0,
+   "peakTime": "2026-10-30T16:00:00Z",
+   "volumeM3": 0,
+   "nan": 0
+  },
+  "reachIds": [
+   "15876623",
+   "15876639",
+   "15876653",
+   "15876707",
+   "15876711",
+   "15902351",
+   "15876641",
+   "15902363"
+  ]
+ },
+ "northernRegistryInlets": [
+  {
+   "reachId": "15876623",
+   "receivingReachId": "15876621",
+   "forcing": null,
+   "forcingStatus": null
+  },
+  {
+   "reachId": "15876639",
+   "receivingReachId": "15876633",
+   "forcing": null,
+   "forcingStatus": null
+  },
+  {
+   "reachId": "15876641",
+   "receivingReachId": "15876625",
+   "forcing": null,
+   "forcingStatus": null
+  },
+  {
+   "reachId": "15876653",
+   "receivingReachId": "15876633",
+   "forcing": null,
+   "forcingStatus": null
+  },
+  {
+   "reachId": "15876707",
+   "receivingReachId": "945050510",
+   "forcing": null,
+   "forcingStatus": null
+  },
+  {
+   "reachId": "15876711",
+   "receivingReachId": "945050510",
+   "forcing": null,
+   "forcingStatus": null
+  },
+  {
+   "reachId": "15902351",
+   "receivingReachId": "15890430",
+   "forcing": null,
+   "forcingStatus": null
+  },
+  {
+   "reachId": "15902363",
+   "receivingReachId": "15890430",
+   "forcing": null,
+   "forcingStatus": null
+  }
+ ],
+ "historyEqualsAnalysis711": true,
+ "caseInflow-nwm": {
+  "n": 64,
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "peak": 1.7,
+  "peakTime": "2026-11-02T07:00:00Z",
+  "volumeM3": 36324,
+  "nan": 0,
+  "kind": [
+   "archived_analysis",
+   "frozen_forecast"
+  ],
+  "nulls": 0,
+  "missingReachIds": [
+   [],
+   []
+  ]
+ },
+ "caseInflow-observed": {
+  "n": 64,
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "peak": 48.422,
+  "peakTime": "2026-11-01T22:00:00Z",
+  "volumeM3": 931825,
+  "nan": 0,
+  "kind": [
+   "observed_gauge",
+   "observed_gauge"
+  ],
+  "nulls": 0,
+  "missingReachIds": [
+   [],
+   []
+  ]
+ },
+ "brawleyCrossings": [
+  {
+   "road": "West Donaldson Ranch Road",
+   "wash": "Brawley Wash",
+   "comid": 15877627.0,
+   "streamOrder": 5.0,
+   "lon": -111.26008029356053,
+   "lat": 32.175679097112976,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 710.69,
+   "roadZmax": 710.77,
+   "roads": [
+    "West Donaldson Ranch Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "West Manville Road",
+   "wash": "Brawley Wash",
+   "comid": 15876771.0,
+   "streamOrder": 5.0,
+   "lon": -111.2684586829181,
+   "lat": 32.29176800000134,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 652.59,
+   "roadZmax": 652.94,
+   "roads": [
+    "West Manville Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "West Mile Wide Road",
+   "wash": "Brawley Wash",
+   "comid": 15877627.0,
+   "streamOrder": 5.0,
+   "lon": -111.25265169523958,
+   "lat": 32.24820100000714,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 674.88,
+   "roadZmax": 674.93,
+   "roads": [
+    "West Mile Wide Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "West Little Williams Drive",
+   "wash": "Brawley Wash",
+   "comid": 15876711.0,
+   "streamOrder": 5.0,
+   "lon": -111.28379506220226,
+   "lat": 32.33710400000656,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 631.37,
+   "roadZmax": 631.83,
+   "roads": [
+    "West Little Williams Drive"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "West Tucker Road",
+   "wash": "Brawley Wash",
+   "comid": 15876711.0,
+   "streamOrder": 5.0,
+   "lon": -111.28323474783615,
+   "lat": 32.33535740575221,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 631.67,
+   "roadZmax": 632.55,
+   "roads": [
+    "West Tucker Road"
+   ],
+   "noHeight": 0
+  }
+ ],
+ "repDips": [
+  {
+   "road": "West Snyder Hill Road",
+   "depthM": 1.73,
+   "lon": -111.20929,
+   "lat": 32.16177,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 706.68,
+   "roadZmax": 706.95,
+   "roads": [
+    "West Snyder Hill Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "Garcia Ranch Road",
+   "depthM": 1.32,
+   "lon": -111.29175,
+   "lat": 32.15817,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 726.5,
+   "roadZmax": 727.24,
+   "roads": [
+    "Garcia Ranch Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "West Manville Road",
+   "depthM": 1.24,
+   "lon": -111.28702,
+   "lat": 32.29176,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 651.85,
+   "roadZmax": 652.55,
+   "roads": [
+    "West Manville Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "West Manville Road",
+   "depthM": 1.12,
+   "lon": -111.26719,
+   "lat": 32.29176,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 652.1,
+   "roadZmax": 652.87,
+   "roads": [
+    "West Manville Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "Garcia Ranch Road",
+   "depthM": 1.01,
+   "lon": -111.29102,
+   "lat": 32.15309,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 728.06,
+   "roadZmax": 728.19,
+   "roads": [
+    "Garcia Ranch Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "Garcia Ranch Road",
+   "depthM": 0.98,
+   "lon": -111.29124,
+   "lat": 32.15942,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 726.68,
+   "roadZmax": 727.66,
+   "roads": [
+    "Garcia Ranch Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "North Mesquite Oasis Road",
+   "depthM": 0.96,
+   "lon": -111.29733,
+   "lat": 32.34985,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 624.56,
+   "roadZmax": 624.85,
+   "roads": [
+    "North Mesquite Oasis Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "West Donaldson Ranch Road",
+   "depthM": 0.9,
+   "lon": -111.23993,
+   "lat": 32.17565,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 707.83,
+   "roadZmax": 708.28,
+   "roads": [
+    "West Donaldson Ranch Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "West Tucker Road",
+   "depthM": 0.88,
+   "lon": -111.28348,
+   "lat": 32.33535,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 631.67,
+   "roadZmax": 632.55,
+   "roads": [
+    "West Tucker Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "West Orange Grove Road",
+   "depthM": 0.73,
+   "lon": -111.30533,
+   "lat": 32.32051,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 637.79,
+   "roadZmax": 638.05,
+   "roads": [
+    "West Orange Grove Road"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "West Little Williams Drive",
+   "depthM": 0.72,
+   "lon": -111.28537,
+   "lat": 32.33711,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 631.11,
+   "roadZmax": 631.46,
+   "roads": [
+    "West Little Williams Drive"
+   ],
+   "noHeight": 0
+  },
+  {
+   "road": "West Drillers Road",
+   "depthM": 0.65,
+   "lon": -111.29201,
+   "lat": 32.32985,
+   "cellM": 6.25,
+   "stations": 5,
+   "roadZmin": 633.44,
+   "roadZmax": 633.76,
+   "roads": [
+    "West Drillers Road"
+   ],
+   "noHeight": 0
+  }
+ ],
+ "dipRoads": {
+  "West Snyder Hill Road": 2,
+  "Garcia Ranch Road": 8,
+  "West Manville Road": 5,
+  "North Mesquite Oasis Road": 1,
+  "West Donaldson Ranch Road": 3,
+  "West Tucker Road": 2,
+  "West Orange Grove Road": 1,
+  "West Little Williams Drive": 1,
+  "West Drillers Road": 1,
+  "West Scrub Brush Road": 1,
+  "West Cocorague Ranch Road": 2,
+  "West Prickle Desert Drive": 1,
+  "West Fort Lowell Road": 2,
+  "West Garcia Ranch Road": 3,
+  "West Blue Aloe Street": 1,
+  "": 4,
+  "North Avra Road": 1,
+  "West Alibi Drive": 1,
+  "West Running Horse Road": 1,
+  "South Marstellar Road": 4,
+  "North Antelope Road": 1,
+  "West Eagles Wing Way": 1,
+  "North Whitetail Road": 1
+ },
+ "seconds": 2.8
+}
