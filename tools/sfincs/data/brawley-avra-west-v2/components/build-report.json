@@ -1,0 +1,665 @@
+{
+ "args": {
+  "raw": "tools\\sfincs\\data\\brawley-avra-west-v2\\components\\raw",
+  "output": "tools\\sfincs\\data\\brawley-avra-west-v2\\components",
+  "tiles": "C:\\Users\\Marshall\\AppData\\Local\\Temp\\claude\\d7e318d6a734cd01\\31adc56e-e308-4476-a5a8-9b4d3ac0aee6\\scratchpad\\scout\\data\\tiles",
+  "dips_ref": "origin/experimental/model-upgrade-diagnostics-20261107:docs/upgrade/candidate-road-dips-20261107.csv",
+  "min_dip_m": "0.0",
+  "l3_road_buffer": "100.0",
+  "l3_wash_buffer": "100.0",
+  "l2_buffer": "400.0",
+  "l1_buffer": "1500.0",
+  "window": "150.0",
+  "network_buffer": "2000.0",
+  "zones_only": "False",
+  "version": "v2",
+  "forcing_from": "tools\\sfincs\\data\\brawley-avra-west-v1\\components\\boundary-registry.json",
+  "route_buffer": "15.0"
+ },
+ "v2": {
+  "addedSubtrees": [
+   {
+    "outletReachId": 15876613,
+    "kind": "joins",
+    "joinsReachId": 15876605,
+    "joinsLiveCase": "northern",
+    "roads": [
+     "Pump Station"
+    ],
+    "seedCatchments": [
+     15876613
+    ],
+    "reachIds": [
+     15876613,
+     15876615,
+     15876617,
+     15876619,
+     15876629,
+     15876631,
+     15876635,
+     15876637,
+     15876643,
+     15876649,
+     15876651,
+     15876655
+    ],
+    "totdasqkm": 58.7979,
+    "gnis": ""
+   },
+   {
+    "outletReachId": 15876623,
+    "kind": "northern-west-inlet",
+    "joinsReachId": 15876621,
+    "joinsLiveCase": "northern",
+    "roads": [
+     "Pump Station"
+    ],
+    "seedCatchments": [
+     15876615,
+     15876623
+    ],
+    "reachIds": [
+     15876615,
+     15876617,
+     15876619,
+     15876623,
+     15876629,
+     15876631,
+     15876635,
+     15876637,
+     15876643,
+     15876649,
+     15876651,
+     15876655
+    ],
+    "totdasqkm": 59.463,
+    "gnis": "Cocio Wash"
+   },
+   {
+    "outletReachId": 15876627,
+    "kind": "joins",
+    "joinsReachId": 15876593,
+    "joinsLiveCase": "northern",
+    "roads": [
+     "Pump Station"
+    ],
+    "seedCatchments": [
+     15876627
+    ],
+    "reachIds": [
+     15876627
+    ],
+    "totdasqkm": 13.9635,
+    "gnis": ""
+   },
+   {
+    "outletReachId": 15876639,
+    "kind": "northern-west-inlet",
+    "joinsReachId": 15876633,
+    "joinsLiveCase": "northern",
+    "roads": [
+     "Agua Dulce Ranch",
+     "Anway",
+     "Avra Valley Rd west",
+     "Lambert",
+     "Manville",
+     "Pump Station",
+     "Tucker"
+    ],
+    "seedCatchments": [
+     15876639,
+     15876661,
+     15876663,
+     15876683,
+     15876747,
+     15876799,
+     15877593,
+     15877599,
+     15877601,
+     945050513,
+     945050514
+    ],
+    "reachIds": [
+     15876639,
+     15876661,
+     15876663,
+     15876683,
+     15876723,
+     15876733,
+     15876747,
+     15876795,
+     15876799,
+     15876817,
+     15876855,
+     15877591,
+     15877593,
+     15877599,
+     15877601,
+     945050488,
+     945050489,
+     945050490,
+     945050491,
+     945050513,
+     945050514
+    ],
+    "totdasqkm": 159.9624,
+    "gnis": "Blanco Wash"
+   },
+   {
+    "outletReachId": 15876641,
+    "kind": "northern-west-inlet",
+    "joinsReachId": 15876625,
+    "joinsLiveCase": "northern",
+    "roads": [
+     "Pump Station"
+    ],
+    "seedCatchments": [
+     15876641
+    ],
+    "reachIds": [
+     15876641
+    ],
+    "totdasqkm": 6.6744,
+    "gnis": ""
+   },
+   {
+    "outletReachId": 15876653,
+    "kind": "northern-west-inlet",
+    "joinsReachId": 15876633,
+    "joinsLiveCase": "northern",
+    "roads": [
+     "Lambert",
+     "Pump Station"
+    ],
+    "seedCatchments": [
+     15876653
+    ],
+    "reachIds": [
+     15876653
+    ],
+    "totdasqkm": 9.5373,
+    "gnis": ""
+   },
+   {
+    "outletReachId": 15876669,
+    "kind": "terminal",
+    "joinsReachId": null,
+    "joinsLiveCase": null,
+    "roads": [
+     "Agua Dulce Ranch"
+    ],
+    "seedCatchments": [
+     15876671,
+     15876695
+    ],
+    "reachIds": [
+     15876669,
+     15876671,
+     15876673,
+     15876679,
+     15876695
+    ],
+    "totdasqkm": 23.211,
+    "gnis": ""
+   },
+   {
+    "outletReachId": 15876675,
+    "kind": "terminal",
+    "joinsReachId": null,
+    "joinsLiveCase": null,
+    "roads": [
+     "Tucker"
+    ],
+    "seedCatchments": [
+     15876703
+    ],
+    "reachIds": [
+     15876675,
+     15876681,
+     15876685,
+     15876691,
+     15876703
+    ],
+    "totdasqkm": 9.0486,
+    "gnis": ""
+   },
+   {
+    "outletReachId": 15876719,
+    "kind": "terminal",
+    "joinsReachId": null,
+    "joinsLiveCase": null,
+    "roads": [
+     "Agua Dulce Ranch"
+    ],
+    "seedCatchments": [
+     15876731
+    ],
+    "reachIds": [
+     15876699,
+     15876701,
+     15876719,
+     15876725,
+     15876727,
+     15876729,
+     15876731,
+     15876735,
+     15876741,
+     15876745,
+     15876749,
+     15876751,
+     15876765,
+     15876779,
+     15876793
+    ],
+    "totdasqkm": 47.5578,
+    "gnis": ""
+   },
+   {
+    "outletReachId": 15876757,
+    "kind": "terminal",
+    "joinsReachId": null,
+    "joinsLiveCase": null,
+    "roads": [
+     "Anway",
+     "Cocorague Ranch",
+     "Garcia Ranch",
+     "Manville"
+    ],
+    "seedCatchments": [
+     15876757,
+     15876767,
+     15877607,
+     15877619
+    ],
+    "reachIds": [
+     15876757,
+     15876767,
+     15876805,
+     15876855,
+     15877603,
+     15877605,
+     15877607,
+     15877619
+    ],
+    "totdasqkm": 77.1102,
+    "gnis": ""
+   }
+  ],
+  "sharedViaDivergence": [
+   [
+    15876613,
+    15876623,
+    [
+     15876615,
+     15876617,
+     15876619,
+     15876629,
+     15876631,
+     15876635,
+     15876637,
+     15876643,
+     15876649,
+     15876651,
+     15876655
+    ]
+   ],
+   [
+    15876639,
+    15876757,
+    [
+     15876855
+    ]
+   ]
+  ],
+  "skippedSeedCatchments": {
+   "Pump Station": [
+    {
+     "catchment": 15876595,
+     "why": "reach already carries flow from a live case or the v1 set"
+    },
+    {
+     "catchment": 15876593,
+     "why": "reach already carries flow from a live case or the v1 set"
+    }
+   ]
+  },
+  "westLonLimit": -111.25
+ },
+ "topology": {
+  "localReachCount": 172,
+  "catchmentCount": 172,
+  "zeroAreaReachIdsWithoutCatchment": [],
+  "divergentLocalReaches": [
+   15876613,
+   15876623,
+   15876935,
+   15877601,
+   15877603
+  ],
+  "sumLocalReachAreasqkm": 1241.334,
+  "sumCatchmentAreasqkm": 1241.339215,
+  "totdaExpectedKm2": 1241.3339999999998,
+  "domainAreaKm2": 1240.369838309587,
+  "domainParts": 1,
+  "partAreasKm2": [
+   1240.3698
+  ],
+  "sliverHolesFilledCount": 88,
+  "remainingHoles": 0,
+  "largestSliverHolesM2": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "externalInflows": [
+   15876941
+  ],
+  "receivingReach": [
+   15876923
+  ],
+  "downstreamLinks": [
+   [
+    15876613,
+    15876605
+   ],
+   [
+    15876623,
+    15876621
+   ],
+   [
+    15876627,
+    15876593
+   ],
+   [
+    15876639,
+    15876633
+   ],
+   [
+    15876641,
+    15876625
+   ],
+   [
+    15876653,
+    15876633
+   ],
+   [
+    15876707,
+    945050510
+   ],
+   [
+    15876711,
+    945050510
+   ],
+   [
+    15902567,
+    15902533
+   ]
+  ],
+  "traversal": "tonode->fromnode node graph; verified identical to dnhydroseq+dnminorhyd graph",
+  "excludedGaugeCatchmentKm2": 27.4689,
+  "domainBoundsLonLat": [
+   -111.5061616627245,
+   31.936762956315103,
+   -111.04294487045246,
+   32.47182295800319
+  ]
+ },
+ "nonLocalFlowlinesTouchingDomain": [
+  {
+   "comid": 15876633,
+   "gnis": "Blanco Wash",
+   "ftype": "StreamRiver",
+   "lengthInsideM": 0.5,
+   "drainsIntoLocal": false
+  },
+  {
+   "comid": 15876941,
+   "gnis": "Brawley Wash",
+   "ftype": "StreamRiver",
+   "lengthInsideM": 35.4,
+   "drainsIntoLocal": true
+  },
+  {
+   "comid": 15902533,
+   "gnis": "",
+   "ftype": "StreamRiver",
+   "lengthInsideM": 94.0,
+   "drainsIntoLocal": false
+  },
+  {
+   "comid": 945050510,
+   "gnis": "Brawley Wash",
+   "ftype": "StreamRiver",
+   "lengthInsideM": 1.6,
+   "drainsIntoLocal": false
+  }
+ ],
+ "overlapWithLiveKm2": {
+  "northern": 0.0,
+  "picture-rocks-ina-twinpeaks": 0.0,
+  "gates": 139.42
+ },
+ "domainOutsideLiveKm2": 1100.95,
+ "brawleyMainstem": {
+  "levelpath": 720005313.0,
+  "reaches": [
+   15876711,
+   15876771,
+   15876775,
+   15876803,
+   15876807,
+   15876811,
+   15876919,
+   15876923,
+   15877585,
+   15877627
+  ],
+  "lengthKm": 33.46,
+  "names": [
+   "Brawley Wash"
+  ]
+ },
+ "roadTiles": {
+  "box": [
+   -111.42,
+   32.16,
+   -110.93,
+   32.52
+  ],
+  "areaTiles": 26,
+  "areaLines": 31911
+ },
+ "priorityRoads": {
+  "Sandario": {
+   "km": 29.82,
+   "kmInDomain": 14.99,
+   "kmInDomainOutsideLive": 4.49,
+   "roadNames": [
+    "North Sandario Road",
+    "North Sandario Road;West Twin Peaks Road",
+    "South Sandario Road"
+   ]
+  },
+  "Manville": {
+   "km": 20.02,
+   "kmInDomain": 20.02,
+   "kmInDomainOutsideLive": 15.61,
+   "roadNames": [
+    "West Manville Road"
+   ]
+  },
+  "Avra Valley Rd west": {
+   "km": 28.93,
+   "kmInDomain": 10.06,
+   "kmInDomainOutsideLive": 10.06,
+   "roadNames": [
+    "West Avra Valley Road"
+   ]
+  },
+  "Anway": {
+   "km": 17.08,
+   "kmInDomain": 11.36,
+   "kmInDomainOutsideLive": 11.36,
+   "roadNames": [
+    "North Anway Road",
+    "West Anway Place"
+   ]
+  },
+  "Mile Wide": {
+   "km": 8.89,
+   "kmInDomain": 8.89,
+   "kmInDomainOutsideLive": 3.09,
+   "roadNames": [
+    "Mile Wide Road",
+    "West Mile Wide Road"
+   ]
+  },
+  "Snyder Hill": {
+   "km": 12.55,
+   "kmInDomain": 12.55,
+   "kmInDomainOutsideLive": 12.55,
+   "roadNames": [
+    "Snyder Hill Place",
+    "West Snyder Hill Road"
+   ]
+  },
+  "Nelson Quihuis": {
+   "km": 2.4,
+   "kmInDomain": 2.4,
+   "kmInDomainOutsideLive": 2.4,
+   "roadNames": [
+    "North Nelson Quihuis Road"
+   ]
+  },
+  "Garcia Ranch": {
+   "km": 8.7,
+   "kmInDomain": 8.7,
+   "kmInDomainOutsideLive": 8.7,
+   "roadNames": [
+    "Garcia Ranch Road",
+    "West Garcia Ranch Road"
+   ]
+  },
+  "Cocorague Ranch": {
+   "km": 8.37,
+   "kmInDomain": 8.37,
+   "kmInDomainOutsideLive": 8.37,
+   "roadNames": [
+    "West Cocorague Ranch Road"
+   ]
+  },
+  "Agua Dulce Ranch": {
+   "km": 6.38,
+   "kmInDomain": 6.38,
+   "kmInDomainOutsideLive": 6.38,
+   "roadNames": [
+    "North Agua Dulce Ranch Road"
+   ]
+  },
+  "Tucker": {
+   "km": 7.08,
+   "kmInDomain": 6.88,
+   "kmInDomainOutsideLive": 5.93,
+   "roadNames": [
+    "North Tucker Drive",
+    "West Tucker Road"
+   ]
+  },
+  "Lambert": {
+   "km": 20.24,
+   "kmInDomain": 2.14,
+   "kmInDomainOutsideLive": 2.14,
+   "roadNames": [
+    "East Lambert Lane",
+    "Lambert Lane",
+    "North Lambert Court",
+    "North Lambert Place",
+    "West Lambert Lane"
+   ]
+  },
+  "Pump Station": {
+   "km": 10.42,
+   "kmInDomain": 7.72,
+   "kmInDomainOutsideLive": 7.72,
+   "roadNames": [
+    "North Pump Station Road",
+    "Pump Station Road"
+   ]
+  },
+  "Donaldson Ranch": {
+   "km": 6.1,
+   "kmInDomain": 6.1,
+   "kmInDomainOutsideLive": 6.1,
+   "roadNames": [
+    "West Donaldson Ranch Road"
+   ]
+  }
+ },
+ "priorityRoadsNotFound": [],
+ "network": {
+  "features": 251,
+  "local": 172,
+  "bufferM": 2000.0,
+  "flowdirValues": [
+   "With Digitized"
+  ],
+  "multipartRemaining": []
+ },
+ "dips": {
+  "csvRows": 366,
+  "inDomain": 203,
+  "windowed": 203,
+  "depthGE03": 203,
+  "depthGE1": 46
+ },
+ "crossings": {
+  "inDomainOffRoutes": 177,
+  "onBrawley": 5,
+  "byOrder": {
+   "1.0": 141,
+   "2.0": 13,
+   "3.0": 17,
+   "5.0": 5,
+   "4.0": 1
+  },
+  "namedRoad": 165
+ },
+ "l4WindowPoints": {
+  "dips": 203,
+  "crossings": 177,
+  "minDipM": 0.0,
+  "windowM": 150.0
+ },
+ "zones": {
+  "1": {
+   "areaKm2": 68.035,
+   "cellsAtLevel": 27214
+  },
+  "2": {
+   "areaKm2": 19.066,
+   "cellsAtLevel": 30505
+  },
+  "3": {
+   "areaKm2": 28.672,
+   "cellsAtLevel": 183501
+  },
+  "4": {
+   "areaKm2": 7.471,
+   "cellsAtLevel": 191249
+  }
+ },
+ "meshEstimate": {
+  "formula": "prepare_route_case_mesh.py line 19: n*m + sum(area/cell^2)",
+  "rectangleCells": 258984,
+  "estimate": 691453,
+  "boundsEPSG32612": [
+   452400.0,
+   3533400.0,
+   496000.0,
+   3592800.0
+  ],
+  "inDomainActiveEstimate": 544182
+ }
+}

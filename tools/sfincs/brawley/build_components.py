@@ -20,6 +20,11 @@ TOPO = Path('tools/sfincs/data/all-route-ready-v3/topology-version3')
 PRIORITY = {'Sandario': ['sandario'], 'Manville': ['manville'], 'Avra Valley Rd west': ['avra valley road'], 'Anway': ['anway'],
             'Mile Wide': ['mile wide', 'milewide'], 'Snyder Hill': ['snyder hill'], 'Nelson Quihuis': ['nelson quihuis'],
             'Garcia Ranch': ['garcia ranch'], 'Cocorague Ranch': ['cocorague'], 'Agua Dulce Ranch': ['agua dulce'], 'Tucker': ['tucker']}
+# v2 (--version v2): extra L3 priority roads, and the west-valley subtree search
+PRIORITY_V2_EXTRA = {'Lambert': ['lambert'], 'Pump Station': ['pump station'], 'Donaldson Ranch': ['donaldson ranch']}
+NORTHERN_WEST_INLETS = (15876623, 15876639, 15876641, 15876653)  # Northern external inlets west of -111.25 (all-route-cases.json)
+WEST_LON = -111.25  # only road pieces west of this seed the v2 subtree search
+ROUTES = Path('public/data/routes.geojson')
 TO84 = Transformer.from_crs(32612, 4326, always_xy=True); TO32 = Transformer.from_crs(4326, 32612, always_xy=True)
 
 
@@ -75,7 +80,12 @@ def main():
     p.add_argument('--l2-buffer', type=float, default=400.); p.add_argument('--l1-buffer', type=float, default=1500.)
     p.add_argument('--window', type=float, default=200.); p.add_argument('--network-buffer', type=float, default=2000.)
     p.add_argument('--zones-only', action='store_true', help='rewrite refinement-zones/l4 points/report only')
-    a = p.parse_args(); o = a.output; o.mkdir(parents=True, exist_ok=True); rep = {'args': {k: str(v) for k, v in vars(a).items()}}
+    p.add_argument('--version', choices=('v1', 'v2'), default='v1',
+                   help='v2: add the west-valley subtrees (Northern west inlets + priority-road subtrees), L4 at every dip in the domain and at '
+                        'every crossing on a non-route road, Lambert/Pump Station/Donaldson Ranch in L3')
+    p.add_argument('--forcing-from', type=Path, help='copy forcingStatus from this boundary-registry.json (same external inlet, already resolved)')
+    p.add_argument('--route-buffer', type=float, default=15., help='v2: crossings within this distance of public/data/routes.geojson are route-owned (no L4 window)')
+    a = p.parse_args(); v2 = a.version == 'v2'; pri_names = {**PRIORITY, **(PRIORITY_V2_EXTRA if v2 else {})}; o = a.output; o.mkdir(parents=True, exist_ok=True); rep = {'args': {k: str(v) for k, v in vars(a).items()}}
     fl = read_fc(a.raw / 'nhdflowline_network.geojson.gz'); ct = read_fc(a.raw / 'catchmentsp.geojson.gz')
     fl['comid'] = fl.comid.astype(int); fl = fl.set_index('comid', drop=False); fl.index.name = None; ct['featureid'] = ct.featureid.astype(int)
     # ---- topology: node graph (tonode->fromnode, includes divergent branches) and hydroseq graph (dnhydroseq + dnminorhyd)
@@ -98,6 +108,64 @@ def main():
     if ext != [GAUGE_REACH]: raise ValueError(f'unexpected external inflows {ext}')
     recv = sorted(d for d in L if GAUGE_REACH in Gn.get(d, ()))
     if recv != [RECEIVING]: raise ValueError(f'receiving reach {recv}')
+    v1_local = list(L); added = []
+    if v2:
+        # Live cases' active catchments; a subtree may not contain them or receive their flow (models stay independent).
+        liveact = {k: {int(x) for x in json.loads((TOPO / f'{k}-boundary-registry.json').read_text())['activeCatchmentReachIds']} for k in LIVE}
+        allact = set().union(*liveact.values()); blocked = allact | Ls | upstream(GAUGE_REACH, Gn)
+        upc = {}
+        def up_n(c):
+            if c not in upc: upc[c] = upstream(c, Gn)
+            return upc[c]
+        def walk(c):
+            # follow the main path (dnhydroseq) until terminal, or until the next reach carries flow from a live case / the v1 set
+            path = [c]
+            while True:
+                r = fl.loc[path[-1]]
+                if r.terminalfl == 1: return path, 'terminal', None
+                d = hs.get(r.dnhydroseq)
+                if d is None: raise ValueError(f'subtree walk from {c} leaves the NHD fetch at {path[-1]}; fetch a wider bbox')
+                if up_n(d) & blocked: return path, 'joins', int(d)
+                path.append(d)
+        outlets = {}
+        for inl in NORTHERN_WEST_INLETS:
+            r = fl.loc[inl]; d = hs.get(r.dnhydroseq)
+            outlets[inl] = {'kind': 'northern-west-inlet', 'joinsReach': int(d), 'roads': set(), 'seedCatchments': set()}
+        road_seed = collections.defaultdict(list)
+        for f in json.loads((a.tiles / 'manifest.json').read_text())['files']:
+            if f['tier'] != 'area': continue
+            for nm, lo, la in decode(a.tiles / f['path']):
+                k = next((k for k, pats in pri_names.items() if any(s in (nm or '').lower() for s in pats)), None)
+                m = lo < WEST_LON
+                if k and m.sum() >= 2:
+                    x, y = TO32.transform(lo[m], la[m]); road_seed[k].append(LineString(np.c_[x, y]))
+        c32all = ct.to_crs(32612); skipped = collections.defaultdict(list)
+        for k, ls in road_seed.items():
+            g = unary_union(ls)
+            for c in c32all[c32all.intersects(g)].featureid:
+                c = int(c)
+                if c in Ls or c in allact: continue
+                if c not in fl.index: skipped[k].append({'catchment': c, 'why': 'no flowline in fetch'}); continue
+                if up_n(c) & blocked: skipped[k].append({'catchment': c, 'why': 'reach already carries flow from a live case or the v1 set'}); continue
+                path, why, d = walk(c); ol = int(path[-1])
+                e = outlets.setdefault(ol, {'kind': why, 'joinsReach': d, 'roads': set(), 'seedCatchments': set()})
+                e['roads'].add(k); e['seedCatchments'].add(c)
+        for ol in list(outlets):
+            for o2 in outlets:
+                if o2 != ol and ol in up_n(o2): raise ValueError(f'outlet {ol} nested in {o2}')
+        for ol, e in sorted(outlets.items()):
+            U = up_n(ol)
+            if U & blocked: raise ValueError(f'subtree {ol} contains live/v1 reaches')
+            added.append({'outletReachId': ol, 'kind': e['kind'], 'joinsReachId': e['joinsReach'],
+                          'joinsLiveCase': next((k for k, v in liveact.items() if e['joinsReach'] is not None and up_n(e['joinsReach']) & v), None),
+                          'roads': sorted(e['roads']), 'seedCatchments': sorted(e['seedCatchments']), 'reachIds': sorted(int(x) for x in U),
+                          'totdasqkm': float(fl.loc[ol, 'totdasqkm']), 'gnis': fl.loc[ol, 'gnis_name'].strip()})
+        L = sorted(set(L).union(*[x['reachIds'] for x in added])); Ls = set(L)
+        ov = [(x['outletReachId'], y['outletReachId'], sorted(set(x['reachIds']) & set(y['reachIds']))) for i, x in enumerate(added) for y in added[i + 1:] if set(x['reachIds']) & set(y['reachIds'])]
+        # NHD divergences can put the same headwater reaches upstream of two outlets; the union counts each catchment once
+        rep['v2'] = {'addedSubtrees': added, 'sharedViaDivergence': ov, 'skippedSeedCatchments': dict(skipped), 'westLonLimit': WEST_LON}
+        ext = sorted({c for d in L for c in Gn.get(d, ()) if c not in Ls} | {c for d in L for c in Gh.get(d, ()) if c not in Ls})
+        if ext != [GAUGE_REACH]: raise ValueError(f'unexpected external inflows {ext}')
     open_heads = [c for c in L if fl.loc[c, 'startflag'] != 1 and not Gn.get(c)]
     if open_heads: raise ValueError(f'local reaches with upstream outside fetch {open_heads}')
     # outflow side: local reaches draining to non-local reaches
@@ -114,7 +182,7 @@ def main():
     # fill digitizing slivers between adjacent catchments (holes < 1000 m2); larger holes would be kept
     filled = [Polygon(pg.exterior, [i for i in pg.interiors if Polygon(i).area >= 1000]) for pg in parts]
     dom = unary_union(filled); parts = list(getattr(dom, 'geoms', [dom]))
-    expected = fl.loc[15876711, 'totdasqkm'] + fl.loc[15876707, 'totdasqkm'] - fl.loc[GAUGE_REACH, 'totdasqkm']
+    expected = fl.loc[15876711, 'totdasqkm'] + fl.loc[15876707, 'totdasqkm'] - fl.loc[GAUGE_REACH, 'totdasqkm'] + (float(fl.loc[sorted(set(L) - set(v1_local)), 'areasqkm'].sum()) if added else 0.)
     rep['topology'] = {'localReachCount': len(L), 'catchmentCount': len(cl), 'zeroAreaReachIdsWithoutCatchment': zero, 'divergentLocalReaches': div,
                        'sumLocalReachAreasqkm': float(fl.loc[L, 'areasqkm'].sum()), 'sumCatchmentAreasqkm': float(cl.areasqkm.sum()),
                        'totdaExpectedKm2': float(expected), 'domainAreaKm2': dom.area / 1e6, 'domainParts': len(parts),
@@ -153,10 +221,10 @@ def main():
     rep['roadTiles'] = {'box': man['box'], 'areaTiles': sum(f['tier'] == 'area' for f in man['files']), 'areaLines': len(roads)}
     pri = collections.defaultdict(list)
     for nm, g in roads:
-        k = next((k for k, pats in PRIORITY.items() if any(s in nm.lower() for s in pats)), None)
+        k = next((k for k, pats in pri_names.items() if any(s in nm.lower() for s in pats)), None)
         if k: pri[k].append((nm, g))
     tr = []
-    for k in PRIORITY:
+    for k in pri_names:
         if not pri.get(k): continue
         g = unary_union([x[1] for x in pri[k]]); g = linemerge(g) if g.geom_type == "MultiLineString" else g
         tr.append({'id': k.lower().replace(' ', '-'), 'name': k, 'roadNames': sorted({x[0] for x in pri[k]}), 'km': round(g.length / 1000, 2),
@@ -164,7 +232,7 @@ def main():
                    'source': 'floodplain-road-heights-v1 area tiles (10 m station lines), box lat>=32.16', 'geometry': g})
     trg = gpd.GeoDataFrame(tr, geometry='geometry', crs=32612)
     rep['priorityRoads'] = {r['name']: {'km': r['km'], 'kmInDomain': r['kmInDomain'], 'kmInDomainOutsideLive': r['kmInDomainOutsideLive'], 'roadNames': r['roadNames']} for r in tr}
-    rep['priorityRoadsNotFound'] = [k for k in PRIORITY if not pri.get(k)]
+    rep['priorityRoadsNotFound'] = [k for k in pri_names if not pri.get(k)]
     if not a.zones_only:
         fc_write(gpd.GeoDataFrame({'case': [CASE]}, geometry=[as_multi(dom)], crs=32612), o / 'active-domain.geojson', 'active-domain')
         fc_write(gpd.GeoDataFrame({'case': [CASE], 'version': [3]}, geometry=[dom], crs=32612).to_crs('OGC:CRS84'), o / f'{CASE}-domain.geojson', f'{CASE}-domain')
@@ -184,24 +252,29 @@ def main():
     for r in dips:
         x, y = TO32.transform(float(r['lon']), float(r['lat'])); q = Point(x, y)
         nin += dom.contains(q)
-        if inside.contains(q):
+        if (dom if v2 else inside).contains(q):
             pts.append({'kind': 'dip', 'x': x, 'y': y, 'lon': float(r['lon']), 'lat': float(r['lat']), 'road': r['road_name'],
                         'depthM': float(r['dip_depth_m']), 'comid': None, 'wash': None, 'streamOrder': None})
-    rep['dips'] = {'csvRows': len(dips), 'inDomain': int(nin), 'inDomainOutsideLive': len(pts),
+    rep['dips'] = {'csvRows': len(dips), 'inDomain': int(nin), ('windowed' if v2 else 'inDomainOutsideLive'): len(pts),
                    'depthGE03': sum(q['depthM'] >= 0.3 for q in pts), 'depthGE1': sum(q['depthM'] >= 1 for q in pts)}
     rtree = gpd.GeoDataFrame({'name': [r[0] for r in roads]}, geometry=[r[1] for r in roads], crs=32612)
-    wash = net[net.intersects(inside)]
+    scope = dom if v2 else inside
+    route_u = None
+    if v2:
+        rt = gpd.read_file(ROUTES).to_crs(32612); route_u = rt.geometry.union_all().buffer(a.route_buffer)
+    wash = net[net.intersects(scope)]
     wg = gpd.GeoDataFrame({'wcomid': wash.comid.values, 'gnis': wash.gnis_name.values, 'order': wash.streamorde.values}, geometry=wash.geometry.values, crs=32612)
     cand = gpd.sjoin(rtree, wg, predicate='intersects'); crs_ = []
     for i, row in cand.iterrows():
         g = rtree.geometry[i].intersection(wash.loc[row.wcomid].geometry)
         for q in getattr(g, 'geoms', [g]):
-            if q.geom_type != 'Point' or not inside.contains(q): continue
+            if q.geom_type != 'Point' or not scope.contains(q): continue
+            if route_u is not None and route_u.contains(q): continue
             if any(math.hypot(q.x - c['x'], q.y - c['y']) < 15 for c in crs_): continue
             lo, la = TO84.transform(q.x, q.y)
             crs_.append({'kind': 'crossing', 'x': q.x, 'y': q.y, 'lon': lo, 'lat': la, 'road': row['name'], 'depthM': None,
                          'comid': int(row.wcomid), 'wash': row.gnis.strip() or None, 'streamOrder': float(row.order)})
-    rep['crossings'] = {'inDomainOutsideLive': len(crs_), 'onBrawley': sum(c['wash'] == 'Brawley Wash' for c in crs_),
+    rep['crossings'] = {('inDomainOffRoutes' if v2 else 'inDomainOutsideLive'): len(crs_), 'onBrawley': sum(c['wash'] == 'Brawley Wash' for c in crs_),
                         'byOrder': dict(collections.Counter(str(c['streamOrder']) for c in crs_)),
                         'namedRoad': sum(bool(c['road']) for c in crs_)}
     sel = [q for q in pts if q['depthM'] >= a.min_dip_m] + crs_
@@ -231,13 +304,19 @@ def main():
         reg = {'case': CASE, 'modelVersion': MODEL_VERSION, 'routeIds': [], 'targetRoads': [r['name'] for r in tr],
                'activeCatchmentReachIds': sorted(int(c) for c in cl.featureid), 'activeReachIds': L, 'addedConnectingCatchmentIds': [],
                'areaKm2': dom.area / 1e6, 'connectedComponents': [L] if len(parts) == 1 else None, 'componentCount': len(parts),
+               **({'domainVersion': 'v2', 'v1LocalReachIds': v1_local, 'addedSubtrees': added} if v2 else {}),
                'cumulativeInletDoubleCountPairs': [], 'externalCatchmentIdsAreDisjoint': True,
                'terrainGapNote': 'all-route-context-v2 (10 m) stops near lat 32.170 and lon -111.398; new context and 1 m terrain needed south/west.',
                'corridorMissingAreaM2': 0.0,
                'externalInlets': [{'reachId': str(GAUGE_REACH), 'receivingReachId': str(RECEIVING), 'linkField': 'dnhydroseq',
                                    'note': 'USGS 09487000 Brawley Wash near Three Points. NWM inflow of the gauge reach injected on 15876923. The 27.47 km2 local catchment of 15876941 below the gauge is excluded from the domain; its runoff arrives only through the NWM inflow.'}],
                'outflow': {'type': 'open', 'localOutletReachIds': list(OUTLET_REACHES), 'downstreamLinks': downs, 'node': 720060498, 'lonLat': [-111.2930, 32.3647],
-                           'note': 'Open downstream edge at the Northern case inlet point. Northern keeps its NWM inlets 15876711/15876707; models are independent.'},
+                           'note': 'Open downstream edge at the Northern case inlet point. Northern keeps its NWM inlets 15876711/15876707; models are independent.',
+                           **({'additionalOutlets': [{'reachId': x['outletReachId'], 'kind': x['kind'], 'joinsReachId': x['joinsReachId'], 'joinsLiveCase': x['joinsLiveCase']} for x in added],
+                               'additionalNote': ('v2: each added subtree that joins a reach carrying another case flow ends in an open outflow there '
+                                                  '(river_source_points places it where the river leaves the domain); Northern keeps its own NWM inlets '
+                                                  '15876623/15876639/15876641/15876653, models are independent. Terminal subtrees end at an NHD terminal node '
+                                                  'inside the domain (no river leaves), so no outflow is placed for them.')} if v2 else {})},
                'missingFlowlineIds': [], 'unresolvedPrimaryUpstreamHydrosequences': [], 'missingOriginalIssueForecastIds': [], 'version': 3, 'parentVersion': None,
                'addedForSecondaryPathClosure': [], 'closureIterations': [], 'externalSplitReachesRequiringNoAssumedFractions': [],
                'secondaryBranchEvidence': [{'from': int(c), 'to': int(hs.get(fl.loc[c, 'dnminorhyd'], 0)), 'field': 'dnminorhyd'} for c in L if fl.loc[c, 'dnminorhyd']],
@@ -247,7 +326,11 @@ def main():
                'excluded': {'gaugeReachId': GAUGE_REACH, 'gaugeLocalCatchmentAreaKm2': float(fl.loc[GAUGE_REACH, 'areasqkm']),
                             'upstreamOfGaugeTotdaKm2': float(fl.loc[GAUGE_REACH, 'totdasqkm'])},
                'source': {'flowlines': 'raw/nhdflowline_network.geojson.gz', 'catchments': 'raw/catchmentsp.geojson.gz', 'traversal': rep['topology']['traversal']},
-               'status': 'brawley-avra-west version3-schema registry. Graph closure verified: only 15876941 drains into the local set.'}
+               'status': 'brawley-avra-west version3-schema registry. Graph closure verified: only 15876941 drains into the local set.' + (' Domain v2.' if v2 else '')}
+        if a.forcing_from:
+            src = json.loads(a.forcing_from.read_text())
+            if [i['reachId'] for i in src['externalInlets']] != [str(GAUGE_REACH)]: raise ValueError('forcing source has other inlets')
+            reg['forcingStatus'] = src['forcingStatus']
         (o / 'boundary-registry.json').write_text(json.dumps(reg, indent=1) + '\n', encoding='utf-8')
     (o / 'build-report.json').write_text(json.dumps(rep, indent=1, default=float) + '\n', encoding='utf-8')
     print(json.dumps(rep, indent=1, default=float))

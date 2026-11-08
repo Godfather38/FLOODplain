@@ -1,0 +1,28 @@
+{
+ "collection": "catchmentsp",
+ "source": "USGS Water Mission Area geospatial fabric pygeoapi (NHDPlus V2), public domain",
+ "bbox": "-111.75,31.90,-110.95,32.60",
+ "pages": [
+  {
+   "url": "https://api.water.usgs.gov/fabric/pygeoapi/collections/catchmentsp/items?f=json&bbox=-111.75,31.90,-110.95,32.60&limit=1000",
+   "fetchedUtc": "2026-11-08T22:43:04+00:00",
+   "bytes": 12273229,
+   "sha256": "8b369b76c66d1df4c6db903c4c325346741d373cd77b67f51be2e1b2e22dd101",
+   "features": 1000,
+   "numberMatched": 1052,
+   "seconds": 5.9
+  },
+  {
+   "url": "https://api.water.usgs.gov:443/fabric/pygeoapi/collections/catchmentsp/items?f=json&offset=1000&bbox=-111.75,31.90,-110.95,32.60&limit=1000",
+   "fetchedUtc": "2026-11-08T22:43:07+00:00",
+   "bytes": 457436,
+   "sha256": "1a2c162af2a96eaa0aeba95b10e61e64c3895a7b4aef97084ca8756f2e941114",
+   "features": 52,
+   "numberMatched": 1052,
+   "seconds": 3.1
+  }
+ ],
+ "count": 1052,
+ "file": "catchmentsp.geojson.gz",
+ "uncompressedSha256": "871170b4594b04d8bba4a02e967af34a872a3691208690cc9af4ffe22ed72a1e"
+}

@@ -5,6 +5,9 @@ Stations come from the area tiles of road-height package floodplain-road-heights
 straight from a pinned git commit and checked against that commit's manifest. A station is
 kept when it lies inside (or on the edge of) the case domain and outside every live domain
 listed with --exclude: existing cases keep every station inside their own domains.
+With --routes (and usually --exclude with no paths) the rule is instead: every station in the
+case domain except those within --route-buffer-m metres of a rated route line; route stations
+stay with the route cases (domain v2 of brawley-avra-west).
 
   python tools/live/build_local_road_stations.py \
       --case brawley-avra-west \
@@ -82,7 +85,20 @@ def domain_geometry(path):
     return geom
 
 
-def build(case, domain, exclude, ref, output):
+def route_zone(path, buffer_m):
+    """Rated route lines (lon/lat) buffered by buffer_m metres, in EPSG:32612."""
+    import shapely
+    from shapely.geometry import shape
+    from shapely.ops import unary_union
+    from pyproj import Transformer
+    to32 = Transformer.from_crs(4326, 32612, always_xy=True)
+    lines = unary_union([shape(f['geometry']) for f in json.loads(Path(path).read_text())['features']])
+    zone = shapely.transform(lines, lambda c: np.column_stack(to32.transform(c[:, 0], c[:, 1]))).buffer(buffer_m)
+    shapely.prepare(zone)
+    return zone, to32
+
+
+def build(case, domain, exclude, ref, output, routes=None, route_buffer_m=15.0):
     import shapely
     commit = subprocess.run(['git', 'rev-parse', ref], check=True, capture_output=True, text=True).stdout.strip()
     manifest_raw = git_blob(commit, f'{PACKAGE_DIR}/manifest.json')
@@ -93,8 +109,11 @@ def build(case, domain, exclude, ref, output):
     shapely.prepare(keep_geom)
     for g in live:
         shapely.prepare(g)
+    rzone, to32 = route_zone(routes, route_buffer_m) if routes else (None, None)
     cols = {k: [] for k in ('id', 'road', 'kind', 'lon', 'lat', 'roadZ', 'flags')}
     tile_rows, counts = [], {'tileStations': 0, 'insideDomain': 0, 'insideLiveDomain': 0}
+    if rzone is not None:
+        counts['nearRatedRoute'] = 0
     for tile in sorted(tiles, key=lambda t: t['path']):
         raw = git_blob(commit, f"{PACKAGE_DIR}/{tile['path']}")
         if sha(raw) != tile['sha256'] or len(raw) != tile['bytes']:
@@ -113,6 +132,12 @@ def build(case, domain, exclude, ref, output):
             for g in live:
                 owned |= shapely.covers(g, pts)
             counts['insideLiveDomain'] += int((inside & owned).sum())
+            if rzone is not None and inside.any():
+                x, y = to32.transform(line['lon'], line['lat'])
+                near = np.zeros(len(pts), dtype=bool)
+                near[inside] = shapely.covers(rzone, shapely.points(np.asarray(x)[inside], np.asarray(y)[inside]))
+                counts['nearRatedRoute'] += int((inside & near & ~owned).sum())
+                owned |= near
             for k in np.flatnonzero(inside & ~owned):
                 cols['id'].append(f"{stem}:{li}:{int(line['stationDm'][k])}")
                 cols['road'].append(line['name'] or '(unnamed)')
@@ -132,7 +157,10 @@ def build(case, domain, exclude, ref, output):
                    'manifestPath': f'{PACKAGE_DIR}/manifest.json', 'manifestSha256': sha(manifest_raw),
                    'tiles': tile_rows, 'flags': {'deckLidar': 1, 'deckApproach': 2, 'noTerrain': 4, 'structureUntagged': 8},
                    'elevation': 'NAVD88 metres, lidar bare-earth road estimate (not a surveyed deck)'},
-        'selection': {'rule': 'covered by the case domain and not covered by any live domain',
+        'selection': {'rule': ('covered by the case domain and not covered by any live domain' if not routes else
+                               f'covered by the case domain, more than {route_buffer_m:g} m from every rated route line'
+                               + (' and not covered by any listed live domain' if exclude else '')),
+                      **({'ratedRoutes': {'path': Path(routes).as_posix(), 'sha256': sha(Path(routes).read_bytes()), 'bufferM': route_buffer_m}} if routes else {}),
                       'domain': {'path': Path(domain).as_posix(), 'sha256': sha(Path(domain).read_bytes())},
                       'excludedLiveDomains': [{'path': Path(p).as_posix(), 'sha256': sha(Path(p).read_bytes())} for p in exclude],
                       'counts': counts},
@@ -150,9 +178,11 @@ def main():
     parser.add_argument('--domain', required=True)
     parser.add_argument('--exclude', nargs='*', default=[str(p) for p in LIVE_DOMAINS])
     parser.add_argument('--ref', default=DEFAULT_REF)
+    parser.add_argument('--routes', help='rated route lines (e.g. public/data/routes.geojson); stations near them are route-owned')
+    parser.add_argument('--route-buffer-m', type=float, default=15.0)
     parser.add_argument('--output', required=True)
     args = parser.parse_args()
-    print(json.dumps(build(args.case, args.domain, args.exclude, args.ref, args.output), indent=1))
+    print(json.dumps(build(args.case, args.domain, args.exclude, args.ref, args.output, args.routes, args.route_buffer_m), indent=1))
 
 
 if __name__ == '__main__':

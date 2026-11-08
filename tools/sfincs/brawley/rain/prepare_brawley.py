@@ -16,7 +16,10 @@ SRC = Path('H:/AI/Projects/FloodPLAIN-sfincs/.sfincs-runs/road-rainfall-v2')  # 
 GRID = [-111.52, 31.92, -110.98, 32.43]  # EPSG:4326 grid-centre bounds; requested south 31.98 moved to 31.92 because the local contributing area (NLDI 15876711 basin minus 15876941 basin) reaches 31.937 N (about 32 km2 south of 31.975 at lon -111.27..-111.13)
 VERSION = 'brawley-avra-west-v1'
 
-p = argparse.ArgumentParser(); p.add_argument('--output', type=Path, required=True); p.add_argument('--domain', type=Path, help='optional domain geojson to verify coverage'); a = p.parse_args()
+p = argparse.ArgumentParser(); p.add_argument('--output', type=Path, required=True); p.add_argument('--domain', type=Path, help='optional domain geojson to verify coverage')
+p.add_argument('--grid', type=float, nargs=4, default=GRID, metavar=('W', 'S', 'E', 'N'), help='EPSG:4326 grid-centre bounds (default: the v1 crop)')
+p.add_argument('--domain-version', default=VERSION); a = p.parse_args()
+if list(a.grid) != GRID or a.domain_version != VERSION: GRID = [float(v) for v in a.grid]; VERSION = a.domain_version  # e.g. domain v2: north edge moved for the added west-valley subtrees
 package = a.output.resolve()
 if package.exists(): raise SystemExit(f'output exists: {package}')
 package.mkdir(parents=True)
@@ -25,7 +28,7 @@ for f in SRC.iterdir():
 shutil.copytree(SRC / 'raw', package / 'raw')
 reg = json.loads((package / 'boundary-registry.json').read_text())
 reg['crs'] = 'EPSG:4326'; reg['bounds'] = GRID; reg['domainVersion'] = VERSION
-reg['scopeNote'] = 'Rainfall crop extent only (lon -111.52..-110.98, lat 31.92..32.43 grid centres); copied old inlet registry is NOT an assignment for brawley-avra-west'
+reg['scopeNote'] = f'Rainfall crop extent only (lon {GRID[0]}..{GRID[2]}, lat {GRID[1]}..{GRID[3]} grid centres); copied old inlet registry is NOT an assignment for brawley-avra-west'
 (package / 'boundary-registry.json').write_text(json.dumps(reg, indent=2))
 steps = [[sys.executable, str(here / 'recrop_current_inputs.py'), str(package), '--grid-bounds', *map(str, GRID), '--domain-version', VERSION],
          [sys.executable, str(here / 'finalize_current_inputs.py'), str(package)],
