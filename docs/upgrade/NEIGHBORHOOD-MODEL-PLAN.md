@@ -175,25 +175,35 @@ needed** (§9).
 Every result is labeled measured or estimated. Untested numbers in this plan are only replaced by
 measured ones.
 
-## 6. Milestones (relative to kickoff K = the day this plan is approved)
+## 6. Milestones (compressed Nov 8: about 3 days from go, not 17)
 
-Owner time is kept to short, asynchronous reviews. No fixed working hours are assumed: past
-activity shows evenings, nights and weekends, so each gate waits for an answer, and the schedule
-moves by the time a gate stays open. Model runs go on GitHub runners and never need the owner's PC.
+The owner turned down a 17-day schedule (Nov 8). The 17 days came from review gates and padding,
+not from work: each model run is about 30 minutes on free GitHub runners, and the runs can go in
+parallel. Revised rules:
 
-| Milestone | Target | Work (by me) | Owner touchpoint |
-|---|---|---|---|
-| **M0** Inventory, coverage, diagnostics | done (Nov 7) | this plan, specification, diagnostics on branch | review this plan (about 20 min) |
-| **M1** Benchmarks B1–B3 | K+2 days | run on GitHub runners, report measured numbers | none |
-| **M2** Domain and inflow design | K+5 days | catchment delineation; Three Points / Milewide inflow; handoff with Northern so water isn't counted twice; owning-area polygons | confirm Green Acres and Silverbell/Nelson (about 5 min, can be sent any time before) |
-| **M3** Build + first bounded run (Nov 1 forcing) | K+8 days | case archive, B4, first results | none |
-| **M4** Validation | K+12 days | all tests in `DOCSHEET.md` §9; report every failure | local-knowledge check of about 12 representative dips (about 20 min) |
-| **M5** App/alert integration (experimental branch only) | K+15 days | road forecast for the new case, local-road comparison on the map, identical app/service selection, tests, browser suites | none |
-| **M6** Acceptance review | K+17 days | acceptance checklist with evidence | decide whether to request deployment (a separate approval) |
+- **No blocking review gates.** The recommended defaults in §9 are used unless the owner says
+  otherwise. Answers about Green Acres and Silverbell/Nelson only add or move 6.25 m windows. They
+  can be folded in at any point, and each costs one rebuild (about 1 hour), not a schedule reset.
+- **Benchmarks run alongside the build, not before it.** B1 and B2 are dropped. The four measured
+  runtimes in §5 are enough to size the case. B3 and B4 are the first real runs of the new case.
+- **One go, one review at the end.** The owner's only required step is deciding whether to request
+  deployment after acceptance (a separate approval).
 
-If a review gate is open longer than about two days, everything after it moves by the same amount.
-If M4 validation fails, the fallback is to keep the new case off the scores (map only, labeled), fix,
-and re-run. That would add about 3–5 days.
+| Milestone | Target from go | Work |
+|---|---|---|
+| **M0** Inventory, coverage, diagnostics | done (Nov 7) | this plan, specification, diagnostics on branch |
+| **M1** Build Brawley/Avra West case | day 1 | domain from Three Points (09487000) to the Northern inlet; 100/50 m base; 12.5 m on priority roads and the wash; 6.25 m windows at the 366 candidate dips; handoff with Northern so water isn't counted twice. 6.25 m windows also go into the existing cases at the 149 dips now in 100 m cells (B3). |
+| **M2** First runs | day 1–2 | Nov 1 frozen forcing, plus the Sep 17, 2026 event if its HRRR and NWM files are still archived (not yet checked), in parallel on GitHub runners; measured runtimes replace every estimate in §5 |
+| **M3** Validation | day 2 | `DOCSHEET.md` §9 tests: Three Points flow, Sep 17 reports, representative dips; every failure reported |
+| **M4** App and alert integration (experimental branch) | day 3 | road forecast for the new case, local-road comparison on the map, same case picked by app and service, unit and browser suites |
+| **M5** Acceptance report | day 3 | checklist with evidence; owner decides whether to request deployment |
+
+**If validation fails (M3)**, the new case stays off the scores (map only, labeled) while it is
+fixed. That adds about 1–2 days, not 3–5.
+
+**Not compressible:** what the data doesn't have. There are no surveyed deck or culvert heights,
+and no ALERT history for 6443. Validation for neighborhood washes stays thin until real events are
+recorded.
 
 ## 7. What "done" means
 
@@ -228,7 +238,7 @@ diagnostics only help from the next incident on.
 6. **Local roads in the app:** show neighborhood road comparisons on the map only (recommended first
    step), or also add them to route scores where a route uses them. Route scores already include
    every station on the 8 routes.
-7. **Your availability** for the four short reviews, so I can schedule around it.
+7. **Go-ahead.** No review gates remain: one go to start, one decision at the end on whether to request deployment.
 
 ## 10. Risks and known gaps
 
