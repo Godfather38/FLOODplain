@@ -8,8 +8,10 @@ import unittest
 import numpy as np
 
 from build_local_road_stations import decode_tile
-from export_road_forecast import (CASE_ROUTES, LOCAL_KIND, LocalRoadForecast, NativeGeometry, WET_M,
-                                  digest, export_local, load_local_stations, load_roads)
+from export_road_forecast import (CASE_ROUTES, LIVE_STATES, LOCAL_KIND, LocalRoadForecast, NativeGeometry,
+                                  decode_local_static, digest, export_local, export_static, inflow_summary,
+                                  load_local_stations, load_roads, local_static_bytes)
+from export_road_forecast import WET_M
 from test_export_road_forecast import geometry_columns, packed
 import validate_highres_run_request as request
 import verify_all_route_package as verifier
@@ -17,9 +19,10 @@ import verify_all_route_package as verifier
 CASE = 'brawley-avra-west'
 T = ['2026-11-01T12:00:00Z', '2026-11-01T12:30:00Z', '2026-11-01T13:00:00Z']
 CONTRACT_TOP = {'schemaVersion', 'kind', 'case', 'modelVersion', 'runId', 'issuedAt', 'forecastStart',
-                'forecastEnd', 'datum', 'roadHeights', 'stations', 'summary'}
-CONTRACT_STATION = {'id', 'road', 'lon', 'lat', 'roadZ', 'cellSizeM', 'maxWse', 'maxOver',
-                    'firstOverTime', 'state', 'flags'}
+                'forecastEnd', 'status', 'datum', 'roadHeights', 'stationsSha256', 'stationsVersion', 'stationCount',
+                'inflowSource', 'summary', 'stateCodes', 'listed'}
+CONTRACT_LISTED = {'index', 'state', 'maxWseCm', 'maxOverCm', 'firstOverMin', 'cellSizeM', 'unknownFrames'}
+SOURCE = {'sha256': 'stations-hash', 'stationsSha256': 'static-hash', 'stationsVersion': 'test-local-v1'}
 
 
 def st(sid, lon=.5, lat=.5, z=10., flags=0, road='West Snyder Hill Road'):
@@ -27,7 +30,7 @@ def st(sid, lon=.5, lat=.5, z=10., flags=0, road='West Snyder Hill Road'):
 
 
 def local(stations):
-    return LocalRoadForecast(CASE, NativeGeometry(geometry_columns()), stations, {'sha256': 'stations-hash'})
+    return LocalRoadForecast(CASE, NativeGeometry(geometry_columns()), stations, dict(SOURCE))
 
 
 def manifest(times, status='complete'):
@@ -113,39 +116,151 @@ class LocalStateTests(unittest.TestCase):
             f.add_frame(T[0], np.zeros(3), np.zeros(3))
 
 
+def listed_by_index(data):
+    cols = data['listed']
+    return {i: {k: cols[k][n] for k in cols} | {'stateName': data['stateCodes'][cols['state'][n]]}
+            for n, i in enumerate(cols['index'])}
+
+
 class ContractTests(unittest.TestCase):
-    def test_written_file_follows_the_shared_contract(self):
+    def write(self, f, m):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'local-road-forecast.json'
-            f = local([st('over', .5), st('noz', .5, z=None, flags=4)])
-            for t in T:
-                f.add_frame(t, np.array([0., 25., 0.]), np.array([0., 11., 0.]))
-            descriptor = f.write(path, manifest(T))
-            data = json.loads(path.read_text())
-            self.assertTrue(CONTRACT_TOP <= set(data))
-            self.assertEqual((data['schemaVersion'], data['kind'], data['case'], data['modelVersion']),
-                             (1, LOCAL_KIND, CASE, 'all-routes-brawley-avra-west-v1'))
-            self.assertEqual((data['forecastStart'], data['forecastEnd'], data['issuedAt']), (T[0], T[-1], '2026-11-01T14:05:00Z'))
-            self.assertEqual((data['datum'], data['roadHeights']), ('NAVD88 metres', 'floodplain-road-heights-v1'))
-            for row in data['stations']:
-                self.assertTrue(CONTRACT_STATION <= set(row))
-            self.assertTrue({'stations', 'over', 'below', 'dry', 'noRoadHeight', 'noCell'} <= set(data['summary']))
-            self.assertEqual(data['summary']['over'], 1)
-            self.assertEqual(data['status'], 'complete')
-            self.assertEqual(descriptor['sha256'], digest(path.read_bytes()))
-            self.assertNotIn('NaN', path.read_text())
-            f.write(path, manifest(T, 'partial'))
-            self.assertEqual(json.loads(path.read_text())['status'], 'partial')
-            with self.assertRaises(ValueError):
-                f.write(path, manifest(T[:2]))
+            descriptor = f.write(path, m)
+            raw = path.read_bytes()
+            self.assertEqual(descriptor['sha256'], digest(raw))
+            self.assertNotIn(b'NaN', raw)
+            return json.loads(raw), descriptor
+
+    def test_written_file_follows_contract_v2_and_lists_only_non_dry(self):
+        # 0 over, 1 below, 2 dry, 3 no road height, 4 no cell, 5 unknown (face 2 never wet, missing zs while wet)
+        f = local([st('a:0', .5, z=10.), st('a:100', 1.5, z=30.), st('a:200', 2.5, z=1.),
+                   st('b:0', .5, z=None, flags=4), st('b:100', 3.5), st('c:0', 2.5, z=40.)])
+        f.add_frame(T[0], np.array([0., 0., 0.]), np.array([0., 0., 0.]))
+        f.add_frame(T[1], np.array([200., 12.5, 0.]), np.array([22., 10.4, 0.]))
+        f.add_frame(T[2], np.array([200., 25., 0.]), np.array([23., 11.2, 0.]))
+        data, descriptor = self.write(f, manifest(T))
+        self.assertTrue(CONTRACT_TOP <= set(data))
+        self.assertNotIn('stations', data)
+        self.assertEqual((data['schemaVersion'], data['kind'], data['case'], data['modelVersion'], data['status']),
+                         (2, LOCAL_KIND, CASE, 'all-routes-brawley-avra-west-v1', 'ok'))
+        self.assertEqual((data['forecastStart'], data['forecastEnd'], data['issuedAt']), (T[0], T[-1], '2026-11-01T14:05:00Z'))
+        self.assertEqual((data['stationsSha256'], data['stationsVersion'], data['stationCount']), ('static-hash', 'test-local-v1', 6))
+        self.assertEqual(data['stateCodes'], list(LIVE_STATES))
+        self.assertEqual(set(data['listed']), CONTRACT_LISTED)
+        r = listed_by_index(data)
+        self.assertEqual(sorted(r), [0, 1, 4])  # dry (2, 5) and no-road-height (3) are not listed
+        self.assertEqual((r[0]['stateName'], r[0]['maxWseCm'], r[0]['maxOverCm'], r[0]['firstOverMin'], r[0]['cellSizeM']),
+                         ('over', 1120, 120, 30, 5.))
+        self.assertEqual((r[1]['stateName'], r[1]['maxWseCm'], r[1]['maxOverCm'], r[1]['firstOverMin']),
+                         ('below', 2300, -700, None))
+        self.assertEqual((r[4]['stateName'], r[4]['maxWseCm'], r[4]['cellSizeM'], r[4]['unknownFrames']),
+                         ('no-cell', None, None, None))
+        self.assertEqual(data['summary'], {'stations': 6, 'over': 1, 'below': 1, 'dry': 2, 'noRoadHeight': 1,
+                                           'noCell': 1, 'unknown': 0})
+        self.assertEqual(descriptor['stationsSha256'], 'static-hash')
+        partial, _ = self.write(f, manifest(T, 'partial'))
+        self.assertEqual(partial['status'], 'partial')
+        with self.assertRaises(ValueError):
+            f.write(Path(tempfile.gettempdir()) / 'never.json', manifest(T[:2]))
+
+    def test_unknown_station_is_listed_never_dry(self):
+        f = local([st('a:0', .5, z=10.)])
+        f.add_frame(T[0], np.zeros(3), np.zeros(3))
+        f.add_frame(T[1], np.array([0., np.nan, 0.]), np.zeros(3))
+        data, _ = self.write(f, manifest(T[:2]))
+        r = listed_by_index(data)
+        self.assertEqual((r[0]['stateName'], r[0]['maxWseCm'], r[0]['maxOverCm'], r[0]['cellSizeM'], r[0]['unknownFrames']),
+                         ('unknown', None, None, 5., 1))
+        self.assertEqual((data['summary']['unknown'], data['summary']['dry']), (1, 0))
+
+    def test_over_is_never_rounded_to_zero_and_below_never_rounds_above(self):
+        # zs 0.2 mm above the road: still over, maxOverCm 1; zs 0.2 mm below: below, maxOverCm 0.
+        f = local([st('a:0', .5, z=10.25), st('a:100', 1.5, z=12.31)])
+        f.add_frame(T[0], np.array([200., 25., 0.]), np.array([12.3098, 10.2502, 0.]))
+        data, _ = self.write(f, manifest(T[:1]))
+        r = listed_by_index(data)
+        self.assertEqual((r[0]['stateName'], r[0]['maxWseCm'], r[0]['maxOverCm'], r[0]['firstOverMin']), ('over', 1026, 1, 0))
+        self.assertEqual((r[1]['stateName'], r[1]['maxWseCm'], r[1]['maxOverCm']), ('below', 1231, 0))
+        for i in r:
+            self.assertEqual(r[i]['maxOverCm'], r[i]['maxWseCm'] - round(f.stations[i]['roadM'] * 100))
+
+    def test_all_dry_run_lists_nothing(self):
+        f = local([st('a:0', .5), st('a:100', 2.5), st('b:0', .5, z=None, flags=4)])
+        for t in T:
+            f.add_frame(t, np.zeros(3), np.zeros(3))
+        data, _ = self.write(f, manifest(T))
+        self.assertEqual(data['listed']['index'], [])
+        self.assertEqual((data['summary']['dry'], data['summary']['noRoadHeight']), (2, 1))
+
+    def test_static_file_is_required(self):
+        f = LocalRoadForecast(CASE, NativeGeometry(geometry_columns()), [st('a:0')], {'sha256': 'x'})
+        f.add_frame(T[0], np.zeros(3), np.zeros(3))
+        with self.assertRaises(ValueError):
+            f.write(Path(tempfile.gettempdir()) / 'never.json', manifest(T[:1]))
 
     def test_frozen_package_uses_its_hrrr_issue(self):
+        f = local([st('a:0')]); f.add_frame(T[0], np.zeros(3), np.zeros(3))
+        m = manifest(T[:1]); del m['issuedAt']
+        data, _ = self.write(f, m)
+        self.assertEqual(data['issuedAt'], '2026-11-01T13:00:00Z')
+        self.assertEqual(data['inflowSource']['summary'], 'not recorded in this package')
+
+    def test_inflow_summary(self):
+        m = {'inflowSource': [{'reachId': '15876941', 'source': 'usgs+nwm', 'nwmProvider': 'NWPS', 'usgsSite': '09487000',
+                               'usgsStatus': 'ok', 'provisional': True, 'note': 'long text', 'usgsHours': 40}],
+             'flowNotes': ['n'], 'sourceIssues': {'NWM': 'desc'}}
+        self.assertEqual(inflow_summary(m), {'summary': 'usgs+nwm', 'description': 'desc', 'notes': ['n'],
+                                             'inlets': [{'reachId': '15876941', 'source': 'usgs+nwm', 'nwmProvider': 'NWPS',
+                                                         'usgsSite': '09487000', 'usgsStatus': 'ok', 'provisional': True}]})
+        old = inflow_summary({'flowSources': [{'provider': 'NOAA NODD', 'reachId': 1}]})
+        self.assertEqual((old['summary'], old['inlets']), ('nwm', [{'reachId': '1', 'source': 'nwm', 'nwmProvider': 'NOAA NODD'}]))
+
+
+class StaticFileTests(unittest.TestCase):
+    def test_static_file_round_trips_and_is_deterministic(self):
+        stations = [{'id': 'area_m1113_322:4:0', 'road': 'West Snyder Hill Road', 'kind': 'residential',
+                     'lon': -111.298976, 'lat': 32.18953, 'roadM': 805.09, 'flags': 0},
+                    {'id': 'area_m1113_322:4:100', 'road': 'West Snyder Hill Road', 'kind': 'residential',
+                     'lon': -111.298915, 'lat': 32.189604, 'roadM': None, 'flags': 4},
+                    {'id': 'area_m1113_322:4:200', 'road': 'West Snyder Hill Road', 'kind': 'residential',
+                     'lon': -111.298854, 'lat': 32.189678, 'roadM': 804.9, 'flags': 1},
+                    {'id': 'area_m1113_323:0:0', 'road': 'North Sandario Road', 'kind': 'secondary',
+                     'lon': -111.2, 'lat': 32.3, 'roadM': 700.12, 'flags': 0}]
+        data = {'case': CASE, 'roadHeights': 'floodplain-road-heights-v1', 'source': {'commit': 'abc'}, 'selection': {'rule': 'r'}}
+        raw = local_static_bytes(stations, data, 'tools/live/road-stations/x-local-v1.json.gz', 'f' * 64)
+        self.assertEqual(raw, local_static_bytes(stations, data, 'elsewhere/x-local-v1.json.gz', 'f' * 64))  # cwd-independent
+        self.assertTrue(raw.endswith(b'\n') and b'\r' not in raw)
+        out, meta = decode_local_static(raw)
+        self.assertEqual((meta['version'], meta['stationCount'], meta['source']['sha256']), ('x-local-v1', 4, 'f' * 64))
+        self.assertEqual([o['id'] for o in out], [s['id'] for s in stations])
+        self.assertEqual([o['road'] for o in out], [s['road'] for s in stations])
+        self.assertEqual([o['lonE6'] for o in out], [round(s['lon'] * 1e6) for s in stations])
+        self.assertEqual([o['latE6'] for o in out], [round(s['lat'] * 1e6) for s in stations])
+        self.assertEqual([o['roadZCm'] for o in out], [80509, None, 80490, 70012])
+        self.assertEqual([o['flags'] for o in out], [0, 4, 1, 0])
+        with self.assertRaises(ValueError):  # ids must be <line>:<stationDm>
+            local_static_bytes([dict(stations[0], id='nodm')], data, 'x.json.gz', 'f' * 64)
+        with self.assertRaises(ValueError):  # a line must be one contiguous run
+            local_static_bytes([stations[0], stations[3], stations[1]], data, 'x.json.gz', 'f' * 64)
+
+    def test_committed_station_file_static_size(self):
+        # The app ships the static file made from the newest list (v2 when built, else v1).
+        root = Path(__file__).resolve().parent / 'road-stations'
+        found = [root / n for n in ('brawley-avra-west-local-v2.json.gz', 'brawley-avra-west-local.json.gz')
+                 if (root / n).exists()]
+        if not found:
+            self.skipTest('station file not built')
+        source = found[0]
         with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / 'x.json'
-            f = local([st('a')]); f.add_frame(T[0], np.zeros(3), np.zeros(3))
-            m = manifest(T[:1]); del m['issuedAt']
-            f.write(path, m)
-            self.assertEqual(json.loads(path.read_text())['issuedAt'], '2026-11-01T13:00:00Z')
+            out = Path(tmp) / 's.json'
+            d = export_static(CASE, out, source, digest(source.read_bytes()))
+            self.assertLess(d['bytes'], 1_500_000)
+            self.assertEqual(d['sha256'], digest(out.read_bytes()))
+            decoded, _ = decode_local_static(out.read_bytes())
+            stations, _ = load_local_stations(source, digest(source.read_bytes()))
+            self.assertEqual([o['id'] for o in decoded], [s['id'] for s in stations])
+            self.assertEqual(sum(o['roadZCm'] is None for o in decoded), sum(s['roadM'] is None for s in stations))
 
 
 def station_file(path, ids, z=(10.,), flags=(0,), case=CASE):
@@ -191,19 +306,26 @@ class StationFileTests(unittest.TestCase):
             out = root / 'local-road-forecast.json'
             export_local(CASE, root, out, spath, ssha)
             data = json.loads(out.read_text())
-            row = data['stations'][0]
-            self.assertEqual((row['state'], row['maxWse'], row['maxOver'], row['firstOverTime']), ('over', 11., .5, T[2]))
+            static = root / 'static.json'
+            sd = export_static(CASE, static, spath, ssha)
+            self.assertEqual(data['stationsSha256'], sd['sha256'])
+            self.assertEqual(data['stationsVersion'], 'stations')
+            row = listed_by_index(data)[0]
+            self.assertEqual((row['stateName'], row['maxWseCm'], row['maxOverCm'], row['firstOverMin']), ('over', 1100, 50, 60))
             expected = [verifier.parse(t) for t in T]
-            entry = {'localRoads': {'sha256': ssha}}
+            entry = {'localRoads': {'sha256': ssha, 'path': str(spath)}}
             verifier.verify_local(out, CASE, m, entry, expected)
             with self.assertRaises(ValueError):
-                verifier.verify_local(out, CASE, m, {'localRoads': {'sha256': '0' * 64}}, expected)
+                verifier.verify_local(out, CASE, m, {'localRoads': {'sha256': '0' * 64, 'path': str(spath)}}, expected)
             with self.assertRaises(ValueError):
                 verifier.verify_local(out, CASE, m | {'runId': 'other'}, entry, expected)
-            data['summary']['over'] = 0
-            out.write_text(json.dumps(data))
-            with self.assertRaises(ValueError):
-                verifier.verify_local(out, CASE, m, entry, expected)
+            for change in (lambda d: d['summary'].update(over=0), lambda d: d.update(stationsSha256='0' * 64),
+                           lambda d: d['listed']['maxOverCm'].__setitem__(0, 0), lambda d: d.update(status='partial'),
+                           lambda d: d['listed']['index'].__setitem__(0, 5)):
+                bad = json.loads(json.dumps(data)); change(bad)
+                out.write_text(json.dumps(bad))
+                with self.assertRaises(ValueError):
+                    verifier.verify_local(out, CASE, m, entry, expected)
             with self.assertRaises(ValueError):
                 export_local('gates', root, out, spath, ssha)
             other = root / 'other.json.gz'

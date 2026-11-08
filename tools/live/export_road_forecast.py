@@ -282,13 +282,27 @@ def export_compact(case, directory):
     return forecast.write(directory / 'road-forecast.json', manifest)
 
 
+
+
+# ---------------------------------------------------------------------------------------------
+# Local roads (map only, never in route ratings). Contract v2, see the app's
+# docs/upgrade/LOCAL-ROAD-FORECAST.md:
+#   * a static station file ships with the app once (local_static_bytes), and
+#   * the live local-road-forecast.json lists only stations that are not plain dry, as columnar
+#     arrays indexed into that static file, pinned to it by stationsSha256.
 LOCAL_KIND = 'floodplain-local-road-forecast'
+LOCAL_SCHEMA = 2
 LOCAL_STATIONS_KIND = 'floodplain-local-road-stations'
+LOCAL_STATIC_KIND = 'floodplain-local-road-station-geometry'
 # A frozen compact package carries no modelVersion field; its case's version stands in.
 MODEL_VERSIONS = {'brawley-avra-west': 'all-routes-brawley-avra-west-v1'}
 LOCAL_STATES = ('over', 'below', 'dry', 'no-road-height', 'no-cell', 'unknown')
 SUMMARY_KEYS = {'over': 'over', 'below': 'below', 'dry': 'dry', 'no-road-height': 'noRoadHeight',
                 'no-cell': 'noCell', 'unknown': 'unknown'}
+# Live list state codes (index into this tuple). dry is implied by absence; no-road-height comes
+# from the static file (roadZCm null, flag noTerrain).
+LIVE_STATES = ('over', 'below', 'unknown', 'no-cell')
+LOCAL_FLAGS = {'deckLidar': 1, 'deckApproach': 2, 'noTerrain': 4, 'structureUntagged': 8}
 
 
 def load_local_stations(path, sha256):
@@ -311,12 +325,131 @@ def load_local_stations(path, sha256):
         if flags & 4 or z is None:
             z = None
         stations.append({'id': cols['id'][i], 'road': cols['road'][i], 'lon': float(cols['lon'][i]),
-                         'lat': float(cols['lat'][i]), 'roadM': None if z is None else float(z), 'flags': flags})
+                         'lat': float(cols['lat'][i]), 'roadM': None if z is None else float(z), 'flags': flags,
+                         'kind': (cols.get('kind') or [None] * len(cols['id']))[i]})
     return stations, data
+
+
+def _cm(metres):
+    return int(round(round(metres * 100.0, 6)))
+
+
+def local_static_bytes(stations, data, source_path, source_sha256):
+    """The app's static station file, deterministic bytes (its sha256 pins every live file).
+
+    Station order is the source order (the live file indexes into it). Station id is
+    '<line>:<stationDm>'; lines are contiguous runs sharing one road name and kind, so per-line
+    tables plus per-station deltas keep it small. Decoding (decode_local_static, and the app's
+    parseLocalRoadStations): running sums of dDm/dLonE6/dLatE6 over the whole array, restarting
+    nothing; dZCm is a running sum over non-null entries, null = no road height.
+    """
+    line_ids, line_road, line_kind, line_start = [], [], [], []
+    roads, road_index, seen = [], {}, set()
+    d_dm, d_lon, d_lat, d_z, flag_index, flag_value = [], [], [], [], [], []
+    prev_dm = prev_lon = prev_lat = prev_z = 0
+    for i, s in enumerate(stations):
+        line, sep, dm = s['id'].rpartition(':')
+        if not sep or not line or not dm.isdigit() or str(int(dm)) != dm:
+            raise ValueError('Station id is not <line>:<stationDm>: ' + s['id'])
+        road = s['road'] if isinstance(s['road'], str) else ''
+        if not line_ids or line_ids[-1] != line:
+            if line in seen:
+                raise ValueError('Station lines are not contiguous: ' + line)
+            seen.add(line)
+            if road not in road_index:
+                road_index[road] = len(roads)
+                roads.append(road)
+            line_ids.append(line); line_road.append(road_index[road]); line_kind.append(s.get('kind'))
+            line_start.append(i)
+        elif roads[line_road[-1]] != road or line_kind[-1] != s.get('kind'):
+            raise ValueError('Road name changes inside a line: ' + s['id'])
+        dm, lon, lat = int(dm), int(round(s['lon'] * 1e6)), int(round(s['lat'] * 1e6))
+        d_dm.append(dm - prev_dm); d_lon.append(lon - prev_lon); d_lat.append(lat - prev_lat)
+        prev_dm, prev_lon, prev_lat = dm, lon, lat
+        if s['roadM'] is None:
+            d_z.append(None)
+        else:
+            z = _cm(s['roadM'])
+            d_z.append(z - prev_z)
+            prev_z = z
+        if s['flags']:
+            flag_index.append(i); flag_value.append(int(s['flags']))
+    kinds = sorted({k for k in line_kind if k is not None})
+    result = {
+        'schemaVersion': 1, 'kind': LOCAL_STATIC_KIND, 'case': data.get('case'),
+        'version': Path(source_path).name.split('.')[0], 'roadHeights': data.get('roadHeights'),
+        'datum': 'NAVD88', 'units': {'lonLat': 'microdegrees (6 dp)', 'roadZ': 'cm', 'stationDm': 'dm'},
+        'source': {'file': Path(source_path).name, 'sha256': source_sha256,  # name only: same bytes from any cwd
+                   'commit': (data.get('source') or {}).get('commit'),
+                   'selection': (data.get('selection') or {}).get('rule')},
+        'stationCount': len(stations), 'flagBits': LOCAL_FLAGS,
+        'elevation': 'Bare-earth lidar road estimate, not a surveyed road or bridge deck.',
+        'encoding': ('Station i: id = lines.id[line] + ":" + stationDm. stationDm, lonE6, latE6 are running sums '
+                     'of dDm, dLonE6, dLatE6 from 0 over all stations. roadZCm is a running sum of dZCm over '
+                     'non-null entries; null = no road height. lines.start[k] is the first station of line k. '
+                     'flags are 0 except at flags.index. A line is also its polyline.'),
+        'roads': roads, 'kinds': kinds,
+        'lines': {'id': line_ids, 'road': line_road, 'kind': [kinds.index(k) if k is not None else None for k in line_kind],
+                  'start': line_start},
+        'stations': {'dDm': d_dm, 'dLonE6': d_lon, 'dLatE6': d_lat, 'dZCm': d_z},
+        'flags': {'index': flag_index, 'value': flag_value},
+    }
+    return (json.dumps(result, separators=(',', ':'), ensure_ascii=True, allow_nan=False) + '\n').encode()
+
+
+def decode_local_static(raw):
+    """Inverse of local_static_bytes, for tests and verification: list of station dicts."""
+    data = json.loads(raw)
+    if data.get('kind') != LOCAL_STATIC_KIND or data.get('schemaVersion') != 1:
+        raise ValueError('Invalid local static station file')
+    lines, cols, n = data['lines'], data['stations'], data['stationCount']
+    if any(len(cols[k]) != n for k in ('dDm', 'dLonE6', 'dLatE6', 'dZCm')):
+        raise ValueError('Local static station columns differ in length')
+    flags = dict(zip(data['flags']['index'], data['flags']['value']))
+    starts = lines['start'] + [n]
+    out, dm, lon, lat, z = [], 0, 0, 0, 0
+    for k in range(len(lines['id'])):
+        for i in range(starts[k], starts[k + 1]):
+            dm += cols['dDm'][i]; lon += cols['dLonE6'][i]; lat += cols['dLatE6'][i]
+            zc = None
+            if cols['dZCm'][i] is not None:
+                z += cols['dZCm'][i]; zc = z
+            out.append({'id': f"{lines['id'][k]}:{dm}", 'road': data['roads'][lines['road'][k]],
+                        'lonE6': lon, 'latE6': lat, 'roadZCm': zc, 'flags': flags.get(i, 0)})
+    return out, data
+
+
+def static_for(stations, data, stations_path, stations_sha256):
+    raw = local_static_bytes(stations, data, stations_path, stations_sha256)
+    return raw, digest(raw), Path(stations_path).name.split('.')[0]
 
 
 def iso_z(value):
     return value if value is None or value.endswith('Z') else value.replace('+00:00', 'Z')
+
+
+def _parse_time(value):
+    import datetime as dt
+    return dt.datetime.fromisoformat(value.replace('Z', '+00:00'))
+
+
+def inflow_summary(manifest):
+    """Where the inflows came from, in a few fields (full detail stays in the compact manifest).
+
+    Uses the manifest's per-inlet inflowSource (nwm, or usgs+nwm with observed past hours) when it
+    has one, else the NWM flowSources providers. A package that records neither says so.
+    """
+    per = manifest.get('inflowSource')
+    keys = ('reachId', 'source', 'nwmProvider', 'usgsSite', 'usgsStatus', 'provisional')
+    if isinstance(per, list) and per:
+        inlets = [{k: i.get(k) for k in keys if (i or {}).get(k) is not None} for i in per]
+    else:
+        inlets = [{'reachId': str(s['reachId']), 'source': 'nwm', 'nwmProvider': s.get('provider')}
+                  for s in manifest.get('flowSources') or [] if (s or {}).get('reachId') is not None]
+    kinds = sorted({i.get('source') or 'unknown' for i in inlets})
+    return {'summary': ', '.join(kinds) if inlets else 'not recorded in this package', 'inlets': inlets,
+            'description': (manifest.get('sourceIssues') or {}).get('NWM'),
+            'notes': list(manifest.get('flowNotes') or [])}
 
 
 class LocalRoadForecast:
@@ -359,21 +492,24 @@ class LocalRoadForecast:
             if self.first_over[k] is None:
                 self.first_over[k] = time
 
+    def state(self, k):
+        face, height, wse = int(self.faces[k]), self.heights[k], self.max_wse[k]
+        if not np.isfinite(height):
+            return 'no-road-height'
+        if face < 0:
+            return 'no-cell'
+        if np.isfinite(wse):
+            return 'over' if wse > height else 'below'
+        if self.times and not self.unknown[k]:
+            return 'dry'  # known dry in every frame of the window
+        return 'unknown'  # never wet where known, but some frame had no valid reading
+
     def station_rows(self):
+        """Per-station rows in metres (diagnostics and tests; the file itself is columnar)."""
         rows, summary = [], dict.fromkeys(SUMMARY_KEYS.values(), 0)
-        frames = len(self.times)
         for k, s in enumerate(self.stations):
             face, height, wse = int(self.faces[k]), self.heights[k], self.max_wse[k]
-            if not np.isfinite(height):
-                state = 'no-road-height'
-            elif face < 0:
-                state = 'no-cell'
-            elif np.isfinite(wse):
-                state = 'over' if wse > height else 'below'
-            elif frames and not self.unknown[k]:
-                state = 'dry'  # known dry in every frame of the window
-            else:
-                state = 'unknown'  # never wet where known, but some frame had no valid reading
+            state = self.state(k)
             summary[SUMMARY_KEYS[state]] += 1
             wet = face >= 0 and np.isfinite(wse)
             rows.append({
@@ -388,40 +524,87 @@ class LocalRoadForecast:
             })
         return rows, {'stations': len(rows), **summary}
 
+    def listed(self):
+        """Columnar live list: every station that is not plain dry and has a road height.
+
+        Centimetres, rounded up (never understating water): maxWseCm = ceil(maxWse * 100);
+        maxOverCm = maxWseCm - roadZCm exactly, where roadZCm = round(roadZ * 100) is the static
+        file's value. An 'over' station always has maxOverCm >= 1 (the state is authoritative);
+        a 'below' station has maxOverCm <= 0. firstOverMin is minutes after forecastStart.
+        """
+        cols = {k: [] for k in ('index', 'state', 'maxWseCm', 'maxOverCm', 'firstOverMin', 'cellSizeM', 'unknownFrames')}
+        summary = dict.fromkeys(SUMMARY_KEYS.values(), 0)
+        start = _parse_time(self.times[0]) if self.times else None
+        for k in range(len(self.stations)):
+            state = self.state(k)
+            summary[SUMMARY_KEYS[state]] += 1
+            if state in ('dry', 'no-road-height'):
+                continue
+            face, height, wse = int(self.faces[k]), self.heights[k], self.max_wse[k]
+            wse_cm = over_cm = first = None
+            if state in ('over', 'below'):
+                z_cm = _cm(float(height))
+                wse_cm = int(np.ceil(round(float(wse) * 100.0, 6)))
+                if state == 'over':
+                    wse_cm = max(wse_cm, z_cm + 1)
+                    first = int(round((_parse_time(self.first_over[k]) - start).total_seconds() / 60))
+                else:
+                    wse_cm = min(wse_cm, z_cm)
+                over_cm = wse_cm - z_cm
+            cols['index'].append(k)
+            cols['state'].append(LIVE_STATES.index(state))
+            cols['maxWseCm'].append(wse_cm)
+            cols['maxOverCm'].append(over_cm)
+            cols['firstOverMin'].append(first)
+            cols['cellSizeM'].append(round(float(self.geometry.resolution[face]), 2) if face >= 0 else None)
+            cols['unknownFrames'].append(int(self.unknown[k]) if face >= 0 else None)
+        return cols, {'stations': len(self.stations), **summary}
+
     def write(self, path, manifest):
         expected_times = [frame['time'] for frame in manifest['frames']]
         if self.times != expected_times:
             raise ValueError('Local road forecast times differ from compact frames')
+        if not self.times:
+            raise ValueError('Local road forecast has no frames')
+        for key in ('stationsSha256', 'stationsVersion'):
+            if not self.station_source.get(key):
+                raise ValueError('Local road forecast needs the static station file ' + key)
         solver = (manifest.get('solverCompletion') or {}).get('status')
         complete = manifest.get('status') == 'complete' and solver == 'complete'
         issues = manifest.get('sourceIssues') or {}
         model_version = manifest.get('modelVersion') or MODEL_VERSIONS.get(self.case)
         if not model_version:
             raise ValueError('Package has no modelVersion')
-        stations, summary = self.station_rows()
+        listed, summary = self.listed()
         result = {
-            'schemaVersion': 1, 'kind': LOCAL_KIND, 'case': self.case, 'modelVersion': model_version,
+            'schemaVersion': LOCAL_SCHEMA, 'kind': LOCAL_KIND, 'case': self.case, 'modelVersion': model_version,
             'runId': manifest['runId'],
             # A frozen package has no issue time of its own; its HRRR issue stands in.
             'issuedAt': iso_z(manifest.get('issuedAt') or issues.get('HRRR')),
-            'forecastStart': iso_z(self.times[0]) if self.times else None,
-            'forecastEnd': iso_z(self.times[-1]) if self.times else None,
+            'forecastStart': iso_z(self.times[0]), 'forecastEnd': iso_z(self.times[-1]),
+            'status': 'ok' if complete else 'partial',
             'datum': 'NAVD88 metres', 'roadHeights': 'floodplain-road-heights-v1',
-            'stations': stations, 'summary': {**summary, 'inflowSource': manifest.get('inflowSource')},
-            'inflowSource': manifest.get('inflowSource'),
-            # Additive fields beyond the shared contract.
-            'status': 'complete' if complete else 'partial',
+            'stationsSha256': self.station_source['stationsSha256'],
+            'stationsVersion': self.station_source['stationsVersion'],
+            'stationCount': len(self.stations),
+            'inflowSource': inflow_summary(manifest),
             'executionMode': manifest.get('executionMode'), 'hrrrCycle': iso_z(issues.get('HRRR')),
             'frames': len(self.times), 'dryThresholdM': WET_M,
+            'summary': summary, 'stateCodes': list(LIVE_STATES), 'listed': listed,
             'definition': ('maxWse = max cell water-surface elevation zs over frames where the native cell is wet '
                            '(native volume/area >= dryThresholdM and finite zs); maxOver = maxWse - roadZ. '
-                           'dry = known dry in every frame; unknown = never wet where known but at least one frame '
-                           'had no valid reading (never treated as dry). Bare-earth lidar road height, not a surveyed '
-                           'deck; flags: deckLidar=1, deckApproach=2, noTerrain=4, structureUntagged=8.'),
+                           'listed = every station that is not plain dry: over, below, unknown, no-cell, indexed '
+                           'into the static station file whose sha256 is stationsSha256. A station absent from '
+                           'listed with a road height is dry (known dry in every frame); no-road-height comes from '
+                           'the static file. unknown = never wet where known but at least one frame had no valid '
+                           'reading (never treated as dry). Centimetres rounded up; an over station always has '
+                           'maxOverCm >= 1. firstOverMin = minutes after forecastStart. Bare-earth lidar road '
+                           'height, not a surveyed deck; flags: deckLidar=1, deckApproach=2, noTerrain=4, '
+                           'structureUntagged=8.'),
             'provenance': {
                 'geometrySha256': manifest['geometry']['sha256'],
                 'caseArchiveSha256': manifest.get('caseArchiveSha256'),
-                'localStations': self.station_source,
+                'localStations': {k: v for k, v in self.station_source.items() if k not in ('stationsSha256', 'stationsVersion')},
                 'mapping': 'Exact native polygon containment in compact frame face order; shared-boundary ambiguity and outside stations are no-cell',
                 'solverCompletion': manifest.get('solverCompletion'),
             },
@@ -432,7 +615,8 @@ class LocalRoadForecast:
         encoded = (json.dumps(result, separators=(',', ':'), allow_nan=False) + '\n').encode()
         Path(path).write_bytes(encoded)
         return {'path': Path(path).name, 'sha256': digest(encoded), 'bytes': len(encoded),
-                'kind': LOCAL_KIND, 'schemaVersion': 1, 'summary': summary}
+                'kind': LOCAL_KIND, 'schemaVersion': LOCAL_SCHEMA, 'summary': summary,
+                'stationsSha256': self.station_source['stationsSha256']}
 
 
 def local_entry(case):
@@ -443,20 +627,36 @@ def local_entry(case):
     return entry['localRoads']
 
 
-def export_local(case, directory, output, stations_path=None, stations_sha256=None):
-    """Write local-road-forecast.json from any compact package (live or frozen), without a solver."""
-    directory = Path(directory)
-    manifest = json.loads((directory / 'manifest.json').read_text())
-    if manifest.get('case', case) != case:
-        raise ValueError('Not the requested case')
+def local_stations_for(case, stations_path=None, stations_sha256=None):
+    """Pinned stations plus the static app file they produce: (stations, data, source, static_raw)."""
     if stations_path is None:
         local = local_entry(case)
         stations_path, stations_sha256 = local['path'], local['sha256']
     stations, data = load_local_stations(stations_path, stations_sha256)
     if data.get('case') != case:
         raise ValueError('Local stations belong to another case')
+    raw, static_sha, version = static_for(stations, data, stations_path, stations_sha256)
     source = {'path': Path(stations_path).as_posix(), 'sha256': stations_sha256,
-              'stationCount': len(stations), 'source': data.get('source'), 'selection': data.get('selection')}
+              'stationCount': len(stations), 'source': data.get('source'), 'selection': data.get('selection'),
+              'stationsSha256': static_sha, 'stationsVersion': version}
+    return stations, data, source, raw
+
+
+def export_static(case, output, stations_path=None, stations_sha256=None):
+    """Write the app's static station file (public/data/local-roads/<case>-stations.json)."""
+    stations, _, source, raw = local_stations_for(case, stations_path, stations_sha256)
+    Path(output).write_bytes(raw)
+    return {'path': Path(output).name, 'sha256': source['stationsSha256'], 'bytes': len(raw),
+            'version': source['stationsVersion'], 'stationCount': len(stations)}
+
+
+def export_local(case, directory, output, stations_path=None, stations_sha256=None):
+    """Write local-road-forecast.json from any compact package (live or frozen), without a solver."""
+    directory = Path(directory)
+    manifest = json.loads((directory / 'manifest.json').read_text())
+    if manifest.get('case', case) != case:
+        raise ValueError('Not the requested case')
+    stations, _, source, _ = local_stations_for(case, stations_path, stations_sha256)
     geometry = NativeGeometry.load(directory / manifest['geometry']['path'], manifest['geometry']['sha256'])
     forecast = LocalRoadForecast(case, geometry, stations, source)
     for frame in manifest['frames']:
@@ -474,5 +674,8 @@ if __name__ == '__main__':
     if sys.argv[1:2] == ['local']:
         # export_road_forecast.py local CASE COMPACT_DIR OUTPUT [STATIONS_PATH STATIONS_SHA256]
         print(json.dumps(export_local(*sys.argv[2:])))
+    elif sys.argv[1:2] == ['static']:
+        # export_road_forecast.py static CASE OUTPUT [STATIONS_PATH STATIONS_SHA256]
+        print(json.dumps(export_static(*sys.argv[2:])))
     else:
         print(json.dumps(export_compact(*sys.argv[1:])))
