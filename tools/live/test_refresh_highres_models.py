@@ -37,11 +37,13 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(self.plan({})['run'], list(CASES))
 
     def test_predicts_expiry_per_case(self):
-        self.assertEqual(self.plan(summaries(54))['run'], [])
-        self.assertEqual(self.plan(summaries(55))['run'], ['northern'])
-        self.assertEqual(self.plan(summaries(70))['run'], ['northern', 'picture-rocks'])
-        self.assertEqual(self.plan(summaries(74))['run'], ['northern', 'picture-rocks'])
-        self.assertEqual(self.plan(summaries(75))['run'], ['northern', 'picture-rocks', 'brawley-avra-west'])
+        # refresh after 180 - 60 - budget: brawley-avra-west 40, northern 55, picture-rocks 70, gates 90.
+        self.assertEqual(self.plan(summaries(39))['run'], [])
+        self.assertEqual(self.plan(summaries(40))['run'], ['brawley-avra-west'])
+        self.assertEqual(self.plan(summaries(54))['run'], ['brawley-avra-west'])
+        self.assertEqual(self.plan(summaries(55))['run'], ['northern', 'brawley-avra-west'])
+        self.assertEqual(self.plan(summaries(69))['run'], ['northern', 'brawley-avra-west'])
+        self.assertEqual(self.plan(summaries(70))['run'], ['northern', 'picture-rocks', 'brawley-avra-west'])
         self.assertEqual(self.plan(summaries(89))['run'], ['northern', 'picture-rocks', 'brawley-avra-west'])
         self.assertEqual(self.plan(summaries(90))['run'], list(CASES))
 
@@ -205,8 +207,8 @@ class IntegrationTests(unittest.TestCase):
     def test_registered_new_case_is_planned_with_its_runtime_budget(self):
         p = refresh(FakeGitHub(), rain(), NOW, cases=CASES)
         self.assertEqual(p['run'], list(CASES))
-        self.assertEqual(p['cases']['brawley-avra-west']['runtimeBudgetMinutes'], 45)
-        self.assertEqual(p['cases']['brawley-avra-west']['refreshAfterMinutes'], 75)
+        self.assertEqual(p['cases']['brawley-avra-west']['runtimeBudgetMinutes'], 80)
+        self.assertEqual(p['cases']['brawley-avra-west']['refreshAfterMinutes'], 40)
 
 
 class RegistryTests(unittest.TestCase):

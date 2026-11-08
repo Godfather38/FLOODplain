@@ -21,7 +21,9 @@ from urllib.parse import quote
 CASES = ('northern', 'picture-rocks', 'gates', 'brawley-avra-west')
 # Includes preparation/export margin over observed ~50/35/18-minute runs.
 # brawley-avra-west is a budget for a ~450k-cell case, not yet an observed time.
-RUNTIME_MINUTES = {'northern': 65, 'picture-rocks': 50, 'gates': 30, 'brawley-avra-west': 45}
+RUNTIME_MINUTES = {'northern': 65, 'picture-rocks': 50, 'gates': 30,
+                   # v2 mesh 643,056 cells at the measured 5.16-6.72 ms/cell of the other cases: 3,300-4,300 s.
+                   'brawley-avra-west': 80}
 REGISTRY = Path(__file__).resolve().parent / 'all-route-cases.json'
 ACTIVE_STATUSES = ('queued', 'in_progress', 'waiting', 'requested', 'pending')
 STATE_PATH = 'highres-cadence/state.json'

@@ -14,8 +14,10 @@ current for up to three hours after `issuedAt`, and never beyond `validTo`. To a
 caused by hourly polling, the refresh age is `180 - 60 - runtimeBudget` minutes.
 The completion budgets are 65 minutes for northern, 50 for Picture Rocks, and 30
 for Gates, including a margin over observed approximate 50/35/18-minute runs.
-`brawley-avra-west` (experimental, west Avra Valley / Brawley Wash) has a 45-minute
-budget that is not yet an observed runtime. The planner only considers cases that
+`brawley-avra-west` (experimental, west Avra Valley / Brawley Wash) has an 80-minute
+budget (refresh age 40 minutes) that is not yet an observed runtime: its v2 mesh has
+643,056 cells, and the measured rates of the other cases (gates 5.16, northern 6.35,
+Picture Rocks 6.72 ms per cell) give about 3,300-4,300 s of solver time. The planner only considers cases that
 are both in its `CASES` list and registered in `tools/live/all-route-cases.json`, so
 the new case is known here before it is registered and is never dispatched until the
 registry lists it. A registry case unknown to the planner fails closed.
