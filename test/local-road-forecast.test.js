@@ -47,9 +47,9 @@ test('the shipped station list is small, readable and matches its source counts'
   assert.ok(!bytes.includes(13), 'LF line endings');
   const s = parseLocalRoadStations(JSON.parse(bytes), sha(bytes));
   assert.equal(s.status, 'ok');
-  assert.equal(s.stations.length, 31680);
-  assert.equal(s.noHeight, 8);
-  assert.equal(new Set(s.stations.map((x) => x.id)).size, 31680);
+  assert.equal(s.stations.length, 58140);
+  assert.equal(s.noHeight, 571);
+  assert.equal(new Set(s.stations.map((x) => x.id)).size, 58140);
   assert.equal(statSync(new URL('../public/data/local-roads/brawley-avra-west-stations.json', import.meta.url)).size, bytes.length);
 });
 

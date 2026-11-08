@@ -8,16 +8,17 @@ tab and are **not** part of route ratings, texts or pushes.
 Contract v2 replaces v1 (one 7.2 MB file with every station, fetched every 2 minutes). It splits
 the data in two:
 
-| File | Where | Changes | Size (31,680 stations) |
+| File | Where | Changes | Size (v2 list, 58,140 stations) |
 |---|---|---|---|
-| Static station list | `public/data/local-roads/brawley-avra-west-stations.json` (ships with the app) | only when the station list is rebuilt | 484,629 bytes (80 KB gzip) |
-| Live run | `live-model` branch, `all-route/brawley-avra-west/local-road-forecast.json` | every model run | all-dry run 7.9 KB (3.3 KB gzip); wet test case 274 KB (45 KB gzip) |
+| Static station list | `public/data/local-roads/brawley-avra-west-stations.json` (ships with the app) | only when the station list is rebuilt | 866,014 bytes (132 KB gzip) |
+| Live run | `live-model` branch, `all-route/brawley-avra-west/local-road-forecast.json` | every model run | all-dry run 7.6 KB (3.2 KB gzip); wet test case 491 KB (75 KB gzip) |
 
 The live file lists only stations that are **not plain dry**. Sizes were measured with the real
 exporter: all-dry and wet cases on a synthetic grid geometry covering every station (the wet case
-has 30 % of cells wet, 5,904 points over and 3,519 below), plus the round-1 stand-in (the Gates
-package read with these stations): 1,039,689 bytes (78 KB gzip), because 31,587 of its stations
-fall outside that other model's cells and are listed as `no-cell`. raw.githubusercontent.com sends
+has 30 % of cells wet, 10,743 points over and 6,242 below). With the v1 list (31,680 stations)
+the static file is 484,629 bytes, an all-dry run 7.9 KB and the wet case 274 KB. The round-1
+stand-in (the Gates package read with the v1 stations) gives 1,039,689 bytes (78 KB gzip), because
+31,587 of its stations fall outside that other model's cells and are listed as `no-cell`. raw.githubusercontent.com sends
 JSON gzip-encoded, so the gzip figures are what a phone downloads.
 
 ## Static station list (`kind: floodplain-local-road-station-geometry`, schemaVersion 1)
@@ -27,13 +28,18 @@ Made by the exporter in the model branch, never by hand:
 ```
 python tools/live/export_road_forecast.py static brawley-avra-west \
   <app>/public/data/local-roads/brawley-avra-west-stations.json \
-  tools/live/road-stations/brawley-avra-west-local.json.gz <sha256 of that file>
+  tools/live/road-stations/brawley-avra-west-local-v2.json.gz <sha256 of that file>
 ```
 
 The bytes are deterministic (same source file, same bytes, from any folder), LF only. Its own
 sha256 is the `stationsSha256` every live file carries. Current file: version
-`brawley-avra-west-local`, sha256 `38562a3bad1ca2f55061a5a2762de03891a6bd7e71ca69255242740d31172ebe`,
-from source sha256 `724cc7de…6168` (road-heights commit `39b34af`).
+`brawley-avra-west-local-v2` (58,140 stations, 571 with no road height: every station in the v2
+case domain more than 15 m from a rated route line), sha256
+`d8224f1c23768d8a8b4e8444e80da5d9494cfb1db3fffb9ce6c94234de495b50`, from source sha256
+`f820259a…ce8c` (road-heights commit `39b34af`). The case registry's `localRoads` entry must
+pin this same source file, or every live file will carry another `stationsSha256` and the app
+will show nothing, with the "different neighborhood road list" note. Rebuilding the source file
+means regenerating this file in the same change.
 
 ```
 { "schemaVersion":1, "kind":"floodplain-local-road-station-geometry", "case":"brawley-avra-west",
@@ -165,7 +171,7 @@ first.
 
 ## Known limits
 
-- Points are SVG circle markers. A very wet run (the wet test case has 9,423 over or below points)
+- Points are SVG circle markers. A very wet run (the wet test case has 16,985 over or below points)
   draws thousands of markers and may be slow on a phone. A canvas renderer would fix that, but
   the browser test finds points by their SVG class.
 - The app was checked against real exporter output on synthetic geometry, not against a real
@@ -177,7 +183,7 @@ first.
   synthetic stations, made with the exporter's own encoder) and
   `test/fixtures/local-road-forecast-sample.json` (6 over, 4 below, 3 dry, 2 unknown,
   3 no-road-height, 2 no-cell; not model output). It also checks that the shipped static list
-  parses: 31,680 stations, 8 with no height, under 1.5 MB, LF.
+  parses: 58,140 stations, 571 with no height, under 1.5 MB, LF.
 - `e2e/smoke.mjs` serves both fixtures with the times shifted to now. It expects 12 points
   (6 + 4 + 2 unknown), the popup wording and the model line. A missing live file draws nothing
   and the line says so.
