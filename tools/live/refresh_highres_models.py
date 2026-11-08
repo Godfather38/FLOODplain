@@ -14,9 +14,15 @@ from pathlib import Path
 import subprocess
 from urllib.parse import quote
 
-CASES = ('northern', 'picture-rocks', 'gates')
+# Every case this coordinator knows how to schedule. A case is planned only once
+# it is ALSO registered in all-route-cases.json (see live_cases), so a known but
+# unregistered case (brawley-avra-west before its frozen face mapping exists) is
+# never dispatched, and registering a case can never precede it being known here.
+CASES = ('northern', 'picture-rocks', 'gates', 'brawley-avra-west')
 # Includes preparation/export margin over observed ~50/35/18-minute runs.
-RUNTIME_MINUTES = {'northern': 65, 'picture-rocks': 50, 'gates': 30}
+# brawley-avra-west is a budget for a ~450k-cell case, not yet an observed time.
+RUNTIME_MINUTES = {'northern': 65, 'picture-rocks': 50, 'gates': 30, 'brawley-avra-west': 45}
+REGISTRY = Path(__file__).resolve().parent / 'all-route-cases.json'
 ACTIVE_STATUSES = ('queued', 'in_progress', 'waiting', 'requested', 'pending')
 STATE_PATH = 'highres-cadence/state.json'
 MAX_AGE_MINUTES = 180
@@ -37,8 +43,23 @@ def iso(value):
     return value.astimezone(dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
 
-def plan_refresh(rain, summaries, state, busy, now):
+def live_cases(registry=REGISTRY):
+    """Known cases that the all-route registry also lists, in CASES order.
+
+    A registered case that is not in CASES fails closed: it must be added here
+    (with a runtime budget) before the registry may list it.
+    """
+    listed = [c['case'] for c in json.loads(Path(registry).read_text())['cases']]
+    unknown = sorted(set(listed) - set(CASES))
+    if unknown:
+        raise ValueError('all-route-cases.json lists cases unknown to the refresh planner: ' + ', '.join(unknown))
+    return tuple(c for c in CASES if c in listed)
+
+
+def plan_refresh(rain, summaries, state, busy, now, cases=CASES):
     """Pure policy function. Missing/invalid results never imply a dry model."""
+    if not set(cases) <= set(CASES):
+        raise ValueError('Planned cases must be known cases')
     cycle = stamp(rain.get('hrrrCycle'))
     if cycle is None or not 0 <= (now - cycle).total_seconds() <= 6 * 3600:
         raise ValueError('HRRR cycle is missing, invalid, future, or over six hours old')
@@ -50,7 +71,7 @@ def plan_refresh(rain, summaries, state, busy, now):
         raise ValueError('Rain check contains an unknown case')
     attempts = state.get('cases', {})
     details, selected = {}, []
-    for case in CASES:
+    for case in cases:
         summary = summaries.get(case) or {}
         issued = stamp(summary.get('issuedAt'))
         published_cycle = stamp(summary.get('hrrrCycle'))
@@ -182,7 +203,7 @@ class GitHub:
                         '-f', 'cases=' + ','.join(plan['run'])], check=True, timeout=90)
 
 
-def refresh(github, rain, now, *, dispatch=False, ref='experiment/all-route-models'):
+def refresh(github, rain, now, *, dispatch=False, ref='experiment/all-route-models', cases=None):
     state, state_sha = github.read_file(STATE_PATH)
     state = state or {'schemaVersion': 1, 'cases': {}}
     if state.get('schemaVersion') != 1 or not isinstance(state.get('cases'), dict):
@@ -190,9 +211,10 @@ def refresh(github, rain, now, *, dispatch=False, ref='experiment/all-route-mode
     # Snapshot activity first. A case completing during these reads stays busy
     # for this poll rather than looking idle against its older summary.
     busy = github.busy_cases()
+    cases = live_cases() if cases is None else cases
     summaries = {case: github.read_file(f'all-route/{case}/compact/road-forecast.json')[0]
-                 for case in CASES}
-    plan = plan_refresh(rain, summaries, state, busy, now)
+                 for case in cases}
+    plan = plan_refresh(rain, summaries, state, busy, now, cases)
     plan['dispatch'] = 'not_requested'
     if dispatch and plan['run']:
         reserved, reserved_sha = github.reserve(plan, state, state_sha, ref)

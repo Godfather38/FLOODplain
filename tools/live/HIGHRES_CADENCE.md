@@ -14,6 +14,11 @@ current for up to three hours after `issuedAt`, and never beyond `validTo`. To a
 caused by hourly polling, the refresh age is `180 - 60 - runtimeBudget` minutes.
 The completion budgets are 65 minutes for northern, 50 for Picture Rocks, and 30
 for Gates, including a margin over observed approximate 50/35/18-minute runs.
+`brawley-avra-west` (experimental, west Avra Valley / Brawley Wash) has a 45-minute
+budget that is not yet an observed runtime. The planner only considers cases that
+are both in its `CASES` list and registered in `tools/live/all-route-cases.json`, so
+the new case is known here before it is registered and is never dispatched until the
+registry lists it. A registry case unknown to the planner fails closed.
 This produces one run of each case about every two hours in dry steady state,
 not three runs on every hourly poll. The same look-ahead also refreshes a forecast
 whose `validTo` would end before the next check could finish a replacement. Queue delays, source outages, failures, and

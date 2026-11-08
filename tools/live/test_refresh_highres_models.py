@@ -6,7 +6,9 @@ import subprocess
 import unittest
 from unittest.mock import patch
 
-from refresh_highres_models import CASES, GitHub, STATE_PATH, iso, plan_refresh, refresh
+import tempfile
+
+from refresh_highres_models import CASES, RUNTIME_MINUTES, GitHub, STATE_PATH, iso, live_cases, plan_refresh, refresh
 
 NOW = dt.datetime(2026, 11, 6, 12, 0, tzinfo=dt.timezone.utc)
 CYCLE = '2026-11-06T11:00:00Z'
@@ -38,6 +40,9 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(self.plan(summaries(54))['run'], [])
         self.assertEqual(self.plan(summaries(55))['run'], ['northern'])
         self.assertEqual(self.plan(summaries(70))['run'], ['northern', 'picture-rocks'])
+        self.assertEqual(self.plan(summaries(74))['run'], ['northern', 'picture-rocks'])
+        self.assertEqual(self.plan(summaries(75))['run'], ['northern', 'picture-rocks', 'brawley-avra-west'])
+        self.assertEqual(self.plan(summaries(89))['run'], ['northern', 'picture-rocks', 'brawley-avra-west'])
         self.assertEqual(self.plan(summaries(90))['run'], list(CASES))
 
     def test_rain_refreshes_only_affected_cases(self):
@@ -59,7 +64,7 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(self.plan({}, state=state)['run'], list(CASES))
 
     def test_busy_cases_never_enqueue(self):
-        self.assertEqual(self.plan({}, busy=('northern', 'gates'))['run'], ['picture-rocks'])
+        self.assertEqual(self.plan({}, busy=('northern', 'gates'))['run'], ['picture-rocks', 'brawley-avra-west'])
 
     def test_bad_missing_or_expired_summary_refreshes_only_its_case(self):
         changes = ({'status': 'partial'}, {'issuedAt': 'bad'}, {'issuedAt': '2026-11-07T00:00:00Z'},
@@ -185,8 +190,54 @@ class IntegrationTests(unittest.TestCase):
 
     def test_dry_run_never_reserves_or_dispatches(self):
         g = FakeGitHub(); p = refresh(g, rain(), NOW)
-        self.assertEqual(p['run'], list(CASES))
+        self.assertEqual(p['run'], list(live_cases()))
         self.assertEqual(g.events, [])
+
+    def test_known_but_unregistered_case_is_never_read_or_dispatched(self):
+        # brawley-avra-west is known (runtime budget present) before the registry lists it.
+        g = FakeGitHub(); reads = []
+        g.read_file = lambda path: (reads.append(path), (None, None))[1]
+        p = refresh(g, rain(), NOW, dispatch=True, cases=('northern', 'picture-rocks', 'gates'))
+        self.assertEqual(p['run'], ['northern', 'picture-rocks', 'gates'])
+        self.assertNotIn('brawley-avra-west', p['cases'])
+        self.assertFalse(any('brawley-avra-west' in r for r in reads))
+
+    def test_registered_new_case_is_planned_with_its_runtime_budget(self):
+        p = refresh(FakeGitHub(), rain(), NOW, cases=CASES)
+        self.assertEqual(p['run'], list(CASES))
+        self.assertEqual(p['cases']['brawley-avra-west']['runtimeBudgetMinutes'], 45)
+        self.assertEqual(p['cases']['brawley-avra-west']['refreshAfterMinutes'], 75)
+
+
+class RegistryTests(unittest.TestCase):
+    def registry(self, names):
+        tmp = tempfile.TemporaryDirectory(); self.addCleanup(tmp.cleanup)
+        path = Path(tmp.name) / 'all-route-cases.json'
+        path.write_text(json.dumps({'schemaVersion': 1, 'cases': [{'case': n} for n in names]}))
+        return path
+
+    def test_every_known_case_has_a_runtime_budget(self):
+        self.assertEqual(set(RUNTIME_MINUTES), set(CASES))
+
+    def test_live_cases_follow_registry_in_known_order(self):
+        self.assertEqual(live_cases(self.registry(['gates', 'northern'])), ('northern', 'gates'))
+        self.assertEqual(live_cases(self.registry(['brawley-avra-west', 'northern', 'picture-rocks', 'gates'])), CASES)
+
+    def test_registry_case_unknown_to_planner_fails_closed(self):
+        with self.assertRaisesRegex(ValueError, 'unknown to the refresh planner'):
+            live_cases(self.registry(['northern', 'not-a-case']))
+
+    def test_checked_in_registry_is_a_subset_of_known_cases(self):
+        self.assertTrue(set(live_cases()) <= set(CASES))
+
+    def test_rain_for_registered_new_case_is_accepted(self):
+        p = plan_refresh(rain(('brawley-avra-west',)), summaries(), {}, set(), NOW)
+        self.assertEqual(p['run'], ['brawley-avra-west'])
+        self.assertEqual(p['cases']['brawley-avra-west']['reason'], 'rain_forecast')
+
+    def test_planning_an_unknown_case_is_rejected(self):
+        with self.assertRaises(ValueError):
+            plan_refresh(rain(), summaries(), {}, set(), NOW, cases=('northern', 'not-a-case'))
 
 
 class ApiTests(unittest.TestCase):
@@ -207,6 +258,12 @@ class ApiTests(unittest.TestCase):
                          {'name': 'run (gates)', 'status': 'completed'}])
         g.pages = pages
         self.assertEqual(g.busy_cases(), {'northern'})
+
+    def test_new_case_matrix_job_blocks_only_its_case(self):
+        g = GitHub('owner/repo')
+        g.pages = lambda path, key: iter(([{'id': 10}] if 'status=in_progress' in path else []) if key == 'workflow_runs'
+                                         else [{'name': 'run (brawley-avra-west)', 'status': 'in_progress'}])
+        self.assertEqual(g.busy_cases(), {'brawley-avra-west'})
 
     def test_queued_or_check_phase_without_known_cases_blocks_all(self):
         g = GitHub('owner/repo')
