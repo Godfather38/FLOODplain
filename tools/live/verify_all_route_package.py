@@ -6,12 +6,14 @@ cell values remain unknown; the validator never pads a frame or substitutes zero
 import datetime as dt
 import hashlib
 import json
+import math
 from pathlib import Path
 import sys
 
 import numpy as np
 
-from export_road_forecast import LIVE_STATES, LOCAL_KIND, LOCAL_SCHEMA, SUMMARY_KEYS, local_stations_for, read_columns
+from export_road_forecast import (LIVE_STATES, LOCAL_KIND, LOCAL_SCHEMA, SUMMARY_KEYS, decode_local_static,
+                                  local_stations_for, read_columns)
 from run_live_all_route import AHEAD, DTOUT, SHOW_BACK, SPIN, case_entry
 
 
@@ -79,53 +81,129 @@ def verified_file(folder, descriptor):
     return path
 
 
+def _is_int(v):
+    return isinstance(v, int) and not isinstance(v, bool)
+
+
+def _is_num(v):
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
+
+
+def local_entry_problem(state, z_cm, wse, over, first, cell, unknown, window_min, frames):
+    """The rule each listed station must meet: the same rules as the app's readEntry
+    (public/simulation/local-road-forecast.js). The app drops a station that fails as unreadable
+    and counts it; publication rejects the whole file. Returns a reason, or None."""
+    cell_ok = _is_num(cell) and cell > 0
+    if state in ('over', 'below'):
+        if not (_is_int(wse) and _is_int(over) and over == wse - z_cm):
+            return 'maxOverCm must equal maxWseCm - roadZCm'
+        if not cell_ok:
+            return 'cellSizeM must be > 0'
+        if state == 'over':
+            if over < 1:
+                return 'an over station needs maxOverCm >= 1'
+            if not (_is_int(first) and 0 <= first <= window_min):
+                return 'firstOverMin must be within the forecast window'
+            if not (_is_int(unknown) and 0 <= unknown < frames):
+                return 'an over station needs 0 <= unknownFrames < frames'
+            return None
+        if over > 0:
+            return 'a below station needs maxOverCm <= 0'
+        if first is not None:
+            return 'a below station has no firstOverMin'
+        if not (_is_int(unknown) and unknown == 0):
+            return 'a below station needs unknownFrames 0 (a missing frame makes it unknown)'
+        return None
+    if state == 'unknown':
+        if wse is not None or over is not None or first is not None:
+            return 'an unknown station has null water values'
+        if not cell_ok:
+            return 'cellSizeM must be > 0'
+        if not (_is_int(unknown) and 1 <= unknown <= frames):
+            return 'an unknown station needs 1 <= unknownFrames <= frames'
+        return None
+    if any(v is not None for v in (wse, over, first, cell, unknown)):
+        return 'a no-cell station has only null values'
+    return None
+
+
+def verify_local_contract(local, static_raw):
+    """Every rule the app enforces on local-road-forecast.json against its static station file.
+
+    Raises ValueError on the first problem; returns (station count, listed count, summary counts).
+    The app (parseLocalRoadForecast) and this function are tested against the same fixture set
+    (fixtures/local-roads/local-road-contract-cases.json here, test/fixtures in the app).
+    """
+    if not isinstance(local, dict):
+        raise ValueError('Local road forecast is not an object')
+    stations, _ = decode_local_static(static_raw)
+    n = len(stations)
+    if (local.get('schemaVersion') != LOCAL_SCHEMA or local.get('kind') != LOCAL_KIND
+            or local.get('status') not in ('ok', 'partial') or local.get('datum') != 'NAVD88 metres'
+            or local.get('roadHeights') != 'floodplain-road-heights-v1'
+            or not isinstance(local.get('runId'), str) or not local.get('runId')
+            or local.get('stateCodes') != list(LIVE_STATES)):
+        raise ValueError('Local road forecast header is not contract v2')
+    if local.get('stationsSha256') != hashlib.sha256(static_raw).hexdigest() or local.get('stationCount') != n:
+        raise ValueError('Local road forecast was computed for another station list')
+    for key in ('issuedAt', 'forecastStart', 'forecastEnd'):
+        if not (isinstance(local.get(key), str) and local[key].endswith('Z')):
+            raise ValueError('Local road forecast times must be ISO UTC with Z')
+        parse(local[key])
+    start, end = parse(local['forecastStart']), parse(local['forecastEnd'])
+    frames = local.get('frames')
+    if end <= start or not _is_int(frames) or frames < 1:
+        raise ValueError('Local road forecast window or frame count is invalid')
+    window_min = round((end - start).total_seconds() / 60)
+    listed = local.get('listed')
+    keys = ('index', 'state', 'maxWseCm', 'maxOverCm', 'firstOverMin', 'cellSizeM', 'unknownFrames')
+    if (not isinstance(listed, dict) or any(not isinstance(listed.get(k), list) for k in keys)
+            or len({len(listed[k]) for k in keys}) != 1):
+        raise ValueError('Local road forecast list is not columnar')
+    counts = dict.fromkeys(SUMMARY_KEYS.values(), 0)
+    counts['noRoadHeight'] = sum(s['roadZCm'] is None for s in stations)
+    prev = -1
+    for k, (i, code) in enumerate(zip(listed['index'], listed['state'])):
+        if not _is_int(i) or i <= prev or i >= n:
+            raise ValueError('Local road forecast list index is unsorted, repeated or out of range')
+        if not _is_int(code) or not 0 <= code < len(LIVE_STATES):
+            raise ValueError('Local road forecast list has an unknown state code')
+        if stations[i]['roadZCm'] is None:
+            raise ValueError('A station without road height is listed')
+        prev, state = i, LIVE_STATES[code]
+        problem = local_entry_problem(state, stations[i]['roadZCm'], listed['maxWseCm'][k], listed['maxOverCm'][k],
+                                      listed['firstOverMin'][k], listed['cellSizeM'][k], listed['unknownFrames'][k],
+                                      window_min, frames)
+        if problem:
+            raise ValueError(f'Local road station {i} ({state}) is unreadable: {problem}')
+        counts[SUMMARY_KEYS[state]] += 1
+    counts['dry'] = n - sum(v for key, v in counts.items() if key != 'dry')
+    summary = local.get('summary')
+    if (not isinstance(summary, dict) or summary.get('stations') != n
+            or any(summary.get(key) != v for key, v in counts.items())):
+        raise ValueError('Local road forecast summary does not match its stations')
+    return n, len(listed['index']), counts
+
+
 def verify_local(path, case, manifest, entry, expected, stations_path=None):
     """local-road-forecast.json (contract v2) must describe exactly this completed package.
 
     It must be pinned to the static app station file regenerated from the registry's frozen
-    station list (stationsSha256), and its columnar list and summary must agree with each other.
+    station list (stationsSha256), meet every rule the app enforces (verify_local_contract), and
+    have status ok.
     """
-    raw = Path(path).read_bytes()
-    local = json.loads(raw)
-    summary = local.get('summary') or {}
-    listed = local.get('listed') or {}
+    local = json.loads(Path(path).read_bytes())
+    _, _, _, static_raw = local_stations_for(case, stations_path or entry['localRoads'].get('path'),
+                                             entry['localRoads']['sha256'])
+    n, listed, counts = verify_local_contract(local, static_raw)
     pinned = ((local.get('provenance') or {}).get('localStations') or {}).get('sha256')
-    stations, _, source, _ = local_stations_for(case, stations_path or entry['localRoads'].get('path'),
-                                                entry['localRoads']['sha256'])
-    if (local.get('schemaVersion') != LOCAL_SCHEMA or local.get('kind') != LOCAL_KIND or local.get('case') != case
-            or local.get('modelVersion') != manifest['modelVersion'] or local.get('runId') != manifest['runId']
-            or local.get('status') != 'ok' or local.get('datum') != 'NAVD88 metres'
-            or local.get('roadHeights') != 'floodplain-road-heights-v1'
+    if (local.get('case') != case or local.get('modelVersion') != manifest['modelVersion']
+            or local.get('runId') != manifest['runId'] or local.get('status') != 'ok'
             or parse(local.get('forecastStart')) != expected[0] or parse(local.get('forecastEnd')) != expected[-1]
             or local.get('frames') != len(expected) or pinned != entry['localRoads']['sha256']
-            or local.get('stationsSha256') != source['stationsSha256']
-            or local.get('stationCount') != len(stations) or summary.get('stations') != len(stations)
-            or local.get('stateCodes') != list(LIVE_STATES)
             or (local.get('provenance') or {}).get('geometrySha256') != manifest['geometry']['sha256']):
         raise ValueError('Local road forecast does not match the completed all-route package')
-    keys = ('index', 'state', 'maxWseCm', 'maxOverCm', 'firstOverMin', 'cellSizeM', 'unknownFrames')
-    if any(not isinstance(listed.get(k), list) for k in keys) or len({len(listed[k]) for k in keys}) != 1:
-        raise ValueError('Local road forecast list is not columnar')
-    index = listed['index']
-    if (any(not isinstance(i, int) or not 0 <= i < len(stations) for i in index) or index != sorted(set(index))
-            or any(c not in range(len(LIVE_STATES)) for c in listed['state'])):
-        raise ValueError('Local road forecast list indexes or states are invalid')
-    counts = dict.fromkeys(SUMMARY_KEYS.values(), 0)
-    counts['noRoadHeight'] = sum(s['roadM'] is None for s in stations)
-    for k, code in zip(index, listed['state']):
-        if stations[k]['roadM'] is None:
-            raise ValueError('A station without road height is listed')
-        counts[SUMMARY_KEYS[LIVE_STATES[code]]] += 1
-    for i, code in enumerate(listed['state']):
-        state, over = LIVE_STATES[code], listed['maxOverCm'][i]
-        if state == 'over' and not (isinstance(over, int) and over >= 1 and isinstance(listed['firstOverMin'][i], int)):
-            raise ValueError('An over station needs maxOverCm >= 1 and firstOverMin')
-        if state == 'below' and not (isinstance(over, int) and over <= 0):
-            raise ValueError('A below station needs maxOverCm <= 0')
-    counts['dry'] = len(stations) - sum(v for k, v in counts.items() if k != 'dry')
-    if any(summary.get(k) != v for k, v in counts.items()):
-        raise ValueError('Local road forecast summary does not match its stations')
-    print(f'Verified local road forecast {case}: {len(stations)} stations, {len(index)} listed, {counts}')
+    print(f'Verified local road forecast {case}: {n} stations, {listed} listed, {counts}')
 
 
 def verify(folder, case, cycle_iso, local_path=None):

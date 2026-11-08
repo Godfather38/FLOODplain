@@ -24,3 +24,13 @@ Tests use these files offline and never start a model or publish results.
   All values are 0.00 ft^3/s, Provisional: a reported zero flow, which is a reading, not missing data.
 
 Tests edit copies of these in memory for gaps, outages, malformed bodies, stale windows and units.
+
+# Local road contract v2 cases (`local-roads/`)
+
+Synthetic, not model output. Byte-identical copies of the app's `test/fixtures/` files of the same
+names: `local-road-stations-sample.json` (20 stations, made with the exporter's own encoder),
+`local-road-forecast-sample.json` (a live file against it) and `local-road-contract-cases.json`
+(edits to the live file and the expected result). `test_local_road_forecast.py` runs the publish
+verifier (`verify_all_route_package.verify_local_contract`) on every case; the app's
+`test/local-road-forecast.test.js` runs its parser on the same cases. Both tests pin the same
+sha256 values, so the copies cannot drift apart unnoticed.

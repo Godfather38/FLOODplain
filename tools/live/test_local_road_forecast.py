@@ -334,6 +334,123 @@ class StationFileTests(unittest.TestCase):
                 export_local(CASE, root, out, other, osha)
 
 
+FIXTURES = Path(__file__).resolve().parent / 'fixtures' / 'local-roads'
+# Pinned in both repos (the app's test/local-road-forecast.test.js pins the same values): a change
+# to one copy fails here until the other copy and both pins are updated together.
+SHARED_SHA256 = {
+    'local-road-contract-cases.json': '7a09c726f1f5b9335a0b477a71008e85d4de93391236b50f0831c30ffad5d9ef',
+    'local-road-forecast-sample.json': '5d8063712eba660ff2100c77d26097b11588a1ae47ecb595c2afa6f3982268e5',
+    'local-road-stations-sample.json': '0df117b6978b7cced69d7f1f3b053cd197e0406170df6c7cb4a8758799f17d53',
+}
+COLUMNS = ('index', 'state', 'maxWseCm', 'maxOverCm', 'firstOverMin', 'cellSizeM', 'unknownFrames')
+
+
+def apply_ops(f, ops):
+    """Same op set as the app test's applyOps."""
+    def at(path):
+        o = f
+        for p in path[:-1]:
+            o = o[p]
+        return o, path[-1]
+    for op in ops:
+        kind = op['op']
+        if kind == 'set':
+            o, k = at(op['path']); o[k] = op['value']
+        elif kind == 'add':
+            o, k = at(op['path']); o[k] += op['value']
+        elif kind == 'delete':
+            o, k = at(op['path']); del o[k]
+        elif kind == 'pop':
+            o, k = at(op['path']); o[k].pop()
+        elif kind == 'dropEntry':
+            for c in COLUMNS:
+                del f['listed'][c][op['at']]
+        elif kind == 'swapEntries':
+            a, b = op['at']
+            for c in COLUMNS:
+                col = f['listed'][c]; col[a], col[b] = col[b], col[a]
+        elif kind == 'insertEntry':
+            for c in COLUMNS:
+                f['listed'][c].insert(op['at'], op['entry'][c])
+        else:
+            raise AssertionError('unknown op ' + kind)
+    return f
+
+
+class SharedContractCaseTests(unittest.TestCase):
+    """The publish verifier against the app's own fixture cases (same files in the app's test/fixtures)."""
+
+    def test_shared_fixture_copies_are_pinned(self):
+        for name, sha in SHARED_SHA256.items():
+            self.assertEqual(digest((FIXTURES / name).read_bytes()), sha, name)
+
+    def test_verifier_accepts_exactly_what_the_app_shows_in_full(self):
+        static = (FIXTURES / 'local-road-stations-sample.json').read_bytes()
+        sample = (FIXTURES / 'local-road-forecast-sample.json').read_text()
+        cases = json.loads((FIXTURES / 'local-road-contract-cases.json').read_text())['cases']
+        self.assertGreaterEqual(len(cases), 40)
+        self.assertEqual({c['expect'] for c in cases}, {'ok', 'unreadable', 'reject'})
+        for case in cases:
+            local = apply_ops(json.loads(sample), case['ops'])
+            if case['expect'] == 'ok':
+                n, listed, counts = verifier.verify_local_contract(local, static)
+                self.assertEqual((n, counts['dry']), (20, 3), case['name'])
+            else:  # the app drops an unreadable station (and says so); publication rejects the file
+                with self.assertRaises(ValueError, msg=case['name']):
+                    verifier.verify_local_contract(local, static)
+
+
+class MissingFrameStateTests(unittest.TestCase):
+    """A frame without a valid reading at a station's cell never leaves a firm 'below'."""
+
+    def run_frames(self, last_surface):
+        f = local([st('a:0', .5, z=10.), st('a:100', .5, z=30.)])  # same cell (face 1): over and below
+        f.add_frame(T[0], np.array([0., 25., 0.]), np.array([0., 10.6, 0.]))
+        f.add_frame(T[1], np.array([0., 25., 0.]), np.array([0., last_surface, 0.]))
+        return f
+
+    def test_below_with_a_missing_frame_is_unknown_and_over_keeps_its_missing_count(self):
+        f = self.run_frames(np.nan)
+        r = by_id(f.station_rows()[0])
+        self.assertEqual((r['a:0']['state'], r['a:0']['unknownFrames']), ('over', 1))
+        self.assertEqual((r['a:100']['state'], r['a:100']['unknownFrames']), ('unknown', 1))
+        listed, summary = f.listed()
+        self.assertEqual(listed['state'], [LIVE_STATES.index('over'), LIVE_STATES.index('unknown')])
+        self.assertEqual(listed['unknownFrames'], [1, 1])
+        self.assertEqual(listed['maxWseCm'], [1060, None])
+        self.assertEqual(listed['maxOverCm'], [60, None])
+        self.assertEqual((summary['over'], summary['below'], summary['unknown']), (1, 0, 1))
+        complete = by_id(self.run_frames(10.7).station_rows()[0])
+        self.assertEqual((complete['a:100']['state'], complete['a:100']['unknownFrames']), ('below', 0))
+
+    def test_written_file_passes_the_shared_contract_check(self):
+        stations = [dict(st('area_m1113_322:4:0', .5, z=10.), kind='residential'),
+                    dict(st('area_m1113_322:4:100', .5, z=30.), kind='residential'),
+                    dict(st('area_m1113_322:4:200', 2.5, z=None, flags=4), kind='residential'),
+                    dict(st('area_m1113_322:4:300', 3.5, z=5.), kind='residential')]
+        data = {'case': CASE, 'roadHeights': 'floodplain-road-heights-v1', 'source': {'commit': 'abc'},
+                'selection': {'rule': 'r'}}
+        static = local_static_bytes(stations, data, 'x-local-v1.json.gz', 'f' * 64)
+        f = LocalRoadForecast(CASE, NativeGeometry(geometry_columns()), stations,
+                              {'sha256': 'f' * 64, 'stationsSha256': digest(static), 'stationsVersion': 'x-local-v1'})
+        f.add_frame(T[0], np.array([0., 25., 0.]), np.array([0., 10.6, 0.]))
+        f.add_frame(T[1], np.array([0., 25., 0.]), np.array([0., np.nan, 0.]))
+        f.add_frame(T[2], np.array([0., 25., 0.]), np.array([0., 10.8, 0.]))
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'l.json'
+            f.write(path, manifest(T))
+            out = json.loads(path.read_bytes())
+        n, listed, counts = verifier.verify_local_contract(out, static)
+        self.assertEqual((n, listed), (4, 3))
+        self.assertEqual(counts, {'over': 1, 'below': 0, 'dry': 0, 'noRoadHeight': 1, 'noCell': 1, 'unknown': 1})
+        bad = json.loads(json.dumps(out))
+        bad['listed']['state'][1] = LIVE_STATES.index('below')  # what the old exporter wrote
+        bad['listed']['maxWseCm'][1], bad['listed']['maxOverCm'][1] = 1080, -1920
+        bad['summary'].update(below=1, unknown=0)
+        with self.assertRaisesRegex(ValueError, 'unknownFrames 0'):
+            verifier.verify_local_contract(bad, static)
+
+
 def encode_tile(lines):
     """Minimal floodplain-road-heights-v1 encoder (per-line deltas), as tools/road_heights/encoding.py."""
     starts = np.r_[0, np.cumsum([len(l['lonE6']) for l in lines])].astype('<u4')

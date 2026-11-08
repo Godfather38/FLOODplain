@@ -498,11 +498,13 @@ class LocalRoadForecast:
             return 'no-road-height'
         if face < 0:
             return 'no-cell'
-        if np.isfinite(wse):
-            return 'over' if wse > height else 'below'
-        if self.times and not self.unknown[k]:
-            return 'dry'  # known dry in every frame of the window
-        return 'unknown'  # never wet where known, but some frame had no valid reading
+        if np.isfinite(wse) and wse > height:
+            return 'over'  # over in a valid frame; unknownFrames (may be >= 1) travels with it
+        if not self.times or self.unknown[k]:
+            # A frame without a valid reading could have been the one with water over the road:
+            # never a firm below, never dry.
+            return 'unknown'
+        return 'below' if np.isfinite(wse) else 'dry'  # every frame of the window had a valid reading
 
     def station_rows(self):
         """Per-station rows in metres (diagnostics and tests; the file itself is columnar)."""
@@ -527,10 +529,12 @@ class LocalRoadForecast:
     def listed(self):
         """Columnar live list: every station that is not plain dry and has a road height.
 
-        Centimetres, rounded up (never understating water): maxWseCm = ceil(maxWse * 100);
-        maxOverCm = maxWseCm - roadZCm exactly, where roadZCm = round(roadZ * 100) is the static
-        file's value. An 'over' station always has maxOverCm >= 1 (the state is authoritative);
-        a 'below' station has maxOverCm <= 0. firstOverMin is minutes after forecastStart.
+        Centimetres. roadZCm = round(roadZ * 100) is the static file's value and c = ceil(maxWse * 100)
+        (maxWse * 100 first rounded to 6 dp, so float noise never adds a centimetre). The state is
+        authoritative, so c is clamped to agree with it: over -> maxWseCm = max(c, roadZCm + 1);
+        below -> maxWseCm = min(c, roadZCm). maxOverCm = maxWseCm - roadZCm exactly, so over >= 1
+        and below <= 0. firstOverMin is minutes after forecastStart. unknownFrames is the number of
+        frames with no valid reading: >= 1 for unknown, possibly >= 1 for over, always 0 for below.
         """
         cols = {k: [] for k in ('index', 'state', 'maxWseCm', 'maxOverCm', 'firstOverMin', 'cellSizeM', 'unknownFrames')}
         summary = dict.fromkeys(SUMMARY_KEYS.values(), 0)
@@ -596,9 +600,11 @@ class LocalRoadForecast:
                            'listed = every station that is not plain dry: over, below, unknown, no-cell, indexed '
                            'into the static station file whose sha256 is stationsSha256. A station absent from '
                            'listed with a road height is dry (known dry in every frame); no-road-height comes from '
-                           'the static file. unknown = never wet where known but at least one frame had no valid '
-                           'reading (never treated as dry). Centimetres rounded up; an over station always has '
-                           'maxOverCm >= 1. firstOverMin = minutes after forecastStart. Bare-earth lidar road '
+                           'the static file. unknown = not over in any valid frame, and at least one frame had no '
+                           'valid reading (never treated as dry or below). over can also carry unknownFrames >= 1 '
+                           '(some frames missing); below always has unknownFrames 0. maxWseCm = ceil(maxWse*100) '
+                           'clamped to the state: over max(.., roadZCm+1), below min(.., roadZCm); maxOverCm = '
+                           'maxWseCm - roadZCm. firstOverMin = minutes after forecastStart. Bare-earth lidar road '
                            'height, not a surveyed deck; flags: deckLidar=1, deckApproach=2, noTerrain=4, '
                            'structureUntagged=8.'),
             'provenance': {
