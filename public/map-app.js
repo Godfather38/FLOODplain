@@ -7,7 +7,7 @@ import {deckHtml,scoreboardHtml,routeBoardHtml,drawTimeline,timelineKeyHtml,meth
 import {predictFromGrid,predictFromAllRoute,routeStations,loadRoadLines,gridCellOf} from './simulation/route-prediction.js?v=dev';
 import {nearestRoadSample,roadComparison,forecastComparison,comparisonLines} from './simulation/road-comparison.js?v=dev';
 import {roadForecastText} from './road-forecast.js?v=dev';
-import {loadLocalRoadForecast,localRoadsAt,stationLine,stationDetails,nearestLocalStation,localRoadStatusText,LOCAL_ROAD_METHOD} from './simulation/local-road-forecast.js?v=dev';
+import {loadLocalRoadForecast,localRoadsAt,stationLine,stationDetails,nearestLocalStation,localRoadStatusText,LOCAL_ROAD_METHOD,LOCAL_ROAD_PARTIAL_NOTE} from './simulation/local-road-forecast.js?v=dev';
 import {toUtm} from './preview/geo3d/src/utm.js?v=dev';
 import {ROUTE_INFO} from './config.js?v=dev';
 import {createWorldLayer} from './simulation/world-layer.js?v=dev';
@@ -582,23 +582,25 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  function localRoads(){return localRoadsAt(localFile,Date.now());}
  function ensureLocalRoads(){
   if(localLoading||Date.now()-localFetchedAt<120000)return;
-  localLoading=loadLocalRoadForecast().then(f=>{localFile=f;localFetchedAt=Date.now();localLoading=null;if(sim.run)$('[data-m-model-hint]').textContent=modelStatus();paintLocalRoads();});
+  localLoading=loadLocalRoadForecast({previous:localFile}).then(f=>{localFile=f;localFetchedAt=Date.now();localLoading=null;if(sim.run)$('[data-m-model-hint]').textContent=modelStatus();paintLocalRoads();});
  }
  function paintLocalRoads(){
   const active=location.hash==='#/map'&&!in3d()&&st.base!=='terrain'&&st.model!=='off'&&st.model!=='hand'&&st.run==='live';
   if(!active){map.removeLayer(localPoints);return;}
   ensureLocalRoads();map.addLayer(localPoints);
-  const f=localRoads(),key=f?.status+(f?.runId??'')+(f?.stations?.length??0);
+  const f=localRoads(),key=[f?.status,f?.runId,f?.issuedAt,f?.partial,f?.stations?.length].join('|');
   if(key===localKey)return;localKey=key;localPoints.clearLayers();
   if(f?.status!=='ok')return;
   for(const s of f.stations){
-   if(s.state!=='over'&&s.state!=='below')continue;
-   L.circleMarker([s.lat,s.lon],{renderer:localRenderer,radius:s.state==='over'?5:3,weight:1,color:s.state==='over'?'#173f73':'#4a6f8f',fillColor:s.state==='over'?'#2f6fb7':'#9fb8cc',fillOpacity:.85,bubblingMouseEvents:false,className:'local-road-pin local-road-'+s.state})
+   // Drawn: water above or below the road, and unknown (missing readings, never shown as dry).
+   const look=LOCAL_LOOK[s.state];if(!look)continue;
+   L.circleMarker([s.lat,s.lon],{renderer:localRenderer,...look,bubblingMouseEvents:false,className:'local-road-pin local-road-'+s.state})
     .bindPopup(()=>localPopup(s,localFile),{className:'mapp-popup local-road-comparison'}).addTo(localPoints);
   }
  }
+ const LOCAL_LOOK={over:{radius:5,weight:1,color:'#173f73',fillColor:'#2f6fb7',fillOpacity:.85},below:{radius:3,weight:1,color:'#4a6f8f',fillColor:'#9fb8cc',fillOpacity:.85},unknown:{radius:3,weight:1.5,color:'#6b6b6b',fillColor:'#ffffff',fillOpacity:.6,dashArray:'2 2'}};
  function localPopup(s,f){
-  return `<strong>${esc(s.road||'Local road')}</strong><br>${esc(stationLine(s))}${stationDetails(s).map(l=>'<br>'+esc(l)).join('')}<br><small>Run issued ${esc(f?.issuedAt?clockText(f.issuedAt):'at an unknown time')}. ${esc(LOCAL_ROAD_METHOD)}</small>`;
+  return `<strong>${esc(s.road||'Local road')}</strong><br>${f?.partial?esc(LOCAL_ROAD_PARTIAL_NOTE)+'<br>':''}${esc(stationLine(s,f?.partial))}${stationDetails(s,f?.frames).map(l=>'<br>'+esc(l)).join('')}<br><small>Run issued ${esc(f?.issuedAt?clockText(f.issuedAt):'at an unknown time')}. ${esc(LOCAL_ROAD_METHOD)}</small>`;
  }
  addEventListener('flood-screen-rendered',paintLocalRoads);
 

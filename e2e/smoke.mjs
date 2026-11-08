@@ -109,6 +109,8 @@ try{
   await context.route('**/live-model/live/water.json.gz*',r=>json(r,{frames:times.map((time,k)=>({time,surfaceM:display.waterFrames[k].surfaceM}))}));
   await context.route('**/live-model/live/rainfall.json*',r=>json(r,{frames:[]}));
   await context.route('**/live-model/live/inflow.json*',r=>json(r,{series:[]}));
+  // The app's static station list is replaced by the fixture list the live fixture is pinned to (stationsSha256).
+  await context.route('**/data/local-roads/brawley-avra-west-stations.json*',r=>r.fulfill({status:200,contentType:'application/json',body:readFileSync(join(repo,'test/fixtures/local-road-stations-sample.json'))}));
   if(local)await context.route('**/all-route/brawley-avra-west/local-road-forecast.json*',r=>json(r,local));
   await page.goto(origin+'/#/');await ready(page);
   await page.click('[data-destination=map]');await dismissNotice(page);
@@ -118,11 +120,12 @@ try{
   const fixture=JSON.parse(readFileSync(join(repo,'test/fixtures/local-road-forecast-sample.json'),'utf8'));
   const shift=Date.now()-30*60e3-Date.parse(fixture.issuedAt);
   const at=iso=>iso&&new Date(Date.parse(iso)+shift).toISOString();
-  const local={...fixture,issuedAt:at(fixture.issuedAt),forecastStart:new Date(Date.now()-20*60e3).toISOString(),forecastEnd:at(fixture.forecastEnd),stations:fixture.stations.map(s=>({...s,firstOverTime:at(s.firstOverTime)}))};
+  // firstOverMin counts from forecastStart, so the start keeps its offset from the issue time.
+  const local={...fixture,issuedAt:at(fixture.issuedAt),forecastStart:at(fixture.forecastStart),forecastEnd:at(fixture.forecastEnd)};
   const {context,page,errors}=await liveMapWithLocalRoads(local);
-  await page.waitForFunction(()=>document.querySelectorAll('path.local-road-over').length===6&&document.querySelectorAll('path.local-road-below').length===4,null,{timeout:30000});
-  assert.equal(await page.locator('.local-road-pin').count(),10,'only stations with model water are drawn');
-  await page.waitForFunction(()=>/Neighborhood roads \(west Avra Valley\): model water above 6 of 20 road points/.test(document.querySelector('[data-m-model-hint]')?.textContent||''));
+  await page.waitForFunction(()=>document.querySelectorAll('path.local-road-over').length===6&&document.querySelectorAll('path.local-road-below').length===4&&document.querySelectorAll('path.local-road-unknown').length===2,null,{timeout:30000});
+  assert.equal(await page.locator('.local-road-pin').count(),12,'stations with model water, and unknown ones, are drawn; dry ones are not');
+  await page.waitForFunction(()=>/Neighborhood roads \(west Avra Valley\): model water above 6 of 20 road points; 2 unknown/.test(document.querySelector('[data-m-model-hint]')?.textContent||''));
   await page.locator('path.local-road-over').first().dispatchEvent('click');
   await page.waitForSelector('.local-road-comparison');
   const text=await page.innerText('.local-road-comparison');
