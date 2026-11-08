@@ -4,15 +4,15 @@ An audit on Nov 8 found two fixes from Nov 3 that were built but never published
 
 ## 1. "Say what the evidence is instead of calling it no readings" (`7505e3a`): ported with changes
 
-**The bug is real today.** With both Santa Cruz gauges reporting normal flow (Nov 8 code and data), all three river bridges led with "No live readings right now; current road conditions are not established":
+**The bug is real today.** With both Santa Cruz gauges reporting normal flow (Nov 8 code and data), the three river bridges on the Avra Valley routes led with "No live readings right now; current road conditions are not established":
 
 | Crossing | Gauges reporting | Before | After |
 |---|---|---|---|
 | Sanders Rd river bridge | 2 | No live readings right now… | 2 river gauges reporting, nothing measuring this road itself |
-| Trico Rd river bridge | 2 | No live readings right now… | 2 river gauges reporting, nothing measuring this road itself |
+| Trico-Marana river bridge | 2 | No live readings right now… | 2 river gauges reporting, nothing measuring this road itself |
 | Avra Valley Rd river bridge | 1 | No live readings right now… | 1 river gauge reporting, nothing measuring this road itself |
 
-Why: a river bridge's row is rated by comparing model water with the roadway height. Sanders has no roadway height. Trico and Avra Valley have one, but their saved model water expired on Nov 2. So the row is "unknown", and every all-unknown crossing was summed up as "no live readings", even with gauges reporting. Later work did not fix this.
+The other river bridges (Ina, Twin Peaks, Speedway) work the same way. Why: a river bridge's row is rated by comparing model water with the roadway height. Sanders has no roadway height. Trico and Avra Valley have one, but their saved model water expired on Nov 2. So the row is "unknown", and every all-unknown crossing was summed up as "no live readings", even with gauges reporting. Later work did not fix this.
 
 **What was ported** (by hand, onto today's code):
 - Each check says what kind of evidence it is: observed (county barricade), remote (a gauge somewhere else), model (HAND), official (weather service), missing, stale or unsupported. `evidenceState()`, `gaugePhrases()`, `evidenceSentence()` and `noRatingRow()` in `public/logic.js`.
