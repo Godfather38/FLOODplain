@@ -1,0 +1,39 @@
+{
+  "sourceUrl": "https://noaa-nwm-pds.s3.amazonaws.com/nwm.20261030/analysis_assim/nwm.t16z.analysis_assim.channel_rt.tm00.conus.nc",
+  "sha256": "f67fec3d0af18362bd685043511c45f9c74b45aa8f651f0e89df5fe5a1498508",
+  "featureCount": 2776734,
+  "indices": {
+    "15876941": 1672280,
+    "15876923": 1672271,
+    "15876919": 1672269,
+    "15876811": 1672219,
+    "15876815": 1672220,
+    "15876711": 1672183,
+    "15876707": 1672181
+  },
+  "missing": [],
+  "units": "m3 s-1",
+  "attributes": {
+    "model_initialization_time": "2026-10-30_13:00:00",
+    "model_output_valid_time": "2026-10-30_16:00:00",
+    "model_configuration": "analysis_and_assimilation",
+    "NWM_version_number": "v3.1"
+  },
+  "caseInletReachIds": [
+    "15876941"
+  ],
+  "validationReachIds": [
+    "15876923",
+    "15876919",
+    "15876811",
+    "15876815",
+    "15876711",
+    "15876707"
+  ],
+  "orderCheck": {
+    "file": "nwm.t13z.short_range.channel_rt.f001.conus.nc",
+    "featureCount": 2776734,
+    "sameIndices": true,
+    "model_configuration": "short_range"
+  }
+}

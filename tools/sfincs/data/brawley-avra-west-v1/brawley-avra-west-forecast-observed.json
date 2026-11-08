@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "status": "complete",
+  "kind": "observed_gauge",
+  "issuedAt": null,
+  "start": "2026-11-01T14:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "series": [
+    {
+      "reachId": "15876941",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.0
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 1.362038
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 1.39885
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 0.233614
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 0.000566
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 1.87174
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 48.421728
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 40.776192
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 39.64352
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 40.776192
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 32.847488
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 19.312058
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 13.252262
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 8.863158
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 5.974845
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 4.105936
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "source": "USGS 09487000 Brawley Wash near Three Points, IV 00060, provisional (P)",
+    "file": "observed/usgs-09487000-20261030-20261103.json",
+    "method": "instantaneous 15-min value at each top-of-hour timestamp (all timestamps fall on a reading; no interpolation used), cfs x 0.0283168 = m3/s",
+    "purpose": "Validation-run variant: replaces the NWM inflow at reach 15876941 with the observed gauge hydrograph. Not live forcing. Forecast part (same 18 timestamps as the NWM forecast file; issuedAt null because these are observations).",
+    "externalInlet": {
+      "reachId": "15876941",
+      "receivingReachId": "15876923"
+    }
+  },
+  "noModelExecuted": true,
+  "missingReachIds": []
+}

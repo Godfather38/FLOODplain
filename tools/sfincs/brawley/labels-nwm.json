@@ -1,0 +1,43 @@
+{
+ "modelVersion": "all-routes-brawley-avra-west-v1",
+ "routeIds": [],
+ "approvedExecutionCapSeconds": 5400,
+ "proposedExecutionCapSeconds": 5400,
+ "executionAuthorization": "orchestrator_task_brawley_avra_west_frozen_run_cap_5400_experimental_branch_only",
+ "knownLimits": [
+  "Current bridge and culvert elevations unknown; no structure openings",
+  "Published CN antecedent assumption (GCN10 fair ARCII undrained); no measured transmission loss",
+  "Terrain is bare-earth lidar: 1 m PimaCounty_2021_B21 and Eastern_PimaCO_2015 in road/wash windows (2015 covers most of the mid/upper Brawley mainstem and San Joaquin/Black Wash); 10 m context mixes all-route-context-v2, 2021, BrawleyRillito 2018 (flown 2019), 2015 and 0.98 km2 of USGS 1/3 arc-second; not a 2026 survey",
+  "2021 minus 2015 seam offset about -0.11 m median in 7 road windows; not corrected",
+  "6.25 m computational cells are not validated road-depth accuracy; compare cell water-surface elevation zs with road height, never averaged depth",
+  "Catchment-based domain excludes Avra Valley Rd west, Anway and Agua Dulce Ranch and most of Cocorague Ranch and Tucker (they drain to Northern inlet reaches or other non-local reaches)",
+  "The 27.47 km2 local catchment of 15876941 below USGS 09487000 is excluded; its runoff enters only through the inlet series",
+  "Directed network independence does not prove no cross-divide overland exchange; overlaps Gates by 139.42 km2 (independent model)"
+ ],
+ "terrainSources": {
+  "road1m": "USGS 3DEP 1 m: AZ_PimaCounty_2021_B21 > AZ_Eastern_PimaCO_2015 (BrawleyRillito_2018_D19 contributed 0 window pixels); 162 new windows .sfincs-runs/brawley-avra-west-terrain-1m-v1 plus 10 reused all-routes-terrain-v1 windows",
+  "context10m": ".sfincs-runs/brawley-avra-west-context-v1 terrain sha256 d681f50d2200545eb19a99561b5dc973a54499b69b126754410fffb1232a6381"
+ },
+ "scope": {
+  "status": "brawley_avra_west_version3",
+  "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+  "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+  "areaKm2": 839.0154263951479,
+  "externalInlets": [
+   {
+    "reachId": "15876941",
+    "receivingReachId": "15876923"
+   }
+  ],
+  "outflow": "open downstream edge near NHD node 720060498 (-111.2930, 32.3647); HydroMT directed outflow points",
+  "roadOwnership": "owns only road stations outside the northern, picture-rocks-ina-twinpeaks and gates domains",
+  "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+ },
+ "caseId": "brawley-avra-west-native-case-v1",
+ "inflow": {
+  "kind": "nwm_frozen",
+  "history": "../topology-version3/brawley-avra-west-history.json",
+  "forecast": "../topology-version3/brawley-avra-west-forecast.json",
+  "note": "Live-style frozen NWM inflow; peaks 1.70 m3/s vs observed 49.27 m3/s, so it badly under-represents the Nov 1 2026 Brawley event"
+ }
+}

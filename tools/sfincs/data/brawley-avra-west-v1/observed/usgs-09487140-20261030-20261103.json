@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "site": "09487140",
+  "parameterCd": "00060",
+  "units": "ft3/s",
+  "retrievedAt": "2026-11-08",
+  "requests": [
+    {
+      "file": "iv_09487140_2026-10-30.json",
+      "url": "http://waterservices.usgs.gov/nwis/iv/format=json&sites=09487140&parameterCd=00060&startDT=2026-10-30T00:00-07:00&endDT=2026-11-01T00:00-07:00",
+      "sha256": "d6689930f1d1b98518d389475c4342ae999ab3738a516de49ea85d66a49d9fe4",
+      "timeSeries": 0
+    },
+    {
+      "file": "iv_09487140_2026-11-01.json",
+      "url": "http://waterservices.usgs.gov/nwis/iv/format=json&sites=09487140&parameterCd=00060&startDT=2026-11-01T00:00-07:00&endDT=2026-11-03T23:59-07:00",
+      "sha256": "2e0e2ae4e6910601931c958712f87fbe8d02b284e2f8ffc975277918370aa233",
+      "timeSeries": 0
+    }
+  ],
+  "source": "USGS NWIS Instantaneous Values service (waterservices.usgs.gov/nwis/iv), provisional data subject to revision",
+  "requestedWindowLocal": "2026-10-30T00:00-07:00 .. 2026-11-03T23:59-07:00 (two requests)",
+  "status": "no_data",
+  "note": "The IV service returned no time series for this site and window. NWIS site service lists it as a historical site only (no IV series); this is no data, not zero flow.",
+  "values": []
+}

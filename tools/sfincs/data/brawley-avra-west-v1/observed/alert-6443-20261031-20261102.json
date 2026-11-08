@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "site": "6443",
+  "name": "Brawley Wash at Milewide Road (PT)",
+  "operator": "Pima County Regional Flood Control District ALERT (provisional data)",
+  "location": {
+    "lat": 32.248611,
+    "lon": -111.244446
+  },
+  "nhdComidInference": "15876811 (scout: Mile Wide Rd crossing at the 15876815 confluence reach; not snapped here)",
+  "window": "2026-10-31 .. 2026-11-02 (Arizona MST, UTC-7)",
+  "readings": [
+    {
+      "timeLocal": "2026-10-31T14:00:00-07:00",
+      "timeUtc": "2026-10-31T21:00:00Z",
+      "stageFt": 2.3,
+      "flowCfs": 0.0,
+      "evidence": "verified raw snapshot",
+      "sources": [
+        "origin/ccr-ae06b197-a01a6o (90d0d122) test/fixtures/alert-2026-10-31.json blob 7fddf826 (snapshot_alert.py output, fetched_at 2026-10-31T21:27:57Z), added in commit 6d6978b",
+        "origin/ccr-ae06b197-a01a6o test/fixtures/alert-currentstream-2026-10-31.json blob d3e3b1a0 (raw county currentstream.php, meta.created 10-31-2026 14:24), added in commit 66076dc: stage \"2.30\", flow \"0\", last_rpt 2026-10-31T14:00:00"
+      ]
+    },
+    {
+      "timeLocal": "2026-11-01T20:04:00-07:00 (approximate; time the owner reported, not the sensor's last_rpt)",
+      "timeUtc": "2026-11-02T03:04:00Z",
+      "stageFt": null,
+      "flowCfs": 817.0,
+      "evidence": "secondary, transcribed in prose; no raw snapshot retained",
+      "sources": [
+        "origin/ccr-ae06b197-a01a6o docs/BRAWLEY-UPSTREAM-EVIDENCE.md blob a1cb3f1f (commit 59cb78d), line 70-71: at the time the owner reported it (Nov 1, 2026, 20:04 Arizona) the gauges read 1,160 cfs at Three Points and 817 cfs at Milewide"
+      ],
+      "caveats": [
+        "The '817 cfs at 7:54 PM' in public/ux-preview/brawley-upstream-checks.json and test/brawley-upstream-evidence.test.js is a test construction (last_rpt = NOW - 10 min with NOW = 20:04), not a recorded sensor time.",
+        "The paired Three Points value 1,160 cfs matches USGS 09487000 at 2026-11-01T19:00 MST (02:00Z), not at 20:00 MST (682 cfs), so the app was showing a reading about 1 h old; the Milewide reading time is likewise uncertain by up to ~1 h (inference)."
+      ]
+    }
+  ],
+  "notRetained": {
+    "dataBranch": "origin/data is a single force-pushed commit (73362fc, ALERT snapshot 2026-11-08T19:52:40Z; previous d62f38f 2026-11-08T15:27Z still in local object store). Both show 6443 stage 2.3 ft, flow 0 cfs on Nov 8. No Oct 31-Nov 2 snapshot history exists in the repo.",
+    "workflowLogs": "alert-snapshot.yml run logs print only verdict.json (no stream flows), so they cannot recover 6443 readings.",
+    "countyEndpoints": "Only current-value endpoints (currentstream.php, currain.php) are used in the repo; no historical ALERT endpoint was found."
+  },
+  "use": "Validation only. Two points: dry (0 cfs, 2.30 ft stage) on Oct 31 14:00 MST and ~817 cfs around Nov 1 ~19-20 MST. Missing hours are missing, not dry."
+}

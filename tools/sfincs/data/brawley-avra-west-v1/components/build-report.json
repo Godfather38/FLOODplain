@@ -1,0 +1,288 @@
+{
+ "args": {
+  "raw": "tools\\sfincs\\data\\brawley-avra-west-v1\\components\\raw",
+  "output": "tools\\sfincs\\data\\brawley-avra-west-v1\\components",
+  "tiles": "C:\\Users\\Marshall\\AppData\\Local\\Temp\\claude\\d7e318d6a734cd01\\31adc56e-e308-4476-a5a8-9b4d3ac0aee6\\scratchpad\\scout\\data\\tiles",
+  "dips_ref": "origin/experimental/model-upgrade-diagnostics-20261107:docs/upgrade/candidate-road-dips-20261107.csv",
+  "min_dip_m": "0.0",
+  "l3_road_buffer": "100.0",
+  "l3_wash_buffer": "100.0",
+  "l2_buffer": "400.0",
+  "l1_buffer": "1500.0",
+  "window": "200.0",
+  "network_buffer": "2000.0",
+  "zones_only": "False"
+ },
+ "topology": {
+  "localReachCount": 103,
+  "catchmentCount": 103,
+  "zeroAreaReachIdsWithoutCatchment": [],
+  "divergentLocalReaches": [
+   15876935
+  ],
+  "sumLocalReachAreasqkm": 839.6514000000002,
+  "sumCatchmentAreasqkm": 839.677124,
+  "totdaExpectedKm2": 839.6513999999997,
+  "domainAreaKm2": 839.0154263951479,
+  "domainParts": 1,
+  "partAreasKm2": [
+   839.0154
+  ],
+  "sliverHolesFilledCount": 42,
+  "remainingHoles": 0,
+  "largestSliverHolesM2": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "externalInflows": [
+   15876941
+  ],
+  "receivingReach": [
+   15876923
+  ],
+  "downstreamLinks": [
+   [
+    15876707,
+    945050510
+   ],
+   [
+    15876711,
+    945050510
+   ],
+   [
+    15902567,
+    15902533
+   ]
+  ],
+  "traversal": "tonode->fromnode node graph; verified identical to dnhydroseq+dnminorhyd graph",
+  "excludedGaugeCatchmentKm2": 27.4689,
+  "domainBoundsLonLat": [
+   -111.42187402060229,
+   31.936762956315103,
+   -111.04294487045246,
+   32.37092950615021
+  ]
+ },
+ "nonLocalFlowlinesTouchingDomain": [
+  {
+   "comid": 15876941,
+   "gnis": "Brawley Wash",
+   "ftype": "StreamRiver",
+   "lengthInsideM": 35.4,
+   "drainsIntoLocal": true
+  },
+  {
+   "comid": 15902533,
+   "gnis": "",
+   "ftype": "StreamRiver",
+   "lengthInsideM": 94.0,
+   "drainsIntoLocal": false
+  },
+  {
+   "comid": 945050510,
+   "gnis": "Brawley Wash",
+   "ftype": "StreamRiver",
+   "lengthInsideM": 1.6,
+   "drainsIntoLocal": false
+  }
+ ],
+ "overlapWithLiveKm2": {
+  "northern": 0.0,
+  "picture-rocks-ina-twinpeaks": 0.0,
+  "gates": 139.42
+ },
+ "domainOutsideLiveKm2": 699.59,
+ "brawleyMainstem": {
+  "levelpath": 720005313.0,
+  "reaches": [
+   15876711,
+   15876771,
+   15876775,
+   15876803,
+   15876807,
+   15876811,
+   15876919,
+   15876923,
+   15877585,
+   15877627
+  ],
+  "lengthKm": 33.46,
+  "names": [
+   "Brawley Wash"
+  ]
+ },
+ "roadTiles": {
+  "box": [
+   -111.42,
+   32.16,
+   -110.93,
+   32.52
+  ],
+  "areaTiles": 26,
+  "areaLines": 31911
+ },
+ "priorityRoads": {
+  "Sandario": {
+   "km": 29.82,
+   "kmInDomain": 14.99,
+   "kmInDomainOutsideLive": 4.49,
+   "roadNames": [
+    "North Sandario Road",
+    "North Sandario Road;West Twin Peaks Road",
+    "South Sandario Road"
+   ]
+  },
+  "Manville": {
+   "km": 20.02,
+   "kmInDomain": 9.26,
+   "kmInDomainOutsideLive": 4.86,
+   "roadNames": [
+    "West Manville Road"
+   ]
+  },
+  "Avra Valley Rd west": {
+   "km": 28.93,
+   "kmInDomain": 0.0,
+   "kmInDomainOutsideLive": 0.0,
+   "roadNames": [
+    "West Avra Valley Road"
+   ]
+  },
+  "Anway": {
+   "km": 17.08,
+   "kmInDomain": 0.0,
+   "kmInDomainOutsideLive": 0.0,
+   "roadNames": [
+    "North Anway Road",
+    "West Anway Place"
+   ]
+  },
+  "Mile Wide": {
+   "km": 8.89,
+   "kmInDomain": 8.89,
+   "kmInDomainOutsideLive": 3.09,
+   "roadNames": [
+    "Mile Wide Road",
+    "West Mile Wide Road"
+   ]
+  },
+  "Snyder Hill": {
+   "km": 12.55,
+   "kmInDomain": 12.55,
+   "kmInDomainOutsideLive": 12.55,
+   "roadNames": [
+    "Snyder Hill Place",
+    "West Snyder Hill Road"
+   ]
+  },
+  "Nelson Quihuis": {
+   "km": 2.4,
+   "kmInDomain": 2.4,
+   "kmInDomainOutsideLive": 2.4,
+   "roadNames": [
+    "North Nelson Quihuis Road"
+   ]
+  },
+  "Garcia Ranch": {
+   "km": 8.7,
+   "kmInDomain": 7.21,
+   "kmInDomainOutsideLive": 7.21,
+   "roadNames": [
+    "Garcia Ranch Road",
+    "West Garcia Ranch Road"
+   ]
+  },
+  "Cocorague Ranch": {
+   "km": 8.37,
+   "kmInDomain": 2.24,
+   "kmInDomainOutsideLive": 2.24,
+   "roadNames": [
+    "West Cocorague Ranch Road"
+   ]
+  },
+  "Agua Dulce Ranch": {
+   "km": 6.38,
+   "kmInDomain": 0.0,
+   "kmInDomainOutsideLive": 0.0,
+   "roadNames": [
+    "North Agua Dulce Ranch Road"
+   ]
+  },
+  "Tucker": {
+   "km": 7.08,
+   "kmInDomain": 1.61,
+   "kmInDomainOutsideLive": 0.66,
+   "roadNames": [
+    "North Tucker Drive",
+    "West Tucker Road"
+   ]
+  }
+ },
+ "priorityRoadsNotFound": [],
+ "network": {
+  "features": 150,
+  "local": 103,
+  "bufferM": 2000.0,
+  "flowdirValues": [
+   "With Digitized"
+  ],
+  "multipartRemaining": []
+ },
+ "dips": {
+  "csvRows": 366,
+  "inDomain": 121,
+  "inDomainOutsideLive": 48,
+  "depthGE03": 48,
+  "depthGE1": 5
+ },
+ "crossings": {
+  "inDomainOutsideLive": 91,
+  "onBrawley": 5,
+  "byOrder": {
+   "1.0": 74,
+   "2.0": 6,
+   "3.0": 6,
+   "5.0": 5
+  },
+  "namedRoad": 89
+ },
+ "l4WindowPoints": {
+  "dips": 48,
+  "crossings": 91,
+  "minDipM": 0.0,
+  "windowM": 200.0
+ },
+ "zones": {
+  "1": {
+   "areaKm2": 67.586,
+   "cellsAtLevel": 27035
+  },
+  "2": {
+   "areaKm2": 19.138,
+   "cellsAtLevel": 30621
+  },
+  "3": {
+   "areaKm2": 16.925,
+   "cellsAtLevel": 108321
+  },
+  "4": {
+   "areaKm2": 4.634,
+   "cellsAtLevel": 118630
+  }
+ },
+ "meshEstimate": {
+  "formula": "prepare_route_case_mesh.py line 19: n*m + sum(area/cell^2)",
+  "rectangleCells": 172556,
+  "estimate": 457162,
+  "boundsEPSG32612": [
+   460200.0,
+   3533400.0,
+   496000.0,
+   3581600.0
+  ],
+  "inDomainActiveEstimate": 357679
+ }
+}

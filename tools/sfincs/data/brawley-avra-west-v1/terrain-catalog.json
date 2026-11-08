@@ -1,0 +1,1289 @@
+{
+  "source": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-111.52,31.98,-110.98,32.43&max=500&outputFormat=JSON",
+  "retrievedUtc": "2026-11-08T22:12:26Z",
+  "responseSha256": "9e78a124dc24baba80182d2f72ba0517ec2296717a91f336503b2d1bcd5af20c",
+  "total": 67,
+  "messages": [
+    "Retrieved 67 item(s) Retrieved (1 through 500)"
+  ],
+  "priority": [
+    "AZ_PimaCounty_2021_B21",
+    "AZ_BrawleyRillito_2018_D19",
+    "AZ_Eastern_PimaCO_2015"
+  ],
+  "items": [
+    {
+      "title": "USGS 1 Meter 12 x45y354 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "69549431d4be0262ea357307",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x45y354_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.52931841999998,
+        "maxX": -111.42304388699995,
+        "minY": 31.904750223000065,
+        "maxY": 31.995362662000048
+      },
+      "publicationDate": "2025-12-23",
+      "lastUpdated": "2025-12-30T20:23:25.346-07:00",
+      "sizeInBytes": 279133268,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/69549431d4be0262ea357307",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x45y354_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x45y355 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "69549430d4be0262ea357305",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x45y355_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.52983776899998,
+        "maxX": -111.42345752099999,
+        "minY": 31.994965216000026,
+        "maxY": 32.08557775000003
+      },
+      "publicationDate": "2025-12-29",
+      "lastUpdated": "2025-12-30T20:23:25.345-07:00",
+      "sizeInBytes": 176515241,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/69549430d4be0262ea357305",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x45y355_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x45y356 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "69549430d4be0262ea357303",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x45y356_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.53035944799996,
+        "maxX": -111.42387301099996,
+        "minY": 32.085178917000064,
+        "maxY": 32.175791547000074
+      },
+      "publicationDate": "2025-12-29",
+      "lastUpdated": "2025-12-30T20:23:22.340-07:00",
+      "sizeInBytes": 24715780,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/69549430d4be0262ea357303",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x45y356_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x45y357 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "69549430d4be0262ea357301",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x45y357_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.53088346599998,
+        "maxX": -111.42429036599998,
+        "minY": 32.17539132500008,
+        "maxY": 32.26600405000005
+      },
+      "publicationDate": "2025-12-29",
+      "lastUpdated": "2025-12-30T20:23:22.339-07:00",
+      "sizeInBytes": 65090560,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/69549430d4be0262ea357301",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x45y357_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x45y358 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "69549430d4be0262ea3572ff",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x45y358_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.53140983299994,
+        "maxX": -111.42470959199994,
+        "minY": 32.26560243600005,
+        "maxY": 32.35621525900007
+      },
+      "publicationDate": "2025-12-29",
+      "lastUpdated": "2025-12-30T20:23:22.340-07:00",
+      "sizeInBytes": 209898328,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/69549430d4be0262ea3572ff",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x45y358_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x45y359 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "6954942fd4be0262ea3572fd",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x45y359_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.53193855899997,
+        "maxX": -111.42513069699999,
+        "minY": 32.35581225000004,
+        "maxY": 32.446425170000055
+      },
+      "publicationDate": "2025-12-29",
+      "lastUpdated": "2025-12-30T20:23:13.321-07:00",
+      "sizeInBytes": 333795363,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6954942fd4be0262ea3572fd",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x45y359_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x46y354 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "6954942ed4be0262ea3572f1",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x46y354_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.42345752099999,
+        "maxX": -111.31728453299996,
+        "minY": 31.905146286000047,
+        "maxY": 31.99567179400003
+      },
+      "publicationDate": "2025-12-23",
+      "lastUpdated": "2025-12-30T20:23:01.297-07:00",
+      "sizeInBytes": 237743138,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6954942ed4be0262ea3572f1",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x46y354_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x46y354 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d7b4d34e633466510091",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y354_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.42345752099999,
+        "maxX": -111.31728453299996,
+        "minY": 31.905146286000047,
+        "maxY": 31.99567179400003
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:50.793-06:00",
+      "sizeInBytes": 49721869,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d7b4d34e633466510091",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x46y355 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "6954942dd4be0262ea3572ef",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x46y355_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.42387301099996,
+        "maxX": -111.31759476499997,
+        "minY": 31.995362662000048,
+        "maxY": 32.085887960000036
+      },
+      "publicationDate": "2025-12-29",
+      "lastUpdated": "2025-12-30T20:22:58.292-07:00",
+      "sizeInBytes": 229503420,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6954942dd4be0262ea3572ef",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x46y355_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x46y356 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "6954942dd4be0262ea3572ed",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x46y356_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.42429036599998,
+        "maxX": -111.31790638999996,
+        "minY": 32.08557775000003,
+        "maxY": 32.17610283700003
+      },
+      "publicationDate": "2025-12-29",
+      "lastUpdated": "2025-12-30T20:22:58.291-07:00",
+      "sizeInBytes": 220784198,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6954942dd4be0262ea3572ed",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x46y356_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x46y357 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "6954942dd4be0262ea3572eb",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x46y357_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.42470959199994,
+        "maxX": -111.31821941199996,
+        "minY": 32.175791547000074,
+        "maxY": 32.266316423000035
+      },
+      "publicationDate": "2025-12-29",
+      "lastUpdated": "2025-12-30T20:22:58.291-07:00",
+      "sizeInBytes": 133914602,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6954942dd4be0262ea3572eb",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x46y357_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x46y358 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "6954942dd4be0262ea3572e9",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x46y358_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.42513069699999,
+        "maxX": -111.31853383799995,
+        "minY": 32.26600405000005,
+        "maxY": 32.35652871600007
+      },
+      "publicationDate": "2025-12-23",
+      "lastUpdated": "2025-12-30T20:22:49.273-07:00",
+      "sizeInBytes": 162268971,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6954942dd4be0262ea3572e9",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x46y358_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x46y358 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d7b2d34e63346651008f",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y358_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.42513069699999,
+        "maxX": -111.31853383799995,
+        "minY": 32.26600405000005,
+        "maxY": 32.35652871600007
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:50.738-06:00",
+      "sizeInBytes": 128249308,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d7b2d34e63346651008f",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x46y359 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "6954942cd4be0262ea3572e7",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x46y359_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.42555368899997,
+        "maxX": -111.31884967399998,
+        "minY": 32.35621525900007,
+        "maxY": 32.446739714000046
+      },
+      "publicationDate": "2025-12-23",
+      "lastUpdated": "2025-12-30T20:22:49.275-07:00",
+      "sizeInBytes": 162688214,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6954942cd4be0262ea3572e7",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x46y359_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x46y359 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d7b0d34e63346651008d",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x46y359_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.42555368899997,
+        "maxX": -111.31884967399998,
+        "minY": 32.35621525900007,
+        "maxY": 32.446739714000046
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:50.664-06:00",
+      "sizeInBytes": 125213692,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d7b0d34e63346651008d",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x47y354 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "6954942ad4be0262ea3572d5",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x47y354_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.31759476499997,
+        "maxX": -111.21152379299997,
+        "minY": 31.905454340000063,
+        "maxY": 31.99589260500005
+      },
+      "publicationDate": "2025-12-23",
+      "lastUpdated": "2025-12-30T20:22:25.228-07:00",
+      "sizeInBytes": 187844141,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6954942ad4be0262ea3572d5",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x47y354_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x47y354 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d7a8d34e633466510085",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y354_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.31759476499997,
+        "maxX": -111.21152379299997,
+        "minY": 31.905454340000063,
+        "maxY": 31.99589260500005
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:49.455-06:00",
+      "sizeInBytes": 106859285,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d7a8d34e633466510085",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x47y358 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d7a3d34e633466510083",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y358_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.31884967399998,
+        "maxX": -111.21235667499997,
+        "minY": 32.266316423000035,
+        "maxY": 32.35675261700004
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:49.263-06:00",
+      "sizeInBytes": 268326469,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d7a3d34e633466510083",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x47y359 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d7a1d34e633466510081",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x47y359_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.31916692399994,
+        "maxX": -111.21256723499994,
+        "minY": 32.35652871600007,
+        "maxY": 32.44696439200004
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:47.919-06:00",
+      "sizeInBytes": 265643661,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d7a1d34e633466510081",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x48y354 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "69549429d4be0262ea3572cd",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x48y354_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.21173061699994,
+        "maxX": -111.10576212699999,
+        "minY": 31.905674383000076,
+        "maxY": 31.99602509300007
+      },
+      "publicationDate": "2025-12-23",
+      "lastUpdated": "2025-12-30T20:22:22.221-07:00",
+      "sizeInBytes": 75994461,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/69549429d4be0262ea3572cd",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x48y354_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x48y354 AZ_CochiseCounty_2020_B20",
+      "sourceId": "61ce9df7d34ed79293fc8f17",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_CochiseCounty_2020_B20/TIFF/USGS_1M_12_x48y354_AZ_CochiseCounty_2020_B20.tif",
+      "boundingBox": {
+        "minX": -111.21173061699994,
+        "maxX": -111.10576212699999,
+        "minY": 31.905674383000076,
+        "maxY": 31.99602509300007
+      },
+      "publicationDate": "2021-11-11",
+      "lastUpdated": "2021-12-30T23:06:53.667-07:00",
+      "sizeInBytes": 30081724,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/61ce9df7d34ed79293fc8f17",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_CochiseCounty_2020_B20/AZ_CochiseCounty_3_2020",
+      "project": null,
+      "year": null
+    },
+    {
+      "title": "USGS 1 Meter 12 x48y354 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d798d34e633466510077",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y354_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.21173061699994,
+        "maxX": -111.10576212699999,
+        "minY": 31.905674383000076,
+        "maxY": 31.99602509300007
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:46.057-06:00",
+      "sizeInBytes": 196334996,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d798d34e633466510077",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x48y357 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d797d34e633466510075",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y357_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.21235667499997,
+        "maxX": -111.10607376099995,
+        "minY": 32.17632519000006,
+        "maxY": 32.26667342700006
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:45.936-06:00",
+      "sizeInBytes": 298771591,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d797d34e633466510075",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x48y358 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d795d34e633466510073",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y358_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.21256723499994,
+        "maxX": -111.10617857199998,
+        "minY": 32.26653954900007,
+        "maxY": 32.356886959000065
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:46.090-06:00",
+      "sizeInBytes": 308843556,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d795d34e633466510073",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x48y359 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d793d34e633466510071",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x48y359_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.21277873899999,
+        "maxX": -111.10628385399997,
+        "minY": 32.35675261700004,
+        "maxY": 32.447099199000036
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:45.932-06:00",
+      "sizeInBytes": 279774896,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d793d34e633466510071",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x49y354 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d789d34e633466510067",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y354_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.10586554099996,
+        "maxX": -111.0,
+        "minY": 31.905806410000025,
+        "maxY": 31.996069256000055
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:13.346-06:00",
+      "sizeInBytes": 281372348,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d789d34e633466510067",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x49y357 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d787d34e633466510065",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y357_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.10617857199998,
+        "maxX": -111.0,
+        "minY": 32.17645860300007,
+        "maxY": 32.266718053000034
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:13.515-06:00",
+      "sizeInBytes": 310539405,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d787d34e633466510065",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x49y358 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "69549429d4be0262ea3572cb",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x49y358_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.10628385399997,
+        "maxX": -111.0,
+        "minY": 32.26667342700006,
+        "maxY": 32.35693174000005
+      },
+      "publicationDate": "2025-12-23",
+      "lastUpdated": "2025-12-30T20:22:13.205-07:00",
+      "sizeInBytes": 83418149,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/69549429d4be0262ea3572cb",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x49y358_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x49y358 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d785d34e633466510063",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y358_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.10628385399997,
+        "maxX": -111.0,
+        "minY": 32.26667342700006,
+        "maxY": 32.35693174000005
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:02.898-06:00",
+      "sizeInBytes": 289318865,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d785d34e633466510063",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x49y359 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d783d34e633466510061",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x49y359_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.106389606,
+        "maxX": -111.0,
+        "minY": 32.356886959000065,
+        "maxY": 32.44714413600008
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:03:00.446-06:00",
+      "sizeInBytes": 284161395,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d783d34e633466510061",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x50y354 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d76ed34e633466510057",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x50y354_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.0,
+        "maxX": -110.89413445899999,
+        "minY": 31.905806410000025,
+        "maxY": 31.996069256000055
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:02:45.868-06:00",
+      "sizeInBytes": 278196711,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d76ed34e633466510057",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x50y357 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "69549428d4be0262ea3572c9",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x50y357_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.0,
+        "maxX": -110.89382142799997,
+        "minY": 32.17645860300007,
+        "maxY": 32.266718053000034
+      },
+      "publicationDate": "2025-12-23",
+      "lastUpdated": "2025-12-30T20:22:10.195-07:00",
+      "sizeInBytes": 56198164,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/69549428d4be0262ea3572c9",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x50y357_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x50y357 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d76cd34e633466510055",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x50y357_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.0,
+        "maxX": -110.89382142799997,
+        "minY": 32.17645860300007,
+        "maxY": 32.266718053000034
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:02:46.067-06:00",
+      "sizeInBytes": 268652399,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d76cd34e633466510055",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x50y358 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "69549428d4be0262ea3572c7",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x50y358_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.0,
+        "maxX": -110.89371614599997,
+        "minY": 32.26667342700006,
+        "maxY": 32.35693174000005
+      },
+      "publicationDate": "2025-12-23",
+      "lastUpdated": "2025-12-30T20:22:13.203-07:00",
+      "sizeInBytes": 293293950,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/69549428d4be0262ea3572c7",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x50y358_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x50y358 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d76ad34e633466510053",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x50y358_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.0,
+        "maxX": -110.89371614599997,
+        "minY": 32.26667342700006,
+        "maxY": 32.35693174000005
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:02:45.984-06:00",
+      "sizeInBytes": 296108974,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d76ad34e633466510053",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS 1 Meter 12 x50y359 AZ_BrawleyRillito_2018_D19",
+      "sourceId": "69549428d4be0262ea3572c5",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_BrawleyRillito_2018_D19/TIFF/USGS_1M_12_x50y359_AZ_BrawleyRillito_2018_D19.tif",
+      "boundingBox": {
+        "minX": -111.0,
+        "maxX": -110.89361039399995,
+        "minY": 32.356886959000065,
+        "maxY": 32.44714413600008
+      },
+      "publicationDate": "2025-12-23",
+      "lastUpdated": "2025-12-30T20:22:10.196-07:00",
+      "sizeInBytes": 64446379,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/69549428d4be0262ea3572c5",
+      "vendorMetaUrl": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/AZ_BrawleyRillito_2018_D19/USGS_1M_12_x50y359_AZ_BrawleyRillito_2018_D19.xml",
+      "project": "AZ_BrawleyRillito_2018_D19",
+      "year": 2018
+    },
+    {
+      "title": "USGS 1 Meter 12 x50y359 AZ_PimaCounty_2021_B21",
+      "sourceId": "6610d768d34e633466510051",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_PimaCounty_2021_B21/TIFF/USGS_1M_12_x50y359_AZ_PimaCounty_2021_B21.tif",
+      "boundingBox": {
+        "minX": -111.0,
+        "maxX": -110.89361039399995,
+        "minY": 32.356886959000065,
+        "maxY": 32.44714413600008
+      },
+      "publicationDate": "2024-03-29",
+      "lastUpdated": "2024-04-05T23:02:46.261-06:00",
+      "sizeInBytes": 312724224,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/6610d768d34e633466510051",
+      "vendorMetaUrl": "https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Elevation/metadata/AZ_PimaCounty_2021_B21/AZ_PimaCo_2_2021",
+      "project": "AZ_PimaCounty_2021_B21",
+      "year": 2021
+    },
+    {
+      "title": "USGS one meter x46y354 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4ce782cefae35a220059",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x46y354_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.423521287,
+        "maxX": -111.317210315,
+        "minY": 31.9054003944,
+        "maxY": 31.9954165798
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:34.060-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4ce782cefae35a220059",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x46y355 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4ce782cefae35a22005b",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x46y355_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.423936841,
+        "maxX": -111.317531061,
+        "minY": 31.9956178224,
+        "maxY": 32.085631666
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:34.963-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4ce782cefae35a22005b",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x46y356 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4ce882cefae35a22005d",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x46y356_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.424364866,
+        "maxX": -111.317842622,
+        "minY": 32.0858339898,
+        "maxY": 32.1758454254
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:35.678-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4ce882cefae35a22005d",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x46y357 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4ce882cefae35a220061",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x46y357_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.424773549,
+        "maxX": -111.318155581,
+        "minY": 32.1760488681,
+        "maxY": 32.266057963
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:36.460-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4ce882cefae35a220061",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x46y358 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4ce882cefae35a220065",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x46y358_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.425205388,
+        "maxX": -111.318469943,
+        "minY": 32.2662624555,
+        "maxY": 32.3562781551
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:37.190-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4ce882cefae35a220065",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x46y359 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4ce882cefae35a220069",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x46y359_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.425617775,
+        "maxX": -111.318775087,
+        "minY": 32.3564747767,
+        "maxY": 32.4464790798
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:37.992-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4ce882cefae35a220069",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x47y354 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d2b82cefae35a22020f",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x47y354_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.317669056,
+        "maxX": -111.211460212,
+        "minY": 31.9056203572,
+        "maxY": 31.9957257381
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:40.209-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d2b82cefae35a22020f",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x47y355 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d2b82cefae35a220211",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x47y355_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.317980754,
+        "maxX": -111.211666974,
+        "minY": 31.9958385803,
+        "maxY": 32.0859419028
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:41.041-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d2b82cefae35a220211",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x47y356 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d2c82cefae35a220215",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x47y356_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.31829385,
+        "maxX": -111.211874664,
+        "minY": 32.0860555178,
+        "maxY": 32.1761567783
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:41.864-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d2c82cefae35a220215",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x47y357 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d2c82cefae35a220219",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x47y357_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.318608351,
+        "maxX": -111.212083285,
+        "minY": 32.1762711677,
+        "maxY": 32.2663703629
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:42.679-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d2c82cefae35a220219",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x47y358 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d2c82cefae35a22021d",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x47y358_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.318924261,
+        "maxX": -111.212282225,
+        "minY": 32.2664855459,
+        "maxY": 32.3565826545
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:43.386-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d2c82cefae35a22021d",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x47y359 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d2d82cefae35a220221",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x47y359_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.31923098,
+        "maxX": -111.212503339,
+        "minY": 32.356698597,
+        "maxY": 32.4468026993
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:44.099-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d2d82cefae35a220221",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x48y354 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d7182cefae35a2203cc",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x48y354_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.211804847,
+        "maxX": -111.105698608,
+        "minY": 31.905752331,
+        "maxY": 31.9959466118
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:51.313-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d7182cefae35a2203cc",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x48y355 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d7282cefae35a2203d0",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x48y355_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.212002097,
+        "maxX": -111.105801959,
+        "minY": 31.9959710152,
+        "maxY": 32.0861725862
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:52.197-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d7282cefae35a2203d0",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x48y356 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d7282cefae35a2203d4",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x48y356_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.212221431,
+        "maxX": -111.105895177,
+        "minY": 32.0861884235,
+        "maxY": 32.1763791944
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:52.978-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d7282cefae35a2203d4",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x48y357 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d7382cefae35a2203d8",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x48y357_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.212431147,
+        "maxX": -111.105999447,
+        "minY": 32.1764045363,
+        "maxY": 32.2666025738
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:53.801-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d7382cefae35a2203d8",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x48y358 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d7b82cefae35a2203dc",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x48y358_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.212631132,
+        "maxX": -111.106104185,
+        "minY": 32.2666193605,
+        "maxY": 32.356806637
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:54.587-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d7b82cefae35a2203dc",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x48y359 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4d7b82cefae35a2203e0",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x48y359_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.212842721,
+        "maxX": -111.10622002,
+        "minY": 32.3568328852,
+        "maxY": 32.4470274314
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:04:55.392-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4d7b82cefae35a2203e0",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x49y354 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4dd082cefae35a2205b6",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x49y354_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.105929122,
+        "maxX": -110.999936543,
+        "minY": 31.9057962873,
+        "maxY": 31.9960791708
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:00.213-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4dd082cefae35a2205b6",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x49y355 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4dd082cefae35a2205ba",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x49y355_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.106043669,
+        "maxX": -110.999936481,
+        "minY": 31.996015125,
+        "maxY": 32.0863055812
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:01.026-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4dd082cefae35a2205ba",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x49y356 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4dd082cefae35a2205be",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x49y356_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.106137468,
+        "maxX": -110.999925821,
+        "minY": 32.0862326784,
+        "maxY": 32.1765126792
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:01.801-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4dd082cefae35a2205be",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x49y357 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4dd182cefae35a2205c2",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x49y357_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.106242353,
+        "maxX": -110.999936356,
+        "minY": 32.1764489453,
+        "maxY": 32.2667365229
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:02.750-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4dd182cefae35a2205c2",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x49y358 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4dd182cefae35a2205c6",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x49y358_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.106347687,
+        "maxX": -110.999936293,
+        "minY": 32.2666639239,
+        "maxY": 32.3569410332
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:03.628-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4dd182cefae35a2205c6",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x49y359 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4dd182cefae35a2205ca",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x49y359_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.106464143,
+        "maxX": -110.99993623,
+        "minY": 32.3568776123,
+        "maxY": 32.4471532635
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:04.437-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4dd182cefae35a2205ca",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x50y354 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4e2082cefae35a2207c1",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x50y354_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.000063519,
+        "maxX": -110.894163901,
+        "minY": 31.9057522166,
+        "maxY": 31.9961233869
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:09.130-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4e2082cefae35a2207c1",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x50y355 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4e2882cefae35a2207c5",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x50y355_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.000063582,
+        "maxX": -110.894071002,
+        "minY": 31.9959709092,
+        "maxY": 32.0863499603
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:09.975-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4e2882cefae35a2207c5",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x50y356 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4e2882cefae35a2207c9",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x50y356_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.000074252,
+        "maxX": -110.893956466,
+        "minY": 32.0861882994,
+        "maxY": 32.176557204
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:14.537-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4e2882cefae35a2207c9",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x50y357 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4e2882cefae35a2207cd",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x50y357_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.000074325,
+        "maxX": -110.893862657,
+        "minY": 32.1764044207,
+        "maxY": 32.2667812026
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:15.503-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4e2882cefae35a2207cd",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x50y358 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4e2882cefae35a2207d1",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x50y358_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.00006377,
+        "maxX": -110.893757784,
+        "minY": 32.2666192445,
+        "maxY": 32.356985868
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:16.280-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4e2882cefae35a2207d1",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    },
+    {
+      "title": "USGS one meter x50y359 AZ Eastern PimaCO 2015",
+      "sourceId": "5eaa4e2982cefae35a2207d5",
+      "downloadURL": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/AZ_Eastern_PimaCO_2015/TIFF/USGS_one_meter_x50y359_AZ_Eastern_PimaCO_2015.tif",
+      "boundingBox": {
+        "minX": -111.000074473,
+        "maxX": -110.89365244,
+        "minY": 32.3568327777,
+        "maxY": 32.4471982627
+      },
+      "publicationDate": "2020-03-30",
+      "lastUpdated": "2020-11-16T18:05:17.025-07:00",
+      "sizeInBytes": null,
+      "format": "GeoTIFF",
+      "metaUrl": "https://www.sciencebase.gov/catalog/item/5eaa4e2982cefae35a2207d5",
+      "vendorMetaUrl": "http://nationalmap.gov/3DEP/3dep_prodmetadata.html",
+      "project": "AZ_Eastern_PimaCO_2015",
+      "year": 2015
+    }
+  ]
+}

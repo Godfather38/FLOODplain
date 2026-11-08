@@ -1,0 +1,19 @@
+{
+ "collection": "nhdflowline_network",
+ "source": "USGS Water Mission Area geospatial fabric pygeoapi (NHDPlus V2), public domain",
+ "bbox": "-111.70,31.95,-110.95,32.45",
+ "pages": [
+  {
+   "url": "https://api.water.usgs.gov/fabric/pygeoapi/collections/nhdflowline_network/items?f=json&bbox=-111.70,31.95,-110.95,32.45&limit=1000",
+   "fetchedUtc": "2026-11-08T21:58:43+00:00",
+   "bytes": 8134306,
+   "sha256": "4d668e98412c108a770a5cccea72f838c4726fd3b21e1d02bd11b66cf82ba661",
+   "features": 699,
+   "numberMatched": 699,
+   "seconds": 4.1
+  }
+ ],
+ "count": 699,
+ "file": "nhdflowline_network.geojson.gz",
+ "uncompressedSha256": "fe069266339a841e52a6eb79af23d81ac17e59e2cbb3a6c0d67c324e84df2fdc"
+}

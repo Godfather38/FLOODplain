@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "status": "complete",
+  "kind": "frozen_forecast",
+  "issuedAt": "2026-11-01T13:00:00Z",
+  "start": "2026-11-01T14:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "series": [
+    {
+      "reachId": "15876941",
+      "units": "m3/s",
+      "points": [
+        {
+          "time": "2026-11-01T14:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T15:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T16:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T17:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T18:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T19:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T20:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T21:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T22:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-01T23:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-02T00:00:00Z",
+          "flowM3s": 0.1099999975413084
+        },
+        {
+          "time": "2026-11-02T01:00:00Z",
+          "flowM3s": 0.11999999731779099
+        },
+        {
+          "time": "2026-11-02T02:00:00Z",
+          "flowM3s": 0.12999999709427357
+        },
+        {
+          "time": "2026-11-02T03:00:00Z",
+          "flowM3s": 0.1699999962002039
+        },
+        {
+          "time": "2026-11-02T04:00:00Z",
+          "flowM3s": 0.24999999441206455
+        },
+        {
+          "time": "2026-11-02T05:00:00Z",
+          "flowM3s": 0.5899999868124723
+        },
+        {
+          "time": "2026-11-02T06:00:00Z",
+          "flowM3s": 1.219999972730875
+        },
+        {
+          "time": "2026-11-02T07:00:00Z",
+          "flowM3s": 1.699999962002039
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "source": "NOAA National Water Model v3.1 archived native channel_rt (s3 noaa-nwm-pds)",
+    "crosswalk": "nwm-crosswalk.json",
+    "sourceFrames": "nwm-source-frames.json#forecast",
+    "tool": "tools/sfincs/fetch_frozen_nwm.py --crosswalk .sfincs-runs/brawley-avra-west-nwm-v1/crosswalk.json",
+    "externalInlet": {
+      "reachId": "15876941",
+      "receivingReachId": "15876923",
+      "note": "USGS 09487000 Brawley Wash near Three Points sits on 15876941 (NLDI measure 99.149); the ~27 km2 local catchment of 15876941 below the gauge is excluded from the domain and its runoff is not added."
+    }
+  },
+  "noModelExecuted": true,
+  "missingReachIds": []
+}
