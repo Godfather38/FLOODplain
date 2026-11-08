@@ -1,9 +1,10 @@
-"""Storm-triggered current runs of the three all-route SFINCS cases (6.25 m road cells).
+"""Storm-triggered current runs of the registered all-route SFINCS cases (all-route-cases.json).
 
 Each case is the committed, hash-checked prepared case with only its forcing replaced, the same
 way run_live_sfincs.py treats the coarse case: a cold start 45 hours before the newest HRRR
 cycle, HRRR first-hour rain of each of those cycles, then the cycle's 18-hour forecast, and NWM
-analysis then short-range flow at the case's own registry inlets. Mesh, subgrid, roughness,
+analysis then short-range flow at the case's own registry inlets (an inlet with an "observed"
+USGS gauge uses the gauge for its past hours; see usgs_flows.py). Mesh, subgrid, roughness,
 infiltration, mask and solver settings are unchanged.
 
   python run_live_all_route.py check OUT.json [THRESHOLD_MM]   # newest cycle; which cases get rain
@@ -18,6 +19,7 @@ import h5py, numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from run_live_sfincs import ISO, SPIN, AHEAD, apcp_hour, newest_cycle, nwm_hourly, regrid, utm_to_lonlat
 from export_road_forecast import RoadForecast
+from usgs_flows import observed_flows
 
 CASES = Path(__file__).resolve().parent / 'all-route-cases.json'
 SHOW_BACK, DTOUT, MARGIN_DEG = 3, 1800, 0.05
@@ -83,10 +85,25 @@ def prepare(name, work, cycle_iso):
             v, la, lo = apcp_hour(src, fh); P[k, :, :] = regrid(v, la, lo, tlat, tlon)
             sources.append({'start': ISO(t), 'cycle': ISO(src), 'forecastHour': fh})
         P.attrs['data_role'] = np.bytes_('hrrr_first_hour_then_forecast')
-    dis, notes, flow_sources = [], [], []
+    dis, notes, flow_sources, inflow = [], [], [], []
+    reaches = [i['reachId'] for i in c['inlets']]
     for inlet in c['inlets']:
-        q, missing = nwm_hourly(inlet['reachId'], start, hours, flow_sources, [i['reachId'] for i in c['inlets']]); dis.append(q)
-        if flow_sources[-1]['provider'] == 'NOAA NODD': notes.append(f"NWM reach {inlet['reachId']}: verified NOAA NODD hourly files used because NWPS is unavailable or incomplete")
+        q, missing = nwm_hourly(inlet['reachId'], start, hours, flow_sources, reaches)
+        nwm_provider = flow_sources[-1]['provider']
+        if nwm_provider == 'NOAA NODD': notes.append(f"NWM reach {inlet['reachId']}: verified NOAA NODD hourly files used because NWPS is unavailable or incomplete")
+        if inlet.get('observed'):
+            # Past hours from the USGS gauge where it has a valid reading; NWM otherwise (flagged) and for the forecast.
+            q, obs = observed_flows(inlet['observed'], start, hours, cycle, q)
+            flow_sources[-1]['observed'] = obs
+            notes.append(f"Inlet reach {inlet['reachId']}: {obs['note']}")
+            inflow.append({'reachId': inlet['reachId'], 'source': 'usgs+nwm' if obs['counts']['usgsHours'] else 'nwm',
+                           'nwmProvider': nwm_provider, 'usgsSite': obs['usgsSite'], 'usgsStatus': obs['status'],
+                           'usgsProvider': obs['provider'], 'httpStatus': obs['httpStatus'], 'fetchedAt': obs['fetchedAt'],
+                           'provisional': obs['provisional'], 'newestReading': obs['newestReading'], **obs['counts'], 'note': obs['note']})
+        else:
+            inflow.append({'reachId': inlet['reachId'], 'source': 'nwm', 'nwmProvider': nwm_provider})
+        if len(q) != hours + 1 or not all(np.isfinite(q)) or min(q) < 0: raise ValueError(f"Inlet {inlet['reachId']}: incomplete or invalid flow series")
+        dis.append(q)
     with open(work / 'sfincs.dis', 'w') as o:
         for k in range(hours + 1): o.write(f'{k * 3600.0:10.1f} ' + ' '.join(f'{d[k]:12.6f}' for d in dis) + '\n')
     stamp = lambda t: t.strftime('%Y%m%d %H%M%S')
@@ -97,10 +114,12 @@ def prepare(name, work, cycle_iso):
     (work / 'sfincs.inp').write_text('\n'.join(inp) + '\n')
     meta = {'schemaVersion': 1, 'kind': 'live_all_route_case', 'case': name, 'modelVersion': c['modelVersion'], 'caseArchiveSha256': c['archiveSha256'],
             'hrrrCycle': ISO(cycle), 'start': ISO(start), 'end': ISO(start + dt.timedelta(hours=hours)), 'preparedAt': ISO(dt.datetime.now(dt.timezone.utc)),
-            'rainSources': sources, 'flowNotes': notes, 'flowSources': flow_sources, 'inlets': [i['reachId'] for i in c['inlets']],
+            'rainSources': sources, 'flowNotes': notes, 'flowSources': flow_sources, 'inflowSource': inflow, 'inlets': reaches,
             'method': f'Prepared all-route case with forcing replaced: cold start {SPIN} h before the HRRR cycle; HRRR first-hour rain of each past cycle, then the cycle\'s {AHEAD} h forecast; NWM analysis then short-range flow at the case\'s registry inlets.'}
+    gauged = [f"{i['reachId']} (USGS {i['observed']['usgsSite']})" for i in c['inlets'] if i.get('observed')]
+    if gauged: meta['method'] = meta['method'][:-1] + '; observed USGS discharge for the past hours at ' + ', '.join(gauged) + ', with NWM for any hour without a valid USGS value (flagged) and for the forecast hours.'
     (work / 'live-case.json').write_text(json.dumps(meta, indent=1))
-    print(json.dumps({k: meta[k] for k in ('case', 'hrrrCycle', 'start', 'end', 'flowNotes')}))
+    print(json.dumps({k: meta[k] for k in ('case', 'hrrrCycle', 'start', 'end', 'flowNotes', 'inflowSource')}))
 
 
 def pack(path, metadata, columns):
@@ -148,12 +167,12 @@ def export(name, work, out, run_id=None):
                 'frames': frames, 'quantity': {'name': 'cell_average_depth', 'units': 'm', 'definition': 'Native volume divided by each full native polygon area'},
                 'sourceIssues': {'HRRR': meta.get('hrrrCycle'), 'NWM': 'NWPS or verified NOAA NODD analysis then short-range flow; see flowSources', 'mode': 'live'},
                 'solverCompletion': {'status': 'complete' if finished else 'not_finished', 'nativeStatus': status, 'nativeRuntimeSeconds': runtime},
-                'flowNotes': meta.get('flowNotes', []), 'flowSources': meta.get('flowSources', []), 'caseArchiveSha256': c['archiveSha256'], 'issuedAt': ISO(dt.datetime.now(dt.timezone.utc)),
+                'flowNotes': meta.get('flowNotes', []), 'flowSources': meta.get('flowSources', []), 'inflowSource': meta.get('inflowSource'), 'caseArchiveSha256': c['archiveSha256'], 'issuedAt': ISO(dt.datetime.now(dt.timezone.utc)),
                 'uncertainty': {'status': 'not_quantified', 'plusMinus': None},
                 'limits': 'Model forecast from public forcing, not observed water. Cold start: soil and channel state come only from the 45 h warm-up. No bridge or culvert openings. 6.25 m road cells are not validated road depth.'}
     manifest['roadForecast'] = road_forecast.write(out / 'road-forecast.json', manifest)
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=1) + '\n')
-    print(json.dumps({k: manifest[k] for k in ('runId', 'status', 'validFrom', 'validTo')} | {'frames': len(frames)}))
+    print(json.dumps({k: manifest[k] for k in ('runId', 'status', 'validFrom', 'validTo', 'inflowSource')} | {'frames': len(frames)}))
 
 
 if __name__ == '__main__':

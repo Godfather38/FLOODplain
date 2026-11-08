@@ -1,0 +1,16 @@
+{
+ "purpose": "Draft only, not registered. The orchestrator registers brawley-avra-west after its frozen run by running tools/live/verify_all_route_inlets.py, which now writes the inlet's observed object from its OBSERVED table. This file records the intended inlet config.",
+ "case": "brawley-avra-west",
+ "modelVersion": "all-routes-brawley-avra-west-v1",
+ "inlets": [
+  {
+   "reachId": "15876941",
+   "x": "from sfincs.src / boundary-placement.json of the packaged case (filled by verify_all_route_inlets.py)",
+   "y": "from sfincs.src / boundary-placement.json of the packaged case (filled by verify_all_route_inlets.py)",
+   "observed": {"usgsSite": "09487000", "parameterCd": "00060"}
+  }
+ ],
+ "observedMeaning": "Live runs: every hour at or before the HRRR cycle uses USGS 09487000 instantaneous discharge at the top of the hour (or the straight line between readings within 15 min), cfs x 0.0283168 = m3/s; any hour without a valid USGS value uses that hour's NWM value and is flagged; if USGS cannot be read the inlet is NWM for all hours and the run metadata says so. Forecast hours are NWM short range unchanged. Provenance: live-case.json flowSources[].observed and inflowSource; manifest.json, road-forecast.json and local-road-forecast.json (top level and summary) carry inflowSource.",
+ "why": "Round 1: NWM at reach 15876941 peaked at 1.70 m3/s against the observed 49.27 m3/s (1740 cfs) at USGS 09487000 on 2026-11-01 (tools/sfincs/data/brawley-avra-west-v1/nwm-vs-usgs-09487000.json).",
+ "registryInletReachIds": ["15876941"]
+}

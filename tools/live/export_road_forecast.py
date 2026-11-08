@@ -255,6 +255,8 @@ class RoadForecast:
                 'mapping': 'Exact native polygon containment in compact frame face order; shared-boundary ambiguity and outside stations have no value',
                 'solverCompletion': manifest['solverCompletion'], 'flowNotes': manifest.get('flowNotes', []),
             },
+            # Per inlet: nwm, or usgs+nwm (observed past hours, NWM forecast and flagged gaps).
+            'inflowSource': manifest.get('inflowSource'),
             'uncertainty': manifest['uncertainty'],
             'limits': manifest['limits'] + ' Road heights are lidar-derived estimates, not pavement surveys. Missing stations or frames cannot establish a dry route. Approach-estimated bridge decks retain their provenance.',
         }
@@ -405,7 +407,8 @@ class LocalRoadForecast:
             'forecastStart': iso_z(self.times[0]) if self.times else None,
             'forecastEnd': iso_z(self.times[-1]) if self.times else None,
             'datum': 'NAVD88 metres', 'roadHeights': 'floodplain-road-heights-v1',
-            'stations': stations, 'summary': summary,
+            'stations': stations, 'summary': {**summary, 'inflowSource': manifest.get('inflowSource')},
+            'inflowSource': manifest.get('inflowSource'),
             # Additive fields beyond the shared contract.
             'status': 'complete' if complete else 'partial',
             'executionMode': manifest.get('executionMode'), 'hrrrCycle': iso_z(issues.get('HRRR')),

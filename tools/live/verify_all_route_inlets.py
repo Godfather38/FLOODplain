@@ -23,6 +23,9 @@ CASES = [
 ]
 # Cases that also publish local-road-forecast.json: their frozen station list (build_local_road_stations.py).
 LOCAL_ROADS = {'brawley-avra-west': 'tools/live/road-stations/brawley-avra-west-local.json.gz'}
+# Inlets whose past (analysis) hours use an observed USGS gauge in live runs (usgs_flows.py):
+# case -> reach -> registry "observed" object. Forecast hours stay NWM short range.
+OBSERVED = {'brawley-avra-west': {'15876941': {'usgsSite': '09487000', 'parameterCd': '00060'}}}
 sha = lambda b: hashlib.sha256(b).hexdigest()
 
 
@@ -71,6 +74,10 @@ def main():
             if np.hypot(pts[k, 0] - p['x'], pts[k, 1] - p['y']) > 0.1: raise ValueError(f'{name} inlet {k}: point differs from placement')
             if not np.allclose(series[p['reachId']], col, atol=5e-7): raise ValueError(f'{name} inlet {k}: flow differs from frozen {p["reachId"]}')
             reaches.append({'reachId': p['reachId'], 'x': float(pts[k, 0]), 'y': float(pts[k, 1])})
+        for reach, observed in OBSERVED.get(name, {}).items():
+            match = [r for r in reaches if r['reachId'] == reach]
+            if len(match) != 1: raise ValueError(f'{name}: observed gauge inlet {reach} is not exactly one case inlet')
+            match[0]['observed'] = dict(observed)
         if sorted(r['reachId'] for r in reaches) != sorted(i['reachId'] for i in registry['externalInlets']):
             raise ValueError(f'{name}: inlets differ from the registry')
         row = {'case': name, 'modelVersion': m['modelVersion'], 'caseManifest': str(path.as_posix()), 'archiveSha256': m['archiveSha256'],

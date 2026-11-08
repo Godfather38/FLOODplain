@@ -1,0 +1,336 @@
+{
+ "name": "ns1:timeSeriesResponseType",
+ "declaredType": "org.cuahsi.waterml.TimeSeriesResponseType",
+ "scope": "javax.xml.bind.JAXBElement$GlobalScope",
+ "value": {
+  "queryInfo": {
+   "queryURL": "http://waterservices.usgs.gov/nwis/iv/format=json&sites=09487000&parameterCd=00060&startDT=2026-11-01T17:45Z&endDT=2026-11-02T00:15Z",
+   "criteria": {
+    "locationParam": "[ALL:09487000]",
+    "variableParam": "[00060]",
+    "timeParam": {
+     "beginDateTime": "2026-11-01T07:00:00.000",
+     "endDateTime": "2026-11-04T06:59:00.000"
+    },
+    "parameter": []
+   },
+   "note": [
+    {
+     "value": "[ALL:09487000]",
+     "title": "filter:sites"
+    },
+    {
+     "value": "[mode=RANGE, modifiedSince=null] interval={INTERVAL[2026-11-01T07:00:00.000Z/2026-11-04T06:59:00.000Z]}",
+     "title": "filter:timeRange"
+    },
+    {
+     "value": "methodIds=[ALL]",
+     "title": "filter:methodId"
+    },
+    {
+     "value": "2026-11-08T21:58:46.351Z",
+     "title": "requestDT"
+    },
+    {
+     "value": "9236d6e0-dbbf-11f1-9fc8-2cea7f5e5ede",
+     "title": "requestId"
+    },
+    {
+     "value": "Provisional data are subject to revision. Go to http://waterdata.usgs.gov/nwis/help/?provisional for more information.",
+     "title": "disclaimer"
+    },
+    {
+     "value": "sdas01",
+     "title": "server"
+    }
+   ]
+  },
+  "timeSeries": [
+   {
+    "sourceInfo": {
+     "siteName": "BRAWLEY WASH NEAR THREE POINTS, AZ.",
+     "siteCode": [
+      {
+       "value": "09487000",
+       "network": "NWIS",
+       "agencyCode": "USGS"
+      }
+     ],
+     "timeZoneInfo": {
+      "defaultTimeZone": {
+       "zoneOffset": "-07:00",
+       "zoneAbbreviation": "MST"
+      },
+      "daylightSavingsTimeZone": {
+       "zoneOffset": "-06:00",
+       "zoneAbbreviation": "MDT"
+      },
+      "siteUsesDaylightSavingsTime": false
+     },
+     "geoLocation": {
+      "geogLocation": {
+       "srs": "EPSG:4326",
+       "latitude": 32.0756601,
+       "longitude": -111.3387473
+      },
+      "localSiteXY": []
+     },
+     "note": [],
+     "siteType": [],
+     "siteProperty": [
+      {
+       "value": "ST",
+       "name": "siteTypeCd"
+      },
+      {
+       "value": "15050302",
+       "name": "hucCd"
+      },
+      {
+       "value": "04",
+       "name": "stateCd"
+      },
+      {
+       "value": "04019",
+       "name": "countyCd"
+      }
+     ]
+    },
+    "variable": {
+     "variableCode": [
+      {
+       "value": "00060",
+       "network": "NWIS",
+       "vocabulary": "NWIS:UnitValues",
+       "variableID": 45807197,
+       "default": true
+      }
+     ],
+     "variableName": "Streamflow, ft&#179;/s",
+     "variableDescription": "Discharge, cubic feet per second",
+     "valueType": "Derived Value",
+     "unit": {
+      "unitCode": "ft3/s"
+     },
+     "options": {
+      "option": [
+       {
+        "name": "Statistic",
+        "optionCode": "00000"
+       }
+      ]
+     },
+     "note": [],
+     "noDataValue": -999999.0,
+     "variableProperty": [],
+     "oid": "45807197"
+    },
+    "values": [
+     {
+      "value": [
+       {
+        "value": "49.4",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T11:00:00.000-07:00"
+       },
+       {
+        "value": "50.7",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T11:15:00.000-07:00"
+       },
+       {
+        "value": "39.5",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T11:30:00.000-07:00"
+       },
+       {
+        "value": "35.0",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T11:45:00.000-07:00"
+       },
+       {
+        "value": "8.25",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T12:00:00.000-07:00"
+       },
+       {
+        "value": "4.79",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T12:15:00.000-07:00"
+       },
+       {
+        "value": "2.53",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T12:30:00.000-07:00"
+       },
+       {
+        "value": "0.32",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T12:45:00.000-07:00"
+       },
+       {
+        "value": "0.02",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T13:00:00.000-07:00"
+       },
+       {
+        "value": "0.00",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T13:15:00.000-07:00"
+       },
+       {
+        "value": "0.12",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T13:30:00.000-07:00"
+       },
+       {
+        "value": "1.17",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T13:45:00.000-07:00"
+       },
+       {
+        "value": "66.1",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T14:00:00.000-07:00"
+       },
+       {
+        "value": "1570",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T14:15:00.000-07:00"
+       },
+       {
+        "value": "1740",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T14:30:00.000-07:00"
+       },
+       {
+        "value": "1660",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T14:45:00.000-07:00"
+       },
+       {
+        "value": "1710",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T15:00:00.000-07:00"
+       },
+       {
+        "value": "1700",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T15:15:00.000-07:00"
+       },
+       {
+        "value": "1620",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T15:30:00.000-07:00"
+       },
+       {
+        "value": "1510",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T15:45:00.000-07:00"
+       },
+       {
+        "value": "1440",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T16:00:00.000-07:00"
+       },
+       {
+        "value": "1420",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T16:15:00.000-07:00"
+       },
+       {
+        "value": "1360",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T16:30:00.000-07:00"
+       },
+       {
+        "value": "1420",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T16:45:00.000-07:00"
+       },
+       {
+        "value": "1400",
+        "qualifiers": [
+         "P"
+        ],
+        "dateTime": "2026-11-01T17:00:00.000-07:00"
+       }
+      ],
+      "qualifier": [
+       {
+        "qualifierCode": "P",
+        "qualifierDescription": "Provisional data subject to revision.",
+        "qualifierID": 0,
+        "network": "NWIS",
+        "vocabulary": "uv_rmk_cd"
+       }
+      ],
+      "qualityControlLevel": [],
+      "method": [
+       {
+        "methodDescription": "",
+        "methodID": 6636
+       }
+      ],
+      "source": [],
+      "offset": [],
+      "sample": [],
+      "censorCode": []
+     }
+    ],
+    "name": "USGS:09487000:00060:00000"
+   }
+  ]
+ },
+ "nil": false,
+ "globalScope": true,
+ "typeSubstituted": false
+}

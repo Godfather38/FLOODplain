@@ -1,5 +1,6 @@
 name: Live all-route SFINCS when rain is forecast
-# The three all-route cases (6.25 m road cells) with current HRRR rain and NWM flow, one parallel
+# The registered all-route cases (tools/live/all-route-cases.json, 6.25 m road cells) with current
+# HRRR rain and NWM flow (an inlet with an `observed` USGS gauge uses the gauge for its past hours), one parallel
 # job per case, published to the `live-model` branch under all-route/<case>/ in the same compact
 # format as the frozen results. The hourly live-sfincs job checks the newest HRRR cycle and starts
 # this workflow only for cases whose domain gets at least the threshold rain in the next 18 hours.
