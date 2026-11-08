@@ -100,6 +100,42 @@ try{
   assert.equal(await page.locator('.road-forecast-pin').count(),1,'one marker after repeated navigation');
   assert.deepEqual(errors,[]);await context.close();
  });
+ // Neighborhood roads (brawley-avra-west): map only, from a fixture that follows the file contract.
+ async function liveMapWithLocalRoads(local){
+  const {context,page,errors}=await freshPage({width:1024,height:768});
+  const times=Array.from({length:3},(_,k)=>new Date(Date.now()+(k-1)*3600e3).toISOString());
+  const display=JSON.parse(gunzipSync(readFileSync(join(repo,'public/simulation/data/frozen-terrain-display.json.gz'))));
+  await context.route('**/live-model/live/manifest.json*',r=>json(r,{issuedAt:new Date().toISOString(),hrrrCycle:times[0],runId:'browser-coarse-check'}));
+  await context.route('**/live-model/live/water.json.gz*',r=>json(r,{frames:times.map((time,k)=>({time,surfaceM:display.waterFrames[k].surfaceM}))}));
+  await context.route('**/live-model/live/rainfall.json*',r=>json(r,{frames:[]}));
+  await context.route('**/live-model/live/inflow.json*',r=>json(r,{series:[]}));
+  if(local)await context.route('**/all-route/brawley-avra-west/local-road-forecast.json*',r=>json(r,local));
+  await page.goto(origin+'/#/');await ready(page);
+  await page.click('[data-destination=map]');await dismissNotice(page);
+  return {context,page,errors};
+ }
+ await check('neighborhood roads show model water against road height on the map only, with plain wording',async()=>{
+  const fixture=JSON.parse(readFileSync(join(repo,'test/fixtures/local-road-forecast-sample.json'),'utf8'));
+  const shift=Date.now()-30*60e3-Date.parse(fixture.issuedAt);
+  const at=iso=>iso&&new Date(Date.parse(iso)+shift).toISOString();
+  const local={...fixture,issuedAt:at(fixture.issuedAt),forecastStart:new Date(Date.now()-20*60e3).toISOString(),forecastEnd:at(fixture.forecastEnd),stations:fixture.stations.map(s=>({...s,firstOverTime:at(s.firstOverTime)}))};
+  const {context,page,errors}=await liveMapWithLocalRoads(local);
+  await page.waitForFunction(()=>document.querySelectorAll('path.local-road-over').length===6&&document.querySelectorAll('path.local-road-below').length===4,null,{timeout:30000});
+  assert.equal(await page.locator('.local-road-pin').count(),10,'only stations with model water are drawn');
+  await page.waitForFunction(()=>/Neighborhood roads \(west Avra Valley\): model water above 6 of 20 road points/.test(document.querySelector('[data-m-model-hint]')?.textContent||''));
+  await page.locator('path.local-road-over').first().dispatchEvent('click');
+  await page.waitForSelector('.local-road-comparison');
+  const text=await page.innerText('.local-road-comparison');
+  assert.match(text,/W Snyder Hill Rd.*Model: water about 1\.0 ft \(0\.31 m\) above this road at its highest.*Road: .* ft NAVD88.*Run issued .*bare-earth lidar, not a surveyed road or bridge deck.*not part of the route scores/s);
+  assert.doesNotMatch(text,/\bsafe\b/i);
+  assert.deepEqual(errors,[]);await context.close();
+ });
+ await check('a missing neighborhood road file draws nothing and says so in the model sources',async()=>{
+  const {context,page,errors}=await liveMapWithLocalRoads(null);
+  await page.waitForFunction(()=>/Neighborhood roads \(west Avra Valley\): not shown\. The neighborhood road comparison did not load\./.test(document.querySelector('[data-m-model-hint]')?.textContent||''),null,{timeout:30000});
+  assert.equal(await page.locator('.local-road-pin').count(),0);
+  assert.deepEqual(errors,[]);await context.close();
+ });
  await check('home shows the closure, ranks it last, and colors its icons',async()=>{
   const {context,page,errors}=await freshPage({width:375,height:812});
   await page.goto(origin+'/#/');await ready(page);await page.waitForSelector('.closure-banner');

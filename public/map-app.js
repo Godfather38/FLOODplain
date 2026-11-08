@@ -7,6 +7,7 @@ import {deckHtml,scoreboardHtml,routeBoardHtml,drawTimeline,timelineKeyHtml,meth
 import {predictFromGrid,predictFromAllRoute,routeStations,loadRoadLines,gridCellOf} from './simulation/route-prediction.js?v=dev';
 import {nearestRoadSample,roadComparison,forecastComparison,comparisonLines} from './simulation/road-comparison.js?v=dev';
 import {roadForecastText} from './road-forecast.js?v=dev';
+import {loadLocalRoadForecast,localRoadsAt,stationLine,stationDetails,nearestLocalStation,localRoadStatusText,LOCAL_ROAD_METHOD} from './simulation/local-road-forecast.js?v=dev';
 import {toUtm} from './preview/geo3d/src/utm.js?v=dev';
 import {ROUTE_INFO} from './config.js?v=dev';
 import {createWorldLayer} from './simulation/world-layer.js?v=dev';
@@ -46,6 +47,8 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  const sim=createSimLayer(L,map);
  const world=createWorldLayer({container:mapEl,onState:fromWorld});
  const runs=new Map();let runNote='',loadingRun=null;
+ let localFile=null,localFetchedAt=0,localLoading=null,localKey='';// neighborhood roads (paintLocalRoads)
+ const localPoints=L.layerGroup(),localRenderer=L.svg({padding:.3});
 
  // --- the floating pieces ---
  const ui=document.createElement('div');ui.className='mapp';
@@ -308,7 +311,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   const run=sim.run;note.textContent=in3d()?(world.state?.note??''):st.base==='terrain'?'Terrain detail: the saved Nov 1–2 run drawn on 10 m terrain by the flat renderer. Its own time and case controls are in Map layers.':runNote||run?.def.note||'';
   for(const r of $$('input[name=mapp-model]')){r.disabled=false;r.checked=r.value===st.model;}
   paintOverlap();
-  $('[data-m-model-hint]').textContent=modelStatus();
+  $('[data-m-model-hint]').textContent=modelStatus();paintLocalRoads();
  }
  // The all-route run: which model area is drawn where areas overlap. The 3D view follows.
  const overlapBox=$('[data-m-overlap]');
@@ -342,6 +345,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
    if(hn.noFlow)hand+=` ${hn.noFlow} wash window${hn.noFlow>1?'s have':' has'} no flow in this run (dashed outline).`;
    if(hn.beyond)hand+=` ${hn.beyond} beyond their rating curves.`;
   }
+  if(st.run==='live')sfincs+=' '+localRoadStatusText(localRoads());
   return st.model==='2d'?sfincs:st.model==='hand'?hand:st.model==='aggregate'?sfincs+' '+hand:'Simulated and modeled water are hidden. Routes and live readings stay.';
  }
 
@@ -547,7 +551,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   hourStat();
   if(!in3d()&&!terrainOn&&sim.run){scrub.min='0';scrub.max=String(sim.run.times.length-1);setClock(sim.clock);}
   if(terrainOn){timeOut.textContent=oldClock?.textContent??'';}
-  describe();paintForecastPoints();
+  describe();paintForecastPoints();paintLocalRoads();
  }
 
  // Current scored forecast points stay on the main map, using the same route records as
@@ -572,11 +576,39 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  }
  addEventListener('flood-screen-rendered',paintForecastPoints);
 
+ // Neighborhood roads from the brawley-avra-west case: map only, never in the route scores.
+ // The file is re-checked for freshness every time it is read, so it drops off when it goes stale.
+ // Missing, stale or malformed shows no points and says so in the model sources line.
+ function localRoads(){return localRoadsAt(localFile,Date.now());}
+ function ensureLocalRoads(){
+  if(localLoading||Date.now()-localFetchedAt<120000)return;
+  localLoading=loadLocalRoadForecast().then(f=>{localFile=f;localFetchedAt=Date.now();localLoading=null;if(sim.run)$('[data-m-model-hint]').textContent=modelStatus();paintLocalRoads();});
+ }
+ function paintLocalRoads(){
+  const active=location.hash==='#/map'&&!in3d()&&st.base!=='terrain'&&st.model!=='off'&&st.model!=='hand'&&st.run==='live';
+  if(!active){map.removeLayer(localPoints);return;}
+  ensureLocalRoads();map.addLayer(localPoints);
+  const f=localRoads(),key=f?.status+(f?.runId??'')+(f?.stations?.length??0);
+  if(key===localKey)return;localKey=key;localPoints.clearLayers();
+  if(f?.status!=='ok')return;
+  for(const s of f.stations){
+   if(s.state!=='over'&&s.state!=='below')continue;
+   L.circleMarker([s.lat,s.lon],{renderer:localRenderer,radius:s.state==='over'?5:3,weight:1,color:s.state==='over'?'#173f73':'#4a6f8f',fillColor:s.state==='over'?'#2f6fb7':'#9fb8cc',fillOpacity:.85,bubblingMouseEvents:false,className:'local-road-pin local-road-'+s.state})
+    .bindPopup(()=>localPopup(s,localFile),{className:'mapp-popup local-road-comparison'}).addTo(localPoints);
+  }
+ }
+ function localPopup(s,f){
+  return `<strong>${esc(s.road||'Local road')}</strong><br>${esc(stationLine(s))}${stationDetails(s).map(l=>'<br>'+esc(l)).join('')}<br><small>Run issued ${esc(f?.issuedAt?clockText(f.issuedAt):'at an unknown time')}. ${esc(LOCAL_ROAD_METHOD)}</small>`;
+ }
+ addEventListener('flood-screen-rendered',paintLocalRoads);
+
  // Tap the 2D map for the simulated depth there.
  map.on('click',e=>{
   if(location.hash!=='#/map'||in3d()||st.base==='terrain'||st.model==='off'||st.model==='hand'||!sim.run)return;
   const station=nearestRoadSample(routePred,{lat:e.latlng.lat,lon:e.latlng.lng});
   const t=clockText(sim.time());
+  const local=!station&&st.run==='live'?nearestLocalStation(localRoads(),{lat:e.latlng.lat,lon:e.latlng.lng}):null;
+  if(local){L.popup({className:'mapp-popup local-road-comparison'}).setLatLng(e.latlng).setContent(localPopup(local,localRoads())).openOn(map);return;}
   if(station){const r=roadComparison(station,Math.round(sim.clock));L.popup({className:'mapp-popup road-comparison'}).setLatLng(e.latlng).setContent(`<strong>${esc(ROUTE_INFO[station.routeId]?.name??station.routeId)}</strong><br>${comparisonLines(r).map(esc).join('<br>')}<br><small>${esc(sim.run.def.live?'Current coarse SFINCS map frame':'Selected SFINCS run')} · ${clockText(sim.run.times[Math.round(sim.clock)])}</small>`).openOn(map);return;}
   const hit=sim.depthAt(e.latlng.lat,e.latlng.lng);
   if(!hit){L.popup({className:'mapp-popup'}).setLatLng(e.latlng).setContent(`Outside the model area · ${t}`).openOn(map);return;}
