@@ -1,0 +1,48 @@
+{
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "kind": "prepared_native_case",
+  "caseId": "brawley-avra-west-native-case-v1-observed-inflow",
+  "runReady": true,
+  "solverExecuted": false,
+  "approvedExecutionCapSeconds": 5400,
+  "archiveBytes": 95651705,
+  "archiveSha256": "d944e9f09a1927ed49342b1b5231122d02d85ebefedbb72a71b9be7c89130989",
+  "parts": [
+    {
+      "path": "case.part01",
+      "bytes": 40000000,
+      "sha256": "7ce418fc75369809de53c78a3efa6c9ceb81454d7e3f937f9a17202d4327fdce"
+    },
+    {
+      "path": "case.part02",
+      "bytes": 40000000,
+      "sha256": "dd667f8c299536be49db1fd0996d497975c683dd23461809c6e6381faca9e6c4"
+    },
+    {
+      "path": "case.part03",
+      "bytes": 15651705,
+      "sha256": "c213be371b6311e497f6440d4853c84b5ca3dc240cc6c5c493d51376d06db828"
+    }
+  ],
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "gridCells": 408207,
+  "inlets": 1,
+  "scope": {
+    "status": "brawley_avra_west_version3",
+    "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+    "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+    "areaKm2": 839.0154263951479,
+    "externalInlets": [
+      {
+        "reachId": "15876941",
+        "receivingReachId": "15876923"
+      }
+    ],
+    "outflow": "open downstream edge near NHD node 720060498 (-111.2930, 32.3647); HydroMT directed outflow points",
+    "roadOwnership": "owns only road stations outside the northern, picture-rocks-ina-twinpeaks and gates domains",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+  },
+  "executionAuthorization": "orchestrator_task_brawley_avra_west_frozen_run_cap_5400_experimental_branch_only"
+}
