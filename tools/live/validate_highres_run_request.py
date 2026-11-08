@@ -13,7 +13,23 @@ import re
 import subprocess
 
 REQUEST_PATH = "tools/live/all-route-run-request.json"
-CASES = ["northern", "picture-rocks", "gates"]
+# Every case this validator knows. brawley-avra-west (prefix brawley-avra-west,
+# modelVersion all-routes-brawley-avra-west-v1) is known before it is registered.
+KNOWN_CASES = ["northern", "picture-rocks", "gates", "brawley-avra-west"]
+REGISTRY_PATH = Path(__file__).resolve().parent / "all-route-cases.json"
+
+
+def registered_cases(registry=REGISTRY_PATH):
+    """Known cases that all-route-cases.json registers, in KNOWN_CASES order; unknown fails closed."""
+    listed = [c["case"] for c in json.loads(Path(registry).read_text())["cases"]]
+    unknown = sorted(set(listed) - set(KNOWN_CASES))
+    if unknown:
+        raise ValueError("all-route-cases.json lists unknown cases: " + ", ".join(unknown))
+    return [c for c in KNOWN_CASES if c in listed]
+
+
+# An explicit request must run exactly the registered cases.
+CASES = registered_cases()
 FIXED_COARSE_COMMIT = "c8b28460083a7e0e07725655c082f13bdfd8aeff"
 MODEL_BRANCH = "refs/heads/experiment/all-route-models"
 FIELDS = {"schemaVersion", "requestId", "requestedAt", "modelCommit", "cases", "cycle", "solverCapSeconds"}
@@ -29,7 +45,7 @@ def validate_request(request, parent_sha, now):
     if type(request["schemaVersion"]) is not int or request["schemaVersion"] != 1:
         raise ValueError("Unsupported run request schema version")
     if request["cases"] != CASES or request["cycle"] != "":
-        raise ValueError("Request must run the three known cases with the newest cycle")
+        raise ValueError("Request must run exactly the registered cases with the newest cycle")
     if type(request["solverCapSeconds"]) is not int or request["solverCapSeconds"] != 5400:
         raise ValueError("Request must use the tested 5400-second solver limit")
     if not re.fullmatch(r"[0-9a-f]{40}", str(request["modelCommit"])) or request["modelCommit"] != parent_sha:

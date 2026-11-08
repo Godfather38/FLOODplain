@@ -155,7 +155,7 @@ jobs:
             exit "$status"
           fi
           echo "SOLVER_SECONDS=$(( $(date +%s) - s ))" >> "$GITHUB_ENV"
-      - name: Export and publish
+      - name: Export and verify
         run: |
           set -euo pipefail
           python tools/live/run_live_all_route.py export "${{ matrix.case }}" work out
@@ -168,10 +168,43 @@ jobs:
           json.dump(m, open(p, 'w'), indent=1)
           print(json.dumps({k: m[k] for k in ('runId', 'status', 'validFrom', 'validTo', 'timing')}))
           PY
-          python tools/live/verify_all_route_package.py out "${{ matrix.case }}" "${{ needs.check.outputs.cycle }}"
+          # Cases with a localRoads entry also get local-road-forecast.json, published beside compact/.
+          local=$(python3 -c "import json;c=next(c for c in json.load(open('tools/live/all-route-cases.json'))['cases'] if c['case']=='${{ matrix.case }}');print('yes' if c.get('localRoads') else '')")
+          echo "HAS_LOCAL_ROADS=$local" >> "$GITHUB_ENV"
+          if [ -n "$local" ]; then
+            mkdir -p local
+            python tools/live/export_road_forecast.py local "${{ matrix.case }}" out local/local-road-forecast.json
+            python tools/live/verify_all_route_package.py out "${{ matrix.case }}" "${{ needs.check.outputs.cycle }}" local/local-road-forecast.json
+          else
+            python tools/live/verify_all_route_package.py out "${{ matrix.case }}" "${{ needs.check.outputs.cycle }}"
+          fi
+      # PUBLISH GATE: only the live model branch may replace anything on live-model.
+      # Any other ref (experimental branches) keeps its result as a workflow artifact.
+      - name: Publish to live-model
+        if: github.ref_name == 'experiment/all-route-models'
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = experiment/all-route-models
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          bash tools/live/publish_live_model.sh out "all-route/${{ matrix.case }}/compact" "Live all-route ${{ matrix.case }} for HRRR ${{ needs.check.outputs.cycle }}"
+          msg="Live all-route ${{ matrix.case }} for HRRR ${{ needs.check.outputs.cycle }}"
+          if [ -n "${HAS_LOCAL_ROADS:-}" ]; then
+            # Replace the whole case folder: compact/ plus local-road-forecast.json beside it.
+            mkdir -p publish && cp -r out publish/compact && cp local/local-road-forecast.json publish/
+            bash tools/live/publish_live_model.sh publish "all-route/${{ matrix.case }}" "$msg"
+          else
+            bash tools/live/publish_live_model.sh out "all-route/${{ matrix.case }}/compact" "$msg"
+          fi
+      - name: Keep the unpublished result (not the live model branch)
+        if: github.ref_name != 'experiment/all-route-models'
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-${{ matrix.case }}-unpublished-output
+          path: |
+            out/
+            local/local-road-forecast.json
+          if-no-files-found: error
+          retention-days: 7
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -18,7 +18,11 @@ CASES = [
     ('northern', 'all-route-ready-v3/northern-native-case-v3/manifest.json', 'northern', 'northern-result-41382880257'),
     ('picture-rocks', 'all-route-ready-v3/picture-rocks-native-case-v2/manifest.json', 'picture-rocks-ina-twinpeaks', 'picture-rocks-result-41382872468'),
     ('gates', 'all-route-ready-v3/gates-full-native-case-v3/manifest.json', 'gates', 'gates-full-result-41750298470'),
+    # Result dir None = the single tools/sfincs/data/brawley-avra-west-result-<runid> made from its frozen run.
+    ('brawley-avra-west', 'all-route-ready-v3/brawley-avra-west-native-case-v1/manifest.json', 'brawley-avra-west', None),
 ]
+# Cases that also publish local-road-forecast.json: their frozen station list (build_local_road_stations.py).
+LOCAL_ROADS = {'brawley-avra-west': 'tools/live/road-stations/brawley-avra-west-local.json.gz'}
 sha = lambda b: hashlib.sha256(b).hexdigest()
 
 
@@ -71,12 +75,24 @@ def main():
             raise ValueError(f'{name}: inlets differ from the registry')
         row = {'case': name, 'modelVersion': m['modelVersion'], 'caseManifest': str(path.as_posix()), 'archiveSha256': m['archiveSha256'],
                'meshSha256': mesh_sha, 'bounds32612': bounds32612(prefix), 'inlets': reaches, 'inletCheck': 'sfincs.src within 0.1 m of boundary-placement.json; each sfincs.dis column equals that reach\'s frozen series'}
+        if result is None:
+            found = sorted(DATA.glob(f'{name}-result-*/output-to-source-face-id.npy'))
+            if len(found) != 1:
+                raise ValueError(f'{name}: need exactly one frozen {name}-result-<runid> with a face mapping, found {len(found)}')
+            result = found[0].parent.name
         if result:
             res = DATA / result
             row['faceMapping'] = {'path': (res / 'output-to-source-face-id.npy').as_posix(), 'sha256': sha((res / 'output-to-source-face-id.npy').read_bytes())}
             row['geometry'] = {'path': (res / 'compact/geometry.bin.gz').as_posix(), 'sha256': sha((res / 'compact/geometry.bin.gz').read_bytes())}
+        if name == 'brawley-avra-west' and m['modelVersion'] != 'all-routes-brawley-avra-west-v1': raise ValueError(f'{name}: unexpected modelVersion {m["modelVersion"]}')
+        if name in LOCAL_ROADS:
+            local = Path(LOCAL_ROADS[name])
+            if not local.exists(): raise ValueError(f'{name}: local road stations {local} not built yet (build_local_road_stations.py)')
+            row['localRoads'] = {'path': local.as_posix(), 'sha256': sha(local.read_bytes()),
+                                 'output': 'local-road-forecast.json', 'kind': 'floodplain-local-road-forecast'}
         rows.append(row); print(name, m['modelVersion'], [r['reachId'] for r in reaches])
-    Path('tools/live/all-route-cases.json').write_text(json.dumps({'schemaVersion': 1, 'cases': rows}, indent=1) + '\n')
+    # Bytes, so a Windows run keeps LF line endings.
+    Path('tools/live/all-route-cases.json').write_bytes((json.dumps({'schemaVersion': 1, 'cases': rows}, indent=1) + '\n').encode())
 
 
 if __name__ == '__main__':

@@ -19,6 +19,10 @@ CASE_ROUTES = {
     'northern': ('trico', 'avra', 'silverbell-north', 'silverbell-south'),
     'picture-rocks': ('pr-ina', 'pr-twinpeaks', 'pr-avra'),
     'gates': ('pr-gates',),
+    # Owns no rated route (the Sandario Rd route segments inside its domain stay
+    # with picture-rocks/gates). Its local roads are exported separately, see
+    # LocalRoadForecast and the case's 'localRoads' entry in all-route-cases.json.
+    'brawley-avra-west': (),
 }
 DTYPES = {'d': '<f8', 'f': '<f4', 'I': '<u4', 'u4': '<u4',
           'i4': '<i4', 'u1': 'u1', 'i1': 'i1', 'i2': '<i2'}
@@ -162,6 +166,21 @@ class NativeGeometry:
         return found
 
 
+def classify(volume, surface, area, faces):
+    """Shared wet/dry rule for routes and local roads, at the given native faces.
+
+    Native volume, not surface-bed or a display interpolation, defines dry. A
+    finite volume below WET_M is known dry even if zs is missing; a wet cell
+    needs a finite, non-fill zs. Anything else (NaN/inf/negative volume, missing
+    wet surface) is unknown, never dry. Returns (valid, dry, z).
+    """
+    depth = np.asarray(volume[faces], dtype=float) / area[faces]
+    z = np.asarray(surface[faces], dtype=float)
+    dry = np.isfinite(depth) & (depth >= 0) & (depth < WET_M)
+    valid = dry | (np.isfinite(depth) & (depth >= WET_M) & np.isfinite(z) & (z != -99999.0))
+    return valid, dry, z
+
+
 class RoadForecast:
     def __init__(self, case, geometry, routes, source, road_metadata):
         self.case, self.geometry, self.source, self.road_metadata = case, geometry, source, road_metadata
@@ -195,12 +214,7 @@ class RoadForecast:
         for route_id, (stations, faces, heights) in self.samples.items():
             mapped = (faces >= 0) & np.isfinite(heights)
             candidates = np.flatnonzero(mapped)
-            native_faces = faces[candidates]
-            # Native volume, not surface-bed or a display interpolation, defines dry.
-            depth = np.asarray(volume[native_faces], dtype=float) / self.geometry.area[native_faces]
-            z = np.asarray(surface[native_faces], dtype=float)
-            dry = np.isfinite(depth) & (depth >= 0) & (depth < WET_M)
-            valid = dry | (np.isfinite(depth) & (depth >= WET_M) & np.isfinite(z) & (z != -99999.0))
+            valid, dry, z = classify(volume, surface, self.geometry.area, faces[candidates])
             road_depth = np.zeros(len(candidates), dtype=float)
             wet = valid & ~dry
             # Preserve the existing high-resolution all-route prediction: native
@@ -266,6 +280,196 @@ def export_compact(case, directory):
     return forecast.write(directory / 'road-forecast.json', manifest)
 
 
+LOCAL_KIND = 'floodplain-local-road-forecast'
+LOCAL_STATIONS_KIND = 'floodplain-local-road-stations'
+# A frozen compact package carries no modelVersion field; its case's version stands in.
+MODEL_VERSIONS = {'brawley-avra-west': 'all-routes-brawley-avra-west-v1'}
+LOCAL_STATES = ('over', 'below', 'dry', 'no-road-height', 'no-cell', 'unknown')
+SUMMARY_KEYS = {'over': 'over', 'below': 'below', 'dry': 'dry', 'no-road-height': 'noRoadHeight',
+                'no-cell': 'noCell', 'unknown': 'unknown'}
+
+
+def load_local_stations(path, sha256):
+    """Frozen, sha-pinned local station list (tools/live/build_local_road_stations.py)."""
+    encoded = Path(path).read_bytes()
+    if digest(encoded) != sha256:
+        raise ValueError('Checksum mismatch: ' + str(path))
+    data = json.loads(gzip.decompress(encoded))
+    cols = data.get('columns') or {}
+    keys = ('id', 'road', 'lon', 'lat', 'roadZ', 'flags')
+    if (data.get('kind') != LOCAL_STATIONS_KIND or data.get('schemaVersion') != 1
+            or data.get('roadHeights') != 'floodplain-road-heights-v1'
+            or any(not isinstance(cols.get(k), list) for k in keys)
+            or len({len(cols[k]) for k in keys}) != 1 or len(set(cols['id'])) != len(cols['id'])):
+        raise ValueError('Invalid local road station file')
+    stations = []
+    for i in range(len(cols['id'])):
+        z, flags = cols['roadZ'][i], int(cols['flags'][i])
+        # A station without terrain keeps no height, whatever the column holds.
+        if flags & 4 or z is None:
+            z = None
+        stations.append({'id': cols['id'][i], 'road': cols['road'][i], 'lon': float(cols['lon'][i]),
+                         'lat': float(cols['lat'][i]), 'roadM': None if z is None else float(z), 'flags': flags})
+    return stations, data
+
+
+def iso_z(value):
+    return value if value is None or value.endswith('Z') else value.replace('+00:00', 'Z')
+
+
+class LocalRoadForecast:
+    """Per-station peak water-surface elevation against road height, for local roads.
+
+    Same native face location (exact polygon containment, shared boundaries are
+    ambiguous) and the same wet/dry rule (classify) as the route forecast. The
+    comparison is cell water-surface elevation zs (NAVD88 m) against the station's
+    road height; average cell depth is never used as road depth. A frame that is
+    unknown at a station is counted, never treated as dry.
+    """
+
+    def __init__(self, case, geometry, stations, station_source):
+        self.case, self.geometry, self.stations, self.station_source = case, geometry, stations, station_source
+        self.faces = np.array([geometry.locate(s['lon'], s['lat']) for s in stations], dtype=np.int64)
+        self.heights = np.array([np.nan if s['roadM'] is None else s['roadM'] for s in stations], dtype=float)
+        n = len(stations)
+        self.max_wse = np.full(n, np.nan)
+        self.first_over = [None] * n
+        self.unknown = np.zeros(n, dtype=np.int64)
+        self.times = []
+        self.located = np.flatnonzero(self.faces >= 0)
+
+    def add_frame(self, time, volume, surface):
+        if self.times and time <= self.times[-1]:
+            raise ValueError('Local road forecast frames must have increasing times')
+        if len(volume) != len(self.geometry.area) or len(surface) != len(self.geometry.area):
+            raise ValueError('Native frame does not match geometry')
+        self.times.append(time)
+        idx = self.located
+        if not len(idx):
+            return
+        valid, dry, z = classify(volume, surface, self.geometry.area, self.faces[idx])
+        wet = valid & ~dry
+        self.unknown[idx[~valid]] += 1
+        wet_idx = idx[wet]
+        self.max_wse[wet_idx] = np.fmax(self.max_wse[wet_idx], z[wet])
+        over = wet_idx[z[wet] > self.heights[wet_idx]]  # a NaN height is never over
+        for k in over:
+            if self.first_over[k] is None:
+                self.first_over[k] = time
+
+    def station_rows(self):
+        rows, summary = [], dict.fromkeys(SUMMARY_KEYS.values(), 0)
+        frames = len(self.times)
+        for k, s in enumerate(self.stations):
+            face, height, wse = int(self.faces[k]), self.heights[k], self.max_wse[k]
+            if not np.isfinite(height):
+                state = 'no-road-height'
+            elif face < 0:
+                state = 'no-cell'
+            elif np.isfinite(wse):
+                state = 'over' if wse > height else 'below'
+            elif frames and not self.unknown[k]:
+                state = 'dry'  # known dry in every frame of the window
+            else:
+                state = 'unknown'  # never wet where known, but some frame had no valid reading
+            summary[SUMMARY_KEYS[state]] += 1
+            wet = face >= 0 and np.isfinite(wse)
+            rows.append({
+                'id': s['id'], 'road': s['road'], 'lon': s['lon'], 'lat': s['lat'],
+                'roadZ': round(float(height), 3) if np.isfinite(height) else None,
+                'cellSizeM': round(float(self.geometry.resolution[face]), 4) if face >= 0 else None,
+                'maxWse': round(float(wse), 3) if wet else None,
+                'maxOver': round(float(wse - height), 3) if wet and np.isfinite(height) else None,
+                'firstOverTime': iso_z(self.first_over[k]) if np.isfinite(height) and face >= 0 else None,
+                'state': state, 'flags': s['flags'],
+                'unknownFrames': int(self.unknown[k]) if face >= 0 else None,
+            })
+        return rows, {'stations': len(rows), **summary}
+
+    def write(self, path, manifest):
+        expected_times = [frame['time'] for frame in manifest['frames']]
+        if self.times != expected_times:
+            raise ValueError('Local road forecast times differ from compact frames')
+        solver = (manifest.get('solverCompletion') or {}).get('status')
+        complete = manifest.get('status') == 'complete' and solver == 'complete'
+        issues = manifest.get('sourceIssues') or {}
+        model_version = manifest.get('modelVersion') or MODEL_VERSIONS.get(self.case)
+        if not model_version:
+            raise ValueError('Package has no modelVersion')
+        stations, summary = self.station_rows()
+        result = {
+            'schemaVersion': 1, 'kind': LOCAL_KIND, 'case': self.case, 'modelVersion': model_version,
+            'runId': manifest['runId'],
+            # A frozen package has no issue time of its own; its HRRR issue stands in.
+            'issuedAt': iso_z(manifest.get('issuedAt') or issues.get('HRRR')),
+            'forecastStart': iso_z(self.times[0]) if self.times else None,
+            'forecastEnd': iso_z(self.times[-1]) if self.times else None,
+            'datum': 'NAVD88 metres', 'roadHeights': 'floodplain-road-heights-v1',
+            'stations': stations, 'summary': summary,
+            # Additive fields beyond the shared contract.
+            'status': 'complete' if complete else 'partial',
+            'executionMode': manifest.get('executionMode'), 'hrrrCycle': iso_z(issues.get('HRRR')),
+            'frames': len(self.times), 'dryThresholdM': WET_M,
+            'definition': ('maxWse = max cell water-surface elevation zs over frames where the native cell is wet '
+                           '(native volume/area >= dryThresholdM and finite zs); maxOver = maxWse - roadZ. '
+                           'dry = known dry in every frame; unknown = never wet where known but at least one frame '
+                           'had no valid reading (never treated as dry). Bare-earth lidar road height, not a surveyed '
+                           'deck; flags: deckLidar=1, deckApproach=2, noTerrain=4, structureUntagged=8.'),
+            'provenance': {
+                'geometrySha256': manifest['geometry']['sha256'],
+                'caseArchiveSha256': manifest.get('caseArchiveSha256'),
+                'localStations': self.station_source,
+                'mapping': 'Exact native polygon containment in compact frame face order; shared-boundary ambiguity and outside stations are no-cell',
+                'solverCompletion': manifest.get('solverCompletion'),
+            },
+            'limits': ('Model forecast, not observed water. Road heights are lidar-derived bare-earth estimates, '
+                       'not pavement or bridge-deck surveys. No bridge or culvert openings. Missing readings never '
+                       'establish a dry road.'),
+        }
+        encoded = (json.dumps(result, separators=(',', ':'), allow_nan=False) + '\n').encode()
+        Path(path).write_bytes(encoded)
+        return {'path': Path(path).name, 'sha256': digest(encoded), 'bytes': len(encoded),
+                'kind': LOCAL_KIND, 'schemaVersion': 1, 'summary': summary}
+
+
+def local_entry(case):
+    from run_live_all_route import case_entry  # avoids an import cycle at module load
+    entry = case_entry(case)
+    if not entry.get('localRoads'):
+        raise ValueError('Case has no localRoads entry: ' + case)
+    return entry['localRoads']
+
+
+def export_local(case, directory, output, stations_path=None, stations_sha256=None):
+    """Write local-road-forecast.json from any compact package (live or frozen), without a solver."""
+    directory = Path(directory)
+    manifest = json.loads((directory / 'manifest.json').read_text())
+    if manifest.get('case', case) != case:
+        raise ValueError('Not the requested case')
+    if stations_path is None:
+        local = local_entry(case)
+        stations_path, stations_sha256 = local['path'], local['sha256']
+    stations, data = load_local_stations(stations_path, stations_sha256)
+    if data.get('case') != case:
+        raise ValueError('Local stations belong to another case')
+    source = {'path': Path(stations_path).as_posix(), 'sha256': stations_sha256,
+              'stationCount': len(stations), 'source': data.get('source'), 'selection': data.get('selection')}
+    geometry = NativeGeometry.load(directory / manifest['geometry']['path'], manifest['geometry']['sha256'])
+    forecast = LocalRoadForecast(case, geometry, stations, source)
+    for frame in manifest['frames']:
+        header, cols = read_columns(directory / frame['path'], 'floodplain-columns-v1', frame['sha256'])
+        metadata = header['metadata']
+        if (metadata.get('runId') != manifest['runId'] or metadata.get('time') != frame['time']
+                or metadata.get('geometrySha256') != manifest['geometry']['sha256']):
+            raise ValueError('Compact frame provenance mismatch')
+        forecast.add_frame(frame['time'], cols['nativeVolumeM3'], cols['waterSurfaceM'])
+    return forecast.write(output, manifest)
+
+
 if __name__ == '__main__':
     import sys
-    print(json.dumps(export_compact(*sys.argv[1:])))
+    if sys.argv[1:2] == ['local']:
+        # export_road_forecast.py local CASE COMPACT_DIR OUTPUT [STATIONS_PATH STATIONS_SHA256]
+        print(json.dumps(export_local(*sys.argv[2:])))
+    else:
+        print(json.dumps(export_compact(*sys.argv[1:])))

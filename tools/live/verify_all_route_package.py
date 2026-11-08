@@ -11,7 +11,7 @@ import sys
 
 import numpy as np
 
-from export_road_forecast import read_columns
+from export_road_forecast import LOCAL_KIND, SUMMARY_KEYS, read_columns
 from run_live_all_route import AHEAD, DTOUT, SHOW_BACK, SPIN, case_entry
 
 
@@ -79,7 +79,31 @@ def verified_file(folder, descriptor):
     return path
 
 
-def verify(folder, case, cycle_iso):
+def verify_local(path, case, manifest, entry, expected):
+    """local-road-forecast.json must describe exactly this completed package."""
+    raw = Path(path).read_bytes()
+    local = json.loads(raw)
+    stations = local.get('stations')
+    summary = local.get('summary') or {}
+    pinned = ((local.get('provenance') or {}).get('localStations') or {}).get('sha256')
+    if (local.get('schemaVersion') != 1 or local.get('kind') != LOCAL_KIND or local.get('case') != case
+            or local.get('modelVersion') != manifest['modelVersion'] or local.get('runId') != manifest['runId']
+            or local.get('status') != 'complete' or local.get('datum') != 'NAVD88 metres'
+            or local.get('roadHeights') != 'floodplain-road-heights-v1'
+            or parse(local.get('forecastStart')) != expected[0] or parse(local.get('forecastEnd')) != expected[-1]
+            or local.get('frames') != len(expected) or pinned != entry['localRoads']['sha256']
+            or (local.get('provenance') or {}).get('geometrySha256') != manifest['geometry']['sha256']
+            or not isinstance(stations, list) or summary.get('stations') != len(stations)):
+        raise ValueError('Local road forecast does not match the completed all-route package')
+    counts = dict.fromkeys(SUMMARY_KEYS.values(), 0)
+    for row in stations:
+        counts[SUMMARY_KEYS[row['state']]] += 1
+    if any(summary.get(k) != v for k, v in counts.items()):
+        raise ValueError('Local road forecast summary does not match its stations')
+    print(f'Verified local road forecast {case}: {len(stations)} stations, {counts}')
+
+
+def verify(folder, case, cycle_iso, local_path=None):
     folder = Path(folder)
     cycle = parse(cycle_iso)
     entry = case_entry(case)
@@ -132,6 +156,10 @@ def verify(folder, case, cycle_iso):
             or parse(road.get('validFrom')) != expected[0] or parse(road.get('validTo')) != expected[-1]
             or (road.get('provenance') or {}).get('geometrySha256') != geometry['sha256']):
         raise ValueError('Road forecast does not match the completed all-route package')
+    if entry.get('localRoads') or local_path:
+        if not local_path or not entry.get('localRoads'):
+            raise ValueError('A case with localRoads needs its local road forecast (and only such a case)')
+        verify_local(local_path, case, manifest, entry, expected)
     print(f'Verified completed all-route {case}: {len(frames)} half-hour frames, {count} cells; '
           f'{negative_count} negative native samples retained unchanged/unknown, '
           f'minimum area-equivalent depth={minimum_depth:.12g} m '

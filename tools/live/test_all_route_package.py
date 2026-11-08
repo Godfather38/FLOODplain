@@ -216,9 +216,11 @@ class WorkflowTests(unittest.TestCase):
     def setUp(self):
         source = self.source = Path('.github/workflows/live-all-route.yml').read_text()
         self.blocks = []
-        for name, end in [('Run the solver', '      - name: Export and publish'),
-                          ('Export and publish', '      - uses: actions/upload-artifact@v4')]:
-            block = textwrap.dedent(source.split(f'      - name: {name}\n        run: |\n', 1)[1].split(end, 1)[0])
+        for name, end in [('Run the solver', '      - name: Export and verify'),
+                          ('Export and verify', '      # PUBLISH GATE'),
+                          ('Publish to live-model', '      - name: Keep the unpublished result')]:
+            step = source.split(f'      - name: {name}\n', 1)[1]
+            block = textwrap.dedent(step.split('        run: |\n', 1)[1].split(end, 1)[0])
             block = block.replace("${{ inputs.solver_cap_seconds || '5400' }}", '30')
             block = block.replace('${{ matrix.case }}', CASE).replace('${{ needs.check.outputs.cycle }}', CYCLE)
             self.blocks.append(block)
@@ -228,21 +230,33 @@ class WorkflowTests(unittest.TestCase):
         for folder in ['tools/live', 'engine', 'work', 'bin']:
             (self.root / folder).mkdir(parents=True)
         (self.root / 'work/live-case.json').write_text('{}')
+        self.registry()
         (self.root / 'previous-model').write_text('original')
         self.script('engine/sfincs', 'echo "Simulation finished"\nexit "${SOLVER_EXIT:-0}"')
-        self.script('tools/live/publish_live_model.sh', 'echo published > published\necho new > previous-model')
+        self.script('tools/live/publish_live_model.sh', 'echo "$@" > published\necho new > previous-model')
         self.script('bin/git', 'exit 0')
         self.script('bin/python', f'''case "$1" in
 tools/live/run_live_all_route.py)
   [ "${{EXPORT_FAIL:-0}}" = 0 ] || exit 7
   mkdir -p out; echo '{{"runId":"fixture","status":"complete","validFrom":"start","validTo":"end"}}' > out/manifest.json
   echo exported > exported;;
-tools/live/verify_all_route_package.py) exit "${{VERIFY_FAIL:-0}}";;
+tools/live/verify_all_route_package.py) shift; echo "$@" >> verified; exit "${{VERIFY_FAIL:-0}}";;
+tools/live/export_road_forecast.py)
+  [ "${{LOCAL_FAIL:-0}}" = 0 ] || exit 8
+  [ "$2" = local ] && [ "$3" = "{CASE}" ] && [ "$4" = out ] || exit 6
+  echo '{{"kind":"floodplain-local-road-forecast"}}' > "$5";;
 *) exec "{sys.executable}" "$@";;
 esac''')
         self.env = dict(os.environ, PATH=str(self.root / 'bin') + ':' + os.environ['PATH'],
                         GITHUB_WORKSPACE=str(self.root), GITHUB_ENV=str(self.root / 'env'),
-                        PREPARE_SECONDS='1', SOLVER_SECONDS='1', OMP_NUM_THREADS='4', GITHUB_RUN_ID='test')
+                        PREPARE_SECONDS='1', SOLVER_SECONDS='1', OMP_NUM_THREADS='4', GITHUB_RUN_ID='test',
+                        GITHUB_REF_NAME='experiment/all-route-models')
+
+    def registry(self, local=False):
+        entry = {'case': CASE}
+        if local:
+            entry['localRoads'] = {'path': 'tools/live/road-stations/x.json.gz', 'sha256': '0' * 64}
+        (self.root / 'tools/live/all-route-cases.json').write_text(json.dumps({'schemaVersion': 1, 'cases': [entry]}))
 
     def script(self, name, body):
         path = self.root / name
@@ -251,8 +265,10 @@ esac''')
 
     def run_workflow(self, **env):
         for block in self.blocks:
+            env_file = self.root / 'env'
+            exported = dict(line.split('=', 1) for line in env_file.read_text().splitlines() if '=' in line) if env_file.exists() else {}
             result = subprocess.run(['bash', '-e', '-c', block], cwd=self.root,
-                                    env=self.env | env, text=True, capture_output=True)
+                                    env=self.env | exported | env, text=True, capture_output=True)
             if result.returncode:
                 return result
         return result
@@ -274,6 +290,40 @@ esac''')
         result = self.run_workflow()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertTrue((self.root / 'published').exists())
+        # A case without localRoads publishes exactly as before.
+        self.assertTrue((self.root / 'published').read_text().startswith(f'out all-route/{CASE}/compact '))
+        self.assertEqual((self.root / 'verified').read_text().split(), ['out', CASE, CYCLE])
+
+    def test_local_roads_case_exports_verifies_and_publishes_beside_compact(self):
+        self.registry(local=True)
+        result = self.run_workflow()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual((self.root / 'verified').read_text().split(), ['out', CASE, CYCLE, 'local/local-road-forecast.json'])
+        self.assertTrue((self.root / 'published').read_text().startswith(f'publish all-route/{CASE} '))
+        self.assertTrue((self.root / 'publish/compact/manifest.json').exists())
+        self.assertTrue((self.root / 'publish/local-road-forecast.json').exists())
+
+    def test_local_export_failure_preserves_previous_dataset(self):
+        self.registry(local=True)
+        self.retained(self.run_workflow(LOCAL_FAIL='1'))
+
+    def test_publish_gate_never_publishes_from_another_ref(self):
+        # The step's own condition, plus a shell assertion if the condition were bypassed.
+        step = self.source.split('      - name: Publish to live-model\n', 1)[1].split('        run: |', 1)[0]
+        self.assertEqual(step.strip(), "if: github.ref_name == 'experiment/all-route-models'")
+        keep = self.source.split('      - name: Keep the unpublished result (not the live model branch)\n', 1)[1].split('        uses:', 1)[0]
+        self.assertEqual(keep.strip(), "if: github.ref_name != 'experiment/all-route-models'")
+        for ref in ['experimental/brawley-avra-west-20261108', 'main', 'live-model', '']:
+            with self.subTest(ref=ref):
+                self.retained(self.run_workflow(GITHUB_REF_NAME=ref))
+                (self.root / 'env').unlink(missing_ok=True)
+
+    def test_publisher_is_called_only_by_the_gated_step(self):
+        steps = self.source.split('\n      - ')
+        callers = [step for step in steps if 'publish_live_model.sh' in step]
+        self.assertEqual(len(callers), 1)
+        self.assertTrue(callers[0].startswith('name: Publish to live-model\n        if: github.ref_name == \'experiment/all-route-models\''))
+        self.assertNotIn('git push', self.source)
 
     def test_solver_failure_and_timeout_do_not_export_or_publish(self):
         for status in ['1', '124']:

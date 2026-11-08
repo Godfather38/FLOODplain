@@ -99,7 +99,7 @@ jobs:
               raise ValueError('Require committed prepared case under tools/sfincs/data')
           if archive.suffix == '.json':
               manifest = json.loads(archive.read_text())
-              if manifest.get('modelVersion') not in {'silverbell-extension-v1', 'all-routes-northern-v3', 'all-routes-picture-rocks-v2', 'all-routes-gates-supported-v2', 'all-routes-gates-full-v3'}:
+              if manifest.get('modelVersion') not in {'silverbell-extension-v1', 'all-routes-northern-v3', 'all-routes-picture-rocks-v2', 'all-routes-gates-supported-v2', 'all-routes-gates-full-v3', 'all-routes-brawley-avra-west-v1'}:
                   raise ValueError('Require a recognized prepared case version')
               combined = Path('prepared-case.tar.gz')
               with combined.open('wb') as target:
