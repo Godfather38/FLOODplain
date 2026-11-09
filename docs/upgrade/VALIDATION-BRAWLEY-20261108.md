@@ -546,12 +546,15 @@ The water under the deck stays 1.29–1.39 m below roadZ, and the exporter repor
 
 ### 12.1 Forcing
 
-- **Inflow.** Observed USGS 09487000 for all 75 hours, using the same top-of-hour rule as `build_brawley_inflow.py`. Peak 48.42 m³/s at 22Z; volume 955,922 m³.
+- **Inflow.** Observed USGS 09487000 for all 75 hours, using the same top-of-hour rule as `build_brawley_inflow.py`. Peak 48.42 m³/s at 22Z. Applied volume 955,908 m³: the trapezoid over `sfincs.dis`, whose values are rounded to 0.01 m³/s (the solver interpolates linearly between them). Before rounding the series holds 955,922 m³.
   - Hourly-mean variant, reported only, not used as forcing. The centred mean gives a peak of 47.79 m³/s and 1,017,550 m³.
   - So top-of-hour sampling is 6.1% low in volume. Nearly all of the gap is the 21:15–21:30Z front: at 21Z the reading is 66 cfs, while the centred mean is 627 cfs.
   - A refetch of NWIS on Nov 9 matched all 480 readings.
 - **Rain to 07Z.** The frozen v2 frames, unchanged. After 14Z Nov 1 these are the HRRR 14Z forecast, as in the frozen case.
-- **Rain 07Z–18Z.** Observed Stage IV 01h from IEM, with the same checks, grid hash and cell mapping as the frozen analysis hours. 0 missing cells, so no MRMS replacement was needed and nothing was zero-filled. Domain mean 3.29 mm, mostly 07–10Z (1.21, 1.25, 0.55 mm/h).
+- **Rain 07Z–18Z.** Observed Stage IV 01h from IEM, with the same checks, grid hash and cell mapping as the frozen analysis hours. 0 missing cells, so no MRMS replacement was needed and nothing was zero-filled. Domain mean 3.29 mm, mostly 07–10Z (1.20, 1.25, 0.55 mm/h).
+  - Basis: 3.29 mm is mesh-area-weighted (the 1 km `precip_2d.nc` value at each face centre, weighted by face area), which is the rain the model receives. The same method over the whole run gives 33.72 mm against the solver's `cumprcp` 33.73 mm.
+  - The same hours give 3.51 mm as an unweighted mean of the mapped Stage IV (HRAP) cells, and 3.26 mm as an unweighted mean of the 1 km grid's bounding box. Neither is the model's rain.
+  - Integrating the map's 15-min `precipitation_rate` snapshots gives 3.10 mm; those are samples, not the applied total.
 - **Side finding: the frozen HRRR misses most of the early rain.** Stage IV for the hours that the case forces with HRRR (reference only, not forcing):
 
   | Hours | Frozen HRRR, domain mean | Stage IV, domain mean |
@@ -564,7 +567,10 @@ The water under the deck stays 1.29–1.39 m below roadZ, and the exporter repor
 
 ### 12.2 Checks
 
-- **Mass balance.** The residual is −112,122 m³, −0.26% of inputs. It includes outflow before 18Z, which was not measured.
+- **Mass balance (corrected 2026-11-09).** Inflow, rain and infiltration cover the whole run, but outflow is counted only from the first hourly restart (18Z Nov 1). The run writes no his file and map frames start at 17Z Nov 1, so outflow before 18Z cannot be integrated from these outputs. The script block is now named `balanceInputsWholeRunOutflowFromFirstRestart` (it was `balanceWholeRun`).
+  - Residual −112,122 m³, −0.26% of inputs. Any outflow before 18Z makes the true residual more negative by that amount, so −0.26% is the least negative value it can have.
+  - What bounds the missing outflow: the outflow flux is 0.000 m³/s on all 71 outflow links at 18, 19, 20 and 21Z, and every outflow cell is dry (vol/area 0.0000 m) in the map frames 17Z–22Z.
+  - Before 18Z the domain received 16.3 mm of rain (20.2M m³) and 7,416 m³ of inflow, and held 1.45M m³ at 18Z. Taking infiltration as zero, the outflow before 18Z is at most 18.8M m³. That bound is loose because infiltration was not zero, so the true residual lies between −18.9M m³ and −112,122 m³. It is not measured more tightly than that.
 - **Storage.** At 18Z there is still 7.80M m³ in storage. 2.01M m³ left through all outflow cells.
 - **Same result as the 63-h v2 observed run up to 07Z.**
   - The 99th-percentile |Δzs| is 0.0002 m and the maximum is 0.074 m; 4,720 cells differ by more than 0.01 m.
@@ -601,14 +607,14 @@ The inlet peaks at 22Z. The baseline column is the v2 NWM-inflow run at 07Z: the
   - After 07Z there is no rain-only baseline, so the split between inlet water and the extension's rain is not measured.
 - **Against the ALERT 6443 reading** (about 817 cfs = 23.1 m³/s at about 03:04Z, second-hand):
   - The model gives 11.8 m³/s at 03Z across both bands (0.51×).
-  - It first reaches 23.1 m³/s at about 06:12Z (20.30 at 06Z, 34.59 at 07Z): about 3.1 h after the reading.
+  - It first reaches 23.1 m³/s at about 06:12Z (20.25 at 06Z, 34.63 at 07Z, linear between hourly restarts): about 3.1 h after the reading.
   - Its peak at Mile Wide is 47.54 at 09Z. In the cell nearest the gauge, zs peaks at 673.631 at 09:15Z, 1.97 m above the cell bed.
   - **V2 flow and timing: still FAIL**, with the same caveat about the second-hand reading.
   - The missing early Stage IV rain (§12.1) may explain part of the 03Z shortfall (inference, not tested).
 - **Where the outlet water goes.**
   - The outlet cluster passes 959,158 m³ (peak 26.3 at 14Z). Its channel cell holds at most 0.072 m of water.
-  - About 2 km east, at −111.2705, 32.3652 (a 100 m cell, zb 617.08), water ponds 5.62 m deep. It reaches zs 622.53 and is still rising at 18Z.
-  - 1.24M m³ is stored within 1.5 km of that cell at 18Z.
+  - About 2 km east, at −111.2705, 32.3652 (a 100 m cell, zb 617.08), water ponds 5.62 m deep. It reaches zs 622.70 at 18Z and is still rising (622.53 at 17Z; corrected from 622.53, which was the 17Z value).
+  - 1.24M m³ (1,241,787) is stored within 1.5 km of that cell at 18Z.
   - The flow from Tucker (64 m³/s) is therefore stored before it reaches the outflow cells. This could be a terrain barrier or a flaw in the 100 m-cell terrain (inference, not identified). **It should be checked before the outlet flow is trusted.**
   - The west-valley outflow cluster (12 cells, −111.337, 32.413) passes 956,810 m³ (peak 32.0 at 05Z).
 
@@ -636,3 +642,53 @@ Over-topping is cell zs minus station roadZ, counted only in wet frames.
 - **An all-observed-rain sensitivity** (Stage IV from 14Z Nov 1) would test whether HRRR's missing 19 mm explains the 03Z ALERT 6443 shortfall.
 - **The pond near the outlet** needs a terrain check.
 - **The window still ends while the crossings are over** (Manville, Tucker, Little Williams). A window to Nov 3 00Z would show the recession.
+
+## 13. Observed downstream timing (primary gauge data, 2026-11-09)
+
+**Validation only; nothing was tuned.**
+- Data, provenance and the build script: `tools/sfincs/data/brawley-avra-west-v2/observed-gauges-20261101/` (`gauges.json`, `README.md`, `raw/`).
+- Times are UTC. The county ALERT pages are Arizona MST. That was checked against the co-located USGS 09487000, whose readings are stamped −07:00.
+
+### 13.1 What exists
+
+- **The `data` branch has no history.** The snapshot workflow force-pushes one commit every ~10 min, so the Nov 1–2 readings came from the county's own `showdata.php`. That page returns the last 1,000 reports per sensor, which covers the whole event.
+- **Every stream sensor in or next to the domain was checked** (EPSG:32612 domain polygon). The only observed point downstream of the inlet on the Brawley system is **ALERT 6443** at Mile Wide Rd. It is 4.8 m from NHD 15876815 (Black Wash outlet); the Brawley 15877627 crossing is 0.8 km west.
+- **The others cannot time the wave:**
+  - AZGFD 1/2/3 are off-channel stage-only sensors, 270–870 m from any flowline.
+  - Santa Cruz at Trico (USGS 09486520, ALERT 1345) is upstream of the Brawley/Los Robles confluence.
+  - USGS 09487250 Los Robles nr Marana is historical, with no IV data.
+- **There is no sensor at Manville, Tucker or the outlet.**
+
+### 13.2 ALERT 6443, from primary data
+
+- First rise 16:20Z Nov 1.
+- Peaks:
+  - **2,286 cfs (64.7 m³/s, 4.87 ft) at 18:20Z Nov 1**, the event maximum.
+  - 1,482 cfs (42.0) at 21:45–22:00Z.
+  - 906 cfs (25.7) at 02:10Z Nov 2.
+- After that the flow is 14–16 m³/s at 04–08Z, then flat at 11.2–12.3 m³/s from 08:45Z to 16:20Z.
+- **The 817 cfs claim: the value is confirmed, the time is corrected.** It is the report at **02:45Z** (19:45 MST, 3.37 ft), on the falling limb of the third peak. It was not the peak. The owner's "1,160 cfs at Three Points" is USGS 09487000 at 02:00Z.
+- **Rain.** All six nearby ALERT rain gauges had their burst at 14:45–17:05Z. The last tip was by 21Z, and then there was no rain until 07Z Nov 2. So peaks 1 and 2 are local rain runoff; peak 2 comes too soon after the inlet front (21:15Z, 15 km away) to be inlet water. Peak 3 is the only rise without rain.
+
+### 13.3 Against the model and NWM
+
+| Mile Wide (ALERT 6443) | Observed | v2x Black Wash band / both bands | NWM 15876811 |
+|---|---|---|---|
+| Peak | 64.7 at 18:20Z Nov 1 | 40.66 / 47.54 at **09Z Nov 2** | 39.13 at 02Z |
+| 18Z Nov 1 | 52.4 | 0.003 / 0.003 | 0.30 |
+| 22Z | 42.0 | 0.55 / 1.82 | 0.66 |
+| 02Z Nov 2 | 24.1 | 5.66 / 8.65 | 39.13 |
+| 09Z Nov 2 | 12.2 (falling, flat) | 40.66 / 47.54 | — |
+| Volume 18Z–18Z | 1.78M m³ | 1.58M / 1.86M m³ | — |
+
+### 13.4 Verdict
+
+- **Mile Wide: the model's slow wave is refuted.**
+  - The gauge has no rise at 06–10Z Nov 2 (15.8 → 12.3 m³/s, falling). The model puts its window peak there, at 3.3–3.9× the observed flow.
+  - The observed maximum came 14.7 h before the model's peak and was driven by rain that the frozen HRRR forcing lacks (§12.1).
+  - The model gets the volume roughly right but its timing is wrong.
+  - The one rise not driven by rain peaks at 02:10Z. That is 4.7 h after the inlet peak (about 3.3 km/h over 15.4 km) and in the same hour as NWM's peak. It is 7 h before the model's.
+  - That this pulse is inlet water is an inference: delayed Black Wash runoff cannot be ruled out. But no reading supports a 09Z peak in either case.
+  - V2 stays **FAIL**, now against primary data. The NWM-agent value of 0.33 m³/s at 15876815 is also contradicted, if the gauge reads that reach.
+- **Manville, Tucker, outlet: neither confirmed nor refuted.** There is no observation. The model's 11Z/13Z/14Z peaks there remain unverified.
+- **Next.** The staged v2r all-observed-rain sensitivity case (8b1d2f0) should be scored against the same 6443 series. Its first test is whether it produces the 18:20Z peak.
