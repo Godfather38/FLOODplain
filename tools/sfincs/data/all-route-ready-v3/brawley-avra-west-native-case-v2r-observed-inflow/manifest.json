@@ -1,0 +1,53 @@
+{
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "kind": "prepared_native_case",
+  "caseId": "brawley-avra-west-native-case-v2r-observed-inflow",
+  "runReady": true,
+  "solverExecuted": false,
+  "approvedExecutionCapSeconds": 7200,
+  "archiveBytes": 151089636,
+  "archiveSha256": "64bdf3fd516e27ea8994a40a08b0134d629b365940502384c2ca9778aae95d5f",
+  "parts": [
+    {
+      "path": "case.part01",
+      "bytes": 40000000,
+      "sha256": "9b4b7c9bb7314961c15df256b4bb643fca9dbfbf681ce02be02d877b95a6b4e0"
+    },
+    {
+      "path": "case.part02",
+      "bytes": 40000000,
+      "sha256": "6badfadd1cd169d2e9d189631867b43fc9cc4fcbfe686b56e63002dca4e056a2"
+    },
+    {
+      "path": "case.part03",
+      "bytes": 40000000,
+      "sha256": "869de03da9a6b78d554b84c4a1a2f1f0555db696c57df6193e924eb20111d1d5"
+    },
+    {
+      "path": "case.part04",
+      "bytes": 31089636,
+      "sha256": "5822797b69dcd23285fbe2d653cceb6a639eaed9ae05fe38392df5c331f8c22d"
+    }
+  ],
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T18:00:00Z",
+  "gridCells": 643056,
+  "inlets": 1,
+  "scope": {
+    "status": "brawley_avra_west_version3",
+    "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+    "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+    "areaKm2": 1240.369838309587,
+    "externalInlets": [
+      {
+        "reachId": "15876941",
+        "receivingReachId": "15876923"
+      }
+    ],
+    "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+    "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+  },
+  "executionAuthorization": "orchestrator_task_brawley_avra_west_rain_sensitivity_v2r_cap_7200_experimental_branch_only"
+}
