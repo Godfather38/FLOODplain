@@ -1,0 +1,1735 @@
+{
+ "roadStationsInNewOutflowCells": {
+  "OSM 1489567542": {
+   "stations": 9,
+   "roads": [
+    "West Silverbell Road"
+   ],
+   "faces": [
+    32266
+   ]
+  },
+  "OSM 1489567547": {
+   "stations": 1,
+   "roads": [
+    "North Cocio Road"
+   ],
+   "faces": [
+    465513
+   ]
+  },
+  "lobe tip, reversed NHDPlus 15876709": {
+   "stations": 0,
+   "roads": [],
+   "faces": []
+  }
+ },
+ "runs": {
+  "v3x": ".sfincs-runs\\brawley-avra-west-result-v3x-42567934972\\artifact\\runs\\current",
+  "v2x": ".sfincs-runs\\brawley-avra-west-result-v2x-42544624673\\artifact\\runs\\current"
+ },
+ "frames": 101,
+ "outflowBySourceV3x": {
+  "v2 outflow cells (47)": {
+   "peakM3s": 62.397,
+   "peakTime": "2026-11-02T13:00Z",
+   "volumeFromFirstRestartM3": 1904422,
+   "velocityProxyMaxMs": 1.265,
+   "velocityProxyAt": "2026-11-02T17:00Z",
+   "velocityProxyRule": "|q| / (max zs - max zb) of the two cells of each boundary link, only where that depth > 0.1 m (validate_extended.py rule)",
+   "shallowVelocityProxyMaxMs": 33.338,
+   "shallowVelocityProxyAt": "2026-11-02T15:00Z",
+   "shallowVelocityProxyDepthM": 0.017,
+   "shallowRule": "same proxy with a 0.01 m depth floor; zs - z_zmin of a subgrid cell is not the flow depth at the u/v point, so this overstates speed in thin sheets",
+   "maxUnitDischargeM2s": 0.576,
+   "maxUnitDischargeAt": "2026-11-02T14:00Z",
+   "hourlyM3s": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.0,
+    "2026-11-01T20:00Z": 0.0,
+    "2026-11-01T21:00Z": 0.0,
+    "2026-11-01T22:00Z": 0.289,
+    "2026-11-01T23:00Z": 8.075,
+    "2026-11-02T00:00Z": 0.475,
+    "2026-11-02T01:00Z": 2.109,
+    "2026-11-02T02:00Z": 0.941,
+    "2026-11-02T03:00Z": 0.952,
+    "2026-11-02T04:00Z": 18.2,
+    "2026-11-02T05:00Z": 42.296,
+    "2026-11-02T06:00Z": 39.688,
+    "2026-11-02T07:00Z": 43.523,
+    "2026-11-02T08:00Z": 29.145,
+    "2026-11-02T09:00Z": 29.641,
+    "2026-11-02T10:00Z": 36.248,
+    "2026-11-02T11:00Z": 37.691,
+    "2026-11-02T12:00Z": 25.213,
+    "2026-11-02T13:00Z": 62.397,
+    "2026-11-02T14:00Z": 42.345,
+    "2026-11-02T15:00Z": 33.04,
+    "2026-11-02T16:00Z": 36.35,
+    "2026-11-02T17:00Z": 27.59,
+    "2026-11-02T18:00Z": 25.596
+   }
+  },
+  "Outlet 720060498 (26 v2 cells within 2 km of the node)": {
+   "peakM3s": 25.626,
+   "peakTime": "2026-11-02T15:00Z",
+   "volumeFromFirstRestartM3": 955052,
+   "velocityProxyMaxMs": 1.265,
+   "velocityProxyAt": "2026-11-02T17:00Z",
+   "velocityProxyRule": "|q| / (max zs - max zb) of the two cells of each boundary link, only where that depth > 0.1 m (validate_extended.py rule)",
+   "shallowVelocityProxyMaxMs": 33.338,
+   "shallowVelocityProxyAt": "2026-11-02T15:00Z",
+   "shallowVelocityProxyDepthM": 0.017,
+   "shallowRule": "same proxy with a 0.01 m depth floor; zs - z_zmin of a subgrid cell is not the flow depth at the u/v point, so this overstates speed in thin sheets",
+   "maxUnitDischargeM2s": 0.576,
+   "maxUnitDischargeAt": "2026-11-02T14:00Z",
+   "hourlyM3s": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.0,
+    "2026-11-01T20:00Z": 0.0,
+    "2026-11-01T21:00Z": 0.0,
+    "2026-11-01T22:00Z": 0.289,
+    "2026-11-01T23:00Z": 0.576,
+    "2026-11-02T00:00Z": 0.475,
+    "2026-11-02T01:00Z": 0.266,
+    "2026-11-02T02:00Z": 0.941,
+    "2026-11-02T03:00Z": 0.952,
+    "2026-11-02T04:00Z": 5.25,
+    "2026-11-02T05:00Z": 10.311,
+    "2026-11-02T06:00Z": 14.211,
+    "2026-11-02T07:00Z": 17.306,
+    "2026-11-02T08:00Z": 17.819,
+    "2026-11-02T09:00Z": 17.714,
+    "2026-11-02T10:00Z": 16.706,
+    "2026-11-02T11:00Z": 15.099,
+    "2026-11-02T12:00Z": 17.104,
+    "2026-11-02T13:00Z": 24.296,
+    "2026-11-02T14:00Z": 25.579,
+    "2026-11-02T15:00Z": 25.626,
+    "2026-11-02T16:00Z": 23.926,
+    "2026-11-02T17:00Z": 21.143,
+    "2026-11-02T18:00Z": 19.401
+   }
+  },
+  "v3 new: OSM 1489567542 (5 cells)": {
+   "peakM3s": 7.522,
+   "peakTime": "2026-11-02T14:00Z",
+   "volumeFromFirstRestartM3": 39814,
+   "velocityProxyMaxMs": 0.0,
+   "velocityProxyAt": null,
+   "velocityProxyRule": "|q| / (max zs - max zb) of the two cells of each boundary link, only where that depth > 0.1 m (validate_extended.py rule)",
+   "shallowVelocityProxyMaxMs": 0.199,
+   "shallowVelocityProxyAt": "2026-11-02T16:00Z",
+   "shallowVelocityProxyDepthM": 0.028,
+   "shallowRule": "same proxy with a 0.01 m depth floor; zs - z_zmin of a subgrid cell is not the flow depth at the u/v point, so this overstates speed in thin sheets",
+   "maxUnitDischargeM2s": 0.071,
+   "maxUnitDischargeAt": "2026-11-02T14:00Z",
+   "hourlyM3s": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.0,
+    "2026-11-01T20:00Z": 0.0,
+    "2026-11-01T21:00Z": 0.0,
+    "2026-11-01T22:00Z": 0.0,
+    "2026-11-01T23:00Z": 0.0,
+    "2026-11-02T00:00Z": 0.0,
+    "2026-11-02T01:00Z": 0.0,
+    "2026-11-02T02:00Z": 0.0,
+    "2026-11-02T03:00Z": 0.0,
+    "2026-11-02T04:00Z": 0.0,
+    "2026-11-02T05:00Z": 0.0,
+    "2026-11-02T06:00Z": 0.0,
+    "2026-11-02T07:00Z": 0.207,
+    "2026-11-02T08:00Z": 0.241,
+    "2026-11-02T09:00Z": 0.247,
+    "2026-11-02T10:00Z": 0.217,
+    "2026-11-02T11:00Z": 0.398,
+    "2026-11-02T12:00Z": 0.21,
+    "2026-11-02T13:00Z": 0.465,
+    "2026-11-02T14:00Z": 7.522,
+    "2026-11-02T15:00Z": 0.256,
+    "2026-11-02T16:00Z": 0.551,
+    "2026-11-02T17:00Z": 0.481,
+    "2026-11-02T18:00Z": 0.525
+   }
+  },
+  "v3 new: OSM 1489567547 (35 cells)": {
+   "peakM3s": 0.252,
+   "peakTime": "2026-11-02T10:00Z",
+   "volumeFromFirstRestartM3": 3616,
+   "velocityProxyMaxMs": 0.0,
+   "velocityProxyAt": null,
+   "velocityProxyRule": "|q| / (max zs - max zb) of the two cells of each boundary link, only where that depth > 0.1 m (validate_extended.py rule)",
+   "shallowVelocityProxyMaxMs": 0.25,
+   "shallowVelocityProxyAt": "2026-11-02T10:00Z",
+   "shallowVelocityProxyDepthM": 0.01,
+   "shallowRule": "same proxy with a 0.01 m depth floor; zs - z_zmin of a subgrid cell is not the flow depth at the u/v point, so this overstates speed in thin sheets",
+   "maxUnitDischargeM2s": 0.003,
+   "maxUnitDischargeAt": "2026-11-02T10:00Z",
+   "hourlyM3s": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.0,
+    "2026-11-01T20:00Z": 0.0,
+    "2026-11-01T21:00Z": 0.0,
+    "2026-11-01T22:00Z": 0.0,
+    "2026-11-01T23:00Z": 0.0,
+    "2026-11-02T00:00Z": 0.0,
+    "2026-11-02T01:00Z": 0.251,
+    "2026-11-02T02:00Z": 0.0,
+    "2026-11-02T03:00Z": 0.0,
+    "2026-11-02T04:00Z": 0.0,
+    "2026-11-02T05:00Z": 0.251,
+    "2026-11-02T06:00Z": 0.251,
+    "2026-11-02T07:00Z": 0.0,
+    "2026-11-02T08:00Z": 0.0,
+    "2026-11-02T09:00Z": 0.0,
+    "2026-11-02T10:00Z": 0.252,
+    "2026-11-02T11:00Z": 0.0,
+    "2026-11-02T12:00Z": 0.0,
+    "2026-11-02T13:00Z": 0.0,
+    "2026-11-02T14:00Z": 0.0,
+    "2026-11-02T15:00Z": 0.0,
+    "2026-11-02T16:00Z": 0.0,
+    "2026-11-02T17:00Z": 0.0,
+    "2026-11-02T18:00Z": 0.0
+   }
+  },
+  "v3 new: lobe tip, reversed NHDPlus 15876709 (5 cells)": {
+   "peakM3s": 39.49,
+   "peakTime": "2026-11-02T15:00Z",
+   "volumeFromFirstRestartM3": 1108288,
+   "velocityProxyMaxMs": 0.0,
+   "velocityProxyAt": null,
+   "velocityProxyRule": "|q| / (max zs - max zb) of the two cells of each boundary link, only where that depth > 0.1 m (validate_extended.py rule)",
+   "shallowVelocityProxyMaxMs": 16.891,
+   "shallowVelocityProxyAt": "2026-11-02T18:00Z",
+   "shallowVelocityProxyDepthM": 0.012,
+   "shallowRule": "same proxy with a 0.01 m depth floor; zs - z_zmin of a subgrid cell is not the flow depth at the u/v point, so this overstates speed in thin sheets",
+   "maxUnitDischargeM2s": 0.254,
+   "maxUnitDischargeAt": "2026-11-02T15:00Z",
+   "hourlyM3s": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.0,
+    "2026-11-01T20:00Z": 0.0,
+    "2026-11-01T21:00Z": 0.0,
+    "2026-11-01T22:00Z": 0.0,
+    "2026-11-01T23:00Z": 0.0,
+    "2026-11-02T00:00Z": 0.0,
+    "2026-11-02T01:00Z": 0.0,
+    "2026-11-02T02:00Z": 5.275,
+    "2026-11-02T03:00Z": 0.0,
+    "2026-11-02T04:00Z": 6.832,
+    "2026-11-02T05:00Z": 10.522,
+    "2026-11-02T06:00Z": 12.629,
+    "2026-11-02T07:00Z": 16.839,
+    "2026-11-02T08:00Z": 5.486,
+    "2026-11-02T09:00Z": 20.117,
+    "2026-11-02T10:00Z": 14.619,
+    "2026-11-02T11:00Z": 6.614,
+    "2026-11-02T12:00Z": 29.123,
+    "2026-11-02T13:00Z": 36.699,
+    "2026-11-02T14:00Z": 23.088,
+    "2026-11-02T15:00Z": 39.49,
+    "2026-11-02T16:00Z": 33.848,
+    "2026-11-02T17:00Z": 31.533,
+    "2026-11-02T18:00Z": 30.285
+   }
+  },
+  "All outflow cells": {
+   "peakM3s": 99.561,
+   "peakTime": "2026-11-02T13:00Z",
+   "volumeFromFirstRestartM3": 3056141,
+   "velocityProxyMaxMs": 1.265,
+   "velocityProxyAt": "2026-11-02T17:00Z",
+   "velocityProxyRule": "|q| / (max zs - max zb) of the two cells of each boundary link, only where that depth > 0.1 m (validate_extended.py rule)",
+   "shallowVelocityProxyMaxMs": 33.338,
+   "shallowVelocityProxyAt": "2026-11-02T15:00Z",
+   "shallowVelocityProxyDepthM": 0.017,
+   "shallowRule": "same proxy with a 0.01 m depth floor; zs - z_zmin of a subgrid cell is not the flow depth at the u/v point, so this overstates speed in thin sheets",
+   "maxUnitDischargeM2s": 0.576,
+   "maxUnitDischargeAt": "2026-11-02T14:00Z",
+   "hourlyM3s": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.0,
+    "2026-11-01T20:00Z": 0.0,
+    "2026-11-01T21:00Z": 0.0,
+    "2026-11-01T22:00Z": 0.289,
+    "2026-11-01T23:00Z": 8.075,
+    "2026-11-02T00:00Z": 0.475,
+    "2026-11-02T01:00Z": 2.36,
+    "2026-11-02T02:00Z": 6.217,
+    "2026-11-02T03:00Z": 0.952,
+    "2026-11-02T04:00Z": 25.033,
+    "2026-11-02T05:00Z": 53.069,
+    "2026-11-02T06:00Z": 52.568,
+    "2026-11-02T07:00Z": 60.569,
+    "2026-11-02T08:00Z": 34.873,
+    "2026-11-02T09:00Z": 50.005,
+    "2026-11-02T10:00Z": 51.336,
+    "2026-11-02T11:00Z": 44.703,
+    "2026-11-02T12:00Z": 54.545,
+    "2026-11-02T13:00Z": 99.561,
+    "2026-11-02T14:00Z": 72.955,
+    "2026-11-02T15:00Z": 72.786,
+    "2026-11-02T16:00Z": 70.75,
+    "2026-11-02T17:00Z": 59.604,
+    "2026-11-02T18:00Z": 56.406
+   }
+  }
+ },
+ "outflowV2x": {
+  "v2 outflow cells (47)": {
+   "peakM3s": 56.194,
+   "peakTime": "2026-11-02T13:00Z",
+   "volumeFromFirstRestartM3": 2005591,
+   "velocityProxyMaxMs": 1.406,
+   "velocityProxyAt": "2026-11-02T16:00Z",
+   "velocityProxyRule": "|q| / (max zs - max zb) of the two cells of each boundary link, only where that depth > 0.1 m (validate_extended.py rule)",
+   "shallowVelocityProxyMaxMs": 35.284,
+   "shallowVelocityProxyAt": "2026-11-02T16:00Z",
+   "shallowVelocityProxyDepthM": 0.015,
+   "shallowRule": "same proxy with a 0.01 m depth floor; zs - z_zmin of a subgrid cell is not the flow depth at the u/v point, so this overstates speed in thin sheets",
+   "maxUnitDischargeM2s": 0.576,
+   "maxUnitDischargeAt": "2026-11-02T14:00Z",
+   "hourlyM3s": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.0,
+    "2026-11-01T20:00Z": 0.0,
+    "2026-11-01T21:00Z": 0.0,
+    "2026-11-01T22:00Z": 0.289,
+    "2026-11-01T23:00Z": 8.075,
+    "2026-11-02T00:00Z": 0.475,
+    "2026-11-02T01:00Z": 2.109,
+    "2026-11-02T02:00Z": 0.941,
+    "2026-11-02T03:00Z": 0.952,
+    "2026-11-02T04:00Z": 18.2,
+    "2026-11-02T05:00Z": 42.296,
+    "2026-11-02T06:00Z": 44.095,
+    "2026-11-02T07:00Z": 40.796,
+    "2026-11-02T08:00Z": 33.613,
+    "2026-11-02T09:00Z": 29.641,
+    "2026-11-02T10:00Z": 40.268,
+    "2026-11-02T11:00Z": 37.638,
+    "2026-11-02T12:00Z": 32.039,
+    "2026-11-02T13:00Z": 56.194,
+    "2026-11-02T14:00Z": 43.123,
+    "2026-11-02T15:00Z": 33.438,
+    "2026-11-02T16:00Z": 36.008,
+    "2026-11-02T17:00Z": 39.242,
+    "2026-11-02T18:00Z": 35.354
+   }
+  },
+  "Outlet 720060498 (26 v2 cells within 2 km of the node)": {
+   "peakM3s": 26.321,
+   "peakTime": "2026-11-02T14:00Z",
+   "volumeFromFirstRestartM3": 959158,
+   "velocityProxyMaxMs": 1.406,
+   "velocityProxyAt": "2026-11-02T16:00Z",
+   "velocityProxyRule": "|q| / (max zs - max zb) of the two cells of each boundary link, only where that depth > 0.1 m (validate_extended.py rule)",
+   "shallowVelocityProxyMaxMs": 35.284,
+   "shallowVelocityProxyAt": "2026-11-02T16:00Z",
+   "shallowVelocityProxyDepthM": 0.015,
+   "shallowRule": "same proxy with a 0.01 m depth floor; zs - z_zmin of a subgrid cell is not the flow depth at the u/v point, so this overstates speed in thin sheets",
+   "maxUnitDischargeM2s": 0.576,
+   "maxUnitDischargeAt": "2026-11-02T14:00Z",
+   "hourlyM3s": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.0,
+    "2026-11-01T20:00Z": 0.0,
+    "2026-11-01T21:00Z": 0.0,
+    "2026-11-01T22:00Z": 0.289,
+    "2026-11-01T23:00Z": 0.576,
+    "2026-11-02T00:00Z": 0.475,
+    "2026-11-02T01:00Z": 0.266,
+    "2026-11-02T02:00Z": 0.941,
+    "2026-11-02T03:00Z": 0.952,
+    "2026-11-02T04:00Z": 5.25,
+    "2026-11-02T05:00Z": 10.311,
+    "2026-11-02T06:00Z": 14.211,
+    "2026-11-02T07:00Z": 17.306,
+    "2026-11-02T08:00Z": 17.819,
+    "2026-11-02T09:00Z": 17.714,
+    "2026-11-02T10:00Z": 16.298,
+    "2026-11-02T11:00Z": 15.046,
+    "2026-11-02T12:00Z": 16.947,
+    "2026-11-02T13:00Z": 24.905,
+    "2026-11-02T14:00Z": 26.321,
+    "2026-11-02T15:00Z": 26.025,
+    "2026-11-02T16:00Z": 23.575,
+    "2026-11-02T17:00Z": 21.646,
+    "2026-11-02T18:00Z": 19.115
+   }
+  }
+ },
+ "pond": {
+  "v3x": {
+   "face": 54135,
+   "zZmin": 617.076,
+   "zsMax": 620.345,
+   "zsMaxTime": "2026-11-02T14:15Z",
+   "depthMaxAboveZmin": 3.269,
+   "zsEnd": 620.299,
+   "stillRisingAtEnd": false,
+   "lobeVolumeEndM3": 148045,
+   "lobeVolumeMaxM3": 183954,
+   "storedWithin1p5kmEndM3": 72372,
+   "lobeDefinition": "cells with centre x > 473600 and y > 3578000 (EPSG:32612), as in BRAWLEY-OUTLET-POND-20261108.md",
+   "hourly": {
+    "11-01T17:00": {
+     "zs": 617.107,
+     "depthAboveZmin": 0.031,
+     "lobeVolumeM3": 946
+    },
+    "11-01T18:00": {
+     "zs": 617.122,
+     "depthAboveZmin": 0.046,
+     "lobeVolumeM3": 1547
+    },
+    "11-01T19:00": {
+     "zs": 617.297,
+     "depthAboveZmin": 0.221,
+     "lobeVolumeM3": 5955
+    },
+    "11-01T20:00": {
+     "zs": 617.89,
+     "depthAboveZmin": 0.814,
+     "lobeVolumeM3": 13619
+    },
+    "11-01T21:00": {
+     "zs": 618.716,
+     "depthAboveZmin": 1.641,
+     "lobeVolumeM3": 18498
+    },
+    "11-01T22:00": {
+     "zs": 619.167,
+     "depthAboveZmin": 2.091,
+     "lobeVolumeM3": 20269
+    },
+    "11-01T23:00": {
+     "zs": 619.695,
+     "depthAboveZmin": 2.619,
+     "lobeVolumeM3": 19907
+    },
+    "11-02T00:00": {
+     "zs": 619.933,
+     "depthAboveZmin": 2.857,
+     "lobeVolumeM3": 19272
+    },
+    "11-02T01:00": {
+     "zs": 619.972,
+     "depthAboveZmin": 2.896,
+     "lobeVolumeM3": 18405
+    },
+    "11-02T02:00": {
+     "zs": 619.969,
+     "depthAboveZmin": 2.893,
+     "lobeVolumeM3": 19535
+    },
+    "11-02T03:00": {
+     "zs": 619.972,
+     "depthAboveZmin": 2.897,
+     "lobeVolumeM3": 41723
+    },
+    "11-02T04:00": {
+     "zs": 620.131,
+     "depthAboveZmin": 3.055,
+     "lobeVolumeM3": 68082
+    },
+    "11-02T05:00": {
+     "zs": 620.176,
+     "depthAboveZmin": 3.1,
+     "lobeVolumeM3": 84817
+    },
+    "11-02T06:00": {
+     "zs": 620.21,
+     "depthAboveZmin": 3.134,
+     "lobeVolumeM3": 95315
+    },
+    "11-02T07:00": {
+     "zs": 620.223,
+     "depthAboveZmin": 3.147,
+     "lobeVolumeM3": 99899
+    },
+    "11-02T08:00": {
+     "zs": 620.232,
+     "depthAboveZmin": 3.156,
+     "lobeVolumeM3": 105964
+    },
+    "11-02T09:00": {
+     "zs": 620.236,
+     "depthAboveZmin": 3.16,
+     "lobeVolumeM3": 107553
+    },
+    "11-02T10:00": {
+     "zs": 620.237,
+     "depthAboveZmin": 3.161,
+     "lobeVolumeM3": 110287
+    },
+    "11-02T11:00": {
+     "zs": 620.245,
+     "depthAboveZmin": 3.17,
+     "lobeVolumeM3": 127032
+    },
+    "11-02T12:00": {
+     "zs": 620.294,
+     "depthAboveZmin": 3.218,
+     "lobeVolumeM3": 161428
+    },
+    "11-02T13:00": {
+     "zs": 620.333,
+     "depthAboveZmin": 3.258,
+     "lobeVolumeM3": 179838
+    },
+    "11-02T14:00": {
+     "zs": 620.345,
+     "depthAboveZmin": 3.269,
+     "lobeVolumeM3": 183794
+    },
+    "11-02T15:00": {
+     "zs": 620.34,
+     "depthAboveZmin": 3.264,
+     "lobeVolumeM3": 176425
+    },
+    "11-02T16:00": {
+     "zs": 620.326,
+     "depthAboveZmin": 3.25,
+     "lobeVolumeM3": 165042
+    },
+    "11-02T17:00": {
+     "zs": 620.311,
+     "depthAboveZmin": 3.235,
+     "lobeVolumeM3": 155009
+    },
+    "11-02T18:00": {
+     "zs": 620.299,
+     "depthAboveZmin": 3.223,
+     "lobeVolumeM3": 148045
+    }
+   }
+  },
+  "v2x": {
+   "face": 54135,
+   "zZmin": 617.076,
+   "zsMax": 622.696,
+   "zsMaxTime": "2026-11-02T18:00Z",
+   "depthMaxAboveZmin": 5.62,
+   "zsEnd": 622.696,
+   "stillRisingAtEnd": true,
+   "lobeVolumeEndM3": 1317460,
+   "lobeVolumeMaxM3": 1317460,
+   "storedWithin1p5kmEndM3": 1241787,
+   "lobeDefinition": "cells with centre x > 473600 and y > 3578000 (EPSG:32612), as in BRAWLEY-OUTLET-POND-20261108.md",
+   "hourly": {
+    "11-01T17:00": {
+     "zs": 617.107,
+     "depthAboveZmin": 0.031,
+     "lobeVolumeM3": 968
+    },
+    "11-01T18:00": {
+     "zs": 617.122,
+     "depthAboveZmin": 0.046,
+     "lobeVolumeM3": 1579
+    },
+    "11-01T19:00": {
+     "zs": 617.297,
+     "depthAboveZmin": 0.221,
+     "lobeVolumeM3": 6118
+    },
+    "11-01T20:00": {
+     "zs": 617.89,
+     "depthAboveZmin": 0.814,
+     "lobeVolumeM3": 14193
+    },
+    "11-01T21:00": {
+     "zs": 618.716,
+     "depthAboveZmin": 1.641,
+     "lobeVolumeM3": 19817
+    },
+    "11-01T22:00": {
+     "zs": 619.167,
+     "depthAboveZmin": 2.091,
+     "lobeVolumeM3": 22255
+    },
+    "11-01T23:00": {
+     "zs": 619.695,
+     "depthAboveZmin": 2.619,
+     "lobeVolumeM3": 23200
+    },
+    "11-02T00:00": {
+     "zs": 619.933,
+     "depthAboveZmin": 2.857,
+     "lobeVolumeM3": 24098
+    },
+    "11-02T01:00": {
+     "zs": 619.972,
+     "depthAboveZmin": 2.896,
+     "lobeVolumeM3": 24789
+    },
+    "11-02T02:00": {
+     "zs": 619.969,
+     "depthAboveZmin": 2.893,
+     "lobeVolumeM3": 27394
+    },
+    "11-02T03:00": {
+     "zs": 619.972,
+     "depthAboveZmin": 2.897,
+     "lobeVolumeM3": 50781
+    },
+    "11-02T04:00": {
+     "zs": 620.131,
+     "depthAboveZmin": 3.055,
+     "lobeVolumeM3": 82329
+    },
+    "11-02T05:00": {
+     "zs": 620.176,
+     "depthAboveZmin": 3.1,
+     "lobeVolumeM3": 125174
+    },
+    "11-02T06:00": {
+     "zs": 620.21,
+     "depthAboveZmin": 3.134,
+     "lobeVolumeM3": 174798
+    },
+    "11-02T07:00": {
+     "zs": 620.228,
+     "depthAboveZmin": 3.152,
+     "lobeVolumeM3": 227843
+    },
+    "11-02T08:00": {
+     "zs": 620.273,
+     "depthAboveZmin": 3.197,
+     "lobeVolumeM3": 287559
+    },
+    "11-02T09:00": {
+     "zs": 620.45,
+     "depthAboveZmin": 3.374,
+     "lobeVolumeM3": 347285
+    },
+    "11-02T10:00": {
+     "zs": 620.686,
+     "depthAboveZmin": 3.61,
+     "lobeVolumeM3": 410033
+    },
+    "11-02T11:00": {
+     "zs": 620.918,
+     "depthAboveZmin": 3.842,
+     "lobeVolumeM3": 489338
+    },
+    "11-02T12:00": {
+     "zs": 621.191,
+     "depthAboveZmin": 4.115,
+     "lobeVolumeM3": 603005
+    },
+    "11-02T13:00": {
+     "zs": 621.52,
+     "depthAboveZmin": 4.444,
+     "lobeVolumeM3": 734408
+    },
+    "11-02T14:00": {
+     "zs": 621.831,
+     "depthAboveZmin": 4.755,
+     "lobeVolumeM3": 870127
+    },
+    "11-02T15:00": {
+     "zs": 622.106,
+     "depthAboveZmin": 5.03,
+     "lobeVolumeM3": 997900
+    },
+    "11-02T16:00": {
+     "zs": 622.336,
+     "depthAboveZmin": 5.26,
+     "lobeVolumeM3": 1113546
+    },
+    "11-02T17:00": {
+     "zs": 622.529,
+     "depthAboveZmin": 5.453,
+     "lobeVolumeM3": 1218903
+    },
+    "11-02T18:00": {
+     "zs": 622.696,
+     "depthAboveZmin": 5.62,
+     "lobeVolumeM3": 1317460
+    }
+   }
+  }
+ },
+ "sections": {
+  "Mile Wide Black Wash 15876815 band (ALERT 6443)": {
+   "v3x": {
+    "m3s": 40.66,
+    "time": "2026-11-02T09:00Z"
+   },
+   "v2x": {
+    "m3s": 40.66,
+    "time": "2026-11-02T09:00Z"
+   },
+   "q18Z_v3x": 27.81,
+   "q18Z_v2x": 27.81,
+   "maxAbsHourlyDiffM3s": 0.0,
+   "hourlyV3x": {
+    "2026-11-01T18:00Z": 0.003,
+    "2026-11-01T19:00Z": 0.038,
+    "2026-11-01T20:00Z": 0.138,
+    "2026-11-01T21:00Z": 0.36,
+    "2026-11-01T22:00Z": 0.553,
+    "2026-11-01T23:00Z": 1.821,
+    "2026-11-02T00:00Z": 5.145,
+    "2026-11-02T01:00Z": 5.194,
+    "2026-11-02T02:00Z": 5.662,
+    "2026-11-02T03:00Z": 8.834,
+    "2026-11-02T04:00Z": 10.289,
+    "2026-11-02T05:00Z": 11.527,
+    "2026-11-02T06:00Z": 18.185,
+    "2026-11-02T07:00Z": 29.53,
+    "2026-11-02T08:00Z": 37.502,
+    "2026-11-02T09:00Z": 40.66,
+    "2026-11-02T10:00Z": 39.836,
+    "2026-11-02T11:00Z": 36.222,
+    "2026-11-02T12:00Z": 32.176,
+    "2026-11-02T13:00Z": 30.437,
+    "2026-11-02T14:00Z": 29.318,
+    "2026-11-02T15:00Z": 27.392,
+    "2026-11-02T16:00Z": 26.38,
+    "2026-11-02T17:00Z": 26.648,
+    "2026-11-02T18:00Z": 27.81
+   }
+  },
+  "Mile Wide both bands": {
+   "v3x": {
+    "m3s": 47.541,
+    "time": "2026-11-02T09:00Z"
+   },
+   "v2x": {
+    "m3s": 47.541,
+    "time": "2026-11-02T09:00Z"
+   },
+   "q18Z_v3x": 31.271,
+   "q18Z_v2x": 31.272,
+   "maxAbsHourlyDiffM3s": 0.002,
+   "hourlyV3x": {
+    "2026-11-01T18:00Z": 0.003,
+    "2026-11-01T19:00Z": 0.038,
+    "2026-11-01T20:00Z": 0.143,
+    "2026-11-01T21:00Z": 0.361,
+    "2026-11-01T22:00Z": 1.824,
+    "2026-11-01T23:00Z": 2.767,
+    "2026-11-02T00:00Z": 5.951,
+    "2026-11-02T01:00Z": 5.985,
+    "2026-11-02T02:00Z": 8.65,
+    "2026-11-02T03:00Z": 11.755,
+    "2026-11-02T04:00Z": 12.837,
+    "2026-11-02T05:00Z": 13.774,
+    "2026-11-02T06:00Z": 20.252,
+    "2026-11-02T07:00Z": 34.63,
+    "2026-11-02T08:00Z": 43.648,
+    "2026-11-02T09:00Z": 47.541,
+    "2026-11-02T10:00Z": 46.838,
+    "2026-11-02T11:00Z": 42.701,
+    "2026-11-02T12:00Z": 38.004,
+    "2026-11-02T13:00Z": 35.717,
+    "2026-11-02T14:00Z": 34.123,
+    "2026-11-02T15:00Z": 31.751,
+    "2026-11-02T16:00Z": 30.352,
+    "2026-11-02T17:00Z": 30.361,
+    "2026-11-02T18:00Z": 31.271
+   }
+  },
+  "Manville (15876771)": {
+   "v3x": {
+    "m3s": 62.791,
+    "time": "2026-11-02T11:00Z"
+   },
+   "v2x": {
+    "m3s": 62.788,
+    "time": "2026-11-02T11:00Z"
+   },
+   "q18Z_v3x": 36.6,
+   "q18Z_v2x": 36.596,
+   "maxAbsHourlyDiffM3s": 0.023,
+   "hourlyV3x": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.002,
+    "2026-11-01T20:00Z": 0.064,
+    "2026-11-01T21:00Z": 0.387,
+    "2026-11-01T22:00Z": 1.122,
+    "2026-11-01T23:00Z": 12.935,
+    "2026-11-02T00:00Z": 17.728,
+    "2026-11-02T01:00Z": 18.732,
+    "2026-11-02T02:00Z": 25.224,
+    "2026-11-02T03:00Z": 30.337,
+    "2026-11-02T04:00Z": 30.033,
+    "2026-11-02T05:00Z": 30.539,
+    "2026-11-02T06:00Z": 30.25,
+    "2026-11-02T07:00Z": 29.364,
+    "2026-11-02T08:00Z": 31.764,
+    "2026-11-02T09:00Z": 45.058,
+    "2026-11-02T10:00Z": 58.891,
+    "2026-11-02T11:00Z": 62.791,
+    "2026-11-02T12:00Z": 61.237,
+    "2026-11-02T13:00Z": 55.391,
+    "2026-11-02T14:00Z": 49.186,
+    "2026-11-02T15:00Z": 45.047,
+    "2026-11-02T16:00Z": 42.056,
+    "2026-11-02T17:00Z": 38.943,
+    "2026-11-02T18:00Z": 36.6
+   }
+  },
+  "Tucker (15876711)": {
+   "v3x": {
+    "m3s": 64.336,
+    "time": "2026-11-02T13:00Z"
+   },
+   "v2x": {
+    "m3s": 64.335,
+    "time": "2026-11-02T13:00Z"
+   },
+   "q18Z_v3x": 43.149,
+   "q18Z_v2x": 43.146,
+   "maxAbsHourlyDiffM3s": 0.005,
+   "hourlyV3x": {
+    "2026-11-01T18:00Z": 0.003,
+    "2026-11-01T19:00Z": 0.211,
+    "2026-11-01T20:00Z": 0.632,
+    "2026-11-01T21:00Z": 0.859,
+    "2026-11-01T22:00Z": 0.905,
+    "2026-11-01T23:00Z": 0.857,
+    "2026-11-02T00:00Z": 0.656,
+    "2026-11-02T01:00Z": 0.488,
+    "2026-11-02T02:00Z": 10.803,
+    "2026-11-02T03:00Z": 18.202,
+    "2026-11-02T04:00Z": 23.331,
+    "2026-11-02T05:00Z": 30.219,
+    "2026-11-02T06:00Z": 31.594,
+    "2026-11-02T07:00Z": 32.423,
+    "2026-11-02T08:00Z": 32.767,
+    "2026-11-02T09:00Z": 31.949,
+    "2026-11-02T10:00Z": 34.213,
+    "2026-11-02T11:00Z": 48.401,
+    "2026-11-02T12:00Z": 61.236,
+    "2026-11-02T13:00Z": 64.336,
+    "2026-11-02T14:00Z": 61.934,
+    "2026-11-02T15:00Z": 56.158,
+    "2026-11-02T16:00Z": 50.306,
+    "2026-11-02T17:00Z": 46.203,
+    "2026-11-02T18:00Z": 43.149
+   }
+  },
+  "Outlet 720060498 (outflow links)": {
+   "v3x": {
+    "m3s": 25.626,
+    "time": "2026-11-02T15:00Z"
+   },
+   "v2x": {
+    "m3s": 26.321,
+    "time": "2026-11-02T14:00Z"
+   },
+   "q18Z_v3x": 19.401,
+   "q18Z_v2x": 19.115,
+   "maxAbsHourlyDiffM3s": 0.742,
+   "hourlyV3x": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.0,
+    "2026-11-01T20:00Z": 0.0,
+    "2026-11-01T21:00Z": 0.0,
+    "2026-11-01T22:00Z": 0.289,
+    "2026-11-01T23:00Z": 0.576,
+    "2026-11-02T00:00Z": 0.475,
+    "2026-11-02T01:00Z": 0.266,
+    "2026-11-02T02:00Z": 0.941,
+    "2026-11-02T03:00Z": 0.952,
+    "2026-11-02T04:00Z": 5.25,
+    "2026-11-02T05:00Z": 10.311,
+    "2026-11-02T06:00Z": 14.211,
+    "2026-11-02T07:00Z": 17.306,
+    "2026-11-02T08:00Z": 17.819,
+    "2026-11-02T09:00Z": 17.714,
+    "2026-11-02T10:00Z": 16.706,
+    "2026-11-02T11:00Z": 15.099,
+    "2026-11-02T12:00Z": 17.104,
+    "2026-11-02T13:00Z": 24.296,
+    "2026-11-02T14:00Z": 25.579,
+    "2026-11-02T15:00Z": 25.626,
+    "2026-11-02T16:00Z": 23.926,
+    "2026-11-02T17:00Z": 21.143,
+    "2026-11-02T18:00Z": 19.401
+   }
+  },
+  "All outflow cells": {
+   "v3x": {
+    "m3s": 99.561,
+    "time": "2026-11-02T13:00Z"
+   },
+   "v2x": {
+    "m3s": 56.194,
+    "time": "2026-11-02T13:00Z"
+   },
+   "q18Z_v3x": 56.406,
+   "q18Z_v2x": 35.354,
+   "maxAbsHourlyDiffM3s": 43.367,
+   "hourlyV3x": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.0,
+    "2026-11-01T20:00Z": 0.0,
+    "2026-11-01T21:00Z": 0.0,
+    "2026-11-01T22:00Z": 0.289,
+    "2026-11-01T23:00Z": 8.075,
+    "2026-11-02T00:00Z": 0.475,
+    "2026-11-02T01:00Z": 2.36,
+    "2026-11-02T02:00Z": 6.217,
+    "2026-11-02T03:00Z": 0.952,
+    "2026-11-02T04:00Z": 25.033,
+    "2026-11-02T05:00Z": 53.069,
+    "2026-11-02T06:00Z": 52.568,
+    "2026-11-02T07:00Z": 60.569,
+    "2026-11-02T08:00Z": 34.873,
+    "2026-11-02T09:00Z": 50.005,
+    "2026-11-02T10:00Z": 51.336,
+    "2026-11-02T11:00Z": 44.703,
+    "2026-11-02T12:00Z": 54.545,
+    "2026-11-02T13:00Z": 99.561,
+    "2026-11-02T14:00Z": 72.955,
+    "2026-11-02T15:00Z": 72.786,
+    "2026-11-02T16:00Z": 70.75,
+    "2026-11-02T17:00Z": 59.604,
+    "2026-11-02T18:00Z": 56.406
+   }
+  }
+ },
+ "alert6443": {
+  "observedSource": "tools/sfincs/data/brawley-avra-west-v2/observed-gauges-20261101/gauges.json (ALERT 6443 primary county series, provisional; times UTC)",
+  "observedPeaks": "primary series: 64.7 m3/s at 18:20Z Nov 1, 42.0 at 21:45Z, 25.7 at 02:10Z Nov 2 (gauges.json summaryTaskWindow)",
+  "observed03Z": {
+   "reportUtc": "2026-11-02T03:00:00Z",
+   "ageMin": 0,
+   "flowM3s": 21.974
+  },
+  "model03Z": {
+   "v3x": {
+    "blackWashBand": 8.834,
+    "bothBands": 11.755
+   },
+   "v2x": {
+    "blackWashBand": 8.834,
+    "bothBands": 11.755
+   }
+  },
+  "ratio03Z": {
+   "v3x": {
+    "blackWashBand": 0.402,
+    "bothBands": 0.535
+   },
+   "v2x": {
+    "blackWashBand": 0.402,
+    "bothBands": 0.535
+   }
+  },
+  "modelPeak": {
+   "v3x": {
+    "blackWashBand": {
+     "m3s": 40.66,
+     "time": "2026-11-02T09:00Z"
+    },
+    "bothBands": {
+     "m3s": 47.541,
+     "time": "2026-11-02T09:00Z"
+    }
+   },
+   "v2x": {
+    "blackWashBand": {
+     "m3s": 40.66,
+     "time": "2026-11-02T09:00Z"
+    },
+    "bothBands": {
+     "m3s": 47.541,
+     "time": "2026-11-02T09:00Z"
+    }
+   }
+  },
+  "modelFirstAtObserved03Z": {
+   "v3x": {
+    "thresholdM3s": 21.974,
+    "blackWashBand": {
+     "time": "2026-11-02T06:20Z",
+     "before": {
+      "2026-11-02T06:00Z": 18.185
+     },
+     "after": {
+      "2026-11-02T07:00Z": 29.53
+     },
+     "method": "linear between hourly restarts"
+    },
+    "bothBands": {
+     "time": "2026-11-02T06:07Z",
+     "before": {
+      "2026-11-02T06:00Z": 20.252
+     },
+     "after": {
+      "2026-11-02T07:00Z": 34.63
+     },
+     "method": "linear between hourly restarts"
+    }
+   },
+   "v2x": {
+    "thresholdM3s": 21.974,
+    "blackWashBand": {
+     "time": "2026-11-02T06:20Z",
+     "before": {
+      "2026-11-02T06:00Z": 18.185
+     },
+     "after": {
+      "2026-11-02T07:00Z": 29.53
+     },
+     "method": "linear between hourly restarts"
+    },
+    "bothBands": {
+     "time": "2026-11-02T06:07Z",
+     "before": {
+      "2026-11-02T06:00Z": 20.252
+     },
+     "after": {
+      "2026-11-02T07:00Z": 34.63
+     },
+     "method": "linear between hourly restarts"
+    }
+   }
+  },
+  "hourly": [
+   {
+    "hourUtc": "2026-11-01T18:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T18:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 52.386
+    },
+    "v3xBlackWash": 0.003,
+    "v3xBoth": 0.003,
+    "v2xBlackWash": 0.003,
+    "v2xBoth": 0.003
+   },
+   {
+    "hourUtc": "2026-11-01T19:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T19:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 52.584
+    },
+    "v3xBlackWash": 0.038,
+    "v3xBoth": 0.038,
+    "v2xBlackWash": 0.038,
+    "v2xBoth": 0.038
+   },
+   {
+    "hourUtc": "2026-11-01T20:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T20:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 30.129
+    },
+    "v3xBlackWash": 0.138,
+    "v3xBoth": 0.143,
+    "v2xBlackWash": 0.138,
+    "v2xBoth": 0.143
+   },
+   {
+    "hourUtc": "2026-11-01T21:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T21:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 29.874
+    },
+    "v3xBlackWash": 0.36,
+    "v3xBoth": 0.361,
+    "v2xBlackWash": 0.36,
+    "v2xBoth": 0.361
+   },
+   {
+    "hourUtc": "2026-11-01T22:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T22:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 41.966
+    },
+    "v3xBlackWash": 0.553,
+    "v3xBoth": 1.824,
+    "v2xBlackWash": 0.553,
+    "v2xBoth": 1.824
+   },
+   {
+    "hourUtc": "2026-11-01T23:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T23:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 37.916
+    },
+    "v3xBlackWash": 1.821,
+    "v3xBoth": 2.767,
+    "v2xBlackWash": 1.821,
+    "v2xBoth": 2.767
+   },
+   {
+    "hourUtc": "2026-11-02T00:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T00:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 21.691
+    },
+    "v3xBlackWash": 5.145,
+    "v3xBoth": 5.951,
+    "v2xBlackWash": 5.145,
+    "v2xBoth": 5.951
+   },
+   {
+    "hourUtc": "2026-11-02T01:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T01:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 18.066
+    },
+    "v3xBlackWash": 5.194,
+    "v3xBoth": 5.985,
+    "v2xBlackWash": 5.194,
+    "v2xBoth": 5.985
+   },
+   {
+    "hourUtc": "2026-11-02T02:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T02:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 24.126
+    },
+    "v3xBlackWash": 5.662,
+    "v3xBoth": 8.65,
+    "v2xBlackWash": 5.662,
+    "v2xBoth": 8.65
+   },
+   {
+    "hourUtc": "2026-11-02T03:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T03:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 21.974
+    },
+    "v3xBlackWash": 8.834,
+    "v3xBoth": 11.755,
+    "v2xBlackWash": 8.834,
+    "v2xBoth": 11.755
+   },
+   {
+    "hourUtc": "2026-11-02T04:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T04:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 14.81
+    },
+    "v3xBlackWash": 10.289,
+    "v3xBoth": 12.837,
+    "v2xBlackWash": 10.289,
+    "v2xBoth": 12.837
+   },
+   {
+    "hourUtc": "2026-11-02T05:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T05:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 14.498
+    },
+    "v3xBlackWash": 11.527,
+    "v3xBoth": 13.774,
+    "v2xBlackWash": 11.527,
+    "v2xBoth": 13.774
+   },
+   {
+    "hourUtc": "2026-11-02T06:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T06:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 15.829
+    },
+    "v3xBlackWash": 18.185,
+    "v3xBoth": 20.252,
+    "v2xBlackWash": 18.185,
+    "v2xBoth": 20.252
+   },
+   {
+    "hourUtc": "2026-11-02T07:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T07:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 14.895
+    },
+    "v3xBlackWash": 29.53,
+    "v3xBoth": 34.63,
+    "v2xBlackWash": 29.53,
+    "v2xBoth": 34.63
+   },
+   {
+    "hourUtc": "2026-11-02T08:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T08:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 13.026
+    },
+    "v3xBlackWash": 37.502,
+    "v3xBoth": 43.648,
+    "v2xBlackWash": 37.502,
+    "v2xBoth": 43.648
+   },
+   {
+    "hourUtc": "2026-11-02T09:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T09:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.176
+    },
+    "v3xBlackWash": 40.66,
+    "v3xBoth": 47.541,
+    "v2xBlackWash": 40.66,
+    "v2xBoth": 47.541
+   },
+   {
+    "hourUtc": "2026-11-02T10:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T10:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.261
+    },
+    "v3xBlackWash": 39.836,
+    "v3xBoth": 46.838,
+    "v2xBlackWash": 39.836,
+    "v2xBoth": 46.838
+   },
+   {
+    "hourUtc": "2026-11-02T11:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T11:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.261
+    },
+    "v3xBlackWash": 36.222,
+    "v3xBoth": 42.701,
+    "v2xBlackWash": 36.222,
+    "v2xBoth": 42.701
+   },
+   {
+    "hourUtc": "2026-11-02T12:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T12:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.063
+    },
+    "v3xBlackWash": 32.176,
+    "v3xBoth": 38.004,
+    "v2xBlackWash": 32.176,
+    "v2xBoth": 38.006
+   },
+   {
+    "hourUtc": "2026-11-02T13:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T13:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.205
+    },
+    "v3xBlackWash": 30.437,
+    "v3xBoth": 35.717,
+    "v2xBlackWash": 30.437,
+    "v2xBoth": 35.717
+   },
+   {
+    "hourUtc": "2026-11-02T14:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T14:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 11.723
+    },
+    "v3xBlackWash": 29.318,
+    "v3xBoth": 34.123,
+    "v2xBlackWash": 29.318,
+    "v2xBoth": 34.123
+   },
+   {
+    "hourUtc": "2026-11-02T15:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T15:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 11.553
+    },
+    "v3xBlackWash": 27.392,
+    "v3xBoth": 31.751,
+    "v2xBlackWash": 27.392,
+    "v2xBoth": 31.751
+   },
+   {
+    "hourUtc": "2026-11-02T16:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T16:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.063
+    },
+    "v3xBlackWash": 26.38,
+    "v3xBoth": 30.352,
+    "v2xBlackWash": 26.38,
+    "v2xBoth": 30.353
+   },
+   {
+    "hourUtc": "2026-11-02T17:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T16:20:00Z",
+     "ageMin": 40,
+     "flowM3s": 11.242
+    },
+    "v3xBlackWash": 26.648,
+    "v3xBoth": 30.361,
+    "v2xBlackWash": 26.648,
+    "v2xBoth": 30.362
+   },
+   {
+    "hourUtc": "2026-11-02T18:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T18:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 10.959
+    },
+    "v3xBlackWash": 27.81,
+    "v3xBoth": 31.271,
+    "v2xBlackWash": 27.81,
+    "v2xBoth": 31.272
+   }
+  ],
+  "volume18Zto18Z": {
+   "observedM3": 1782710,
+   "observedNote": "trapezoid between primary reports 18Z Nov 1..18Z Nov 2 (last report 16:20Z; 100-min gap to 18Z not filled); low-stage rating step makes the 08:45-16:20Z plateau suspect",
+   "v3xBlackWashM3": 1575913,
+   "v3xBothM3": 1856304,
+   "v2xBlackWashM3": 1575913,
+   "v2xBothM3": 1856320
+  }
+ },
+ "massBalance": {
+  "v3x": {
+   "inflowM3": 955908,
+   "inflowVolumeBasis": "trapezoid over sfincs.dis (the solver interpolates linearly between the hourly values)",
+   "inflowPeakM3s": 48.42,
+   "rainM3": 41838620,
+   "rainMeanMm": 33.730186424735564,
+   "infiltrationM3": 33103294,
+   "infMeanMm": 26.687789031032782,
+   "storageEndM3": 6623050,
+   "outflowAllCellsHourlyRstM3": 3056141,
+   "outflowWindowStart": "2026-11-01T18:00Z",
+   "outletOnlyVolumeM3": 955052,
+   "residualM3": 12043,
+   "residualPctOfInputs": 0.02814249441681988,
+   "residualNote": "inflow + rain - infiltration - storageEnd - outflow(from first restart). An estimate, not a bound: the outflow term is a trapezoid over hourly snapshots of the instantaneous flux (not a time integral of the solver flux), so its sampling error has either sign; any outflow before the first restart would make the residual more negative by that amount",
+   "negativeVolumeEndM3": -0.045207422640487493,
+   "minCellVolumeM3": -0.03084995225071907
+  },
+  "v2x": {
+   "inflowM3": 955908,
+   "inflowVolumeBasis": "trapezoid over sfincs.dis (the solver interpolates linearly between the hourly values)",
+   "inflowPeakM3s": 48.42,
+   "rainM3": 41838620,
+   "rainMeanMm": 33.730186424241154,
+   "infiltrationM3": 33103294,
+   "infMeanMm": 26.68778903016392,
+   "storageEndM3": 7797766,
+   "outflowAllCellsHourlyRstM3": 2005591,
+   "outflowWindowStart": "2026-11-01T18:00Z",
+   "outletOnlyVolumeM3": 959158,
+   "residualM3": -112122,
+   "residualPctOfInputs": -0.26200172192365623,
+   "residualNote": "inflow + rain - infiltration - storageEnd - outflow(from first restart). An estimate, not a bound: the outflow term is a trapezoid over hourly snapshots of the instantaneous flux (not a time integral of the solver flux), so its sampling error has either sign; any outflow before the first restart would make the residual more negative by that amount",
+   "negativeVolumeEndM3": -0.07346029033317336,
+   "minCellVolumeM3": -0.03084995225071907
+  }
+ },
+ "negativeDepth": {
+  "v3x": {
+   "minVolOverAreaM": -0.0006736539840698242,
+   "frame": "2026-11-01T22:00Z",
+   "face": 520909,
+   "cellAreaM2": 39.0625,
+   "cellsBelowMinus1mm": 0,
+   "framesBelowMinus1mm": 0,
+   "note": "vol/area of subgrid_volume; the live verifier rejects depth < -0.001 m"
+  },
+  "v2x": {
+   "minVolOverAreaM": -0.0006736539840698242,
+   "frame": "2026-11-01T22:00Z",
+   "face": 520909,
+   "cellAreaM2": 39.0625,
+   "cellsBelowMinus1mm": 0,
+   "framesBelowMinus1mm": 0,
+   "note": "vol/area of subgrid_volume; the live verifier rejects depth < -0.001 m"
+  }
+ },
+ "stability": {
+  "v3x": {
+   "nanZs": 1019372,
+   "nanZsWet": 0,
+   "maxAbsDzs15minWet": 1.60333251953125,
+   "spikeCells": 0,
+   "zsBelowZbMin": 6.103515625e-05,
+   "maxDepth": 3.85015869140625,
+   "velocityProxyMaxMs": 1.4729463053974823,
+   "velocityProxyAt": [
+    "sfincs.20261102.090000.rst",
+    [
+     -111.24413,
+     32.24807
+    ]
+   ]
+  },
+  "v2x": {
+   "nanZs": 1014816,
+   "nanZsWet": 0,
+   "maxAbsDzs15minWet": 1.60333251953125,
+   "spikeCells": 0,
+   "zsBelowZbMin": 6.103515625e-05,
+   "maxDepth": 5.62017822265625,
+   "velocityProxyMaxMs": 1.4729463053974823,
+   "velocityProxyAt": [
+    "sfincs.20261102.090000.rst",
+    [
+     -111.24413,
+     32.24807
+    ]
+   ]
+  }
+ },
+ "outflowClustersV3x": {
+  "Outflow cluster 1 (39 cells, -111.346 32.440)": {
+   "cells": 39,
+   "centreLonLat": [
+    -111.346,
+    32.44
+   ],
+   "links": 49,
+   "sameCellsAsOutlet720060498": false,
+   "peakM3s": 11.913,
+   "peakTime": "2026-11-02T13:00Z",
+   "volumeFromFirstRestartM3": 46503
+  },
+  "Outflow cluster 2 (26 cells, -111.293 32.365)": {
+   "cells": 26,
+   "centreLonLat": [
+    -111.293,
+    32.365
+   ],
+   "links": 44,
+   "sameCellsAsOutlet720060498": true,
+   "peakM3s": 25.626,
+   "peakTime": "2026-11-02T15:00Z",
+   "volumeFromFirstRestartM3": 955052
+  },
+  "Outflow cluster 3 (12 cells, -111.337 32.413)": {
+   "cells": 12,
+   "centreLonLat": [
+    -111.337,
+    32.413
+   ],
+   "links": 17,
+   "sameCellsAsOutlet720060498": false,
+   "peakM3s": 31.985,
+   "peakTime": "2026-11-02T05:00Z",
+   "volumeFromFirstRestartM3": 896666
+  },
+  "Outflow cluster 4 (10 cells, -111.349 32.467)": {
+   "cells": 10,
+   "centreLonLat": [
+    -111.349,
+    32.467
+   ],
+   "links": 15,
+   "sameCellsAsOutlet720060498": false,
+   "peakM3s": 7.522,
+   "peakTime": "2026-11-02T14:00Z",
+   "volumeFromFirstRestartM3": 49632
+  },
+  "Outflow cluster 5 (5 cells, -111.268 32.370)": {
+   "cells": 5,
+   "centreLonLat": [
+    -111.268,
+    32.37
+   ],
+   "links": 5,
+   "sameCellsAsOutlet720060498": false,
+   "peakM3s": 39.49,
+   "peakTime": "2026-11-02T15:00Z",
+   "volumeFromFirstRestartM3": 1108288
+  }
+ },
+ "roads": [
+  {
+   "kind": "crossing",
+   "label": "West Donaldson Ranch Road",
+   "maxOverV3x": 0.057,
+   "maxOverV2x": 0.057,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T03:45Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 5,
+   "stationsOverV2x": 5
+  },
+  {
+   "kind": "crossing",
+   "label": "West Manville Road",
+   "maxOverV3x": 0.612,
+   "maxOverV2x": 0.612,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T11:15Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 5,
+   "stationsOverV2x": 5
+  },
+  {
+   "kind": "crossing",
+   "label": "West Mile Wide Road",
+   "maxOverV3x": -0.128,
+   "maxOverV2x": -0.128,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T08:45Z",
+   "lastOverV3x": null,
+   "stationsOverV3x": 0,
+   "stationsOverV2x": 0
+  },
+  {
+   "kind": "crossing",
+   "label": "West Little Williams Drive",
+   "maxOverV3x": 0.429,
+   "maxOverV2x": 0.429,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T12:45Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 4,
+   "stationsOverV2x": 4
+  },
+  {
+   "kind": "crossing",
+   "label": "West Tucker Road",
+   "maxOverV3x": 0.921,
+   "maxOverV2x": 0.921,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T12:45Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 5,
+   "stationsOverV2x": 5
+  },
+  {
+   "kind": "dip",
+   "label": "West Snyder Hill Road 1.73 m",
+   "maxOverV3x": 0.642,
+   "maxOverV2x": 0.642,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T14:30Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 5,
+   "stationsOverV2x": 5
+  },
+  {
+   "kind": "dip",
+   "label": "Garcia Ranch Road 1.32 m",
+   "maxOverV3x": 0.304,
+   "maxOverV2x": 0.304,
+   "change": 0.0,
+   "timeV3x": "2026-11-01T19:30Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 1,
+   "stationsOverV2x": 1
+  },
+  {
+   "kind": "dip",
+   "label": "West Manville Road 1.24 m",
+   "maxOverV3x": 0.417,
+   "maxOverV2x": 0.417,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T03:30Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 4,
+   "stationsOverV2x": 4
+  },
+  {
+   "kind": "dip",
+   "label": "West Manville Road 1.12 m",
+   "maxOverV3x": 1.322,
+   "maxOverV2x": 1.322,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T11:15Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 5,
+   "stationsOverV2x": 5
+  },
+  {
+   "kind": "dip",
+   "label": "Garcia Ranch Road 1.01 m",
+   "maxOverV3x": 0.286,
+   "maxOverV2x": 0.286,
+   "change": 0.0,
+   "timeV3x": "2026-11-01T23:00Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 5,
+   "stationsOverV2x": 5
+  },
+  {
+   "kind": "dip",
+   "label": "Garcia Ranch Road 0.98 m",
+   "maxOverV3x": -0.023,
+   "maxOverV2x": -0.023,
+   "change": 0.0,
+   "timeV3x": "2026-11-01T18:45Z",
+   "lastOverV3x": null,
+   "stationsOverV3x": 0,
+   "stationsOverV2x": 0
+  },
+  {
+   "kind": "dip",
+   "label": "North Mesquite Oasis Road 0.96 m",
+   "maxOverV3x": 0.171,
+   "maxOverV2x": 0.171,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T08:15Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 2,
+   "stationsOverV2x": 2
+  },
+  {
+   "kind": "dip",
+   "label": "West Donaldson Ranch Road 0.9 m",
+   "maxOverV3x": 0.392,
+   "maxOverV2x": 0.392,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T02:45Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 5,
+   "stationsOverV2x": 5
+  },
+  {
+   "kind": "dip",
+   "label": "West Tucker Road 0.88 m",
+   "maxOverV3x": 0.921,
+   "maxOverV2x": 0.921,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T12:45Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 5,
+   "stationsOverV2x": 5
+  },
+  {
+   "kind": "dip",
+   "label": "West Orange Grove Road 0.73 m",
+   "maxOverV3x": 0.208,
+   "maxOverV2x": 0.208,
+   "change": 0.0,
+   "timeV3x": "2026-11-01T21:00Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 3,
+   "stationsOverV2x": 3
+  },
+  {
+   "kind": "dip",
+   "label": "West Little Williams Drive 0.72 m",
+   "maxOverV3x": 0.467,
+   "maxOverV2x": 0.467,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T12:45Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 5,
+   "stationsOverV2x": 5
+  },
+  {
+   "kind": "dip",
+   "label": "West Drillers Road 0.65 m",
+   "maxOverV3x": 0.281,
+   "maxOverV2x": 0.281,
+   "change": 0.0,
+   "timeV3x": "2026-11-02T10:15Z",
+   "lastOverV3x": "2026-11-02T18:00Z",
+   "stationsOverV3x": 2,
+   "stationsOverV2x": 2
+  }
+ ],
+ "stationsOverTotal": {
+  "v3x": {
+   "stations": 57465,
+   "overFullWindow": 4857,
+   "overBy07Z": 4278,
+   "newAfter07Z": 579
+  },
+  "v2x": {
+   "stations": 57465,
+   "overFullWindow": 4859,
+   "overBy07Z": 4279,
+   "newAfter07Z": 580
+  }
+ },
+ "stationsOverByCell": {
+  "v3x": {
+   "6.25": {
+    "stations": 6432,
+    "overFullWindow": 1569,
+    "overBy07Z": 1367,
+    "overGt0p3": 206
+   },
+   "12.5": {
+    "stations": 12575,
+    "overFullWindow": 1831,
+    "overBy07Z": 1666,
+    "overGt0p3": 112
+   },
+   "25.0": {
+    "stations": 3195,
+    "overFullWindow": 373,
+    "overBy07Z": 313,
+    "overGt0p3": 9
+   },
+   "50.0": {
+    "stations": 7493,
+    "overFullWindow": 623,
+    "overBy07Z": 554,
+    "overGt0p3": 27
+   },
+   "100.0": {
+    "stations": 27770,
+    "overFullWindow": 461,
+    "overBy07Z": 378,
+    "overGt0p3": 38
+   }
+  },
+  "v2x": {
+   "6.25": {
+    "stations": 6432,
+    "overFullWindow": 1569,
+    "overBy07Z": 1367,
+    "overGt0p3": 206
+   },
+   "12.5": {
+    "stations": 12575,
+    "overFullWindow": 1831,
+    "overBy07Z": 1666,
+    "overGt0p3": 112
+   },
+   "25.0": {
+    "stations": 3195,
+    "overFullWindow": 373,
+    "overBy07Z": 313,
+    "overGt0p3": 9
+   },
+   "50.0": {
+    "stations": 7493,
+    "overFullWindow": 623,
+    "overBy07Z": 554,
+    "overGt0p3": 27
+   },
+   "100.0": {
+    "stations": 27770,
+    "overFullWindow": 463,
+    "overBy07Z": 379,
+    "overGt0p3": 38
+   }
+  }
+ },
+ "notes": [
+  "Tucker and Manville have no observed gauge in the primary data set; only ALERT 6443 (Mile Wide) is an observed flow point in the domain",
+  "Outflow before the first hourly restart (18Z Nov 1) is not in the outputs (no his file); volumes are from 18Z Nov 1",
+  "Depth at the pond is zs minus the lowest sub-pixel (z_zmin) of a 100 m cell, not a mean or surveyed depth"
+ ]
+}

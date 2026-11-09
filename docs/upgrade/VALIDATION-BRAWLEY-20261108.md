@@ -821,3 +821,64 @@ Both use the v2 mesh (643,056 cells, mesh sha256 328042f02927…, up from 408,20
   - The model still responds at Mile Wide 5–12 h after the observed main burst (14:45–17:05Z; lighter rain to 21:27Z) and misses the 18:20Z peak.
   - So the HRRR rain timing alone does not explain the V2 misfit. The CN runoff assumption (no transmission loss) and the slow overland/channel routing look like larger factors. This run does not separate them, and nothing was adjusted.
 - **V2 stays FAIL** in this sensitivity run as well.
+
+## 16. v3 boundaries: outlet lobe opened (v3x, run 42567934972) — 2026-11-09
+
+**Validation only, not a live configuration and not tuned.** Case `brawley-avra-west-native-case-v3x-observed-inflow` is v2x (§12) with only the boundary mask changed. Mesh v2, parameters v2, inflow, rain and the 74 h window are byte-identical to v2x; in `sfincs.nc` only `mask` differs. Solver 5,593.1 s. Numbers: `tools/sfincs/data/brawley-avra-west-v2/boundaries-v3/result-42567934972/summary.json`. Boundaries: `tools/sfincs/data/brawley-avra-west-v2/boundaries-v3/placement-report.json`.
+
+### 16.1 What changed in the boundaries
+
+- 92 outflow cells (v2: 47). Same boundary type (msk 3) and the same HydroMT outflow-point search (100 m edge buffer, 250 m corridor, Deltares mask builder) as the v2 cells. Two new optional flags in `prepare_route_case_boundaries.py`; without them the v2 boundaries rebuild byte-identical.
+- **Lobe tip, 5 cells** (54443, 54444, 54598, 54599, 54756). NHDPlus 15876709 is reversed for the outflow search only, after the script checks the terrain (617.76 m at its digitized start, 641.15 m at its end). Of the six faces named in `BRAWLEY-OUTLET-POND-20261108.md`, 54599, 54444 and 54756 are marked. 54755 and 54754 are not: they are outside the 250 m corridor and the ground east of them does not fall. 54290 is not marked either: it is 456 m from the outflow point.
+- **NW valley floor, 40 cells** on two OSM intermittent streams that leave downhill: way 1489567542 (5 cells, near W Silverbell Rd, −111.352, 32.463) and way 1489567547 (35 cells of 6–100 m, near N Cocio Rd, −111.348, 32.440).
+- **Edge audit** (`tools/sfincs/brawley/audit_edge_outfall.py`). 4,318 domain-edge sides were checked; on 1,485 of them the 10 m terrain keeps falling outward, in 102 clusters. Only the three places above have both falling ground and a mapped channel leaving. Every other cluster is listed as a candidate and left unchanged:
+  - 90 clusters have no channel crossing the edge. Most are ridges where the ground falls away on both sides.
+  - Cluster 38 (east edge, 136 sides): only the CAP canal crosses, and the ground there does not fall outward.
+  - Clusters 67 and 81 (far east): the channels have under 100 m of their length inside the domain.
+- **Second reversed headwater 15876769: unchanged, listed as a candidate.** Its start is 192 m inside the edge, beyond the 100 m buffer. No channel leaves there. Outside, the ground falls about 2 m over 1 km to the north-east. The CAP canal is 0.66 km away.
+
+### 16.2 Results against v2x
+
+Outflow is hourly restart flux (instantaneous snapshots, which swing a lot from hour to hour). Volumes are trapezoids from 18Z Nov 1.
+
+| Series | v3x peak / time | v3x volume | v2x |
+|---|---|---|---|
+| Lobe tip 15876709 (own series, 5 cells) | **39.49 / 15Z**; 30.3 at 18Z | **1,108,288 m³** | closed (0) |
+| Outlet 720060498 (26 cells) | 25.63 / 15Z; 19.40 at 18Z | 955,052 m³ | 26.32 / 14Z; 959,158 m³ |
+| OSM 1489567542 (5 cells) | 7.52 / 14Z | 39,814 m³ | — |
+| OSM 1489567547 (35 cells) | 0.25 / 10Z | 3,616 m³ | — |
+| All outflow cells | 99.56 / 13Z | 3,056,141 m³ | 56.19 / 13Z; 2,005,591 m³ |
+
+- **Pond (face 54135).** Its peak water surface is 620.35 m at 14:15Z, and it is falling at the end (620.30 at 18Z). In v2x it was 622.70 and still rising.
+  - Peak height above the cell's lowest sub-pixel: 3.27 m (v2x 5.62 m). That sub-pixel is the stock tank; it is not the cell's mean depth.
+  - Lobe storage peaks at 183,954 m³ around 14Z and ends at 148,045 m³ (v2x 1,317,460 m³ at the end).
+  - Stored within 1.5 km of the pond at 18Z: 72,372 m³ (v2x 1,241,787 m³).
+  - The lobe outflow (1.11M m³) matches the storage that is no longer there (1.17M m³).
+- **Tucker vs the outlet.** At Tucker's peak (64.34, 13Z), the outlet plus the lobe pass 25.6 + 36.7 = 62.3 m³/s. So the 38 m³/s gap in v2x was water stored in the dead-end lobe (see §12.3 and `BRAWLEY-OUTLET-POND-20261108.md`).
+- **Upstream sections: unchanged.** Mile Wide, Manville and Tucker differ from v2x by at most 0.023 m³/s in any hour. Peaks: Mile Wide 47.54 / 09Z, Manville 62.79 / 11Z, Tucker 64.34 / 13Z.
+- **ALERT 6443: unchanged, against the primary county series.**
+
+  | | Model, Black Wash band | Model, both bands | Observed |
+  |---|---|---|---|
+  | 03Z | 8.83 m³/s (0.40×) | 11.76 m³/s (0.54×) | 21.97 m³/s |
+  | Peak | 40.66 / 09Z | 47.54 / 09Z | 64.7 at 18:20Z Nov 1 (from local rain) |
+  | 18Z–18Z volume | 1.58M m³ | 1.86M m³ | 1.78M m³ (the 08:45–16:20Z plateau is suspect, §13) |
+
+  - The model first reaches 21.97 m³/s at about 06:20Z (Black Wash band) or 06:07Z (both bands).
+  - **V2 stays FAIL.** The boundary change cannot affect Mile Wide, which is 13 km upstream.
+- **Mass balance.** Inputs and infiltration are unchanged. Storage at 18Z is 6.62M m³ (v2x 7.80M). The residual is +12,043 m³ (+0.03% of inputs; v2x −112,122, −0.26%). It still counts outflow only from 18Z Nov 1.
+- **Negative depth.** Same as v2x: minimum vol/area −0.67 mm (face 520909, 22Z), and 0 cells below −1 mm.
+- **Stability and velocity.**
+  - 0 wet NaN values, 0 spikes, maximum 15-min rise 1.60 m. The domain maximum depth is now 3.85 m (v2x 5.62).
+  - The velocity proxy (validate_extended rule, depth > 0.1 m) peaks at 1.47 m/s at the Mile Wide deck, unchanged. At the outflow links it peaks at 1.27 m/s (v2x 1.41).
+  - Every new outflow link is shallower than 0.1 m: water leaves the lobe tip as a sheet 1–5 cm deep, with at most 0.25 m²/s per metre of width.
+  - With a 1 cm depth floor instead, the proxy reaches 16.9 m/s at the lobe and 33–35 m/s at the v2 outlet, in both runs. Thin-sheet depth makes that figure meaningless; it is not a real speed.
+- **Roads.**
+  - All 5 Brawley crossings and all 12 representative dips are unchanged (for example Tucker +0.921, Manville +0.612, Mile Wide −0.128).
+  - Stations over the road at some point: 4,857 (v2x 4,859). The 2 that dropped are W Silverbell Rd stations (32.4620, −111.3535). Their cell (face 32266) is now an outflow cell, and outflow cells hold zs at the bed. **That is a boundary artifact, not a real change.**
+  - In all, 9 W Silverbell Rd stations and 1 N Cocio Rd station now sit in outflow cells and can no longer be scored.
+  - Changes in maximum water surface over 0.01 m are confined to the lobe (71 cells, down by up to 4.96 m) and within 3 km of the NW outfalls (178 cells, −0.35 to +0.03 m); elsewhere only 2 cells change, by 0.015 m or less.
+- **Verdict.**
+  - The closed-edge pond is gone. The outlet-side numbers in v2/v2x (outlet against NWM, storage at 18Z) should be replaced by the v3x outlet plus lobe series.
+  - Nothing upstream of Tucker changes, so the V2 (Mile Wide) FAIL and the slow wave remain.
+  - The NW OSM outfalls carry little water (43k m³) and mask 10 road stations. A lobe-only v3 variant would avoid that; it was not run.
