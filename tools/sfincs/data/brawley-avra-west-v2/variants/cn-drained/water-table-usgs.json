@@ -1,0 +1,741 @@
+{
+ "source": "https://api.waterdata.usgs.gov/ogcapi/v0/collections/field-measurements/items",
+ "query": {
+  "bbox": "-111.51,31.92,-111.0,32.48",
+  "parameter_code": "72019 depth to water level, ft below land surface",
+  "time": "2015-01-01T00:00:00Z/2026-11-09T00:00:00Z"
+ },
+ "readings": 399,
+ "wells": 44,
+ "shallowestReadingAnyWellFt": 7.99,
+ "shallowestReadingAnyWellM": 2.44,
+ "medianOfPerWellShallowestFt": 186.785,
+ "wellsWithAnyReadingShallowerThan2ft(0.6m)": 0,
+ "wellsShallowerThan50ft": [
+  {
+   "site": "AZ014-321907111065001",
+   "lonlat": [
+    -111.114444444444,
+    32.31925
+   ],
+   "readings": 2,
+   "shallowestFt": 49.68,
+   "shallowestTime": "2015-02-10T17:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 56.43,
+   "latestTime": "2016-02-25T19:40:00+00:00"
+  },
+  {
+   "site": "USGS-320152111291501",
+   "lonlat": [
+    -111.488942987645,
+    32.0319666872011
+   ],
+   "readings": 1,
+   "shallowestFt": 47.5,
+   "shallowestTime": "2016-01-28T12:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 47.5,
+   "latestTime": "2016-01-28T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-321836111064801",
+   "lonlat": [
+    -111.113986111111,
+    32.3099833333333
+   ],
+   "readings": 3,
+   "shallowestFt": 7.99,
+   "shallowestTime": "2017-02-02T23:20:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 7.99,
+   "latestTime": "2017-02-02T23:20:00+00:00"
+  }
+ ],
+ "threshold": "NRCS NEH 630 ch. 7: dual groups A/D, B/D, C/D take the drained (first) group where the seasonal high water table is kept or naturally deeper than 60 cm (2 ft)",
+ "perWell": [
+  {
+   "site": "AZ014-321907111065001",
+   "lonlat": [
+    -111.114444444444,
+    32.31925
+   ],
+   "readings": 2,
+   "shallowestFt": 49.68,
+   "shallowestTime": "2015-02-10T17:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 56.43,
+   "latestTime": "2016-02-25T19:40:00+00:00"
+  },
+  {
+   "site": "USGS-315613111230501",
+   "lonlat": [
+    -111.387965483543,
+    31.9385530113931
+   ],
+   "readings": 1,
+   "shallowestFt": 237.3,
+   "shallowestTime": "2016-02-08T12:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 237.3,
+   "latestTime": "2016-02-08T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-315825111230601",
+   "lonlat": [
+    -111.386327332448,
+    31.975163099873
+   ],
+   "readings": 5,
+   "shallowestFt": 183.7,
+   "shallowestTime": "2018-01-23T12:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 183.9,
+   "latestTime": "2019-01-23T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-315857111225201",
+   "lonlat": [
+    -111.383077370948,
+    31.9823295846338
+   ],
+   "readings": 1,
+   "shallowestFt": 177.2,
+   "shallowestTime": "2016-02-09T12:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 177.2,
+   "latestTime": "2016-02-09T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-320058111121901",
+   "lonlat": [
+    -111.20490479985,
+    32.016246433866
+   ],
+   "readings": 4,
+   "shallowestFt": 304.03,
+   "shallowestTime": "2017-01-24T12:00:00+00:00",
+   "shallowestQualifier": [
+    "ForeignSubstance"
+   ],
+   "latestFt": 305.19,
+   "latestTime": "2019-02-20T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-320100111221401",
+   "lonlat": [
+    -111.371216332337,
+    32.0167455337139
+   ],
+   "readings": 1,
+   "shallowestFt": 149.8,
+   "shallowestTime": "2016-01-26T12:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 149.8,
+   "latestTime": "2016-01-26T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-320104111215301",
+   "lonlat": [
+    -111.365966162257,
+    32.0198010706186
+   ],
+   "readings": 3,
+   "shallowestFt": 153.0,
+   "shallowestTime": "2016-01-13T12:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 153.2,
+   "latestTime": "2019-01-23T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-320152111291501",
+   "lonlat": [
+    -111.488942987645,
+    32.0319666872011
+   ],
+   "readings": 1,
+   "shallowestFt": 47.5,
+   "shallowestTime": "2016-01-28T12:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 47.5,
+   "latestTime": "2016-01-28T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-320313111203201",
+   "lonlat": [
+    -111.342743325794,
+    32.0532728801068
+   ],
+   "readings": 5,
+   "shallowestFt": 152.58,
+   "shallowestTime": "2019-01-25T12:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 152.58,
+   "latestTime": "2019-01-25T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-320339111200201",
+   "lonlat": [
+    -111.334104167528,
+    32.0603006025769
+   ],
+   "readings": 5,
+   "shallowestFt": 162.12,
+   "shallowestTime": "2019-01-25T12:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 162.12,
+   "latestTime": "2019-01-25T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-320343111190601",
+   "lonlat": [
+    -111.317992484047,
+    32.0635784448976
+   ],
+   "readings": 1,
+   "shallowestFt": 209.9,
+   "shallowestTime": "2016-01-26T12:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 209.9,
+   "latestTime": "2016-01-26T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-320414111193001",
+   "lonlat": [
+    -111.326965079458,
+    32.0695782787076
+   ],
+   "readings": 5,
+   "shallowestFt": 159.19,
+   "shallowestTime": "2019-01-25T12:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 159.19,
+   "latestTime": "2019-01-25T12:00:00+00:00"
+  },
+  {
+   "site": "USGS-320944111125701",
+   "lonlat": [
+    -111.216489399691,
+    32.1622996484526
+   ],
+   "readings": 56,
+   "shallowestFt": 181.63,
+   "shallowestTime": "2024-10-18T16:45:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 189.25,
+   "latestTime": "2026-10-19T17:24:00+00:00"
+  },
+  {
+   "site": "USGS-321547111144001",
+   "lonlat": [
+    -111.245102269636,
+    32.2631313112327
+   ],
+   "readings": 64,
+   "shallowestFt": 203.06,
+   "shallowestTime": "2021-10-20T21:07:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 237.93,
+   "latestTime": "2026-09-22T18:35:00+00:00"
+  },
+  {
+   "site": "USGS-321713111062401",
+   "lonlat": [
+    -111.106677777778,
+    32.2868277777778
+   ],
+   "readings": 1,
+   "shallowestFt": 88.61,
+   "shallowestTime": "2015-01-29T20:00:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 88.61,
+   "latestTime": "2015-01-29T20:00:00+00:00"
+  },
+  {
+   "site": "USGS-321749111051001",
+   "lonlat": [
+    -111.087122222222,
+    32.2968388888889
+   ],
+   "readings": 1,
+   "shallowestFt": 261.55,
+   "shallowestTime": "2015-03-20T21:00:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 261.55,
+   "latestTime": "2015-03-20T21:00:00+00:00"
+  },
+  {
+   "site": "USGS-321808111063001",
+   "lonlat": [
+    -111.10845,
+    32.3020861111111
+   ],
+   "readings": 1,
+   "shallowestFt": 267.31,
+   "shallowestTime": "2015-02-24T21:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 267.31,
+   "latestTime": "2015-02-24T21:00:00+00:00"
+  },
+  {
+   "site": "USGS-321817111061601",
+   "lonlat": [
+    -111.104416666667,
+    32.30475
+   ],
+   "readings": 1,
+   "shallowestFt": 243.25,
+   "shallowestTime": "2015-03-03T21:00:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 243.25,
+   "latestTime": "2015-03-03T21:00:00+00:00"
+  },
+  {
+   "site": "USGS-321817111062501",
+   "lonlat": [
+    -111.106969444444,
+    32.3047444444444
+   ],
+   "readings": 1,
+   "shallowestFt": 307.7,
+   "shallowestTime": "2015-03-20T19:30:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 307.7,
+   "latestTime": "2015-03-20T19:30:00+00:00"
+  },
+  {
+   "site": "USGS-321833111060601",
+   "lonlat": [
+    -111.101588888889,
+    32.3090638888889
+   ],
+   "readings": 1,
+   "shallowestFt": 417.95,
+   "shallowestTime": "2015-02-17T19:00:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 417.95,
+   "latestTime": "2015-02-17T19:00:00+00:00"
+  },
+  {
+   "site": "USGS-321836111040601",
+   "lonlat": [
+    -111.068366666667,
+    32.3100666666667
+   ],
+   "readings": 1,
+   "shallowestFt": 207.36,
+   "shallowestTime": "2015-02-17T17:00:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 207.36,
+   "latestTime": "2015-02-17T17:00:00+00:00"
+  },
+  {
+   "site": "USGS-321836111064801",
+   "lonlat": [
+    -111.113986111111,
+    32.3099833333333
+   ],
+   "readings": 3,
+   "shallowestFt": 7.99,
+   "shallowestTime": "2017-02-02T23:20:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 7.99,
+   "latestTime": "2017-02-02T23:20:00+00:00"
+  },
+  {
+   "site": "USGS-321840111055001",
+   "lonlat": [
+    -111.097286111111,
+    32.311025
+   ],
+   "readings": 2,
+   "shallowestFt": 327.6,
+   "shallowestTime": "2015-02-17T20:00:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 327.84,
+   "latestTime": "2016-02-09T18:40:00+00:00"
+  },
+  {
+   "site": "USGS-321859111075101",
+   "lonlat": [
+    -111.130966666667,
+    32.3163611111111
+   ],
+   "readings": 6,
+   "shallowestFt": 52.98,
+   "shallowestTime": "2016-09-14T16:20:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 53.63,
+   "latestTime": "2017-02-02T22:15:00+00:00"
+  },
+  {
+   "site": "USGS-321914111063401",
+   "lonlat": [
+    -111.109494444444,
+    32.3206777777778
+   ],
+   "readings": 2,
+   "shallowestFt": 114.4,
+   "shallowestTime": "2016-02-29T15:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 148.3,
+   "latestTime": "2016-08-16T16:30:00+00:00"
+  },
+  {
+   "site": "USGS-321916111064301",
+   "lonlat": [
+    -111.111997222222,
+    32.32125
+   ],
+   "readings": 2,
+   "shallowestFt": 122.03,
+   "shallowestTime": "2015-02-03T17:50:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 122.65,
+   "latestTime": "2016-02-25T21:40:00+00:00"
+  },
+  {
+   "site": "USGS-321917111062702",
+   "lonlat": [
+    -111.107616666667,
+    32.3212666666667
+   ],
+   "readings": 3,
+   "shallowestFt": 429.58,
+   "shallowestTime": "2016-01-22T22:30:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 429.58,
+   "latestTime": "2016-01-22T22:30:00+00:00"
+  },
+  {
+   "site": "USGS-321917111065101",
+   "lonlat": [
+    -111.114066666667,
+    32.3214027777778
+   ],
+   "readings": 5,
+   "shallowestFt": 115.29,
+   "shallowestTime": "2015-02-10T16:30:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 117.3,
+   "latestTime": "2016-01-11T20:00:00+00:00"
+  },
+  {
+   "site": "USGS-321923111062701",
+   "lonlat": [
+    -111.107427777778,
+    32.3230194444444
+   ],
+   "readings": 1,
+   "shallowestFt": 421.93,
+   "shallowestTime": "2015-03-16T20:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 421.93,
+   "latestTime": "2015-03-16T20:00:00+00:00"
+  },
+  {
+   "site": "USGS-321923111064601",
+   "lonlat": [
+    -111.112822222222,
+    32.3229833333333
+   ],
+   "readings": 2,
+   "shallowestFt": 106.97,
+   "shallowestTime": "2015-02-10T18:00:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 108.7,
+   "latestTime": "2016-02-25T21:30:00+00:00"
+  },
+  {
+   "site": "USGS-321926111055701",
+   "lonlat": [
+    -111.099188888889,
+    32.323875
+   ],
+   "readings": 1,
+   "shallowestFt": 236.65,
+   "shallowestTime": "2015-03-03T19:30:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 236.65,
+   "latestTime": "2015-03-03T19:30:00+00:00"
+  },
+  {
+   "site": "USGS-321928111063301",
+   "lonlat": [
+    -111.109283333333,
+    32.3244027777778
+   ],
+   "readings": 1,
+   "shallowestFt": 104.39,
+   "shallowestTime": "2015-02-03T21:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 104.39,
+   "latestTime": "2015-02-03T21:00:00+00:00"
+  },
+  {
+   "site": "USGS-321929111060501",
+   "lonlat": [
+    -111.101441666667,
+    32.3247055555556
+   ],
+   "readings": 1,
+   "shallowestFt": 238.79,
+   "shallowestTime": "2015-03-03T19:00:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 238.79,
+   "latestTime": "2015-03-03T19:00:00+00:00"
+  },
+  {
+   "site": "USGS-321929111070601",
+   "lonlat": [
+    -111.119016666667,
+    32.3249972222222
+   ],
+   "readings": 15,
+   "shallowestFt": 133.01,
+   "shallowestTime": "2016-11-16T19:50:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 133.01,
+   "latestTime": "2017-02-02T22:45:00+00:00"
+  },
+  {
+   "site": "USGS-321931111061101",
+   "lonlat": [
+    -111.103155555556,
+    32.3252333333333
+   ],
+   "readings": 1,
+   "shallowestFt": 228.14,
+   "shallowestTime": "2015-02-24T18:30:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 228.14,
+   "latestTime": "2015-02-24T18:30:00+00:00"
+  },
+  {
+   "site": "USGS-321932111063601",
+   "lonlat": [
+    -111.110022222222,
+    32.3255805555556
+   ],
+   "readings": 7,
+   "shallowestFt": 86.81,
+   "shallowestTime": "2016-01-21T16:58:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 99.54,
+   "latestTime": "2016-01-21T19:26:00+00:00"
+  },
+  {
+   "site": "USGS-321937111061201",
+   "lonlat": [
+    -111.103336111111,
+    32.3270166666667
+   ],
+   "readings": 1,
+   "shallowestFt": 217.88,
+   "shallowestTime": "2015-02-17T21:00:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 217.88,
+   "latestTime": "2015-02-17T21:00:00+00:00"
+  },
+  {
+   "site": "USGS-321941111061201",
+   "lonlat": [
+    -111.103388888889,
+    32.3280555555556
+   ],
+   "readings": 1,
+   "shallowestFt": 207.63,
+   "shallowestTime": "2015-03-16T19:00:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 207.63,
+   "latestTime": "2015-03-16T19:00:00+00:00"
+  },
+  {
+   "site": "USGS-321941111064801",
+   "lonlat": [
+    -111.114194444444,
+    32.3279861111111
+   ],
+   "readings": 1,
+   "shallowestFt": 82.0,
+   "shallowestTime": "2015-02-24T17:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 82.0,
+   "latestTime": "2015-02-24T17:00:00+00:00"
+  },
+  {
+   "site": "USGS-321947111060901",
+   "lonlat": [
+    -111.102369444444,
+    32.32975
+   ],
+   "readings": 4,
+   "shallowestFt": 189.87,
+   "shallowestTime": "2016-01-29T18:05:00+00:00",
+   "shallowestQualifier": [
+    "Above",
+    "Pumping"
+   ],
+   "latestFt": 194.73,
+   "latestTime": "2016-01-29T20:40:00+00:00"
+  },
+  {
+   "site": "USGS-321955111064401",
+   "lonlat": [
+    -111.112277777778,
+    32.3319444444444
+   ],
+   "readings": 1,
+   "shallowestFt": 149.72,
+   "shallowestTime": "2016-02-04T18:00:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 149.72,
+   "latestTime": "2016-02-04T18:00:00+00:00"
+  },
+  {
+   "site": "USGS-322009111191801",
+   "lonlat": [
+    -111.322328390093,
+    32.3359065008702
+   ],
+   "readings": 53,
+   "shallowestFt": 280.96,
+   "shallowestTime": "2026-04-27T21:28:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 280.96,
+   "latestTime": "2026-04-27T21:28:00+00:00"
+  },
+  {
+   "site": "USGS-322057111134801",
+   "lonlat": [
+    -111.230658681825,
+    32.3492401920863
+   ],
+   "readings": 55,
+   "shallowestFt": 293.75,
+   "shallowestTime": "2026-09-22T19:37:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 293.75,
+   "latestTime": "2026-09-22T19:37:00+00:00"
+  },
+  {
+   "site": "USGS-322339111170001",
+   "lonlat": [
+    -111.283994324321,
+    32.3942386791457
+   ],
+   "readings": 70,
+   "shallowestFt": 201.68,
+   "shallowestTime": "2022-01-27T19:50:00+00:00",
+   "shallowestQualifier": [
+    "Static"
+   ],
+   "latestFt": 214.55,
+   "latestTime": "2026-09-22T20:18:00+00:00"
+  }
+ ]
+}

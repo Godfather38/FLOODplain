@@ -1,0 +1,56 @@
+{
+ "script": "tools/sfincs/brawley/variants/prepare_cn_drained.py",
+ "existing": ".sfincs-runs\\brawley-avra-west-context-v2\\cn.tif",
+ "existingSha256": "af6bb9b138d8b3a7158afb538efc11331a2a5249630d212a952f53edb4e2c3c2",
+ "grid": {
+  "crs": "EPSG:32612",
+  "transform": [
+   10.0,
+   0.0,
+   452000.0,
+   0.0,
+   -10.0,
+   3594000.0
+  ],
+  "shape": [
+   6200,
+   4800
+  ]
+ },
+ "sources": {
+  "undrained": [
+   {
+    "url": "https://hydro.nmsu.edu/datasets/gcn10/cn_rasters_undrained/cn_f_ii_2281.tif",
+    "addedCells": 29760000
+   },
+   {
+    "url": "https://hydro.nmsu.edu/datasets/gcn10/cn_rasters_undrained/cn_f_ii_2280.tif",
+    "addedCells": 0
+   }
+  ],
+  "drained": [
+   {
+    "url": "https://hydro.nmsu.edu/datasets/gcn10/cn_rasters_drained/cn_f_ii_2281.tif",
+    "addedCells": 29760000
+   },
+   {
+    "url": "https://hydro.nmsu.edu/datasets/gcn10/cn_rasters_drained/cn_f_ii_2280.tif",
+    "addedCells": 0
+   }
+  ]
+ },
+ "cells": 29760000,
+ "undrainedWarpReproducesExistingCells": 29710488,
+ "undrainedWarpMismatchCells": 49512,
+ "drainedDiffersFromUndrainedCells": 0,
+ "changedCellsWhereExistingMatchedUndrainedWarp": 0,
+ "cnTransitionsUndrainedToDrained": {},
+ "meanCn": {
+  "existing": 82.31938561827957,
+  "drained": 82.31938561827957
+ },
+ "output": {
+  "path": ".sfincs-runs\\brawley-avra-west-cn-drained\\cn-drained.tif",
+  "sha256": "2074421ecd2aba2908dc1db9ab7d0a639e4aa0521d8652e5197db45e2e859e4c"
+ }
+}
