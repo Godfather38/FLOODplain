@@ -56,13 +56,17 @@ same one cited in `tools/live/verify_all_route_package.py`.
   fastest outlet faces, where the nearest station is 586.5 m away. Across all 6 outflow clusters
   (§1.5):
   - stations sit as close as **131 m** (North Puma Road) and **187 m** (W Peccary Lane) to outflow
-    cells. Both are never wet in v2r.
+    cells. W Peccary Lane is never wet in v2r; North Puma Road has no mesh cell, so it is unrated
+    (corrected round 8; round 7 called it never wet). The road caveat below covers both.
   - stations that go over the road sit 291–436 m from four of the clusters: W El Camino Road at
     291 m and 382 m, W Whitewing Way at 376 m and Garvey Road at 436 m.
   - within 500 m of the cluster at −111.335, 32.404 (5 cells), 45 stations go over the road.
-  - Over-draining (stored outflow above the head-driven part) is measured at only two clusters: the
-    outlet (up to 15×) and −111.335, 32.404 (up to 3.0×). At the other four, the stored flux is at
-    most the head-driven part in every snapshot.
+  - Over-draining (stored outflow above the head-driven part) occurs at **all six clusters**
+    (corrected round 8). The ratio filter used before (head-driven part above 0.5 m³/s) hid it at
+    four of them: there the stored flux is positive in snapshots where the head-driven part is **0**
+    (1 to 4 snapshots per cluster, up to 11.7 m³/s), which only the `uvmean` memory can produce. The
+    outlet is over the head-driven part in 20 of 25 snapshots (up to 15×), −111.335, 32.404 in 17
+    of 25 (up to 3.0×). See §1.3 for the per-cluster numbers.
   - Over-draining can only bias ratings toward **less** water. Whether it changes any rating is not
     known. A SENSITIVITY run (`btfilter = −1`, §1.6) would settle it.
 - **Negative depth (2):** This is the same family as the v1b −1.03 mm cell.
@@ -227,6 +231,22 @@ outflow.
   - the cluster at −111.335, 32.404: 0–3.0×;
   - the other four clusters: 0–0.25×. There the stored flux was 0 (clamped) in most of those
     snapshots.
+  - That filter hides over-draining in the snapshots where the head-driven part is below 0.5 m³/s.
+    Counting every snapshot (`out-v2r-20261109/outflow-roads.json`, `flux.hourly`; corrected
+    round 8), **every one of the six clusters stores more than its head-driven part in some
+    snapshots, and five store a positive flux while the head-driven part is exactly 0**:
+
+    | Cluster (cells) | snapshots stored > head (of 25) | snapshots stored > 0 with head 0 | largest stored flux with head 0 | Σ (stored − head) over those snapshots × 1 h |
+    |---|---|---|---|---|
+    | Outlet −111.293, 32.365 (26) | 20 | 0 | – | about 3.29M m³ |
+    | −111.335, 32.404 (5) | 17 | 1 | 3.41 m³/s | about 576k m³ |
+    | −111.338, 32.417 (3) | 2 | 2 | 9.76 m³/s | about 55k m³ |
+    | −111.346, 32.471 (5) | 4 | 4 | 2.98 m³/s | about 33k m³ |
+    | −111.339, 32.421 (4) | 3 | 3 | 1.86 m³/s | about 20k m³ |
+    | −111.340, 32.440 (4) | 3 | 3 | 11.67 m³/s | about 74k m³ |
+
+    A stored flux with no head can only come from the `uvmean` memory term. The last column treats
+    each hourly snapshot as lasting an hour, so it is a size indication, not a volume.
 
 Over all 71 links:
 
@@ -269,14 +289,19 @@ faces: 159196/7, 297752/3 and 298164/5 at the Brawley Wash outlet.
 | −111.338, 32.417 (3, 4) | 377.6 m W El Camino Rd (never wet) | 381.5 m W El Camino Rd (+0.023 m) | 66 / 31 / 3 | 596 / 71 | 0 (clamped) |
 | −111.346, 32.471 (5, 5) | 1,144 m W Silverbell Rd (+0.223 m) | same | 0 / 0 / 0 | 104 / 3 | 0 (clamped) |
 | −111.339, 32.421 (4, 6) | 287.5 m W El Camino Rd (wet, −0.045 m) | 290.6 m W El Camino Rd (+0.048 m) | 130 / 57 / 22 | 613 / 28 | 0–0.25 |
-| −111.340, 32.440 (4, 5) | **131.0 m North Puma Rd** (never wet) | 578.1 m N Cocio Rd (+0.031 m) | 50 / 0 / 0 | 493 / 13 | 0 (clamped) |
+| −111.340, 32.440 (4, 5) | **131.0 m North Puma Rd** (no mesh cell: unrated) | 578.1 m N Cocio Rd (+0.031 m) | 50 / 0 / 0 | 493 / 13 | 0 (clamped) |
 
 The 2 km counts overlap between neighbouring clusters. "Never wet" means no wet frame at that
 station's cell; it is not dry evidence.
 
-- North Puma Road (131 m) and W Peccary Lane (187 m) are never wet in v2r, so they have no
-  over-road result that over-draining could have lowered. Whether they would be wet without it is
-  not known.
+- W Peccary Lane (187 m, cluster −111.335, 32.404) is never wet in v2r. North Puma Road (131 m,
+  cluster −111.340, 32.440) has **no mesh cell** (it falls outside the mesh), so it has no rating at
+  all; round 7 listed it as "never wet", which was wrong (`outflow_roads.py` reports a station with
+  no cell as not ever wet). Both clusters over-drain (table in §1.3). So the road caveat below
+  applies to these two roads too: W Peccary Lane's "never wet" may be an effect of the boundary, not
+  of the terrain, and North Puma Road is unrated next to an over-draining outflow. (In the
+  btfilter = −1 SENSITIVITY on base B, W Peccary Lane stays never wet;
+  `result-v3l-obsrain-btf-42584636960`.)
 - Stations that do go over the road are within 291–436 m of four clusters. 45 of them are within
   500 m of the −111.335, 32.404 cluster, where the stored flux reaches 3× the head-driven part.
 - **Height and depth near the six outlet faces:** their bed is 617.96 m, and the Garvey Road
@@ -289,9 +314,11 @@ station's cell; it is not dry evidence.
 
 Assessment (corrected): **not known.** The earlier "unlikely" rested on a 587 m distance that holds
 only for the six outlet faces. Stations that go over the road lie within 291–436 m of four clusters,
-and over-draining is measured at two of them. Until the `btfilter = −1` SENSITIVITY run (§1.6) has
-been compared station by station, ratings near outflow cells should not be relied on to the
-centimetre.
+and over-draining occurs at all six (§1.3, corrected round 8). Stations that stay dry are covered
+too: W Peccary Lane (187 m) could be dry because of the over-draining, and North Puma Road (131 m)
+has no mesh cell, so it has no rating to rely on.
+Until the `btfilter = −1` SENSITIVITY run (§1.6) has been compared station by station, ratings near
+outflow cells, wet or never wet, should not be relied on to the centimetre.
 
 Two further points:
 
@@ -458,7 +485,10 @@ fails the quiet runs and passes the heavy one. Neither should be used.
 - **(c) Fix it in the solver settings: not available at a cost live can afford.**
   - f3647fc has no positivity limiter in the continuity update.
   - The only lever is a smaller time step: lower `alpha` (now 0.5). The overshoot scales with dt, so
-    reaching about −1 mm from −1.46 mm needs about alpha 0.33.
+    reaching −1 mm from −1.46 mm needs alpha 0.5 × 1/1.46 ≈ **0.343** (the earlier "about 0.33" was
+    the same estimate rounded down; 0.343 is used below). This lands exactly on the −1 mm limit, so it
+    has no margin: any cell slightly worse than −1.46 mm would still fail, and 0.33 would give only
+    about 4% margin (−0.96 mm).
   - *Cost against the live budget.* Corrected 2026-11-09: the earlier figure (about 8,700 s
     against 7,200 s) used this run's 74 h window and the 7,200 s validation cap.
     - Live runs simulate SPIN 45 h + AHEAD 18 h = 63 h (`tools/live/run_live_sfincs.py:19`) and
@@ -468,7 +498,9 @@ fails the quiet runs and passes the heavy one. Neither should be used.
     - The time step scales with alpha, so going from 0.5 to 0.343 multiplies solver time by about
       1.46.
     - The frozen v2 runs are exactly 63 h long: 3,350 s (NWM) and 2,934 s (observed) at alpha 0.5.
-      That gives about 4,280–4,890 s at alpha 0.343, inside the cap with 10–21% margin.
+      That gives about 4,280–4,890 s at alpha 0.343 (× 1.46), inside the 5,400 s cap by
+      510–1,120 s, i.e. **9–21% of the cap**. (Round 7 wrote 10–21%, mixing two bases: 10% was
+      the margin relative to the 4,890 s runtime, 21% relative to the cap.)
     - The heavy-rain case is the one that trips. v2r took 5,759 s for 74 h. At an even 77.8 s per
       simulated hour, 63 h would take about 4,900 s at alpha 0.5 and about 7,150 s at 0.343, over
       the 5,400 s cap. The cost is not even across the hours (deep-water hours are slower), so
@@ -485,3 +517,7 @@ fails the quiet runs and passes the heavy one. Neither should be used.
 - The validation doc was not edited.
 - Round-7 revision (2026-11-09): docs and scripts only. `outflow_roads.py` was added, and the
   `--stations` defaults and the link counts in `velocity_hotspots.py` were fixed. No run.
+- Round-8 revision (2026-11-09): docs only, no run. Over-draining recounted over every snapshot
+  (all six clusters, from the committed `out-v2r-20261109/outflow-roads.json`); North Puma Road
+  corrected to "no mesh cell"; road caveat extended to it and W Peccary Lane; alpha 0.343 and the
+  9-21% cap margin made consistent.
