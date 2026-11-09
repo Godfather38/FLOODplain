@@ -30,9 +30,10 @@ Do the three **live production cases** (northern, picture-rocks, gates) use the 
    (§3, by observed start time and plateau choice). Inside the gates domain, the 95 km² of that same basin has a model
    C of **0.46**.
    - *Tested since (SENSITIVITY, brawley):* switching the same CN field to `cnb` (recovery between showers) lowered
-     the whole-run C over the Black Wash basin from **0.345 to 0.180** and the Mile Wide volume from 4.2× to 2.0× the
-     observed (run 42584493432, `tools/sfincs/data/brawley-avra-west-v2/variants/result-v3l-obsrain-cnb-42584493432/`).
-     That is the only tested CN change so far; it halves the excess but does not remove it.
+     the whole-run C over the Black Wash basin from **0.345 to 0.180** (run 42584493432,
+     `tools/sfincs/data/brawley-avra-west-v2/variants/result-v3l-obsrain-cnb-42584493432/`). That halves the runoff;
+     the Mile Wide volume goes from 4.2× to 2.0× the observed (18Z start, with plateau). That is the only tested CN
+     change so far, and it leaves about 2× the observed volume.
 4. **It can reach users, but the live product now shows nothing from it.** The app raises a route's rating from the
    high-resolution forecast (more than 0.05 m over the road: caution; 0.3 m or more: danger) and never lowers it.
    - The published run on `live-model` (HRRR 04Z Nov 9 when this was written) had 10 wet road stations, all on
@@ -181,15 +182,16 @@ the high runoff fraction. A forecast that gets the rain right would show it in f
 2. **Which physical CN change to test first**, each a SENSITIVITY run on brawley-avra-west before any live case, with
    its source:
    - recovery between storms (`cnb`, SFINCS docs), or counting rain only from a storm-start rule. **Tested on brawley**
-     (SENSITIVITY run 42584493432): whole-run basin C 0.345 → 0.180, Mile Wide volume 4.2× → 2.0× observed, peak
-     timing not fixed;
+     (SENSITIVITY run 42584493432): whole-run basin C 0.345 → 0.180, which halves the runoff; Mile Wide volume
+     4.2× → 2.0× observed; peak timing not fixed;
    - GCN10 **drained** rasters (deep Avra/Tucson basin water table; check ADWR GWSI wells);
    - ARC I (NEH-4 5-day rule: about 0.6 in in the 5 days before is AMC I in the growing season and borderline II in
      the dormant season).
 
    The `cna` brackets above show that no single choice reaches the observed 0.066–0.085 on its own, except ARC I
-   combined with event-only counting (0.04–0.09). The tested `cnb` run agrees for that choice: it halves the runoff but
-   leaves about 2× the observed volume.
+   combined with event-only counting (0.04–0.09). The tested `cnb` run does not test that combination: it keeps ARC II
+   and the 30 Oct start, with recovery between showers. It halves the runoff and leaves about 2× the observed volume,
+   which is consistent with the brackets but says nothing yet about ARC I with event-only counting.
 3. **Whether channel/run-on losses must be modelled.** `cna` never infiltrates routed water (brawley §3), and the
    Cortaro → Trico volumes point the same way. SFINCS cannot stack CN with a ponded-water loss method natively.
 4. **Whether to rebuild the three live cases after the brawley test.** The live cases share the CN file, the method
@@ -198,8 +200,9 @@ the high runoff fraction. A forecast that gets the rain right would show it in f
 
 ## 6. Limits
 
-- Arithmetic only: no model was run. Runoff is generated volume, before routing. It says nothing on its own about
-  depth at a road.
+- The audit's own numbers are arithmetic: no model was run for them. Runoff is generated volume, before routing. It
+  says nothing on its own about depth at a road. The `cnb` numbers quoted in §1 and §5 come from a separate
+  SENSITIVITY run (42584493432), not from this audit's arithmetic.
 - Stage IV nearest-cell mapping (about 4.7 km cells) instead of the solver's bilinear mapping of the 1 km case grid.
   On the case's own grid the antecedent totals agree within 0.2 mm, so the domain means are not sensitive to this.
 - Observed C exists only for the Black Wash basin (and only 95 km² of it lies in a live domain). The other domains
