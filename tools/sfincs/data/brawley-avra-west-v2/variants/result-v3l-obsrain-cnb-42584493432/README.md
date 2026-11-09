@@ -44,22 +44,23 @@ What these ks values mean for recovery:
 
 Builder: `tools/sfincs/brawley/variants/build_cnb_infiltration.py`, then `make_variant.py --inftype cnb`. Stats: `infiltration-cnb-stats.json`.
 
-**Why seff = smax.** NCEP Stage IV (IEM archive) over the model box shows the week before the start was nearly dry (`stage4-prior-rain.json`, script `prior_rain.py`):
+**Why seff = smax.** NCEP Stage IV (IEM archive) over the model box shows the week before the start was nearly dry (`stage4-prior-rain.json`, script `prior_rain.py`). The lon/lat box is the min/max over all four corners of the UTM model box (170 Stage IV cells; the round-7 version used two corners and 168 cells):
 
 | Window (UTC) | Domain mean | Largest cell |
 |---|---|---|
 | 24 h totals ending 12Z, Oct 24–29 | 0.00–0.04 mm | 0.6 mm |
-| 24 h ending 12Z Oct 30 | 2.53 mm | 15 mm |
-| 12Z–16Z Oct 30 | 1.15 mm | — |
+| 24 h ending 12Z Oct 30 | 2.51 mm | 15 mm |
+| 12Z–16Z Oct 30 (4 hourly files) | 1.14 mm | — |
+| 12Z Oct 29 to 16Z Oct 30, summed per cell | 3.65 mm | 22.1 mm (p95 13.7 mm) |
 
-About 3.7 mm (domain mean) before tstart is therefore not counted. That makes the start at most about 7% too dry against the mean Smax. The `cna` base ignores the same rain, so the comparison stays like for like.
+About 3.7 mm (domain mean) before tstart is therefore not counted. That makes the start too dry by about 7% of the mean Smax (56.1 mm) **on the domain mean**. Locally it is much more: the wettest Stage IV cell (about 4 km) had 22.1 mm, about 40% of the mean Smax. (Adding the largest value of each file instead of summing per cell gives 15 + 4.6 + 7.1 ≈ 27 mm, about 50% of the mean Smax; that is an upper bound, since the maxima are not all in the same cell.) The `cna` base ignores the same rain, so the comparison stays like for like.
 
-## Base case B did not finish, so this is scored against v2r
+## Scored here against v2r, not B (B is now in `summary-vs-B.json`)
 
-Base run 42583445548 (`cna`) hit the 7,200 s cap at 95% (exit 124). Its last hourly restart is 16Z Nov 2, so a complete B `validation-full.json` does not exist. As the task allows, this run is scored against **v2r 42555458619**: same rain, same `cna` setup, v2 boundaries.
+When this run was scored, base run 42583445548 (`cna`) had hit the 7,200 s cap at 95% (exit 124); its last hourly restart is 16Z Nov 2, so a complete B `validation-full.json` did not exist. This README and `summary.json` therefore compare against **v2r 42555458619**: same rain, same `cna` setup, but v2 boundaries (the 5 lobe-tip cells closed). B was later rerun to completion (run 42599666617). A separate step re-scores this run against that full B in `summary-vs-B.json`; use it for every comparison downstream of Mile Wide.
 
 I checked that this is fair at Mile Wide (`base-b-partial-vs-v2r.json`, script `b_vs_v2r.py`):
-- Inside the contributing area of both Mile Wide bands, B's water levels equal v2r's at every hourly restart from 18Z Nov 1 to 16Z Nov 2.
+- Inside the contributing area of both Mile Wide bands, B's water levels equal v2r's at every hourly restart from 18Z Nov 1 to 16Z Nov 2. The check covers only that window: it says nothing about 16Z–18Z Nov 2, which the killed B run never wrote. (The full rerun 42599666617 later showed B's Mile Wide flow within 0.062 m³/s of v2r in every hour to 18Z Nov 2; see `../result-v3l-obsrain-42599666617/README.md`.)
 - The largest difference is 8 mm, and the 99th percentile is 0.06 mm.
 - B differs from v2r only by the 5 lobe-tip outflow cells, far downstream.
 
@@ -104,13 +105,16 @@ Other sections, peaks (m³/s) against v2r:
 
 Downstream of Mile Wide, v2r is not base B (B has the lobe tip open).
 
-Roads: the largest water level over the road falls by 0.02–0.34 m at every crossing and dip (`summary.json` → `roads`). Model road stations over the road at any time: 5,277 (cnb) against 7,678 (v2r).
+**The road, mass-balance and stability comparisons below are against v2r, so each difference mixes two changes: `cnb` and the lobe-tip boundary (5 outflow cells that B has and v2r does not).** They are not single-change results. The like-for-like comparison against B is in `summary-vs-B.json`.
 
-Mass balance and stability:
-- Mass-balance residual −0.19% of inputs. This is an estimate: outflow is counted only from the first restart.
+Roads: the largest water level over the road falls by 0.02–0.34 m at every crossing and dip against v2r (`summary.json` → `roads`). Model road stations over the road at any time: 5,277 (cnb) against 7,678 (v2r).
+
+Mass balance and stability (against v2r):
+- Mass-balance residual −0.19% of inputs. This is an estimate with outflow counted only from the first restart (18Z Nov 1); outflow before then is not measured, so the balance is not closed.
 - Minimum depth −0.43 mm, with no cell below −1 mm (v2r had 1 cell, in 4 frames).
 - Velocity proxy max 1.82 m/s (v2r 8.22 m/s at the outlet).
-- No NaN in wet cells.
+- No NaN in wet cells (`nanZsWet` 0).
+- `nanZs` (NaN zs values over all cells and map frames) rises from 30,777 (v2r) to 1,576,936. These are dry cells, not failures: the pinned map writer (`write_cell_var_wet` in `sfincs_ncoutput_helpers.F90`, called for zs in `sfincs_ncoutput.F90`) writes zs only where zs − z_zmin > huthresh (0.01 m) and leaves the fill value elsewhere. With `cnb` more water infiltrates, so more cells stay below that depth. A NaN zs is "not written because dry by that rule", never a measured level.
 
 ## What this shows
 
@@ -118,12 +122,12 @@ Mass balance and stability:
    - It brings the Mile Wide volume from 4.2× to about 2.0× the observed volume (18Z start, with plateau), or to 2.4× without the plateau.
    - It is still about 2× too much water. `cnb` with a dry start is not enough on its own to match the gauge.
 2. **It does not fix the timing.** The modelled peak comes 13.7 h after the observed one, 2 h later than v2r. At 18–19Z Nov 1, when the gauge peaked, the model has under 0.5 m³/s at Mile Wide.
-   - The late, plateaued peak is a routing and arrival problem. The infiltration rule does not cause it.
+   - The late peak is not fixed by `cnb`. Whether its cause is routing, arrival, the rain field or another part of runoff generation (for example an ARC I CN) is not established by this run.
    - The modelled peak equals the observed peak (64.7 m³/s), but 14 h late. That is a coincidence of magnitude, not a fit.
 3. **Mixed effect on the hourly fit.** Hourly NSE improves from −37 to −7, but this comes only from the smaller volume. It is still strongly negative.
 
 Open:
-- Base B (`cna`, v3l) needs a re-run with a cap above 7,200 s to give a full B score. `cna` ran slower than `cnb` here because there is more water on the land.
+- Base B (`cna`, v3l) has since been rerun with cap 10,800 s (run 42599666617); the comparison against it is in `summary-vs-B.json`. `cna` ran slower than `cnb` here, probably because there is more water on the land (not tested).
 - What `cnb` with an ARC I CN would do has not been tested. That would be a separate one-change variant, and is not done here.
 
 ## Re-run
