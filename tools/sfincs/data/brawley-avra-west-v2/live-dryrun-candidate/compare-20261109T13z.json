@@ -1,0 +1,1076 @@
+{
+ "hrrrCycle": "2026-11-09T13:00:00Z",
+ "cna": {
+  "runId": "all-routes-brawley-avra-west-v1-live-20261109-13z",
+  "status": "complete",
+  "validFrom": "2026-11-09T10:00:00Z",
+  "validTo": "2026-11-10T07:00:00Z",
+  "timing": {
+   "prepareSeconds": 116,
+   "solverWallSeconds": 843,
+   "ompThreads": 4,
+   "runner": "ubuntu-24.04 GitHub-hosted",
+   "workflowRun": "42641933723"
+  },
+  "solverCompletion": {
+   "status": "complete",
+   "nativeStatus": [
+    0
+   ],
+   "nativeRuntimeSeconds": 842.92626953125
+  },
+  "inflowSource": [
+   {
+    "reachId": "15876941",
+    "source": "usgs+nwm",
+    "nwmProvider": "NOAA NODD",
+    "usgsSite": "09487000",
+    "usgsStatus": "observed",
+    "usgsProvider": "USGS NWIS IV",
+    "httpStatus": 200,
+    "fetchedAt": "2026-11-09T15:14:30Z",
+    "provisional": true,
+    "newestReading": "2026-11-09T13:15:00Z",
+    "hours": 64,
+    "pastHours": 46,
+    "usgsHours": 46,
+    "nwmFallbackHours": 0,
+    "nwmForecastHours": 18,
+    "provisionalHours": 46,
+    "note": "USGS 09487000 observed discharge for all 46 past hours (46 provisional hours, subject to revision)"
+   }
+  ],
+  "flowNotes": [
+   "NWM reach 15876941: verified NOAA NODD hourly files used because NWPS is unavailable or incomplete",
+   "Inlet reach 15876941: USGS 09487000 observed discharge for all 46 past hours (46 provisional hours, subject to revision)"
+  ]
+ },
+ "cnbBtf": {
+  "runId": "all-routes-brawley-avra-west-v1-live-20261109-13z",
+  "status": "complete",
+  "validFrom": "2026-11-09T10:00:00Z",
+  "validTo": "2026-11-10T07:00:00Z",
+  "timing": {
+   "prepareSeconds": 49,
+   "solverWallSeconds": 1383,
+   "ompThreads": 4,
+   "runner": "ubuntu-24.04 GitHub-hosted",
+   "workflowRun": "42642579287"
+  },
+  "solverCompletion": {
+   "status": "complete",
+   "nativeStatus": [
+    0
+   ],
+   "nativeRuntimeSeconds": 1381.6002197265625
+  },
+  "inflowSource": [
+   {
+    "reachId": "15876941",
+    "source": "usgs+nwm",
+    "nwmProvider": "NWPS",
+    "usgsSite": "09487000",
+    "usgsStatus": "observed",
+    "usgsProvider": "USGS NWIS IV",
+    "httpStatus": 200,
+    "fetchedAt": "2026-11-09T15:31:16Z",
+    "provisional": true,
+    "newestReading": "2026-11-09T13:15:00Z",
+    "hours": 64,
+    "pastHours": 46,
+    "usgsHours": 46,
+    "nwmFallbackHours": 0,
+    "nwmForecastHours": 18,
+    "provisionalHours": 46,
+    "note": "USGS 09487000 observed discharge for all 46 past hours (46 provisional hours, subject to revision)"
+   }
+  ],
+  "flowNotes": [
+   "Inlet reach 15876941: USGS 09487000 observed discharge for all 46 past hours (46 provisional hours, subject to revision)"
+  ]
+ },
+ "localRoadSummary": {
+  "cna": {
+   "stations": 58140,
+   "over": 0,
+   "below": 0,
+   "dry": 57465,
+   "noRoadHeight": 571,
+   "noCell": 104,
+   "unknown": 0
+  },
+  "cnbBtf": {
+   "stations": 58140,
+   "over": 0,
+   "below": 0,
+   "dry": 57465,
+   "noRoadHeight": 571,
+   "noCell": 104,
+   "unknown": 0
+  }
+ },
+ "routeForecast": {
+  "cna": {
+   "path": "road-forecast.json",
+   "sha256": "697d2a93cdd731021d04f34a9396c726afbde25bef345b6aae0665bde6b48a4e",
+   "bytes": 6925,
+   "kind": "live_all_route_road_forecast",
+   "schemaVersion": 1
+  },
+  "cnbBtf": {
+   "path": "road-forecast.json",
+   "sha256": "f59386e745e37865f642cec83a9a462f2bcd0e97fe5455a983fa4e7169124d92",
+   "bytes": 6822,
+   "kind": "live_all_route_road_forecast",
+   "schemaVersion": 1
+  }
+ },
+ "frames": [
+  {
+   "time": "2026-11-09T10:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 0,
+   "zsUnknownCna": 643056,
+   "zsUnknownCnb": 643056,
+   "volumeKnownBothM3": {
+    "cna": 0.21456166566349566,
+    "cnb": 0.21456166566349566
+   },
+   "cellsWithVolume": {
+    "cna": 5,
+    "cnb": 5
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": NaN,
+    "max": NaN,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T10:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 0,
+   "zsUnknownCna": 643056,
+   "zsUnknownCnb": 643056,
+   "volumeKnownBothM3": {
+    "cna": 0.21456166566349566,
+    "cnb": 0.21456166566349566
+   },
+   "cellsWithVolume": {
+    "cna": 5,
+    "cnb": 5
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": NaN,
+    "max": NaN,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T11:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 0,
+   "zsUnknownCna": 643056,
+   "zsUnknownCnb": 643056,
+   "volumeKnownBothM3": {
+    "cna": 0.21456166566349566,
+    "cnb": 0.21456166566349566
+   },
+   "cellsWithVolume": {
+    "cna": 5,
+    "cnb": 5
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": NaN,
+    "max": NaN,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T11:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 0,
+   "zsUnknownCna": 643056,
+   "zsUnknownCnb": 643056,
+   "volumeKnownBothM3": {
+    "cna": 0.21456166566349566,
+    "cnb": 0.21456166566349566
+   },
+   "cellsWithVolume": {
+    "cna": 5,
+    "cnb": 5
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": NaN,
+    "max": NaN,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T12:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 0,
+   "zsUnknownCna": 643056,
+   "zsUnknownCnb": 643056,
+   "volumeKnownBothM3": {
+    "cna": 0.21456166566349566,
+    "cnb": 0.21456166566349566
+   },
+   "cellsWithVolume": {
+    "cna": 5,
+    "cnb": 5
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": NaN,
+    "max": NaN,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T12:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 0,
+   "zsUnknownCna": 643056,
+   "zsUnknownCnb": 643056,
+   "volumeKnownBothM3": {
+    "cna": 0.21456166566349566,
+    "cnb": 0.21456166566349566
+   },
+   "cellsWithVolume": {
+    "cna": 5,
+    "cnb": 5
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": NaN,
+    "max": NaN,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T13:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 0,
+   "zsUnknownCna": 643056,
+   "zsUnknownCnb": 643056,
+   "volumeKnownBothM3": {
+    "cna": 0.21461343386545195,
+    "cnb": 0.2146133722162631
+   },
+   "cellsWithVolume": {
+    "cna": 6,
+    "cnb": 6
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": NaN,
+    "max": NaN,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T13:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 18,
+   "zsUnknownCna": 643038,
+   "zsUnknownCnb": 643038,
+   "volumeKnownBothM3": {
+    "cna": 49.81675654114224,
+    "cnb": 49.7576857751701
+   },
+   "cellsWithVolume": {
+    "cna": 23,
+    "cnb": 23
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00018310546875,
+    "max": -6.103515625e-05,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T14:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 43,
+   "zsUnknownCna": 643013,
+   "zsUnknownCnb": 643013,
+   "volumeKnownBothM3": {
+    "cna": 198.41823069774546,
+    "cnb": 198.18219562922604
+   },
+   "cellsWithVolume": {
+    "cna": 48,
+    "cnb": 48
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00079345703125,
+    "max": -6.103515625e-05,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T14:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 74,
+   "zsUnknownCna": 642982,
+   "zsUnknownCnb": 642982,
+   "volumeKnownBothM3": {
+    "cna": 396.4176096713636,
+    "cnb": 395.945783311734
+   },
+   "cellsWithVolume": {
+    "cna": 79,
+    "cnb": 79
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00262451171875,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T15:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 114,
+   "zsUnknownCna": 642942,
+   "zsUnknownCnb": 642942,
+   "volumeKnownBothM3": {
+    "cna": 594.4169798737857,
+    "cnb": 593.7093737071846
+   },
+   "cellsWithVolume": {
+    "cna": 119,
+    "cnb": 119
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00311279296875,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T15:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 154,
+   "zsUnknownCna": 642902,
+   "zsUnknownCnb": 642902,
+   "volumeKnownBothM3": {
+    "cna": 792.4163588780211,
+    "cnb": 791.4729680514429
+   },
+   "cellsWithVolume": {
+    "cna": 160,
+    "cnb": 159
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00262451171875,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T16:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 195,
+   "zsUnknownCna": 642861,
+   "zsUnknownCnb": 642861,
+   "volumeKnownBothM3": {
+    "cna": 990.4157350605819,
+    "cnb": 989.2365544682834
+   },
+   "cellsWithVolume": {
+    "cna": 200,
+    "cnb": 200
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00299072265625,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T16:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 229,
+   "zsUnknownCna": 642827,
+   "zsUnknownCnb": 642827,
+   "volumeKnownBothM3": {
+    "cna": 1188.4151092891116,
+    "cnb": 1187.000148088904
+   },
+   "cellsWithVolume": {
+    "cna": 234,
+    "cnb": 234
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00408935546875,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T17:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 266,
+   "zsUnknownCna": 642790,
+   "zsUnknownCnb": 642790,
+   "volumeKnownBothM3": {
+    "cna": 1386.4144830650184,
+    "cnb": 1384.763736212859
+   },
+   "cellsWithVolume": {
+    "cna": 271,
+    "cnb": 271
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00347900390625,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T17:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 301,
+   "zsUnknownCna": 642755,
+   "zsUnknownCnb": 642755,
+   "volumeKnownBothM3": {
+    "cna": 1584.4138601443265,
+    "cnb": 1582.527326369891
+   },
+   "cellsWithVolume": {
+    "cna": 306,
+    "cnb": 306
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00616455078125,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T18:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 331,
+   "zsUnknownCna": 642725,
+   "zsUnknownCnb": 642725,
+   "volumeKnownBothM3": {
+    "cna": 1782.413236323977,
+    "cnb": 1780.2909065571148
+   },
+   "cellsWithVolume": {
+    "cna": 336,
+    "cnb": 336
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00677490234375,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T18:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 359,
+   "zsUnknownCna": 642697,
+   "zsUnknownCnb": 642697,
+   "volumeKnownBothM3": {
+    "cna": 1980.4126030898187,
+    "cnb": 1978.0545042252634
+   },
+   "cellsWithVolume": {
+    "cna": 364,
+    "cnb": 364
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00628662109375,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T19:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 388,
+   "zsUnknownCna": 642668,
+   "zsUnknownCnb": 642668,
+   "volumeKnownBothM3": {
+    "cna": 2178.411987768719,
+    "cnb": 2175.818095093826
+   },
+   "cellsWithVolume": {
+    "cna": 393,
+    "cnb": 393
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.006591796875,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T19:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 420,
+   "zsUnknownCna": 642635,
+   "zsUnknownCnb": 642636,
+   "volumeKnownBothM3": {
+    "cna": 2376.411364241736,
+    "cnb": 2373.581684494624
+   },
+   "cellsWithVolume": {
+    "cna": 426,
+    "cnb": 425
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00946044921875,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T20:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 452,
+   "zsUnknownCna": 642604,
+   "zsUnknownCnb": 642604,
+   "volumeKnownBothM3": {
+    "cna": 2574.4107411664445,
+    "cnb": 2571.345276998589
+   },
+   "cellsWithVolume": {
+    "cna": 457,
+    "cnb": 457
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.0068359375,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T20:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 483,
+   "zsUnknownCna": 642573,
+   "zsUnknownCnb": 642573,
+   "volumeKnownBothM3": {
+    "cna": 2772.4101099765394,
+    "cnb": 2769.1088596081827
+   },
+   "cellsWithVolume": {
+    "cna": 488,
+    "cnb": 488
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.0074462890625,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T21:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 516,
+   "zsUnknownCna": 642540,
+   "zsUnknownCnb": 642540,
+   "volumeKnownBothM3": {
+    "cna": 2970.409490386257,
+    "cnb": 2966.872448334703
+   },
+   "cellsWithVolume": {
+    "cna": 521,
+    "cnb": 521
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00689697265625,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T21:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 547,
+   "zsUnknownCna": 642509,
+   "zsUnknownCnb": 642509,
+   "volumeKnownBothM3": {
+    "cna": 3168.4088772798423,
+    "cnb": 3164.6360462426674
+   },
+   "cellsWithVolume": {
+    "cna": 552,
+    "cnb": 552
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.01031494140625,
+    "max": 0.0,
+    "cellsAbsOver1cm": 2
+   }
+  },
+  {
+   "time": "2026-11-09T22:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 577,
+   "zsUnknownCna": 642478,
+   "zsUnknownCnb": 642479,
+   "volumeKnownBothM3": {
+    "cna": 3366.4082485474646,
+    "cnb": 3362.399639452109
+   },
+   "cellsWithVolume": {
+    "cna": 583,
+    "cnb": 582
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.01239013671875,
+    "max": 0.0,
+    "cellsAbsOver1cm": 1
+   }
+  },
+  {
+   "time": "2026-11-09T22:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 605,
+   "zsUnknownCna": 642451,
+   "zsUnknownCnb": 642451,
+   "volumeKnownBothM3": {
+    "cna": 3564.407621199498,
+    "cnb": 3560.1632222358603
+   },
+   "cellsWithVolume": {
+    "cna": 610,
+    "cnb": 610
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.0072021484375,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-09T23:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 641,
+   "zsUnknownCna": 642415,
+   "zsUnknownCnb": 642415,
+   "volumeKnownBothM3": {
+    "cna": 3762.4070065265987,
+    "cnb": 3757.926814476261
+   },
+   "cellsWithVolume": {
+    "cna": 646,
+    "cnb": 646
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.0225830078125,
+    "max": 0.0,
+    "cellsAbsOver1cm": 1
+   }
+  },
+  {
+   "time": "2026-11-09T23:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 667,
+   "zsUnknownCna": 642389,
+   "zsUnknownCnb": 642389,
+   "volumeKnownBothM3": {
+    "cna": 3960.4063784258906,
+    "cnb": 3955.690395076992
+   },
+   "cellsWithVolume": {
+    "cna": 672,
+    "cnb": 672
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00543212890625,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T00:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 682,
+   "zsUnknownCna": 642374,
+   "zsUnknownCnb": 642374,
+   "volumeKnownBothM3": {
+    "cna": 4158.405745553086,
+    "cnb": 4153.453985112021
+   },
+   "cellsWithVolume": {
+    "cna": 687,
+    "cnb": 687
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00457763671875,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T00:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 689,
+   "zsUnknownCna": 642367,
+   "zsUnknownCnb": 642367,
+   "volumeKnownBothM3": {
+    "cna": 4356.40512104542,
+    "cnb": 4351.217588009546
+   },
+   "cellsWithVolume": {
+    "cna": 694,
+    "cnb": 694
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00225830078125,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T01:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 694,
+   "zsUnknownCna": 642362,
+   "zsUnknownCnb": 642362,
+   "volumeKnownBothM3": {
+    "cna": 4554.404489489505,
+    "cnb": 4548.9811580053065
+   },
+   "cellsWithVolume": {
+    "cna": 699,
+    "cnb": 699
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00244140625,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T01:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 695,
+   "zsUnknownCna": 642361,
+   "zsUnknownCnb": 642361,
+   "volumeKnownBothM3": {
+    "cna": 4752.403863596031,
+    "cnb": 4746.744764724979
+   },
+   "cellsWithVolume": {
+    "cna": 700,
+    "cnb": 700
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.0029296875,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T02:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 695,
+   "zsUnknownCna": 642361,
+   "zsUnknownCnb": 642361,
+   "volumeKnownBothM3": {
+    "cna": 4950.403231481323,
+    "cnb": 4944.508337224135
+   },
+   "cellsWithVolume": {
+    "cna": 700,
+    "cnb": 700
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.0018310546875,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T02:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 695,
+   "zsUnknownCna": 642361,
+   "zsUnknownCnb": 642361,
+   "volumeKnownBothM3": {
+    "cna": 5148.402622970054,
+    "cnb": 5142.271948287496
+   },
+   "cellsWithVolume": {
+    "cna": 700,
+    "cnb": 700
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00177001953125,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T03:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 695,
+   "zsUnknownCna": 642361,
+   "zsUnknownCnb": 642361,
+   "volumeKnownBothM3": {
+    "cna": 5346.401994215557,
+    "cnb": 5340.035518730292
+   },
+   "cellsWithVolume": {
+    "cna": 700,
+    "cnb": 700
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00177001953125,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T03:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 695,
+   "zsUnknownCna": 642361,
+   "zsUnknownCnb": 642361,
+   "volumeKnownBothM3": {
+    "cna": 5544.4013582712505,
+    "cnb": 5537.79911307455
+   },
+   "cellsWithVolume": {
+    "cna": 700,
+    "cnb": 700
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00177001953125,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T04:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 697,
+   "zsUnknownCna": 642359,
+   "zsUnknownCnb": 642359,
+   "volumeKnownBothM3": {
+    "cna": 5742.400800215313,
+    "cnb": 5735.562683606753
+   },
+   "cellsWithVolume": {
+    "cna": 702,
+    "cnb": 702
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00347900390625,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T04:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 702,
+   "zsUnknownCna": 642354,
+   "zsUnknownCnb": 642354,
+   "volumeKnownBothM3": {
+    "cna": 5940.400126250694,
+    "cnb": 5933.326307522366
+   },
+   "cellsWithVolume": {
+    "cna": 707,
+    "cnb": 707
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00360107421875,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T05:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 704,
+   "zsUnknownCna": 642352,
+   "zsUnknownCnb": 642352,
+   "volumeKnownBothM3": {
+    "cna": 6138.399528609822,
+    "cnb": 6131.089854838559
+   },
+   "cellsWithVolume": {
+    "cna": 709,
+    "cnb": 709
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00469970703125,
+    "max": 6.103515625e-05,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T05:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 706,
+   "zsUnknownCna": 642350,
+   "zsUnknownCnb": 642350,
+   "volumeKnownBothM3": {
+    "cna": 6336.398874791572,
+    "cnb": 6328.853490213165
+   },
+   "cellsWithVolume": {
+    "cna": 711,
+    "cnb": 711
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00518798828125,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T06:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 716,
+   "zsUnknownCna": 642340,
+   "zsUnknownCnb": 642340,
+   "volumeKnownBothM3": {
+    "cna": 6534.398273969302,
+    "cnb": 6526.617069194326
+   },
+   "cellsWithVolume": {
+    "cna": 721,
+    "cnb": 721
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00347900390625,
+    "max": 6.103515625e-05,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T06:30:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 732,
+   "zsUnknownCna": 642324,
+   "zsUnknownCnb": 642324,
+   "volumeKnownBothM3": {
+    "cna": 6732.39761806489,
+    "cnb": 6724.380641224096
+   },
+   "cellsWithVolume": {
+    "cna": 737,
+    "cnb": 737
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.0013427734375,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  },
+  {
+   "time": "2026-11-10T07:00:00Z",
+   "cellsKnownBoth": 643056,
+   "unknownCna": 0,
+   "unknownCnb": 0,
+   "zsKnownBoth": 754,
+   "zsUnknownCna": 642300,
+   "zsUnknownCnb": 642302,
+   "volumeKnownBothM3": {
+    "cna": 6930.397030165652,
+    "cnb": 6922.1442436540965
+   },
+   "cellsWithVolume": {
+    "cna": 761,
+    "cnb": 759
+   },
+   "zsDiffM_cnbMinusCna": {
+    "min": -0.00079345703125,
+    "max": 0.0,
+    "cellsAbsOver1cm": 0
+   }
+  }
+ ]
+}
