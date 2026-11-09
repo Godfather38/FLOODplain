@@ -1,0 +1,887 @@
+{
+  "registryVersion": "all-routes-connected-v2",
+  "case": "components",
+  "inlets": [
+    {
+      "reachId": "15876941",
+      "receivingReachId": "15876923",
+      "linkField": "dnhydroseq",
+      "note": "USGS 09487000 Brawley Wash near Three Points. NWM inflow of the gauge reach injected on 15876923. The 27.47 km2 local catchment of 15876941 below the gauge is excluded from the domain; its runoff arrives only through the NWM inflow.",
+      "x": 470075.4647826869,
+      "y": 3552603.0336856283,
+      "nativeFaceIndexZeroBased": 276978,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    }
+  ],
+  "outflowCells": 92,
+  "outflowMethod": "Official HydroMT directed outflow points, 500m corridor, official Deltares native mask builder; plus the same HydroMT outflow search on the reversed reaches and extra channels listed here (same 100 m edge buffer and 250 m corridor)",
+  "activeCells": 643056,
+  "solverExecuted": false,
+  "status": "Native geometry and boundary locations only; rainfall/case assembly pending",
+  "terrainReversedReaches": [
+    {
+      "comid": 15876709,
+      "digitizedStartXY": [
+        474844.48,
+        3581562.245
+      ],
+      "terrainAtDigitizedStartM": 617.76,
+      "terrainAtDigitizedEndM": 641.15,
+      "lengthM": 6357.5,
+      "action": "geometry reversed for the HydroMT outflow search only; flowdir attribute kept"
+    }
+  ],
+  "extraOutflowChannels": [
+    {
+      "source": "OSM",
+      "id": "1489567542",
+      "points": [
+        [
+          466890.644,
+          3591879.988
+        ]
+      ]
+    },
+    {
+      "source": "OSM",
+      "id": "1489567547",
+      "points": [
+        [
+          467365.916,
+          3589326.997
+        ]
+      ]
+    }
+  ],
+  "outflowCellSources": [
+    {
+      "face": 32266,
+      "x": 466750.0,
+      "y": 3591750.0,
+      "zZmin": 583.31,
+      "sources": [
+        "OSM 1489567542"
+      ]
+    },
+    {
+      "face": 32611,
+      "x": 466850.0,
+      "y": 3591850.0,
+      "zZmin": 582.26,
+      "sources": [
+        "OSM 1489567542"
+      ]
+    },
+    {
+      "face": 32612,
+      "x": 466850.0,
+      "y": 3591950.0,
+      "zZmin": 581.44,
+      "sources": [
+        "OSM 1489567542"
+      ]
+    },
+    {
+      "face": 32957,
+      "x": 466950.0,
+      "y": 3592050.0,
+      "zZmin": 580.43,
+      "sources": [
+        "OSM 1489567542"
+      ]
+    },
+    {
+      "face": 33299,
+      "x": 467050.0,
+      "y": 3592050.0,
+      "zZmin": 579.78,
+      "sources": [
+        "OSM 1489567542"
+      ]
+    },
+    {
+      "face": 33650,
+      "x": 467150.0,
+      "y": 3589250.0,
+      "zZmin": 592.58,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 34353,
+      "x": 467350.0,
+      "y": 3592750.0,
+      "zZmin": 574.5,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 34690,
+      "x": 467450.0,
+      "y": 3592750.0,
+      "zZmin": 573.3,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 35022,
+      "x": 467550.0,
+      "y": 3592550.0,
+      "zZmin": 574.45,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 35023,
+      "x": 467550.0,
+      "y": 3592650.0,
+      "zZmin": 574.11,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 35024,
+      "x": 467550.0,
+      "y": 3592750.0,
+      "zZmin": 573.44,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 36344,
+      "x": 467950.0,
+      "y": 3589250.0,
+      "zZmin": 584.95,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 36663,
+      "x": 468050.0,
+      "y": 3587350.0,
+      "zZmin": 592.02,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 36682,
+      "x": 468050.0,
+      "y": 3589250.0,
+      "zZmin": 585.17,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 36999,
+      "x": 468150.0,
+      "y": 3586750.0,
+      "zZmin": 593.66,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 37000,
+      "x": 468150.0,
+      "y": 3587050.0,
+      "zZmin": 592.52,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 37001,
+      "x": 468150.0,
+      "y": 3587150.0,
+      "zZmin": 592.51,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 37002,
+      "x": 468150.0,
+      "y": 3587250.0,
+      "zZmin": 591.61,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 37011,
+      "x": 468150.0,
+      "y": 3589150.0,
+      "zZmin": 585.64,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 37012,
+      "x": 468150.0,
+      "y": 3589250.0,
+      "zZmin": 584.44,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 37331,
+      "x": 468250.0,
+      "y": 3586650.0,
+      "zZmin": 593.45,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 37332,
+      "x": 468250.0,
+      "y": 3586750.0,
+      "zZmin": 593.14,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 37645,
+      "x": 468350.0,
+      "y": 3585350.0,
+      "zZmin": 598.08,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 37960,
+      "x": 468450.0,
+      "y": 3585250.0,
+      "zZmin": 598.18,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 38263,
+      "x": 468550.0,
+      "y": 3585350.0,
+      "zZmin": 598.53,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 38554,
+      "x": 468650.0,
+      "y": 3585250.0,
+      "zZmin": 599.48,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 38555,
+      "x": 468650.0,
+      "y": 3585350.0,
+      "zZmin": 599.3,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 54443,
+      "x": 474750.0,
+      "y": 3581350.0,
+      "zZmin": 618.54,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 54444,
+      "x": 474750.0,
+      "y": 3581450.0,
+      "zZmin": 618.16,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 54598,
+      "x": 474850.0,
+      "y": 3581450.0,
+      "zZmin": 618.05,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 54599,
+      "x": 474850.0,
+      "y": 3581550.0,
+      "zZmin": 617.74,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 54756,
+      "x": 474950.0,
+      "y": 3581350.0,
+      "zZmin": 618.37,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 109417,
+      "x": 467225.0,
+      "y": 3589325.0,
+      "zZmin": 592.3,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 109606,
+      "x": 467525.0,
+      "y": 3589325.0,
+      "zZmin": 589.24,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 109650,
+      "x": 467575.0,
+      "y": 3589325.0,
+      "zZmin": 588.75,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 149894,
+      "x": 467262.5,
+      "y": 3589312.5,
+      "zZmin": 591.97,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 150196,
+      "x": 467487.5,
+      "y": 3589312.5,
+      "zZmin": 589.11,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 158998,
+      "x": 472237.5,
+      "y": 3580762.5,
+      "zZmin": 618.8,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 159090,
+      "x": 472262.5,
+      "y": 3580762.5,
+      "zZmin": 618.54,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 159197,
+      "x": 472287.5,
+      "y": 3580787.5,
+      "zZmin": 617.84,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 159304,
+      "x": 472312.5,
+      "y": 3580812.5,
+      "zZmin": 618.53,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 160304,
+      "x": 472537.5,
+      "y": 3580962.5,
+      "zZmin": 618.88,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 160426,
+      "x": 472562.5,
+      "y": 3580962.5,
+      "zZmin": 619.1,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 160558,
+      "x": 472587.5,
+      "y": 3580987.5,
+      "zZmin": 619.43,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 160694,
+      "x": 472612.5,
+      "y": 3580987.5,
+      "zZmin": 619.32,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 160849,
+      "x": 472637.5,
+      "y": 3580962.5,
+      "zZmin": 619.37,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 160994,
+      "x": 472662.5,
+      "y": 3580937.5,
+      "zZmin": 619.41,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 241272,
+      "x": 467281.2,
+      "y": 3589318.8,
+      "zZmin": 591.89,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 241379,
+      "x": 467293.8,
+      "y": 3589318.8,
+      "zZmin": 591.76,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 242496,
+      "x": 467468.8,
+      "y": 3589318.8,
+      "zZmin": 590.97,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 296977,
+      "x": 472331.2,
+      "y": 3580831.2,
+      "zZmin": 618.32,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 297099,
+      "x": 472343.8,
+      "y": 3580843.8,
+      "zZmin": 618.34,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 297242,
+      "x": 472356.2,
+      "y": 3580856.2,
+      "zZmin": 617.59,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 297372,
+      "x": 472368.8,
+      "y": 3580856.2,
+      "zZmin": 617.9,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 297569,
+      "x": 472381.2,
+      "y": 3580868.8,
+      "zZmin": 618.05,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 297753,
+      "x": 472393.8,
+      "y": 3580868.8,
+      "zZmin": 618.25,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 297972,
+      "x": 472406.2,
+      "y": 3580881.2,
+      "zZmin": 618.11,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 298165,
+      "x": 472418.8,
+      "y": 3580881.2,
+      "zZmin": 617.96,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 298376,
+      "x": 472431.2,
+      "y": 3580893.8,
+      "zZmin": 617.82,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 298574,
+      "x": 472443.8,
+      "y": 3580893.8,
+      "zZmin": 617.81,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 298799,
+      "x": 472456.2,
+      "y": 3580906.2,
+      "zZmin": 618.44,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 299013,
+      "x": 472468.8,
+      "y": 3580906.2,
+      "zZmin": 618.49,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 299241,
+      "x": 472481.2,
+      "y": 3580918.8,
+      "zZmin": 618.44,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 299455,
+      "x": 472493.8,
+      "y": 3580931.2,
+      "zZmin": 618.48,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 299689,
+      "x": 472506.2,
+      "y": 3580931.2,
+      "zZmin": 618.59,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 299924,
+      "x": 472518.8,
+      "y": 3580943.8,
+      "zZmin": 618.79,
+      "sources": [
+        "NHDPlus network (with terrain-reversed reaches)"
+      ]
+    },
+    {
+      "face": 463671,
+      "x": 467303.1,
+      "y": 3589328.1,
+      "zZmin": 591.69,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 463810,
+      "x": 467309.4,
+      "y": 3589328.1,
+      "zZmin": 591.68,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 463949,
+      "x": 467315.6,
+      "y": 3589328.1,
+      "zZmin": 591.65,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 464088,
+      "x": 467321.9,
+      "y": 3589328.1,
+      "zZmin": 591.61,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 464227,
+      "x": 467328.1,
+      "y": 3589328.1,
+      "zZmin": 591.58,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 464365,
+      "x": 467334.4,
+      "y": 3589321.9,
+      "zZmin": 591.56,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 464529,
+      "x": 467340.6,
+      "y": 3589321.9,
+      "zZmin": 591.46,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 464693,
+      "x": 467346.9,
+      "y": 3589321.9,
+      "zZmin": 591.45,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 464857,
+      "x": 467353.1,
+      "y": 3589321.9,
+      "zZmin": 591.49,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 465021,
+      "x": 467359.4,
+      "y": 3589321.9,
+      "zZmin": 591.14,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 465185,
+      "x": 467365.6,
+      "y": 3589321.9,
+      "zZmin": 591.13,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 465349,
+      "x": 467371.9,
+      "y": 3589321.9,
+      "zZmin": 591.21,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 465513,
+      "x": 467378.1,
+      "y": 3589321.9,
+      "zZmin": 591.33,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 465677,
+      "x": 467384.4,
+      "y": 3589321.9,
+      "zZmin": 591.14,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 465841,
+      "x": 467390.6,
+      "y": 3589321.9,
+      "zZmin": 591.18,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 466005,
+      "x": 467396.9,
+      "y": 3589321.9,
+      "zZmin": 591.3,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 466169,
+      "x": 467403.1,
+      "y": 3589321.9,
+      "zZmin": 591.32,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 466333,
+      "x": 467409.4,
+      "y": 3589321.9,
+      "zZmin": 591.36,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 466467,
+      "x": 467415.6,
+      "y": 3589321.9,
+      "zZmin": 591.43,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 466601,
+      "x": 467421.9,
+      "y": 3589321.9,
+      "zZmin": 591.48,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 466709,
+      "x": 467428.1,
+      "y": 3589321.9,
+      "zZmin": 591.35,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 466817,
+      "x": 467434.4,
+      "y": 3589321.9,
+      "zZmin": 591.33,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 466899,
+      "x": 467440.6,
+      "y": 3589321.9,
+      "zZmin": 591.25,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 466981,
+      "x": 467446.9,
+      "y": 3589321.9,
+      "zZmin": 591.21,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 467063,
+      "x": 467453.1,
+      "y": 3589321.9,
+      "zZmin": 591.16,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    },
+    {
+      "face": 467145,
+      "x": 467459.4,
+      "y": 3589321.9,
+      "zZmin": 591.03,
+      "sources": [
+        "OSM 1489567547"
+      ]
+    }
+  ]
+}

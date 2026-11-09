@@ -1,0 +1,2297 @@
+{
+ "case": "brawley-avra-west",
+ "boundaries": "v3",
+ "base": "v2 boundaries (47 outflow cells), same mesh v2, same parameters v2, same inlet",
+ "method": "Official HydroMT directed outflow points, 500m corridor, official Deltares native mask builder; plus the same HydroMT outflow search on the reversed reaches and extra channels listed here (same 100 m edge buffer and 250 m corridor)",
+ "outflowCellsV2": 47,
+ "outflowCellsV3": 92,
+ "newOutflowCells": 45,
+ "lostOutflowCells": 0,
+ "gridOtherVariablesIdentical": true,
+ "newCellsBySource": {
+  "OSM 1489567542": {
+   "count": 5,
+   "cells": [
+    {
+     "face": 32266,
+     "x": 466750.0,
+     "y": 3591750.0,
+     "cellM": 100.0,
+     "zZmin": 583.31
+    },
+    {
+     "face": 32611,
+     "x": 466850.0,
+     "y": 3591850.0,
+     "cellM": 100.0,
+     "zZmin": 582.26
+    },
+    {
+     "face": 32612,
+     "x": 466850.0,
+     "y": 3591950.0,
+     "cellM": 100.0,
+     "zZmin": 581.44
+    },
+    {
+     "face": 32957,
+     "x": 466950.0,
+     "y": 3592050.0,
+     "cellM": 100.0,
+     "zZmin": 580.43
+    },
+    {
+     "face": 33299,
+     "x": 467050.0,
+     "y": 3592050.0,
+     "cellM": 100.0,
+     "zZmin": 579.78
+    }
+   ]
+  },
+  "OSM 1489567547": {
+   "count": 35,
+   "cells": [
+    {
+     "face": 33650,
+     "x": 467150.0,
+     "y": 3589250.0,
+     "cellM": 100.0,
+     "zZmin": 592.58
+    },
+    {
+     "face": 109417,
+     "x": 467225.0,
+     "y": 3589325.0,
+     "cellM": 50.0,
+     "zZmin": 592.3
+    },
+    {
+     "face": 109606,
+     "x": 467525.0,
+     "y": 3589325.0,
+     "cellM": 50.0,
+     "zZmin": 589.24
+    },
+    {
+     "face": 109650,
+     "x": 467575.0,
+     "y": 3589325.0,
+     "cellM": 50.0,
+     "zZmin": 588.75
+    },
+    {
+     "face": 149894,
+     "x": 467262.5,
+     "y": 3589312.5,
+     "cellM": 25.0,
+     "zZmin": 591.97
+    },
+    {
+     "face": 150196,
+     "x": 467487.5,
+     "y": 3589312.5,
+     "cellM": 25.0,
+     "zZmin": 589.11
+    },
+    {
+     "face": 241272,
+     "x": 467281.2,
+     "y": 3589318.8,
+     "cellM": 12.5,
+     "zZmin": 591.89
+    },
+    {
+     "face": 241379,
+     "x": 467293.8,
+     "y": 3589318.8,
+     "cellM": 12.5,
+     "zZmin": 591.76
+    },
+    {
+     "face": 242496,
+     "x": 467468.8,
+     "y": 3589318.8,
+     "cellM": 12.5,
+     "zZmin": 590.97
+    },
+    {
+     "face": 463671,
+     "x": 467303.1,
+     "y": 3589328.1,
+     "cellM": 6.25,
+     "zZmin": 591.69
+    },
+    {
+     "face": 463810,
+     "x": 467309.4,
+     "y": 3589328.1,
+     "cellM": 6.25,
+     "zZmin": 591.68
+    },
+    {
+     "face": 463949,
+     "x": 467315.6,
+     "y": 3589328.1,
+     "cellM": 6.25,
+     "zZmin": 591.65
+    },
+    {
+     "face": 464088,
+     "x": 467321.9,
+     "y": 3589328.1,
+     "cellM": 6.25,
+     "zZmin": 591.61
+    },
+    {
+     "face": 464227,
+     "x": 467328.1,
+     "y": 3589328.1,
+     "cellM": 6.25,
+     "zZmin": 591.58
+    },
+    {
+     "face": 464365,
+     "x": 467334.4,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.56
+    },
+    {
+     "face": 464529,
+     "x": 467340.6,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.46
+    },
+    {
+     "face": 464693,
+     "x": 467346.9,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.45
+    },
+    {
+     "face": 464857,
+     "x": 467353.1,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.49
+    },
+    {
+     "face": 465021,
+     "x": 467359.4,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.14
+    },
+    {
+     "face": 465185,
+     "x": 467365.6,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.13
+    },
+    {
+     "face": 465349,
+     "x": 467371.9,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.21
+    },
+    {
+     "face": 465513,
+     "x": 467378.1,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.33
+    },
+    {
+     "face": 465677,
+     "x": 467384.4,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.14
+    },
+    {
+     "face": 465841,
+     "x": 467390.6,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.18
+    },
+    {
+     "face": 466005,
+     "x": 467396.9,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.3
+    },
+    {
+     "face": 466169,
+     "x": 467403.1,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.32
+    },
+    {
+     "face": 466333,
+     "x": 467409.4,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.36
+    },
+    {
+     "face": 466467,
+     "x": 467415.6,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.43
+    },
+    {
+     "face": 466601,
+     "x": 467421.9,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.48
+    },
+    {
+     "face": 466709,
+     "x": 467428.1,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.35
+    },
+    {
+     "face": 466817,
+     "x": 467434.4,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.33
+    },
+    {
+     "face": 466899,
+     "x": 467440.6,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.25
+    },
+    {
+     "face": 466981,
+     "x": 467446.9,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.21
+    },
+    {
+     "face": 467063,
+     "x": 467453.1,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.16
+    },
+    {
+     "face": 467145,
+     "x": 467459.4,
+     "y": 3589321.9,
+     "cellM": 6.25,
+     "zZmin": 591.03
+    }
+   ]
+  },
+  "lobe tip, reversed NHDPlus 15876709": {
+   "count": 5,
+   "cells": [
+    {
+     "face": 54443,
+     "x": 474750.0,
+     "y": 3581350.0,
+     "cellM": 100.0,
+     "zZmin": 618.54
+    },
+    {
+     "face": 54444,
+     "x": 474750.0,
+     "y": 3581450.0,
+     "cellM": 100.0,
+     "zZmin": 618.16
+    },
+    {
+     "face": 54598,
+     "x": 474850.0,
+     "y": 3581450.0,
+     "cellM": 100.0,
+     "zZmin": 618.05
+    },
+    {
+     "face": 54599,
+     "x": 474850.0,
+     "y": 3581550.0,
+     "cellM": 100.0,
+     "zZmin": 617.74
+    },
+    {
+     "face": 54756,
+     "x": 474950.0,
+     "y": 3581350.0,
+     "cellM": 100.0,
+     "zZmin": 618.37
+    }
+   ]
+  }
+ },
+ "terrainReversedReaches": [
+  {
+   "comid": 15876709,
+   "digitizedStartXY": [
+    474844.48,
+    3581562.245
+   ],
+   "terrainAtDigitizedStartM": 617.76,
+   "terrainAtDigitizedEndM": 641.15,
+   "lengthM": 6357.5,
+   "action": "geometry reversed for the HydroMT outflow search only; flowdir attribute kept"
+  }
+ ],
+ "extraOutflowChannels": [
+  {
+   "source": "OSM",
+   "id": "1489567542",
+   "points": [
+    [
+     466890.644,
+     3591879.988
+    ]
+   ]
+  },
+  {
+   "source": "OSM",
+   "id": "1489567547",
+   "points": [
+    [
+     467365.916,
+     3589326.997
+    ]
+   ]
+  }
+ ],
+ "namedLobeTipFaces": [
+  {
+   "face": 54599,
+   "x": 474850.0,
+   "y": 3581550.0,
+   "zZmin": 617.74,
+   "distanceFromSeedM": 13,
+   "outflowV3": true,
+   "reason": "marked by the HydroMT outflow point at the 15876709 start (250 m corridor)",
+   "edgeSides": [
+    {
+     "side": "W",
+     "outside": [
+      617.6,
+      617.81,
+      617.73
+     ],
+     "fallsOutward": true,
+     "keepsFalling": false
+    },
+    {
+     "side": "E",
+     "outside": [
+      617.5,
+      617.23,
+      617.38
+     ],
+     "fallsOutward": true,
+     "keepsFalling": false
+    },
+    {
+     "side": "N",
+     "outside": [
+      617.33,
+      615.98,
+      615.07
+     ],
+     "fallsOutward": true,
+     "keepsFalling": true
+    }
+   ]
+  },
+  {
+   "face": 54444,
+   "x": 474750.0,
+   "y": 3581450.0,
+   "zZmin": 618.16,
+   "distanceFromSeedM": 147,
+   "outflowV3": true,
+   "reason": "marked by the HydroMT outflow point at the 15876709 start (250 m corridor)",
+   "edgeSides": [
+    {
+     "side": "W",
+     "outside": [
+      618.07,
+      618.2,
+      617.44
+     ],
+     "fallsOutward": true,
+     "keepsFalling": false
+    },
+    {
+     "side": "N",
+     "outside": [
+      617.6,
+      615.85,
+      615.39
+     ],
+     "fallsOutward": true,
+     "keepsFalling": true
+    }
+   ]
+  },
+  {
+   "face": 54756,
+   "x": 474950.0,
+   "y": 3581350.0,
+   "zZmin": 618.37,
+   "distanceFromSeedM": 237,
+   "outflowV3": true,
+   "reason": "marked by the HydroMT outflow point at the 15876709 start (250 m corridor)",
+   "edgeSides": [
+    {
+     "side": "E",
+     "outside": [
+      618.42,
+      618.2,
+      618.22
+     ],
+     "fallsOutward": false,
+     "keepsFalling": false
+    },
+    {
+     "side": "N",
+     "outside": [
+      617.97,
+      616.47,
+      615.4
+     ],
+     "fallsOutward": true,
+     "keepsFalling": true
+    }
+   ]
+  },
+  {
+   "face": 54755,
+   "x": 474950.0,
+   "y": 3581250.0,
+   "zZmin": 618.71,
+   "distanceFromSeedM": 330,
+   "outflowV3": false,
+   "reason": "not marked: 330 m from the outflow point, outside the 250 m corridor the existing outflow cells use",
+   "edgeSides": [
+    {
+     "side": "E",
+     "outside": [
+      618.78,
+      618.79,
+      618.61
+     ],
+     "fallsOutward": false,
+     "keepsFalling": false
+    }
+   ]
+  },
+  {
+   "face": 54754,
+   "x": 474950.0,
+   "y": 3581150.0,
+   "zZmin": 619.02,
+   "distanceFromSeedM": 426,
+   "outflowV3": false,
+   "reason": "not marked: 426 m from the outflow point, outside the 250 m corridor the existing outflow cells use",
+   "edgeSides": [
+    {
+     "side": "E",
+     "outside": [
+      619.3,
+      619.26,
+      619.13
+     ],
+     "fallsOutward": false,
+     "keepsFalling": false
+    }
+   ]
+  },
+  {
+   "face": 54290,
+   "x": 474650.0,
+   "y": 3581150.0,
+   "zZmin": 619.23,
+   "distanceFromSeedM": 456,
+   "outflowV3": false,
+   "reason": "not marked: 456 m from the outflow point, outside the 250 m corridor the existing outflow cells use",
+   "edgeSides": [
+    {
+     "side": "W",
+     "outside": [
+      619.25,
+      619.12,
+      619.06
+     ],
+     "fallsOutward": false,
+     "keepsFalling": false
+    },
+    {
+     "side": "N",
+     "outside": [
+      618.89,
+      617.45,
+      616.36
+     ],
+     "fallsOutward": true,
+     "keepsFalling": true
+    }
+   ]
+  }
+ ],
+ "edgeAudit": {
+  "method": {
+   "edgeSides": "active cell side with no quadtree neighbour",
+   "cellZ": "subgrid z_zmin (lowest sub-pixel)",
+   "outside": "minimum of the 10 m context terrain outside the domain polygon in bands ((0, 100), (200, 400), (400, 600)) m outward from the cell edge, lateral width max(cell, 30 m)",
+   "fallsOutward": "band 0-100 m below z_zmin",
+   "keepsFalling": "fallsOutward and each further band at least 0.2 m lower than the previous",
+   "clusters": "union of 250 m buffers around flagged cell centres",
+   "channel": "NHDPlus wide-fetch flowline or OSM waterway crossing the domain edge in the cluster; terrainFallsOutward when the line terrain 150-300 m outside is below that inside"
+  },
+  "edgeSides": 4318,
+  "fallsOutward": 2368,
+  "keepsFalling": 1485,
+  "clusters": 102
+ },
+ "edgeClusters": [
+  {
+   "cluster": 0,
+   "lon": -111.36476,
+   "lat": 32.45497,
+   "x": 465717,
+   "y": 3590926,
+   "edgeSides": 73,
+   "minZzmin": 575.6,
+   "fallTo400_600mM": 5.7,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 3,
+   "opened": [
+    "1489567542"
+   ],
+   "action": "opened in v3: 3 new outflow cells in the cluster, outflow point on 1489567542",
+   "channels": [
+    {
+     "source": "OSM",
+     "id": 1489567542,
+     "waterway": "stream",
+     "insideMinZ": 583.88,
+     "outsideMinZ": 580.87,
+     "fallsOutward": true
+    }
+   ]
+  },
+  {
+   "cluster": 1,
+   "lon": -111.3965,
+   "lat": 32.44464,
+   "x": 462730,
+   "y": 3589792,
+   "edgeSides": 14,
+   "minZzmin": 620.91,
+   "fallTo400_600mM": 8.71,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 2,
+   "lon": -111.33882,
+   "lat": 32.43992,
+   "x": 468150,
+   "y": 3589250,
+   "edgeSides": 1,
+   "minZzmin": 584.44,
+   "fallTo400_600mM": 4.09,
+   "outflowCellsV2": 1,
+   "outflowCellsV3": 1,
+   "opened": [],
+   "action": "unchanged: already drained by v2 outflow cells in or within 600 m of the cluster",
+   "channels": [
+    {
+     "source": "NHDPlus",
+     "id": 15876613,
+     "waterway": null,
+     "insideMinZ": 587.26,
+     "outsideMinZ": 585.55,
+     "fallsOutward": true
+    },
+    {
+     "source": "OSM",
+     "id": 1489567546,
+     "waterway": "stream",
+     "insideMinZ": 584.89,
+     "outsideMinZ": 582.15,
+     "fallsOutward": true
+    }
+   ]
+  },
+  {
+   "cluster": 3,
+   "lon": -111.41213,
+   "lat": 32.43652,
+   "x": 461258,
+   "y": 3588897,
+   "edgeSides": 6,
+   "minZzmin": 644.58,
+   "fallTo400_600mM": 28.05,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 4,
+   "lon": -111.36887,
+   "lat": 32.43425,
+   "x": 465324,
+   "y": 3588631,
+   "edgeSides": 86,
+   "minZzmin": 590.97,
+   "fallTo400_600mM": 4.13,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 30,
+   "opened": [
+    "1489567547"
+   ],
+   "action": "opened in v3: 30 new outflow cells in the cluster, outflow point on 1489567547",
+   "channels": [
+    {
+     "source": "OSM",
+     "id": 1489567547,
+     "waterway": "stream",
+     "insideMinZ": 591.91,
+     "outsideMinZ": 590.3,
+     "fallsOutward": true
+    }
+   ]
+  },
+  {
+   "cluster": 5,
+   "lon": -111.42496,
+   "lat": 32.43335,
+   "x": 460050,
+   "y": 3588550,
+   "edgeSides": 7,
+   "minZzmin": 660.41,
+   "fallTo400_600mM": 10.61,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 6,
+   "lon": -111.45371,
+   "lat": 32.43182,
+   "x": 457347,
+   "y": 3588392,
+   "edgeSides": 3,
+   "minZzmin": 698.82,
+   "fallTo400_600mM": 9.78,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 7,
+   "lon": -111.44729,
+   "lat": 32.43147,
+   "x": 457950,
+   "y": 3588350,
+   "edgeSides": 1,
+   "minZzmin": 691.0,
+   "fallTo400_600mM": 3.04,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 8,
+   "lon": -111.39806,
+   "lat": 32.42949,
+   "x": 462577,
+   "y": 3588112,
+   "edgeSides": 18,
+   "minZzmin": 621.41,
+   "fallTo400_600mM": 6.19,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 9,
+   "lon": -111.43051,
+   "lat": 32.42862,
+   "x": 459526,
+   "y": 3588028,
+   "edgeSides": 8,
+   "minZzmin": 659.67,
+   "fallTo400_600mM": 12.13,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 10,
+   "lon": -111.46695,
+   "lat": 32.42824,
+   "x": 456100,
+   "y": 3588001,
+   "edgeSides": 5,
+   "minZzmin": 727.97,
+   "fallTo400_600mM": 15.31,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 11,
+   "lon": -111.4827,
+   "lat": 32.42328,
+   "x": 454617,
+   "y": 3587457,
+   "edgeSides": 16,
+   "minZzmin": 772.22,
+   "fallTo400_600mM": 71.3,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 12,
+   "lon": -111.4983,
+   "lat": 32.42186,
+   "x": 453150,
+   "y": 3587306,
+   "edgeSides": 3,
+   "minZzmin": 945.87,
+   "fallTo400_600mM": 150.74,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 13,
+   "lon": -111.33876,
+   "lat": 32.42188,
+   "x": 468150,
+   "y": 3587250,
+   "edgeSides": 1,
+   "minZzmin": 591.61,
+   "fallTo400_600mM": 2.91,
+   "outflowCellsV2": 1,
+   "outflowCellsV3": 1,
+   "opened": [],
+   "action": "unchanged: already drained by v2 outflow cells in or within 600 m of the cluster",
+   "channels": [
+    {
+     "source": "NHDPlus",
+     "id": 15876623,
+     "waterway": null,
+     "insideMinZ": 593.22,
+     "outsideMinZ": 593.16,
+     "fallsOutward": true
+    }
+   ]
+  },
+  {
+   "cluster": 14,
+   "lon": -111.50245,
+   "lat": 32.41697,
+   "x": 452757,
+   "y": 3586766,
+   "edgeSides": 4,
+   "minZzmin": 1114.26,
+   "fallTo400_600mM": 220.72,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 15,
+   "lon": -111.33874,
+   "lat": 32.41737,
+   "x": 468150,
+   "y": 3586750,
+   "edgeSides": 1,
+   "minZzmin": 593.66,
+   "fallTo400_600mM": 2.39,
+   "outflowCellsV2": 1,
+   "outflowCellsV3": 1,
+   "opened": [],
+   "action": "unchanged: already drained by v2 outflow cells in or within 600 m of the cluster",
+   "channels": [
+    {
+     "source": "NHDPlus",
+     "id": 15876641,
+     "waterway": null,
+     "insideMinZ": 593.13,
+     "outsideMinZ": 592.83,
+     "fallsOutward": true
+    },
+    {
+     "source": "OSM",
+     "id": 1106331337,
+     "waterway": "stream",
+     "insideMinZ": 592.83,
+     "outsideMinZ": 591.9,
+     "fallsOutward": true
+    }
+   ]
+  },
+  {
+   "cluster": 16,
+   "lon": -111.34243,
+   "lat": 32.40879,
+   "x": 467800,
+   "y": 3585800,
+   "edgeSides": 2,
+   "minZzmin": 598.61,
+   "fallTo400_600mM": 2.81,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 17,
+   "lon": -111.34827,
+   "lat": 32.40742,
+   "x": 467250,
+   "y": 3585650,
+   "edgeSides": 1,
+   "minZzmin": 602.41,
+   "fallTo400_600mM": 3.42,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 18,
+   "lon": -111.49698,
+   "lat": 32.4002,
+   "x": 453262,
+   "y": 3584905,
+   "edgeSides": 14,
+   "minZzmin": 839.78,
+   "fallTo400_600mM": 218.84,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 19,
+   "lon": -111.36738,
+   "lat": 32.40013,
+   "x": 465451,
+   "y": 3584848,
+   "edgeSides": 23,
+   "minZzmin": 605.95,
+   "fallTo400_600mM": 8.13,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 20,
+   "lon": -111.34152,
+   "lat": 32.39225,
+   "x": 467880,
+   "y": 3583966,
+   "edgeSides": 97,
+   "minZzmin": 598.08,
+   "fallTo400_600mM": 37.75,
+   "outflowCellsV2": 3,
+   "outflowCellsV3": 3,
+   "opened": [],
+   "action": "unchanged: already drained by v2 outflow cells in or within 600 m of the cluster",
+   "channels": [
+    {
+     "source": "NHDPlus",
+     "id": 15876633,
+     "waterway": null,
+     "insideMinZ": 599.22,
+     "outsideMinZ": 597.64,
+     "fallsOutward": true
+    },
+    {
+     "source": "OSM",
+     "id": 1512356783,
+     "waterway": "stream",
+     "insideMinZ": 599.17,
+     "outsideMinZ": 597.94,
+     "fallsOutward": true
+    },
+    {
+     "source": "OSM",
+     "id": 1546432934,
+     "waterway": "stream",
+     "insideMinZ": 599.22,
+     "outsideMinZ": 598.3,
+     "fallsOutward": true
+    }
+   ]
+  },
+  {
+   "cluster": 21,
+   "lon": -111.49974,
+   "lat": 32.38382,
+   "x": 452995,
+   "y": 3583090,
+   "edgeSides": 3,
+   "minZzmin": 796.21,
+   "fallTo400_600mM": 27.84,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 22,
+   "lon": -111.49353,
+   "lat": 32.37082,
+   "x": 453572,
+   "y": 3581646,
+   "edgeSides": 14,
+   "minZzmin": 781.14,
+   "fallTo400_600mM": 212.74,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 23,
+   "lon": -111.30882,
+   "lat": 32.36967,
+   "x": 470948,
+   "y": 3581454,
+   "edgeSides": 13,
+   "minZzmin": 614.13,
+   "fallTo400_600mM": 3.36,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 24,
+   "lon": -111.2652,
+   "lat": 32.36342,
+   "x": 475050,
+   "y": 3580750,
+   "edgeSides": 1,
+   "minZzmin": 621.13,
+   "fallTo400_600mM": 2.71,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 25,
+   "lon": -111.27209,
+   "lat": 32.36164,
+   "x": 474401,
+   "y": 3580555,
+   "edgeSides": 13,
+   "minZzmin": 617.74,
+   "fallTo400_600mM": 2.97,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 3,
+   "opened": [],
+   "action": "opened in v3: 3 new outflow cells in the cluster, outflow point at the digitized start of the terrain-reversed NHDPlus 15876709 (OSM way 1103245450 continues north)",
+   "channels": [
+    {
+     "source": "OSM",
+     "id": 1103245450,
+     "waterway": "stream",
+     "insideMinZ": 618.69,
+     "outsideMinZ": 616.6,
+     "fallsOutward": true
+    }
+   ]
+  },
+  {
+   "cluster": 26,
+   "lon": -111.47912,
+   "lat": 32.35928,
+   "x": 454922,
+   "y": 3580361,
+   "edgeSides": 4,
+   "minZzmin": 840.43,
+   "fallTo400_600mM": 102.16,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 27,
+   "lon": -111.26412,
+   "lat": 32.35891,
+   "x": 475150,
+   "y": 3580250,
+   "edgeSides": 1,
+   "minZzmin": 622.35,
+   "fallTo400_600mM": 1.89,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 28,
+   "lon": -111.47454,
+   "lat": 32.35469,
+   "x": 455350,
+   "y": 3579850,
+   "edgeSides": 1,
+   "minZzmin": 940.73,
+   "fallTo400_600mM": 92.42,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 29,
+   "lon": -111.28909,
+   "lat": 32.35375,
+   "x": 472800,
+   "y": 3579683,
+   "edgeSides": 68,
+   "minZzmin": 618.44,
+   "fallTo400_600mM": 3.2,
+   "outflowCellsV2": 9,
+   "outflowCellsV3": 9,
+   "opened": [],
+   "action": "unchanged: already drained by v2 outflow cells in or within 600 m of the cluster",
+   "channels": [
+    {
+     "source": "NHDPlus",
+     "id": 945050510,
+     "waterway": null,
+     "insideMinZ": 618.0,
+     "outsideMinZ": 616.88,
+     "fallsOutward": true
+    },
+    {
+     "source": "OSM",
+     "id": 1103245443,
+     "waterway": "stream",
+     "insideMinZ": 619.1,
+     "outsideMinZ": 617.74,
+     "fallsOutward": true
+    }
+   ]
+  },
+  {
+   "cluster": 30,
+   "lon": -111.26303,
+   "lat": 32.34809,
+   "x": 475250,
+   "y": 3579050,
+   "edgeSides": 1,
+   "minZzmin": 627.75,
+   "fallTo400_600mM": 3.0,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 31,
+   "lon": -111.30127,
+   "lat": 32.34462,
+   "x": 471650,
+   "y": 3578675,
+   "edgeSides": 2,
+   "minZzmin": 627.73,
+   "fallTo400_600mM": 2.16,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 32,
+   "lon": -111.47736,
+   "lat": 32.34379,
+   "x": 455079,
+   "y": 3578643,
+   "edgeSides": 16,
+   "minZzmin": 761.63,
+   "fallTo400_600mM": 194.35,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 33,
+   "lon": -111.26407,
+   "lat": 32.34177,
+   "x": 475150,
+   "y": 3578350,
+   "edgeSides": 3,
+   "minZzmin": 630.6,
+   "fallTo400_600mM": 1.04,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 34,
+   "lon": -111.4732,
+   "lat": 32.32188,
+   "x": 455460,
+   "y": 3576213,
+   "edgeSides": 16,
+   "minZzmin": 718.18,
+   "fallTo400_600mM": 28.85,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 35,
+   "lon": -111.48005,
+   "lat": 32.30222,
+   "x": 454805,
+   "y": 3574037,
+   "edgeSides": 4,
+   "minZzmin": 723.88,
+   "fallTo400_600mM": 32.42,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 36,
+   "lon": -111.4732,
+   "lat": 32.30056,
+   "x": 455450,
+   "y": 3573850,
+   "edgeSides": 1,
+   "minZzmin": 726.54,
+   "fallTo400_600mM": 13.4,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 37,
+   "lon": -111.4662,
+   "lat": 32.29882,
+   "x": 456108,
+   "y": 3573653,
+   "edgeSides": 3,
+   "minZzmin": 737.41,
+   "fallTo400_600mM": 48.6,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 38,
+   "lon": -111.20964,
+   "lat": 32.29283,
+   "x": 480261,
+   "y": 3572913,
+   "edgeSides": 136,
+   "minZzmin": 639.39,
+   "fallTo400_600mM": 208.58,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: the only mapped channel crossing here does not fall outward (OSM 84241184 canal)",
+   "channels": [
+    {
+     "source": "OSM",
+     "id": 84241184,
+     "waterway": "canal",
+     "insideMinZ": 642.78,
+     "outsideMinZ": 643.06,
+     "fallsOutward": false
+    }
+   ]
+  },
+  {
+   "cluster": 39,
+   "lon": -111.46243,
+   "lat": 32.2776,
+   "x": 456453,
+   "y": 3571300,
+   "edgeSides": 19,
+   "minZzmin": 712.79,
+   "fallTo400_600mM": 50.8,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 40,
+   "lon": -111.1385,
+   "lat": 32.26306,
+   "x": 486955,
+   "y": 3569603,
+   "edgeSides": 4,
+   "minZzmin": 1193.53,
+   "fallTo400_600mM": 203.87,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 41,
+   "lon": -111.44606,
+   "lat": 32.25646,
+   "x": 457985,
+   "y": 3568950,
+   "edgeSides": 5,
+   "minZzmin": 795.59,
+   "fallTo400_600mM": 72.13,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 42,
+   "lon": -111.1252,
+   "lat": 32.25419,
+   "x": 488207,
+   "y": 3568619,
+   "edgeSides": 11,
+   "minZzmin": 1087.47,
+   "fallTo400_600mM": 260.85,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 43,
+   "lon": -111.44096,
+   "lat": 32.24565,
+   "x": 458460,
+   "y": 3567750,
+   "edgeSides": 9,
+   "minZzmin": 750.02,
+   "fallTo400_600mM": 112.56,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 44,
+   "lon": -111.11267,
+   "lat": 32.23995,
+   "x": 489385,
+   "y": 3567038,
+   "edgeSides": 6,
+   "minZzmin": 1132.21,
+   "fallTo400_600mM": 186.0,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 45,
+   "lon": -111.43955,
+   "lat": 32.22992,
+   "x": 458586,
+   "y": 3566006,
+   "edgeSides": 5,
+   "minZzmin": 756.77,
+   "fallTo400_600mM": 78.75,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 46,
+   "lon": -111.43202,
+   "lat": 32.22673,
+   "x": 459294,
+   "y": 3565649,
+   "edgeSides": 4,
+   "minZzmin": 847.72,
+   "fallTo400_600mM": 87.2,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 47,
+   "lon": -111.10507,
+   "lat": 32.22608,
+   "x": 490100,
+   "y": 3565500,
+   "edgeSides": 2,
+   "minZzmin": 1037.94,
+   "fallTo400_600mM": 94.22,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 48,
+   "lon": -111.42339,
+   "lat": 32.21869,
+   "x": 460104,
+   "y": 3564755,
+   "edgeSides": 7,
+   "minZzmin": 893.36,
+   "fallTo400_600mM": 74.59,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 49,
+   "lon": -111.09604,
+   "lat": 32.21571,
+   "x": 490950,
+   "y": 3564350,
+   "edgeSides": 2,
+   "minZzmin": 1114.23,
+   "fallTo400_600mM": 171.29,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 50,
+   "lon": -111.4053,
+   "lat": 32.21161,
+   "x": 461805,
+   "y": 3563963,
+   "edgeSides": 4,
+   "minZzmin": 974.47,
+   "fallTo400_600mM": 148.6,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 51,
+   "lon": -111.08542,
+   "lat": 32.21121,
+   "x": 491950,
+   "y": 3563850,
+   "edgeSides": 1,
+   "minZzmin": 989.89,
+   "fallTo400_600mM": 87.62,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 52,
+   "lon": -111.41298,
+   "lat": 32.20933,
+   "x": 461081,
+   "y": 3563713,
+   "edgeSides": 4,
+   "minZzmin": 874.22,
+   "fallTo400_600mM": 110.36,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 53,
+   "lon": -111.39737,
+   "lat": 32.20565,
+   "x": 462550,
+   "y": 3563300,
+   "edgeSides": 2,
+   "minZzmin": 891.53,
+   "fallTo400_600mM": 31.17,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 54,
+   "lon": -111.08223,
+   "lat": 32.20399,
+   "x": 492250,
+   "y": 3563050,
+   "edgeSides": 1,
+   "minZzmin": 901.96,
+   "fallTo400_600mM": 30.51,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 55,
+   "lon": -111.40171,
+   "lat": 32.19762,
+   "x": 462138,
+   "y": 3562411,
+   "edgeSides": 3,
+   "minZzmin": 936.78,
+   "fallTo400_600mM": 133.41,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 56,
+   "lon": -111.07161,
+   "lat": 32.19317,
+   "x": 493250,
+   "y": 3561850,
+   "edgeSides": 1,
+   "minZzmin": 896.65,
+   "fallTo400_600mM": 51.16,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 57,
+   "lon": -111.06843,
+   "lat": 32.18957,
+   "x": 493550,
+   "y": 3561450,
+   "edgeSides": 1,
+   "minZzmin": 864.6,
+   "fallTo400_600mM": 15.63,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 58,
+   "lon": -111.06312,
+   "lat": 32.18596,
+   "x": 494050,
+   "y": 3561050,
+   "edgeSides": 4,
+   "minZzmin": 932.48,
+   "fallTo400_600mM": 229.68,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 59,
+   "lon": -111.0533,
+   "lat": 32.18065,
+   "x": 494976,
+   "y": 3560461,
+   "edgeSides": 8,
+   "minZzmin": 809.19,
+   "fallTo400_600mM": 159.09,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 60,
+   "lon": -111.39649,
+   "lat": 32.17934,
+   "x": 462622,
+   "y": 3560383,
+   "edgeSides": 23,
+   "minZzmin": 870.43,
+   "fallTo400_600mM": 85.87,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 61,
+   "lon": -111.04508,
+   "lat": 32.17334,
+   "x": 495750,
+   "y": 3559650,
+   "edgeSides": 1,
+   "minZzmin": 820.63,
+   "fallTo400_600mM": 13.33,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 62,
+   "lon": -111.05144,
+   "lat": 32.16973,
+   "x": 495150,
+   "y": 3559250,
+   "edgeSides": 4,
+   "minZzmin": 825.75,
+   "fallTo400_600mM": 52.48,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 63,
+   "lon": -111.05568,
+   "lat": 32.1607,
+   "x": 494750,
+   "y": 3558250,
+   "edgeSides": 5,
+   "minZzmin": 809.55,
+   "fallTo400_600mM": 17.59,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 64,
+   "lon": -111.05165,
+   "lat": 32.15199,
+   "x": 495129,
+   "y": 3557284,
+   "edgeSides": 6,
+   "minZzmin": 810.59,
+   "fallTo400_600mM": 10.27,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 65,
+   "lon": -111.39799,
+   "lat": 32.14623,
+   "x": 462467,
+   "y": 3556713,
+   "edgeSides": 23,
+   "minZzmin": 828.36,
+   "fallTo400_600mM": 54.13,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 66,
+   "lon": -111.05832,
+   "lat": 32.14401,
+   "x": 494500,
+   "y": 3556400,
+   "edgeSides": 4,
+   "minZzmin": 816.21,
+   "fallTo400_600mM": 44.31,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 67,
+   "lon": -111.0572,
+   "lat": 32.13312,
+   "x": 494605,
+   "y": 3555193,
+   "edgeSides": 7,
+   "minZzmin": 789.4,
+   "fallTo400_600mM": 75.94,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: mapped channel crosses but has under 100 m of its length inside the domain, so it carries no domain water (OSM 1117237972, OSM 1117237975)",
+   "channels": [
+    {
+     "source": "OSM",
+     "id": 1117237972,
+     "waterway": "drain",
+     "insideMinZ": 799.05,
+     "outsideMinZ": 796.72,
+     "fallsOutward": true
+    },
+    {
+     "source": "OSM",
+     "id": 1117237975,
+     "waterway": "stream",
+     "insideMinZ": 814.52,
+     "outsideMinZ": 794.48,
+     "fallsOutward": true
+    }
+   ]
+  },
+  {
+   "cluster": 68,
+   "lon": -111.25656,
+   "lat": 32.12753,
+   "x": 475800,
+   "y": 3554600,
+   "edgeSides": 2,
+   "minZzmin": 730.88,
+   "fallTo400_600mM": 2.56,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 69,
+   "lon": -111.26642,
+   "lat": 32.12688,
+   "x": 474870,
+   "y": 3554531,
+   "edgeSides": 11,
+   "minZzmin": 730.76,
+   "fallTo400_600mM": 2.41,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 70,
+   "lon": -111.40706,
+   "lat": 32.12635,
+   "x": 461604,
+   "y": 3554513,
+   "edgeSides": 6,
+   "minZzmin": 855.15,
+   "fallTo400_600mM": 103.17,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 71,
+   "lon": -111.05071,
+   "lat": 32.12087,
+   "x": 495216,
+   "y": 3553834,
+   "edgeSides": 7,
+   "minZzmin": 791.4,
+   "fallTo400_600mM": 93.47,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 72,
+   "lon": -111.41935,
+   "lat": 32.11698,
+   "x": 460440,
+   "y": 3553479,
+   "edgeSides": 10,
+   "minZzmin": 932.23,
+   "fallTo400_600mM": 119.77,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 73,
+   "lon": -111.25493,
+   "lat": 32.11174,
+   "x": 475950,
+   "y": 3552850,
+   "edgeSides": 1,
+   "minZzmin": 747.1,
+   "fallTo400_600mM": 0.95,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 74,
+   "lon": -111.4088,
+   "lat": 32.10828,
+   "x": 461432,
+   "y": 3552511,
+   "edgeSides": 12,
+   "minZzmin": 971.74,
+   "fallTo400_600mM": 149.53,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 75,
+   "lon": -111.27396,
+   "lat": 32.10859,
+   "x": 474153,
+   "y": 3552505,
+   "edgeSides": 3,
+   "minZzmin": 745.55,
+   "fallTo400_600mM": 5.35,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 76,
+   "lon": -111.25491,
+   "lat": 32.10633,
+   "x": 475950,
+   "y": 3552250,
+   "edgeSides": 1,
+   "minZzmin": 754.27,
+   "fallTo400_600mM": 7.21,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 77,
+   "lon": -111.25596,
+   "lat": 32.10182,
+   "x": 475850,
+   "y": 3551750,
+   "edgeSides": 1,
+   "minZzmin": 757.4,
+   "fallTo400_600mM": 4.84,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 78,
+   "lon": -111.31829,
+   "lat": 32.09972,
+   "x": 469969,
+   "y": 3551534,
+   "edgeSides": 9,
+   "minZzmin": 756.7,
+   "fallTo400_600mM": 2.95,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 79,
+   "lon": -111.27132,
+   "lat": 32.09908,
+   "x": 474400,
+   "y": 3551450,
+   "edgeSides": 2,
+   "minZzmin": 758.32,
+   "fallTo400_600mM": 6.27,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 80,
+   "lon": -111.33246,
+   "lat": 32.09766,
+   "x": 468630,
+   "y": 3551309,
+   "edgeSides": 20,
+   "minZzmin": 758.14,
+   "fallTo400_600mM": 3.38,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 81,
+   "lon": -111.0623,
+   "lat": 32.09327,
+   "x": 494121,
+   "y": 3550776,
+   "edgeSides": 38,
+   "minZzmin": 781.88,
+   "fallTo400_600mM": 213.93,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: mapped channel crosses but has under 100 m of its length inside the domain, so it carries no domain water (NHDPlus 15902533)",
+   "channels": [
+    {
+     "source": "NHDPlus",
+     "id": 15902533,
+     "waterway": null,
+     "insideMinZ": 807.83,
+     "outsideMinZ": 802.78,
+     "fallsOutward": true
+    }
+   ]
+  },
+  {
+   "cluster": 82,
+   "lon": -111.39225,
+   "lat": 32.08859,
+   "x": 462985,
+   "y": 3550323,
+   "edgeSides": 32,
+   "minZzmin": 801.77,
+   "fallTo400_600mM": 122.68,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 83,
+   "lon": -111.27023,
+   "lat": 32.08825,
+   "x": 474500,
+   "y": 3550250,
+   "edgeSides": 2,
+   "minZzmin": 771.37,
+   "fallTo400_600mM": 6.97,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 84,
+   "lon": -111.35127,
+   "lat": 32.08799,
+   "x": 466853,
+   "y": 3550243,
+   "edgeSides": 13,
+   "minZzmin": 776.62,
+   "fallTo400_600mM": 7.96,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 85,
+   "lon": -111.32484,
+   "lat": 32.0832,
+   "x": 469345,
+   "y": 3549704,
+   "edgeSides": 3,
+   "minZzmin": 766.79,
+   "fallTo400_600mM": 3.97,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 86,
+   "lon": -111.32894,
+   "lat": 32.0759,
+   "x": 468955,
+   "y": 3548896,
+   "edgeSides": 3,
+   "minZzmin": 770.43,
+   "fallTo400_600mM": 3.76,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 87,
+   "lon": -111.07152,
+   "lat": 32.06913,
+   "x": 493250,
+   "y": 3548100,
+   "edgeSides": 2,
+   "minZzmin": 873.63,
+   "fallTo400_600mM": 30.78,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 88,
+   "lon": -111.26531,
+   "lat": 32.06716,
+   "x": 474958,
+   "y": 3547911,
+   "edgeSides": 7,
+   "minZzmin": 794.74,
+   "fallTo400_600mM": 12.18,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 89,
+   "lon": -111.08179,
+   "lat": 32.05413,
+   "x": 492279,
+   "y": 3546439,
+   "edgeSides": 25,
+   "minZzmin": 858.11,
+   "fallTo400_600mM": 9.4,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 90,
+   "lon": -111.23579,
+   "lat": 32.04263,
+   "x": 477738,
+   "y": 3545185,
+   "edgeSides": 87,
+   "minZzmin": 770.08,
+   "fallTo400_600mM": 20.75,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 91,
+   "lon": -111.2519,
+   "lat": 32.03595,
+   "x": 476216,
+   "y": 3544448,
+   "edgeSides": 22,
+   "minZzmin": 844.51,
+   "fallTo400_600mM": 24.87,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 92,
+   "lon": -111.23984,
+   "lat": 32.01524,
+   "x": 477350,
+   "y": 3542150,
+   "edgeSides": 1,
+   "minZzmin": 1016.54,
+   "fallTo400_600mM": 23.13,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 93,
+   "lon": -111.28884,
+   "lat": 32.00505,
+   "x": 472719,
+   "y": 3541031,
+   "edgeSides": 130,
+   "minZzmin": 775.94,
+   "fallTo400_600mM": 20.14,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 94,
+   "lon": -111.23515,
+   "lat": 32.00342,
+   "x": 477790,
+   "y": 3540839,
+   "edgeSides": 8,
+   "minZzmin": 1036.71,
+   "fallTo400_600mM": 22.82,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 95,
+   "lon": -111.11487,
+   "lat": 32.00263,
+   "x": 489150,
+   "y": 3540733,
+   "edgeSides": 64,
+   "minZzmin": 940.97,
+   "fallTo400_600mM": 25.21,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 96,
+   "lon": -111.23021,
+   "lat": 31.97646,
+   "x": 478250,
+   "y": 3537850,
+   "edgeSides": 1,
+   "minZzmin": 1172.71,
+   "fallTo400_600mM": 18.94,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 97,
+   "lon": -111.22914,
+   "lat": 31.97105,
+   "x": 478350,
+   "y": 3537250,
+   "edgeSides": 1,
+   "minZzmin": 1196.24,
+   "fallTo400_600mM": 23.67,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 98,
+   "lon": -111.22509,
+   "lat": 31.96189,
+   "x": 478730,
+   "y": 3536234,
+   "edgeSides": 7,
+   "minZzmin": 1214.11,
+   "fallTo400_600mM": 22.48,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 99,
+   "lon": -111.20156,
+   "lat": 31.96064,
+   "x": 480954,
+   "y": 3536090,
+   "edgeSides": 59,
+   "minZzmin": 1129.87,
+   "fallTo400_600mM": 85.95,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 100,
+   "lon": -111.15257,
+   "lat": 31.95021,
+   "x": 485581,
+   "y": 3534927,
+   "edgeSides": 26,
+   "minZzmin": 1174.23,
+   "fallTo400_600mM": 25.39,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  },
+  {
+   "cluster": 101,
+   "lon": -111.23342,
+   "lat": 31.9462,
+   "x": 477940,
+   "y": 3534496,
+   "edgeSides": 9,
+   "minZzmin": 1305.46,
+   "fallTo400_600mM": 122.38,
+   "outflowCellsV2": 0,
+   "outflowCellsV3": 0,
+   "opened": [],
+   "action": "candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here",
+   "channels": []
+  }
+ ],
+ "secondReversedHeadwater": {
+  "comid": 15876769,
+  "digitizedStart": [
+   475227.9,
+   3574974.6
+  ],
+  "startInsideEdgeM": 192,
+  "terrainStartM": 646.1,
+  "terrainEndM": 661.19,
+  "profileStartToNearestEdgeAndBeyond": [
+   {
+    "m": 0,
+    "z": 646.1,
+    "inside": true
+   },
+   {
+    "m": 200,
+    "z": 645.08,
+    "inside": false
+   },
+   {
+    "m": 400,
+    "z": 644.58,
+    "inside": false
+   },
+   {
+    "m": 600,
+    "z": 644.07,
+    "inside": false
+   },
+   {
+    "m": 800,
+    "z": 644.22,
+    "inside": false
+   },
+   {
+    "m": 1000,
+    "z": 644.4,
+    "inside": false
+   }
+  ],
+  "action": "candidate, unchanged: its start is 192 m inside the edge, beyond the 100 m HydroMT edge buffer, and no NHDPlus or OSM channel leaves there; the ground falls about 2 m over 1 km to the north-east outside, the CAP canal (OSM way 84241184) is 0.66 km away and crosses the same edge without falling outward; v2x held at most 0.90 m depth and 65,760 m3 within 1 km of it (BRAWLEY-OUTLET-POND-20261108.md)"
+ }
+}
