@@ -76,6 +76,11 @@ The differences beyond 1 km are not propagation from the boundary:
 This matches the global time-step coupling: `dt = alfa*min` over all u/v points (`sfincs_momentum.f90:773-775`,
 `sfincs_lib.f90:337`). A local change shifts every time step slightly.
 
+**Run-to-run check.** These differences are caused by btfilter, not by solver noise. Base B was run again as 42599666617;
+that rerun finished, in 8,136 s. Over the 96 common map frames, its zs and subgrid_volume are bit-identical to
+42583445548 (max |difference| 0). All 23 common restart files are byte-identical. The solver is deterministic on this
+case, so every btf-base difference above comes from the btfilter change, the scattered far-field cells included.
+
 **Road stations within 600 m of an outflow cell** (v2 local station file): there are 420 stations, on clusters 2, 3 and 5.
 
 - 417 are rated. North Puma Road at 131 m, from cluster 2, and 2 unnamed stations at 443-448 m have no mesh cell, so they
