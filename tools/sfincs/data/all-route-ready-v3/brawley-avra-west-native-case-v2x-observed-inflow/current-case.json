@@ -1,0 +1,163 @@
+{
+  "status": "prepared_all_routes_case_not_executed",
+  "runReady": true,
+  "solverExecuted": false,
+  "mode": "validation-extended-window",
+  "gridCells": 643056,
+  "inlets": 1,
+  "nativeFlowTimestamps": 75,
+  "windowHours": 74,
+  "mapOutputWindow": "2026-11-01T17:00:00Z..2026-11-02T18:00:00Z every 15 min (25 h after 49 h of antecedent run)",
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "forecastStart": "2026-11-01T17:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T18:00:00Z",
+  "initialization": "Same explicit dry assumed antecedent start; continuous analysis-forced history, not measured initial state",
+  "windowNote": "validation-only extended window to 2026-11-02T18Z; observed inflow every hour; observed Stage IV rain 07Z-18Z Nov 2",
+  "missing": [],
+  "nativeInputReference": "Pinned SFINCS sfincs_infiltration.f90 requires inffile NetCDF for quadtree; scs units remain inches",
+  "knownLimits": [
+    "Current bridge and culvert elevations unknown; no structure openings",
+    "Published CN antecedent assumption (GCN10 fair ARCII undrained); no measured transmission loss",
+    "Terrain is bare-earth lidar: 1 m PimaCounty_2021_B21 and Eastern_PimaCO_2015 in road/wash windows (2015 covers most of the mid/upper Brawley mainstem and San Joaquin/Black Wash); 10 m context mixes all-route-context-v2, 2021, BrawleyRillito 2018 (flown 2019), 2015 and 0.98 km2 of USGS 1/3 arc-second; not a 2026 survey",
+    "2021 minus 2015 seam offset about -0.11 m median in 7 road windows; not corrected",
+    "6.25 m computational cells are not validated road-depth accuracy; compare cell water-surface elevation zs with road height, never averaged depth",
+    "The 27.47 km2 local catchment of 15876941 below USGS 09487000 is excluded; its runoff enters only through the inlet series",
+    "Directed network independence does not prove no cross-divide overland exchange; overlaps Gates by 139.42 km2; west-valley subtrees drain toward Northern, which keeps its own NWM inlets (independent model)",
+    "Domain v2 (1240 km2) adds the west-valley subtrees of Northern inlets 15876639/653/641/623, Pump Station tributaries 15876613/15876627 and terminal subtrees 15876757/719/669/675; 19 candidate dips (6 >= 1 m, mostly W Silverbell Rd and N Red Hill Rd near 32.445 N) remain in no model",
+    "Road heights exist only inside the floodplain-road-heights-v1 tile box (about lon >= -111.44, lat >= 32.146); roads outside it have no comparison",
+    "Extended validation window: rain 14Z Nov 1..07Z Nov 2 is still the frozen HRRR forecast (as in the frozen case), only 07Z..18Z Nov 2 is observed Stage IV"
+  ],
+  "kind": "prepared_current_case",
+  "rainfall": {
+    "units": "mm/h",
+    "intervalSeconds": 3600,
+    "intervalLabel": "start",
+    "lastIntervalEndUtc": "2026-11-02T18:00:00Z",
+    "sourceArtifacts": [
+      {
+        "path": ".sfincs-runs\\brawley-avra-west-rainfall-v2\\initialization-rainfall\\resolved-analysis-precipitation.nc",
+        "sha256": "d9be94406e6cbd0da0c703ca9557d09af89e33c20a0b79f22aae8dbdf71a5ac5"
+      },
+      {
+        "path": ".sfincs-runs\\brawley-avra-west-rainfall-v2\\initialization-rainfall\\forecast-transition-precipitation.nc",
+        "sha256": "b81f84f49ac89c62df61a04d3c259b7b342c8511b6efd45cacee8a3393872a75"
+      },
+      {
+        "path": ".sfincs-runs\\brawley-avra-west-rainfall-v2\\precipitation.nc",
+        "sha256": "ba7c4f9c6476d2fae7581f6ca5e6435748ef131892a55dabda72e4e7e9156ace"
+      },
+      {
+        "path": ".sfincs-runs\\brawley-avra-west-rainfall-v2x\\observed-extension-precipitation.nc",
+        "sha256": "169054cbec8f5b22cedb1f540d473994afc2c137365b8aaac45a1afeb24e258e"
+      }
+    ]
+  },
+  "publicationHold": [],
+  "executionBudgetSeconds": null,
+  "proposedExecutionCapSeconds": 7200,
+  "executionAuthorization": "orchestrator_task_brawley_avra_west_extended_window_validation_cap_7200_experimental_branch_only",
+  "sourceAsOf": "2026-11-01T16:08:30.582Z",
+  "sourceLicensing": {
+    "derivedInfiltrationLicense": "ODbL-1.0",
+    "notice": "GCN10-NOTICE.txt",
+    "sourceMetadata": "GCN10-source-metadata.xml",
+    "derivedDatabase": "infiltration.nc"
+  },
+  "artifacts": [
+    {
+      "path": "GCN10-NOTICE.txt",
+      "bytes": 1349,
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "GCN10-source-metadata.xml",
+      "bytes": 12686,
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    },
+    {
+      "path": "hydromt.log",
+      "bytes": 182,
+      "sha256": "ec755fac4dbaaeb97bd7ad55bdaa9c60cecf82480efa18ca72ad2de5287377de"
+    },
+    {
+      "path": "infiltration.nc",
+      "bytes": 2578368,
+      "sha256": "a717444df329ebf437e8ec7e480056276f10b0e2831a4f54f7ca38d6e68a58dd"
+    },
+    {
+      "path": "native-component.json",
+      "bytes": 1330,
+      "sha256": "a4a7cbedeaf2fda02c9e3380181a3c228010db1a6e1ea9f97d7090b73a8231b2"
+    },
+    {
+      "path": "precip_2d.nc",
+      "bytes": 1669757,
+      "sha256": "55e284c921743882aabdcfcbbf11bd8f32cea00e0fc539e7d3c8bdbfdee99f45"
+    },
+    {
+      "path": "sfincs.dis",
+      "bytes": 1350,
+      "sha256": "0742f186770586b552f5d0c9b7a15b2f795d382d79dbd454dc9185ff42d843e4"
+    },
+    {
+      "path": "sfincs.inp",
+      "bytes": 1424,
+      "sha256": "4b172e48583c7b4dae1a74b69ddfe6cc7abd8adaa4c01101fcbc0303253889f0"
+    },
+    {
+      "path": "sfincs.nc",
+      "bytes": 120710114,
+      "sha256": "328042f02927f4ff9f5c40c39365b699c0edbfc0dbc21cea89eac3df368f6767"
+    },
+    {
+      "path": "sfincs.src",
+      "bytes": 20,
+      "sha256": "43eb1101038dcbae5d4fda718b96c1c1c762b84124b7f9c5b16dd0dd94af0ff8"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "bytes": 211387905,
+      "sha256": "47481d56bc16722b9cd7939c94b5ea2291dbdda155ae502326327d9360fffa71"
+    }
+  ],
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "routeIds": [],
+  "approvedExecutionCapSeconds": 7200,
+  "terrainSources": {
+    "road1m": "USGS 3DEP 1 m windows .sfincs-runs/brawley-avra-west-terrain-1m-v1 (162 new + reused) plus -v2 top-up (146 new); PimaCounty_2021_B21 > BrawleyRillito_2018_D19 > Eastern_PimaCO_2015",
+    "context10m": ".sfincs-runs/brawley-avra-west-context-v2 (16.97 km2 USGS 1/3 arc-second where no 1 m exists; no L3/L4 zone there)"
+  },
+  "scope": {
+    "status": "brawley_avra_west_version3",
+    "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+    "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+    "areaKm2": 1240.369838309587,
+    "externalInlets": [
+      {
+        "reachId": "15876941",
+        "receivingReachId": "15876923"
+      }
+    ],
+    "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+    "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+  },
+  "caseId": "brawley-avra-west-native-case-v2x-observed-inflow",
+  "validationVariant": true,
+  "inflow": {
+    "kind": "observed_gauge",
+    "gauge": "USGS 09487000 Brawley Wash near Three Points (provisional IV 00060)",
+    "file": "../../brawley-avra-west-v2/extended/brawley-avra-west-inflow-observed-v2x.json",
+    "note": "Validation variant: same mesh, parameters and boundaries as brawley-avra-west-native-case-v2; 75 hourly observed values (15-min reading at top of each hour x 0.0283168), 2026-10-30T16Z..2026-11-02T18Z. Not for live registration."
+  },
+  "window": {
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T18:00:00Z",
+    "hours": 74,
+    "mapOutput": "2026-11-01T17:00Z..2026-11-02T18:00Z every 15 min (101 frames)",
+    "rain": "Frozen v2 package frames 2026-10-30T16Z..2026-11-02T07Z unchanged (Stage IV/MRMS analysis to 14Z Nov 1, then HRRR 2026-11-01T14Z forecast 14Z..07Z), then observed Stage IV 01h (IEM) for 07Z..18Z Nov 2 on the same grid and mapping; no HRRR in the extension, no zero-fill",
+    "note": "Validation-only extended window so the observed inflow wave can pass Manville, Tucker and the outlet. Not a live configuration and not tuned."
+  },
+  "nativeMeshSha256": "328042f02927f4ff9f5c40c39365b699c0edbfc0dbc21cea89eac3df368f6767"
+}

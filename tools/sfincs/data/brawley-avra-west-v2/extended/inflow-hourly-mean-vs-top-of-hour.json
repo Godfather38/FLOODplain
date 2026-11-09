@@ -1,0 +1,541 @@
+{
+ "schemaVersion": 1,
+ "purpose": "Hourly MEAN variants vs top-of-hour sampling (the case forcing). Report only; not forcing.",
+ "window": [
+  "2026-10-30T16:00:00Z",
+  "2026-11-02T18:00:00Z"
+ ],
+ "summary": {
+  "topOfHour": {
+   "peakM3s": 48.422,
+   "peakTime": "2026-11-01T22:00:00Z",
+   "volumeM3": 955922,
+   "firstAbove10m3s": "2026-11-01T22:00:00Z",
+   "missingHours": 0
+  },
+  "centredHourlyMean": {
+   "peakM3s": 47.785,
+   "peakTime": "2026-11-01T22:00:00Z",
+   "volumeM3": 1017550,
+   "firstAbove10m3s": "2026-11-01T21:00:00Z",
+   "missingHours": 0
+  },
+  "intervalMeanStartLabel": {
+   "peakM3s": 46.298,
+   "peakTime": "2026-11-01T22:00:00Z",
+   "volumeM3": 1017550,
+   "firstAbove10m3s": "2026-11-01T21:00:00Z",
+   "missingHours": 0
+  },
+  "readings15min": {
+   "peakM3s": 49.271,
+   "peakTime": "2026-11-01T21:30:00Z",
+   "volumeM3": 1017550,
+   "firstAbove10m3s": "2026-11-01T21:15:00Z"
+  }
+ },
+ "largestHourDifferencesCfs": [
+  {
+   "time": "2026-11-01T21:00:00Z",
+   "topOfHourCfs": 66.1,
+   "centredMeanCfs": 626.8325,
+   "intervalMeanCfs": 1259.025
+  },
+  {
+   "time": "2026-11-02T03:00:00Z",
+   "topOfHourCfs": 682.0,
+   "centredMeanCfs": 713.25,
+   "intervalMeanCfs": 606.5
+  },
+  {
+   "time": "2026-11-01T23:00:00Z",
+   "topOfHourCfs": 1440.0,
+   "centredMeanCfs": 1465.0,
+   "intervalMeanCfs": 1410.0
+  },
+  {
+   "time": "2026-11-01T22:00:00Z",
+   "topOfHourCfs": 1710.0,
+   "centredMeanCfs": 1687.5,
+   "intervalMeanCfs": 1635.0
+  },
+  {
+   "time": "2026-11-02T01:00:00Z",
+   "topOfHourCfs": 1440.0,
+   "centredMeanCfs": 1423.75,
+   "intervalMeanCfs": 1390.0
+  },
+  {
+   "time": "2026-11-02T02:00:00Z",
+   "topOfHourCfs": 1160.0,
+   "centredMeanCfs": 1149.75,
+   "intervalMeanCfs": 959.25
+  }
+ ],
+ "hourly": [
+  {
+   "time": "2026-10-30T16:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-30T17:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-30T18:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-30T19:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-30T20:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-30T21:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-30T22:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-30T23:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T00:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T01:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T02:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T03:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T04:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T05:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T06:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T07:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T08:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T09:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T10:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T11:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T12:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T13:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T14:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T15:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T16:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T17:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T18:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T19:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T20:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T21:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T22:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-10-31T23:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T00:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T01:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T02:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T03:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T04:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T05:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T06:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T07:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T08:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T09:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T10:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T11:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T12:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T13:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T14:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T15:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-01T16:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.2075,
+   "intervalMeanCfs": 17.689999999999998
+  },
+  {
+   "time": "2026-11-01T17:00:00Z",
+   "topOfHourCfs": 48.1,
+   "centredMeanCfs": 41.595,
+   "intervalMeanCfs": 50.75
+  },
+  {
+   "time": "2026-11-01T18:00:00Z",
+   "topOfHourCfs": 49.4,
+   "centredMeanCfs": 56.599999999999994,
+   "intervalMeanCfs": 43.65
+  },
+  {
+   "time": "2026-11-01T19:00:00Z",
+   "topOfHourCfs": 8.25,
+   "centredMeanCfs": 17.26375,
+   "intervalMeanCfs": 3.9725
+  },
+  {
+   "time": "2026-11-01T20:00:00Z",
+   "topOfHourCfs": 0.02,
+   "centredMeanCfs": 0.41625,
+   "intervalMeanCfs": 0.32749999999999996
+  },
+  {
+   "time": "2026-11-01T21:00:00Z",
+   "topOfHourCfs": 66.1,
+   "centredMeanCfs": 626.8325,
+   "intervalMeanCfs": 1259.025
+  },
+  {
+   "time": "2026-11-01T22:00:00Z",
+   "topOfHourCfs": 1710.0,
+   "centredMeanCfs": 1687.5,
+   "intervalMeanCfs": 1635.0
+  },
+  {
+   "time": "2026-11-01T23:00:00Z",
+   "topOfHourCfs": 1440.0,
+   "centredMeanCfs": 1465.0,
+   "intervalMeanCfs": 1410.0
+  },
+  {
+   "time": "2026-11-02T00:00:00Z",
+   "topOfHourCfs": 1400.0,
+   "centredMeanCfs": 1398.75,
+   "intervalMeanCfs": 1407.5
+  },
+  {
+   "time": "2026-11-02T01:00:00Z",
+   "topOfHourCfs": 1440.0,
+   "centredMeanCfs": 1423.75,
+   "intervalMeanCfs": 1390.0
+  },
+  {
+   "time": "2026-11-02T02:00:00Z",
+   "topOfHourCfs": 1160.0,
+   "centredMeanCfs": 1149.75,
+   "intervalMeanCfs": 959.25
+  },
+  {
+   "time": "2026-11-02T03:00:00Z",
+   "topOfHourCfs": 682.0,
+   "centredMeanCfs": 713.25,
+   "intervalMeanCfs": 606.5
+  },
+  {
+   "time": "2026-11-02T04:00:00Z",
+   "topOfHourCfs": 468.0,
+   "centredMeanCfs": 474.875,
+   "intervalMeanCfs": 410.75
+  },
+  {
+   "time": "2026-11-02T05:00:00Z",
+   "topOfHourCfs": 313.0,
+   "centredMeanCfs": 323.125,
+   "intervalMeanCfs": 276.5
+  },
+  {
+   "time": "2026-11-02T06:00:00Z",
+   "topOfHourCfs": 211.0,
+   "centredMeanCfs": 216.375,
+   "intervalMeanCfs": 188.25
+  },
+  {
+   "time": "2026-11-02T07:00:00Z",
+   "topOfHourCfs": 145.0,
+   "centredMeanCfs": 147.375,
+   "intervalMeanCfs": 126.25
+  },
+  {
+   "time": "2026-11-02T08:00:00Z",
+   "topOfHourCfs": 97.3,
+   "centredMeanCfs": 98.44999999999999,
+   "intervalMeanCfs": 82.975
+  },
+  {
+   "time": "2026-11-02T09:00:00Z",
+   "topOfHourCfs": 63.2,
+   "centredMeanCfs": 62.087500000000006,
+   "intervalMeanCfs": 51.3
+  },
+  {
+   "time": "2026-11-02T10:00:00Z",
+   "topOfHourCfs": 37.2,
+   "centredMeanCfs": 37.6,
+   "intervalMeanCfs": 30.4
+  },
+  {
+   "time": "2026-11-02T11:00:00Z",
+   "topOfHourCfs": 19.4,
+   "centredMeanCfs": 20.7125,
+   "intervalMeanCfs": 17.075
+  },
+  {
+   "time": "2026-11-02T12:00:00Z",
+   "topOfHourCfs": 11.3,
+   "centredMeanCfs": 11.450000000000001,
+   "intervalMeanCfs": 8.235
+  },
+  {
+   "time": "2026-11-02T13:00:00Z",
+   "topOfHourCfs": 4.79,
+   "centredMeanCfs": 5.0,
+   "intervalMeanCfs": 3.475
+  },
+  {
+   "time": "2026-11-02T14:00:00Z",
+   "topOfHourCfs": 2.22,
+   "centredMeanCfs": 2.26125,
+   "intervalMeanCfs": 2.0075000000000003
+  },
+  {
+   "time": "2026-11-02T15:00:00Z",
+   "topOfHourCfs": 0.77,
+   "centredMeanCfs": 1.32125,
+   "intervalMeanCfs": 0.8375
+  },
+  {
+   "time": "2026-11-02T16:00:00Z",
+   "topOfHourCfs": 0.21,
+   "centredMeanCfs": 0.2475,
+   "intervalMeanCfs": 0.08249999999999999
+  },
+  {
+   "time": "2026-11-02T17:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0075,
+   "intervalMeanCfs": 0.0
+  },
+  {
+   "time": "2026-11-02T18:00:00Z",
+   "topOfHourCfs": 0.0,
+   "centredMeanCfs": 0.0,
+   "intervalMeanCfs": 0.0
+  }
+ ],
+ "refetchCheck": {
+  "file": ".sfincs-runs/brawley-avra-west-usgs-v2x/iv_09487000_refetch.json",
+  "sha256": "76fdfd4d16bcbc64239c8e5ad2d8321f5b148d634cb1486947af04dfd9635175",
+  "url": "http://waterservices.usgs.gov/nwis/iv/format=json&sites=09487000&parameterCd=00060&startDT=2026-10-30T00:00-07:00&endDT=2026-11-03T23:59-07:00",
+  "readings": 480,
+  "common": 480,
+  "onlyInCommitted": 0,
+  "onlyInRefetch": 0,
+  "changedValues": [],
+  "changedCount": 0,
+  "qualifiers": [
+   "P"
+  ]
+ }
+}

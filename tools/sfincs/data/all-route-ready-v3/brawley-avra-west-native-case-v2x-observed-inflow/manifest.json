@@ -1,0 +1,53 @@
+{
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "kind": "prepared_native_case",
+  "caseId": "brawley-avra-west-native-case-v2x-observed-inflow",
+  "runReady": true,
+  "solverExecuted": false,
+  "approvedExecutionCapSeconds": 7200,
+  "archiveBytes": 151096282,
+  "archiveSha256": "772113fc005ba3d2a8e9ffcaac4c76715b922922b2f3372de23c232415dd41a5",
+  "parts": [
+    {
+      "path": "case.part01",
+      "bytes": 40000000,
+      "sha256": "567bf8488cae11ebc9bd917c7e005abe9625adb6fdf97695d8da5bb143972441"
+    },
+    {
+      "path": "case.part02",
+      "bytes": 40000000,
+      "sha256": "afe2fe6e38ff662bea2f8aa55467c395ce2ca7703762cbbaedf49ce79ee77945"
+    },
+    {
+      "path": "case.part03",
+      "bytes": 40000000,
+      "sha256": "8abeba3fad856c5dc52ff24366be215dcae32aba02c792554aeab38fd6a430c1"
+    },
+    {
+      "path": "case.part04",
+      "bytes": 31096282,
+      "sha256": "7a8ddb0abd0de1fff36682602b656d4504da3d24520789152a50ec22a155bd12"
+    }
+  ],
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T18:00:00Z",
+  "gridCells": 643056,
+  "inlets": 1,
+  "scope": {
+    "status": "brawley_avra_west_version3",
+    "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+    "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+    "areaKm2": 1240.369838309587,
+    "externalInlets": [
+      {
+        "reachId": "15876941",
+        "receivingReachId": "15876923"
+      }
+    ],
+    "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+    "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+  },
+  "executionAuthorization": "orchestrator_task_brawley_avra_west_extended_window_validation_cap_7200_experimental_branch_only"
+}
