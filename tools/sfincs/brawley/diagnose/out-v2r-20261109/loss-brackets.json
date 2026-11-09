@@ -1,0 +1,123 @@
+{
+ "label": "DIAGNOSTIC BRACKETS, not model inputs, not tuned",
+ "area": "Black Wash 15876815 upstream (603.3 km2)",
+ "eventRainMm": 36.56,
+ "cnAreaMean": {
+  "ARC II (as run)": 82.2,
+  "ARC I": 66.1
+ },
+ "scsBrackets": {
+  "as run (cna, cumulative since 10-30T16Z, Ia 0.2S, ARC II)": {
+   "runoffMm": 17.13,
+   "runoffVolMm3": 10.335,
+   "C": 0.469
+  },
+  "event-only accumulation from 11-01T14Z (fully recovered storage), Ia 0.2S, ARC II": {
+   "runoffMm": 8.52,
+   "runoffVolMm3": 5.14,
+   "C": 0.233
+  },
+  "ARC I, cumulative since 10-30T16Z, Ia 0.2S": {
+   "runoffMm": 4.97,
+   "runoffVolMm3": 2.996,
+   "C": 0.136
+  },
+  "ARC I, event-only from 11-01T14Z": {
+   "runoffMm": 1.39,
+   "runoffVolMm3": 0.836,
+   "C": 0.038
+  },
+  "Ia 0.05S with S0.05=1.33 S0.2^1.15, cumulative since 10-30T16Z": {
+   "runoffMm": 16.44,
+   "runoffVolMm3": 9.918,
+   "C": 0.45
+  }
+ },
+ "wettedExposure17Zto18Z": {
+  "frames": 101,
+  "frameHours": 0.25,
+  "channelMaskFacesInArea": 1584,
+  "channelMaskFaceAreaKm2": 0.563,
+  "byThreshold": {
+   "cellMeanDepth>=0.05m": {
+    "wetAreaHoursKm2h": 391.03,
+    "channelMaskWetAreaHoursKm2h": 6.546,
+    "lossM3_at_K_mmh": {
+     "6": {
+      "allWetCells": 2346150,
+      "channelMaskOnly": 39278
+     },
+     "25": {
+      "allWetCells": 9775625,
+      "channelMaskOnly": 163658
+     },
+     "51": {
+      "allWetCells": 19942276,
+      "channelMaskOnly": 333862
+     },
+     "76": {
+      "allWetCells": 29717901,
+      "channelMaskOnly": 497520
+     },
+     "127": {
+      "allWetCells": 49660177,
+      "channelMaskOnly": 831382
+     }
+    }
+   },
+   "cellMeanDepth>=0.10m": {
+    "wetAreaHoursKm2h": 179.12,
+    "channelMaskWetAreaHoursKm2h": 4.675,
+    "lossM3_at_K_mmh": {
+     "6": {
+      "allWetCells": 1074745,
+      "channelMaskOnly": 28053
+     },
+     "25": {
+      "allWetCells": 4478105,
+      "channelMaskOnly": 116885
+     },
+     "51": {
+      "allWetCells": 9135334,
+      "channelMaskOnly": 238446
+     },
+     "76": {
+      "allWetCells": 13613438,
+      "channelMaskOnly": 355332
+     },
+     "127": {
+      "allWetCells": 22748772,
+      "channelMaskOnly": 593778
+     }
+    }
+   },
+   "cellMeanDepth>=0.30m": {
+    "wetAreaHoursKm2h": 42.06,
+    "channelMaskWetAreaHoursKm2h": 3.162,
+    "lossM3_at_K_mmh": {
+     "6": {
+      "allWetCells": 252348,
+      "channelMaskOnly": 18973
+     },
+     "25": {
+      "allWetCells": 1051449,
+      "channelMaskOnly": 79055
+     },
+     "51": {
+      "allWetCells": 2144956,
+      "channelMaskOnly": 161272
+     },
+     "76": {
+      "allWetCells": 3196406,
+      "channelMaskOnly": 240326
+     },
+     "127": {
+      "allWetCells": 5341362,
+      "channelMaskOnly": 401598
+     }
+    }
+   }
+  },
+  "note": "frames start 11-01T17Z, so 14-17Z wetting is not counted; model infiltration on these cells is only the rain that falls on them (SFINCS cna does not infiltrate ponded or routed water)"
+ }
+}

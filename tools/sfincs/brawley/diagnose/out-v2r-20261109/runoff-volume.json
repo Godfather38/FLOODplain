@@ -1,0 +1,690 @@
+{
+ "label": "DIAGNOSIS of SENSITIVITY run v2r 42555458619; read-only; nothing tuned",
+ "run": ".sfincs-runs/brawley-avra-west-result-v2r-42555458619/artifact/runs/current",
+ "units": {
+  "scsFileAttrs": "units=inches (infiltration.nc)",
+  "mapQinfOverScs": [
+   0.025399998904267106,
+   0.025400000994967798
+  ],
+  "meaning": "the solver multiplied the file value by 0.0254 (inches -> m), as its source says"
+ },
+ "areas": {
+  "Black Wash 15876815 (gauge reach)": {
+   "reaches": 63,
+   "catchmentsFound": 63,
+   "catchmentAreaKm2": 603.33,
+   "modelFaces": 213549,
+   "modelFaceAreaKm2": 603.27,
+   "faceAreaByLevelKm2": {
+    "L1 100 m": 555.79,
+    "L2 50 m": 29.8,
+    "L3 25 m": 6.88,
+    "L4 12.5 m": 7.37,
+    "L5 6.25 m": 3.43
+   }
+  },
+  "Brawley 15877627 local (inlet 15876941 excluded)": {
+   "reaches": 14,
+   "catchmentsFound": 14,
+   "catchmentAreaKm2": 88.83,
+   "modelFaces": 58927,
+   "modelFaceAreaKm2": 88.94,
+   "faceAreaByLevelKm2": {
+    "L1 100 m": 64.27,
+    "L2 50 m": 11.0,
+    "L3 25 m": 8.73,
+    "L4 12.5 m": 4.8,
+    "L5 6.25 m": 0.13
+   }
+  },
+  "Union (both, = combined flow at Mile Wide)": {
+   "reaches": 77,
+   "catchmentsFound": 77,
+   "catchmentAreaKm2": 692.16,
+   "modelFaces": 272476,
+   "modelFaceAreaKm2": 692.21,
+   "faceAreaByLevelKm2": {
+    "L1 100 m": 620.06,
+    "L2 50 m": 40.8,
+    "L3 25 m": 15.61,
+    "L4 12.5 m": 12.17,
+    "L5 6.25 m": 3.57
+   }
+  }
+ },
+ "rainReconstruction": {
+  "rule": "bilinear, grid coordinates shifted +0.5 cell (x and y); hourly block",
+  "maxAbsDiffVsMapRateMmH": 0.0164,
+  "framesChecked": 25,
+  "cumprcpEndDiffMm_p0_p50_p100": [
+   -0.0772,
+   0.0,
+   0.081
+  ]
+ },
+ "scsCheck": {
+  "formula": "Q=(P-0.2S)^2/(P+0.8S) on cumulative rain since tstart 2026-10-30T16Z",
+  "cuminfDiffMm_p0_p50_p100": [
+   -0.03759,
+   1e-05,
+   0.02655
+  ]
+ },
+ "budget": {
+  "Black Wash 15876815 (gauge reach)": {
+   "antecedent 2026-10-30T16Z..11-01T14Z": {
+    "rainMm": 15.38,
+    "rainVolMm3": 9.277,
+    "runoffMm": 0.79,
+    "runoffVolMm3": 0.477,
+    "infiltrationMm": 14.59,
+    "runoffCoefficient": 0.051
+   },
+   "burst 11-01T14Z..18Z": {
+    "rainMm": 24.6,
+    "rainVolMm3": 14.842,
+    "runoffMm": 9.68,
+    "runoffVolMm3": 5.838,
+    "infiltrationMm": 14.92,
+    "runoffCoefficient": 0.393
+   },
+   "11-01T18Z..11-02T07Z": {
+    "rainMm": 7.94,
+    "rainVolMm3": 4.792,
+    "runoffMm": 4.81,
+    "runoffVolMm3": 2.9,
+    "infiltrationMm": 3.14,
+    "runoffCoefficient": 0.605
+   },
+   "11-02T07Z..18Z": {
+    "rainMm": 4.02,
+    "rainVolMm3": 2.422,
+    "runoffMm": 2.65,
+    "runoffVolMm3": 1.597,
+    "infiltrationMm": 1.37,
+    "runoffCoefficient": 0.659
+   },
+   "event 11-01T14Z..11-02T18Z": {
+    "rainMm": 36.56,
+    "rainVolMm3": 22.056,
+    "runoffMm": 17.13,
+    "runoffVolMm3": 10.335,
+    "infiltrationMm": 19.43,
+    "runoffCoefficient": 0.469
+   },
+   "whole run": {
+    "rainMm": 51.94,
+    "rainVolMm3": 31.333,
+    "runoffMm": 17.92,
+    "runoffVolMm3": 10.812,
+    "infiltrationMm": 34.02,
+    "runoffCoefficient": 0.345
+   },
+   "retention": {
+    "scsInchesAreaMean": 2.19,
+    "S_mmAreaMean": 55.6,
+    "IaMmAreaMean": 11.1,
+    "fractionOfAreaAlreadyPastIaAt14Z": 0.911,
+    "cnEquivalentAreaMean": 82.2
+   },
+   "hourly": {
+    "2026-11-01 12Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-01 13Z": {
+     "rainMm": 0.05,
+     "runoffMm3": 0.0046
+    },
+    "2026-11-01 14Z": {
+     "rainMm": 1.32,
+     "runoffMm3": 0.1566
+    },
+    "2026-11-01 15Z": {
+     "rainMm": 2.22,
+     "runoffMm3": 0.3407
+    },
+    "2026-11-01 16Z": {
+     "rainMm": 10.14,
+     "runoffMm3": 2.1103
+    },
+    "2026-11-01 17Z": {
+     "rainMm": 10.92,
+     "runoffMm3": 3.2307
+    },
+    "2026-11-01 18Z": {
+     "rainMm": 2.49,
+     "runoffMm3": 0.8693
+    },
+    "2026-11-01 19Z": {
+     "rainMm": 1.27,
+     "runoffMm3": 0.4564
+    },
+    "2026-11-01 20Z": {
+     "rainMm": 2.3,
+     "runoffMm3": 0.8525
+    },
+    "2026-11-01 21Z": {
+     "rainMm": 1.08,
+     "runoffMm3": 0.4058
+    },
+    "2026-11-01 22Z": {
+     "rainMm": 0.11,
+     "runoffMm3": 0.041
+    },
+    "2026-11-01 23Z": {
+     "rainMm": 0.01,
+     "runoffMm3": 0.0028
+    },
+    "2026-11-02 00Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 01Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 02Z": {
+     "rainMm": 0.16,
+     "runoffMm3": 0.0623
+    },
+    "2026-11-02 03Z": {
+     "rainMm": 0.39,
+     "runoffMm3": 0.1566
+    },
+    "2026-11-02 04Z": {
+     "rainMm": 0.03,
+     "runoffMm3": 0.0108
+    },
+    "2026-11-02 05Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 06Z": {
+     "rainMm": 0.1,
+     "runoffMm3": 0.0422
+    },
+    "2026-11-02 07Z": {
+     "rainMm": 1.18,
+     "runoffMm3": 0.4654
+    },
+    "2026-11-02 08Z": {
+     "rainMm": 2.09,
+     "runoffMm3": 0.8346
+    },
+    "2026-11-02 09Z": {
+     "rainMm": 0.58,
+     "runoffMm3": 0.2326
+    },
+    "2026-11-02 10Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0002
+    },
+    "2026-11-02 11Z": {
+     "rainMm": 0.02,
+     "runoffMm3": 0.0069
+    },
+    "2026-11-02 12Z": {
+     "rainMm": 0.06,
+     "runoffMm3": 0.0235
+    },
+    "2026-11-02 13Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0002
+    },
+    "2026-11-02 14Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 15Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 16Z": {
+     "rainMm": 0.08,
+     "runoffMm3": 0.0335
+    },
+    "2026-11-02 17Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    }
+   }
+  },
+  "Brawley 15877627 local (inlet 15876941 excluded)": {
+   "antecedent 2026-10-30T16Z..11-01T14Z": {
+    "rainMm": 25.36,
+    "rainVolMm3": 2.256,
+    "runoffMm": 3.36,
+    "runoffVolMm3": 0.299,
+    "infiltrationMm": 22.0,
+    "runoffCoefficient": 0.133
+   },
+   "burst 11-01T14Z..18Z": {
+    "rainMm": 18.91,
+    "rainVolMm3": 1.682,
+    "runoffMm": 9.41,
+    "runoffVolMm3": 0.837,
+    "infiltrationMm": 9.5,
+    "runoffCoefficient": 0.498
+   },
+   "11-01T18Z..11-02T07Z": {
+    "rainMm": 12.37,
+    "rainVolMm3": 1.1,
+    "runoffMm": 8.19,
+    "runoffVolMm3": 0.728,
+    "infiltrationMm": 4.18,
+    "runoffCoefficient": 0.662
+   },
+   "11-02T07Z..18Z": {
+    "rainMm": 2.48,
+    "rainVolMm3": 0.22,
+    "runoffMm": 1.71,
+    "runoffVolMm3": 0.152,
+    "infiltrationMm": 0.77,
+    "runoffCoefficient": 0.69
+   },
+   "event 11-01T14Z..11-02T18Z": {
+    "rainMm": 33.76,
+    "rainVolMm3": 3.002,
+    "runoffMm": 19.31,
+    "runoffVolMm3": 1.717,
+    "infiltrationMm": 14.45,
+    "runoffCoefficient": 0.572
+   },
+   "whole run": {
+    "rainMm": 59.12,
+    "rainVolMm3": 5.258,
+    "runoffMm": 22.67,
+    "runoffVolMm3": 2.016,
+    "infiltrationMm": 36.45,
+    "runoffCoefficient": 0.384
+   },
+   "retention": {
+    "scsInchesAreaMean": 2.198,
+    "S_mmAreaMean": 55.8,
+    "IaMmAreaMean": 11.2,
+    "fractionOfAreaAlreadyPastIaAt14Z": 0.96,
+    "cnEquivalentAreaMean": 82.1
+   },
+   "hourly": {
+    "2026-11-01 12Z": {
+     "rainMm": 0.04,
+     "runoffMm3": 0.0013
+    },
+    "2026-11-01 13Z": {
+     "rainMm": 0.11,
+     "runoffMm3": 0.0036
+    },
+    "2026-11-01 14Z": {
+     "rainMm": 5.01,
+     "runoffMm3": 0.1934
+    },
+    "2026-11-01 15Z": {
+     "rainMm": 6.91,
+     "runoffMm3": 0.301
+    },
+    "2026-11-01 16Z": {
+     "rainMm": 5.22,
+     "runoffMm3": 0.2484
+    },
+    "2026-11-01 17Z": {
+     "rainMm": 1.78,
+     "runoffMm3": 0.0944
+    },
+    "2026-11-01 18Z": {
+     "rainMm": 1.73,
+     "runoffMm3": 0.0939
+    },
+    "2026-11-01 19Z": {
+     "rainMm": 1.71,
+     "runoffMm3": 0.096
+    },
+    "2026-11-01 20Z": {
+     "rainMm": 1.55,
+     "runoffMm3": 0.0879
+    },
+    "2026-11-01 21Z": {
+     "rainMm": 0.25,
+     "runoffMm3": 0.0147
+    },
+    "2026-11-01 22Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-01 23Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 00Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 01Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 02Z": {
+     "rainMm": 1.67,
+     "runoffMm3": 0.0994
+    },
+    "2026-11-02 03Z": {
+     "rainMm": 4.34,
+     "runoffMm3": 0.2667
+    },
+    "2026-11-02 04Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 05Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 06Z": {
+     "rainMm": 1.11,
+     "runoffMm3": 0.07
+    },
+    "2026-11-02 07Z": {
+     "rainMm": 1.25,
+     "runoffMm3": 0.0762
+    },
+    "2026-11-02 08Z": {
+     "rainMm": 0.52,
+     "runoffMm3": 0.0315
+    },
+    "2026-11-02 09Z": {
+     "rainMm": 0.11,
+     "runoffMm3": 0.0062
+    },
+    "2026-11-02 10Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 11Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 12Z": {
+     "rainMm": 0.52,
+     "runoffMm3": 0.0334
+    },
+    "2026-11-02 13Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 14Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 15Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 16Z": {
+     "rainMm": 0.08,
+     "runoffMm3": 0.0045
+    },
+    "2026-11-02 17Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    }
+   }
+  },
+  "Union (both, = combined flow at Mile Wide)": {
+   "antecedent 2026-10-30T16Z..11-01T14Z": {
+    "rainMm": 16.66,
+    "rainVolMm3": 11.533,
+    "runoffMm": 1.12,
+    "runoffVolMm3": 0.776,
+    "infiltrationMm": 15.54,
+    "runoffCoefficient": 0.067
+   },
+   "burst 11-01T14Z..18Z": {
+    "rainMm": 23.87,
+    "rainVolMm3": 16.524,
+    "runoffMm": 9.64,
+    "runoffVolMm3": 6.676,
+    "infiltrationMm": 14.23,
+    "runoffCoefficient": 0.404
+   },
+   "11-01T18Z..11-02T07Z": {
+    "rainMm": 8.51,
+    "rainVolMm3": 5.892,
+    "runoffMm": 5.24,
+    "runoffVolMm3": 3.628,
+    "infiltrationMm": 3.27,
+    "runoffCoefficient": 0.616
+   },
+   "11-02T07Z..18Z": {
+    "rainMm": 3.82,
+    "rainVolMm3": 2.643,
+    "runoffMm": 2.53,
+    "runoffVolMm3": 1.749,
+    "infiltrationMm": 1.29,
+    "runoffCoefficient": 0.662
+   },
+   "event 11-01T14Z..11-02T18Z": {
+    "rainMm": 36.2,
+    "rainVolMm3": 25.058,
+    "runoffMm": 17.41,
+    "runoffVolMm3": 12.052,
+    "infiltrationMm": 18.79,
+    "runoffCoefficient": 0.481
+   },
+   "whole run": {
+    "rainMm": 52.86,
+    "rainVolMm3": 36.591,
+    "runoffMm": 18.53,
+    "runoffVolMm3": 12.829,
+    "infiltrationMm": 34.33,
+    "runoffCoefficient": 0.351
+   },
+   "retention": {
+    "scsInchesAreaMean": 2.191,
+    "S_mmAreaMean": 55.6,
+    "IaMmAreaMean": 11.1,
+    "fractionOfAreaAlreadyPastIaAt14Z": 0.917,
+    "cnEquivalentAreaMean": 82.2
+   },
+   "hourly": {
+    "2026-11-01 12Z": {
+     "rainMm": 0.01,
+     "runoffMm3": 0.0013
+    },
+    "2026-11-01 13Z": {
+     "rainMm": 0.06,
+     "runoffMm3": 0.0082
+    },
+    "2026-11-01 14Z": {
+     "rainMm": 1.8,
+     "runoffMm3": 0.35
+    },
+    "2026-11-01 15Z": {
+     "rainMm": 2.82,
+     "runoffMm3": 0.6417
+    },
+    "2026-11-01 16Z": {
+     "rainMm": 9.51,
+     "runoffMm3": 2.3588
+    },
+    "2026-11-01 17Z": {
+     "rainMm": 9.74,
+     "runoffMm3": 3.3251
+    },
+    "2026-11-01 18Z": {
+     "rainMm": 2.39,
+     "runoffMm3": 0.9633
+    },
+    "2026-11-01 19Z": {
+     "rainMm": 1.33,
+     "runoffMm3": 0.5524
+    },
+    "2026-11-01 20Z": {
+     "rainMm": 2.2,
+     "runoffMm3": 0.9404
+    },
+    "2026-11-01 21Z": {
+     "rainMm": 0.97,
+     "runoffMm3": 0.4204
+    },
+    "2026-11-01 22Z": {
+     "rainMm": 0.1,
+     "runoffMm3": 0.041
+    },
+    "2026-11-01 23Z": {
+     "rainMm": 0.01,
+     "runoffMm3": 0.0028
+    },
+    "2026-11-02 00Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 01Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 02Z": {
+     "rainMm": 0.35,
+     "runoffMm3": 0.1617
+    },
+    "2026-11-02 03Z": {
+     "rainMm": 0.9,
+     "runoffMm3": 0.4232
+    },
+    "2026-11-02 04Z": {
+     "rainMm": 0.02,
+     "runoffMm3": 0.0108
+    },
+    "2026-11-02 05Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 06Z": {
+     "rainMm": 0.23,
+     "runoffMm3": 0.1122
+    },
+    "2026-11-02 07Z": {
+     "rainMm": 1.19,
+     "runoffMm3": 0.5416
+    },
+    "2026-11-02 08Z": {
+     "rainMm": 1.89,
+     "runoffMm3": 0.8661
+    },
+    "2026-11-02 09Z": {
+     "rainMm": 0.52,
+     "runoffMm3": 0.2388
+    },
+    "2026-11-02 10Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0002
+    },
+    "2026-11-02 11Z": {
+     "rainMm": 0.01,
+     "runoffMm3": 0.0069
+    },
+    "2026-11-02 12Z": {
+     "rainMm": 0.12,
+     "runoffMm3": 0.0569
+    },
+    "2026-11-02 13Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0002
+    },
+    "2026-11-02 14Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 15Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    },
+    "2026-11-02 16Z": {
+     "rainMm": 0.08,
+     "runoffMm3": 0.038
+    },
+    "2026-11-02 17Z": {
+     "rainMm": 0.0,
+     "runoffMm3": 0.0
+    }
+   }
+  }
+ },
+ "observedVolumeM3": {
+  "reportsInSeries": 112,
+  "rule": "linear between reports (reports are event-driven + hourly; the value between reports is not measured)",
+  "11-01T16:20Z..11-02T18Z (whole observed event)": 1884452,
+  "11-01T18Z..11-02T18Z (as in section 13)": 1782748,
+  "11-01T16:20Z..11-02T08:45Z (suspect plateau excluded)": 1489456,
+  "plateau 08:45Z..16:20Z alone": 328393
+ },
+ "modelSectionVolume18Zto18Z": {
+  "Mile Wide Black Wash 15876815 band (ALERT 6443)": {
+   "18Zto18ZM3": 7564653,
+   "stillFlowingAt18ZM3s": 58.87
+  },
+  "Mile Wide Brawley 15877627 band": {
+   "18Zto18ZM3": 707283,
+   "stillFlowingAt18ZM3s": 5.16
+  },
+  "Mile Wide both bands": {
+   "18Zto18ZM3": 8271943,
+   "stillFlowingAt18ZM3s": 64.03
+  },
+  "Donaldson Ranch (15877627)": {
+   "18Zto18ZM3": 1417991,
+   "stillFlowingAt18ZM3s": 4.93
+  }
+ },
+ "inletInflowM3_11-01T14Z..11-02T18Z": 955908,
+ "inletPeak": {
+  "m3s": 48.42,
+  "time": "2026-11-01 22:00:00"
+ },
+ "impliedRunoffCoefficients": {
+  "Black Wash 15876815 (gauge reach)": {
+   "eventRainVolMm3": 22.056,
+   "modelRunoffVolMm3": 10.335,
+   "modelC": 0.469,
+   "observedC_wholeEvent": 0.0854,
+   "observedC_plateauExcluded": 0.0675
+  },
+  "Brawley 15877627 local (inlet 15876941 excluded)": {
+   "eventRainVolMm3": 3.002,
+   "modelRunoffVolMm3": 1.717,
+   "modelC": 0.572,
+   "observedC_wholeEvent": 0.6277,
+   "observedC_plateauExcluded": 0.4962
+  },
+  "Union (both, = combined flow at Mile Wide)": {
+   "eventRainVolMm3": 25.058,
+   "modelRunoffVolMm3": 12.052,
+   "modelC": 0.481,
+   "observedC_wholeEvent": 0.0752,
+   "observedC_plateauExcluded": 0.0594
+  }
+ },
+ "channelMask": {
+  "source": ".sfincs-runs/brawley-avra-west-parameters-v2n/channel-mask.geojson (lidar-centred, order>=3)",
+  "maskAreaKm2": 2.099,
+  "facesWithCentreInMask": 8752,
+  "Black Wash 15876815 (gauge reach)": {
+   "faces": 1584,
+   "faceAreaKm2": 0.563,
+   "eventInfiltrationOnChannelFacesM3": 10726,
+   "scsInchesMean": 2.252
+  },
+  "Brawley 15877627 local (inlet 15876941 excluded)": {
+   "faces": 2832,
+   "faceAreaKm2": 0.506,
+   "eventInfiltrationOnChannelFacesM3": 8515,
+   "scsInchesMean": 2.233
+  },
+  "Union (both, = combined flow at Mile Wide)": {
+   "faces": 4416,
+   "faceAreaKm2": 1.069,
+   "eventInfiltrationOnChannelFacesM3": 19241,
+   "scsInchesMean": 2.24
+  }
+ }
+}

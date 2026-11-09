@@ -1,0 +1,2729 @@
+{
+ "label": "DIAGNOSIS of SENSITIVITY run v2r 42555458619; read-only",
+ "frames": [
+  "2026-11-01 17:00:00",
+  "2026-11-02 18:00:00",
+  101
+ ],
+ "note": "map frames start 2026-11-01T17Z; any peak before 17Z is not visible and shows as a 17Z start or a falling series",
+ "blackWash": {
+  "levelPath": 720016019,
+  "reaches(NHD comids, upstream first)": [
+   15904845,
+   15902567,
+   15876935,
+   15876909,
+   15876889,
+   15876887,
+   945050036,
+   945050110,
+   15876869,
+   15876843,
+   15876839,
+   15876835,
+   15876829,
+   15876827,
+   15876823,
+   15876819,
+   15876815
+  ],
+  "lengthKm": 43.04,
+  "radiusM": 75.0,
+  "points": [
+   {
+    "distKm": 0.0,
+    "face": 94239,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.12543,
+     31.98383
+    ],
+    "zb": 1107.76,
+    "depth17Z": 0.014,
+    "peakDepth": 0.018,
+    "zsmaxWindowDepth": 0.018,
+    "riseM": 0.003,
+    "peakTime": "11-01T17:30Z",
+    "peakH": 17.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.004
+   },
+   {
+    "distKm": 1.0,
+    "face": 96263,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.11803,
+     31.98925
+    ],
+    "zb": 1083.57,
+    "depth17Z": 0.069,
+    "peakDepth": 0.177,
+    "zsmaxWindowDepth": 0.177,
+    "riseM": 0.108,
+    "peakTime": "11-01T18:00Z",
+    "peakH": 18.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:30Z",
+    "halfRiseH": 17.5,
+    "cellMeanDepthAtPeak": 0.025
+   },
+   {
+    "distKm": 2.0,
+    "face": 96556,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.11698,
+     31.99737
+    ],
+    "zb": 1063.25,
+    "depth17Z": 0.033,
+    "peakDepth": 0.082,
+    "zsmaxWindowDepth": 0.082,
+    "riseM": 0.048,
+    "peakTime": "11-01T18:00Z",
+    "peakH": 18.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.01
+   },
+   {
+    "distKm": 3.0,
+    "face": 97378,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.11382,
+     32.00459
+    ],
+    "zb": 1040.56,
+    "depth17Z": 0.043,
+    "peakDepth": 0.114,
+    "zsmaxWindowDepth": 0.114,
+    "riseM": 0.071,
+    "peakTime": "11-01T18:00Z",
+    "peakH": 18.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:30Z",
+    "halfRiseH": 17.5,
+    "cellMeanDepthAtPeak": 0.023
+   },
+   {
+    "distKm": 4.0,
+    "face": 98141,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.11065,
+     32.01091
+    ],
+    "zb": 1025.98,
+    "depth17Z": 0.046,
+    "peakDepth": 0.221,
+    "zsmaxWindowDepth": 0.222,
+    "riseM": 0.176,
+    "peakTime": "11-01T18:15Z",
+    "peakH": 18.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:45Z",
+    "halfRiseH": 17.75,
+    "cellMeanDepthAtPeak": 0.034
+   },
+   {
+    "distKm": 5.0,
+    "face": 98387,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.1096,
+     32.01903
+    ],
+    "zb": 1006.94,
+    "depth17Z": 0.025,
+    "peakDepth": 0.081,
+    "zsmaxWindowDepth": 0.082,
+    "riseM": 0.056,
+    "peakTime": "11-01T18:30Z",
+    "peakH": 18.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:45Z",
+    "halfRiseH": 17.75,
+    "cellMeanDepthAtPeak": 0.013
+   },
+   {
+    "distKm": 6.0,
+    "face": 99284,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.10537,
+     32.02715
+    ],
+    "zb": 980.94,
+    "depth17Z": 0.039,
+    "peakDepth": 0.125,
+    "zsmaxWindowDepth": 0.126,
+    "riseM": 0.086,
+    "peakTime": "11-01T19:15Z",
+    "peakH": 19.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:45Z",
+    "halfRiseH": 17.75,
+    "cellMeanDepthAtPeak": 0.019
+   },
+   {
+    "distKm": 7.0,
+    "face": 100710,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.09796,
+     32.03257
+    ],
+    "zb": 960.0,
+    "depth17Z": 0.012,
+    "peakDepth": 0.045,
+    "zsmaxWindowDepth": 0.046,
+    "riseM": 0.033,
+    "peakTime": "11-01T20:00Z",
+    "peakH": 20.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.009
+   },
+   {
+    "distKm": 8.0,
+    "face": 101497,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.09374,
+     32.03979
+    ],
+    "zb": 936.57,
+    "depth17Z": 0.01,
+    "peakDepth": 0.061,
+    "zsmaxWindowDepth": 0.061,
+    "riseM": 0.051,
+    "peakTime": "11-01T20:30Z",
+    "peakH": 20.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:30Z",
+    "halfRiseH": 17.5,
+    "cellMeanDepthAtPeak": 0.008
+   },
+   {
+    "distKm": 9.0,
+    "face": 102595,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.08739,
+     32.04701
+    ],
+    "zb": 908.68,
+    "depth17Z": 0.01,
+    "peakDepth": 0.055,
+    "zsmaxWindowDepth": 0.056,
+    "riseM": 0.045,
+    "peakTime": "11-01T18:00Z",
+    "peakH": 18.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.006
+   },
+   {
+    "distKm": 10.0,
+    "face": 103312,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.08316,
+     32.05513
+    ],
+    "zb": 883.36,
+    "depth17Z": 0.01,
+    "peakDepth": 0.048,
+    "zsmaxWindowDepth": 0.048,
+    "riseM": 0.038,
+    "peakTime": "11-01T18:45Z",
+    "peakH": 18.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.008
+   },
+   {
+    "distKm": 11.0,
+    "face": 103825,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.07999,
+     32.06326
+    ],
+    "zb": 861.32,
+    "depth17Z": 0.018,
+    "peakDepth": 0.112,
+    "zsmaxWindowDepth": 0.112,
+    "riseM": 0.094,
+    "peakTime": "11-01T19:15Z",
+    "peakH": 19.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:45Z",
+    "halfRiseH": 17.75,
+    "cellMeanDepthAtPeak": 0.013
+   },
+   {
+    "distKm": 12.0,
+    "face": 103992,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.07893,
+     32.07138
+    ],
+    "zb": 845.53,
+    "depth17Z": 0.013,
+    "peakDepth": 0.078,
+    "zsmaxWindowDepth": 0.078,
+    "riseM": 0.064,
+    "peakTime": "11-01T20:00Z",
+    "peakH": 20.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:00Z",
+    "halfRiseH": 18.0,
+    "cellMeanDepthAtPeak": 0.01
+   },
+   {
+    "distKm": 13.0,
+    "face": 104150,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.07788,
+     32.0804
+    ],
+    "zb": 829.38,
+    "depth17Z": 0.011,
+    "peakDepth": 0.189,
+    "zsmaxWindowDepth": 0.189,
+    "riseM": 0.179,
+    "peakTime": "11-01T20:45Z",
+    "peakH": 20.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:00Z",
+    "halfRiseH": 18.0,
+    "cellMeanDepthAtPeak": 0.024
+   },
+   {
+    "distKm": 14.0,
+    "face": 104603,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.07471,
+     32.08762
+    ],
+    "zb": 818.44,
+    "depth17Z": 0.009,
+    "peakDepth": 0.342,
+    "zsmaxWindowDepth": 0.348,
+    "riseM": 0.333,
+    "peakTime": "11-01T18:15Z",
+    "peakH": 18.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:45Z",
+    "halfRiseH": 17.75,
+    "cellMeanDepthAtPeak": 0.043
+   },
+   {
+    "distKm": 15.0,
+    "face": 105043,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.07154,
+     32.09574
+    ],
+    "zb": 808.43,
+    "depth17Z": 0.01,
+    "peakDepth": 0.117,
+    "zsmaxWindowDepth": 0.117,
+    "riseM": 0.107,
+    "peakTime": "11-01T18:45Z",
+    "peakH": 18.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:15Z",
+    "halfRiseH": 18.25,
+    "cellMeanDepthAtPeak": 0.012
+   },
+   {
+    "distKm": 16.0,
+    "face": 105302,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.06942,
+     32.10476
+    ],
+    "zb": 795.18,
+    "depth17Z": 0.009,
+    "peakDepth": 0.047,
+    "zsmaxWindowDepth": 0.047,
+    "riseM": 0.038,
+    "peakTime": "11-01T19:30Z",
+    "peakH": 19.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.007
+   },
+   {
+    "distKm": 17.0,
+    "face": 105545,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.06731,
+     32.11288
+    ],
+    "zb": 784.88,
+    "depth17Z": 0.016,
+    "peakDepth": 0.036,
+    "zsmaxWindowDepth": 0.036,
+    "riseM": 0.02,
+    "peakTime": "11-01T17:45Z",
+    "peakH": 17.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.007
+   },
+   {
+    "distKm": 18.0,
+    "face": 105319,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.06944,
+     32.1201
+    ],
+    "zb": 777.49,
+    "depth17Z": 0.021,
+    "peakDepth": 0.117,
+    "zsmaxWindowDepth": 0.118,
+    "riseM": 0.096,
+    "peakTime": "11-01T18:15Z",
+    "peakH": 18.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:45Z",
+    "halfRiseH": 17.75,
+    "cellMeanDepthAtPeak": 0.021
+   },
+   {
+    "distKm": 19.0,
+    "face": 104199,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.07792,
+     32.1246
+    ],
+    "zb": 773.18,
+    "depth17Z": 0.033,
+    "peakDepth": 0.277,
+    "zsmaxWindowDepth": 0.278,
+    "riseM": 0.244,
+    "peakTime": "11-01T18:30Z",
+    "peakH": 18.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:00Z",
+    "halfRiseH": 18.0,
+    "cellMeanDepthAtPeak": 0.042
+   },
+   {
+    "distKm": 20.0,
+    "face": 102685,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.08746,
+     32.12821
+    ],
+    "zb": 768.73,
+    "depth17Z": NaN,
+    "peakDepth": 0.388,
+    "zsmaxWindowDepth": 0.388,
+    "riseM": NaN,
+    "peakTime": "11-01T21:45Z",
+    "peakH": 21.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.037
+   },
+   {
+    "distKm": 21.0,
+    "face": 101018,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.09701,
+     32.13271
+    ],
+    "zb": 763.76,
+    "depth17Z": 0.019,
+    "peakDepth": 0.285,
+    "zsmaxWindowDepth": 0.285,
+    "riseM": 0.265,
+    "peakTime": "11-01T22:00Z",
+    "peakH": 22.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T19:45Z",
+    "halfRiseH": 19.75,
+    "cellMeanDepthAtPeak": 0.048
+   },
+   {
+    "distKm": 22.0,
+    "face": 99186,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.10656,
+     32.13541
+    ],
+    "zb": 758.08,
+    "depth17Z": 0.165,
+    "peakDepth": 0.685,
+    "zsmaxWindowDepth": 0.685,
+    "riseM": 0.52,
+    "peakTime": "11-02T00:00Z",
+    "peakH": 24.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:00Z",
+    "halfRiseH": 18.0,
+    "cellMeanDepthAtPeak": 0.055
+   },
+   {
+    "distKm": 23.0,
+    "face": 96993,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.1161,
+     32.13901
+    ],
+    "zb": 752.74,
+    "depth17Z": 0.072,
+    "peakDepth": 0.223,
+    "zsmaxWindowDepth": 0.223,
+    "riseM": 0.151,
+    "peakTime": "11-02T00:45Z",
+    "peakH": 24.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:00Z",
+    "halfRiseH": 18.0,
+    "cellMeanDepthAtPeak": 0.025
+   },
+   {
+    "distKm": 24.0,
+    "face": 94415,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.12565,
+     32.14261
+    ],
+    "zb": 747.02,
+    "depth17Z": 0.155,
+    "peakDepth": 0.396,
+    "zsmaxWindowDepth": 0.396,
+    "riseM": 0.241,
+    "peakTime": "11-01T22:00Z",
+    "peakH": 22.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:30Z",
+    "halfRiseH": 17.5,
+    "cellMeanDepthAtPeak": 0.033
+   },
+   {
+    "distKm": 25.0,
+    "face": 91758,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.1352,
+     32.14621
+    ],
+    "zb": 741.51,
+    "depth17Z": 0.208,
+    "peakDepth": 0.493,
+    "zsmaxWindowDepth": 0.493,
+    "riseM": 0.285,
+    "peakTime": "11-01T21:15Z",
+    "peakH": 21.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:30Z",
+    "halfRiseH": 17.5,
+    "cellMeanDepthAtPeak": 0.104
+   },
+   {
+    "distKm": 26.0,
+    "face": 88451,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.1458,
+     32.1471
+    ],
+    "zb": 736.34,
+    "depth17Z": 0.094,
+    "peakDepth": 0.312,
+    "zsmaxWindowDepth": 0.312,
+    "riseM": 0.218,
+    "peakTime": "11-01T21:30Z",
+    "peakH": 21.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:45Z",
+    "halfRiseH": 17.75,
+    "cellMeanDepthAtPeak": 0.052
+   },
+   {
+    "distKm": 27.0,
+    "face": 85312,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.15535,
+     32.14979
+    ],
+    "zb": 731.74,
+    "depth17Z": 0.053,
+    "peakDepth": 0.268,
+    "zsmaxWindowDepth": 0.268,
+    "riseM": 0.215,
+    "peakTime": "11-01T19:45Z",
+    "peakH": 19.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:15Z",
+    "halfRiseH": 18.25,
+    "cellMeanDepthAtPeak": 0.044
+   },
+   {
+    "distKm": 28.0,
+    "face": 81792,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.16596,
+     32.15158
+    ],
+    "zb": 726.71,
+    "depth17Z": 0.028,
+    "peakDepth": 0.139,
+    "zsmaxWindowDepth": 0.139,
+    "riseM": 0.111,
+    "peakTime": "11-01T20:00Z",
+    "peakH": 20.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:15Z",
+    "halfRiseH": 18.25,
+    "cellMeanDepthAtPeak": 0.028
+   },
+   {
+    "distKm": 29.0,
+    "face": 600264,
+    "cellM": 6.25,
+    "lonlat": [
+     -111.17449,
+     32.15645
+    ],
+    "zb": 720.83,
+    "depth17Z": 0.296,
+    "peakDepth": 0.818,
+    "zsmaxWindowDepth": 0.818,
+    "riseM": 0.522,
+    "peakTime": "11-01T20:30Z",
+    "peakH": 20.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:30Z",
+    "halfRiseH": 18.5,
+    "cellMeanDepthAtPeak": 0.464
+   },
+   {
+    "distKm": 30.0,
+    "face": 195775,
+    "cellM": 25.0,
+    "lonlat": [
+     -111.18255,
+     32.15979
+    ],
+    "zb": 716.84,
+    "depth17Z": 0.18,
+    "peakDepth": 0.893,
+    "zsmaxWindowDepth": 0.893,
+    "riseM": 0.713,
+    "peakTime": "11-01T20:45Z",
+    "peakH": 20.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:15Z",
+    "halfRiseH": 18.25,
+    "cellMeanDepthAtPeak": 0.299
+   },
+   {
+    "distKm": 31.0,
+    "face": 406538,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.19229,
+     32.16175
+    ],
+    "zb": 712.67,
+    "depth17Z": 0.181,
+    "peakDepth": 0.418,
+    "zsmaxWindowDepth": 0.418,
+    "riseM": 0.237,
+    "peakTime": "11-01T21:15Z",
+    "peakH": 21.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T19:45Z",
+    "halfRiseH": 19.75,
+    "cellMeanDepthAtPeak": 0.148
+   },
+   {
+    "distKm": 32.0,
+    "face": 69708,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.20098,
+     32.16507
+    ],
+    "zb": 708.1,
+    "depth17Z": 0.046,
+    "peakDepth": 0.439,
+    "zsmaxWindowDepth": 0.44,
+    "riseM": 0.393,
+    "peakTime": "11-01T21:30Z",
+    "peakH": 21.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T19:00Z",
+    "halfRiseH": 19.0,
+    "cellMeanDepthAtPeak": 0.075
+   },
+   {
+    "distKm": 33.0,
+    "face": 67617,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.20736,
+     32.17227
+    ],
+    "zb": 704.08,
+    "depth17Z": 0.084,
+    "peakDepth": 0.574,
+    "zsmaxWindowDepth": 0.575,
+    "riseM": 0.491,
+    "peakTime": "11-01T21:45Z",
+    "peakH": 21.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:45Z",
+    "halfRiseH": 18.75,
+    "cellMeanDepthAtPeak": 0.219
+   },
+   {
+    "distKm": 34.0,
+    "face": 66930,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.2095,
+     32.17949
+    ],
+    "zb": 701.17,
+    "depth17Z": 0.3,
+    "peakDepth": 1.236,
+    "zsmaxWindowDepth": 1.236,
+    "riseM": 0.936,
+    "peakTime": "11-01T22:00Z",
+    "peakH": 22.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:30Z",
+    "halfRiseH": 18.5,
+    "cellMeanDepthAtPeak": 0.357
+   },
+   {
+    "distKm": 35.0,
+    "face": 66940,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.20952,
+     32.18851
+    ],
+    "zb": 699.69,
+    "depth17Z": 0.122,
+    "peakDepth": 0.627,
+    "zsmaxWindowDepth": 0.627,
+    "riseM": 0.504,
+    "peakTime": "11-01T22:00Z",
+    "peakH": 22.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:00Z",
+    "halfRiseH": 18.0,
+    "cellMeanDepthAtPeak": 0.121
+   },
+   {
+    "distKm": 36.0,
+    "face": 66950,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.20954,
+     32.19753
+    ],
+    "zb": 696.92,
+    "depth17Z": 0.401,
+    "peakDepth": 1.101,
+    "zsmaxWindowDepth": 1.101,
+    "riseM": 0.699,
+    "peakTime": "11-01T20:00Z",
+    "peakH": 20.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:45Z",
+    "halfRiseH": 18.75,
+    "cellMeanDepthAtPeak": 0.089
+   },
+   {
+    "distKm": 37.0,
+    "face": 567385,
+    "cellM": 6.25,
+    "lonlat": [
+     -111.21847,
+     32.20211
+    ],
+    "zb": 691.67,
+    "depth17Z": 1.103,
+    "peakDepth": 3.351,
+    "zsmaxWindowDepth": 3.351,
+    "riseM": 2.248,
+    "peakTime": "11-01T22:30Z",
+    "peakH": 22.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:45Z",
+    "halfRiseH": 18.75,
+    "cellMeanDepthAtPeak": 2.39
+   },
+   {
+    "distKm": 38.0,
+    "face": 63727,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.2223,
+     32.20924
+    ],
+    "zb": 688.79,
+    "depth17Z": 1.421,
+    "peakDepth": 2.891,
+    "zsmaxWindowDepth": 2.891,
+    "riseM": 1.471,
+    "peakTime": "11-01T22:45Z",
+    "peakH": 22.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T19:30Z",
+    "halfRiseH": 19.5,
+    "cellMeanDepthAtPeak": 0.659
+   },
+   {
+    "distKm": 39.0,
+    "face": 62585,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.22657,
+     32.21825
+    ],
+    "zb": 686.78,
+    "depth17Z": 0.396,
+    "peakDepth": 1.233,
+    "zsmaxWindowDepth": 1.233,
+    "riseM": 0.837,
+    "peakTime": "11-01T23:00Z",
+    "peakH": 23.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T19:30Z",
+    "halfRiseH": 19.5,
+    "cellMeanDepthAtPeak": 0.418
+   },
+   {
+    "distKm": 40.0,
+    "face": 61749,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.22977,
+     32.22636
+    ],
+    "zb": 681.78,
+    "depth17Z": 0.584,
+    "peakDepth": 3.301,
+    "zsmaxWindowDepth": 3.301,
+    "riseM": 2.718,
+    "peakTime": "11-01T23:15Z",
+    "peakH": 23.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:30Z",
+    "halfRiseH": 17.5,
+    "cellMeanDepthAtPeak": 0.518
+   },
+   {
+    "distKm": 41.0,
+    "face": 60343,
+    "cellM": 100.0,
+    "lonlat": [
+     -111.2351,
+     32.23357
+    ],
+    "zb": 679.01,
+    "depth17Z": 0.081,
+    "peakDepth": 2.366,
+    "zsmaxWindowDepth": 2.366,
+    "riseM": 2.285,
+    "peakTime": "11-02T05:00Z",
+    "peakH": 29.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T20:30Z",
+    "halfRiseH": 20.5,
+    "cellMeanDepthAtPeak": 0.942
+   },
+   {
+    "distKm": 42.0,
+    "face": 138553,
+    "cellM": 50.0,
+    "lonlat": [
+     -111.24016,
+     32.24146
+    ],
+    "zb": 674.48,
+    "depth17Z": 0.252,
+    "peakDepth": 3.368,
+    "zsmaxWindowDepth": 3.368,
+    "riseM": 3.116,
+    "peakTime": "11-02T05:15Z",
+    "peakH": 29.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T20:00Z",
+    "halfRiseH": 20.0,
+    "cellMeanDepthAtPeak": 1.223
+   },
+   {
+    "distKm": 43.0,
+    "face": 367545,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.24383,
+     32.25019
+    ],
+    "zb": 671.19,
+    "depth17Z": 0.706,
+    "peakDepth": 2.479,
+    "zsmaxWindowDepth": 2.479,
+    "riseM": 1.773,
+    "peakTime": "11-02T07:00Z",
+    "peakH": 31.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T19:30Z",
+    "halfRiseH": 19.5,
+    "cellMeanDepthAtPeak": 1.766
+   }
+  ],
+  "reaches5km": [
+   {
+    "fromKm": 0.0,
+    "toKm": 5.0,
+    "slope": 0.01999,
+    "medianCellM": 100.0,
+    "medianPeakDepth": 0.1,
+    "medianCellMeanDepthAtPeak": 0.018,
+    "peakFrom": "11-01T17:30Z",
+    "peakTo": "11-01T18:30Z",
+    "peakCelerityKmH": 5.0,
+    "halfRiseCelerityKmH": null,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 6.01,
+      "hCellMean": 1.94
+     },
+     "n0.043": {
+      "hChannelMax": 4.19,
+      "hCellMean": 1.35
+     },
+     "n0.050": {
+      "hChannelMax": 3.61,
+      "hCellMean": 1.17
+     }
+    }
+   },
+   {
+    "fromKm": 5.0,
+    "toKm": 10.0,
+    "slope": 0.02452,
+    "medianCellM": 100.0,
+    "medianPeakDepth": 0.06,
+    "medianCellMeanDepthAtPeak": 0.009,
+    "peakFrom": "11-01T18:30Z",
+    "peakTo": "11-01T18:45Z",
+    "peakCelerityKmH": 20.0,
+    "halfRiseCelerityKmH": null,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 4.69,
+      "hCellMean": 1.3
+     },
+     "n0.043": {
+      "hChannelMax": 3.27,
+      "hCellMean": 0.91
+     },
+     "n0.050": {
+      "hChannelMax": 2.82,
+      "hCellMean": 0.78
+     }
+    }
+   },
+   {
+    "fromKm": 10.0,
+    "toKm": 15.0,
+    "slope": 0.01484,
+    "medianCellM": 100.0,
+    "medianPeakDepth": 0.11,
+    "medianCellMeanDepthAtPeak": 0.013,
+    "peakFrom": "11-01T18:45Z",
+    "peakTo": "11-01T18:45Z",
+    "peakCelerityKmH": "same frame",
+    "halfRiseCelerityKmH": null,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 5.75,
+      "hCellMean": 1.31
+     },
+     "n0.043": {
+      "hChannelMax": 4.01,
+      "hCellMean": 0.92
+     },
+     "n0.050": {
+      "hChannelMax": 3.45,
+      "hCellMean": 0.79
+     }
+    }
+   },
+   {
+    "fromKm": 15.0,
+    "toKm": 20.0,
+    "slope": 0.00777,
+    "medianCellM": 100.0,
+    "medianPeakDepth": 0.12,
+    "medianCellMeanDepthAtPeak": 0.017,
+    "peakFrom": "11-01T18:45Z",
+    "peakTo": "11-01T21:45Z",
+    "peakCelerityKmH": 1.67,
+    "halfRiseCelerityKmH": null,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 4.22,
+      "hCellMean": 1.14
+     },
+     "n0.043": {
+      "hChannelMax": 2.94,
+      "hCellMean": 0.8
+     },
+     "n0.050": {
+      "hChannelMax": 2.53,
+      "hCellMean": 0.69
+     }
+    }
+   },
+   {
+    "fromKm": 20.0,
+    "toKm": 25.0,
+    "slope": 0.00548,
+    "medianCellM": 100.0,
+    "medianPeakDepth": 0.39,
+    "medianCellMeanDepthAtPeak": 0.042,
+    "peakFrom": "11-01T21:45Z",
+    "peakTo": "11-01T21:15Z",
+    "peakCelerityKmH": "peak earlier downstream",
+    "halfRiseCelerityKmH": null,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 7.93,
+      "hCellMean": 1.8
+     },
+     "n0.043": {
+      "hChannelMax": 5.53,
+      "hCellMean": 1.26
+     },
+     "n0.050": {
+      "hChannelMax": 4.76,
+      "hCellMean": 1.08
+     }
+    }
+   },
+   {
+    "fromKm": 25.0,
+    "toKm": 30.0,
+    "slope": 0.005,
+    "medianCellM": 100.0,
+    "medianPeakDepth": 0.4,
+    "medianCellMeanDepthAtPeak": 0.078,
+    "peakFrom": "11-01T21:15Z",
+    "peakTo": "11-01T20:45Z",
+    "peakCelerityKmH": "peak earlier downstream",
+    "halfRiseCelerityKmH": 6.67,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 7.71,
+      "hCellMean": 2.58
+     },
+     "n0.043": {
+      "hChannelMax": 5.38,
+      "hCellMean": 1.8
+     },
+     "n0.050": {
+      "hChannelMax": 4.62,
+      "hCellMean": 1.55
+     }
+    }
+   },
+   {
+    "fromKm": 30.0,
+    "toKm": 35.0,
+    "slope": 0.00355,
+    "medianCellM": 100.0,
+    "medianPeakDepth": 0.6,
+    "medianCellMeanDepthAtPeak": 0.183,
+    "peakFrom": "11-01T20:45Z",
+    "peakTo": "11-01T22:00Z",
+    "peakCelerityKmH": 4.0,
+    "halfRiseCelerityKmH": "earlier/same downstream",
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 8.48,
+      "hCellMean": 3.85
+     },
+     "n0.043": {
+      "hChannelMax": 5.92,
+      "hCellMean": 2.68
+     },
+     "n0.050": {
+      "hChannelMax": 5.09,
+      "hCellMean": 2.31
+     }
+    }
+   },
+   {
+    "fromKm": 35.0,
+    "toKm": 40.0,
+    "slope": 0.00351,
+    "medianCellM": 100.0,
+    "medianPeakDepth": 2.06,
+    "medianCellMeanDepthAtPeak": 0.468,
+    "peakFrom": "11-01T22:00Z",
+    "peakTo": "11-01T23:15Z",
+    "peakCelerityKmH": 4.0,
+    "halfRiseCelerityKmH": "earlier/same downstream",
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 19.2,
+      "hCellMean": 7.14
+     },
+     "n0.043": {
+      "hChannelMax": 13.39,
+      "hCellMean": 4.98
+     },
+     "n0.050": {
+      "hChannelMax": 11.52,
+      "hCellMean": 4.29
+     }
+    }
+   },
+   {
+    "fromKm": 40.0,
+    "toKm": 43.0,
+    "slope": 0.00363,
+    "medianCellM": 75.0,
+    "medianPeakDepth": 2.89,
+    "medianCellMeanDepthAtPeak": 1.083,
+    "peakFrom": "11-01T23:15Z",
+    "peakTo": "11-02T07:00Z",
+    "peakCelerityKmH": 0.39,
+    "halfRiseCelerityKmH": 1.5,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 24.45,
+      "hCellMean": 12.7
+     },
+     "n0.043": {
+      "hChannelMax": 17.06,
+      "hCellMean": 8.86
+     },
+     "n0.050": {
+      "hChannelMax": 14.67,
+      "hCellMean": 7.62
+     }
+    }
+   }
+  ]
+ },
+ "brawley": {
+  "levelPath": 720005313,
+  "reaches(NHD comids, upstream first)": [
+   15876923,
+   15876919,
+   15877627,
+   15876811,
+   15876807,
+   15876803,
+   15877585,
+   15876775,
+   15876771,
+   15876711
+  ],
+  "lengthKm": 33.46,
+  "radiusM": 75.0,
+  "points": [
+   {
+    "distKm": 0.0,
+    "face": 277276,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.31673,
+     32.10985
+    ],
+    "zb": 754.1,
+    "depth17Z": 0.552,
+    "peakDepth": 0.911,
+    "zsmaxWindowDepth": 0.912,
+    "riseM": 0.359,
+    "peakTime": "11-01T22:00Z",
+    "peakH": 22.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T21:15Z",
+    "halfRiseH": 21.25,
+    "cellMeanDepthAtPeak": 0.537
+   },
+   {
+    "distKm": 1.0,
+    "face": 282571,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.30867,
+     32.11484
+    ],
+    "zb": 749.71,
+    "depth17Z": 1.146,
+    "peakDepth": 1.349,
+    "zsmaxWindowDepth": 1.35,
+    "riseM": 0.203,
+    "peakTime": "11-01T22:30Z",
+    "peakH": 22.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T19:15Z",
+    "halfRiseH": 19.25,
+    "cellMeanDepthAtPeak": 0.766
+   },
+   {
+    "distKm": 2.0,
+    "face": 286684,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.30047,
+     32.12061
+    ],
+    "zb": 745.49,
+    "depth17Z": 1.1,
+    "peakDepth": 1.154,
+    "zsmaxWindowDepth": 1.154,
+    "riseM": 0.054,
+    "peakTime": "11-01T23:00Z",
+    "peakH": 23.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:45Z",
+    "halfRiseH": 18.75,
+    "cellMeanDepthAtPeak": 0.106
+   },
+   {
+    "distKm": 3.0,
+    "face": 296559,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.2936,
+     32.12728
+    ],
+    "zb": 741.49,
+    "depth17Z": 1.061,
+    "peakDepth": 1.139,
+    "zsmaxWindowDepth": 1.139,
+    "riseM": 0.078,
+    "peakTime": "11-01T23:30Z",
+    "peakH": 23.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:45Z",
+    "halfRiseH": 17.75,
+    "cellMeanDepthAtPeak": 0.189
+   },
+   {
+    "distKm": 4.0,
+    "face": 309344,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.28593,
+     32.13293
+    ],
+    "zb": 737.63,
+    "depth17Z": 1.112,
+    "peakDepth": 1.272,
+    "zsmaxWindowDepth": 1.272,
+    "riseM": 0.16,
+    "peakTime": "11-02T03:15Z",
+    "peakH": 27.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:15Z",
+    "halfRiseH": 17.25,
+    "cellMeanDepthAtPeak": 0.584
+   },
+   {
+    "distKm": 5.0,
+    "face": 319706,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.27866,
+     32.13881
+    ],
+    "zb": 734.45,
+    "depth17Z": 0.01,
+    "peakDepth": 0.071,
+    "zsmaxWindowDepth": 0.071,
+    "riseM": 0.061,
+    "peakTime": "11-02T03:30Z",
+    "peakH": 27.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T17:15Z",
+    "halfRiseH": 17.25,
+    "cellMeanDepthAtPeak": 0.01
+   },
+   {
+    "distKm": 6.0,
+    "face": 323206,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.27643,
+     32.1475
+    ],
+    "zb": 730.1,
+    "depth17Z": 0.021,
+    "peakDepth": 0.021,
+    "zsmaxWindowDepth": 0.021,
+    "riseM": 0.0,
+    "peakTime": "11-02T03:45Z",
+    "peakH": 27.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.005
+   },
+   {
+    "distKm": 7.0,
+    "face": 329549,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.27142,
+     32.15484
+    ],
+    "zb": 725.13,
+    "depth17Z": 0.099,
+    "peakDepth": 0.099,
+    "zsmaxWindowDepth": 0.099,
+    "riseM": 0.0,
+    "peakTime": "11-01T17:00Z",
+    "peakH": 17.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.012
+   },
+   {
+    "distKm": 8.0,
+    "face": 336729,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.26454,
+     32.1614
+    ],
+    "zb": 719.04,
+    "depth17Z": 0.01,
+    "peakDepth": 0.01,
+    "zsmaxWindowDepth": 0.01,
+    "riseM": 0.0,
+    "peakTime": "11-01T18:00Z",
+    "peakH": 18.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.001
+   },
+   {
+    "distKm": 9.0,
+    "face": 341154,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.26072,
+     32.16964
+    ],
+    "zb": 713.82,
+    "depth17Z": 0.179,
+    "peakDepth": 0.183,
+    "zsmaxWindowDepth": 0.183,
+    "riseM": 0.004,
+    "peakTime": "11-01T17:30Z",
+    "peakH": 17.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.031
+   },
+   {
+    "distKm": 10.0,
+    "face": 341481,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.26062,
+     32.17843
+    ],
+    "zb": 709.18,
+    "depth17Z": 0.021,
+    "peakDepth": 0.027,
+    "zsmaxWindowDepth": 0.027,
+    "riseM": 0.006,
+    "peakTime": "11-02T04:30Z",
+    "peakH": 28.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.015
+   },
+   {
+    "distKm": 11.0,
+    "face": 339967,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.26144,
+     32.18689
+    ],
+    "zb": 704.64,
+    "depth17Z": 0.297,
+    "peakDepth": 0.367,
+    "zsmaxWindowDepth": 0.367,
+    "riseM": 0.07,
+    "peakTime": "11-02T04:45Z",
+    "peakH": 28.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-02T02:30Z",
+    "halfRiseH": 26.5,
+    "cellMeanDepthAtPeak": 0.179
+   },
+   {
+    "distKm": 12.0,
+    "face": 346875,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.25788,
+     32.19434
+    ],
+    "zb": 699.95,
+    "depth17Z": 0.465,
+    "peakDepth": 0.619,
+    "zsmaxWindowDepth": 0.619,
+    "riseM": 0.155,
+    "peakTime": "11-02T05:00Z",
+    "peakH": 29.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-02T02:15Z",
+    "halfRiseH": 26.25,
+    "cellMeanDepthAtPeak": 0.311
+   },
+   {
+    "distKm": 13.0,
+    "face": 347889,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.2575,
+     32.20336
+    ],
+    "zb": 695.77,
+    "depth17Z": 0.279,
+    "peakDepth": 0.559,
+    "zsmaxWindowDepth": 0.559,
+    "riseM": 0.28,
+    "peakTime": "11-02T05:30Z",
+    "peakH": 29.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:15Z",
+    "halfRiseH": 18.25,
+    "cellMeanDepthAtPeak": 0.267
+   },
+   {
+    "distKm": 14.0,
+    "face": 347967,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.25753,
+     32.21216
+    ],
+    "zb": 692.89,
+    "depth17Z": 0.011,
+    "peakDepth": 0.083,
+    "zsmaxWindowDepth": 0.083,
+    "riseM": 0.072,
+    "peakTime": "11-02T06:00Z",
+    "peakH": 30.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T19:45Z",
+    "halfRiseH": 19.75,
+    "cellMeanDepthAtPeak": 0.036
+   },
+   {
+    "distKm": 15.0,
+    "face": 352833,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.25516,
+     32.22073
+    ],
+    "zb": 687.86,
+    "depth17Z": 0.035,
+    "peakDepth": 0.145,
+    "zsmaxWindowDepth": 0.145,
+    "riseM": 0.11,
+    "peakTime": "11-02T07:00Z",
+    "peakH": 31.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T20:15Z",
+    "halfRiseH": 20.25,
+    "cellMeanDepthAtPeak": 0.093
+   },
+   {
+    "distKm": 16.0,
+    "face": 353938,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.25452,
+     32.22919
+    ],
+    "zb": 682.7,
+    "depth17Z": 0.413,
+    "peakDepth": 0.734,
+    "zsmaxWindowDepth": 0.734,
+    "riseM": 0.321,
+    "peakTime": "11-02T07:15Z",
+    "peakH": 31.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T20:30Z",
+    "halfRiseH": 20.5,
+    "cellMeanDepthAtPeak": 0.27
+   },
+   {
+    "distKm": 17.0,
+    "face": 357823,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.25242,
+     32.23664
+    ],
+    "zb": 677.97,
+    "depth17Z": 0.517,
+    "peakDepth": 1.276,
+    "zsmaxWindowDepth": 1.276,
+    "riseM": 0.759,
+    "peakTime": "11-02T08:00Z",
+    "peakH": 32.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T21:00Z",
+    "halfRiseH": 21.0,
+    "cellMeanDepthAtPeak": 0.629
+   },
+   {
+    "distKm": 18.0,
+    "face": 357903,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.25245,
+     32.24566
+    ],
+    "zb": 674.48,
+    "depth17Z": 0.047,
+    "peakDepth": 1.209,
+    "zsmaxWindowDepth": 1.209,
+    "riseM": 1.162,
+    "peakTime": "11-02T08:15Z",
+    "peakH": 32.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T18:00Z",
+    "halfRiseH": 18.0,
+    "cellMeanDepthAtPeak": 0.758
+   },
+   {
+    "distKm": 19.0,
+    "face": 365404,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.24556,
+     32.24985
+    ],
+    "zb": 671.74,
+    "depth17Z": 0.325,
+    "peakDepth": 2.087,
+    "zsmaxWindowDepth": 2.088,
+    "riseM": 1.762,
+    "peakTime": "11-02T07:15Z",
+    "peakH": 31.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T21:15Z",
+    "halfRiseH": 21.25,
+    "cellMeanDepthAtPeak": 1.451
+   },
+   {
+    "distKm": 20.0,
+    "face": 366466,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.24478,
+     32.25752
+    ],
+    "zb": 668.12,
+    "depth17Z": 0.651,
+    "peakDepth": 2.734,
+    "zsmaxWindowDepth": 2.734,
+    "riseM": 2.083,
+    "peakTime": "11-02T07:15Z",
+    "peakH": 31.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T19:15Z",
+    "halfRiseH": 19.25,
+    "cellMeanDepthAtPeak": 1.844
+   },
+   {
+    "distKm": 21.0,
+    "face": 363342,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.24759,
+     32.26619
+    ],
+    "zb": 666.2,
+    "depth17Z": 0.044,
+    "peakDepth": 1.27,
+    "zsmaxWindowDepth": 1.27,
+    "riseM": 1.226,
+    "peakTime": "11-02T07:30Z",
+    "peakH": 31.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T19:15Z",
+    "halfRiseH": 19.25,
+    "cellMeanDepthAtPeak": 0.655
+   },
+   {
+    "distKm": 22.0,
+    "face": 357460,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.25279,
+     32.27363
+    ],
+    "zb": 662.21,
+    "depth17Z": 0.01,
+    "peakDepth": 0.557,
+    "zsmaxWindowDepth": 0.557,
+    "riseM": 0.547,
+    "peakTime": "11-02T07:45Z",
+    "peakH": 31.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T21:45Z",
+    "halfRiseH": 21.75,
+    "cellMeanDepthAtPeak": 0.486
+   },
+   {
+    "distKm": 23.0,
+    "face": 347424,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.25798,
+     32.27993
+    ],
+    "zb": 657.37,
+    "depth17Z": 0.039,
+    "peakDepth": 1.921,
+    "zsmaxWindowDepth": 1.921,
+    "riseM": 1.882,
+    "peakTime": "11-02T08:00Z",
+    "peakH": 32.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T20:15Z",
+    "halfRiseH": 20.25,
+    "cellMeanDepthAtPeak": 0.642
+   },
+   {
+    "distKm": 24.0,
+    "face": 335393,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.2665,
+     32.28589
+    ],
+    "zb": 654.27,
+    "depth17Z": 0.342,
+    "peakDepth": 1.129,
+    "zsmaxWindowDepth": 1.129,
+    "riseM": 0.788,
+    "peakTime": "11-02T08:15Z",
+    "peakH": 32.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T20:30Z",
+    "halfRiseH": 20.5,
+    "cellMeanDepthAtPeak": 0.201
+   },
+   {
+    "distKm": 25.0,
+    "face": 332347,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.26958,
+     32.29468
+    ],
+    "zb": 651.15,
+    "depth17Z": 0.117,
+    "peakDepth": 0.909,
+    "zsmaxWindowDepth": 0.909,
+    "riseM": 0.792,
+    "peakTime": "11-02T08:30Z",
+    "peakH": 32.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T20:30Z",
+    "halfRiseH": 20.5,
+    "cellMeanDepthAtPeak": 0.362
+   },
+   {
+    "distKm": 26.0,
+    "face": 328305,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.27292,
+     32.30302
+    ],
+    "zb": 646.98,
+    "depth17Z": 0.012,
+    "peakDepth": 0.821,
+    "zsmaxWindowDepth": 0.821,
+    "riseM": 0.809,
+    "peakTime": "11-02T01:30Z",
+    "peakH": 25.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T21:00Z",
+    "halfRiseH": 21.0,
+    "cellMeanDepthAtPeak": 0.359
+   },
+   {
+    "distKm": 27.0,
+    "face": 323289,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.27693,
+     32.31135
+    ],
+    "zb": 642.43,
+    "depth17Z": 0.003,
+    "peakDepth": 1.527,
+    "zsmaxWindowDepth": 1.527,
+    "riseM": 1.524,
+    "peakTime": "11-02T01:45Z",
+    "peakH": 25.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T21:30Z",
+    "halfRiseH": 21.5,
+    "cellMeanDepthAtPeak": 0.448
+   },
+   {
+    "distKm": 28.0,
+    "face": 319836,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.27921,
+     32.31958
+    ],
+    "zb": 639.86,
+    "depth17Z": NaN,
+    "peakDepth": 0.332,
+    "zsmaxWindowDepth": 0.332,
+    "riseM": NaN,
+    "peakTime": "11-02T02:00Z",
+    "peakH": 26.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": null,
+    "halfRiseH": null,
+    "cellMeanDepthAtPeak": 0.172
+   },
+   {
+    "distKm": 29.0,
+    "face": 316673,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.28123,
+     32.32814
+    ],
+    "zb": 634.5,
+    "depth17Z": 0.008,
+    "peakDepth": 1.564,
+    "zsmaxWindowDepth": 1.564,
+    "riseM": 1.555,
+    "peakTime": "11-02T02:15Z",
+    "peakH": 26.25,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T23:00Z",
+    "halfRiseH": 23.0,
+    "cellMeanDepthAtPeak": 0.476
+   },
+   {
+    "distKm": 30.0,
+    "face": 515305,
+    "cellM": 6.25,
+    "lonlat": [
+     -111.28414,
+     32.33606
+    ],
+    "zb": 631.12,
+    "depth17Z": 0.043,
+    "peakDepth": 1.236,
+    "zsmaxWindowDepth": 1.236,
+    "riseM": 1.193,
+    "peakTime": "11-02T02:30Z",
+    "peakH": 26.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-01T23:15Z",
+    "halfRiseH": 23.25,
+    "cellMeanDepthAtPeak": 0.612
+   },
+   {
+    "distKm": 31.0,
+    "face": 310642,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.2862,
+     32.34471
+    ],
+    "zb": 628.0,
+    "depth17Z": 0.008,
+    "peakDepth": 0.563,
+    "zsmaxWindowDepth": 0.563,
+    "riseM": 0.555,
+    "peakTime": "11-02T02:45Z",
+    "peakH": 26.75,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-02T00:00Z",
+    "halfRiseH": 24.0,
+    "cellMeanDepthAtPeak": 0.47
+   },
+   {
+    "distKm": 32.0,
+    "face": 304933,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.28835,
+     32.35305
+    ],
+    "zb": 623.79,
+    "depth17Z": 0.155,
+    "peakDepth": 0.532,
+    "zsmaxWindowDepth": 0.532,
+    "riseM": 0.377,
+    "peakTime": "11-02T03:00Z",
+    "peakH": 27.0,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-02T00:30Z",
+    "halfRiseH": 24.5,
+    "cellMeanDepthAtPeak": 0.293
+   },
+   {
+    "distKm": 33.0,
+    "face": 299889,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.29209,
+     32.36116
+    ],
+    "zb": 619.03,
+    "depth17Z": 0.267,
+    "peakDepth": 1.192,
+    "zsmaxWindowDepth": 1.192,
+    "riseM": 0.924,
+    "peakTime": "11-02T03:30Z",
+    "peakH": 27.5,
+    "peakAtWindowEnd": false,
+    "halfRiseTime": "11-02T00:45Z",
+    "halfRiseH": 24.75,
+    "cellMeanDepthAtPeak": 0.527
+   }
+  ],
+  "reaches5km": [
+   {
+    "fromKm": 0.0,
+    "toKm": 5.0,
+    "slope": 0.00396,
+    "medianCellM": 12.5,
+    "medianPeakDepth": 1.15,
+    "medianCellMeanDepthAtPeak": 0.363,
+    "peakFrom": "11-01T22:00Z",
+    "peakTo": "11-02T03:30Z",
+    "peakCelerityKmH": 0.91,
+    "halfRiseCelerityKmH": "earlier/same downstream",
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 13.78,
+      "hCellMean": 6.4
+     },
+     "n0.043": {
+      "hChannelMax": 9.61,
+      "hCellMean": 4.47
+     },
+     "n0.050": {
+      "hChannelMax": 8.27,
+      "hCellMean": 3.84
+     }
+    }
+   },
+   {
+    "fromKm": 5.0,
+    "toKm": 10.0,
+    "slope": 0.00518,
+    "medianCellM": 12.5,
+    "medianPeakDepth": 0.05,
+    "medianCellMeanDepthAtPeak": 0.011,
+    "peakFrom": "11-02T03:30Z",
+    "peakTo": "11-02T04:30Z",
+    "peakCelerityKmH": 5.0,
+    "halfRiseCelerityKmH": null,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 1.93,
+      "hCellMean": 0.71
+     },
+     "n0.043": {
+      "hChannelMax": 1.34,
+      "hCellMean": 0.5
+     },
+     "n0.050": {
+      "hChannelMax": 1.16,
+      "hCellMean": 0.43
+     }
+    }
+   },
+   {
+    "fromKm": 10.0,
+    "toKm": 15.0,
+    "slope": 0.00417,
+    "medianCellM": 12.5,
+    "medianPeakDepth": 0.26,
+    "medianCellMeanDepthAtPeak": 0.136,
+    "peakFrom": "11-02T04:30Z",
+    "peakTo": "11-02T07:00Z",
+    "peakCelerityKmH": 2.0,
+    "halfRiseCelerityKmH": null,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 5.21,
+      "hCellMean": 3.42
+     },
+     "n0.043": {
+      "hChannelMax": 3.63,
+      "hCellMean": 2.38
+     },
+     "n0.050": {
+      "hChannelMax": 3.13,
+      "hCellMean": 2.05
+     }
+    }
+   },
+   {
+    "fromKm": 15.0,
+    "toKm": 20.0,
+    "slope": 0.00386,
+    "medianCellM": 12.5,
+    "medianPeakDepth": 1.24,
+    "medianCellMeanDepthAtPeak": 0.694,
+    "peakFrom": "11-02T07:00Z",
+    "peakTo": "11-02T07:15Z",
+    "peakCelerityKmH": 20.0,
+    "halfRiseCelerityKmH": "earlier/same downstream",
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 14.36,
+      "hCellMean": 9.73
+     },
+     "n0.043": {
+      "hChannelMax": 10.02,
+      "hCellMean": 6.79
+     },
+     "n0.050": {
+      "hChannelMax": 8.62,
+      "hCellMean": 5.84
+     }
+    }
+   },
+   {
+    "fromKm": 20.0,
+    "toKm": 25.0,
+    "slope": 0.00359,
+    "medianCellM": 12.5,
+    "medianPeakDepth": 1.2,
+    "medianCellMeanDepthAtPeak": 0.564,
+    "peakFrom": "11-02T07:15Z",
+    "peakTo": "11-02T08:30Z",
+    "peakCelerityKmH": 4.0,
+    "halfRiseCelerityKmH": 4.0,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 13.52,
+      "hCellMean": 8.17
+     },
+     "n0.043": {
+      "hChannelMax": 9.43,
+      "hCellMean": 5.7
+     },
+     "n0.050": {
+      "hChannelMax": 8.11,
+      "hCellMean": 4.9
+     }
+    }
+   },
+   {
+    "fromKm": 25.0,
+    "toKm": 30.0,
+    "slope": 0.004,
+    "medianCellM": 12.5,
+    "medianPeakDepth": 1.07,
+    "medianCellMeanDepthAtPeak": 0.405,
+    "peakFrom": "11-02T08:30Z",
+    "peakTo": "11-02T02:30Z",
+    "peakCelerityKmH": "peak earlier downstream",
+    "halfRiseCelerityKmH": 1.82,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 13.26,
+      "hCellMean": 6.93
+     },
+     "n0.043": {
+      "hChannelMax": 9.25,
+      "hCellMean": 4.83
+     },
+     "n0.050": {
+      "hChannelMax": 7.96,
+      "hCellMean": 4.16
+     }
+    }
+   },
+   {
+    "fromKm": 30.0,
+    "toKm": 33.0,
+    "slope": 0.00405,
+    "medianCellM": 12.5,
+    "medianPeakDepth": 0.88,
+    "medianCellMeanDepthAtPeak": 0.498,
+    "peakFrom": "11-02T02:30Z",
+    "peakTo": "11-02T03:30Z",
+    "peakCelerityKmH": 3.0,
+    "halfRiseCelerityKmH": 2.0,
+    "kinematicCelerityKmH": {
+     "n0.030": {
+      "hChannelMax": 11.66,
+      "hCellMean": 8.0
+     },
+     "n0.043": {
+      "hChannelMax": 8.14,
+      "hCellMean": 5.58
+     },
+     "n0.050": {
+      "hChannelMax": 7.0,
+      "hCellMean": 4.8
+     }
+    }
+   }
+  ]
+ },
+ "blackWashReachEndPeaks": [
+  {
+   "comid": 15904845,
+   "totDaKm2": 1.5,
+   "order": 1,
+   "flowKmToTargetEnd": 40.77,
+   "cellM": 100.0,
+   "peakTime": "11-01T18:00Z",
+   "peakH": 18.0,
+   "peakDepth": 0.07,
+   "depth17Z": 0.03
+  },
+  {
+   "comid": 15877865,
+   "totDaKm2": 11.9,
+   "order": 1,
+   "flowKmToTargetEnd": 35.04,
+   "cellM": 100.0,
+   "peakTime": "11-01T21:00Z",
+   "peakH": 21.0,
+   "peakDepth": 0.309,
+   "depth17Z": 0.041
+  },
+  {
+   "comid": 15877777,
+   "totDaKm2": 8.7,
+   "order": 1,
+   "flowKmToTargetEnd": 34.87,
+   "cellM": 100.0,
+   "peakTime": "11-01T19:30Z",
+   "peakH": 19.5,
+   "peakDepth": 0.363,
+   "depth17Z": 0.032
+  },
+  {
+   "comid": 15877773,
+   "totDaKm2": 0.3,
+   "order": 1,
+   "flowKmToTargetEnd": 34.24,
+   "cellM": 100.0,
+   "peakTime": "11-01T17:45Z",
+   "peakH": 17.75,
+   "peakDepth": 0.032,
+   "depth17Z": 0.024
+  },
+  {
+   "comid": 15877775,
+   "totDaKm2": 0.9,
+   "order": 1,
+   "flowKmToTargetEnd": 33.4,
+   "cellM": 100.0,
+   "peakTime": "11-01T18:45Z",
+   "peakH": 18.75,
+   "peakDepth": 0.108,
+   "depth17Z": 0.052
+  },
+  {
+   "comid": 15877785,
+   "totDaKm2": 0.6,
+   "order": 1,
+   "flowKmToTargetEnd": 32.7,
+   "cellM": 100.0,
+   "peakTime": "11-01T17:45Z",
+   "peakH": 17.75,
+   "peakDepth": 0.065,
+   "depth17Z": 0.048
+  },
+  {
+   "comid": 15877779,
+   "totDaKm2": 0.2,
+   "order": 1,
+   "flowKmToTargetEnd": 32.46,
+   "cellM": 100.0,
+   "peakTime": "11-01T18:00Z",
+   "peakH": 18.0,
+   "peakDepth": 0.112,
+   "depth17Z": 0.066
+  },
+  {
+   "comid": 15876995,
+   "totDaKm2": 1.0,
+   "order": 1,
+   "flowKmToTargetEnd": 30.23,
+   "cellM": 100.0,
+   "peakTime": "11-01T18:30Z",
+   "peakH": 18.5,
+   "peakDepth": 0.127,
+   "depth17Z": 0.049
+  },
+  {
+   "comid": 15876997,
+   "totDaKm2": 1.7,
+   "order": 1,
+   "flowKmToTargetEnd": 30.23,
+   "cellM": 100.0,
+   "peakTime": "11-01T18:30Z",
+   "peakH": 18.5,
+   "peakDepth": 0.127,
+   "depth17Z": 0.049
+  },
+  {
+   "comid": 15902567,
+   "totDaKm2": 15.5,
+   "order": 1,
+   "flowKmToTargetEnd": 27.91,
+   "cellM": 100.0,
+   "peakTime": "11-02T10:30Z",
+   "peakH": 34.5,
+   "peakDepth": 0.091,
+   "depth17Z": 0.012
+  },
+  {
+   "comid": 15876915,
+   "totDaKm2": 3.3,
+   "order": 1,
+   "flowKmToTargetEnd": 23.51,
+   "cellM": 100.0,
+   "peakTime": "11-01T20:45Z",
+   "peakH": 20.75,
+   "peakDepth": 0.278,
+   "depth17Z": 0.007
+  },
+  {
+   "comid": 15876935,
+   "totDaKm2": 24.4,
+   "order": 1,
+   "flowKmToTargetEnd": 23.51,
+   "cellM": 100.0,
+   "peakTime": "11-01T20:45Z",
+   "peakH": 20.75,
+   "peakDepth": 0.278,
+   "depth17Z": 0.007
+  },
+  {
+   "comid": 15876989,
+   "totDaKm2": 32.9,
+   "order": 1,
+   "flowKmToTargetEnd": 22.66,
+   "cellM": 100.0,
+   "peakTime": "11-02T00:00Z",
+   "peakH": 24.0,
+   "peakDepth": 0.162,
+   "depth17Z": 0.054
+  },
+  {
+   "comid": 15876991,
+   "totDaKm2": 15.1,
+   "order": 1,
+   "flowKmToTargetEnd": 22.66,
+   "cellM": 100.0,
+   "peakTime": "11-02T00:00Z",
+   "peakH": 24.0,
+   "peakDepth": 0.162,
+   "depth17Z": 0.054
+  },
+  {
+   "comid": 15876939,
+   "totDaKm2": 50.9,
+   "order": 2,
+   "flowKmToTargetEnd": 20.4,
+   "cellM": 100.0,
+   "peakTime": "11-02T00:30Z",
+   "peakH": 24.5,
+   "peakDepth": 0.418,
+   "depth17Z": 0.261
+  },
+  {
+   "comid": 15876993,
+   "totDaKm2": 12.3,
+   "order": 1,
+   "flowKmToTargetEnd": 20.4,
+   "cellM": 100.0,
+   "peakTime": "11-02T00:30Z",
+   "peakH": 24.5,
+   "peakDepth": 0.418,
+   "depth17Z": 0.261
+  },
+  {
+   "comid": 15876891,
+   "totDaKm2": 10.6,
+   "order": 1,
+   "flowKmToTargetEnd": 19.64,
+   "cellM": 100.0,
+   "peakTime": "11-01T18:45Z",
+   "peakH": 18.75,
+   "peakDepth": 0.135,
+   "depth17Z": 0.038
+  },
+  {
+   "comid": 15877639,
+   "totDaKm2": 14.6,
+   "order": 1,
+   "flowKmToTargetEnd": 19.44,
+   "cellM": 100.0,
+   "peakTime": "11-01T18:30Z",
+   "peakH": 18.5,
+   "peakDepth": 0.291,
+   "depth17Z": 0.095
+  },
+  {
+   "comid": 15876895,
+   "totDaKm2": 14.8,
+   "order": 1,
+   "flowKmToTargetEnd": 18.84,
+   "cellM": 100.0,
+   "peakTime": "11-01T19:15Z",
+   "peakH": 19.25,
+   "peakDepth": 0.304,
+   "depth17Z": 0.091
+  },
+  {
+   "comid": 15877623,
+   "totDaKm2": 10.7,
+   "order": 1,
+   "flowKmToTargetEnd": 18.84,
+   "cellM": 100.0,
+   "peakTime": "11-01T19:15Z",
+   "peakH": 19.25,
+   "peakDepth": 0.304,
+   "depth17Z": 0.091
+  },
+  {
+   "comid": 15876943,
+   "totDaKm2": 11.0,
+   "order": 1,
+   "flowKmToTargetEnd": 18.33,
+   "cellM": 100.0,
+   "peakTime": "11-02T02:30Z",
+   "peakH": 26.5,
+   "peakDepth": 0.083,
+   "depth17Z": 0.025
+  },
+  {
+   "comid": 15877015,
+   "totDaKm2": 26.2,
+   "order": 1,
+   "flowKmToTargetEnd": 18.33,
+   "cellM": 100.0,
+   "peakTime": "11-02T02:30Z",
+   "peakH": 26.5,
+   "peakDepth": 0.083,
+   "depth17Z": 0.025
+  },
+  {
+   "comid": 15876909,
+   "totDaKm2": 35.1,
+   "order": 2,
+   "flowKmToTargetEnd": 17.53,
+   "cellM": 100.0,
+   "peakTime": "11-01T21:15Z",
+   "peakH": 21.25,
+   "peakDepth": 1.165,
+   "depth17Z": 0.764
+  },
+  {
+   "comid": 15876967,
+   "totDaKm2": 22.4,
+   "order": 1,
+   "flowKmToTargetEnd": 17.53,
+   "cellM": 100.0,
+   "peakTime": "11-01T21:15Z",
+   "peakH": 21.25,
+   "peakDepth": 1.165,
+   "depth17Z": 0.764
+  },
+  {
+   "comid": 15876889,
+   "totDaKm2": 57.9,
+   "order": 2,
+   "flowKmToTargetEnd": 16.51,
+   "cellM": 100.0,
+   "peakTime": "11-01T19:15Z",
+   "peakH": 19.25,
+   "peakDepth": 0.141,
+   "depth17Z": 0.026
+  },
+  {
+   "comid": 15876897,
+   "totDaKm2": 44.3,
+   "order": 2,
+   "flowKmToTargetEnd": 16.51,
+   "cellM": 100.0,
+   "peakTime": "11-01T19:15Z",
+   "peakH": 19.25,
+   "peakDepth": 0.141,
+   "depth17Z": 0.026
+  },
+  {
+   "comid": 15876877,
+   "totDaKm2": 10.6,
+   "order": 1,
+   "flowKmToTargetEnd": 14.5,
+   "cellM": 100.0,
+   "peakTime": "11-01T20:30Z",
+   "peakH": 20.5,
+   "peakDepth": 0.02,
+   "depth17Z": 0.015
+  },
+  {
+   "comid": 15876883,
+   "totDaKm2": 17.3,
+   "order": 1,
+   "flowKmToTargetEnd": 14.5,
+   "cellM": 100.0,
+   "peakTime": "11-01T20:30Z",
+   "peakH": 20.5,
+   "peakDepth": 0.02,
+   "depth17Z": 0.015
+  },
+  {
+   "comid": 15876931,
+   "totDaKm2": 72.0,
+   "order": 2,
+   "flowKmToTargetEnd": 14.3,
+   "cellM": 50.0,
+   "peakTime": "11-02T00:30Z",
+   "peakH": 24.5,
+   "peakDepth": 0.488,
+   "depth17Z": 0.252
+  },
+  {
+   "comid": 15877633,
+   "totDaKm2": 22.4,
+   "order": 2,
+   "flowKmToTargetEnd": 14.3,
+   "cellM": 50.0,
+   "peakTime": "11-02T00:30Z",
+   "peakH": 24.5,
+   "peakDepth": 0.488,
+   "depth17Z": 0.252
+  },
+  {
+   "comid": 15876887,
+   "totDaKm2": 146.6,
+   "order": 3,
+   "flowKmToTargetEnd": 12.89,
+   "cellM": 6.25,
+   "peakTime": "11-01T20:45Z",
+   "peakH": 20.75,
+   "peakDepth": 1.595,
+   "depth17Z": 0.561
+  },
+  {
+   "comid": 15876825,
+   "totDaKm2": 4.9,
+   "order": 1,
+   "flowKmToTargetEnd": 10.73,
+   "cellM": 100.0,
+   "peakTime": "11-01T17:45Z",
+   "peakH": 17.75,
+   "peakDepth": 0.419,
+   "depth17Z": 0.213
+  },
+  {
+   "comid": 15877617,
+   "totDaKm2": 7.1,
+   "order": 1,
+   "flowKmToTargetEnd": 10.73,
+   "cellM": 100.0,
+   "peakTime": "11-01T17:45Z",
+   "peakH": 17.75,
+   "peakDepth": 0.419,
+   "depth17Z": 0.213
+  },
+  {
+   "comid": 945050036,
+   "totDaKm2": 149.7,
+   "order": 3,
+   "flowKmToTargetEnd": 10.61,
+   "cellM": 100.0,
+   "peakTime": "11-01T21:30Z",
+   "peakH": 21.5,
+   "peakDepth": 0.348,
+   "depth17Z": 0.045
+  },
+  {
+   "comid": 945050109,
+   "totDaKm2": 32.5,
+   "order": 2,
+   "flowKmToTargetEnd": 10.61,
+   "cellM": 100.0,
+   "peakTime": "11-01T21:30Z",
+   "peakH": 21.5,
+   "peakDepth": 0.348,
+   "depth17Z": 0.045
+  },
+  {
+   "comid": 15876881,
+   "totDaKm2": 147.4,
+   "order": 1,
+   "flowKmToTargetEnd": 9.83,
+   "cellM": 100.0,
+   "peakTime": "11-01T21:45Z",
+   "peakH": 21.75,
+   "peakDepth": 1.36,
+   "depth17Z": 0.242
+  },
+  {
+   "comid": 945050110,
+   "totDaKm2": 182.7,
+   "order": 3,
+   "flowKmToTargetEnd": 9.83,
+   "cellM": 100.0,
+   "peakTime": "11-01T21:45Z",
+   "peakH": 21.75,
+   "peakDepth": 1.36,
+   "depth17Z": 0.242
+  },
+  {
+   "comid": 15876867,
+   "totDaKm2": 13.5,
+   "order": 1,
+   "flowKmToTargetEnd": 9.81,
+   "cellM": 100.0,
+   "peakTime": "11-01T21:00Z",
+   "peakH": 21.0,
+   "peakDepth": 0.177,
+   "depth17Z": 0.043
+  },
+  {
+   "comid": 15876875,
+   "totDaKm2": 35.1,
+   "order": 2,
+   "flowKmToTargetEnd": 9.81,
+   "cellM": 100.0,
+   "peakTime": "11-01T21:00Z",
+   "peakH": 21.0,
+   "peakDepth": 0.177,
+   "depth17Z": 0.043
+  },
+  {
+   "comid": 15877621,
+   "totDaKm2": 99.2,
+   "order": 3,
+   "flowKmToTargetEnd": 9.64,
+   "cellM": 50.0,
+   "peakTime": "11-02T04:00Z",
+   "peakH": 28.0,
+   "peakDepth": 0.611,
+   "depth17Z": 0.175
+  },
+  {
+   "comid": 15877635,
+   "totDaKm2": 19.2,
+   "order": 1,
+   "flowKmToTargetEnd": 9.64,
+   "cellM": 50.0,
+   "peakTime": "11-02T04:00Z",
+   "peakH": 28.0,
+   "peakDepth": 0.611,
+   "depth17Z": 0.175
+  },
+  {
+   "comid": 15876849,
+   "totDaKm2": 3.1,
+   "order": 1,
+   "flowKmToTargetEnd": 9.0,
+   "cellM": 100.0,
+   "peakTime": "11-01T19:30Z",
+   "peakH": 19.5,
+   "peakDepth": 0.393,
+   "depth17Z": 0.131
+  },
+  {
+   "comid": 15876857,
+   "totDaKm2": 52.2,
+   "order": 2,
+   "flowKmToTargetEnd": 9.0,
+   "cellM": 100.0,
+   "peakTime": "11-01T19:30Z",
+   "peakH": 19.5,
+   "peakDepth": 0.393,
+   "depth17Z": 0.131
+  },
+  {
+   "comid": 15876845,
+   "totDaKm2": 11.3,
+   "order": 1,
+   "flowKmToTargetEnd": 8.6,
+   "cellM": 100.0,
+   "peakTime": "11-01T20:00Z",
+   "peakH": 20.0,
+   "peakDepth": 0.35,
+   "depth17Z": 0.114
+  },
+  {
+   "comid": 15876851,
+   "totDaKm2": 55.6,
+   "order": 2,
+   "flowKmToTargetEnd": 8.6,
+   "cellM": 100.0,
+   "peakTime": "11-01T20:00Z",
+   "peakH": 20.0,
+   "peakDepth": 0.35,
+   "depth17Z": 0.114
+  },
+  {
+   "comid": 15876847,
+   "totDaKm2": 67.1,
+   "order": 2,
+   "flowKmToTargetEnd": 7.85,
+   "cellM": 100.0,
+   "peakTime": "11-01T20:00Z",
+   "peakH": 20.0,
+   "peakDepth": 0.154,
+   "depth17Z": 0.027
+  },
+  {
+   "comid": 15876869,
+   "totDaKm2": 331.6,
+   "order": 3,
+   "flowKmToTargetEnd": 7.85,
+   "cellM": 100.0,
+   "peakTime": "11-01T20:00Z",
+   "peakH": 20.0,
+   "peakDepth": 0.154,
+   "depth17Z": 0.027
+  },
+  {
+   "comid": 15876843,
+   "totDaKm2": 405.1,
+   "order": 3,
+   "flowKmToTargetEnd": 6.96,
+   "cellM": 100.0,
+   "peakTime": "11-01T20:15Z",
+   "peakH": 20.25,
+   "peakDepth": 0.682,
+   "depth17Z": 0.144
+  },
+  {
+   "comid": 15876833,
+   "totDaKm2": 14.7,
+   "order": 2,
+   "flowKmToTargetEnd": 6.17,
+   "cellM": 100.0,
+   "peakTime": "11-01T19:30Z",
+   "peakH": 19.5,
+   "peakDepth": 0.191,
+   "depth17Z": 0.07
+  },
+  {
+   "comid": 15877615,
+   "totDaKm2": 9.2,
+   "order": 1,
+   "flowKmToTargetEnd": 6.17,
+   "cellM": 100.0,
+   "peakTime": "11-01T19:30Z",
+   "peakH": 19.5,
+   "peakDepth": 0.191,
+   "depth17Z": 0.07
+  },
+  {
+   "comid": 15876837,
+   "totDaKm2": 5.6,
+   "order": 1,
+   "flowKmToTargetEnd": 5.79,
+   "cellM": 25.0,
+   "peakTime": "11-01T22:45Z",
+   "peakH": 22.75,
+   "peakDepth": 3.145,
+   "depth17Z": 0.985
+  },
+  {
+   "comid": 15876839,
+   "totDaKm2": 405.5,
+   "order": 3,
+   "flowKmToTargetEnd": 5.79,
+   "cellM": 25.0,
+   "peakTime": "11-01T22:45Z",
+   "peakH": 22.75,
+   "peakDepth": 3.145,
+   "depth17Z": 0.985
+  },
+  {
+   "comid": 15876835,
+   "totDaKm2": 411.3,
+   "order": 3,
+   "flowKmToTargetEnd": 4.59,
+   "cellM": 100.0,
+   "peakTime": "11-01T23:00Z",
+   "peakH": 23.0,
+   "peakDepth": 1.439,
+   "depth17Z": 0.537
+  },
+  {
+   "comid": 15876863,
+   "totDaKm2": 128.6,
+   "order": 3,
+   "flowKmToTargetEnd": 4.59,
+   "cellM": 100.0,
+   "peakTime": "11-01T23:00Z",
+   "peakH": 23.0,
+   "peakDepth": 1.439,
+   "depth17Z": 0.537
+  },
+  {
+   "comid": 15876829,
+   "totDaKm2": 540.2,
+   "order": 4,
+   "flowKmToTargetEnd": 3.79,
+   "cellM": 100.0,
+   "peakTime": "11-01T23:00Z",
+   "peakH": 23.0,
+   "peakDepth": 1.686,
+   "depth17Z": 0.49
+  },
+  {
+   "comid": 15876831,
+   "totDaKm2": 28.3,
+   "order": 2,
+   "flowKmToTargetEnd": 3.79,
+   "cellM": 100.0,
+   "peakTime": "11-01T23:00Z",
+   "peakH": 23.0,
+   "peakDepth": 1.686,
+   "depth17Z": 0.49
+  },
+  {
+   "comid": 15876827,
+   "totDaKm2": 568.5,
+   "order": 4,
+   "flowKmToTargetEnd": 3.63,
+   "cellM": 100.0,
+   "peakTime": "11-01T23:15Z",
+   "peakH": 23.25,
+   "peakDepth": 2.011,
+   "depth17Z": 0.703
+  },
+  {
+   "comid": 15876859,
+   "totDaKm2": 4.8,
+   "order": 1,
+   "flowKmToTargetEnd": 3.63,
+   "cellM": 100.0,
+   "peakTime": "11-01T23:15Z",
+   "peakH": 23.25,
+   "peakDepth": 2.011,
+   "depth17Z": 0.703
+  },
+  {
+   "comid": 15876821,
+   "totDaKm2": 4.0,
+   "order": 1,
+   "flowKmToTargetEnd": 2.99,
+   "cellM": 100.0,
+   "peakTime": "11-01T23:15Z",
+   "peakH": 23.25,
+   "peakDepth": 3.301,
+   "depth17Z": 0.584
+  },
+  {
+   "comid": 15876823,
+   "totDaKm2": 575.8,
+   "order": 4,
+   "flowKmToTargetEnd": 2.99,
+   "cellM": 100.0,
+   "peakTime": "11-01T23:15Z",
+   "peakH": 23.25,
+   "peakDepth": 3.301,
+   "depth17Z": 0.584
+  },
+  {
+   "comid": 15876819,
+   "totDaKm2": 597.9,
+   "order": 4,
+   "flowKmToTargetEnd": 0.23,
+   "cellM": 6.25,
+   "peakTime": "11-02T06:15Z",
+   "peakH": 30.25,
+   "peakDepth": 2.491,
+   "depth17Z": 0.408
+  },
+  {
+   "comid": 15877613,
+   "totDaKm2": 5.8,
+   "order": 1,
+   "flowKmToTargetEnd": 0.23,
+   "cellM": 6.25,
+   "peakTime": "11-02T06:15Z",
+   "peakH": 30.25,
+   "peakDepth": 2.491,
+   "depth17Z": 0.408
+  },
+  {
+   "comid": 15876815,
+   "totDaKm2": 603.8,
+   "order": 4,
+   "flowKmToTargetEnd": 0.0,
+   "cellM": 12.5,
+   "peakTime": "11-02T07:00Z",
+   "peakH": 31.0,
+   "peakDepth": 2.479,
+   "depth17Z": 0.706
+  }
+ ]
+}
