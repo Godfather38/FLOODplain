@@ -25,8 +25,9 @@ the order ≥ 3 NHD lines inside domain v2 (837 points):
   a channel mask, set to 0.030 (Chow 1959 Table 5-6 A-1a normal value; the docstring cites the sources and explains
   the choice). The terrain and builder settings are the same, and so are the WorldCover n values outside the mask and
   the infiltration. The script writes `channel-mask.geojson`, `channel-sections.csv` and `channel-report.json`.
-  `--mask-only` writes only those three files and skips the subgrid build. `--centerline nhd` gives the literal
-  NHD-buffer mask.
+  `--mask-only` writes only those three files and skips the subgrid build. Without it, the subgrid build is skipped
+  only when `<output>/sfincs_subgrid.nc` already exists (an existing output folder alone does not skip it).
+  `--centerline nhd` gives the literal NHD-buffer mask.
 - `compare_subgrid_n.py`: compares a variant subgrid table with its baseline. It checks that every elevation and volume
   table is bit-identical, then reports `uv_navg` inside and outside the mask.
 - `labels-v2n-observed-inflow.json`: the v2x labels, with `sensitivityVariant: true`, a `roughnessSensitivity` block
@@ -42,7 +43,7 @@ order 5: 33.5 km):
 | Section outcome | Count |
 |---|---|
 | Measured | 341 |
-| No lidar (order 3/4 outside the windows) | 315 |
+| No lidar (outside the 1 m windows: 237 order 3, 25 order 4, 53 order 5) | 315 |
 | No incision | 128 |
 | Unbounded | 55 |
 
@@ -57,9 +58,17 @@ back to the fixed width.
 
 **The NHD line is often off the lidar channel.** At 297 of 341 measured sections (87%), the lidar channel centre lies
 outside the NHD line buffered by half the measured width (|offset| median 36 m, p90 173 m). For that reason the
-default `--centerline lidar` centres each 100 m rectangle on the measured channel where one was measured. The burned
-area is 2.56 km² (polygons 2.10 km², plus centreline pixels burned with all-touched). Of the 25,582 pixels changed,
-20,684 were shrub. 85.7% of mask pixels are lowered and 14.3% raised (bare 0.023 → 0.030). Mean n before: 0.047.
+default `--centerline lidar` centres each 100 m rectangle on the measured channel where one was measured. Since commit
+cdbe737, NHD centreline pixels (all-touched) are burned only inside the rectangles that stayed centred on NHD (no lidar
+centre measured); lidar-centred rectangles burn their polygon only. Mask check
+(`.sfincs-runs/brawley-avra-west-parameters-v2n-maskcheck2/channel-report.json`):
+- 21,845 pixels burned, 2.18 km² (polygons 2.10 km²; centreline burned on 47.8 km of line).
+- Previous WorldCover class of the burned pixels: tree (10) 337, shrub (20) 18,015, grass (30) 200, crop (40) 577,
+  built (50) 16, bare (60) 2,682, water (80) 18.
+- Mean n before: 0.0473. 87.6% of mask pixels are lowered and 12.4% raised (bare 0.023 → 0.030).
+- Before cdbe737 every NHD centreline pixel was burned: 25,582 pixels, 2.56 km² (tree 408, shrub 20,684, grass 211,
+  crop 605, built 26, bare 3,630, water 18; mean n before 0.0469; 85.7% lowered, 14.3% raised). The extra 0.37 km² was
+  mostly off-channel shrub and bare where NHD misses the lidar channel.
 
 **Limits.**
 - n is a 10 m raster, so the effective minimum channel width is one 10 m pixel.

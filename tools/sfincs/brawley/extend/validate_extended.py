@@ -9,6 +9,9 @@ No model input is changed.
 
   python -I tools/sfincs/brawley/extend/validate_extended.py --wt E:/FloodPLAIN/wt-model --run <dir>/runs/current \
      [--baseline <v2 nwm dir>/runs/current] [--compare <v2 observed dir>/runs/current] --output <out.json>
+
+The outflow balance covers outflow only from the first hourly restart (the run has no his output and map frames start at t0out); see
+balanceInputsWholeRunOutflowFromFirstRestart and outflowBeforeFirstRestart. Also written: outflowClusters, alert6443, pondNearOutlet, rainStageIV07to18Z.
 """
 import argparse, gzip, json, math
 from pathlib import Path
@@ -49,7 +52,10 @@ msk = m['msk'].values.astype(int); zb = m['zb'].values.astype(np.float64)
 times = m['time'].values; T = [str(t)[:16] + 'Z' for t in times]
 fx, fy = m['mesh2d_face_x'].values, m['mesh2d_face_y'].values
 zs = m['zs'].values.astype(np.float64); vol = m['subgrid_volume'].values.astype(np.float64)
-zsmax = m['zsmax'].values.astype(np.float64); zsmax = zsmax.max(axis=0) if zsmax.ndim == 2 else zsmax
+zsmax = m['zsmax'].values.astype(np.float64)
+zsmax_by_interval = zsmax if zsmax.ndim == 2 else None  # zsmax is reset every dtmaxout; one row per interval end
+zsmax_times = [str(t)[:16] + 'Z' for t in m['timemax'].values] if 'timemax' in m else None
+zsmax = zsmax.max(axis=0) if zsmax.ndim == 2 else zsmax
 cumprcp = m['cumprcp'].values.astype(np.float64); cumprcp = cumprcp[-1] if cumprcp.ndim == 2 else cumprcp
 cuminf = m['cuminf'].values.astype(np.float64); cuminf = cuminf[-1] if cuminf.ndim == 2 else cuminf
 prate = m['precipitation_rate'].values.astype(np.float64); m.close()
@@ -64,6 +70,29 @@ near_out = is3 & (np.hypot(xc - ox, yc - oy) <= 2000.0)
 links_out = np.where((near_out[uv_nm] & ~is3[uv_nmu]) | (near_out[uv_nmu] & ~is3[uv_nm]))[0]; sign_out = np.where(near_out[uv_nmu[links_out]], 1.0, -1.0)
 res['geometry'].update(outflowCellsAll=int(is3.sum()), outflowLinksAll=int(links_all.size), outletCells720060498=int(near_out.sum()), outletLinks=int(links_out.size),
                        inletFace={'face': inlet, 'cellM': float(size[inlet]), 'zb': float(zb[inlet]), 'lonlat': [round(v, 5) for v in TO_LL.transform(xc[inlet], yc[inlet])]})
+# outflow clusters: single-linkage of outflow-cell (msk == 3) centres, 1,500 m. Each outflow link belongs to the cluster of its msk == 3 side.
+CLUSTER_LINK_M = 1500.0
+o3 = np.where(is3)[0]; par = list(range(o3.size))
+
+
+def _root(i):
+    while par[i] != i: par[i] = par[par[i]]; i = par[i]
+    return i
+
+
+for i in range(o3.size):
+    for j in range(i + 1, o3.size):
+        if math.hypot(xc[o3[i]] - xc[o3[j]], yc[o3[i]] - yc[o3[j]]) <= CLUSTER_LINK_M: par[_root(i)] = _root(j)
+groups = {}
+for i in range(o3.size): groups.setdefault(_root(i), []).append(int(o3[i]))
+groups = sorted(groups.values(), key=lambda g: (-len(g), -float(yc[g].mean())))
+cell_cluster = np.full(NF, -1); [cell_cluster.__setitem__(g, ci) for ci, g in enumerate(groups)]
+link_cluster = np.where(is3[uv_nm[links_all]], cell_cluster[uv_nm[links_all]], cell_cluster[uv_nmu[links_all]])
+CLUSTERS = {}
+for ci, g in enumerate(groups):
+    lo, la = TO_LL.transform(float(xc[g].mean()), float(yc[g].mean()))
+    CLUSTERS[f'Outflow cluster {ci + 1} ({len(g)} cells, {lo:.3f} {la:.3f})'] = {'cells': len(g), 'centreLonLat': [round(lo, 3), round(la, 3)], 'links': int((link_cluster == ci).sum()),
+                                                                              'sameCellsAsOutlet720060498': bool(set(g) == set(np.where(near_out)[0].tolist())), '_ci': ci}
 
 
 def read_rst(path):
@@ -87,13 +116,15 @@ sec = {k: section_links(*v) for k, v in SECTIONS.items()}
 
 
 def hourly_flux(d):
-    rst = sorted(d.glob('sfincs.*.rst')); hours, out = [], {k: [] for k in list(sec) + ['Outlet 720060498 (outflow links)', 'All outflow cells']}
+    rst = sorted(d.glob('sfincs.*.rst')); hours, out = [], {k: [] for k in list(sec) + ['Outlet 720060498 (outflow links)', 'All outflow cells'] + list(CLUSTERS)}
     for pth in rst:
         _, qq = read_rst(pth); assert qq.size >= NPUV
         hours.append(pth.name.split('.')[1] + 'T' + pth.name.split('.')[2][:2] + 'Z')
         for k, (ln, sg) in sec.items(): out[k].append(float((qq[ln] * uv_w[ln] * sg).sum()))
         out['Outlet 720060498 (outflow links)'].append(float((qq[links_out] * uv_w[links_out] * sign_out).sum()))
         out['All outflow cells'].append(float((qq[links_all] * uv_w[links_all] * sign_all).sum()))
+        for k, c in CLUSTERS.items():
+            sel = links_all[link_cluster == c['_ci']]; sg = sign_all[link_cluster == c['_ci']]; out[k].append(float((qq[sel] * uv_w[sel] * sg).sum()))
     hours = [h[:4] + '-' + h[4:6] + '-' + h[6:8] + 'T' + h[9:11] + ':00Z' for h in hours]
     return hours, out, rst
 
@@ -101,6 +132,9 @@ def hourly_flux(d):
 hours, flux, rst = hourly_flux(D)
 res['sectionsHourlyM3s'] = {k: dict(zip(hours, [round(v, 3) for v in s])) for k, s in flux.items()}
 res['sectionPeaks'] = {k: {'m3s': round(max(s), 3), 'time': hours[int(np.argmax(s))]} for k, s in flux.items()}
+res['outflowClusters'] = {k: {kk: vv for kk, vv in c.items() if kk != '_ci'} | {'peakM3s': round(max(flux[k]), 3), 'peakTime': hours[int(np.argmax(flux[k]))],
+                                                                              'volumeFromFirstRestartM3': round(float(np.trapz(flux[k], dx=3600.0)))} for k, c in CLUSTERS.items()}
+res['outflowClustersMethod'] = f'single-linkage of msk==3 cell centres within {CLUSTER_LINK_M:.0f} m; hourly restart flux, trapezoid from {hours[0]}'
 base = None
 if a.baseline:
     bh, bf, _ = hourly_flux(a.baseline)
@@ -115,11 +149,48 @@ dis = np.loadtxt(D / 'sfincs.dis'); t_s, qin = dis[:, 0], dis[:, 1]
 qall = np.array(flux['All outflow cells']); qo = np.array(flux['Outlet 720060498 (outflow links)'])
 rain = float((cumprcp * area).sum()); inf = float((cuminf * area).sum()); s_end = float(np.nansum(vol[-1])); inflow = float(np.trapz(qin, t_s))
 outv = float(np.trapz(qall, dx=3600.0)); resid = inflow + rain - inf - s_end - outv
-res['balanceWholeRun'] = {'inflowM3': round(inflow), 'inflowPeakM3s': float(qin.max()), 'rainM3': round(rain), 'rainMeanMm': 1000 * rain / area.sum(), 'infiltrationM3': round(inf), 'infMeanMm': 1000 * inf / area.sum(),
-                          'storageEndM3': round(s_end), 'outflowAllCellsHourlyRstM3': round(outv), 'outflowWindowStart': hours[0], 'outletOnlyVolumeM3': round(float(np.trapz(qo, dx=3600.0))),
-                          'residualM3': round(resid), 'residualPctOfInputs': 100 * resid / (inflow + rain), 'negativeVolumeEndM3': float(vol[-1][vol[-1] < 0].sum()), 'minCellVolumeM3': float(np.nanmin(vol))}
+# Inflow, rain and infiltration cover the whole run (dis file; cumprcp/cuminf are cumulative from tstart). Outflow is only known from the hourly restarts,
+# which start at the first restart (18Z Nov 1): the run writes no his file and map frames start at t0out (17Z Nov 1). So outflow before the first restart
+# is NOT in this balance; the residual below is therefore the largest (least negative) value the true residual can take.
+res['balanceInputsWholeRunOutflowFromFirstRestart'] = {
+    'inflowM3': round(inflow), 'inflowVolumeBasis': 'trapezoid over sfincs.dis (the solver interpolates linearly between the hourly values)',
+    'inflowPeakM3s': float(qin.max()), 'rainM3': round(rain), 'rainMeanMm': 1000 * rain / area.sum(), 'infiltrationM3': round(inf), 'infMeanMm': 1000 * inf / area.sum(),
+    'storageEndM3': round(s_end), 'outflowAllCellsHourlyRstM3': round(outv), 'outflowWindowStart': hours[0], 'outletOnlyVolumeM3': round(float(np.trapz(qo, dx=3600.0))),
+    'residualM3': round(resid), 'residualPctOfInputs': 100 * resid / (inflow + rain), 'residualNote': 'inflow + rain - infiltration - storageEnd - outflow(from first restart); any outflow before the first restart makes the true residual more negative by that amount',
+    'negativeVolumeEndM3': float(vol[-1][vol[-1] < 0].sum()), 'minCellVolumeM3': float(np.nanmin(vol))}
+# ---- what the outputs say about outflow before the first restart (not measured) ----
+ref_t = np.datetime64('2026-10-30T16:00'); t_first = np.datetime64(hours[0][:16]); s_first = float((t_first - ref_t) / np.timedelta64(1, 's'))
+pq = xr.open_dataset(D / 'precip_2d.nc'); pv = pq['Precipitation'].values.astype(np.float64); pxs = pq['x'].values; pys = pq['y'].values; pts_ = pq['time'].values; pq.close()
+ix_ = np.clip(np.round((xc - pxs[0]) / (pxs[1] - pxs[0])).astype(int), 0, pxs.size - 1); iy_ = np.clip(np.round((yc - pys[0]) / (pys[1] - pys[0])).astype(int), 0, pys.size - 1)
+p_at = pv[:, iy_, ix_]  # mm/h, interval-start labelled hourly frames, nearest 1 km grid cell to each face centre
+hrs_before = np.array([(np.datetime64(str(t)[:16]) < t_first) for t in pts_])
+rain_pre = float((p_at[hrs_before] / 1000.0 * area[None, :]).sum()); ii = np.where(t_s <= s_first)[0]; inflow_pre = float(np.trapz(qin[ii], t_s[ii]))
+i_first = T.index(hours[0]); s_first_vol = float(np.nansum(vol[i_first]))
+h_out = vol[:, is3] / area[None, is3]
+res['outflowBeforeFirstRestart'] = {
+    'measured': False, 'why': 'no his output; map frames start ' + T[0] + '; hourly restarts start ' + hours[0],
+    'outflowAllLinksFirst4RestartsM3s': {hh: round(v, 3) for hh, v in list(zip(hours, flux['All outflow cells']))[:4]},
+    'outflowCellsMaxVolOverAreaM_byFrame': {T[i]: round(float(np.nanmax(h_out[i])), 4) for i in range(0, min(len(T), 21), 4)},
+    'inflowBeforeM3': round(inflow_pre), 'rainBeforeM3_meshNearest1kmCell': round(rain_pre), 'rainBeforeMeanMm': round(1000 * rain_pre / area.sum(), 2), 'storageAtFirstRestartM3': round(s_first_vol),
+    'upperBoundM3': round(inflow_pre + rain_pre - s_first_vol),
+    'upperBoundNote': 'inflow + rain before the first restart minus storage then, taking infiltration before it as zero (it is not zero, so the bound is loose) and the pre-restart numerical residual as small',
+    'trueResidualRangeM3': [round(resid - (inflow_pre + rain_pre - s_first_vol)), round(resid)]}
 R_frames = (prate / 1000.0 / 3600.0 * area[None, :]).sum(axis=1)
 res['rainDomainMeanMmH_hourlyFrames'] = {T[i]: round(float(R_frames[i] / area.sum() * 3600 * 1000), 3) for i in range(0, len(T), 4)}
+# ---- 07Z-18Z observed Stage IV domain mean on three bases ----
+i07r = T.index('2026-11-02T07:00Z'); mesh_mean = R_frames / area.sum() * 3600 * 1000  # mm/h per frame
+ext07 = np.array([(np.datetime64(str(t)[:16]) >= np.datetime64('2026-11-02T07:00')) for t in pts_])
+s4 = json.loads((WT / 'tools/sfincs/data/brawley-avra-west-v2/extended/rain-extension-stage4-metadata.json').read_text())['stats']
+res['rainStageIV07to18Z'] = {
+    'meshAreaWeightedMm_mapFramesLeftRiemann': round(float(mesh_mean[i07r:-1].sum() * 0.25), 3),
+    'meshAreaWeightedMm_mapFramesTrapezoid': round(float(np.trapz(mesh_mean[i07r:], dx=0.25)), 3),
+    'meshAreaWeightedMm_inputNearest1kmCell': round(float((p_at[ext07] * area[None, :]).sum() / area.sum()), 3),
+    'meshAreaWeightedInputMmH_byHour': {str(t)[:13] + 'Z': round(float((p_at[i] * area).sum() / area.sum()), 3) for i, t in enumerate(pts_) if ext07[i]},
+    'wholeRunCheck': {'inputNearest1kmCellMeshMeanMm': round(float((p_at * area[None, :]).sum() / area.sum()), 3), 'cumprcpMeshMeanMm': round(1000 * rain / area.sum(), 3)},
+    'mapFramesNote': 'precipitation_rate in the map is a 15-min sample of the applied rate, so integrating the frames only approximates the applied rain; cumprcp is the solver total',
+    'input1kmGridBboxMeanMm': round(float(np.nanmean(pv[ext07], axis=(1, 2)).sum()), 3),
+    'hrapCellMeanMm_metadataStats': round(sum(v['mean'] for k, v in s4.items() if '2026-11-02T07' <= k[:13] <= '2026-11-02T17'), 3),
+    'note': 'mesh-area-weighted is the rain the model receives; the HRAP cell mean is an unweighted mean over the mapped Stage IV cells; the bbox mean is an unweighted mean over the 1 km precip_2d grid'}
 # ---- negative depth (live verifier limit 1 mm) ----
 h = vol / area[None, :]
 k = np.unravel_index(np.nanargmin(h), h.shape)
@@ -159,6 +230,30 @@ for name, f in POINTS.items():
         rec['diffVsBaselineFirstGt0p3'] = next((T[i] for i in range(n) if d[i] > 0.3), None); rec['diffVsBaselineMaxTo07Z'] = round(float(d.max()), 3)
     pts[name] = rec
 res['points'] = pts
+# ---- ALERT 6443 reading vs model flux across both Mile Wide bands (hourly restarts, linear between hours) ----
+READ_M3S = 817 * 0.0283168; mw = flux['Mile Wide both bands']; first = None
+for j in range(1, len(mw)):
+    if mw[j - 1] < READ_M3S <= mw[j]:
+        frac = (READ_M3S - mw[j - 1]) / (mw[j] - mw[j - 1]); t0_ = np.datetime64(hours[j - 1][:16]) + np.timedelta64(int(round(frac * 60)), 'm')
+        first = {'time': str(t0_) + 'Z', 'before': {hours[j - 1]: round(mw[j - 1], 3)}, 'after': {hours[j]: round(mw[j], 3)}, 'method': 'linear between hourly restarts'}; break
+gp = pts['ALERT 6443 lowest face within 30 m (Black Wash band)']
+res['alert6443'] = {'reading': '~817 cfs (23.1 m3/s) at ~03:04Z, second-hand', 'readingM3s': round(READ_M3S, 2),
+                    'modelBothBands03Z': round(mw[hours.index('2026-11-02T03:00Z')], 3), 'ratio03Z': round(mw[hours.index('2026-11-02T03:00Z')] / READ_M3S, 2),
+                    'modelFirstAtReading': first, 'modelPeak': res['sectionPeaks']['Mile Wide both bands'],
+                    'gaugeCellZsMax': gp['maxZs'], 'gaugeCellZsMaxTime': gp['maxZsTime'], 'gaugeCellMaxDepth': gp['maxDepth']}
+# ---- pond near the outlet: deepest face in the run (zsmax - zb, both zsmax intervals), storage around it ----
+with np.errstate(all='ignore'):
+    depmax = zsmax - zb
+pf = int(np.nanargmax(depmax)); zf = np.where(np.isnan(zs[:, pf]), zb[pf], zs[:, pf]); op = POINTS['Outlet node 720060498 (lowest within 100 m)']
+res['pondNearOutlet'] = {'face': pf, 'cellM': float(size[pf]), 'lonlat': [round(v, 5) for v in TO_LL.transform(xc[pf], yc[pf])], 'zb': round(float(zb[pf]), 3),
+                         'zsMax': round(float(zsmax[pf]), 3), 'zsMaxFrames': round(float(zf.max()), 3), 'zsMaxFrameTime': T[int(np.argmax(zf))],
+                         'zsMaxFirstInterval': round(float(zsmax_by_interval[0][pf]), 3) if zsmax_by_interval is not None else None, 'zsMaxIntervalEnds': zsmax_times,
+                         'depthMax': round(float(depmax[pf]), 3), 'zs17Z_Nov2': round(float(zf[T.index('2026-11-02T17:00Z')]), 3), 'zsEnd': round(float(zf[-1]), 3),
+                         'stillRisingAtEnd': bool(zf[-1] > zf[-2]),
+                         'kmFromOutletNode720060498': round(float(np.hypot(xc[pf] - ox, yc[pf] - oy)) / 1000, 2),
+                         'storedWithin1p5kmAtEndM3': round(float(np.nansum(vol[-1][np.hypot(xc - xc[pf], yc - yc[pf]) <= 1500.0]))),
+                         'outletChannelFace': int(op), 'outletChannelZb': round(float(zb[op]), 3), 'outletChannelZsMax': pts['Outlet node 720060498 (lowest within 100 m)']['maxZs'],
+                         'outletChannelMaxDepth': pts['Outlet node 720060498 (lowest within 100 m)']['maxDepth']}
 # ---- front (diff vs baseline to 07Z) ----
 if base:
     bT, bzs = base; n = min(len(bT), len(T)); ix, iy = xc[inlet], yc[inlet]; fr = {}

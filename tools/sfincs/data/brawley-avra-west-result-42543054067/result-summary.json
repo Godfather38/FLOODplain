@@ -3,7 +3,7 @@
   "caseId": "brawley-avra-west-native-case-v2",
   "modelVersion": "all-routes-brawley-avra-west-v1",
   "caseRouteIds": [],
-  "nativeRunDirectory": "E:\\FloodPLAIN\\wt-model\\.sfincs-runs\\brawley-avra-west-result-42543054067\\artifact\\runs\\current",
+  "nativeRunDirectory": ".sfincs-runs\\brawley-avra-west-result-42543054067\\artifact\\runs\\current",
   "nativeDirectoryModified": false,
   "completion": {
     "logsRead": [
