@@ -523,7 +523,7 @@
    "plateau0845to1620Z_Nov2": 328393,
    "observed18Zto18ZWithoutPlateau": 1454356,
    "observed16Zto18ZWithoutPlateau": 1556059,
-   "plateauNote": "The 08:45-16:20Z Nov 2 reports sit at 2.64-2.72 ft, 397-434 cfs (11.24-12.29 m3/s). On this rating that is on the steep low-stage step (0 cfs up to 2.49 ft, 16-17 cfs at 2.50 ft, 330-332 cfs at 2.59 ft, 383 cfs at 2.61 ft in the 1,000 reports on the page), so a few hundredths of a foot of stage shift (sediment at the sensor, a moved control) would read as hundreds of cfs. The plateau may be a rating or stage-shift artifact. Leaving it out is a bracket, not a measurement: if it is an artifact the true flow then is unknown, not zero. The 16:20-18:00Z gap (100 min) is bridged linearly in all totals (66,601 m3)."
+   "plateauNote": "The 08:45-16:20Z Nov 2 reports sit at 2.64-2.72 ft, 397-434 cfs (11.24-12.29 m3/s). On this rating that is on the steep low-stage step (0 cfs up to 2.49 ft, 16-17 cfs at 2.50 ft, 330-332 cfs at 2.59 ft, 383 cfs at 2.61 ft in the 1,000 reports on the page), so a few hundredths of a foot of stage shift (sediment at the sensor, a moved control) would read as hundreds of cfs. The plateau may be a rating or stage-shift artifact. Leaving it out is a bracket, not a measurement: if it is an artifact the true flow then is unknown, not zero. The 16:20-18:00Z gap (100 min) is bridged linearly in all totals (66,603 m3)."
   },
   "stageRise": {
    "note": "Observed stage is on the gauge datum; the rise is measured from the pre-event base reading 2.30 ft. 2.30 ft is the base reading, not the rating's zero-flow stage (the rated flow stays 0 cfs up to 2.49 ft). The model is zs on its cell. Only rises are comparable, and only roughly; this is not a water-level comparison.",
@@ -11957,5 +11957,5 @@
   }
  ],
  "rainWindow": "From the tip times in raw/alert_showdata_64x0: the main burst was 14:45-17:05Z Nov 1 at all six gauges. Lighter rain followed after 17:05Z: 6440 Mile Wide 0.24 in to 20:20Z, 6500 0.35 in to 20:32Z, 6460 0.31 in to 20:30Z, 6420 0.31 in to 21:02Z, 6450 0.47 in to 21:27Z, 6480 0.04 in at 19:16Z. The last tips were ALERT 6420 at 21:02Z and 6450 at 21:27Z, so 'no rain' starts about 21:30Z Nov 1 and lasts until 07:06Z Nov 2 (first tip, 6460).",
- "postBuildEdits": "2026-11-09 by hand, not by build_gauges.py: alert6443Claim verdict/context/otherReport817, mileWideComparison.gauge naming, volumeM3 plateau fields, stageRise keys and note, sensors[ALERT 6443].nameAndNetworkSnap and summaryTaskWindow baseStageNote/lowStageRatingCaveat, rainWindow. A re-run of build_gauges.py would drop them until the builder is updated."
+ "postBuildEdits": "2026-11-09 corrections (alert6443Claim verdict/context/otherReport817, mileWideComparison.gauge naming, volumeM3 plateau fields, stageRise keys and note, sensors[ALERT 6443].nameAndNetworkSnap and summaryTaskWindow baseStageNote/lowStageRatingCaveat, rainWindow). First made by hand; since 2026-11-09 written by build_gauges.py post_build_edits(), with every number computed from raw/ and asserted, so a re-run reproduces this file."
 }

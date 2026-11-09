@@ -3,16 +3,21 @@
 Validation data only. Not forcing, not used to tune anything. Built by `build_gauges.py` (run it from the worktree
 root with the project venv and `-I`). It reads the raw downloads in `raw/` (gzipped, exact bytes as served; the
 sha256 of each uncompressed file is in `gauges.json`), the committed v2x result
-(`../extended/result-42544624673/`, read from git HEAD) and the NWM analysis already in the repo
+(`../extended/result-42544624673/`, read from the pinned commit 8b1d2f02cdc0) and the NWM analysis already in the repo
 (`../../brawley-avra-west-v1/nwm-validation-reaches.json`).
 
 All times below are UTC unless marked MST. The county ALERT pages use Arizona MST (UTC−7, no daylight saving).
 That was checked two ways: the newest report matches the feed time the snapshot script treats as UTC−7, and the
 ALERT 6423 jump at 14:00 MST lines up with the co-located USGS 09487000 jump at 14:00–14:15 −07:00.
 
-**Hand edits (2026-11-09).** Some fields of `gauges.json` were added or corrected by hand after the build (listed in
-its `postBuildEdits`): the 817 cfs wording, the gauge name and NHD snap, the plateau volumes and caveat, the base
-reading and rating notes, and the rain window. `build_gauges.py` does not write them yet, so a re-run would drop them.
+**2026-11-09 corrections, now written by the builder.** Some fields of `gauges.json` were first corrected by hand
+(listed in its `postBuildEdits`): the 817 cfs wording, the gauge name and NHD snap, the plateau volumes and caveat, the
+base reading and rating notes, and the rain window. `build_gauges.py` now writes them itself (`post_build_edits()`),
+computing every number from `raw/` and asserting it. It reads the model side from the pinned commit `8b1d2f02cdc0`
+(the file's `modelCommit`, option `--model-commit`), not from HEAD, so a re-run on any later commit gives the same file.
+Checked 2026-11-09: two consecutive re-runs are byte-identical to the committed `gauges.json`. Against the hand-edited
+version, only two strings changed: the `postBuildEdits` note, and the 16:20–18:00Z gap volume in `plateauNote`,
+66,601 → 66,603 m³. The builder uses the rounded m³/s values that all the other totals use.
 
 ## Where the data came from
 
@@ -72,7 +77,7 @@ Six ALERT rain gauges (6440 Mile Wide, 6420 Three Points, 6450 Hilltop, 6460 Pic
   | 2 | 21:45–22:00Z | 14:45–15:00 | 4.17 ft | 1,482 cfs = 42.0 m³/s |
   | 3 | 02:10Z Nov 2 | 19:10 | 3.50 ft | 906 cfs = 25.7 m³/s |
 
-- After peak 3 the flow eases to 484–572 cfs (13.7–16.2 m³/s) at 04–08Z Nov 2. It then sits flat at 2.64–2.71 ft,
+- After peak 3 the flow eases to 484–572 cfs (13.7–16.2 m³/s) at 04–08Z Nov 2. It then sits flat at 2.64–2.72 ft,
   397–434 cfs (11.2–12.3 m³/s), from 08:45Z to 16:20Z, and reads 387 cfs at 18Z. It is still 236 cfs (2.56 ft) at
   23Z Nov 2.
 - One gap over 65 min in the task window: 16:20–18:00Z Nov 2.

@@ -72,7 +72,7 @@ Every hour is in `alert6443-observed-compare.json`.
 - **v2r still does not produce the observed 18:20Z peak.** The modelled Black Wash band is 1.3 m³/s at 18Z and 13.2 at 19Z against an observed 52 at both hours.
 - **v2r peaks at 06–07Z Nov 2**, about 12–13 h after the observed peak (Black Wash band 122.9 at 06Z, 1.90× the observed 64.7; both bands 139.2 at 07Z, 2.15×).
 - **Volume.** v2r carries 4.24× (Black Wash band) / 4.64× (both bands) the observed 18Z–18Z volume; v2x was 0.88× / 1.04×.
-  - The observed volume has a rating caveat (`../../observed-gauges-20261101/README.md`): the 08:45–16:20Z Nov 2 plateau of 11–12 m³/s at 2.64–2.71 ft may be a rating or stage-shift artifact. The plateau carries 0.33M m³; leaving it out gives 1.45M m³ for 18Z–18Z. That is a bracket, not a measurement: if the plateau is an artifact, the true flow then is unknown, not zero. Against 1.45M m³, v2r would be 5.20× / 5.69× and v2x 1.08× / 1.28×.
+  - The observed volume has a rating caveat (`../../observed-gauges-20261101/README.md`): the 08:45–16:20Z Nov 2 plateau of 11–12 m³/s at 2.64–2.72 ft may be a rating or stage-shift artifact. The plateau carries 0.33M m³; leaving it out gives 1.45M m³ for 18Z–18Z. That is a bracket, not a measurement: if the plateau is an artifact, the true flow then is unknown, not zero. Against 1.45M m³, v2r would be 5.20× / 5.69× and v2x 1.08× / 1.28×.
 - The gauge cell zs peaks at 674.147 at 06:15Z, 2.49 m above the cell bed (v2x: 673.631 at 09:15Z).
 
 ### Road over-topping
@@ -121,7 +121,10 @@ Over-topping is cell zs minus station roadZ, counted only in wet frames (vol/are
 
 **Stale field in the packaged case (not edited).** `current-case.json` and `manifest.json` of `brawley-avra-west-native-case-v2r-observed-inflow` carry `forecastIssue: 2026-11-01T13:00:00Z`, copied from the frozen case (the NWM short_range cycle). v2r uses no forecast: the inflow is observed USGS 09487000 and the rain is observed Stage IV after 13Z Nov 1. The field is left as packaged because those files are hashed; read it as stale.
 
-**Rain metadata label.** `../rain-v2r-stage4-metadata.json` was written by the v2x fetch tool and its `purpose` named v2x. It was relabelled by hand on 2026-11-09 as SENSITIVITY v2r; the file is not hashed by the case.
+**Rain metadata label.** `../rain-v2r-stage4-metadata.json` was written by the v2x fetch tool and its `purpose` named v2x. It was relabelled by hand on 2026-11-09 as SENSITIVITY v2r. That committed copy is not hashed by the case.
+- *Corrected 2026-11-09:* the packaged case still carries the old text. Its `current-case.json` (inside the archive and next to it) lists, under `rainfall.sourceArtifacts`, the original `.sfincs-runs/brawley-avra-west-rainfall-v2r/observed-extension-metadata.json` (sha256 5556168c…). That file's `purpose` still reads "Validation-only extended-window rain (brawley-avra-west v2x). Not live forcing."
+- The packaged `rainSensitivity.hypothesis` also keeps its first wording: "11.8 m3/s at 03Z in v2x vs about 23.1 m3/s observed". The 11.8 is the both-bands value (the Black Wash band was 8.83), and the observed value at 03Z in the primary series is 21.97 m³/s (776 cfs).
+- Both are left as packaged because the case files are hashed. Read them as stale labels; this README and `summary.json` carry the corrected wording.
 
 **Not committed.** The native output: artifact `sfincs-verification`, 648,044,550 bytes, retention 7 days. `sfincs_map.nc` is 381,279,696 bytes, sha256 72c6433020ad….
 

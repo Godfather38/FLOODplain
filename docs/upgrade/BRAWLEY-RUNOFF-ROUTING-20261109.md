@@ -28,7 +28,8 @@ Files:
      - **Wet-average soil class on top:** the CN map is GCN10 ARC II "undrained", and it is applied *on top of* that carried-over rain.
      - **Losses on the ground not modelled:** routed or ponded water never infiltrates, so there are no transmission losses and no run-on infiltration.
 3. **Most of the "12 h late" is a plateau, not a slow wave.**
-   - The model's Black Wash band passes 82 m³/s at 22Z. It stays at 106–123 m³/s from 23Z to 09Z, and its 06–07Z maximum comes from the Stage IV rain at 07–09Z Nov 2 falling on that plateau.
+   - The model's Black Wash band passes 82 m³/s at 22Z. It stays at 106–123 m³/s from 23Z to 09Z.
+   - Its maximum (122.9 m³/s at 06Z; both bands 139.2 at 07Z) is **not** caused by the late rain (corrected 2026-11-09; an earlier version said it was). That rain is in the frames stamped 07Z, 08Z and 09Z, which are Stage IV interval *starts*, so it falls 07–10Z, after the maximum. The re-derived cause is in §1.3.
    - The real timing errors are smaller:
 
      | Measure | Observed | Model | Model is late by |
@@ -80,8 +81,16 @@ Black Wash area, 603 km²:
 - **Mean retention:** S 55.6 mm (2.19 in), equivalent to CN 82.2. The initial abstraction Ia = 0.2S is 11.1 mm.
   - CN by share of the domain area: 73–80 on 4%, 80–85 on 76%, 85–90 on 16%, ≥90 on 2%.
 - **Already past Ia when the burst started.** At 14Z, **91% of the area** had already received more than Ia. The cause is the 15.4 mm from the earlier showers, which `cna` counts as the same storm (§2.3).
-- **The runoff fraction rises through the event,** from 0.39 to 0.66. Late, light rain therefore runs off almost entirely.
-  - The 07–09Z Nov 2 rain (3.9 mm) makes 1.53M m³ of runoff. That is the bump that sets the model's 06–07Z "peak".
+- **The runoff fraction rises through the event,** from 0.39 to 0.66. Late, light rain therefore runs off at a high rate.
+  - The rain in the frames stamped 07Z, 08Z and 09Z Nov 2 (Stage IV intervals 07–10Z; 1.18 + 2.09 + 0.58 = 3.85 mm over the area) makes 1.53M m³ of runoff. *Corrected 2026-11-09:* an earlier version called this the "07–09Z" rain and said it set the model's 06–07Z maximum. It cannot: it falls after that maximum.
+  - **When the solver applies a frame.** In the 15-min map rates, the value of the frame stamped hh holds at hh:00, hh:15 and hh:30, and hh:45 shows the mean of frames hh and hh+1. So the 07Z frame's rain starts at 06:45Z at the earliest, at half rate. (The reconstruction here books frame hh to hh–hh+1; the whole-run totals still match `cumprcp`.)
+  - **What does set the maximum (re-derived from the hourly restart transects, all hours; inference, not separated by a run).**
+    - The Black Wash band has a first maximum of 119.1 m³/s at 00Z, falls to 105.8 at 03Z, then rises again to 122.9 at 06Z.
+    - That second rise starts in the lower basin. On the Black Wash path it shows at km 38 at 04Z (97 → 103 m³/s from 03Z), km 40 at 04–05Z (103 → 116), km 42 at 05Z (106 → 123) and km 43 at 06–07Z (112 → 136). At km 34 and km 36 the flow keeps falling (71 → 58 and 32 → 26 m³/s from 03Z to 06Z). So the extra water enters between km 36 and the gauge, where the 129 km² tributary joins at about km 38.5, not from the upper basin.
+    - It follows the light rain in the frames stamped 02Z, 03Z and 04Z (applied about 01:45–04:45Z): 0.58 mm over the area, 0.45 mm within 8 km of the gauge and 1.03 mm in the 8–15 km ring. The CN rule turns it into 0.23M m³ (C 0.66), at a time when most of the area is already past Ia.
+    - The three late tributaries in §4.1 (15876939, 15876931 and 15877621, peaks 00:30–04Z) join upstream of km 34, where no second rise is seen. They are therefore not the cause.
+    - The both-bands maximum at 07Z (139.2) adds the Brawley band, which rises from 5.9 m³/s at 03Z to 17.0 at 07Z and 18.1 at 08Z as the inlet wave arrives (§4.2).
+    - The 07–10Z rain can only act after about 06:45Z. This run does not show how much it holds up the recession after 07Z.
 - **Timing of generation.** 56.5% of the event runoff is generated before 18Z. The centroid of generation is 20:23Z Nov 1.
 
 ### 1.4 Observed volume at ALERT 6443
@@ -136,7 +145,8 @@ Volumes are computed linearly between reports. Reports are event-driven plus hou
 
 1. **No recovery, and accumulation from 30 Oct 16Z.**
    - The 15.4 mm that fell up to 46 h before the burst is treated as the start of one long storm. Ia is used up before the burst, on 91% of the area.
-   - **Bracket.** Accumulating only from 11-01T14Z, which is the fully recovered limit of `cnb`, halves the event runoff: 5.14M m³, C 0.23.
+   - **Bracket (cna).** Accumulating only from 11-01T14Z, i.e. the same `cna` rule with the storage empty again at 14Z, halves the event runoff: 5.14M m³, C 0.23.
+     - *Corrected 2026-11-09:* an earlier version called this "the fully recovered limit of `cnb`". It is a `cna` bracket only. `cnb` uses its own `smax`, `seff` and `ks` fields and its own recovery rate, so a `cnb` run can give more or less than 5.14M m³; this number is not a bound on it.
 2. **The ARC II class on top of carried-over rain counts the antecedent wetness twice.**
    - ARC II already stands for average antecedent wetness. Accumulating the earlier rain on top of it adds that wetness a second time.
    - NEH-4 (1972) classic 5-day rule: 0.6 in of rain in the 5 days before the storm is AMC I in the growing season (below 1.4 in) and AMC II in the dormant season (0.5–1.1 in).
@@ -182,7 +192,7 @@ Volumes are computed linearly between reports. Reports are event-driven plus hou
     | Sand and gravel with high silt and clay | 6–25 |
 
   - **Channel beds only.**
-    - In the model, the channel-mask faces are wet (cell mean depth ≥ 0.05 m) for 6.55 km²·h from 17Z to 18Z, which would lose 0.16–0.50M m³ at K = 25–76 mm/h.
+    - In the model, the channel-mask faces are wet (cell mean depth ≥ 0.05 m) for 6.55 km²·h over the map window, 17Z Nov 1 to 18Z Nov 2 (25 h of 15-min frames). At K = 25–76 mm/h that would lose 0.16–0.50M m³.
     - The whole Black Wash bed network is larger than the mask: 255 km of order 1, 55 km of order 2, 21.6 km of order 3 and 4.6 km of order 4.
       - With the measured median widths (order 3: 10 m, order 4: 25 m) and assumed widths of 3 m and 5 m for orders 1–2, the bed area is about 1.4 km².
       - Wet for about 10 h, that is about **0.35–1.06M m³** at 25–76 mm/h, and 1.8M m³ at 127 mm/h. That is 3–17% of the 10.34M m³ generated.
@@ -254,7 +264,7 @@ Volumes are computed linearly between reports. Reports are event-driven plus hou
 
 | # | Change | Physical source | What it isolates | Bracket / expectation at Mile Wide | Cost |
 |---|---|---|---|---|---|
-| 1 | `inftype cnb` (CN with recovery) from GCN10 + soil Ks. HydroMT `setup_cn_infiltration_with_ks` writes smax, seff and ks; Ks from gNATSGO/SSURGO or POLARIS. | SFINCS docs (cnb); NRCS recovery after a dry period; SWMM-style kr = √(Ks/25.4)/75 in the source | Whether the earlier showers should still count when the burst starts | Event runoff ≤ 5.14M m³ (C ≤ 0.23; the fully recovered limit), down from 10.34M | Parameter build locally (minutes); one 74 h run, about 5,700–5,800 s. `cnb` supports restart, so later tests could restart from 14Z. |
+| 1 | `inftype cnb` (CN with recovery) from GCN10 + soil Ks. HydroMT `setup_cn_infiltration_with_ks` writes smax, seff and ks; Ks from gNATSGO/SSURGO or POLARIS. | SFINCS docs (cnb); NRCS recovery after a dry period; SWMM-style kr = √(Ks/25.4)/75 in the source | Whether the earlier showers should still count when the burst starts | Not computed for `cnb` itself. The `cna` bracket with rain counted from 14Z gives 5.14M m³ (C 0.23), down from 10.34M; it is not a bound on `cnb` (§2.3) | Parameter build locally (minutes); one 74 h run, about 5,700–5,800 s. `cnb` supports restart, so later tests could restart from 14Z. |
 | 2 | GCN10 **drained** rasters instead of undrained (same fair, ARC II) | GCN10 docs: undrained gives dual groups their D value for high water tables; Avra Valley water table is deep (check ADWR GWSI) | The soil-group choice | Not computed. Offline bracket first: fetch `cn_rasters_drained/cn_f_ii_2280/2281`, recompute S and rerun `loss_brackets.py` (minutes), then run only if it matters | Minutes offline; one run if it matters |
 | 3 | ARC I (GCN10 publishes `cn_f_i_*`), without the in-run accumulation that double counts | NEH-4 (1972) 5-day rule: 0.6 in < 1.4 in, growing season → AMC I; NEH 630 Ch. 10 ARC | Antecedent wetness | 3.00M m³ (C 0.14) with accumulation from 30 Oct; 0.84M m³ (C 0.04) event-only. The observed 1.5–1.9M lies between, so this is a bracket, not a fit. | One run |
 | 4 | Infiltration of routed water: Horton (`hor`) as the whole-domain method, which infiltrates ponded and run-on water; or a SFINCS change to allow `c2d` bed loss on channel faces alongside CN | Lane 1983 / NEH 630 Ch. 19 bed groups (25–76 mm/h for sand-gravel with little fines); Walnut Gulch transmission-loss studies (Renard 1970, ARS 41-162) | Transmission losses and run-on | Bed only: about 0.35–1.06M m³ (3–10% of the generated runoff), up to 1.8M at 127 mm/h. Run-on on hillslopes: possibly several M m³ (exposure 179–391 km²·h). `c2d` is not limited by the available water: check negative depths. | One run each; Horton parameters need a soils source |
@@ -265,7 +275,7 @@ Volumes are computed linearly between reports. Reports are event-driven plus hou
 **Expected effect on the volume:** #1–#3 (CN handling, together a factor of about 2–12) are larger than #4 (losses), which is larger than #5–#7.
 
 **Expected effect on the timing at Mile Wide:**
-- Fixing the volume (#1–#4) removes most of the 23Z–10Z plateau and the 07Z late-rain bump, so the apparent 12 h lag shrinks to the real 2.5 h (rise) to about 5–7 h (centroid).
+- Fixing the volume (#1–#4) removes most of the 23Z–10Z plateau and the second rise at 04–07Z (from the 02–05Z rain in the lower basin, §1.3), so the apparent 12 h lag shrinks to the real 2.5 h (rise) to about 5–7 h (centroid).
 - #5 is then the main lever for the remaining rise lag.
 
 ## 6. Caveats

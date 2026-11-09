@@ -12,7 +12,7 @@
    "runoffVolMm3": 10.335,
    "C": 0.469
   },
-  "event-only accumulation from 11-01T14Z (fully recovered storage), Ia 0.2S, ARC II": {
+  "cna bracket: event-only accumulation from 11-01T14Z (storage empty at 14Z; not a cnb result or bound), Ia 0.2S, ARC II": {
    "runoffMm": 8.52,
    "runoffVolMm3": 5.14,
    "C": 0.233
@@ -34,6 +34,7 @@
   }
  },
  "wettedExposure17Zto18Z": {
+  "window": "map frames 2026-11-01T17:00Z to 2026-11-02T18:00Z (25 h, 15-min frames)",
   "frames": 101,
   "frameHours": 0.25,
   "channelMaskFacesInArea": 1584,

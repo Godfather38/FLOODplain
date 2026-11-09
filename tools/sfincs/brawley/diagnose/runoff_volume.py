@@ -85,13 +85,17 @@ chk = []
 for fr in range(0, len(mtimes), 4):
     k = int(np.where(ptimes == mtimes[fr])[0][0]) if (ptimes == mtimes[fr]).any() else None
     if k is not None: chk.append(float(np.nanmax(np.abs(rate[k] - m.precipitation_rate.isel(time=fr).values))))
-P_end = np.nansum(rate, 0) / 1000.0  # m, block hourly, 74 h = whole run
+# No zero-fill: every face must get a finite rain value from the grid in every frame (a NaN would mean the face
+# lies outside the rain grid, and treating that as no rain would understate rain and runoff).
+_nan = np.isnan(rate)
+assert not _nan.any(), f'rain reconstruction has {int(_nan.sum())} NaN face-frames on {int(_nan.any(0).sum())} faces; refusing to treat them as dry'
+P_end = np.sum(rate, 0) / 1000.0  # m, block hourly, 74 h = whole run
 res['rainReconstruction'] = {'rule': 'bilinear, grid coordinates shifted +0.5 cell (x and y); hourly block', 'maxAbsDiffVsMapRateMmH': round(max(chk), 4),
                              'framesChecked': len(chk), 'cumprcpEndDiffMm_p0_p50_p100': [round(float(v) * 1000, 4) for v in np.nanpercentile(P_end - cumprcp, [0, 50, 100])]}
 
 # ---------------- SCS cna ----------------
 SF = 0.2
-Pc = np.vstack([np.zeros(fx.size), np.nancumsum(rate, 0) / 1000.0])     # cumulative P at hour boundaries (NT+1)
+Pc = np.vstack([np.zeros(fx.size), np.cumsum(rate, 0) / 1000.0])     # cumulative P at hour boundaries (NT+1)
 tb = list(ptimes) + [ptimes[-1] + pd.Timedelta(hours=1)]
 
 

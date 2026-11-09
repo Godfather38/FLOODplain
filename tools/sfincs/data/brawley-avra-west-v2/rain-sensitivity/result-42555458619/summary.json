@@ -25,7 +25,7 @@
   "retentionDays": 7,
   "committed": false
  },
- "hypothesis": "Frozen HRRR rain gives 0.67 mm (domain mean) for Nov 1 14-17Z vs Stage IV 19.46 mm; this may explain why v2x gives 11.8 m3/s at Mile Wide (ALERT 6443) at 03Z vs 21.97 m3/s in the primary ALERT 6443 report at 03Z (the owner's ~817 cfs = 23.1 m3/s is confirmed in the primary data, but which report was seen is uncertain) and why the wave is late",
+ "hypothesis": "Frozen HRRR rain gives 0.67 mm (domain mean) for Nov 1 14-17Z vs Stage IV 19.46 mm; this may explain why v2x gives 8.83 m3/s on the Mile Wide Black Wash band (the band containing ALERT 6443) and 11.76 m3/s across both Mile Wide bands at 03Z vs 21.97 m3/s in the primary ALERT 6443 report at 03Z (the owner's ~817 cfs = 23.1 m3/s is confirmed in the primary data, but which report was seen is uncertain) and why the wave is late",
  "forcingChange": {
   "onlyDifference": "precipitation frames 2026-11-01T14Z..2026-11-02T06Z (17 interval starts): HRRR 2026-11-01T14Z forecast -> observed Stage IV 01h (IEM)",
   "changedHours": [

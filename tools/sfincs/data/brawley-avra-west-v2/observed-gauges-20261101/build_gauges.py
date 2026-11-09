@@ -1,6 +1,6 @@
 """Build gauges.json: observed stream sensors in or next to the brawley-avra-west domain, Nov 1-2 2026.
 
-Read-only against the model: it reads the committed v2x result (git HEAD) and the NWM analysis already in the repo,
+Read-only against the model: it reads the committed v2x result (pinned commit, --model-commit) and the NWM analysis in the repo,
 and the raw downloads in ./raw (gzipped, exact bytes as served). Nothing is zero-filled: an interval with no report
 is listed as a gap with unknown value. ALERT readings are provisional county data; USGS IV readings are provisional.
 
@@ -8,6 +8,7 @@ Run (from the worktree root):
   H:/AI/Projects/FloodPLAIN-sfincs/.venv/Scripts/python.exe -I \
       tools/sfincs/data/brawley-avra-west-v2/observed-gauges-20261101/build_gauges.py
 """
+import argparse
 import gzip
 import hashlib
 import html
@@ -170,9 +171,15 @@ def where(lat, lon):
 
 
 # ---------------------------------------------------------------- model + NWM
-summ = json.loads(subprocess.check_output(['git', 'show', f'HEAD:{RESULT}/summary.json'], cwd=ROOT))
-full = json.loads(subprocess.check_output(['git', 'show', f'HEAD:{RESULT}/validation-full.json'], cwd=ROOT))
-HEADSHA = subprocess.check_output(['git', 'rev-parse', '--short=12', 'HEAD'], cwd=ROOT).decode().strip()
+# The model side is read from a pinned commit, not from HEAD, so a re-run gives the same gauges.json on any later
+# commit. 8b1d2f02cdc0 is the commit the committed gauges.json was first built from (its modelCommit).
+ap = argparse.ArgumentParser()
+ap.add_argument('--model-commit', default='8b1d2f02cdc0', help='commit to read the v2x result from (default: the one gauges.json records)')
+ap.add_argument('--output', type=Path, default=HERE / 'gauges.json', help='where to write (default: gauges.json next to this script)')
+ARGS = ap.parse_args()
+HEADSHA = subprocess.check_output(['git', 'rev-parse', '--short=12', ARGS.model_commit], cwd=ROOT).decode().strip()
+summ = json.loads(subprocess.check_output(['git', 'show', f'{HEADSHA}:{RESULT}/summary.json'], cwd=ROOT))
+full = json.loads(subprocess.check_output(['git', 'show', f'{HEADSHA}:{RESULT}/validation-full.json'], cwd=ROOT))
 secs = full['sectionsHourlyM3s']
 nwm = {s['reachId']: {p['time'].replace(':00:00Z', 'Z'): p['flowM3s'] for p in s['points']} for s in json.load(open(NWM))['analysisFullWindow']['series']}
 
@@ -365,6 +372,111 @@ def trap(points):
     return v
 
 
+def post_build_edits(o):
+    """The 2026-11-09 corrections, first made by hand in gauges.json and now written here so a re-run reproduces the file.
+    Every number in the text is computed from the raw pages and asserted, so the wording cannot drift from the data."""
+    a = o['sensors'][0]
+    assert a['id'] == 'ALERT 6443'
+    ser = a['series']
+    q = [s for s in ser if s['flowCfs'] is not None]
+    # --- the ~817 cfs claim: the value appears twice; which report the owner saw is not known
+    r817 = [s for s in q if s['flowCfs'] == 817.0 and '2026-11-01T12:00:00Z' <= s['timeUtc'] <= '2026-11-02T06:00:00Z']
+    assert [s['timeUtc'] for s in r817] == ['2026-11-01T23:55:00Z', '2026-11-02T02:45:00Z'], [s['timeUtc'] for s in r817]
+    other, at0245 = r817
+    n03 = next(s for s in q if s['timeUtc'] == '2026-11-02T03:00:00Z')
+    mx = a['summaryTaskWindow']['max']
+    c = o['alert6443Claim']
+    c['verdict'] = 'CONFIRMED value; the report the owner saw is UNCERTAIN'
+    c['context'] = (f"817 cfs appears twice in the primary series: at 02:45Z Nov 2 (19:45 MST, {at0245['stageFt']:.2f} ft, falling limb of the third and smallest peak) "
+                    f"and at 23:55Z Nov 1 (16:55 MST, {other['stageFt']:.2f} ft, first recession). The 03:00Z Nov 2 report is {n03['flowCfs']:.0f} cfs ({n03['flowM3s']} m3/s). "
+                    f"Which report the owner saw at about 20:04 MST is not known, so no single corrected time is given; model runs are compared with the primary "
+                    f"series at each hour (at 03Z: {n03['flowM3s']} m3/s). The event maximum at ALERT 6443 was {mx['flowCfs']:.0f} cfs ({mx['flowM3s']} m3/s) at {mx['timeUtc']}.")
+    c['otherReport817'] = {k: other[k] for k in ('timeUtc', 'timeLocal', 'stageFt', 'flowCfs', 'flowM3s')}
+    # --- gauge name vs NHD snap
+    snap = a['location']['nearestNetworkReaches'][0]
+    assert snap['comid'] == 15876815 and snap['distanceM'] == 4.8, snap
+    nw = o['mileWideComparison']['nwmPeaks']
+    v11, v15 = nw['15876811']['peak'], nw['15876815']['peak']
+    snap_txt = (f"The county names the gauge 'Brawley Wash at Milewide Road' (page header '{a['source']['pageHeader'][1]}'), but its coordinates snap to NHD 15876815 "
+                f"(Black Wash / San Joaquin outlet, 604 km2) at {snap['distanceM']} m; the Brawley 15877627 crossing is 0.8 km west. Both are stated because they point to "
+                f"different comparisons: if the NHD geometry is right the gauge sees the Black Wash band (and NWM 15876815, peak {v15:.2f} m3/s); if the county name means "
+                f"the combined Brawley flow at the road, it sees both bands (and NWM 15876811, peak {v11:.2f} m3/s). Which is right is not settled, so both are reported.")
+    o['mileWideComparison']['gauge'] += ' ' + snap_txt
+    a['nameAndNetworkSnap'] = snap_txt
+    # --- low-stage rating step, from the stage/flow pairs of every report on the page
+    rows, _, _ = parse_showdata('6443')
+    pairs = {}
+    for r in rows:
+        if r['value'] is not None and r.get('flowCfs') is not None:
+            pairs.setdefault(r['value'], set()).add(r['flowCfs'])
+    zero_top = max(k for k, v in pairs.items() if v == {0.0})
+    f = lambda st: sorted(pairs[st])
+    assert len(rows) == 1000 and zero_top == 2.49 and 2.60 not in pairs, (len(rows), zero_top)
+    assert f(2.50) == [16.0, 17.0] and f(2.59) == [330.0, 332.0] and f(2.61) == [383.0], (f(2.50), f(2.59), f(2.61))
+    pl = [s for s in q if '2026-11-02T08:45:00Z' <= s['timeUtc'] <= '2026-11-02T16:20:00Z']
+    st0, st1 = min(s['stageFt'] for s in pl), max(s['stageFt'] for s in pl)
+    c0, c1 = min(s['flowCfs'] for s in pl), max(s['flowCfs'] for s in pl)
+    m0, m1 = min(s['flowM3s'] for s in pl), max(s['flowM3s'] for s in pl)
+    tail = next(s for s in ser if s['timeUtc'] == '2026-11-03T06:00:00Z')
+    nov8 = next(r for r in reversed(rows) if r['timeUtc'].startswith('2026-11-08'))
+    assert (nov8['value'], nov8.get('flowCfs')) == (2.30, 0.0), nov8
+    step = (f"0 cfs up to {zero_top:.2f} ft, {f(2.50)[0]:.0f}-{f(2.50)[-1]:.0f} cfs at 2.50 ft, {f(2.59)[0]:.0f}-{f(2.59)[-1]:.0f} cfs at 2.59 ft, "
+            f"{f(2.61)[0]:.0f} cfs at 2.61 ft")
+    tw = a['summaryTaskWindow']
+    tw['baseStageNote'] = (f"baseStageFt is the pre-event base reading (0 cfs), not the rating zero-flow stage; rated flow is 0 cfs at every report up to {zero_top:.2f} ft "
+                           f"and {f(2.50)[0]:.0f}-{f(2.50)[-1]:.0f} cfs at 2.50 ft")
+    tw['lowStageRatingCaveat'] = (f"County rating at low stage, from the stage/flow pairs of all {len(rows):,} reports on the page: {step} (no report at exactly 2.60 ft). "
+                                  f"The flow jumps from 0 to about 380 cfs over 0.1 ft, so the 08:45-16:20Z Nov 2 plateau ({st0:.2f}-{st1:.2f} ft, {m0:.1f}-{m1:.1f} m3/s) "
+                                  f"and the slow tail (still {tail['stageFt']:.2f} ft, {tail['flowCfs']:.0f} cfs at 06Z Nov 3; {nov8['value']:.2f} ft, {nov8['flowCfs']:.0f} cfs on Nov 8) "
+                                  f"may be a rating or stage-shift artifact.")
+    # --- volumes with and without the suspect plateau; the 16:20-18:00Z report gap is bridged linearly in all totals
+    vm = o['mileWideComparison']['volumeM3']
+    plv = round(trap([(s['timeUtc'], s['flowM3s']) for s in pl]))
+    gp = [(s['timeUtc'], s['flowM3s']) for s in q if '2026-11-02T16:20:00Z' <= s['timeUtc'] <= '2026-11-02T18:00:00Z']
+    assert [t for t, _ in gp] == ['2026-11-02T16:20:00Z', '2026-11-02T18:00:00Z'], gp
+    vm['plateau0845to1620Z_Nov2'] = plv
+    vm['observed18Zto18ZWithoutPlateau'] = vm['observed18Zto18Z'] - plv
+    vm['observed16Zto18ZWithoutPlateau'] = vm['observed16Zto18Z'] - plv
+    vm['plateauNote'] = (f"The 08:45-16:20Z Nov 2 reports sit at {st0:.2f}-{st1:.2f} ft, {c0:.0f}-{c1:.0f} cfs ({m0:.2f}-{m1:.2f} m3/s). On this rating that is on the steep "
+                         f"low-stage step ({step} in the {len(rows):,} reports on the page), so a few hundredths of a foot of stage shift (sediment at the sensor, a moved "
+                         f"control) would read as hundreds of cfs. The plateau may be a rating or stage-shift artifact. Leaving it out is a bracket, not a measurement: "
+                         f"if it is an artifact the true flow then is unknown, not zero. The 16:20-18:00Z gap (100 min) is bridged linearly in all totals "
+                         f"({round(trap(gp)):,} m3).")
+    # --- stage rise: measured from the base reading, which is not the rating's zero-flow stage
+    sr = o['mileWideComparison']['stageRise']
+    # the rise arithmetic above uses 2.30 ft: the dry pre-event reading (Oct 31 21Z and Nov 8 on the page, both 0 cfs);
+    # summaryTaskWindow.baseStageFt (2.31) is the Nov 1 06-16Z mode and is not what the rise is measured from
+    base_ft = 2.30
+    oct31 = next(r for r in rows if r['timeUtc'] == '2026-10-31T21:00:00Z')
+    assert (oct31['value'], oct31.get('flowCfs'), nov8['value']) == (base_ft, 0.0, base_ft), oct31
+    o['mileWideComparison']['stageRise'] = {
+        'note': (f"Observed stage is on the gauge datum; the rise is measured from the pre-event base reading {base_ft:.2f} ft. {base_ft:.2f} ft is the "
+                 f"base reading, not the rating's zero-flow stage (the rated flow stays 0 cfs up to {zero_top:.2f} ft). The model is zs on its cell. Only rises are "
+                 f"comparable, and only roughly; this is not a water-level comparison."),
+        'observedMaxAboveBaseReadingM': sr['observedMaxAboveZeroFlowStageM'], 'observedAt0915ZAboveBaseReadingM': sr['observedAt0915ZAboveZeroFlowStageM'],
+        'modelGaugeCellZsMax': sr['modelGaugeCellZsMax'], 'modelGaugeCellZsMaxTime': sr['modelGaugeCellZsMaxTime']}
+    # --- rain timing from the tip times of the six rain gauges (tips strictly after the 17:05 minute)
+    tips = {}
+    for site in ('6440', '6500', '6460', '6420', '6450', '6480'):
+        w = [r for r in in_win(parse_showdata(site)[0]) if r['value'] is not None]
+        tips[site] = [(w[i]['timeUtc'], w[i]['value'] - w[i - 1]['value']) for i in range(1, len(w)) if w[i]['value'] > w[i - 1]['value']]
+    late = {s: [(t, d) for t, d in v if '2026-11-01T17:06:00Z' <= t < '2026-11-02T00:00:00Z'] for s, v in tips.items()}
+    tot = {s: round(sum(d for _, d in v), 2) for s, v in late.items()}
+    last = {s: v[-1][0][11:16] for s, v in late.items()}
+    nxt = min((t for v in tips.values() for t, _ in v if t >= '2026-11-01T21:30:00Z'))
+    nxt_site = next(s for s, v in tips.items() if any(t == nxt for t, _ in v))
+    assert max(last.values()) == '21:27' and nxt[11:16] == '07:06' and nxt_site == '6460', (last, nxt, nxt_site)
+    o['rainWindow'] = (f"From the tip times in raw/alert_showdata_64x0: the main burst was 14:45-17:05Z Nov 1 at all six gauges. Lighter rain followed after 17:05Z: "
+                       f"6440 Mile Wide {tot['6440']:.2f} in to {last['6440']}Z, 6500 {tot['6500']:.2f} in to {last['6500']}Z, 6460 {tot['6460']:.2f} in to {last['6460']}Z, "
+                       f"6420 {tot['6420']:.2f} in to {last['6420']}Z, 6450 {tot['6450']:.2f} in to {last['6450']}Z, 6480 {tot['6480']:.2f} in at {last['6480']}Z. "
+                       f"The last tips were ALERT 6420 at {last['6420']}Z and 6450 at {last['6450']}Z, so 'no rain' starts about 21:30Z Nov 1 and lasts until "
+                       f"{nxt[11:16]}Z Nov 2 (first tip, {nxt_site}).")
+    o['postBuildEdits'] = ('2026-11-09 corrections (alert6443Claim verdict/context/otherReport817, mileWideComparison.gauge naming, volumeM3 plateau fields, '
+                           'stageRise keys and note, sensors[ALERT 6443].nameAndNetworkSnap and summaryTaskWindow baseStageNote/lowStageRatingCaveat, rainWindow). '
+                           'First made by hand; since 2026-11-09 written by build_gauges.py post_build_edits(), with every number computed from raw/ and asserted, '
+                           'so a re-run reproduces this file.')
+
+
 ov = [(s['timeUtc'], s['flowM3s']) for s in obs if '2026-11-01T18:00:00Z' <= s['timeUtc'] <= '2026-11-02T18:00:00Z']
 ov16 = [(s['timeUtc'], s['flowM3s']) for s in obs if '2026-11-01T16:00:00Z' <= s['timeUtc'] <= '2026-11-02T18:00:00Z']
 mvol = lambda sec: trap([(k, v) for k, v in sec.items() if '2026-11-01T18:00Z' <= k <= '2026-11-02T18:00Z'])
@@ -442,10 +554,11 @@ out = {
     'usgsNoData': no_iv,
     'rainContext': rain,
 }
-with open(HERE / 'gauges.json', 'w', encoding='utf-8', newline='\n') as f:
+post_build_edits(out)
+with open(ARGS.output, 'w', encoding='utf-8', newline='\n') as f:
     json.dump(out, f, indent=1, ensure_ascii=False)
     f.write('\n')
-print('wrote', HERE / 'gauges.json')
+print('wrote', ARGS.output)
 for s in sensors + usgs:
     print(s['id'], s['location']['inActiveDomain'], s['location']['distanceToDomainBoundaryM'], s['location']['nearestNetworkReaches'][0], json.dumps(s['summaryTaskWindow'])[:600])
 print(json.dumps(out['alert6443Claim'], indent=1))
