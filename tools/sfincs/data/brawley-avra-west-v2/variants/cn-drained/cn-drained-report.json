@@ -1,6 +1,6 @@
 {
  "script": "tools/sfincs/brawley/variants/prepare_cn_drained.py",
- "existing": ".sfincs-runs\\brawley-avra-west-context-v2\\cn.tif",
+ "existing": ".sfincs-runs/brawley-avra-west-context-v2/cn.tif",
  "existingSha256": "af6bb9b138d8b3a7158afb538efc11331a2a5249630d212a952f53edb4e2c3c2",
  "grid": {
   "crs": "EPSG:32612",
@@ -50,7 +50,7 @@
   "drained": 82.31938561827957
  },
  "output": {
-  "path": ".sfincs-runs\\brawley-avra-west-cn-drained\\cn-drained.tif",
+  "path": ".sfincs-runs/brawley-avra-west-cn-drained/cn-drained.tif",
   "sha256": "2074421ecd2aba2908dc1db9ab7d0a639e4aa0521d8652e5197db45e2e859e4c"
  }
 }
