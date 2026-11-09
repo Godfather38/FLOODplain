@@ -251,6 +251,9 @@ esac''')
                         GITHUB_WORKSPACE=str(self.root), GITHUB_ENV=str(self.root / 'env'),
                         PREPARE_SECONDS='1', SOLVER_SECONDS='1', OMP_NUM_THREADS='4', GITHUB_RUN_ID='test',
                         GITHUB_REF_NAME='experiment/all-route-models')
+        # The fixture registry is tools/live/all-route-cases.json under self.root; a dry-run
+        # registry set for the real workflow run (cases_registry input) must not leak in.
+        self.env.pop('LIVE_ALL_ROUTE_CASES', None)
 
     def registry(self, local=False):
         entry = {'case': CASE}
