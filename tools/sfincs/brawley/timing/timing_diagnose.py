@@ -118,6 +118,7 @@ SITES = ['5040', '6430', '6470', '6490', '6500', '6440', '6450', '6410', '6420',
 H0, H1 = pd.Timestamp('2026-10-31T00:00'), pd.Timestamp('2026-11-02T18:00')
 hours = pd.date_range(H0, H1 - pd.Timedelta(hours=1), freq='h')
 gauges = []
+gaugeHourly = {}   # site -> hourly gauge mm over `hours`; NaN = unknown (no report), never zero
 for s in SITES:
     f = GDIR / f'raw/alert_showdata_{s}.html.gz'
     if not f.exists(): f = TDIR / f'raw/alert_showdata_{s}.html'
@@ -149,19 +150,29 @@ for s in SITES:
     def centroid(v, msk):
         tt = np.arange(len(hours))[msk] + 0.5; vv = v[msk]
         return float((tt * vv).sum() / vv.sum()) if vv.sum() > 0 else None
-    cg, cs = centroid(np.nan_to_num(g), ok), centroid(sv, ok)
+    cg, cs = centroid(np.nan_to_num(g), ok), centroid(sv, ok)   # ok excludes unknown gauge hours, so nan_to_num fills nothing used
+    gaugeHourly[s] = g
+    w2 = (hours >= pd.Timestamp('2026-11-01T00:00')) & (hours < pd.Timestamp('2026-11-01T12:00'))
+    ok2 = w2 & ~np.isnan(g)
     gauges.append({'site': s, 'name': meta[s]['name'], 'lat': lat, 'lon': lon, 'inBlackWashBasin': inb,
                    'distanceToBasinM': 0 if inb else round(basin.distance(Point(x, y))),
                    'reportsSpanUtc': [iso(first), iso(last)],
-                   'gaugeMm_11-01T12Z_to_02T00Z': round(float(np.nansum(g[w])), 1), 'stageIVcellMm_same': round(float(np.nansum(sv[w])), 1),
-                   'gaugeMm_11-01T00Z_to_12Z': round(float(np.nansum(g[(hours >= pd.Timestamp('2026-11-01T00:00')) & (hours < pd.Timestamp('2026-11-01T12:00'))])), 1),
-                   'stageIVcellMm_11-01T00Z_to_12Z': round(float(np.nansum(sv[(hours >= pd.Timestamp('2026-11-01T00:00')) & (hours < pd.Timestamp('2026-11-01T12:00'))])), 1),
+                   # gauge and Stage IV are summed over the SAME known gauge hours (ok); unknown gauge hours are left out of both.
+                   # With any unknown hour the gauge total is a lower bound on the gauge's full-window rain.
+                   'gaugeMm_11-01T12Z_to_02T00Z': round(float(g[ok].sum()), 1), 'stageIVcellMm_same': round(float(sv[ok].sum()), 1),
+                   'stageIVcellMm_12Zto00Z_allHours': round(float(sv[w].sum()), 1),
                    'unknownHours12Zto00Z': int((w & np.isnan(g)).sum()),
+                   'gaugeTotal12Zto00ZIsLowerBound': bool((w & np.isnan(g)).any()),
+                   'gaugeMm_11-01T00Z_to_12Z': round(float(g[ok2].sum()), 1),
+                   'stageIVcellMm_11-01T00Z_to_12Z': round(float(sv[ok2].sum()), 1),
+                   'unknownHours00Zto12Z': int((w2 & np.isnan(g)).sum()),
+                   'gaugeTotal00Zto12ZIsLowerBound': bool((w2 & np.isnan(g)).any()),
                    'bestLagH': best, 'corrByLag': {str(k): (round(v, 3) if v is not None else None) for k, v in lags.items()},
                    'centroidHoursModelMinusGauge_12Zto00Z': round(cs - cg, 2) if cg and cs else None,
                    'hourlyMm': {iso(h)[5:13]: [None if np.isnan(g[i]) else round(g[i], 1), round(sv[i], 1)] for i, h in enumerate(hours)
                                 if pd.Timestamp('2026-11-01T00:00') <= h < pd.Timestamp('2026-11-02T12:00') and ((not np.isnan(g[i]) and g[i] > 0) or sv[i] > 0.5)}})
 res['rainGauges'] = {'method': 'gauge: accumulator increments binned by the UTC hour containing the report (MST+7); an hour with no report on either side is unknown (null), never zero. '
+                               'Window totals: gauge and Stage IV cell summed over the same known gauge hours; gaugeTotal*IsLowerBound marks a gauge with unknown hours in the window. '
                                'model: B precip_2d.nc frame whose interval START is that hour, sampled bilinearly with the solver grid rule; corrByLag k = correlation of gauge hour h with model frame h-k (k>0: model rain would need to be LATER to match)',
                      'hourlyMmFormat': '[gauge, StageIV-frame]', 'gauges': gauges}
 
@@ -180,8 +191,9 @@ ib = [g for g in gauges if g['inBlackWashBasin']]
 res['basinGaugeMeanHourlyMm'] = {}
 for i, h in enumerate(hours):
     if pd.Timestamp('2026-11-01T00:00') <= h < pd.Timestamp('2026-11-02T12:00'):
-        vals = [g['hourlyMm'].get(iso(h)[5:13], [0.0, 0.0])[0] for g in ib]
-        known = [v for v in vals if v is not None]
+        # unknown gauge hours (NaN) are left out and not counted in gaugesKnown; nothing is filled with zero
+        vals = [gaugeHourly[g['site']][i] for g in ib]
+        known = [float(v) for v in vals if not np.isnan(v)]
         if known and np.mean(known) > 0.05: res['basinGaugeMeanHourlyMm'][iso(h)[5:13]] = {'mean': round(float(np.mean(known)), 2), 'gaugesKnown': len(known)}
 
 # ---------------- (b) rings, tributaries, observed first pulse ----------------

@@ -26,7 +26,7 @@
   "amprblock": "not set (solver default .true. = block)"
  },
  "rainGauges": {
-  "method": "gauge: accumulator increments binned by the UTC hour containing the report (MST+7); an hour with no report on either side is unknown (null), never zero. model: B precip_2d.nc frame whose interval START is that hour, sampled bilinearly with the solver grid rule; corrByLag k = correlation of gauge hour h with model frame h-k (k>0: model rain would need to be LATER to match)",
+  "method": "gauge: accumulator increments binned by the UTC hour containing the report (MST+7); an hour with no report on either side is unknown (null), never zero. Window totals: gauge and Stage IV cell summed over the same known gauge hours; gaugeTotal*IsLowerBound marks a gauge with unknown hours in the window. model: B precip_2d.nc frame whose interval START is that hour, sampled bilinearly with the solver grid rule; corrByLag k = correlation of gauge hour h with model frame h-k (k>0: model rain would need to be LATER to match)",
   "hourlyMmFormat": "[gauge, StageIV-frame]",
   "gauges": [
    {
@@ -42,9 +42,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 19.8,
     "stageIVcellMm_same": 25.5,
+    "stageIVcellMm_12Zto00Z_allHours": 25.5,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 5.1,
     "stageIVcellMm_11-01T00Z_to_12Z": 6.2,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.324,
@@ -134,9 +138,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 23.1,
     "stageIVcellMm_same": 26.3,
+    "stageIVcellMm_12Zto00Z_allHours": 26.3,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 5.1,
     "stageIVcellMm_11-01T00Z_to_12Z": 6.8,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.38,
@@ -222,9 +230,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 33.0,
     "stageIVcellMm_same": 33.4,
-    "gaugeMm_11-01T00Z_to_12Z": 13.0,
-    "stageIVcellMm_11-01T00Z_to_12Z": 13.3,
+    "stageIVcellMm_12Zto00Z_allHours": 33.4,
     "unknownHours12Zto00Z": 3,
+    "gaugeTotal12Zto00ZIsLowerBound": true,
+    "gaugeMm_11-01T00Z_to_12Z": 13.0,
+    "stageIVcellMm_11-01T00Z_to_12Z": 12.9,
+    "unknownHours00Zto12Z": 7,
+    "gaugeTotal00Zto12ZIsLowerBound": true,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.304,
@@ -314,9 +326,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 33.0,
     "stageIVcellMm_same": 34.8,
+    "stageIVcellMm_12Zto00Z_allHours": 34.8,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 11.2,
     "stageIVcellMm_11-01T00Z_to_12Z": 11.4,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.294,
@@ -414,9 +430,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 38.1,
     "stageIVcellMm_same": 38.8,
+    "stageIVcellMm_12Zto00Z_allHours": 38.8,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 9.9,
     "stageIVcellMm_11-01T00Z_to_12Z": 10.6,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.258,
@@ -506,9 +526,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 29.0,
     "stageIVcellMm_same": 26.1,
+    "stageIVcellMm_12Zto00Z_allHours": 26.1,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 7.1,
     "stageIVcellMm_11-01T00Z_to_12Z": 7.1,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.306,
@@ -598,9 +622,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 36.8,
     "stageIVcellMm_same": 36.8,
+    "stageIVcellMm_12Zto00Z_allHours": 36.8,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 9.1,
     "stageIVcellMm_11-01T00Z_to_12Z": 9.0,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.228,
@@ -690,9 +718,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 40.9,
     "stageIVcellMm_same": 39.5,
+    "stageIVcellMm_12Zto00Z_allHours": 39.5,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 6.1,
     "stageIVcellMm_11-01T00Z_to_12Z": 6.7,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.218,
@@ -770,9 +802,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 31.0,
     "stageIVcellMm_same": 29.1,
+    "stageIVcellMm_12Zto00Z_allHours": 29.1,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 9.9,
     "stageIVcellMm_11-01T00Z_to_12Z": 11.7,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.273,
@@ -882,9 +918,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 32.0,
     "stageIVcellMm_same": 32.0,
+    "stageIVcellMm_12Zto00Z_allHours": 32.0,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 8.9,
     "stageIVcellMm_11-01T00Z_to_12Z": 8.8,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.23,
@@ -978,9 +1018,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 12.2,
     "stageIVcellMm_same": 13.8,
+    "stageIVcellMm_12Zto00Z_allHours": 13.8,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 3.8,
     "stageIVcellMm_11-01T00Z_to_12Z": 5.5,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.166,
@@ -1058,9 +1102,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 23.1,
     "stageIVcellMm_same": 26.2,
+    "stageIVcellMm_12Zto00Z_allHours": 26.2,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 7.9,
     "stageIVcellMm_11-01T00Z_to_12Z": 7.5,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.299,
@@ -1154,9 +1202,13 @@
     ],
     "gaugeMm_11-01T12Z_to_02T00Z": 43.2,
     "stageIVcellMm_same": 35.1,
+    "stageIVcellMm_12Zto00Z_allHours": 35.1,
+    "unknownHours12Zto00Z": 0,
+    "gaugeTotal12Zto00ZIsLowerBound": false,
     "gaugeMm_11-01T00Z_to_12Z": 9.9,
     "stageIVcellMm_11-01T00Z_to_12Z": 11.8,
-    "unknownHours12Zto00Z": 0,
+    "unknownHours00Zto12Z": 0,
+    "gaugeTotal00Zto12ZIsLowerBound": false,
     "bestLagH": 0,
     "corrByLag": {
      "-6": -0.275,
@@ -1266,7 +1318,7 @@
  },
  "basinGaugeMeanHourlyMm": {
   "11-01T01": {
-   "mean": 1.17,
+   "mean": 1.19,
    "gaugesKnown": 6
   },
   "11-01T02": {
@@ -1278,19 +1330,19 @@
    "gaugesKnown": 6
   },
   "11-01T04": {
-   "mean": 1.17,
+   "mean": 1.19,
    "gaugesKnown": 6
   },
   "11-01T05": {
-   "mean": 0.63,
+   "mean": 0.64,
    "gaugesKnown": 6
   },
   "11-01T06": {
-   "mean": 0.5,
-   "gaugesKnown": 6
+   "mean": 0.61,
+   "gaugesKnown": 5
   },
   "11-01T14": {
-   "mean": 0.63,
+   "mean": 0.64,
    "gaugesKnown": 6
   },
   "11-01T15": {
@@ -1298,15 +1350,15 @@
    "gaugesKnown": 6
   },
   "11-01T16": {
-   "mean": 13.3,
+   "mean": 13.29,
    "gaugesKnown": 6
   },
   "11-01T17": {
-   "mean": 7.88,
+   "mean": 7.87,
    "gaugesKnown": 6
   },
   "11-01T18": {
-   "mean": 1.5,
+   "mean": 1.52,
    "gaugesKnown": 6
   },
   "11-01T19": {
@@ -1314,11 +1366,11 @@
    "gaugesKnown": 6
   },
   "11-01T20": {
-   "mean": 2.13,
+   "mean": 2.16,
    "gaugesKnown": 6
   },
   "11-01T21": {
-   "mean": 0.67,
+   "mean": 0.68,
    "gaugesKnown": 6
   },
   "11-02T07": {
@@ -1326,11 +1378,11 @@
    "gaugesKnown": 5
   },
   "11-02T08": {
-   "mean": 3.38,
+   "mean": 3.4,
    "gaugesKnown": 5
   },
   "11-02T09": {
-   "mean": 0.5,
+   "mean": 0.51,
    "gaugesKnown": 4
   }
  },
