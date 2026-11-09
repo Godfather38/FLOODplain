@@ -1,0 +1,1797 @@
+{
+ "run": ".sfincs-runs/brawley-avra-west-result-v2r-42555458619",
+ "rules": {
+  "wet": "vol/area >= 0.0091 m",
+  "over": "cell zs > roadZ in a wet frame",
+  "never wet": "not counted as dry evidence",
+  "distance": "station to the nearest outflow-cell centre of the cluster",
+  "headDriven": "sqrt(g*huv)*(zs_inside - z_zmin(outflow cell))*width over msk1-msk3 links (SFINCS bndtype 1 without uvmean)"
+ },
+ "msk3Cells": 47,
+ "linksMsk1Msk3": 71,
+ "linksBetweenTwoMsk3": 22,
+ "clusters": [
+  {
+   "outflowPoint": [
+    472434.7,
+    3580894.2
+   ],
+   "centreLonLat": [
+    -111.2929,
+    32.3646
+   ],
+   "cells": 26,
+   "cellSizesM": [
+    12.5,
+    25.0
+   ],
+   "bedZminM": [
+    617.59,
+    619.43
+   ],
+   "links": 44,
+   "nearestStation": {
+    "m": 391.7,
+    "road": "Garvey Road",
+    "roadZ": 620.58,
+    "everWet": true,
+    "over": false,
+    "maxOverM": -0.11
+   },
+   "nearestOverStation": {
+    "m": 435.9,
+    "road": "Garvey Road",
+    "roadZ": 620.81,
+    "everWet": true,
+    "over": true,
+    "maxOverM": 0.053
+   },
+   "stationsWithin": {
+    "250": {
+     "stations": 0,
+     "everWet": 0,
+     "over": 0
+    },
+    "500": {
+     "stations": 16,
+     "everWet": 12,
+     "over": 5
+    },
+    "800": {
+     "stations": 88,
+     "everWet": 35,
+     "over": 24
+    },
+    "1000": {
+     "stations": 270,
+     "everWet": 97,
+     "over": 69
+    },
+    "2000": {
+     "stations": 897,
+     "everWet": 324,
+     "over": 233
+    }
+   },
+   "stationsWithin500m": [
+    {
+     "m": 391.7,
+     "road": "Garvey Road",
+     "roadZ": 620.58,
+     "everWet": true,
+     "over": false,
+     "maxOverM": -0.11
+    },
+    {
+     "m": 397.6,
+     "road": "Garvey Road",
+     "roadZ": 620.76,
+     "everWet": true,
+     "over": false,
+     "maxOverM": -0.29
+    },
+    {
+     "m": 403.5,
+     "road": "Garvey Road",
+     "roadZ": 620.72,
+     "everWet": true,
+     "over": false,
+     "maxOverM": -0.027
+    },
+    {
+     "m": 409.7,
+     "road": "Garvey Road",
+     "roadZ": 620.76,
+     "everWet": true,
+     "over": false,
+     "maxOverM": -0.067
+    },
+    {
+     "m": 416.1,
+     "road": "Garvey Road",
+     "roadZ": 620.75,
+     "everWet": true,
+     "over": false,
+     "maxOverM": -0.057
+    },
+    {
+     "m": 422.5,
+     "road": "Garvey Road",
+     "roadZ": 620.77,
+     "everWet": true,
+     "over": false,
+     "maxOverM": -0.077
+    },
+    {
+     "m": 429.2,
+     "road": "Garvey Road",
+     "roadZ": 620.78,
+     "everWet": true,
+     "over": false,
+     "maxOverM": -0.087
+    },
+    {
+     "m": 435.9,
+     "road": "Garvey Road",
+     "roadZ": 620.81,
+     "everWet": true,
+     "over": true,
+     "maxOverM": 0.053
+    },
+    {
+     "m": 442.8,
+     "road": "Garvey Road",
+     "roadZ": 620.82,
+     "everWet": true,
+     "over": true,
+     "maxOverM": 0.043
+    },
+    {
+     "m": 449.7,
+     "road": "Garvey Road",
+     "roadZ": 620.85,
+     "everWet": true,
+     "over": true,
+     "maxOverM": 0.048
+    }
+   ],
+   "flux": {
+    "storedMaxM3s": 69.86,
+    "headDrivenMaxM3s": 11.71,
+    "storedOverHeadRange_headGt0p5": [
+     0.19,
+     15.12
+    ],
+    "hoursHeadGt0p5": 21,
+    "hoursStoredZeroWhileHeadGt0p5": 0,
+    "linkHoursClamped": 31,
+    "linkHours": 1100,
+    "hourly": {
+     "11-01T18:00": [
+      0.0,
+      0.06,
+      1
+     ],
+     "11-01T19:00": [
+      0.0,
+      0.15,
+      3
+     ],
+     "11-01T20:00": [
+      1.15,
+      0.21,
+      0
+     ],
+     "11-01T21:00": [
+      0.45,
+      0.27,
+      0
+     ],
+     "11-01T22:00": [
+      0.37,
+      0.91,
+      1
+     ],
+     "11-01T23:00": [
+      0.22,
+      0.94,
+      1
+     ],
+     "11-02T00:00": [
+      0.16,
+      0.81,
+      2
+     ],
+     "11-02T01:00": [
+      9.3,
+      2.75,
+      0
+     ],
+     "11-02T02:00": [
+      52.49,
+      8.14,
+      2
+     ],
+     "11-02T03:00": [
+      67.37,
+      7.73,
+      0
+     ],
+     "11-02T04:00": [
+      69.86,
+      11.71,
+      0
+     ],
+     "11-02T05:00": [
+      65.97,
+      8.04,
+      2
+     ],
+     "11-02T06:00": [
+      61.69,
+      8.17,
+      1
+     ],
+     "11-02T07:00": [
+      59.23,
+      10.34,
+      1
+     ],
+     "11-02T08:00": [
+      60.78,
+      11.06,
+      1
+     ],
+     "11-02T09:00": [
+      64.06,
+      11.12,
+      3
+     ],
+     "11-02T10:00": [
+      67.61,
+      8.74,
+      2
+     ],
+     "11-02T11:00": [
+      67.77,
+      9.21,
+      2
+     ],
+     "11-02T12:00": [
+      68.98,
+      6.84,
+      2
+     ],
+     "11-02T13:00": [
+      67.67,
+      6.37,
+      1
+     ],
+     "11-02T14:00": [
+      63.68,
+      9.54,
+      2
+     ],
+     "11-02T15:00": [
+      58.23,
+      7.92,
+      1
+     ],
+     "11-02T16:00": [
+      54.71,
+      7.0,
+      2
+     ],
+     "11-02T17:00": [
+      50.33,
+      6.18,
+      1
+     ],
+     "11-02T18:00": [
+      47.11,
+      3.12,
+      0
+     ]
+    },
+    "hourlyColumns": [
+     "stored m3/s",
+     "head-driven m3/s",
+     "links with zero stored flux while the head-driven part is positive"
+    ]
+   }
+  },
+  {
+   "outflowPoint": [
+    468486.6,
+    3585345.4
+   ],
+   "centreLonLat": [
+    -111.3346,
+    32.4044
+   ],
+   "cells": 5,
+   "cellSizesM": [
+    100.0
+   ],
+   "bedZminM": [
+    598.08,
+    599.48
+   ],
+   "links": 7,
+   "nearestStation": {
+    "m": 187.1,
+    "road": "West Peccary Lane",
+    "roadZ": 601.13,
+    "everWet": false,
+    "over": false,
+    "maxOverM": null
+   },
+   "nearestOverStation": {
+    "m": 376.2,
+    "road": "West Whitewing Way",
+    "roadZ": 600.84,
+    "everWet": true,
+    "over": true,
+    "maxOverM": 0.143
+   },
+   "stationsWithin": {
+    "250": {
+     "stations": 7,
+     "everWet": 0,
+     "over": 0
+    },
+    "500": {
+     "stations": 92,
+     "everWet": 56,
+     "over": 45
+    },
+    "800": {
+     "stations": 188,
+     "everWet": 71,
+     "over": 45
+    },
+    "1000": {
+     "stations": 273,
+     "everWet": 96,
+     "over": 52
+    },
+    "2000": {
+     "stations": 1015,
+     "everWet": 277,
+     "over": 140
+    }
+   },
+   "stationsWithin500m": [
+    {
+     "m": 187.1,
+     "road": "West Peccary Lane",
+     "roadZ": 601.13,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 190.8,
+     "road": "West Peccary Lane",
+     "roadZ": 601.15,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 195.1,
+     "road": "West Peccary Lane",
+     "roadZ": 601.2,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 199.9,
+     "road": "West Peccary Lane",
+     "roadZ": 601.22,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 205.0,
+     "road": "West Peccary Lane",
+     "roadZ": 601.15,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 210.6,
+     "road": "West Peccary Lane",
+     "roadZ": 601.21,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 216.3,
+     "road": "West Peccary Lane",
+     "roadZ": 601.3,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 375.5,
+     "road": "West Whitewing Way",
+     "roadZ": 601.03,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 375.7,
+     "road": "West Whitewing Way",
+     "roadZ": 601.15,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 375.7,
+     "road": "West Whitewing Way",
+     "roadZ": 600.93,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    }
+   ],
+   "flux": {
+    "storedMaxM3s": 38.94,
+    "headDrivenMaxM3s": 23.51,
+    "storedOverHeadRange_headGt0p5": [
+     0.0,
+     3.0
+    ],
+    "hoursHeadGt0p5": 19,
+    "hoursStoredZeroWhileHeadGt0p5": 1,
+    "linkHoursClamped": 5,
+    "linkHours": 175,
+    "hourly": {
+     "11-01T18:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T19:00": [
+      0.0,
+      1.99,
+      1
+     ],
+     "11-01T20:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T21:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T22:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T23:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T00:00": [
+      3.41,
+      0.0,
+      0
+     ],
+     "11-02T01:00": [
+      23.72,
+      7.92,
+      0
+     ],
+     "11-02T02:00": [
+      36.56,
+      16.36,
+      0
+     ],
+     "11-02T03:00": [
+      38.94,
+      16.44,
+      0
+     ],
+     "11-02T04:00": [
+      32.26,
+      23.51,
+      0
+     ],
+     "11-02T05:00": [
+      29.34,
+      20.26,
+      0
+     ],
+     "11-02T06:00": [
+      24.79,
+      20.91,
+      0
+     ],
+     "11-02T07:00": [
+      25.89,
+      18.9,
+      0
+     ],
+     "11-02T08:00": [
+      21.45,
+      9.65,
+      0
+     ],
+     "11-02T09:00": [
+      24.55,
+      16.96,
+      0
+     ],
+     "11-02T10:00": [
+      25.08,
+      15.38,
+      0
+     ],
+     "11-02T11:00": [
+      22.83,
+      16.79,
+      0
+     ],
+     "11-02T12:00": [
+      13.41,
+      20.87,
+      2
+     ],
+     "11-02T13:00": [
+      22.9,
+      17.92,
+      0
+     ],
+     "11-02T14:00": [
+      25.91,
+      17.75,
+      0
+     ],
+     "11-02T15:00": [
+      25.36,
+      9.17,
+      0
+     ],
+     "11-02T16:00": [
+      25.98,
+      22.75,
+      0
+     ],
+     "11-02T17:00": [
+      14.97,
+      19.5,
+      2
+     ],
+     "11-02T18:00": [
+      21.06,
+      19.41,
+      0
+     ]
+    },
+    "hourlyColumns": [
+     "stored m3/s",
+     "head-driven m3/s",
+     "links with zero stored flux while the head-driven part is positive"
+    ]
+   }
+  },
+  {
+   "outflowPoint": [
+    468317.6,
+    3586877.3
+   ],
+   "centreLonLat": [
+    -111.338,
+    32.4171
+   ],
+   "cells": 3,
+   "cellSizesM": [
+    100.0
+   ],
+   "bedZminM": [
+    593.14,
+    593.66
+   ],
+   "links": 4,
+   "nearestStation": {
+    "m": 377.6,
+    "road": "West El Camino Road",
+    "roadZ": 596.09,
+    "everWet": false,
+    "over": false,
+    "maxOverM": null
+   },
+   "nearestOverStation": {
+    "m": 381.5,
+    "road": "West El Camino Road",
+    "roadZ": 596.25,
+    "everWet": true,
+    "over": true,
+    "maxOverM": 0.023
+   },
+   "stationsWithin": {
+    "250": {
+     "stations": 0,
+     "everWet": 0,
+     "over": 0
+    },
+    "500": {
+     "stations": 66,
+     "everWet": 31,
+     "over": 3
+    },
+    "800": {
+     "stations": 144,
+     "everWet": 62,
+     "over": 23
+    },
+    "1000": {
+     "stations": 187,
+     "everWet": 75,
+     "over": 23
+    },
+    "2000": {
+     "stations": 596,
+     "everWet": 156,
+     "over": 71
+    }
+   },
+   "stationsWithin500m": [
+    {
+     "m": 377.6,
+     "road": "West El Camino Road",
+     "roadZ": 596.09,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 377.6,
+     "road": "West El Camino Road",
+     "roadZ": 596.1,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 377.8,
+     "road": "West El Camino Road",
+     "roadZ": 596.11,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 377.9,
+     "road": "West El Camino Road",
+     "roadZ": 596.06,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 378.3,
+     "road": "West El Camino Road",
+     "roadZ": 596.15,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 378.4,
+     "road": "West El Camino Road",
+     "roadZ": 596.04,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 379.1,
+     "road": "West El Camino Road",
+     "roadZ": 596.17,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 379.3,
+     "road": "West El Camino Road",
+     "roadZ": 595.95,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 380.1,
+     "road": "West El Camino Road",
+     "roadZ": 596.19,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 380.3,
+     "road": "West El Camino Road",
+     "roadZ": 595.95,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    }
+   ],
+   "flux": {
+    "storedMaxM3s": 9.76,
+    "headDrivenMaxM3s": 5.25,
+    "storedOverHeadRange_headGt0p5": [
+     0.0,
+     0.0
+    ],
+    "hoursHeadGt0p5": 1,
+    "hoursStoredZeroWhileHeadGt0p5": 1,
+    "linkHoursClamped": 1,
+    "linkHours": 100,
+    "hourly": {
+     "11-01T18:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T19:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T20:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T21:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T22:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T23:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T00:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T01:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T02:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T03:00": [
+      0.0,
+      5.25,
+      1
+     ],
+     "11-02T04:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T05:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T06:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T07:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T08:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T09:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T10:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T11:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T12:00": [
+      9.76,
+      0.0,
+      0
+     ],
+     "11-02T13:00": [
+      5.46,
+      0.0,
+      0
+     ],
+     "11-02T14:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T15:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T16:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T17:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T18:00": [
+      0.0,
+      0.0,
+      0
+     ]
+    },
+    "hourlyColumns": [
+     "stored m3/s",
+     "head-driven m3/s",
+     "links with zero stored flux while the head-driven part is positive"
+    ]
+   }
+  },
+  {
+   "outflowPoint": [
+    467591.4,
+    3592759.3
+   ],
+   "centreLonLat": [
+    -111.346,
+    32.4709
+   ],
+   "cells": 5,
+   "cellSizesM": [
+    100.0
+   ],
+   "bedZminM": [
+    573.3,
+    574.5
+   ],
+   "links": 5,
+   "nearestStation": {
+    "m": 1144.0,
+    "road": "West Silverbell Road",
+    "roadZ": 583.33,
+    "everWet": true,
+    "over": true,
+    "maxOverM": 0.223
+   },
+   "nearestOverStation": {
+    "m": 1144.0,
+    "road": "West Silverbell Road",
+    "roadZ": 583.33,
+    "everWet": true,
+    "over": true,
+    "maxOverM": 0.223
+   },
+   "stationsWithin": {
+    "250": {
+     "stations": 0,
+     "everWet": 0,
+     "over": 0
+    },
+    "500": {
+     "stations": 0,
+     "everWet": 0,
+     "over": 0
+    },
+    "800": {
+     "stations": 0,
+     "everWet": 0,
+     "over": 0
+    },
+    "1000": {
+     "stations": 0,
+     "everWet": 0,
+     "over": 0
+    },
+    "2000": {
+     "stations": 104,
+     "everWet": 30,
+     "over": 3
+    }
+   },
+   "stationsWithin500m": [],
+   "flux": {
+    "storedMaxM3s": 2.98,
+    "headDrivenMaxM3s": 2.98,
+    "storedOverHeadRange_headGt0p5": [
+     0.0,
+     0.0
+    ],
+    "hoursHeadGt0p5": 3,
+    "hoursStoredZeroWhileHeadGt0p5": 3,
+    "linkHoursClamped": 3,
+    "linkHours": 125,
+    "hourly": {
+     "11-01T18:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T19:00": [
+      2.98,
+      0.0,
+      0
+     ],
+     "11-01T20:00": [
+      0.0,
+      2.1,
+      1
+     ],
+     "11-01T21:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T22:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T23:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T00:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T01:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T02:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T03:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T04:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T05:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T06:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T07:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T08:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T09:00": [
+      0.0,
+      2.98,
+      1
+     ],
+     "11-02T10:00": [
+      2.1,
+      0.0,
+      0
+     ],
+     "11-02T11:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T12:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T13:00": [
+      2.1,
+      0.0,
+      0
+     ],
+     "11-02T14:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T15:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T16:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T17:00": [
+      2.1,
+      0.0,
+      0
+     ],
+     "11-02T18:00": [
+      0.0,
+      2.73,
+      1
+     ]
+    },
+    "hourlyColumns": [
+     "stored m3/s",
+     "head-driven m3/s",
+     "links with zero stored flux while the head-driven part is positive"
+    ]
+   }
+  },
+  {
+   "outflowPoint": [
+    468222.1,
+    3587181.4
+   ],
+   "centreLonLat": [
+    -111.339,
+    32.4214
+   ],
+   "cells": 4,
+   "cellSizesM": [
+    100.0
+   ],
+   "bedZminM": [
+    591.61,
+    592.52
+   ],
+   "links": 6,
+   "nearestStation": {
+    "m": 287.5,
+    "road": "West El Camino Road",
+    "roadZ": 594.77,
+    "everWet": true,
+    "over": false,
+    "maxOverM": -0.045
+   },
+   "nearestOverStation": {
+    "m": 290.6,
+    "road": "West El Camino Road",
+    "roadZ": 594.78,
+    "everWet": true,
+    "over": true,
+    "maxOverM": 0.048
+   },
+   "stationsWithin": {
+    "250": {
+     "stations": 0,
+     "everWet": 0,
+     "over": 0
+    },
+    "500": {
+     "stations": 130,
+     "everWet": 57,
+     "over": 22
+    },
+    "800": {
+     "stations": 245,
+     "everWet": 98,
+     "over": 24
+    },
+    "1000": {
+     "stations": 309,
+     "everWet": 98,
+     "over": 24
+    },
+    "2000": {
+     "stations": 613,
+     "everWet": 107,
+     "over": 28
+    }
+   },
+   "stationsWithin500m": [
+    {
+     "m": 287.5,
+     "road": "West El Camino Road",
+     "roadZ": 594.77,
+     "everWet": true,
+     "over": false,
+     "maxOverM": -0.045
+    },
+    {
+     "m": 290.6,
+     "road": "West El Camino Road",
+     "roadZ": 594.78,
+     "everWet": true,
+     "over": true,
+     "maxOverM": 0.048
+    },
+    {
+     "m": 293.9,
+     "road": "West El Camino Road",
+     "roadZ": 594.85,
+     "everWet": true,
+     "over": true,
+     "maxOverM": 0.025
+    },
+    {
+     "m": 295.0,
+     "road": "West El Camino Road",
+     "roadZ": 594.77,
+     "everWet": true,
+     "over": false,
+     "maxOverM": -0.045
+    },
+    {
+     "m": 297.5,
+     "road": "West El Camino Road",
+     "roadZ": 594.86,
+     "everWet": true,
+     "over": true,
+     "maxOverM": 0.026
+    },
+    {
+     "m": 301.4,
+     "road": "West El Camino Road",
+     "roadZ": 594.85,
+     "everWet": true,
+     "over": true,
+     "maxOverM": 0.063
+    },
+    {
+     "m": 304.6,
+     "road": "West El Camino Road",
+     "roadZ": 594.86,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 305.7,
+     "road": "West El Camino Road",
+     "roadZ": 594.88,
+     "everWet": true,
+     "over": true,
+     "maxOverM": 0.052
+    },
+    {
+     "m": 310.1,
+     "road": "West El Camino Road",
+     "roadZ": 594.87,
+     "everWet": true,
+     "over": true,
+     "maxOverM": 0.091
+    },
+    {
+     "m": 314.4,
+     "road": "West El Camino Road",
+     "roadZ": 594.97,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    }
+   ],
+   "flux": {
+    "storedMaxM3s": 1.86,
+    "headDrivenMaxM3s": 7.52,
+    "storedOverHeadRange_headGt0p5": [
+     0.0,
+     0.25
+    ],
+    "hoursHeadGt0p5": 11,
+    "hoursStoredZeroWhileHeadGt0p5": 10,
+    "linkHoursClamped": 11,
+    "linkHours": 150,
+    "hourly": {
+     "11-01T18:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T19:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T20:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T21:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T22:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T23:00": [
+      0.0,
+      1.84,
+      1
+     ],
+     "11-02T00:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T01:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T02:00": [
+      0.0,
+      4.15,
+      1
+     ],
+     "11-02T03:00": [
+      0.0,
+      4.15,
+      1
+     ],
+     "11-02T04:00": [
+      0.0,
+      1.85,
+      1
+     ],
+     "11-02T05:00": [
+      0.0,
+      7.5,
+      1
+     ],
+     "11-02T06:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T07:00": [
+      0.0,
+      4.15,
+      1
+     ],
+     "11-02T08:00": [
+      1.85,
+      0.0,
+      0
+     ],
+     "11-02T09:00": [
+      0.0,
+      1.86,
+      1
+     ],
+     "11-02T10:00": [
+      1.86,
+      0.0,
+      0
+     ],
+     "11-02T11:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T12:00": [
+      0.0,
+      1.86,
+      1
+     ],
+     "11-02T13:00": [
+      0.0,
+      1.86,
+      1
+     ],
+     "11-02T14:00": [
+      1.84,
+      7.52,
+      1
+     ],
+     "11-02T15:00": [
+      0.0,
+      1.86,
+      1
+     ],
+     "11-02T16:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T17:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T18:00": [
+      1.84,
+      0.0,
+      0
+     ]
+    },
+    "hourlyColumns": [
+     "stored m3/s",
+     "head-driven m3/s",
+     "links with zero stored flux while the head-driven part is positive"
+    ]
+   }
+  },
+  {
+   "outflowPoint": [
+    468155.9,
+    3589328.6
+   ],
+   "centreLonLat": [
+    -111.3396,
+    32.4397
+   ],
+   "cells": 4,
+   "cellSizesM": [
+    100.0
+   ],
+   "bedZminM": [
+    584.44,
+    585.64
+   ],
+   "links": 5,
+   "nearestStation": {
+    "m": 131.0,
+    "road": "North Puma Road",
+    "roadZ": 588.65,
+    "everWet": false,
+    "over": false,
+    "maxOverM": null
+   },
+   "nearestOverStation": {
+    "m": 578.1,
+    "road": "North Cocio Road",
+    "roadZ": 591.68,
+    "everWet": true,
+    "over": true,
+    "maxOverM": 0.031
+   },
+   "stationsWithin": {
+    "250": {
+     "stations": 21,
+     "everWet": 0,
+     "over": 0
+    },
+    "500": {
+     "stations": 50,
+     "everWet": 0,
+     "over": 0
+    },
+    "800": {
+     "stations": 124,
+     "everWet": 7,
+     "over": 2
+    },
+    "1000": {
+     "stations": 151,
+     "everWet": 7,
+     "over": 2
+    },
+    "2000": {
+     "stations": 493,
+     "everWet": 62,
+     "over": 13
+    }
+   },
+   "stationsWithin500m": [
+    {
+     "m": 131.0,
+     "road": "North Puma Road",
+     "roadZ": 588.65,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 161.7,
+     "road": "West White Eagle Road",
+     "roadZ": 589.16,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 161.8,
+     "road": "West White Eagle Road",
+     "roadZ": 589.22,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 162.3,
+     "road": "West White Eagle Road",
+     "roadZ": 589.23,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 163.4,
+     "road": "West White Eagle Road",
+     "roadZ": 589.15,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 165.2,
+     "road": "West White Eagle Road",
+     "roadZ": 589.13,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 167.5,
+     "road": "West White Eagle Road",
+     "roadZ": 589.13,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 170.4,
+     "road": "West White Eagle Road",
+     "roadZ": 589.18,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 173.8,
+     "road": "West White Eagle Road",
+     "roadZ": 589.26,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    },
+    {
+     "m": 177.7,
+     "road": "West White Eagle Road",
+     "roadZ": 589.32,
+     "everWet": false,
+     "over": false,
+     "maxOverM": null
+    }
+   ],
+   "flux": {
+    "storedMaxM3s": 11.67,
+    "headDrivenMaxM3s": 11.67,
+    "storedOverHeadRange_headGt0p5": [
+     0.0,
+     0.0
+    ],
+    "hoursHeadGt0p5": 2,
+    "hoursStoredZeroWhileHeadGt0p5": 2,
+    "linkHoursClamped": 2,
+    "linkHours": 125,
+    "hourly": {
+     "11-01T18:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T19:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T20:00": [
+      4.41,
+      0.0,
+      0
+     ],
+     "11-01T21:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T22:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-01T23:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T00:00": [
+      0.0,
+      4.43,
+      1
+     ],
+     "11-02T01:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T02:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T03:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T04:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T05:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T06:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T07:00": [
+      4.39,
+      0.0,
+      0
+     ],
+     "11-02T08:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T09:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T10:00": [
+      0.0,
+      11.67,
+      1
+     ],
+     "11-02T11:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T12:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T13:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T14:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T15:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T16:00": [
+      0.0,
+      0.0,
+      0
+     ],
+     "11-02T17:00": [
+      11.67,
+      0.0,
+      0
+     ],
+     "11-02T18:00": [
+      0.0,
+      0.0,
+      0
+     ]
+    },
+    "hourlyColumns": [
+     "stored m3/s",
+     "head-driven m3/s",
+     "links with zero stored flux while the head-driven part is positive"
+    ]
+   }
+  }
+ ],
+ "allClusters": {
+  "hourly": {
+   "11-01T18:00": [
+    0.0,
+    0.06,
+    0.0
+   ],
+   "11-01T19:00": [
+    2.98,
+    2.14,
+    1.39
+   ],
+   "11-01T20:00": [
+    5.56,
+    2.31,
+    2.41
+   ],
+   "11-01T21:00": [
+    0.45,
+    0.27,
+    1.65
+   ],
+   "11-01T22:00": [
+    0.37,
+    0.91,
+    0.41
+   ],
+   "11-01T23:00": [
+    0.22,
+    2.78,
+    0.08
+   ],
+   "11-02T00:00": [
+    3.56,
+    5.23,
+    0.68
+   ],
+   "11-02T01:00": [
+    33.02,
+    10.67,
+    3.1
+   ],
+   "11-02T02:00": [
+    89.05,
+    28.65,
+    3.11
+   ],
+   "11-02T03:00": [
+    106.32,
+    33.57,
+    3.17
+   ],
+   "11-02T04:00": [
+    102.13,
+    37.07,
+    2.75
+   ],
+   "11-02T05:00": [
+    95.31,
+    35.8,
+    2.66
+   ],
+   "11-02T06:00": [
+    86.49,
+    29.07,
+    2.97
+   ],
+   "11-02T07:00": [
+    89.5,
+    33.39,
+    2.68
+   ],
+   "11-02T08:00": [
+    84.08,
+    20.71,
+    4.06
+   ],
+   "11-02T09:00": [
+    88.61,
+    32.92,
+    2.69
+   ],
+   "11-02T10:00": [
+    96.65,
+    35.8,
+    2.7
+   ],
+   "11-02T11:00": [
+    90.6,
+    26.01,
+    3.48
+   ],
+   "11-02T12:00": [
+    92.15,
+    29.57,
+    3.12
+   ],
+   "11-02T13:00": [
+    98.13,
+    26.15,
+    3.75
+   ],
+   "11-02T14:00": [
+    91.43,
+    34.81,
+    2.63
+   ],
+   "11-02T15:00": [
+    83.58,
+    18.95,
+    4.41
+   ],
+   "11-02T16:00": [
+    80.69,
+    29.76,
+    2.71
+   ],
+   "11-02T17:00": [
+    79.07,
+    25.68,
+    3.08
+   ],
+   "11-02T18:00": [
+    70.01,
+    25.26,
+    2.77
+   ]
+  },
+  "hourlyColumns": [
+   "stored m3/s",
+   "head-driven m3/s",
+   "ratio"
+  ]
+ }
+}

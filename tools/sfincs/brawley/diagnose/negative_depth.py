@@ -17,7 +17,8 @@ import xarray as xr
 from stability_common import Geometry, TO_UTM, run_dir
 
 p = argparse.ArgumentParser(); p.add_argument('--run', required=True); p.add_argument('--output', required=True)
-p.add_argument('--stations', default='tools/live/road-stations/brawley-avra-west-local-v2.json.gz')
+p.add_argument('--stations', default=str(Path(__file__).resolve().parents[4] / 'tools/live/road-stations/brawley-avra-west-local-v2.json.gz'),
+               help='road station file (default: the v2 local file in this repo, found from the script location, not the cwd)')
 a = p.parse_args(); D = run_dir(a.run); G = Geometry(D)
 m = xr.open_dataset(D / 'sfincs_map.nc'); vol = m['subgrid_volume'].values.astype(np.float64); m.close()
 area = G.area; h = vol / area[None, :]; T = G.T; half = np.array([t[14:16] in ('00', '30') for t in T])

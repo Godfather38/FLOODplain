@@ -16,7 +16,8 @@ import numpy as np
 from stability_common import Geometry, TO_UTM, read_rst, rst_time, run_dir
 
 p = argparse.ArgumentParser(); p.add_argument('--run', required=True); p.add_argument('--output', required=True)
-p.add_argument('--stations', default='tools/live/road-stations/brawley-avra-west-local-v2.json.gz'); p.add_argument('--top', type=int, default=12)
+p.add_argument('--stations', default=str(Path(__file__).resolve().parents[4] / 'tools/live/road-stations/brawley-avra-west-local-v2.json.gz'),
+               help='road station file (default: the v2 local file in this repo, found from the script location, not the cwd)'); p.add_argument('--top', type=int, default=12)
 a = p.parse_args(); D = run_dir(a.run); G = Geometry(D)
 is3 = G.msk == 3; bnd = is3[G.nm] | is3[G.nmu]; g = 9.81
 rst = sorted(D.glob('sfincs.*.rst')); allidx = np.arange(G.NPUV)
@@ -66,5 +67,7 @@ if hot:
     res['roadStationsWithin2kmOfHotCells'] = {'hotFaces': hot, 'count': int(near.size), 'nearestM': round(float(dmin.min()), 1),
                                              'nearestRoad': str(st['road'][int(np.argmin(dmin))]),
                                              'roads': sorted({str(st['road'][k]) for k in near})}
-res['boundaryCells'] = {'msk3': int(is3.sum()), 'boundaryLinks': int(bnd.sum())}
+res['boundaryCells'] = {'msk3': int(is3.sum()), 'boundaryLinks': int(bnd.sum()),
+                        'linksMsk1Msk3': int((is3[G.nm] ^ is3[G.nmu]).sum()), 'linksBetweenTwoMsk3': int((is3[G.nm] & is3[G.nmu]).sum()),
+                        'note': 'boundaryLinks = every link touching an msk 3 cell; only the msk 1-msk 3 links carry boundary flux (kcuv 2, sfincs_domain.f90:1961-1966); the stored q on links between two msk 3 cells was 0 at every v2r and v2x restart'}
 Path(a.output).write_text(json.dumps(res, indent=1) + '\n', encoding='utf-8', newline='\n'); print('ok', a.output)
