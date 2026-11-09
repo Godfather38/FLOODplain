@@ -1,0 +1,87 @@
+{
+ "modelVersion": "all-routes-brawley-avra-west-v1",
+ "routeIds": [],
+ "approvedExecutionCapSeconds": 7200,
+ "proposedExecutionCapSeconds": 7200,
+ "executionAuthorization": "orchestrator_task_brawley_avra_west_v3_boundaries_validation_cap_7200_experimental_branch_only",
+ "knownLimits": [
+  "Current bridge and culvert elevations unknown; no structure openings",
+  "Published CN antecedent assumption (GCN10 fair ARCII undrained); no measured transmission loss",
+  "Terrain is bare-earth lidar: 1 m PimaCounty_2021_B21 and Eastern_PimaCO_2015 in road/wash windows (2015 covers most of the mid/upper Brawley mainstem and San Joaquin/Black Wash); 10 m context mixes all-route-context-v2, 2021, BrawleyRillito 2018 (flown 2019), 2015 and 0.98 km2 of USGS 1/3 arc-second; not a 2026 survey",
+  "2021 minus 2015 seam offset about -0.11 m median in 7 road windows; not corrected",
+  "6.25 m computational cells are not validated road-depth accuracy; compare cell water-surface elevation zs with road height, never averaged depth",
+  "The 27.47 km2 local catchment of 15876941 below USGS 09487000 is excluded; its runoff enters only through the inlet series",
+  "Directed network independence does not prove no cross-divide overland exchange; overlaps Gates by 139.42 km2; west-valley subtrees drain toward Northern, which keeps its own NWM inlets (independent model)",
+  "Domain v2 (1240 km2) adds the west-valley subtrees of Northern inlets 15876639/653/641/623, Pump Station tributaries 15876613/15876627 and terminal subtrees 15876757/719/669/675; 19 candidate dips (6 >= 1 m, mostly W Silverbell Rd and N Red Hill Rd near 32.445 N) remain in no model",
+  "Road heights exist only inside the floodplain-road-heights-v1 tile box (about lon >= -111.44, lat >= 32.146); roads outside it have no comparison",
+  "Extended validation window: rain 14Z Nov 1..07Z Nov 2 is still the frozen HRRR forecast (as in the frozen case), only 07Z..18Z Nov 2 is observed Stage IV",
+  "Boundaries v3: 45 outflow cells added (92 in all) where the 10 m terrain keeps falling outside the domain edge and a mapped channel leaves; not calibrated, not for live registration"
+ ],
+ "terrainSources": {
+  "road1m": "USGS 3DEP 1 m windows .sfincs-runs/brawley-avra-west-terrain-1m-v1 (162 new + reused) plus -v2 top-up (146 new); PimaCounty_2021_B21 > BrawleyRillito_2018_D19 > Eastern_PimaCO_2015",
+  "context10m": ".sfincs-runs/brawley-avra-west-context-v2 (16.97 km2 USGS 1/3 arc-second where no 1 m exists; no L3/L4 zone there)"
+ },
+ "scope": {
+  "status": "brawley_avra_west_version3",
+  "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+  "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+  "areaKm2": 1240.369838309587,
+  "externalInlets": [
+   {
+    "reachId": "15876941",
+    "receivingReachId": "15876923"
+   }
+  ],
+  "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+  "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+  "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+ },
+ "caseId": "brawley-avra-west-native-case-v3x-observed-inflow",
+ "validationVariant": true,
+ "inflow": {
+  "kind": "observed_gauge",
+  "gauge": "USGS 09487000 Brawley Wash near Three Points (provisional IV 00060)",
+  "file": "../../brawley-avra-west-v2/extended/brawley-avra-west-inflow-observed-v2x.json",
+  "note": "Validation variant: same mesh v2, parameters v2, observed inflow, rain and 74 h window as brawley-avra-west-native-case-v2x-observed-inflow; only the boundary mask (outflow cells) differs (boundaries v3). Not for live registration."
+ },
+ "window": {
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T18:00:00Z",
+  "hours": 74,
+  "mapOutput": "2026-11-01T17:00Z..2026-11-02T18:00Z every 15 min (101 frames)",
+  "rain": "Frozen v2 package frames 2026-10-30T16Z..2026-11-02T07Z unchanged (Stage IV/MRMS analysis to 14Z Nov 1, then HRRR 2026-11-01T14Z forecast 14Z..07Z), then observed Stage IV 01h (IEM) for 07Z..18Z Nov 2 on the same grid and mapping; no HRRR in the extension, no zero-fill",
+  "note": "Validation-only extended window so the observed inflow wave can pass Manville, Tucker and the outlet. Not a live configuration and not tuned."
+ },
+ "boundaryChange": {
+  "boundaries": ".sfincs-runs/brawley-avra-west-boundaries-v3 (tools/sfincs/prepare_route_case_boundaries.py --terrain-reversed-reach 15876709 --terrain .sfincs-runs/brawley-avra-west-context-v2/terrain.tif --extra-outflow-channels tools/sfincs/data/brawley-avra-west-v2/boundaries-v3/extra-outflow-channels.geojson)",
+  "comparisonCase": "brawley-avra-west-native-case-v2x-observed-inflow (boundaries v2, 47 outflow cells)",
+  "outflowCellsV2": 47,
+  "outflowCellsV3": 92,
+  "added": [
+   {
+    "where": "north tip of the 15876709 lobe (-111.2667, 32.3735)",
+    "cells": [
+     54443,
+     54444,
+     54598,
+     54599,
+     54756
+    ],
+    "why": "NHDPlus 15876709 is digitized flowing south but the 10 m terrain falls 23.4 m to the north (617.76 m at its digitized start, 641.15 m at its end); reversed for the HydroMT outflow search only; OSM intermittent stream 1103245450 continues north to the Avra Valley Rd bridge (docs/upgrade/BRAWLEY-OUTLET-POND-20261108.md)"
+   },
+   {
+    "where": "NW valley floor, OSM intermittent stream 1489567542 (-111.352, 32.463)",
+    "count": 5,
+    "why": "edge cluster where terrain keeps falling outward and a mapped OSM stream leaves downhill (edge audit cluster 0)"
+   },
+   {
+    "where": "NW valley floor, OSM intermittent stream 1489567547 (-111.348, 32.440)",
+    "count": 35,
+    "why": "edge cluster where terrain keeps falling outward and a mapped OSM stream leaves downhill (edge audit cluster 4)"
+   }
+  ],
+  "method": "Same boundary type (msk 3 outflow) and the same HydroMT directed outflow-point search (100 m edge buffer, 250 m corridor, Deltares native mask builder) as the 47 v2 outflow cells",
+  "unchanged": "mesh v2, parameters v2 (sfincs_subgrid.nc), infiltration, inflow, rain, sfincs.inp, sfincs.dis, sfincs.src; second reversed headwater 15876769 and all other edge clusters listed as candidates only",
+  "placementReport": "tools/sfincs/data/brawley-avra-west-v2/boundaries-v3/placement-report.json"
+ }
+}
