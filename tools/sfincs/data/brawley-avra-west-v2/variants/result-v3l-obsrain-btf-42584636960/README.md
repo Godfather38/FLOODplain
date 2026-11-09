@@ -58,13 +58,20 @@ inside (msk 1) cell of each boundary link, btf minus base, at the same frame:
 - Cluster 3: 0.000 m.
 - Clusters 1 and 2: never wet in either run.
 
-How far the change reaches. These are the largest |zs btf - base| values in cells wet in both runs, by distance from the
-nearest outflow cell:
+How far the change reaches. These are the largest |zs btf - base| values by distance from the nearest outflow cell. The
+first two rows use frames where the cell is wet in **both** runs. The next two use frames where it is wet in **either** run
+and both runs wrote a zs (no value is filled). Near the outlet the either-run numbers are larger, because the biggest rise
+is in cells that btf wets and base leaves almost dry:
 
 | band | 0-100 m | 100-250 m | 250-600 m | 600-1000 m | 1-2 km | 2-5 km | >5 km |
 |---|---|---|---|---|---|---|---|
-| max m | 0.508 | 0.120 | 0.034 | 0.005 | 0.012 | 0.021 | 0.025 |
-| cells > 1 cm | 92 | 28 | 2 | 0 | 1 | 4 | 9 |
+| max m, wet in both | 0.508 | 0.120 | 0.034 | 0.005 | 0.012 | 0.021 | 0.025 |
+| cells > 1 cm, wet in both | 92 | 28 | 2 | 0 | 1 | 4 | 9 |
+| max m, wet in either | **0.601** | **0.171** | 0.034 | 0.005 | 0.012 | 0.021 | 0.025 |
+| cells > 1 cm, wet in either | 97 | 29 | 2 | 0 | 1 | 4 | 9 |
+
+Within 250 m the largest either-run difference is a rise (btf higher): +0.601 m at 0-100 m and +0.171 m at 100-250 m
+(`compare-btf-vs-base.json` `zsChangeReach`, `maxRiseBtfMinusBaseWetEitherM`).
 
 The differences beyond 1 km are not propagation from the boundary:
 
@@ -145,9 +152,12 @@ too (max |difference| 0).
 - At 16Z Nov 2, btf storage is +1,128 m³ higher.
 - btf outflow (hourly-snapshot trapezoid) is +78,468 m³ higher, or 0.85%.
 
-The two differences should add to 0. They add to 79,596 m³, which is within the sampling error of an hourly trapezoid:
-hour-to-hour boundary outflow differs by up to 22.8 m³/s between the runs, for example at 15Z, 149.6 vs 126.9 m³/s. An
-absolute whole-run balance is not possible, because the cap stopped both runs before `cumprcp` and `cuminf` were written.
+The two differences should add to 0. They add to +79,596 m³, about as large as the outflow difference itself, so **this
+difference balance is not closed** (`massBalance.closed: false`). The hourly trapezoid cannot tell whether btf really
+passes 78k m³ more or the gap is sampling error: hour-to-hour boundary outflow differs by up to 22.8 m³/s between the runs,
+for example at 15Z, 149.6 vs 126.9 m³/s. Only a time-integrated outflow (a his file or a cumulative boundary flux) could
+close it. An absolute whole-run balance is not possible either, because the cap stopped both runs before `cumprcp` and
+`cuminf` were written.
 
 **Solver time:** no measurable difference. Elapsed seconds at each 5% mark:
 
@@ -172,8 +182,11 @@ is a lower bound. The plateau is cut at 16:00Z.
 | volume, 18Z start, no plateau | 5.121 | 5.121 |
 | volume, 16Z start | 3.94 | 3.94 |
 | volume, 16Z start, no plateau | 4.77 | 4.77 |
-| NSE | -37.61 | -37.61 |
-| NSE, no plateau | -37.17 | -37.17 |
+| NSE, hourly 18Z Nov 1 to 16Z Nov 2 (23 reports) | -37.61 | -37.61 |
+| NSE, same window, no plateau hours (15 reports) | -37.17 | -37.17 |
+
+The hourly fit ends at 16Z Nov 2, the last common restart; `compare-btf-vs-base.json` now names it `hourlyFit18Zto16Z`
+(round 7 called it `hourlyFit18Zto18Z`, which it never was).
 
 Both bands: volume ratio 4.567 (18Z start) and 4.309 (16Z start), and NSE -46.92 in both runs. btfilter changes nothing at
 the gauge. The large over-prediction belongs to base B (the runoff volume, see BRAWLEY-RUNOFF-ROUTING), not to the
@@ -181,11 +194,17 @@ boundary.
 
 ## Evidence for the owner's decision: btfilter = -1 in live cases
 
-The live cases all come from `tools/live/all-route-cases.json`: northern v3, picture-rocks v2, gates-full v3 and
-brawley-avra-west v2. `run_live_all_route.py` rewrites only the time keys and `dtrstout` in `sfincs.inp`. Every live
-archive's own `sfincs.inp` has `btfilter = 60.0`. Every live mesh has mask 1 and 3 only (3 cells: 12, 18, 41 and 47), and
-none has an rstfile or a water-level or river boundary. So `btfilter = -1` would act on live cases exactly as it does here:
-only on msk 3 outflow links.
+Live SFINCS cases (every one has `btfilter = 60.0` in its own `sfincs.inp`):
+
+| live case | run by | sfincs.inp keys the runner rewrites | outflow (msk 3) cells |
+|---|---|---|---|
+| northern v3, picture-rocks v2, gates-full v3, brawley-avra-west v2 (`tools/live/all-route-cases.json`) | `live-all-route.yml`, `run_live_all_route.py` | `tref`, `tstart`, `tstop`, `t0out`, `dtout`, `dtrstout` (`run_live_all_route.py:130-131`) | 12, 18, 41 and 47 |
+| stress-storm-v1 hourly live case (`tools/sfincs/data/stress-storm-v1/case.tar.gz`, regular 100 m grid) | `live-sfincs.yml`, `run_live_sfincs.py prepare` | `tref`, `tstart`, `tstop`, `dtrstout` (`run_live_sfincs.py:231`) | 7 |
+
+Round 7 said the all-route runner rewrote only the time keys and `dtrstout`; it also rewrites the output timing `t0out` and
+`dtout`. None of the rewrites touches `btfilter`. Every live mesh has mask 1 and 3 only, and none has an rstfile or a
+water-level or river boundary (stress-storm-v1: `sfincs.msk` holds 29,678 ones and 7 threes, no `bndfile`). So
+`btfilter = -1` would act on every live case exactly as it does here: only on msk 3 outflow links.
 
 For adoption:
 
@@ -197,7 +216,8 @@ For adoption:
 
 Against, or not settled:
 
-- It raises water inside the outlet by up to 0.51 m within 100 m, 0.12 m at 100-250 m and 3.4 cm at 250-600 m. Here no
+- It raises water near the outlet by up to 0.60 m within 100 m and 0.17 m at 100-250 m in cells wet in either run (0.51 m
+  and 0.12 m counting only cells wet in both runs), and changes it by up to 3.4 cm at 250-600 m. Here no
   station sits that close to a wet outflow cluster. A live case with a road station within about 250 m of an active
   outflow cluster could see a real rating change. One example is the v3 boundaries, which put 10 stations inside outflow
   cells. Whether the higher level is more realistic than the base level is not tested: there is no water-level

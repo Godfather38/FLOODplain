@@ -9715,6 +9715,9 @@
     "maxAbsDzsBothWetM": 0.5078,
     "cellsGt1mm": 146,
     "cellsGt1cm": 92,
+    "maxAbsDzsWetEitherM": 0.6009,
+    "maxRiseBtfMinusBaseWetEitherM": 0.6009,
+    "cellsGt1cmWetEither": 97,
     "cellsWetInOneRunOnly": 34
    },
    "100-250 m": {
@@ -9722,6 +9725,9 @@
     "maxAbsDzsBothWetM": 0.1201,
     "cellsGt1mm": 118,
     "cellsGt1cm": 28,
+    "maxAbsDzsWetEitherM": 0.1707,
+    "maxRiseBtfMinusBaseWetEitherM": 0.1707,
+    "cellsGt1cmWetEither": 29,
     "cellsWetInOneRunOnly": 14
    },
    "250-600 m": {
@@ -9729,6 +9735,9 @@
     "maxAbsDzsBothWetM": 0.0337,
     "cellsGt1mm": 59,
     "cellsGt1cm": 2,
+    "maxAbsDzsWetEitherM": 0.0337,
+    "maxRiseBtfMinusBaseWetEitherM": 0.0068,
+    "cellsGt1cmWetEither": 2,
     "cellsWetInOneRunOnly": 3
    },
    "600-1000 m": {
@@ -9736,6 +9745,9 @@
     "maxAbsDzsBothWetM": 0.0051,
     "cellsGt1mm": 15,
     "cellsGt1cm": 0,
+    "maxAbsDzsWetEitherM": 0.0051,
+    "maxRiseBtfMinusBaseWetEitherM": 0.0029,
+    "cellsGt1cmWetEither": 0,
     "cellsWetInOneRunOnly": 1
    },
    "1000-2000 m": {
@@ -9743,6 +9755,9 @@
     "maxAbsDzsBothWetM": 0.0122,
     "cellsGt1mm": 177,
     "cellsGt1cm": 1,
+    "maxAbsDzsWetEitherM": 0.0122,
+    "maxRiseBtfMinusBaseWetEitherM": 0.0122,
+    "cellsGt1cmWetEither": 1,
     "cellsWetInOneRunOnly": 9
    },
    "2000-5000 m": {
@@ -9750,6 +9765,9 @@
     "maxAbsDzsBothWetM": 0.0206,
     "cellsGt1mm": 137,
     "cellsGt1cm": 4,
+    "maxAbsDzsWetEitherM": 0.0206,
+    "maxRiseBtfMinusBaseWetEitherM": 0.0205,
+    "cellsGt1cmWetEither": 4,
     "cellsWetInOneRunOnly": 32
    },
    "5000-inf m": {
@@ -9757,6 +9775,9 @@
     "maxAbsDzsBothWetM": 0.0247,
     "cellsGt1mm": 777,
     "cellsGt1cm": 9,
+    "maxAbsDzsWetEitherM": 0.0247,
+    "maxRiseBtfMinusBaseWetEitherM": 0.0212,
+    "cellsGt1cmWetEither": 9,
     "cellsWetInOneRunOnly": 171
    }
   },
@@ -10532,6 +10553,8 @@
   "storageChangeDiffBtfMinusBaseM3": 1128,
   "outflowDiffBtfMinusBaseM3": 78468,
   "sumShouldBeNearZeroM3": 79596,
+  "closed": false,
+  "closedNote": "the difference balance is NOT closed: the sum is +79,596 m3, about the size of the outflow difference itself (+78,468 m3), so the hourly-snapshot outflow term cannot say whether btf passes more water or the gap is sampling error. Only a time-integrated outflow (his file or cumulative boundary flux) could close it",
   "storageDiffAtFirstFrameM3": 0,
   "qinfLastStateMaxAbsDiff": 0.0,
   "note": "rain, inflow and (cna) infiltration are the same inputs in both runs, so storage change + outflow should differ by ~0 between them; the outflow term is a trapezoid over hourly snapshots, so its sampling error has either sign. A whole-run balance with cumprcp/cuminf is not possible: the cap stopped both runs before SFINCS wrote them. subgrid_volume has no NaN (asserted)"
@@ -10662,7 +10685,7 @@
        "ratio": 5.121
       }
      },
-     "hourlyFit18Zto18Z": {
+     "hourlyFit18Zto16Z": {
       "withPlateau": {
        "hours": 23,
        "nse": -37.607,
@@ -10706,7 +10729,7 @@
        "ratio": 5.601
       }
      },
-     "hourlyFit18Zto18Z": {
+     "hourlyFit18Zto16Z": {
       "withPlateau": {
        "hours": 23,
        "nse": -46.917,
@@ -10752,7 +10775,7 @@
        "ratio": 5.121
       }
      },
-     "hourlyFit18Zto18Z": {
+     "hourlyFit18Zto16Z": {
       "withPlateau": {
        "hours": 23,
        "nse": -37.61,
@@ -10796,7 +10819,7 @@
        "ratio": 5.602
       }
      },
-     "hourlyFit18Zto18Z": {
+     "hourlyFit18Zto16Z": {
       "withPlateau": {
        "hours": 23,
        "nse": -46.92,

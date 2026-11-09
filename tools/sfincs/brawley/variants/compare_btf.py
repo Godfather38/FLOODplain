@@ -10,7 +10,9 @@ cumprcp, cuminf or runtime; only frames with a valid time are used, and both run
   - zs at every outflow cell and at the msk 1 cell inside each boundary link (max over map frames, and max |btf - base|);
   - road stations within 600 m of any outflow cell (v2 local station file): per station max zs in wet frames, max |dzs| over
     all frames where the cell is wet in either run, over-road status in each run (cell zs > roadZ in a wet frame);
-  - how far the change reaches: max |zs btf - base| over all frames by distance band from the nearest outflow cell;
+  - how far the change reaches: max |zs btf - base| over all frames by distance band from the nearest outflow cell, over frames
+    where the cell is wet in BOTH runs and, separately, over frames where it is wet in EITHER run and both runs wrote a zs (a
+    cell wet in one run only is where the rise is largest; a zs the solver did not write is never filled);
   - ALERT 6443 against the PRIMARY county series (gauges.json), both bands, with and without the suspect plateau, 16Z and 18Z
     observed starts (same rules as variants/result-v3l-obsrain-42583445548/score_v3l.py);
   - sections (Mile Wide, Manville, Tucker, Donaldson; validate_extended.py SECTIONS and stair-step rule) from the restarts;
@@ -131,6 +133,8 @@ Tb, ZB, WB, VOLB, QIB = mapd(a.btf); Ta, ZA, WA, VOLA, QIA = mapd(a.base)
 assert Tb == Ta, 'map frames differ'
 both = WB & WA  # zs differences only where the cell is wet in both runs; wet in one only is counted separately
 dz_both = np.where(both, np.abs(ZB - ZA), 0.0)
+either = (WB | WA) & np.isfinite(ZB) & np.isfinite(ZA)  # wet in either run; both zs written by the solver (no fill)
+dz_either = np.where(either, np.abs(ZB - ZA), 0.0); rise_either = np.where(either, ZB - ZA, -np.inf)
 d3 = np.full(G.NF, np.inf)
 for f in o3: d3 = np.minimum(d3, np.hypot(G.xc - G.xc[f], G.yc - G.yc[f]))
 reach = {}
@@ -139,6 +143,8 @@ for lo_, hi_ in ((0, 100), (100, 250), (250, 600), (600, 1000), (1000, 2000), (2
     mx = dz_both[:, sel].max(axis=0)
     reach[f'{int(lo_)}-{"inf" if hi_ > 1e8 else int(hi_)} m'] = {'cells': int(sel.sum()), 'maxAbsDzsBothWetM': round(float(mx.max()), 4),
         'cellsGt1mm': int((mx > 0.001).sum()), 'cellsGt1cm': int((mx > 0.01).sum()),
+        'maxAbsDzsWetEitherM': round(float(dz_either[:, sel].max()), 4), 'maxRiseBtfMinusBaseWetEitherM': round(float(rise_either[:, sel].max()), 4),
+        'cellsGt1cmWetEither': int((dz_either[:, sel].max(axis=0) > 0.01).sum()),
         'cellsWetInOneRunOnly': int(((WB ^ WA)[:, sel]).any(axis=0).sum())}
 far = np.where(dz_both.max(axis=0) > 0.01)[0]
 reachNote = {'farthestCellGt1cmM': round(float(d3[far].max()), 1) if far.size else None,
@@ -257,6 +263,8 @@ dS = float(stor['btf'][iend] - stor['base'][iend]) - float(stor['btf'][i18] - st
 massBalance = {'storageM3': {t: {FR[0]: round(float(stor[t][0])), FR[i18]: round(float(stor[t][i18])), FR[iend]: round(float(stor[t][iend]))} for t in stor},
                'outflowAllLinksFromFirstRestartM3': outv,
                'storageChangeDiffBtfMinusBaseM3': round(dS), 'outflowDiffBtfMinusBaseM3': round(dO), 'sumShouldBeNearZeroM3': round(dS + dO),
+               'closed': False,
+               'closedNote': f'the difference balance is NOT closed: the sum is {dS + dO:+,.0f} m3, about the size of the outflow difference itself ({dO:+,.0f} m3), so the hourly-snapshot outflow term cannot say whether btf passes more water or the gap is sampling error. Only a time-integrated outflow (his file or cumulative boundary flux) could close it',
                'storageDiffAtFirstFrameM3': round(float(stor['btf'][0] - stor['base'][0])),
                'qinfLastStateMaxAbsDiff': float(np.nanmax(np.abs(QIB - QIA))) if np.isfinite(QIB).any() else None,
                'note': 'rain, inflow and (cna) infiltration are the same inputs in both runs, so storage change + outflow should differ by ~0 between them; the outflow term is a trapezoid over hourly snapshots, so its sampling error has either sign. A whole-run balance with cumprcp/cuminf is not possible: the cap stopped both runs before SFINCS wrote them. subgrid_volume has no NaN (asserted)'}
@@ -329,7 +337,7 @@ for tag in ('btf', 'base'):
         r[band] = {'peak': pk_, 'q03Z': round(sec['2026-11-02T03:00Z'], 3), 'ratio03Z': round(sec['2026-11-02T03:00Z'] / OBS03, 3),
                    'volumes': {f'{st}start{"" if pl == "withPlateau" else "NoPlateau"}': {'observedM3': round(ovol[st][pl]), 'modelM3': round(mv), 'ratio': round(mv / ovol[st][pl], 3)}
                                for st in ('16Z', '18Z') for pl in ('withPlateau', 'withoutPlateau')},
-                   'hourlyFit18Zto18Z': {'withPlateau': metrics(sec, False), 'withoutPlateauHours': metrics(sec, True)}}
+                   'hourlyFit18Zto16Z': {'withPlateau': metrics(sec, False), 'withoutPlateauHours': metrics(sec, True)}}
     alert['runs'][tag] = r
 
 res = {'btfRun': str(a.btf), 'baseRun': str(a.base), 'baseLabel': a.base_label,
