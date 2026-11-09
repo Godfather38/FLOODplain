@@ -87,7 +87,9 @@ Black Wash area, 603 km²:
   - **What does set the maximum (re-derived from the hourly restart transects, all hours; inference, not separated by a run).**
     - The Black Wash band has a first maximum of 119.1 m³/s at 00Z, falls to 105.8 at 03Z, then rises again to 122.9 at 06Z.
     - That second rise starts in the lower basin. On the Black Wash path it shows at km 38 at 04Z (97 → 103 m³/s from 03Z), km 40 at 04–05Z (103 → 116), km 42 at 05Z (106 → 123) and km 43 at 06–07Z (112 → 136). At km 34 and km 36 the flow keeps falling (71 → 58 and 32 → 26 m³/s from 03Z to 06Z). So the extra water enters between km 36 and the gauge, where the 129 km² tributary joins at about km 38.5, not from the upper basin.
-    - It follows the light rain in the frames stamped 02Z, 03Z and 04Z (applied about 01:45–04:45Z): 0.58 mm over the area, 0.45 mm within 8 km of the gauge and 1.03 mm in the 8–15 km ring. The CN rule turns it into 0.23M m³ (C 0.66), at a time when most of the area is already past Ia.
+    - It comes after light rain in the frames stamped 02Z, 03Z and 04Z (applied about 01:45–04:45Z): 0.58 mm over the area, 0.45 mm within 8 km of the gauge and 1.03 mm in the 8–15 km ring. The CN rule turns it into 0.23M m³ (C 0.66) **over the whole 603 km² Black Wash area**.
+    - *Corrected 2026-11-09 (round 8): that rain cannot supply the second rise.* Volume check on the v2r Black Wash band (`rain-sensitivity/result-42555458619/validation-full.json`, hourly restarts): the water above the flat 03Z level (105.8 m³/s) until the flow falls back below it at 10Z is about **0.25M m³**; above the 00–03Z recession (−4.4 m³/s per hour) continued to 09Z it is about **0.53M m³**. Both are at least the whole 0.23M m³ that the 02–05Z rain makes over the entire area, and only the part that falls between km 36 and the gauge could arrive by 04–07Z. So the 02–05Z rain is at most a small part of it.
+    - **The cause of the 04–07Z second rise is not established.** What is shown: it enters between km 36 and the gauge. Candidates not tested: release of water stored on the lower-basin floodplain or in the 129 km² tributary from the 14–18Z burst, a later arrival from that tributary, and backwater or exchange between the two Mile Wide bands. A run with rain switched off after 01Z, or a tributary transect, would separate them.
     - The three late tributaries in §4.1 (15876939, 15876931 and 15877621, peaks 00:30–04Z) join upstream of km 34, where no second rise is seen. They are therefore not the cause.
     - The both-bands maximum at 07Z (139.2) adds the Brawley band, which rises from 5.9 m³/s at 03Z to 17.0 at 07Z and 18.1 at 08Z as the inlet wave arrives (§4.2).
     - The 07–10Z rain can only act after about 06:45Z. This run does not show how much it holds up the recession after 07Z.
@@ -275,7 +277,7 @@ Volumes are computed linearly between reports. Reports are event-driven plus hou
 **Expected effect on the volume:** #1–#3 (CN handling, together a factor of about 2–12) are larger than #4 (losses), which is larger than #5–#7.
 
 **Expected effect on the timing at Mile Wide:**
-- Fixing the volume (#1–#4) removes most of the 23Z–10Z plateau and the second rise at 04–07Z (from the 02–05Z rain in the lower basin, §1.3), so the apparent 12 h lag shrinks to the real 2.5 h (rise) to about 5–7 h (centroid).
+- Fixing the volume (#1–#4) should remove most of the 23Z–10Z plateau, so the apparent 12 h lag shrinks to the real 2.5 h (rise) to about 5–7 h (centroid). Whether it also removes the second rise at 04–07Z is not known: its cause is not established (§1.3; the 02–05Z lower-basin rain is too small to supply it, about 0.25–0.53M m³ in the rise against 0.23M m³ generated over the whole area).
 - #5 is then the main lever for the remaining rise lag.
 
 ## 6. Caveats
