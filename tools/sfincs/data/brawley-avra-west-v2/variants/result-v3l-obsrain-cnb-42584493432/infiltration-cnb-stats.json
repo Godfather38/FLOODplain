@@ -1,0 +1,26 @@
+{
+ "faces": 643056,
+ "polarisLayer_cm": "0-5",
+ "polarisTiles": [
+  "ksat_mean_0_5_lat3132_lon-112-111.tif",
+  "ksat_mean_0_5_lat3233_lon-112-111.tif"
+ ],
+ "facesCappedAt360mmhr": 0,
+ "facesPartlyWithoutPolaris": 0,
+ "ks_mmhr_areaMean": 52.830380062239,
+ "ks_mmhr_p05_p50_p95": [
+  10.771647475659847,
+  37.0219412446022,
+  87.92051982879639
+ ],
+ "kr_perHour_areaMean": 0.018642155730781436,
+ "recoveryOnsetHours_0.06/kr_areaMean": 3.4860626621991955,
+ "recoveryOnsetHours_p05_p50_p95": [
+  2.4187124968304228,
+  3.727346595605087,
+  6.910163228537525
+ ],
+ "hoursSmaxFullRecovery_1/kr_p50": 62.122443260084786,
+ "smax_mm_areaMean": 56.11826844660877,
+ "seff_equals_smax": true
+}

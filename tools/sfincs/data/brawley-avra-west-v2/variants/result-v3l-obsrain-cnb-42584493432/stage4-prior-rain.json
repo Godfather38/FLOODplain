@@ -1,0 +1,76 @@
+{
+ "bbox_lonlat": [
+  -111.50358688954935,
+  31.93552666789085,
+  -111.04256774732616,
+  32.47239617691512
+ ],
+ "files": {
+  "ST4.2026102412.24h.grib": {
+   "cells": 168,
+   "missingCells": 0,
+   "mean_mm": 0.0,
+   "max_mm": 0.0
+  },
+  "ST4.2026102512.24h.grib": {
+   "cells": 168,
+   "missingCells": 0,
+   "mean_mm": 0.03928571428571429,
+   "max_mm": 0.6
+  },
+  "ST4.2026102612.24h.grib": {
+   "cells": 168,
+   "missingCells": 0,
+   "mean_mm": 0.0,
+   "max_mm": 0.0
+  },
+  "ST4.2026102712.24h.grib": {
+   "cells": 168,
+   "missingCells": 0,
+   "mean_mm": 0.0,
+   "max_mm": 0.0
+  },
+  "ST4.2026102812.24h.grib": {
+   "cells": 168,
+   "missingCells": 0,
+   "mean_mm": 0.0,
+   "max_mm": 0.0
+  },
+  "ST4.2026102912.24h.grib": {
+   "cells": 168,
+   "missingCells": 0,
+   "mean_mm": 0.0,
+   "max_mm": 0.0
+  },
+  "ST4.2026103012.24h.grib": {
+   "cells": 168,
+   "missingCells": 0,
+   "mean_mm": 2.526190476190476,
+   "max_mm": 15.0
+  },
+  "ST4.2026103013.01h.grib": {
+   "cells": 168,
+   "missingCells": 0,
+   "mean_mm": 0.0,
+   "max_mm": 0.0
+  },
+  "ST4.2026103014.01h.grib": {
+   "cells": 168,
+   "missingCells": 0,
+   "mean_mm": 0.0,
+   "max_mm": 0.0
+  },
+  "ST4.2026103015.01h.grib": {
+   "cells": 168,
+   "missingCells": 0,
+   "mean_mm": 0.38392857142857145,
+   "max_mm": 4.625
+  },
+  "ST4.2026103016.01h.grib": {
+   "cells": 168,
+   "missingCells": 0,
+   "mean_mm": 0.7671130952380952,
+   "max_mm": 7.125
+  }
+ }
+}
