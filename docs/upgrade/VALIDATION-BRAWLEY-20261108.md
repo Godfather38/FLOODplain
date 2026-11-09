@@ -908,3 +908,96 @@ Outflow is hourly restart flux (instantaneous snapshots, which swing a lot from 
 - **ALERT 6443, primary series, both bands** (v3l = v2r): peak 122.90 / 06Z (Black Wash band) and 139.24 / 07Z (both bands), 11.7–12.7 h after the observed 64.73 at 18:20Z Nov 1. 03Z: 4.81× / 5.08×. Volume 18Z–18Z: 4.24× / 4.64× with the plateau, 5.20× / 5.69× without it. With a 16Z observed start: at least 4.01× / 4.39× with the plateau and 4.86× / 5.32× without (lower bounds: the model has no flux before 18Z and none is filled). Hourly NSE −37.1 / −46.3 (−34.7 / −42.0 without the plateau hours).
 - **Checks.** Mass-balance residual +128,213 m³ (+0.22% of inputs; an estimate from hourly snapshots of a swinging lobe flux). Negative depth as v2r: −1.46 mm at face 478144, 1 cell below −1 mm (outside the live verifier limit; not from the lobe change). 0 wet NaN, 0 spikes. Lobe-tip velocity proxy 4.76 m/s at 14Z where link depth is just over 0.1 m (proxy, not a speed).
 - **Verdict.** Opening the lobe tip removes the closed-edge pond and changes nothing upstream. With observed rain, V2 (Mile Wide) stays FAIL with the v2r overshoot; the boundary is not the cause. B is the clean base for the runoff and boundary variants.
+
+## 18. One-change variants of base B, rounds 8-9 (runoff, boundary filter, channel loss) — 2026-11-09
+
+**SENSITIVITY runs: not tuned to observations, not live configurations, not for live registration.** Each variant is base case B (§17) with one change made by `tools/sfincs/brawley/variants/make_variant.py`. Two rows build on cnb: cnb-btf combines two changes that were each run alone first, and chl adds one change to cnb. Every parameter value has a published physical source chosen before the run. Scoring is against the ALERT 6443 primary county series (`observed-gauges-20261101/gauges.json`, provisional), Black Wash 15876815 band, with model hourly restart flux from 18Z Nov 1. The 08:45–16:20Z Nov 2 plateau is a suspect rating step. The "no plateau" ratios are a bracket, because the true flow then is unknown, not zero. The numbers below are read from the committed JSON named in each item. Solver times come from each run's solver log (`Total time`), which is not committed.
+
+### 18.1 GCN10 drained curve numbers (no run: null change)
+
+- Files: `tools/sfincs/data/brawley-avra-west-v2/variants/cn-drained/` (`cn-drained-report.json`, `water-table-usgs.json`). The water table is deep: over 44 wells, the median of each well's shallowest reading is 186.8 ft. So "drained" applies physically.
+- But the drained and undrained GCN10 tiles `cn_f_ii_2281.tif` are byte-identical (same sha256), and the warped grids differ on 0 of 29,760,000 cells. A drained case would be byte-identical to B, so it was not dispatched. The drained/undrained choice cannot explain the runoff excess.
+
+### 18.2 cnb: Curve Number with recovery (run 42584493432)
+
+- **Change:** `inftype cna -> cnb`, with an `infiltration.nc` holding smax (the base `scs` × 0.0254), seff = smax (dry start) and POLARIS v1.0 ks. Solver 6,201.6 s. Numbers: `result-v3l-obsrain-cnb-42584493432/summary-vs-B.json`.
+- **Runoff:** whole-run runoff over the 603 km² Black Wash area is 9.37 mm, C 0.180 (5,652,657 m³). In B it is 17.92 mm, C 0.345 (10,812,728 m³). The rain is the same (51.94 mm).
+- **ALERT 6443, Black Wash band:**
+  - Peak 64.74 m³/s at 08Z Nov 2 (B 122.90 at 06Z). That is 13.67 h after the observed 64.73 at 18:20Z (B 11.67 h).
+  - Volume 18Z–18Z 3,497,643 m³ (B 7,564,853). That is 1.96× observed with the plateau and 2.40× without (B 4.24× / 5.20×).
+  - Hourly NSE −7.37 (B −37.09).
+- The peak size equals the observed peak, but it comes 13.7 h late. That is a coincidence of volume and routing, not a fit.
+- **Checks:**
+  - Minimum vol/area −0.43 mm (face 627171, 20Z Nov 1); 0 cells below −1 mm.
+  - Mass-balance residual −114,264 m³ (an estimate from hourly snapshots).
+  - Stations ever over the road: 5,277 (B 7,677).
+- `summary.json` was scored against v2r before B finished. Its ALERT 6443 and road numbers agree with the B re-score within about 200 m³ and 1 station; they are not identical.
+
+### 18.3 btf: boundary filter off (run 42584636960, partial window)
+
+- **Change:** `btfilter 60.0 -> -1`. The source is SFINCS f3647fc `sfincs_boundaries.f90`, `update_boundary_fluxes`, the `uvmean` term. Numbers: `result-v3l-obsrain-btf-42584636960/compare-btf-vs-base.json`.
+- **Partial window.** The 7,200 s cap stopped this run (exit 124). The B run it is compared with was stopped the same way (42583445548; it is bit-identical to the finished B 42599666617 over their common frames). The comparison ends at the last common restart, 16Z Nov 2 (23 hourly restarts). Its volumes and fits are therefore not on the 18Z–18Z window of the other rows.
+- **ALERT 6443 is unchanged.**
+  - Peak 122.90 at 06Z.
+  - Volume 18Z–16Z 7,106,933 m³ (capped base 7,107,201). That is 4.18× the observed 18Z–16Z volume (1,702,163 m³) with the plateau and 5.12× without.
+  - Hourly NSE −37.61 over 23 h.
+- **Outflow links:** the stored flux now matches the head-driven term in total, 9,357,770 m³ stored against 9,508,898 m³ head-driven (base: 9,279,302 against 3,299,963). The highest |q|/huv at a boundary link falls from 450.0 to 81.5 m/s. That is a ratio at a flux depth of about 1–2 mm, not a speed.
+- **Checks:**
+  - Minimum vol/area −1.46 mm at face 478144 (1 cell, 3 frames below −1 mm), the same cell as B. **It fails the −1 mm rule**, like B.
+  - Road stations over the road: 7,676 in both runs.
+
+### 18.4 cnb-btf: candidate combination (run 42622454115)
+
+- **Changes:** cnb (§18.2) plus `btfilter -1` (§18.3), made with `make_variant.py --inp-set btfilter=-1` on the cnb case. Solver 5,647.7 s (`job.log` of the run), average time step 0.980 s. Numbers: `result-v3l-obsrain-cnb-btf-42622454115/summary.json` and `compare-btfilter-vs-cnb.json` (README there).
+- **It passes the live verifier's −1 mm rule.** Minimum vol/area −0.43 mm (face 627171, 20Z Nov 1), with 0 cells and 0 frames below −1 mm. B fails the rule (−1.46 mm, 1 cell, 4 frames).
+- **ALERT 6443** equals cnb within 14 m³ of volume:
+  - peak 64.74 at 08Z (13.67 h late);
+  - volume 3,497,639 m³, 1.96× / 2.40× observed;
+  - hourly NSE −7.37 (−6.74 without the plateau hours).
+- **Boundary:**
+  - All outflow links pass 3,421,336 m³ stored against 3,373,938 m³ head-driven (cnb: 3,539,403 against 1,161,517).
+  - The outlet's stored ÷ head ratio is 0.97–1.02 (cnb 4.3–10.7).
+  - The exception is the 12-cell cluster at −111.337 32.413: 66,856 m³ stored against 50,360 m³ head-driven (+33%), ratio 0–2.54. At 18Z Nov 2 it has 12.25 m³/s stored with a head term of 0.
+  - The highest boundary-link |q|/huv falls from 351.8 to 35.7 m/s.
+- **Other checks:** mass-balance residual +3,423 m³. Velocity proxy maximum 2.35 m/s (B 8.21). Stations ever over the road: 5,278 (cnb 5,277, B 7,677).
+
+### 18.5 chl: channel transmission loss on cnb (run 42622897426)
+
+- **Change:** SFINCS urban-drainage `injection_well` zones over the order ≥ 3 channel bed (8,749 faces, 810 zones), added to the cnb case. K = 1.65 in/h, from NRCS NEH 630 ch. 19, Table 19C-2, "Average for Tucson area". The prediction (a volume ratio of 1.7–1.9×) was written before the result. Solver 4,534.6 s. Numbers: `result-v3l-obsrain-cnb-chl-42622897426/summary-vs-B.json` and `summary-vs-cnb.json`; the method is in `BRAWLEY-CHANNEL-LOSSES-20261109.md`.
+- **Loss:** the beds took 940,860 m³ over the whole run (map cumulative depth), 289,231 m³ of it in the Black Wash area. Black Wash runoff after the loss is 5,363,458 m³, C 0.171.
+- **ALERT 6443:**
+  - Peak 62.19 m³/s at 02Z Nov 2, 7.67 h late. This is the earlier of the model's two humps, not a faster wave.
+  - Volume 3,257,068 m³: 1.83× observed with the plateau and 2.24× without. The prediction held.
+  - Hourly NSE −6.27.
+- **Checks:**
+  - Minimum vol/area −0.43 mm, 0 cells below −1 mm, so it passes the rule.
+  - The mass-balance residual closes against the loss only within the estimator's sampling error. After the loss is taken out, chl's residual is +26.5k m³; cnb, with no sink, has −114,264 m³.
+  - Stations ever over the road: 5,163.
+
+### 18.6 Summary (ALERT 6443, Black Wash band; observed 18Z–18Z volume 1,782,749 m³, or 1,454,356 m³ without the plateau)
+
+| Run | Change from B | Solver s | Whole-run C, Black Wash area | Mile Wide volume ratio, 18Z start, with / without plateau | Peak m³/s (time), lag after 18:20Z | Hourly NSE, with plateau | −1 mm rule |
+|---|---|---|---|---|---|---|---|
+| B 42599666617 | — | 8,136.1 | 0.345 | 4.24 / 5.20 | 122.90 (06Z), 11.67 h | −37.09 | FAIL (−1.46 mm, 1 cell) |
+| drained (no run) | GCN10 drained CN | — | = B (byte-identical input) | = B | = B | = B | = B |
+| cnb 42584493432 | `inftype cnb` | 6,201.6 | 0.180 | 1.96 / 2.40 | 64.74 (08Z), 13.67 h | −7.37 | PASS (−0.43 mm) |
+| btf 42584636960 | `btfilter -1` | stopped at the 7,200 s cap | not written (capped) | 4.18 / 5.12 (to 16Z, partial) | 122.90 (06Z), 11.67 h | −37.61 (23 h) | FAIL (−1.46 mm, 1 cell) |
+| cnb-btf 42622454115 | cnb + `btfilter -1` | 5,647.7 | 0.180 | 1.96 / 2.40 | 64.74 (08Z), 13.67 h | −7.37 | PASS (−0.43 mm) |
+| chl 42622897426 | cnb + bed loss, K 1.65 in/h | 4,534.6 | 0.171 (after bed loss) | 1.83 / 2.24 | 62.19 (02Z), 7.67 h | −6.27 | PASS (−0.43 mm) |
+
+- **Candidate: cnb-btf.** It is the only run with all three: the halved runoff, a boundary flux that matches the head term at the large outflow clusters, and a pass on the −1 mm rule. It is still a SENSITIVITY result, with about 2× the observed volume and a peak 13.7 h late.
+- **V2 (Mile Wide) stays FAIL in every run.** The runoff and bed-loss changes move the volume. None of them moves the timing.
+
+## 19. Timing at Mile Wide (diagnosis, no run) and what is pending — 2026-11-09
+
+This is a read-only diagnosis of B and cnb: nothing was changed and nothing was dispatched. Note: `BRAWLEY-TIMING-20261109.md`. Numbers: `tools/sfincs/data/brawley-avra-west-v2/timing-20261109/timing-diagnosis.json`, `lower-reach-flux-B.json` and `lower-reach-flux-cnb.json`.
+
+- **Rain clock: ruled out.** At all 13 county rain gauges, the best match between the gauge and the model rain frames is a 0 h shift. The burst centroids agree within −0.23 to +0.27 h. Unknown gauge hours stay unknown and are left out of both totals.
+- **Spin-up: ruled out.** The solver starts at 2026-10-30T16Z. The map starts at 17Z Nov 1 (`t0out`), and the restarts at 18Z. At 17Z the gauge cell already holds standing water: 0.45 m in cnb and 0.67 m in B, above the cell's lowest bed level. That is a model depth, not an observed level.
+- **Observed.** The first pulse (16:20–20:25Z Nov 1) carried 0.501M m³. To supply it, the nearest 99 km² (within 10 km, straight line) would need C 0.20, and the nearest 204 km² C 0.097. The nearest 24 km² would need 0.864.
+- **Model.**
+  - Flow 10 km above the gauge first reaches 23.1 m³/s at 19–20Z (B) or 21–22Z (cnb). Both are after the observed peak.
+  - Water stored on the land within 10 km of the gauge keeps growing, to 2.84M m³ at 05Z Nov 2 (B) and 1.80M m³ at 06Z (cnb), instead of draining.
+- **Not separated:** slow hillslope and small-tributary routing, the curve-number initial-abstraction onset, and the volume excess. One-change tests for Ia (`ia`) and land roughness (`landn`) are running.
+
+Round 10 results (ia, landn, live dry-run): pending round 10.
