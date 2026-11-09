@@ -1,0 +1,53 @@
+{
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "kind": "prepared_native_case",
+  "caseId": "brawley-avra-west-native-case-v3l-obsrain-cnb-btf",
+  "runReady": true,
+  "solverExecuted": false,
+  "approvedExecutionCapSeconds": 10800,
+  "archiveBytes": 152247428,
+  "archiveSha256": "650033154a0020557d9907ec7e2257012a206d916e4a3cbaf19025cd0d417de4",
+  "parts": [
+    {
+      "path": "case.part01",
+      "bytes": 40000000,
+      "sha256": "480a4cd1e4548c6463bb56da0622d1803275c9605140b7379fa44f70cffb3405"
+    },
+    {
+      "path": "case.part02",
+      "bytes": 40000000,
+      "sha256": "1400b6e1ef09986aecc1aefc7719c3b1505de13e429d8677b603172169a0f8a6"
+    },
+    {
+      "path": "case.part03",
+      "bytes": 40000000,
+      "sha256": "75d73d7d89b933aa1ac201835c84e2009ea74f7eef9d85fde63602e8aa0b942a"
+    },
+    {
+      "path": "case.part04",
+      "bytes": 32247428,
+      "sha256": "1f00f84e28a99e9ca21dad50078792b6e8aab153d3e8b1def587bf835bdc895c"
+    }
+  ],
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T18:00:00Z",
+  "gridCells": 643056,
+  "inlets": 1,
+  "scope": {
+    "status": "brawley_avra_west_version3",
+    "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+    "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+    "areaKm2": 1240.369838309587,
+    "externalInlets": [
+      {
+        "reachId": "15876941",
+        "receivingReachId": "15876923"
+      }
+    ],
+    "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+    "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+  },
+  "executionAuthorization": "orchestrator_task_brawley_avra_west_v3l_obsrain_cnb_btf_combined_sensitivity_cap_10800_experimental_branch_only"
+}
