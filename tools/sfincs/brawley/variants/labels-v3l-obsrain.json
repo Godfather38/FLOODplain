@@ -37,7 +37,6 @@
   "limitation": "Directed network independence does not prove no cross-divide overland exchange"
  },
  "caseId": "brawley-avra-west-native-case-v3l-obsrain",
- "validationVariant": true,
  "inflow": {
   "kind": "observed_gauge",
   "gauge": "USGS 09487000 Brawley Wash near Three Points (provisional IV 00060)",
@@ -56,10 +55,11 @@
  "label": "SENSITIVITY - not for live registration",
  "notForLiveRegistration": true,
  "rainSensitivity": {
-  "label": "SENSITIVITY: all-observed-rain variant of v2x; not tuned to observations; not for live registration",
-  "hypothesis": "The frozen HRRR 2026-11-01T14Z forecast misses most of the 14-17Z Stage IV rain (domain mean 0.67 mm vs 19.46 mm) and puts the burst 2-3 h late; this may explain why ALERT 6443 at Mile Wide gets 11.8 m3/s at 03Z in v2x vs about 23.1 m3/s observed and why the wave is late",
-  "comparesWith": "brawley-avra-west-native-case-v2x-observed-inflow (run 42544624673)",
-  "onlyDifferenceFromV2x": "precipitation frames 2026-11-01T14Z..2026-11-02T06Z (17 hourly frames, interval starts)",
+  "label": "SENSITIVITY: rain forcing inherited byte-identical from v2r (precip_2d.nc unchanged); v2r was the all-observed-rain variant of v2x. Not tuned to observations; not for live registration",
+  "comparesWith": "brawley-avra-west-native-case-v2r-observed-inflow (run 42555458619): same rain, same inflow; the only difference is boundaryChange (5 lobe-tip outflow cells)",
+  "rainProvenance": "The fields below describe how the v2r rain was built from v2x (run 42544624673); they are not a comparison of this case with v2x, which also differs by the boundary change",
+  "v2rHypothesis": "The frozen HRRR 2026-11-01T14Z forecast misses most of the 14-17Z Stage IV rain (domain mean 0.67 mm vs 19.46 mm) and puts the burst 2-3 h late; this may explain why ALERT 6443 at Mile Wide gets 11.8 m3/s at 03Z in v2x vs about 23.1 m3/s observed and why the wave is late",
+  "v2rRainDifferenceFromV2x": "precipitation frames 2026-11-01T14Z..2026-11-02T06Z (17 hourly frames, interval starts)",
   "unchangedFrames": {
    "frozenObservedAnalysis": "2026-10-30T16Z..2026-11-01T13Z (46 frames, frozen Stage IV/MRMS resolved analysis, byte-identical forcing)",
    "observedExtension": "2026-11-02T07Z..2026-11-02T17Z (11 frames, same Stage IV files as v2x, identical values)"

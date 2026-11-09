@@ -29,7 +29,8 @@ Hourly restart flux (instantaneous snapshots, m³/s); volumes are trapezoids fro
 | All outflow cells (52) | 193.01 / 04Z | 10,269,364 m³ | 106.32 / 03Z; 5,525,880 m³ |
 
 - **Lobe tip.** Outflow starts at 23Z Nov 1 (7.9) and stays at 70-93 m³/s from 02Z to 14Z Nov 2. The hour-to-hour swings
-  (41.9 at 15Z, 72.3 at 16Z) are snapshot noise in the restart flux.
+  (41.9 at 15Z, 72.3 at 16Z) are probably sampling noise of the instantaneous restart flux (inference: the restarts hold one
+  time step per hour and nothing here tests it; a time-integrated outflow, e.g. a his file, would).
 - **Pond (face 54135).** Peak water surface 620.52 m at 10:45Z Nov 2, falling at the end (620.43 at 18Z). v2r: 626.19 and still
   rising. Peak height above the cell's lowest sub-pixel is 3.45 m (v2r 9.11 m); that sub-pixel is the stock tank, not a mean depth.
   Lobe storage peaks at 345,905 m³ at 10:15Z and ends at 250,905 m³ (v2r 5,136,049 m³ at the end). Stored within 1.5 km of the
@@ -69,10 +70,14 @@ values within 0.002 m³/s, every hour within 0.062 m³/s, volumes within 213 m³
 
 ### Checks
 
-- **Mass balance.** Residual +128,213 m³ (+0.22% of inputs; v2r −13,374, −0.02%). An estimate, not a bound: the outflow term is
-  a trapezoid over hourly snapshots, and the lobe flux swings by about 35 m³/s between snapshots. Rain 57.66M m³, infiltration
-  39.55M m³ (both equal v2r), storage at 18Z 8.67M m³ (v2r 13.56M), outflow 10.27M m³ from 18Z Nov 1. Outflow before the first
-  restart is not measured; the lobe tip carries 0.0 m³/s until 22Z, so the lobe adds nothing there.
+- **Mass balance: not closed.** The residual lies in **[−33.1M, +128k] m³** (`summary.json` `massBalanceResidualRangeV3lM3`,
+  from `validation-full.json` `outflowBeforeFirstRestart.trueResidualRangeM3` = [−33,121,659, +128,213]). The +128,213 m³
+  end (+0.22% of inputs; v2r −13,374, −0.02%) counts outflow only from the first restart (18Z Nov 1). Outflow before then is
+  not measured (no his file); its upper bound, inflow + rain before 18Z minus storage then with infiltration taken as zero
+  (33.25M m³), gives the −33.1M m³ end. Both ends are estimates: the later outflow term is a trapezoid over hourly snapshots,
+  and the lobe flux swings by about 35 m³/s between snapshots. Rain 57.66M m³, infiltration 39.55M m³ (both equal v2r),
+  storage at 18Z 8.67M m³ (v2r 13.56M), outflow 10.27M m³ from 18Z Nov 1. The lobe tip itself carries 0.0 m³/s at the
+  18Z-22Z restarts, but the other outflow cells already pass 3.0-5.6 m³/s at 19Z-20Z, so pre-restart outflow is not zero.
 - **Negative depth.** Same as v2r: minimum vol/area −1.46 mm (face 478144, 39 m² cell, 02:30Z), 1 cell below −1 mm in 4 frames.
   That is outside the live verifier's −1 mm limit; it is not caused by the lobe change.
 - **Stability.** 0 wet NaN values, 0 spikes, maximum 15-min rise 2.12 m (as v2r). Domain maximum depth 5.66 m (v2r 9.11).
@@ -81,6 +86,8 @@ values within 0.002 m³/s, every hour within 0.062 m³/s, volumes within 213 m³
   zs minus the cells' lowest bed, not the flow depth at the u/v point, so this is a proxy, not a speed.
 - **Roads.** All 5 Brawley crossings and all 12 dips are unchanged from v2r (for example Tucker +1.068, Manville +0.811, Mile Wide
   −0.107 m, never over). Stations over the road at some point: 7,677 of 57,465 (v2r 7,678); the one station that drops was not traced.
+  57,465 is the scored set, not the 58,036 stations inside the mesh: 571 stations in the mesh have no road height (`roadZ` null,
+  unknown, not dry) and are not scored; 104 of the file's 58,140 stations are outside the mesh (`summary.json` `stationCount`).
   No road station sits in an outflow cell (v3x had 10).
 
 ## Reading (inference)
@@ -97,7 +104,9 @@ values within 0.002 m³/s, every hour within 0.062 m³/s, volumes within 213 m³
   `frontVsBaseline0p3` mix rain and inflow (the baseline has HRRR rain) and are not meaningful here.
 - `summary.json`: `score_v3l.py` output: outflow by source, pond and lobe storage, ALERT 6443 primary score for v3l, v2r and v3x
   (both bands, with and without the plateau, 16Z and 18Z starts, hourly fit), sections, mass balance, negative depth, stability, roads.
-- `score_v3l.py`: the scoring script.
+- `score_v3l.py`: the scoring script. It asserts that the pond zs and the lobe/near-pond volumes have no NaN (a NaN would be a
+  missing value, never the bed or zero); neither run has one, so the round-8 change from fill/nansum to assert left every
+  committed number unchanged and only added `massBalanceResidualRangeV3lM3` and `stationCount` to `summary.json`.
 
 Reproduce (cwd = repo root):
 

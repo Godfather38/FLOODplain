@@ -1338,6 +1338,22 @@
    128213
   ]
  },
+ "massBalanceResidualRangeV3lM3": {
+  "range": [
+   -33121659,
+   128213
+  ],
+  "note": "the +128k m3 point value assumes no outflow before the first restart (18Z Nov 1); outflow then is not measured, and its upper bound (inflow + rain before 18Z minus storage then, infiltration taken as zero) moves the residual down to about -33.1M m3. Both ends carry the hourly-snapshot estimate of the later outflow, so the balance is not closed"
+ },
+ "stationCount": {
+  "inFile": 58140,
+  "outsideMesh": 104,
+  "inMesh": 58036,
+  "inMeshNoRoadHeight": 571,
+  "outsideMeshNoRoadHeight": 0,
+  "scored": 57465,
+  "note": "scored = in a mesh cell and with a road height (validate_extended.py valid mask); stations with no roadZ are unknown, not dry"
+ },
  "negativeDepth": {
   "v3l": {
    "minVolOverAreaM": -0.0014580662727355957,

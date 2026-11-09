@@ -87,12 +87,15 @@ def score_run(run, mp, groups):
 def pond(mp):
     T = mp['T']; zs = mp['zs']; vol = mp['vol']; zb = mp['zb']
     lobe = (xc > 473600) & (yc > 3578000); near = np.hypot(xc - xc[POND], yc - yc[POND]) <= 1500.0
-    z = np.where(np.isnan(zs[:, POND]), zb[POND], zs[:, POND])  # NaN zs = dry cell in the map output; the water surface is then the bed
-    lv = [float(np.nansum(vol[i][lobe])) for i in range(len(T))]
+    # No fill: a NaN zs or volume is a missing value (unknown), never the bed or zero. Both runs have none here; stop if one appears.
+    assert not np.isnan(zs[:, POND]).any(), f'NaN zs at pond face {POND}; refusing to fill it'
+    assert not np.isnan(vol[:, lobe | near]).any(), 'NaN subgrid_volume in the lobe or within 1.5 km of the pond; refusing to sum around it'
+    z = zs[:, POND]
+    lv = [float(vol[i][lobe].sum()) for i in range(len(T))]
     return {'face': POND, 'zZmin': round(float(zb[POND]), 3), 'zsMax': round(float(z.max()), 3), 'zsMaxTime': T[int(np.argmax(z))],
             'heightAboveZminMax': round(float(z.max() - zb[POND]), 3), 'zsEnd': round(float(z[-1]), 3), 'stillRisingAtEnd': bool(z[-1] > z[-2] + 1e-4),
             'lobeVolumeMaxM3': round(max(lv)), 'lobeVolumeMaxTime': T[int(np.argmax(lv))], 'lobeVolumeEndM3': round(lv[-1]),
-            'storedWithin1p5kmEndM3': round(float(np.nansum(vol[-1][near]))),
+            'storedWithin1p5kmEndM3': round(float(vol[-1][near].sum())),
             'lobeDefinition': 'cells with centre x > 473600 and y > 3578000 (EPSG:32612), as in BRAWLEY-OUTLET-POND-20261108.md',
             'hourly': {T[i][5:16]: {'zs': round(float(z[i]), 3), 'lobeVolumeM3': round(lv[i])} for i in range(0, len(T), 4)}}
 
@@ -189,12 +192,35 @@ for kind in ('crossings', 'dips'):
         roads.append({'kind': kind[:-1], 'label': rl['label'], 'maxOverV3l': rl['maxOver'], 'maxOverV2r': rr['maxOver'], 'maxOverV3x': rx['maxOver'],
                       'changeVsV2r': None if rl['maxOver'] is None or rr['maxOver'] is None else round(rl['maxOver'] - rr['maxOver'], 3),
                       'timeV3l': rl.get('maxWseTime'), 'firstOverV3l': rl.get('firstOver'), 'lastOverV3l': rl.get('lastOver')})
+def station_count(scored):
+    """Why 57,465 stations are scored, not 58,036 (in the mesh) or 58,140 (in the file): validate_extended.py scores only
+    stations that fall in a mesh cell AND have a road height. Missing roadZ is unknown, never a dry or zero road."""
+    import gzip
+    st = json.load(gzip.open(WT / 'tools/live/road-stations/brawley-avra-west-local-v2.json.gz'))['columns']
+    sx, sy = pyproj.Transformer.from_crs(4326, 32612, always_xy=True).transform(np.array(st['lon']), np.array(st['lat']))
+    lookup = {(int(l), int(m_), int(n_)): f for f, (l, m_, n_) in enumerate(zip(level, midx, nidx))}
+    inmesh = np.zeros(len(sx), bool)
+    for s in range(len(sx)):
+        for l in sorted(set(level.tolist())):
+            sz_ = DX / 2.0 ** (l - 1)
+            if (l, int(math.floor((sx[s] - X0) / sz_)) + 1, int(math.floor((sy[s] - Y0) / sz_)) + 1) in lookup: inmesh[s] = True; break
+    noz = np.array([v is None for v in st['roadZ']])
+    out = {'inFile': int(len(sx)), 'outsideMesh': int((~inmesh).sum()), 'inMesh': int(inmesh.sum()), 'inMeshNoRoadHeight': int((inmesh & noz).sum()),
+           'outsideMeshNoRoadHeight': int((~inmesh & noz).sum()), 'scored': scored,
+           'note': 'scored = in a mesh cell and with a road height (validate_extended.py valid mask); stations with no roadZ are unknown, not dry'}
+    assert out['inMesh'] - out['inMeshNoRoadHeight'] == scored, out
+    return out
+
+
 res = {'label': 'SENSITIVITY run, base case B v3l-obsrain; not tuned to observations, not for live registration',
        'runs': {'v3l': str(a.run), 'v2r': str(a.v2r), 'v3xValidation': str(a.v3x_validation)}, 'frames': len(mL['T']),
        'maskCheck': {'facesDifferingFromV2r': diff.tolist(), 'outflowCellsV3l': int((mL['msk'] == 3).sum()), 'outflowCellsV2r': int((mR['msk'] == 3).sum())},
        'outflowBySourceV3l': sL, 'outflowBySourceV2r': sR, 'pond': {'v3l': pond(mL), 'v2r': pond(mR)}, 'alert6443': alert, 'sections': sections,
        'massBalance': {t: V['balanceInputsWholeRunOutflowFromFirstRestart'] for t, V in (('v3l', VL), ('v2r', VR), ('v3x', VX))},
        'outflowBeforeFirstRestart': VL['outflowBeforeFirstRestart'],
+       'massBalanceResidualRangeV3lM3': {'range': VL['outflowBeforeFirstRestart']['trueResidualRangeM3'],
+                                         'note': 'the +128k m3 point value assumes no outflow before the first restart (18Z Nov 1); outflow then is not measured, and its upper bound (inflow + rain before 18Z minus storage then, infiltration taken as zero) moves the residual down to about -33.1M m3. Both ends carry the hourly-snapshot estimate of the later outflow, so the balance is not closed'},
+       'stationCount': station_count(VL['stationsOverTotal']['stations']),
        'negativeDepth': {t: V['negativeDepth'] for t, V in (('v3l', VL), ('v2r', VR), ('v3x', VX))},
        'stability': {t: V['stability'] for t, V in (('v3l', VL), ('v2r', VR), ('v3x', VX))},
        'roads': roads, 'stationsOverTotal': {t: V['stationsOverTotal'] for t, V in (('v3l', VL), ('v2r', VR), ('v3x', VX))},
