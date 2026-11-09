@@ -1,0 +1,427 @@
+{
+ "nanZs": {
+  "count": 559308,
+  "withVolOverAreaGe0p0091": 0,
+  "maxVolOverAreaWhereNaN": 1.9199670851230622e-05,
+  "cellsEverNaN": 115927
+ },
+ "front": {
+  "2026-11-01T17:00Z": {
+   "north_y_0p3": 3552893.75,
+   "lat_0p3": 32.112,
+   "dyKmFromInlet_0p3": 0.29,
+   "dyKmFromInlet_0p05": 0.51,
+   "cells_0p3": 54
+  },
+  "2026-11-01T17:30Z": {
+   "north_y_0p3": 3553281.25,
+   "lat_0p3": 32.1155,
+   "dyKmFromInlet_0p3": 0.68,
+   "dyKmFromInlet_0p05": 1.05,
+   "cells_0p3": 124
+  },
+  "2026-11-01T18:00Z": {
+   "north_y_0p3": 3553606.25,
+   "lat_0p3": 32.1184,
+   "dyKmFromInlet_0p3": 1.0,
+   "dyKmFromInlet_0p05": 1.68,
+   "cells_0p3": 211
+  },
+  "2026-11-01T18:30Z": {
+   "north_y_0p3": 3554306.25,
+   "lat_0p3": 32.1247,
+   "dyKmFromInlet_0p3": 1.7,
+   "dyKmFromInlet_0p05": 2.29,
+   "cells_0p3": 237
+  },
+  "2026-11-01T19:00Z": {
+   "north_y_0p3": 3554556.25,
+   "lat_0p3": 32.127,
+   "dyKmFromInlet_0p3": 1.95,
+   "dyKmFromInlet_0p05": 2.81,
+   "cells_0p3": 143
+  },
+  "2026-11-01T19:30Z": {
+   "north_y_0p3": 3555293.75,
+   "lat_0p3": 32.1336,
+   "dyKmFromInlet_0p3": 2.69,
+   "dyKmFromInlet_0p05": 3.53,
+   "cells_0p3": 123
+  },
+  "2026-11-01T20:00Z": {
+   "north_y_0p3": 3555456.25,
+   "lat_0p3": 32.1351,
+   "dyKmFromInlet_0p3": 2.85,
+   "dyKmFromInlet_0p05": 4.01,
+   "cells_0p3": 115
+  },
+  "2026-11-01T20:30Z": {
+   "north_y_0p3": 3555456.25,
+   "lat_0p3": 32.1351,
+   "dyKmFromInlet_0p3": 2.85,
+   "dyKmFromInlet_0p05": 4.56,
+   "cells_0p3": 55
+  },
+  "2026-11-01T21:00Z": {
+   "north_y_0p3": 3552993.75,
+   "lat_0p3": 32.1129,
+   "dyKmFromInlet_0p3": 0.39,
+   "dyKmFromInlet_0p05": 4.84,
+   "cells_0p3": 79
+  },
+  "2026-11-01T21:30Z": {
+   "north_y_0p3": 3552993.75,
+   "lat_0p3": 32.1129,
+   "dyKmFromInlet_0p3": 0.39,
+   "dyKmFromInlet_0p05": 4.94,
+   "cells_0p3": 269
+  },
+  "2026-11-01T22:00Z": {
+   "north_y_0p3": 3553231.25,
+   "lat_0p3": 32.115,
+   "dyKmFromInlet_0p3": 0.62,
+   "dyKmFromInlet_0p05": 4.96,
+   "cells_0p3": 678
+  },
+  "2026-11-01T22:30Z": {
+   "north_y_0p3": 3553912.5,
+   "lat_0p3": 32.1212,
+   "dyKmFromInlet_0p3": 1.31,
+   "dyKmFromInlet_0p05": 4.92,
+   "cells_0p3": 1041
+  },
+  "2026-11-01T23:00Z": {
+   "north_y_0p3": 3554862.5,
+   "lat_0p3": 32.1298,
+   "dyKmFromInlet_0p3": 2.26,
+   "dyKmFromInlet_0p05": 3.92,
+   "cells_0p3": 1193
+  },
+  "2026-11-01T23:30Z": {
+   "north_y_0p3": 3555275.0,
+   "lat_0p3": 32.1335,
+   "dyKmFromInlet_0p3": 2.67,
+   "dyKmFromInlet_0p05": 3.07,
+   "cells_0p3": 1264
+  },
+  "2026-11-02T00:00Z": {
+   "north_y_0p3": 3556525.0,
+   "lat_0p3": 32.1448,
+   "dyKmFromInlet_0p3": 3.92,
+   "dyKmFromInlet_0p05": 7.4,
+   "cells_0p3": 1329
+  },
+  "2026-11-02T00:30Z": {
+   "north_y_0p3": 3556575.0,
+   "lat_0p3": 32.1452,
+   "dyKmFromInlet_0p3": 3.97,
+   "dyKmFromInlet_0p05": 7.41,
+   "cells_0p3": 1356
+  },
+  "2026-11-02T01:00Z": {
+   "north_y_0p3": 3557075.0,
+   "lat_0p3": 32.1497,
+   "dyKmFromInlet_0p3": 4.47,
+   "dyKmFromInlet_0p05": 7.41,
+   "cells_0p3": 1368
+  },
+  "2026-11-02T01:30Z": {
+   "north_y_0p3": 3558443.75,
+   "lat_0p3": 32.1621,
+   "dyKmFromInlet_0p3": 5.84,
+   "dyKmFromInlet_0p05": 7.37,
+   "cells_0p3": 1402
+  },
+  "2026-11-02T02:00Z": {
+   "north_y_0p3": 3559375.0,
+   "lat_0p3": 32.1705,
+   "dyKmFromInlet_0p3": 6.77,
+   "dyKmFromInlet_0p05": 16.4,
+   "cells_0p3": 1350
+  },
+  "2026-11-02T02:30Z": {
+   "north_y_0p3": 3560087.5,
+   "lat_0p3": 32.1769,
+   "dyKmFromInlet_0p3": 7.48,
+   "dyKmFromInlet_0p05": 9.02,
+   "cells_0p3": 1630
+  },
+  "2026-11-02T03:00Z": {
+   "north_y_0p3": 3560875.0,
+   "lat_0p3": 32.184,
+   "dyKmFromInlet_0p3": 8.27,
+   "dyKmFromInlet_0p05": 16.84,
+   "cells_0p3": 1574
+  },
+  "2026-11-02T03:30Z": {
+   "north_y_0p3": 3560875.0,
+   "lat_0p3": 32.184,
+   "dyKmFromInlet_0p3": 8.27,
+   "dyKmFromInlet_0p05": 16.64,
+   "cells_0p3": 1467
+  },
+  "2026-11-02T04:00Z": {
+   "north_y_0p3": 3560875.0,
+   "lat_0p3": 32.184,
+   "dyKmFromInlet_0p3": 8.27,
+   "dyKmFromInlet_0p05": 17.17,
+   "cells_0p3": 1330
+  },
+  "2026-11-02T04:30Z": {
+   "north_y_0p3": 3564750.0,
+   "lat_0p3": 32.219,
+   "dyKmFromInlet_0p3": 12.14,
+   "dyKmFromInlet_0p05": 17.24,
+   "cells_0p3": 1339
+  },
+  "2026-11-02T05:00Z": {
+   "north_y_0p3": 3566050.0,
+   "lat_0p3": 32.2307,
+   "dyKmFromInlet_0p3": 13.44,
+   "dyKmFromInlet_0p05": 20.31,
+   "cells_0p3": 1266
+  },
+  "2026-11-02T05:30Z": {
+   "north_y_0p3": 3566050.0,
+   "lat_0p3": 32.2307,
+   "dyKmFromInlet_0p3": 13.44,
+   "dyKmFromInlet_0p05": 28.28,
+   "cells_0p3": 1241
+  },
+  "2026-11-02T06:00Z": {
+   "north_y_0p3": 3566875.0,
+   "lat_0p3": 32.2381,
+   "dyKmFromInlet_0p3": 14.27,
+   "dyKmFromInlet_0p05": 20.91,
+   "cells_0p3": 1039
+  },
+  "2026-11-02T06:30Z": {
+   "north_y_0p3": 3567787.5,
+   "lat_0p3": 32.2464,
+   "dyKmFromInlet_0p3": 15.18,
+   "dyKmFromInlet_0p05": 20.91,
+   "cells_0p3": 915
+  },
+  "2026-11-02T07:00Z": {
+   "north_y_0p3": 3569587.5,
+   "lat_0p3": 32.2626,
+   "dyKmFromInlet_0p3": 16.98,
+   "dyKmFromInlet_0p05": 20.91,
+   "cells_0p3": 1014
+  }
+ },
+ "arrival": {
+  "Donaldson Ranch": {
+   "cells": 1075,
+   "firstDiffGt0p3": null,
+   "firstDiffGt0p05": "2026-11-02T01:30Z",
+   "maxDiffEnd07Z": 0.142,
+   "maxDiffAny": 0.178,
+   "maxDiffTime": "2026-11-02T02:15Z",
+   "cellOfMaxDiff": {
+    "face": 328053,
+    "cellM": 6.25,
+    "lonlat": [
+     -111.24645,
+     32.17539
+    ],
+    "zb": 708.566,
+    "obsZsFirstAboveZb0p3": "2026-11-01T23:15Z",
+    "obsZs17Z": 708.618,
+    "obsZs07Z": 709.034,
+    "nwmZs07Z": 708.892
+   }
+  },
+  "Mile Wide (both bands)": {
+   "cells": 1516,
+   "firstDiffGt0p3": "2026-11-02T06:45Z",
+   "firstDiffGt0p05": "2026-11-02T05:30Z",
+   "maxDiffEnd07Z": 0.422,
+   "maxDiffAny": 0.422,
+   "maxDiffTime": "2026-11-02T07:00Z",
+   "cellOfMaxDiff": {
+    "face": 223827,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.24383,
+     32.24793
+    ],
+    "zb": 672.968,
+    "obsZsFirstAboveZb0p3": "2026-11-02T05:15Z",
+    "obsZs17Z": 672.968,
+    "obsZs07Z": 673.786,
+    "nwmZs07Z": 673.364
+   }
+  },
+  "Mile Wide Brawley 15877627 band": {
+   "cells": 994,
+   "firstDiffGt0p3": "2026-11-02T07:00Z",
+   "firstDiffGt0p05": "2026-11-02T06:30Z",
+   "maxDiffEnd07Z": 0.321,
+   "maxDiffAny": 0.321,
+   "maxDiffTime": "2026-11-02T07:00Z",
+   "cellOfMaxDiff": {
+    "face": 324219,
+    "cellM": 6.25,
+    "lonlat": [
+     -111.25202,
+     32.24834
+    ],
+    "zb": 673.872,
+    "obsZsFirstAboveZb0p3": "2026-11-02T07:00Z",
+    "obsZs17Z": 673.872,
+    "obsZs07Z": 674.212,
+    "nwmZs07Z": 673.891
+   }
+  },
+  "Mile Wide Black Wash 15876815 band": {
+   "cells": 522,
+   "firstDiffGt0p3": "2026-11-02T06:45Z",
+   "firstDiffGt0p05": "2026-11-02T05:30Z",
+   "maxDiffEnd07Z": 0.422,
+   "maxDiffAny": 0.422,
+   "maxDiffTime": "2026-11-02T07:00Z",
+   "cellOfMaxDiff": {
+    "face": 223827,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.24383,
+     32.24793
+    ],
+    "zb": 672.968,
+    "obsZsFirstAboveZb0p3": "2026-11-02T05:15Z",
+    "obsZs17Z": 672.968,
+    "obsZs07Z": 673.786,
+    "nwmZs07Z": 673.364
+   }
+  },
+  "Manville": {
+   "cells": 2502,
+   "firstDiffGt0p3": null,
+   "firstDiffGt0p05": "2026-11-02T05:30Z",
+   "maxDiffEnd07Z": 0.094,
+   "maxDiffAny": 0.094,
+   "maxDiffTime": "2026-11-02T07:00Z",
+   "cellOfMaxDiff": {
+    "face": 318027,
+    "cellM": 6.25,
+    "lonlat": [
+     -111.26768,
+     32.29161
+    ],
+    "zb": 652.904,
+    "obsZsFirstAboveZb0p3": "2026-11-02T02:15Z",
+    "obsZs17Z": 652.904,
+    "obsZs07Z": 653.132,
+    "nwmZs07Z": 653.038
+   }
+  },
+  "Tucker": {
+   "cells": 1652,
+   "firstDiffGt0p3": null,
+   "firstDiffGt0p05": null,
+   "maxDiffEnd07Z": 0.01,
+   "maxDiffAny": 0.01,
+   "maxDiffTime": "2026-11-02T01:15Z",
+   "cellOfMaxDiff": {
+    "face": 308636,
+    "cellM": 6.25,
+    "lonlat": [
+     -111.28314,
+     32.33505
+    ],
+    "zb": 632.527,
+    "obsZsFirstAboveZb0p3": null,
+    "obsZs17Z": 632.527,
+    "obsZs07Z": 632.649,
+    "nwmZs07Z": 632.645
+   }
+  },
+  "Outlet (outflow cells)": {
+   "cells": 95,
+   "firstDiffGt0p3": null,
+   "firstDiffGt0p05": "2026-11-02T05:30Z",
+   "maxDiffEnd07Z": 0.015,
+   "maxDiffAny": 0.069,
+   "maxDiffTime": "2026-11-02T05:30Z",
+   "cellOfMaxDiff": {
+    "face": 159870,
+    "cellM": 12.5,
+    "lonlat": [
+     -111.29304,
+     32.36454
+    ],
+    "zb": 618.021,
+    "obsZsFirstAboveZb0p3": null,
+    "obsZs17Z": 618.021,
+    "obsZs07Z": 618.072,
+    "nwmZs07Z": 618.056
+   }
+  }
+ },
+ "ridgeRoadRanges": {
+  "North Razorback Road": {
+   "n": 201,
+   "roadZmin": 625.14,
+   "roadZmax": 632.54,
+   "lonlat": [
+    -111.2827575074627,
+    32.34417766666667
+   ]
+  },
+  "South Crazy Cat Lane": {
+   "n": 85,
+   "roadZmin": 712.15,
+   "roadZmax": 714.84,
+   "lonlat": [
+    -111.24823236470588,
+    32.16488157647058
+   ]
+  },
+  "South Marstellar Road": {
+   "n": 296,
+   "roadZmin": 705.74,
+   "roadZmax": 713.99,
+   "lonlat": [
+    -111.23640320945947,
+    32.17044158783784
+   ]
+  },
+  "Welcome Way": {
+   "n": 50,
+   "roadZmin": 798.85,
+   "roadZmax": 800.49,
+   "lonlat": [
+    -111.0947371,
+    32.18560204
+   ]
+  },
+  "West Bar X Street": {
+   "n": 153,
+   "roadZmin": 803.46,
+   "roadZmax": 811.44,
+   "lonlat": [
+    -111.08630615032682,
+    32.18695992810458
+   ]
+  },
+  "West Dusty Flat Place": {
+   "n": 52,
+   "roadZmin": 710.67,
+   "roadZmax": 711.51,
+   "lonlat": [
+    -111.24630644230767,
+    32.170903307692306
+   ]
+  },
+  "West Iowa Street": {
+   "n": 116,
+   "roadZmin": 770.04,
+   "roadZmax": 778.46,
+   "lonlat": [
+    -111.0862265086207,
+    32.16072609482759
+   ]
+  }
+ }
+}

@@ -1,4 +1,11 @@
-# brawley-avra-west validation, 2026-11-08 (pre-run)
+# brawley-avra-west validation, 2026-11-08 (pre-run) and 2026-11-09 (post-run)
+
+> **Post-run update, 2026-11-09T01:00Z.** Frozen v1b results now exist for both inflow variants
+> (GitHub `sfincs.yml` runs 42535214906 NWM and 42535217219 observed USGS 09487000, 408,207 cells,
+> both success). §0 below is the historical pre-run state. The verdict table in §1 is **updated with
+> post-run evidence**, and §11 holds every post-run number. Nothing was tuned. Scripts:
+> `tools/sfincs/brawley/validate_postrun.py` and `validate_postrun_arrival.py`. Outputs:
+> `docs/upgrade/validation-brawley-postrun-20261108.json` and `validation-brawley-postrun-arrival-20261108.json`.
 
 Case `brawley-avra-west`, modelVersion `all-routes-brawley-avra-west-v1`. Branch
 `experimental/brawley-avra-west-20261108` at f758883. Tests are V1–V9 and acceptance criteria 1–8
@@ -6,7 +13,7 @@ from `docs/upgrade/DOCSHEET.md` §9–10 on `origin/experimental/model-upgrade-d
 Nothing here was tuned. Committed by the review step, which re-checked the claims and added §10
 (reviewer addendum, 2026-11-08T22:35Z).
 
-## 0. The main fact: there is no frozen result to validate
+## 0. The main fact (pre-run, superseded by §11): there was no frozen result to validate
 
 **Verified at 2026-11-08T22:20Z:**
 - The subgrid parameter build (`prepare_route_case_parameters.py`) is **not running**. No process
@@ -32,30 +39,39 @@ hydrographs and observed evidence.
 - `npm test`: 56 tests, 55 pass and 1 fails, 1 s (see V8).
 - An ad-hoc input-completeness check (rain, context): about 10 s.
 
-## 1. Verdicts
+## 1. Verdicts (updated post-run, 2026-11-09)
+
+"NWM" is run 42535214906 (NWM frozen inflow, peak 1.70 m³/s). "Obs" is run 42535217219 (observed
+USGS 09487000 inflow, peak 48.42 m³/s). Both runs use the same rain, mesh and parameters. Every
+road comparison uses cell zs (NAVD88) against roadZ (lidar bare earth, not a surveyed deck). The
+numbers behind each row are in §11.
 
 | Criterion / test | Verdict | Evidence (short) |
 |---|---|---|
-| AC1 Coverage: ≥ 95% of priority-road stations in a model | **FAIL** | 64.4% (live 40.4% + new 24.1%); 35.6% in no model (§2) |
-| AC1 Every CSV dip/crossing in the new domain at 6.25 m | **PASS for owned points; FAIL for the Gates overlap** | 48/48 owned dips and 91/91 owned crossings at 6.25 m; 73 CSV dips in the Gates overlap are not at 6.25 m in the new mesh (§2) |
-| AC2 / V1 Three Points peak timing ±2 h, ratio 0.5–2×, NWM variant | **FAIL** | inflow peak 1.70 m³/s at the window end vs 49.27 observed: ratio 0.035, timing ≥ +9.5 h and still rising (§3) |
-| AC2 / V1 observed-inflow variant | **NOT TESTABLE (by construction)** | inflow *is* the gauge (hourly, peak 48.42 m³/s, −1.7%); no independent modelled flow at Three Points |
-| Mass balance (inflow + rain − outflow − storage) | **NOT TESTABLE** | no result |
-| Outflow at the downstream edge vs NWM 15876711+15876707, and vs Northern injection | **NOT TESTABLE** (references computed, §3) | NWM analysis peak 37.77 m³/s at 03Z Nov 2; Northern frozen injection peak 0.27 m³/s |
-| V2 Mile Wide / ALERT 6443 flow and timing | **NOT TESTABLE** | no result; only 2 ALERT values exist, one of them second-hand; gauge-to-reach mapping is ambiguous (§4) |
-| Stage-to-road at the Mile Wide, Manville, Tucker and Donaldson Ranch Brawley crossings | **NOT TESTABLE** (road heights and cell sizes ready, §5) | no zs |
-| V3 100-year vs BFE | **NOT TESTABLE** | no 100-year forcing or run; BFE sections not loaded |
-| V4 Nov 1–2 closures (Sandario, Mile Wide, Manville, Snyder Hill) | **NOT TESTABLE** | no Nov 1–2 closure record for these roads in repo history (§6) |
-| V5 Representative dips | **NOT TESTABLE** (12 dips tabulated, §5) | no zs; no owner-confirmed spot inside the new owned area |
-| Sanity: ridge stays dry, channel crossings wet first | **NOT TESTABLE** | no result |
-| V6 Under-deck water not reported on deck | **NOT TESTABLE** | no result; 4 deck-lidar stations identified (§7) |
-| V7 Resolution sensitivity | **NOT TESTABLE** | no runs at either resolution |
-| V8 Regression | **PARTIAL PASS** | Python 114/114 + 3/3 pass; node 55/56, and `bundle.test.js` fails with ERR_MODULE_NOT_FOUND because wt-model has no `node_modules` (environment, inferred). The "440" figure belongs to a different branch's suite. Browser suites not run |
-| V9 App/alert parity | **NOT TESTABLE** | no case output. The app side is now wired on `experimental/brawley-app-20261108` (7cb8639, map only); its parser accepts exporter output (§10), but there is no real case output to compare |
-| AC6 Performance (≤ 35 min solver) | **NOT TESTABLE** | no solver run |
-| AC7 Missing data never shown as dry: inputs | **PASS** | rain, context and inflow have 0 missing or non-finite values; the Stage IV gap is filled from MRMS (not zero); gauges with no data are kept as `no_data` (§7) |
-| AC7 Missing data: stations | **PASS (pre-run)** | 8 no-height and 28 no-cell stations are kept and counted; the exporter test "missing readings never dry" passes |
-| Resolution honesty | **PASS (pre-run)** | per-station cell size computed; the exporter emits `cellSizeM` per station; 54.5% of owned stations are in 100 m cells (§8) |
+| AC1 Coverage: ≥ 95% of priority-road stations in a model | **FAIL** (unchanged) | 64.4% (live 40.4% + new 24.1%); 35.6% in no model (§2) |
+| AC1 Every CSV dip/crossing in the new domain at 6.25 m | **PASS for owned points; FAIL for the Gates overlap** (unchanged) | 48/48 owned dips and 91/91 owned crossings at 6.25 m; 73 overlap dips not at 6.25 m (§2) |
+| AC2 / V1 Three Points, NWM variant | **FAIL** (unchanged) | inflow peak 1.70 m³/s vs 49.27 observed, ratio 0.035, timing ≥ +9.5 h. The inflow is unvalidated, so the case stays map-only (§3) |
+| AC2 / V1, observed variant | **NOT TESTABLE (by construction)** | the inflow is the gauge itself. The inlet cell's zs peaks at 22:00Z, the same hour as the hourly inflow peak (§11.3) |
+| Mass balance (inflow + rain − infiltration − outflow − storage) | **PASS** | residual +3,439 m³ (+0.013% of inputs) for NWM, −11,949 m³ (−0.044%) for Obs. Limit 10% (§11.1) |
+| Outflow at the downstream edge vs NWM 15876711 (37.77 m³/s, 03Z) | **FAIL** (vs NWM reference, not an observation) | Obs outflow is 1.61 m³/s at 03Z, ratio 0.04. Its window maximum is 20.34 m³/s at 07Z, the run end, still rising, and it comes from rain (NWM run 19.96). By 07Z the inflow wave has not reached the outlet (§11.2) |
+| Brawley mainstem travel time vs NWM 15876941→15876811→15876711 | **FAIL** (vs NWM reference) | NWM: +3 h to 15876811, +4 h to 15876711. SFINCS Obs: the wave front (zs rise > 0.3 m over the NWM run) reaches Mile Wide at 06:45Z, 8.75 h after the 22:00Z inlet peak. It does not reach Manville or Tucker by 07Z (> 9 h) (§11.3) |
+| V2 Mile Wide / ALERT 6443, wet/dry | **PASS (1 wet point only)** | at 03:04Z the lowest cell within 30 m of the gauge is wet: zs 673.02 m, 1.34 m above the cell bed, in both runs. The Oct 31 dry reading falls outside the map window (starts Nov 1 17Z), so it is NOT TESTABLE (§11.4) |
+| V2 Mile Wide / ALERT 6443, flow and timing vs 817 cfs (23.1 m³/s) at ~03:04Z | **FAIL** (second-hand reading, ambiguous location) | model at 03Z: 12.05 m³/s across both candidate channels (ratio 0.52). Black Wash band 8.83 m³/s, Brawley 15877627 band 3.21 m³/s. All of it is local rain (NWM run equal within 0.05 m³/s). The inlet wave arrives 3.7 h after the reading (§11.4) |
+| Stage-to-road at the Brawley crossings | **Reported** (no pass threshold defined) | over road in both runs: Tucker +0.88 m, Manville +0.47 m, Little Williams +0.39 m, Donaldson +0.05 m. Mile Wide stays below the road (−0.17 m Obs, −0.20 m NWM). All of it is rain-driven; the run ends before the routed flood reaches Manville and Tucker (§11.5) |
+| V3 100-year vs BFE | **NOT TESTABLE** | no 100-year forcing or run |
+| V4 Nov 1–2 closures | **NOT TESTABLE** | no closure record inside the owned area. The Avra Valley Rd W of Brawley "Proceed with Caution" (Nov 1) is in Northern. The KOLD Sep 17 2026 story is a different event and was not tested (§11.8) |
+| V5 / AC4 Representative dips | **Reported; AC4 NOT TESTABLE** | 12 dips tabulated with max zs, over-road and first-over time (§11.5). There is no owner-confirmed spot in the owned area |
+| Sanity: ridge / elevated stations stay dry | **FAIL (minor, explained, not tuned)** | of 154 roads with ≥ 50 stations, 147 keep their 5 highest stations dry. On 7 roads one or more of the top 5 are "over" by 0.002–0.29 m. On 2 of them (N Razorback, S Crazy Cat) the road's highest point lies inside the Brawley floodplain, so it is not a ridge. On the other 5, the over stations' roadZ is within 0.15 m of the cell's lowest bed level, or below it. That is sheet flow in coarse or flat cells (Bar X and Iowa are 100 m), not ridge overtopping (§11.6) |
+| Sanity: channel crossings wet before flats | **MIXED** | first over-road: Donaldson 19:15Z and Little Williams 19:30Z (before the station median of 20:00–20:30Z in 6.25/12.5 m cells), Tucker 21:15Z, Manville 22:00Z (after it), Mile Wide never. The Brawley crossings wet from local rain, not from the inlet wave (§11.6) |
+| Sanity: no water upstream of the inlet | **PASS** | the Obs−NWM zsmax difference south of the inlet covers 31 cells, max 0.38 m, all within 144 m south of and 437 m from the inlet face (local backwater). 34,399 domain cells lie south of the inlet (§11.6) |
+| Sanity: no instability | **PASS** | 0 NaN zs in wet cells (all 559,308 NaN have vol/area < 2e-5 m, i.e. dry). 0 up-and-down spikes > 0.5 m. Max 15-min rise 1.67 m (wave fronts). Min volume −0.040 m³. Velocity proxy max 1.35 m/s (§11.7) |
+| V6 Under-deck water not reported on deck | **PASS (4 flagged stations)** | 4 deck-lidar stations on W Mile Wide Rd: roadZ 675.26–675.28 m, max zs 673.88–673.97 m, i.e. 1.3–1.4 m below the deck. They are reported "below", never "over". Other structures are not flagged, so they are untested |
+| V7 Resolution sensitivity | **NOT TESTABLE** | no 100 m run |
+| V8 Regression (Python) | **PASS** | re-run 2026-11-09: tools/live 157 OK (22.3 s), tools/sfincs 14 OK (0.26 s). Node and browser suites not re-run here |
+| V9 App/alert parity | **NOT TESTABLE** | not run against the case output |
+| AC6 Performance (≤ 35 min solver) | **PASS** | frozen runs: 1836.7 s (30.6 min) and 1785.0 s (29.8 min), 63 h simulated. Live run 42540016157: solver 771 s, job about 14m45s, well inside the hourly cycle |
+| AC7 Missing data never shown as dry | **PASS** | inputs as in §7. NaN zs only marks cells with essentially no water. The exporter counts frames with no reading as `unknown` (12 stations Obs, 10 NWM), never dry. 28 no-cell and 8 no-height stations are kept |
+| Resolution honesty | **PASS** | over-road counts by cell size are reported (§11.5). 143–196 "over" stations are in 100 m cells |
 | AC8 Owner review | pending | |
 
 ## 2. Coverage (AC1)
@@ -236,7 +252,7 @@ Cell size per owned station (31,680), from the mesh face containing it:
 - Claims must stay at 6.25 m (L4 windows) or 12.5 m (L3 corridors) at best, and 100 m for over half of the owned local stations.
 - **Elevation caveat:** road heights are bare-earth estimates, not surveyed decks. Four W Mile Wide Rd stations at −111.2703, 32.2481 (roadZ 675.26–675.28) are flagged `deckLidar`. V6 (no under-deck water reported on the road) must be checked there.
 
-## 9. To finish validation once results exist (both variants)
+## 9. To finish validation once results exist (both variants) — done 2026-11-09, see §11
 
 1. Restart the parameter build into a new folder. Then run boundaries (check for a second outflow at 15902533), stage ×2, finish ×2, package ×2, and dispatch `sfincs.yml` ×2 (build agent).
 2. **Mass balance:** from SFINCS output, compute Σ inflow (dis) + Σ rain·area − Σ outflow − Δstorage, and report the residual as % of input.
@@ -324,3 +340,197 @@ inflow peaks; the rain grid covering the official domain bounds (rain edges −1
   not the 839 km² official domain (inference: within a few percent; recompute after `finish_route_case`).
 - Inflow volumes differ by method: NWM agent 33,084 m³ vs §3 36,324 m³ for the same series. §3
   uses the rectangle rule, and the agent probably used the trapezoid rule (inference).
+
+## 11. Post-run validation (frozen v1b results, 2026-11-09)
+
+**What was used.**
+- Native output of both runs, read from the local copies at
+  `.sfincs-runs/brawley-avra-west-result-<run>/artifact/runs/current/`:
+  - `sfincs_map.nc`: 57 quarter-hour frames, 2026-11-01T17:00Z..11-02T07:00Z, holding zs, subgrid_volume, precipitation_rate, zsmax, cumprcp and cuminf.
+  - Hourly restart files `sfincs.*.rst`: 14 of them, 18Z..07Z, holding zs and the face flux q at every u/v point.
+  - The quadtree `sfincs.nc` and `sfincs.dis`.
+- There is **no his file**, because the case has no observation points (`nobs` 0). There is also no cross-section file and no velocity output (`storevel` 0).
+- **How discharge was measured.** Discharges come from the restart flux q, in m²/s, multiplied by the u/v-point width (the finer cell's size). The u/v points were indexed in the solver's own order (`sfincs_domain.f90` in H:\AI\Projects\sfincs-source, read only). The count is 827,160 u/v points, plus 24,903 refinement transition points and 1 dummy, which matches the restart record length of 852,064.
+- **Sections.** A section is a stair-step line along a parallel, limited to a longitude band. Positive flow is northward (downstream).
+- **Outflow.** Outflow is the flux over the 44 links into the 26 outflow-boundary cells (msk 3, 12.5/25 m) at −111.2929, 32.3646.
+- **Method check.** The mass balance in §11.1 closes to 0.01–0.04%, which confirms this method.
+- **Reproduce:** `python -I tools/sfincs/brawley/validate_postrun.py E:/FloodPLAIN/wt-model docs/upgrade/validation-brawley-postrun-20261108.json` (about 1 min), then `validate_postrun_arrival.py` the same way.
+
+### 11.1 Volume balance (whole run, Oct 30 16Z – Nov 2 07Z; storage starts dry, zsini 0)
+
+| m³ | NWM 42535214906 | Obs 42535217219 |
+|---|---|---|
+| Inflow (sfincs.dis, trapezoid) | 33,084 | 924,390 |
+| Rain (Σ cumprcp·area; 31.00 mm over 838.99 km²) | 26,005,851 | 26,005,972 |
+| Infiltration (Σ cuminf·area; 25.14 mm, 81.1% of rain) | 21,092,673 | 21,092,734 |
+| Storage at 07Z (Σ subgrid_volume) | 4,729,968 | 5,629,281 |
+| Outflow 18Z–07Z (hourly restart flux, trapezoid) | 212,855 | 220,296 |
+| **Residual** (inflow + rain − infiltration − storage − outflow) | **+3,439 (+0.013%)** | **−11,949 (−0.044%)** |
+
+- **Nothing above 10% is unexplained.** The residual also contains any outflow before 18Z, which can be at most about 3.4k m³: the measured outflow is 0.000 m³/s at 18Z, 19Z and 20Z.
+- **Rain timing.** 13.96M m³ of the rain fell before the map window (before 17Z) and 12.05M m³ inside it, mostly 17–21Z, with a second burst of 0.06–0.29M m³/h at 03–07Z Nov 2.
+- **Hourly check, Obs run.** Implied infiltration is inflow + rain − outflow − ΔS. For 23Z–03Z, when there is almost no rain, it is −0.8k to −1.1k m³/h, about 0. The CN infiltration (`cna`) acts on rainfall only, so **the inflow water never infiltrates**: the model has no channel transmission loss, as `knownLimits` already says.
+- **Where the inflow went.** Storage at 07Z differs between the runs by 0.899M m³, against an inflow difference of 0.891M m³. Only 7.4k m³ more left through the outlet. So 99% of the observed inflow is still inside the domain at 07Z.
+- **Negative volume.** The minimum cell volume is −0.040 m³ (NWM) and −0.034 m³ (Obs). The negative total at 07Z is −0.016 / −0.064 m³, which is negligible. The NWM result still has one cell at −0.0010285 m depth (frame 2026-11-02T01:00Z, cell 314897, 39.06 m²). That is just past the live verifier's 0.001 m limit, as the results report says.
+
+### 11.2 Outflow at the downstream edge (node 720060498, −111.2930, 32.3647)
+
+Hourly instantaneous outflow, m³/s (restart flux):
+
+| Z | 18 | 19 | 20 | 21 | 22 | 23 | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| NWM | 0 | 0 | 0 | 0.06 | 0.28 | 0.53 | 0.40 | 0.27 | 1.08 | 2.24 | 11.55 | 13.71 | 19.04 | 19.96 |
+| Obs | 0 | 0 | 0 | 0 | 0.41 | 1.60 | 1.20 | 1.39 | 1.08 | 1.61 | 10.83 | 13.92 | 18.99 | 20.34 |
+| NWM analysis 15876711 (reference) | 0.27 | 0.27 | 0.27 | 0.29 | 0.32 | 0.43 | 5.82 | 23.69 | 33.96 | **37.77** | 36.83 | 31.14 | 24.62 | 19.11 |
+
+- **Obs variant against the NWM reference** (peak 37.77 m³/s at 03Z, 821,844 m³ over the whole window):
+  - At 03Z SFINCS gives 1.61 m³/s.
+  - The window maximum, 20.34 m³/s, comes at 07Z, the last frame. It is still rising and is not a peak.
+  - Outflow volume 18Z–07Z is 220,296 m³.
+  - The NWM run gives the same curve within 0.4 m³/s. So the outlet response is **rain on the lower domain** (04–07Z burst), not the Brawley inflow.
+- **Water at the outlet.** The outlet channel cell (face 158782, 12.5 m, zb 617.56) has at most 0.076 m of water in both runs. The Obs−NWM zs difference at the outflow cells is at most 0.069 m (05:30Z) and 0.015 m at 07Z.
+- **Verdict: FAIL against the NWM timing and peak.** The NWM analysis is a reference, not an observation. The likely cause (inference) is slow routing across the wide wash floodplain plus a window that ends at 07Z (§11.3).
+- **Northern injection.** Northern's frozen injection here is 0.27 m³/s baseflow (§3). The SFINCS outflow is not coupled into Northern.
+
+### 11.3 Brawley mainstem: wave arrival and travel time (Obs variant)
+
+- **Method.** Both runs have identical rain, so the arrival of the inlet wave is taken from the Obs − NWM zs difference (dry cells set to bed level). "Front" is the northernmost cell where the difference exceeds 0.3 m.
+- **Thresholds.** The literal rule "zs > 0.3 m above the dry level at the channel cell" is also given per site. A 0.05 m threshold proved to be noise level: it jumps around far from the wave, so it was not used for timing.
+- **Inlet.** The inlet face 144751 (12.5 m, zb 754.28) peaks at zs 755.671 at 22:00Z, 1.39 m deep. That matches the hourly inflow peak, 48.42 m³/s at 22Z.
+- **Front distance north of the inlet (0.3 m):**
+  - 21:00Z 0.39 km
+  - 23:00Z 2.26 km
+  - 01:00Z 4.47 km
+  - 03:00Z 8.27 km
+  - 05:00Z 13.44 km
+  - 06:30Z 15.18 km (Mile Wide)
+  - 07:00Z 16.98 km (lat 32.2626)
+  - That is a front speed of about 1.7 km/h (0.46 m/s).
+  - An earlier small pulse (gauge rise 18–20Z) reached 2.85 km and faded.
+- **Section discharges, Obs (NWM in brackets), m³/s:**
+  - **Donaldson Ranch:** 3.85 (3.28) at 01Z, 17.81 (3.91) at 02Z, **21.52 (4.32) at 03Z, the peak**, 13.97 (3.89) at 07Z. The wave arrives between 01Z and 02Z and peaks about 5 h after the inlet. The peak drops from 48.4 to about 17.2 m³/s of inlet water.
+  - **Mile Wide, both bands:** 13.64 (13.59) at 05Z, 19.77 (14.52) at 06Z, **35.17 (15.76) at 07Z**, still rising. Zs difference first > 0.3 m at 06:45Z. Literal rule at the cell with the largest difference (face 223827, 12.5 m, zb 672.97, −111.2438, 32.2479): first above zb + 0.3 at 05:15Z.
+  - **Manville:** at 07Z, 29.78 (27.15). Zs difference at most 0.094 m. **Not reached by 07Z.**
+  - **Tucker:** at 07Z, 34.53 (33.43). Zs difference at most 0.01 m. **Not reached.**
+- **Travel time against NWM analysis.**
+  - NWM: 15876941 peaks at 23Z (46.8), 15876811 at 02Z (39.13, +3 h), 15876711 at 03Z (37.77, +4 h).
+  - SFINCS: inlet peak at 22Z, leading edge at Mile Wide (15876811) at 06:45Z (+8.75 h, peak not yet reached), and nothing at 15876711 by 07Z (> 9 h).
+  - **SFINCS is at least 2.9× slower than NWM to Mile Wide. FAIL against the NWM reference.**
+  - The 07Z window end cuts off the routed flood peak everywhere from Mile Wide downstream. A longer frozen window would be needed to see it. That is a test-design limit, not a tuning target.
+- **Where the main flow runs at Mile Wide (finding).** In the model, the inlet water reaches Mile Wide in the **east band (−111.2475 to −111.236, the NHD 15876815 Black Wash reach where ALERT 6443 sits)**: 29.95 m³/s Obs vs 13.83 NWM at 07Z. The NHD 15877627 band (−111.262 to −111.2475) carries only 5.21 vs 1.94. So the modelled Brawley channel at Mile Wide follows the terrain near the gauge, not the NHD 15877627 line.
+
+### 11.4 ALERT 6443 at 20:04 MST Nov 1 (03:04Z Nov 2) vs ~817 cfs (23.1 m³/s)
+
+zs is linearly interpolated between 03:00Z and 03:15Z. Both runs agree to the millimetre at these cells.
+
+| Candidate cell | Face, size | zb m | zs 03:04Z m | zs − zb m | vol/area m |
+|---|---|---|---|---|---|
+| Face containing the gauge point (on 15876815) | 223058, 12.5 | 673.75 | 673.76 | 0.01 | 0.002 (dry by the 0.0091 rule) |
+| Lowest face within 30 m of the gauge | 223379, 12.5 | 671.68 | **673.02** | **1.34** | 0.60 |
+| Confluence, start of 15876811 | 223847, 12.5 | 671.19 | 672.62 | 1.43 | 0.72 |
+| Brawley 15877627 at Mile Wide Rd (lowest within 30 m) | 323609, 6.25 | 674.01 | 674.10 | 0.10 | 0.008 (dry by the rule) |
+
+- **Section flow at 03Z** (Obs, NWM within 0.05):
+  - Black Wash band: 8.83 m³/s
+  - Brawley 15877627 band: 3.21 m³/s
+  - Both bands: 12.05 m³/s, which is **0.52× the reported 23.1 m³/s**
+  - All of it is local rain. NWM analysis 15876815 was 0.28 m³/s at 03Z, so SFINCS makes about 30× more runoff in that subtree than NWM does.
+- **Verdict.**
+  - Wet/dry: the gauge channel is wet at the reading, so wet/dry agrees (1 point).
+  - Flow: 0.52×. The inlet wave reaches Mile Wide 3.7 h after the reading.
+  - **V2 flow and timing: FAIL**, on one second-hand value with an uncertainty of about ±1 h. The location ambiguity stays unresolved, although the model's main channel runs past the gauge.
+  - The Oct 31 14:00 MST dry reading is outside the map window: NOT TESTABLE.
+
+### 11.5 Road crossings and representative dips (zs vs roadZ, both variants)
+
+- **How these were computed.** Stations within 25 m of the point. Max WSE is the largest cell zs over frames where the cell is wet (vol/area ≥ 0.0091 m, the exporter's rule). Max over = max WSE − roadZ, taken at the station with the largest value.
+- **First over** is the first frame in which any of those stations has zs > roadZ. "n over" is the number of stations ever over, out of 5.
+- All points sit in 6.25 m cells. Times are Z.
+
+| Point | roadZ min–max | NWM max WSE / over / first / n | Obs max WSE / over / first / n |
+|---|---|---|---|
+| W Mile Wide Rd × Brawley | 674.88–674.93 | 674.687 / **−0.203** / – / 0 | 674.716 / **−0.174** / – / 0 |
+| W Manville Rd × Brawley | 652.59–652.94 | 653.058 / +0.468 / 22:00 / 5 | 653.059 / +0.469 / 22:15 / 5 |
+| W Tucker Rd × Brawley | 631.67–632.55 | 632.553 / +0.883 / 21:15 / 4 | 632.554 / +0.884 / 21:15 / 4 |
+| W Little Williams Dr × Brawley | 631.37–631.83 | 631.758 / +0.388 / 19:30 / 3 | 631.758 / +0.388 / 19:30 / 3 |
+| W Donaldson Ranch Rd × Brawley | 710.69–710.77 | 710.742 / +0.052 / 19:15 / 4 | 710.747 / +0.057 / 19:15 / 5 |
+| 1 W Snyder Hill Rd 1.73 m | 706.68–706.95 | 707.141 / +0.461 / 19:15 / 5 | same |
+| 2 Garcia Ranch Rd 1.32 m | 726.50–727.24 | 726.819 / +0.319 / 17:00 / 2 | same |
+| 3 W Manville Rd 1.24 m | 651.85–652.55 | 652.306 / +0.456 / 21:30 / 4 | 652.305 / +0.455 / 21:30 / 4 |
+| 4 W Manville Rd 1.12 m | 652.10–652.87 | 653.020 / +0.920 / 21:45 / 5 | 653.021 / +0.921 / 21:45 / 5 |
+| 5 Garcia Ranch Rd 1.01 m | 728.06–728.19 | 728.360 / +0.300 / 17:00 / 5 | same |
+| 6 Garcia Ranch Rd 0.98 m | 726.68–727.66 | 726.674 / −0.006 / – / 0 | same |
+| 7 N Mesquite Oasis Rd 0.96 m | 624.56–624.85 | 624.763 / +0.203 / 20:30 / 2 | same |
+| 8 W Donaldson Ranch Rd 0.90 m | 707.83–708.28 | 707.921 / +0.091 / 23:45 / 2 | **708.237 / +0.407** / 23:45 / 5 |
+| 9 W Tucker Rd 0.88 m | 631.67–632.55 | 632.553 / +0.883 / 21:15 / 4 | 632.554 / +0.884 / 21:15 / 4 |
+| 10 W Orange Grove Rd 0.73 m | 637.79–638.05 | 638.021 / +0.231 / 19:30 / 4 | 638.020 / +0.230 / 19:30 / 4 |
+| 11 W Little Williams Dr 0.72 m | 631.11–631.46 | 631.539 / +0.429 / 20:30 / 5 | same |
+| 12 W Drillers Rd 0.65 m | 633.44–633.76 | 633.730 / +0.290 / 20:30 / 3 | 633.729 / +0.289 / 20:30 / 3 |
+
+- **What drives the over-road values.** The two runs match within 0.03 m everywhere except dip 8, which the inlet wave raises by 0.32 m. So the over-road at the Brawley crossings in this window comes from **local rain**, not from the Brawley flood.
+- **Mile Wide.** Using all frames, without the wet rule, the crossing cells reach 674.785 m at 07:00Z in Obs and are still rising: 0.095 m below the road at the window end. NWM peaks at 674.765 at 02:00Z.
+- **Frames with no wet flag.** Garcia Ranch dips 2 and 5 are already over at the first frame (17:00Z), because 16.6 mm of rain fell before the window.
+- **All 31,680 stations, over counts by cell size, NWM / Obs.** The totals equal the exporter samples: 2,114 / 2,581.
+  - 6.25 m: 828 / 893 (> 0.3 m: 68 / 76)
+  - 12.5 m: 643 / 709
+  - 25 m: 236 / 284
+  - 50 m: 264 / 499
+  - 100 m: 143 / 196 (median over 0.09 / 0.10 m)
+
+### 11.6 Sanity checks
+
+- **Ridge stations: the 5 highest-roadZ stations on each of the 154 roads with ≥ 50 stations.** 147 roads stay dry at all 5. 7 roads have stations that go over:
+  - **N Razorback:** the road's top, 632.38–632.54, is in the Tucker floodplain (zs 632.51–632.66, 6.25 m cells), over by 0.12–0.13 m.
+  - **S Crazy Cat Ln:** top 714.69–714.84. Obs is over by 0.04–0.29 m and NWM by at most 0.002 m, so this is inlet water in the Brawley floodplain near Donaldson Ranch.
+  - **S Marstellar Rd:** over by 0.18–0.28 m, 50/100 m cells, roadZ 713.79–713.99 vs cell bed 713.69–713.90.
+  - **W Bar X St:** 811.08 and 811.18 over by 0.13 and 0.03 m, 100 m cell, bed 811.12, so roadZ is below the cell bed.
+  - **W Iowa St:** 778.40 over by 0.03 m, 100 m cell, bed 778.35.
+  - **Welcome Way:** over by 0.03 m.
+  - **W Dusty Flat Pl:** over by 0.01–0.05 m, 6.25 m cells.
+  - **Reading.** Where these stations are over, either the road is in the floodplain or roadZ ≤ cell bed + 0.15 m. The 1 m road-height lidar and the subgrid terrain also disagree by up to a few cm (bare earth is not a surveyed deck). Strictly this is FAIL; physically it is sheet flow. Not tuned.
+- **Crossings before flats.** The station median of the first over-road frame is frame 12–13 (20:00–20:15Z) for 6.25/12.5 m cells in NWM, and frame 13–14 in Obs.
+  - The Brawley crossings first go over at Donaldson 19:15Z, Little Williams 19:30Z, Tucker 21:15Z and Manville 22:00Z. Mile Wide never does.
+  - **MIXED.** The crossings respond to local rain at the same time as the flats.
+- **Upstream of the inlet.**
+  - 34,399 domain cells lie south of the inlet face, which is at y 3,552,603. Only 31 of them have Obs − NWM zsmax > 0.05 m, with a maximum of 0.376 m. All are within 143.75 m south of and 437 m from the inlet, which is local backwater at the injection cell.
+  - Nowhere does Obs − NWM fall below −0.026 m.
+  - **PASS.**
+- **Instability.**
+  - zs is NaN in 559,308 values over 115,927 cells. All have vol/area < 1.9e-5 m, so NaN marks a dry cell. 0 of them are wet by the 0.0091 m rule.
+  - 0 cells show an up-and-down spike (> +0.5 m then < −0.5 m in successive frames).
+  - The maximum 15-min rise is 1.65 m (NWM) and 1.67 m (Obs). 124 / 113 cells rise > 1 m in 15 min, at wave fronts and filling cells.
+  - zs is never below zb (minimum zs − zb is +6e-5 m).
+  - The maximum depth is 3.29 m, in a 100 m cell at −111.2528, 32.1163 (zb 732.39), a depression.
+  - Velocity proxy |q|/h at u/v points from the hourly restarts: at most 1.35 m/s, at 01Z, 6.25 m, −111.2702, 32.2481 (the Mile Wide deck site). |q| is at most 2.11 m²/s.
+  - **PASS.**
+
+### 11.7 V6 deck stations
+
+The four `deckLidar` stations on W Mile Wide Rd at −111.2703, 32.2481 are all in 6.25 m cells.
+
+| Station | roadZ | cell zb | max zs (Obs) |
+|---|---|---|---|
+| 1:0 | 675.28 | 673.32 | 673.97 |
+| 6:900 | 675.26 | 672.37 | 673.88 |
+| 6:1000 | 675.27 | 672.42 | 673.89 |
+| 6:1064 | 675.28 | 673.32 | 673.97 |
+
+The water under the deck stays 1.29–1.39 m below roadZ, and the exporter reports these stations "below", never "over". **PASS for these 4.** Other structures have no flag, so they cannot be checked.
+
+### 11.8 Owner-observed facts
+
+- **Nov 1 2026, county "Proceed with Caution" at Avra Valley Rd W of the Brawley Wash.** That crossing is in the **Northern** domain, not in brawley-avra-west, so it cannot test this case. Northern's frozen run injects only 0.27 m³/s here (§3), so Northern would not reproduce the Brawley flood either (inference).
+- **KOLD, Sep 17 2026, "vehicles stuck in Pima County flooding"** (https://www.kold.com/2026/09/17/vehicles-stuck-pima-county-flooding/). This is a **different event**. No forcing for it exists, so it was **not tested**.
+
+### 11.9 What this means
+
+- **Usable now.** The model conserves mass and is stable.
+- **Map-only.**
+  - With the observed inlet, the inlet wave routes downstream much more slowly than NWM: it is at Mile Wide at 06:45Z and not yet at Manville by the 07Z window end.
+  - Every Brawley-crossing over-road in the frozen window comes from local rain on the domain, which the CN method turns into 5.86 mm of runoff, 18.9% of the rain.
+  - The NWM variant's inflow is unvalidated (V1 FAIL), so the case stays **map-only**.
+- **Not done.** Not tested: 100-year/BFE (V3), closures (V4), resolution sensitivity (V7), app parity (V9). Owner review (AC8) is pending.
+- **Next evidence that would help (not tuning).**
+  - A frozen window running to at least Nov 2 15Z with the observed inflow, so the routed peak is seen at Manville, Tucker and the outlet.
+  - Retained ALERT 6443 records.
+  - Observation points (his output) at the crossings.

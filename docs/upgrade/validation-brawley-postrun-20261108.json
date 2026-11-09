@@ -1,0 +1,8433 @@
+{
+ "runs": {
+  "nwm": "42535214906",
+  "observed": "42535217219"
+ },
+ "geometry": {
+  "faces": 408207,
+  "npuv": 827160,
+  "areaKm2": 838.9857421875,
+  "faceCentreMaxDiffM": 0.125,
+  "outflowCells": {
+   "n": 26,
+   "xRange": [
+    472237.5,
+    472662.5
+   ],
+   "yRange": [
+    3580762.5,
+    3580987.5
+   ],
+   "lonlatMean": [
+    -111.29291822576121,
+    32.36461964705493
+   ],
+   "sizesM": [
+    12.5,
+    25.0
+   ]
+  },
+  "outflowLinks": 44
+ },
+ "sections": {
+  "Donaldson Ranch (15877627)": {
+   "lat": 32.17568,
+   "lonW": -111.275,
+   "lonE": -111.245,
+   "links": 142
+  },
+  "Mile Wide Brawley 15877627 only": {
+   "lat": 32.2482,
+   "lonW": -111.262,
+   "lonE": -111.2475,
+   "links": 126
+  },
+  "Mile Wide Black Wash 15876815 only": {
+   "lat": 32.2482,
+   "lonW": -111.2475,
+   "lonE": -111.236,
+   "links": 87
+  },
+  "Mile Wide both": {
+   "lat": 32.2482,
+   "lonW": -111.262,
+   "lonE": -111.236,
+   "links": 213
+  },
+  "Manville (15876771)": {
+   "lat": 32.29177,
+   "lonW": -111.285,
+   "lonE": -111.252,
+   "links": 305
+  },
+  "Tucker (15876711)": {
+   "lat": 32.33536,
+   "lonW": -111.3,
+   "lonE": -111.268,
+   "links": 207
+  },
+  "Little Williams (15876711)": {
+   "lat": 32.3371,
+   "lonW": -111.3,
+   "lonE": -111.268,
+   "links": 132
+  }
+ },
+ "variants": {
+  "nwm": {
+   "inflow": {
+    "peakM3s": 1.7,
+    "peakTimeS": 226800.0,
+    "volumeM3_trapz_wholeRun": 33084.0
+   },
+   "outflowHourly": {
+    "20261101T18Z": 0.0,
+    "20261101T19Z": 0.0,
+    "20261101T20Z": 0.0,
+    "20261101T21Z": 0.061,
+    "20261101T22Z": 0.281,
+    "20261101T23Z": 0.529,
+    "20261102T00Z": 0.397,
+    "20261102T01Z": 0.268,
+    "20261102T02Z": 1.08,
+    "20261102T03Z": 2.235,
+    "20261102T04Z": 11.547,
+    "20261102T05Z": 13.707,
+    "20261102T06Z": 19.043,
+    "20261102T07Z": 19.962
+   },
+   "outflowPeak": {
+    "m3s": 19.961535977199674,
+    "time": "20261102T07Z"
+   },
+   "outflowVolume18Zto07Z_m3": 212854.75886135828,
+   "balanceWholeRun": {
+    "inflowM3": 33084.0,
+    "rainM3": 26005850.571998153,
+    "infiltrationM3": 21092673.07631468,
+    "storageEndM3": 4729968.204034982,
+    "storageStartWindow17ZM3": 988185.1574240127,
+    "outflowMeasured18Zto07ZM3": 212854.75886135828,
+    "residualM3": 3438.532787132077,
+    "residualPctOfInputs": 0.013205351308151522,
+    "rainMeanMm": 30.996772965643864,
+    "infMeanMm": 25.140681200754905,
+    "negativeVolumeEndM3": -0.01592557261847105,
+    "negativeVolumeMinCellM3": -0.0401744470000267
+   },
+   "hourlyWindow": [
+    {
+     "hour": "20261101T18Z",
+     "inflowM3": 396,
+     "rainM3": 3383280,
+     "outflowM3": 0,
+     "dStorageM3": 932028,
+     "impliedInfiltrationM3": 2451648
+    },
+    {
+     "hour": "20261101T19Z",
+     "inflowM3": 396,
+     "rainM3": 3735640,
+     "outflowM3": 0,
+     "dStorageM3": 1189720,
+     "impliedInfiltrationM3": 2546317
+    },
+    {
+     "hour": "20261101T20Z",
+     "inflowM3": 396,
+     "rainM3": 2441216,
+     "outflowM3": 109,
+     "dStorageM3": 927355,
+     "impliedInfiltrationM3": 1514148
+    },
+    {
+     "hour": "20261101T21Z",
+     "inflowM3": 396,
+     "rainM3": 855767,
+     "outflowM3": 615,
+     "dStorageM3": 353377,
+     "impliedInfiltrationM3": 502171
+    },
+    {
+     "hour": "20261101T22Z",
+     "inflowM3": 396,
+     "rainM3": 291979,
+     "outflowM3": 1457,
+     "dStorageM3": 115018,
+     "impliedInfiltrationM3": 175900
+    },
+    {
+     "hour": "20261101T23Z",
+     "inflowM3": 396,
+     "rainM3": 145,
+     "outflowM3": 1665,
+     "dStorageM3": -3419,
+     "impliedInfiltrationM3": 2295
+    },
+    {
+     "hour": "20261102T00Z",
+     "inflowM3": 414,
+     "rainM3": 436,
+     "outflowM3": 1196,
+     "dStorageM3": -2721,
+     "impliedInfiltrationM3": 2375
+    },
+    {
+     "hour": "20261102T01Z",
+     "inflowM3": 450,
+     "rainM3": 231,
+     "outflowM3": 2425,
+     "dStorageM3": -2926,
+     "impliedInfiltrationM3": 1182
+    },
+    {
+     "hour": "20261102T02Z",
+     "inflowM3": 540,
+     "rainM3": 34,
+     "outflowM3": 5966,
+     "dStorageM3": -3658,
+     "impliedInfiltrationM3": -1733
+    },
+    {
+     "hour": "20261102T03Z",
+     "inflowM3": 756,
+     "rainM3": 7841,
+     "outflowM3": 24807,
+     "dStorageM3": -19524,
+     "impliedInfiltrationM3": 3314
+    },
+    {
+     "hour": "20261102T04Z",
+     "inflowM3": 1512,
+     "rainM3": 57133,
+     "outflowM3": 45457,
+     "dStorageM3": -16974,
+     "impliedInfiltrationM3": 30163
+    },
+    {
+     "hour": "20261102T05Z",
+     "inflowM3": 3258,
+     "rainM3": 173567,
+     "outflowM3": 58950,
+     "dStorageM3": 26807,
+     "impliedInfiltrationM3": 91068
+    },
+    {
+     "hour": "20261102T06Z",
+     "inflowM3": 5256,
+     "rainM3": 288894,
+     "outflowM3": 70209,
+     "dStorageM3": 75905,
+     "impliedInfiltrationM3": 148036
+    }
+   ],
+   "rainBefore17ZM3": 13958848.017688204,
+   "rainWindow17Zto07ZM3": 12047002.55430995,
+   "rainDomainMeanMmPerFrame": [
+    0.027,
+    0.027,
+    0.027,
+    1.906,
+    3.784,
+    3.784,
+    3.784,
+    4.281,
+    4.777,
+    4.777,
+    4.777,
+    4.128,
+    3.478,
+    3.478,
+    3.478,
+    2.341,
+    1.205,
+    1.205,
+    1.205,
+    0.835,
+    0.464,
+    0.464,
+    0.464,
+    0.232,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.001,
+    0.001,
+    0.001,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.019,
+    0.037,
+    0.037,
+    0.037,
+    0.099,
+    0.161,
+    0.161,
+    0.161,
+    0.253,
+    0.344,
+    0.344,
+    0.344,
+    0.344,
+    0.344
+   ],
+   "sectionsHourlyM3s": {
+    "Donaldson Ranch (15877627)": {
+     "20261101T18Z": 0.176,
+     "20261101T19Z": 1.541,
+     "20261101T20Z": 3.917,
+     "20261101T21Z": 4.754,
+     "20261101T22Z": 4.22,
+     "20261101T23Z": 3.604,
+     "20261102T00Z": 3.305,
+     "20261102T01Z": 3.284,
+     "20261102T02Z": 3.907,
+     "20261102T03Z": 4.321,
+     "20261102T04Z": 4.284,
+     "20261102T05Z": 4.133,
+     "20261102T06Z": 4.055,
+     "20261102T07Z": 3.886
+    },
+    "Mile Wide Brawley 15877627 only": {
+     "20261101T18Z": 0.0,
+     "20261101T19Z": 0.001,
+     "20261101T20Z": 0.002,
+     "20261101T21Z": 0.002,
+     "20261101T22Z": 1.304,
+     "20261101T23Z": 0.973,
+     "20261102T00Z": 0.787,
+     "20261102T01Z": 0.739,
+     "20261102T02Z": 3.523,
+     "20261102T03Z": 3.255,
+     "20261102T04Z": 2.761,
+     "20261102T05Z": 2.325,
+     "20261102T06Z": 2.016,
+     "20261102T07Z": 1.937
+    },
+    "Mile Wide Black Wash 15876815 only": {
+     "20261101T18Z": 0.002,
+     "20261101T19Z": 0.035,
+     "20261101T20Z": 0.137,
+     "20261101T21Z": 0.377,
+     "20261101T22Z": 0.491,
+     "20261101T23Z": 4.461,
+     "20261102T00Z": 5.426,
+     "20261102T01Z": 5.559,
+     "20261102T02Z": 6.755,
+     "20261102T03Z": 8.845,
+     "20261102T04Z": 10.318,
+     "20261102T05Z": 11.261,
+     "20261102T06Z": 12.507,
+     "20261102T07Z": 13.827
+    },
+    "Mile Wide both": {
+     "20261101T18Z": 0.002,
+     "20261101T19Z": 0.037,
+     "20261101T20Z": 0.139,
+     "20261101T21Z": 0.379,
+     "20261101T22Z": 1.795,
+     "20261101T23Z": 5.434,
+     "20261102T00Z": 6.213,
+     "20261102T01Z": 6.298,
+     "20261102T02Z": 10.278,
+     "20261102T03Z": 12.1,
+     "20261102T04Z": 13.079,
+     "20261102T05Z": 13.586,
+     "20261102T06Z": 14.523,
+     "20261102T07Z": 15.763
+    },
+    "Manville (15876771)": {
+     "20261101T18Z": 0.0,
+     "20261101T19Z": 0.003,
+     "20261101T20Z": 0.136,
+     "20261101T21Z": 0.436,
+     "20261101T22Z": 2.451,
+     "20261101T23Z": 15.706,
+     "20261102T00Z": 19.666,
+     "20261102T01Z": 22.034,
+     "20261102T02Z": 30.663,
+     "20261102T03Z": 33.494,
+     "20261102T04Z": 31.715,
+     "20261102T05Z": 30.482,
+     "20261102T06Z": 28.991,
+     "20261102T07Z": 27.146
+    },
+    "Tucker (15876711)": {
+     "20261101T18Z": 0.001,
+     "20261101T19Z": 0.124,
+     "20261101T20Z": 0.512,
+     "20261101T21Z": 0.824,
+     "20261101T22Z": 1.064,
+     "20261101T23Z": 1.343,
+     "20261102T00Z": 1.584,
+     "20261102T01Z": 2.277,
+     "20261102T02Z": 18.159,
+     "20261102T03Z": 21.364,
+     "20261102T04Z": 29.582,
+     "20261102T05Z": 34.974,
+     "20261102T06Z": 34.448,
+     "20261102T07Z": 33.431
+    },
+    "Little Williams (15876711)": {
+     "20261101T18Z": 0.0,
+     "20261101T19Z": 0.101,
+     "20261101T20Z": 0.643,
+     "20261101T21Z": 0.866,
+     "20261101T22Z": 1.069,
+     "20261101T23Z": 1.214,
+     "20261102T00Z": 1.591,
+     "20261102T01Z": 1.568,
+     "20261102T02Z": 17.528,
+     "20261102T03Z": 21.023,
+     "20261102T04Z": 28.717,
+     "20261102T05Z": 34.817,
+     "20261102T06Z": 34.554,
+     "20261102T07Z": 33.562
+    }
+   },
+   "sectionPeaks": {
+    "Donaldson Ranch (15877627)": {
+     "m3s": 4.75438691673844,
+     "time": "20261101T21Z"
+    },
+    "Mile Wide Brawley 15877627 only": {
+     "m3s": 3.5229960575634323,
+     "time": "20261102T02Z"
+    },
+    "Mile Wide Black Wash 15876815 only": {
+     "m3s": 13.826571101501816,
+     "time": "20261102T07Z"
+    },
+    "Mile Wide both": {
+     "m3s": 15.763157745275624,
+     "time": "20261102T07Z"
+    },
+    "Manville (15876771)": {
+     "m3s": 33.49418959014656,
+     "time": "20261102T03Z"
+    },
+    "Tucker (15876711)": {
+     "m3s": 34.97358330831446,
+     "time": "20261102T05Z"
+    },
+    "Little Williams (15876711)": {
+     "m3s": 34.81650065404693,
+     "time": "20261102T05Z"
+    }
+   },
+   "points": {
+    "Inlet face 144751 (15876923)": {
+     "face": 144751,
+     "cellM": 12.5,
+     "lonlat": [
+      -111.31713,
+      32.1094
+     ],
+     "zbM": 754.279,
+     "zs17Z": 754.518,
+     "depth17Z": 0.238,
+     "firstZsAboveZb0p3": "2026-11-02T03:30Z",
+     "firstRise0p3Above17Z": "2026-11-02T05:30Z",
+     "maxZs": 755.004,
+     "maxZsTime": "2026-11-02T07:00Z",
+     "maxZsMinusZb": 0.724,
+     "zsmaxWholeRun": 755.004,
+     "zs0300Z": 754.563,
+     "zs0315Z": 754.575,
+     "zs0304Z_interp": 754.566,
+     "depth0304Z_zsMinusZb": 0.287,
+     "volOverArea0300Z": 0.027,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": 754.518,
+      "2026-11-01T18:00Z": 754.519,
+      "2026-11-01T19:00Z": 754.519,
+      "2026-11-01T20:00Z": 754.519,
+      "2026-11-01T21:00Z": 754.519,
+      "2026-11-01T22:00Z": 754.519,
+      "2026-11-01T23:00Z": 754.518,
+      "2026-11-02T00:00Z": 754.518,
+      "2026-11-02T01:00Z": 754.527,
+      "2026-11-02T02:00Z": 754.535,
+      "2026-11-02T03:00Z": 754.563,
+      "2026-11-02T04:00Z": 754.607,
+      "2026-11-02T05:00Z": 754.74,
+      "2026-11-02T06:00Z": 754.909,
+      "2026-11-02T07:00Z": 755.004
+     }
+    },
+    "West Donaldson Ranch Road channel": {
+     "face": 322147,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.26011,
+      32.17593
+     ],
+     "zbM": 710.55,
+     "zs17Z": 710.562,
+     "depth17Z": 0.012,
+     "firstZsAboveZb0p3": null,
+     "firstRise0p3Above17Z": null,
+     "maxZs": 710.636,
+     "maxZsTime": "2026-11-01T21:15Z",
+     "maxZsMinusZb": 0.086,
+     "zsmaxWholeRun": 710.636,
+     "zs0300Z": 710.61,
+     "zs0315Z": 710.611,
+     "zs0304Z_interp": 710.61,
+     "depth0304Z_zsMinusZb": 0.06,
+     "volOverArea0300Z": 0.008,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": 710.562,
+      "2026-11-01T18:00Z": 710.566,
+      "2026-11-01T19:00Z": 710.598,
+      "2026-11-01T20:00Z": 710.625,
+      "2026-11-01T21:00Z": 710.635,
+      "2026-11-01T22:00Z": 710.634,
+      "2026-11-01T23:00Z": 710.627,
+      "2026-11-02T00:00Z": 710.619,
+      "2026-11-02T01:00Z": 710.613,
+      "2026-11-02T02:00Z": 710.609,
+      "2026-11-02T03:00Z": 710.61,
+      "2026-11-02T04:00Z": 710.612,
+      "2026-11-02T05:00Z": 710.613,
+      "2026-11-02T06:00Z": 710.614,
+      "2026-11-02T07:00Z": 710.614
+     }
+    },
+    "West Manville Road channel": {
+     "face": 316810,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.26847,
+      32.292
+     ],
+     "zbM": 652.186,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": "2026-11-01T22:00Z",
+     "firstRise0p3Above17Z": null,
+     "maxZs": 652.851,
+     "maxZsTime": "2026-11-02T03:00Z",
+     "maxZsMinusZb": 0.666,
+     "zsmaxWholeRun": 652.851,
+     "zs0300Z": 652.851,
+     "zs0315Z": 652.851,
+     "zs0304Z_interp": 652.851,
+     "depth0304Z_zsMinusZb": 0.665,
+     "volOverArea0300Z": 0.241,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": 652.186,
+      "2026-11-01T19:00Z": 652.206,
+      "2026-11-01T20:00Z": 652.384,
+      "2026-11-01T21:00Z": 652.397,
+      "2026-11-01T22:00Z": 652.703,
+      "2026-11-01T23:00Z": 652.82,
+      "2026-11-02T00:00Z": 652.83,
+      "2026-11-02T01:00Z": 652.831,
+      "2026-11-02T02:00Z": 652.841,
+      "2026-11-02T03:00Z": 652.851,
+      "2026-11-02T04:00Z": 652.842,
+      "2026-11-02T05:00Z": 652.833,
+      "2026-11-02T06:00Z": 652.825,
+      "2026-11-02T07:00Z": 652.818
+     }
+    },
+    "West Mile Wide Road channel": {
+     "face": 323609,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.25255,
+      32.24845
+     ],
+     "zbM": 674.005,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": null,
+     "firstRise0p3Above17Z": null,
+     "maxZs": 674.102,
+     "maxZsTime": "2026-11-01T20:45Z",
+     "maxZsMinusZb": 0.097,
+     "zsmaxWholeRun": 674.102,
+     "zs0300Z": 674.102,
+     "zs0315Z": 674.102,
+     "zs0304Z_interp": 674.102,
+     "depth0304Z_zsMinusZb": 0.097,
+     "volOverArea0300Z": 0.008,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": NaN,
+      "2026-11-01T19:00Z": 674.056,
+      "2026-11-01T20:00Z": 674.102,
+      "2026-11-01T21:00Z": 674.102,
+      "2026-11-01T22:00Z": 674.102,
+      "2026-11-01T23:00Z": 674.102,
+      "2026-11-02T00:00Z": 674.102,
+      "2026-11-02T01:00Z": 674.102,
+      "2026-11-02T02:00Z": 674.102,
+      "2026-11-02T03:00Z": 674.102,
+      "2026-11-02T04:00Z": 674.102,
+      "2026-11-02T05:00Z": 674.102,
+      "2026-11-02T06:00Z": 674.102,
+      "2026-11-02T07:00Z": 674.102
+     }
+    },
+    "West Little Williams Drive channel": {
+     "face": 307274,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.28408,
+      32.33719
+     ],
+     "zbM": 630.41,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": "2026-11-02T01:30Z",
+     "firstRise0p3Above17Z": null,
+     "maxZs": 631.372,
+     "maxZsTime": "2026-11-02T05:15Z",
+     "maxZsMinusZb": 0.962,
+     "zsmaxWholeRun": 631.372,
+     "zs0300Z": 631.252,
+     "zs0315Z": 631.256,
+     "zs0304Z_interp": 631.253,
+     "depth0304Z_zsMinusZb": 0.843,
+     "volOverArea0300Z": 0.239,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": NaN,
+      "2026-11-01T19:00Z": 630.413,
+      "2026-11-01T20:00Z": 630.434,
+      "2026-11-01T21:00Z": 630.449,
+      "2026-11-01T22:00Z": 630.452,
+      "2026-11-01T23:00Z": 630.452,
+      "2026-11-02T00:00Z": 630.452,
+      "2026-11-02T01:00Z": 630.452,
+      "2026-11-02T02:00Z": 631.22,
+      "2026-11-02T03:00Z": 631.252,
+      "2026-11-02T04:00Z": 631.312,
+      "2026-11-02T05:00Z": 631.372,
+      "2026-11-02T06:00Z": 631.355,
+      "2026-11-02T07:00Z": 631.324
+     }
+    },
+    "West Tucker Road channel": {
+     "face": 308141,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.28348,
+      32.33533
+     ],
+     "zbM": 631.433,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": "2026-11-01T21:30Z",
+     "firstRise0p3Above17Z": null,
+     "maxZs": 632.553,
+     "maxZsTime": "2026-11-02T05:00Z",
+     "maxZsMinusZb": 1.12,
+     "zsmaxWholeRun": 632.553,
+     "zs0300Z": 632.51,
+     "zs0315Z": 632.513,
+     "zs0304Z_interp": 632.51,
+     "depth0304Z_zsMinusZb": 1.077,
+     "volOverArea0300Z": 0.47,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": NaN,
+      "2026-11-01T19:00Z": 631.436,
+      "2026-11-01T20:00Z": 631.453,
+      "2026-11-01T21:00Z": 631.496,
+      "2026-11-01T22:00Z": 631.886,
+      "2026-11-01T23:00Z": 631.871,
+      "2026-11-02T00:00Z": 631.834,
+      "2026-11-02T01:00Z": 631.973,
+      "2026-11-02T02:00Z": 632.5,
+      "2026-11-02T03:00Z": 632.51,
+      "2026-11-02T04:00Z": 632.535,
+      "2026-11-02T05:00Z": 632.553,
+      "2026-11-02T06:00Z": 632.546,
+      "2026-11-02T07:00Z": 632.534
+     }
+    },
+    "ALERT 6443 site (on 15876815) containing face": {
+     "face": 223058,
+     "cellM": 12.5,
+     "lonlat": [
+      -111.24449,
+      32.24861
+     ],
+     "zbM": 673.75,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": null,
+     "firstRise0p3Above17Z": null,
+     "maxZs": 673.76,
+     "maxZsTime": "2026-11-01T19:45Z",
+     "maxZsMinusZb": 0.01,
+     "zsmaxWholeRun": 673.76,
+     "zs0300Z": 673.76,
+     "zs0315Z": 673.76,
+     "zs0304Z_interp": 673.76,
+     "depth0304Z_zsMinusZb": 0.01,
+     "volOverArea0300Z": 0.002,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": NaN,
+      "2026-11-01T19:00Z": 673.756,
+      "2026-11-01T20:00Z": 673.76,
+      "2026-11-01T21:00Z": 673.76,
+      "2026-11-01T22:00Z": 673.76,
+      "2026-11-01T23:00Z": 673.76,
+      "2026-11-02T00:00Z": 673.76,
+      "2026-11-02T01:00Z": 673.76,
+      "2026-11-02T02:00Z": 673.76,
+      "2026-11-02T03:00Z": 673.76,
+      "2026-11-02T04:00Z": 673.76,
+      "2026-11-02T05:00Z": 673.76,
+      "2026-11-02T06:00Z": 673.76,
+      "2026-11-02T07:00Z": 673.76
+     }
+    },
+    "ALERT 6443 site lowest face within 30 m": {
+     "face": 223379,
+     "cellM": 12.5,
+     "lonlat": [
+      -111.24423,
+      32.24872
+     ],
+     "zbM": 671.683,
+     "zs17Z": 671.805,
+     "depth17Z": 0.122,
+     "firstZsAboveZb0p3": "2026-11-01T20:15Z",
+     "firstRise0p3Above17Z": "2026-11-01T22:15Z",
+     "maxZs": 673.183,
+     "maxZsTime": "2026-11-02T07:00Z",
+     "maxZsMinusZb": 1.5,
+     "zsmaxWholeRun": 673.183,
+     "zs0300Z": 673.017,
+     "zs0315Z": 673.038,
+     "zs0304Z_interp": 673.023,
+     "depth0304Z_zsMinusZb": 1.339,
+     "volOverArea0300Z": 0.603,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": 671.805,
+      "2026-11-01T18:00Z": 671.804,
+      "2026-11-01T19:00Z": 671.884,
+      "2026-11-01T20:00Z": 671.972,
+      "2026-11-01T21:00Z": 672.021,
+      "2026-11-01T22:00Z": 672.097,
+      "2026-11-01T23:00Z": 672.777,
+      "2026-11-02T00:00Z": 672.848,
+      "2026-11-02T01:00Z": 672.857,
+      "2026-11-02T02:00Z": 672.922,
+      "2026-11-02T03:00Z": 673.017,
+      "2026-11-02T04:00Z": 673.075,
+      "2026-11-02T05:00Z": 673.107,
+      "2026-11-02T06:00Z": 673.146,
+      "2026-11-02T07:00Z": 673.183
+     }
+    },
+    "Brawley 15877627 at Mile Wide (lowest within 30 m)": {
+     "face": 323609,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.25255,
+      32.24845
+     ],
+     "zbM": 674.005,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": null,
+     "firstRise0p3Above17Z": null,
+     "maxZs": 674.102,
+     "maxZsTime": "2026-11-01T20:45Z",
+     "maxZsMinusZb": 0.097,
+     "zsmaxWholeRun": 674.102,
+     "zs0300Z": 674.102,
+     "zs0315Z": 674.102,
+     "zs0304Z_interp": 674.102,
+     "depth0304Z_zsMinusZb": 0.097,
+     "volOverArea0300Z": 0.008,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": NaN,
+      "2026-11-01T19:00Z": 674.056,
+      "2026-11-01T20:00Z": 674.102,
+      "2026-11-01T21:00Z": 674.102,
+      "2026-11-01T22:00Z": 674.102,
+      "2026-11-01T23:00Z": 674.102,
+      "2026-11-02T00:00Z": 674.102,
+      "2026-11-02T01:00Z": 674.102,
+      "2026-11-02T02:00Z": 674.102,
+      "2026-11-02T03:00Z": 674.102,
+      "2026-11-02T04:00Z": 674.102,
+      "2026-11-02T05:00Z": 674.102,
+      "2026-11-02T06:00Z": 674.102,
+      "2026-11-02T07:00Z": 674.102
+     }
+    },
+    "Confluence 15876811 start": {
+     "face": 223847,
+     "cellM": 12.5,
+     "lonlat": [
+      -111.24383,
+      32.25019
+     ],
+     "zbM": 671.19,
+     "zs17Z": 671.546,
+     "depth17Z": 0.355,
+     "firstZsAboveZb0p3": "2026-11-01T17:00Z",
+     "firstRise0p3Above17Z": "2026-11-01T21:00Z",
+     "maxZs": 672.743,
+     "maxZsTime": "2026-11-02T07:00Z",
+     "maxZsMinusZb": 1.552,
+     "zsmaxWholeRun": 672.743,
+     "zs0300Z": 672.616,
+     "zs0315Z": 672.632,
+     "zs0304Z_interp": 672.621,
+     "depth0304Z_zsMinusZb": 1.43,
+     "volOverArea0300Z": 0.716,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": 671.546,
+      "2026-11-01T18:00Z": 671.543,
+      "2026-11-01T19:00Z": 671.563,
+      "2026-11-01T20:00Z": 671.701,
+      "2026-11-01T21:00Z": 671.862,
+      "2026-11-01T22:00Z": 671.947,
+      "2026-11-01T23:00Z": 672.421,
+      "2026-11-02T00:00Z": 672.48,
+      "2026-11-02T01:00Z": 672.486,
+      "2026-11-02T02:00Z": 672.543,
+      "2026-11-02T03:00Z": 672.616,
+      "2026-11-02T04:00Z": 672.66,
+      "2026-11-02T05:00Z": 672.682,
+      "2026-11-02T06:00Z": 672.713,
+      "2026-11-02T07:00Z": 672.743
+     }
+    },
+    "Outlet node 720060498 (lowest within 100 m)": {
+     "face": 158782,
+     "cellM": 12.5,
+     "lonlat": [
+      -111.29383,
+      32.3642
+     ],
+     "zbM": 617.56,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": null,
+     "firstRise0p3Above17Z": null,
+     "maxZs": 617.635,
+     "maxZsTime": "2026-11-01T22:45Z",
+     "maxZsMinusZb": 0.076,
+     "zsmaxWholeRun": 617.639,
+     "zs0300Z": 617.607,
+     "zs0315Z": 617.61,
+     "zs0304Z_interp": 617.608,
+     "depth0304Z_zsMinusZb": 0.048,
+     "volOverArea0300Z": 0.007,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": 617.56,
+      "2026-11-01T19:00Z": 617.563,
+      "2026-11-01T20:00Z": 617.577,
+      "2026-11-01T21:00Z": 617.604,
+      "2026-11-01T22:00Z": 617.612,
+      "2026-11-01T23:00Z": 617.632,
+      "2026-11-02T00:00Z": 617.617,
+      "2026-11-02T01:00Z": 617.61,
+      "2026-11-02T02:00Z": 617.631,
+      "2026-11-02T03:00Z": 617.607,
+      "2026-11-02T04:00Z": 617.617,
+      "2026-11-02T05:00Z": 617.621,
+      "2026-11-02T06:00Z": 617.626,
+      "2026-11-02T07:00Z": 617.618
+     }
+    }
+   },
+   "crossings": [
+    {
+     "label": "West Donaldson Ranch Road",
+     "lon": -111.26008029356053,
+     "lat": 32.175679097112976,
+     "stations": 5,
+     "roadZmin": 710.69,
+     "roadZmax": 710.77,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 710.742,
+     "maxOver": 0.052,
+     "maxOverStationRoadZ": 710.69,
+     "firstOver": "2026-11-01T19:15Z",
+     "stationsOver": 4
+    },
+    {
+     "label": "West Manville Road",
+     "lon": -111.2684586829181,
+     "lat": 32.29176800000134,
+     "stations": 5,
+     "roadZmin": 652.59,
+     "roadZmax": 652.94,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 653.058,
+     "maxOver": 0.468,
+     "maxOverStationRoadZ": 652.59,
+     "firstOver": "2026-11-01T22:00Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "West Mile Wide Road",
+     "lon": -111.25265169523958,
+     "lat": 32.24820100000714,
+     "stations": 5,
+     "roadZmin": 674.88,
+     "roadZmax": 674.93,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 4,
+     "maxWse": 674.687,
+     "maxOver": -0.203,
+     "maxOverStationRoadZ": 674.89,
+     "firstOver": null,
+     "stationsOver": 0
+    },
+    {
+     "label": "West Little Williams Drive",
+     "lon": -111.28379506220226,
+     "lat": 32.33710400000656,
+     "stations": 5,
+     "roadZmin": 631.37,
+     "roadZmax": 631.83,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 631.758,
+     "maxOver": 0.388,
+     "maxOverStationRoadZ": 631.37,
+     "firstOver": "2026-11-01T19:30Z",
+     "stationsOver": 3
+    },
+    {
+     "label": "West Tucker Road",
+     "lon": -111.28323474783615,
+     "lat": 32.33535740575221,
+     "stations": 5,
+     "roadZmin": 631.67,
+     "roadZmax": 632.55,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 632.553,
+     "maxOver": 0.883,
+     "maxOverStationRoadZ": 631.67,
+     "firstOver": "2026-11-01T21:15Z",
+     "stationsOver": 4
+    }
+   ],
+   "dips": [
+    {
+     "label": "West Snyder Hill Road 1.73 m",
+     "lon": -111.20929,
+     "lat": 32.16177,
+     "stations": 5,
+     "roadZmin": 706.68,
+     "roadZmax": 706.95,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 707.141,
+     "maxOver": 0.461,
+     "maxOverStationRoadZ": 706.68,
+     "firstOver": "2026-11-01T19:15Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "Garcia Ranch Road 1.32 m",
+     "lon": -111.29175,
+     "lat": 32.15817,
+     "stations": 5,
+     "roadZmin": 726.5,
+     "roadZmax": 727.24,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 726.819,
+     "maxOver": 0.319,
+     "maxOverStationRoadZ": 726.5,
+     "firstOver": "2026-11-01T17:00Z",
+     "stationsOver": 2
+    },
+    {
+     "label": "West Manville Road 1.24 m",
+     "lon": -111.28702,
+     "lat": 32.29176,
+     "stations": 5,
+     "roadZmin": 651.85,
+     "roadZmax": 652.55,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 4,
+     "maxWse": 652.306,
+     "maxOver": 0.456,
+     "maxOverStationRoadZ": 651.85,
+     "firstOver": "2026-11-01T21:30Z",
+     "stationsOver": 4
+    },
+    {
+     "label": "West Manville Road 1.12 m",
+     "lon": -111.26719,
+     "lat": 32.29176,
+     "stations": 5,
+     "roadZmin": 652.1,
+     "roadZmax": 652.87,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 653.02,
+     "maxOver": 0.92,
+     "maxOverStationRoadZ": 652.1,
+     "firstOver": "2026-11-01T21:45Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "Garcia Ranch Road 1.01 m",
+     "lon": -111.29102,
+     "lat": 32.15309,
+     "stations": 5,
+     "roadZmin": 728.06,
+     "roadZmax": 728.19,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 728.36,
+     "maxOver": 0.3,
+     "maxOverStationRoadZ": 728.06,
+     "firstOver": "2026-11-01T17:00Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "Garcia Ranch Road 0.98 m",
+     "lon": -111.29124,
+     "lat": 32.15942,
+     "stations": 5,
+     "roadZmin": 726.68,
+     "roadZmax": 727.66,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 1,
+     "maxWse": 726.674,
+     "maxOver": -0.006,
+     "maxOverStationRoadZ": 726.68,
+     "firstOver": null,
+     "stationsOver": 0
+    },
+    {
+     "label": "North Mesquite Oasis Road 0.96 m",
+     "lon": -111.29733,
+     "lat": 32.34985,
+     "stations": 5,
+     "roadZmin": 624.56,
+     "roadZmax": 624.85,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 624.763,
+     "maxOver": 0.203,
+     "maxOverStationRoadZ": 624.56,
+     "firstOver": "2026-11-01T20:30Z",
+     "stationsOver": 2
+    },
+    {
+     "label": "West Donaldson Ranch Road 0.9 m",
+     "lon": -111.23993,
+     "lat": 32.17565,
+     "stations": 5,
+     "roadZmin": 707.83,
+     "roadZmax": 708.28,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 2,
+     "maxWse": 707.921,
+     "maxOver": 0.091,
+     "maxOverStationRoadZ": 707.83,
+     "firstOver": "2026-11-01T23:45Z",
+     "stationsOver": 2
+    },
+    {
+     "label": "West Tucker Road 0.88 m",
+     "lon": -111.28348,
+     "lat": 32.33535,
+     "stations": 5,
+     "roadZmin": 631.67,
+     "roadZmax": 632.55,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 632.553,
+     "maxOver": 0.883,
+     "maxOverStationRoadZ": 631.67,
+     "firstOver": "2026-11-01T21:15Z",
+     "stationsOver": 4
+    },
+    {
+     "label": "West Orange Grove Road 0.73 m",
+     "lon": -111.30533,
+     "lat": 32.32051,
+     "stations": 5,
+     "roadZmin": 637.79,
+     "roadZmax": 638.05,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 638.021,
+     "maxOver": 0.231,
+     "maxOverStationRoadZ": 637.79,
+     "firstOver": "2026-11-01T19:30Z",
+     "stationsOver": 4
+    },
+    {
+     "label": "West Little Williams Drive 0.72 m",
+     "lon": -111.28537,
+     "lat": 32.33711,
+     "stations": 5,
+     "roadZmin": 631.11,
+     "roadZmax": 631.46,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 631.539,
+     "maxOver": 0.429,
+     "maxOverStationRoadZ": 631.11,
+     "firstOver": "2026-11-01T20:30Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "West Drillers Road 0.65 m",
+     "lon": -111.29201,
+     "lat": 32.32985,
+     "stations": 5,
+     "roadZmin": 633.44,
+     "roadZmax": 633.76,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 633.73,
+     "maxOver": 0.29,
+     "maxOverStationRoadZ": 633.44,
+     "firstOver": "2026-11-01T20:30Z",
+     "stationsOver": 3
+    }
+   ],
+   "deckLidar": [
+    {
+     "station": "area_m1113_322:1:0",
+     "road": "West Mile Wide Road",
+     "roadZ": 675.28,
+     "cellM": 6.25,
+     "zb": 673.319091796875,
+     "maxWse": 673.9655151367188,
+     "zsmax": 673.9661254882812
+    },
+    {
+     "station": "area_m1113_322:6:900",
+     "road": "West Mile Wide Road",
+     "roadZ": 675.26,
+     "cellM": 6.25,
+     "zb": 672.3675537109375,
+     "maxWse": 673.8817138671875,
+     "zsmax": 673.8825073242188
+    },
+    {
+     "station": "area_m1113_322:6:1000",
+     "road": "West Mile Wide Road",
+     "roadZ": 675.27,
+     "cellM": 6.25,
+     "zb": 672.4154663085938,
+     "maxWse": 673.8907470703125,
+     "zsmax": 673.8915405273438
+    },
+    {
+     "station": "area_m1113_322:6:1064",
+     "road": "West Mile Wide Road",
+     "roadZ": 675.28,
+     "cellM": 6.25,
+     "zb": 673.319091796875,
+     "maxWse": 673.9655151367188,
+     "zsmax": 673.9661254882812
+    }
+   ],
+   "ridge": [
+    {
+     "road": "(unnamed)",
+     "n": 1038,
+     "top5RoadZ": [
+      834.41,
+      834.68,
+      836.79,
+      837.21,
+      837.5
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "86",
+     "n": 1147,
+     "top5RoadZ": [
+      808.45,
+      808.45,
+      808.46,
+      808.47,
+      808.48
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "Garcia Ranch Road",
+     "n": 341,
+     "top5RoadZ": [
+      731.04,
+      731.21,
+      731.47,
+      731.72,
+      731.99
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "Garvey Road",
+     "n": 67,
+     "top5RoadZ": [
+      623.13,
+      623.25,
+      623.46,
+      623.81,
+      623.82
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      -1.0290551757811954,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "Kay Lynn Street",
+     "n": 63,
+     "top5RoadZ": [
+      785.11,
+      785.12,
+      785.15,
+      785.16,
+      785.17
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "Lead Flower Avenue",
+     "n": 74,
+     "top5RoadZ": [
+      753.72,
+      753.87,
+      754.0,
+      754.14,
+      754.27
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Antelope Road",
+     "n": 172,
+     "top5RoadZ": [
+      652.85,
+      652.92,
+      652.94,
+      653.02,
+      653.3
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Avra Road",
+     "n": 360,
+     "top5RoadZ": [
+      688.18,
+      688.18,
+      688.18,
+      688.18,
+      688.18
+     ],
+     "top5MaxOver": [
+      -0.18048828124994998,
+      -0.12354248046869998,
+      null,
+      null,
+      -0.12354248046869998
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Cherry Blossom Road",
+     "n": 70,
+     "top5RoadZ": [
+      636.95,
+      637.0,
+      637.06,
+      637.14,
+      637.28
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Dakota Plains Trail",
+     "n": 205,
+     "top5RoadZ": [
+      635.86,
+      635.89,
+      635.9,
+      635.91,
+      635.92
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Little Cody Road",
+     "n": 235,
+     "top5RoadZ": [
+      664.36,
+      664.46,
+      664.47,
+      664.56,
+      664.61
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Lone Owl Trail",
+     "n": 263,
+     "top5RoadZ": [
+      653.54,
+      653.56,
+      653.61,
+      653.68,
+      653.72
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Luckett Road",
+     "n": 355,
+     "top5RoadZ": [
+      682.26,
+      682.34,
+      682.37,
+      682.39,
+      682.46
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Mesquite Oasis Road",
+     "n": 101,
+     "top5RoadZ": [
+      625.55,
+      625.57,
+      625.58,
+      625.58,
+      625.61
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Nelson Quihuis Road",
+     "n": 245,
+     "top5RoadZ": [
+      638.84,
+      638.84,
+      638.85,
+      638.9,
+      638.96
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Razorback Road",
+     "n": 201,
+     "top5RoadZ": [
+      632.38,
+      632.42,
+      632.47,
+      632.52,
+      632.54
+     ],
+     "top5MaxOver": [
+      0.12909423828125455,
+      0.12364013671879093,
+      0.13217285156247272,
+      0.12294433593751819,
+      0.12455078125003638
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "North Reservation Road",
+     "n": 485,
+     "top5RoadZ": [
+      675.29,
+      675.42,
+      675.51,
+      675.62,
+      675.64
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Shadow Desert Lane",
+     "n": 146,
+     "top5RoadZ": [
+      627.6,
+      627.61,
+      627.65,
+      627.7,
+      627.71
+     ],
+     "top5MaxOver": [
+      -0.27614746093752274,
+      -0.28614746093751364,
+      -0.32614746093747726,
+      -0.3215820312500455,
+      -0.3861474609375364
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Shadows Desert Lane",
+     "n": 165,
+     "top5RoadZ": [
+      637.44,
+      637.46,
+      637.49,
+      637.5,
+      637.52
+     ],
+     "top5MaxOver": [
+      null,
+      -0.03397460937503638,
+      -0.015634765625009095,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Whitetail Road",
+     "n": 79,
+     "top5RoadZ": [
+      650.78,
+      650.95,
+      651.15,
+      651.4,
+      651.61
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Aldon Road",
+     "n": 171,
+     "top5RoadZ": [
+      770.96,
+      770.96,
+      770.97,
+      771.03,
+      771.06
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Amber Rock Avenue",
+     "n": 55,
+     "top5RoadZ": [
+      790.64,
+      790.77,
+      791.01,
+      791.21,
+      791.5
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Avenida Paisano",
+     "n": 97,
+     "top5RoadZ": [
+      800.83,
+      801.07,
+      801.28,
+      801.52,
+      801.76
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Bantry Lane",
+     "n": 123,
+     "top5RoadZ": [
+      736.79,
+      736.94,
+      737.05,
+      737.43,
+      737.66
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Bilbray Avenue",
+     "n": 126,
+     "top5RoadZ": [
+      814.09,
+      814.19,
+      814.41,
+      814.54,
+      814.65
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Bradford Drive",
+     "n": 69,
+     "top5RoadZ": [
+      751.64,
+      751.76,
+      751.89,
+      752.09,
+      752.19
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Butts Road",
+     "n": 64,
+     "top5RoadZ": [
+      784.32,
+      784.34,
+      784.41,
+      784.42,
+      784.44
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Calgary Avenue",
+     "n": 83,
+     "top5RoadZ": [
+      789.49,
+      789.67,
+      789.82,
+      789.82,
+      789.83
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Calico Lane",
+     "n": 121,
+     "top5RoadZ": [
+      739.83,
+      739.86,
+      739.88,
+      739.89,
+      739.92
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Calle Hohokam",
+     "n": 59,
+     "top5RoadZ": [
+      738.22,
+      738.36,
+      738.5,
+      738.69,
+      738.85
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Camino Verde",
+     "n": 212,
+     "top5RoadZ": [
+      778.48,
+      778.52,
+      778.56,
+      778.72,
+      778.79
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Camino de Oeste",
+     "n": 188,
+     "top5RoadZ": [
+      797.6,
+      797.78,
+      797.87,
+      797.99,
+      798.16
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Carol Avenue",
+     "n": 165,
+     "top5RoadZ": [
+      793.21,
+      793.29,
+      793.36,
+      793.61,
+      794.11
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Continental Road",
+     "n": 80,
+     "top5RoadZ": [
+      718.49,
+      718.57,
+      718.63,
+      718.65,
+      718.7
+     ],
+     "top5MaxOver": [
+      null,
+      -0.68291503906255,
+      -0.7429150390624955,
+      -0.7629150390624773,
+      -0.8129150390625455
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Corral Way",
+     "n": 81,
+     "top5RoadZ": [
+      815.71,
+      816.05,
+      816.39,
+      816.54,
+      816.63
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Crazy Cat Lane",
+     "n": 85,
+     "top5RoadZ": [
+      714.69,
+      714.71,
+      714.75,
+      714.83,
+      714.84
+     ],
+     "top5MaxOver": [
+      -0.04327148437505457,
+      -0.06327148437503638,
+      0.00164794921875,
+      -0.05064208984379093,
+      null
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "South Deaver Road",
+     "n": 168,
+     "top5RoadZ": [
+      771.69,
+      771.72,
+      771.76,
+      771.94,
+      771.98
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Echo Road",
+     "n": 64,
+     "top5RoadZ": [
+      798.17,
+      798.33,
+      798.49,
+      798.67,
+      798.85
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Lantern Road",
+     "n": 52,
+     "top5RoadZ": [
+      797.3,
+      797.59,
+      797.85,
+      798.26,
+      798.65
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Motif Road",
+     "n": 60,
+     "top5RoadZ": [
+      797.71,
+      798.15,
+      798.42,
+      798.6,
+      798.83
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Promenade Road",
+     "n": 70,
+     "top5RoadZ": [
+      799.3,
+      799.71,
+      799.95,
+      800.02,
+      800.08
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Spur Lane",
+     "n": 73,
+     "top5RoadZ": [
+      757.89,
+      757.95,
+      758.03,
+      758.1,
+      758.2
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Sunrise Trail",
+     "n": 120,
+     "top5RoadZ": [
+      725.71,
+      725.84,
+      725.92,
+      725.93,
+      725.97
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      -0.5557934570312,
+      -0.5957934570312773
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Diamond Bar Lane",
+     "n": 56,
+     "top5RoadZ": [
+      831.12,
+      831.16,
+      831.5,
+      831.71,
+      832.05
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      -4.1641845703125,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Donald Avenue",
+     "n": 224,
+     "top5RoadZ": [
+      803.22,
+      803.45,
+      803.59,
+      803.69,
+      803.92
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Draper Road",
+     "n": 75,
+     "top5RoadZ": [
+      763.02,
+      763.19,
+      763.33,
+      763.4,
+      763.48
+     ],
+     "top5MaxOver": [
+      -0.02836181640623181,
+      -0.07842773437505457,
+      -0.028913574218790927,
+      -0.03311767578122726,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Dusty Flats Trail",
+     "n": 143,
+     "top5RoadZ": [
+      714.34,
+      714.38,
+      714.39,
+      714.44,
+      714.44
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Flying Q Lane",
+     "n": 64,
+     "top5RoadZ": [
+      834.75,
+      834.82,
+      834.94,
+      835.12,
+      835.21
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Frank Avenue",
+     "n": 97,
+     "top5RoadZ": [
+      777.12,
+      777.24,
+      777.32,
+      777.48,
+      777.59
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Fred Avenue",
+     "n": 87,
+     "top5RoadZ": [
+      772.58,
+      772.65,
+      772.74,
+      772.93,
+      773.26
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Gold Flower Avenue",
+     "n": 81,
+     "top5RoadZ": [
+      753.97,
+      753.98,
+      754.03,
+      754.15,
+      754.26
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Hogan Drive",
+     "n": 83,
+     "top5RoadZ": [
+      759.42,
+      759.51,
+      759.51,
+      759.52,
+      759.53
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      -0.7169091796874909,
+      -0.7269091796874818,
+      -0.7369091796874727
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Hohokam Drive",
+     "n": 69,
+     "top5RoadZ": [
+      742.59,
+      742.76,
+      742.9,
+      742.99,
+      743.02
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Jamie Avenue",
+     "n": 206,
+     "top5RoadZ": [
+      800.9,
+      801.22,
+      801.25,
+      801.5,
+      801.52
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Jamie Drive",
+     "n": 110,
+     "top5RoadZ": [
+      776.01,
+      776.1,
+      776.14,
+      776.29,
+      776.57
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Joseph Avenue",
+     "n": 181,
+     "top5RoadZ": [
+      795.64,
+      795.73,
+      795.77,
+      795.82,
+      795.83
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Kay Drive",
+     "n": 65,
+     "top5RoadZ": [
+      774.6,
+      774.68,
+      774.79,
+      775.15,
+      775.24
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Khe Sanh Lane",
+     "n": 116,
+     "top5RoadZ": [
+      737.72,
+      737.8,
+      738.07,
+      738.39,
+      738.71
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Kinney Road",
+     "n": 764,
+     "top5RoadZ": [
+      812.83,
+      812.89,
+      812.94,
+      812.99,
+      813.04
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Leonard Avenue",
+     "n": 74,
+     "top5RoadZ": [
+      734.41,
+      734.47,
+      734.55,
+      734.65,
+      734.75
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Macy Circle",
+     "n": 50,
+     "top5RoadZ": [
+      792.54,
+      792.66,
+      792.78,
+      792.87,
+      793.0
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      -0.08087646484375455,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Mark Avenue",
+     "n": 72,
+     "top5RoadZ": [
+      736.34,
+      736.43,
+      736.48,
+      736.51,
+      736.52
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Marstellar Road",
+     "n": 295,
+     "top5RoadZ": [
+      713.79,
+      713.84,
+      713.89,
+      713.91,
+      713.99
+     ],
+     "top5MaxOver": [
+      0.24906250000003638,
+      0.19906249999996817,
+      0.27827392578126364,
+      0.25827392578128183,
+      0.1782739257812409
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "South Neal Avenue",
+     "n": 77,
+     "top5RoadZ": [
+      742.59,
+      742.7,
+      742.8,
+      742.93,
+      743.02
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Old Windmill Lane",
+     "n": 65,
+     "top5RoadZ": [
+      735.62,
+      735.64,
+      735.7,
+      735.95,
+      736.2
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Palant Drive",
+     "n": 165,
+     "top5RoadZ": [
+      770.77,
+      770.87,
+      770.87,
+      770.9,
+      770.93
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Paseo Don Carlos",
+     "n": 59,
+     "top5RoadZ": [
+      795.86,
+      795.88,
+      795.9,
+      795.94,
+      795.99
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Paseo Don Juan",
+     "n": 61,
+     "top5RoadZ": [
+      794.13,
+      794.33,
+      794.54,
+      794.69,
+      794.8
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Paseo Don Rolando",
+     "n": 60,
+     "top5RoadZ": [
+      797.95,
+      798.0,
+      798.02,
+      798.04,
+      798.04
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Prism Sky Drive",
+     "n": 76,
+     "top5RoadZ": [
+      801.5,
+      801.74,
+      801.94,
+      802.23,
+      802.46
+     ],
+     "top5MaxOver": [
+      -1.20562744140625,
+      -1.445627441406259,
+      -1.6456274414063046,
+      -0.2328076171875182,
+      -0.4628076171875364
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Richardson Drive",
+     "n": 55,
+     "top5RoadZ": [
+      753.01,
+      753.09,
+      753.18,
+      753.28,
+      753.34
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South San Joaquin Road",
+     "n": 642,
+     "top5RoadZ": [
+      752.36,
+      752.37,
+      752.38,
+      752.41,
+      752.71
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Sandario Road",
+     "n": 451,
+     "top5RoadZ": [
+      709.5,
+      709.53,
+      709.57,
+      709.63,
+      709.65
+     ],
+     "top5MaxOver": [
+      -0.1165771484375,
+      -0.12204101562497272,
+      -0.14507324218755002,
+      -0.18175781249999545,
+      -0.20175781249997726
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Sarasota Boulevard",
+     "n": 240,
+     "top5RoadZ": [
+      820.89,
+      821.17,
+      821.47,
+      821.67,
+      821.86
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Seymour Road",
+     "n": 72,
+     "top5RoadZ": [
+      790.53,
+      790.53,
+      790.6,
+      790.61,
+      790.63
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Sheridan Avenue",
+     "n": 200,
+     "top5RoadZ": [
+      791.53,
+      791.78,
+      792.08,
+      792.52,
+      792.94
+     ],
+     "top5MaxOver": [
+      -0.7430126953124727,
+      -0.9930126953124727,
+      -1.293012695312541,
+      -1.7330126953124818,
+      -2.1530126953125546
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Shiela Avenue",
+     "n": 214,
+     "top5RoadZ": [
+      799.84,
+      799.88,
+      800.06,
+      800.36,
+      800.53
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Silver Bridle Lane",
+     "n": 79,
+     "top5RoadZ": [
+      756.63,
+      756.65,
+      756.83,
+      756.91,
+      756.91
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Smokin Pistol Way",
+     "n": 69,
+     "top5RoadZ": [
+      818.57,
+      819.28,
+      819.84,
+      820.22,
+      820.62
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Spiney Lizard Lane",
+     "n": 101,
+     "top5RoadZ": [
+      749.66,
+      749.66,
+      749.7,
+      749.8,
+      749.91
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Sun Splash Drive",
+     "n": 56,
+     "top5RoadZ": [
+      800.13,
+      800.27,
+      800.4,
+      800.59,
+      800.64
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Sunset Avenue",
+     "n": 96,
+     "top5RoadZ": [
+      778.95,
+      779.15,
+      779.16,
+      779.68,
+      779.99
+     ],
+     "top5MaxOver": [
+      -0.5937988281250455,
+      -0.7937988281249773,
+      -0.8037988281249682,
+      -1.32379882812495,
+      -1.633798828125009
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Thorton Avenue",
+     "n": 57,
+     "top5RoadZ": [
+      780.76,
+      780.91,
+      781.1,
+      781.39,
+      781.71
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Triangle X Lane",
+     "n": 78,
+     "top5RoadZ": [
+      835.66,
+      835.93,
+      836.3,
+      836.65,
+      836.98
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Tucson Estates Parkway",
+     "n": 65,
+     "top5RoadZ": [
+      813.12,
+      813.26,
+      813.46,
+      813.67,
+      813.72
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Twilight Echo Road",
+     "n": 68,
+     "top5RoadZ": [
+      797.12,
+      797.3,
+      797.47,
+      797.65,
+      797.78
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Western Way",
+     "n": 157,
+     "top5RoadZ": [
+      784.66,
+      784.81,
+      784.96,
+      785.04,
+      785.14
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Western Way Circle",
+     "n": 224,
+     "top5RoadZ": [
+      819.86,
+      819.93,
+      820.03,
+      820.07,
+      820.16
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "Welcome Way",
+     "n": 50,
+     "top5RoadZ": [
+      800.34,
+      800.34,
+      800.46,
+      800.46,
+      800.49
+     ],
+     "top5MaxOver": [
+      null,
+      0.025417480468718168,
+      null,
+      null,
+      null
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "West Agave Ranch Place",
+     "n": 63,
+     "top5RoadZ": [
+      754.2,
+      754.31,
+      754.42,
+      754.57,
+      754.61
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Albert Road",
+     "n": 125,
+     "top5RoadZ": [
+      794.81,
+      794.86,
+      794.87,
+      794.91,
+      794.97
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      -0.6238452148437545,
+      -0.6638452148437182,
+      -0.7238452148437773
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Alibi Drive",
+     "n": 81,
+     "top5RoadZ": [
+      629.46,
+      629.47,
+      629.47,
+      629.48,
+      629.5
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Bar S Street",
+     "n": 87,
+     "top5RoadZ": [
+      819.28,
+      819.35,
+      819.37,
+      819.43,
+      819.44
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Bar X Street",
+     "n": 153,
+     "top5RoadZ": [
+      810.83,
+      810.94,
+      811.08,
+      811.18,
+      811.44
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      0.13057128906245907,
+      0.030571289062550022,
+      null
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "West Blue Aloe Street",
+     "n": 108,
+     "top5RoadZ": [
+      712.87,
+      712.9,
+      712.91,
+      712.97,
+      713.03
+     ],
+     "top5MaxOver": [
+      -0.24646484375000455,
+      -0.27646484374997726,
+      -0.28646484374996817,
+      -0.3464648437500273,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Bopp Road",
+     "n": 1085,
+     "top5RoadZ": [
+      812.5,
+      812.65,
+      812.77,
+      812.85,
+      812.95
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Bowen House Road",
+     "n": 53,
+     "top5RoadZ": [
+      784.88,
+      784.93,
+      785.0,
+      785.02,
+      785.26
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Box R Street",
+     "n": 143,
+     "top5RoadZ": [
+      812.51,
+      812.7,
+      812.91,
+      813.15,
+      813.28
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Anasazi",
+     "n": 81,
+     "top5RoadZ": [
+      733.11,
+      733.15,
+      733.18,
+      733.24,
+      733.44
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Antonio",
+     "n": 67,
+     "top5RoadZ": [
+      793.9,
+      793.94,
+      794.07,
+      794.09,
+      794.14
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Clemente",
+     "n": 63,
+     "top5RoadZ": [
+      805.78,
+      806.12,
+      806.44,
+      806.76,
+      807.02
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Manuel",
+     "n": 72,
+     "top5RoadZ": [
+      795.82,
+      795.89,
+      795.92,
+      795.99,
+      795.99
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Miguel",
+     "n": 178,
+     "top5RoadZ": [
+      806.86,
+      807.27,
+      807.67,
+      808.12,
+      808.54
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Monte",
+     "n": 130,
+     "top5RoadZ": [
+      819.93,
+      820.58,
+      821.11,
+      821.62,
+      822.1
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Tomas",
+     "n": 83,
+     "top5RoadZ": [
+      796.8,
+      796.93,
+      797.03,
+      797.09,
+      797.17
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Cholla Ranch Lane",
+     "n": 78,
+     "top5RoadZ": [
+      755.98,
+      756.2,
+      756.44,
+      756.58,
+      756.64
+     ],
+     "top5MaxOver": [
+      -0.2679638671875182,
+      -0.4879638671875455,
+      -0.7279638671875546,
+      -0.8679638671875409,
+      -0.9279638671874864
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Circle Z Street",
+     "n": 116,
+     "top5RoadZ": [
+      813.63,
+      813.78,
+      813.82,
+      813.92,
+      813.93
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Cocorague Ranch Road",
+     "n": 225,
+     "top5RoadZ": [
+      678.25,
+      678.31,
+      678.31,
+      678.37,
+      678.4
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Coyote Ridge Trail",
+     "n": 83,
+     "top5RoadZ": [
+      826.48,
+      826.68,
+      826.82,
+      826.88,
+      827.06
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Creda Street",
+     "n": 81,
+     "top5RoadZ": [
+      786.2,
+      786.26,
+      786.32,
+      786.33,
+      786.36
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Diamond K Street",
+     "n": 97,
+     "top5RoadZ": [
+      821.55,
+      821.63,
+      821.68,
+      821.73,
+      821.75
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Donaldson Ranch Road",
+     "n": 610,
+     "top5RoadZ": [
+      711.0,
+      711.0,
+      711.01,
+      711.1,
+      711.13
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      -0.32897460937499545
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Dusty Cactus Way",
+     "n": 75,
+     "top5RoadZ": [
+      624.18,
+      624.18,
+      624.19,
+      624.19,
+      624.2
+     ],
+     "top5MaxOver": [
+      -0.05011718749994998,
+      -0.11035888671869998,
+      -0.12035888671880457,
+      -0.06011718750005457,
+      -0.07011718750004547
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Dusty Flat Place",
+     "n": 52,
+     "top5RoadZ": [
+      711.34,
+      711.35,
+      711.39,
+      711.39,
+      711.51
+     ],
+     "top5MaxOver": [
+      null,
+      0.009069824218727263,
+      null,
+      0.03889404296876364,
+      null
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "West Eagle Tail Lane",
+     "n": 50,
+     "top5RoadZ": [
+      793.82,
+      793.94,
+      793.98,
+      793.98,
+      794.0
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Eagles Wing Way",
+     "n": 75,
+     "top5RoadZ": [
+      709.44,
+      709.5,
+      709.56,
+      709.59,
+      709.65
+     ],
+     "top5MaxOver": [
+      -0.06738037109380457,
+      -0.03216552734375,
+      null,
+      -0.017368164062531832,
+      -0.20175781249997726
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Edgestone Street",
+     "n": 50,
+     "top5RoadZ": [
+      761.58,
+      761.6,
+      761.63,
+      761.73,
+      761.73
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Flying Circle Street",
+     "n": 111,
+     "top5RoadZ": [
+      823.77,
+      823.97,
+      824.27,
+      824.6,
+      825.13
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Flying M Street",
+     "n": 177,
+     "top5RoadZ": [
+      809.47,
+      809.48,
+      809.55,
+      809.58,
+      809.7
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Flying W Street",
+     "n": 114,
+     "top5RoadZ": [
+      815.54,
+      815.6,
+      815.68,
+      815.72,
+      815.74
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Fort Lowell Road",
+     "n": 160,
+     "top5RoadZ": [
+      667.86,
+      667.87,
+      667.88,
+      667.89,
+      667.93
+     ],
+     "top5MaxOver": [
+      -1.0025170898437636,
+      -1.0125170898437545,
+      null,
+      -1.0331884765624864,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Garcia Ranch Road",
+     "n": 381,
+     "top5RoadZ": [
+      718.76,
+      718.83,
+      718.86,
+      718.86,
+      718.87
+     ],
+     "top5MaxOver": [
+      null,
+      -0.04551513671879093,
+      -0.04023681640626364,
+      -0.027602539062513642,
+      -0.12305175781250455
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Green Cactus Way",
+     "n": 164,
+     "top5RoadZ": [
+      713.55,
+      713.62,
+      713.64,
+      713.67,
+      713.75
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Illinois Street",
+     "n": 263,
+     "top5RoadZ": [
+      773.17,
+      773.29,
+      773.32,
+      773.36,
+      773.62
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Iowa Street",
+     "n": 116,
+     "top5RoadZ": [
+      778.28,
+      778.33,
+      778.4,
+      778.46,
+      778.46
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      0.026086425781272737,
+      -0.03391357421878638,
+      -0.03391357421878638
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "West Irvington Road",
+     "n": 531,
+     "top5RoadZ": [
+      809.66,
+      809.8,
+      809.91,
+      810.01,
+      810.1
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Kay Lynn Drive",
+     "n": 126,
+     "top5RoadZ": [
+      771.69,
+      771.8,
+      772.0,
+      772.12,
+      772.15
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Lazy Heart Street",
+     "n": 174,
+     "top5RoadZ": [
+      808.03,
+      808.05,
+      808.1,
+      808.13,
+      808.15
+     ],
+     "top5MaxOver": [
+      -0.4492504882812227,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Lazy S Street",
+     "n": 151,
+     "top5RoadZ": [
+      812.02,
+      812.14,
+      812.28,
+      812.48,
+      812.66
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Lincoln Street",
+     "n": 63,
+     "top5RoadZ": [
+      808.21,
+      808.35,
+      808.38,
+      808.68,
+      809.03
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Little Williams Drive",
+     "n": 68,
+     "top5RoadZ": [
+      632.51,
+      632.53,
+      632.55,
+      632.57,
+      632.59
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Lone Star Drive",
+     "n": 171,
+     "top5RoadZ": [
+      835.0,
+      835.58,
+      836.08,
+      836.55,
+      836.79
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Magee Road",
+     "n": 72,
+     "top5RoadZ": [
+      626.61,
+      626.61,
+      626.62,
+      626.67,
+      626.67
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      -0.07570068359370907,
+      -0.07570068359370907
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Manville Road",
+     "n": 491,
+     "top5RoadZ": [
+      654.07,
+      654.09,
+      654.09,
+      654.09,
+      654.1
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Michigan Street",
+     "n": 235,
+     "top5RoadZ": [
+      782.8,
+      782.82,
+      782.82,
+      782.83,
+      782.84
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Mile Wide Road",
+     "n": 312,
+     "top5RoadZ": [
+      675.92,
+      675.94,
+      675.95,
+      675.97,
+      675.97
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Naomi Road",
+     "n": 70,
+     "top5RoadZ": [
+      804.01,
+      804.34,
+      804.67,
+      805.01,
+      805.25
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Nebraska Street",
+     "n": 161,
+     "top5RoadZ": [
+      721.73,
+      721.77,
+      721.79,
+      721.79,
+      721.84
+     ],
+     "top5MaxOver": [
+      -0.3651318359375182,
+      -0.2173876953124818,
+      null,
+      -0.4251318359374636,
+      -0.47513183593753183
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Oklahoma Street",
+     "n": 184,
+     "top5RoadZ": [
+      778.55,
+      778.56,
+      778.61,
+      778.7,
+      778.84
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Old Ajo Highway",
+     "n": 182,
+     "top5RoadZ": [
+      766.07,
+      766.23,
+      766.37,
+      766.49,
+      766.69
+     ],
+     "top5MaxOver": [
+      -0.05553466796880002,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Orange Grove Road",
+     "n": 185,
+     "top5RoadZ": [
+      638.89,
+      638.91,
+      638.91,
+      638.96,
+      638.98
+     ],
+     "top5MaxOver": [
+      -0.012558593749986358,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Rafter Circle Street",
+     "n": 211,
+     "top5RoadZ": [
+      817.61,
+      817.62,
+      817.66,
+      817.73,
+      817.78
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Red Sky Circle",
+     "n": 82,
+     "top5RoadZ": [
+      807.11,
+      807.19,
+      807.19,
+      807.2,
+      807.2
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Rocking Circle Street",
+     "n": 150,
+     "top5RoadZ": [
+      811.4,
+      811.55,
+      811.68,
+      811.77,
+      812.11
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      -0.5594287109374818,
+      -0.8994287109375136
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Scrub Brush Road",
+     "n": 120,
+     "top5RoadZ": [
+      636.22,
+      636.22,
+      636.23,
+      636.23,
+      636.25
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Snyder Hill Road",
+     "n": 1241,
+     "top5RoadZ": [
+      750.69,
+      750.75,
+      750.79,
+      750.88,
+      751.09
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Ten Star Drive",
+     "n": 95,
+     "top5RoadZ": [
+      831.62,
+      831.63,
+      831.63,
+      831.64,
+      831.81
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Tree Frog Trail",
+     "n": 76,
+     "top5RoadZ": [
+      753.11,
+      753.31,
+      753.43,
+      753.62,
+      753.73
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Tucker Road",
+     "n": 68,
+     "top5RoadZ": [
+      633.3,
+      633.3,
+      633.31,
+      633.31,
+      633.32
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Tucson Estates Parkway",
+     "n": 191,
+     "top5RoadZ": [
+      837.29,
+      837.38,
+      837.41,
+      837.5,
+      837.58
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Tumbling F Street",
+     "n": 132,
+     "top5RoadZ": [
+      813.75,
+      813.77,
+      813.86,
+      813.89,
+      813.91
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Western Way",
+     "n": 171,
+     "top5RoadZ": [
+      804.63,
+      804.72,
+      804.8,
+      804.9,
+      804.9
+     ],
+     "top5MaxOver": [
+      null,
+      -0.15835449218752728,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "White Gold Avenue",
+     "n": 70,
+     "top5RoadZ": [
+      760.9,
+      761.19,
+      761.48,
+      761.78,
+      761.99
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "west Yellow Cactus Way",
+     "n": 59,
+     "top5RoadZ": [
+      769.07,
+      769.1,
+      769.1,
+      769.18,
+      769.24
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    }
+   ],
+   "stationsOverByCell": {
+    "6.25": {
+     "stations": 3894,
+     "over": 828,
+     "overGt0p1": 291,
+     "overGt0p3": 68,
+     "medianOverWhenOver": 0.065765380859375
+    },
+    "12.5": {
+     "stations": 4158,
+     "over": 643,
+     "overGt0p1": 186,
+     "overGt0p3": 27,
+     "medianOverWhenOver": 0.05925048828123636
+    },
+    "25.0": {
+     "stations": 2020,
+     "over": 236,
+     "overGt0p1": 57,
+     "overGt0p3": 6,
+     "medianOverWhenOver": 0.04753417968748863
+    },
+    "50.0": {
+     "stations": 4312,
+     "over": 264,
+     "overGt0p1": 59,
+     "overGt0p3": 9,
+     "medianOverWhenOver": 0.04650146484380002
+    },
+    "100.0": {
+     "stations": 17260,
+     "over": 143,
+     "overGt0p1": 67,
+     "overGt0p3": 12,
+     "medianOverWhenOver": 0.09437255859370453
+    }
+   },
+   "firstOverMedianFrameByCell": {
+    "6.25": 12.0,
+    "12.5": 13.0,
+    "25.0": 12.5,
+    "50.0": 16.0,
+    "100.0": 15.0
+   },
+   "stability": {
+    "nanZs": 559268,
+    "nanVol": 0,
+    "maxAbsDzs15minWetCell": 1.64886474609375,
+    "cellsDzsGt1mPer15min": 124,
+    "cellsDzsGt0p5mPer15min": 1030,
+    "zsBelowZbMinM": 6.103515625e-05,
+    "maxDepthZsmaxMinusZb": 3.29156494140625,
+    "maxDepthFace": 19822,
+    "maxDepthFaceInfo": {
+     "cellM": 100.0,
+     "lonlat": [
+      -111.25281943568454,
+      32.11625702269288
+     ],
+     "zb": 732.3937377929688,
+     "zsmax": 735.685302734375
+    },
+    "spikeCells": 0,
+    "velocityProxyMaxMs": 1.3516662085545783,
+    "velocityProxyAt": {
+     "file": "sfincs.20261102.010000.rst",
+     "lonlat": [
+      -111.27020218744138,
+      32.248076137842695
+     ],
+     "cellM": 6.25
+    },
+    "maxAbsQm2s": 2.1037395000457764
+   }
+  },
+  "observed": {
+   "inflow": {
+    "peakM3s": 48.42,
+    "peakTimeS": 194400.0,
+    "volumeM3_trapz_wholeRun": 924390.0
+   },
+   "outflowHourly": {
+    "20261101T18Z": 0.0,
+    "20261101T19Z": 0.0,
+    "20261101T20Z": 0.0,
+    "20261101T21Z": 0.0,
+    "20261101T22Z": 0.41,
+    "20261101T23Z": 1.601,
+    "20261102T00Z": 1.199,
+    "20261102T01Z": 1.391,
+    "20261102T02Z": 1.075,
+    "20261102T03Z": 1.607,
+    "20261102T04Z": 10.829,
+    "20261102T05Z": 13.923,
+    "20261102T06Z": 18.985,
+    "20261102T07Z": 20.345
+   },
+   "outflowPeak": {
+    "m3s": 20.344570238376036,
+    "time": "20261102T07Z"
+   },
+   "outflowVolume18Zto07Z_m3": 220296.27202166012,
+   "balanceWholeRun": {
+    "inflowM3": 924390.0,
+    "rainM3": 26005972.495579343,
+    "infiltrationM3": 21092733.81051389,
+    "storageEndM3": 5629281.477190327,
+    "storageStartWindow17ZM3": 972507.8927957963,
+    "outflowMeasured18Zto07ZM3": 220296.27202166012,
+    "residualM3": -11949.064146535005,
+    "residualPctOfInputs": -0.044370231364306595,
+    "rainMeanMm": 30.996918288234056,
+    "infMeanMm": 25.14075359078033,
+    "negativeVolumeEndM3": -0.06408747960267647,
+    "negativeVolumeMinCellM3": -0.03433724492788315
+   },
+   "hourlyWindow": [
+    {
+     "hour": "20261101T18Z",
+     "inflowM3": 2934,
+     "rainM3": 3383280,
+     "outflowM3": 0,
+     "dStorageM3": 934565,
+     "impliedInfiltrationM3": 2451649
+    },
+    {
+     "hour": "20261101T19Z",
+     "inflowM3": 414,
+     "rainM3": 3735640,
+     "outflowM3": 0,
+     "dStorageM3": 1189737,
+     "impliedInfiltrationM3": 2546317
+    },
+    {
+     "hour": "20261101T20Z",
+     "inflowM3": 3366,
+     "rainM3": 2441216,
+     "outflowM3": 0,
+     "dStorageM3": 930277,
+     "impliedInfiltrationM3": 1514306
+    },
+    {
+     "hour": "20261101T21Z",
+     "inflowM3": 90522,
+     "rainM3": 855714,
+     "outflowM3": 738,
+     "dStorageM3": 443598,
+     "impliedInfiltrationM3": 501900
+    },
+    {
+     "hour": "20261101T22Z",
+     "inflowM3": 160560,
+     "rainM3": 291969,
+     "outflowM3": 3619,
+     "dStorageM3": 275165,
+     "impliedInfiltrationM3": 173745
+    },
+    {
+     "hour": "20261101T23Z",
+     "inflowM3": 144756,
+     "rainM3": 145,
+     "outflowM3": 5039,
+     "dStorageM3": 140963,
+     "impliedInfiltrationM3": -1101
+    },
+    {
+     "hour": "20261102T00Z",
+     "inflowM3": 144756,
+     "rainM3": 436,
+     "outflowM3": 4662,
+     "dStorageM3": 141607,
+     "impliedInfiltrationM3": -1078
+    },
+    {
+     "hour": "20261102T01Z",
+     "inflowM3": 132534,
+     "rainM3": 231,
+     "outflowM3": 4440,
+     "dStorageM3": 129163,
+     "impliedInfiltrationM3": -838
+    },
+    {
+     "hour": "20261102T02Z",
+     "inflowM3": 93888,
+     "rainM3": 34,
+     "outflowM3": 4828,
+     "dStorageM3": 90169,
+     "impliedInfiltrationM3": -1076
+    },
+    {
+     "hour": "20261102T03Z",
+     "inflowM3": 58608,
+     "rainM3": 7841,
+     "outflowM3": 22386,
+     "dStorageM3": 45195,
+     "impliedInfiltrationM3": -1132
+    },
+    {
+     "hour": "20261102T04Z",
+     "inflowM3": 39798,
+     "rainM3": 57136,
+     "outflowM3": 44555,
+     "dStorageM3": 22065,
+     "impliedInfiltrationM3": 30315
+    },
+    {
+     "hour": "20261102T05Z",
+     "inflowM3": 26694,
+     "rainM3": 173566,
+     "outflowM3": 59236,
+     "dStorageM3": 50226,
+     "impliedInfiltrationM3": 90798
+    },
+    {
+     "hour": "20261102T06Z",
+     "inflowM3": 18144,
+     "rainM3": 288894,
+     "outflowM3": 70794,
+     "dStorageM3": 88676,
+     "impliedInfiltrationM3": 147568
+    }
+   ],
+   "rainBefore17ZM3": 13959030.442956818,
+   "rainWindow17Zto07ZM3": 12046942.052622525,
+   "rainDomainMeanMmPerFrame": [
+    0.027,
+    0.027,
+    0.027,
+    1.906,
+    3.784,
+    3.784,
+    3.784,
+    4.281,
+    4.777,
+    4.777,
+    4.777,
+    4.128,
+    3.478,
+    3.478,
+    3.478,
+    2.341,
+    1.205,
+    1.205,
+    1.205,
+    0.834,
+    0.464,
+    0.464,
+    0.464,
+    0.232,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.001,
+    0.001,
+    0.001,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.019,
+    0.037,
+    0.037,
+    0.037,
+    0.099,
+    0.161,
+    0.161,
+    0.161,
+    0.253,
+    0.344,
+    0.344,
+    0.344,
+    0.344,
+    0.344
+   ],
+   "sectionsHourlyM3s": {
+    "Donaldson Ranch (15877627)": {
+     "20261101T18Z": 0.172,
+     "20261101T19Z": 1.482,
+     "20261101T20Z": 3.589,
+     "20261101T21Z": 4.586,
+     "20261101T22Z": 4.16,
+     "20261101T23Z": 3.785,
+     "20261102T00Z": 3.828,
+     "20261102T01Z": 3.846,
+     "20261102T02Z": 17.813,
+     "20261102T03Z": 21.519,
+     "20261102T04Z": 20.961,
+     "20261102T05Z": 20.391,
+     "20261102T06Z": 17.689,
+     "20261102T07Z": 13.97
+    },
+    "Mile Wide Brawley 15877627 only": {
+     "20261101T18Z": 0.0,
+     "20261101T19Z": 0.001,
+     "20261101T20Z": 0.002,
+     "20261101T21Z": 0.001,
+     "20261101T22Z": 1.304,
+     "20261101T23Z": 0.973,
+     "20261102T00Z": 0.787,
+     "20261102T01Z": 0.627,
+     "20261102T02Z": 3.349,
+     "20261102T03Z": 3.213,
+     "20261102T04Z": 2.779,
+     "20261102T05Z": 2.409,
+     "20261102T06Z": 2.169,
+     "20261102T07Z": 5.213
+    },
+    "Mile Wide Black Wash 15876815 only": {
+     "20261101T18Z": 0.002,
+     "20261101T19Z": 0.035,
+     "20261101T20Z": 0.137,
+     "20261101T21Z": 0.377,
+     "20261101T22Z": 0.492,
+     "20261101T23Z": 4.46,
+     "20261102T00Z": 5.426,
+     "20261102T01Z": 5.559,
+     "20261102T02Z": 6.747,
+     "20261102T03Z": 8.834,
+     "20261102T04Z": 10.314,
+     "20261102T05Z": 11.233,
+     "20261102T06Z": 17.596,
+     "20261102T07Z": 29.953
+    },
+    "Mile Wide both": {
+     "20261101T18Z": 0.002,
+     "20261101T19Z": 0.037,
+     "20261101T20Z": 0.139,
+     "20261101T21Z": 0.378,
+     "20261101T22Z": 1.796,
+     "20261101T23Z": 5.433,
+     "20261102T00Z": 6.213,
+     "20261102T01Z": 6.186,
+     "20261102T02Z": 10.096,
+     "20261102T03Z": 12.047,
+     "20261102T04Z": 13.094,
+     "20261102T05Z": 13.642,
+     "20261102T06Z": 19.765,
+     "20261102T07Z": 35.165
+    },
+    "Manville (15876771)": {
+     "20261101T18Z": 0.0,
+     "20261101T19Z": 0.003,
+     "20261101T20Z": 0.136,
+     "20261101T21Z": 0.436,
+     "20261101T22Z": 1.131,
+     "20261101T23Z": 14.883,
+     "20261102T00Z": 19.544,
+     "20261102T01Z": 22.022,
+     "20261102T02Z": 30.718,
+     "20261102T03Z": 33.561,
+     "20261102T04Z": 31.939,
+     "20261102T05Z": 31.869,
+     "20261102T06Z": 31.163,
+     "20261102T07Z": 29.784
+    },
+    "Tucker (15876711)": {
+     "20261101T18Z": 0.001,
+     "20261101T19Z": 0.124,
+     "20261101T20Z": 0.512,
+     "20261101T21Z": 0.821,
+     "20261101T22Z": 1.062,
+     "20261101T23Z": 1.343,
+     "20261102T00Z": 1.585,
+     "20261102T01Z": 1.57,
+     "20261102T02Z": 17.249,
+     "20261102T03Z": 21.265,
+     "20261102T04Z": 29.582,
+     "20261102T05Z": 35.013,
+     "20261102T06Z": 34.634,
+     "20261102T07Z": 34.529
+    },
+    "Little Williams (15876711)": {
+     "20261101T18Z": 0.0,
+     "20261101T19Z": 0.101,
+     "20261101T20Z": 0.643,
+     "20261101T21Z": 0.852,
+     "20261101T22Z": 1.074,
+     "20261101T23Z": 1.213,
+     "20261102T00Z": 1.591,
+     "20261102T01Z": 1.533,
+     "20261102T02Z": 15.573,
+     "20261102T03Z": 20.913,
+     "20261102T04Z": 28.696,
+     "20261102T05Z": 34.856,
+     "20261102T06Z": 34.712,
+     "20261102T07Z": 34.516
+    }
+   },
+   "sectionPeaks": {
+    "Donaldson Ranch (15877627)": {
+     "m3s": 21.518739009957244,
+     "time": "20261102T03Z"
+    },
+    "Mile Wide Brawley 15877627 only": {
+     "m3s": 5.212586299956001,
+     "time": "20261102T07Z"
+    },
+    "Mile Wide Black Wash 15876815 only": {
+     "m3s": 29.95281013959925,
+     "time": "20261102T07Z"
+    },
+    "Mile Wide both": {
+     "m3s": 35.16539643955525,
+     "time": "20261102T07Z"
+    },
+    "Manville (15876771)": {
+     "m3s": 33.56082604641415,
+     "time": "20261102T03Z"
+    },
+    "Tucker (15876711)": {
+     "m3s": 35.01310677972924,
+     "time": "20261102T05Z"
+    },
+    "Little Williams (15876711)": {
+     "m3s": 34.855846473504926,
+     "time": "20261102T05Z"
+    }
+   },
+   "points": {
+    "Inlet face 144751 (15876923)": {
+     "face": 144751,
+     "cellM": 12.5,
+     "lonlat": [
+      -111.31713,
+      32.1094
+     ],
+     "zbM": 754.279,
+     "zs17Z": 754.933,
+     "depth17Z": 0.653,
+     "firstZsAboveZb0p3": "2026-11-01T17:00Z",
+     "firstRise0p3Above17Z": "2026-11-01T21:15Z",
+     "maxZs": 755.671,
+     "maxZsTime": "2026-11-01T22:00Z",
+     "maxZsMinusZb": 1.391,
+     "zsmaxWholeRun": 755.671,
+     "zs0300Z": 755.459,
+     "zs0315Z": 755.443,
+     "zs0304Z_interp": 755.455,
+     "depth0304Z_zsMinusZb": 1.175,
+     "volOverArea0300Z": 0.33,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": 754.933,
+      "2026-11-01T18:00Z": 754.952,
+      "2026-11-01T19:00Z": 754.619,
+      "2026-11-01T20:00Z": 754.387,
+      "2026-11-01T21:00Z": 755.024,
+      "2026-11-01T22:00Z": 755.671,
+      "2026-11-01T23:00Z": 755.628,
+      "2026-11-02T00:00Z": 755.621,
+      "2026-11-02T01:00Z": 755.628,
+      "2026-11-02T02:00Z": 755.576,
+      "2026-11-02T03:00Z": 755.459,
+      "2026-11-02T04:00Z": 755.387,
+      "2026-11-02T05:00Z": 755.317,
+      "2026-11-02T06:00Z": 755.254,
+      "2026-11-02T07:00Z": 755.195
+     }
+    },
+    "West Donaldson Ranch Road channel": {
+     "face": 322147,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.26011,
+      32.17593
+     ],
+     "zbM": 710.55,
+     "zs17Z": 710.562,
+     "depth17Z": 0.012,
+     "firstZsAboveZb0p3": null,
+     "firstRise0p3Above17Z": null,
+     "maxZs": 710.641,
+     "maxZsTime": "2026-11-02T04:00Z",
+     "maxZsMinusZb": 0.091,
+     "zsmaxWholeRun": 710.641,
+     "zs0300Z": 710.64,
+     "zs0315Z": 710.64,
+     "zs0304Z_interp": 710.64,
+     "depth0304Z_zsMinusZb": 0.09,
+     "volOverArea0300Z": 0.027,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": 710.562,
+      "2026-11-01T18:00Z": 710.566,
+      "2026-11-01T19:00Z": 710.598,
+      "2026-11-01T20:00Z": 710.612,
+      "2026-11-01T21:00Z": 710.635,
+      "2026-11-01T22:00Z": 710.634,
+      "2026-11-01T23:00Z": 710.627,
+      "2026-11-02T00:00Z": 710.621,
+      "2026-11-02T01:00Z": 710.616,
+      "2026-11-02T02:00Z": 710.613,
+      "2026-11-02T03:00Z": 710.64,
+      "2026-11-02T04:00Z": 710.641,
+      "2026-11-02T05:00Z": 710.64,
+      "2026-11-02T06:00Z": 710.637,
+      "2026-11-02T07:00Z": 710.63
+     }
+    },
+    "West Manville Road channel": {
+     "face": 316810,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.26847,
+      32.292
+     ],
+     "zbM": 652.186,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": "2026-11-01T22:15Z",
+     "firstRise0p3Above17Z": null,
+     "maxZs": 652.851,
+     "maxZsTime": "2026-11-02T03:00Z",
+     "maxZsMinusZb": 0.666,
+     "zsmaxWholeRun": 652.851,
+     "zs0300Z": 652.851,
+     "zs0315Z": 652.851,
+     "zs0304Z_interp": 652.851,
+     "depth0304Z_zsMinusZb": 0.666,
+     "volOverArea0300Z": 0.241,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": 652.186,
+      "2026-11-01T19:00Z": 652.206,
+      "2026-11-01T20:00Z": 652.384,
+      "2026-11-01T21:00Z": 652.397,
+      "2026-11-01T22:00Z": 652.353,
+      "2026-11-01T23:00Z": 652.814,
+      "2026-11-02T00:00Z": 652.83,
+      "2026-11-02T01:00Z": 652.831,
+      "2026-11-02T02:00Z": 652.841,
+      "2026-11-02T03:00Z": 652.851,
+      "2026-11-02T04:00Z": 652.844,
+      "2026-11-02T05:00Z": 652.838,
+      "2026-11-02T06:00Z": 652.833,
+      "2026-11-02T07:00Z": 652.827
+     }
+    },
+    "West Mile Wide Road channel": {
+     "face": 323609,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.25255,
+      32.24845
+     ],
+     "zbM": 674.005,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": null,
+     "firstRise0p3Above17Z": null,
+     "maxZs": 674.102,
+     "maxZsTime": "2026-11-01T20:45Z",
+     "maxZsMinusZb": 0.097,
+     "zsmaxWholeRun": 674.102,
+     "zs0300Z": 674.102,
+     "zs0315Z": 674.102,
+     "zs0304Z_interp": 674.102,
+     "depth0304Z_zsMinusZb": 0.097,
+     "volOverArea0300Z": 0.008,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": NaN,
+      "2026-11-01T19:00Z": 674.056,
+      "2026-11-01T20:00Z": 674.102,
+      "2026-11-01T21:00Z": 674.102,
+      "2026-11-01T22:00Z": 674.102,
+      "2026-11-01T23:00Z": 674.102,
+      "2026-11-02T00:00Z": 674.102,
+      "2026-11-02T01:00Z": 674.102,
+      "2026-11-02T02:00Z": 674.102,
+      "2026-11-02T03:00Z": 674.102,
+      "2026-11-02T04:00Z": 674.102,
+      "2026-11-02T05:00Z": 674.102,
+      "2026-11-02T06:00Z": 674.102,
+      "2026-11-02T07:00Z": 674.102
+     }
+    },
+    "West Little Williams Drive channel": {
+     "face": 307274,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.28408,
+      32.33719
+     ],
+     "zbM": 630.41,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": "2026-11-02T01:45Z",
+     "firstRise0p3Above17Z": null,
+     "maxZs": 631.373,
+     "maxZsTime": "2026-11-02T05:15Z",
+     "maxZsMinusZb": 0.963,
+     "zsmaxWholeRun": 631.373,
+     "zs0300Z": 631.251,
+     "zs0315Z": 631.255,
+     "zs0304Z_interp": 631.252,
+     "depth0304Z_zsMinusZb": 0.842,
+     "volOverArea0300Z": 0.238,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": NaN,
+      "2026-11-01T19:00Z": 630.413,
+      "2026-11-01T20:00Z": 630.434,
+      "2026-11-01T21:00Z": 630.449,
+      "2026-11-01T22:00Z": 630.452,
+      "2026-11-01T23:00Z": 630.452,
+      "2026-11-02T00:00Z": 630.452,
+      "2026-11-02T01:00Z": 630.452,
+      "2026-11-02T02:00Z": 631.179,
+      "2026-11-02T03:00Z": 631.251,
+      "2026-11-02T04:00Z": 631.312,
+      "2026-11-02T05:00Z": 631.372,
+      "2026-11-02T06:00Z": 631.359,
+      "2026-11-02T07:00Z": 631.338
+     }
+    },
+    "West Tucker Road channel": {
+     "face": 308141,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.28348,
+      32.33533
+     ],
+     "zbM": 631.433,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": "2026-11-01T21:30Z",
+     "firstRise0p3Above17Z": null,
+     "maxZs": 632.554,
+     "maxZsTime": "2026-11-02T05:00Z",
+     "maxZsMinusZb": 1.121,
+     "zsmaxWholeRun": 632.554,
+     "zs0300Z": 632.51,
+     "zs0315Z": 632.512,
+     "zs0304Z_interp": 632.51,
+     "depth0304Z_zsMinusZb": 1.077,
+     "volOverArea0300Z": 0.469,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": NaN,
+      "2026-11-01T19:00Z": 631.436,
+      "2026-11-01T20:00Z": 631.453,
+      "2026-11-01T21:00Z": 631.496,
+      "2026-11-01T22:00Z": 631.886,
+      "2026-11-01T23:00Z": 631.871,
+      "2026-11-02T00:00Z": 631.834,
+      "2026-11-02T01:00Z": 631.845,
+      "2026-11-02T02:00Z": 632.494,
+      "2026-11-02T03:00Z": 632.51,
+      "2026-11-02T04:00Z": 632.535,
+      "2026-11-02T05:00Z": 632.554,
+      "2026-11-02T06:00Z": 632.548,
+      "2026-11-02T07:00Z": 632.541
+     }
+    },
+    "ALERT 6443 site (on 15876815) containing face": {
+     "face": 223058,
+     "cellM": 12.5,
+     "lonlat": [
+      -111.24449,
+      32.24861
+     ],
+     "zbM": 673.75,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": null,
+     "firstRise0p3Above17Z": null,
+     "maxZs": 673.76,
+     "maxZsTime": "2026-11-01T21:30Z",
+     "maxZsMinusZb": 0.01,
+     "zsmaxWholeRun": 673.76,
+     "zs0300Z": 673.76,
+     "zs0315Z": 673.76,
+     "zs0304Z_interp": 673.76,
+     "depth0304Z_zsMinusZb": 0.01,
+     "volOverArea0300Z": 0.002,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": NaN,
+      "2026-11-01T19:00Z": 673.756,
+      "2026-11-01T20:00Z": 673.76,
+      "2026-11-01T21:00Z": 673.76,
+      "2026-11-01T22:00Z": 673.76,
+      "2026-11-01T23:00Z": 673.76,
+      "2026-11-02T00:00Z": 673.76,
+      "2026-11-02T01:00Z": 673.76,
+      "2026-11-02T02:00Z": 673.76,
+      "2026-11-02T03:00Z": 673.76,
+      "2026-11-02T04:00Z": 673.76,
+      "2026-11-02T05:00Z": 673.76,
+      "2026-11-02T06:00Z": 673.76,
+      "2026-11-02T07:00Z": 673.76
+     }
+    },
+    "ALERT 6443 site lowest face within 30 m": {
+     "face": 223379,
+     "cellM": 12.5,
+     "lonlat": [
+      -111.24423,
+      32.24872
+     ],
+     "zbM": 671.683,
+     "zs17Z": 671.805,
+     "depth17Z": 0.122,
+     "firstZsAboveZb0p3": "2026-11-01T20:15Z",
+     "firstRise0p3Above17Z": "2026-11-01T22:15Z",
+     "maxZs": 673.495,
+     "maxZsTime": "2026-11-02T07:00Z",
+     "maxZsMinusZb": 1.812,
+     "zsmaxWholeRun": 673.495,
+     "zs0300Z": 673.016,
+     "zs0315Z": 673.038,
+     "zs0304Z_interp": 673.022,
+     "depth0304Z_zsMinusZb": 1.339,
+     "volOverArea0300Z": 0.603,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": 671.805,
+      "2026-11-01T18:00Z": 671.804,
+      "2026-11-01T19:00Z": 671.884,
+      "2026-11-01T20:00Z": 671.972,
+      "2026-11-01T21:00Z": 672.021,
+      "2026-11-01T22:00Z": 672.097,
+      "2026-11-01T23:00Z": 672.777,
+      "2026-11-02T00:00Z": 672.848,
+      "2026-11-02T01:00Z": 672.857,
+      "2026-11-02T02:00Z": 672.922,
+      "2026-11-02T03:00Z": 673.016,
+      "2026-11-02T04:00Z": 673.075,
+      "2026-11-02T05:00Z": 673.106,
+      "2026-11-02T06:00Z": 673.27,
+      "2026-11-02T07:00Z": 673.495
+     }
+    },
+    "Brawley 15877627 at Mile Wide (lowest within 30 m)": {
+     "face": 323609,
+     "cellM": 6.25,
+     "lonlat": [
+      -111.25255,
+      32.24845
+     ],
+     "zbM": 674.005,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": null,
+     "firstRise0p3Above17Z": null,
+     "maxZs": 674.102,
+     "maxZsTime": "2026-11-01T20:45Z",
+     "maxZsMinusZb": 0.097,
+     "zsmaxWholeRun": 674.102,
+     "zs0300Z": 674.102,
+     "zs0315Z": 674.102,
+     "zs0304Z_interp": 674.102,
+     "depth0304Z_zsMinusZb": 0.097,
+     "volOverArea0300Z": 0.008,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": NaN,
+      "2026-11-01T19:00Z": 674.056,
+      "2026-11-01T20:00Z": 674.102,
+      "2026-11-01T21:00Z": 674.102,
+      "2026-11-01T22:00Z": 674.102,
+      "2026-11-01T23:00Z": 674.102,
+      "2026-11-02T00:00Z": 674.102,
+      "2026-11-02T01:00Z": 674.102,
+      "2026-11-02T02:00Z": 674.102,
+      "2026-11-02T03:00Z": 674.102,
+      "2026-11-02T04:00Z": 674.102,
+      "2026-11-02T05:00Z": 674.102,
+      "2026-11-02T06:00Z": 674.102,
+      "2026-11-02T07:00Z": 674.102
+     }
+    },
+    "Confluence 15876811 start": {
+     "face": 223847,
+     "cellM": 12.5,
+     "lonlat": [
+      -111.24383,
+      32.25019
+     ],
+     "zbM": 671.19,
+     "zs17Z": 671.546,
+     "depth17Z": 0.355,
+     "firstZsAboveZb0p3": "2026-11-01T17:00Z",
+     "firstRise0p3Above17Z": "2026-11-01T21:00Z",
+     "maxZs": 672.998,
+     "maxZsTime": "2026-11-02T07:00Z",
+     "maxZsMinusZb": 1.808,
+     "zsmaxWholeRun": 672.998,
+     "zs0300Z": 672.616,
+     "zs0315Z": 672.632,
+     "zs0304Z_interp": 672.62,
+     "depth0304Z_zsMinusZb": 1.43,
+     "volOverArea0300Z": 0.715,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": 671.546,
+      "2026-11-01T18:00Z": 671.543,
+      "2026-11-01T19:00Z": 671.563,
+      "2026-11-01T20:00Z": 671.701,
+      "2026-11-01T21:00Z": 671.862,
+      "2026-11-01T22:00Z": 671.947,
+      "2026-11-01T23:00Z": 672.421,
+      "2026-11-02T00:00Z": 672.48,
+      "2026-11-02T01:00Z": 672.486,
+      "2026-11-02T02:00Z": 672.539,
+      "2026-11-02T03:00Z": 672.616,
+      "2026-11-02T04:00Z": 672.66,
+      "2026-11-02T05:00Z": 672.682,
+      "2026-11-02T06:00Z": 672.807,
+      "2026-11-02T07:00Z": 672.998
+     }
+    },
+    "Outlet node 720060498 (lowest within 100 m)": {
+     "face": 158782,
+     "cellM": 12.5,
+     "lonlat": [
+      -111.29383,
+      32.3642
+     ],
+     "zbM": 617.56,
+     "zs17Z": NaN,
+     "depth17Z": NaN,
+     "firstZsAboveZb0p3": null,
+     "firstRise0p3Above17Z": null,
+     "maxZs": 617.634,
+     "maxZsTime": "2026-11-01T23:00Z",
+     "maxZsMinusZb": 0.074,
+     "zsmaxWholeRun": 617.641,
+     "zs0300Z": 617.607,
+     "zs0315Z": 617.606,
+     "zs0304Z_interp": 617.607,
+     "depth0304Z_zsMinusZb": 0.047,
+     "volOverArea0300Z": 0.007,
+     "series_zs_hourly": {
+      "2026-11-01T17:00Z": NaN,
+      "2026-11-01T18:00Z": 617.56,
+      "2026-11-01T19:00Z": 617.563,
+      "2026-11-01T20:00Z": 617.577,
+      "2026-11-01T21:00Z": 617.604,
+      "2026-11-01T22:00Z": 617.608,
+      "2026-11-01T23:00Z": 617.634,
+      "2026-11-02T00:00Z": 617.611,
+      "2026-11-02T01:00Z": 617.606,
+      "2026-11-02T02:00Z": 617.622,
+      "2026-11-02T03:00Z": 617.607,
+      "2026-11-02T04:00Z": 617.621,
+      "2026-11-02T05:00Z": 617.622,
+      "2026-11-02T06:00Z": 617.621,
+      "2026-11-02T07:00Z": 617.624
+     }
+    }
+   },
+   "crossings": [
+    {
+     "label": "West Donaldson Ranch Road",
+     "lon": -111.26008029356053,
+     "lat": 32.175679097112976,
+     "stations": 5,
+     "roadZmin": 710.69,
+     "roadZmax": 710.77,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 710.747,
+     "maxOver": 0.057,
+     "maxOverStationRoadZ": 710.69,
+     "firstOver": "2026-11-01T19:15Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "West Manville Road",
+     "lon": -111.2684586829181,
+     "lat": 32.29176800000134,
+     "stations": 5,
+     "roadZmin": 652.59,
+     "roadZmax": 652.94,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 653.059,
+     "maxOver": 0.469,
+     "maxOverStationRoadZ": 652.59,
+     "firstOver": "2026-11-01T22:15Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "West Mile Wide Road",
+     "lon": -111.25265169523958,
+     "lat": 32.24820100000714,
+     "stations": 5,
+     "roadZmin": 674.88,
+     "roadZmax": 674.93,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 4,
+     "maxWse": 674.716,
+     "maxOver": -0.174,
+     "maxOverStationRoadZ": 674.89,
+     "firstOver": null,
+     "stationsOver": 0
+    },
+    {
+     "label": "West Little Williams Drive",
+     "lon": -111.28379506220226,
+     "lat": 32.33710400000656,
+     "stations": 5,
+     "roadZmin": 631.37,
+     "roadZmax": 631.83,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 631.758,
+     "maxOver": 0.388,
+     "maxOverStationRoadZ": 631.37,
+     "firstOver": "2026-11-01T19:30Z",
+     "stationsOver": 3
+    },
+    {
+     "label": "West Tucker Road",
+     "lon": -111.28323474783615,
+     "lat": 32.33535740575221,
+     "stations": 5,
+     "roadZmin": 631.67,
+     "roadZmax": 632.55,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 632.554,
+     "maxOver": 0.884,
+     "maxOverStationRoadZ": 631.67,
+     "firstOver": "2026-11-01T21:15Z",
+     "stationsOver": 4
+    }
+   ],
+   "dips": [
+    {
+     "label": "West Snyder Hill Road 1.73 m",
+     "lon": -111.20929,
+     "lat": 32.16177,
+     "stations": 5,
+     "roadZmin": 706.68,
+     "roadZmax": 706.95,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 707.141,
+     "maxOver": 0.461,
+     "maxOverStationRoadZ": 706.68,
+     "firstOver": "2026-11-01T19:15Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "Garcia Ranch Road 1.32 m",
+     "lon": -111.29175,
+     "lat": 32.15817,
+     "stations": 5,
+     "roadZmin": 726.5,
+     "roadZmax": 727.24,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 726.819,
+     "maxOver": 0.319,
+     "maxOverStationRoadZ": 726.5,
+     "firstOver": "2026-11-01T17:00Z",
+     "stationsOver": 2
+    },
+    {
+     "label": "West Manville Road 1.24 m",
+     "lon": -111.28702,
+     "lat": 32.29176,
+     "stations": 5,
+     "roadZmin": 651.85,
+     "roadZmax": 652.55,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 4,
+     "maxWse": 652.305,
+     "maxOver": 0.455,
+     "maxOverStationRoadZ": 651.85,
+     "firstOver": "2026-11-01T21:30Z",
+     "stationsOver": 4
+    },
+    {
+     "label": "West Manville Road 1.12 m",
+     "lon": -111.26719,
+     "lat": 32.29176,
+     "stations": 5,
+     "roadZmin": 652.1,
+     "roadZmax": 652.87,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 653.021,
+     "maxOver": 0.921,
+     "maxOverStationRoadZ": 652.1,
+     "firstOver": "2026-11-01T21:45Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "Garcia Ranch Road 1.01 m",
+     "lon": -111.29102,
+     "lat": 32.15309,
+     "stations": 5,
+     "roadZmin": 728.06,
+     "roadZmax": 728.19,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 728.36,
+     "maxOver": 0.3,
+     "maxOverStationRoadZ": 728.06,
+     "firstOver": "2026-11-01T17:00Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "Garcia Ranch Road 0.98 m",
+     "lon": -111.29124,
+     "lat": 32.15942,
+     "stations": 5,
+     "roadZmin": 726.68,
+     "roadZmax": 727.66,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 1,
+     "maxWse": 726.674,
+     "maxOver": -0.006,
+     "maxOverStationRoadZ": 726.68,
+     "firstOver": null,
+     "stationsOver": 0
+    },
+    {
+     "label": "North Mesquite Oasis Road 0.96 m",
+     "lon": -111.29733,
+     "lat": 32.34985,
+     "stations": 5,
+     "roadZmin": 624.56,
+     "roadZmax": 624.85,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 624.763,
+     "maxOver": 0.203,
+     "maxOverStationRoadZ": 624.56,
+     "firstOver": "2026-11-01T20:30Z",
+     "stationsOver": 2
+    },
+    {
+     "label": "West Donaldson Ranch Road 0.9 m",
+     "lon": -111.23993,
+     "lat": 32.17565,
+     "stations": 5,
+     "roadZmin": 707.83,
+     "roadZmax": 708.28,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 708.237,
+     "maxOver": 0.407,
+     "maxOverStationRoadZ": 707.83,
+     "firstOver": "2026-11-01T23:45Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "West Tucker Road 0.88 m",
+     "lon": -111.28348,
+     "lat": 32.33535,
+     "stations": 5,
+     "roadZmin": 631.67,
+     "roadZmax": 632.55,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 632.554,
+     "maxOver": 0.884,
+     "maxOverStationRoadZ": 631.67,
+     "firstOver": "2026-11-01T21:15Z",
+     "stationsOver": 4
+    },
+    {
+     "label": "West Orange Grove Road 0.73 m",
+     "lon": -111.30533,
+     "lat": 32.32051,
+     "stations": 5,
+     "roadZmin": 637.79,
+     "roadZmax": 638.05,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 638.02,
+     "maxOver": 0.23,
+     "maxOverStationRoadZ": 637.79,
+     "firstOver": "2026-11-01T19:30Z",
+     "stationsOver": 4
+    },
+    {
+     "label": "West Little Williams Drive 0.72 m",
+     "lon": -111.28537,
+     "lat": 32.33711,
+     "stations": 5,
+     "roadZmin": 631.11,
+     "roadZmax": 631.46,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 631.539,
+     "maxOver": 0.429,
+     "maxOverStationRoadZ": 631.11,
+     "firstOver": "2026-11-01T20:30Z",
+     "stationsOver": 5
+    },
+    {
+     "label": "West Drillers Road 0.65 m",
+     "lon": -111.29201,
+     "lat": 32.32985,
+     "stations": 5,
+     "roadZmin": 633.44,
+     "roadZmax": 633.76,
+     "cellM": [
+      6.25
+     ],
+     "wetStations": 5,
+     "maxWse": 633.729,
+     "maxOver": 0.289,
+     "maxOverStationRoadZ": 633.44,
+     "firstOver": "2026-11-01T20:30Z",
+     "stationsOver": 3
+    }
+   ],
+   "deckLidar": [
+    {
+     "station": "area_m1113_322:1:0",
+     "road": "West Mile Wide Road",
+     "roadZ": 675.28,
+     "cellM": 6.25,
+     "zb": 673.319091796875,
+     "maxWse": 673.9666137695312,
+     "zsmax": 673.9672241210938
+    },
+    {
+     "station": "area_m1113_322:6:900",
+     "road": "West Mile Wide Road",
+     "roadZ": 675.26,
+     "cellM": 6.25,
+     "zb": 672.3675537109375,
+     "maxWse": 673.8831787109375,
+     "zsmax": 673.8839721679688
+    },
+    {
+     "station": "area_m1113_322:6:1000",
+     "road": "West Mile Wide Road",
+     "roadZ": 675.27,
+     "cellM": 6.25,
+     "zb": 672.4154663085938,
+     "maxWse": 673.8921508789062,
+     "zsmax": 673.8929443359375
+    },
+    {
+     "station": "area_m1113_322:6:1064",
+     "road": "West Mile Wide Road",
+     "roadZ": 675.28,
+     "cellM": 6.25,
+     "zb": 673.319091796875,
+     "maxWse": 673.9666137695312,
+     "zsmax": 673.9672241210938
+    }
+   ],
+   "ridge": [
+    {
+     "road": "(unnamed)",
+     "n": 1038,
+     "top5RoadZ": [
+      834.41,
+      834.68,
+      836.79,
+      837.21,
+      837.5
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "86",
+     "n": 1147,
+     "top5RoadZ": [
+      808.45,
+      808.45,
+      808.46,
+      808.47,
+      808.48
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "Garcia Ranch Road",
+     "n": 341,
+     "top5RoadZ": [
+      731.04,
+      731.21,
+      731.47,
+      731.72,
+      731.99
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "Garvey Road",
+     "n": 67,
+     "top5RoadZ": [
+      623.13,
+      623.25,
+      623.46,
+      623.81,
+      623.82
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      -1.0288110351561954,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "Kay Lynn Street",
+     "n": 63,
+     "top5RoadZ": [
+      785.11,
+      785.12,
+      785.15,
+      785.16,
+      785.17
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "Lead Flower Avenue",
+     "n": 74,
+     "top5RoadZ": [
+      753.72,
+      753.87,
+      754.0,
+      754.14,
+      754.27
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Antelope Road",
+     "n": 172,
+     "top5RoadZ": [
+      652.85,
+      652.92,
+      652.94,
+      653.02,
+      653.3
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Avra Road",
+     "n": 360,
+     "top5RoadZ": [
+      688.18,
+      688.18,
+      688.18,
+      688.18,
+      688.18
+     ],
+     "top5MaxOver": [
+      -0.18048828124994998,
+      -0.12354248046869998,
+      null,
+      null,
+      -0.12354248046869998
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Cherry Blossom Road",
+     "n": 70,
+     "top5RoadZ": [
+      636.95,
+      637.0,
+      637.06,
+      637.14,
+      637.28
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Dakota Plains Trail",
+     "n": 205,
+     "top5RoadZ": [
+      635.86,
+      635.89,
+      635.9,
+      635.91,
+      635.92
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Little Cody Road",
+     "n": 235,
+     "top5RoadZ": [
+      664.36,
+      664.46,
+      664.47,
+      664.56,
+      664.61
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Lone Owl Trail",
+     "n": 263,
+     "top5RoadZ": [
+      653.54,
+      653.56,
+      653.61,
+      653.68,
+      653.72
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Luckett Road",
+     "n": 355,
+     "top5RoadZ": [
+      682.26,
+      682.34,
+      682.37,
+      682.39,
+      682.46
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Mesquite Oasis Road",
+     "n": 101,
+     "top5RoadZ": [
+      625.55,
+      625.57,
+      625.58,
+      625.58,
+      625.61
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Nelson Quihuis Road",
+     "n": 245,
+     "top5RoadZ": [
+      638.84,
+      638.84,
+      638.85,
+      638.9,
+      638.96
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Razorback Road",
+     "n": 201,
+     "top5RoadZ": [
+      632.38,
+      632.42,
+      632.47,
+      632.52,
+      632.54
+     ],
+     "top5MaxOver": [
+      0.12933837890625455,
+      0.12394531250004093,
+      0.13247802734372272,
+      0.12318847656251819,
+      0.12479492187503638
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "North Reservation Road",
+     "n": 485,
+     "top5RoadZ": [
+      675.29,
+      675.42,
+      675.51,
+      675.62,
+      675.64
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Shadow Desert Lane",
+     "n": 146,
+     "top5RoadZ": [
+      627.6,
+      627.61,
+      627.65,
+      627.7,
+      627.71
+     ],
+     "top5MaxOver": [
+      -0.27639160156252274,
+      -0.28639160156251364,
+      -0.32639160156247726,
+      -0.3218261718750455,
+      -0.3863916015625364
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Shadows Desert Lane",
+     "n": 165,
+     "top5RoadZ": [
+      637.44,
+      637.46,
+      637.49,
+      637.5,
+      637.52
+     ],
+     "top5MaxOver": [
+      null,
+      -0.03409667968753638,
+      -0.015817871093759095,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "North Whitetail Road",
+     "n": 79,
+     "top5RoadZ": [
+      650.78,
+      650.95,
+      651.15,
+      651.4,
+      651.61
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Aldon Road",
+     "n": 171,
+     "top5RoadZ": [
+      770.96,
+      770.96,
+      770.97,
+      771.03,
+      771.06
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Amber Rock Avenue",
+     "n": 55,
+     "top5RoadZ": [
+      790.64,
+      790.77,
+      791.01,
+      791.21,
+      791.5
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Avenida Paisano",
+     "n": 97,
+     "top5RoadZ": [
+      800.83,
+      801.07,
+      801.28,
+      801.52,
+      801.76
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Bantry Lane",
+     "n": 123,
+     "top5RoadZ": [
+      736.79,
+      736.94,
+      737.05,
+      737.43,
+      737.66
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Bilbray Avenue",
+     "n": 126,
+     "top5RoadZ": [
+      814.09,
+      814.19,
+      814.41,
+      814.54,
+      814.65
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Bradford Drive",
+     "n": 69,
+     "top5RoadZ": [
+      751.64,
+      751.76,
+      751.89,
+      752.09,
+      752.19
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Butts Road",
+     "n": 64,
+     "top5RoadZ": [
+      784.32,
+      784.34,
+      784.41,
+      784.42,
+      784.44
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Calgary Avenue",
+     "n": 83,
+     "top5RoadZ": [
+      789.49,
+      789.67,
+      789.82,
+      789.82,
+      789.83
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Calico Lane",
+     "n": 121,
+     "top5RoadZ": [
+      739.83,
+      739.86,
+      739.88,
+      739.89,
+      739.92
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Calle Hohokam",
+     "n": 59,
+     "top5RoadZ": [
+      738.22,
+      738.36,
+      738.5,
+      738.69,
+      738.85
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Camino Verde",
+     "n": 212,
+     "top5RoadZ": [
+      778.48,
+      778.52,
+      778.56,
+      778.72,
+      778.79
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Camino de Oeste",
+     "n": 188,
+     "top5RoadZ": [
+      797.6,
+      797.78,
+      797.87,
+      797.99,
+      798.16
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Carol Avenue",
+     "n": 165,
+     "top5RoadZ": [
+      793.21,
+      793.29,
+      793.36,
+      793.61,
+      794.11
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Continental Road",
+     "n": 80,
+     "top5RoadZ": [
+      718.49,
+      718.57,
+      718.63,
+      718.65,
+      718.7
+     ],
+     "top5MaxOver": [
+      null,
+      -0.68291503906255,
+      -0.7429150390624955,
+      -0.7629150390624773,
+      -0.8129150390625455
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Corral Way",
+     "n": 81,
+     "top5RoadZ": [
+      815.71,
+      816.05,
+      816.39,
+      816.54,
+      816.63
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Crazy Cat Lane",
+     "n": 85,
+     "top5RoadZ": [
+      714.69,
+      714.71,
+      714.75,
+      714.83,
+      714.84
+     ],
+     "top5MaxOver": [
+      0.05908447265619543,
+      0.03908447265621362,
+      0.28729248046875,
+      0.24855224609370907,
+      0.25704589843746817
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "South Deaver Road",
+     "n": 168,
+     "top5RoadZ": [
+      771.69,
+      771.72,
+      771.76,
+      771.94,
+      771.98
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Echo Road",
+     "n": 64,
+     "top5RoadZ": [
+      798.17,
+      798.33,
+      798.49,
+      798.67,
+      798.85
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Lantern Road",
+     "n": 52,
+     "top5RoadZ": [
+      797.3,
+      797.59,
+      797.85,
+      798.26,
+      798.65
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Motif Road",
+     "n": 60,
+     "top5RoadZ": [
+      797.71,
+      798.15,
+      798.42,
+      798.6,
+      798.83
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Promenade Road",
+     "n": 70,
+     "top5RoadZ": [
+      799.3,
+      799.71,
+      799.95,
+      800.02,
+      800.08
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Spur Lane",
+     "n": 73,
+     "top5RoadZ": [
+      757.89,
+      757.95,
+      758.03,
+      758.1,
+      758.2
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Desert Sunrise Trail",
+     "n": 120,
+     "top5RoadZ": [
+      725.71,
+      725.84,
+      725.92,
+      725.93,
+      725.97
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      -0.5557934570312,
+      -0.5957934570312773
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Diamond Bar Lane",
+     "n": 56,
+     "top5RoadZ": [
+      831.12,
+      831.16,
+      831.5,
+      831.71,
+      832.05
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      -4.1641845703125,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Donald Avenue",
+     "n": 224,
+     "top5RoadZ": [
+      803.22,
+      803.45,
+      803.59,
+      803.69,
+      803.92
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Draper Road",
+     "n": 75,
+     "top5RoadZ": [
+      763.02,
+      763.19,
+      763.33,
+      763.4,
+      763.48
+     ],
+     "top5MaxOver": [
+      -0.02842285156248181,
+      -0.07842773437505457,
+      -0.028913574218790927,
+      -0.03317871093747726,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Dusty Flats Trail",
+     "n": 143,
+     "top5RoadZ": [
+      714.34,
+      714.38,
+      714.39,
+      714.44,
+      714.44
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      -0.30583251953123636,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Flying Q Lane",
+     "n": 64,
+     "top5RoadZ": [
+      834.75,
+      834.82,
+      834.94,
+      835.12,
+      835.21
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Frank Avenue",
+     "n": 97,
+     "top5RoadZ": [
+      777.12,
+      777.24,
+      777.32,
+      777.48,
+      777.59
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Fred Avenue",
+     "n": 87,
+     "top5RoadZ": [
+      772.58,
+      772.65,
+      772.74,
+      772.93,
+      773.26
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Gold Flower Avenue",
+     "n": 81,
+     "top5RoadZ": [
+      753.97,
+      753.98,
+      754.03,
+      754.15,
+      754.26
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Hogan Drive",
+     "n": 83,
+     "top5RoadZ": [
+      759.42,
+      759.51,
+      759.51,
+      759.52,
+      759.53
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      -0.7169091796874909,
+      -0.7269091796874818,
+      -0.7369091796874727
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Hohokam Drive",
+     "n": 69,
+     "top5RoadZ": [
+      742.59,
+      742.76,
+      742.9,
+      742.99,
+      743.02
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Jamie Avenue",
+     "n": 206,
+     "top5RoadZ": [
+      800.9,
+      801.22,
+      801.25,
+      801.5,
+      801.52
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Jamie Drive",
+     "n": 110,
+     "top5RoadZ": [
+      776.01,
+      776.1,
+      776.14,
+      776.29,
+      776.57
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Joseph Avenue",
+     "n": 181,
+     "top5RoadZ": [
+      795.64,
+      795.73,
+      795.77,
+      795.82,
+      795.83
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Kay Drive",
+     "n": 65,
+     "top5RoadZ": [
+      774.6,
+      774.68,
+      774.79,
+      775.15,
+      775.24
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Khe Sanh Lane",
+     "n": 116,
+     "top5RoadZ": [
+      737.72,
+      737.8,
+      738.07,
+      738.39,
+      738.71
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Kinney Road",
+     "n": 764,
+     "top5RoadZ": [
+      812.83,
+      812.89,
+      812.94,
+      812.99,
+      813.04
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Leonard Avenue",
+     "n": 74,
+     "top5RoadZ": [
+      734.41,
+      734.47,
+      734.55,
+      734.65,
+      734.75
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Macy Circle",
+     "n": 50,
+     "top5RoadZ": [
+      792.54,
+      792.66,
+      792.78,
+      792.87,
+      793.0
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      -0.08087646484375455,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Mark Avenue",
+     "n": 72,
+     "top5RoadZ": [
+      736.34,
+      736.43,
+      736.48,
+      736.51,
+      736.52
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Marstellar Road",
+     "n": 295,
+     "top5RoadZ": [
+      713.79,
+      713.84,
+      713.89,
+      713.91,
+      713.99
+     ],
+     "top5MaxOver": [
+      0.24906250000003638,
+      0.19906249999996817,
+      0.27827392578126364,
+      0.25827392578128183,
+      0.1782739257812409
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "South Neal Avenue",
+     "n": 77,
+     "top5RoadZ": [
+      742.59,
+      742.7,
+      742.8,
+      742.93,
+      743.02
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Old Windmill Lane",
+     "n": 65,
+     "top5RoadZ": [
+      735.62,
+      735.64,
+      735.7,
+      735.95,
+      736.2
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Palant Drive",
+     "n": 165,
+     "top5RoadZ": [
+      770.77,
+      770.87,
+      770.87,
+      770.9,
+      770.93
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Paseo Don Carlos",
+     "n": 59,
+     "top5RoadZ": [
+      795.86,
+      795.88,
+      795.9,
+      795.94,
+      795.99
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Paseo Don Juan",
+     "n": 61,
+     "top5RoadZ": [
+      794.13,
+      794.33,
+      794.54,
+      794.69,
+      794.8
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Paseo Don Rolando",
+     "n": 60,
+     "top5RoadZ": [
+      797.95,
+      798.0,
+      798.02,
+      798.04,
+      798.04
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Prism Sky Drive",
+     "n": 76,
+     "top5RoadZ": [
+      801.5,
+      801.74,
+      801.94,
+      802.23,
+      802.46
+     ],
+     "top5MaxOver": [
+      -1.20562744140625,
+      -1.445627441406259,
+      -1.6456274414063046,
+      -0.2328076171875182,
+      -0.4628076171875364
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Richardson Drive",
+     "n": 55,
+     "top5RoadZ": [
+      753.01,
+      753.09,
+      753.18,
+      753.28,
+      753.34
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South San Joaquin Road",
+     "n": 642,
+     "top5RoadZ": [
+      752.36,
+      752.37,
+      752.38,
+      752.41,
+      752.71
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Sandario Road",
+     "n": 451,
+     "top5RoadZ": [
+      709.5,
+      709.53,
+      709.57,
+      709.63,
+      709.65
+     ],
+     "top5MaxOver": [
+      -0.1165771484375,
+      -0.12204101562497272,
+      -0.14501220703130002,
+      -0.18175781249999545,
+      -0.20175781249997726
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Sarasota Boulevard",
+     "n": 240,
+     "top5RoadZ": [
+      820.89,
+      821.17,
+      821.47,
+      821.67,
+      821.86
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Seymour Road",
+     "n": 72,
+     "top5RoadZ": [
+      790.53,
+      790.53,
+      790.6,
+      790.61,
+      790.63
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Sheridan Avenue",
+     "n": 200,
+     "top5RoadZ": [
+      791.53,
+      791.78,
+      792.08,
+      792.52,
+      792.94
+     ],
+     "top5MaxOver": [
+      -0.7430126953124727,
+      -0.9930126953124727,
+      -1.293012695312541,
+      -1.7330126953124818,
+      -2.1530126953125546
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Shiela Avenue",
+     "n": 214,
+     "top5RoadZ": [
+      799.84,
+      799.88,
+      800.06,
+      800.36,
+      800.53
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Silver Bridle Lane",
+     "n": 79,
+     "top5RoadZ": [
+      756.63,
+      756.65,
+      756.83,
+      756.91,
+      756.91
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Smokin Pistol Way",
+     "n": 69,
+     "top5RoadZ": [
+      818.57,
+      819.28,
+      819.84,
+      820.22,
+      820.62
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Spiney Lizard Lane",
+     "n": 101,
+     "top5RoadZ": [
+      749.66,
+      749.66,
+      749.7,
+      749.8,
+      749.91
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Sun Splash Drive",
+     "n": 56,
+     "top5RoadZ": [
+      800.13,
+      800.27,
+      800.4,
+      800.59,
+      800.64
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Sunset Avenue",
+     "n": 96,
+     "top5RoadZ": [
+      778.95,
+      779.15,
+      779.16,
+      779.68,
+      779.99
+     ],
+     "top5MaxOver": [
+      -0.5937988281250455,
+      -0.7937988281249773,
+      -0.8037988281249682,
+      -1.32379882812495,
+      -1.633798828125009
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Thorton Avenue",
+     "n": 57,
+     "top5RoadZ": [
+      780.76,
+      780.91,
+      781.1,
+      781.39,
+      781.71
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Triangle X Lane",
+     "n": 78,
+     "top5RoadZ": [
+      835.66,
+      835.93,
+      836.3,
+      836.65,
+      836.98
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Tucson Estates Parkway",
+     "n": 65,
+     "top5RoadZ": [
+      813.12,
+      813.26,
+      813.46,
+      813.67,
+      813.72
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Twilight Echo Road",
+     "n": 68,
+     "top5RoadZ": [
+      797.12,
+      797.3,
+      797.47,
+      797.65,
+      797.78
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Western Way",
+     "n": 157,
+     "top5RoadZ": [
+      784.66,
+      784.81,
+      784.96,
+      785.04,
+      785.14
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "South Western Way Circle",
+     "n": 224,
+     "top5RoadZ": [
+      819.86,
+      819.93,
+      820.03,
+      820.07,
+      820.16
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "Welcome Way",
+     "n": 50,
+     "top5RoadZ": [
+      800.34,
+      800.34,
+      800.46,
+      800.46,
+      800.49
+     ],
+     "top5MaxOver": [
+      null,
+      0.025417480468718168,
+      null,
+      null,
+      null
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "West Agave Ranch Place",
+     "n": 63,
+     "top5RoadZ": [
+      754.2,
+      754.31,
+      754.42,
+      754.57,
+      754.61
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Albert Road",
+     "n": 125,
+     "top5RoadZ": [
+      794.81,
+      794.86,
+      794.87,
+      794.91,
+      794.97
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      -0.6238452148437545,
+      -0.6638452148437182,
+      -0.7238452148437773
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Alibi Drive",
+     "n": 81,
+     "top5RoadZ": [
+      629.46,
+      629.47,
+      629.47,
+      629.48,
+      629.5
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Bar S Street",
+     "n": 87,
+     "top5RoadZ": [
+      819.28,
+      819.35,
+      819.37,
+      819.43,
+      819.44
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Bar X Street",
+     "n": 153,
+     "top5RoadZ": [
+      810.83,
+      810.94,
+      811.08,
+      811.18,
+      811.44
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      0.13057128906245907,
+      0.030571289062550022,
+      null
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "West Blue Aloe Street",
+     "n": 108,
+     "top5RoadZ": [
+      712.87,
+      712.9,
+      712.91,
+      712.97,
+      713.03
+     ],
+     "top5MaxOver": [
+      -0.11511718750000455,
+      -0.14511718749997726,
+      -0.15511718749996817,
+      -0.21511718750002728,
+      -0.12033203124997272
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Bopp Road",
+     "n": 1085,
+     "top5RoadZ": [
+      812.5,
+      812.65,
+      812.77,
+      812.85,
+      812.95
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Bowen House Road",
+     "n": 53,
+     "top5RoadZ": [
+      784.88,
+      784.93,
+      785.0,
+      785.02,
+      785.26
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Box R Street",
+     "n": 143,
+     "top5RoadZ": [
+      812.51,
+      812.7,
+      812.91,
+      813.15,
+      813.28
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Anasazi",
+     "n": 81,
+     "top5RoadZ": [
+      733.11,
+      733.15,
+      733.18,
+      733.24,
+      733.44
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Antonio",
+     "n": 67,
+     "top5RoadZ": [
+      793.9,
+      793.94,
+      794.07,
+      794.09,
+      794.14
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Clemente",
+     "n": 63,
+     "top5RoadZ": [
+      805.78,
+      806.12,
+      806.44,
+      806.76,
+      807.02
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Manuel",
+     "n": 72,
+     "top5RoadZ": [
+      795.82,
+      795.89,
+      795.92,
+      795.99,
+      795.99
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Miguel",
+     "n": 178,
+     "top5RoadZ": [
+      806.86,
+      807.27,
+      807.67,
+      808.12,
+      808.54
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Monte",
+     "n": 130,
+     "top5RoadZ": [
+      819.93,
+      820.58,
+      821.11,
+      821.62,
+      822.1
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Calle Don Tomas",
+     "n": 83,
+     "top5RoadZ": [
+      796.8,
+      796.93,
+      797.03,
+      797.09,
+      797.17
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Cholla Ranch Lane",
+     "n": 78,
+     "top5RoadZ": [
+      755.98,
+      756.2,
+      756.44,
+      756.58,
+      756.64
+     ],
+     "top5MaxOver": [
+      -0.2679638671875182,
+      -0.4879638671875455,
+      -0.7279638671875546,
+      -0.8679638671875409,
+      -0.9279638671874864
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Circle Z Street",
+     "n": 116,
+     "top5RoadZ": [
+      813.63,
+      813.78,
+      813.82,
+      813.92,
+      813.93
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Cocorague Ranch Road",
+     "n": 225,
+     "top5RoadZ": [
+      678.25,
+      678.31,
+      678.31,
+      678.37,
+      678.4
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Coyote Ridge Trail",
+     "n": 83,
+     "top5RoadZ": [
+      826.48,
+      826.68,
+      826.82,
+      826.88,
+      827.06
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Creda Street",
+     "n": 81,
+     "top5RoadZ": [
+      786.2,
+      786.26,
+      786.32,
+      786.33,
+      786.36
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Diamond K Street",
+     "n": 97,
+     "top5RoadZ": [
+      821.55,
+      821.63,
+      821.68,
+      821.73,
+      821.75
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Donaldson Ranch Road",
+     "n": 610,
+     "top5RoadZ": [
+      711.0,
+      711.0,
+      711.01,
+      711.1,
+      711.13
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      -0.32927978515624545
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Dusty Cactus Way",
+     "n": 75,
+     "top5RoadZ": [
+      624.18,
+      624.18,
+      624.19,
+      624.19,
+      624.2
+     ],
+     "top5MaxOver": [
+      -0.04993408203119998,
+      -0.11017578124994998,
+      -0.12017578125005457,
+      -0.05993408203130457,
+      -0.06993408203129547
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Dusty Flat Place",
+     "n": 52,
+     "top5RoadZ": [
+      711.34,
+      711.35,
+      711.39,
+      711.39,
+      711.51
+     ],
+     "top5MaxOver": [
+      null,
+      0.018835449218727263,
+      0.026687011718763642,
+      0.05134521484376364,
+      null
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "West Eagle Tail Lane",
+     "n": 50,
+     "top5RoadZ": [
+      793.82,
+      793.94,
+      793.98,
+      793.98,
+      794.0
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Eagles Wing Way",
+     "n": 75,
+     "top5RoadZ": [
+      709.44,
+      709.5,
+      709.56,
+      709.59,
+      709.65
+     ],
+     "top5MaxOver": [
+      -0.06738037109380457,
+      -0.03216552734375,
+      null,
+      -0.017368164062531832,
+      -0.20175781249997726
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Edgestone Street",
+     "n": 50,
+     "top5RoadZ": [
+      761.58,
+      761.6,
+      761.63,
+      761.73,
+      761.73
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Flying Circle Street",
+     "n": 111,
+     "top5RoadZ": [
+      823.77,
+      823.97,
+      824.27,
+      824.6,
+      825.13
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Flying M Street",
+     "n": 177,
+     "top5RoadZ": [
+      809.47,
+      809.48,
+      809.55,
+      809.58,
+      809.7
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Flying W Street",
+     "n": 114,
+     "top5RoadZ": [
+      815.54,
+      815.6,
+      815.68,
+      815.72,
+      815.74
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Fort Lowell Road",
+     "n": 160,
+     "top5RoadZ": [
+      667.86,
+      667.87,
+      667.88,
+      667.89,
+      667.93
+     ],
+     "top5MaxOver": [
+      -1.0025170898437636,
+      -1.0125170898437545,
+      null,
+      -1.0331884765624864,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Garcia Ranch Road",
+     "n": 381,
+     "top5RoadZ": [
+      718.76,
+      718.83,
+      718.86,
+      718.86,
+      718.87
+     ],
+     "top5MaxOver": [
+      null,
+      -0.04551513671879093,
+      -0.04017578125001364,
+      -0.027602539062513642,
+      -0.12305175781250455
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Green Cactus Way",
+     "n": 164,
+     "top5RoadZ": [
+      713.55,
+      713.62,
+      713.64,
+      713.67,
+      713.75
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Illinois Street",
+     "n": 263,
+     "top5RoadZ": [
+      773.17,
+      773.29,
+      773.32,
+      773.36,
+      773.62
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Iowa Street",
+     "n": 116,
+     "top5RoadZ": [
+      778.28,
+      778.33,
+      778.4,
+      778.46,
+      778.46
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      0.026086425781272737,
+      -0.03391357421878638,
+      -0.03391357421878638
+     ],
+     "anyOver": true
+    },
+    {
+     "road": "West Irvington Road",
+     "n": 531,
+     "top5RoadZ": [
+      809.66,
+      809.8,
+      809.91,
+      810.01,
+      810.1
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Kay Lynn Drive",
+     "n": 126,
+     "top5RoadZ": [
+      771.69,
+      771.8,
+      772.0,
+      772.12,
+      772.15
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Lazy Heart Street",
+     "n": 174,
+     "top5RoadZ": [
+      808.03,
+      808.05,
+      808.1,
+      808.13,
+      808.15
+     ],
+     "top5MaxOver": [
+      -0.4492504882812227,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Lazy S Street",
+     "n": 151,
+     "top5RoadZ": [
+      812.02,
+      812.14,
+      812.28,
+      812.48,
+      812.66
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Lincoln Street",
+     "n": 63,
+     "top5RoadZ": [
+      808.21,
+      808.35,
+      808.38,
+      808.68,
+      809.03
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Little Williams Drive",
+     "n": 68,
+     "top5RoadZ": [
+      632.51,
+      632.53,
+      632.55,
+      632.57,
+      632.59
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Lone Star Drive",
+     "n": 171,
+     "top5RoadZ": [
+      835.0,
+      835.58,
+      836.08,
+      836.55,
+      836.79
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Magee Road",
+     "n": 72,
+     "top5RoadZ": [
+      626.61,
+      626.61,
+      626.62,
+      626.67,
+      626.67
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      -0.07545654296870907,
+      -0.07545654296870907
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Manville Road",
+     "n": 491,
+     "top5RoadZ": [
+      654.07,
+      654.09,
+      654.09,
+      654.09,
+      654.1
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Michigan Street",
+     "n": 235,
+     "top5RoadZ": [
+      782.8,
+      782.82,
+      782.82,
+      782.83,
+      782.84
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Mile Wide Road",
+     "n": 312,
+     "top5RoadZ": [
+      675.92,
+      675.94,
+      675.95,
+      675.97,
+      675.97
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Naomi Road",
+     "n": 70,
+     "top5RoadZ": [
+      804.01,
+      804.34,
+      804.67,
+      805.01,
+      805.25
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Nebraska Street",
+     "n": 161,
+     "top5RoadZ": [
+      721.73,
+      721.77,
+      721.79,
+      721.79,
+      721.84
+     ],
+     "top5MaxOver": [
+      -0.3650708007812682,
+      -0.2173876953124818,
+      null,
+      -0.4250708007812136,
+      -0.47507080078128183
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Oklahoma Street",
+     "n": 184,
+     "top5RoadZ": [
+      778.55,
+      778.56,
+      778.61,
+      778.7,
+      778.84
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Old Ajo Highway",
+     "n": 182,
+     "top5RoadZ": [
+      766.07,
+      766.23,
+      766.37,
+      766.49,
+      766.69
+     ],
+     "top5MaxOver": [
+      -0.05553466796880002,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Orange Grove Road",
+     "n": 185,
+     "top5RoadZ": [
+      638.89,
+      638.91,
+      638.91,
+      638.96,
+      638.98
+     ],
+     "top5MaxOver": [
+      -0.012558593749986358,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Rafter Circle Street",
+     "n": 211,
+     "top5RoadZ": [
+      817.61,
+      817.62,
+      817.66,
+      817.73,
+      817.78
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Red Sky Circle",
+     "n": 82,
+     "top5RoadZ": [
+      807.11,
+      807.19,
+      807.19,
+      807.2,
+      807.2
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Rocking Circle Street",
+     "n": 150,
+     "top5RoadZ": [
+      811.4,
+      811.55,
+      811.68,
+      811.77,
+      812.11
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      -0.5594287109374818,
+      -0.8994287109375136
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Scrub Brush Road",
+     "n": 120,
+     "top5RoadZ": [
+      636.22,
+      636.22,
+      636.23,
+      636.23,
+      636.25
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Snyder Hill Road",
+     "n": 1241,
+     "top5RoadZ": [
+      750.69,
+      750.75,
+      750.79,
+      750.88,
+      751.09
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Ten Star Drive",
+     "n": 95,
+     "top5RoadZ": [
+      831.62,
+      831.63,
+      831.63,
+      831.64,
+      831.81
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Tree Frog Trail",
+     "n": 76,
+     "top5RoadZ": [
+      753.11,
+      753.31,
+      753.43,
+      753.62,
+      753.73
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Tucker Road",
+     "n": 68,
+     "top5RoadZ": [
+      633.3,
+      633.3,
+      633.31,
+      633.31,
+      633.32
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Tucson Estates Parkway",
+     "n": 191,
+     "top5RoadZ": [
+      837.29,
+      837.38,
+      837.41,
+      837.5,
+      837.58
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Tumbling F Street",
+     "n": 132,
+     "top5RoadZ": [
+      813.75,
+      813.77,
+      813.86,
+      813.89,
+      813.91
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "West Western Way",
+     "n": 171,
+     "top5RoadZ": [
+      804.63,
+      804.72,
+      804.8,
+      804.9,
+      804.9
+     ],
+     "top5MaxOver": [
+      null,
+      -0.15835449218752728,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "White Gold Avenue",
+     "n": 70,
+     "top5RoadZ": [
+      760.9,
+      761.19,
+      761.48,
+      761.78,
+      761.99
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    },
+    {
+     "road": "west Yellow Cactus Way",
+     "n": 59,
+     "top5RoadZ": [
+      769.07,
+      769.1,
+      769.1,
+      769.18,
+      769.24
+     ],
+     "top5MaxOver": [
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "anyOver": false
+    }
+   ],
+   "stationsOverByCell": {
+    "6.25": {
+     "stations": 3894,
+     "over": 893,
+     "overGt0p1": 364,
+     "overGt0p3": 76,
+     "medianOverWhenOver": 0.07618652343751364
+    },
+    "12.5": {
+     "stations": 4158,
+     "over": 709,
+     "overGt0p1": 253,
+     "overGt0p3": 41,
+     "medianOverWhenOver": 0.06876220703122726
+    },
+    "25.0": {
+     "stations": 2020,
+     "over": 284,
+     "overGt0p1": 83,
+     "overGt0p3": 6,
+     "medianOverWhenOver": 0.057708740234375
+    },
+    "50.0": {
+     "stations": 4312,
+     "over": 499,
+     "overGt0p1": 198,
+     "overGt0p3": 20,
+     "medianOverWhenOver": 0.080322265625
+    },
+    "100.0": {
+     "stations": 17260,
+     "over": 196,
+     "overGt0p1": 100,
+     "overGt0p3": 13,
+     "medianOverWhenOver": 0.10365722656251819
+    }
+   },
+   "firstOverMedianFrameByCell": {
+    "6.25": 13.0,
+    "12.5": 14.0,
+    "25.0": 14.0,
+    "50.0": 34.0,
+    "100.0": 17.0
+   },
+   "stability": {
+    "nanZs": 559308,
+    "nanVol": 0,
+    "maxAbsDzs15minWetCell": 1.67266845703125,
+    "cellsDzsGt1mPer15min": 113,
+    "cellsDzsGt0p5mPer15min": 1014,
+    "zsBelowZbMinM": 6.103515625e-05,
+    "maxDepthZsmaxMinusZb": 3.29150390625,
+    "maxDepthFace": 19822,
+    "maxDepthFaceInfo": {
+     "cellM": 100.0,
+     "lonlat": [
+      -111.25281943568454,
+      32.11625702269288
+     ],
+     "zb": 732.3937377929688,
+     "zsmax": 735.6852416992188
+    },
+    "spikeCells": 0,
+    "velocityProxyMaxMs": 1.3535108005162988,
+    "velocityProxyAt": {
+     "file": "sfincs.20261102.010000.rst",
+     "lonlat": [
+      -111.27020218744138,
+      32.248076137842695
+     ],
+     "cellM": 6.25
+    },
+    "maxAbsQm2s": 2.108471393585205
+   }
+  }
+ },
+ "inflowFootprint": {
+  "cellsDiffGt0p05": 23659,
+  "cellsDiffGt0p05_southOfInlet": 31,
+  "maxDiffSouthOfInlet": 0.3756103515625,
+  "southOfInletMaxDistM": 436.6956892390856,
+  "southOfInletMaxDyM": 143.75,
+  "cellsDiffLtMinus0p05": 0,
+  "minDiff": -0.0257568359375,
+  "domainCellsSouthOfInlet": 34399,
+  "inletFace": {
+   "zb": 754.2794189453125,
+   "cellM": 12.5
+  }
+ },
+ "nwmAnalysisRef": {
+  "15876941": {
+   "peak": 46.799998953938484,
+   "time": "2026-11-01T23:00:00Z",
+   "hourly_17Z_to_07Z": {
+    "11-01T17": 0.11,
+    "11-01T18": 1.31,
+    "11-01T19": 1.34,
+    "11-01T20": 0.26,
+    "11-01T21": 0.0,
+    "11-01T22": 2.32,
+    "11-01T23": 46.8,
+    "11-02T00": 41.21,
+    "11-02T01": 40.78,
+    "11-02T02": 40.16,
+    "11-02T03": 31.39,
+    "11-02T04": 18.92,
+    "11-02T05": 13.12,
+    "11-02T06": 8.81,
+    "11-02T07": 5.95
+   }
+  },
+  "15876811": {
+   "peak": 39.129999125376344,
+   "time": "2026-11-02T02:00:00Z",
+   "hourly_17Z_to_07Z": {
+    "11-01T17": 0.27,
+    "11-01T18": 0.3,
+    "11-01T19": 0.42,
+    "11-01T20": 0.55,
+    "11-01T21": 0.59,
+    "11-01T22": 0.66,
+    "11-01T23": 20.83,
+    "11-02T00": 33.08,
+    "11-02T01": 36.93,
+    "11-02T02": 39.13,
+    "11-02T03": 36.99,
+    "11-02T04": 28.34,
+    "11-02T05": 21.34,
+    "11-02T06": 15.93,
+    "11-02T07": 11.94
+   }
+  },
+  "15876815": {
+   "peak": 0.3299999926239252,
+   "time": "2026-11-02T00:00:00Z",
+   "hourly_17Z_to_07Z": {
+    "11-01T17": 0.16,
+    "11-01T18": 0.16,
+    "11-01T19": 0.16,
+    "11-01T20": 0.17,
+    "11-01T21": 0.22,
+    "11-01T22": 0.28,
+    "11-01T23": 0.32,
+    "11-02T00": 0.33,
+    "11-02T01": 0.32,
+    "11-02T02": 0.3,
+    "11-02T03": 0.28,
+    "11-02T04": 0.26,
+    "11-02T05": 0.24,
+    "11-02T06": 0.22,
+    "11-02T07": 0.21
+   }
+  },
+  "15876711": {
+   "peak": 37.76999915577471,
+   "time": "2026-11-02T03:00:00Z",
+   "hourly_17Z_to_07Z": {
+    "11-01T17": 0.27,
+    "11-01T18": 0.27,
+    "11-01T19": 0.27,
+    "11-01T20": 0.27,
+    "11-01T21": 0.29,
+    "11-01T22": 0.32,
+    "11-01T23": 0.43,
+    "11-02T00": 5.82,
+    "11-02T01": 23.69,
+    "11-02T02": 33.96,
+    "11-02T03": 37.77,
+    "11-02T04": 36.83,
+    "11-02T05": 31.14,
+    "11-02T06": 24.62,
+    "11-02T07": 19.11
+   }
+  },
+  "15876707": {
+   "peak": 0.0,
+   "time": "2026-10-30T16:00:00Z",
+   "hourly_17Z_to_07Z": {
+    "11-01T17": 0.0,
+    "11-01T18": 0.0,
+    "11-01T19": 0.0,
+    "11-01T20": 0.0,
+    "11-01T21": 0.0,
+    "11-01T22": 0.0,
+    "11-01T23": 0.0,
+    "11-02T00": 0.0,
+    "11-02T01": 0.0,
+    "11-02T02": 0.0,
+    "11-02T03": 0.0,
+    "11-02T04": 0.0,
+    "11-02T05": 0.0,
+    "11-02T06": 0.0,
+    "11-02T07": 0.0
+   }
+  }
+ }
+}
