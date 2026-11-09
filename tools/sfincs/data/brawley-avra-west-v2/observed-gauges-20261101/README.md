@@ -10,6 +10,10 @@ All times below are UTC unless marked MST. The county ALERT pages use Arizona MS
 That was checked two ways: the newest report matches the feed time the snapshot script treats as UTC−7, and the
 ALERT 6423 jump at 14:00 MST lines up with the co-located USGS 09487000 jump at 14:00–14:15 −07:00.
 
+**Hand edits (2026-11-09).** Some fields of `gauges.json` were added or corrected by hand after the build (listed in
+its `postBuildEdits`): the 817 cfs wording, the gauge name and NHD snap, the plateau volumes and caveat, the base
+reading and rating notes, and the rain window. `build_gauges.py` does not write them yet, so a re-run would drop them.
+
 ## Where the data came from
 
 - **`data` branch: no history.** The snapshot workflow force-pushes a single commit every ~10 min (now 14cb2a7,
@@ -43,12 +47,22 @@ between reports is not measured. AZGFD 3 sent two 201.8 ft reports at 22:37Z Nov
 `suspect`, and left out of its summary.
 
 Six ALERT rain gauges (6440 Mile Wide, 6420 Three Points, 6450 Hilltop, 6460 Picture Rocks, 6480 Trico/Manville and
-6500 Desert Museum) are included as context only. All six had their main burst at 14:45–17:05Z, a last tip by
-21Z Nov 1, then **no rain until 07Z Nov 2**.
+6500 Desert Museum) are included as context only. From their tip times (0.04 in per tip):
+- All six had their main burst at 14:45–17:05Z Nov 1.
+- Lighter rain followed after 17:05Z: 6440 Mile Wide 0.24 in (to 20:20Z), 6500 0.35 in (to 20:32Z), 6460 0.31 in
+  (to 20:30Z), 6420 0.31 in (to 21:02Z), 6450 0.47 in (to 21:27Z) and 6480 0.04 in (one tip, 19:16Z).
+- The last tips were ALERT 6420 at 21:02Z and 6450 at 21:27Z. So **no rain from about 21:30Z Nov 1 until 07:06Z
+  Nov 2** (the first tip after, at 6460).
 
 ## ALERT 6443, Nov 1–2 (primary data)
 
-- Base stage 2.30–2.31 ft (zero flow).
+- **Name and network.** The county names the gauge "Brawley Wash at Milewide Road". Its coordinates snap to NHD
+  15876815, the Black Wash outlet (604 km²), at 4.8 m; the Brawley 15877627 crossing is 0.8 km west. These point to
+  different comparisons. If the NHD position is right, the gauge sees the model's Black Wash band (and NWM 15876815,
+  peak 0.33 m³/s). If the county name means the combined Brawley flow at the road, it sees both bands (and NWM
+  15876811, peak 39.13 m³/s). That is not settled, so both bands are always reported.
+- Base reading 2.30–2.31 ft, with 0 cfs. This is the pre-event reading, **not the rating's zero-flow stage**: the
+  rated flow stays 0 cfs at every report up to 2.49 ft.
 - First rise at 16:20Z (2.39 ft). First rated flow at 16:35Z (160 cfs).
 - Three peaks:
 
@@ -63,9 +77,18 @@ Six ALERT rain gauges (6440 Mile Wide, 6420 Three Points, 6450 Hilltop, 6460 Pic
   23Z Nov 2.
 - One gap over 65 min in the task window: 16:20–18:00Z Nov 2.
 
-**The 817 cfs claim: the value is confirmed; the time and context are corrected.** 817 cfs (3.37 ft) is the report
-at **02:45Z Nov 2 (19:45 MST)**, the last one before the owner's ~20:04 MST look. The next report was 776 cfs at 03:00Z.
-It sits on the falling limb of the third and smallest peak. It is not the event peak, which was 2,286 cfs at 18:20Z.
+**Low-stage rating caveat.** The stage/flow pairs of all 1,000 reports on the page show the county rating at low
+stage: 0 cfs up to 2.49 ft, 16–17 cfs at 2.50 ft, 330–332 cfs at 2.59 ft and 383 cfs at 2.61 ft (there is no report
+at exactly 2.60 ft). So the flow jumps from 0 to about 380 cfs over 0.1 ft of stage. On that step, a few hundredths
+of a foot of stage shift (sediment at the sensor, a moved low-flow control) reads as hundreds of cfs. The 08:45–16:20Z
+Nov 2 plateau (2.64–2.72 ft, 11.2–12.3 m³/s) sits on this step and **may be a rating or stage-shift artifact**. The slow
+tail is the same kind of reading: 2.55 ft and 190 cfs at 06Z Nov 3, against 2.30 ft and 0 cfs on Nov 8.
+
+**The 817 cfs claim: the value is confirmed; which report the owner saw is uncertain.** 817 cfs (3.37 ft) appears
+twice: at 02:45Z Nov 2 (19:45 MST, on the falling limb of the third and smallest peak) and at 23:55Z Nov 1 (16:55 MST,
+on the first recession). The 03:00Z Nov 2 report is 776 cfs (21.97 m³/s). No single corrected time is given. The
+model is compared with the primary series at each hour instead; at 03Z that is 21.97 m³/s. Neither 817 cfs report is
+the event peak, which was 2,286 cfs at 18:20Z.
 The owner's "1,160 cfs at Three Points" is exactly USGS 09487000 at 02:00Z (19:00 MST).
 
 ## Against the v2x model and NWM
@@ -74,14 +97,26 @@ The owner's "1,160 cfs at Three Points" is exactly USGS 09487000 at 02:00Z (19:0
 |---|---|---|---|
 | Inlet (USGS 09487000) | front 21:15Z, peak 1,740 cfs (49.3 m³/s) at 21:30Z, ≥1,300 cfs until 01:45Z | forcing: 48.42 at 22Z (top of hour) | 15876941: 46.8 at 23Z |
 | Mile Wide, peak | **18:20Z Nov 1**, 64.7 m³/s (rain) | **09Z Nov 2**: Black Wash band 40.66, both bands 47.54 | 15876811: 39.13 at 02Z. 15876815: 0.33 |
-| Mile Wide, post-rain pulse | 02:10Z Nov 2, 25.7 m³/s (no rain at any gauge from 21Z to 07Z) | 5.66 at 02Z (both bands 8.65) | 15876811: 39.13 at 02Z |
+| Mile Wide, post-rain pulse | 02:10Z Nov 2, 25.7 m³/s (no rain at any gauge from about 21:30Z to 07:06Z) | 5.66 at 02Z (both bands 8.65) | 15876811: 39.13 at 02Z |
 | Mile Wide at 09Z Nov 2 | 430 cfs = 12.2 m³/s, flat | 40.66 / 47.54, its window maximum | — (analysis ends 07Z) |
 | Manville, Tucker, outlet | **no sensor** | 11Z, 13Z, 14Z | 15876711: 37.77 at 03Z |
 
-- **Volume.** From 18Z to 18Z, observed volume at 6443 is 1.78M m³. The model Black Wash band carries 1.58M m³ and
-  both bands 1.86M m³ (trapezoid; the observed figure is linear across report gaps, which is an assumption).
-  So the volume is similar, and the timing is not.
-- **Stage rise.** Observed stage peaks 0.78 m above the zero-flow stage; at 09:15Z Nov 2 it is 0.12 m above it.
+- **Volume** (trapezoid; the observed figure is linear across report gaps, which is an assumption):
+
+  | Observed at 6443 | m³ |
+  |---|---|
+  | 18Z Nov 1 – 18Z Nov 2 | 1,782,749 |
+  | the same, leaving out the 08:45–16:20Z plateau | 1,454,356 |
+  | 16Z Nov 1 – 18Z Nov 2 (from before the first rise) | 1,884,452 |
+  | the same, leaving out the plateau | 1,556,059 |
+
+  - The plateau carries 328,393 m³. Leaving it out is a bracket, not a measurement: if it is an artifact, the true
+    flow then is unknown, not zero.
+  - The v2x model, 18Z–18Z, carries 1,575,913 m³ on the Black Wash band and 1,856,320 m³ across both bands: 0.88× /
+    1.04× of the 18Z–18Z observed total, and 1.08× / 1.28× of it without the plateau. The model's flow is in the wrong
+    hours (see the verdict), so a similar total does not mean the model is right.
+- **Stage rise.** Observed stage peaks 0.78 m above the 2.30 ft base reading; at 09Z Nov 2 (the 09:00 report, the
+  last before 09:15Z) it is 0.12 m above it.
   The model gauge-cell zs peaks at 09:15Z, 1.97 m above the cell bed. The datums differ, so only the size of the
   rise is roughly comparable.
 
@@ -93,7 +128,8 @@ The owner's "1,160 cfs at Three Points" is exactly USGS 09487000 at 02:00Z (19:0
   of 40.7 m³/s (Black Wash band) to 47.5 m³/s (both bands) in that channel.
 - The observed maximum came 14.7 h earlier (18:20Z Nov 1) and was driven by local rain. The frozen HRRR forcing
   misses that rain (see §12.1 of the validation doc).
-- The only rise not driven by rain peaked at 02:10Z Nov 2. That is 4.7 h after the inlet peak, the same hour as
+- Rain fell at five of the six gauges until 20:20–21:27Z, so the second peak (21:45–22:00Z) can also be local rain.
+- The only rise not driven by rain began between 00:20Z and 01:00Z and peaked at 02:10Z Nov 2 (the last rain tip anywhere was 21:27Z). The peak is 4.7 h after the inlet peak, the same hour as
   NWM's 15876811 peak, and 7 h before the model's. That this pulse is inlet water is an inference: it could also be
   delayed Black Wash runoff.
 

@@ -25,7 +25,7 @@
   "retentionDays": 7,
   "committed": false
  },
- "hypothesis": "Frozen HRRR rain gives 0.67 mm (domain mean) for Nov 1 14-17Z vs Stage IV 19.46 mm; this may explain why v2x gives 11.8 m3/s at Mile Wide (ALERT 6443) at 03Z vs about 23.1 observed and why the wave is late",
+ "hypothesis": "Frozen HRRR rain gives 0.67 mm (domain mean) for Nov 1 14-17Z vs Stage IV 19.46 mm; this may explain why v2x gives 11.8 m3/s at Mile Wide (ALERT 6443) at 03Z vs 21.97 m3/s in the primary ALERT 6443 report at 03Z (the owner's ~817 cfs = 23.1 m3/s is confirmed in the primary data, but which report was seen is uncertain) and why the wave is late",
  "forcingChange": {
   "onlyDifference": "precipitation frames 2026-11-01T14Z..2026-11-02T06Z (17 interval starts): HRRR 2026-11-01T14Z forecast -> observed Stage IV 01h (IEM)",
   "changedHours": [
@@ -259,46 +259,154 @@
  },
  "alert6443": {
   "v2r": {
-   "reading": "~817 cfs (23.1 m3/s) at ~03:04Z, second-hand",
-   "readingM3s": 23.13,
-   "modelBothBands03Z": 111.606,
-   "ratio03Z": 4.82,
-   "modelFirstAtReading": {
-    "time": "2026-11-01T20:03Z",
-    "before": {
-     "2026-11-01T20:00Z": 21.48
+   "observedSource": "tools/sfincs/data/brawley-avra-west-v2/observed-gauges-20261101/gauges.json (ALERT 6443 primary county series, provisional; times UTC)",
+   "gaugeNaming": "county name 'Brawley Wash at Milewide Road'; NHD snap Black Wash 15876815 at 4.8 m (Brawley 15877627 crossing 0.8 km west). Which model band the gauge sees is not settled, so both are given",
+   "ownerReadingNote": "~817 cfs (23.13 m3/s) is confirmed in the primary data, but the report the owner saw is uncertain: 817 cfs at 02:45Z Nov 2, 776 cfs at 03:00Z, and 817 cfs also at 23:55Z Nov 1. No single corrected time is used",
+   "observed03Z": {
+    "reportUtc": "2026-11-02T03:00:00Z",
+    "ageMin": 0,
+    "flowM3s": 21.974
+   },
+   "model03Z": {
+    "blackWashBand": 105.754,
+    "bothBands": 111.606
+   },
+   "ratio03Z": {
+    "blackWashBand": 4.813,
+    "bothBands": 5.079
+   },
+   "modelFirstAtObserved03Z": {
+    "thresholdM3s": 21.974,
+    "blackWashBand": {
+     "time": "2026-11-01T20:03Z",
+     "before": {
+      "2026-11-01T20:00Z": 20.557
+     },
+     "after": {
+      "2026-11-01T21:00Z": 51.214
+     },
+     "method": "linear between hourly restarts"
     },
-    "after": {
-     "2026-11-01T21:00Z": 52.224
+    "bothBands": {
+     "time": "2026-11-01T20:01Z",
+     "before": {
+      "2026-11-01T20:00Z": 21.48
+     },
+     "after": {
+      "2026-11-01T21:00Z": 52.224
+     },
+     "method": "linear between hourly restarts"
+    }
+   },
+   "modelFirstAt817cfs": {
+    "thresholdM3s": 23.135,
+    "blackWashBand": {
+     "time": "2026-11-01T20:05Z",
+     "before": {
+      "2026-11-01T20:00Z": 20.557
+     },
+     "after": {
+      "2026-11-01T21:00Z": 51.214
+     },
+     "method": "linear between hourly restarts"
     },
-    "method": "linear between hourly restarts"
+    "bothBands": {
+     "time": "2026-11-01T20:03Z",
+     "before": {
+      "2026-11-01T20:00Z": 21.48
+     },
+     "after": {
+      "2026-11-01T21:00Z": 52.224
+     },
+     "method": "linear between hourly restarts"
+    }
    },
    "modelPeak": {
-    "m3s": 139.238,
-    "time": "2026-11-02T07:00Z"
+    "blackWashBand": {
+     "m3s": 122.902,
+     "time": "2026-11-02T06:00Z"
+    },
+    "bothBands": {
+     "m3s": 139.238,
+     "time": "2026-11-02T07:00Z"
+    }
    },
    "gaugeCellZsMax": 674.147,
    "gaugeCellZsMaxTime": "2026-11-02T06:15Z",
    "gaugeCellMaxDepth": 2.491
   },
   "v2x": {
-   "reading": "~817 cfs (23.1 m3/s) at ~03:04Z, second-hand",
-   "readingM3s": 23.13,
-   "modelBothBands03Z": 11.755,
-   "ratio03Z": 0.51,
-   "modelFirstAtReading": {
-    "time": "2026-11-02T06:12Z",
-    "before": {
-     "2026-11-02T06:00Z": 20.252
+   "observedSource": "tools/sfincs/data/brawley-avra-west-v2/observed-gauges-20261101/gauges.json (ALERT 6443 primary county series, provisional; times UTC)",
+   "gaugeNaming": "county name 'Brawley Wash at Milewide Road'; NHD snap Black Wash 15876815 at 4.8 m (Brawley 15877627 crossing 0.8 km west). Which model band the gauge sees is not settled, so both are given",
+   "ownerReadingNote": "~817 cfs (23.13 m3/s) is confirmed in the primary data, but the report the owner saw is uncertain: 817 cfs at 02:45Z Nov 2, 776 cfs at 03:00Z, and 817 cfs also at 23:55Z Nov 1. No single corrected time is used",
+   "observed03Z": {
+    "reportUtc": "2026-11-02T03:00:00Z",
+    "ageMin": 0,
+    "flowM3s": 21.974
+   },
+   "model03Z": {
+    "blackWashBand": 8.834,
+    "bothBands": 11.755
+   },
+   "ratio03Z": {
+    "blackWashBand": 0.402,
+    "bothBands": 0.535
+   },
+   "modelFirstAtObserved03Z": {
+    "thresholdM3s": 21.974,
+    "blackWashBand": {
+     "time": "2026-11-02T06:20Z",
+     "before": {
+      "2026-11-02T06:00Z": 18.185
+     },
+     "after": {
+      "2026-11-02T07:00Z": 29.53
+     },
+     "method": "linear between hourly restarts"
     },
-    "after": {
-     "2026-11-02T07:00Z": 34.63
+    "bothBands": {
+     "time": "2026-11-02T06:07Z",
+     "before": {
+      "2026-11-02T06:00Z": 20.252
+     },
+     "after": {
+      "2026-11-02T07:00Z": 34.63
+     },
+     "method": "linear between hourly restarts"
+    }
+   },
+   "modelFirstAt817cfs": {
+    "thresholdM3s": 23.135,
+    "blackWashBand": {
+     "time": "2026-11-02T06:26Z",
+     "before": {
+      "2026-11-02T06:00Z": 18.185
+     },
+     "after": {
+      "2026-11-02T07:00Z": 29.53
+     },
+     "method": "linear between hourly restarts"
     },
-    "method": "linear between hourly restarts"
+    "bothBands": {
+     "time": "2026-11-02T06:12Z",
+     "before": {
+      "2026-11-02T06:00Z": 20.252
+     },
+     "after": {
+      "2026-11-02T07:00Z": 34.63
+     },
+     "method": "linear between hourly restarts"
+    }
    },
    "modelPeak": {
-    "m3s": 47.541,
-    "time": "2026-11-02T09:00Z"
+    "blackWashBand": {
+     "m3s": 40.66,
+     "time": "2026-11-02T09:00Z"
+    },
+    "bothBands": {
+     "m3s": 47.541,
+     "time": "2026-11-02T09:00Z"
+    }
    },
    "gaugeCellZsMax": 673.631,
    "gaugeCellZsMaxTime": "2026-11-02T09:15Z",
@@ -307,7 +415,7 @@
   "observedPrimary": {
    "source": "../../observed-gauges-20261101/gauges.json (section 13)",
    "peak": "64.7 m3/s (2286 cfs) at 18:20Z Nov 1",
-   "817cfsReport": "02:45Z Nov 2 (falling limb of third peak)",
+   "817cfsReports": "817 cfs appears at 02:45Z Nov 2 and at 23:55Z Nov 1; the 03:00Z Nov 2 report is 776 cfs (21.974 m3/s). Which one the owner saw is uncertain, so runs are compared with the primary series at each hour (03Z ratios in v2r/v2x ratio03Z)",
    "volume18Zto18ZM3": 1782749
   },
   "modelVolume18Zto18ZM3": {
@@ -1002,7 +1110,7 @@
    "outletOnlyVolumeM3": 3728288,
    "residualM3": -13374,
    "residualPctOfInputs": -0.022813891448869878,
-   "residualNote": "inflow + rain - infiltration - storageEnd - outflow(from first restart); any outflow before the first restart makes the true residual more negative by that amount",
+   "residualNote": "inflow + rain - infiltration - storageEnd - outflow(from first restart). An estimate, not a bound: the outflow term is a trapezoid over hourly snapshots of the instantaneous flux (not a time integral of the solver flux), so its sampling error has either sign; any outflow before the first restart would make the residual more negative by that amount",
    "negativeVolumeEndM3": -0.05415709361363952,
    "minCellVolumeM3": -0.05695571377873421
   },
@@ -1036,7 +1144,7 @@
    "rainBeforeMeanMm": 35.06,
    "storageAtFirstRestartM3": 10245928,
    "upperBoundM3": 33248100,
-   "upperBoundNote": "inflow + rain before the first restart minus storage then, taking infiltration before it as zero (it is not zero, so the bound is loose) and the pre-restart numerical residual as small",
+   "upperBoundNote": "inflow + rain before the first restart minus storage then, taking infiltration before it as zero (it is not zero, so the bound is loose) and the pre-restart numerical residual as small; trueResidualRangeM3 inherits the hourly-sampling estimate in the outflow term after the first restart, so both ends are estimates",
    "trueResidualRangeM3": [
     -33261474,
     -13374
@@ -1143,8 +1251,9 @@
  ],
  "validator": {
   "script": "tools/sfincs/brawley/extend/validate_extended.py",
-  "sha256": "d318b5db37aa7fe8801cdc75548dfc06ad6013d76e074f7af4a1439460fd7c26",
+  "sha256": "f671e230e279b2b52eeebb1c27dd7fbbfa99b50dbe17a55209a704a6740dc210",
   "baseline": "v2 NWM run 42543054067",
-  "compare": "v2x run 42544624673"
+  "compare": "v2x run 42544624673",
+  "note": "re-run 2026-11-09 with the primary-series ALERT 6443 block and the estimate wording for the residual; every other block of validation-full.json is byte-for-byte the same as the d318b5db... output"
  }
 }

@@ -851,7 +851,7 @@
   "outletOnlyVolumeM3": 3728288,
   "residualM3": -13374,
   "residualPctOfInputs": -0.022813891448869878,
-  "residualNote": "inflow + rain - infiltration - storageEnd - outflow(from first restart); any outflow before the first restart makes the true residual more negative by that amount",
+  "residualNote": "inflow + rain - infiltration - storageEnd - outflow(from first restart). An estimate, not a bound: the outflow term is a trapezoid over hourly snapshots of the instantaneous flux (not a time integral of the solver flux), so its sampling error has either sign; any outflow before the first restart would make the residual more negative by that amount",
   "negativeVolumeEndM3": -0.05415709361363952,
   "minCellVolumeM3": -0.05695571377873421
  },
@@ -877,7 +877,7 @@
   "rainBeforeMeanMm": 35.06,
   "storageAtFirstRestartM3": 10245928,
   "upperBoundM3": 33248100,
-  "upperBoundNote": "inflow + rain before the first restart minus storage then, taking infiltration before it as zero (it is not zero, so the bound is loose) and the pre-restart numerical residual as small",
+  "upperBoundNote": "inflow + rain before the first restart minus storage then, taking infiltration before it as zero (it is not zero, so the bound is loose) and the pre-restart numerical residual as small; trueResidualRangeM3 inherits the hourly-sampling estimate in the outflow term after the first restart, so both ends are estimates",
   "trueResidualRangeM3": [
    -33261474,
    -13374
@@ -1419,23 +1419,330 @@
   }
  },
  "alert6443": {
-  "reading": "~817 cfs (23.1 m3/s) at ~03:04Z, second-hand",
-  "readingM3s": 23.13,
-  "modelBothBands03Z": 111.606,
-  "ratio03Z": 4.82,
-  "modelFirstAtReading": {
-   "time": "2026-11-01T20:03Z",
-   "before": {
-    "2026-11-01T20:00Z": 21.48
-   },
-   "after": {
-    "2026-11-01T21:00Z": 52.224
-   },
-   "method": "linear between hourly restarts"
+  "observedSource": "tools/sfincs/data/brawley-avra-west-v2/observed-gauges-20261101/gauges.json (ALERT 6443 primary county series, provisional; times UTC)",
+  "gaugeNaming": "county name 'Brawley Wash at Milewide Road'; NHD snap Black Wash 15876815 at 4.8 m (Brawley 15877627 crossing 0.8 km west). Which model band the gauge sees is not settled, so both are given",
+  "ownerReadingNote": "~817 cfs (23.13 m3/s) is confirmed in the primary data, but the report the owner saw is uncertain: 817 cfs at 02:45Z Nov 2, 776 cfs at 03:00Z, and 817 cfs also at 23:55Z Nov 1. No single corrected time is used",
+  "observed03Z": {
+   "reportUtc": "2026-11-02T03:00:00Z",
+   "ageMin": 0,
+   "flowM3s": 21.974
   },
+  "model03Z": {
+   "blackWashBand": 105.754,
+   "bothBands": 111.606
+  },
+  "ratio03Z": {
+   "blackWashBand": 4.813,
+   "bothBands": 5.079
+  },
+  "modelFirstAtObserved03Z": {
+   "thresholdM3s": 21.974,
+   "blackWashBand": {
+    "time": "2026-11-01T20:03Z",
+    "before": {
+     "2026-11-01T20:00Z": 20.557
+    },
+    "after": {
+     "2026-11-01T21:00Z": 51.214
+    },
+    "method": "linear between hourly restarts"
+   },
+   "bothBands": {
+    "time": "2026-11-01T20:01Z",
+    "before": {
+     "2026-11-01T20:00Z": 21.48
+    },
+    "after": {
+     "2026-11-01T21:00Z": 52.224
+    },
+    "method": "linear between hourly restarts"
+   }
+  },
+  "modelFirstAt817cfs": {
+   "thresholdM3s": 23.135,
+   "blackWashBand": {
+    "time": "2026-11-01T20:05Z",
+    "before": {
+     "2026-11-01T20:00Z": 20.557
+    },
+    "after": {
+     "2026-11-01T21:00Z": 51.214
+    },
+    "method": "linear between hourly restarts"
+   },
+   "bothBands": {
+    "time": "2026-11-01T20:03Z",
+    "before": {
+     "2026-11-01T20:00Z": 21.48
+    },
+    "after": {
+     "2026-11-01T21:00Z": 52.224
+    },
+    "method": "linear between hourly restarts"
+   }
+  },
+  "hourly": [
+   {
+    "hourUtc": "2026-11-01T18:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T18:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 52.386
+    },
+    "modelBlackWashBandM3s": 1.292,
+    "modelBothBandsM3s": 1.301
+   },
+   {
+    "hourUtc": "2026-11-01T19:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T19:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 52.584
+    },
+    "modelBlackWashBandM3s": 13.156,
+    "modelBothBandsM3s": 14.297
+   },
+   {
+    "hourUtc": "2026-11-01T20:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T20:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 30.129
+    },
+    "modelBlackWashBandM3s": 20.557,
+    "modelBothBandsM3s": 21.48
+   },
+   {
+    "hourUtc": "2026-11-01T21:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T21:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 29.874
+    },
+    "modelBlackWashBandM3s": 51.214,
+    "modelBothBandsM3s": 52.224
+   },
+   {
+    "hourUtc": "2026-11-01T22:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T22:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 41.966
+    },
+    "modelBlackWashBandM3s": 82.057,
+    "modelBothBandsM3s": 87.088
+   },
+   {
+    "hourUtc": "2026-11-01T23:00Z",
+    "observed": {
+     "reportUtc": "2026-11-01T23:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 37.916
+    },
+    "modelBlackWashBandM3s": 110.931,
+    "modelBothBandsM3s": 116.94
+   },
+   {
+    "hourUtc": "2026-11-02T00:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T00:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 21.691
+    },
+    "modelBlackWashBandM3s": 119.068,
+    "modelBothBandsM3s": 125.481
+   },
+   {
+    "hourUtc": "2026-11-02T01:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T01:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 18.066
+    },
+    "modelBlackWashBandM3s": 112.865,
+    "modelBothBandsM3s": 118.827
+   },
+   {
+    "hourUtc": "2026-11-02T02:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T02:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 24.126
+    },
+    "modelBlackWashBandM3s": 106.904,
+    "modelBothBandsM3s": 112.593
+   },
+   {
+    "hourUtc": "2026-11-02T03:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T03:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 21.974
+    },
+    "modelBlackWashBandM3s": 105.754,
+    "modelBothBandsM3s": 111.606
+   },
+   {
+    "hourUtc": "2026-11-02T04:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T04:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 14.81
+    },
+    "modelBlackWashBandM3s": 110.035,
+    "modelBothBandsM3s": 116.586
+   },
+   {
+    "hourUtc": "2026-11-02T05:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T05:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 14.498
+    },
+    "modelBlackWashBandM3s": 120.193,
+    "modelBothBandsM3s": 128.741
+   },
+   {
+    "hourUtc": "2026-11-02T06:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T06:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 15.829
+    },
+    "modelBlackWashBandM3s": 122.902,
+    "modelBothBandsM3s": 136.053
+   },
+   {
+    "hourUtc": "2026-11-02T07:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T07:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 14.895
+    },
+    "modelBlackWashBandM3s": 122.215,
+    "modelBothBandsM3s": 139.238
+   },
+   {
+    "hourUtc": "2026-11-02T08:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T08:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 13.026
+    },
+    "modelBlackWashBandM3s": 117.858,
+    "modelBothBandsM3s": 135.918
+   },
+   {
+    "hourUtc": "2026-11-02T09:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T09:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.176
+    },
+    "modelBlackWashBandM3s": 110.193,
+    "modelBothBandsM3s": 127.469
+   },
+   {
+    "hourUtc": "2026-11-02T10:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T10:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.261
+    },
+    "modelBlackWashBandM3s": 101.395,
+    "modelBothBandsM3s": 116.491
+   },
+   {
+    "hourUtc": "2026-11-02T11:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T11:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.261
+    },
+    "modelBlackWashBandM3s": 93.511,
+    "modelBothBandsM3s": 106.33
+   },
+   {
+    "hourUtc": "2026-11-02T12:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T12:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.063
+    },
+    "modelBlackWashBandM3s": 86.728,
+    "modelBothBandsM3s": 97.594
+   },
+   {
+    "hourUtc": "2026-11-02T13:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T13:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.205
+    },
+    "modelBlackWashBandM3s": 82.237,
+    "modelBothBandsM3s": 91.62
+   },
+   {
+    "hourUtc": "2026-11-02T14:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T14:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 11.723
+    },
+    "modelBlackWashBandM3s": 77.558,
+    "modelBothBandsM3s": 85.702
+   },
+   {
+    "hourUtc": "2026-11-02T15:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T15:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 11.553
+    },
+    "modelBlackWashBandM3s": 72.344,
+    "modelBothBandsM3s": 79.409
+   },
+   {
+    "hourUtc": "2026-11-02T16:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T16:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 12.063
+    },
+    "modelBlackWashBandM3s": 67.691,
+    "modelBothBandsM3s": 73.919
+   },
+   {
+    "hourUtc": "2026-11-02T17:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T16:20:00Z",
+     "ageMin": 40,
+     "flowM3s": 11.242
+    },
+    "modelBlackWashBandM3s": 63.844,
+    "modelBothBandsM3s": 69.489
+   },
+   {
+    "hourUtc": "2026-11-02T18:00Z",
+    "observed": {
+     "reportUtc": "2026-11-02T18:00:00Z",
+     "ageMin": 0,
+     "flowM3s": 10.959
+    },
+    "modelBlackWashBandM3s": 58.873,
+    "modelBothBandsM3s": 64.033
+   }
+  ],
+  "hourlyNote": "observed = the primary report at the hour, or the latest earlier report with its age in minutes (no interpolation); model = hourly restart flux (m3/s)",
   "modelPeak": {
-   "m3s": 139.238,
-   "time": "2026-11-02T07:00Z"
+   "blackWashBand": {
+    "m3s": 122.902,
+    "time": "2026-11-02T06:00Z"
+   },
+   "bothBands": {
+    "m3s": 139.238,
+    "time": "2026-11-02T07:00Z"
+   }
   },
   "gaugeCellZsMax": 674.147,
   "gaugeCellZsMaxTime": "2026-11-02T06:15Z",

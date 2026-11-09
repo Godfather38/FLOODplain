@@ -568,9 +568,9 @@ The water under the deck stays 1.29–1.39 m below roadZ, and the exporter repor
 ### 12.2 Checks
 
 - **Mass balance (corrected 2026-11-09).** Inflow, rain and infiltration cover the whole run, but outflow is counted only from the first hourly restart (18Z Nov 1). The run writes no his file and map frames start at 17Z Nov 1, so outflow before 18Z cannot be integrated from these outputs. The script block is now named `balanceInputsWholeRunOutflowFromFirstRestart` (it was `balanceWholeRun`).
-  - Residual −112,122 m³, −0.26% of inputs. Any outflow before 18Z makes the true residual more negative by that amount, so −0.26% is the least negative value it can have.
+  - Residual −112,122 m³, −0.26% of inputs. This is an estimate, not a hard bound (corrected 2026-11-09; it was called "the least negative value"). The outflow from 18Z on is a trapezoid over hourly snapshots of the instantaneous flux, not a time integral of the solver flux, so its error can have either sign. Any outflow before 18Z would make the residual more negative by that amount.
   - What bounds the missing outflow: the outflow flux is 0.000 m³/s on all 71 outflow links at 18, 19, 20 and 21Z, and every outflow cell is dry (vol/area 0.0000 m) in the map frames 17Z–22Z.
-  - Before 18Z the domain received 16.3 mm of rain (20.2M m³) and 7,416 m³ of inflow, and held 1.45M m³ at 18Z. Taking infiltration as zero, the outflow before 18Z is at most 18.8M m³. That bound is loose because infiltration was not zero, so the true residual lies between −18.9M m³ and −112,122 m³. It is not measured more tightly than that.
+  - Before 18Z the domain received 16.3 mm of rain (20.2M m³) and 7,416 m³ of inflow, and held 1.45M m³ at 18Z. Taking infiltration as zero, the outflow before 18Z is at most 18.8M m³. That bound is loose because infiltration was not zero. So the residual lies between about −18.9M m³ and about −112,122 m³, and both ends carry the hourly-sampling error of the outflow term. It is not measured more tightly than that.
 - **Storage.** At 18Z there is still 7.80M m³ in storage. 2.01M m³ left through all outflow cells from 18Z Nov 1 on (earlier outflow is not in the outputs; see the mass-balance item).
 - **Same result as the 63-h v2 observed run up to 07Z.**
   - The 99th-percentile |Δzs| is 0.0002 m and the maximum is 0.074 m; 4,720 cells differ by more than 0.01 m.
@@ -605,12 +605,13 @@ The inlet peaks at 22Z. The baseline column is the v2 NWM-inflow run at 07Z: the
   - Tucker 64.34 vs 37.77 (1.70×).
   - Outlet 26.32 vs 37.77 (0.70×).
   - After 07Z there is no rain-only baseline, so the split between inlet water and the extension's rain is not measured.
-- **Against the ALERT 6443 reading** (about 817 cfs = 23.1 m³/s at about 03:04Z, second-hand):
-  - The model gives 11.8 m³/s at 03Z across both bands (0.51×).
-  - It first reaches 23.1 m³/s at about 06:12Z (20.25 at 06Z, 34.63 at 07Z, linear between hourly restarts): about 3.1 h after the reading.
-  - Its peak at Mile Wide is 47.54 at 09Z. In the cell nearest the gauge, zs peaks at 673.631 at 09:15Z, 1.97 m above the cell bed.
-  - **V2 flow and timing: still FAIL**, with the same caveat about the second-hand reading.
-  - The missing early Stage IV rain (§12.1) may explain part of the 03Z shortfall (inference, not tested).
+- **Against the primary ALERT 6443 series** (`tools/sfincs/data/brawley-avra-west-v2/observed-gauges-20261101/gauges.json`; §13). Corrected 2026-11-09: this used to compare with a second-hand ~817 cfs at ~03:04Z.
+  - The owner's ~817 cfs (23.1 m³/s) is confirmed in the primary data, but which report the owner saw is uncertain: 817 cfs at 02:45Z Nov 2, 776 cfs at 03:00Z, and 817 cfs also at 23:55Z Nov 1. So no single reading time is used.
+  - At 03Z the primary report is 776 cfs = **21.97 m³/s**. The model gives 8.83 m³/s on the Black Wash band and 11.76 across both bands: **0.40× / 0.535×**.
+  - The model first reaches 21.97 m³/s at about 06:20Z (Black Wash band) and 06:07Z (both bands), linear between hourly restarts: about 3.1–3.3 h after 03Z. For 23.1 m³/s it is 06:26Z / 06:12Z.
+  - Its peak at Mile Wide is 40.66 (Black Wash band) / 47.54 (both bands) at 09Z. In the cell nearest the gauge, zs peaks at 673.631 at 09:15Z, 1.97 m above the cell bed.
+  - **V2 flow and timing: still FAIL**, now against the primary series (all numbers in `alert6443` of the result's `validation-full.json`).
+  - The missing early Stage IV rain (§12.1) may explain part of the 03Z shortfall (inference, not tested here; see §15).
 - **Where the outlet water goes.**
   - The outlet cluster passes 959,158 m³ (peak 26.3 at 14Z). Its channel cell holds at most 0.072 m of water.
   - About 2 km east, at −111.2705, 32.3652 (a 100 m cell, zb 617.08), water ponds 5.62 m deep. It reaches zs 622.70 at 18Z and is still rising (622.53 at 17Z; corrected from 622.53, which was the 17Z value).
@@ -652,7 +653,9 @@ Over-topping is cell zs minus station roadZ, counted only in wet frames.
 ### 13.1 What exists
 
 - **The `data` branch has no history.** The snapshot workflow force-pushes one commit every ~10 min, so the Nov 1–2 readings came from the county's own `showdata.php`. That page returns the last 1,000 reports per sensor, which covers the whole event.
-- **Every stream sensor in or next to the domain was checked** (EPSG:32612 domain polygon). The only observed point downstream of the inlet on the Brawley system is **ALERT 6443** at Mile Wide Rd. It is 4.8 m from NHD 15876815 (Black Wash outlet); the Brawley 15877627 crossing is 0.8 km west.
+- **Every stream sensor in or next to the domain was checked** (EPSG:32612 domain polygon). The only observed point downstream of the inlet on the Brawley system is **ALERT 6443** at Mile Wide Rd.
+  - The county names it "Brawley Wash at Milewide Road". Its coordinates snap to NHD 15876815 (the Black Wash outlet, 604 km²) at 4.8 m; the Brawley 15877627 crossing is 0.8 km west.
+  - These point to different comparisons. If the NHD position is right, the gauge sees the model's Black Wash band (and NWM 15876815). If the county name means the combined Brawley flow at the road, it sees both bands (and NWM 15876811). This is not settled, so both bands are always given.
 - **The others cannot time the wave:**
   - AZGFD 1/2/3 are off-channel stage-only sensors, 270–870 m from any flowline.
   - Santa Cruz at Trico (USGS 09486520, ALERT 1345) is upstream of the Brawley/Los Robles confluence.
@@ -666,9 +669,15 @@ Over-topping is cell zs minus station roadZ, counted only in wet frames.
   - **2,286 cfs (64.7 m³/s, 4.87 ft) at 18:20Z Nov 1**, the event maximum.
   - 1,482 cfs (42.0) at 21:45–22:00Z.
   - 906 cfs (25.7) at 02:10Z Nov 2.
-- After that the flow is 14–16 m³/s at 04–08Z, then flat at 11.2–12.3 m³/s from 08:45Z to 16:20Z.
-- **The 817 cfs claim: the value is confirmed, the time is corrected.** It is the report at **02:45Z** (19:45 MST, 3.37 ft), on the falling limb of the third peak. It was not the peak. The owner's "1,160 cfs at Three Points" is USGS 09487000 at 02:00Z.
-- **Rain.** All six nearby ALERT rain gauges had their burst at 14:45–17:05Z. The last tip was by 21Z, and then there was no rain until 07Z Nov 2. So peaks 1 and 2 are local rain runoff; peak 2 comes too soon after the inlet front (21:15Z, 15 km away) to be inlet water. Peak 3 is the only rise without rain.
+- After that the flow is 14–16 m³/s at 04–08Z, then flat at 11.2–12.3 m³/s (2.64–2.72 ft) from 08:45Z to 16:20Z.
+- **Low-stage rating caveat.** In the stage/flow pairs of all 1,000 reports on the county page, the rated flow is 0 cfs up to 2.49 ft, 16–17 cfs at 2.50 ft, 330–332 cfs at 2.59 ft and 383 cfs at 2.61 ft (no report at exactly 2.60 ft). The flow jumps from 0 to about 380 cfs over 0.1 ft, so a few hundredths of a foot of stage shift reads as hundreds of cfs. **The 08:45–16:20Z plateau sits on that step and may be a rating or stage-shift artifact.**
+  - The 2.30 ft base is the pre-event reading (0 cfs), not the rating's zero-flow stage.
+- **The 817 cfs claim: the value is confirmed; which report the owner saw is uncertain.** 817 cfs (3.37 ft) is reported at 02:45Z Nov 2 (19:45 MST, falling limb of the third peak) and also at 23:55Z Nov 1 (16:55 MST, first recession); the 03:00Z report is 776 cfs (21.97 m³/s). No single corrected time is given; the model is compared with the primary series at each hour. Neither report is the event peak. The owner's "1,160 cfs at Three Points" is USGS 09487000 at 02:00Z.
+- **Rain** (tip times of the six nearby ALERT rain gauges).
+  - The main burst was 14:45–17:05Z at all six.
+  - Lighter rain followed after 17:05Z: 0.24 in at 6440 Mile Wide (to 20:20Z), 0.35 in at 6500 (to 20:32Z), 0.31 in at 6460 (to 20:30Z), 0.31 in at 6420 (to 21:02Z), 0.47 in at 6450 (to 21:27Z) and 0.04 in at 6480.
+  - The last tips were 6420 at 21:02Z and 6450 at 21:27Z. There was no rain from about 21:30Z until 07:06Z Nov 2.
+  - So peaks 1 and 2 are local rain runoff; peak 2 also comes too soon after the inlet front (21:15Z, 15 km away) to be inlet water. Peak 3 (rise from 00:20–01:00Z) is the only rise without rain.
 
 ### 13.3 Against the model and NWM
 
@@ -680,13 +689,18 @@ Over-topping is cell zs minus station roadZ, counted only in wet frames.
 | 02Z Nov 2 | 24.1 | 5.66 / 8.65 | 39.13 |
 | 09Z Nov 2 | 12.2 (falling, flat) | 40.66 / 47.54 | — |
 | Volume 18Z–18Z | 1.78M m³ | 1.58M / 1.86M m³ | — |
+| Volume 18Z–18Z, leaving out the 08:45–16:20Z plateau | 1.45M m³ | (1.58M / 1.86M, whole window) | — |
+| Volume 16Z Nov 1–18Z Nov 2 | 1.88M m³ (1.56M without the plateau) | — | — |
+
+- The plateau carries 0.33M m³. Leaving it out is a bracket, not a measurement: if it is an artifact, the true flow then is unknown, not zero. All observed totals bridge the 16:20–18:00Z report gap linearly (0.07M m³).
+- So the model's 18Z–18Z volume is 0.88× / 1.04× (Black Wash band / both bands) of the observed total, or 1.08× / 1.28× of it without the plateau.
 
 ### 13.4 Verdict
 
 - **Mile Wide: the model's slow wave is refuted.**
   - The gauge has no rise at 06–10Z Nov 2 (15.8 → 12.3 m³/s, falling). The model puts its window peak there, at 3.3–3.9× the observed flow.
   - The observed maximum came 14.7 h before the model's peak and was driven by rain that the frozen HRRR forcing lacks (§12.1).
-  - The model gets the volume roughly right but its timing is wrong.
+  - The 18Z–18Z totals are of similar size (above), but the model's water is in the wrong hours, so the totals do not support the model.
   - The one rise not driven by rain peaks at 02:10Z. That is 4.7 h after the inlet peak (about 3.3 km/h over 15.4 km) and in the same hour as NWM's peak. It is 7 h before the model's.
   - That this pulse is inlet water is an inference: delayed Black Wash runoff cannot be ruled out. But no reading supports a 09Z peak in either case.
   - V2 stays **FAIL**, now against primary data. The NWM-agent value of 0.33 m³/s at 15876815 is also contradicted, if the gauge reads that reach.
@@ -740,6 +754,7 @@ Both use the v2 mesh (643,056 cells, mesh sha256 328042f02927…, up from 408,20
 - **Only the rain**, in 17 hourly frames: interval starts 2026-11-01T14Z to 2026-11-02T06Z. These were the HRRR 14Z forecast in v2x and are now observed Stage IV 01h (IEM).
   - Same header checks, HRAP grid hash and nearest-cell mapping as the frozen analysis hours.
   - 0 missing cells, so no MRMS replacement was needed and nothing was zero-filled. The raw-file sha256 hashes equal the v2x fetch.
+  - Labels (corrected 2026-11-09): the rain metadata `rain-v2r-stage4-metadata.json` had a `purpose` naming v2x; it now reads SENSITIVITY v2r. The packaged case's `forecastIssue: 2026-11-01T13:00:00Z` is stale (v2r uses no forecast); it is left as packaged because the case files are hashed, and recorded in the result README.
 - **Unchanged.** The 46 frozen analysis frames to 13Z Nov 1 and the 11 v2x Stage IV frames 07–17Z Nov 2 are unchanged. sfincs.nc, the subgrid, infiltration, sfincs.inp, sfincs.dis (observed inflow) and sfincs.src are byte-identical to v2x.
 - **Mesh-weighted rain:**
   - 14–18Z Nov 1: 19.44 mm (v2x 0.69).
@@ -772,8 +787,10 @@ Both use the v2 mesh (643,056 cells, mesh sha256 328042f02927…, up from 408,20
   | 09Z | 12.2 | 47.5 | 127.5 |
 
 - **Volume 18Z–18Z.** 8.27M m³ in v2r (Black Wash band 7.56M), against 1.78M observed (v2x 1.86M).
-- **First 23.1 m³/s.** About 20:03Z Nov 1 (v2x about 06:12Z Nov 2). At 03Z the flow is 4.8× the reading (v2x 0.51×).
-- **The observed 18:20Z peak (64.7) is still not reproduced.** The model peaks at 06–07Z Nov 2 at 1.9× the observed peak. In the gauge cell, zs peaks at 674.147 at 06:15Z (2.49 m deep).
+  - Against 1.78M m³ the ratios are 4.24× / 4.64× (Black Wash band / both bands; v2x 0.88× / 1.04×). Against 1.45M m³, leaving out the plateau that may be a rating artifact (§13.2), they are 5.20× / 5.69× (v2x 1.08× / 1.28×).
+- **At 03Z, against the primary report** (776 cfs = 21.97 m³/s; the ~817 cfs value is confirmed but the report the owner saw is uncertain, §13.2): v2r is 105.75 (Black Wash band) / 111.61 (both bands), **4.81× / 5.08×**. v2x was 8.83 / 11.76, 0.40× / 0.535×.
+- **First time the model reaches 21.97 m³/s:** about 20:03Z Nov 1 (Black Wash band) and 20:01Z (both bands); v2x 06:20Z / 06:07Z Nov 2. For 23.1 m³/s it is about 20:05Z / 20:03Z (v2x 06:26Z / 06:12Z). (Corrected: the single "20:03Z" given earlier was the both-bands time for 23.1.)
+- **The observed 18:20Z peak (64.7) is still not reproduced.** The Black Wash band peaks at 122.90 at 06Z (1.90× the observed peak); both bands peak at 139.24 at 07Z (139.2 / 64.7 = 2.15×). In the gauge cell, zs peaks at 674.147 at 06:15Z (2.49 m deep).
 
 **Road over-topping** (cell zs − roadZ, wet frames only):
 
@@ -791,7 +808,7 @@ Both use the v2 mesh (643,056 cells, mesh sha256 328042f02927…, up from 408,20
 
 ### 15.3 Checks
 
-- **Mass balance.** Residual −13,374 m³ (−0.02%), counted from the first restart at 18Z Nov 1. Outflow before 18Z is not measured; 35 mm of rain falls before then.
+- **Mass balance.** Residual −13,374 m³ (−0.02%), counted from the first restart at 18Z Nov 1. As in §12.2 it is an estimate, not a bound (hourly-sampled outflow). Outflow before 18Z is not measured; 35 mm of rain falls before then.
 - **Negative depth.** The minimum is −1.46 mm (face 478144, 02:30Z). 1 cell is below −1 mm, in 4 frames, which is **outside the live verifier limit** (v2x: −0.67 mm).
 - **Stability.** 0 wet NaN values and 0 spikes; maximum 15-min rise 2.12 m. The velocity proxy reaches **8.22 m/s at the outlet outflow cells** (04Z), against 1.47 in v2x. This has not been checked further.
 - **Outlet pond.** zs 626.19, 9.11 m deep and still rising at 18Z; 5.00M m³ stored within 1.5 km (v2x: 1.24M).
@@ -800,7 +817,7 @@ Both use the v2 mesh (643,056 cells, mesh sha256 328042f02927…, up from 408,20
 ### 15.4 Reading (inference)
 
 - **The hypothesis holds only partly.**
-  - Observed rain removes the 03Z shortfall and the late arrival of 23 m³/s, but it overshoots by about 4–5× in flow and volume.
-  - The model still responds at Mile Wide 5–12 h after the observed rain burst (14:45–17:05Z) and misses the 18:20Z peak.
+  - Observed rain removes the 03Z shortfall and the late arrival of 22–23 m³/s, but it overshoots: 4.8–5.1× at 03Z and 4.2–4.6× in 18Z–18Z volume (more against the volume without the plateau).
+  - The model still responds at Mile Wide 5–12 h after the observed main burst (14:45–17:05Z; lighter rain to 21:27Z) and misses the 18:20Z peak.
   - So the HRRR rain timing alone does not explain the V2 misfit. The CN runoff assumption (no transmission loss) and the slow overland/channel routing look like larger factors. This run does not separate them, and nothing was adjusted.
 - **V2 stays FAIL** in this sensitivity run as well.

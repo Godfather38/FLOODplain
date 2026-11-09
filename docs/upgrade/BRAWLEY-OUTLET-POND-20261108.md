@@ -26,11 +26,12 @@ Date: 2026-11-08. Checks only: nothing was rebuilt and the solver was not run.
   | z_level | 617.08, 618.52, 619.23, 619.80, 620.07, 620.17, 620.25, 620.31, 620.37, 620.43 |
 
 - The 5.62 m depth is measured from z_zmin, the lowest sub-pixel. The volume table puts the mean bed of the cell near 619.9 m, so the cell-average depth at 18Z is about 2.8 m.
-- A small intermittent NHD water body (stock tank, com_id 126477925) lies 110 m away and explains the low sub-pixel.
+- A small intermittent pond lies nearby. **Source: OpenStreetMap** way 68702363 (Overpass, queried 2026-11-09 05:27Z), an NHD import: tags `source=NHD`, `nhd:com_id=126477925`, `gnis:fcode=39001` (intermittent lake/pond), `intermittent=yes`, `natural=water`. It was not read from NHD itself. Calling it a stock tank is an inference from its size (1,317 m²) and setting.
+  - It is 112 m from the pond-cell centre and 42 m outside the cell's edge. So it does not by itself explain the low sub-pixel inside the cell (corrected: an earlier version said it did). The low pixel is likely part of the same shallow depression (inference, not checked pixel by pixel).
 
 **Neighbours.**
 - The 12 nearest cells have z_zmin 618.4–620.8 and z_zmax 619.7–621.3. All are level 1 (100 m).
-- Within 1.5 km there are 127 cells at level 1, 175 at level 2 and 109 at level 3. There are no level 4/5 cells.
+- Within 1.5 km (cell centre to cell centre, from the v2x `sfincs.nc`) there are 262 other cells: 123 at level 1, 138 at level 2 and 1 at level 3 (face 163423, at 1,494 m). There are no level 4/5 cells. (Corrected: an earlier version gave 127 / 175 / 109.)
 - At 18Z all 13 cells share one flat water surface, **zs 622.70**: a lake, not a single-cell pit.
 
 **The lake fills steadily.** The lobe is the domain east of x 473600 and north of y 3578000, 3,049 cells. Its stored volume:
@@ -46,8 +47,8 @@ Date: 2026-11-08. Checks only: nothing was rebuilt and the solver was not run.
 | Nov 2 17Z | 1,218,902 | 622.53 |
 | Nov 2 18Z | 1,317,457 | 622.70 |
 
-- Within 1.5 km of face 54135 the stored volume is 1,241,386 m³ at 18Z.
-- The lobe gains storage fastest between 12Z and 15Z: 31.6, 36.5, 37.7 and 35.5 m³/s in hourly means. It is still gaining 27.4 m³/s in the last hour.
+- Within 1.5 km of face 54135 the stored volume is 1,241,787 m³ at 18Z (`pondNearOutlet` in the v2x `validation-full.json`; corrected from 1,241,386).
+- The lobe gains storage fastest between 11Z and 15Z, in hourly means: 31.6 m³/s (11–12Z), 36.5 (12–13Z), 37.7 (13–14Z) and 35.5 (14–15Z). It is still gaining 27.4 m³/s in the last hour (17–18Z). These are differences of the lobe volume between hourly map frames.
 - **This matches the gap between Tucker and the outlet.** At their peaks Tucker passes 64.34 m³/s (13Z) and the outlet passes 26.32 m³/s (14Z), a gap of 38 m³/s.
   - The Tucker section (lat 32.33536, lon −111.300 to −111.268) reaches into the lobe's west side, so part of the "Tucker" flow is water heading into the dead end.
 
@@ -73,7 +74,7 @@ Date: 2026-11-08. Checks only: nothing was rebuilt and the solver was not run.
   - W Avra Valley Rd: 3.1–3.4 km north.
   - The road-heights package has no road station within 1.5 km. The nearest is Garvey Rd, 1.58 km away, roadZ 620.6–623.8.
 - **Nearby features.**
-  - The stock tank above (NHD water body).
+  - The intermittent pond above (OSM way 68702363, NHD import).
   - Ranch service tracks.
   - Two solar farms: Avra Valley Solar, 1.4 km west, and Picture Rocks Solar, 2.8 km east.
 - **The real conveyance.**
@@ -96,12 +97,13 @@ The same check on all 78 NHD headwater lines inside the domain found one more li
    - They should be placed with the same HydroMT outflow-point method, seeded at the 15876709 start point (474844, 3581562).
    - The mesh, the subgrid tables and the parameters stay unchanged. The boundary step is minutes (not measured).
    - Solver cost, from measured runtimes:
-     - Frozen 63-h window: about 49–56 min.
+     - Frozen 63-h window: 2,934–3,350 s (about 49–56 min).
      - 74-h extended window: 5,681 s (about 95 min).
    - Report the lobe outflow as its own series, not added to "Outlet 720060498". It is a separate channel, east of Brawley Wash, that reaches Avra Valley Rd on its own.
 2. **Optional: extend the domain north to the Avra Valley Rd bridge.** This adds about 3.3 km of the east channel, and only if that crossing matters.
-   - It needs a new mesh and new subgrid parameters: v2 parameters took 5,762 s, plus mesh time.
-   - Add a solver run (49–56 min frozen, about 95 min extended). Total about 2.6–3.3 h compute.
+   - It needs a new mesh and new subgrid parameters. The v2 parameters took 5,762 s (measured, build chain log). Mesh time was not measured.
+   - Then a solver run: 2,934–3,350 s for the frozen 63-h window (the two v2 frozen runs), or 5,681 s for the 74-h extended window (v2x).
+   - Total, measured parts only: 5,762 + 2,934 = 8,696 s (2.42 h) to 5,762 + 3,350 = 9,112 s (2.53 h) with a frozen-window run, or 5,762 + 5,681 = 11,443 s (3.18 h) with an extended-window run. Mesh time comes on top and is not known. (Corrected: an earlier version gave 2.6–3.3 h without showing the sum.)
 3. **Not recommended.**
    - Refining these cells to level 4: the cell size is not the problem.
    - A 1 m window here: the 10 m lidar-derived terrain is already right.

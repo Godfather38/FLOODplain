@@ -35,7 +35,7 @@ def main():
  frozen=json.loads((a.rainfall/'precipitation-metadata.json').read_text())
  metadata={'status':'complete','units':'mm/h','intervalSeconds':3600,'intervalEndUtc':end,'issuedAt':ext['caseExtension']['endExclusive'],
   'asOf':max(s['retrievedAt'] for s in ext['sources'] if s.get('retrievedAt')),'observationOrForecast':'observation',
-  'note':'SENSITIVITY v2r: frozen observation-based analysis 2026-10-30T16Z..2026-11-01T14Z unchanged, observed Stage IV 01h (IEM) for every later hour; no HRRR, no zero-fill',
+  'note':'SENSITIVITY v2r: frozen observation-based analysis frames, interval starts 2026-10-30T16Z..2026-11-01T13Z (46 frames, the last one ending at 14Z), unchanged; observed Stage IV 01h (IEM) for every later interval start, 14Z Nov 1 onward; no HRRR, no zero-fill',
   'geography':frozen['geography'],'frozenForecastNotUsed':['initialization-rainfall/forecast-transition-precipitation.nc','precipitation.nc'],
   'sourceArtifacts':[{'path':str(f),'sha256':hashlib.sha256(f.read_bytes()).hexdigest()} for f in paths+[a.extension_metadata]]}
  model=SfincsModel(root=str(a.case),mode='r+',write_gis=False);model.data_catalog=DataCatalog(fallback_lib=None);model.read_config();model.read_grid();model.set_geoms(gpd.read_file(a.domain).to_crs(32612),name='region')

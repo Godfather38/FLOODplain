@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "complete",
-  "purpose": "Validation-only extended-window rain (brawley-avra-west v2x). Not live forcing.",
+  "purpose": "SENSITIVITY v2r (brawley-avra-west): all-observed Stage IV rain for interval starts 2026-11-01T14Z..2026-11-02T17Z (28 frames). Not tuned to observations, not live forcing, not for live registration. Written by the v2x fetch tool, whose purpose text named v2x; relabelled by hand 2026-11-09.",
   "units": "mm/h",
   "intervalSeconds": 3600,
   "intervalLabel": "start",

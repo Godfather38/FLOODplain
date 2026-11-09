@@ -66,10 +66,13 @@ Manville has a second, near-equal peak of 157.03 at 09Z. Tucker is 157.52 at 03Z
 
 Every hour is in `alert6443-observed-compare.json`.
 
-- **The model flow first reaches 23.1 m³/s at about 20:03Z Nov 1** (it was about 06:12Z Nov 2 in v2x). At 03Z it is 111.6 m³/s, 4.8× the reading (v2x: 0.51×).
+- **At 03Z Nov 2, against the primary ALERT 6443 report** (776 cfs = 21.97 m³/s): v2r is 105.75 m³/s on the Black Wash band and 111.61 across both bands, **4.81× / 5.08×** (v2x: 8.83 / 11.76, 0.40× / 0.535×).
+  - The owner's ~817 cfs (23.1 m³/s) is confirmed in the primary data, but which report the owner saw is uncertain: 817 cfs at 02:45Z Nov 2, 776 cfs at 03:00Z, and 817 cfs also at 23:55Z Nov 1. So no single reading time is used; the comparison is with the primary series.
+- **First time the model reaches 21.97 m³/s** (linear between hourly restarts): Black Wash band about 20:03Z Nov 1, both bands about 20:01Z (v2x: 06:20Z / 06:07Z Nov 2). For 23.1 m³/s: Black Wash about 20:05Z, both bands about 20:03Z (v2x: 06:26Z / 06:12Z). These are in `validation-full.json` `alert6443`.
 - **v2r still does not produce the observed 18:20Z peak.** The modelled Black Wash band is 1.3 m³/s at 18Z and 13.2 at 19Z against an observed 52 at both hours.
-- **v2r peaks at 06–07Z Nov 2**, 12 h after the observed peak. The peak is 1.9× the observed peak (122.9 vs 64.7).
-- **Volume.** v2r carries 4.2× the observed 18Z–18Z volume. v2x was 0.88× on the Black Wash band.
+- **v2r peaks at 06–07Z Nov 2**, about 12–13 h after the observed peak (Black Wash band 122.9 at 06Z, 1.90× the observed 64.7; both bands 139.2 at 07Z, 2.15×).
+- **Volume.** v2r carries 4.24× (Black Wash band) / 4.64× (both bands) the observed 18Z–18Z volume; v2x was 0.88× / 1.04×.
+  - The observed volume has a rating caveat (`../../observed-gauges-20261101/README.md`): the 08:45–16:20Z Nov 2 plateau of 11–12 m³/s at 2.64–2.71 ft may be a rating or stage-shift artifact. The plateau carries 0.33M m³; leaving it out gives 1.45M m³ for 18Z–18Z. That is a bracket, not a measurement: if the plateau is an artifact, the true flow then is unknown, not zero. Against 1.45M m³, v2r would be 5.20× / 5.69× and v2x 1.08× / 1.28×.
 - The gauge cell zs peaks at 674.147 at 06:15Z, 2.49 m above the cell bed (v2x: 673.631 at 09:15Z).
 
 ### Road over-topping
@@ -90,7 +93,7 @@ Over-topping is cell zs minus station roadZ, counted only in wet frames (vol/are
 
 ## Checks
 
-- **Mass balance.** Residual −13,374 m³ (−0.02% of inputs).
+- **Mass balance.** Residual −13,374 m³ (−0.02% of inputs). This is an estimate, not a bound: the outflow term is a trapezoid over hourly snapshots of the instantaneous flux.
   - Rain 57.66M m³ (46.49 mm), infiltration 39.55M m³, storage at 18Z 13.56M m³, outflow 5.53M m³ from 18Z.
   - Outflow before the first restart (18Z Nov 1) is not measured. 35 mm of rain falls before then. The flux at all outflow links is 0.0 at 18Z and 2.98 at 19Z, so the gap is probably small (inference).
 - **Negative depth.** The minimum vol/area is −1.46 mm (face 478144, 39 m² cell, 02:30Z). 1 cell is below −1 mm, in 4 frames. That is outside the live verifier's −1 mm limit (v2x: −0.67 mm, 0 cells).
@@ -103,18 +106,22 @@ Over-topping is cell zs minus station roadZ, counted only in wet frames (vol/are
 
 ## Reading (inference, not tested further)
 
-- **The hypothesis is only partly supported.** Observed rain removes the 03Z shortfall and the late arrival of 23 m³/s, but it overshoots: 4.8× at 03Z and 4.2× the volume.
-- **The observed 18:20Z peak is still missed.** The model's response at Mile Wide comes 5–12 h after the observed burst (rain gauges 14:45–17:05Z).
+- **The hypothesis is only partly supported.** Observed rain removes the 03Z shortfall and the late arrival of 23 m³/s, but it overshoots: 4.8–5.1× at 03Z and 4.2–4.6× the volume.
+- **The observed 18:20Z peak is still missed.** The model's response at Mile Wide comes 5–12 h after the observed main burst (rain gauges 14:45–17:05Z; lighter rain followed until 21:27Z).
 - So in this model, the HRRR rain timing alone does not explain the Mile Wide misfit. Runoff generation (the published CN antecedent assumption, no transmission loss) and the slow overland/channel routing look like the larger factors.
 - Nothing here was adjusted to fit, and this run does not separate those factors.
 
 ## Files
 
 - `summary.json`: the key numbers, v2r against v2x.
-- `validation-full.json`: the output of `tools/sfincs/brawley/extend/validate_extended.py` (sha256 d318b5db…, the committed version). Run with `--baseline` v2 NWM 42543054067 and `--compare` v2x 42544624673.
+- `validation-full.json`: the output of `tools/sfincs/brawley/extend/validate_extended.py` (sha256 f671e230…, the committed version; re-run 2026-11-09 for the primary-series `alert6443` block and the residual wording, every other block unchanged). Run with `--baseline` v2 NWM 42543054067 and `--compare` v2x 42544624673.
 - `hourly-compare-v2x.json`: hourly section flux and crossing/dip over-topping, v2x against v2r (`tools/sfincs/brawley/extend/compare_v2r_hourly.py`).
 - `rain-frames-v2x-vs-v2r.json`: hourly mesh-weighted rain (`tools/sfincs/brawley/extend/compare_v2r_rain_frames.py`).
 - `alert6443-observed-compare.json`: the observed ALERT 6443 hourly series (from `../../observed-gauges-20261101/gauges.json`) against both runs.
+
+**Stale field in the packaged case (not edited).** `current-case.json` and `manifest.json` of `brawley-avra-west-native-case-v2r-observed-inflow` carry `forecastIssue: 2026-11-01T13:00:00Z`, copied from the frozen case (the NWM short_range cycle). v2r uses no forecast: the inflow is observed USGS 09487000 and the rain is observed Stage IV after 13Z Nov 1. The field is left as packaged because those files are hashed; read it as stale.
+
+**Rain metadata label.** `../rain-v2r-stage4-metadata.json` was written by the v2x fetch tool and its `purpose` named v2x. It was relabelled by hand on 2026-11-09 as SENSITIVITY v2r; the file is not hashed by the case.
 
 **Not committed.** The native output: artifact `sfincs-verification`, 648,044,550 bytes, retention 7 days. `sfincs_map.nc` is 381,279,696 bytes, sha256 72c6433020ad….
 

@@ -70,7 +70,7 @@
  "timeBasisCheck": "ALERT pages are in Arizona MST: (1) the newest showdata row equals currentstream last_rpt, which tools/snapshot_alert.py treats as UTC-7 and which matched the data-branch snapshot fetched at 02:51Z; (2) ALERT 6423 jumps 0.41->2.12 ft at 14:00 local while the co-located USGS 09487000 (times stamped -07:00) jumps 66 -> 1570 cfs between 14:00 and 14:15 -07:00.",
  "alert6443Claim": {
   "claim": "~817 cfs at ~03:04Z Nov 2 (owner, 20:04 MST, second-hand)",
-  "verdict": "CONFIRMED value, CORRECTED time and context",
+  "verdict": "CONFIRMED value; the report the owner saw is UNCERTAIN",
   "primary": {
    "timeUtc": "2026-11-02T02:45:00Z",
    "timeLocal": "2026-11-01T19:45:00-07:00",
@@ -84,11 +84,18 @@
    "flowCfs": 776.0,
    "flowM3s": 21.974
   },
-  "context": "817 cfs is the 19:45 MST (02:45Z) report, on the falling limb of the third and smallest of three peaks. The event maximum at ALERT 6443 was 2286 cfs (64.732 m3/s) at 2026-11-01T18:20:00Z. The same value (817) also appears at 16:55 MST (23:55Z) on the first recession.",
-  "companionClaim": "The owner's '1,160 cfs at Three Points' equals USGS 09487000 at 2026-11-02T02:00:00Z (19:00 MST, 1160.0 cfs), the latest USGS value an ALERT-map viewer would see at about 20:04 MST; ALERT 6423 at 19:45 MST read 748.0 cfs."
+  "context": "817 cfs appears twice in the primary series: at 02:45Z Nov 2 (19:45 MST, 3.37 ft, falling limb of the third and smallest peak) and at 23:55Z Nov 1 (16:55 MST, 3.37 ft, first recession). The 03:00Z Nov 2 report is 776 cfs (21.974 m3/s). Which report the owner saw at about 20:04 MST is not known, so no single corrected time is given; model runs are compared with the primary series at each hour (at 03Z: 21.974 m3/s). The event maximum at ALERT 6443 was 2286 cfs (64.732 m3/s) at 2026-11-01T18:20:00Z.",
+  "companionClaim": "The owner's '1,160 cfs at Three Points' equals USGS 09487000 at 2026-11-02T02:00:00Z (19:00 MST, 1160.0 cfs), the latest USGS value an ALERT-map viewer would see at about 20:04 MST; ALERT 6423 at 19:45 MST read 748.0 cfs.",
+  "otherReport817": {
+   "timeUtc": "2026-11-01T23:55:00Z",
+   "timeLocal": "2026-11-01T16:55:00-07:00",
+   "stageFt": 3.37,
+   "flowCfs": 817.0,
+   "flowM3s": 23.135
+  }
  },
  "mileWideComparison": {
-  "gauge": "ALERT 6443, 4.8 m from NHD 15876815 (San Joaquin/Black Wash outlet, 604 km2); the Brawley 15877627 crossing is 0.8 km west. The model section that contains the gauge is the Black Wash 15876815 band; both-bands is the upper bound if the gauge saw the combined flow.",
+  "gauge": "ALERT 6443, 4.8 m from NHD 15876815 (San Joaquin/Black Wash outlet, 604 km2); the Brawley 15877627 crossing is 0.8 km west. The model section that contains the gauge is the Black Wash 15876815 band; both-bands is the upper bound if the gauge saw the combined flow. The county names the gauge 'Brawley Wash at Milewide Road' (page header '6443 Brawley Wash at Milewide Road (PT)'), but its coordinates snap to NHD 15876815 (Black Wash / San Joaquin outlet, 604 km2) at 4.8 m; the Brawley 15877627 crossing is 0.8 km west. Both are stated because they point to different comparisons: if the NHD geometry is right the gauge sees the Black Wash band (and NWM 15876815, peak 0.33 m3/s); if the county name means the combined Brawley flow at the road, it sees both bands (and NWM 15876811, peak 39.13 m3/s). Which is right is not settled, so both are reported.",
   "hourly": [
    {
     "hourUtc": "2026-11-01T18:00Z",
@@ -512,14 +519,18 @@
    "observed16Zto18Z": 1884452,
    "modelBlackWashBand18Zto18Z": 1575913,
    "modelBothBands18Zto18Z": 1856320,
-   "method": "trapezoid between reports (observed; linear across report gaps, which is an assumption) and between hourly fluxes (model)"
+   "method": "trapezoid between reports (observed; linear across report gaps, which is an assumption) and between hourly fluxes (model)",
+   "plateau0845to1620Z_Nov2": 328393,
+   "observed18Zto18ZWithoutPlateau": 1454356,
+   "observed16Zto18ZWithoutPlateau": 1556059,
+   "plateauNote": "The 08:45-16:20Z Nov 2 reports sit at 2.64-2.72 ft, 397-434 cfs (11.24-12.29 m3/s). On this rating that is on the steep low-stage step (0 cfs up to 2.49 ft, 16-17 cfs at 2.50 ft, 330-332 cfs at 2.59 ft, 383 cfs at 2.61 ft in the 1,000 reports on the page), so a few hundredths of a foot of stage shift (sediment at the sensor, a moved control) would read as hundreds of cfs. The plateau may be a rating or stage-shift artifact. Leaving it out is a bracket, not a measurement: if it is an artifact the true flow then is unknown, not zero. The 16:20-18:00Z gap (100 min) is bridged linearly in all totals (66,601 m3)."
   },
   "stageRise": {
-   "observedMaxAboveZeroFlowStageM": 0.78,
-   "observedAt0915ZAboveZeroFlowStageM": 0.12,
+   "note": "Observed stage is on the gauge datum; the rise is measured from the pre-event base reading 2.30 ft. 2.30 ft is the base reading, not the rating's zero-flow stage (the rated flow stays 0 cfs up to 2.49 ft). The model is zs on its cell. Only rises are comparable, and only roughly; this is not a water-level comparison.",
+   "observedMaxAboveBaseReadingM": 0.78,
+   "observedAt0915ZAboveBaseReadingM": 0.12,
    "modelGaugeCellZsMax": 673.631,
-   "modelGaugeCellZsMaxTime": "2026-11-02T09:15Z",
-   "note": "Observed stage is on the gauge datum (2.30 ft = zero flow), the model is zs on its cell. Only rises are comparable, and only roughly; this is not a water-level comparison."
+   "modelGaugeCellZsMaxTime": "2026-11-02T09:15Z"
   }
  },
  "downstreamPoints": {
@@ -635,7 +646,9 @@
       "value": "unknown (no report)"
      }
     ],
-    "suspectReportsExcluded": []
+    "suspectReportsExcluded": [],
+    "baseStageNote": "baseStageFt is the pre-event base reading (0 cfs), not the rating zero-flow stage; rated flow is 0 cfs at every report up to 2.49 ft and 16-17 cfs at 2.50 ft",
+    "lowStageRatingCaveat": "County rating at low stage, from the stage/flow pairs of all 1,000 reports on the page: 0 cfs up to 2.49 ft, 16-17 cfs at 2.50 ft, 330-332 cfs at 2.59 ft, 383 cfs at 2.61 ft (no report at exactly 2.60 ft). The flow jumps from 0 to about 380 cfs over 0.1 ft, so the 08:45-16:20Z Nov 2 plateau (2.64-2.72 ft, 11.2-12.3 m3/s) and the slow tail (still 2.55 ft, 190 cfs at 06Z Nov 3; 2.30 ft, 0 cfs on Nov 8) may be a rating or stage-shift artifact."
    },
    "series": [
     {
@@ -1422,7 +1435,8 @@
      "flowCfs": 190.0,
      "flowM3s": 5.38
     }
-   ]
+   ],
+   "nameAndNetworkSnap": "The county names the gauge 'Brawley Wash at Milewide Road' (page header '6443 Brawley Wash at Milewide Road (PT)'), but its coordinates snap to NHD 15876815 (Black Wash / San Joaquin outlet, 604 km2) at 4.8 m; the Brawley 15877627 crossing is 0.8 km west. Both are stated because they point to different comparisons: if the NHD geometry is right the gauge sees the Black Wash band (and NWM 15876815, peak 0.33 m3/s); if the county name means the combined Brawley flow at the road, it sees both bands (and NWM 15876811, peak 39.13 m3/s). Which is right is not settled, so both are reported."
   },
   {
    "id": "ALERT 6423",
@@ -11941,5 +11955,7 @@
    "totalInWindow": 1.78,
    "note": "an hour not listed had no tip reported; reports are event-driven"
   }
- ]
+ ],
+ "rainWindow": "From the tip times in raw/alert_showdata_64x0: the main burst was 14:45-17:05Z Nov 1 at all six gauges. Lighter rain followed after 17:05Z: 6440 Mile Wide 0.24 in to 20:20Z, 6500 0.35 in to 20:32Z, 6460 0.31 in to 20:30Z, 6420 0.31 in to 21:02Z, 6450 0.47 in to 21:27Z, 6480 0.04 in at 19:16Z. The last tips were ALERT 6420 at 21:02Z and 6450 at 21:27Z, so 'no rain' starts about 21:30Z Nov 1 and lasts until 07:06Z Nov 2 (first tip, 6460).",
+ "postBuildEdits": "2026-11-09 by hand, not by build_gauges.py: alert6443Claim verdict/context/otherReport817, mileWideComparison.gauge naming, volumeM3 plateau fields, stageRise keys and note, sensors[ALERT 6443].nameAndNetworkSnap and summaryTaskWindow baseStageNote/lowStageRatingCaveat, rainWindow. A re-run of build_gauges.py would drop them until the builder is updated."
 }

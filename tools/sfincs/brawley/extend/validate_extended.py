@@ -151,12 +151,13 @@ rain = float((cumprcp * area).sum()); inf = float((cuminf * area).sum()); s_end 
 outv = float(np.trapz(qall, dx=3600.0)); resid = inflow + rain - inf - s_end - outv
 # Inflow, rain and infiltration cover the whole run (dis file; cumprcp/cuminf are cumulative from tstart). Outflow is only known from the hourly restarts,
 # which start at the first restart (18Z Nov 1): the run writes no his file and map frames start at t0out (17Z Nov 1). So outflow before the first restart
-# is NOT in this balance; the residual below is therefore the largest (least negative) value the true residual can take.
+# is NOT in this balance. Outflow after it is itself an estimate: a trapezoid over hourly snapshots of the instantaneous flux, so peaks between
+# restarts are not sampled. The residual below is therefore an estimate, not a hard bound; missing pre-restart outflow would make it more negative.
 res['balanceInputsWholeRunOutflowFromFirstRestart'] = {
     'inflowM3': round(inflow), 'inflowVolumeBasis': 'trapezoid over sfincs.dis (the solver interpolates linearly between the hourly values)',
     'inflowPeakM3s': float(qin.max()), 'rainM3': round(rain), 'rainMeanMm': 1000 * rain / area.sum(), 'infiltrationM3': round(inf), 'infMeanMm': 1000 * inf / area.sum(),
     'storageEndM3': round(s_end), 'outflowAllCellsHourlyRstM3': round(outv), 'outflowWindowStart': hours[0], 'outletOnlyVolumeM3': round(float(np.trapz(qo, dx=3600.0))),
-    'residualM3': round(resid), 'residualPctOfInputs': 100 * resid / (inflow + rain), 'residualNote': 'inflow + rain - infiltration - storageEnd - outflow(from first restart); any outflow before the first restart makes the true residual more negative by that amount',
+    'residualM3': round(resid), 'residualPctOfInputs': 100 * resid / (inflow + rain), 'residualNote': 'inflow + rain - infiltration - storageEnd - outflow(from first restart). An estimate, not a bound: the outflow term is a trapezoid over hourly snapshots of the instantaneous flux (not a time integral of the solver flux), so its sampling error has either sign; any outflow before the first restart would make the residual more negative by that amount',
     'negativeVolumeEndM3': float(vol[-1][vol[-1] < 0].sum()), 'minCellVolumeM3': float(np.nanmin(vol))}
 # ---- what the outputs say about outflow before the first restart (not measured) ----
 ref_t = np.datetime64('2026-10-30T16:00'); t_first = np.datetime64(hours[0][:16]); s_first = float((t_first - ref_t) / np.timedelta64(1, 's'))
@@ -173,7 +174,7 @@ res['outflowBeforeFirstRestart'] = {
     'outflowCellsMaxVolOverAreaM_byFrame': {T[i]: round(float(np.nanmax(h_out[i])), 4) for i in range(0, min(len(T), 21), 4)},
     'inflowBeforeM3': round(inflow_pre), 'rainBeforeM3_meshNearest1kmCell': round(rain_pre), 'rainBeforeMeanMm': round(1000 * rain_pre / area.sum(), 2), 'storageAtFirstRestartM3': round(s_first_vol),
     'upperBoundM3': round(inflow_pre + rain_pre - s_first_vol),
-    'upperBoundNote': 'inflow + rain before the first restart minus storage then, taking infiltration before it as zero (it is not zero, so the bound is loose) and the pre-restart numerical residual as small',
+    'upperBoundNote': 'inflow + rain before the first restart minus storage then, taking infiltration before it as zero (it is not zero, so the bound is loose) and the pre-restart numerical residual as small; trueResidualRangeM3 inherits the hourly-sampling estimate in the outflow term after the first restart, so both ends are estimates',
     'trueResidualRangeM3': [round(resid - (inflow_pre + rain_pre - s_first_vol)), round(resid)]}
 R_frames = (prate / 1000.0 / 3600.0 * area[None, :]).sum(axis=1)
 res['rainDomainMeanMmH_hourlyFrames'] = {T[i]: round(float(R_frames[i] / area.sum() * 3600 * 1000), 3) for i in range(0, len(T), 4)}
@@ -230,17 +231,46 @@ for name, f in POINTS.items():
         rec['diffVsBaselineFirstGt0p3'] = next((T[i] for i in range(n) if d[i] > 0.3), None); rec['diffVsBaselineMaxTo07Z'] = round(float(d.max()), 3)
     pts[name] = rec
 res['points'] = pts
-# ---- ALERT 6443 reading vs model flux across both Mile Wide bands (hourly restarts, linear between hours) ----
-READ_M3S = 817 * 0.0283168; mw = flux['Mile Wide both bands']; first = None
-for j in range(1, len(mw)):
-    if mw[j - 1] < READ_M3S <= mw[j]:
-        frac = (READ_M3S - mw[j - 1]) / (mw[j] - mw[j - 1]); t0_ = np.datetime64(hours[j - 1][:16]) + np.timedelta64(int(round(frac * 60)), 'm')
-        first = {'time': str(t0_) + 'Z', 'before': {hours[j - 1]: round(mw[j - 1], 3)}, 'after': {hours[j]: round(mw[j], 3)}, 'method': 'linear between hourly restarts'}; break
+# ---- ALERT 6443: model vs the PRIMARY county series (gauges.json), not a second-hand reading ----
+# The owner's ~817 cfs is confirmed in the primary data, but which report was seen is uncertain (817 cfs at 02:45Z Nov 2, 776 cfs at 03:00Z,
+# and 817 cfs also at 23:55Z Nov 1), so no single corrected time is used. The comparison is against the primary report at each hour.
+# The county names the gauge 'Brawley Wash at Milewide Road' but it snaps to NHD Black Wash 15876815 (4.8 m), so both the Black Wash
+# band and both bands are reported.
+G6443 = next(s_ for s_ in json.loads((WT / 'tools/sfincs/data/brawley-avra-west-v2/observed-gauges-20261101/gauges.json').read_text(encoding='utf-8'))['sensors']
+             if s_['id'] == 'ALERT 6443')
+obs6443 = [(r['timeUtc'], r['flowM3s']) for r in G6443['series'] if r.get('flowM3s') is not None]
+
+
+def obs_at(h):  # the report at the hour, or the latest earlier one with its age; no interpolation
+    k = h[:16] + ':00Z'; prev = [o for o in obs6443 if o[0] <= k]
+    if not prev: return None
+    t_, v_ = prev[-1]; return {'reportUtc': t_, 'ageMin': int((np.datetime64(k[:19]) - np.datetime64(t_[:19])) / np.timedelta64(1, 'm')), 'flowM3s': v_}
+
+
+def first_reach(series, thr):
+    for j in range(1, len(series)):
+        if series[j - 1] < thr <= series[j]:
+            frac = (thr - series[j - 1]) / (series[j] - series[j - 1]); t0_ = np.datetime64(hours[j - 1][:16]) + np.timedelta64(int(round(frac * 60)), 'm')
+            return {'time': str(t0_) + 'Z', 'before': {hours[j - 1]: round(series[j - 1], 3)}, 'after': {hours[j]: round(series[j], 3)}, 'method': 'linear between hourly restarts'}
+    return None
+
+
+BW, BB = 'Mile Wide Black Wash 15876815 band (ALERT 6443)', 'Mile Wide both bands'
+h03 = '2026-11-02T03:00Z'; o03 = obs_at(h03); OBS03 = o03['flowM3s']; V817 = round(817 * 0.0283168, 3)
 gp = pts['ALERT 6443 lowest face within 30 m (Black Wash band)']
-res['alert6443'] = {'reading': '~817 cfs (23.1 m3/s) at ~03:04Z, second-hand', 'readingM3s': round(READ_M3S, 2),
-                    'modelBothBands03Z': round(mw[hours.index('2026-11-02T03:00Z')], 3), 'ratio03Z': round(mw[hours.index('2026-11-02T03:00Z')] / READ_M3S, 2),
-                    'modelFirstAtReading': first, 'modelPeak': res['sectionPeaks']['Mile Wide both bands'],
-                    'gaugeCellZsMax': gp['maxZs'], 'gaugeCellZsMaxTime': gp['maxZsTime'], 'gaugeCellMaxDepth': gp['maxDepth']}
+res['alert6443'] = {
+    'observedSource': 'tools/sfincs/data/brawley-avra-west-v2/observed-gauges-20261101/gauges.json (ALERT 6443 primary county series, provisional; times UTC)',
+    'gaugeNaming': "county name 'Brawley Wash at Milewide Road'; NHD snap Black Wash 15876815 at 4.8 m (Brawley 15877627 crossing 0.8 km west). Which model band the gauge sees is not settled, so both are given",
+    'ownerReadingNote': '~817 cfs (23.13 m3/s) is confirmed in the primary data, but the report the owner saw is uncertain: 817 cfs at 02:45Z Nov 2, 776 cfs at 03:00Z, and 817 cfs also at 23:55Z Nov 1. No single corrected time is used',
+    'observed03Z': o03,
+    'model03Z': {'blackWashBand': round(flux[BW][hours.index(h03)], 3), 'bothBands': round(flux[BB][hours.index(h03)], 3)},
+    'ratio03Z': {'blackWashBand': round(flux[BW][hours.index(h03)] / OBS03, 3), 'bothBands': round(flux[BB][hours.index(h03)] / OBS03, 3)},
+    'modelFirstAtObserved03Z': {'thresholdM3s': OBS03, 'blackWashBand': first_reach(flux[BW], OBS03), 'bothBands': first_reach(flux[BB], OBS03)},
+    'modelFirstAt817cfs': {'thresholdM3s': V817, 'blackWashBand': first_reach(flux[BW], V817), 'bothBands': first_reach(flux[BB], V817)},
+    'hourly': [{'hourUtc': h, 'observed': obs_at(h), 'modelBlackWashBandM3s': round(flux[BW][i], 3), 'modelBothBandsM3s': round(flux[BB][i], 3)} for i, h in enumerate(hours)],
+    'hourlyNote': 'observed = the primary report at the hour, or the latest earlier report with its age in minutes (no interpolation); model = hourly restart flux (m3/s)',
+    'modelPeak': {'blackWashBand': res['sectionPeaks'][BW], 'bothBands': res['sectionPeaks'][BB]},
+    'gaugeCellZsMax': gp['maxZs'], 'gaugeCellZsMaxTime': gp['maxZsTime'], 'gaugeCellMaxDepth': gp['maxDepth']}
 # ---- pond near the outlet: deepest face in the run (zsmax - zb, both zsmax intervals), storage around it ----
 with np.errstate(all='ignore'):
     depmax = zsmax - zb
