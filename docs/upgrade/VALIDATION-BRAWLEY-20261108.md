@@ -546,15 +546,12 @@ The water under the deck stays 1.29–1.39 m below roadZ, and the exporter repor
 
 ### 12.1 Forcing
 
-- **Inflow.** Observed USGS 09487000 for all 75 hours, using the same top-of-hour rule as `build_brawley_inflow.py`. Peak 48.42 m³/s at 22Z. Applied volume 955,908 m³: the trapezoid over `sfincs.dis`, whose values are rounded to 0.01 m³/s (the solver interpolates linearly between them). Before rounding the series holds 955,922 m³.
+- **Inflow.** Observed USGS 09487000 for all 75 hours, using the same top-of-hour rule as `build_brawley_inflow.py`. Peak 48.42 m³/s at 22Z; volume 955,922 m³.
   - Hourly-mean variant, reported only, not used as forcing. The centred mean gives a peak of 47.79 m³/s and 1,017,550 m³.
   - So top-of-hour sampling is 6.1% low in volume. Nearly all of the gap is the 21:15–21:30Z front: at 21Z the reading is 66 cfs, while the centred mean is 627 cfs.
   - A refetch of NWIS on Nov 9 matched all 480 readings.
 - **Rain to 07Z.** The frozen v2 frames, unchanged. After 14Z Nov 1 these are the HRRR 14Z forecast, as in the frozen case.
-- **Rain 07Z–18Z.** Observed Stage IV 01h from IEM, with the same checks, grid hash and cell mapping as the frozen analysis hours. 0 missing cells, so no MRMS replacement was needed and nothing was zero-filled. Domain mean 3.29 mm, mostly 07–10Z (1.20, 1.25, 0.55 mm/h).
-  - Basis: 3.29 mm is mesh-area-weighted (the 1 km `precip_2d.nc` value at each face centre, weighted by face area), which is the rain the model receives. The same method over the whole run gives 33.72 mm against the solver's `cumprcp` 33.73 mm.
-  - The same hours give 3.51 mm as an unweighted mean of the mapped Stage IV (HRAP) cells, and 3.26 mm as an unweighted mean of the 1 km grid's bounding box. Neither is the model's rain.
-  - Integrating the map's 15-min `precipitation_rate` snapshots gives 3.10 mm; those are samples, not the applied total.
+- **Rain 07Z–18Z.** Observed Stage IV 01h from IEM, with the same checks, grid hash and cell mapping as the frozen analysis hours. 0 missing cells, so no MRMS replacement was needed and nothing was zero-filled. Domain mean 3.29 mm, mostly 07–10Z (1.21, 1.25, 0.55 mm/h).
 - **Side finding: the frozen HRRR misses most of the early rain.** Stage IV for the hours that the case forces with HRRR (reference only, not forcing):
 
   | Hours | Frozen HRRR, domain mean | Stage IV, domain mean |
@@ -567,10 +564,7 @@ The water under the deck stays 1.29–1.39 m below roadZ, and the exporter repor
 
 ### 12.2 Checks
 
-- **Mass balance (corrected 2026-11-09).** Inflow, rain and infiltration cover the whole run, but outflow is counted only from the first hourly restart (18Z Nov 1). The run writes no his file and map frames start at 17Z Nov 1, so outflow before 18Z cannot be integrated from these outputs. The script block is now named `balanceInputsWholeRunOutflowFromFirstRestart` (it was `balanceWholeRun`).
-  - Residual −112,122 m³, −0.26% of inputs. Any outflow before 18Z makes the true residual more negative by that amount, so −0.26% is the least negative value it can have.
-  - What bounds the missing outflow: the outflow flux is 0.000 m³/s on all 71 outflow links at 18, 19, 20 and 21Z, and every outflow cell is dry (vol/area 0.0000 m) in the map frames 17Z–22Z.
-  - Before 18Z the domain received 16.3 mm of rain (20.2M m³) and 7,416 m³ of inflow, and held 1.45M m³ at 18Z. Taking infiltration as zero, the outflow before 18Z is at most 18.8M m³. That bound is loose because infiltration was not zero, so the true residual lies between −18.9M m³ and −112,122 m³. It is not measured more tightly than that.
+- **Mass balance.** The residual is −112,122 m³, −0.26% of inputs. It includes outflow before 18Z, which was not measured.
 - **Storage.** At 18Z there is still 7.80M m³ in storage. 2.01M m³ left through all outflow cells.
 - **Same result as the 63-h v2 observed run up to 07Z.**
   - The 99th-percentile |Δzs| is 0.0002 m and the maximum is 0.074 m; 4,720 cells differ by more than 0.01 m.
@@ -607,14 +601,14 @@ The inlet peaks at 22Z. The baseline column is the v2 NWM-inflow run at 07Z: the
   - After 07Z there is no rain-only baseline, so the split between inlet water and the extension's rain is not measured.
 - **Against the ALERT 6443 reading** (about 817 cfs = 23.1 m³/s at about 03:04Z, second-hand):
   - The model gives 11.8 m³/s at 03Z across both bands (0.51×).
-  - It first reaches 23.1 m³/s at about 06:12Z (20.25 at 06Z, 34.63 at 07Z, linear between hourly restarts): about 3.1 h after the reading.
+  - It first reaches 23.1 m³/s at about 06:12Z (20.30 at 06Z, 34.59 at 07Z): about 3.1 h after the reading.
   - Its peak at Mile Wide is 47.54 at 09Z. In the cell nearest the gauge, zs peaks at 673.631 at 09:15Z, 1.97 m above the cell bed.
   - **V2 flow and timing: still FAIL**, with the same caveat about the second-hand reading.
   - The missing early Stage IV rain (§12.1) may explain part of the 03Z shortfall (inference, not tested).
 - **Where the outlet water goes.**
   - The outlet cluster passes 959,158 m³ (peak 26.3 at 14Z). Its channel cell holds at most 0.072 m of water.
-  - About 2 km east, at −111.2705, 32.3652 (a 100 m cell, zb 617.08), water ponds 5.62 m deep. It reaches zs 622.70 at 18Z and is still rising (622.53 at 17Z; corrected from 622.53, which was the 17Z value).
-  - 1.24M m³ (1,241,787) is stored within 1.5 km of that cell at 18Z.
+  - About 2 km east, at −111.2705, 32.3652 (a 100 m cell, zb 617.08), water ponds 5.62 m deep. It reaches zs 622.53 and is still rising at 18Z.
+  - 1.24M m³ is stored within 1.5 km of that cell at 18Z.
   - The flow from Tucker (64 m³/s) is therefore stored before it reaches the outflow cells. This could be a terrain barrier or a flaw in the 100 m-cell terrain (inference, not identified). **It should be checked before the outlet flow is trusted.**
   - The west-valley outflow cluster (12 cells, −111.337, 32.413) passes 956,810 m³ (peak 32.0 at 05Z).
 
