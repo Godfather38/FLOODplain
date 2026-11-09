@@ -16,6 +16,9 @@ The change is one of two kinds, never both:
                        stops at the first match, so 'Alpha' or 'alpah' would be silently ignored). Refused: every
                        *file key (they point at other files), every time/run-window/output-timing key, and inftype
                        and its aliases.
+The base sfincs.inp itself is refused, whatever the change, when ANY key appears twice (compared case-insensitively)
+or ANY key SFINCS reads is spelled in another case (e.g. 'Alpha'): SFINCS would read only the first exact-case match,
+so the case would not run what its file seems to say (check_base_inp; tested by test_make_variant.py).
 Everything else is copied byte for byte. The script then verifies that the only files whose bytes differ are the
 ones the change names (sfincs.inp and, for infiltration, infiltration.nc; current-case.json gets a
 "variantChange" record), and prints the diff of every file. It refuses to write into an existing folder.
@@ -119,6 +122,20 @@ def write_inp(p, rows, eol):
     p.write_bytes(''.join(r[2] + eol for r in rows).encode('utf-8'))
 
 
+def check_base_inp(rows):
+    """Refuse a base sfincs.inp in which any key is duplicated (case-insensitive) or any key SFINCS f3647fc reads is
+    spelled in another case. Applies to every key, not only the ones being changed."""
+    seen = {}
+    for r in rows:
+        seen.setdefault(r[0].lower(), []).append(r[0])
+    dup = {k: v for k, v in seen.items() if len(v) > 1}
+    if dup:
+        raise SystemExit(f'base sfincs.inp has duplicate keys {dup}; SFINCS reads only the first exact-case match; refusing')
+    case = [r[0] for r in rows if r[0].lower() in SFINCS_KEYS and r[0] != r[0].lower()]
+    if case:
+        raise SystemExit(f'base sfincs.inp spells {case} in a case SFINCS ignores (it reads only lowercase); refusing')
+
+
 def set_key(rows, key, value):
     """Set key (exact SFINCS spelling). Refuses when the base holds the key twice or in another case, since
     SFINCS reads only the first exact-case match and the edit could land on a line SFINCS ignores."""
@@ -202,6 +219,7 @@ def main():
     if any(d.is_dir() for d in base.iterdir()):
         raise SystemExit(f'{base} has subfolders; expected a flat prepared case folder')
     rows, eol = read_inp(base / 'sfincs.inp')
+    check_base_inp(rows)
     change = {'name': a.name, 'source': a.source, 'baseCase': str(base).replace('\\', '/')}
     allowed = {'sfincs.inp', 'current-case.json'}
 
