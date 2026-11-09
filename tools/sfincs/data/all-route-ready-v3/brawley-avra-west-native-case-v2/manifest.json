@@ -1,0 +1,53 @@
+{
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "kind": "prepared_native_case",
+  "caseId": "brawley-avra-west-native-case-v2",
+  "runReady": true,
+  "solverExecuted": false,
+  "approvedExecutionCapSeconds": 5400,
+  "archiveBytes": 151091358,
+  "archiveSha256": "0dc4514f552dd2dfcb77c1dfdec6b6ac95bdb55c1cefb26c694ec5657d257a5b",
+  "parts": [
+    {
+      "path": "case.part01",
+      "bytes": 40000000,
+      "sha256": "875e698b0811da7f2bd697b6d55d815e70193bb95de0c8291644eb2ed003a523"
+    },
+    {
+      "path": "case.part02",
+      "bytes": 40000000,
+      "sha256": "35cdf372bc6e6eff6c9d19b58a22dec9c979935b757d52d38acee36ff0c8f651"
+    },
+    {
+      "path": "case.part03",
+      "bytes": 40000000,
+      "sha256": "59751f3dd6b4f87b60125cddab7425daccebeeb1871a5aaf77f333b24393dabf"
+    },
+    {
+      "path": "case.part04",
+      "bytes": 31091358,
+      "sha256": "b5523572ccc89a9d331ae4b0da34ee5a5fb9274d0e1aa6e96dd1ae550d24c58b"
+    }
+  ],
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "gridCells": 643056,
+  "inlets": 1,
+  "scope": {
+    "status": "brawley_avra_west_version3",
+    "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+    "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+    "areaKm2": 1240.369838309587,
+    "externalInlets": [
+      {
+        "reachId": "15876941",
+        "receivingReachId": "15876923"
+      }
+    ],
+    "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+    "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+  },
+  "executionAuthorization": "orchestrator_task_brawley_avra_west_frozen_run_cap_5400_experimental_branch_only"
+}
