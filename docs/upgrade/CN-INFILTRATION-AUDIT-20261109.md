@@ -17,26 +17,35 @@ Do the three **live production cases** (northern, picture-rocks, gates) use the 
      antecedent wetness), **undrained** reading of dual soil groups (from each case's `GCN10-NOTICE.txt`:
      "Fair-cover, ARCII-average, undrained scenario; not measured initial soil moisture").
    - The coarse live model (`tools/sfincs/data/stress-storm-v1/case.tar.gz`, run by `run_live_sfincs.py`) uses the same
-     GCN10 tile through the older `scsfile = sfincs.scs` input, with no `inftype` line. The SFINCS docs describe
-     `scsfile` as the legacy curve-number input; that it runs as CN without recovery was not re-checked against the
-     pinned solver log here.
+     GCN10 tile through the older `scsfile = sfincs.scs` input, with no `inftype` line. *Verified round 8 in the pinned
+     source:* with no `inftype`, no `qinf` and no `qinffile`, `sfincs_infiltration.f90` (f3647fc, lines 240-246) sets
+     `inftype = 'cna'` when `scsfile` is given, so it runs as CN **without recovery**, like the other cases.
 2. **The live runner carries 45 h of rain into the CN total.** `run_live_all_route.py` keeps the case's infiltration
    and sets `tref = tstart = cycle − 45 h` (`SPIN = 45`). `cna` adds up all rain from `tstart`, so any rain in the
    previous 45 h is treated as the start of the same storm. For a Nov 1 13Z cycle that start is 30 Oct 16Z, the same
    start as the frozen cases and as brawley.
 3. **The CN arithmetic gives the same over-prediction in every live domain.** With observed Stage IV rain for Nov 1
    (14Z to 2 Nov 18Z), the setup as run turns **49–54%** of the event rain into runoff (table in §3). The only
-   observed runoff coefficient in or next to these domains, ALERT 6443's 603 km² Black Wash basin, is **0.068–0.085**.
-   Inside the gates domain, the 95 km² of that same basin has a model C of **0.46**.
+   observed runoff coefficient in or next to these domains, ALERT 6443's 603 km² Black Wash basin, is **0.066–0.085**
+   (§3, by observed start time and plateau choice). Inside the gates domain, the 95 km² of that same basin has a model
+   C of **0.46**.
+   - *Tested since (SENSITIVITY, brawley):* switching the same CN field to `cnb` (recovery between showers) lowered
+     the whole-run C over the Black Wash basin from **0.345 to 0.180** and the Mile Wide volume from 4.2× to 2.0× the
+     observed (run 42584493432, `tools/sfincs/data/brawley-avra-west-v2/variants/result-v3l-obsrain-cnb-42584493432/`).
+     That is the only tested CN change so far; it halves the excess but does not remove it.
 4. **It can reach users, but the live product now shows nothing from it.** The app raises a route's rating from the
    high-resolution forecast (more than 0.05 m over the road: caution; 0.3 m or more: danger) and never lowers it.
-   - The published run now on `live-model` (HRRR 04Z Nov 9) has 10 wet road stations, all on northern/avra at the
-     Brawley Wash dip on Avra Valley Rd, a constant 0.041 m in every frame (below the caution line). Every other route
-     has none. That is a standing pond at the dip, not rain runoff; the CN setup is not what it shows.
-   - The Nov 1 storm ran before the live high-resolution product existed. The frozen Nov 1 runs of the same cases had
-     29 northern, 14 picture-rocks and 2 gates route points with 0.30 m or more of **cell-average** water (volume
-     divided by cell area: not road depth). With 5–7 times too much runoff, a storm like Nov 1 would very likely raise
-     ratings that the real runoff would not support.
+   - The published run on `live-model` (HRRR 04Z Nov 9 when this was written) had 10 wet road stations, all on
+     northern/avra at the Brawley Wash dip on Avra Valley Rd, at **0.0406–0.0413 m** (below the caution line; it varies
+     by under 1 mm across the 43 frames, so "constant 0.041 m" was rounded). Every other route had none. That is a
+     standing pond at the dip, not rain runoff; the CN setup is not what it shows. *Re-checked round 8:* the 04Z output
+     has since been replaced on `live-model`; the run now there (HRRR 10Z Nov 9, issued 12:26Z) has the same 10 stations
+     at 0.0406–0.0413 m in all 43 frames.
+   - The Nov 1 storm ran before the live high-resolution product existed. The frozen Nov 1 runs of the same cases were
+     reported to have 29 northern, 14 picture-rocks and 2 gates route points with 0.30 m or more of **cell-average**
+     water (volume divided by cell area: not road depth). **Unverified:** those counts were not re-derived in round 8.
+     With 5–7 times too much runoff, a storm like Nov 1 would very likely raise ratings that the real runoff would not
+     support.
 
 ## 2. What each live case runs with
 
@@ -75,8 +84,11 @@ in a scratch directory and their sha256 checked against `tools/live/all-route-ca
   The domain values are area-weighted over the faces.
 - The case's own antecedent rain (Stage IV + the same MRMS hour) reproduces this Stage IV antecedent total to within
   0.2 mm in every domain, which checks the mapping.
-- "As run": rain counted from 30 Oct 16Z, event runoff = Q(antecedent + event) − Q(antecedent). "Event only": rain counted
-  from 1 Nov 14Z, the fully recovered limit of `cnb`.
+- "As run": rain counted from 30 Oct 16Z, event runoff = Q(antecedent + event) − Q(antecedent). "Event only": `cna` with
+  rain counted from 1 Nov 14Z, as if the CN storm began then. This is a **`cna` bracket, not a bound on `cnb`**
+  (corrected round 8): `cnb` restarts its event per cell after every dry spell, starts each from a depleted S_e rather
+  than S, and recovers only at the ks-dependent rate, so it can land on either side of this number. The tested `cnb`
+  run (§1, item 3) is the evidence for `cnb`.
 
 **Event 1 Nov 14Z to 2 Nov 18Z, Stage IV:**
 
@@ -94,16 +106,25 @@ The brawley row is from `BRAWLEY-RUNOFF-ROUTING-20261109.md` §1.3 and §2.3 (ev
 Same thing to the end of the frozen cases (2 Nov 07Z): northern 0.47 / 0.22 / 0.16 / 0.05, picture-rocks
 0.51 / 0.26 / 0.19 / 0.07, gates 0.46 / 0.21 / 0.14 / 0.04 (same column order).
 
-**What the frozen Nov 1 cases actually got.** Their rain after 14Z was the HRRR forecast, not Stage IV, and HRRR had
-roughly half the observed event rain: 20.0 mm northern, 20.4 picture-rocks, 16.2 gates (17.1 on the Black Wash part)
-by 07Z. On that rain the CN rule as run gives C 0.38, 0.41, 0.34 and 0.30. So on Nov 1 a low rain forecast partly hid
+**What the frozen Nov 1 cases actually got.** Their rain after 14Z was the HRRR forecast, not Stage IV. By 2 Nov 07Z
+HRRR had 20.0 mm northern, 20.4 picture-rocks, 16.2 gates (17.1 on the Black Wash part), against observed Stage IV
+30.7, 34.8 and 30.2 mm over the same domains: **54–65% of the observed** (65%, 59%, 54%; re-derived round 8 from the
+cached Stage IV files, nearest HRAP cell, area-weighted over each case's active faces). On that rain the CN rule as run gives C 0.38, 0.41, 0.34 and 0.30. So on Nov 1 a low rain forecast partly hid
 the high runoff fraction. A forecast that gets the rain right would show it in full.
 
 **Observed comparison.**
 - **ALERT 6443, Brawley Wash at Milewide Rd** is inside the gates mesh (39 m from a 100 m face). Its basin (Black
-  Wash, 603 km²) is mostly outside gates; 95 km² is inside. Observed C for the whole basin is 0.085 (whole event) or
-  0.068 (suspect plateau excluded), and 0.075 / 0.059 for the 692 km² union (brawley §1.5). Gates gives the
-  in-domain part C 0.46: the same 5–7× excess as brawley.
+  Wash, 603 km²) is mostly outside gates; 95 km² is inside. Observed C for the whole basin (observed volume from
+  `gauges.json` `mileWideComparison.volumeM3` over the 22.06M m³ of event rain; re-derived round 8):
+
+  | observed start | with the suspect plateau | plateau excluded |
+  |---|---|---|
+  | 16Z Nov 1 | 0.085 | **0.070** |
+  | 18Z Nov 1 | **0.081** | **0.066** |
+
+  Round 7 gave 0.068 for the plateau-excluded value; on the committed `gauges.json` volumes it is 0.070 (16Z start)
+  or 0.066 (18Z start). For the 692 km² union (25.06M m³ of event rain): 0.075 / 0.062 (16Z) and 0.071 / 0.058 (18Z).
+  Gates gives the in-domain part C 0.46: the same 5–7× excess as brawley.
 - No other gauge in these domains measures local runoff on its own. Every other stream gauge inside a mesh is on a
   main channel whose flow comes mostly from outside the domain (through the NWM inlets), so its volume cannot be
   split into "inlet" and "local CN runoff" without a routed model run:
@@ -125,23 +146,26 @@ the high runoff fraction. A forecast that gets the rain right would show it in f
 
 ## 4. What it means for the published ratings
 
-- **How the app uses the forecast.** `public/road-forecast.js` (main) reads `live-model/all-route/<case>/compact/road-forecast.json`.
-  A route gets caution above 0.05 m of modeled water over the road and danger at 0.3 m or more. The forecast can
-  only **raise** a route's rating (`withRoadForecast`).
-- **Now (HRRR 04Z Nov 9, issued 06:16–06:29Z, a scheduled refresh rather than a rain trigger):**
+- **How the app uses the forecast** (on `main`). `public/simulation/live-road-forecast.js:22` reads
+  `live-model/all-route/<case>/compact/road-forecast.json`. A route gets caution above 0.05 m of modeled water over the
+  road and danger at 0.3 m or more (`public/road-forecast.js`). The forecast can only **raise** a route's rating
+  (`withRoadForecast`, `public/engine.js:55`).
+- **At the time of writing (HRRR 04Z Nov 9, issued 06:16–06:29Z; that it was a scheduled refresh rather than a rain
+  trigger is unverified):**
 
   | Case / route | Stations | Most wet stations in a frame | Peak modeled water over road |
   |---|---|---|---|
   | northern / trico, silverbell-north, silverbell-south | 2,232 / 3,294 / 4,029 | 0 | 0 |
-  | northern / avra | 4,222 | 10 (every frame) | 0.041 m at 32.3932, −111.2946 (Brawley Wash dip), unchanged all 43 frames |
+  | northern / avra | 4,222 | 10 (every frame) | 0.0406–0.0413 m at 32.3932, −111.2946 (Brawley Wash dip), all 43 frames |
   | picture-rocks / pr-ina, pr-twinpeaks, pr-avra | 3,626 / 3,341 / 3,317 | 0 | 0 |
   | gates / pr-gates | 6,445 | 0 | 0 |
 
-  - The 0.041 m is below the caution line, so no rating is raised. The app's text still says "0.13 ft of modeled
-    water over the road" for avra.
-  - Because it is the same value in all frames, it is standing water at the dip, not storm runoff.
+  - The 0.041 m is below the caution line, so no rating is raised. The app's text still says "0.1 ft of modeled
+    water over the road" for avra (`public/road-forecast.js:61` prints feet with one decimal from 0.1 ft up; 0.041 m
+    is 0.13 ft).
+  - Because it stays within 1 mm in all frames with no rain, it is standing water at the dip, not storm runoff.
 - **In a storm like Nov 1:** every domain's CN arithmetic gives 0.46–0.54 of the rain as runoff against about
-  0.07–0.085 observed. Road crossings fed by local washes (Picture Rocks Wash, Twin Peaks, Kinney/Gates Pass,
+  0.066–0.085 observed. Road crossings fed by local washes (Picture Rocks Wash, Twin Peaks, Kinney/Gates Pass,
   Javelina) would get several times the real runoff volume. Those are exactly the places where the forecast raises a
   rating. So the over-prediction would reach users as **too many or too early caution/danger ratings**; a dry route
   would never be shown as dry because of it. The size of the effect on depth is not computed here: it needs a run.
@@ -156,13 +180,16 @@ the high runoff fraction. A forecast that gets the rain right would show it in f
    a rating until the CN fix is tested. (Changing the app or `tools/live/` is outside this experimental branch.)
 2. **Which physical CN change to test first**, each a SENSITIVITY run on brawley-avra-west before any live case, with
    its source:
-   - recovery between storms (`cnb`, SFINCS docs), or counting rain only from a storm-start rule;
+   - recovery between storms (`cnb`, SFINCS docs), or counting rain only from a storm-start rule. **Tested on brawley**
+     (SENSITIVITY run 42584493432): whole-run basin C 0.345 → 0.180, Mile Wide volume 4.2× → 2.0× observed, peak
+     timing not fixed;
    - GCN10 **drained** rasters (deep Avra/Tucson basin water table; check ADWR GWSI wells);
    - ARC I (NEH-4 5-day rule: about 0.6 in in the 5 days before is AMC I in the growing season and borderline II in
      the dormant season).
 
-   The brackets above show that no single choice reaches the observed 0.07–0.085 on its own, except ARC I combined
-   with event-only counting (0.04–0.09).
+   The `cna` brackets above show that no single choice reaches the observed 0.066–0.085 on its own, except ARC I
+   combined with event-only counting (0.04–0.09). The tested `cnb` run agrees for that choice: it halves the runoff but
+   leaves about 2× the observed volume.
 3. **Whether channel/run-on losses must be modelled.** `cna` never infiltrates routed water (brawley §3), and the
    Cortaro → Trico volumes point the same way. SFINCS cannot stack CN with a ponded-water loss method natively.
 4. **Whether to rebuild the three live cases after the brawley test.** The live cases share the CN file, the method
@@ -178,4 +205,6 @@ the high runoff fraction. A forecast that gets the rain right would show it in f
 - Observed C exists only for the Black Wash basin (and only 95 km² of it lies in a live domain). The other domains
   are compared by CN arithmetic alone.
 - USGS values are provisional. ALERT values between reports are not measured.
-- The coarse live model's `scsfile` behaviour was taken from the SFINCS docs, not re-read from the pinned solver log.
+- The coarse live model's `scsfile` behaviour was verified in the pinned source (round 8), not in a solver log.
+- Not re-derived in round 8 and so unverified: the 29 / 14 / 2 frozen-run route-point counts (§1, item 4) and the
+  "scheduled refresh" reading of the 04Z Nov 9 cycle (§4).
