@@ -1,0 +1,26 @@
+{
+  "runId": "all-routes-brawley-avra-west-v1-42543054067",
+  "manifest": "compact/manifest.json",
+  "manifestSha256": "cdda6f2095890a9cf34e6c66213d4d7ced44799cbaee105f37a43d21a06e1d2a",
+  "frames": 57,
+  "nativeFaces": 643056,
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "compressedPayloadBytes": 249193223,
+  "verification": "Every compact volume/surface array exactly matches native float32 after proven face-ID ordering, including NaNs. Payload hashes and native mesh hash match.",
+  "sourceIssues": {
+    "NWM": "2026-11-01T13:00:00Z",
+    "HRRR": "2026-11-01T14:00:00Z",
+    "mode": "frozen_replay"
+  },
+  "pointCounts": {
+    "retained": 0,
+    "located": 0,
+    "outsideCurrentNativeDomain": 0,
+    "locatedInInputButAbsentFromOutput": 0,
+    "boundaryAmbiguous": 0
+  },
+  "productionChanged": false,
+  "status": "complete",
+  "requestedEndReached": true
+}

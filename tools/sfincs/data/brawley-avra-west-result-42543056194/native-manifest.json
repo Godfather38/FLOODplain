@@ -1,0 +1,76 @@
+{
+  "runId": "42543056194",
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/42543056194",
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "executionCommit": "e26900568cdf872e9e916fb66a75b5fb7c722eaa",
+  "status": "completed_full_interval",
+  "nativeRuntimeSeconds": [
+    2933.99609375
+  ],
+  "executionMode": "simulated_live_frozen_inputs",
+  "archiveSha256": "815e654bcd11d00eb890b3f2cc5cb72fef4e42bcfdff96c20dad6fad0d1d90a2",
+  "archiveBytes": 295732147,
+  "parts": [
+    {
+      "path": "native-output.tar.gz.part00",
+      "bytes": 67108864,
+      "sha256": "c03db3dea7ecffb76551c797bcbafaee337122a7d68469ea069eb5fc914023ea"
+    },
+    {
+      "path": "native-output.tar.gz.part01",
+      "bytes": 67108864,
+      "sha256": "540ce2cf2f311f00fd1e27e86ffca7045cef792ec7f417ca7ddcba2fc12f31c2"
+    },
+    {
+      "path": "native-output.tar.gz.part02",
+      "bytes": 67108864,
+      "sha256": "ee36b5b1a7872faee97510f152796362b64e1b90b2b5905c4d70a758bf5c5be0"
+    },
+    {
+      "path": "native-output.tar.gz.part03",
+      "bytes": 67108864,
+      "sha256": "75f870f897d439d0a49ff426e882af9c1f167ae0400176f0c81b44d56118eae0"
+    },
+    {
+      "path": "native-output.tar.gz.part04",
+      "bytes": 27296691,
+      "sha256": "0d5c6f578c22f6a7290918d28906a4ae44cf1c07c12c24028c9dc2d75fd7c841"
+    }
+  ],
+  "archiveContents": [
+    "sfincs_map.nc",
+    "sfincs.nc",
+    "solver.log",
+    "sfincs.log",
+    "current-case.json",
+    "execution-started.txt",
+    "GCN10-NOTICE.txt",
+    "GCN10-source-metadata.xml",
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst",
+    "sfincs.20261102.070000.rst"
+  ],
+  "reassembly": "Concatenate parts in order and extract. Unchanged forcing/subgrid inputs remain in the referenced prepared archive.",
+  "nativeInputs": "../all-route-ready-v3/brawley-avra-west-native-case-v2-observed-inflow/manifest.json",
+  "pointSummary": "route-point-summary.json",
+  "pointSeries": "route-point-series.csv",
+  "compact": "compact/manifest.json",
+  "resultSummary": "result-summary.json",
+  "sourceMeshSha256": "328042f02927f4ff9f5c40c39365b699c0edbfc0dbc21cea89eac3df368f6767",
+  "sourceMapSha256": "2e3e8b58da07801c730bd1a4cc214608cdc2c99ae6842ccd1c86b9b69fc96b66",
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "fullGatesCoverage": null,
+  "partsCommitted": false,
+  "partsNote": "The native-output.tar.gz parts (sfincs_map.nc, sfincs.nc, logs, restarts) are not committed to keep the repository small; the same files are in the GitHub run artifact sfincs-verification of run 42543056194 (retention-limited). archiveSha256 and sourceMapSha256 identify them."
+}

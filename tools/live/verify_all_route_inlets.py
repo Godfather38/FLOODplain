@@ -18,11 +18,13 @@ CASES = [
     ('northern', 'all-route-ready-v3/northern-native-case-v3/manifest.json', 'northern', 'northern-result-41382880257'),
     ('picture-rocks', 'all-route-ready-v3/picture-rocks-native-case-v2/manifest.json', 'picture-rocks-ina-twinpeaks', 'picture-rocks-result-41382872468'),
     ('gates', 'all-route-ready-v3/gates-full-native-case-v3/manifest.json', 'gates', 'gates-full-result-41750298470'),
-    # v1b (v1 domain, NWM-inflow variant); frozen run 42535214906. Past hours take the observed gauge live (OBSERVED).
-    ('brawley-avra-west', 'all-route-ready-v3/brawley-avra-west-native-case-v1b/manifest.json', 'brawley-avra-west', 'brawley-avra-west-result-42535214906'),
+    # v2 (domain v2, 1,240 km2, NWM-inflow variant); frozen run 42543054067. Past hours take the observed gauge live (OBSERVED).
+    # The v1b case and its results 42535214906/42535217219 stay committed but are no longer registered.
+    ('brawley-avra-west', 'all-route-ready-v3/brawley-avra-west-native-case-v2/manifest.json', 'brawley-avra-west', 'brawley-avra-west-result-42543054067'),
 ]
 # Cases that also publish local-road-forecast.json: their frozen station list (build_local_road_stations.py).
-LOCAL_ROADS = {'brawley-avra-west': 'tools/live/road-stations/brawley-avra-west-local.json.gz'}
+# v2 list (58,140 stations): its static file is the one the app ships (stationsSha256 d8224f1c...).
+LOCAL_ROADS = {'brawley-avra-west': 'tools/live/road-stations/brawley-avra-west-local-v2.json.gz'}
 # Inlets whose past (analysis) hours use an observed USGS gauge in live runs (usgs_flows.py):
 # case -> reach -> registry "observed" object. Forecast hours stay NWM short range.
 OBSERVED = {'brawley-avra-west': {'15876941': {'usgsSite': '09487000', 'parameterCd': '00060'}}}

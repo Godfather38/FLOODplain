@@ -1,0 +1,48 @@
+{
+  "runId": "all-routes-brawley-avra-west-v1-42543054067",
+  "executionMode": "simulated_live_frozen_inputs",
+  "meshFile": "E:\\FloodPLAIN\\wt-model\\.sfincs-runs\\brawley-avra-west-result-42543054067\\artifact\\runs\\current\\sfincs.nc",
+  "mapFile": "E:\\FloodPLAIN\\wt-model\\.sfincs-runs\\brawley-avra-west-result-42543054067\\artifact\\runs\\current\\sfincs_map.nc",
+  "logFile": "E:\\FloodPLAIN\\wt-model\\.sfincs-runs\\brawley-avra-west-result-42543054067\\artifact\\runs\\current\\solver.log",
+  "meshTopology": "mesh2d",
+  "meshFaceIdVariable": "mesh2d_nFaces",
+  "outputMeshTopology": "mesh2d",
+  "faceMapping": {
+    "path": "E:\\FloodPLAIN\\wt-model\\.sfincs-runs\\brawley-avra-west-result-42543054067\\inspection\\output-to-source-face-id.npy",
+    "sha256": "ebfd139958faacab1a8c5cd7fd36cde08dd6f92b7a3452852231e43467969460"
+  },
+  "volumeVariable": "subgrid_volume",
+  "surfaceVariable": "zs",
+  "projectedCrs": "EPSG:32612",
+  "verticalDatum": "NAVD88",
+  "nativeTimeZone": "UTC",
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "negativeVolumeToleranceM3": 0.03084995225071907,
+  "assumptions": [
+    "Frozen NWM 2026-11-01 13Z and HRRR 14Z inputs; not automatically current.",
+    "Native signed volumes and NAVD88 water surfaces are preserved exactly. Volume/full cell area is not validated road depth or wet extent.",
+    "The legacy JSON display clamps negative storage to zero; its declared bound is the observed minimum, not a validated numerical-error tolerance. Compact native columns retain every signed value.",
+    "6.25 m road computational cells; source terrain sampling does not constitute an independent 1 m flow solution.",
+    "Missing bridge/culvert geometry and initial-state assumptions remain explicit; no confidence interval established.",
+    "See route-point-summary.json for independently located coverage."
+  ],
+  "inputArtifacts": [
+    {
+      "path": "E:\\FloodPLAIN\\wt-model\\.sfincs-runs\\brawley-avra-west-result-42543054067\\artifact\\runs\\current\\sfincs.nc",
+      "sha256": "328042f02927f4ff9f5c40c39365b699c0edbfc0dbc21cea89eac3df368f6767"
+    },
+    {
+      "path": "E:\\FloodPLAIN\\wt-model\\.sfincs-runs\\brawley-avra-west-result-42543054067\\inspection\\output-to-source-face-id.npy",
+      "sha256": "ebfd139958faacab1a8c5cd7fd36cde08dd6f92b7a3452852231e43467969460"
+    },
+    {
+      "path": "E:\\FloodPLAIN\\wt-model\\.sfincs-runs\\brawley-avra-west-result-42543054067\\artifact\\runs\\current\\GCN10-NOTICE.txt",
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "E:\\FloodPLAIN\\wt-model\\.sfincs-runs\\brawley-avra-west-result-42543054067\\artifact\\runs\\current\\GCN10-source-metadata.xml",
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    }
+  ]
+}

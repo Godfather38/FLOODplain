@@ -1,0 +1,166 @@
+{
+  "runId": "42543056194",
+  "caseId": "brawley-avra-west-native-case-v2-observed-inflow",
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "caseRouteIds": [],
+  "nativeRunDirectory": ".sfincs-runs\\brawley-avra-west-result-42543056194\\artifact\\runs\\current",
+  "nativeDirectoryModified": false,
+  "completion": {
+    "logsRead": [
+      "solver.log",
+      "sfincs.log"
+    ],
+    "logsMissing": [],
+    "completionMarkerPresent": true,
+    "approvedExecutionCapSeconds": 5400,
+    "assessment": "complete_to_requested_end",
+    "assessmentBasis": "Actual solver logs, native status variables and recorded times versus the case end; not a GitHub run conclusion and not an expected frame count."
+  },
+  "timeCoverage": {
+    "framesRecorded": 57,
+    "recordedValidFrom": "2026-11-01T17:00:00Z",
+    "recordedValidTo": "2026-11-02T07:00:00Z",
+    "distinctIntervalSeconds": [
+      900
+    ],
+    "requestedEndUtc": "2026-11-02T07:00:00Z",
+    "note": "Frames, interval and endpoints are read from the native output. The normal forecast product is 57 quarter-hour frames from 2026-11-01T17Z through 2026-11-02T07Z, but that count is not assumed here.",
+    "reachesRequestedEnd": true,
+    "shortfallSecondsFromRequestedEnd": 0
+  },
+  "faces": 643056,
+  "faceCorrespondence": {
+    "method": "Exact unique rectangle bounds independently matched between native input/output connectivity",
+    "outputFaces": 643056,
+    "inputFaces": 643056,
+    "matchedFaces": 643056,
+    "identityOrder": true,
+    "maxBoundsDifferenceM": 0.0,
+    "inputFacesNotInOutput": 0
+  },
+  "sourceFaceIdentity": "Exact source native face IDs preserved from this run sfincs.nc",
+  "volumeUnits": "m3",
+  "volumeUnitsAreM3": true,
+  "allVolumeFinite": true,
+  "missingVolumeValues": 0,
+  "negativeVolumeValues": 5212,
+  "negativeValuesPreserved": "Small negative native values remain signed; not clamped",
+  "rawVolumeRangeM3": [
+    -0.03084995225071907,
+    18451.4609375
+  ],
+  "cellAreaRangeM2": [
+    39.0625,
+    10000.0
+  ],
+  "volumePerFullCellArea": {
+    "quantity": "volumePerFullCellAreaM",
+    "definition": "Native subgrid_volume divided by the full computational-cell area. Cell-average storage only; NOT validated road depth or passability.",
+    "rangeM": [
+      -0.0006736539840698242,
+      2.39531953125
+    ]
+  },
+  "firstLastTotalStoredVolumeM3": [
+    1205560.9432283621,
+    7395679.774800296
+  ],
+  "surfaceElevationRangeM": [
+    574.0125732421875,
+    1490.1934814453125
+  ],
+  "surfaceElevationUnits": "m",
+  "surfaceElevationDatum": "NAVD88, not depth",
+  "missingSurfaceValues": 1009884,
+  "notInferred": [
+    "passability",
+    "bridge clearance",
+    "velocity",
+    "flow sections",
+    "uncertainty margins",
+    "validated road depth"
+  ],
+  "riverSectionFlow": "Not read; this reader does not derive flow sections",
+  "restartFiles": [
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst",
+    "sfincs.20261102.070000.rst"
+  ],
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "nativeGeometry": {
+    "sourceEpsg": 32612,
+    "epsgDeclaredInNativeFile": 32612,
+    "domainBoundingBox": [
+      452400.0,
+      3533400.0,
+      495900.0,
+      3592800.0
+    ],
+    "reusedPreviousOutputGeometry": false
+  },
+  "hashes": {
+    "sfincs.nc": "328042f02927f4ff9f5c40c39365b699c0edbfc0dbc21cea89eac3df368f6767",
+    "sfincs_map.nc": "2e3e8b58da07801c730bd1a4cc214608cdc2c99ae6842ccd1c86b9b69fc96b66",
+    "solver.log": "fba2487d25c635ad5a6703d161dc31ebb7d4dcf2242ace563ae7d015f093c2a3",
+    "sfincs.log": "429836fd66f1cf4bc34f7079bf4daac0c2e4e2f9157fa80b90ffdd9fe5d98848"
+  },
+  "caseNativeMeshSha256": "328042f02927f4ff9f5c40c39365b699c0edbfc0dbc21cea89eac3df368f6767",
+  "caseMeshHashChecked": true,
+  "status": [
+    0.0
+  ],
+  "total_runtime": [
+    2933.99609375
+  ],
+  "average_dt": [
+    1.1429632902145386
+  ],
+  "nativePrecipitation": {
+    "quantities": {
+      "precipitation_rate": {
+        "units": "mm h-1",
+        "recordedRange": [
+          0.0,
+          16.080001831054688
+        ],
+        "missingValues": 0
+      }
+    },
+    "units": "As recorded in the native file"
+  },
+  "caseScopeFromMetadata": {
+    "scope": {
+      "status": "brawley_avra_west_version3",
+      "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+      "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+      "areaKm2": 1240.369838309587,
+      "externalInlets": [
+        {
+          "reachId": "15876941",
+          "receivingReachId": "15876923"
+        }
+      ],
+      "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+      "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+      "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+    }
+  },
+  "inventoryPointCounts": {
+    "retained": 0,
+    "located": 0,
+    "outsideCurrentNativeDomain": 0,
+    "locatedInInputButAbsentFromOutput": 0,
+    "boundaryAmbiguous": 0
+  }
+}
