@@ -1,0 +1,263 @@
+{
+ "note": "ALERT 6443 observed (gauges.json mileWideComparison.hourly, report at or before the hour) vs model hourly restart flux; SENSITIVITY v2r",
+ "hourly": [
+  {
+   "hourUtc": "2026-11-01T18:00Z",
+   "observedM3s": 52.39,
+   "observedReportUtc": "2026-11-01T18:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 0.003,
+   "v2rBlackWashBand": 1.292,
+   "v2xBothBands": 0.003,
+   "v2rBothBands": 1.301
+  },
+  {
+   "hourUtc": "2026-11-01T19:00Z",
+   "observedM3s": 52.58,
+   "observedReportUtc": "2026-11-01T19:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 0.038,
+   "v2rBlackWashBand": 13.156,
+   "v2xBothBands": 0.038,
+   "v2rBothBands": 14.297
+  },
+  {
+   "hourUtc": "2026-11-01T20:00Z",
+   "observedM3s": 30.13,
+   "observedReportUtc": "2026-11-01T20:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 0.138,
+   "v2rBlackWashBand": 20.557,
+   "v2xBothBands": 0.143,
+   "v2rBothBands": 21.48
+  },
+  {
+   "hourUtc": "2026-11-01T21:00Z",
+   "observedM3s": 29.87,
+   "observedReportUtc": "2026-11-01T21:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 0.36,
+   "v2rBlackWashBand": 51.214,
+   "v2xBothBands": 0.361,
+   "v2rBothBands": 52.224
+  },
+  {
+   "hourUtc": "2026-11-01T22:00Z",
+   "observedM3s": 41.97,
+   "observedReportUtc": "2026-11-01T22:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 0.553,
+   "v2rBlackWashBand": 82.057,
+   "v2xBothBands": 1.824,
+   "v2rBothBands": 87.088
+  },
+  {
+   "hourUtc": "2026-11-01T23:00Z",
+   "observedM3s": 37.92,
+   "observedReportUtc": "2026-11-01T23:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 1.821,
+   "v2rBlackWashBand": 110.931,
+   "v2xBothBands": 2.767,
+   "v2rBothBands": 116.94
+  },
+  {
+   "hourUtc": "2026-11-02T00:00Z",
+   "observedM3s": 21.69,
+   "observedReportUtc": "2026-11-02T00:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 5.145,
+   "v2rBlackWashBand": 119.068,
+   "v2xBothBands": 5.951,
+   "v2rBothBands": 125.481
+  },
+  {
+   "hourUtc": "2026-11-02T01:00Z",
+   "observedM3s": 18.07,
+   "observedReportUtc": "2026-11-02T01:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 5.194,
+   "v2rBlackWashBand": 112.865,
+   "v2xBothBands": 5.985,
+   "v2rBothBands": 118.827
+  },
+  {
+   "hourUtc": "2026-11-02T02:00Z",
+   "observedM3s": 24.13,
+   "observedReportUtc": "2026-11-02T02:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 5.662,
+   "v2rBlackWashBand": 106.904,
+   "v2xBothBands": 8.65,
+   "v2rBothBands": 112.593
+  },
+  {
+   "hourUtc": "2026-11-02T03:00Z",
+   "observedM3s": 21.97,
+   "observedReportUtc": "2026-11-02T03:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 8.834,
+   "v2rBlackWashBand": 105.754,
+   "v2xBothBands": 11.755,
+   "v2rBothBands": 111.606
+  },
+  {
+   "hourUtc": "2026-11-02T04:00Z",
+   "observedM3s": 14.81,
+   "observedReportUtc": "2026-11-02T04:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 10.289,
+   "v2rBlackWashBand": 110.035,
+   "v2xBothBands": 12.837,
+   "v2rBothBands": 116.586
+  },
+  {
+   "hourUtc": "2026-11-02T05:00Z",
+   "observedM3s": 14.5,
+   "observedReportUtc": "2026-11-02T05:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 11.527,
+   "v2rBlackWashBand": 120.193,
+   "v2xBothBands": 13.774,
+   "v2rBothBands": 128.741
+  },
+  {
+   "hourUtc": "2026-11-02T06:00Z",
+   "observedM3s": 15.83,
+   "observedReportUtc": "2026-11-02T06:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 18.185,
+   "v2rBlackWashBand": 122.902,
+   "v2xBothBands": 20.252,
+   "v2rBothBands": 136.053
+  },
+  {
+   "hourUtc": "2026-11-02T07:00Z",
+   "observedM3s": 14.89,
+   "observedReportUtc": "2026-11-02T07:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 29.53,
+   "v2rBlackWashBand": 122.215,
+   "v2xBothBands": 34.63,
+   "v2rBothBands": 139.238
+  },
+  {
+   "hourUtc": "2026-11-02T08:00Z",
+   "observedM3s": 13.03,
+   "observedReportUtc": "2026-11-02T08:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 37.502,
+   "v2rBlackWashBand": 117.858,
+   "v2xBothBands": 43.648,
+   "v2rBothBands": 135.918
+  },
+  {
+   "hourUtc": "2026-11-02T09:00Z",
+   "observedM3s": 12.18,
+   "observedReportUtc": "2026-11-02T09:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 40.66,
+   "v2rBlackWashBand": 110.193,
+   "v2xBothBands": 47.541,
+   "v2rBothBands": 127.469
+  },
+  {
+   "hourUtc": "2026-11-02T10:00Z",
+   "observedM3s": 12.26,
+   "observedReportUtc": "2026-11-02T10:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 39.836,
+   "v2rBlackWashBand": 101.395,
+   "v2xBothBands": 46.838,
+   "v2rBothBands": 116.491
+  },
+  {
+   "hourUtc": "2026-11-02T11:00Z",
+   "observedM3s": 12.26,
+   "observedReportUtc": "2026-11-02T11:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 36.222,
+   "v2rBlackWashBand": 93.511,
+   "v2xBothBands": 42.701,
+   "v2rBothBands": 106.33
+  },
+  {
+   "hourUtc": "2026-11-02T12:00Z",
+   "observedM3s": 12.06,
+   "observedReportUtc": "2026-11-02T12:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 32.176,
+   "v2rBlackWashBand": 86.728,
+   "v2xBothBands": 38.006,
+   "v2rBothBands": 97.594
+  },
+  {
+   "hourUtc": "2026-11-02T13:00Z",
+   "observedM3s": 12.2,
+   "observedReportUtc": "2026-11-02T13:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 30.437,
+   "v2rBlackWashBand": 82.237,
+   "v2xBothBands": 35.717,
+   "v2rBothBands": 91.62
+  },
+  {
+   "hourUtc": "2026-11-02T14:00Z",
+   "observedM3s": 11.72,
+   "observedReportUtc": "2026-11-02T14:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 29.318,
+   "v2rBlackWashBand": 77.558,
+   "v2xBothBands": 34.123,
+   "v2rBothBands": 85.702
+  },
+  {
+   "hourUtc": "2026-11-02T15:00Z",
+   "observedM3s": 11.55,
+   "observedReportUtc": "2026-11-02T15:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 27.392,
+   "v2rBlackWashBand": 72.344,
+   "v2xBothBands": 31.751,
+   "v2rBothBands": 79.409
+  },
+  {
+   "hourUtc": "2026-11-02T16:00Z",
+   "observedM3s": 12.06,
+   "observedReportUtc": "2026-11-02T16:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 26.38,
+   "v2rBlackWashBand": 67.691,
+   "v2xBothBands": 30.353,
+   "v2rBothBands": 73.919
+  },
+  {
+   "hourUtc": "2026-11-02T17:00Z",
+   "observedM3s": 11.24,
+   "observedReportUtc": "2026-11-02T16:20:00Z",
+   "observedAgeMin": 40,
+   "v2xBlackWashBand": 26.648,
+   "v2rBlackWashBand": 63.844,
+   "v2xBothBands": 30.362,
+   "v2rBothBands": 69.489
+  },
+  {
+   "hourUtc": "2026-11-02T18:00Z",
+   "observedM3s": 10.96,
+   "observedReportUtc": "2026-11-02T18:00:00Z",
+   "observedAgeMin": 0,
+   "v2xBlackWashBand": 27.81,
+   "v2rBlackWashBand": 58.873,
+   "v2xBothBands": 31.272,
+   "v2rBothBands": 64.033
+  }
+ ],
+ "volume18Zto18ZM3": {
+  "v2xBlackWashBand": 1575913,
+  "v2rBlackWashBand": 7564653,
+  "v2xBothBands": 1856320,
+  "v2rBothBands": 8271943,
+  "observed": 1782749,
+  "observedMethod": "trapezoid between reports (observed; linear across report gaps, which is an assumption) and between hourly fluxes (model)"
+ }
+}

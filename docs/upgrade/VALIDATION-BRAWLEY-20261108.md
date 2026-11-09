@@ -727,3 +727,80 @@ Both use the v2 mesh (643,056 cells, mesh sha256 328042f02927…, up from 408,20
 - **AC6 performance.** The frozen solver times (55.8 and 48.9 min) are over the 35 min AC6 budget. The §1 AC6 PASS row refers to the v1b runs (1,836.7 s and 1,785.0 s). The live cycle (848.9 s, 21 h window) fits inside the hourly cycle, but the frozen 63 h runs on v2 do not meet AC6.
 - **modelVersion.** The v2 runs and the live registration still carry `modelVersion: all-routes-brawley-avra-west-v1`, although the mesh changed (408,207 to 643,056 cells, new mesh sha256). Whether v2 should get a new modelVersion is **a decision for the owner**; nothing was changed here.
 - **Registry moved before wave timing was validated.** `tools/live/all-route-cases.json` (commit afa8fc4) already points at the v2 case and the 42543054067 face mapping and geometry. The wave timing still fails: §12.3 has it against NWM and §13.4 against ALERT 6443. The registry is on the experimental branch only; nothing was published.
+
+## 15. v2r all-observed-rain sensitivity (run 42555458619) — 2026-11-09
+
+**SENSITIVITY run. It is not tuned to observations, not a live configuration and not for live registration.**
+- Case `brawley-avra-west-native-case-v2r-observed-inflow` (`sensitivityVariant: true`, commit 8b1d2f0).
+- Numbers: `tools/sfincs/data/brawley-avra-west-v2/rain-sensitivity/result-42555458619/` (`summary.json`, `README.md`, hourly comparison files).
+- Solver time 5,759.0 s against the 7,200 s cap (engine 42528021117; same dispatch inputs as v2x).
+
+### 15.1 What changed
+
+- **Only the rain**, in 17 hourly frames: interval starts 2026-11-01T14Z to 2026-11-02T06Z. These were the HRRR 14Z forecast in v2x and are now observed Stage IV 01h (IEM).
+  - Same header checks, HRAP grid hash and nearest-cell mapping as the frozen analysis hours.
+  - 0 missing cells, so no MRMS replacement was needed and nothing was zero-filled. The raw-file sha256 hashes equal the v2x fetch.
+- **Unchanged.** The 46 frozen analysis frames to 13Z Nov 1 and the 11 v2x Stage IV frames 07–17Z Nov 2 are unchanged. sfincs.nc, the subgrid, infiltration, sfincs.inp, sfincs.dis (observed inflow) and sfincs.src are byte-identical to v2x.
+- **Mesh-weighted rain:**
+  - 14–18Z Nov 1: 19.44 mm (v2x 0.69).
+  - 18Z–07Z: 8.25 mm (v2x 14.13).
+  - Whole run: 46.60 mm (v2x 33.72), so +38%.
+
+### 15.2 Results (hourly restart flux, m³/s; v2x in brackets)
+
+| Section | Peak / time | Q 03Z | Q 07Z | Q 18Z |
+|---|---|---|---|---|
+| Donaldson Ranch | 33.85 / 04Z (21.29 / 03Z) | 32.55 (21.29) | 23.31 (13.98) | 4.93 (3.14) |
+| Mile Wide, both bands | 139.24 / 07Z (47.54 / 09Z) | 111.61 (11.76) | 139.24 (34.63) | 64.03 (31.27) |
+| ·· Black Wash band (ALERT 6443) | 122.90 / 06Z (40.66 / 09Z) | 105.75 (8.83) | 122.22 (29.53) | 58.87 (27.81) |
+| ·· Brawley 15877627 band | 18.06 / 08Z (7.00 / 10Z) | 5.85 (2.92) | 17.02 (5.10) | 5.16 (3.46) |
+| Manville | 157.97 / 01Z (62.79 / 11Z) | 140.09 (30.34) | 149.16 (29.36) | 84.41 (36.60) |
+| Tucker | 159.14 / 10Z (64.34 / 13Z) | 157.52 (18.20) | 138.12 (32.42) | 97.27 (43.15) |
+| Outlet 720060498 | 69.86 / 04Z (26.32 / 14Z) | 67.38 (0.95) | 59.23 (17.31) | 47.11 (19.12) |
+
+**ALERT 6443, against the primary series in §13:**
+- Hour by hour, observed / v2x both bands / v2r both bands:
+
+  | Hour | Observed | v2x | v2r |
+  |---|---|---|---|
+  | 18Z | 52.4 | 0.003 | 1.30 |
+  | 19Z | 52.6 | 0.04 | 14.3 |
+  | 22Z | 42.0 | 1.82 | 87.1 |
+  | 00Z | 21.7 | 5.95 | 125.5 |
+  | 03Z | 22.0 | 11.76 | 111.6 |
+  | 06Z | 15.8 | 20.3 | 136.1 |
+  | 09Z | 12.2 | 47.5 | 127.5 |
+
+- **Volume 18Z–18Z.** 8.27M m³ in v2r (Black Wash band 7.56M), against 1.78M observed (v2x 1.86M).
+- **First 23.1 m³/s.** About 20:03Z Nov 1 (v2x about 06:12Z Nov 2). At 03Z the flow is 4.8× the reading (v2x 0.51×).
+- **The observed 18:20Z peak (64.7) is still not reproduced.** The model peaks at 06–07Z Nov 2 at 1.9× the observed peak. In the gauge cell, zs peaks at 674.147 at 06:15Z (2.49 m deep).
+
+**Road over-topping** (cell zs − roadZ, wet frames only):
+
+| Crossing | v2r max over / time | v2x max over / time | v2r first over (v2x) |
+|---|---|---|---|
+| W Mile Wide Rd | −0.107 / 08:00Z (never over) | −0.128 / 08:45Z | never (never) |
+| W Manville Rd | +0.811 / 08:30Z | +0.612 / 11:15Z | 20:00Z (22:30Z) |
+| W Tucker Rd | +1.068 / 02:30Z | +0.921 / 12:45Z | 23:15Z (21:45Z) |
+| W Little Williams Dr | +0.569 / 02:30Z | +0.429 / 12:45Z | 23:30Z (19:30Z) |
+| W Donaldson Ranch Rd | +0.083 / 04:30Z | +0.057 / 03:45Z | 17:00Z, the first map frame (19:00Z) |
+
+- **Tucker and Little Williams go over later in v2r.** In v2x they went over early, by only 0.04–0.22 m, from the heavier HRRR local rain at 18–21Z. In v2r the routed flood arrives at 00Z, about 10 h before v2x's main rise.
+- All crossings except Mile Wide are still over at 18Z.
+- 7,678 of 57,465 stations go over at some point (v2x: 4,859).
+
+### 15.3 Checks
+
+- **Mass balance.** Residual −13,374 m³ (−0.02%), counted from the first restart at 18Z Nov 1. Outflow before 18Z is not measured; 35 mm of rain falls before then.
+- **Negative depth.** The minimum is −1.46 mm (face 478144, 02:30Z). 1 cell is below −1 mm, in 4 frames, which is **outside the live verifier limit** (v2x: −0.67 mm).
+- **Stability.** 0 wet NaN values and 0 spikes; maximum 15-min rise 2.12 m. The velocity proxy reaches **8.22 m/s at the outlet outflow cells** (04Z), against 1.47 in v2x. This has not been checked further.
+- **Outlet pond.** zs 626.19, 9.11 m deep and still rising at 18Z; 5.00M m³ stored within 1.5 km (v2x: 1.24M).
+- **Not meaningful here.** The baseline-difference fields (`waveAttributionTo07Z`, `frontVsBaseline0p3`): the v2 NWM baseline has the HRRR rain.
+
+### 15.4 Reading (inference)
+
+- **The hypothesis holds only partly.**
+  - Observed rain removes the 03Z shortfall and the late arrival of 23 m³/s, but it overshoots by about 4–5× in flow and volume.
+  - The model still responds at Mile Wide 5–12 h after the observed rain burst (14:45–17:05Z) and misses the 18:20Z peak.
+  - So the HRRR rain timing alone does not explain the V2 misfit. The CN runoff assumption (no transmission loss) and the slow overland/channel routing look like larger factors. This run does not separate them, and nothing was adjusted.
+- **V2 stays FAIL** in this sensitivity run as well.

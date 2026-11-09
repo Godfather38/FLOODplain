@@ -1,0 +1,193 @@
+{
+ "method": "mesh-area-weighted, nearest 1 km precip_2d cell at each face centre (same as v2x summary)",
+ "changedHours": [
+  "2026-11-01T14Z",
+  "2026-11-01T15Z",
+  "2026-11-01T16Z",
+  "2026-11-01T17Z",
+  "2026-11-01T18Z",
+  "2026-11-01T19Z",
+  "2026-11-01T20Z",
+  "2026-11-01T21Z",
+  "2026-11-01T22Z",
+  "2026-11-01T23Z",
+  "2026-11-02T00Z",
+  "2026-11-02T01Z",
+  "2026-11-02T02Z",
+  "2026-11-02T03Z",
+  "2026-11-02T04Z",
+  "2026-11-02T05Z",
+  "2026-11-02T06Z"
+ ],
+ "nChanged": 17,
+ "hourly": {
+  "2026-11-01T12Z": {
+   "v2xMmH": 0.019,
+   "v2rMmH": 0.019,
+   "changed": false
+  },
+  "2026-11-01T13Z": {
+   "v2xMmH": 0.033,
+   "v2rMmH": 0.033,
+   "changed": false
+  },
+  "2026-11-01T14Z": {
+   "v2xMmH": 0.137,
+   "v2rMmH": 1.796,
+   "changed": true
+  },
+  "2026-11-01T15Z": {
+   "v2xMmH": 0.037,
+   "v2rMmH": 4.612,
+   "changed": true
+  },
+  "2026-11-01T16Z": {
+   "v2xMmH": 0.488,
+   "v2rMmH": 6.758,
+   "changed": true
+  },
+  "2026-11-01T17Z": {
+   "v2xMmH": 0.023,
+   "v2rMmH": 6.275,
+   "changed": true
+  },
+  "2026-11-01T18Z": {
+   "v2xMmH": 3.762,
+   "v2rMmH": 1.97,
+   "changed": true
+  },
+  "2026-11-01T19Z": {
+   "v2xMmH": 5.13,
+   "v2rMmH": 1.42,
+   "changed": true
+  },
+  "2026-11-01T20Z": {
+   "v2xMmH": 2.984,
+   "v2rMmH": 2.166,
+   "changed": true
+  },
+  "2026-11-01T21Z": {
+   "v2xMmH": 1.034,
+   "v2rMmH": 0.58,
+   "changed": true
+  },
+  "2026-11-01T22Z": {
+   "v2xMmH": 0.325,
+   "v2rMmH": 0.068,
+   "changed": true
+  },
+  "2026-11-01T23Z": {
+   "v2xMmH": 0.0,
+   "v2rMmH": 0.006,
+   "changed": true
+  },
+  "2026-11-02T00Z": {
+   "v2xMmH": 0.0,
+   "v2rMmH": 0.0,
+   "changed": true
+  },
+  "2026-11-02T01Z": {
+   "v2xMmH": 0.0,
+   "v2rMmH": 0.0,
+   "changed": true
+  },
+  "2026-11-02T02Z": {
+   "v2xMmH": 0.001,
+   "v2rMmH": 0.384,
+   "changed": true
+  },
+  "2026-11-02T03Z": {
+   "v2xMmH": 0.008,
+   "v2rMmH": 0.973,
+   "changed": true
+  },
+  "2026-11-02T04Z": {
+   "v2xMmH": 0.102,
+   "v2rMmH": 0.015,
+   "changed": true
+  },
+  "2026-11-02T05Z": {
+   "v2xMmH": 0.38,
+   "v2rMmH": 0.023,
+   "changed": true
+  },
+  "2026-11-02T06Z": {
+   "v2xMmH": 0.402,
+   "v2rMmH": 0.648,
+   "changed": true
+  },
+  "2026-11-02T07Z": {
+   "v2xMmH": 1.198,
+   "v2rMmH": 1.198,
+   "changed": false
+  },
+  "2026-11-02T08Z": {
+   "v2xMmH": 1.254,
+   "v2rMmH": 1.254,
+   "changed": false
+  },
+  "2026-11-02T09Z": {
+   "v2xMmH": 0.55,
+   "v2rMmH": 0.55,
+   "changed": false
+  },
+  "2026-11-02T10Z": {
+   "v2xMmH": 0.001,
+   "v2rMmH": 0.001,
+   "changed": false
+  },
+  "2026-11-02T11Z": {
+   "v2xMmH": 0.054,
+   "v2rMmH": 0.054,
+   "changed": false
+  },
+  "2026-11-02T12Z": {
+   "v2xMmH": 0.121,
+   "v2rMmH": 0.121,
+   "changed": false
+  },
+  "2026-11-02T13Z": {
+   "v2xMmH": 0.011,
+   "v2rMmH": 0.011,
+   "changed": false
+  },
+  "2026-11-02T14Z": {
+   "v2xMmH": 0.0,
+   "v2rMmH": 0.0,
+   "changed": false
+  },
+  "2026-11-02T15Z": {
+   "v2xMmH": 0.0,
+   "v2rMmH": 0.0,
+   "changed": false
+  },
+  "2026-11-02T16Z": {
+   "v2xMmH": 0.098,
+   "v2rMmH": 0.098,
+   "changed": false
+  },
+  "2026-11-02T17Z": {
+   "v2xMmH": 0.0,
+   "v2rMmH": 0.0,
+   "changed": false
+  }
+ },
+ "totalsMm": {
+  "14Zto18Z_Nov1": {
+   "v2x": 0.69,
+   "v2r": 19.44
+  },
+  "18Zto07Z": {
+   "v2x": 14.13,
+   "v2r": 8.25
+  },
+  "14Zto07Z": {
+   "v2x": 14.81,
+   "v2r": 27.69
+  },
+  "wholeRun": {
+   "v2x": 33.72,
+   "v2r": 46.6
+  }
+ }
+}

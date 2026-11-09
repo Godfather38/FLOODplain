@@ -1,0 +1,1150 @@
+{
+ "schemaVersion": 1,
+ "label": "SENSITIVITY - all-observed-rain variant of v2x; not tuned; not for live registration",
+ "run": 42555458619,
+ "workflow": "sfincs.yml",
+ "ref": "experimental/brawley-avra-west-20261108",
+ "commit": "8b1d2f02cdc0",
+ "engineRunId": 42528021117,
+ "executionCapSeconds": 7200,
+ "solverSeconds": 5758.985,
+ "executionStarted": "2026-11-09T03:23:58Z",
+ "solverLog": "Simulation finished",
+ "caseId": "brawley-avra-west-native-case-v2r-observed-inflow",
+ "sensitivityVariant": true,
+ "comparesWith": {
+  "caseId": "brawley-avra-west-native-case-v2x-observed-inflow",
+  "run": 42544624673
+ },
+ "artifact": {
+  "name": "sfincs-verification",
+  "bytes": 648044550,
+  "sfincsMapBytes": 381279696,
+  "sfincsMapSha256": "72c6433020ad86cb52489bfe8eb0e6cdfcb5c59d6882ab1aa22d017ddcb70e39",
+  "precip2dSha256": "1ab7e50e36d819dff2c4cf12ef49f32bd86cc35d5f4c05216cdc9096b8165464",
+  "retentionDays": 7,
+  "committed": false
+ },
+ "hypothesis": "Frozen HRRR rain gives 0.67 mm (domain mean) for Nov 1 14-17Z vs Stage IV 19.46 mm; this may explain why v2x gives 11.8 m3/s at Mile Wide (ALERT 6443) at 03Z vs about 23.1 observed and why the wave is late",
+ "forcingChange": {
+  "onlyDifference": "precipitation frames 2026-11-01T14Z..2026-11-02T06Z (17 interval starts): HRRR 2026-11-01T14Z forecast -> observed Stage IV 01h (IEM)",
+  "changedHours": [
+   "2026-11-01T14Z",
+   "2026-11-01T15Z",
+   "2026-11-01T16Z",
+   "2026-11-01T17Z",
+   "2026-11-01T18Z",
+   "2026-11-01T19Z",
+   "2026-11-01T20Z",
+   "2026-11-01T21Z",
+   "2026-11-01T22Z",
+   "2026-11-01T23Z",
+   "2026-11-02T00Z",
+   "2026-11-02T01Z",
+   "2026-11-02T02Z",
+   "2026-11-02T03Z",
+   "2026-11-02T04Z",
+   "2026-11-02T05Z",
+   "2026-11-02T06Z"
+  ],
+  "unchanged": [
+   "2026-10-30T16Z..2026-11-01T13Z frozen Stage IV/MRMS resolved analysis (46 frames, identical)",
+   "2026-11-02T07Z..17Z Stage IV (11 frames, identical to v2x)",
+   "mesh, subgrid, infiltration, boundaries, sfincs.inp, sfincs.dis (observed inflow), sfincs.src: byte-identical to v2x"
+  ],
+  "stageIV": {
+   "missingCellHours": 0,
+   "mrmsReplacements": 0,
+   "zeroFill": false,
+   "rawFilesSha256EqualToV2xFetch": true,
+   "metadata": "../rain-v2r-stage4-metadata.json"
+  },
+  "meshAreaWeightedRainMm": {
+   "14Zto18Z_Nov1": {
+    "v2x": 0.69,
+    "v2r": 19.44
+   },
+   "18Zto07Z": {
+    "v2x": 14.13,
+    "v2r": 8.25
+   },
+   "14Zto07Z": {
+    "v2x": 14.81,
+    "v2r": 27.69
+   },
+   "wholeRun": {
+    "v2x": 33.72,
+    "v2r": 46.6
+   }
+  },
+  "hourlyMmH": "rain-frames-v2x-vs-v2r.json"
+ },
+ "sectionsM3s": {
+  "Donaldson Ranch (15877627)": {
+   "v2r": {
+    "m3s": 33.854,
+    "time": "2026-11-02T04:00Z"
+   },
+   "v2x": {
+    "m3s": 21.29,
+    "time": "2026-11-02T03:00Z"
+   },
+   "q03Z": {
+    "v2x": 21.29,
+    "v2r": 32.545
+   },
+   "q07Z": {
+    "v2x": 13.981,
+    "v2r": 23.307
+   },
+   "q18Z": {
+    "v2x": 3.137,
+    "v2r": 4.931
+   }
+  },
+  "Mile Wide both bands": {
+   "v2r": {
+    "m3s": 139.238,
+    "time": "2026-11-02T07:00Z"
+   },
+   "v2x": {
+    "m3s": 47.541,
+    "time": "2026-11-02T09:00Z"
+   },
+   "q03Z": {
+    "v2x": 11.755,
+    "v2r": 111.606
+   },
+   "q07Z": {
+    "v2x": 34.63,
+    "v2r": 139.238
+   },
+   "q18Z": {
+    "v2x": 31.272,
+    "v2r": 64.033
+   }
+  },
+  "Mile Wide Black Wash 15876815 band (ALERT 6443)": {
+   "v2r": {
+    "m3s": 122.902,
+    "time": "2026-11-02T06:00Z"
+   },
+   "v2x": {
+    "m3s": 40.66,
+    "time": "2026-11-02T09:00Z"
+   },
+   "q03Z": {
+    "v2x": 8.834,
+    "v2r": 105.754
+   },
+   "q07Z": {
+    "v2x": 29.53,
+    "v2r": 122.215
+   },
+   "q18Z": {
+    "v2x": 27.81,
+    "v2r": 58.873
+   }
+  },
+  "Mile Wide Brawley 15877627 band": {
+   "v2r": {
+    "m3s": 18.06,
+    "time": "2026-11-02T08:00Z"
+   },
+   "v2x": {
+    "m3s": 7.002,
+    "time": "2026-11-02T10:00Z"
+   },
+   "q03Z": {
+    "v2x": 2.921,
+    "v2r": 5.852
+   },
+   "q07Z": {
+    "v2x": 5.1,
+    "v2r": 17.022
+   },
+   "q18Z": {
+    "v2x": 3.462,
+    "v2r": 5.16
+   }
+  },
+  "Manville (15876771)": {
+   "v2r": {
+    "m3s": 157.965,
+    "time": "2026-11-02T01:00Z"
+   },
+   "v2x": {
+    "m3s": 62.788,
+    "time": "2026-11-02T11:00Z"
+   },
+   "q03Z": {
+    "v2x": 30.337,
+    "v2r": 140.092
+   },
+   "q07Z": {
+    "v2x": 29.364,
+    "v2r": 149.158
+   },
+   "q18Z": {
+    "v2x": 36.596,
+    "v2r": 84.405
+   }
+  },
+  "Tucker (15876711)": {
+   "v2r": {
+    "m3s": 159.142,
+    "time": "2026-11-02T10:00Z"
+   },
+   "v2x": {
+    "m3s": 64.335,
+    "time": "2026-11-02T13:00Z"
+   },
+   "q03Z": {
+    "v2x": 18.202,
+    "v2r": 157.52
+   },
+   "q07Z": {
+    "v2x": 32.423,
+    "v2r": 138.118
+   },
+   "q18Z": {
+    "v2x": 43.146,
+    "v2r": 97.274
+   }
+  },
+  "Outlet 720060498 (outflow links)": {
+   "v2r": {
+    "m3s": 69.862,
+    "time": "2026-11-02T04:00Z"
+   },
+   "v2x": {
+    "m3s": 26.321,
+    "time": "2026-11-02T14:00Z"
+   },
+   "q03Z": {
+    "v2x": 0.952,
+    "v2r": 67.375
+   },
+   "q07Z": {
+    "v2x": 17.306,
+    "v2r": 59.228
+   },
+   "q18Z": {
+    "v2x": 19.115,
+    "v2r": 47.108
+   }
+  },
+  "All outflow cells": {
+   "v2r": {
+    "m3s": 106.319,
+    "time": "2026-11-02T03:00Z"
+   },
+   "v2x": {
+    "m3s": 56.194,
+    "time": "2026-11-02T13:00Z"
+   },
+   "q03Z": {
+    "v2x": 0.952,
+    "v2r": 106.319
+   },
+   "q07Z": {
+    "v2x": 40.796,
+    "v2r": 89.504
+   },
+   "q18Z": {
+    "v2x": 35.354,
+    "v2r": 70.011
+   }
+  }
+ },
+ "alert6443": {
+  "v2r": {
+   "reading": "~817 cfs (23.1 m3/s) at ~03:04Z, second-hand",
+   "readingM3s": 23.13,
+   "modelBothBands03Z": 111.606,
+   "ratio03Z": 4.82,
+   "modelFirstAtReading": {
+    "time": "2026-11-01T20:03Z",
+    "before": {
+     "2026-11-01T20:00Z": 21.48
+    },
+    "after": {
+     "2026-11-01T21:00Z": 52.224
+    },
+    "method": "linear between hourly restarts"
+   },
+   "modelPeak": {
+    "m3s": 139.238,
+    "time": "2026-11-02T07:00Z"
+   },
+   "gaugeCellZsMax": 674.147,
+   "gaugeCellZsMaxTime": "2026-11-02T06:15Z",
+   "gaugeCellMaxDepth": 2.491
+  },
+  "v2x": {
+   "reading": "~817 cfs (23.1 m3/s) at ~03:04Z, second-hand",
+   "readingM3s": 23.13,
+   "modelBothBands03Z": 11.755,
+   "ratio03Z": 0.51,
+   "modelFirstAtReading": {
+    "time": "2026-11-02T06:12Z",
+    "before": {
+     "2026-11-02T06:00Z": 20.252
+    },
+    "after": {
+     "2026-11-02T07:00Z": 34.63
+    },
+    "method": "linear between hourly restarts"
+   },
+   "modelPeak": {
+    "m3s": 47.541,
+    "time": "2026-11-02T09:00Z"
+   },
+   "gaugeCellZsMax": 673.631,
+   "gaugeCellZsMaxTime": "2026-11-02T09:15Z",
+   "gaugeCellMaxDepth": 1.974
+  },
+  "observedPrimary": {
+   "source": "../../observed-gauges-20261101/gauges.json (section 13)",
+   "peak": "64.7 m3/s (2286 cfs) at 18:20Z Nov 1",
+   "817cfsReport": "02:45Z Nov 2 (falling limb of third peak)",
+   "volume18Zto18ZM3": 1782749
+  },
+  "modelVolume18Zto18ZM3": {
+   "v2xBlackWashBand": 1575913,
+   "v2rBlackWashBand": 7564653,
+   "v2xBothBands": 1856320,
+   "v2rBothBands": 8271943,
+   "observed": 1782749,
+   "observedMethod": "trapezoid between reports (observed; linear across report gaps, which is an assumption) and between hourly fluxes (model)"
+  },
+  "hourlyObserved": {
+   "2026-11-01T18:00Z": {
+    "obs": 52.39,
+    "v2xBlackWash": 0.003,
+    "v2rBlackWash": 1.292,
+    "v2xBoth": 0.003,
+    "v2rBoth": 1.301
+   },
+   "2026-11-01T19:00Z": {
+    "obs": 52.58,
+    "v2xBlackWash": 0.038,
+    "v2rBlackWash": 13.156,
+    "v2xBoth": 0.038,
+    "v2rBoth": 14.297
+   },
+   "2026-11-01T20:00Z": {
+    "obs": 30.13,
+    "v2xBlackWash": 0.138,
+    "v2rBlackWash": 20.557,
+    "v2xBoth": 0.143,
+    "v2rBoth": 21.48
+   },
+   "2026-11-01T21:00Z": {
+    "obs": 29.87,
+    "v2xBlackWash": 0.36,
+    "v2rBlackWash": 51.214,
+    "v2xBoth": 0.361,
+    "v2rBoth": 52.224
+   },
+   "2026-11-01T22:00Z": {
+    "obs": 41.97,
+    "v2xBlackWash": 0.553,
+    "v2rBlackWash": 82.057,
+    "v2xBoth": 1.824,
+    "v2rBoth": 87.088
+   },
+   "2026-11-01T23:00Z": {
+    "obs": 37.92,
+    "v2xBlackWash": 1.821,
+    "v2rBlackWash": 110.931,
+    "v2xBoth": 2.767,
+    "v2rBoth": 116.94
+   },
+   "2026-11-02T00:00Z": {
+    "obs": 21.69,
+    "v2xBlackWash": 5.145,
+    "v2rBlackWash": 119.068,
+    "v2xBoth": 5.951,
+    "v2rBoth": 125.481
+   },
+   "2026-11-02T01:00Z": {
+    "obs": 18.07,
+    "v2xBlackWash": 5.194,
+    "v2rBlackWash": 112.865,
+    "v2xBoth": 5.985,
+    "v2rBoth": 118.827
+   },
+   "2026-11-02T02:00Z": {
+    "obs": 24.13,
+    "v2xBlackWash": 5.662,
+    "v2rBlackWash": 106.904,
+    "v2xBoth": 8.65,
+    "v2rBoth": 112.593
+   },
+   "2026-11-02T03:00Z": {
+    "obs": 21.97,
+    "v2xBlackWash": 8.834,
+    "v2rBlackWash": 105.754,
+    "v2xBoth": 11.755,
+    "v2rBoth": 111.606
+   },
+   "2026-11-02T04:00Z": {
+    "obs": 14.81,
+    "v2xBlackWash": 10.289,
+    "v2rBlackWash": 110.035,
+    "v2xBoth": 12.837,
+    "v2rBoth": 116.586
+   },
+   "2026-11-02T05:00Z": {
+    "obs": 14.5,
+    "v2xBlackWash": 11.527,
+    "v2rBlackWash": 120.193,
+    "v2xBoth": 13.774,
+    "v2rBoth": 128.741
+   },
+   "2026-11-02T06:00Z": {
+    "obs": 15.83,
+    "v2xBlackWash": 18.185,
+    "v2rBlackWash": 122.902,
+    "v2xBoth": 20.252,
+    "v2rBoth": 136.053
+   },
+   "2026-11-02T07:00Z": {
+    "obs": 14.89,
+    "v2xBlackWash": 29.53,
+    "v2rBlackWash": 122.215,
+    "v2xBoth": 34.63,
+    "v2rBoth": 139.238
+   },
+   "2026-11-02T08:00Z": {
+    "obs": 13.03,
+    "v2xBlackWash": 37.502,
+    "v2rBlackWash": 117.858,
+    "v2xBoth": 43.648,
+    "v2rBoth": 135.918
+   },
+   "2026-11-02T09:00Z": {
+    "obs": 12.18,
+    "v2xBlackWash": 40.66,
+    "v2rBlackWash": 110.193,
+    "v2xBoth": 47.541,
+    "v2rBoth": 127.469
+   },
+   "2026-11-02T10:00Z": {
+    "obs": 12.26,
+    "v2xBlackWash": 39.836,
+    "v2rBlackWash": 101.395,
+    "v2xBoth": 46.838,
+    "v2rBoth": 116.491
+   },
+   "2026-11-02T11:00Z": {
+    "obs": 12.26,
+    "v2xBlackWash": 36.222,
+    "v2rBlackWash": 93.511,
+    "v2xBoth": 42.701,
+    "v2rBoth": 106.33
+   },
+   "2026-11-02T12:00Z": {
+    "obs": 12.06,
+    "v2xBlackWash": 32.176,
+    "v2rBlackWash": 86.728,
+    "v2xBoth": 38.006,
+    "v2rBoth": 97.594
+   },
+   "2026-11-02T13:00Z": {
+    "obs": 12.2,
+    "v2xBlackWash": 30.437,
+    "v2rBlackWash": 82.237,
+    "v2xBoth": 35.717,
+    "v2rBoth": 91.62
+   },
+   "2026-11-02T14:00Z": {
+    "obs": 11.72,
+    "v2xBlackWash": 29.318,
+    "v2rBlackWash": 77.558,
+    "v2xBoth": 34.123,
+    "v2rBoth": 85.702
+   },
+   "2026-11-02T15:00Z": {
+    "obs": 11.55,
+    "v2xBlackWash": 27.392,
+    "v2rBlackWash": 72.344,
+    "v2xBoth": 31.751,
+    "v2rBoth": 79.409
+   },
+   "2026-11-02T16:00Z": {
+    "obs": 12.06,
+    "v2xBlackWash": 26.38,
+    "v2rBlackWash": 67.691,
+    "v2xBoth": 30.353,
+    "v2rBoth": 73.919
+   },
+   "2026-11-02T17:00Z": {
+    "obs": 11.24,
+    "v2xBlackWash": 26.648,
+    "v2rBlackWash": 63.844,
+    "v2xBoth": 30.362,
+    "v2rBoth": 69.489
+   },
+   "2026-11-02T18:00Z": {
+    "obs": 10.96,
+    "v2xBlackWash": 27.81,
+    "v2rBlackWash": 58.873,
+    "v2xBoth": 31.272,
+    "v2rBoth": 64.033
+   }
+  }
+ },
+ "crossings": {
+  "West Donaldson Ranch Road": {
+   "maxOver": {
+    "v2x": 0.057,
+    "v2r": 0.083
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T03:45Z",
+    "v2r": "2026-11-02T04:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.057,
+    "v2r": 0.083
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T19:00Z",
+    "v2r": "2026-11-01T17:00Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 5,
+    "v2r": 5
+   }
+  },
+  "West Manville Road": {
+   "maxOver": {
+    "v2x": 0.612,
+    "v2r": 0.811
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T11:15Z",
+    "v2r": "2026-11-02T08:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.446,
+    "v2r": 0.804
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T22:30Z",
+    "v2r": "2026-11-01T20:00Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 5,
+    "v2r": 5
+   }
+  },
+  "West Mile Wide Road": {
+   "maxOver": {
+    "v2x": -0.128,
+    "v2r": -0.107
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T08:45Z",
+    "v2r": "2026-11-02T08:00Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": null,
+    "v2r": -0.11
+   },
+   "firstOver": {
+    "v2x": null,
+    "v2r": null
+   },
+   "lastOver": {
+    "v2x": null,
+    "v2r": null
+   },
+   "stationsOver": {
+    "v2x": 0,
+    "v2r": 0
+   }
+  },
+  "West Little Williams Drive": {
+   "maxOver": {
+    "v2x": 0.429,
+    "v2r": 0.569
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T12:45Z",
+    "v2r": "2026-11-02T02:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.376,
+    "v2r": 0.569
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T19:30Z",
+    "v2r": "2026-11-01T23:30Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 4,
+    "v2r": 4
+   }
+  },
+  "West Tucker Road": {
+   "maxOver": {
+    "v2x": 0.921,
+    "v2r": 1.068
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T12:45Z",
+    "v2r": "2026-11-02T02:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.869,
+    "v2r": 1.068
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T21:45Z",
+    "v2r": "2026-11-01T23:15Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 5,
+    "v2r": 5
+   }
+  },
+  "West Snyder Hill Road 1.73 m": {
+   "maxOver": {
+    "v2x": 0.642,
+    "v2r": 1.23
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T14:30Z",
+    "v2r": "2026-11-02T01:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.456,
+    "v2r": 1.23
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T19:15Z",
+    "v2r": "2026-11-01T17:00Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 5,
+    "v2r": 5
+   }
+  },
+  "Garcia Ranch Road 1.32 m": {
+   "maxOver": {
+    "v2x": 0.304,
+    "v2r": 0.307
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-01T19:30Z",
+    "v2r": "2026-11-01T17:00Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.304,
+    "v2r": 0.307
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T17:00Z",
+    "v2r": "2026-11-01T17:00Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 1,
+    "v2r": 1
+   }
+  },
+  "West Manville Road 1.24 m": {
+   "maxOver": {
+    "v2x": 0.417,
+    "v2r": 0.447
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T03:30Z",
+    "v2r": "2026-11-02T01:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.417,
+    "v2r": 0.447
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T21:30Z",
+    "v2r": "2026-11-01T19:00Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 4,
+    "v2r": 4
+   }
+  },
+  "West Manville Road 1.12 m": {
+   "maxOver": {
+    "v2x": 1.322,
+    "v2r": 1.515
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T11:15Z",
+    "v2r": "2026-11-02T08:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.944,
+    "v2r": 1.504
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T21:45Z",
+    "v2r": "2026-11-01T18:45Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 5,
+    "v2r": 5
+   }
+  },
+  "Garcia Ranch Road 1.01 m": {
+   "maxOver": {
+    "v2x": 0.286,
+    "v2r": 0.332
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-01T23:00Z",
+    "v2r": "2026-11-01T19:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.286,
+    "v2r": 0.332
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T17:00Z",
+    "v2r": "2026-11-01T17:00Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 5,
+    "v2r": 5
+   }
+  },
+  "Garcia Ranch Road 0.98 m": {
+   "maxOver": {
+    "v2x": -0.023,
+    "v2r": -0.031
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-01T18:45Z",
+    "v2r": "2026-11-02T03:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": -0.023,
+    "v2r": -0.031
+   },
+   "firstOver": {
+    "v2x": null,
+    "v2r": null
+   },
+   "lastOver": {
+    "v2x": null,
+    "v2r": null
+   },
+   "stationsOver": {
+    "v2x": 0,
+    "v2r": 0
+   }
+  },
+  "North Mesquite Oasis Road 0.96 m": {
+   "maxOver": {
+    "v2x": 0.171,
+    "v2r": 0.227
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T08:15Z",
+    "v2r": "2026-11-02T04:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.16,
+    "v2r": 0.227
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T20:30Z",
+    "v2r": "2026-11-01T18:45Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 2,
+    "v2r": 2
+   }
+  },
+  "West Donaldson Ranch Road 0.9 m": {
+   "maxOver": {
+    "v2x": 0.392,
+    "v2r": 0.466
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T02:45Z",
+    "v2r": "2026-11-02T04:00Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.392,
+    "v2r": 0.466
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T23:15Z",
+    "v2r": "2026-11-01T17:00Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 5,
+    "v2r": 5
+   }
+  },
+  "West Tucker Road 0.88 m": {
+   "maxOver": {
+    "v2x": 0.921,
+    "v2r": 1.068
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T12:45Z",
+    "v2r": "2026-11-02T02:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.869,
+    "v2r": 1.068
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T21:45Z",
+    "v2r": "2026-11-01T23:15Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 5,
+    "v2r": 5
+   }
+  },
+  "West Orange Grove Road 0.73 m": {
+   "maxOver": {
+    "v2x": 0.208,
+    "v2r": 0.198
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-01T21:00Z",
+    "v2r": "2026-11-02T02:00Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.208,
+    "v2r": 0.198
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T19:30Z",
+    "v2r": "2026-11-01T17:00Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 3,
+    "v2r": 3
+   }
+  },
+  "West Little Williams Drive 0.72 m": {
+   "maxOver": {
+    "v2x": 0.467,
+    "v2r": 0.613
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T12:45Z",
+    "v2r": "2026-11-02T02:30Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.416,
+    "v2r": 0.613
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T20:30Z",
+    "v2r": "2026-11-01T18:45Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 5,
+    "v2r": 5
+   }
+  },
+  "West Drillers Road 0.65 m": {
+   "maxOver": {
+    "v2x": 0.281,
+    "v2r": 0.3
+   },
+   "maxWseTime": {
+    "v2x": "2026-11-02T10:15Z",
+    "v2r": "2026-11-02T04:00Z"
+   },
+   "maxOverTo07Z": {
+    "v2x": 0.271,
+    "v2r": 0.3
+   },
+   "firstOver": {
+    "v2x": "2026-11-01T20:30Z",
+    "v2r": "2026-11-02T00:30Z"
+   },
+   "lastOver": {
+    "v2x": "2026-11-02T18:00Z",
+    "v2r": "2026-11-02T18:00Z"
+   },
+   "stationsOver": {
+    "v2x": 2,
+    "v2r": 3
+   }
+  }
+ },
+ "crossingsHourly": "hourly-compare-v2x.json",
+ "stationsOverTotal": {
+  "v2r": {
+   "stations": 57465,
+   "overFullWindow": 7678,
+   "overBy07Z": 7625,
+   "newAfter07Z": 53
+  },
+  "v2x": {
+   "stations": 57465,
+   "overFullWindow": 4859,
+   "overBy07Z": 4279,
+   "newAfter07Z": 580
+  }
+ },
+ "stationsOverByCellV2r": {
+  "6.25": {
+   "stations": 6432,
+   "overFullWindow": 2196,
+   "overBy07Z": 2173,
+   "overGt0p3": 409
+  },
+  "12.5": {
+   "stations": 12575,
+   "overFullWindow": 2477,
+   "overBy07Z": 2460,
+   "overGt0p3": 274
+  },
+  "25.0": {
+   "stations": 3195,
+   "overFullWindow": 627,
+   "overBy07Z": 624,
+   "overGt0p3": 29
+  },
+  "50.0": {
+   "stations": 7493,
+   "overFullWindow": 934,
+   "overBy07Z": 932,
+   "overGt0p3": 79
+  },
+  "100.0": {
+   "stations": 27770,
+   "overFullWindow": 1444,
+   "overBy07Z": 1436,
+   "overGt0p3": 161
+  }
+ },
+ "massBalance": {
+  "v2r": {
+   "inflowM3": 955908,
+   "inflowVolumeBasis": "trapezoid over sfincs.dis (the solver interpolates linearly between the hourly values)",
+   "inflowPeakM3s": 48.42,
+   "rainM3": 57664271,
+   "rainMeanMm": 46.48878500126529,
+   "infiltrationM3": 39552605,
+   "infMeanMm": 31.887206911322387,
+   "storageEndM3": 13555068,
+   "outflowAllCellsHourlyRstM3": 5525880,
+   "outflowWindowStart": "2026-11-01T18:00Z",
+   "outletOnlyVolumeM3": 3728288,
+   "residualM3": -13374,
+   "residualPctOfInputs": -0.022813891448869878,
+   "residualNote": "inflow + rain - infiltration - storageEnd - outflow(from first restart); any outflow before the first restart makes the true residual more negative by that amount",
+   "negativeVolumeEndM3": -0.05415709361363952,
+   "minCellVolumeM3": -0.05695571377873421
+  },
+  "v2x": {
+   "rainM3": 41838620,
+   "infiltrationM3": 33103294,
+   "storageEndM3": 7797766,
+   "outflowAllCellsHourlyRstM3": 2005591,
+   "residualM3": -112122,
+   "residualPctOfInputs": -0.26200172192365623
+  },
+  "v2rOutflowBeforeFirstRestart": {
+   "measured": false,
+   "why": "no his output; map frames start 2026-11-01T17:00Z; hourly restarts start 2026-11-01T18:00Z",
+   "outflowAllLinksFirst4RestartsM3s": {
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 2.981,
+    "2026-11-01T20:00Z": 5.56,
+    "2026-11-01T21:00Z": 0.447
+   },
+   "outflowCellsMaxVolOverAreaM_byFrame": {
+    "2026-11-01T17:00Z": 0.0,
+    "2026-11-01T18:00Z": 0.0,
+    "2026-11-01T19:00Z": 0.0,
+    "2026-11-01T20:00Z": 0.0,
+    "2026-11-01T21:00Z": 0.0,
+    "2026-11-01T22:00Z": 0.0
+   },
+   "inflowBeforeM3": 7416,
+   "rainBeforeM3_meshNearest1kmCell": 43486612,
+   "rainBeforeMeanMm": 35.06,
+   "storageAtFirstRestartM3": 10245928,
+   "upperBoundM3": 33248100,
+   "upperBoundNote": "inflow + rain before the first restart minus storage then, taking infiltration before it as zero (it is not zero, so the bound is loose) and the pre-restart numerical residual as small",
+   "trueResidualRangeM3": [
+    -33261474,
+    -13374
+   ]
+  }
+ },
+ "negativeDepth": {
+  "v2r": {
+   "minVolOverAreaM": -0.0014580662727355957,
+   "frame": "2026-11-02T02:30Z",
+   "face": 478144,
+   "cellAreaM2": 39.0625,
+   "cellsBelowMinus1mm": 1,
+   "framesBelowMinus1mm": 4,
+   "note": "vol/area of subgrid_volume; the live verifier rejects depth < -0.001 m"
+  },
+  "v2x": {
+   "minVolOverAreaM": -0.0006736539840698242,
+   "frame": "2026-11-01T22:00Z",
+   "face": 520909,
+   "cellAreaM2": 39.0625,
+   "cellsBelowMinus1mm": 0,
+   "framesBelowMinus1mm": 0,
+   "note": "vol/area of subgrid_volume; the live verifier rejects depth < -0.001 m"
+  },
+  "note": "v2r has 1 cell below -1 mm (4 frames): outside the live verifier limit; this is a sensitivity case, not for live"
+ },
+ "stability": {
+  "v2r": {
+   "nanZs": 30777,
+   "nanZsWet": 0,
+   "maxAbsDzs15minWet": 2.123046875,
+   "spikeCells": 0,
+   "zsBelowZbMin": 6.103515625e-05,
+   "maxDepth": 9.109375,
+   "velocityProxyMaxMs": 8.223791366748596,
+   "velocityProxyAt": [
+    "sfincs.20261102.040000.rst",
+    [
+     -111.29317,
+     32.36443
+    ]
+   ]
+  },
+  "v2x": {
+   "nanZs": 1014816,
+   "nanZsWet": 0,
+   "maxAbsDzs15minWet": 1.60333251953125,
+   "spikeCells": 0,
+   "zsBelowZbMin": 6.103515625e-05,
+   "maxDepth": 5.62017822265625,
+   "velocityProxyMaxMs": 1.4729463053974823,
+   "velocityProxyAt": [
+    "sfincs.20261102.090000.rst",
+    [
+     -111.24413,
+     32.24807
+    ]
+   ]
+  }
+ },
+ "pondNearOutlet": {
+  "v2r": {
+   "face": 54135,
+   "cellM": 100.0,
+   "lonlat": [
+    -111.27052,
+    32.36521
+   ],
+   "zb": 617.076,
+   "zsMax": 626.185,
+   "zsMaxFrames": 626.185,
+   "zsMaxFrameTime": "2026-11-02T18:00Z",
+   "zsMaxFirstInterval": 626.041,
+   "zsMaxIntervalEnds": [
+    "2026-11-02T17:00Z",
+    "2026-11-02T18:00Z"
+   ],
+   "depthMax": 9.109,
+   "zs17Z_Nov2": 626.041,
+   "zsEnd": 626.185,
+   "stillRisingAtEnd": true,
+   "kmFromOutletNode720060498": 2.12,
+   "storedWithin1p5kmAtEndM3": 4999333,
+   "outletChannelFace": 297241,
+   "outletChannelZb": 617.56,
+   "outletChannelZsMax": 617.675,
+   "outletChannelMaxDepth": 0.115
+  },
+  "v2xZsMax": 622.696,
+  "v2xStoredWithin1p5kmAtEndM3": 1241787
+ },
+ "differenceVsV2x": {
+  "field": "reproduceV2ObservedTo07Z in validation-full.json (here --compare is v2x, so it measures the rain change, not reproduction)",
+  "value": {
+   "frames": 101,
+   "maxAbsZsDiffM": 4.80645751953125,
+   "p99AbsZsDiffM": 0.4129638671875,
+   "cellsGt0p01": 443887
+  }
+ },
+ "notMeaningfulHere": [
+  "waveAttributionTo07Z and frontVsBaseline0p3: the baseline (v2 NWM run 42543054067) has the frozen HRRR rain, so the difference mixes inflow and rain"
+ ],
+ "validator": {
+  "script": "tools/sfincs/brawley/extend/validate_extended.py",
+  "sha256": "d318b5db37aa7fe8801cdc75548dfc06ad6013d76e074f7af4a1439460fd7c26",
+  "baseline": "v2 NWM run 42543054067",
+  "compare": "v2x run 42544624673"
+ }
+}
