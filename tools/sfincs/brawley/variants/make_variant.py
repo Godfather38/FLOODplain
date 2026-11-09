@@ -2,10 +2,10 @@
 
 Usage (cwd = repo root):
   python tools/sfincs/brawley/variants/make_variant.py BASE OUT --name NAME --source "physical source" \
-      (--infiltration-file FILE.nc --inftype cna|cnb|gai|c2d  |  --inp-set key=value)
+      (--infiltration-file FILE.nc --inftype cna|cnb|gai|c2d  |  --inp-set key=value  |  --subgrid-file FILE.nc)
       [--allow-coupled "reason the keys are one physical change" --inp-set key=value --inp-set key=value ...]
 
-The change is one of two kinds, never both:
+The change is one of three kinds, never more than one:
   --infiltration-file  replaces infiltration.nc with FILE.nc (copied under the name infiltration.nc) and sets
                        inftype in sfincs.inp; inffile stays infiltration.nc. The file must hold one value per
                        mesh2d_nFaces face of BASE/sfincs.nc, with the variables SFINCS reads for --inftype, and no NaN.
@@ -19,6 +19,10 @@ The change is one of two kinds, never both:
 The base sfincs.inp itself is refused, whatever the change, when ANY key appears twice (compared case-insensitively)
 or ANY key SFINCS reads is spelled in another case (e.g. 'Alpha'): SFINCS would read only the first exact-case match,
 so the case would not run what its file seems to say (check_base_inp; tested by test_make_variant.py).
+  --subgrid-file       replaces sfincs_subgrid.nc with FILE.nc (a roughness-only rebuild on the same mesh). Refused
+                       unless every variable and dimension matches the base table in name and shape and every
+                       elevation/volume variable (z_zmin, z_zmax, z_volmax, z_level, uv_zmin, uv_zmax, uv_pwet) is
+                       identical, so only roughness-dependent variables (uv_navg, uv_havg, uv_nrep, uv_ffit) may differ.
 Everything else is copied byte for byte. The script then verifies that the only files whose bytes differ are the
 ones the change names (sfincs.inp and, for infiltration, infiltration.nc; current-case.json gets a
 "variantChange" record), and prints the diff of every file. It refuses to write into an existing folder.
@@ -92,6 +96,27 @@ def refuse_reason(key):
     if key != k:
         return f'spelled {key!r}; SFINCS matches keys case-sensitively and reads only {k!r}'
     return None
+SUBGRID_FIXED = ('z_zmin', 'z_zmax', 'z_volmax', 'z_level', 'uv_zmin', 'uv_zmax', 'uv_pwet')
+
+
+def check_subgrid(new, base):
+    import numpy as np, xarray as xr
+    with xr.open_dataset(base / 'sfincs_subgrid.nc') as b, xr.open_dataset(new) as v:
+        if dict(b.sizes) != dict(v.sizes) or set(b.data_vars) != set(v.data_vars):
+            raise SystemExit(f'{new}: dims/variables differ from base ({dict(v.sizes)} vs {dict(b.sizes)})')
+        same = {}
+        for k in b.data_vars:
+            if b[k].shape != v[k].shape:
+                raise SystemExit(f'{k}: shape {v[k].shape} vs base {b[k].shape}')
+            if np.issubdtype(v[k].dtype, np.floating) and np.isnan(v[k].values).any() and not np.isnan(b[k].values).any():
+                raise SystemExit(f'{k}: NaN in new table where base has none; refusing (no fill)')
+            same[k] = bool(np.array_equal(b[k].values, v[k].values, equal_nan=True))
+        bad = [k for k in SUBGRID_FIXED if k in same and not same[k]]
+        if bad:
+            raise SystemExit(f'elevation/volume variables differ {bad}: not a roughness-only table; refusing')
+        return {'identical': same, 'changed': sorted(k for k, x in same.items() if not x)}
+
+
 INFTYPE_VARS = {'cna': ['scs'], 'cnb': ['smax', 'seff', 'ks'], 'gai': ['ksat', 'psi', 'sigma'], 'c2d': ['qinf']}
 
 
@@ -204,6 +229,7 @@ def main():
     g = p.add_mutually_exclusive_group(required=True)
     g.add_argument('--infiltration-file', type=Path)
     g.add_argument('--inp-set', action='append', metavar='KEY=VALUE')
+    g.add_argument('--subgrid-file', type=Path, help='roughness-only sfincs_subgrid.nc rebuild on the same mesh')
     p.add_argument('--allow-coupled', metavar='REASON',
                    help='permit more than one --inp-set; REASON (why the keys are one physical change) is stored')
     p.add_argument('--inftype', help='required with --infiltration-file')
@@ -240,6 +266,18 @@ def main():
         change.update(kind='infiltration', file=str(a.infiltration_file).replace('\\', '/'),
                       fileSha256=sha(a.infiltration_file), variables=stats, inftype=a.inftype)
         sets = [('inftype', a.inftype)]
+    elif a.subgrid_file:
+        if a.allow_coupled:
+            raise SystemExit('--allow-coupled applies only to --inp-set')
+        sbg = [r[1] for r in rows if r[0].lower() == 'sbgfile']
+        if sbg != ['sfincs_subgrid.nc']:
+            raise SystemExit(f'base sbgfile is {sbg!r}, expected sfincs_subgrid.nc')
+        diff = check_subgrid(a.subgrid_file, base)
+        allowed.add('sfincs_subgrid.nc')
+        change.update(kind='subgrid', file=str(a.subgrid_file).replace('\\', '/'), fileSha256=sha(a.subgrid_file),
+                      baseSha256=sha(base / 'sfincs_subgrid.nc'), subgridVariables=diff)
+        sets = []
+        allowed.discard('sfincs.inp')
     else:
         sets = []
         if len(a.inp_set) > 1 and not (a.allow_coupled and a.allow_coupled.strip()):
@@ -269,6 +307,8 @@ def main():
         shutil.copy2(f, out / f.name)
     if a.infiltration_file:
         shutil.copyfile(a.infiltration_file, out / 'infiltration.nc')
+    if a.subgrid_file:
+        shutil.copyfile(a.subgrid_file, out / 'sfincs_subgrid.nc')
     changed = []
     for k, v in sets:
         old = set_key(rows, k, v)
@@ -276,7 +316,8 @@ def main():
         if old == v:
             print(f'warning: {k} already {v} in base', file=sys.stderr)
     change['inpChanges'] = changed
-    write_inp(out / 'sfincs.inp', rows, eol)
+    if sets:
+        write_inp(out / 'sfincs.inp', rows, eol)
     cc = json.loads((out / 'current-case.json').read_text(encoding='utf-8'))
     if 'variantChange' in cc:
         prior = cc['variantChange']
