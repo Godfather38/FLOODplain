@@ -18,7 +18,8 @@ The run's own `sfincs.inp` says `btfilter = -1` and `inftype = cnb`.
 
 ## Run health
 
-- **Solver:** engine run 42528021117 with cap 10800 s. The job log reports "Simulation finished" with total time 5,647.7 s
+- **Solver:** engine run 42528021117 with cap 10800 s. The job log (`job.log` of run 42622454115, saved next to the artifact in
+  `.sfincs-runs/brawley-avra-west-result-v3l-obsrain-cnb-btf-42622454115/job.log`, not committed) reports "Simulation finished" with "Total time" 5,647.7 s
   and an average time step of 0.980 s (B: 8,136 s and 0.947 s; cnb: 6,202 s). There are 101 map frames and 25 hourly restarts
   from 18Z Nov 1 to 18Z Nov 2.
 - **Artifact:** `sfincs-verification` was downloaded to `.sfincs-runs/brawley-avra-west-result-v3l-obsrain-cnb-btf-42622454115`
@@ -48,7 +49,7 @@ a bracket: the true flow during the plateau is unknown, not zero.
 | 03Z Nov 2 model / observed | 56.21 (2.56x) | 57.89 (2.63x) | 105.75 (4.81x) | 111.61 (5.08x) |
 | Volume 18Z-18Z, model m³ | 3,497,639 | 3,781,210 | 7,564,853 | 8,272,156 |
 | ÷ obs 18Z start (1,782,749) | 1.96 | 2.12 | 4.24 | 4.64 |
-| ÷ obs 18Z start, no plateau (1,454,356) | 2.41 | 2.60 | 5.20 | 5.69 |
+| ÷ obs 18Z start, no plateau (1,454,356) | 2.40 | 2.60 | 5.20 | 5.69 |
 | ÷ obs 16Z start (1,884,452), lower bound | 1.86 | 2.01 | 4.01 | 4.39 |
 | ÷ obs 16Z start, no plateau (1,556,059), lower bound | 2.25 | 2.43 | 4.86 | 5.32 |
 | Hourly NSE, 24 h with plateau | -7.37 | -8.93 | -37.09 | -46.26 |
@@ -73,10 +74,16 @@ change infiltration (qinf is identical in the last state).
 **Boundary (cnb-btf vs cnb; `compare-btfilter-vs-cnb.json`, from `compare_btf.py`).** Only `btfilter` differs between these two runs.
 
 - The restart `uvmean` record is 0 in every cnb-btf restart. In cnb its largest |uvmean| is 0.69 m²/s.
-- Stored outflow now equals the head term. Over all links the stored volume is 3,421,336 m³ and the head-term volume is
-  3,373,938 m³. In cnb they were 3,539,403 m³ and 1,161,517 m³.
+- Stored outflow is now close to the head term in total and at the two big clusters, but not everywhere. Over all links the
+  stored volume is 3,421,336 m³ and the head-term volume is 3,373,938 m³ (+1.4%). In cnb they were 3,539,403 m³ and 1,161,517 m³.
 - At the outlet (26 cells), the stored ÷ head ratio is 0.97-1.02. In cnb it was 4.3-10.7.
-- At the lobe tip (5 cells), the ratio is 1.0-1.9. In cnb it was 0.7-3.1.
+- At the lobe tip (5 cells), the ratio is 1.0-1.93. In cnb it was 0.71-3.12.
+- **Exception: the 12-cell cluster at -111.337 32.413** (`compare-btfilter-vs-cnb.json` calls it cluster 3; `summary.json` calls
+  it outflow cluster 2). Stored volume 66,856 m³ against a head-term volume of 50,360 m³ (+33%), with stored ÷ head 0-2.54 over
+  the hours where the head term exceeds 0.5 m³/s. At 18Z Nov 2 the stored flux is 12.25 m³/s while the head term is 0. The
+  stored and head terms of this cluster alternate between hourly snapshots (for example 13Z: 8.91 vs 3.51; 14Z: 0 vs 3.47), so
+  the hourly restarts cannot tell whether btfilter -1 removed the mismatch there. In cnb this cluster had 134,935 vs 65,417 m³.
+  It carries under 2% of the outflow.
 - Total outflow from 18Z changes by -118,067 m³ (-3.3%). The hourly-snapshot difference balance does not close (sum
   -117,692 m³), so this number cannot tell a real change from sampling error.
 - The water level rises inside the boundary links. This is a level difference, not a flow depth. At the outlet the rise is up to
@@ -126,15 +133,18 @@ cnb-btf minus B. cnb-btf minus cnb is 0.000 m at all 17 points.
 - `validation-full.json`: output of `tools/sfincs/brawley/extend/validate_extended.py --run <cnb-btf> --baseline
   <42543054067> --compare <B 42599666617>`.
 - `summary.json`: output of `score_combo.py`, which is `score_cnb.py` with the run tag as a parameter and an optional
-  reference run. It includes the runoff budget, ALERT 6443 for both bands (with and without the plateau, 16Z and 18Z starts,
+  reference run. Volume ratios are stored to 4 decimals (they were 3, which made 2.4049 print as 2.405 and then
+  round to 2.41 here); only the ratio fields changed when it was re-run. It includes the runoff budget, ALERT 6443 for both bands (with and without the plateau, 16Z and 18Z starts,
   hourly NSE, peak time and lag), sections, outflow clusters, roads, mass balance, negative depth and stability. B is the base
   and cnb is the reference.
 - `compare-btfilter-vs-cnb.json`: output of `tools/sfincs/brawley/variants/compare_btf.py --btf <cnb-btf> --base <cnb>`.
   Its canned notes about the 7,200 s cap and cna were rewritten for this pair; no number was changed (see
   `notesCorrectedForThisPair`).
 - The cnb run re-scored against the full B (instead of v2r) is
-  `../result-v3l-obsrain-cnb-42584493432/summary-vs-B.json`. At ALERT 6443 and on the roads it gives the same numbers as the
-  old v2r-based summary, because B equals v2r upstream. The outflow clusters and mass balance now compare like for like: all
+  `../result-v3l-obsrain-cnb-42584493432/summary-vs-B.json`. At ALERT 6443 and on the roads, the base numbers there are equal
+  to the old v2r-based ones within about 200 m³ of volume and 1 road station, not identical: the Black Wash band volume is
+  7,564,853 m³ for B against 7,564,653 m³ for v2r (both bands 8,272,156 against 8,271,943), and 7,677 stations are over the
+  road in B against 7,678 in v2r. The cnb side is the same run in both files. B and v2r differ only by the 5 lobe-tip cells. The outflow clusters and mass balance now compare like for like: all
   outflow cells carry 3.54M m³ in cnb against 10.27M in B, and the lobe tip carries 2.11M against 4.76M.
 
 ## Re-run

@@ -94,24 +94,24 @@
       "16Zstart": {
        "observedM3": 1884452,
        "modelM3": 3497639,
-       "ratio": 1.856,
+       "ratio": 1.8561,
        "ratioIsLowerBound": true
       },
       "16ZstartNoPlateau": {
        "observedM3": 1556059,
        "modelM3": 3497639,
-       "ratio": 2.248,
+       "ratio": 2.2478,
        "ratioIsLowerBound": true
       },
       "18Zstart": {
        "observedM3": 1782749,
        "modelM3": 3497639,
-       "ratio": 1.962
+       "ratio": 1.9619
       },
       "18ZstartNoPlateau": {
        "observedM3": 1454356,
        "modelM3": 3497639,
-       "ratio": 2.405
+       "ratio": 2.4049
       }
      },
      "hourlyFit18Zto18Z": {
@@ -148,7 +148,7 @@
       "16Zstart": {
        "observedM3": 1884452,
        "modelM3": 3781210,
-       "ratio": 2.007,
+       "ratio": 2.0065,
        "ratioIsLowerBound": true
       },
       "16ZstartNoPlateau": {
@@ -165,7 +165,7 @@
       "18ZstartNoPlateau": {
        "observedM3": 1454356,
        "modelM3": 3781210,
-       "ratio": 2.6
+       "ratio": 2.5999
       }
      },
      "hourlyFit18Zto18Z": {
@@ -204,24 +204,24 @@
       "16Zstart": {
        "observedM3": 1884452,
        "modelM3": 7564853,
-       "ratio": 4.014,
+       "ratio": 4.0144,
        "ratioIsLowerBound": true
       },
       "16ZstartNoPlateau": {
        "observedM3": 1556059,
        "modelM3": 7564853,
-       "ratio": 4.862,
+       "ratio": 4.8615,
        "ratioIsLowerBound": true
       },
       "18Zstart": {
        "observedM3": 1782749,
        "modelM3": 7564853,
-       "ratio": 4.243
+       "ratio": 4.2434
       },
       "18ZstartNoPlateau": {
        "observedM3": 1454356,
        "modelM3": 7564853,
-       "ratio": 5.202
+       "ratio": 5.2015
       }
      },
      "hourlyFit18Zto18Z": {
@@ -258,24 +258,24 @@
       "16Zstart": {
        "observedM3": 1884452,
        "modelM3": 8272156,
-       "ratio": 4.39,
+       "ratio": 4.3897,
        "ratioIsLowerBound": true
       },
       "16ZstartNoPlateau": {
        "observedM3": 1556059,
        "modelM3": 8272156,
-       "ratio": 5.316,
+       "ratio": 5.3161,
        "ratioIsLowerBound": true
       },
       "18Zstart": {
        "observedM3": 1782749,
        "modelM3": 8272156,
-       "ratio": 4.64
+       "ratio": 4.6401
       },
       "18ZstartNoPlateau": {
        "observedM3": 1454356,
        "modelM3": 8272156,
-       "ratio": 5.688
+       "ratio": 5.6878
       }
      },
      "hourlyFit18Zto18Z": {
@@ -314,24 +314,24 @@
       "16Zstart": {
        "observedM3": 1884452,
        "modelM3": 3497643,
-       "ratio": 1.856,
+       "ratio": 1.8561,
        "ratioIsLowerBound": true
       },
       "16ZstartNoPlateau": {
        "observedM3": 1556059,
        "modelM3": 3497643,
-       "ratio": 2.248,
+       "ratio": 2.2478,
        "ratioIsLowerBound": true
       },
       "18Zstart": {
        "observedM3": 1782749,
        "modelM3": 3497643,
-       "ratio": 1.962
+       "ratio": 1.9619
       },
       "18ZstartNoPlateau": {
        "observedM3": 1454356,
        "modelM3": 3497643,
-       "ratio": 2.405
+       "ratio": 2.4049
       }
      },
      "hourlyFit18Zto18Z": {
@@ -368,7 +368,7 @@
       "16Zstart": {
        "observedM3": 1884452,
        "modelM3": 3781224,
-       "ratio": 2.007,
+       "ratio": 2.0065,
        "ratioIsLowerBound": true
       },
       "16ZstartNoPlateau": {
@@ -385,7 +385,7 @@
       "18ZstartNoPlateau": {
        "observedM3": 1454356,
        "modelM3": 3781224,
-       "ratio": 2.6
+       "ratio": 2.5999
       }
      },
      "hourlyFit18Zto18Z": {

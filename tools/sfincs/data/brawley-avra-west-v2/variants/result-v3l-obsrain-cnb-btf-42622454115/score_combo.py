@@ -133,7 +133,7 @@ for tag, V in ALL:
     r = {}
     for band, key in (('blackWashBand', BW), ('bothBands', BB)):
         sec = V['sectionsHourlyM3s'][key]; mv = mvol(sec); pk = V['sectionPeaks'][key]
-        vols = {f'{st}start{"" if pl == "withPlateau" else "NoPlateau"}': {'observedM3': round(ovol[st][pl]), 'modelM3': round(mv), 'ratio': round(mv / ovol[st][pl], 3),
+        vols = {f'{st}start{"" if pl == "withPlateau" else "NoPlateau"}': {'observedM3': round(ovol[st][pl]), 'modelM3': round(mv), 'ratio': round(mv / ovol[st][pl], 4),
                                                                           **({'ratioIsLowerBound': True} if st == '16Z' else {})}
                 for st in ('16Z', '18Z') for pl in ('withPlateau', 'withoutPlateau')}
         r[band] = {'peak': pk, 'peakOverObservedPeak': round(pk['m3s'] / OBSPEAK, 3),

@@ -44,20 +44,20 @@ What these ks values mean for recovery:
 
 Builder: `tools/sfincs/brawley/variants/build_cnb_infiltration.py`, then `make_variant.py --inftype cnb`. Stats: `infiltration-cnb-stats.json`.
 
-**Why seff = smax.** NCEP Stage IV (IEM archive) over the model box shows the week before the start was nearly dry (`stage4-prior-rain.json`, script `prior_rain.py`). The lon/lat box is the min/max over all four corners of the UTM model box (170 Stage IV cells; the round-7 version used two corners and 168 cells):
+**Why seff = smax.** NCEP Stage IV (IEM archive) over the model box shows the week before the start was nearly dry (`stage4-prior-rain.json`, script `prior_rain.py`). The lon/lat box is the min/max over all four corners of the UTM model box (170 Stage IV cells; the round-7 version used two corners and 168 cells). This lon/lat box is larger than the UTM box and much larger than the active mesh, so "box mean" and "largest cell" below are over the box, not over the model domain:
 
-| Window (UTC) | Domain mean | Largest cell |
+| Window (UTC) | Box mean | Largest cell in the box |
 |---|---|---|
 | 24 h totals ending 12Z, Oct 24–29 | 0.00–0.04 mm | 0.6 mm |
 | 24 h ending 12Z Oct 30 | 2.51 mm | 15 mm |
 | 12Z–16Z Oct 30 (4 hourly files) | 1.14 mm | — |
 | 12Z Oct 29 to 16Z Oct 30, summed per cell | 3.65 mm | 22.1 mm (p95 13.7 mm) |
 
-About 3.7 mm (domain mean) before tstart is therefore not counted. That makes the start too dry by about 7% of the mean Smax (56.1 mm) **on the domain mean**. Locally it is much more: the wettest Stage IV cell (about 4 km) had 22.1 mm, about 40% of the mean Smax. (Adding the largest value of each file instead of summing per cell gives 15 + 4.6 + 7.1 ≈ 27 mm, about 50% of the mean Smax; that is an upper bound, since the maxima are not all in the same cell.) The `cna` base ignores the same rain, so the comparison stays like for like.
+About 3.7 mm (box mean) before tstart is therefore not counted. That makes the start too dry by about 7% of the mean Smax (56.1 mm) **on the box mean**. Locally it can be much more: the wettest Stage IV cell in the box (about 4 km) had 22.1 mm, about 40% of the mean Smax. That 22.1 mm is the box maximum; the cell may lie outside the model domain, and the in-domain maximum was not computed. (Adding the largest value of each file instead of summing per cell gives 15 + 4.6 + 7.1 ≈ 27 mm, about 50% of the mean Smax; that is an upper bound, since the maxima are not all in the same cell.) The `cna` base ignores the same rain, so the comparison stays like for like.
 
 ## Scored here against v2r, not B (B is now in `summary-vs-B.json`)
 
-When this run was scored, base run 42583445548 (`cna`) had hit the 7,200 s cap at 95% (exit 124); its last hourly restart is 16Z Nov 2, so a complete B `validation-full.json` did not exist. This README and `summary.json` therefore compare against **v2r 42555458619**: same rain, same `cna` setup, but v2 boundaries (the 5 lobe-tip cells closed). B was later rerun to completion (run 42599666617). A separate step re-scores this run against that full B in `summary-vs-B.json`; use it for every comparison downstream of Mile Wide.
+When this run was scored, base run 42583445548 (`cna`) had hit the 7,200 s cap at 95% (exit 124); its last hourly restart is 16Z Nov 2, so a complete B `validation-full.json` did not exist. This README and `summary.json` therefore compare against **v2r 42555458619**: same rain, same `cna` setup, but v2 boundaries (the 5 lobe-tip cells closed). B was later rerun to completion (run 42599666617). A separate step re-scores this run against that full B in `summary-vs-B.json`; use it for every comparison downstream of Mile Wide. At ALERT 6443 and on the roads the two base runs give numbers that are equal within about 200 m³ and 1 station, not identical: Black Wash band volume 18Z-18Z 7,564,853 m³ (B) against 7,564,653 m³ (v2r), both bands 8,272,156 against 8,271,943 m³, stations ever over the road 7,677 against 7,678. Downstream of Mile Wide they differ a lot (all outflow cells 10.27M against 5.53M m³), because B has the 5 lobe-tip cells open.
 
 I checked that this is fair at Mile Wide (`base-b-partial-vs-v2r.json`, script `b_vs_v2r.py`):
 - Inside the contributing area of both Mile Wide bands, B's water levels equal v2r's at every hourly restart from 18Z Nov 1 to 16Z Nov 2. The check covers only that window: it says nothing about 16Z–18Z Nov 2, which the killed B run never wrote. (The full rerun 42599666617 later showed B's Mile Wide flow within 0.062 m³/s of v2r in every hour to 18Z Nov 2; see `../result-v3l-obsrain-42599666617/README.md`.)
