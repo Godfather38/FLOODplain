@@ -1,0 +1,6569 @@
+{
+ "label": "SENSITIVITY - not for live registration; not tuned",
+ "variantChange": {
+  "name": "channel-transmission-loss",
+  "kind": "urban_drainage_injection_well",
+  "source": "NRCS NEH Part 630 Ch. 19 Transmission Losses (210-VI-NEH, Aug 2007) Table 19C-2, Wilson, DeCook & Neuman (1980) from Matlock (1965) streamflow data: \"Average for Tucson area\" effective hydraulic conductivity 1.65 in/h (reach ranges: Santa Cruz 1.5-3.4 and 3.2-3.7, Rillito 0.5-3.3 and 2.2-5.5, Pantano 1.6-2.0 in/h); bed group 3 of Table 19-1 (sand and gravel, low silt-clay, 1.0-3.0 in/h); Walnut Gulch fitted K 1.03-1.55 in/h (Table 19C-1, Lane, Ferreira & Shirley 1980)",
+  "kInH": 1.65,
+  "kMmH": 41.91,
+  "baseCase": ".sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb",
+  "mask": ".sfincs-runs/brawley-avra-west-parameters-v2n/channel-mask.geojson",
+  "maskSha256": "de3f8e5e351f3f710705b59637c96fa69006aebb45498805d51ec883ce3b33d2",
+  "solverRoute": "SFINCS f3647fc sfincs_urban_drainage.f90 injection_well: qd = min(injection_rate*A_cell/A_zone, z_volume/dt) on wet cells, removed from the model; runs alongside inftype cnb",
+  "inpChanges": [
+   {
+    "key": "urbfile",
+    "from": null,
+    "to": "sfincs.urb"
+   },
+   {
+    "key": "store_cumulative_urban_drainage",
+    "from": null,
+    "to": "1"
+   },
+   {
+    "key": "store_urban_drainage_discharge",
+    "from": null,
+    "to": "1"
+   }
+  ],
+  "addedFiles": {
+   "sfincs.urb": "7c7bdbf6aff46c8e3942893b9f680a32e2024b466c9893b90dae6d84223e6cb1",
+   "channel-loss.tek": "632b52a1d69418cd0d45e1df6562f368b1f29b0951a88ffd204445f4728e6372"
+  },
+  "totals": {
+   "zones": 810,
+   "emptyCutSliversDropped": 1,
+   "faces": 8749,
+   "cellAreaKm2": 2.066875,
+   "bedAreaInZoneCellsKm2": 1.454961871029157,
+   "maskAreaKm2": 2.0993632721652022,
+   "totalInjectionRateM3s": 16.9381811152311,
+   "facesByLevel": {
+    "1": 42,
+    "2": 126,
+    "3": 701,
+    "4": 5000,
+    "5": 2880
+   },
+   "lossVolumePerWetHourAllBedM3": 60977.45201483196
+  },
+  "priorVariantChanges": [
+   {
+    "name": "cnb-recovery",
+    "source": "SFINCS f3647fc inftype cnb (SCS CN with SWMM recovery, eqs 4-36/4-37): smax = base GCN10 cn_f_ii_2281 (fair, ARC II, undrained) S in m (unchanged CN source); seff = smax (dry start 2026-10-30 16Z); ks = POLARIS v1.0 ksat mean 0-5 cm (Chaney et al. 2019, doi:10.1029/2018WR022797) face-area mean, mm/hr, HydroMT-SFINCS 1.2.2 360 mm/hr cap (none capped)",
+    "baseCase": ".sfincs-runs/brawley-avra-west-case-v3l-obsrain",
+    "kind": "infiltration",
+    "file": ".sfincs-runs/brawley-avra-west-ks-polaris/infiltration-cnb.nc",
+    "fileSha256": "3be72844b4af6d25b3ead35c6375d52ed398a4124cc1f0fbe2068a32f6caca9b",
+    "variables": {
+     "smax": {
+      "min": 0.0,
+      "mean": 0.053767838750841096,
+      "max": 0.09395460039377213
+     },
+     "seff": {
+      "min": 0.0,
+      "mean": 0.053767838750841096,
+      "max": 0.09395460039377213
+     },
+     "ks": {
+      "min": 6.1277923583984375,
+      "mean": 44.32180125213833,
+      "max": 325.8800964355469
+     }
+    },
+    "inftype": "cnb",
+    "inpChanges": [
+     {
+      "key": "inftype",
+      "from": "cna",
+      "to": "cnb"
+     }
+    ]
+   }
+  ]
+ },
+ "zones": [
+  {
+   "name": "chl0001",
+   "cells": 7,
+   "cellAreaM2": 70000.0,
+   "bedAreaM2": 19303.673444584296,
+   "injectionRateM3s": 0.22472693168403549,
+   "lossRateOnCellMmH": 11.557385058036111
+  },
+  {
+   "name": "chl0002",
+   "cells": 294,
+   "cellAreaM2": 60468.75,
+   "bedAreaM2": 56729.39862762149,
+   "injectionRateM3s": 0.6604247490232268,
+   "lossRateOnCellMmH": 39.318310639522345
+  },
+  {
+   "name": "chl0003",
+   "cells": 106,
+   "cellAreaM2": 59687.5,
+   "bedAreaM2": 57235.45911766866,
+   "injectionRateM3s": 0.6663161365615259,
+   "lossRateOnCellMmH": 40.18828216329204
+  },
+  {
+   "name": "chl0004",
+   "cells": 332,
+   "cellAreaM2": 53281.25,
+   "bedAreaM2": 50254.27044689425,
+   "injectionRateM3s": 0.5850434651192604,
+   "lossRateOnCellMmH": 39.52903647022804
+  },
+  {
+   "name": "chl0005",
+   "cells": 125,
+   "cellAreaM2": 42968.75,
+   "bedAreaM2": 39615.831677496455,
+   "injectionRateM3s": 0.46119430711218784,
+   "lossRateOnCellMmH": 38.63969758496294
+  },
+  {
+   "name": "chl0006",
+   "cells": 15,
+   "cellAreaM2": 37500.0,
+   "bedAreaM2": 29280.853273138495,
+   "injectionRateM3s": 0.34087793352145396,
+   "lossRateOnCellMmH": 32.724281618059585
+  },
+  {
+   "name": "chl0007",
+   "cells": 243,
+   "cellAreaM2": 29296.875,
+   "bedAreaM2": 23572.03273004993,
+   "injectionRateM3s": 0.2744177476989979,
+   "lossRateOnCellMmH": 33.720452837252864
+  },
+  {
+   "name": "chl0008",
+   "cells": 184,
+   "cellAreaM2": 27929.6875,
+   "bedAreaM2": 21449.95831117716,
+   "injectionRateM3s": 0.24971326467262075,
+   "lossRateOnCellMmH": 32.186817443676546
+  },
+  {
+   "name": "chl0009",
+   "cells": 177,
+   "cellAreaM2": 27656.25,
+   "bedAreaM2": 25310.36542059027,
+   "injectionRateM3s": 0.2946548374380384,
+   "lossRateOnCellMmH": 38.355070364815845
+  },
+  {
+   "name": "chl0010",
+   "cells": 143,
+   "cellAreaM2": 26679.6875,
+   "bedAreaM2": 25669.934817780748,
+   "injectionRateM3s": 0.29884082450366417,
+   "lossRateOnCellMmH": 40.323821941812135
+  },
+  {
+   "name": "chl0011",
+   "cells": 10,
+   "cellAreaM2": 25000.0,
+   "bedAreaM2": 18673.624033678898,
+   "injectionRateM3s": 0.21739210645874515,
+   "lossRateOnCellMmH": 31.304463330059303
+  },
+  {
+   "name": "chl0012",
+   "cells": 10,
+   "cellAreaM2": 25000.0,
+   "bedAreaM2": 17675.82281460162,
+   "injectionRateM3s": 0.20577603726665383,
+   "lossRateOnCellMmH": 29.63174936639815
+  },
+  {
+   "name": "chl0013",
+   "cells": 40,
+   "cellAreaM2": 24062.5,
+   "bedAreaM2": 22187.05796640947,
+   "injectionRateM3s": 0.25829433315895023,
+   "lossRateOnCellMmH": 38.64351581806632
+  },
+  {
+   "name": "chl0014",
+   "cells": 59,
+   "cellAreaM2": 23750.0,
+   "bedAreaM2": 20709.17456425457,
+   "injectionRateM3s": 0.24108930721886357,
+   "lossRateOnCellMmH": 36.544063410017216
+  },
+  {
+   "name": "chl0015",
+   "cells": 126,
+   "cellAreaM2": 22500.0,
+   "bedAreaM2": 20967.375570230266,
+   "injectionRateM3s": 0.24409519726343065,
+   "lossRateOnCellMmH": 39.055231562148904
+  },
+  {
+   "name": "chl0016",
+   "cells": 15,
+   "cellAreaM2": 22031.25,
+   "bedAreaM2": 16747.62713028166,
+   "injectionRateM3s": 0.19497029250836231,
+   "lossRateOnCellMmH": 31.858975456685588
+  },
+  {
+   "name": "chl0017",
+   "cells": 122,
+   "cellAreaM2": 20468.75,
+   "bedAreaM2": 19414.646371475443,
+   "injectionRateM3s": 0.2260188415079266,
+   "lossRateOnCellMmH": 39.75171075070709
+  },
+  {
+   "name": "chl0018",
+   "cells": 56,
+   "cellAreaM2": 20000.0,
+   "bedAreaM2": 19333.100689663806,
+   "injectionRateM3s": 0.22506951386216945,
+   "lossRateOnCellMmH": 40.51251249519051
+  },
+  {
+   "name": "chl0019",
+   "cells": 128,
+   "cellAreaM2": 20000.0,
+   "bedAreaM2": 18744.055997465603,
+   "injectionRateM3s": 0.2182120519038287,
+   "lossRateOnCellMmH": 39.27816934268917
+  },
+  {
+   "name": "chl0020",
+   "cells": 32,
+   "cellAreaM2": 20000.0,
+   "bedAreaM2": 18326.038648026013,
+   "injectionRateM3s": 0.2133456332607695,
+   "lossRateOnCellMmH": 38.402213986938506
+  },
+  {
+   "name": "chl0021",
+   "cells": 8,
+   "cellAreaM2": 20000.0,
+   "bedAreaM2": 14284.672429809067,
+   "injectionRateM3s": 0.16629739487036055,
+   "lossRateOnCellMmH": 29.933531076664895
+  },
+  {
+   "name": "chl0022",
+   "cells": 44,
+   "cellAreaM2": 19648.4375,
+   "bedAreaM2": 6945.319716446961,
+   "injectionRateM3s": 0.08085509703230337,
+   "lossRateOnCellMmH": 14.814325531803336
+  },
+  {
+   "name": "chl0023",
+   "cells": 37,
+   "cellAreaM2": 19375.0,
+   "bedAreaM2": 17093.464615043406,
+   "injectionRateM3s": 0.19899641722679695,
+   "lossRateOnCellMmH": 36.97481816859195
+  },
+  {
+   "name": "chl0024",
+   "cells": 52,
+   "cellAreaM2": 18906.25,
+   "bedAreaM2": 17358.281047906476,
+   "injectionRateM3s": 0.20207932186604455,
+   "lossRateOnCellMmH": 38.478575006559225
+  },
+  {
+   "name": "chl0025",
+   "cells": 17,
+   "cellAreaM2": 17539.0625,
+   "bedAreaM2": 8134.089626477806,
+   "injectionRateM3s": 0.09469436006824578,
+   "lossRateOnCellMmH": 19.436597380600293
+  },
+  {
+   "name": "chl0026",
+   "cells": 112,
+   "cellAreaM2": 17500.0,
+   "bedAreaM2": 13333.108623931234,
+   "injectionRateM3s": 0.1552196062302661,
+   "lossRateOnCellMmH": 31.93089042451188
+  },
+  {
+   "name": "chl0027",
+   "cells": 7,
+   "cellAreaM2": 17500.0,
+   "bedAreaM2": 13210.65477156483,
+   "injectionRateM3s": 0.1537940392989672,
+   "lossRateOnCellMmH": 31.637630941501826
+  },
+  {
+   "name": "chl0028",
+   "cells": 69,
+   "cellAreaM2": 17343.75,
+   "bedAreaM2": 15715.025987410963,
+   "injectionRateM3s": 0.1829490942034426,
+   "lossRateOnCellMmH": 37.974298472498354
+  },
+  {
+   "name": "chl0029",
+   "cells": 110,
+   "cellAreaM2": 17187.5,
+   "bedAreaM2": 16013.637253612054,
+   "injectionRateM3s": 0.18642542702746698,
+   "lossRateOnCellMmH": 39.04765307920763
+  },
+  {
+   "name": "chl0030",
+   "cells": 105,
+   "cellAreaM2": 16406.25,
+   "bedAreaM2": 15525.461461713725,
+   "injectionRateM3s": 0.1807422471834506,
+   "lossRateOnCellMmH": 39.6600130962543
+  },
+  {
+   "name": "chl0031",
+   "cells": 105,
+   "cellAreaM2": 16406.25,
+   "bedAreaM2": 14947.220686009105,
+   "injectionRateM3s": 0.17401056081962266,
+   "lossRateOnCellMmH": 38.18288877413434
+  },
+  {
+   "name": "chl0032",
+   "cells": 69,
+   "cellAreaM2": 14531.25,
+   "bedAreaM2": 13302.985637481826,
+   "injectionRateM3s": 0.1548689244630176,
+   "lossRateOnCellMmH": 38.367527092773386
+  },
+  {
+   "name": "chl0033",
+   "cells": 93,
+   "cellAreaM2": 14531.25,
+   "bedAreaM2": 11807.096007130787,
+   "injectionRateM3s": 0.13745427601634758,
+   "lossRateOnCellMmH": 34.053188380824174
+  },
+  {
+   "name": "chl0034",
+   "cells": 47,
+   "cellAreaM2": 14492.1875,
+   "bedAreaM2": 12364.87017540695,
+   "injectionRateM3s": 0.1439476969586959,
+   "lossRateOnCellMmH": 35.7580047215995
+  },
+  {
+   "name": "chl0035",
+   "cells": 88,
+   "cellAreaM2": 13750.0,
+   "bedAreaM2": 11334.031827835337,
+   "injectionRateM3s": 0.1319470205290497,
+   "lossRateOnCellMmH": 34.5461290112421
+  },
+  {
+   "name": "chl0036",
+   "cells": 64,
+   "cellAreaM2": 13281.25,
+   "bedAreaM2": 12370.367355874041,
+   "injectionRateM3s": 0.1440116933013003,
+   "lossRateOnCellMmH": 39.035640160728924
+  },
+  {
+   "name": "chl0037",
+   "cells": 21,
+   "cellAreaM2": 13125.0,
+   "bedAreaM2": 11182.003368623416,
+   "injectionRateM3s": 0.1301771558830576,
+   "lossRateOnCellMmH": 35.70573418506723
+  },
+  {
+   "name": "chl0038",
+   "cells": 84,
+   "cellAreaM2": 13125.0,
+   "bedAreaM2": 12298.663676999277,
+   "injectionRateM3s": 0.14317694297306657,
+   "lossRateOnCellMmH": 39.27139007261255
+  },
+  {
+   "name": "chl0039",
+   "cells": 29,
+   "cellAreaM2": 12851.5625,
+   "bedAreaM2": 10611.171287037687,
+   "injectionRateM3s": 0.12353171906659706,
+   "lossRateOnCellMmH": 34.60390039263704
+  },
+  {
+   "name": "chl0040",
+   "cells": 82,
+   "cellAreaM2": 12812.5,
+   "bedAreaM2": 11612.704778066147,
+   "injectionRateM3s": 0.1351912381246534,
+   "lossRateOnCellMmH": 37.98544056575627
+  },
+  {
+   "name": "chl0041",
+   "cells": 80,
+   "cellAreaM2": 12500.0,
+   "bedAreaM2": 11794.71786360753,
+   "injectionRateM3s": 0.13731017379549765,
+   "lossRateOnCellMmH": 39.54533005310332
+  },
+  {
+   "name": "chl0042",
+   "cells": 5,
+   "cellAreaM2": 12500.0,
+   "bedAreaM2": 9774.042209390213,
+   "injectionRateM3s": 0.11378614138765104,
+   "lossRateOnCellMmH": 32.770408719643505
+  },
+  {
+   "name": "chl0043",
+   "cells": 80,
+   "cellAreaM2": 12500.0,
+   "bedAreaM2": 9845.22795552163,
+   "injectionRateM3s": 0.11461486211553097,
+   "lossRateOnCellMmH": 33.009080289272916
+  },
+  {
+   "name": "chl0044",
+   "cells": 5,
+   "cellAreaM2": 12500.0,
+   "bedAreaM2": 11019.183275235006,
+   "injectionRateM3s": 0.1282816586291942,
+   "lossRateOnCellMmH": 36.945117685207926
+  },
+  {
+   "name": "chl0045",
+   "cells": 21,
+   "cellAreaM2": 12187.5,
+   "bedAreaM2": 10944.347636232182,
+   "injectionRateM3s": 0.1274104470651363,
+   "lossRateOnCellMmH": 37.635085902317186
+  },
+  {
+   "name": "chl0046",
+   "cells": 71,
+   "cellAreaM2": 12031.25,
+   "bedAreaM2": 11146.667420702344,
+   "injectionRateM3s": 0.1297657865560098,
+   "lossRateOnCellMmH": 38.828619769486565
+  },
+  {
+   "name": "chl0047",
+   "cells": 74,
+   "cellAreaM2": 11562.5,
+   "bedAreaM2": 9474.373128300607,
+   "injectionRateM3s": 0.11029749383529956,
+   "lossRateOnCellMmH": 34.34127375628786
+  },
+  {
+   "name": "chl0048",
+   "cells": 43,
+   "cellAreaM2": 11406.25,
+   "bedAreaM2": 10404.222001349906,
+   "injectionRateM3s": 0.12112248446571515,
+   "lossRateOnCellMmH": 38.228247151918865
+  },
+  {
+   "name": "chl0049",
+   "cells": 73,
+   "cellAreaM2": 11406.25,
+   "bedAreaM2": 9318.696816627744,
+   "injectionRateM3s": 0.10848516210690798,
+   "lossRateOnCellMmH": 34.23970047867342
+  },
+  {
+   "name": "chl0050",
+   "cells": 18,
+   "cellAreaM2": 11250.0,
+   "bedAreaM2": 8969.19741229992,
+   "injectionRateM3s": 0.1044164065415249,
+   "lossRateOnCellMmH": 33.413250093287964
+  },
+  {
+   "name": "chl0051",
+   "cells": 22,
+   "cellAreaM2": 10468.75,
+   "bedAreaM2": 9513.136290119954,
+   "injectionRateM3s": 0.11074876164414645,
+   "lossRateOnCellMmH": 38.08435027285275
+  },
+  {
+   "name": "chl0052",
+   "cells": 65,
+   "cellAreaM2": 10156.25,
+   "bedAreaM2": 9374.840308461002,
+   "injectionRateM3s": 0.10913876592433348,
+   "lossRateOnCellMmH": 38.68549487533298
+  },
+  {
+   "name": "chl0053",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1025.2753285142005,
+   "injectionRateM3s": 0.011935913616119483,
+   "lossRateOnCellMmH": 4.296928901803014
+  },
+  {
+   "name": "chl0054",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1423.669889034249,
+   "injectionRateM3s": 0.01657389029150705,
+   "lossRateOnCellMmH": 5.966600504942537
+  },
+  {
+   "name": "chl0055",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1207.3352941373494,
+   "injectionRateM3s": 0.014055395049248975,
+   "lossRateOnCellMmH": 5.05994221772963
+  },
+  {
+   "name": "chl0056",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1326.9049089675875,
+   "injectionRateM3s": 0.01544738464856433,
+   "lossRateOnCellMmH": 5.5610584734831585
+  },
+  {
+   "name": "chl0057",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1133.5313645204926,
+   "injectionRateM3s": 0.0131961943019594,
+   "lossRateOnCellMmH": 4.750629948705384
+  },
+  {
+   "name": "chl0058",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1859.9690812336476,
+   "injectionRateM3s": 0.021653140054028377,
+   "lossRateOnCellMmH": 7.795130419450217
+  },
+  {
+   "name": "chl0059",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 927.4399091374016,
+   "injectionRateM3s": 0.01079694627554125,
+   "lossRateOnCellMmH": 3.88690065919485
+  },
+  {
+   "name": "chl0060",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1023.6411087622996,
+   "injectionRateM3s": 0.01191688857450777,
+   "lossRateOnCellMmH": 4.290079886822798
+  },
+  {
+   "name": "chl0061",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1043.1182623132397,
+   "injectionRateM3s": 0.012143635103763298,
+   "lossRateOnCellMmH": 4.371708637354787
+  },
+  {
+   "name": "chl0062",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 3552.665043599164,
+   "injectionRateM3s": 0.041358942215900266,
+   "lossRateOnCellMmH": 14.889219197724096
+  },
+  {
+   "name": "chl0063",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1701.248100888758,
+   "injectionRateM3s": 0.019805363307846623,
+   "lossRateOnCellMmH": 7.129930790824783
+  },
+  {
+   "name": "chl0064",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 3675.87143074684,
+   "injectionRateM3s": 0.04279326990627779,
+   "lossRateOnCellMmH": 15.405577166260004
+  },
+  {
+   "name": "chl0065",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1593.6263117697385,
+   "injectionRateM3s": 0.018552466312852706,
+   "lossRateOnCellMmH": 6.678887872626975
+  },
+  {
+   "name": "chl0066",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 3991.4781282532404,
+   "injectionRateM3s": 0.046467457876414806,
+   "lossRateOnCellMmH": 16.72828483550933
+  },
+  {
+   "name": "chl0067",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 3314.443278838081,
+   "injectionRateM3s": 0.03858564383780665,
+   "lossRateOnCellMmH": 13.890831781610395
+  },
+  {
+   "name": "chl0068",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 833.9695008806106,
+   "injectionRateM3s": 0.00970879493941844,
+   "lossRateOnCellMmH": 3.4951661781906385
+  },
+  {
+   "name": "chl0069",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1632.6699137183346,
+   "injectionRateM3s": 0.019006998912204278,
+   "lossRateOnCellMmH": 6.84251960839354
+  },
+  {
+   "name": "chl0070",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 851.482707895881,
+   "injectionRateM3s": 0.009912677857754548,
+   "lossRateOnCellMmH": 3.5685640287916374
+  },
+  {
+   "name": "chl0071",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1749.6335794654226,
+   "injectionRateM3s": 0.020368650920943292,
+   "lossRateOnCellMmH": 7.332714331539585
+  },
+  {
+   "name": "chl0072",
+   "cells": 16,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 9515.222094145804,
+   "injectionRateM3s": 0.11077304387934739,
+   "lossRateOnCellMmH": 39.87829579656506
+  },
+  {
+   "name": "chl0073",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 3605.7611968138003,
+   "injectionRateM3s": 0.04197706993290732,
+   "lossRateOnCellMmH": 15.111745175846638
+  },
+  {
+   "name": "chl0074",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1089.3290389388183,
+   "injectionRateM3s": 0.012681605561646075,
+   "lossRateOnCellMmH": 4.565378002192587
+  },
+  {
+   "name": "chl0075",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 3592.8802593196674,
+   "injectionRateM3s": 0.04182711435224646,
+   "lossRateOnCellMmH": 15.057761166808724
+  },
+  {
+   "name": "chl0076",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1125.4751286540445,
+   "injectionRateM3s": 0.013102406289414167,
+   "lossRateOnCellMmH": 4.7168662641891
+  },
+  {
+   "name": "chl0077",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 3264.341634388663,
+   "injectionRateM3s": 0.03800237719367468,
+   "lossRateOnCellMmH": 13.680855789722886
+  },
+  {
+   "name": "chl0078",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 736.6810965215823,
+   "injectionRateM3s": 0.008576195765338752,
+   "lossRateOnCellMmH": 3.087430475521951
+  },
+  {
+   "name": "chl0079",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 2816.8688158089954,
+   "injectionRateM3s": 0.032793047797376386,
+   "lossRateOnCellMmH": 11.805497207055499
+  },
+  {
+   "name": "chl0080",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 2510.858864185969,
+   "injectionRateM3s": 0.029230581943898323,
+   "lossRateOnCellMmH": 10.523009499803397
+  },
+  {
+   "name": "chl0081",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1237.9176795729982,
+   "injectionRateM3s": 0.014411424986362319,
+   "lossRateOnCellMmH": 5.188112995090434
+  },
+  {
+   "name": "chl0082",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1007.3402886724285,
+   "injectionRateM3s": 0.011727119860628188,
+   "lossRateOnCellMmH": 4.221763149826148
+  },
+  {
+   "name": "chl0083",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 6651.659028196982,
+   "injectionRateM3s": 0.07743639718659319,
+   "lossRateOnCellMmH": 27.877102987173547
+  },
+  {
+   "name": "chl0084",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 960.1938467636094,
+   "injectionRateM3s": 0.011178256699406352,
+   "lossRateOnCellMmH": 4.024172411786287
+  },
+  {
+   "name": "chl0085",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1360.1754365610536,
+   "injectionRateM3s": 0.015834709040631598,
+   "lossRateOnCellMmH": 5.700495254627375
+  },
+  {
+   "name": "chl0086",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 1868.5230467985048,
+   "injectionRateM3s": 0.02175272246981259,
+   "lossRateOnCellMmH": 7.830980089132533
+  },
+  {
+   "name": "chl0087",
+   "cells": 1,
+   "cellAreaM2": 10000.0,
+   "bedAreaM2": 948.007397263277,
+   "injectionRateM3s": 0.011036386116473316,
+   "lossRateOnCellMmH": 3.9730990019303936
+  },
+  {
+   "name": "chl0088",
+   "cells": 63,
+   "cellAreaM2": 9843.75,
+   "bedAreaM2": 7855.6148299159095,
+   "injectionRateM3s": 0.09145244931160437,
+   "lossRateOnCellMmH": 33.44546717681531
+  },
+  {
+   "name": "chl0089",
+   "cells": 62,
+   "cellAreaM2": 9687.5,
+   "bedAreaM2": 8842.268728253379,
+   "injectionRateM3s": 0.10293874511141642,
+   "lossRateOnCellMmH": 38.25336592527474
+  },
+  {
+   "name": "chl0090",
+   "cells": 59,
+   "cellAreaM2": 9453.125,
+   "bedAreaM2": 7436.483674369311,
+   "injectionRateM3s": 0.08657306410911605,
+   "lossRateOnCellMmH": 32.969312348331144
+  },
+  {
+   "name": "chl0091",
+   "cells": 59,
+   "cellAreaM2": 9218.75,
+   "bedAreaM2": 8700.44253888099,
+   "injectionRateM3s": 0.10128765189013952,
+   "lossRateOnCellMmH": 39.553686433030755
+  },
+  {
+   "name": "chl0092",
+   "cells": 23,
+   "cellAreaM2": 8515.625,
+   "bedAreaM2": 6913.650174587092,
+   "injectionRateM3s": 0.08048641078248472,
+   "lossRateOnCellMmH": 34.025814760155015
+  },
+  {
+   "name": "chl0093",
+   "cells": 16,
+   "cellAreaM2": 8359.375,
+   "bedAreaM2": 6083.587664631599,
+   "injectionRateM3s": 0.0708230997290862,
+   "lossRateOnCellMmH": 30.50026575248871
+  },
+  {
+   "name": "chl0094",
+   "cells": 53,
+   "cellAreaM2": 8281.25,
+   "bedAreaM2": 7748.580767655513,
+   "injectionRateM3s": 0.09020639443678959,
+   "lossRateOnCellMmH": 39.21425146837042
+  },
+  {
+   "name": "chl0095",
+   "cells": 13,
+   "cellAreaM2": 8125.0,
+   "bedAreaM2": 6754.904133755423,
+   "injectionRateM3s": 0.07863834229046937,
+   "lossRateOnCellMmH": 34.84283473793104
+  },
+  {
+   "name": "chl0096",
+   "cells": 45,
+   "cellAreaM2": 7968.75,
+   "bedAreaM2": 7331.890268898224,
+   "injectionRateM3s": 0.08535542254709015,
+   "lossRateOnCellMmH": 38.56056736245014
+  },
+  {
+   "name": "chl0097",
+   "cells": 13,
+   "cellAreaM2": 7656.25,
+   "bedAreaM2": 6529.165864637834,
+   "injectionRateM3s": 0.0760103726074921,
+   "lossRateOnCellMmH": 35.7403874464616
+  },
+  {
+   "name": "chl0098",
+   "cells": 44,
+   "cellAreaM2": 6875.0,
+   "bedAreaM2": 6312.6019594368345,
+   "injectionRateM3s": 0.07348920781111047,
+   "lossRateOnCellMmH": 38.48162154472694
+  },
+  {
+   "name": "chl0099",
+   "cells": 44,
+   "cellAreaM2": 6875.0,
+   "bedAreaM2": 6334.173554565681,
+   "injectionRateM3s": 0.0737403371310688,
+   "lossRateOnCellMmH": 38.613121988632386
+  },
+  {
+   "name": "chl0100",
+   "cells": 122,
+   "cellAreaM2": 6875.0,
+   "bedAreaM2": 6316.04906980705,
+   "injectionRateM3s": 0.07352933792100373,
+   "lossRateOnCellMmH": 38.502635129543776
+  },
+  {
+   "name": "chl0101",
+   "cells": 25,
+   "cellAreaM2": 6718.75,
+   "bedAreaM2": 5574.558075852791,
+   "injectionRateM3s": 0.0648971469330529,
+   "lossRateOnCellMmH": 34.772796868314856
+  },
+  {
+   "name": "chl0102",
+   "cells": 42,
+   "cellAreaM2": 6562.5,
+   "bedAreaM2": 6200.2753193248045,
+   "injectionRateM3s": 0.0721815385091396,
+   "lossRateOnCellMmH": 39.596729696442296
+  },
+  {
+   "name": "chl0103",
+   "cells": 40,
+   "cellAreaM2": 6250.0,
+   "bedAreaM2": 5672.736239857913,
+   "injectionRateM3s": 0.06604010439234585,
+   "lossRateOnCellMmH": 38.03910012999122
+  },
+  {
+   "name": "chl0104",
+   "cells": 40,
+   "cellAreaM2": 6250.0,
+   "bedAreaM2": 6248.076151452844,
+   "injectionRateM3s": 0.07273801986316351,
+   "lossRateOnCellMmH": 41.897099441182185
+  },
+  {
+   "name": "chl0105",
+   "cells": 9,
+   "cellAreaM2": 5625.0,
+   "bedAreaM2": 4431.791246674547,
+   "injectionRateM3s": 0.05159343643003619,
+   "lossRateOnCellMmH": 33.01979931522316
+  },
+  {
+   "name": "chl0106",
+   "cells": 9,
+   "cellAreaM2": 5625.0,
+   "bedAreaM2": 3972.062915614516,
+   "injectionRateM3s": 0.04624143244261232,
+   "lossRateOnCellMmH": 29.594516763271884
+  },
+  {
+   "name": "chl0107",
+   "cells": 9,
+   "cellAreaM2": 5625.0,
+   "bedAreaM2": 4946.420721942899,
+   "injectionRateM3s": 0.05758458123795191,
+   "lossRateOnCellMmH": 36.854131992289226
+  },
+  {
+   "name": "chl0108",
+   "cells": 52,
+   "cellAreaM2": 5546.875,
+   "bedAreaM2": 5110.969227388461,
+   "injectionRateM3s": 0.05950020008884733,
+   "lossRateOnCellMmH": 38.61646788864908
+  },
+  {
+   "name": "chl0109",
+   "cells": 22,
+   "cellAreaM2": 5312.5,
+   "bedAreaM2": 5008.3788722551435,
+   "injectionRateM3s": 0.05830587737117029,
+   "lossRateOnCellMmH": 39.510806312698925
+  },
+  {
+   "name": "chl0110",
+   "cells": 34,
+   "cellAreaM2": 5312.5,
+   "bedAreaM2": 4413.595194201687,
+   "injectionRateM3s": 0.05138160405249797,
+   "lossRateOnCellMmH": 34.818592863810395
+  },
+  {
+   "name": "chl0111",
+   "cells": 2,
+   "cellAreaM2": 5000.0,
+   "bedAreaM2": 4330.7971232469,
+   "injectionRateM3s": 0.05041769650979932,
+   "lossRateOnCellMmH": 36.30074148705551
+  },
+  {
+   "name": "chl0112",
+   "cells": 2,
+   "cellAreaM2": 5000.0,
+   "bedAreaM2": 2993.2466995342356,
+   "injectionRateM3s": 0.03484638032707772,
+   "lossRateOnCellMmH": 25.08939383549596
+  },
+  {
+   "name": "chl0113",
+   "cells": 2,
+   "cellAreaM2": 5000.0,
+   "bedAreaM2": 2756.476073803003,
+   "injectionRateM3s": 0.03208997562585662,
+   "lossRateOnCellMmH": 23.10478245061677
+  },
+  {
+   "name": "chl0114",
+   "cells": 2,
+   "cellAreaM2": 5000.0,
+   "bedAreaM2": 2835.794086527115,
+   "injectionRateM3s": 0.03301336949065316,
+   "lossRateOnCellMmH": 23.769626033270274
+  },
+  {
+   "name": "chl0115",
+   "cells": 2,
+   "cellAreaM2": 5000.0,
+   "bedAreaM2": 2855.166990921047,
+   "injectionRateM3s": 0.03323890238597252,
+   "lossRateOnCellMmH": 23.93200971790021
+  },
+  {
+   "name": "chl0116",
+   "cells": 49,
+   "cellAreaM2": 4726.5625,
+   "bedAreaM2": 3869.043736351625,
+   "injectionRateM3s": 0.04504211749736016,
+   "lossRateOnCellMmH": 34.30645907898109
+  },
+  {
+   "name": "chl0117",
+   "cells": 7,
+   "cellAreaM2": 4375.0,
+   "bedAreaM2": 3840.3074414281828,
+   "injectionRateM3s": 0.044707579130626424,
+   "lossRateOnCellMmH": 36.78795082748689
+  },
+  {
+   "name": "chl0118",
+   "cells": 7,
+   "cellAreaM2": 4257.8125,
+   "bedAreaM2": 2245.2126716448233,
+   "injectionRateM3s": 0.026138017519065148,
+   "lossRateOnCellMmH": 22.099813711532516
+  },
+  {
+   "name": "chl0119",
+   "cells": 9,
+   "cellAreaM2": 4218.75,
+   "bedAreaM2": 3633.1248871144353,
+   "injectionRateM3s": 0.042295628894157215,
+   "lossRateOnCellMmH": 36.09226998968082
+  },
+  {
+   "name": "chl0120",
+   "cells": 26,
+   "cellAreaM2": 4062.5,
+   "bedAreaM2": 3915.0490842829004,
+   "injectionRateM3s": 0.045577696422860095,
+   "lossRateOnCellMmH": 40.388850983949865
+  },
+  {
+   "name": "chl0121",
+   "cells": 20,
+   "cellAreaM2": 3828.125,
+   "bedAreaM2": 2890.5556075340196,
+   "injectionRateM3s": 0.03365088486437521,
+   "lossRateOnCellMmH": 31.64556682755938
+  },
+  {
+   "name": "chl0122",
+   "cells": 24,
+   "cellAreaM2": 3750.0,
+   "bedAreaM2": 3169.412734380723,
+   "injectionRateM3s": 0.03689724658274891,
+   "lossRateOnCellMmH": 35.421356719438954
+  },
+  {
+   "name": "chl0123",
+   "cells": 24,
+   "cellAreaM2": 3750.0,
+   "bedAreaM2": 2891.8064914784186,
+   "injectionRateM3s": 0.03366544723829459,
+   "lossRateOnCellMmH": 32.318829348762804
+  },
+  {
+   "name": "chl0124",
+   "cells": 14,
+   "cellAreaM2": 3593.75,
+   "bedAreaM2": 3234.9508995574474,
+   "injectionRateM3s": 0.03766022005568128,
+   "lossRateOnCellMmH": 37.72571609056073
+  },
+  {
+   "name": "chl0125",
+   "cells": 23,
+   "cellAreaM2": 3593.75,
+   "bedAreaM2": 3231.55629035119,
+   "injectionRateM3s": 0.03762070114683844,
+   "lossRateOnCellMmH": 37.686128453180764
+  },
+  {
+   "name": "chl0126",
+   "cells": 23,
+   "cellAreaM2": 3593.75,
+   "bedAreaM2": 2906.421006754156,
+   "injectionRateM3s": 0.03383558455362963,
+   "lossRateOnCellMmH": 33.89442904850551
+  },
+  {
+   "name": "chl0127",
+   "cells": 22,
+   "cellAreaM2": 3437.5,
+   "bedAreaM2": 2684.6146219140182,
+   "injectionRateM3s": 0.031253388556782356,
+   "lossRateOnCellMmH": 32.73082147037571
+  },
+  {
+   "name": "chl0128",
+   "cells": 22,
+   "cellAreaM2": 3437.5,
+   "bedAreaM2": 2775.10496584472,
+   "injectionRateM3s": 0.03230684697737561,
+   "lossRateOnCellMmH": 33.834079743578826
+  },
+  {
+   "name": "chl0129",
+   "cells": 3,
+   "cellAreaM2": 3281.25,
+   "bedAreaM2": 747.7812067058414,
+   "injectionRateM3s": 0.00870541954806717,
+   "lossRateOnCellMmH": 9.551088875593695
+  },
+  {
+   "name": "chl0130",
+   "cells": 21,
+   "cellAreaM2": 3281.25,
+   "bedAreaM2": 2821.7994593523786,
+   "injectionRateM3s": 0.03285044870596061,
+   "lossRateOnCellMmH": 36.04163515168249
+  },
+  {
+   "name": "chl0131",
+   "cells": 21,
+   "cellAreaM2": 3281.25,
+   "bedAreaM2": 2688.2097891456906,
+   "injectionRateM3s": 0.031295242295304414,
+   "lossRateOnCellMmH": 34.335351546848266
+  },
+  {
+   "name": "chl0132",
+   "cells": 20,
+   "cellAreaM2": 3125.0,
+   "bedAreaM2": 2795.2189602864923,
+   "injectionRateM3s": 0.032541007396001916,
+   "lossRateOnCellMmH": 37.4872405201942
+  },
+  {
+   "name": "chl0133",
+   "cells": 2,
+   "cellAreaM2": 3125.0,
+   "bedAreaM2": 1244.0047494609933,
+   "injectionRateM3s": 0.014482288624975062,
+   "lossRateOnCellMmH": 16.683596495971273
+  },
+  {
+   "name": "chl0134",
+   "cells": 19,
+   "cellAreaM2": 2968.75,
+   "bedAreaM2": 2436.5155906594073,
+   "injectionRateM3s": 0.028365102334593262,
+   "lossRateOnCellMmH": 34.39641883100152
+  },
+  {
+   "name": "chl0135",
+   "cells": 19,
+   "cellAreaM2": 2968.75,
+   "bedAreaM2": 2643.981234601423,
+   "injectionRateM3s": 0.03078034820615156,
+   "lossRateOnCellMmH": 37.32522224577537
+  },
+  {
+   "name": "chl0136",
+   "cells": 24,
+   "cellAreaM2": 2929.6875,
+   "bedAreaM2": 2448.9695721928942,
+   "injectionRateM3s": 0.02851008743627894,
+   "lossRateOnCellMmH": 35.03319544169956
+  },
+  {
+   "name": "chl0137",
+   "cells": 18,
+   "cellAreaM2": 2812.5,
+   "bedAreaM2": 2374.623916372943,
+   "injectionRateM3s": 0.02764458009310834,
+   "lossRateOnCellMmH": 35.385062519178675
+  },
+  {
+   "name": "chl0138",
+   "cells": 17,
+   "cellAreaM2": 2656.25,
+   "bedAreaM2": 2385.71952297002,
+   "injectionRateM3s": 0.02777375144657598,
+   "lossRateOnCellMmH": 37.641601960535915
+  },
+  {
+   "name": "chl0139",
+   "cells": 19,
+   "cellAreaM2": 2617.1875,
+   "bedAreaM2": 1744.2611180033869,
+   "injectionRateM3s": 0.02030610651542276,
+   "lossRateOnCellMmH": 27.93150412628898
+  },
+  {
+   "name": "chl0140",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 842.402696622464,
+   "injectionRateM3s": 0.009806971393179851,
+   "lossRateOnCellMmH": 14.122038806178985
+  },
+  {
+   "name": "chl0141",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 499.92387627214987,
+   "injectionRateM3s": 0.005819947126268278,
+   "lossRateOnCellMmH": 8.38072386182632
+  },
+  {
+   "name": "chl0142",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 325.8482670431692,
+   "injectionRateM3s": 0.003793416908827561,
+   "lossRateOnCellMmH": 5.462520348711688
+  },
+  {
+   "name": "chl0143",
+   "cells": 16,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 2162.8226192197226,
+   "injectionRateM3s": 0.025178859992082935,
+   "lossRateOnCellMmH": 36.25755838859943
+  },
+  {
+   "name": "chl0144",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 2391.571986678045,
+   "injectionRateM3s": 0.027841883878243573,
+   "lossRateOnCellMmH": 40.09231278467074
+  },
+  {
+   "name": "chl0145",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 2394.4073136335574,
+   "injectionRateM3s": 0.02787489180955066,
+   "lossRateOnCellMmH": 40.13984420575295
+  },
+  {
+   "name": "chl0146",
+   "cells": 4,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 1779.8242854271546,
+   "injectionRateM3s": 0.020720121056181123,
+   "lossRateOnCellMmH": 29.83697432090082
+  },
+  {
+   "name": "chl0147",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 2362.4347422113838,
+   "injectionRateM3s": 0.027502677790577523,
+   "lossRateOnCellMmH": 39.603856018431635
+  },
+  {
+   "name": "chl0148",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 2362.3093710969433,
+   "injectionRateM3s": 0.027501218261853578,
+   "lossRateOnCellMmH": 39.60175429706916
+  },
+  {
+   "name": "chl0149",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 2311.320672719173,
+   "injectionRateM3s": 0.02690762483157237,
+   "lossRateOnCellMmH": 38.74697975746422
+  },
+  {
+   "name": "chl0150",
+   "cells": 16,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 2077.920167933127,
+   "injectionRateM3s": 0.024190453955021483,
+   "lossRateOnCellMmH": 34.834253695230935
+  },
+  {
+   "name": "chl0151",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 2221.9333336399977,
+   "injectionRateM3s": 0.025867007225792306,
+   "lossRateOnCellMmH": 37.24849040514091
+  },
+  {
+   "name": "chl0152",
+   "cells": 4,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 1935.5428395895976,
+   "injectionRateM3s": 0.022532944557555563,
+   "lossRateOnCellMmH": 32.447440162880014
+  },
+  {
+   "name": "chl0153",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 2072.707859637208,
+   "injectionRateM3s": 0.024129773999276495,
+   "lossRateOnCellMmH": 34.74687455895815
+  },
+  {
+   "name": "chl0154",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 1880.0191756306072,
+   "injectionRateM3s": 0.021886556569632985,
+   "lossRateOnCellMmH": 31.516641460271494
+  },
+  {
+   "name": "chl0155",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 1685.2711323423464,
+   "injectionRateM3s": 0.01961936476568548,
+   "lossRateOnCellMmH": 28.25188526258709
+  },
+  {
+   "name": "chl0156",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 1681.6494046343805,
+   "injectionRateM3s": 0.019577201818951912,
+   "lossRateOnCellMmH": 28.19117061929075
+  },
+  {
+   "name": "chl0157",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 505.5101626770651,
+   "injectionRateM3s": 0.005884980810498833,
+   "lossRateOnCellMmH": 8.474372367118319
+  },
+  {
+   "name": "chl0158",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 1672.6591673463768,
+   "injectionRateM3s": 0.019472540473190733,
+   "lossRateOnCellMmH": 28.04045828139466
+  },
+  {
+   "name": "chl0159",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 1736.0293825086728,
+   "injectionRateM3s": 0.02021027539470513,
+   "lossRateOnCellMmH": 29.10279656837539
+  },
+  {
+   "name": "chl0160",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 1699.4941746675058,
+   "injectionRateM3s": 0.019784944683420878,
+   "lossRateOnCellMmH": 28.49032034412607
+  },
+  {
+   "name": "chl0161",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 778.3734354272106,
+   "injectionRateM3s": 0.009061564077431776,
+   "lossRateOnCellMmH": 13.048652271501757
+  },
+  {
+   "name": "chl0162",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 1119.1665444834834,
+   "injectionRateM3s": 0.013028963855361885,
+   "lossRateOnCellMmH": 18.761707951721114
+  },
+  {
+   "name": "chl0163",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 387.89383003866396,
+   "injectionRateM3s": 0.004515730671366779,
+   "lossRateOnCellMmH": 6.502652166768162
+  },
+  {
+   "name": "chl0164",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 663.6108523892699,
+   "injectionRateM3s": 0.0077255363398984166,
+   "lossRateOnCellMmH": 11.12477232945372
+  },
+  {
+   "name": "chl0165",
+   "cells": 1,
+   "cellAreaM2": 2500.0,
+   "bedAreaM2": 930.281411553733,
+   "injectionRateM3s": 0.010830026099504708,
+   "lossRateOnCellMmH": 15.595237583286782
+  },
+  {
+   "name": "chl0166",
+   "cells": 16,
+   "cellAreaM2": 2148.4375,
+   "bedAreaM2": 1718.069919980012,
+   "injectionRateM3s": 0.020001197318433972,
+   "lossRateOnCellMmH": 33.51473354303409
+  },
+  {
+   "name": "chl0167",
+   "cells": 56,
+   "cellAreaM2": 2187.5,
+   "bedAreaM2": 2118.3538024047393,
+   "injectionRateM3s": 0.024661168849661838,
+   "lossRateOnCellMmH": 40.585237878300624
+  },
+  {
+   "name": "chl0168",
+   "cells": 56,
+   "cellAreaM2": 2187.5,
+   "bedAreaM2": 2117.2453310796436,
+   "injectionRateM3s": 0.024648264395985515,
+   "lossRateOnCellMmH": 40.56400083453616
+  },
+  {
+   "name": "chl0169",
+   "cells": 56,
+   "cellAreaM2": 2187.5,
+   "bedAreaM2": 2124.3503406873906,
+   "injectionRateM3s": 0.02473097854950237,
+   "lossRateOnCellMmH": 40.70012469860961
+  },
+  {
+   "name": "chl0170",
+   "cells": 55,
+   "cellAreaM2": 2148.4375,
+   "bedAreaM2": 2090.013775528496,
+   "injectionRateM3s": 0.024331243703444236,
+   "lossRateOnCellMmH": 40.770316721989474
+  },
+  {
+   "name": "chl0171",
+   "cells": 54,
+   "cellAreaM2": 2109.375,
+   "bedAreaM2": 2034.517030300146,
+   "injectionRateM3s": 0.023685169094410864,
+   "lossRateOnCellMmH": 40.42268858779454
+  },
+  {
+   "name": "chl0172",
+   "cells": 54,
+   "cellAreaM2": 2109.375,
+   "bedAreaM2": 2037.5885772107313,
+   "injectionRateM3s": 0.02372092701969493,
+   "lossRateOnCellMmH": 40.483715446946015
+  },
+  {
+   "name": "chl0173",
+   "cells": 13,
+   "cellAreaM2": 2031.25,
+   "bedAreaM2": 1714.9410573778043,
+   "injectionRateM3s": 0.01996477214297327,
+   "lossRateOnCellMmH": 35.38371924416186
+  },
+  {
+   "name": "chl0174",
+   "cells": 50,
+   "cellAreaM2": 1953.125,
+   "bedAreaM2": 1886.430052227224,
+   "injectionRateM3s": 0.02196118985801193,
+   "lossRateOnCellMmH": 40.47886514628759
+  },
+  {
+   "name": "chl0175",
+   "cells": 50,
+   "cellAreaM2": 1953.125,
+   "bedAreaM2": 1901.4533675501698,
+   "injectionRateM3s": 0.022136086287229892,
+   "lossRateOnCellMmH": 40.80123424462214
+  },
+  {
+   "name": "chl0176",
+   "cells": 12,
+   "cellAreaM2": 1875.0,
+   "bedAreaM2": 1522.594202628587,
+   "injectionRateM3s": 0.017725534175601132,
+   "lossRateOnCellMmH": 34.03302561715417
+  },
+  {
+   "name": "chl0177",
+   "cells": 3,
+   "cellAreaM2": 1875.0,
+   "bedAreaM2": 688.0230623794889,
+   "injectionRateM3s": 0.008009735151201217,
+   "lossRateOnCellMmH": 15.378691490306334
+  },
+  {
+   "name": "chl0178",
+   "cells": 12,
+   "cellAreaM2": 1875.0,
+   "bedAreaM2": 1458.2358686161062,
+   "injectionRateM3s": 0.016976295903805835,
+   "lossRateOnCellMmH": 32.5944881353072
+  },
+  {
+   "name": "chl0179",
+   "cells": 9,
+   "cellAreaM2": 1875.0,
+   "bedAreaM2": 1298.9651299198208,
+   "injectionRateM3s": 0.015122119054149912,
+   "lossRateOnCellMmH": 29.034468583967833
+  },
+  {
+   "name": "chl0180",
+   "cells": 12,
+   "cellAreaM2": 1875.0,
+   "bedAreaM2": 1515.6317898001182,
+   "injectionRateM3s": 0.017644480086256374,
+   "lossRateOnCellMmH": 33.87740176561224
+  },
+  {
+   "name": "chl0181",
+   "cells": 12,
+   "cellAreaM2": 1875.0,
+   "bedAreaM2": 1559.376910428484,
+   "injectionRateM3s": 0.018153746198904933,
+   "lossRateOnCellMmH": 34.85519270189747
+  },
+  {
+   "name": "chl0182",
+   "cells": 12,
+   "cellAreaM2": 1875.0,
+   "bedAreaM2": 1389.2325853000414,
+   "injectionRateM3s": 0.01617298268053465,
+   "lossRateOnCellMmH": 31.05212674662652
+  },
+  {
+   "name": "chl0183",
+   "cells": 46,
+   "cellAreaM2": 1796.875,
+   "bedAreaM2": 1713.7408380490845,
+   "injectionRateM3s": 0.019950799589621423,
+   "lossRateOnCellMmH": 39.97099326477196
+  },
+  {
+   "name": "chl0184",
+   "cells": 46,
+   "cellAreaM2": 1796.875,
+   "bedAreaM2": 1713.2383152900875,
+   "injectionRateM3s": 0.019944949387168766,
+   "lossRateOnCellMmH": 39.95927251133639
+  },
+  {
+   "name": "chl0185",
+   "cells": 46,
+   "cellAreaM2": 1796.875,
+   "bedAreaM2": 1699.5108196369788,
+   "injectionRateM3s": 0.01978513845860716,
+   "lossRateOnCellMmH": 39.63909479011382
+  },
+  {
+   "name": "chl0186",
+   "cells": 45,
+   "cellAreaM2": 1757.8125,
+   "bedAreaM2": 1695.4228061508766,
+   "injectionRateM3s": 0.01973754716827312,
+   "lossRateOnCellMmH": 40.42249660062335
+  },
+  {
+   "name": "chl0187",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1363.1383576208602,
+   "injectionRateM3s": 0.015869202379969513,
+   "lossRateOnCellMmH": 33.23876571222706
+  },
+  {
+   "name": "chl0188",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1371.6239749311412,
+   "injectionRateM3s": 0.0159679891081567,
+   "lossRateOnCellMmH": 33.445679004720944
+  },
+  {
+   "name": "chl0189",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1371.4472968803095,
+   "injectionRateM3s": 0.0159659322811816,
+   "lossRateOnCellMmH": 33.441370887129466
+  },
+  {
+   "name": "chl0190",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1385.7222958057755,
+   "injectionRateM3s": 0.016132117060338902,
+   "lossRateOnCellMmH": 33.789452460928025
+  },
+  {
+   "name": "chl0191",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1385.6059892352362,
+   "injectionRateM3s": 0.01613076305801354,
+   "lossRateOnCellMmH": 33.786616441511995
+  },
+  {
+   "name": "chl0192",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1380.5413408474521,
+   "injectionRateM3s": 0.016071802109699086,
+   "lossRateOnCellMmH": 33.66312005522427
+  },
+  {
+   "name": "chl0193",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1382.8371745718707,
+   "injectionRateM3s": 0.01609852944064086,
+   "lossRateOnCellMmH": 33.719101664760494
+  },
+  {
+   "name": "chl0194",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1349.3404609358524,
+   "injectionRateM3s": 0.015708571866061546,
+   "lossRateOnCellMmH": 32.90231779945982
+  },
+  {
+   "name": "chl0195",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1422.0013999742407,
+   "injectionRateM3s": 0.016554466298033452,
+   "lossRateOnCellMmH": 34.67408213697188
+  },
+  {
+   "name": "chl0196",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1398.8458295358323,
+   "injectionRateM3s": 0.01628489686551298,
+   "lossRateOnCellMmH": 34.10945670740173
+  },
+  {
+   "name": "chl0197",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1299.1656252248888,
+   "injectionRateM3s": 0.015124453153659746,
+   "lossRateOnCellMmH": 31.678854605483686
+  },
+  {
+   "name": "chl0198",
+   "cells": 11,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1319.378645964902,
+   "injectionRateM3s": 0.0153597664034414,
+   "lossRateOnCellMmH": 32.17172890320817
+  },
+  {
+   "name": "chl0199",
+   "cells": 44,
+   "cellAreaM2": 1718.75,
+   "bedAreaM2": 1684.089857392249,
+   "injectionRateM3s": 0.019605612756474766,
+   "lossRateOnCellMmH": 41.0648470826526
+  },
+  {
+   "name": "chl0200",
+   "cells": 14,
+   "cellAreaM2": 1601.5625,
+   "bedAreaM2": 1313.8828976443751,
+   "injectionRateM3s": 0.015295786733409932,
+   "lossRateOnCellMmH": 34.38194403295267
+  },
+  {
+   "name": "chl0201",
+   "cells": 10,
+   "cellAreaM2": 1562.5,
+   "bedAreaM2": 1338.8620469228003,
+   "injectionRateM3s": 0.015586585662926266,
+   "lossRateOnCellMmH": 35.911493367382114
+  },
+  {
+   "name": "chl0202",
+   "cells": 10,
+   "cellAreaM2": 1562.5,
+   "bedAreaM2": 1299.6166301777644,
+   "injectionRateM3s": 0.015129703602986138,
+   "lossRateOnCellMmH": 34.858837101280066
+  },
+  {
+   "name": "chl0203",
+   "cells": 10,
+   "cellAreaM2": 1562.5,
+   "bedAreaM2": 1296.980407990422,
+   "injectionRateM3s": 0.015099013583021828,
+   "lossRateOnCellMmH": 34.788127295282294
+  },
+  {
+   "name": "chl0204",
+   "cells": 10,
+   "cellAreaM2": 1562.5,
+   "bedAreaM2": 1314.0061808397477,
+   "injectionRateM3s": 0.015297221955276061,
+   "lossRateOnCellMmH": 35.244799384956046
+  },
+  {
+   "name": "chl0205",
+   "cells": 10,
+   "cellAreaM2": 1562.5,
+   "bedAreaM2": 1201.836627269723,
+   "injectionRateM3s": 0.013991381402465025,
+   "lossRateOnCellMmH": 32.23614275127942
+  },
+  {
+   "name": "chl0206",
+   "cells": 15,
+   "cellAreaM2": 1523.4375,
+   "bedAreaM2": 1323.7761999453217,
+   "injectionRateM3s": 0.015410961261030118,
+   "lossRateOnCellMmH": 36.41728691837271
+  },
+  {
+   "name": "chl0207",
+   "cells": 13,
+   "cellAreaM2": 1445.3125,
+   "bedAreaM2": 1233.9969416501833,
+   "injectionRateM3s": 0.014365781062377549,
+   "lossRateOnCellMmH": 35.782442775911214
+  },
+  {
+   "name": "chl0208",
+   "cells": 12,
+   "cellAreaM2": 1406.25,
+   "bedAreaM2": 1157.9383049251196,
+   "injectionRateM3s": 0.013480331766503267,
+   "lossRateOnCellMmH": 34.509649322248364
+  },
+  {
+   "name": "chl0209",
+   "cells": 15,
+   "cellAreaM2": 1406.25,
+   "bedAreaM2": 1070.2529605443874,
+   "injectionRateM3s": 0.01245952821567091,
+   "lossRateOnCellMmH": 31.896392232117527
+  },
+  {
+   "name": "chl0210",
+   "cells": 32,
+   "cellAreaM2": 1367.1875,
+   "bedAreaM2": 1107.321123709383,
+   "injectionRateM3s": 0.0128910634151834,
+   "lossRateOnCellMmH": 33.94401155266578
+  },
+  {
+   "name": "chl0211",
+   "cells": 2,
+   "cellAreaM2": 1250.0,
+   "bedAreaM2": 510.8811106009404,
+   "injectionRateM3s": 0.005947507595912614,
+   "lossRateOnCellMmH": 17.12882187622833
+  },
+  {
+   "name": "chl0212",
+   "cells": 8,
+   "cellAreaM2": 1250.0,
+   "bedAreaM2": 735.8245203799944,
+   "injectionRateM3s": 0.008566223791423768,
+   "lossRateOnCellMmH": 24.67072451930045
+  },
+  {
+   "name": "chl0213",
+   "cells": 2,
+   "cellAreaM2": 1250.0,
+   "bedAreaM2": 1033.0216238721441,
+   "injectionRateM3s": 0.01202609340457821,
+   "lossRateOnCellMmH": 34.63514900518525
+  },
+  {
+   "name": "chl0214",
+   "cells": 2,
+   "cellAreaM2": 1250.0,
+   "bedAreaM2": 1060.4690242929287,
+   "injectionRateM3s": 0.01234562689114351,
+   "lossRateOnCellMmH": 35.55540544649331
+  },
+  {
+   "name": "chl0215",
+   "cells": 8,
+   "cellAreaM2": 1250.0,
+   "bedAreaM2": 1213.6019293800928,
+   "injectionRateM3s": 0.014128349127866579,
+   "lossRateOnCellMmH": 40.68964548825574
+  },
+  {
+   "name": "chl0216",
+   "cells": 8,
+   "cellAreaM2": 1250.0,
+   "bedAreaM2": 791.1800003444743,
+   "injectionRateM3s": 0.009210653837343588,
+   "lossRateOnCellMmH": 26.526683051549533
+  },
+  {
+   "name": "chl0217",
+   "cells": 2,
+   "cellAreaM2": 1250.0,
+   "bedAreaM2": 825.91010519152,
+   "injectionRateM3s": 0.009614970141271278,
+   "lossRateOnCellMmH": 27.69111400686128
+  },
+  {
+   "name": "chl0218",
+   "cells": 2,
+   "cellAreaM2": 1250.0,
+   "bedAreaM2": 720.8437305748498,
+   "injectionRateM3s": 0.008391822430108876,
+   "lossRateOnCellMmH": 24.16844859871356
+  },
+  {
+   "name": "chl0219",
+   "cells": 30,
+   "cellAreaM2": 1171.875,
+   "bedAreaM2": 1049.532184418391,
+   "injectionRateM3s": 0.012218303846937433,
+   "lossRateOnCellMmH": 37.5346294177918
+  },
+  {
+   "name": "chl0220",
+   "cells": 7,
+   "cellAreaM2": 1093.75,
+   "bedAreaM2": 525.9655284524342,
+   "injectionRateM3s": 0.0061231153604004215,
+   "lossRateOnCellMmH": 20.1537968433751
+  },
+  {
+   "name": "chl0221",
+   "cells": 28,
+   "cellAreaM2": 1093.75,
+   "bedAreaM2": 1027.1616112567035,
+   "injectionRateM3s": 0.011957873091046789,
+   "lossRateOnCellMmH": 39.35848514538829
+  },
+  {
+   "name": "chl0222",
+   "cells": 25,
+   "cellAreaM2": 976.5625,
+   "bedAreaM2": 943.1689077934917,
+   "injectionRateM3s": 0.010980058034895898,
+   "lossRateOnCellMmH": 40.476885939840244
+  },
+  {
+   "name": "chl0223",
+   "cells": 25,
+   "cellAreaM2": 976.5625,
+   "bedAreaM2": 897.9425484251591,
+   "injectionRateM3s": 0.010453547834582893,
+   "lossRateOnCellMmH": 38.535958737406375
+  },
+  {
+   "name": "chl0224",
+   "cells": 25,
+   "cellAreaM2": 976.5625,
+   "bedAreaM2": 904.782156277152,
+   "injectionRateM3s": 0.010533172269326511,
+   "lossRateOnCellMmH": 38.82948625364525
+  },
+  {
+   "name": "chl0225",
+   "cells": 6,
+   "cellAreaM2": 937.5,
+   "bedAreaM2": 717.8143221337122,
+   "injectionRateM3s": 0.008356555066839966,
+   "lossRateOnCellMmH": 32.08917145666546
+  },
+  {
+   "name": "chl0226",
+   "cells": 24,
+   "cellAreaM2": 937.5,
+   "bedAreaM2": 904.7718049527754,
+   "injectionRateM3s": 0.01053305176265856,
+   "lossRateOnCellMmH": 40.44691876860887
+  },
+  {
+   "name": "chl0227",
+   "cells": 24,
+   "cellAreaM2": 937.5,
+   "bedAreaM2": 898.6459885604394,
+   "injectionRateM3s": 0.010461737050157781,
+   "lossRateOnCellMmH": 40.173070272605884
+  },
+  {
+   "name": "chl0228",
+   "cells": 8,
+   "cellAreaM2": 898.4375,
+   "bedAreaM2": 723.5797376818016,
+   "injectionRateM3s": 0.00842367411284564,
+   "lossRateOnCellMmH": 33.75329592347192
+  },
+  {
+   "name": "chl0229",
+   "cells": 8,
+   "cellAreaM2": 898.4375,
+   "bedAreaM2": 578.9390180350807,
+   "injectionRateM3s": 0.0067398150682917305,
+   "lossRateOnCellMmH": 27.006145943207212
+  },
+  {
+   "name": "chl0230",
+   "cells": 23,
+   "cellAreaM2": 898.4375,
+   "bedAreaM2": 817.2951273736222,
+   "injectionRateM3s": 0.009514677441174584,
+   "lossRateOnCellMmH": 38.12489882515868
+  },
+  {
+   "name": "chl0231",
+   "cells": 23,
+   "cellAreaM2": 898.4375,
+   "bedAreaM2": 862.4917377042486,
+   "injectionRateM3s": 0.01004084131310696,
+   "lossRateOnCellMmH": 40.233214583301624
+  },
+  {
+   "name": "chl0232",
+   "cells": 23,
+   "cellAreaM2": 898.4375,
+   "bedAreaM2": 863.5390413349315,
+   "injectionRateM3s": 0.01005303367287416,
+   "lossRateOnCellMmH": 40.2820688387862
+  },
+  {
+   "name": "chl0233",
+   "cells": 3,
+   "cellAreaM2": 820.3125,
+   "bedAreaM2": 349.0769945979258,
+   "injectionRateM3s": 0.004063838012110852,
+   "lossRateOnCellMmH": 17.8344433902922
+  },
+  {
+   "name": "chl0234",
+   "cells": 12,
+   "cellAreaM2": 820.3125,
+   "bedAreaM2": 672.3634534594865,
+   "injectionRateM3s": 0.00782743120402419,
+   "lossRateOnCellMmH": 34.35124094108901
+  },
+  {
+   "name": "chl0235",
+   "cells": 21,
+   "cellAreaM2": 820.3125,
+   "bedAreaM2": 772.6859582407213,
+   "injectionRateM3s": 0.008995352363852396,
+   "lossRateOnCellMmH": 39.476746373935086
+  },
+  {
+   "name": "chl0236",
+   "cells": 21,
+   "cellAreaM2": 820.3125,
+   "bedAreaM2": 771.479454710254,
+   "injectionRateM3s": 0.00898130665191854,
+   "lossRateOnCellMmH": 39.41510576384822
+  },
+  {
+   "name": "chl0237",
+   "cells": 21,
+   "cellAreaM2": 820.3125,
+   "bedAreaM2": 772.9654891594527,
+   "injectionRateM3s": 0.008998606569631295,
+   "lossRateOnCellMmH": 39.49102768843905
+  },
+  {
+   "name": "chl0238",
+   "cells": 21,
+   "cellAreaM2": 820.3125,
+   "bedAreaM2": 772.9460865907365,
+   "injectionRateM3s": 0.008998380691393823,
+   "lossRateOnCellMmH": 39.49003640565975
+  },
+  {
+   "name": "chl0239",
+   "cells": 2,
+   "cellAreaM2": 781.25,
+   "bedAreaM2": 413.42372752592894,
+   "injectionRateM3s": 0.004812941227947689,
+   "lossRateOnCellMmH": 22.17803317838295
+  },
+  {
+   "name": "chl0240",
+   "cells": 5,
+   "cellAreaM2": 781.25,
+   "bedAreaM2": 575.4373618801287,
+   "injectionRateM3s": 0.006699049954554498,
+   "lossRateOnCellMmH": 30.869222190587124
+  },
+  {
+   "name": "chl0241",
+   "cells": 2,
+   "cellAreaM2": 781.25,
+   "bedAreaM2": 378.8000039514946,
+   "injectionRateM3s": 0.004409863379335316,
+   "lossRateOnCellMmH": 20.320650451977137
+  },
+  {
+   "name": "chl0242",
+   "cells": 14,
+   "cellAreaM2": 781.25,
+   "bedAreaM2": 607.1184814153871,
+   "injectionRateM3s": 0.007067870987810798,
+   "lossRateOnCellMmH": 32.56874951183216
+  },
+  {
+   "name": "chl0243",
+   "cells": 20,
+   "cellAreaM2": 781.25,
+   "bedAreaM2": 752.3794654169363,
+   "injectionRateM3s": 0.008758950943228833,
+   "lossRateOnCellMmH": 40.36124594639846
+  },
+  {
+   "name": "chl0244",
+   "cells": 20,
+   "cellAreaM2": 781.25,
+   "bedAreaM2": 752.8493214001952,
+   "injectionRateM3s": 0.008764420849967272,
+   "lossRateOnCellMmH": 40.38645127664919
+  },
+  {
+   "name": "chl0245",
+   "cells": 19,
+   "cellAreaM2": 742.1875,
+   "bedAreaM2": 712.5484009536414,
+   "injectionRateM3s": 0.00829525096776864,
+   "lossRateOnCellMmH": 40.236333115239894
+  },
+  {
+   "name": "chl0246",
+   "cells": 19,
+   "cellAreaM2": 742.1875,
+   "bedAreaM2": 710.556287169968,
+   "injectionRateM3s": 0.008272059443137043,
+   "lossRateOnCellMmH": 40.123842014711045
+  },
+  {
+   "name": "chl0247",
+   "cells": 19,
+   "cellAreaM2": 742.1875,
+   "bedAreaM2": 710.8104377278293,
+   "injectionRateM3s": 0.008275018179214812,
+   "lossRateOnCellMmH": 40.138193441917736
+  },
+  {
+   "name": "chl0248",
+   "cells": 18,
+   "cellAreaM2": 703.125,
+   "bedAreaM2": 662.3790552062443,
+   "injectionRateM3s": 0.007711196167692693,
+   "lossRateOnCellMmH": 39.48132437858659
+  },
+  {
+   "name": "chl0249",
+   "cells": 18,
+   "cellAreaM2": 703.125,
+   "bedAreaM2": 656.9206369611493,
+   "injectionRateM3s": 0.007647651081956045,
+   "lossRateOnCellMmH": 39.155973539614955
+  },
+  {
+   "name": "chl0250",
+   "cells": 18,
+   "cellAreaM2": 703.125,
+   "bedAreaM2": 667.2101075353833,
+   "injectionRateM3s": 0.007767437668557753,
+   "lossRateOnCellMmH": 39.769280863015695
+  },
+  {
+   "name": "chl0251",
+   "cells": 18,
+   "cellAreaM2": 703.125,
+   "bedAreaM2": 658.6048686944923,
+   "injectionRateM3s": 0.007667258346385047,
+   "lossRateOnCellMmH": 39.25636273349144
+  },
+  {
+   "name": "chl0252",
+   "cells": 18,
+   "cellAreaM2": 703.125,
+   "bedAreaM2": 676.8047437682326,
+   "injectionRateM3s": 0.007879135225368507,
+   "lossRateOnCellMmH": 40.341172353886755
+  },
+  {
+   "name": "chl0253",
+   "cells": 18,
+   "cellAreaM2": 703.125,
+   "bedAreaM2": 684.0078109725342,
+   "injectionRateM3s": 0.007962990932738586,
+   "lossRateOnCellMmH": 40.77051357562156
+  },
+  {
+   "name": "chl0254",
+   "cells": 18,
+   "cellAreaM2": 703.125,
+   "bedAreaM2": 666.6865144917174,
+   "injectionRateM3s": 0.007761342172874409,
+   "lossRateOnCellMmH": 39.73807192511698
+  },
+  {
+   "name": "chl0255",
+   "cells": 17,
+   "cellAreaM2": 664.0625,
+   "bedAreaM2": 619.4711730954407,
+   "injectionRateM3s": 0.007211676906786088,
+   "lossRateOnCellMmH": 39.095773160553286
+  },
+  {
+   "name": "chl0256",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 407.52288526806683,
+   "injectionRateM3s": 0.004744245589329078,
+   "lossRateOnCellMmH": 27.326854594535487
+  },
+  {
+   "name": "chl0257",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 201.8902764772065,
+   "injectionRateM3s": 0.002350339301988812,
+   "lossRateOnCellMmH": 13.53795437945556
+  },
+  {
+   "name": "chl0258",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 405.3219526394021,
+   "injectionRateM3s": 0.0047186230653103725,
+   "lossRateOnCellMmH": 27.179268856187747
+  },
+  {
+   "name": "chl0259",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 369.31655604257065,
+   "injectionRateM3s": 0.004299460239928926,
+   "lossRateOnCellMmH": 24.764890981990618
+  },
+  {
+   "name": "chl0260",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 268.99136490824503,
+   "injectionRateM3s": 0.0031315078064734856,
+   "lossRateOnCellMmH": 18.037484965287277
+  },
+  {
+   "name": "chl0261",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 293.7508432048057,
+   "injectionRateM3s": 0.0034197493996426125,
+   "lossRateOnCellMmH": 19.697756541941448
+  },
+  {
+   "name": "chl0262",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 235.83795235112288,
+   "injectionRateM3s": 0.0027455468286209884,
+   "lossRateOnCellMmH": 15.814349732856895
+  },
+  {
+   "name": "chl0263",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 379.3291120263942,
+   "injectionRateM3s": 0.004416023079173939,
+   "lossRateOnCellMmH": 25.43629293604189
+  },
+  {
+   "name": "chl0264",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 37.69388928546742,
+   "injectionRateM3s": 0.00043881969443164984,
+   "lossRateOnCellMmH": 2.527601439926303
+  },
+  {
+   "name": "chl0265",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 455.0831815088899,
+   "injectionRateM3s": 0.005297926704732659,
+   "lossRateOnCellMmH": 30.516057819260116
+  },
+  {
+   "name": "chl0266",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 151.82229472120525,
+   "injectionRateM3s": 0.0017674645477126977,
+   "lossRateOnCellMmH": 10.180595794825138
+  },
+  {
+   "name": "chl0267",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 125.90443736771704,
+   "injectionRateM3s": 0.0014657374916891724,
+   "lossRateOnCellMmH": 8.442647952129633
+  },
+  {
+   "name": "chl0268",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 301.7893091382575,
+   "injectionRateM3s": 0.0035133305405512143,
+   "lossRateOnCellMmH": 20.236783913574993
+  },
+  {
+   "name": "chl0269",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 500.1494705977517,
+   "injectionRateM3s": 0.005822573420208825,
+   "lossRateOnCellMmH": 33.53802290040284
+  },
+  {
+   "name": "chl0270",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 485.7346854525587,
+   "injectionRateM3s": 0.00565476129647687,
+   "lossRateOnCellMmH": 32.57142506770677
+  },
+  {
+   "name": "chl0271",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 448.57400479707064,
+   "injectionRateM3s": 0.00522214903917923,
+   "lossRateOnCellMmH": 30.079578465672366
+  },
+  {
+   "name": "chl0272",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 448.35644151392347,
+   "injectionRateM3s": 0.005219616239957925,
+   "lossRateOnCellMmH": 30.06498954215765
+  },
+  {
+   "name": "chl0273",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 365.04369486809037,
+   "injectionRateM3s": 0.004249717014422685,
+   "lossRateOnCellMmH": 24.478370003074666
+  },
+  {
+   "name": "chl0274",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 402.64761504033373,
+   "injectionRateM3s": 0.004687489318427885,
+   "lossRateOnCellMmH": 26.999938474144617
+  },
+  {
+   "name": "chl0275",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 371.82788808553727,
+   "injectionRateM3s": 0.004328696330462463,
+   "lossRateOnCellMmH": 24.933290863463785
+  },
+  {
+   "name": "chl0276",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 241.0669295801079,
+   "injectionRateM3s": 0.0028064208385284225,
+   "lossRateOnCellMmH": 16.164984029923716
+  },
+  {
+   "name": "chl0277",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 403.08605337277226,
+   "injectionRateM3s": 0.004692593471348023,
+   "lossRateOnCellMmH": 27.029338394964615
+  },
+  {
+   "name": "chl0278",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 162.1020718215732,
+   "injectionRateM3s": 0.0018871382861228145,
+   "lossRateOnCellMmH": 10.86991652806741
+  },
+  {
+   "name": "chl0279",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 382.17941883631283,
+   "injectionRateM3s": 0.004449205400952742,
+   "lossRateOnCellMmH": 25.62742310948779
+  },
+  {
+   "name": "chl0280",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 125.22810282635241,
+   "injectionRateM3s": 0.0014578638304034526,
+   "lossRateOnCellMmH": 8.397295663123886
+  },
+  {
+   "name": "chl0281",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 159.11946740889107,
+   "injectionRateM3s": 0.00185241579975184,
+   "lossRateOnCellMmH": 10.669915006570598
+  },
+  {
+   "name": "chl0282",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 98.15136782716466,
+   "injectionRateM3s": 0.0011426455071212418,
+   "lossRateOnCellMmH": 6.581638121018353
+  },
+  {
+   "name": "chl0283",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 142.9929816852969,
+   "injectionRateM3s": 0.001664676628452998,
+   "lossRateOnCellMmH": 9.588537379889269
+  },
+  {
+   "name": "chl0284",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 154.26466115677613,
+   "injectionRateM3s": 0.0017958977636334686,
+   "lossRateOnCellMmH": 10.344371118528779
+  },
+  {
+   "name": "chl0285",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 179.1379385846085,
+   "injectionRateM3s": 0.002085464168355817,
+   "lossRateOnCellMmH": 12.012273609729506
+  },
+  {
+   "name": "chl0286",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 272.64296521170763,
+   "injectionRateM3s": 0.003174018520006296,
+   "lossRateOnCellMmH": 18.282346675236266
+  },
+  {
+   "name": "chl0287",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 264.1074522731014,
+   "injectionRateM3s": 0.0030746509235460217,
+   "lossRateOnCellMmH": 17.709989319625087
+  },
+  {
+   "name": "chl0288",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 188.95581527079474,
+   "injectionRateM3s": 0.0021997606161108353,
+   "lossRateOnCellMmH": 12.67062114879841
+  },
+  {
+   "name": "chl0289",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 286.81507397268433,
+   "injectionRateM3s": 0.003339005486165333,
+   "lossRateOnCellMmH": 19.23267160031232
+  },
+  {
+   "name": "chl0290",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 193.81252665189095,
+   "injectionRateM3s": 0.0022563008311057638,
+   "lossRateOnCellMmH": 12.996292787169198
+  },
+  {
+   "name": "chl0291",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 175.24664001765336,
+   "injectionRateM3s": 0.0020401629675388475,
+   "lossRateOnCellMmH": 11.751338693023763
+  },
+  {
+   "name": "chl0292",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 428.3119130162764,
+   "injectionRateM3s": 0.004986264520697817,
+   "lossRateOnCellMmH": 28.720883639219426
+  },
+  {
+   "name": "chl0293",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 153.8575706426333,
+   "injectionRateM3s": 0.0017911585515646559,
+   "lossRateOnCellMmH": 10.317073257012417
+  },
+  {
+   "name": "chl0294",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 239.21079174833721,
+   "injectionRateM3s": 0.0027848123006035588,
+   "lossRateOnCellMmH": 16.0405188514765
+  },
+  {
+   "name": "chl0295",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 168.7489654199196,
+   "injectionRateM3s": 0.001964519205763564,
+   "lossRateOnCellMmH": 11.315630625198128
+  },
+  {
+   "name": "chl0296",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 279.8057155033052,
+   "injectionRateM3s": 0.003257404871317644,
+   "lossRateOnCellMmH": 18.76265205878963
+  },
+  {
+   "name": "chl0297",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 216.22830245076133,
+   "injectionRateM3s": 0.002517257821030946,
+   "lossRateOnCellMmH": 14.499405049138252
+  },
+  {
+   "name": "chl0298",
+   "cells": 4,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 436.31558153931655,
+   "injectionRateM3s": 0.005079440561753543,
+   "lossRateOnCellMmH": 29.257577635700407
+  },
+  {
+   "name": "chl0299",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 455.4038562911164,
+   "injectionRateM3s": 0.005301659893655747,
+   "lossRateOnCellMmH": 30.537560987457102
+  },
+  {
+   "name": "chl0300",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 241.75010166800348,
+   "injectionRateM3s": 0.0028143741002516734,
+   "lossRateOnCellMmH": 16.210794817449642
+  },
+  {
+   "name": "chl0301",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 270.41006705053167,
+   "injectionRateM3s": 0.0031480238639132723,
+   "lossRateOnCellMmH": 18.13261745614045
+  },
+  {
+   "name": "chl0302",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 298.8850840452411,
+   "injectionRateM3s": 0.0034795205200933484,
+   "lossRateOnCellMmH": 20.042038195737685
+  },
+  {
+   "name": "chl0303",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 252.94847554046513,
+   "injectionRateM3s": 0.002944741836083581,
+   "lossRateOnCellMmH": 16.96171297584143
+  },
+  {
+   "name": "chl0304",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 403.06921501965024,
+   "injectionRateM3s": 0.0046923974448537615,
+   "lossRateOnCellMmH": 27.028209282357665
+  },
+  {
+   "name": "chl0305",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 177.80349355719756,
+   "injectionRateM3s": 0.002069929004161708,
+   "lossRateOnCellMmH": 11.922791063971438
+  },
+  {
+   "name": "chl0306",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 212.87572830333374,
+   "injectionRateM3s": 0.00247822827033131,
+   "lossRateOnCellMmH": 14.274594837108348
+  },
+  {
+   "name": "chl0307",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 262.1652808541342,
+   "injectionRateM3s": 0.003052040811276879,
+   "lossRateOnCellMmH": 17.57975507295482
+  },
+  {
+   "name": "chl0308",
+   "cells": 1,
+   "cellAreaM2": 625.0,
+   "bedAreaM2": 235.19892164551305,
+   "injectionRateM3s": 0.002738107446156514,
+   "lossRateOnCellMmH": 15.77149888986152
+  },
+  {
+   "name": "chl0309",
+   "cells": 15,
+   "cellAreaM2": 585.9375,
+   "bedAreaM2": 547.5569126856528,
+   "injectionRateM3s": 0.006374475058515475,
+   "lossRateOnCellMmH": 39.16477475951908
+  },
+  {
+   "name": "chl0310",
+   "cells": 15,
+   "cellAreaM2": 585.9375,
+   "bedAreaM2": 545.540714403469,
+   "injectionRateM3s": 0.006351003150180385,
+   "lossRateOnCellMmH": 39.02056335470828
+  },
+  {
+   "name": "chl0311",
+   "cells": 15,
+   "cellAreaM2": 585.9375,
+   "bedAreaM2": 541.3833533198194,
+   "injectionRateM3s": 0.006302604538231564,
+   "lossRateOnCellMmH": 38.72320228289473
+  },
+  {
+   "name": "chl0312",
+   "cells": 14,
+   "cellAreaM2": 546.875,
+   "bedAreaM2": 502.63366568346373,
+   "injectionRateM3s": 0.0058514935913316565,
+   "lossRateOnCellMmH": 38.51954638408039
+  },
+  {
+   "name": "chl0313",
+   "cells": 14,
+   "cellAreaM2": 546.875,
+   "bedAreaM2": 500.8114168293975,
+   "injectionRateM3s": 0.005830279577588902,
+   "lossRateOnCellMmH": 38.37989756218523
+  },
+  {
+   "name": "chl0314",
+   "cells": 14,
+   "cellAreaM2": 546.875,
+   "bedAreaM2": 528.5191659273711,
+   "injectionRateM3s": 0.006152843956671145,
+   "lossRateOnCellMmH": 40.50329278905805
+  },
+  {
+   "name": "chl0315",
+   "cells": 14,
+   "cellAreaM2": 546.875,
+   "bedAreaM2": 532.9471456857106,
+   "injectionRateM3s": 0.00620439302102448,
+   "lossRateOnCellMmH": 40.842632915544
+  },
+  {
+   "name": "chl0316",
+   "cells": 14,
+   "cellAreaM2": 546.875,
+   "bedAreaM2": 509.9986012777814,
+   "injectionRateM3s": 0.005937233716542171,
+   "lossRateOnCellMmH": 39.0839613797519
+  },
+  {
+   "name": "chl0317",
+   "cells": 13,
+   "cellAreaM2": 507.8125,
+   "bedAreaM2": 452.3855488151533,
+   "injectionRateM3s": 0.005266521764123076,
+   "lossRateOnCellMmH": 37.33558813704482
+  },
+  {
+   "name": "chl0318",
+   "cells": 13,
+   "cellAreaM2": 507.8125,
+   "bedAreaM2": 452.7988169819285,
+   "injectionRateM3s": 0.005271332894364617,
+   "lossRateOnCellMmH": 37.36969534958793
+  },
+  {
+   "name": "chl0319",
+   "cells": 13,
+   "cellAreaM2": 507.8125,
+   "bedAreaM2": 453.278377946961,
+   "injectionRateM3s": 0.00527691578326587,
+   "lossRateOnCellMmH": 37.4092737373679
+  },
+  {
+   "name": "chl0320",
+   "cells": 13,
+   "cellAreaM2": 507.8125,
+   "bedAreaM2": 479.5614469005395,
+   "injectionRateM3s": 0.005582894511000447,
+   "lossRateOnCellMmH": 39.578427548753936
+  },
+  {
+   "name": "chl0321",
+   "cells": 13,
+   "cellAreaM2": 507.8125,
+   "bedAreaM2": 480.36989516059157,
+   "injectionRateM3s": 0.00559230619616122,
+   "lossRateOnCellMmH": 39.645149156786
+  },
+  {
+   "name": "chl0322",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 221.36585706005337,
+   "injectionRateM3s": 0.0025770675192741213,
+   "lossRateOnCellMmH": 19.79187854802525
+  },
+  {
+   "name": "chl0323",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 341.6446238716539,
+   "injectionRateM3s": 0.003977312829572504,
+   "lossRateOnCellMmH": 30.54576253111683
+  },
+  {
+   "name": "chl0324",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 345.3286976533342,
+   "injectionRateM3s": 0.004020201588514231,
+   "lossRateOnCellMmH": 30.8751481997893
+  },
+  {
+   "name": "chl0325",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 260.5402958680046,
+   "injectionRateM3s": 0.00303312327773002,
+   "lossRateOnCellMmH": 23.29438677296655
+  },
+  {
+   "name": "chl0326",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 296.7018051031459,
+   "injectionRateM3s": 0.003454103514409123,
+   "lossRateOnCellMmH": 26.527514990662066
+  },
+  {
+   "name": "chl0327",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 278.18121152243395,
+   "injectionRateM3s": 0.0032384929374736685,
+   "lossRateOnCellMmH": 24.871625759797773
+  },
+  {
+   "name": "chl0328",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 227.83470398264404,
+   "injectionRateM3s": 0.002652375678864614,
+   "lossRateOnCellMmH": 20.37024521368024
+  },
+  {
+   "name": "chl0329",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 374.4350031340507,
+   "injectionRateM3s": 0.004359047494818907,
+   "lossRateOnCellMmH": 33.4774847602092
+  },
+  {
+   "name": "chl0330",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 373.9815490098058,
+   "injectionRateM3s": 0.004353768533055822,
+   "lossRateOnCellMmH": 33.436942333868714
+  },
+  {
+   "name": "chl0331",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 307.246317750613,
+   "injectionRateM3s": 0.003576859215813386,
+   "lossRateOnCellMmH": 27.470278777446804
+  },
+  {
+   "name": "chl0332",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 326.6195886641216,
+   "injectionRateM3s": 0.0038023963780314815,
+   "lossRateOnCellMmH": 29.20240418328178
+  },
+  {
+   "name": "chl0333",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 268.6758852868415,
+   "injectionRateM3s": 0.0031278350978809796,
+   "lossRateOnCellMmH": 24.02177355172592
+  },
+  {
+   "name": "chl0334",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 383.042057348031,
+   "injectionRateM3s": 0.004459247950959993,
+   "lossRateOnCellMmH": 34.24702426337275
+  },
+  {
+   "name": "chl0335",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 382.47728493562647,
+   "injectionRateM3s": 0.004452673058792251,
+   "lossRateOnCellMmH": 34.19652909152449
+  },
+  {
+   "name": "chl0336",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 301.3781425918994,
+   "injectionRateM3s": 0.0035085438766740288,
+   "lossRateOnCellMmH": 26.945616972856538
+  },
+  {
+   "name": "chl0337",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 329.15980952963923,
+   "injectionRateM3s": 0.0038319687826075498,
+   "lossRateOnCellMmH": 29.42952025042598
+  },
+  {
+   "name": "chl0338",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 329.3825557549326,
+   "injectionRateM3s": 0.0038345619199136732,
+   "lossRateOnCellMmH": 29.44943554493701
+  },
+  {
+   "name": "chl0339",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 336.0697867283901,
+   "injectionRateM3s": 0.003912412433829675,
+   "lossRateOnCellMmH": 30.0473274918119
+  },
+  {
+   "name": "chl0340",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 291.6877633437654,
+   "injectionRateM3s": 0.003395731711593669,
+   "lossRateOnCellMmH": 26.079219545039376
+  },
+  {
+   "name": "chl0341",
+   "cells": 3,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 291.7018591960181,
+   "injectionRateM3s": 0.0033958958108069775,
+   "lossRateOnCellMmH": 26.080479826997585
+  },
+  {
+   "name": "chl0342",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 430.6921034271825,
+   "injectionRateM3s": 0.005013973904064782,
+   "lossRateOnCellMmH": 38.50731958321753
+  },
+  {
+   "name": "chl0343",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 425.16872085242414,
+   "injectionRateM3s": 0.00494967252525697,
+   "lossRateOnCellMmH": 38.013484993973535
+  },
+  {
+   "name": "chl0344",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 425.4812677410823,
+   "injectionRateM3s": 0.004953311091952433,
+   "lossRateOnCellMmH": 38.041429186194684
+  },
+  {
+   "name": "chl0345",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 373.86461303494394,
+   "injectionRateM3s": 0.004352407203415139,
+   "lossRateOnCellMmH": 33.42648732222827
+  },
+  {
+   "name": "chl0346",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 429.02002343489585,
+   "injectionRateM3s": 0.004994508106154579,
+   "lossRateOnCellMmH": 38.357822255267166
+  },
+  {
+   "name": "chl0347",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 431.81815218305564,
+   "injectionRateM3s": 0.005027082988331072,
+   "lossRateOnCellMmH": 38.60799735038263
+  },
+  {
+   "name": "chl0348",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 453.15952987254815,
+   "injectionRateM3s": 0.005275532193599581,
+   "lossRateOnCellMmH": 40.516087246844776
+  },
+  {
+   "name": "chl0349",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 433.5347891169149,
+   "injectionRateM3s": 0.005047067503302751,
+   "lossRateOnCellMmH": 38.76147842536513
+  },
+  {
+   "name": "chl0350",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 451.9112126447901,
+   "injectionRateM3s": 0.005260999700539765,
+   "lossRateOnCellMmH": 40.404477700145385
+  },
+  {
+   "name": "chl0351",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 438.506125365966,
+   "injectionRateM3s": 0.00510494214280212,
+   "lossRateOnCellMmH": 39.205955656720285
+  },
+  {
+   "name": "chl0352",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 443.4774616150171,
+   "injectionRateM3s": 0.00516281678230149,
+   "lossRateOnCellMmH": 39.65043288807544
+  },
+  {
+   "name": "chl0353",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 437.15232803016374,
+   "injectionRateM3s": 0.005089181685484489,
+   "lossRateOnCellMmH": 39.08491534452087
+  },
+  {
+   "name": "chl0354",
+   "cells": 12,
+   "cellAreaM2": 468.75,
+   "bedAreaM2": 418.18833920113786,
+   "injectionRateM3s": 0.00486840924886658,
+   "lossRateOnCellMmH": 37.38938303129533
+  },
+  {
+   "name": "chl0355",
+   "cells": 5,
+   "cellAreaM2": 429.6875,
+   "bedAreaM2": 271.7452768085191,
+   "injectionRateM3s": 0.003163567930845843,
+   "lossRateOnCellMmH": 26.50494731879572
+  },
+  {
+   "name": "chl0356",
+   "cells": 11,
+   "cellAreaM2": 429.6875,
+   "bedAreaM2": 399.35811639665326,
+   "injectionRateM3s": 0.004649194071717704,
+   "lossRateOnCellMmH": 38.951793240863964
+  },
+  {
+   "name": "chl0357",
+   "cells": 11,
+   "cellAreaM2": 429.6875,
+   "bedAreaM2": 399.573976357836,
+   "injectionRateM3s": 0.0046517070414324735,
+   "lossRateOnCellMmH": 38.97284735803789
+  },
+  {
+   "name": "chl0358",
+   "cells": 11,
+   "cellAreaM2": 429.6875,
+   "bedAreaM2": 396.67389041966464,
+   "injectionRateM3s": 0.004617945207635595,
+   "lossRateOnCellMmH": 38.68998457597241
+  },
+  {
+   "name": "chl0359",
+   "cells": 11,
+   "cellAreaM2": 429.6875,
+   "bedAreaM2": 404.69664695531367,
+   "injectionRateM3s": 0.004711343464971443,
+   "lossRateOnCellMmH": 39.47249215743347
+  },
+  {
+   "name": "chl0360",
+   "cells": 4,
+   "cellAreaM2": 390.625,
+   "bedAreaM2": 289.73960250775326,
+   "injectionRateM3s": 0.0033730518725277607,
+   "lossRateOnCellMmH": 31.08604605721584
+  },
+  {
+   "name": "chl0361",
+   "cells": 4,
+   "cellAreaM2": 390.625,
+   "bedAreaM2": 260.46203225145166,
+   "injectionRateM3s": 0.003032212158793983,
+   "lossRateOnCellMmH": 27.944867255445345
+  },
+  {
+   "name": "chl0362",
+   "cells": 10,
+   "cellAreaM2": 390.625,
+   "bedAreaM2": 349.09063542495335,
+   "injectionRateM3s": 0.004063996814072165,
+   "lossRateOnCellMmH": 37.45379463848907
+  },
+  {
+   "name": "chl0363",
+   "cells": 10,
+   "cellAreaM2": 390.625,
+   "bedAreaM2": 357.2113941717155,
+   "injectionRateM3s": 0.004158535980482388,
+   "lossRateOnCellMmH": 38.325067596125685
+  },
+  {
+   "name": "chl0364",
+   "cells": 10,
+   "cellAreaM2": 390.625,
+   "bedAreaM2": 354.24110609731724,
+   "injectionRateM3s": 0.004123956876816268,
+   "lossRateOnCellMmH": 38.00638657673873
+  },
+  {
+   "name": "chl0365",
+   "cells": 10,
+   "cellAreaM2": 390.625,
+   "bedAreaM2": 369.5583170776263,
+   "injectionRateM3s": 0.004302274741312033,
+   "lossRateOnCellMmH": 39.649764015931694
+  },
+  {
+   "name": "chl0366",
+   "cells": 10,
+   "cellAreaM2": 390.625,
+   "bedAreaM2": 357.17324826310505,
+   "injectionRateM3s": 0.004158091898529647,
+   "lossRateOnCellMmH": 38.32097493684923
+  },
+  {
+   "name": "chl0367",
+   "cells": 10,
+   "cellAreaM2": 390.625,
+   "bedAreaM2": 382.8125,
+   "injectionRateM3s": 0.004456575520833333,
+   "lossRateOnCellMmH": 41.071799999999996
+  },
+  {
+   "name": "chl0368",
+   "cells": 9,
+   "cellAreaM2": 351.5625,
+   "bedAreaM2": 301.14705755492827,
+   "injectionRateM3s": 0.0035058536617019564,
+   "lossRateOnCellMmH": 35.89994149582803
+  },
+  {
+   "name": "chl0369",
+   "cells": 9,
+   "cellAreaM2": 351.5625,
+   "bedAreaM2": 310.590754195573,
+   "injectionRateM3s": 0.0036157940300934623,
+   "lossRateOnCellMmH": 37.025730868157055
+  },
+  {
+   "name": "chl0370",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 125.60808182533947,
+   "injectionRateM3s": 0.0014622874192499935,
+   "lossRateOnCellMmH": 16.845551069759928
+  },
+  {
+   "name": "chl0371",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 275.5106507483571,
+   "injectionRateM3s": 0.00320740315912879,
+   "lossRateOnCellMmH": 36.94928439316366
+  },
+  {
+   "name": "chl0372",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 192.3950911970609,
+   "injectionRateM3s": 0.0022397995200191174,
+   "lossRateOnCellMmH": 25.80249047062023
+  },
+  {
+   "name": "chl0373",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 187.4997569431313,
+   "injectionRateM3s": 0.0021828096704129534,
+   "lossRateOnCellMmH": 25.145967403157226
+  },
+  {
+   "name": "chl0374",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 218.60282989761527,
+   "injectionRateM3s": 0.002544901278058071,
+   "lossRateOnCellMmH": 29.317262723228975
+  },
+  {
+   "name": "chl0375",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 190.60075368588502,
+   "injectionRateM3s": 0.0022189104408265113,
+   "lossRateOnCellMmH": 25.56184827832141
+  },
+  {
+   "name": "chl0376",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 205.05234811241746,
+   "injectionRateM3s": 0.0023871510859420596,
+   "lossRateOnCellMmH": 27.499980510052527
+  },
+  {
+   "name": "chl0377",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 199.84625499299415,
+   "injectionRateM3s": 0.002326543485210107,
+   "lossRateOnCellMmH": 26.80178094962043
+  },
+  {
+   "name": "chl0378",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 205.87440007772585,
+   "injectionRateM3s": 0.002396721140904858,
+   "lossRateOnCellMmH": 27.61022754322397
+  },
+  {
+   "name": "chl0379",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 205.455841262587,
+   "injectionRateM3s": 0.002391848418698617,
+   "lossRateOnCellMmH": 27.554093783408067
+  },
+  {
+   "name": "chl0380",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 186.5216526691055,
+   "injectionRateM3s": 0.002171422906489503,
+   "lossRateOnCellMmH": 25.014791882759074
+  },
+  {
+   "name": "chl0381",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 181.0483867379484,
+   "injectionRateM3s": 0.002107704968940949,
+   "lossRateOnCellMmH": 24.280761242199734
+  },
+  {
+   "name": "chl0382",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 180.96331636537562,
+   "injectionRateM3s": 0.002106714608020248,
+   "lossRateOnCellMmH": 24.269352284393253
+  },
+  {
+   "name": "chl0383",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 213.8683701409958,
+   "injectionRateM3s": 0.002489784275724759,
+   "lossRateOnCellMmH": 28.68231485634923
+  },
+  {
+   "name": "chl0384",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 223.5547813463158,
+   "injectionRateM3s": 0.0026025502461733594,
+   "lossRateOnCellMmH": 29.981378835917102
+  },
+  {
+   "name": "chl0385",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 205.0487490046633,
+   "injectionRateM3s": 0.0023871091863292885,
+   "lossRateOnCellMmH": 27.499497826513405
+  },
+  {
+   "name": "chl0386",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 204.43050635896017,
+   "injectionRateM3s": 0.0023799118115288946,
+   "lossRateOnCellMmH": 27.416584068812867
+  },
+  {
+   "name": "chl0387",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 196.72585872099,
+   "injectionRateM3s": 0.002290216871943525,
+   "lossRateOnCellMmH": 26.38329836478941
+  },
+  {
+   "name": "chl0388",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 199.60402362737705,
+   "injectionRateM3s": 0.002323723508395381,
+   "lossRateOnCellMmH": 26.769294816714787
+  },
+  {
+   "name": "chl0389",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 217.2489748089837,
+   "injectionRateM3s": 0.0025291401484012514,
+   "lossRateOnCellMmH": 29.135694509582418
+  },
+  {
+   "name": "chl0390",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 222.6138822774917,
+   "injectionRateM3s": 0.0025915966128471322,
+   "lossRateOnCellMmH": 29.855192979998968
+  },
+  {
+   "name": "chl0391",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 217.83218518297238,
+   "injectionRateM3s": 0.0025359296891717697,
+   "lossRateOnCellMmH": 29.213910019258787
+  },
+  {
+   "name": "chl0392",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 185.87966450334588,
+   "injectionRateM3s": 0.002163949094259785,
+   "lossRateOnCellMmH": 24.92869356587272
+  },
+  {
+   "name": "chl0393",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 178.48017382563816,
+   "injectionRateM3s": 0.002077806690286804,
+   "lossRateOnCellMmH": 23.93633307210398
+  },
+  {
+   "name": "chl0394",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 203.2995321497089,
+   "injectionRateM3s": 0.0023667453867761944,
+   "lossRateOnCellMmH": 27.26490685566176
+  },
+  {
+   "name": "chl0395",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 198.06790583373248,
+   "injectionRateM3s": 0.0023058405370810354,
+   "lossRateOnCellMmH": 26.56328298717353
+  },
+  {
+   "name": "chl0396",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 176.47788136803902,
+   "injectionRateM3s": 0.002054496668926254,
+   "lossRateOnCellMmH": 23.667801626030446
+  },
+  {
+   "name": "chl0397",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 150.3436102402251,
+   "injectionRateM3s": 0.0017502501958799538,
+   "lossRateOnCellMmH": 20.162882256537067
+  },
+  {
+   "name": "chl0398",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 171.24722903790234,
+   "injectionRateM3s": 0.0019936031580495795,
+   "lossRateOnCellMmH": 22.966308380731157
+  },
+  {
+   "name": "chl0399",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 152.32790386189282,
+   "injectionRateM3s": 0.001773350680792202,
+   "lossRateOnCellMmH": 20.428999842726167
+  },
+  {
+   "name": "chl0400",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 145.55728135109834,
+   "injectionRateM3s": 0.001694529350395703,
+   "lossRateOnCellMmH": 19.5209781165585
+  },
+  {
+   "name": "chl0401",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 260.8210990674837,
+   "injectionRateM3s": 0.0030363922949772893,
+   "lossRateOnCellMmH": 34.979239238138376
+  },
+  {
+   "name": "chl0402",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 189.56328525981468,
+   "injectionRateM3s": 0.002206832579233009,
+   "lossRateOnCellMmH": 25.422711312764264
+  },
+  {
+   "name": "chl0403",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 126.65144209313439,
+   "injectionRateM3s": 0.0014744338717009062,
+   "lossRateOnCellMmH": 16.98547820199444
+  },
+  {
+   "name": "chl0404",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 171.86366751447918,
+   "injectionRateM3s": 0.0020007795293143947,
+   "lossRateOnCellMmH": 23.04898017770183
+  },
+  {
+   "name": "chl0405",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 173.60689318003057,
+   "injectionRateM3s": 0.0020210735814375222,
+   "lossRateOnCellMmH": 23.282767658160257
+  },
+  {
+   "name": "chl0406",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 162.24560651528395,
+   "injectionRateM3s": 0.0018888092691820972,
+   "lossRateOnCellMmH": 21.75908278097776
+  },
+  {
+   "name": "chl0407",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 200.1330846904186,
+   "injectionRateM3s": 0.002329882660937623,
+   "lossRateOnCellMmH": 26.840248254001413
+  },
+  {
+   "name": "chl0408",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 170.1492619496512,
+   "injectionRateM3s": 0.001980820991197189,
+   "lossRateOnCellMmH": 22.819057818591617
+  },
+  {
+   "name": "chl0409",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 191.02363230528383,
+   "injectionRateM3s": 0.0022238334527540124,
+   "lossRateOnCellMmH": 25.61856137572622
+  },
+  {
+   "name": "chl0410",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 190.99272577191087,
+   "injectionRateM3s": 0.002223473649194662,
+   "lossRateOnCellMmH": 25.614416438722508
+  },
+  {
+   "name": "chl0411",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 194.0481872530229,
+   "injectionRateM3s": 0.002259044313270608,
+   "lossRateOnCellMmH": 26.024190488877405
+  },
+  {
+   "name": "chl0412",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 221.16070642595153,
+   "injectionRateM3s": 0.002574679223975452,
+   "lossRateOnCellMmH": 29.66030466019721
+  },
+  {
+   "name": "chl0413",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 109.11954615822775,
+   "injectionRateM3s": 0.0012703333831920345,
+   "lossRateOnCellMmH": 14.634240574372239
+  },
+  {
+   "name": "chl0414",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 187.19086836804706,
+   "injectionRateM3s": 0.002179213692584681,
+   "lossRateOnCellMmH": 25.104541738575524
+  },
+  {
+   "name": "chl0415",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 238.3963483175842,
+   "injectionRateM3s": 0.0027753308216638757,
+   "lossRateOnCellMmH": 31.97181106556785
+  },
+  {
+   "name": "chl0416",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 130.09800114218993,
+   "injectionRateM3s": 0.0015145575632969943,
+   "lossRateOnCellMmH": 17.447703129181374
+  },
+  {
+   "name": "chl0417",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 130.77034006129662,
+   "injectionRateM3s": 0.0015223847088802615,
+   "lossRateOnCellMmH": 17.53787184630061
+  },
+  {
+   "name": "chl0418",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 186.34627407127394,
+   "injectionRateM3s": 0.0021693812073130805,
+   "lossRateOnCellMmH": 24.99127150824669
+  },
+  {
+   "name": "chl0419",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 169.40666095068462,
+   "injectionRateM3s": 0.0019721758779008866,
+   "lossRateOnCellMmH": 22.719466113418214
+  },
+  {
+   "name": "chl0420",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 233.76740609028352,
+   "injectionRateM3s": 0.002721442219234384,
+   "lossRateOnCellMmH": 31.351014365580102
+  },
+  {
+   "name": "chl0421",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 164.5641072244117,
+   "injectionRateM3s": 0.0019158004816041928,
+   "lossRateOnCellMmH": 22.0700215480803
+  },
+  {
+   "name": "chl0422",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 204.2021615133708,
+   "injectionRateM3s": 0.002377253496951492,
+   "lossRateOnCellMmH": 27.385960284881183
+  },
+  {
+   "name": "chl0423",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 199.33686280829514,
+   "injectionRateM3s": 0.0023206133111932357,
+   "lossRateOnCellMmH": 26.733465344946076
+  },
+  {
+   "name": "chl0424",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 192.16675384654187,
+   "injectionRateM3s": 0.002237141292696825,
+   "lossRateOnCellMmH": 25.77186769186742
+  },
+  {
+   "name": "chl0425",
+   "cells": 2,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 263.27479955208537,
+   "injectionRateM3s": 0.0030649574581188602,
+   "lossRateOnCellMmH": 35.30830991752927
+  },
+  {
+   "name": "chl0426",
+   "cells": 8,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 283.3462622761824,
+   "injectionRateM3s": 0.0032986227366652234,
+   "lossRateOnCellMmH": 38.00013392638337
+  },
+  {
+   "name": "chl0427",
+   "cells": 8,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 271.79004268090046,
+   "injectionRateM3s": 0.003164089080210149,
+   "lossRateOnCellMmH": 36.45030620402092
+  },
+  {
+   "name": "chl0428",
+   "cells": 8,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 275.2075736317323,
+   "injectionRateM3s": 0.00320387483636275,
+   "lossRateOnCellMmH": 36.90863811489888
+  },
+  {
+   "name": "chl0429",
+   "cells": 8,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 300.77070238909346,
+   "injectionRateM3s": 0.003501472260313029,
+   "lossRateOnCellMmH": 40.336960438806095
+  },
+  {
+   "name": "chl0430",
+   "cells": 8,
+   "cellAreaM2": 312.5,
+   "bedAreaM2": 300.170977859955,
+   "injectionRateM3s": 0.0034944904672529753,
+   "lossRateOnCellMmH": 40.256530182754275
+  },
+  {
+   "name": "chl0431",
+   "cells": 4,
+   "cellAreaM2": 273.4375,
+   "bedAreaM2": 176.67490412054934,
+   "injectionRateM3s": 0.0020567903421367284,
+   "lossRateOnCellMmH": 27.0791139901887
+  },
+  {
+   "name": "chl0432",
+   "cells": 7,
+   "cellAreaM2": 273.4375,
+   "bedAreaM2": 230.1708060184224,
+   "injectionRateM3s": 0.0026795718000644673,
+   "lossRateOnCellMmH": 35.2784767277059
+  },
+  {
+   "name": "chl0433",
+   "cells": 7,
+   "cellAreaM2": 273.4375,
+   "bedAreaM2": 245.76297613909298,
+   "injectionRateM3s": 0.002861090647219274,
+   "lossRateOnCellMmH": 37.66830200681833
+  },
+  {
+   "name": "chl0434",
+   "cells": 7,
+   "cellAreaM2": 273.4375,
+   "bedAreaM2": 242.97352465314034,
+   "injectionRateM3s": 0.0028286167828369753,
+   "lossRateOnCellMmH": 37.240760386607946
+  },
+  {
+   "name": "chl0435",
+   "cells": 7,
+   "cellAreaM2": 273.4375,
+   "bedAreaM2": 243.5563702096735,
+   "injectionRateM3s": 0.002835402076524282,
+   "lossRateOnCellMmH": 37.33009362463969
+  },
+  {
+   "name": "chl0436",
+   "cells": 7,
+   "cellAreaM2": 273.4375,
+   "bedAreaM2": 245.2871364439565,
+   "injectionRateM3s": 0.002855551080101727,
+   "lossRateOnCellMmH": 37.59536964888216
+  },
+  {
+   "name": "chl0437",
+   "cells": 7,
+   "cellAreaM2": 273.4375,
+   "bedAreaM2": 242.49514443467177,
+   "injectionRateM3s": 0.002823047639793637,
+   "lossRateOnCellMmH": 37.167438640483084
+  },
+  {
+   "name": "chl0438",
+   "cells": 7,
+   "cellAreaM2": 273.4375,
+   "bedAreaM2": 245.10716636351364,
+   "injectionRateM3s": 0.002853455928415238,
+   "lossRateOnCellMmH": 37.567785480392615
+  },
+  {
+   "name": "chl0439",
+   "cells": 7,
+   "cellAreaM2": 273.4375,
+   "bedAreaM2": 245.17260136951808,
+   "injectionRateM3s": 0.0028542177009434726,
+   "lossRateOnCellMmH": 37.577814759850064
+  },
+  {
+   "name": "chl0440",
+   "cells": 7,
+   "cellAreaM2": 273.4375,
+   "bedAreaM2": 226.29898116577104,
+   "injectionRateM3s": 0.0026344973057381843,
+   "lossRateOnCellMmH": 34.68503881383301
+  },
+  {
+   "name": "chl0441",
+   "cells": 3,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 143.08322923702835,
+   "injectionRateM3s": 0.001665727260367738,
+   "lossRateOnCellMmH": 25.58557071924846
+  },
+  {
+   "name": "chl0442",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 194.06975996096213,
+   "injectionRateM3s": 0.0022592954555455337,
+   "lossRateOnCellMmH": 34.7027781971794
+  },
+  {
+   "name": "chl0443",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 192.3559553914479,
+   "injectionRateM3s": 0.0022393439140154393,
+   "lossRateOnCellMmH": 34.39632251927714
+  },
+  {
+   "name": "chl0444",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 181.50393170722407,
+   "injectionRateM3s": 0.0021130082716249335,
+   "lossRateOnCellMmH": 32.455807052158974
+  },
+  {
+   "name": "chl0445",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 185.28937934595493,
+   "injectionRateM3s": 0.0021570771912191584,
+   "lossRateOnCellMmH": 33.13270565712627
+  },
+  {
+   "name": "chl0446",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 184.1124319158598,
+   "injectionRateM3s": 0.0021433755615538007,
+   "lossRateOnCellMmH": 32.92224862546638
+  },
+  {
+   "name": "chl0447",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 208.34720958513685,
+   "injectionRateM3s": 0.0024255087649203014,
+   "lossRateOnCellMmH": 37.25581462917583
+  },
+  {
+   "name": "chl0448",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 195.1765454266914,
+   "injectionRateM3s": 0.0022721802830090653,
+   "lossRateOnCellMmH": 34.90068914701925
+  },
+  {
+   "name": "chl0449",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 212.221862950019,
+   "injectionRateM3s": 0.0024706161878431374,
+   "lossRateOnCellMmH": 37.94866464527059
+  },
+  {
+   "name": "chl0450",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 201.1443514611357,
+   "injectionRateM3s": 0.0023416554915933877,
+   "lossRateOnCellMmH": 35.96782835087444
+  },
+  {
+   "name": "chl0451",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 225.72463129927712,
+   "injectionRateM3s": 0.0026278109160424177,
+   "lossRateOnCellMmH": 40.36317567041153
+  },
+  {
+   "name": "chl0452",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 227.1608923782935,
+   "injectionRateM3s": 0.002644531388770633,
+   "lossRateOnCellMmH": 40.62000213151693
+  },
+  {
+   "name": "chl0453",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 211.24245722334425,
+   "injectionRateM3s": 0.0024592142728417656,
+   "lossRateOnCellMmH": 37.77353123084952
+  },
+  {
+   "name": "chl0454",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 209.41331268390456,
+   "injectionRateM3s": 0.0024379199818284555,
+   "lossRateOnCellMmH": 37.44645092088507
+  },
+  {
+   "name": "chl0455",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 205.46258702971903,
+   "injectionRateM3s": 0.002391926950670979,
+   "lossRateOnCellMmH": 36.73999796230624
+  },
+  {
+   "name": "chl0456",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 194.11959130742616,
+   "injectionRateM3s": 0.0022598755754706192,
+   "lossRateOnCellMmH": 34.711688839228714
+  },
+  {
+   "name": "chl0457",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 194.14373995338246,
+   "injectionRateM3s": 0.002260156705957294,
+   "lossRateOnCellMmH": 34.71600700350404
+  },
+  {
+   "name": "chl0458",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 194.16788859933877,
+   "injectionRateM3s": 0.0022604378364439685,
+   "lossRateOnCellMmH": 34.72032516777936
+  },
+  {
+   "name": "chl0459",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 194.19203724529507,
+   "injectionRateM3s": 0.0022607189669306433,
+   "lossRateOnCellMmH": 34.72464333205468
+  },
+  {
+   "name": "chl0460",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 194.21618589125137,
+   "injectionRateM3s": 0.0022610000974173177,
+   "lossRateOnCellMmH": 34.72896149633
+  },
+  {
+   "name": "chl0461",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 194.24033453685115,
+   "injectionRateM3s": 0.0022612812278998418,
+   "lossRateOnCellMmH": 34.73327966054157
+  },
+  {
+   "name": "chl0462",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 194.26448318280745,
+   "injectionRateM3s": 0.0022615623583865166,
+   "lossRateOnCellMmH": 34.737597824816895
+  },
+  {
+   "name": "chl0463",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 207.2712786719065,
+   "injectionRateM3s": 0.002412983135872111,
+   "lossRateOnCellMmH": 37.06342096699562
+  },
+  {
+   "name": "chl0464",
+   "cells": 6,
+   "cellAreaM2": 234.375,
+   "bedAreaM2": 192.4526400312827,
+   "injectionRateM3s": 0.0022404694843641826,
+   "lossRateOnCellMmH": 34.413611279833844
+  },
+  {
+   "name": "chl0465",
+   "cells": 5,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 175.4212042555845,
+   "injectionRateM3s": 0.002042195186208763,
+   "lossRateOnCellMmH": 37.64174167219992
+  },
+  {
+   "name": "chl0466",
+   "cells": 5,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 174.06475609886388,
+   "injectionRateM3s": 0.0020264038689176067,
+   "lossRateOnCellMmH": 37.35067611188933
+  },
+  {
+   "name": "chl0467",
+   "cells": 2,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 148.26339228640728,
+   "injectionRateM3s": 0.0017260329918675913,
+   "lossRateOnCellMmH": 31.814240106103444
+  },
+  {
+   "name": "chl0468",
+   "cells": 2,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 151.31437975388008,
+   "injectionRateM3s": 0.0017615515709680871,
+   "lossRateOnCellMmH": 32.46891855608378
+  },
+  {
+   "name": "chl0469",
+   "cells": 2,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 91.44909421383267,
+   "injectionRateM3s": 0.0010646198718060353,
+   "lossRateOnCellMmH": 19.62307347712884
+  },
+  {
+   "name": "chl0470",
+   "cells": 2,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 123.51776681413801,
+   "injectionRateM3s": 0.0014379526686612565,
+   "lossRateOnCellMmH": 26.504343588764282
+  },
+  {
+   "name": "chl0471",
+   "cells": 5,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 160.381169583252,
+   "injectionRateM3s": 0.0018671041158983585,
+   "lossRateOnCellMmH": 34.41446306423854
+  },
+  {
+   "name": "chl0472",
+   "cells": 5,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 163.85732903396888,
+   "injectionRateM3s": 0.0019075724055037876,
+   "lossRateOnCellMmH": 35.160374578245815
+  },
+  {
+   "name": "chl0473",
+   "cells": 5,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 177.06528613816772,
+   "injectionRateM3s": 0.0020613350394585025,
+   "lossRateOnCellMmH": 37.99452744729911
+  },
+  {
+   "name": "chl0474",
+   "cells": 5,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 180.44421097726743,
+   "injectionRateM3s": 0.0021006713561270217,
+   "lossRateOnCellMmH": 38.719574436133264
+  },
+  {
+   "name": "chl0475",
+   "cells": 5,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 153.31205569386213,
+   "injectionRateM3s": 0.0017848078483693782,
+   "lossRateOnCellMmH": 32.89757826114438
+  },
+  {
+   "name": "chl0476",
+   "cells": 5,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 181.50326990331106,
+   "injectionRateM3s": 0.0021130005671243794,
+   "lossRateOnCellMmH": 38.94682645323656
+  },
+  {
+   "name": "chl0477",
+   "cells": 5,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 161.14182214465328,
+   "injectionRateM3s": 0.0018759593794673384,
+   "lossRateOnCellMmH": 34.57768328234198
+  },
+  {
+   "name": "chl0478",
+   "cells": 5,
+   "cellAreaM2": 195.3125,
+   "bedAreaM2": 167.40634524314544,
+   "injectionRateM3s": 0.001948888869205618,
+   "lossRateOnCellMmH": 35.92191963719795
+  },
+  {
+   "name": "chl0479",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 82.77980461795796,
+   "injectionRateM3s": 0.0009636948920940606,
+   "lossRateOnCellMmH": 22.203530313847157
+  },
+  {
+   "name": "chl0480",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 101.15717253607816,
+   "injectionRateM3s": 0.0011776380836075098,
+   "lossRateOnCellMmH": 27.132781446317026
+  },
+  {
+   "name": "chl0481",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 122.57970182505305,
+   "injectionRateM3s": 0.001427032028746659,
+   "lossRateOnCellMmH": 32.87881794232303
+  },
+  {
+   "name": "chl0482",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 92.3710904018304,
+   "injectionRateM3s": 0.0010753534440946422,
+   "lossRateOnCellMmH": 24.776143351940554
+  },
+  {
+   "name": "chl0483",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 118.52182969569928,
+   "injectionRateM3s": 0.0013797916340407656,
+   "lossRateOnCellMmH": 31.79039924829924
+  },
+  {
+   "name": "chl0484",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 126.88131669077474,
+   "injectionRateM3s": 0.001477109995141769,
+   "lossRateOnCellMmH": 34.03261428806636
+  },
+  {
+   "name": "chl0485",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 122.987838102779,
+   "injectionRateM3s": 0.0014317834152465187,
+   "lossRateOnCellMmH": 32.98828988727979
+  },
+  {
+   "name": "chl0486",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 113.69116966957016,
+   "injectionRateM3s": 0.0013235547002365792,
+   "lossRateOnCellMmH": 30.494700293450784
+  },
+  {
+   "name": "chl0487",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 114.1426141121902,
+   "injectionRateM3s": 0.0013288102659560809,
+   "lossRateOnCellMmH": 30.615788527628105
+  },
+  {
+   "name": "chl0488",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 122.48846331966404,
+   "injectionRateM3s": 0.0014259698604797554,
+   "lossRateOnCellMmH": 32.854345585453565
+  },
+  {
+   "name": "chl0489",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 126.43609012384219,
+   "injectionRateM3s": 0.001471926815858396,
+   "lossRateOnCellMmH": 33.91319383737745
+  },
+  {
+   "name": "chl0490",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 126.34066132015963,
+   "injectionRateM3s": 0.0014708158655355249,
+   "lossRateOnCellMmH": 33.8875975419385
+  },
+  {
+   "name": "chl0491",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 125.0112087663378,
+   "injectionRateM3s": 0.0014553388220547823,
+   "lossRateOnCellMmH": 33.53100646014219
+  },
+  {
+   "name": "chl0492",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 127.13414747306773,
+   "injectionRateM3s": 0.0014800533668322966,
+   "lossRateOnCellMmH": 34.100429571816115
+  },
+  {
+   "name": "chl0493",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 123.92734171879056,
+   "injectionRateM3s": 0.0014427208031762534,
+   "lossRateOnCellMmH": 33.24028730518087
+  },
+  {
+   "name": "chl0494",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 119.10641662360953,
+   "injectionRateM3s": 0.0013865972001931876,
+   "lossRateOnCellMmH": 31.94719949245104
+  },
+  {
+   "name": "chl0495",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 126.5889800437716,
+   "injectionRateM3s": 0.0014737067093429075,
+   "lossRateOnCellMmH": 33.95420258326059
+  },
+  {
+   "name": "chl0496",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 121.1134446606458,
+   "injectionRateM3s": 0.001409962351591018,
+   "lossRateOnCellMmH": 32.48553258065705
+  },
+  {
+   "name": "chl0497",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 108.40290127877331,
+   "injectionRateM3s": 0.0012619904423870525,
+   "lossRateOnCellMmH": 29.07625979259769
+  },
+  {
+   "name": "chl0498",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 113.78810916361304,
+   "injectionRateM3s": 0.0013246832375130616,
+   "lossRateOnCellMmH": 30.52070179230094
+  },
+  {
+   "name": "chl0499",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 84.8239815586418,
+   "injectionRateM3s": 0.0009874925186451882,
+   "lossRateOnCellMmH": 22.751827629585136
+  },
+  {
+   "name": "chl0500",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 84.86705717989834,
+   "injectionRateM3s": 0.0009879939906693165,
+   "lossRateOnCellMmH": 22.76338154502105
+  },
+  {
+   "name": "chl0501",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 79.45558307231079,
+   "injectionRateM3s": 0.0009249954129334847,
+   "lossRateOnCellMmH": 21.311894313987487
+  },
+  {
+   "name": "chl0502",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 65.12580138254856,
+   "injectionRateM3s": 0.0007581728710951694,
+   "lossRateOnCellMmH": 17.468302950032705
+  },
+  {
+   "name": "chl0503",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 76.20694020348812,
+   "injectionRateM3s": 0.0008871757955356074,
+   "lossRateOnCellMmH": 20.440530329140394
+  },
+  {
+   "name": "chl0504",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 87.38504363523654,
+   "injectionRateM3s": 0.0010173075496535454,
+   "lossRateOnCellMmH": 23.438765944017685
+  },
+  {
+   "name": "chl0505",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 81.59183334060936,
+   "injectionRateM3s": 0.0009498649264735938,
+   "lossRateOnCellMmH": 21.8848879059516
+  },
+  {
+   "name": "chl0506",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 98.8495616254714,
+   "injectionRateM3s": 0.0011507736465898627,
+   "lossRateOnCellMmH": 26.513824817430436
+  },
+  {
+   "name": "chl0507",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 127.94446393342244,
+   "injectionRateM3s": 0.0014894868009582595,
+   "lossRateOnCellMmH": 34.317775894078295
+  },
+  {
+   "name": "chl0508",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 129.78868512989243,
+   "injectionRateM3s": 0.0015109566093871641,
+   "lossRateOnCellMmH": 34.81244028028026
+  },
+  {
+   "name": "chl0509",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 131.2961305937944,
+   "injectionRateM3s": 0.0015285057869960897,
+   "lossRateOnCellMmH": 35.216773332389906
+  },
+  {
+   "name": "chl0510",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 132.46680032442617,
+   "injectionRateM3s": 0.0015421343337768613,
+   "lossRateOnCellMmH": 35.53077505021888
+  },
+  {
+   "name": "chl0511",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 133.30069432213477,
+   "injectionRateM3s": 0.001551842249733519,
+   "lossRateOnCellMmH": 35.75444543386027
+  },
+  {
+   "name": "chl0512",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 82.84986151233713,
+   "injectionRateM3s": 0.0009645104711061246,
+   "lossRateOnCellMmH": 22.22232125428511
+  },
+  {
+   "name": "chl0513",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 127.7489663274836,
+   "injectionRateM3s": 0.0014872108829957881,
+   "lossRateOnCellMmH": 34.26533874422296
+  },
+  {
+   "name": "chl0514",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 127.18355348453753,
+   "injectionRateM3s": 0.0014806285351491575,
+   "lossRateOnCellMmH": 34.11368144983659
+  },
+  {
+   "name": "chl0515",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 122.93559739995243,
+   "injectionRateM3s": 0.0014311752463977794,
+   "lossRateOnCellMmH": 32.974277677004835
+  },
+  {
+   "name": "chl0516",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 121.27694531365152,
+   "injectionRateM3s": 0.001411865771693093,
+   "lossRateOnCellMmH": 32.52938737980887
+  },
+  {
+   "name": "chl0517",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 125.7664263704734,
+   "injectionRateM3s": 0.0014641308136629277,
+   "lossRateOnCellMmH": 33.733573946793854
+  },
+  {
+   "name": "chl0518",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 110.04764564344312,
+   "injectionRateM3s": 0.0012811380080324168,
+   "lossRateOnCellMmH": 29.51741970506688
+  },
+  {
+   "name": "chl0519",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 119.53342964849031,
+   "injectionRateM3s": 0.0013915683434911747,
+   "lossRateOnCellMmH": 32.06173463403666
+  },
+  {
+   "name": "chl0520",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 125.11581207514814,
+   "injectionRateM3s": 0.0014565565789081828,
+   "lossRateOnCellMmH": 33.55906357804453
+  },
+  {
+   "name": "chl0521",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 127.42454433816948,
+   "injectionRateM3s": 0.0014834340703368562,
+   "lossRateOnCellMmH": 34.17832098056117
+  },
+  {
+   "name": "chl0522",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 125.5149070924013,
+   "injectionRateM3s": 0.0014612027100673716,
+   "lossRateOnCellMmH": 33.66611043995224
+  },
+  {
+   "name": "chl0523",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 125.12466159974758,
+   "injectionRateM3s": 0.001456659602123728,
+   "lossRateOnCellMmH": 33.56143723293069
+  },
+  {
+   "name": "chl0524",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 124.68192799920695,
+   "injectionRateM3s": 0.0014515054451241008,
+   "lossRateOnCellMmH": 33.44268545565928
+  },
+  {
+   "name": "chl0525",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 124.18670628703373,
+   "injectionRateM3s": 0.0014457402390248841,
+   "lossRateOnCellMmH": 33.30985510713334
+  },
+  {
+   "name": "chl0526",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 123.63899646763379,
+   "injectionRateM3s": 0.00143936398387737,
+   "lossRateOnCellMmH": 33.162946188534605
+  },
+  {
+   "name": "chl0527",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 76.14278349886615,
+   "injectionRateM3s": 0.0008864289045659667,
+   "lossRateOnCellMmH": 20.423321961199875
+  },
+  {
+   "name": "chl0528",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 86.69085918267086,
+   "injectionRateM3s": 0.0010092260856515932,
+   "lossRateOnCellMmH": 23.252569013412707
+  },
+  {
+   "name": "chl0529",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 85.95610322237742,
+   "injectionRateM3s": 0.0010006723016805104,
+   "lossRateOnCellMmH": 23.05548983071896
+  },
+  {
+   "name": "chl0530",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 74.08683351045146,
+   "injectionRateM3s": 0.0008624942201175056,
+   "lossRateOnCellMmH": 19.87186683150733
+  },
+  {
+   "name": "chl0531",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 85.02699476966436,
+   "injectionRateM3s": 0.0009898559307768425,
+   "lossRateOnCellMmH": 22.80628064509845
+  },
+  {
+   "name": "chl0532",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 78.82419560968316,
+   "injectionRateM3s": 0.0009176450105560614,
+   "lossRateOnCellMmH": 21.142541043211654
+  },
+  {
+   "name": "chl0533",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 76.71327969542921,
+   "injectionRateM3s": 0.000893070431120955,
+   "lossRateOnCellMmH": 20.576342733026802
+  },
+  {
+   "name": "chl0534",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 86.07981490357537,
+   "injectionRateM3s": 0.0010021125118357898,
+   "lossRateOnCellMmH": 23.088672272696595
+  },
+  {
+   "name": "chl0535",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 75.67371816025393,
+   "injectionRateM3s": 0.0008809682022489561,
+   "lossRateOnCellMmH": 20.297507379815947
+  },
+  {
+   "name": "chl0536",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 85.99340178870897,
+   "injectionRateM3s": 0.0010011065191568868,
+   "lossRateOnCellMmH": 23.065494201374673
+  },
+  {
+   "name": "chl0537",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 75.11704712138896,
+   "injectionRateM3s": 0.0008744876235715031,
+   "lossRateOnCellMmH": 20.14819484708743
+  },
+  {
+   "name": "chl0538",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 80.2961211570952,
+   "injectionRateM3s": 0.0009347806771371832,
+   "lossRateOnCellMmH": 21.5373468012407
+  },
+  {
+   "name": "chl0539",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 71.812407563965,
+   "injectionRateM3s": 0.0008360161113904924,
+   "lossRateOnCellMmH": 19.261811206436946
+  },
+  {
+   "name": "chl0540",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 74.97006876734328,
+   "injectionRateM3s": 0.0008727765505664879,
+   "lossRateOnCellMmH": 20.10877172505188
+  },
+  {
+   "name": "chl0541",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 65.65181890718391,
+   "injectionRateM3s": 0.0007642965917777993,
+   "lossRateOnCellMmH": 17.609393474560495
+  },
+  {
+   "name": "chl0542",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 55.94242999466081,
+   "injectionRateM3s": 0.0006512631225211763,
+   "lossRateOnCellMmH": 15.0051023428879
+  },
+  {
+   "name": "chl0543",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 105.67283330314959,
+   "injectionRateM3s": 0.0012302079010374997,
+   "lossRateOnCellMmH": 28.34399003990399
+  },
+  {
+   "name": "chl0544",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 99.86115410894178,
+   "injectionRateM3s": 0.0011625502690849304,
+   "lossRateOnCellMmH": 26.785158199716797
+  },
+  {
+   "name": "chl0545",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 91.36968027790442,
+   "injectionRateM3s": 0.0010636953612352706,
+   "lossRateOnCellMmH": 24.507541122860633
+  },
+  {
+   "name": "chl0546",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 96.86227786969212,
+   "injectionRateM3s": 0.001127638351532999,
+   "lossRateOnCellMmH": 25.980787619320296
+  },
+  {
+   "name": "chl0547",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 96.45564713518642,
+   "injectionRateM3s": 0.0011229044920654618,
+   "lossRateOnCellMmH": 25.87171949718824
+  },
+  {
+   "name": "chl0548",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 98.43271726705694,
+   "injectionRateM3s": 0.001145920883517321,
+   "lossRateOnCellMmH": 26.40201715623908
+  },
+  {
+   "name": "chl0549",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 99.03928706679876,
+   "injectionRateM3s": 0.0011529823669359821,
+   "lossRateOnCellMmH": 26.564713734205032
+  },
+  {
+   "name": "chl0550",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 99.03429913047384,
+   "injectionRateM3s": 0.001152924299043933,
+   "lossRateOnCellMmH": 26.56337584997221
+  },
+  {
+   "name": "chl0551",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 94.18031730677225,
+   "injectionRateM3s": 0.0010964158606463401,
+   "lossRateOnCellMmH": 25.26142142929168
+  },
+  {
+   "name": "chl0552",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 99.23740727525787,
+   "injectionRateM3s": 0.0011552888163627935,
+   "lossRateOnCellMmH": 26.617854328998767
+  },
+  {
+   "name": "chl0553",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 81.88831702416614,
+   "injectionRateM3s": 0.0009533164906896675,
+   "lossRateOnCellMmH": 21.964411945489935
+  },
+  {
+   "name": "chl0554",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 99.04204170453306,
+   "injectionRateM3s": 0.0011530144355102723,
+   "lossRateOnCellMmH": 26.565452594156675
+  },
+  {
+   "name": "chl0555",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 98.50358989879305,
+   "injectionRateM3s": 0.0011467459590717823,
+   "lossRateOnCellMmH": 26.421026897013864
+  },
+  {
+   "name": "chl0556",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 82.20235045649248,
+   "injectionRateM3s": 0.0009569723632309999,
+   "lossRateOnCellMmH": 22.048643248842236
+  },
+  {
+   "name": "chl0557",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 85.27195589900438,
+   "injectionRateM3s": 0.0009927076865909094,
+   "lossRateOnCellMmH": 22.87198509905455
+  },
+  {
+   "name": "chl0558",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 81.72183027284781,
+   "injectionRateM3s": 0.0009513783074264031,
+   "lossRateOnCellMmH": 21.919756203104328
+  },
+  {
+   "name": "chl0559",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 85.84922906046874,
+   "injectionRateM3s": 0.0009994281083122902,
+   "lossRateOnCellMmH": 23.026823615515166
+  },
+  {
+   "name": "chl0560",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 87.4650229155395,
+   "injectionRateM3s": 0.0010182386417750724,
+   "lossRateOnCellMmH": 23.46021830649767
+  },
+  {
+   "name": "chl0561",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 88.03711873817727,
+   "injectionRateM3s": 0.0010248987906436137,
+   "lossRateOnCellMmH": 23.61366813642886
+  },
+  {
+   "name": "chl0562",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 87.56551653440815,
+   "injectionRateM3s": 0.0010194085549880682,
+   "lossRateOnCellMmH": 23.487173106925088
+  },
+  {
+   "name": "chl0563",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 86.05021630206802,
+   "injectionRateM3s": 0.001001767934783242,
+   "lossRateOnCellMmH": 23.080733217405893
+  },
+  {
+   "name": "chl0564",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 26.184922251448995,
+   "injectionRateM3s": 0.00030483613654395204,
+   "lossRateOnCellMmH": 7.023424585972655
+  },
+  {
+   "name": "chl0565",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 117.44040652122041,
+   "injectionRateM3s": 0.0013672020659178741,
+   "lossRateOnCellMmH": 31.50033559874782
+  },
+  {
+   "name": "chl0566",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 53.33758460692479,
+   "injectionRateM3s": 0.0006209383807989494,
+   "lossRateOnCellMmH": 14.306420293607795
+  },
+  {
+   "name": "chl0567",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 103.18843673863378,
+   "injectionRateM3s": 0.0012012853843655948,
+   "lossRateOnCellMmH": 27.677615255783305
+  },
+  {
+   "name": "chl0568",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 53.33758460692479,
+   "injectionRateM3s": 0.0006209383807989494,
+   "lossRateOnCellMmH": 14.306420293607795
+  },
+  {
+   "name": "chl0569",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 99.37049770764908,
+   "injectionRateM3s": 0.0011568382108132146,
+   "lossRateOnCellMmH": 26.653552377136464
+  },
+  {
+   "name": "chl0570",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 116.23466187512902,
+   "injectionRateM3s": 0.0013531651886629602,
+   "lossRateOnCellMmH": 31.1769259467946
+  },
+  {
+   "name": "chl0571",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 88.60129420785404,
+   "injectionRateM3s": 0.0010314667334031006,
+   "lossRateOnCellMmH": 23.764993537607438
+  },
+  {
+   "name": "chl0572",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 74.96094157831335,
+   "injectionRateM3s": 0.0008726702948741978,
+   "lossRateOnCellMmH": 20.10632359390152
+  },
+  {
+   "name": "chl0573",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 65.780968370901,
+   "injectionRateM3s": 0.0007658001067845724,
+   "lossRateOnCellMmH": 17.644034460316547
+  },
+  {
+   "name": "chl0574",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 78.65777401259697,
+   "injectionRateM3s": 0.0009157075857966497,
+   "lossRateOnCellMmH": 21.09790277675481
+  },
+  {
+   "name": "chl0575",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 71.79545886215548,
+   "injectionRateM3s": 0.0008358188002535933,
+   "lossRateOnCellMmH": 19.25726515784279
+  },
+  {
+   "name": "chl0576",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 81.74251950105119,
+   "injectionRateM3s": 0.0009516191645247375,
+   "lossRateOnCellMmH": 21.925305550649956
+  },
+  {
+   "name": "chl0577",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 84.21517803662306,
+   "injectionRateM3s": 0.0009804050309763534,
+   "lossRateOnCellMmH": 22.58853191369518
+  },
+  {
+   "name": "chl0578",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 68.08984976536455,
+   "injectionRateM3s": 0.0007926793343517855,
+   "lossRateOnCellMmH": 18.26333186346514
+  },
+  {
+   "name": "chl0579",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 86.0831524301207,
+   "injectionRateM3s": 0.0010021513662073218,
+   "lossRateOnCellMmH": 23.089567477416697
+  },
+  {
+   "name": "chl0580",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 67.68653924449306,
+   "injectionRateM3s": 0.00078798412770464,
+   "lossRateOnCellMmH": 18.155154302314905
+  },
+  {
+   "name": "chl0581",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 64.07952638349211,
+   "injectionRateM3s": 0.0007459924863144873,
+   "lossRateOnCellMmH": 17.187666884685786
+  },
+  {
+   "name": "chl0582",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 66.61438772266294,
+   "injectionRateM3s": 0.0007755024970713344,
+   "lossRateOnCellMmH": 17.86757753252354
+  },
+  {
+   "name": "chl0583",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 69.32628044592894,
+   "injectionRateM3s": 0.000807073448191356,
+   "lossRateOnCellMmH": 18.594972246328844
+  },
+  {
+   "name": "chl0584",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 70.68327061030482,
+   "injectionRateM3s": 0.0008228710753549652,
+   "lossRateOnCellMmH": 18.958949576178398
+  },
+  {
+   "name": "chl0585",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 70.7866306135702,
+   "injectionRateM3s": 0.0008240743580596463,
+   "lossRateOnCellMmH": 18.986673209694253
+  },
+  {
+   "name": "chl0586",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 53.549193906342765,
+   "injectionRateM3s": 0.0006234018657263403,
+   "lossRateOnCellMmH": 14.36317898633488
+  },
+  {
+   "name": "chl0587",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 81.3675673037448,
+   "injectionRateM3s": 0.0009472540960277624,
+   "lossRateOnCellMmH": 21.824734372479647
+  },
+  {
+   "name": "chl0588",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 68.66672063913607,
+   "injectionRateM3s": 0.0007993950727739424,
+   "lossRateOnCellMmH": 18.418062476711633
+  },
+  {
+   "name": "chl0589",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 79.19752476286804,
+   "injectionRateM3s": 0.0009219911841143887,
+   "lossRateOnCellMmH": 21.242676881995514
+  },
+  {
+   "name": "chl0590",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 129.62282562837586,
+   "injectionRateM3s": 0.0015090257283570088,
+   "lossRateOnCellMmH": 34.767952781345485
+  },
+  {
+   "name": "chl0591",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 102.4120660866749,
+   "injectionRateM3s": 0.0011922471360257068,
+   "lossRateOnCellMmH": 27.469374014032283
+  },
+  {
+   "name": "chl0592",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 79.28779362853314,
+   "injectionRateM3s": 0.0009230420641588398,
+   "lossRateOnCellMmH": 21.26688915821967
+  },
+  {
+   "name": "chl0593",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 103.78275651682485,
+   "injectionRateM3s": 0.0012082042571167025,
+   "lossRateOnCellMmH": 27.837026083968823
+  },
+  {
+   "name": "chl0594",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 71.39299893609517,
+   "injectionRateM3s": 0.0008311334959477079,
+   "lossRateOnCellMmH": 19.14931574663519
+  },
+  {
+   "name": "chl0595",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 94.19904486934665,
+   "injectionRateM3s": 0.0010966338806873105,
+   "lossRateOnCellMmH": 25.266444611035634
+  },
+  {
+   "name": "chl0596",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 117.62884564530877,
+   "injectionRateM3s": 0.0013693958113874694,
+   "lossRateOnCellMmH": 31.550879494367294
+  },
+  {
+   "name": "chl0597",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 80.19022871243389,
+   "injectionRateM3s": 0.0009335479125939178,
+   "lossRateOnCellMmH": 21.508943906163868
+  },
+  {
+   "name": "chl0598",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 126.13491969563839,
+   "injectionRateM3s": 0.00146842069012339,
+   "lossRateOnCellMmH": 33.83241270044291
+  },
+  {
+   "name": "chl0599",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 86.04646917191717,
+   "injectionRateM3s": 0.0010017243119430689,
+   "lossRateOnCellMmH": 23.07972814716831
+  },
+  {
+   "name": "chl0600",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 115.91748480591578,
+   "injectionRateM3s": 0.0013494727189488694,
+   "lossRateOnCellMmH": 31.09185144458195
+  },
+  {
+   "name": "chl0601",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 98.40743318181403,
+   "injectionRateM3s": 0.0011456265346249516,
+   "lossRateOnCellMmH": 26.395235357758885
+  },
+  {
+   "name": "chl0602",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 68.57521694019793,
+   "injectionRateM3s": 0.0007983298172121376,
+   "lossRateOnCellMmH": 18.39351898856765
+  },
+  {
+   "name": "chl0603",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 117.17724975074874,
+   "injectionRateM3s": 0.0013641384825149665,
+   "lossRateOnCellMmH": 31.429750637144828
+  },
+  {
+   "name": "chl0604",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 80.7832007151958,
+   "injectionRateM3s": 0.0009404510949927378,
+   "lossRateOnCellMmH": 21.667993228632678
+  },
+  {
+   "name": "chl0605",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 82.60993363515416,
+   "injectionRateM3s": 0.0009617173107359196,
+   "lossRateOnCellMmH": 22.157966839355588
+  },
+  {
+   "name": "chl0606",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 73.78077077981501,
+   "injectionRateM3s": 0.0008589311398283463,
+   "lossRateOnCellMmH": 19.7897734616451
+  },
+  {
+   "name": "chl0607",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 56.742304319543514,
+   "injectionRateM3s": 0.0006605749927866857,
+   "lossRateOnCellMmH": 15.219647833805237
+  },
+  {
+   "name": "chl0608",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 86.47815466683049,
+   "injectionRateM3s": 0.001006749850579685,
+   "lossRateOnCellMmH": 23.19551655735594
+  },
+  {
+   "name": "chl0609",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 105.61598133814012,
+   "injectionRateM3s": 0.0012295460494115144,
+   "lossRateOnCellMmH": 28.328740978441296
+  },
+  {
+   "name": "chl0610",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 92.38350775070653,
+   "injectionRateM3s": 0.0010754980027311417,
+   "lossRateOnCellMmH": 24.779473982925506
+  },
+  {
+   "name": "chl0611",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 107.08836965771476,
+   "injectionRateM3s": 0.0012466871034318959,
+   "lossRateOnCellMmH": 28.72367086307088
+  },
+  {
+   "name": "chl0612",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 94.61237412009979,
+   "injectionRateM3s": 0.0011014457220481617,
+   "lossRateOnCellMmH": 25.377309435989645
+  },
+  {
+   "name": "chl0613",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 109.44682136538663,
+   "injectionRateM3s": 0.0012741434120620426,
+   "lossRateOnCellMmH": 29.35626421390946
+  },
+  {
+   "name": "chl0614",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 79.44089705670194,
+   "injectionRateM3s": 0.0009248244432351051,
+   "lossRateOnCellMmH": 21.30795517213682
+  },
+  {
+   "name": "chl0615",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 107.67728644864357,
+   "injectionRateM3s": 0.001253543076406292,
+   "lossRateOnCellMmH": 28.88163248040097
+  },
+  {
+   "name": "chl0616",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 66.39631142232335,
+   "injectionRateM3s": 0.0007729637254748809,
+   "lossRateOnCellMmH": 17.809084234941256
+  },
+  {
+   "name": "chl0617",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 65.53798975191378,
+   "injectionRateM3s": 0.0007629714306951963,
+   "lossRateOnCellMmH": 17.578861763217322
+  },
+  {
+   "name": "chl0618",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 67.53498096143592,
+   "injectionRateM3s": 0.0007862197366927164,
+   "lossRateOnCellMmH": 18.114502733400187
+  },
+  {
+   "name": "chl0619",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 67.39250291466305,
+   "injectionRateM3s": 0.000784561054764869,
+   "lossRateOnCellMmH": 18.076286701782582
+  },
+  {
+   "name": "chl0620",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 71.50436684630048,
+   "injectionRateM3s": 0.0008324300040356814,
+   "lossRateOnCellMmH": 19.1791872929821
+  },
+  {
+   "name": "chl0621",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 76.78076088661528,
+   "injectionRateM3s": 0.0008938560246550128,
+   "lossRateOnCellMmH": 20.594442808051493
+  },
+  {
+   "name": "chl0622",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 118.36542775217916,
+   "injectionRateM3s": 0.0013779708547482857,
+   "lossRateOnCellMmH": 31.748448493400502
+  },
+  {
+   "name": "chl0623",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 56.455133445627354,
+   "injectionRateM3s": 0.0006572318451961784,
+   "lossRateOnCellMmH": 15.14262171331995
+  },
+  {
+   "name": "chl0624",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 115.8198709735837,
+   "injectionRateM3s": 0.0013483363312508036,
+   "lossRateOnCellMmH": 31.065669072018512
+  },
+  {
+   "name": "chl0625",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 65.55582574907322,
+   "injectionRateM3s": 0.000763179071428794,
+   "lossRateOnCellMmH": 17.583645805719414
+  },
+  {
+   "name": "chl0626",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 74.45455024381175,
+   "injectionRateM3s": 0.0008667750557550417,
+   "lossRateOnCellMmH": 19.970497284596163
+  },
+  {
+   "name": "chl0627",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 67.57336271189531,
+   "injectionRateM3s": 0.0007866665642376479,
+   "lossRateOnCellMmH": 18.124797640035407
+  },
+  {
+   "name": "chl0628",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 71.79017694237211,
+   "injectionRateM3s": 0.0008357573099041153,
+   "lossRateOnCellMmH": 19.255848420190816
+  },
+  {
+   "name": "chl0629",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 67.1848544128546,
+   "injectionRateM3s": 0.0007821436801229822,
+   "lossRateOnCellMmH": 18.020590390033515
+  },
+  {
+   "name": "chl0630",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 65.92786019606541,
+   "injectionRateM3s": 0.0007675101724491948,
+   "lossRateOnCellMmH": 17.68343437322945
+  },
+  {
+   "name": "chl0631",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 72.60188851971358,
+   "injectionRateM3s": 0.0008452069855169989,
+   "lossRateOnCellMmH": 19.473568946311655
+  },
+  {
+   "name": "chl0632",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 122.27777428869122,
+   "injectionRateM3s": 0.0014235170890108469,
+   "lossRateOnCellMmH": 32.797833730809906
+  },
+  {
+   "name": "chl0633",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 125.84371146593149,
+   "injectionRateM3s": 0.0014650305409825524,
+   "lossRateOnCellMmH": 33.75430366423801
+  },
+  {
+   "name": "chl0634",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 102.09744788473915,
+   "injectionRateM3s": 0.001188584455791505,
+   "lossRateOnCellMmH": 27.38498586143627
+  },
+  {
+   "name": "chl0635",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 126.787917254342,
+   "injectionRateM3s": 0.0014760226700359647,
+   "lossRateOnCellMmH": 34.007562317628626
+  },
+  {
+   "name": "chl0636",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 125.97650966898004,
+   "injectionRateM3s": 0.001466576533396376,
+   "lossRateOnCellMmH": 33.7899233294525
+  },
+  {
+   "name": "chl0637",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 107.73963492591632,
+   "injectionRateM3s": 0.0012542689165958758,
+   "lossRateOnCellMmH": 28.89835583836898
+  },
+  {
+   "name": "chl0638",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 123.40948870804175,
+   "injectionRateM3s": 0.0014366921310427858,
+   "lossRateOnCellMmH": 33.10138669922579
+  },
+  {
+   "name": "chl0639",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 109.69178466733615,
+   "injectionRateM3s": 0.0012769951931689049,
+   "lossRateOnCellMmH": 29.42196925061157
+  },
+  {
+   "name": "chl0640",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 107.35501898076527,
+   "injectionRateM3s": 0.0012497913459677422,
+   "lossRateOnCellMmH": 28.79519261109678
+  },
+  {
+   "name": "chl0641",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 106.83458254349866,
+   "injectionRateM3s": 0.0012437325984438966,
+   "lossRateOnCellMmH": 28.65559906814738
+  },
+  {
+   "name": "chl0642",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 66.10020683219773,
+   "injectionRateM3s": 0.0007695165745381685,
+   "lossRateOnCellMmH": 17.729661877359405
+  },
+  {
+   "name": "chl0643",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 72.70332284191723,
+   "injectionRateM3s": 0.0008463878500846529,
+   "lossRateOnCellMmH": 19.500776065950404
+  },
+  {
+   "name": "chl0644",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 114.89631984423477,
+   "injectionRateM3s": 0.0013375846568532996,
+   "lossRateOnCellMmH": 30.817950493900025
+  },
+  {
+   "name": "chl0645",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 112.20638078294984,
+   "injectionRateM3s": 0.0013062692829481743,
+   "lossRateOnCellMmH": 30.096444279125933
+  },
+  {
+   "name": "chl0646",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 131.9202005819505,
+   "injectionRateM3s": 0.0015357710017748734,
+   "lossRateOnCellMmH": 35.38416388089309
+  },
+  {
+   "name": "chl0647",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 84.41404971560566,
+   "injectionRateM3s": 0.000982720228772509,
+   "lossRateOnCellMmH": 22.64187407091861
+  },
+  {
+   "name": "chl0648",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 68.65709357429193,
+   "injectionRateM3s": 0.0007992829976940485,
+   "lossRateOnCellMmH": 18.41548026687088
+  },
+  {
+   "name": "chl0649",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 92.25721313235562,
+   "injectionRateM3s": 0.0010740277228825066,
+   "lossRateOnCellMmH": 24.74559873521295
+  },
+  {
+   "name": "chl0650",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 68.49469111293988,
+   "injectionRateM3s": 0.0007973923623731417,
+   "lossRateOnCellMmH": 18.371920029077184
+  },
+  {
+   "name": "chl0651",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 95.52557808916504,
+   "injectionRateM3s": 0.0011120769382546962,
+   "lossRateOnCellMmH": 25.6222526573882
+  },
+  {
+   "name": "chl0652",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 68.2409562409326,
+   "injectionRateM3s": 0.0007944384655715237,
+   "lossRateOnCellMmH": 18.303862246767906
+  },
+  {
+   "name": "chl0653",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 86.56193215717856,
+   "injectionRateM3s": 0.001007725160196487,
+   "lossRateOnCellMmH": 23.21798769092706
+  },
+  {
+   "name": "chl0654",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 93.84892186306416,
+   "injectionRateM3s": 0.0010925578653558385,
+   "lossRateOnCellMmH": 25.17253321779852
+  },
+  {
+   "name": "chl0655",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 67.96401059136547,
+   "injectionRateM3s": 0.0007912143566344796,
+   "lossRateOnCellMmH": 18.22957877685841
+  },
+  {
+   "name": "chl0656",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 78.0251027651245,
+   "injectionRateM3s": 0.000908342238023991,
+   "lossRateOnCellMmH": 20.928205164072754
+  },
+  {
+   "name": "chl0657",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 138.06332570169923,
+   "injectionRateM3s": 0.001607287216710615,
+   "lossRateOnCellMmH": 37.03189747301257
+  },
+  {
+   "name": "chl0658",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 35.43210919291855,
+   "injectionRateM3s": 0.00041248880452089345,
+   "lossRateOnCellMmH": 9.503742056161386
+  },
+  {
+   "name": "chl0659",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 132.04901890302233,
+   "injectionRateM3s": 0.0015372706617293515,
+   "lossRateOnCellMmH": 35.41871604624426
+  },
+  {
+   "name": "chl0660",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 80.65537359108568,
+   "injectionRateM3s": 0.000938962974222889,
+   "lossRateOnCellMmH": 21.633706926095364
+  },
+  {
+   "name": "chl0661",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 81.02027882113077,
+   "injectionRateM3s": 0.0009432110792759973,
+   "lossRateOnCellMmH": 21.731583266518978
+  },
+  {
+   "name": "chl0662",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 81.36197327470559,
+   "injectionRateM3s": 0.0009471889722063642,
+   "lossRateOnCellMmH": 21.823233919634628
+  },
+  {
+   "name": "chl0663",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 67.74992428283663,
+   "injectionRateM3s": 0.0007887220351926897,
+   "lossRateOnCellMmH": 18.172155690839574
+  },
+  {
+   "name": "chl0664",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 83.18735565032543,
+   "injectionRateM3s": 0.0009684394653625384,
+   "lossRateOnCellMmH": 22.31284528195289
+  },
+  {
+   "name": "chl0665",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 65.90087871773211,
+   "injectionRateM3s": 0.0007671960630722646,
+   "lossRateOnCellMmH": 17.676197293184977
+  },
+  {
+   "name": "chl0666",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 89.05701134280015,
+   "injectionRateM3s": 0.0010367720403824316,
+   "lossRateOnCellMmH": 23.887227810411225
+  },
+  {
+   "name": "chl0667",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 139.25223904046226,
+   "injectionRateM3s": 0.001621128149496048,
+   "lossRateOnCellMmH": 37.35079256438895
+  },
+  {
+   "name": "chl0668",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 67.89825305750128,
+   "injectionRateM3s": 0.0007904488293444107,
+   "lossRateOnCellMmH": 18.21194102809522
+  },
+  {
+   "name": "chl0669",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 93.59480378988225,
+   "injectionRateM3s": 0.0010895995074538792,
+   "lossRateOnCellMmH": 25.104372651737375
+  },
+  {
+   "name": "chl0670",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 136.59649547067295,
+   "injectionRateM3s": 0.0015902108681044174,
+   "lossRateOnCellMmH": 36.63845840112578
+  },
+  {
+   "name": "chl0671",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 96.80073299660901,
+   "injectionRateM3s": 0.0011269218666355232,
+   "lossRateOnCellMmH": 25.964279807282455
+  },
+  {
+   "name": "chl0672",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 99.70986292700582,
+   "injectionRateM3s": 0.0011607889875752259,
+   "lossRateOnCellMmH": 26.744578273733204
+  },
+  {
+   "name": "chl0673",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 108.72095921178018,
+   "injectionRateM3s": 0.0012656931668238076,
+   "lossRateOnCellMmH": 29.161570563620526
+  },
+  {
+   "name": "chl0674",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 110.25420981365814,
+   "injectionRateM3s": 0.0012835427592473366,
+   "lossRateOnCellMmH": 29.57282517305864
+  },
+  {
+   "name": "chl0675",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 93.97919333594902,
+   "injectionRateM3s": 0.0010940744424193397,
+   "lossRateOnCellMmH": 25.207475153341587
+  },
+  {
+   "name": "chl0676",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 111.65822754718626,
+   "injectionRateM3s": 0.0012998878656951599,
+   "lossRateOnCellMmH": 29.949416425616487
+  },
+  {
+   "name": "chl0677",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 112.93301241146575,
+   "injectionRateM3s": 0.0013147284861568136,
+   "lossRateOnCellMmH": 30.291344321052986
+  },
+  {
+   "name": "chl0678",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 94.33469151797267,
+   "injectionRateM3s": 0.0010982130337550652,
+   "lossRateOnCellMmH": 25.3028282977167
+  },
+  {
+   "name": "chl0679",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 114.07856440859486,
+   "injectionRateM3s": 0.001328064620656725,
+   "lossRateOnCellMmH": 30.598608859930945
+  },
+  {
+   "name": "chl0680",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 92.65276660093812,
+   "injectionRateM3s": 0.0010786326245125879,
+   "lossRateOnCellMmH": 24.851695668770024
+  },
+  {
+   "name": "chl0681",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 95.2135231702818,
+   "injectionRateM3s": 0.001108444098907364,
+   "lossRateOnCellMmH": 25.538552038825664
+  },
+  {
+   "name": "chl0682",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 87.39587846138605,
+   "injectionRateM3s": 0.001017433685087969,
+   "lossRateOnCellMmH": 23.441672104426807
+  },
+  {
+   "name": "chl0683",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 101.79239896285844,
+   "injectionRateM3s": 0.0011850331779259436,
+   "lossRateOnCellMmH": 27.303164419413744
+  },
+  {
+   "name": "chl0684",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 106.62717278995157,
+   "injectionRateM3s": 0.0012413180032296862,
+   "lossRateOnCellMmH": 28.599966794411966
+  },
+  {
+   "name": "chl0685",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 107.16012726493639,
+   "injectionRateM3s": 0.0012475224815759677,
+   "lossRateOnCellMmH": 28.742917975510295
+  },
+  {
+   "name": "chl0686",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 107.26603172703012,
+   "injectionRateM3s": 0.0012487553860221756,
+   "lossRateOnCellMmH": 28.771324093950923
+  },
+  {
+   "name": "chl0687",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 89.23392674344387,
+   "injectionRateM3s": 0.0010388316305049257,
+   "lossRateOnCellMmH": 23.934680766833488
+  },
+  {
+   "name": "chl0688",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 76.57207325616538,
+   "injectionRateM3s": 0.0008914265528238586,
+   "lossRateOnCellMmH": 20.5384677770617
+  },
+  {
+   "name": "chl0689",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 112.36034914989683,
+   "injectionRateM3s": 0.0013080617313533823,
+   "lossRateOnCellMmH": 30.137742290381926
+  },
+  {
+   "name": "chl0690",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 81.79547315217566,
+   "injectionRateM3s": 0.0009522356332799115,
+   "lossRateOnCellMmH": 21.939508990769163
+  },
+  {
+   "name": "chl0691",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 93.61385981576518,
+   "injectionRateM3s": 0.0010898213513551996,
+   "lossRateOnCellMmH": 25.1094839352238
+  },
+  {
+   "name": "chl0692",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 96.47994677507086,
+   "injectionRateM3s": 0.0011231873803731166,
+   "lossRateOnCellMmH": 25.8782372437966
+  },
+  {
+   "name": "chl0693",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 117.96174416251324,
+   "injectionRateM3s": 0.0013732713049585915,
+   "lossRateOnCellMmH": 31.640170866245953
+  },
+  {
+   "name": "chl0694",
+   "cells": 1,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 76.73775685826678,
+   "injectionRateM3s": 0.0008933553860916557,
+   "lossRateOnCellMmH": 20.582908095551748
+  },
+  {
+   "name": "chl0695",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 122.04360757927802,
+   "injectionRateM3s": 0.001420790998235428,
+   "lossRateOnCellMmH": 32.735024599344264
+  },
+  {
+   "name": "chl0696",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 121.59816999232837,
+   "injectionRateM3s": 0.001415605362327356,
+   "lossRateOnCellMmH": 32.61554754802228
+  },
+  {
+   "name": "chl0697",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 121.09947302185405,
+   "injectionRateM3s": 0.0014097996984294174,
+   "lossRateOnCellMmH": 32.48178505181378
+  },
+  {
+   "name": "chl0698",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 120.54751667157284,
+   "injectionRateM3s": 0.0014033740065848936,
+   "lossRateOnCellMmH": 32.33373711171595
+  },
+  {
+   "name": "chl0699",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 117.3690762062538,
+   "injectionRateM3s": 0.0013663716621678044,
+   "lossRateOnCellMmH": 31.481203096346213
+  },
+  {
+   "name": "chl0700",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 128.82296920094,
+   "injectionRateM3s": 0.0014997140664476099,
+   "lossRateOnCellMmH": 34.553412090952925
+  },
+  {
+   "name": "chl0701",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 126.37068465925273,
+   "injectionRateM3s": 0.0014711653872414672,
+   "lossRateOnCellMmH": 33.895650522043404
+  },
+  {
+   "name": "chl0702",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 120.36549307817093,
+   "injectionRateM3s": 0.0014012549485850397,
+   "lossRateOnCellMmH": 32.284914015399316
+  },
+  {
+   "name": "chl0703",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 115.96337656875806,
+   "injectionRateM3s": 0.001350006975554625,
+   "lossRateOnCellMmH": 31.10416071677856
+  },
+  {
+   "name": "chl0704",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 116.0429059977444,
+   "injectionRateM3s": 0.0013509328306570742,
+   "lossRateOnCellMmH": 31.125492418338993
+  },
+  {
+   "name": "chl0705",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 116.14904253148306,
+   "injectionRateM3s": 0.0013521684368040152,
+   "lossRateOnCellMmH": 31.15396078396451
+  },
+  {
+   "name": "chl0706",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 125.45253545942606,
+   "injectionRateM3s": 0.0014604766003068182,
+   "lossRateOnCellMmH": 33.64938087106909
+  },
+  {
+   "name": "chl0707",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 120.577500304535,
+   "injectionRateM3s": 0.0014037230660452948,
+   "lossRateOnCellMmH": 32.34177944168359
+  },
+  {
+   "name": "chl0708",
+   "cells": 4,
+   "cellAreaM2": 156.25,
+   "bedAreaM2": 120.60278961907784,
+   "injectionRateM3s": 0.0014040174758154311,
+   "lossRateOnCellMmH": 32.34856264278753
+  },
+  {
+   "name": "chl0709",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 94.87638549315375,
+   "injectionRateM3s": 0.0011045192544494647,
+   "lossRateOnCellMmH": 33.93083149668756
+  },
+  {
+   "name": "chl0710",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 81.86991050845252,
+   "injectionRateM3s": 0.0009531022081692346,
+   "lossRateOnCellMmH": 29.27929983495889
+  },
+  {
+   "name": "chl0711",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 100.45375411828672,
+   "injectionRateM3s": 0.0011694491208603878,
+   "lossRateOnCellMmH": 35.925476992831115
+  },
+  {
+   "name": "chl0712",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 86.85557229927079,
+   "injectionRateM3s": 0.0010111436208506774,
+   "lossRateOnCellMmH": 31.062332032532808
+  },
+  {
+   "name": "chl0713",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 97.76557590277757,
+   "injectionRateM3s": 0.0011381542461348355,
+   "lossRateOnCellMmH": 34.964098441262145
+  },
+  {
+   "name": "chl0714",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 98.43164842442562,
+   "injectionRateM3s": 0.0011459084404076881,
+   "lossRateOnCellMmH": 35.20230728932418
+  },
+  {
+   "name": "chl0715",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 96.42536816842643,
+   "injectionRateM3s": 0.0011225519944274309,
+   "lossRateOnCellMmH": 34.48479726881068
+  },
+  {
+   "name": "chl0716",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 96.24100610227688,
+   "injectionRateM3s": 0.0011204057127073399,
+   "lossRateOnCellMmH": 34.41886349436948
+  },
+  {
+   "name": "chl0717",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 97.88925969690337,
+   "injectionRateM3s": 0.0011395941316381165,
+   "lossRateOnCellMmH": 35.00833172392294
+  },
+  {
+   "name": "chl0718",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 98.40289784895909,
+   "injectionRateM3s": 0.0011455737357916318,
+   "lossRateOnCellMmH": 35.192025163518935
+  },
+  {
+   "name": "chl0719",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 99.15503910550993,
+   "injectionRateM3s": 0.0011543299135866446,
+   "lossRateOnCellMmH": 35.46101494538173
+  },
+  {
+   "name": "chl0720",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 98.81737531058837,
+   "injectionRateM3s": 0.0011503989442407663,
+   "lossRateOnCellMmH": 35.34025556707633
+  },
+  {
+   "name": "chl0721",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 98.65180041449162,
+   "injectionRateM3s": 0.0011484713764920399,
+   "lossRateOnCellMmH": 35.281040685835464
+  },
+  {
+   "name": "chl0722",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 99.19654419660502,
+   "injectionRateM3s": 0.0011548131020221433,
+   "lossRateOnCellMmH": 35.475858494120246
+  },
+  {
+   "name": "chl0723",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 77.58727895217852,
+   "injectionRateM3s": 0.0009032452391349449,
+   "lossRateOnCellMmH": 27.747693746225508
+  },
+  {
+   "name": "chl0724",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 85.50381685673908,
+   "injectionRateM3s": 0.0009954069345738707,
+   "lossRateOnCellMmH": 30.578901030109307
+  },
+  {
+   "name": "chl0725",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 85.34893835193618,
+   "injectionRateM3s": 0.0009936038906471236,
+   "lossRateOnCellMmH": 30.52351152067964
+  },
+  {
+   "name": "chl0726",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 82.07116498809046,
+   "injectionRateM3s": 0.000955445145736353,
+   "lossRateOnCellMmH": 29.351274877020764
+  },
+  {
+   "name": "chl0727",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 83.97784059378318,
+   "injectionRateM3s": 0.0009776420275792925,
+   "lossRateOnCellMmH": 30.033163087235863
+  },
+  {
+   "name": "chl0728",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 103.99028342295813,
+   "injectionRateM3s": 0.0012106202161822708,
+   "lossRateOnCellMmH": 37.19025304111936
+  },
+  {
+   "name": "chl0729",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 99.2647195890799,
+   "injectionRateM3s": 0.001155606777216205,
+   "lossRateOnCellMmH": 35.50024019608182
+  },
+  {
+   "name": "chl0730",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 102.84215996215097,
+   "injectionRateM3s": 0.001197254145559374,
+   "lossRateOnCellMmH": 36.77964735158397
+  },
+  {
+   "name": "chl0731",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 104.02647487666317,
+   "injectionRateM3s": 0.001211041545022487,
+   "lossRateOnCellMmH": 37.2031962630908
+  },
+  {
+   "name": "chl0732",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 100.44928377872976,
+   "injectionRateM3s": 0.001169397078657379,
+   "lossRateOnCellMmH": 35.92387825635468
+  },
+  {
+   "name": "chl0733",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 100.37124888696401,
+   "injectionRateM3s": 0.0011684886224590726,
+   "lossRateOnCellMmH": 35.89597048194271
+  },
+  {
+   "name": "chl0734",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 101.9311876119545,
+   "injectionRateM3s": 0.0011866489091158369,
+   "lossRateOnCellMmH": 36.45385448803851
+  },
+  {
+   "name": "chl0735",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 89.73118697931332,
+   "injectionRateM3s": 0.0010446205684175058,
+   "lossRateOnCellMmH": 32.09074386178578
+  },
+  {
+   "name": "chl0736",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 101.93443568410774,
+   "injectionRateM3s": 0.0011866867220891543,
+   "lossRateOnCellMmH": 36.45501610257882
+  },
+  {
+   "name": "chl0737",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 86.94847765044598,
+   "injectionRateM3s": 0.0010122251939806085,
+   "lossRateOnCellMmH": 31.095557959084296
+  },
+  {
+   "name": "chl0738",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 88.28182748398972,
+   "injectionRateM3s": 0.0010277476082927802,
+   "lossRateOnCellMmH": 31.572406526754207
+  },
+  {
+   "name": "chl0739",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 89.13932310483008,
+   "injectionRateM3s": 0.0010377302864787302,
+   "lossRateOnCellMmH": 31.87907440062659
+  },
+  {
+   "name": "chl0740",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 85.43046215211638,
+   "injectionRateM3s": 0.0009945529635542213,
+   "lossRateOnCellMmH": 30.552667040385682
+  },
+  {
+   "name": "chl0741",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 102.96316359116919,
+   "injectionRateM3s": 0.0011986628294738612,
+   "lossRateOnCellMmH": 36.82292212143702
+  },
+  {
+   "name": "chl0742",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 76.13081833718641,
+   "injectionRateM3s": 0.0008862896101420784,
+   "lossRateOnCellMmH": 27.226816823564647
+  },
+  {
+   "name": "chl0743",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 77.00574136584736,
+   "injectionRateM3s": 0.0008964751724007396,
+   "lossRateOnCellMmH": 27.53971729615072
+  },
+  {
+   "name": "chl0744",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 99.43190774360055,
+   "injectionRateM3s": 0.0011575531259817495,
+   "lossRateOnCellMmH": 35.56003203015935
+  },
+  {
+   "name": "chl0745",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 97.2581118396029,
+   "injectionRateM3s": 0.0011322465186660437,
+   "lossRateOnCellMmH": 34.78261305342086
+  },
+  {
+   "name": "chl0746",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 98.52237385308175,
+   "injectionRateM3s": 0.0011469646356062932,
+   "lossRateOnCellMmH": 35.23475360582533
+  },
+  {
+   "name": "chl0747",
+   "cells": 3,
+   "cellAreaM2": 117.1875,
+   "bedAreaM2": 95.99193965297661,
+   "injectionRateM3s": 0.001117506164126736,
+   "lossRateOnCellMmH": 34.329789361973326
+  },
+  {
+   "name": "chl0748",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 49.582322455278316,
+   "injectionRateM3s": 0.0005772208705835316,
+   "lossRateOnCellMmH": 26.59833771648914
+  },
+  {
+   "name": "chl0749",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 60.90379940685285,
+   "injectionRateM3s": 0.0007090217314281119,
+   "lossRateOnCellMmH": 32.671721384207395
+  },
+  {
+   "name": "chl0750",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 43.07072803076153,
+   "injectionRateM3s": 0.0005014150588247821,
+   "lossRateOnCellMmH": 23.105205910645957
+  },
+  {
+   "name": "chl0751",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 66.05552902845638,
+   "injectionRateM3s": 0.0007689964504396129,
+   "lossRateOnCellMmH": 35.43535643625736
+  },
+  {
+   "name": "chl0752",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 65.84345796600655,
+   "injectionRateM3s": 0.0007665275898209262,
+   "lossRateOnCellMmH": 35.32159133894828
+  },
+  {
+   "name": "chl0753",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 38.61321022229669,
+   "injectionRateM3s": 0.00044952212233790396,
+   "lossRateOnCellMmH": 20.713979397330615
+  },
+  {
+   "name": "chl0754",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 51.87715107007322,
+   "injectionRateM3s": 0.0006039365003741023,
+   "lossRateOnCellMmH": 27.82939393723864
+  },
+  {
+   "name": "chl0755",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 51.936510682617,
+   "injectionRateM3s": 0.0006046275451967995,
+   "lossRateOnCellMmH": 27.86123728266852
+  },
+  {
+   "name": "chl0756",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 51.52570900483927,
+   "injectionRateM3s": 0.0005998451289980038,
+   "lossRateOnCellMmH": 27.640863544228015
+  },
+  {
+   "name": "chl0757",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 50.62149654020113,
+   "injectionRateM3s": 0.0005893185888888415,
+   "lossRateOnCellMmH": 27.155800575997816
+  },
+  {
+   "name": "chl0758",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 52.088783618819434,
+   "injectionRateM3s": 0.0006064002559624229,
+   "lossRateOnCellMmH": 27.94292379474845
+  },
+  {
+   "name": "chl0759",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 62.58432491073631,
+   "injectionRateM3s": 0.0007285858491691551,
+   "lossRateOnCellMmH": 33.57323592971467
+  },
+  {
+   "name": "chl0760",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 67.17207557454951,
+   "injectionRateM3s": 0.0007819949131470472,
+   "lossRateOnCellMmH": 36.03432559781593
+  },
+  {
+   "name": "chl0761",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 61.12628458653285,
+   "injectionRateM3s": 0.0007116118297282198,
+   "lossRateOnCellMmH": 32.79107311387637
+  },
+  {
+   "name": "chl0762",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 64.9735638714497,
+   "injectionRateM3s": 0.0007564005727367935,
+   "lossRateOnCellMmH": 34.85493839171145
+  },
+  {
+   "name": "chl0763",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 62.5688861775775,
+   "injectionRateM3s": 0.0007284061165839646,
+   "lossRateOnCellMmH": 33.564953852189085
+  },
+  {
+   "name": "chl0764",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 38.03392515518101,
+   "injectionRateM3s": 0.0004427782786815655,
+   "lossRateOnCellMmH": 20.40322308164654
+  },
+  {
+   "name": "chl0765",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 67.60052155350324,
+   "injectionRateM3s": 0.0007869827384187002,
+   "lossRateOnCellMmH": 36.264164586333706
+  },
+  {
+   "name": "chl0766",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 61.33465483147302,
+   "injectionRateM3s": 0.000714037606663065,
+   "lossRateOnCellMmH": 32.90285291503404
+  },
+  {
+   "name": "chl0767",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 55.42363270154601,
+   "injectionRateM3s": 0.0006452234573671648,
+   "lossRateOnCellMmH": 29.731896915478952
+  },
+  {
+   "name": "chl0768",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 70.02209472489741,
+   "injectionRateM3s": 0.000815173886089014,
+   "lossRateOnCellMmH": 37.56321267098177
+  },
+  {
+   "name": "chl0769",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 52.79278485029499,
+   "injectionRateM3s": 0.0006145960036321842,
+   "lossRateOnCellMmH": 28.320583847371047
+  },
+  {
+   "name": "chl0770",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 53.06789890818489,
+   "injectionRateM3s": 0.0006177987897894523,
+   "lossRateOnCellMmH": 28.468168233497966
+  },
+  {
+   "name": "chl0771",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 58.24079196399138,
+   "injectionRateM3s": 0.0006780198864474662,
+   "lossRateOnCellMmH": 31.243156367499243
+  },
+  {
+   "name": "chl0772",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 76.0864366022515,
+   "injectionRateM3s": 0.0008857729327778778,
+   "lossRateOnCellMmH": 40.816416742404606
+  },
+  {
+   "name": "chl0773",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 47.497426078996796,
+   "injectionRateM3s": 0.000552949201936321,
+   "lossRateOnCellMmH": 25.479899225225672
+  },
+  {
+   "name": "chl0774",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 60.192572063490054,
+   "injectionRateM3s": 0.0007007418597724634,
+   "lossRateOnCellMmH": 32.29018489831511
+  },
+  {
+   "name": "chl0775",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 59.05891854315887,
+   "injectionRateM3s": 0.0006875442433732744,
+   "lossRateOnCellMmH": 31.682038734640482
+  },
+  {
+   "name": "chl0776",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 48.97921708891954,
+   "injectionRateM3s": 0.000570199718943505,
+   "lossRateOnCellMmH": 26.27480304891671
+  },
+  {
+   "name": "chl0777",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 62.281934746250045,
+   "injectionRateM3s": 0.0007250655236709276,
+   "lossRateOnCellMmH": 33.411019330756346
+  },
+  {
+   "name": "chl0778",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 71.74848524645364,
+   "injectionRateM3s": 0.0008352719490774644,
+   "lossRateOnCellMmH": 38.48933141348956
+  },
+  {
+   "name": "chl0779",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 61.4519698904769,
+   "injectionRateM3s": 0.0007154033494749686,
+   "lossRateOnCellMmH": 32.96578634380655
+  },
+  {
+   "name": "chl0780",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 48.1492522331464,
+   "injectionRateM3s": 0.000560537544747546,
+   "lossRateOnCellMmH": 25.829570061966916
+  },
+  {
+   "name": "chl0781",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 52.233023032902565,
+   "injectionRateM3s": 0.0006080794431413739,
+   "lossRateOnCellMmH": 28.02030073995451
+  },
+  {
+   "name": "chl0782",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 66.11162791403379,
+   "injectionRateM3s": 0.0007696495349658767,
+   "lossRateOnCellMmH": 35.4654505712276
+  },
+  {
+   "name": "chl0783",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 50.52694340553194,
+   "injectionRateM3s": 0.0005882178328127343,
+   "lossRateOnCellMmH": 27.10507773601079
+  },
+  {
+   "name": "chl0784",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 74.1015805918718,
+   "injectionRateM3s": 0.0008626659007237074,
+   "lossRateOnCellMmH": 39.75164470534844
+  },
+  {
+   "name": "chl0785",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 73.44106071378764,
+   "injectionRateM3s": 0.0008549763484763443,
+   "lossRateOnCellMmH": 39.397310137789944
+  },
+  {
+   "name": "chl0786",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 63.946092410028875,
+   "injectionRateM3s": 0.0007444390924734194,
+   "lossRateOnCellMmH": 34.30375338117517
+  },
+  {
+   "name": "chl0787",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 56.377163836000584,
+   "injectionRateM3s": 0.0006563241489907734,
+   "lossRateOnCellMmH": 30.243416785494837
+  },
+  {
+   "name": "chl0788",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 63.82431929610584,
+   "injectionRateM3s": 0.0007430214504721654,
+   "lossRateOnCellMmH": 34.238428437757385
+  },
+  {
+   "name": "chl0789",
+   "cells": 2,
+   "cellAreaM2": 78.125,
+   "bedAreaM2": 74.23209186831889,
+   "injectionRateM3s": 0.0008641852695003456,
+   "lossRateOnCellMmH": 39.82165721857593
+  },
+  {
+   "name": "chl0790",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 10.853973257671294,
+   "injectionRateM3s": 0.0001263583386747233,
+   "lossRateOnCellMmH": 11.6451844922625
+  },
+  {
+   "name": "chl0791",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 37.19890536995931,
+   "injectionRateM3s": 0.00043305725668194294,
+   "lossRateOnCellMmH": 39.91055677580786
+  },
+  {
+   "name": "chl0792",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 20.7851481900434,
+   "injectionRateM3s": 0.00024197376684575523,
+   "lossRateOnCellMmH": 22.3003023525048
+  },
+  {
+   "name": "chl0793",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 24.385547135898378,
+   "injectionRateM3s": 0.0002838884112404169,
+   "lossRateOnCellMmH": 26.163155979916823
+  },
+  {
+   "name": "chl0794",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 18.234338552504497,
+   "injectionRateM3s": 0.0002122780913154065,
+   "lossRateOnCellMmH": 19.563548895627864
+  },
+  {
+   "name": "chl0795",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 20.846690756539857,
+   "injectionRateM3s": 0.00024269022489071816,
+   "lossRateOnCellMmH": 22.366331125928586
+  },
+  {
+   "name": "chl0796",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 21.4913049047027,
+   "injectionRateM3s": 0.00025019460793224726,
+   "lossRateOnCellMmH": 23.057935067035906
+  },
+  {
+   "name": "chl0797",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 24.460380948767124,
+   "injectionRateM3s": 0.00028475960154523055,
+   "lossRateOnCellMmH": 26.243444878408454
+  },
+  {
+   "name": "chl0798",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 19.63066253811121,
+   "injectionRateM3s": 0.0002285336297145113,
+   "lossRateOnCellMmH": 21.06165931448936
+  },
+  {
+   "name": "chl0799",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 39.0625,
+   "injectionRateM3s": 0.0004547526041666666,
+   "lossRateOnCellMmH": 41.91
+  },
+  {
+   "name": "chl0800",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 31.69335970537798,
+   "injectionRateM3s": 0.00036896352923677526,
+   "lossRateOnCellMmH": 34.003678854461214
+  },
+  {
+   "name": "chl0801",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 29.757444524047987,
+   "injectionRateM3s": 0.0003464262500007919,
+   "lossRateOnCellMmH": 31.926643200072984
+  },
+  {
+   "name": "chl0802",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 19.814401251281367,
+   "injectionRateM3s": 0.00023067265456700055,
+   "lossRateOnCellMmH": 21.258791844894773
+  },
+  {
+   "name": "chl0803",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 35.02047158777798,
+   "injectionRateM3s": 0.00040769665673438197,
+   "lossRateOnCellMmH": 37.573323884640644
+  },
+  {
+   "name": "chl0804",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 21.11554880313076,
+   "injectionRateM3s": 0.00024582018064978056,
+   "lossRateOnCellMmH": 22.654787848683778
+  },
+  {
+   "name": "chl0805",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 31.413566273302973,
+   "injectionRateM3s": 0.0003657062673650354,
+   "lossRateOnCellMmH": 33.703489600361664
+  },
+  {
+   "name": "chl0806",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 21.916656207758933,
+   "injectionRateM3s": 0.00025514640601866025,
+   "lossRateOnCellMmH": 23.514292778679724
+  },
+  {
+   "name": "chl0807",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 37.38987676546734,
+   "injectionRateM3s": 0.0004352804820113156,
+   "lossRateOnCellMmH": 40.11544922216285
+  },
+  {
+   "name": "chl0808",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 23.207965098685147,
+   "injectionRateM3s": 0.00027017939369052625,
+   "lossRateOnCellMmH": 24.899732922518897
+  },
+  {
+   "name": "chl0809",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 28.547006758243327,
+   "injectionRateM3s": 0.00033233473701054937,
+   "lossRateOnCellMmH": 30.627969362892227
+  },
+  {
+   "name": "chl0810",
+   "cells": 1,
+   "cellAreaM2": 39.0625,
+   "bedAreaM2": 33.47547196679134,
+   "injectionRateM3s": 0.0003897102861467291,
+   "lossRateOnCellMmH": 35.91569997128256
+  }
+ ]
+}
