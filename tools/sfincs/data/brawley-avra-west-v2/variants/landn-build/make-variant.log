@@ -1,0 +1,153 @@
+variant landn-lower-bound: .sfincs-runs\brawley-avra-west-case-v3l-obsrain-cnb-btf -> .sfincs-runs\brawley-avra-west-case-v3l-obsrain-cnb-btf-landn
+CHANGED current-case.json
+    --- base/current-case.json
+    +++ new/current-case.json
+    @@ -247,11 +247,29 @@
+    -    "name": "btfilter-off",
+    -    "source": "SFINCS f3647fc source/src/sfincs_boundaries.f90 update_boundary_fluxes: q = ub*h + uvmean (line 1119); lines 1178-1190: btfilter < -1e-6 sets uvmean(ib)=0 every step, so the msk 3 outflow flux is only the weakly reflective head term ub*h with ub = -sqrt(g/h)*(zs_inside - zsb0) (lines 1115-1119); uvmean starts at 0 (sfincs_domain.f90:1999) and no rstfile is used. Same change as the btf variant of base B (run 42584636960, tools/sfincs/data/brawley-avra-west-v2/variants/result-v3l-obsrain-btf-42584636960: msk 3 outflow equals the head term, upstream unchanged). Physical basis: no downstream water to sustain an outflow jet at an open dry outfall, so the boundary memory term has no physical counterpart",
+    -    "baseCase": ".sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb",
+    -    "kind": "inp",
+    -    "inpChanges": [
+    -      {
+    -        "key": "btfilter",
+    -        "from": "60.0",
+    -        "to": "-1"
+    -      }
+    -    ],
+    +    "name": "landn-lower-bound",
+    +    "source": "Land Manning n 0.011 for WorldCover 20/30/60 outside the 10 m-buffered v2n channel mask: USACE 1998 via HEC-HMS Technical Reference Manual CPD-74B (Mar 2000) Table 6-1 overland-flow roughness for sheet flow, smooth surfaces (concrete, asphalt, gravel, or bare soil) N=0.011 (same table: Range 0.13, Short grass prairie 0.15); used as the published lower bound, chosen before the run (tools/sfincs/data/brawley-avra-west-v2/variants/landn-build/README.md)",
+    +    "baseCase": ".sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb-btf",
+    +    "kind": "subgrid",
+    +    "file": ".sfincs-runs/brawley-avra-west-parameters-v2-landn/sfincs_subgrid.nc",
+    +    "fileSha256": "12a0d211392aa6030018318f4bce08bf476ee3af18c6c498e62fd0fe10e120eb",
+    +    "baseSha256": "47481d56bc16722b9cd7939c94b5ea2291dbdda155ae502326327d9360fffa71",
+    +    "subgridVariables": {
+    +      "identical": {
+    +        "z_zmin": true,
+    +        "z_zmax": true,
+    +        "z_volmax": true,
+    +        "z_level": true,
+    +        "uv_zmin": true,
+    +        "uv_zmax": true,
+    +        "uv_havg": false,
+    +        "uv_nrep": false,
+    +        "uv_pwet": true,
+    +        "uv_ffit": false,
+    +        "uv_navg": false
+    +      },
+    +      "changed": [
+    +        "uv_ffit",
+    +        "uv_havg",
+    +        "uv_navg",
+    +        "uv_nrep"
+    +      ]
+    +    },
+    +    "inpChanges": [],
+    @@ -288,0 +307,13 @@
+    +          }
+    +        ]
+    +      },
+    +      {
+    +        "name": "btfilter-off",
+    +        "source": "SFINCS f3647fc source/src/sfincs_boundaries.f90 update_boundary_fluxes: q = ub*h + uvmean (line 1119); lines 1178-1190: btfilter < -1e-6 sets uvmean(ib)=0 every step, so the msk 3 outflow flux is only the weakly reflective head term ub*h with ub = -sqrt(g/h)*(zs_inside - zsb0) (lines 1115-1119); uvmean starts at 0 (sfincs_domain.f90:1999) and no rstfile is used. Same change as the btf variant of base B (run 42584636960, tools/sfincs/data/brawley-avra-west-v2/variants/result-v3l-obsrain-btf-42584636960: msk 3 outflow equals the head term, upstream unchanged). Physical basis: no downstream water to sustain an outflow jet at an open dry outfall, so the boundary memory term has no physical counterpart",
+    +        "baseCase": ".sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb",
+    +        "kind": "inp",
+    +        "inpChanges": [
+    +          {
+    +            "key": "btfilter",
+    +            "from": "60.0",
+    +            "to": "-1"
+same    GCN10-NOTICE.txt
+same    GCN10-source-metadata.xml
+same    hydromt.log
+same    infiltration.nc
+same    native-component.json
+same    precip_2d.nc
+same    sfincs.dis
+same    sfincs.inp
+same    sfincs.nc
+same    sfincs.src
+CHANGED sfincs_subgrid.nc
+    uv_ffit: 459796 of 1308350 values differ
+    uv_havg: 180563 of 13083500 values differ
+    uv_navg: 1229720 of 1308350 values differ
+    uv_nrep: 12233476 of 13083500 values differ
+{
+ "name": "landn-lower-bound",
+ "source": "Land Manning n 0.011 for WorldCover 20/30/60 outside the 10 m-buffered v2n channel mask: USACE 1998 via HEC-HMS Technical Reference Manual CPD-74B (Mar 2000) Table 6-1 overland-flow roughness for sheet flow, smooth surfaces (concrete, asphalt, gravel, or bare soil) N=0.011 (same table: Range 0.13, Short grass prairie 0.15); used as the published lower bound, chosen before the run (tools/sfincs/data/brawley-avra-west-v2/variants/landn-build/README.md)",
+ "baseCase": ".sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb-btf",
+ "kind": "subgrid",
+ "file": ".sfincs-runs/brawley-avra-west-parameters-v2-landn/sfincs_subgrid.nc",
+ "fileSha256": "12a0d211392aa6030018318f4bce08bf476ee3af18c6c498e62fd0fe10e120eb",
+ "baseSha256": "47481d56bc16722b9cd7939c94b5ea2291dbdda155ae502326327d9360fffa71",
+ "subgridVariables": {
+  "identical": {
+   "z_zmin": true,
+   "z_zmax": true,
+   "z_volmax": true,
+   "z_level": true,
+   "uv_zmin": true,
+   "uv_zmax": true,
+   "uv_havg": false,
+   "uv_nrep": false,
+   "uv_pwet": true,
+   "uv_ffit": false,
+   "uv_navg": false
+  },
+  "changed": [
+   "uv_ffit",
+   "uv_havg",
+   "uv_navg",
+   "uv_nrep"
+  ]
+ },
+ "inpChanges": [],
+ "priorVariantChanges": [
+  {
+   "name": "cnb-recovery",
+   "source": "SFINCS f3647fc inftype cnb (SCS CN with SWMM recovery, eqs 4-36/4-37): smax = base GCN10 cn_f_ii_2281 (fair, ARC II, undrained) S in m (unchanged CN source); seff = smax (dry start 2026-10-30 16Z); ks = POLARIS v1.0 ksat mean 0-5 cm (Chaney et al. 2019, doi:10.1029/2018WR022797) face-area mean, mm/hr, HydroMT-SFINCS 1.2.2 360 mm/hr cap (none capped)",
+   "baseCase": ".sfincs-runs/brawley-avra-west-case-v3l-obsrain",
+   "kind": "infiltration",
+   "file": ".sfincs-runs/brawley-avra-west-ks-polaris/infiltration-cnb.nc",
+   "fileSha256": "3be72844b4af6d25b3ead35c6375d52ed398a4124cc1f0fbe2068a32f6caca9b",
+   "variables": {
+    "smax": {
+     "min": 0.0,
+     "mean": 0.053767838750841096,
+     "max": 0.09395460039377213
+    },
+    "seff": {
+     "min": 0.0,
+     "mean": 0.053767838750841096,
+     "max": 0.09395460039377213
+    },
+    "ks": {
+     "min": 6.1277923583984375,
+     "mean": 44.32180125213833,
+     "max": 325.8800964355469
+    }
+   },
+   "inftype": "cnb",
+   "inpChanges": [
+    {
+     "key": "inftype",
+     "from": "cna",
+     "to": "cnb"
+    }
+   ]
+  },
+  {
+   "name": "btfilter-off",
+   "source": "SFINCS f3647fc source/src/sfincs_boundaries.f90 update_boundary_fluxes: q = ub*h + uvmean (line 1119); lines 1178-1190: btfilter < -1e-6 sets uvmean(ib)=0 every step, so the msk 3 outflow flux is only the weakly reflective head term ub*h with ub = -sqrt(g/h)*(zs_inside - zsb0) (lines 1115-1119); uvmean starts at 0 (sfincs_domain.f90:1999) and no rstfile is used. Same change as the btf variant of base B (run 42584636960, tools/sfincs/data/brawley-avra-west-v2/variants/result-v3l-obsrain-btf-42584636960: msk 3 outflow equals the head term, upstream unchanged). Physical basis: no downstream water to sustain an outflow jet at an open dry outfall, so the boundary memory term has no physical counterpart",
+   "baseCase": ".sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb",
+   "kind": "inp",
+   "inpChanges": [
+    {
+     "key": "btfilter",
+     "from": "60.0",
+     "to": "-1"
+    }
+   ]
+  }
+ ]
+}

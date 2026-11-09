@@ -1,0 +1,479 @@
+{
+  "status": "prepared_all_routes_case_not_executed",
+  "runReady": true,
+  "solverExecuted": false,
+  "mode": "validation-extended-window",
+  "gridCells": 643056,
+  "inlets": 1,
+  "nativeFlowTimestamps": 75,
+  "windowHours": 74,
+  "mapOutputWindow": "2026-11-01T17:00:00Z..2026-11-02T18:00:00Z every 15 min (25 h after 49 h of antecedent run)",
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "forecastStart": "2026-11-01T17:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T18:00:00Z",
+  "initialization": "Same explicit dry assumed antecedent start; continuous analysis-forced history, not measured initial state",
+  "windowNote": "SENSITIVITY v2r: same as v2x (validation-only extended window to 2026-11-02T18Z, observed inflow every hour) except observed Stage IV rain for every hour the frozen case forced with HRRR (14Z Nov 1..07Z Nov 2) plus 07Z-18Z Nov 2; boundaries v3l (lobe tip only: 5 outflow cells added to the 47 v2 cells, no OSM NW outfalls)",
+  "missing": [],
+  "nativeInputReference": "Pinned SFINCS sfincs_infiltration.f90 requires inffile NetCDF for quadtree; scs units remain inches",
+  "knownLimits": [
+    "Current bridge and culvert elevations unknown; no structure openings",
+    "Published CN (GCN10 fair ARCII undrained) used as Smax of SFINCS cnb (CN with SWMM recovery); Ks from POLARIS 0-5 cm, not measured; no measured transmission loss",
+    "Terrain is bare-earth lidar: 1 m PimaCounty_2021_B21 and Eastern_PimaCO_2015 in road/wash windows (2015 covers most of the mid/upper Brawley mainstem and San Joaquin/Black Wash); 10 m context mixes all-route-context-v2, 2021, BrawleyRillito 2018 (flown 2019), 2015 and 0.98 km2 of USGS 1/3 arc-second; not a 2026 survey",
+    "2021 minus 2015 seam offset about -0.11 m median in 7 road windows; not corrected",
+    "6.25 m computational cells are not validated road-depth accuracy; compare cell water-surface elevation zs with road height, never averaged depth",
+    "The 27.47 km2 local catchment of 15876941 below USGS 09487000 is excluded; its runoff enters only through the inlet series",
+    "Directed network independence does not prove no cross-divide overland exchange; overlaps Gates by 139.42 km2; west-valley subtrees drain toward Northern, which keeps its own NWM inlets (independent model)",
+    "Domain v2 (1240 km2) adds the west-valley subtrees of Northern inlets 15876639/653/641/623, Pump Station tributaries 15876613/15876627 and terminal subtrees 15876757/719/669/675; 19 candidate dips (6 >= 1 m, mostly W Silverbell Rd and N Red Hill Rd near 32.445 N) remain in no model",
+    "Road heights exist only inside the floodplain-road-heights-v1 tile box (about lon >= -111.44, lat >= 32.146); roads outside it have no comparison",
+    "SENSITIVITY v2r: rain 14Z Nov 1..18Z Nov 2 is observed Stage IV 01h (no HRRR); this is an after-the-fact observed-rain test, not something a forecast-time run could have had",
+    "SENSITIVITY v3l-obsrain: v2r observed-rain case with the boundaries v3 lobe-tip outflow cells only (5 cells, 52 in all); not calibrated, not tuned to observations, not for live registration",
+    "SENSITIVITY v3l-obsrain-cnb-btf: base case B (v3l-obsrain) with TWO changes: (1) inftype cna -> cnb (CN with recovery, seff = smax dry start at 2026-10-30T16Z, POLARIS Ks; infiltration.nc as in v3l-obsrain-cnb) and (2) sfincs.inp btfilter 60.0 -> -1 (SFINCS uvmean boundary memory term off on msk 3 outflow links, as in v3l-obsrain-btf); a candidate combination, not calibrated, not tuned to observations, not for live registration",
+    "SENSITIVITY v3l-obsrain-cnb-btf-landn: candidate v3l-obsrain-cnb-btf with ONE change: sfincs_subgrid.nc rebuilt with land Manning n 0.011 (USACE 1998 / HEC-HMS TRM CPD-74B Table 6-1 smooth bare soil, the published lower bound) for WorldCover shrubland/grassland/bare outside the 10 m-buffered v2n channel mask; elevation tables identical; a lower-bound roughness test of slow hillslope routing, not calibrated, not tuned to observations, not for live registration"
+  ],
+  "kind": "prepared_current_case",
+  "rainfall": {
+    "units": "mm/h",
+    "intervalSeconds": 3600,
+    "intervalLabel": "start",
+    "lastIntervalEndUtc": "2026-11-02T18:00:00Z",
+    "sourceArtifacts": [
+      {
+        "path": ".sfincs-runs\\brawley-avra-west-rainfall-v2\\initialization-rainfall\\resolved-analysis-precipitation.nc",
+        "sha256": "d9be94406e6cbd0da0c703ca9557d09af89e33c20a0b79f22aae8dbdf71a5ac5"
+      },
+      {
+        "path": ".sfincs-runs\\brawley-avra-west-rainfall-v2r\\observed-extension-precipitation.nc",
+        "sha256": "d7bff432074fbf4b678080a6d38d4055fa1bf228b31396e5fc358a38040fe1ca"
+      },
+      {
+        "path": ".sfincs-runs\\brawley-avra-west-rainfall-v2r\\observed-extension-metadata.json",
+        "sha256": "5556168ca3a2f46df0e6417c4080c15aeb8379f70cae707433185b7d7a91a277"
+      }
+    ]
+  },
+  "publicationHold": [],
+  "executionBudgetSeconds": null,
+  "proposedExecutionCapSeconds": 10800,
+  "executionAuthorization": "orchestrator_task_brawley_avra_west_v3l_obsrain_cnb_btf_landn_sensitivity_cap_10800_experimental_branch_only",
+  "sourceAsOf": "2026-11-09T03:11:41Z",
+  "sourceLicensing": {
+    "derivedInfiltrationLicense": "ODbL-1.0",
+    "notice": "GCN10-NOTICE.txt",
+    "sourceMetadata": "GCN10-source-metadata.xml",
+    "derivedDatabase": "infiltration.nc"
+  },
+  "artifacts": [
+    {
+      "path": "GCN10-NOTICE.txt",
+      "bytes": 1349,
+      "sha256": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8"
+    },
+    {
+      "path": "GCN10-source-metadata.xml",
+      "bytes": 12686,
+      "sha256": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156"
+    },
+    {
+      "path": "hydromt.log",
+      "bytes": 182,
+      "sha256": "0ab568c748923b69e06c69b5d1ac61d8e2d9e67332e2cdac1dbd0176a2a86946"
+    },
+    {
+      "path": "infiltration.nc",
+      "bytes": 7724864,
+      "sha256": "3be72844b4af6d25b3ead35c6375d52ed398a4124cc1f0fbe2068a32f6caca9b"
+    },
+    {
+      "path": "native-component.json",
+      "bytes": 1443,
+      "sha256": "2cb4a9705812bdb278d3ae2f99a5aee6ee1c466dbae555e6adeae82727573ad2"
+    },
+    {
+      "path": "precip_2d.nc",
+      "bytes": 1669757,
+      "sha256": "1ab7e50e36d819dff2c4cf12ef49f32bd86cc35d5f4c05216cdc9096b8165464"
+    },
+    {
+      "path": "sfincs.dis",
+      "bytes": 1350,
+      "sha256": "0742f186770586b552f5d0c9b7a15b2f795d382d79dbd454dc9185ff42d843e4"
+    },
+    {
+      "path": "sfincs.inp",
+      "bytes": 1422,
+      "sha256": "a20a327c7fd6854618b5bac54d6d7b0b97900cab8a815e318095865e3f765683"
+    },
+    {
+      "path": "sfincs.nc",
+      "bytes": 120710114,
+      "sha256": "081a6973990467f537eb3eb1f28bf32aa68cad4af37475a97361df3ab258f4f8"
+    },
+    {
+      "path": "sfincs.src",
+      "bytes": 20,
+      "sha256": "43eb1101038dcbae5d4fda718b96c1c1c762b84124b7f9c5b16dd0dd94af0ff8"
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "bytes": 211387905,
+      "sha256": "12a0d211392aa6030018318f4bce08bf476ee3af18c6c498e62fd0fe10e120eb"
+    }
+  ],
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "routeIds": [],
+  "approvedExecutionCapSeconds": 10800,
+  "terrainSources": {
+    "road1m": "USGS 3DEP 1 m windows .sfincs-runs/brawley-avra-west-terrain-1m-v1 (162 new + reused) plus -v2 top-up (146 new); PimaCounty_2021_B21 > BrawleyRillito_2018_D19 > Eastern_PimaCO_2015",
+    "context10m": ".sfincs-runs/brawley-avra-west-context-v2 (16.97 km2 USGS 1/3 arc-second where no 1 m exists; no L3/L4 zone there)"
+  },
+  "scope": {
+    "status": "brawley_avra_west_version3",
+    "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+    "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+    "areaKm2": 1240.369838309587,
+    "externalInlets": [
+      {
+        "reachId": "15876941",
+        "receivingReachId": "15876923"
+      }
+    ],
+    "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+    "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+  },
+  "caseId": "brawley-avra-west-native-case-v3l-obsrain-cnb-btf-landn",
+  "validationVariant": true,
+  "inflow": {
+    "kind": "observed_gauge",
+    "gauge": "USGS 09487000 Brawley Wash near Three Points (provisional IV 00060)",
+    "file": "../../brawley-avra-west-v2/extended/brawley-avra-west-inflow-observed-v2x.json",
+    "note": "Same observed inflow file as v2r/v2x/v3l-obsrain. SENSITIVITY: cnb + btfilter -1 + land n lower bound. Not for live registration."
+  },
+  "window": {
+    "start": "2026-10-30T16:00:00Z",
+    "end": "2026-11-02T18:00:00Z",
+    "hours": 74,
+    "mapOutput": "2026-11-01T17:00Z..2026-11-02T18:00Z every 15 min (101 frames)",
+    "rain": "SENSITIVITY: frozen v2 observation-based analysis frames 2026-10-30T16Z..2026-11-01T13Z unchanged, then observed Stage IV 01h (IEM) for every hour 14Z Nov 1..17Z Nov 2 on the same grid and mapping; no HRRR, no MRMS needed, no zero-fill",
+    "note": "SENSITIVITY one-change test (land Manning n lower bound) on the v3l-obsrain-cnb-btf candidate. Not a live configuration and not tuned."
+  },
+  "sensitivityVariant": true,
+  "label": "SENSITIVITY - not for live registration",
+  "notForLiveRegistration": true,
+  "rainSensitivity": {
+    "label": "SENSITIVITY: all-observed-rain variant of v2x; not tuned to observations; not for live registration",
+    "hypothesis": "The frozen HRRR 2026-11-01T14Z forecast misses most of the 14-17Z Stage IV rain (domain mean 0.67 mm vs 19.46 mm) and puts the burst 2-3 h late; this may explain why ALERT 6443 at Mile Wide gets 11.8 m3/s at 03Z in v2x vs about 23.1 m3/s observed and why the wave is late",
+    "comparesWith": "brawley-avra-west-native-case-v2x-observed-inflow (run 42544624673)",
+    "onlyDifferenceFromV2x": "precipitation frames 2026-11-01T14Z..2026-11-02T06Z (17 hourly frames, interval starts)",
+    "unchangedFrames": {
+      "frozenObservedAnalysis": "2026-10-30T16Z..2026-11-01T13Z (46 frames, frozen Stage IV/MRMS resolved analysis, byte-identical forcing)",
+      "observedExtension": "2026-11-02T07Z..2026-11-02T17Z (11 frames, same Stage IV files as v2x, identical values)"
+    },
+    "replacedFrames": {
+      "from": "HRRR 2026-11-01T14Z forecast (frozen forecast-transition-precipitation.nc 14Z-16Z and precipitation.nc 17Z-06Z)",
+      "to": "observed NCEP Stage IV 01h via IEM",
+      "starts": [
+        "2026-11-01T14:00:00Z",
+        "2026-11-01T15:00:00Z",
+        "2026-11-01T16:00:00Z",
+        "2026-11-01T17:00:00Z",
+        "2026-11-01T18:00:00Z",
+        "2026-11-01T19:00:00Z",
+        "2026-11-01T20:00:00Z",
+        "2026-11-01T21:00:00Z",
+        "2026-11-01T22:00:00Z",
+        "2026-11-01T23:00:00Z",
+        "2026-11-02T00:00:00Z",
+        "2026-11-02T01:00:00Z",
+        "2026-11-02T02:00:00Z",
+        "2026-11-02T03:00:00Z",
+        "2026-11-02T04:00:00Z",
+        "2026-11-02T05:00:00Z",
+        "2026-11-02T06:00:00Z"
+      ],
+      "count": 17
+    },
+    "source": "IEM archive ST4.<YYYYMMDDHH>.01h.grib, same header checks, HRAP md5GridSection 63636ab709e74db430bd6c1a05f419e1 and the frozen nearest-cell mapping (tools/sfincs/brawley/extend/fetch_stage4_extension.py)",
+    "missingCellHours": 0,
+    "mrmsReplacements": 0,
+    "zeroFill": false,
+    "metadata": "../../brawley-avra-west-v2/rain-sensitivity/rain-v2r-stage4-metadata.json"
+  },
+  "nativeMeshSha256": "081a6973990467f537eb3eb1f28bf32aa68cad4af37475a97361df3ab258f4f8",
+  "boundaryChange": {
+    "boundaries": ".sfincs-runs/brawley-avra-west-boundaries-v3l (tools/sfincs/prepare_route_case_boundaries.py --terrain-reversed-reach 15876709 --terrain .sfincs-runs/brawley-avra-west-context-v2/terrain.tif; no --extra-outflow-channels)",
+    "comparisonCase": "brawley-avra-west-native-case-v2r-observed-inflow (boundaries v2, 47 outflow cells; run 42555458619)",
+    "outflowCellsV2": 47,
+    "added": [
+      {
+        "where": "north tip of the 15876709 lobe (-111.2667, 32.3735)",
+        "cells": [
+          54443,
+          54444,
+          54598,
+          54599,
+          54756
+        ],
+        "why": "NHDPlus 15876709 is digitized flowing south but the 10 m terrain falls 23.4 m to the north (617.76 m at its digitized start, 641.15 m at its end); reversed for the HydroMT outflow search only; OSM intermittent stream 1103245450 continues north to the Avra Valley Rd bridge (docs/upgrade/BRAWLEY-OUTLET-POND-20261108.md)"
+      }
+    ],
+    "method": "Same boundary type (msk 3 outflow) and the same HydroMT directed outflow-point search (100 m edge buffer, 250 m corridor, Deltares native mask builder) as the 47 v2 outflow cells; the 5 lobe-tip cells are the same 5 faces as in boundaries v3",
+    "unchanged": "mesh v2, parameters v2 (sfincs_subgrid.nc), infiltration.nc, observed inflow, all-observed rain precip_2d.nc, sfincs.inp, sfincs.dis, sfincs.src are byte-identical to the v2r case; in sfincs.nc only mask differs (faces 54443, 54444, 54598, 54599, 54756: 1 -> 3)",
+    "placementReport": "tools/sfincs/data/brawley-avra-west-v2/boundaries-v3/placement-report.json",
+    "outflowCellsV3l": 52,
+    "outflowCellsV3": 92,
+    "notAdded": {
+      "what": "the two NW valley-floor OSM outfalls of boundaries v3 (OSM 1489567542, 5 cells; OSM 1489567547, 35 cells)",
+      "why": "in run 42567934972 they passed only about 43k m3 but turned the cells of 10 road stations (9 W Silverbell Rd, 1 N Cocio Rd; faces 32266 and 465513) into outflow cells that hold zs at the bed, and the v2 NW outflow dropped by about 101k m3 with no explanation"
+    },
+    "roadStationsInOutflowCells": {
+      "v2r": 0,
+      "v3l": 0,
+      "v3": 10,
+      "stationFile": "tools/live/road-stations/brawley-avra-west-local-v2.json.gz (58,140 stations, 104 outside the mesh)"
+    }
+  },
+  "baseCase": {
+    "caseId": "brawley-avra-west-native-case-v3l-obsrain-cnb-btf",
+    "runId": "42622454115",
+    "differences": [
+      "sfincs_subgrid.nc: roughness-dependent variables (uv_navg, uv_havg, uv_nrep, uv_ffit) from the land-n rebuild; z_zmin, z_zmax, z_volmax, z_level, uv_zmin, uv_zmax, uv_pwet identical"
+    ],
+    "unchanged": "sfincs.inp, sfincs.nc, infiltration.nc, precip_2d.nc, sfincs.dis, sfincs.src, GCN10 files, hydromt.log, native-component.json byte-identical to the candidate case (make_variant.py --subgrid-file check)",
+    "earlierBases": {
+      "B": "brawley-avra-west-native-case-v3l-obsrain run 42599666617"
+    }
+  },
+  "variantChange": {
+    "name": "landn-lower-bound",
+    "source": "Land Manning n 0.011 for WorldCover 20/30/60 outside the 10 m-buffered v2n channel mask: USACE 1998 via HEC-HMS Technical Reference Manual CPD-74B (Mar 2000) Table 6-1 overland-flow roughness for sheet flow, smooth surfaces (concrete, asphalt, gravel, or bare soil) N=0.011 (same table: Range 0.13, Short grass prairie 0.15); used as the published lower bound, chosen before the run (tools/sfincs/data/brawley-avra-west-v2/variants/landn-build/README.md)",
+    "baseCase": ".sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb-btf",
+    "kind": "subgrid",
+    "file": ".sfincs-runs/brawley-avra-west-parameters-v2-landn/sfincs_subgrid.nc",
+    "fileSha256": "12a0d211392aa6030018318f4bce08bf476ee3af18c6c498e62fd0fe10e120eb",
+    "baseSha256": "47481d56bc16722b9cd7939c94b5ea2291dbdda155ae502326327d9360fffa71",
+    "subgridVariables": {
+      "identical": {
+        "z_zmin": true,
+        "z_zmax": true,
+        "z_volmax": true,
+        "z_level": true,
+        "uv_zmin": true,
+        "uv_zmax": true,
+        "uv_havg": false,
+        "uv_nrep": false,
+        "uv_pwet": true,
+        "uv_ffit": false,
+        "uv_navg": false
+      },
+      "changed": [
+        "uv_ffit",
+        "uv_havg",
+        "uv_navg",
+        "uv_nrep"
+      ]
+    },
+    "inpChanges": [],
+    "priorVariantChanges": [
+      {
+        "name": "cnb-recovery",
+        "source": "SFINCS f3647fc inftype cnb (SCS CN with SWMM recovery, eqs 4-36/4-37): smax = base GCN10 cn_f_ii_2281 (fair, ARC II, undrained) S in m (unchanged CN source); seff = smax (dry start 2026-10-30 16Z); ks = POLARIS v1.0 ksat mean 0-5 cm (Chaney et al. 2019, doi:10.1029/2018WR022797) face-area mean, mm/hr, HydroMT-SFINCS 1.2.2 360 mm/hr cap (none capped)",
+        "baseCase": ".sfincs-runs/brawley-avra-west-case-v3l-obsrain",
+        "kind": "infiltration",
+        "file": ".sfincs-runs/brawley-avra-west-ks-polaris/infiltration-cnb.nc",
+        "fileSha256": "3be72844b4af6d25b3ead35c6375d52ed398a4124cc1f0fbe2068a32f6caca9b",
+        "variables": {
+          "smax": {
+            "min": 0.0,
+            "mean": 0.053767838750841096,
+            "max": 0.09395460039377213
+          },
+          "seff": {
+            "min": 0.0,
+            "mean": 0.053767838750841096,
+            "max": 0.09395460039377213
+          },
+          "ks": {
+            "min": 6.1277923583984375,
+            "mean": 44.32180125213833,
+            "max": 325.8800964355469
+          }
+        },
+        "inftype": "cnb",
+        "inpChanges": [
+          {
+            "key": "inftype",
+            "from": "cna",
+            "to": "cnb"
+          }
+        ]
+      },
+      {
+        "name": "btfilter-off",
+        "source": "SFINCS f3647fc source/src/sfincs_boundaries.f90 update_boundary_fluxes: q = ub*h + uvmean (line 1119); lines 1178-1190: btfilter < -1e-6 sets uvmean(ib)=0 every step, so the msk 3 outflow flux is only the weakly reflective head term ub*h with ub = -sqrt(g/h)*(zs_inside - zsb0) (lines 1115-1119); uvmean starts at 0 (sfincs_domain.f90:1999) and no rstfile is used. Same change as the btf variant of base B (run 42584636960, tools/sfincs/data/brawley-avra-west-v2/variants/result-v3l-obsrain-btf-42584636960: msk 3 outflow equals the head term, upstream unchanged). Physical basis: no downstream water to sustain an outflow jet at an open dry outfall, so the boundary memory term has no physical counterpart",
+        "baseCase": ".sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb",
+        "kind": "inp",
+        "inpChanges": [
+          {
+            "key": "btfilter",
+            "from": "60.0",
+            "to": "-1"
+          }
+        ]
+      }
+    ]
+  },
+  "infiltrationChange": {
+    "label": "SENSITIVITY infiltration 2: SCS Curve Number WITH recovery (SFINCS inftype cnb) instead of cna; not tuned to observations; not for live registration",
+    "hypothesis": "cna accumulates all rain from 2026-10-30T16Z as one storm (91% of the Black Wash area past Ia before the Nov 1 14Z burst); cnb starts a new event after each dry spell with S recovered at the SWMM rate, so the Oct 30-Nov 1 showers stop counting as the start of the Nov 1 storm",
+    "solver": "SFINCS f3647fc source/src/sfincs_infiltration.f90 initialize_infiltration_cnb / compute_infiltration_cnb: per face, new event when prcp>0 after a dry step (P1=0, S1=Se); Q=(P1-0.2 S1)^2/(P1+0.8 S1); Se -= infiltration; when dry, after 0.06/kr hours Se += kr*Smax per hour up to Smax; kr = sqrt(ks[mm/hr]/25.4)/75 per hour (SWMM Reference Manual Vol I, eqs 4-36, 4-37). Rain frames are linearly interpolated in time, so a dry spell starts only between two zero frames.",
+    "smax": {
+      "units": "m",
+      "source": "base case scs (GCN10 cn_f_ii_2281, fair, ARC II, undrained, inches) * 0.0254; CN source unchanged",
+      "areaMean_mm": 56.11826844660877
+    },
+    "seff": {
+      "units": "m",
+      "choice": "seff = smax (fully dry start at tstart 2026-10-30T16Z)",
+      "evidence": "NCEP Stage IV (IEM archive) over the model box: 24h totals ending 12Z Oct 24..29 domain mean 0.00-0.04 mm (max cell 0.6 mm); 24h ending Oct 30 12Z mean 2.53 mm (max 15 mm); Oct 30 12-16Z mean 1.15 mm (hourly cell maxima 4.6 and 7.1 mm). That ~3.7 mm is not counted (same as the cna base), so the start is slightly too dry (at most ~7% of mean Smax 56 mm).",
+      "stage4Prior": {
+        "ST4.2026102412.24h.grib": {
+          "cells": 168,
+          "missingCells": 0,
+          "mean_mm": 0.0,
+          "max_mm": 0.0
+        },
+        "ST4.2026102512.24h.grib": {
+          "cells": 168,
+          "missingCells": 0,
+          "mean_mm": 0.03928571428571429,
+          "max_mm": 0.6
+        },
+        "ST4.2026102612.24h.grib": {
+          "cells": 168,
+          "missingCells": 0,
+          "mean_mm": 0.0,
+          "max_mm": 0.0
+        },
+        "ST4.2026102712.24h.grib": {
+          "cells": 168,
+          "missingCells": 0,
+          "mean_mm": 0.0,
+          "max_mm": 0.0
+        },
+        "ST4.2026102812.24h.grib": {
+          "cells": 168,
+          "missingCells": 0,
+          "mean_mm": 0.0,
+          "max_mm": 0.0
+        },
+        "ST4.2026102912.24h.grib": {
+          "cells": 168,
+          "missingCells": 0,
+          "mean_mm": 0.0,
+          "max_mm": 0.0
+        },
+        "ST4.2026103012.24h.grib": {
+          "cells": 168,
+          "missingCells": 0,
+          "mean_mm": 2.526190476190476,
+          "max_mm": 15.0
+        },
+        "ST4.2026103013.01h.grib": {
+          "cells": 168,
+          "missingCells": 0,
+          "mean_mm": 0.0,
+          "max_mm": 0.0
+        },
+        "ST4.2026103014.01h.grib": {
+          "cells": 168,
+          "missingCells": 0,
+          "mean_mm": 0.0,
+          "max_mm": 0.0
+        },
+        "ST4.2026103015.01h.grib": {
+          "cells": 168,
+          "missingCells": 0,
+          "mean_mm": 0.38392857142857145,
+          "max_mm": 4.625
+        },
+        "ST4.2026103016.01h.grib": {
+          "cells": 168,
+          "missingCells": 0,
+          "mean_mm": 0.7671130952380952,
+          "max_mm": 7.125
+        }
+      }
+    },
+    "ks": {
+      "units": "mm/hr",
+      "source": "POLARIS v1.0 ksat mean 0-5 cm (Chaney et al. 2019, Water Resour. Res. 55, doi:10.1029/2018WR022797), http://hydrology.cee.duke.edu/POLARIS/PROPERTIES/v1.0/ksat/mean/0_5/ tiles lat3132/lat3233_lon-112-111, log10(cm/hr) -> mm/hr, face-area arithmetic mean, HydroMT-SFINCS 1.2.2 cap 360 mm/hr (0 faces capped), no NaN, no fill",
+      "stats": {
+        "faces": 643056,
+        "polarisLayer_cm": "0-5",
+        "polarisTiles": [
+          "ksat_mean_0_5_lat3132_lon-112-111.tif",
+          "ksat_mean_0_5_lat3233_lon-112-111.tif"
+        ],
+        "facesCappedAt360mmhr": 0,
+        "facesPartlyWithoutPolaris": 0,
+        "ks_mmhr_areaMean": 52.830380062239,
+        "ks_mmhr_p05_p50_p95": [
+          10.771647475659847,
+          37.0219412446022,
+          87.92051982879639
+        ],
+        "kr_perHour_areaMean": 0.018642155730781436,
+        "recoveryOnsetHours_0.06/kr_areaMean": 3.4860626621991955,
+        "recoveryOnsetHours_p05_p50_p95": [
+          2.4187124968304228,
+          3.727346595605087,
+          6.910163228537525
+        ],
+        "hoursSmaxFullRecovery_1/kr_p50": 62.122443260084786,
+        "smax_mm_areaMean": 56.11826844660877,
+        "seff_equals_smax": true
+      }
+    },
+    "builder": "tools/sfincs/brawley/variants/build_cnb_infiltration.py, then make_variant.py --inftype cnb (case v3l-obsrain-cnb), then make_variant.py --inp-set btfilter=-1 on that case"
+  },
+  "componentCases": {
+    "cnb": {
+      "caseId": "brawley-avra-west-native-case-v3l-obsrain-cnb",
+      "runId": "42584493432"
+    },
+    "btf": {
+      "caseId": "brawley-avra-west-native-case-v3l-obsrain-btf",
+      "runId": "42584636960"
+    }
+  },
+  "boundaryFilterChange": {
+    "label": "SENSITIVITY boundary: btfilter = -1 (uvmean off); not tuned to observations; not for live registration",
+    "hypothesis": "At msk 3 outflow links SFINCS adds a running mean of past flux (uvmean, gain up to btrelax/btfilter ~ 61x, ~1 h memory) to the head-driven weakly reflective flux; v2r stored boundary outflow was 2.6-4.4x the head-driven part (docs/upgrade/BRAWLEY-STABILITY-20261109.md 1.3). Turning it off leaves only the head term.",
+    "solver": "SFINCS f3647fc source/src/sfincs_boundaries.f90 update_boundary_fluxes: q = ub*h + uvmean (line 1119); lines 1178-1190: if btfilter >= -1e-6 then uvmean = factime*q + facrel*(1-factime)*uvmean else uvmean = 0. uvmean starts at 0 (sfincs_domain.f90:1999) and no rstfile is used, so with btfilter = -1 uvmean is 0 at every step. btfilter is read at sfincs_input.f90:149 (default 60) and is used nowhere else except a NetCDF output attribute (sfincs_ncoutput.F90:1967).",
+    "scope": "This mesh has mask 1 (643004 faces) and 3 (52 faces) only; no water-level (msk 2) or river (msk 5) boundaries, no bndfile/bzsfile/bdrfile, no wavemaker, so the change acts only on the msk 3 outflow links.",
+    "physicalSource": "The head term is the boundary's own long-wave outflow speed sqrt(g h) times the head over the outflow cell bed; with no downstream water to sustain a jet at a dry open outfall, the memory term has no physical counterpart.",
+    "from": "60.0",
+    "to": "-1"
+  },
+  "landRoughnessChange": {
+    "label": "SENSITIVITY land roughness lower bound; not tuned to observations; not for live registration",
+    "hypothesis": "The Mile Wide peak is 13.7 h late because water moves slowly over land (hillslope / small tributaries) on 25-100 m cells (docs/upgrade/BRAWLEY-TIMING-20261109.md cause (i)); setting land n to the smallest published overland value bounds how much faster land flow can make the peak",
+    "source": "USACE 1998 via HEC-HMS Technical Reference Manual CPD-74B (March 2000) Table 6-1 overland-flow roughness for sheet flow: smooth surfaces (concrete, asphalt, gravel, or bare soil) N=0.011; Range 0.13; Short grass prairie 0.15; Fallow 0.05",
+    "from": {
+      "20 shrubland": 0.05,
+      "30 grassland": 0.034,
+      "60 bare/sparse": 0.023
+    },
+    "to": {
+      "20 shrubland": 0.011,
+      "30 grassland": 0.011,
+      "60 bare/sparse": 0.011
+    },
+    "unchangedClasses": "tree 0.12, cropland 0.037, built-up 0.10, water 0.02, wetland 0.035 (pinned esa_worldcover_mapping.csv)",
+    "channelZone": ".sfincs-runs/brawley-avra-west-parameters-v2n/channel-mask.geojson buffered 10 m, all-touched: every pixel keeps its pinned n",
+    "builder": "tools/sfincs/brawley/variants/prepare_parameters_land_n.py, then make_variant.py --subgrid-file",
+    "preRegistration": "tools/sfincs/data/brawley-avra-west-v2/variants/landn-build/README.md"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "sensitivityVariant": true,
+  "identical": {
+    "z_zmin": true,
+    "z_zmax": true,
+    "z_volmax": true,
+    "z_level": true,
+    "uv_zmin": true,
+    "uv_zmax": true,
+    "uv_havg": false,
+    "uv_nrep": false,
+    "uv_pwet": true,
+    "uv_ffit": false,
+    "uv_navg": false
+  },
+  "uvPoints": 1308350,
+  "uvInsideMask": 17564,
+  "uvNavgBaselineInside": {
+    "n": 17564,
+    "mean": 0.04627,
+    "p10": 0.02562,
+    "median": 0.05,
+    "p90": 0.05
+  },
+  "uvNavgVariantInside": {
+    "n": 17564,
+    "mean": 0.04619,
+    "p10": 0.02561,
+    "median": 0.05,
+    "p90": 0.05
+  },
+  "uvNavgBaselineOutside": {
+    "n": 1290786,
+    "mean": 0.0467,
+    "p10": 0.02307,
+    "median": 0.05,
+    "p90": 0.05
+  },
+  "uvNavgVariantOutside": {
+    "n": 1290786,
+    "mean": 0.01754,
+    "p10": 0.011,
+    "median": 0.011,
+    "p90": 0.0365
+  },
+  "changedUv": 1229720,
+  "changedUvOutsideMask": 1229235,
+  "maxAbsChangeOutsideMask": 0.08796,
+  "note": "Changes just outside the mask come from the 10 m n raster being interpolated linearly onto subgrid pixels (edge blending) and from centreline pixels burned all-touched."
+}
