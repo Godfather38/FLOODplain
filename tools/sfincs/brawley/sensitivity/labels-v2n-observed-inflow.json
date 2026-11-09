@@ -1,0 +1,66 @@
+{
+ "modelVersion": "all-routes-brawley-avra-west-v1",
+ "routeIds": [],
+ "approvedExecutionCapSeconds": 7200,
+ "proposedExecutionCapSeconds": 7200,
+ "executionAuthorization": "orchestrator_task_brawley_avra_west_roughness_sensitivity_cap_7200_experimental_branch_only",
+ "knownLimits": [
+  "Current bridge and culvert elevations unknown; no structure openings",
+  "Published CN antecedent assumption (GCN10 fair ARCII undrained); no measured transmission loss",
+  "Terrain is bare-earth lidar: 1 m PimaCounty_2021_B21 and Eastern_PimaCO_2015 in road/wash windows (2015 covers most of the mid/upper Brawley mainstem and San Joaquin/Black Wash); 10 m context mixes all-route-context-v2, 2021, BrawleyRillito 2018 (flown 2019), 2015 and 0.98 km2 of USGS 1/3 arc-second; not a 2026 survey",
+  "2021 minus 2015 seam offset about -0.11 m median in 7 road windows; not corrected",
+  "6.25 m computational cells are not validated road-depth accuracy; compare cell water-surface elevation zs with road height, never averaged depth",
+  "The 27.47 km2 local catchment of 15876941 below USGS 09487000 is excluded; its runoff enters only through the inlet series",
+  "Directed network independence does not prove no cross-divide overland exchange; overlaps Gates by 139.42 km2; west-valley subtrees drain toward Northern, which keeps its own NWM inlets (independent model)",
+  "Domain v2 (1240 km2) adds the west-valley subtrees of Northern inlets 15876639/653/641/623, Pump Station tributaries 15876613/15876627 and terminal subtrees 15876757/719/669/675; 19 candidate dips (6 >= 1 m, mostly W Silverbell Rd and N Red Hill Rd near 32.445 N) remain in no model",
+  "Road heights exist only inside the floodplain-road-heights-v1 tile box (about lon >= -111.44, lat >= 32.146); roads outside it have no comparison",
+  "Extended validation window: rain 14Z Nov 1..07Z Nov 2 is still the frozen HRRR forecast (as in the frozen case), only 07Z..18Z Nov 2 is observed Stage IV",
+  "SENSITIVITY: Manning n = 0.030 inside an order>=3 NHD sand-bed channel mask (lidar-measured widths); not calibrated, not validated, not for live registration"
+ ],
+ "terrainSources": {
+  "road1m": "USGS 3DEP 1 m windows .sfincs-runs/brawley-avra-west-terrain-1m-v1 (162 new + reused) plus -v2 top-up (146 new); PimaCounty_2021_B21 > BrawleyRillito_2018_D19 > Eastern_PimaCO_2015",
+  "context10m": ".sfincs-runs/brawley-avra-west-context-v2 (16.97 km2 USGS 1/3 arc-second where no 1 m exists; no L3/L4 zone there)"
+ },
+ "scope": {
+  "status": "brawley_avra_west_version3",
+  "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+  "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+  "areaKm2": 1240.369838309587,
+  "externalInlets": [
+   {
+    "reachId": "15876941",
+    "receivingReachId": "15876923"
+   }
+  ],
+  "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+  "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+  "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+ },
+ "caseId": "brawley-avra-west-native-case-v2n-observed-inflow",
+ "validationVariant": true,
+ "inflow": {
+  "kind": "observed_gauge",
+  "gauge": "USGS 09487000 Brawley Wash near Three Points (provisional IV 00060)",
+  "file": "../../brawley-avra-west-v2/extended/brawley-avra-west-inflow-observed-v2x.json",
+  "note": "Sensitivity variant of brawley-avra-west-native-case-v2x-observed-inflow: same window (74 h to 2026-11-02T18Z), observed inflow, rain and boundaries; only sfincs_subgrid.nc roughness differs. Not for live registration."
+ },
+ "window": {
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T18:00:00Z",
+  "hours": 74,
+  "mapOutput": "2026-11-01T17:00Z..2026-11-02T18:00Z every 15 min (101 frames)",
+  "rain": "Frozen v2 package frames 2026-10-30T16Z..2026-11-02T07Z unchanged (Stage IV/MRMS analysis to 14Z Nov 1, then HRRR 2026-11-01T14Z forecast 14Z..07Z), then observed Stage IV 01h (IEM) for 07Z..18Z Nov 2 on the same grid and mapping; no HRRR in the extension, no zero-fill",
+  "note": "Validation-only extended window so the observed inflow wave can pass Manville, Tucker and the outlet. Not a live configuration and not tuned."
+ },
+ "sensitivityVariant": true,
+ "roughnessSensitivity": {
+  "hypothesis": "The slow observed-inflow wave (~1.7 km/h) is caused by floodplain-shrub Manning n (WorldCover 20 -> 0.05) applied to a sand-bed channel. Tested, not fitted: n is a single published value chosen before any run.",
+  "change": "Manning n set to 0.030 inside the channel mask (NHDPlus V2 flowlines, stream order >= 3, clipped to domain v2, each 100 m section buffered by half the 1 m lidar half-depth width, centred on the lidar channel where measured); every other n, terrain, mesh, boundary, rain and inflow value is the v2x case unchanged",
+  "channelN": 0.03,
+  "source": "Chow 1959 Table 5-6 A-1a natural minor stream, clean, straight, full stage: 0.025/0.030/0.033 (normal used); cross-check Arcement & Schneider 1989 USGS WSP 2339 sand channel base 0.012-0.026 plus modifiers",
+  "parameters": ".sfincs-runs/brawley-avra-west-parameters-v2n (tools/sfincs/brawley/sensitivity/prepare_parameters_channel_n.py)",
+  "mask": ".sfincs-runs/brawley-avra-west-parameters-v2n/channel-mask.geojson",
+  "channelReport": ".sfincs-runs/brawley-avra-west-parameters-v2n/channel-report.json",
+  "comparisonCase": "brawley-avra-west-native-case-v2x-observed-inflow (same window, inflow, rain, boundaries; baseline n)"
+ }
+}
