@@ -117,11 +117,11 @@ Files are in `tools/sfincs/data/brawley-avra-west-v2/variants/result-v3l-obsrain
 | Channel loss, whole run (map `urban_drainage_cumulative_depth` × cell area) | **940,860 m³** |
 | Same, from the his zone rates, 17Z Nov 1 – 18Z Nov 2 | 926,323 m³ |
 | Loss-rate peak | 14.29 m³/s at 07:45Z Nov 2 (84% of the all-wet maximum) |
-| Loss rate at 18Z Nov 2 | 12.4 m³/s (ponded channel cells are still draining) |
+| Loss rate at 18Z Nov 2 | 12.15 m³/s (12.43 at 17Z; his file `urban_drainage_discharge` summed over zones; ponded channel cells are still draining) |
 | Loss upstream of Mile Wide: Black Wash 15876815 area / both bands | 289,231 / 533,395 m³ |
 | Mass-balance residual (`validate_extended`, which does not know about this sink) | 967,395 m³ (cnb: −114,264 m³) |
 
-- The residual left after taking the channel loss out is 26.5k m³ (0.05% of inputs). The water budget closes.
+- The residual left after taking the channel loss out is 26.5k m³ (967,395 − 940,860; 0.05% of inputs). The budget closes only within the sampling error of the estimator: its outflow term is a trapezoid over hourly snapshots, and the same estimator gives −114,264 m³ for cnb, which has no sink. So the residual can say the loss volume is of the right size, not that it is exact to better than about ±0.1M m³.
 - The his file in this build has no `cumulative_injection_volume`, unlike the docs; the volume comes from integrating the rates.
 - Generated rain minus CN infiltration minus channel loss, whole run:
 
@@ -142,7 +142,7 @@ The observed peak is 64.73 m³/s at 18:20Z Nov 1; 03Z Nov 2 has 21.97 m³/s. The
 | Peak lag after observed 18:20Z | 11.7 h | 13.7 h | 7.7 h |
 | Q at 03Z / observed | 4.81 | 2.56 | 2.51 |
 | Volume 18Z–18Z, M m³ | 7.56 | 3.50 | **3.26** |
-| Ratio to observed 18Z start (no-plateau bracket) | 4.24 (5.20) | 1.96 (2.41) | **1.83 (2.24)** |
+| Ratio to observed 18Z start (no-plateau bracket) | 4.24 (5.20) | 1.96 (2.40) | **1.83 (2.24)** |
 | Hourly NSE / RMSE, 24 h | −37.1 / 78.1 | −7.37 / 36.6 | −6.27 / 34.1 |
 | Mean model / mean observed | 4.05 | 1.87 | 1.74 |
 
@@ -160,10 +160,12 @@ The observed peak is 64.73 m³/s at 18:20Z Nov 1; 03Z Nov 2 has 21.97 m³/s. The
 
 - **Sections** (peak m³/s, cnb → chl):
   - Donaldson Ranch: 25.1 → 22.9
-  - Manville: 80.2 → 71.5
-  - Tucker: 79.8 → 68.2
+  - Mile Wide Brawley 15877627 band: 7.48 → 5.50 (−26%), volume 18Z–18Z 283,581 → 144,675 m³ (−49%)
+  - Manville: 80.2 at 10Z → 71.5 at 03Z (the peak moves 7 h earlier: as at Mile Wide, the loss cuts the late hump more)
+  - Tucker: 79.8 at 11Z → 68.2 at 05Z (6 h earlier, same reason)
   - Outlet 720060498: 32.9 → 23.9, volume 1.29M → 0.92M m³
   - All outflow cells: volume 3.54M → 2.75M m³
+  - Outflow cluster 2 (12 cells, -111.337 32.413): volume 134,935 → 75,688 m³ (−44%)
 - **Roads** (cell zs against road height, wet frames only; a dry frame is never dry evidence):
   - 13 of 17 tracked crossings and dips change, all downward by 0.001–0.06 m. Examples: West Tucker Road 0.955 → 0.927 m over; West Manville Road dip 1.384 → 1.359 m.
   - Stations ever over the road: 5,277 → 5,163 (B: 7,677).
@@ -184,7 +186,7 @@ The observed peak is 64.73 m³/s at 18:20Z Nov 1; 03Z Nov 2 has 21.97 m³/s. The
 
 ## 5. Notes for the owner
 
-- **No solver change is needed for bed loss.** The pinned f3647fc urban-drainage `injection_well` is a depth-limited, out-of-model sink that runs next to any `inftype`. It is a prototype feature in Deltares's docs. Here it was verified by matching the zone stamping exactly and by the mass-balance residual.
+- **No solver change is needed for bed loss.** The pinned f3647fc urban-drainage `injection_well` is a depth-limited, out-of-model sink that runs next to any `inftype`. It is a prototype feature in Deltares's docs. Here it was checked by matching the zone stamping exactly and by the mass-balance residual, which agrees with the loss volume within the estimator's sampling error (about ±0.1M m³), not exactly.
 - **If a solver change is ever wanted**, these are the clean designs. All would be changes to `sfincs_infiltration.f90`, so none was made here:
   1. Allow a second, additive "bed loss" field (`qinf_bed`, m/s, per face) applied like `c2d` but capped at `z_volume/dt`, on top of any `inftype`.
   2. Cap `compute_infiltration_constant` at the water present, as `hor` already is.
@@ -196,7 +198,7 @@ The observed peak is 64.73 m³/s at 18:20Z Nov 1; 03Z Nov 2 has 21.97 m³/s. The
 
     python -I tools/sfincs/brawley/variants/build_channel_loss.py --base .sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb \
       --mask .sfincs-runs/brawley-avra-west-parameters-v2n/channel-mask.geojson \
-      --output .sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb-chl --report build-report.json
+      --output .sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb-chl \n      --report tools/sfincs/data/brawley-avra-west-v2/variants/channel-loss-build/build-report.json
     python tools/sfincs/package_route_case.py .sfincs-runs/brawley-avra-west-case-v3l-obsrain-cnb-chl \
       tools/sfincs/data/all-route-ready-v3/brawley-avra-west-native-case-v3l-obsrain-cnb-chl --labels tools/sfincs/brawley/variants/labels-v3l-obsrain-cnb-chl.json
     gh run download 42622897426 -n sfincs-verification -D .sfincs-runs/brawley-avra-west-result-v3l-obsrain-cnb-chl-42622897426/artifact
