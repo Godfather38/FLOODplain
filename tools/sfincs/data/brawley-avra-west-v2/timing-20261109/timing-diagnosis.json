@@ -1,0 +1,5579 @@
+{
+ "label": "TIMING DIAGNOSIS (read-only) of SENSITIVITY runs; nothing tuned; not for live registration",
+ "basin": {
+  "reaches": 63,
+  "areaKm2": 603.33,
+  "maxFlowDistanceKm": 43.8,
+  "note": "NHDPlus V2 catchments of domain v2 upstream of 15876815 (tonode->fromnode trace); flow distance = NHD length to the gauge reach"
+ },
+ "caseTimeAxis": {
+  "precipAttrs": {
+   "units": "mm/hour",
+   "data_role": "observation_based_analysis_mixed_sources",
+   "interval_label": "start",
+   "interval_seconds": "3600",
+   "_FillValue": "nan"
+  },
+  "firstFrame": "2026-10-30T16:00Z",
+  "lastFrame": "2026-11-02T17:00Z",
+  "frames": 74,
+  "tref": "20261030 160000",
+  "tstart": "20261030 160000",
+  "tstop": "20261102 180000",
+  "t0out_s": "176400",
+  "mapStartUtc": "2026-11-01T17:00Z",
+  "dtwnd_s": "1800.0",
+  "amprblock": "not set (solver default .true. = block)"
+ },
+ "rainGauges": {
+  "method": "gauge: accumulator increments binned by the UTC hour containing the report (MST+7); an hour with no report on either side is unknown (null), never zero. model: B precip_2d.nc frame whose interval START is that hour, sampled bilinearly with the solver grid rule; corrByLag k = correlation of gauge hour h with model frame h-k (k>0: model rain would need to be LATER to match)",
+  "hourlyMmFormat": "[gauge, StageIV-frame]",
+  "gauges": [
+   {
+    "site": "5040",
+    "name": "San Xavier-Black Mountain West",
+    "lat": 32.079945,
+    "lon": -111.08847,
+    "inBlackWashBasin": true,
+    "distanceToBasinM": 0,
+    "reportsSpanUtc": [
+     "2026-09-30T07:00Z",
+     "2026-11-09T12:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 19.8,
+    "stageIVcellMm_same": 25.5,
+    "gaugeMm_11-01T00Z_to_12Z": 5.1,
+    "stageIVcellMm_11-01T00Z_to_12Z": 6.2,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.324,
+     "-5": -0.149,
+     "-4": -0.099,
+     "-3": -0.099,
+     "-2": -0.096,
+     "-1": 0.232,
+     "0": 0.985,
+     "1": 0.052,
+     "2": -0.126,
+     "3": -0.099,
+     "4": -0.09,
+     "5": -0.169,
+     "6": -0.175
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": 0.23,
+    "hourlyMm": {
+     "11-01T01": [
+      1.0,
+      1.0
+     ],
+     "11-01T02": [
+      0.0,
+      1.5
+     ],
+     "11-01T03": [
+      0.0,
+      1.1
+     ],
+     "11-01T04": [
+      3.0,
+      0.9
+     ],
+     "11-01T05": [
+      0.0,
+      1.4
+     ],
+     "11-01T06": [
+      1.0,
+      0.4
+     ],
+     "11-01T16": [
+      3.8,
+      2.5
+     ],
+     "11-01T17": [
+      12.2,
+      17.1
+     ],
+     "11-01T18": [
+      1.0,
+      1.2
+     ],
+     "11-01T19": [
+      0.8,
+      1.4
+     ],
+     "11-01T20": [
+      1.0,
+      1.4
+     ],
+     "11-01T21": [
+      1.0,
+      1.5
+     ],
+     "11-02T08": [
+      3.0,
+      3.6
+     ],
+     "11-02T09": [
+      1.0,
+      2.0
+     ]
+    }
+   },
+   {
+    "site": "6430",
+    "name": "Valhalla Park - Black Wash Basin",
+    "lat": 32.118889,
+    "lon": -111.114441,
+    "inBlackWashBasin": true,
+    "distanceToBasinM": 0,
+    "reportsSpanUtc": [
+     "2026-09-29T05:00Z",
+     "2026-11-09T12:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 23.1,
+    "stageIVcellMm_same": 26.3,
+    "gaugeMm_11-01T00Z_to_12Z": 5.1,
+    "stageIVcellMm_11-01T00Z_to_12Z": 6.8,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.38,
+     "-5": -0.169,
+     "-4": -0.131,
+     "-3": -0.14,
+     "-2": -0.145,
+     "-1": 0.614,
+     "0": 0.888,
+     "1": 0.107,
+     "2": -0.13,
+     "3": -0.123,
+     "4": -0.131,
+     "5": -0.21,
+     "6": -0.22
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": 0.2,
+    "hourlyMm": {
+     "11-01T01": [
+      1.0,
+      1.2
+     ],
+     "11-01T02": [
+      2.0,
+      3.5
+     ],
+     "11-01T03": [
+      1.0,
+      1.0
+     ],
+     "11-01T05": [
+      1.0,
+      0.8
+     ],
+     "11-01T16": [
+      8.9,
+      4.8
+     ],
+     "11-01T17": [
+      10.2,
+      15.9
+     ],
+     "11-01T18": [
+      1.0,
+      1.5
+     ],
+     "11-01T19": [
+      1.0,
+      0.8
+     ],
+     "11-01T20": [
+      1.0,
+      1.6
+     ],
+     "11-01T21": [
+      1.0,
+      1.2
+     ],
+     "11-02T07": [
+      null,
+      0.9
+     ],
+     "11-02T08": [
+      null,
+      3.9
+     ],
+     "11-02T09": [
+      null,
+      1.1
+     ]
+    }
+   },
+   {
+    "site": "6470",
+    "name": "Tucson Water Treatment Plant - Brawley Basin",
+    "lat": 32.170334,
+    "lon": -111.088104,
+    "inBlackWashBasin": true,
+    "distanceToBasinM": 0,
+    "reportsSpanUtc": [
+     "2026-07-18T16:29Z",
+     "2026-11-09T04:29Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 33.0,
+    "stageIVcellMm_same": 33.4,
+    "gaugeMm_11-01T00Z_to_12Z": 13.0,
+    "stageIVcellMm_11-01T00Z_to_12Z": 13.3,
+    "unknownHours12Zto00Z": 3,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.304,
+     "-5": -0.217,
+     "-4": -0.167,
+     "-3": -0.187,
+     "-2": -0.276,
+     "-1": 0.561,
+     "0": 0.865,
+     "1": 0.033,
+     "2": -0.25,
+     "3": -0.114,
+     "4": -0.215,
+     "5": -0.247,
+     "6": -0.162
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": 0.17,
+    "hourlyMm": {
+     "11-01T01": [
+      0.0,
+      0.5
+     ],
+     "11-01T02": [
+      10.2,
+      9.4
+     ],
+     "11-01T03": [
+      1.0,
+      1.0
+     ],
+     "11-01T04": [
+      1.0,
+      1.1
+     ],
+     "11-01T05": [
+      0.8,
+      0.9
+     ],
+     "11-01T14": [
+      1.0,
+      1.1
+     ],
+     "11-01T16": [
+      12.2,
+      5.6
+     ],
+     "11-01T17": [
+      14.0,
+      20.2
+     ],
+     "11-01T18": [
+      2.0,
+      2.1
+     ],
+     "11-01T20": [
+      2.8,
+      2.7
+     ],
+     "11-01T21": [
+      1.0,
+      1.0
+     ],
+     "11-02T07": [
+      1.0,
+      1.4
+     ],
+     "11-02T08": [
+      5.1,
+      4.7
+     ],
+     "11-02T09": [
+      null,
+      1.1
+     ]
+    }
+   },
+   {
+    "site": "6490",
+    "name": "Old Tucson",
+    "lat": 32.220211,
+    "lon": -111.131416,
+    "inBlackWashBasin": true,
+    "distanceToBasinM": 0,
+    "reportsSpanUtc": [
+     "2026-10-01T03:00Z",
+     "2026-11-09T12:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 33.0,
+    "stageIVcellMm_same": 34.8,
+    "gaugeMm_11-01T00Z_to_12Z": 11.2,
+    "stageIVcellMm_11-01T00Z_to_12Z": 11.4,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.294,
+     "-5": -0.218,
+     "-4": -0.146,
+     "-3": -0.128,
+     "-2": -0.062,
+     "-1": 0.304,
+     "0": 0.959,
+     "1": 0.325,
+     "2": 0.011,
+     "3": -0.15,
+     "4": -0.108,
+     "5": -0.205,
+     "6": -0.26
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": -0.23,
+    "hourlyMm": {
+     "11-01T01": [
+      1.0,
+      3.9
+     ],
+     "11-01T02": [
+      7.1,
+      4.4
+     ],
+     "11-01T03": [
+      0.0,
+      0.8
+     ],
+     "11-01T04": [
+      1.0,
+      1.1
+     ],
+     "11-01T05": [
+      1.0,
+      0.6
+     ],
+     "11-01T06": [
+      1.0,
+      0.4
+     ],
+     "11-01T14": [
+      1.0,
+      1.6
+     ],
+     "11-01T15": [
+      1.0,
+      4.0
+     ],
+     "11-01T16": [
+      18.8,
+      15.4
+     ],
+     "11-01T17": [
+      5.1,
+      7.2
+     ],
+     "11-01T18": [
+      2.0,
+      2.2
+     ],
+     "11-01T19": [
+      1.0,
+      2.0
+     ],
+     "11-01T20": [
+      3.0,
+      1.9
+     ],
+     "11-01T21": [
+      1.0,
+      0.4
+     ],
+     "11-02T07": [
+      2.0,
+      3.8
+     ],
+     "11-02T08": [
+      4.8,
+      2.0
+     ]
+    }
+   },
+   {
+    "site": "6500",
+    "name": "Arizona-Sonora Desert Museum",
+    "lat": 32.244461,
+    "lon": -111.162674,
+    "inBlackWashBasin": true,
+    "distanceToBasinM": 0,
+    "reportsSpanUtc": [
+     "2026-09-18T20:00Z",
+     "2026-11-09T03:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 38.1,
+    "stageIVcellMm_same": 38.8,
+    "gaugeMm_11-01T00Z_to_12Z": 9.9,
+    "stageIVcellMm_11-01T00Z_to_12Z": 10.6,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.258,
+     "-5": -0.231,
+     "-4": -0.118,
+     "-3": -0.059,
+     "-2": -0.063,
+     "-1": 0.063,
+     "0": 0.983,
+     "1": 0.278,
+     "2": -0.037,
+     "3": -0.134,
+     "4": -0.085,
+     "5": -0.193,
+     "6": -0.213
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": -0.2,
+    "hourlyMm": {
+     "11-01T01": [
+      1.0,
+      5.8
+     ],
+     "11-01T02": [
+      6.1,
+      2.0
+     ],
+     "11-01T03": [
+      0.8,
+      0.5
+     ],
+     "11-01T04": [
+      1.0,
+      1.2
+     ],
+     "11-01T06": [
+      1.0,
+      0.5
+     ],
+     "11-01T14": [
+      1.0,
+      2.2
+     ],
+     "11-01T15": [
+      4.1,
+      5.9
+     ],
+     "11-01T16": [
+      23.1,
+      22.2
+     ],
+     "11-01T17": [
+      3.8,
+      1.8
+     ],
+     "11-01T18": [
+      1.0,
+      2.3
+     ],
+     "11-01T19": [
+      2.0,
+      3.2
+     ],
+     "11-01T20": [
+      3.0,
+      1.3
+     ],
+     "11-02T07": [
+      4.1,
+      6.0
+     ],
+     "11-02T08": [
+      3.0,
+      1.0
+     ]
+    }
+   },
+   {
+    "site": "6440",
+    "name": "Brawley Wash at Milewide Road",
+    "lat": 32.248611,
+    "lon": -111.244446,
+    "inBlackWashBasin": true,
+    "distanceToBasinM": 0,
+    "reportsSpanUtc": [
+     "2026-09-30T05:00Z",
+     "2026-11-09T03:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 29.0,
+    "stageIVcellMm_same": 26.1,
+    "gaugeMm_11-01T00Z_to_12Z": 7.1,
+    "stageIVcellMm_11-01T00Z_to_12Z": 7.1,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.306,
+     "-5": -0.006,
+     "-4": -0.064,
+     "-3": -0.175,
+     "-2": -0.061,
+     "-1": 0.415,
+     "0": 0.998,
+     "1": 0.47,
+     "2": -0.065,
+     "3": -0.198,
+     "4": -0.17,
+     "5": -0.248,
+     "6": -0.312
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": 0.0,
+    "hourlyMm": {
+     "11-01T01": [
+      3.0,
+      2.2
+     ],
+     "11-01T02": [
+      2.0,
+      2.7
+     ],
+     "11-01T04": [
+      1.0,
+      0.9
+     ],
+     "11-01T05": [
+      1.0,
+      1.0
+     ],
+     "11-01T14": [
+      0.8,
+      0.7
+     ],
+     "11-01T15": [
+      8.1,
+      7.7
+     ],
+     "11-01T16": [
+      13.0,
+      11.0
+     ],
+     "11-01T17": [
+      2.0,
+      1.9
+     ],
+     "11-01T18": [
+      2.0,
+      1.8
+     ],
+     "11-01T19": [
+      1.0,
+      1.1
+     ],
+     "11-01T20": [
+      2.0,
+      1.8
+     ],
+     "11-02T07": [
+      3.8,
+      2.5
+     ],
+     "11-02T08": [
+      1.0,
+      1.4
+     ],
+     "11-02T09": [
+      1.0,
+      0.9
+     ]
+    }
+   },
+   {
+    "site": "6450",
+    "name": "Hilltop Road - Brawley Basin",
+    "lat": 32.04361,
+    "lon": -111.241669,
+    "inBlackWashBasin": false,
+    "distanceToBasinM": 146,
+    "reportsSpanUtc": [
+     "2026-09-29T07:00Z",
+     "2026-11-09T03:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 36.8,
+    "stageIVcellMm_same": 36.8,
+    "gaugeMm_11-01T00Z_to_12Z": 9.1,
+    "stageIVcellMm_11-01T00Z_to_12Z": 9.0,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.228,
+     "-5": -0.192,
+     "-4": -0.09,
+     "-3": -0.147,
+     "-2": 0.062,
+     "-1": 0.545,
+     "0": 0.834,
+     "1": 0.074,
+     "2": -0.015,
+     "3": -0.148,
+     "4": -0.133,
+     "5": -0.249,
+     "6": -0.243
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": 0.23,
+    "hourlyMm": {
+     "11-01T01": [
+      3.0,
+      3.0
+     ],
+     "11-01T02": [
+      3.0,
+      3.0
+     ],
+     "11-01T03": [
+      1.0,
+      1.0
+     ],
+     "11-01T04": [
+      2.0,
+      1.0
+     ],
+     "11-01T05": [
+      0.0,
+      1.0
+     ],
+     "11-01T14": [
+      2.0,
+      1.0
+     ],
+     "11-01T15": [
+      0.0,
+      1.0
+     ],
+     "11-01T16": [
+      21.8,
+      14.0
+     ],
+     "11-01T17": [
+      4.1,
+      12.0
+     ],
+     "11-01T18": [
+      4.1,
+      4.0
+     ],
+     "11-01T19": [
+      1.0,
+      1.0
+     ],
+     "11-01T20": [
+      3.0,
+      3.0
+     ],
+     "11-01T21": [
+      0.8,
+      0.8
+     ],
+     "11-02T08": [
+      1.0,
+      1.0
+     ]
+    }
+   },
+   {
+    "site": "6410",
+    "name": "Diamond Bell Ranch - Brawley Basin",
+    "lat": 31.989721,
+    "lon": -111.297226,
+    "inBlackWashBasin": false,
+    "distanceToBasinM": 1486,
+    "reportsSpanUtc": [
+     "2026-09-30T21:00Z",
+     "2026-11-09T12:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 40.9,
+    "stageIVcellMm_same": 39.5,
+    "gaugeMm_11-01T00Z_to_12Z": 6.1,
+    "stageIVcellMm_11-01T00Z_to_12Z": 6.7,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.218,
+     "-5": -0.118,
+     "-4": -0.054,
+     "-3": -0.089,
+     "-2": 0.157,
+     "-1": 0.273,
+     "0": 0.944,
+     "1": 0.025,
+     "2": 0.124,
+     "3": -0.141,
+     "4": -0.071,
+     "5": -0.245,
+     "6": -0.29
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": 0.13,
+    "hourlyMm": {
+     "11-01T02": [
+      4.1,
+      3.6
+     ],
+     "11-01T04": [
+      1.0,
+      1.1
+     ],
+     "11-01T07": [
+      1.0,
+      0.9
+     ],
+     "11-01T14": [
+      4.8,
+      3.4
+     ],
+     "11-01T15": [
+      0.0,
+      1.2
+     ],
+     "11-01T16": [
+      20.1,
+      15.1
+     ],
+     "11-01T17": [
+      4.1,
+      8.3
+     ],
+     "11-01T18": [
+      4.1,
+      3.9
+     ],
+     "11-01T19": [
+      1.8,
+      1.7
+     ],
+     "11-01T20": [
+      4.1,
+      3.8
+     ],
+     "11-01T21": [
+      2.0,
+      2.0
+     ]
+    }
+   },
+   {
+    "site": "6420",
+    "name": "Brawley Wash at Three Points",
+    "lat": 32.075554,
+    "lon": -111.338333,
+    "inBlackWashBasin": false,
+    "distanceToBasinM": 750,
+    "reportsSpanUtc": [
+     "2026-09-25T06:00Z",
+     "2026-11-09T03:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 31.0,
+    "stageIVcellMm_same": 29.1,
+    "gaugeMm_11-01T00Z_to_12Z": 9.9,
+    "stageIVcellMm_11-01T00Z_to_12Z": 11.7,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.273,
+     "-5": 0.064,
+     "-4": -0.09,
+     "-3": -0.087,
+     "-2": 0.014,
+     "-1": 0.035,
+     "0": 0.994,
+     "1": 0.094,
+     "2": 0.05,
+     "3": -0.053,
+     "4": -0.173,
+     "5": -0.176,
+     "6": -0.228
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": -0.04,
+    "hourlyMm": {
+     "11-01T00": [
+      1.0,
+      0.9
+     ],
+     "11-01T01": [
+      2.8,
+      2.5
+     ],
+     "11-01T02": [
+      1.0,
+      1.2
+     ],
+     "11-01T03": [
+      1.0,
+      1.3
+     ],
+     "11-01T04": [
+      1.0,
+      1.7
+     ],
+     "11-01T05": [
+      1.0,
+      1.0
+     ],
+     "11-01T06": [
+      2.0,
+      1.9
+     ],
+     "11-01T08": [
+      0.0,
+      0.5
+     ],
+     "11-01T13": [
+      1.0,
+      0.8
+     ],
+     "11-01T14": [
+      1.0,
+      1.8
+     ],
+     "11-01T15": [
+      3.0,
+      3.5
+     ],
+     "11-01T16": [
+      18.0,
+      15.5
+     ],
+     "11-01T17": [
+      1.0,
+      1.1
+     ],
+     "11-01T18": [
+      2.8,
+      2.5
+     ],
+     "11-01T19": [
+      2.0,
+      1.1
+     ],
+     "11-01T20": [
+      1.0,
+      1.8
+     ],
+     "11-01T21": [
+      1.0,
+      0.9
+     ],
+     "11-02T03": [
+      0.0,
+      0.9
+     ],
+     "11-02T08": [
+      2.0,
+      1.7
+     ]
+    }
+   },
+   {
+    "site": "6460",
+    "name": "Picture Rocks Community Center - Brawley Basin",
+    "lat": 32.309166,
+    "lon": -111.235558,
+    "inBlackWashBasin": false,
+    "distanceToBasinM": 6283,
+    "reportsSpanUtc": [
+     "2026-09-30T19:00Z",
+     "2026-11-09T03:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 32.0,
+    "stageIVcellMm_same": 32.0,
+    "gaugeMm_11-01T00Z_to_12Z": 8.9,
+    "stageIVcellMm_11-01T00Z_to_12Z": 8.8,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.23,
+     "-5": -0.188,
+     "-4": -0.174,
+     "-3": -0.101,
+     "-2": 0.036,
+     "-1": 0.27,
+     "0": 1.0,
+     "1": 0.271,
+     "2": 0.034,
+     "3": -0.11,
+     "4": -0.245,
+     "5": -0.298,
+     "6": -0.248
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": -0.0,
+    "hourlyMm": {
+     "11-01T01": [
+      3.0,
+      2.0
+     ],
+     "11-01T02": [
+      0.0,
+      2.0
+     ],
+     "11-01T03": [
+      2.0,
+      1.0
+     ],
+     "11-01T05": [
+      2.0,
+      2.0
+     ],
+     "11-01T07": [
+      1.0,
+      1.0
+     ],
+     "11-01T09": [
+      0.8,
+      0.8
+     ],
+     "11-01T15": [
+      8.1,
+      8.1
+     ],
+     "11-01T16": [
+      16.0,
+      16.0
+     ],
+     "11-01T17": [
+      1.0,
+      1.0
+     ],
+     "11-01T18": [
+      5.1,
+      5.1
+     ],
+     "11-01T19": [
+      1.0,
+      1.0
+     ],
+     "11-01T20": [
+      0.8,
+      0.8
+     ],
+     "11-02T07": [
+      9.1,
+      2.2
+     ],
+     "11-02T08": [
+      1.0,
+      0.9
+     ],
+     "11-02T09": [
+      1.0,
+      0.6
+     ]
+    }
+   },
+   {
+    "site": "6480",
+    "name": "Trico Rd north of Manville",
+    "lat": 32.319149,
+    "lon": -111.303688,
+    "inBlackWashBasin": false,
+    "distanceToBasinM": 9495,
+    "reportsSpanUtc": [
+     "2026-09-29T07:00Z",
+     "2026-11-09T03:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 12.2,
+    "stageIVcellMm_same": 13.8,
+    "gaugeMm_11-01T00Z_to_12Z": 3.8,
+    "stageIVcellMm_11-01T00Z_to_12Z": 5.5,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.166,
+     "-5": 0.3,
+     "-4": 0.372,
+     "-3": -0.12,
+     "-2": -0.033,
+     "-1": 0.156,
+     "0": 0.994,
+     "1": 0.072,
+     "2": -0.069,
+     "3": -0.172,
+     "4": -0.103,
+     "5": -0.201,
+     "6": -0.201
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": 0.27,
+    "hourlyMm": {
+     "11-01T01": [
+      1.8,
+      2.1
+     ],
+     "11-01T02": [
+      1.0,
+      1.1
+     ],
+     "11-01T06": [
+      1.0,
+      1.2
+     ],
+     "11-01T14": [
+      1.0,
+      1.0
+     ],
+     "11-01T15": [
+      8.1,
+      7.7
+     ],
+     "11-01T16": [
+      1.0,
+      1.5
+     ],
+     "11-01T17": [
+      1.0,
+      1.1
+     ],
+     "11-01T19": [
+      1.0,
+      1.1
+     ],
+     "11-01T20": [
+      0.0,
+      0.7
+     ],
+     "11-02T07": [
+      0.8,
+      0.9
+     ],
+     "11-02T09": [
+      1.0,
+      1.0
+     ]
+    }
+   },
+   {
+    "site": "6140",
+    "name": "San Xavier-Black Mountain East",
+    "lat": 32.074581,
+    "lon": -111.040596,
+    "inBlackWashBasin": false,
+    "distanceToBasinM": 1670,
+    "reportsSpanUtc": [
+     "2026-09-30T21:00Z",
+     "2026-11-09T12:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 23.1,
+    "stageIVcellMm_same": 26.2,
+    "gaugeMm_11-01T00Z_to_12Z": 7.9,
+    "stageIVcellMm_11-01T00Z_to_12Z": 7.5,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.299,
+     "-5": -0.112,
+     "-4": -0.071,
+     "-3": -0.069,
+     "-2": -0.05,
+     "-1": -0.06,
+     "0": 0.993,
+     "1": -0.005,
+     "2": -0.144,
+     "3": -0.082,
+     "4": -0.073,
+     "5": -0.067,
+     "6": -0.121
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": 0.11,
+    "hourlyMm": {
+     "11-01T01": [
+      0.0,
+      0.8
+     ],
+     "11-01T02": [
+      1.8,
+      1.4
+     ],
+     "11-01T03": [
+      0.0,
+      1.0
+     ],
+     "11-01T04": [
+      4.1,
+      1.9
+     ],
+     "11-01T05": [
+      1.0,
+      1.9
+     ],
+     "11-01T06": [
+      1.0,
+      0.6
+     ],
+     "11-01T16": [
+      0.0,
+      1.4
+     ],
+     "11-01T17": [
+      19.0,
+      17.9
+     ],
+     "11-01T18": [
+      1.0,
+      1.5
+     ],
+     "11-01T19": [
+      0.0,
+      1.8
+     ],
+     "11-01T20": [
+      1.0,
+      1.5
+     ],
+     "11-01T21": [
+      1.0,
+      1.5
+     ],
+     "11-01T22": [
+      1.0,
+      0.8
+     ],
+     "11-02T08": [
+      1.0,
+      4.1
+     ],
+     "11-02T09": [
+      1.8,
+      2.9
+     ]
+    }
+   },
+   {
+    "site": "6520",
+    "name": "El Camino Del Cerro TH",
+    "lat": 32.2887,
+    "lon": -111.121941,
+    "inBlackWashBasin": false,
+    "distanceToBasinM": 3110,
+    "reportsSpanUtc": [
+     "2026-10-01T22:00Z",
+     "2026-11-09T12:00Z"
+    ],
+    "gaugeMm_11-01T12Z_to_02T00Z": 43.2,
+    "stageIVcellMm_same": 35.1,
+    "gaugeMm_11-01T00Z_to_12Z": 9.9,
+    "stageIVcellMm_11-01T00Z_to_12Z": 11.8,
+    "unknownHours12Zto00Z": 0,
+    "bestLagH": 0,
+    "corrByLag": {
+     "-6": -0.275,
+     "-5": -0.182,
+     "-4": -0.121,
+     "-3": -0.101,
+     "-2": 0.02,
+     "-1": 0.529,
+     "0": 0.947,
+     "1": 0.263,
+     "2": -0.033,
+     "3": -0.137,
+     "4": -0.151,
+     "5": -0.296,
+     "6": -0.32
+    },
+    "centroidHoursModelMinusGauge_12Zto00Z": 0.1,
+    "hourlyMm": {
+     "11-01T01": [
+      1.0,
+      3.1
+     ],
+     "11-01T02": [
+      6.1,
+      4.6
+     ],
+     "11-01T03": [
+      1.0,
+      0.9
+     ],
+     "11-01T04": [
+      1.0,
+      1.6
+     ],
+     "11-01T07": [
+      0.8,
+      0.2
+     ],
+     "11-01T14": [
+      2.0,
+      1.2
+     ],
+     "11-01T15": [
+      5.1,
+      4.0
+     ],
+     "11-01T16": [
+      22.1,
+      14.6
+     ],
+     "11-01T17": [
+      4.8,
+      8.0
+     ],
+     "11-01T18": [
+      3.0,
+      1.9
+     ],
+     "11-01T19": [
+      2.0,
+      2.4
+     ],
+     "11-01T20": [
+      4.1,
+      2.4
+     ],
+     "11-02T07": [
+      4.8,
+      3.6
+     ],
+     "11-02T08": [
+      4.1,
+      2.1
+     ]
+    }
+   }
+  ]
+ },
+ "basinRainHourlyMm": {
+  "11-01T00": 0.07,
+  "11-01T01": 2.22,
+  "11-01T02": 3.46,
+  "11-01T03": 1.01,
+  "11-01T04": 1.37,
+  "11-01T05": 0.81,
+  "11-01T06": 0.45,
+  "11-01T07": 0.23,
+  "11-01T08": 0.25,
+  "11-01T09": 0.21,
+  "11-01T10": 0.11,
+  "11-01T13": 0.05,
+  "11-01T14": 1.32,
+  "11-01T15": 2.22,
+  "11-01T16": 10.14,
+  "11-01T17": 10.92,
+  "11-01T18": 2.49,
+  "11-01T19": 1.27,
+  "11-01T20": 2.3,
+  "11-01T21": 1.08,
+  "11-01T22": 0.11,
+  "11-02T02": 0.16,
+  "11-02T03": 0.39,
+  "11-02T06": 0.1,
+  "11-02T07": 1.18,
+  "11-02T08": 2.1,
+  "11-02T09": 0.58
+ },
+ "basinGaugeMeanHourlyMm": {
+  "11-01T01": {
+   "mean": 1.17,
+   "gaugesKnown": 6
+  },
+  "11-01T02": {
+   "mean": 4.57,
+   "gaugesKnown": 6
+  },
+  "11-01T03": {
+   "mean": 0.47,
+   "gaugesKnown": 6
+  },
+  "11-01T04": {
+   "mean": 1.17,
+   "gaugesKnown": 6
+  },
+  "11-01T05": {
+   "mean": 0.63,
+   "gaugesKnown": 6
+  },
+  "11-01T06": {
+   "mean": 0.5,
+   "gaugesKnown": 6
+  },
+  "11-01T14": {
+   "mean": 0.63,
+   "gaugesKnown": 6
+  },
+  "11-01T15": {
+   "mean": 2.2,
+   "gaugesKnown": 6
+  },
+  "11-01T16": {
+   "mean": 13.3,
+   "gaugesKnown": 6
+  },
+  "11-01T17": {
+   "mean": 7.88,
+   "gaugesKnown": 6
+  },
+  "11-01T18": {
+   "mean": 1.5,
+   "gaugesKnown": 6
+  },
+  "11-01T19": {
+   "mean": 0.97,
+   "gaugesKnown": 6
+  },
+  "11-01T20": {
+   "mean": 2.13,
+   "gaugesKnown": 6
+  },
+  "11-01T21": {
+   "mean": 0.67,
+   "gaugesKnown": 6
+  },
+  "11-02T07": {
+   "mean": 2.18,
+   "gaugesKnown": 5
+  },
+  "11-02T08": {
+   "mean": 3.38,
+   "gaugesKnown": 5
+  },
+  "11-02T09": {
+   "mean": 0.5,
+   "gaugesKnown": 4
+  }
+ },
+ "rings": [
+  {
+   "flowKm": "0-5",
+   "areaKm2": 31.3,
+   "rain14to18ZMm": 24.6,
+   "rainVol14to18ZMm3": 0.77,
+   "rain00to12ZMm": 9.5
+  },
+  {
+   "flowKm": "5-10",
+   "areaKm2": 39.8,
+   "rain14to18ZMm": 24.6,
+   "rainVol14to18ZMm3": 0.98,
+   "rain00to12ZMm": 11.5
+  },
+  {
+   "flowKm": "10-15",
+   "areaKm2": 249.8,
+   "rain14to18ZMm": 25.3,
+   "rainVol14to18ZMm3": 6.32,
+   "rain00to12ZMm": 10.1
+  },
+  {
+   "flowKm": "15-20",
+   "areaKm2": 80.6,
+   "rain14to18ZMm": 24.9,
+   "rainVol14to18ZMm3": 2.01,
+   "rain00to12ZMm": 12.7
+  },
+  {
+   "flowKm": "20-30",
+   "areaKm2": 161.6,
+   "rain14to18ZMm": 23.6,
+   "rainVol14to18ZMm3": 3.81,
+   "rain00to12ZMm": 9.4
+  },
+  {
+   "flowKm": "30-40",
+   "areaKm2": 38.2,
+   "rain14to18ZMm": 23.8,
+   "rainVol14to18ZMm3": 0.91,
+   "rain00to12ZMm": 8.4
+  },
+  {
+   "flowKm": "40-60",
+   "areaKm2": 1.4,
+   "rain14to18ZMm": 18.5,
+   "rainVol14to18ZMm3": 0.03,
+   "rain00to12ZMm": 9.2
+  }
+ ],
+ "ringsStraightLine": [
+  {
+   "straightKm": "0-5",
+   "areaKm2": 24.4,
+   "rain14to18ZMm": 24.0,
+   "rainVol14to18ZMm3": 0.58
+  },
+  {
+   "straightKm": "5-10",
+   "areaKm2": 74.6,
+   "rain14to18ZMm": 25.8,
+   "rainVol14to18ZMm3": 1.93
+  },
+  {
+   "straightKm": "10-15",
+   "areaKm2": 105.4,
+   "rain14to18ZMm": 25.0,
+   "rainVol14to18ZMm3": 2.63
+  },
+  {
+   "straightKm": "15-20",
+   "areaKm2": 132.3,
+   "rain14to18ZMm": 23.7,
+   "rainVol14to18ZMm3": 3.13
+  },
+  {
+   "straightKm": "20-30",
+   "areaKm2": 220.2,
+   "rain14to18ZMm": 24.6,
+   "rainVol14to18ZMm3": 5.42
+  },
+  {
+   "straightKm": "30-40",
+   "areaKm2": 45.8,
+   "rain14to18ZMm": 24.7,
+   "rainVol14to18ZMm3": 1.13
+  },
+  {
+   "straightKm": "40-60",
+   "areaKm2": 0.0,
+   "rain14to18ZMm": null,
+   "rainVol14to18ZMm3": 0.0
+  }
+ ],
+ "tributariesJoiningBlackWash": [
+  {
+   "comid": 15877613,
+   "joinsAtKm": 0.0,
+   "areaKm2": 5.8,
+   "gnis": " ",
+   "rain14to18ZMm": 26.5,
+   "maxFlowKmToGauge": 8.0
+  },
+  {
+   "comid": 15876831,
+   "joinsAtKm": 3.55,
+   "areaKm2": 28.2,
+   "gnis": " ",
+   "rain14to18ZMm": 28.9,
+   "maxFlowKmToGauge": 17.3
+  },
+  {
+   "comid": 15876863,
+   "joinsAtKm": 4.36,
+   "areaKm2": 128.5,
+   "gnis": " ",
+   "rain14to18ZMm": 24.6,
+   "maxFlowKmToGauge": 35.0
+  },
+  {
+   "comid": 15876837,
+   "joinsAtKm": 5.56,
+   "areaKm2": 5.6,
+   "gnis": " ",
+   "rain14to18ZMm": 26.3,
+   "maxFlowKmToGauge": 13.1
+  },
+  {
+   "comid": 15876847,
+   "joinsAtKm": 7.62,
+   "areaKm2": 67.1,
+   "gnis": " ",
+   "rain14to18ZMm": 26.8,
+   "maxFlowKmToGauge": 25.6
+  },
+  {
+   "comid": 15876881,
+   "joinsAtKm": 9.6,
+   "areaKm2": 147.3,
+   "gnis": " ",
+   "rain14to18ZMm": 25.1,
+   "maxFlowKmToGauge": 12.7
+  },
+  {
+   "comid": 945050109,
+   "joinsAtKm": 10.38,
+   "areaKm2": 32.5,
+   "gnis": " ",
+   "rain14to18ZMm": 25.1,
+   "maxFlowKmToGauge": 26.7
+  },
+  {
+   "comid": 15876897,
+   "joinsAtKm": 16.28,
+   "areaKm2": 44.3,
+   "gnis": " ",
+   "rain14to18ZMm": 22.3,
+   "maxFlowKmToGauge": 43.8
+  },
+  {
+   "comid": 15876967,
+   "joinsAtKm": 17.3,
+   "areaKm2": 22.4,
+   "gnis": " ",
+   "rain14to18ZMm": 20.9,
+   "maxFlowKmToGauge": 35.9
+  }
+ ],
+ "observedPulses": {
+  "firstRise": "2026-11-01T16:20Z (2.39 ft), first flow 16:35Z",
+  "peak1": "18:20Z 64.7 m3/s",
+  "trough1": "20:25Z 24.1 m3/s",
+  "peak2": "21:45-22:00Z 42.0 m3/s",
+  "peak3": "02:10Z Nov 2 25.7 m3/s",
+  "volPulse1_1620to2025Z_Mm3": 0.501,
+  "volTo2025Z_and_after": {
+   "16:20-20:25Z": 0.501,
+   "20:25Z-02:00Z": 0.591,
+   "02:00Z-18:00Z": 0.792
+  },
+  "note": "linear between reports (assumption); flows are the provisional county rating"
+ },
+ "impliedRunoffCoefficientIfPulse1ComesOnlyFromWithin": [
+  {
+   "withinKm": "5",
+   "areaKm2": 31.3,
+   "rainVolMm3": 0.77,
+   "Cneeded_pulse1": 0.651
+  },
+  {
+   "withinKm": "10",
+   "areaKm2": 71.1,
+   "rainVolMm3": 1.75,
+   "Cneeded_pulse1": 0.286
+  },
+  {
+   "withinKm": "15",
+   "areaKm2": 320.9,
+   "rainVolMm3": 8.07,
+   "Cneeded_pulse1": 0.062
+  },
+  {
+   "withinKm": "20",
+   "areaKm2": 401.5,
+   "rainVolMm3": 10.08,
+   "Cneeded_pulse1": 0.05
+  },
+  {
+   "withinKm": "30",
+   "areaKm2": 563.1,
+   "rainVolMm3": 13.89,
+   "Cneeded_pulse1": 0.036
+  },
+  {
+   "withinKm": "40",
+   "areaKm2": 601.3,
+   "rainVolMm3": 14.8,
+   "Cneeded_pulse1": 0.034
+  },
+  {
+   "withinKm": "60",
+   "areaKm2": 602.7,
+   "rainVolMm3": 14.83,
+   "Cneeded_pulse1": 0.034
+  }
+ ],
+ "impliedRunoffCoefficientStraightLine": [
+  {
+   "withinStraightKm": "5",
+   "areaKm2": 24.4,
+   "rainVolMm3": 0.58,
+   "Cneeded_pulse1": 0.864
+  },
+  {
+   "withinStraightKm": "10",
+   "areaKm2": 99.0,
+   "rainVolMm3": 2.51,
+   "Cneeded_pulse1": 0.2
+  },
+  {
+   "withinStraightKm": "15",
+   "areaKm2": 204.4,
+   "rainVolMm3": 5.14,
+   "Cneeded_pulse1": 0.097
+  },
+  {
+   "withinStraightKm": "20",
+   "areaKm2": 336.7,
+   "rainVolMm3": 8.27,
+   "Cneeded_pulse1": 0.061
+  },
+  {
+   "withinStraightKm": "30",
+   "areaKm2": 556.9,
+   "rainVolMm3": 13.69,
+   "Cneeded_pulse1": 0.037
+  },
+  {
+   "withinStraightKm": "40",
+   "areaKm2": 602.7,
+   "rainVolMm3": 14.82,
+   "Cneeded_pulse1": 0.034
+  },
+  {
+   "withinStraightKm": "60",
+   "areaKm2": 602.7,
+   "rainVolMm3": 14.82,
+   "Cneeded_pulse1": 0.034
+  }
+ ],
+ "model": {
+  "cnb 42584493432": {
+   "mapFrames": [
+    "2026-11-01T17:00Z",
+    "2026-11-02T18:00Z",
+    101
+   ],
+   "storageOnLandByRingMm3": {
+    "0-5": {
+     "11-01T17:00": 0.126,
+     "11-01T18:00": 0.159,
+     "11-01T19:00": 0.194,
+     "11-01T20:00": 0.238,
+     "11-01T21:00": 0.291,
+     "11-01T22:00": 0.329,
+     "11-01T23:00": 0.39,
+     "11-02T00:00": 0.475,
+     "11-02T01:00": 0.509,
+     "11-02T02:00": 0.5,
+     "11-02T03:00": 0.494,
+     "11-02T04:00": 0.538,
+     "11-02T05:00": 0.633,
+     "11-02T06:00": 0.727,
+     "11-02T07:00": 0.779,
+     "11-02T08:00": 0.795
+    },
+    "5-10": {
+     "11-01T17:00": 0.16,
+     "11-01T18:00": 0.248,
+     "11-01T19:00": 0.314,
+     "11-01T20:00": 0.388,
+     "11-01T21:00": 0.495,
+     "11-01T22:00": 0.624,
+     "11-01T23:00": 0.725,
+     "11-02T00:00": 0.748,
+     "11-02T01:00": 0.719,
+     "11-02T02:00": 0.696,
+     "11-02T03:00": 0.763,
+     "11-02T04:00": 0.81,
+     "11-02T05:00": 0.818,
+     "11-02T06:00": 0.801,
+     "11-02T07:00": 0.765,
+     "11-02T08:00": 0.722
+    },
+    "10-15": {
+     "11-01T17:00": 0.43,
+     "11-01T18:00": 1.237,
+     "11-01T19:00": 1.546,
+     "11-01T20:00": 1.821,
+     "11-01T21:00": 2.127,
+     "11-01T22:00": 2.188,
+     "11-01T23:00": 2.085,
+     "11-02T00:00": 1.967,
+     "11-02T01:00": 1.971,
+     "11-02T02:00": 1.931,
+     "11-02T03:00": 1.849,
+     "11-02T04:00": 1.766,
+     "11-02T05:00": 1.667,
+     "11-02T06:00": 1.557,
+     "11-02T07:00": 1.455,
+     "11-02T08:00": 1.371
+    },
+    "15-20": {
+     "11-01T17:00": 0.304,
+     "11-01T18:00": 0.667,
+     "11-01T19:00": 0.728,
+     "11-01T20:00": 0.74,
+     "11-01T21:00": 0.766,
+     "11-01T22:00": 0.745,
+     "11-01T23:00": 0.821,
+     "11-02T00:00": 0.877,
+     "11-02T01:00": 0.854,
+     "11-02T02:00": 0.869,
+     "11-02T03:00": 0.832,
+     "11-02T04:00": 0.769,
+     "11-02T05:00": 0.701,
+     "11-02T06:00": 0.639,
+     "11-02T07:00": 0.585,
+     "11-02T08:00": 0.555
+    },
+    "20-30": {
+     "11-01T17:00": 0.333,
+     "11-01T18:00": 0.902,
+     "11-01T19:00": 1.043,
+     "11-01T20:00": 1.089,
+     "11-01T21:00": 1.205,
+     "11-01T22:00": 1.244,
+     "11-01T23:00": 1.206,
+     "11-02T00:00": 1.205,
+     "11-02T01:00": 1.17,
+     "11-02T02:00": 1.116,
+     "11-02T03:00": 1.058,
+     "11-02T04:00": 0.996,
+     "11-02T05:00": 0.926,
+     "11-02T06:00": 0.861,
+     "11-02T07:00": 0.803,
+     "11-02T08:00": 0.763
+    },
+    "30-40": {
+     "11-01T17:00": 0.02,
+     "11-01T18:00": 0.121,
+     "11-01T19:00": 0.156,
+     "11-01T20:00": 0.178,
+     "11-01T21:00": 0.201,
+     "11-01T22:00": 0.2,
+     "11-01T23:00": 0.181,
+     "11-02T00:00": 0.158,
+     "11-02T01:00": 0.138,
+     "11-02T02:00": 0.121,
+     "11-02T03:00": 0.109,
+     "11-02T04:00": 0.099,
+     "11-02T05:00": 0.091,
+     "11-02T06:00": 0.086,
+     "11-02T07:00": 0.081,
+     "11-02T08:00": 0.078
+    },
+    "40-60": {
+     "11-01T17:00": 0.0,
+     "11-01T18:00": 0.003,
+     "11-01T19:00": 0.003,
+     "11-01T20:00": 0.003,
+     "11-01T21:00": 0.004,
+     "11-01T22:00": 0.005,
+     "11-01T23:00": 0.006,
+     "11-02T00:00": 0.006,
+     "11-02T01:00": 0.005,
+     "11-02T02:00": 0.005,
+     "11-02T03:00": 0.004,
+     "11-02T04:00": 0.004,
+     "11-02T05:00": 0.004,
+     "11-02T06:00": 0.003,
+     "11-02T07:00": 0.003,
+     "11-02T08:00": 0.003
+    },
+    "straight 0-10 km": {
+     "11-01T17:00": 0.411,
+     "11-01T18:00": 0.585,
+     "11-01T19:00": 0.712,
+     "11-01T20:00": 0.875,
+     "11-01T21:00": 1.05,
+     "11-01T22:00": 1.22,
+     "11-01T23:00": 1.373,
+     "11-02T00:00": 1.461,
+     "11-02T01:00": 1.463,
+     "11-02T02:00": 1.509,
+     "11-02T03:00": 1.569,
+     "11-02T04:00": 1.652,
+     "11-02T05:00": 1.742,
+     "11-02T06:00": 1.796,
+     "11-02T07:00": 1.786,
+     "11-02T08:00": 1.74
+    },
+    "straight 10-20 km": {
+     "11-01T17:00": 0.725,
+     "11-01T18:00": 1.742,
+     "11-01T19:00": 2.009,
+     "11-01T20:00": 2.19,
+     "11-01T21:00": 2.428,
+     "11-01T22:00": 2.461,
+     "11-01T23:00": 2.502,
+     "11-02T00:00": 2.57,
+     "11-02T01:00": 2.628,
+     "11-02T02:00": 2.579,
+     "11-02T03:00": 2.499,
+     "11-02T04:00": 2.385,
+     "11-02T05:00": 2.234,
+     "11-02T06:00": 2.084,
+     "11-02T07:00": 1.949,
+     "11-02T08:00": 1.858
+    },
+    "straight 20-40 km": {
+     "11-01T17:00": 0.239,
+     "11-01T18:00": 1.011,
+     "11-01T19:00": 1.263,
+     "11-01T20:00": 1.393,
+     "11-01T21:00": 1.611,
+     "11-01T22:00": 1.654,
+     "11-01T23:00": 1.539,
+     "11-02T00:00": 1.405,
+     "11-02T01:00": 1.275,
+     "11-02T02:00": 1.151,
+     "11-02T03:00": 1.041,
+     "11-02T04:00": 0.945,
+     "11-02T05:00": 0.864,
+     "11-02T06:00": 0.795,
+     "11-02T07:00": 0.736,
+     "11-02T08:00": 0.69
+    }
+   },
+   "channelArrival": [
+    {
+     "path": "Black Wash level path 720016019",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 41.7,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 41.7,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 41.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T22:45",
+       "maxRiseM": 0.032
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": "11-01T18:30",
+       "rise20cm": null,
+       "peak": "11-01T18:30",
+       "maxRiseM": 0.051
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": null,
+       "peak": "11-01T19:15",
+       "maxRiseM": 0.099
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T20:15",
+       "maxRiseM": 0.034
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": "11-01T20:15",
+       "rise20cm": null,
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.061
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 25.5,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 17.0,
+       "flowKmToGauge": 25.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.011,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.016
+      },
+      {
+       "kmAlong": 18.0,
+       "flowKmToGauge": 25.5,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 19.0,
+       "flowKmToGauge": 25.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.004,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": "11-01T19:00",
+       "peak": "11-01T19:15",
+       "maxRiseM": 0.205
+      },
+      {
+       "kmAlong": 20.0,
+       "flowKmToGauge": 20.3,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 21.0,
+       "flowKmToGauge": 20.3,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 22.0,
+       "flowKmToGauge": 20.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.033,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-02T13:00",
+       "maxRiseM": 0.522
+      },
+      {
+       "kmAlong": 23.0,
+       "flowKmToGauge": 20.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.026,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-02T11:00",
+       "maxRiseM": 0.117
+      },
+      {
+       "kmAlong": 24.0,
+       "flowKmToGauge": 20.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.02,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.281
+      },
+      {
+       "kmAlong": 25.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.08,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T21:15",
+       "maxRiseM": 0.347
+      },
+      {
+       "kmAlong": 26.0,
+       "flowKmToGauge": 16.8,
+       "cellM": 100.0,
+       "depthAt17Z": 0.003,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:45",
+       "peak": "11-01T19:15",
+       "maxRiseM": 0.234
+      },
+      {
+       "kmAlong": 27.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.003,
+       "rise5cm": "11-01T18:45",
+       "rise20cm": "11-01T20:15",
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.201
+      },
+      {
+       "kmAlong": 28.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.004,
+       "rise5cm": "11-01T19:15",
+       "rise20cm": null,
+       "peak": "11-01T20:45",
+       "maxRiseM": 0.1
+      },
+      {
+       "kmAlong": 29.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 6.25,
+       "depthAt17Z": 0.004,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:15",
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.741
+      },
+      {
+       "kmAlong": 30.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 25.0,
+       "depthAt17Z": 0.02,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:30",
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.79
+      },
+      {
+       "kmAlong": 31.0,
+       "flowKmToGauge": 11.5,
+       "cellM": 12.5,
+       "depthAt17Z": 0.006,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:30",
+       "peak": "11-01T22:00",
+       "maxRiseM": 0.322
+      },
+      {
+       "kmAlong": 32.0,
+       "flowKmToGauge": 11.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.01,
+       "rise5cm": "11-01T19:15",
+       "rise20cm": "11-01T21:00",
+       "peak": "11-01T22:45",
+       "maxRiseM": 0.335
+      },
+      {
+       "kmAlong": 33.0,
+       "flowKmToGauge": 10.0,
+       "cellM": 100.0,
+       "depthAt17Z": 0.013,
+       "rise5cm": "11-01T19:15",
+       "rise20cm": "11-01T20:30",
+       "peak": "11-01T22:45",
+       "maxRiseM": 0.472
+      },
+      {
+       "kmAlong": 34.0,
+       "flowKmToGauge": 8.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.007,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": "11-01T18:30",
+       "peak": "11-01T23:15",
+       "maxRiseM": 1.093
+      },
+      {
+       "kmAlong": 35.0,
+       "flowKmToGauge": 8.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.031,
+       "rise5cm": "11-01T18:45",
+       "rise20cm": "11-01T19:45",
+       "peak": "11-01T23:30",
+       "maxRiseM": 0.522
+      },
+      {
+       "kmAlong": 36.0,
+       "flowKmToGauge": 7.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.287,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": "11-01T19:15",
+       "peak": "11-01T22:00",
+       "maxRiseM": 0.573
+      },
+      {
+       "kmAlong": 37.0,
+       "flowKmToGauge": 6.1,
+       "cellM": 6.25,
+       "depthAt17Z": 0.655,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-02T00:00",
+       "maxRiseM": 2.556
+      },
+      {
+       "kmAlong": 38.0,
+       "flowKmToGauge": 5.0,
+       "cellM": 100.0,
+       "depthAt17Z": 1.222,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T19:00",
+       "peak": "11-02T00:15",
+       "maxRiseM": 1.449
+      },
+      {
+       "kmAlong": 39.0,
+       "flowKmToGauge": 4.0,
+       "cellM": 100.0,
+       "depthAt17Z": 0.104,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:45",
+       "peak": "11-02T00:30",
+       "maxRiseM": 0.96
+      },
+      {
+       "kmAlong": 40.0,
+       "flowKmToGauge": 3.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.074,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-02T00:45",
+       "maxRiseM": 3.05
+      },
+      {
+       "kmAlong": 41.0,
+       "flowKmToGauge": 1.4,
+       "cellM": 100.0,
+       "depthAt17Z": 0.011,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T19:45",
+       "peak": "11-02T01:15",
+       "maxRiseM": 1.683
+      },
+      {
+       "kmAlong": 42.0,
+       "flowKmToGauge": 1.4,
+       "cellM": 50.0,
+       "depthAt17Z": 0.073,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T19:15",
+       "peak": "11-02T01:15",
+       "maxRiseM": 2.662
+      },
+      {
+       "kmAlong": 43.0,
+       "flowKmToGauge": 0.1,
+       "cellM": 12.5,
+       "depthAt17Z": 0.454,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T19:15",
+       "peak": "11-02T08:15",
+       "maxRiseM": 1.771
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876831 (28.2 km2, joins at km 3.55)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.018,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": 0.0
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.141,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": 0.0
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.073,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:15",
+       "maxRiseM": 0.014
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.198,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": null,
+       "peak": "11-01T17:15",
+       "maxRiseM": 0.054
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.127,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.156
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.088,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.304
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.039,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.385
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 8.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.029,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:15",
+       "peak": "11-01T18:30",
+       "maxRiseM": 0.256
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 8.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.022,
+       "rise5cm": "11-01T18:45",
+       "rise20cm": null,
+       "peak": "11-01T19:00",
+       "maxRiseM": 0.166
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 8.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.012,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T20:00",
+       "maxRiseM": 0.03
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 8.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.044,
+       "rise5cm": "11-01T20:30",
+       "rise20cm": null,
+       "peak": "11-01T20:45",
+       "maxRiseM": 0.067
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 8.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.014,
+       "rise5cm": "11-01T20:45",
+       "rise20cm": null,
+       "peak": "11-01T21:15",
+       "maxRiseM": 0.063
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 4.7,
+       "cellM": 12.5,
+       "depthAt17Z": 0.162,
+       "rise5cm": "11-01T20:00",
+       "rise20cm": "11-01T21:00",
+       "peak": "11-02T00:00",
+       "maxRiseM": 0.639
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 4.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.016,
+       "rise5cm": "11-01T19:30",
+       "rise20cm": null,
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.112
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876863 (128.5 km2, joins at km 4.36)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 34.8,
+       "cellM": 100.0,
+       "depthAt17Z": 0.012,
+       "rise5cm": "11-01T19:30",
+       "rise20cm": null,
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.2
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.01,
+       "rise5cm": "11-01T20:15",
+       "rise20cm": null,
+       "peak": "11-01T21:15",
+       "maxRiseM": 0.154
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.015,
+       "rise5cm": "11-01T21:15",
+       "rise20cm": null,
+       "peak": "11-01T21:45",
+       "maxRiseM": 0.082
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.017,
+       "rise5cm": "11-01T21:30",
+       "rise20cm": null,
+       "peak": "11-01T22:15",
+       "maxRiseM": 0.081
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.016,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T23:00",
+       "maxRiseM": 0.018
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.026,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T23:45",
+       "maxRiseM": 0.038
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.021,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-02T00:30",
+       "maxRiseM": 0.043
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.045,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-02T01:15",
+       "maxRiseM": 0.025
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.029,
+       "rise5cm": "11-01T20:30",
+       "rise20cm": null,
+       "peak": "11-02T01:45",
+       "maxRiseM": 0.076
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.05,
+       "rise5cm": "11-01T21:00",
+       "rise20cm": null,
+       "peak": "11-02T01:15",
+       "maxRiseM": 0.084
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.006,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": null,
+       "peak": "11-02T03:15",
+       "maxRiseM": 0.094
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.04,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": 0.0
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.013,
+       "rise5cm": "11-01T18:30",
+       "rise20cm": null,
+       "peak": "11-02T02:45",
+       "maxRiseM": 0.137
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 21.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.114,
+       "rise5cm": "11-01T19:00",
+       "rise20cm": null,
+       "peak": "11-02T02:45",
+       "maxRiseM": 0.156
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 21.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.013,
+       "rise5cm": "11-01T22:00",
+       "rise20cm": null,
+       "peak": "11-02T03:15",
+       "maxRiseM": 0.11
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.039,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": null,
+       "peak": "11-02T03:30",
+       "maxRiseM": 0.144
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 50.0,
+       "depthAt17Z": 0.067,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T19:15",
+       "peak": "11-02T04:00",
+       "maxRiseM": 0.264
+      },
+      {
+       "kmAlong": 17.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 50.0,
+       "depthAt17Z": 0.049,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-02T04:15",
+       "maxRiseM": 0.196
+      },
+      {
+       "kmAlong": 18.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 50.0,
+       "depthAt17Z": 0.062,
+       "rise5cm": "11-01T18:45",
+       "rise20cm": "11-01T19:15",
+       "peak": "11-02T04:45",
+       "maxRiseM": 0.471
+      },
+      {
+       "kmAlong": 19.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 50.0,
+       "depthAt17Z": 0.023,
+       "rise5cm": "11-01T19:15",
+       "rise20cm": "11-01T23:30",
+       "peak": "11-02T00:15",
+       "maxRiseM": 0.417
+      },
+      {
+       "kmAlong": 20.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 50.0,
+       "depthAt17Z": 0.201,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:15",
+       "peak": "11-02T00:30",
+       "maxRiseM": 1.556
+      },
+      {
+       "kmAlong": 21.0,
+       "flowKmToGauge": 11.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.011,
+       "rise5cm": "11-01T18:45",
+       "rise20cm": "11-01T22:45",
+       "peak": "11-02T01:00",
+       "maxRiseM": 0.37
+      },
+      {
+       "kmAlong": 22.0,
+       "flowKmToGauge": 11.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.011,
+       "rise5cm": "11-01T22:00",
+       "rise20cm": null,
+       "peak": "11-02T01:30",
+       "maxRiseM": 0.165
+      },
+      {
+       "kmAlong": 23.0,
+       "flowKmToGauge": 11.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.01,
+       "rise5cm": "11-02T01:00",
+       "rise20cm": null,
+       "peak": "11-02T01:45",
+       "maxRiseM": 0.065
+      },
+      {
+       "kmAlong": 24.0,
+       "flowKmToGauge": 11.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.017,
+       "rise5cm": "11-01T21:15",
+       "rise20cm": null,
+       "peak": "11-02T02:15",
+       "maxRiseM": 0.154
+      },
+      {
+       "kmAlong": 25.0,
+       "flowKmToGauge": 11.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.023,
+       "rise5cm": "11-01T19:00",
+       "rise20cm": "11-01T22:45",
+       "peak": "11-02T02:30",
+       "maxRiseM": 0.254
+      },
+      {
+       "kmAlong": 26.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.006,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:45",
+       "peak": "11-02T03:15",
+       "maxRiseM": 0.896
+      },
+      {
+       "kmAlong": 27.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.024,
+       "rise5cm": "11-02T03:00",
+       "rise20cm": null,
+       "peak": "11-02T05:00",
+       "maxRiseM": 0.14
+      },
+      {
+       "kmAlong": 28.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": "11-01T21:15",
+       "rise20cm": null,
+       "peak": "11-02T05:30",
+       "maxRiseM": 0.179
+      },
+      {
+       "kmAlong": 29.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.266,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:15",
+       "peak": "11-02T00:15",
+       "maxRiseM": 2.275
+      },
+      {
+       "kmAlong": 30.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 100.0,
+       "depthAt17Z": 1.104,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": "11-01T19:15",
+       "peak": "11-02T00:15",
+       "maxRiseM": 1.436
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876847 (67.1 km2, joins at km 7.62)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.019,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:30",
+       "maxRiseM": 0.018
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.019,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.085
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.091,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.121
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.305,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.068
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.088,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.104
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.018,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:30",
+       "maxRiseM": 0.002
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 25.0,
+       "depthAt17Z": 0.031,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.033
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 50.0,
+       "depthAt17Z": 0.032,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.034
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 12.5,
+       "depthAt17Z": 0.017,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T18:30",
+       "maxRiseM": 0.114
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.01,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T18:45",
+       "maxRiseM": 0.03
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 12.5,
+       "depthAt17Z": 0.011,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T20:30",
+       "maxRiseM": 0.137
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 50.0,
+       "depthAt17Z": 0.016,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": "11-01T18:30",
+       "peak": "11-01T21:45",
+       "maxRiseM": 0.82
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 11.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.007,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.601
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 11.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.037,
+       "rise5cm": "11-01T18:30",
+       "rise20cm": "11-01T19:15",
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.275
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 11.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.009,
+       "rise5cm": "11-01T18:30",
+       "rise20cm": null,
+       "peak": "11-01T21:45",
+       "maxRiseM": 0.157
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 11.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.012,
+       "rise5cm": "11-01T20:00",
+       "rise20cm": "11-01T20:30",
+       "peak": "11-01T22:15",
+       "maxRiseM": 0.334
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 9.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.011,
+       "rise5cm": "11-01T18:45",
+       "rise20cm": null,
+       "peak": "11-01T23:00",
+       "maxRiseM": 0.118
+      },
+      {
+       "kmAlong": 17.0,
+       "flowKmToGauge": 8.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.024,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:45",
+       "peak": "11-01T21:45",
+       "maxRiseM": 0.361
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876881 (147.3 km2, joins at km 9.6)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 12.5,
+       "depthAt17Z": 0.11,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": null,
+       "peak": "11-01T22:45",
+       "maxRiseM": 0.166
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 11.1,
+       "cellM": 12.5,
+       "depthAt17Z": 0.009,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-02T05:15",
+       "maxRiseM": 0.747
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 11.1,
+       "cellM": 25.0,
+       "depthAt17Z": 0.04,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-02T05:30",
+       "maxRiseM": 1.094
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 11.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.039,
+       "rise5cm": "11-01T19:00",
+       "rise20cm": "11-01T19:15",
+       "peak": "11-01T23:15",
+       "maxRiseM": 0.839
+      }
+     ]
+    },
+    {
+     "path": "tributary 945050109 (32.5 km2, joins at km 10.38)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.071,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.133
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 6.25,
+       "depthAt17Z": 0.123,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:30",
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.282
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 6.25,
+       "depthAt17Z": 0.164,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.24
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.29,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T18:45",
+       "maxRiseM": 0.343
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.135,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T19:00",
+       "maxRiseM": 0.781
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 6.25,
+       "depthAt17Z": 0.411,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:30",
+       "peak": "11-01T19:00",
+       "maxRiseM": 1.831
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.03,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:30",
+       "peak": "11-01T19:15",
+       "maxRiseM": 0.277
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.197,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T19:45",
+       "maxRiseM": 1.38
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.016,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:30",
+       "peak": "11-01T19:45",
+       "maxRiseM": 0.295
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.032,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": "11-01T18:45",
+       "peak": "11-01T20:45",
+       "maxRiseM": 0.251
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.047,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T19:00",
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.357
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.015,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": "11-01T19:45",
+       "peak": "11-01T20:45",
+       "maxRiseM": 0.243
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.004,
+       "rise5cm": "11-01T18:30",
+       "rise20cm": "11-01T19:30",
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.343
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.006,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": "11-01T19:45",
+       "peak": "11-01T21:15",
+       "maxRiseM": 0.433
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 12.5,
+       "depthAt17Z": 0.026,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T20:30",
+       "peak": "11-01T21:45",
+       "maxRiseM": 0.893
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.014,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T19:15",
+       "peak": "11-01T22:00",
+       "maxRiseM": 0.652
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.013,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": "11-01T20:00",
+       "peak": "11-01T22:30",
+       "maxRiseM": 0.476
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876897 (44.3 km2, joins at km 16.28)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.002,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.029
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": "11-01T18:30",
+       "rise20cm": null,
+       "peak": "11-01T18:45",
+       "maxRiseM": 0.065
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T19:30",
+       "maxRiseM": 0.012
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.011
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": "11-01T19:15",
+       "rise20cm": null,
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.103
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": "11-01T20:45",
+       "rise20cm": null,
+       "peak": "11-01T21:45",
+       "maxRiseM": 0.071
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": "11-01T19:45",
+       "rise20cm": null,
+       "peak": "11-01T22:30",
+       "maxRiseM": 0.105
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": "11-01T20:45",
+       "rise20cm": null,
+       "peak": "11-01T23:45",
+       "maxRiseM": 0.114
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": "11-01T20:15",
+       "rise20cm": null,
+       "peak": "11-02T00:30",
+       "maxRiseM": 0.127
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": "11-01T19:45",
+       "rise20cm": null,
+       "peak": "11-02T01:00",
+       "maxRiseM": 0.102
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": "11-01T20:15",
+       "rise20cm": null,
+       "peak": "11-02T01:30",
+       "maxRiseM": 0.09
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-02T02:00",
+       "maxRiseM": 0.029
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": "11-01T21:15",
+       "rise20cm": null,
+       "peak": "11-02T03:00",
+       "maxRiseM": 0.072
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-02T03:30",
+       "maxRiseM": 0.045
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 17.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 18.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 19.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 20.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 21.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 22.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.011,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-02T08:45",
+       "maxRiseM": 0.027
+      },
+      {
+       "kmAlong": 23.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.007,
+       "rise5cm": "11-02T03:45",
+       "rise20cm": null,
+       "peak": "11-02T09:45",
+       "maxRiseM": 0.057
+      },
+      {
+       "kmAlong": 24.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": null,
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.055
+      },
+      {
+       "kmAlong": 25.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.031,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-02T08:45",
+       "maxRiseM": 0.042
+      },
+      {
+       "kmAlong": 26.0,
+       "flowKmToGauge": 17.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.022,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-02T09:15",
+       "maxRiseM": 0.063
+      },
+      {
+       "kmAlong": 27.0,
+       "flowKmToGauge": 17.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.003,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": null,
+       "peak": "11-01T19:00",
+       "maxRiseM": 0.115
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876967 (22.4 km2, joins at km 17.3)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-02T02:00",
+       "maxRiseM": 0.048
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.019
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": "11-01T19:30",
+       "rise20cm": null,
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.079
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T22:00",
+       "maxRiseM": 0.046
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.0,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-02T05:30",
+       "maxRiseM": 0.021
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.001,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-02T09:30",
+       "maxRiseM": 0.022
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.02,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.291
+      },
+      {
+       "kmAlong": 17.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.012,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.009
+      },
+      {
+       "kmAlong": 18.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.041,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T18:45",
+       "maxRiseM": 0.115
+      }
+     ]
+    }
+   ]
+  },
+  "B 42599666617": {
+   "mapFrames": [
+    "2026-11-01T17:00Z",
+    "2026-11-02T18:00Z",
+    101
+   ],
+   "storageOnLandByRingMm3": {
+    "0-5": {
+     "11-01T17:00": 0.246,
+     "11-01T18:00": 0.294,
+     "11-01T19:00": 0.368,
+     "11-01T20:00": 0.481,
+     "11-01T21:00": 0.635,
+     "11-01T22:00": 0.753,
+     "11-01T23:00": 0.861,
+     "11-02T00:00": 0.903,
+     "11-02T01:00": 0.917,
+     "11-02T02:00": 0.942,
+     "11-02T03:00": 1.001,
+     "11-02T04:00": 1.106,
+     "11-02T05:00": 1.18,
+     "11-02T06:00": 1.211,
+     "11-02T07:00": 1.216,
+     "11-02T08:00": 1.224
+    },
+    "5-10": {
+     "11-01T17:00": 0.346,
+     "11-01T18:00": 0.512,
+     "11-01T19:00": 0.696,
+     "11-01T20:00": 0.913,
+     "11-01T21:00": 1.135,
+     "11-01T22:00": 1.261,
+     "11-01T23:00": 1.258,
+     "11-02T00:00": 1.219,
+     "11-02T01:00": 1.2,
+     "11-02T02:00": 1.253,
+     "11-02T03:00": 1.325,
+     "11-02T04:00": 1.334,
+     "11-02T05:00": 1.297,
+     "11-02T06:00": 1.226,
+     "11-02T07:00": 1.15,
+     "11-02T08:00": 1.119
+    },
+    "10-15": {
+     "11-01T17:00": 1.466,
+     "11-01T18:00": 2.615,
+     "11-01T19:00": 3.003,
+     "11-01T20:00": 3.211,
+     "11-01T21:00": 3.373,
+     "11-01T22:00": 3.29,
+     "11-01T23:00": 3.092,
+     "11-02T00:00": 2.917,
+     "11-02T01:00": 2.799,
+     "11-02T02:00": 2.613,
+     "11-02T03:00": 2.451,
+     "11-02T04:00": 2.294,
+     "11-02T05:00": 2.091,
+     "11-02T06:00": 1.901,
+     "11-02T07:00": 1.792,
+     "11-02T08:00": 1.854
+    },
+    "15-20": {
+     "11-01T17:00": 0.705,
+     "11-01T18:00": 1.116,
+     "11-01T19:00": 1.113,
+     "11-01T20:00": 1.081,
+     "11-01T21:00": 1.086,
+     "11-01T22:00": 1.047,
+     "11-01T23:00": 1.102,
+     "11-02T00:00": 1.113,
+     "11-02T01:00": 1.099,
+     "11-02T02:00": 1.082,
+     "11-02T03:00": 1.024,
+     "11-02T04:00": 0.957,
+     "11-02T05:00": 0.863,
+     "11-02T06:00": 0.779,
+     "11-02T07:00": 0.733,
+     "11-02T08:00": 0.772
+    },
+    "20-30": {
+     "11-01T17:00": 0.876,
+     "11-01T18:00": 1.673,
+     "11-01T19:00": 1.781,
+     "11-01T20:00": 1.825,
+     "11-01T21:00": 1.943,
+     "11-01T22:00": 1.946,
+     "11-01T23:00": 1.848,
+     "11-02T00:00": 1.762,
+     "11-02T01:00": 1.619,
+     "11-02T02:00": 1.486,
+     "11-02T03:00": 1.373,
+     "11-02T04:00": 1.27,
+     "11-02T05:00": 1.146,
+     "11-02T06:00": 1.041,
+     "11-02T07:00": 0.968,
+     "11-02T08:00": 0.991
+    },
+    "30-40": {
+     "11-01T17:00": 0.14,
+     "11-01T18:00": 0.318,
+     "11-01T19:00": 0.334,
+     "11-01T20:00": 0.304,
+     "11-01T21:00": 0.293,
+     "11-01T22:00": 0.271,
+     "11-01T23:00": 0.233,
+     "11-02T00:00": 0.196,
+     "11-02T01:00": 0.166,
+     "11-02T02:00": 0.143,
+     "11-02T03:00": 0.126,
+     "11-02T04:00": 0.114,
+     "11-02T05:00": 0.106,
+     "11-02T06:00": 0.099,
+     "11-02T07:00": 0.093,
+     "11-02T08:00": 0.099
+    },
+    "40-60": {
+     "11-01T17:00": 0.005,
+     "11-01T18:00": 0.008,
+     "11-01T19:00": 0.009,
+     "11-01T20:00": 0.009,
+     "11-01T21:00": 0.01,
+     "11-01T22:00": 0.009,
+     "11-01T23:00": 0.008,
+     "11-02T00:00": 0.007,
+     "11-02T01:00": 0.006,
+     "11-02T02:00": 0.005,
+     "11-02T03:00": 0.005,
+     "11-02T04:00": 0.004,
+     "11-02T05:00": 0.004,
+     "11-02T06:00": 0.004,
+     "11-02T07:00": 0.003,
+     "11-02T08:00": 0.003
+    },
+    "straight 0-10 km": {
+     "11-01T17:00": 0.852,
+     "11-01T18:00": 1.136,
+     "11-01T19:00": 1.442,
+     "11-01T20:00": 1.786,
+     "11-01T21:00": 2.172,
+     "11-01T22:00": 2.396,
+     "11-01T23:00": 2.476,
+     "11-02T00:00": 2.463,
+     "11-02T01:00": 2.497,
+     "11-02T02:00": 2.605,
+     "11-02T03:00": 2.722,
+     "11-02T04:00": 2.827,
+     "11-02T05:00": 2.837,
+     "11-02T06:00": 2.76,
+     "11-02T07:00": 2.671,
+     "11-02T08:00": 2.68
+    },
+    "straight 10-20 km": {
+     "11-01T17:00": 1.863,
+     "11-01T18:00": 3.147,
+     "11-01T19:00": 3.421,
+     "11-01T20:00": 3.595,
+     "11-01T21:00": 3.777,
+     "11-01T22:00": 3.783,
+     "11-01T23:00": 3.814,
+     "11-02T00:00": 3.828,
+     "11-02T01:00": 3.727,
+     "11-02T02:00": 3.534,
+     "11-02T03:00": 3.355,
+     "11-02T04:00": 3.153,
+     "11-02T05:00": 2.858,
+     "11-02T06:00": 2.602,
+     "11-02T07:00": 2.454,
+     "11-02T08:00": 2.526
+    },
+    "straight 20-40 km": {
+     "11-01T17:00": 1.069,
+     "11-01T18:00": 2.254,
+     "11-01T19:00": 2.441,
+     "11-01T20:00": 2.443,
+     "11-01T21:00": 2.525,
+     "11-01T22:00": 2.398,
+     "11-01T23:00": 2.113,
+     "11-02T00:00": 1.825,
+     "11-02T01:00": 1.583,
+     "11-02T02:00": 1.386,
+     "11-02T03:00": 1.226,
+     "11-02T04:00": 1.098,
+     "11-02T05:00": 0.992,
+     "11-02T06:00": 0.899,
+     "11-02T07:00": 0.831,
+     "11-02T08:00": 0.857
+    }
+   },
+   "channelArrival": [
+    {
+     "path": "Black Wash level path 720016019",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 41.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.014,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:30",
+       "maxRiseM": 0.003
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 41.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.069,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.108
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 41.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.033,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.048
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.043,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.071
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.046,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.176
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.025,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": null,
+       "peak": "11-01T18:30",
+       "maxRiseM": 0.056
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.039,
+       "rise5cm": "11-01T18:30",
+       "rise20cm": null,
+       "peak": "11-01T19:15",
+       "maxRiseM": 0.086
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.012,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T20:00",
+       "maxRiseM": 0.033
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.01,
+       "rise5cm": "11-01T20:30",
+       "rise20cm": null,
+       "peak": "11-01T20:30",
+       "maxRiseM": 0.051
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.01,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.045
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.01,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T18:45",
+       "maxRiseM": 0.038
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.018,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T19:15",
+       "maxRiseM": 0.094
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.013,
+       "rise5cm": "11-01T18:30",
+       "rise20cm": null,
+       "peak": "11-01T20:00",
+       "maxRiseM": 0.064
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.011,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T20:45",
+       "maxRiseM": 0.179
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.009,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.333
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 34.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.01,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": null,
+       "peak": "11-01T18:45",
+       "maxRiseM": 0.107
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 25.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.009,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T19:30",
+       "maxRiseM": 0.038
+      },
+      {
+       "kmAlong": 17.0,
+       "flowKmToGauge": 25.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.016,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.02
+      },
+      {
+       "kmAlong": 18.0,
+       "flowKmToGauge": 25.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.021,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.096
+      },
+      {
+       "kmAlong": 19.0,
+       "flowKmToGauge": 25.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.033,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:15",
+       "peak": "11-01T18:30",
+       "maxRiseM": 0.244
+      },
+      {
+       "kmAlong": 20.0,
+       "flowKmToGauge": 20.3,
+       "cellM": 100.0,
+       "depthAt17Z": NaN,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": NaN
+      },
+      {
+       "kmAlong": 21.0,
+       "flowKmToGauge": 20.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.019,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T19:45",
+       "peak": "11-01T22:00",
+       "maxRiseM": 0.265
+      },
+      {
+       "kmAlong": 22.0,
+       "flowKmToGauge": 20.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.165,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-02T00:00",
+       "maxRiseM": 0.52
+      },
+      {
+       "kmAlong": 23.0,
+       "flowKmToGauge": 20.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.072,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-02T00:45",
+       "maxRiseM": 0.151
+      },
+      {
+       "kmAlong": 24.0,
+       "flowKmToGauge": 20.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.155,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T18:15",
+       "peak": "11-01T22:00",
+       "maxRiseM": 0.241
+      },
+      {
+       "kmAlong": 25.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.208,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T21:15",
+       "maxRiseM": 0.285
+      },
+      {
+       "kmAlong": 26.0,
+       "flowKmToGauge": 16.8,
+       "cellM": 100.0,
+       "depthAt17Z": 0.094,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:45",
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.218
+      },
+      {
+       "kmAlong": 27.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.053,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T19:00",
+       "peak": "11-01T19:45",
+       "maxRiseM": 0.215
+      },
+      {
+       "kmAlong": 28.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.028,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": null,
+       "peak": "11-01T20:00",
+       "maxRiseM": 0.111
+      },
+      {
+       "kmAlong": 29.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 6.25,
+       "depthAt17Z": 0.296,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T18:15",
+       "peak": "11-01T20:30",
+       "maxRiseM": 0.522
+      },
+      {
+       "kmAlong": 30.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 25.0,
+       "depthAt17Z": 0.18,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T20:45",
+       "maxRiseM": 0.713
+      },
+      {
+       "kmAlong": 31.0,
+       "flowKmToGauge": 11.5,
+       "cellM": 12.5,
+       "depthAt17Z": 0.181,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T20:15",
+       "peak": "11-01T21:15",
+       "maxRiseM": 0.237
+      },
+      {
+       "kmAlong": 32.0,
+       "flowKmToGauge": 11.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.046,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": "11-01T19:00",
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.393
+      },
+      {
+       "kmAlong": 33.0,
+       "flowKmToGauge": 10.0,
+       "cellM": 100.0,
+       "depthAt17Z": 0.084,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:45",
+       "peak": "11-01T21:45",
+       "maxRiseM": 0.491
+      },
+      {
+       "kmAlong": 34.0,
+       "flowKmToGauge": 8.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.3,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T22:00",
+       "maxRiseM": 0.936
+      },
+      {
+       "kmAlong": 35.0,
+       "flowKmToGauge": 8.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.122,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T22:00",
+       "maxRiseM": 0.504
+      },
+      {
+       "kmAlong": 36.0,
+       "flowKmToGauge": 7.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.401,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T20:00",
+       "maxRiseM": 0.699
+      },
+      {
+       "kmAlong": 37.0,
+       "flowKmToGauge": 6.1,
+       "cellM": 6.25,
+       "depthAt17Z": 1.103,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:15",
+       "peak": "11-01T22:30",
+       "maxRiseM": 2.248
+      },
+      {
+       "kmAlong": 38.0,
+       "flowKmToGauge": 5.0,
+       "cellM": 100.0,
+       "depthAt17Z": 1.421,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T22:45",
+       "maxRiseM": 1.471
+      },
+      {
+       "kmAlong": 39.0,
+       "flowKmToGauge": 4.0,
+       "cellM": 100.0,
+       "depthAt17Z": 0.396,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:30",
+       "peak": "11-01T23:00",
+       "maxRiseM": 0.837
+      },
+      {
+       "kmAlong": 40.0,
+       "flowKmToGauge": 3.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.584,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:15",
+       "peak": "11-01T23:15",
+       "maxRiseM": 2.718
+      },
+      {
+       "kmAlong": 41.0,
+       "flowKmToGauge": 1.4,
+       "cellM": 100.0,
+       "depthAt17Z": 0.081,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-02T05:00",
+       "maxRiseM": 2.285
+      },
+      {
+       "kmAlong": 42.0,
+       "flowKmToGauge": 1.4,
+       "cellM": 50.0,
+       "depthAt17Z": 0.252,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-02T05:15",
+       "maxRiseM": 3.116
+      },
+      {
+       "kmAlong": 43.0,
+       "flowKmToGauge": 0.1,
+       "cellM": 12.5,
+       "depthAt17Z": 0.672,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T18:15",
+       "peak": "11-02T07:00",
+       "maxRiseM": 1.863
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876831 (28.2 km2, joins at km 3.55)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.019,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-02T07:30",
+       "maxRiseM": 0.001
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.168,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": 0.0
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.124,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": 0.0
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.411,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": 0.0
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.469,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:15",
+       "maxRiseM": 0.019
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.409,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:15",
+       "peak": "11-01T17:15",
+       "maxRiseM": 0.304
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 13.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.247,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:15",
+       "peak": "11-01T17:30",
+       "maxRiseM": 0.422
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 8.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.142,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:30",
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.282
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 8.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.054,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.219
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 8.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.02,
+       "rise5cm": "11-01T18:30",
+       "rise20cm": null,
+       "peak": "11-01T18:30",
+       "maxRiseM": 0.068
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 8.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.077,
+       "rise5cm": "11-01T19:00",
+       "rise20cm": null,
+       "peak": "11-01T19:15",
+       "maxRiseM": 0.078
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 8.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.046,
+       "rise5cm": "11-01T19:15",
+       "rise20cm": null,
+       "peak": "11-01T19:45",
+       "maxRiseM": 0.061
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 4.7,
+       "cellM": 12.5,
+       "depthAt17Z": 0.206,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T19:15",
+       "peak": "11-01T22:30",
+       "maxRiseM": 0.657
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 4.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.045,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": null,
+       "peak": "11-01T19:30",
+       "maxRiseM": 0.124
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876863 (128.5 km2, joins at km 4.36)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 34.8,
+       "cellM": 100.0,
+       "depthAt17Z": 0.028,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": "11-01T19:00",
+       "peak": "11-01T19:30",
+       "maxRiseM": 0.312
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.024,
+       "rise5cm": "11-01T19:00",
+       "rise20cm": "11-01T19:30",
+       "peak": "11-01T19:45",
+       "maxRiseM": 0.232
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.028,
+       "rise5cm": "11-01T19:30",
+       "rise20cm": null,
+       "peak": "11-01T20:15",
+       "maxRiseM": 0.131
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.042,
+       "rise5cm": "11-01T20:00",
+       "rise20cm": null,
+       "peak": "11-01T20:30",
+       "maxRiseM": 0.108
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.027,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.029
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.07,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T21:45",
+       "maxRiseM": 0.049
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.053,
+       "rise5cm": "11-01T21:45",
+       "rise20cm": null,
+       "peak": "11-01T22:00",
+       "maxRiseM": 0.063
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.081,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T22:45",
+       "maxRiseM": 0.048
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.08,
+       "rise5cm": "11-01T22:15",
+       "rise20cm": null,
+       "peak": "11-01T23:00",
+       "maxRiseM": 0.089
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.089,
+       "rise5cm": "11-01T22:15",
+       "rise20cm": null,
+       "peak": "11-01T23:00",
+       "maxRiseM": 0.089
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.073,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-02T00:15",
+       "maxRiseM": 0.093
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.059,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:00",
+       "maxRiseM": 0.0
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 28.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.107,
+       "rise5cm": "11-01T20:30",
+       "rise20cm": null,
+       "peak": "11-02T00:00",
+       "maxRiseM": 0.088
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 21.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.179,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-02T00:00",
+       "maxRiseM": 0.157
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 21.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.047,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": null,
+       "peak": "11-02T00:15",
+       "maxRiseM": 0.16
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.125,
+       "rise5cm": "11-01T18:45",
+       "rise20cm": null,
+       "peak": "11-02T00:30",
+       "maxRiseM": 0.121
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 50.0,
+       "depthAt17Z": 0.271,
+       "rise5cm": "11-01T18:45",
+       "rise20cm": null,
+       "peak": "11-02T01:00",
+       "maxRiseM": 0.096
+      },
+      {
+       "kmAlong": 17.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 50.0,
+       "depthAt17Z": 0.186,
+       "rise5cm": "11-01T19:00",
+       "rise20cm": null,
+       "peak": "11-02T01:30",
+       "maxRiseM": 0.091
+      },
+      {
+       "kmAlong": 18.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 50.0,
+       "depthAt17Z": 0.323,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": "11-01T19:45",
+       "peak": "11-02T02:00",
+       "maxRiseM": 0.341
+      },
+      {
+       "kmAlong": 19.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 50.0,
+       "depthAt17Z": 0.171,
+       "rise5cm": "11-01T19:00",
+       "rise20cm": "11-01T23:30",
+       "peak": "11-02T00:00",
+       "maxRiseM": 0.294
+      },
+      {
+       "kmAlong": 20.0,
+       "flowKmToGauge": 17.1,
+       "cellM": 50.0,
+       "depthAt17Z": 1.411,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T20:30",
+       "peak": "11-02T00:15",
+       "maxRiseM": 0.401
+      },
+      {
+       "kmAlong": 21.0,
+       "flowKmToGauge": 11.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.184,
+       "rise5cm": "11-01T19:00",
+       "rise20cm": "11-02T00:00",
+       "peak": "11-02T00:30",
+       "maxRiseM": 0.239
+      },
+      {
+       "kmAlong": 22.0,
+       "flowKmToGauge": 11.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.046,
+       "rise5cm": "11-01T20:30",
+       "rise20cm": null,
+       "peak": "11-02T01:00",
+       "maxRiseM": 0.162
+      },
+      {
+       "kmAlong": 23.0,
+       "flowKmToGauge": 11.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.019,
+       "rise5cm": "11-02T00:30",
+       "rise20cm": null,
+       "peak": "11-02T01:15",
+       "maxRiseM": 0.065
+      },
+      {
+       "kmAlong": 24.0,
+       "flowKmToGauge": 11.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.065,
+       "rise5cm": "11-01T19:00",
+       "rise20cm": null,
+       "peak": "11-02T03:30",
+       "maxRiseM": 0.119
+      },
+      {
+       "kmAlong": 25.0,
+       "flowKmToGauge": 11.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.178,
+       "rise5cm": "11-01T18:45",
+       "rise20cm": null,
+       "peak": "11-02T02:00",
+       "maxRiseM": 0.106
+      },
+      {
+       "kmAlong": 26.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.449,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T19:45",
+       "peak": "11-02T04:15",
+       "maxRiseM": 0.484
+      },
+      {
+       "kmAlong": 27.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.042,
+       "rise5cm": "11-01T22:30",
+       "rise20cm": null,
+       "peak": "11-02T04:45",
+       "maxRiseM": 0.152
+      },
+      {
+       "kmAlong": 28.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.01,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": "11-02T04:15",
+       "peak": "11-02T05:00",
+       "maxRiseM": 0.202
+      },
+      {
+       "kmAlong": 29.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.542,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:30",
+       "peak": "11-01T22:45",
+       "maxRiseM": 2.165
+      },
+      {
+       "kmAlong": 30.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 100.0,
+       "depthAt17Z": 1.229,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T22:45",
+       "maxRiseM": 1.55
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876847 (67.1 km2, joins at km 7.62)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.041,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:30",
+       "maxRiseM": 0.002
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.118,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.01
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.221,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.036
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.31,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.227
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.115,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.108
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.018,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:30",
+       "maxRiseM": 0.002
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 25.0,
+       "depthAt17Z": 0.048,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:30",
+       "maxRiseM": 0.021
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 50.0,
+       "depthAt17Z": 0.047,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.029
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 12.5,
+       "depthAt17Z": 0.054,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": null,
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.137
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.016,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T18:30",
+       "maxRiseM": 0.037
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 12.5,
+       "depthAt17Z": 0.07,
+       "rise5cm": "11-01T18:30",
+       "rise20cm": null,
+       "peak": "11-01T20:00",
+       "maxRiseM": 0.13
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 19.9,
+       "cellM": 50.0,
+       "depthAt17Z": 0.107,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T20:15",
+       "maxRiseM": 0.976
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 11.9,
+       "cellM": 6.25,
+       "depthAt17Z": 0.296,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T19:30",
+       "maxRiseM": 0.443
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 11.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.073,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:15",
+       "peak": "11-01T19:45",
+       "maxRiseM": 0.341
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 11.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.058,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T20:45",
+       "maxRiseM": 0.191
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 11.9,
+       "cellM": 100.0,
+       "depthAt17Z": 0.021,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T19:00",
+       "peak": "11-01T21:15",
+       "maxRiseM": 0.406
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 9.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.043,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.134
+      },
+      {
+       "kmAlong": 17.0,
+       "flowKmToGauge": 8.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.144,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T19:45",
+       "maxRiseM": 0.383
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876881 (147.3 km2, joins at km 9.6)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 6.9,
+       "cellM": 12.5,
+       "depthAt17Z": 0.253,
+       "rise5cm": "11-01T20:00",
+       "rise20cm": null,
+       "peak": "11-02T00:00",
+       "maxRiseM": 0.054
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 11.1,
+       "cellM": 12.5,
+       "depthAt17Z": 0.571,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:30",
+       "peak": "11-02T01:15",
+       "maxRiseM": 0.302
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 11.1,
+       "cellM": 25.0,
+       "depthAt17Z": 0.528,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:30",
+       "peak": "11-02T01:30",
+       "maxRiseM": 0.97
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 11.1,
+       "cellM": 100.0,
+       "depthAt17Z": 0.099,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:30",
+       "peak": "11-02T01:30",
+       "maxRiseM": 0.992
+      }
+     ]
+    },
+    {
+     "path": "tributary 945050109 (32.5 km2, joins at km 10.38)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.125,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.145
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 6.25,
+       "depthAt17Z": 0.257,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.205
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 6.25,
+       "depthAt17Z": 0.242,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.202
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 50.0,
+       "depthAt17Z": 0.426,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:45",
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.291
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.298,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:30",
+       "peak": "11-01T18:30",
+       "maxRiseM": 0.817
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 6.25,
+       "depthAt17Z": 0.739,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T17:15",
+       "peak": "11-01T18:45",
+       "maxRiseM": 1.679
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.068,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T19:00",
+       "maxRiseM": 0.305
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 100.0,
+       "depthAt17Z": 1.404,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:45",
+       "peak": "11-01T19:15",
+       "maxRiseM": 0.227
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 22.7,
+       "cellM": 100.0,
+       "depthAt17Z": 0.099,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T19:00",
+       "maxRiseM": 0.307
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.122,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T18:30",
+       "peak": "11-01T19:15",
+       "maxRiseM": 0.229
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.193,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:30",
+       "peak": "11-01T19:45",
+       "maxRiseM": 0.288
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.114,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T20:00",
+       "maxRiseM": 0.195
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.177,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": "11-01T19:15",
+       "peak": "11-01T20:15",
+       "maxRiseM": 0.237
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.193,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": "11-01T19:00",
+       "peak": "11-01T20:30",
+       "maxRiseM": 0.319
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 12.5,
+       "depthAt17Z": 0.326,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T18:00",
+       "peak": "11-01T20:45",
+       "maxRiseM": 0.691
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.172,
+       "rise5cm": "11-01T17:15",
+       "rise20cm": "11-01T18:15",
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.582
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 14.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.09,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T18:30",
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.484
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876897 (44.3 km2, joins at km 16.28)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.04,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.016
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.06,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.08
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.014,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.01
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.019,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:30",
+       "maxRiseM": 0.004
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.053,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T18:30",
+       "maxRiseM": 0.167
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.033,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": null,
+       "peak": "11-01T19:00",
+       "maxRiseM": 0.114
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.045,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T19:45",
+       "maxRiseM": 0.174
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.022,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T20:15",
+       "maxRiseM": 0.17
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 39.3,
+       "cellM": 100.0,
+       "depthAt17Z": 0.015,
+       "rise5cm": "11-01T19:00",
+       "rise20cm": null,
+       "peak": "11-01T20:45",
+       "maxRiseM": 0.094
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.026,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": "11-01T20:45",
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.218
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.022,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T21:15",
+       "maxRiseM": 0.182
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.023,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T21:45",
+       "maxRiseM": 0.142
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.022,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T22:15",
+       "maxRiseM": 0.166
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.012,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T22:30",
+       "maxRiseM": 0.048
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.02,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": null,
+       "peak": "11-01T22:45",
+       "maxRiseM": 0.14
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.016,
+       "rise5cm": "11-01T19:45",
+       "rise20cm": null,
+       "peak": "11-01T23:15",
+       "maxRiseM": 0.084
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.015,
+       "rise5cm": "11-01T20:30",
+       "rise20cm": null,
+       "peak": "11-01T21:15",
+       "maxRiseM": 0.068
+      },
+      {
+       "kmAlong": 17.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.011,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.04
+      },
+      {
+       "kmAlong": 18.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.014,
+       "rise5cm": "11-01T18:45",
+       "rise20cm": null,
+       "peak": "11-01T22:00",
+       "maxRiseM": 0.102
+      },
+      {
+       "kmAlong": 19.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.016,
+       "rise5cm": "11-01T20:15",
+       "rise20cm": null,
+       "peak": "11-01T22:45",
+       "maxRiseM": 0.088
+      },
+      {
+       "kmAlong": 20.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.01,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T23:30",
+       "maxRiseM": 0.018
+      },
+      {
+       "kmAlong": 21.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.015,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": null,
+       "peak": "11-02T00:00",
+       "maxRiseM": 0.122
+      },
+      {
+       "kmAlong": 22.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.024,
+       "rise5cm": "11-01T23:15",
+       "rise20cm": null,
+       "peak": "11-02T00:30",
+       "maxRiseM": 0.064
+      },
+      {
+       "kmAlong": 23.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.027,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-02T01:00",
+       "maxRiseM": 0.102
+      },
+      {
+       "kmAlong": 24.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.033,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-02T01:45",
+       "maxRiseM": 0.07
+      },
+      {
+       "kmAlong": 25.0,
+       "flowKmToGauge": 26.5,
+       "cellM": 100.0,
+       "depthAt17Z": 0.038,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": null,
+       "peak": "11-02T02:30",
+       "maxRiseM": 0.113
+      },
+      {
+       "kmAlong": 26.0,
+       "flowKmToGauge": 17.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.048,
+       "rise5cm": "11-01T18:15",
+       "rise20cm": null,
+       "peak": "11-02T02:30",
+       "maxRiseM": 0.087
+      },
+      {
+       "kmAlong": 27.0,
+       "flowKmToGauge": 17.2,
+       "cellM": 100.0,
+       "depthAt17Z": 0.043,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T18:45",
+       "maxRiseM": 0.098
+      }
+     ]
+    },
+    {
+     "path": "tributary 15876967 (22.4 km2, joins at km 17.3)",
+     "points": [
+      {
+       "kmAlong": 0.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.025,
+       "rise5cm": "11-01T18:00",
+       "rise20cm": null,
+       "peak": "11-01T22:15",
+       "maxRiseM": 0.076
+      },
+      {
+       "kmAlong": 1.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.016,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T18:15",
+       "maxRiseM": 0.024
+      },
+      {
+       "kmAlong": 2.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.029,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-01T19:15",
+       "maxRiseM": 0.121
+      },
+      {
+       "kmAlong": 3.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.017,
+       "rise5cm": "11-01T18:30",
+       "rise20cm": null,
+       "peak": "11-01T19:45",
+       "maxRiseM": 0.068
+      },
+      {
+       "kmAlong": 4.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.016,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T20:30",
+       "maxRiseM": 0.045
+      },
+      {
+       "kmAlong": 5.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.011,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.018
+      },
+      {
+       "kmAlong": 6.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.007,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T21:45",
+       "maxRiseM": 0.019
+      },
+      {
+       "kmAlong": 7.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.01,
+       "rise5cm": "11-01T18:45",
+       "rise20cm": null,
+       "peak": "11-01T20:15",
+       "maxRiseM": 0.066
+      },
+      {
+       "kmAlong": 8.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.009,
+       "rise5cm": "11-01T19:45",
+       "rise20cm": null,
+       "peak": "11-01T21:00",
+       "maxRiseM": 0.056
+      },
+      {
+       "kmAlong": 9.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.009,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T21:30",
+       "maxRiseM": 0.107
+      },
+      {
+       "kmAlong": 10.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.004,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T21:45",
+       "maxRiseM": 0.037
+      },
+      {
+       "kmAlong": 11.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.004,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T22:30",
+       "maxRiseM": 0.036
+      },
+      {
+       "kmAlong": 12.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.012,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T23:45",
+       "maxRiseM": 0.036
+      },
+      {
+       "kmAlong": 13.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.003,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.014
+      },
+      {
+       "kmAlong": 14.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.012,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T23:45",
+       "maxRiseM": 0.043
+      },
+      {
+       "kmAlong": 15.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.014,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T18:00",
+       "maxRiseM": 0.047
+      },
+      {
+       "kmAlong": 16.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.254,
+       "rise5cm": "11-01T17:30",
+       "rise20cm": null,
+       "peak": "11-01T19:45",
+       "maxRiseM": 0.099
+      },
+      {
+       "kmAlong": 17.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.018,
+       "rise5cm": null,
+       "rise20cm": null,
+       "peak": "11-01T17:45",
+       "maxRiseM": 0.012
+      },
+      {
+       "kmAlong": 18.0,
+       "flowKmToGauge": 26.6,
+       "cellM": 100.0,
+       "depthAt17Z": 0.092,
+       "rise5cm": "11-01T17:45",
+       "rise20cm": null,
+       "peak": "11-02T02:15",
+       "maxRiseM": 0.116
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "spinUp": {
+  "tstart": "20261030 160000",
+  "mapStart": "2026-11-01T17:00Z",
+  "hoursRunBeforeMapStart": 49.0,
+  "restartFilesFrom": "sfincs.20261101.180000.rst (first restart = t0out + dtrstout)",
+  "note": "The solver runs from tstart; t0out only delays map/restart writing. The rain burst starts 14Z Nov 1, 46 h after tstart."
+ }
+}
