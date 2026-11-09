@@ -1,0 +1,645 @@
+{
+ "schemaVersion": 1,
+ "run": 42544624673,
+ "workflow": "sfincs.yml",
+ "ref": "experimental/brawley-avra-west-20261108",
+ "commit": "a2b5084499a2",
+ "engineRunId": 42528021117,
+ "executionCapSeconds": 7200,
+ "solverSeconds": 5680.8,
+ "executionStarted": "2026-11-09T01:22:13Z",
+ "caseId": "brawley-avra-west-native-case-v2x-observed-inflow",
+ "validationVariant": true,
+ "window": {
+  "start": "2026-10-30T16:00Z",
+  "end": "2026-11-02T18:00Z",
+  "hours": 74,
+  "mapFrames": 101,
+  "map": "2026-11-01T17:00Z..2026-11-02T18:00Z every 15 min",
+  "restarts": "hourly 18Z..18Z (25)"
+ },
+ "forcing": {
+  "inflow": "USGS 09487000 observed every hour, top-of-hour 15-min reading; peak 48.42 m3/s 22Z; volume 955,922 m3 (75 values)",
+  "inflowHourlyMeanVariant": {
+   "topOfHour": {
+    "peakM3s": 48.422,
+    "peakTime": "2026-11-01T22:00:00Z",
+    "volumeM3": 955922,
+    "firstAbove10m3s": "2026-11-01T22:00:00Z",
+    "missingHours": 0
+   },
+   "centredHourlyMean": {
+    "peakM3s": 47.785,
+    "peakTime": "2026-11-01T22:00:00Z",
+    "volumeM3": 1017550,
+    "firstAbove10m3s": "2026-11-01T21:00:00Z",
+    "missingHours": 0
+   },
+   "intervalMeanStartLabel": {
+    "peakM3s": 46.298,
+    "peakTime": "2026-11-01T22:00:00Z",
+    "volumeM3": 1017550,
+    "firstAbove10m3s": "2026-11-01T21:00:00Z",
+    "missingHours": 0
+   },
+   "readings15min": {
+    "peakM3s": 49.271,
+    "peakTime": "2026-11-01T21:30:00Z",
+    "volumeM3": 1017550,
+    "firstAbove10m3s": "2026-11-01T21:15:00Z"
+   }
+  },
+  "rain": "frozen v2 frames to 07Z (HRRR 14Z forecast after 14Z Nov 1), observed Stage IV 07Z..18Z Nov 2 (domain mean 3.29 mm, 1.21/1.25/0.55 mm/h at 07-10Z); no MRMS replacement needed, 0 missing cells",
+  "rainNoteFrozenHrrrVsStageIV": {
+   "domainMeanMm_14Zto17Z": {
+    "hrrrFrozen": 0.67,
+    "stageIV": 19.46
+   },
+   "domainMeanMm_17Zto07Z": {
+    "hrrrFrozen": 14.16,
+    "stageIV": 14.49
+   },
+   "peakHour": {
+    "hrrrFrozen": "19Z",
+    "stageIV": "16-17Z"
+   }
+  }
+ },
+ "timing": {
+  "Donaldson Ranch (15877627)": {
+   "peakM3s": 21.29,
+   "peakTime": "2026-11-02T03:00Z",
+   "hoursAfterInletPeak22Z": 5.0,
+   "kmNorthOfInlet": 7.35,
+   "peakSpeedKmH": 1.47,
+   "q07Z": 13.981,
+   "q18Z": 3.137,
+   "baselineQ07Z_nwmRun": 3.833
+  },
+  "Mile Wide both bands": {
+   "peakM3s": 47.541,
+   "peakTime": "2026-11-02T09:00Z",
+   "hoursAfterInletPeak22Z": 11.0,
+   "kmNorthOfInlet": 15.4,
+   "peakSpeedKmH": 1.4,
+   "q07Z": 34.63,
+   "q18Z": 31.272,
+   "baselineQ07Z_nwmRun": 15.249
+  },
+  "Manville (15876771)": {
+   "peakM3s": 62.788,
+   "peakTime": "2026-11-02T11:00Z",
+   "hoursAfterInletPeak22Z": 13.0,
+   "kmNorthOfInlet": 20.3,
+   "peakSpeedKmH": 1.56,
+   "q07Z": 29.364,
+   "q18Z": 36.596,
+   "baselineQ07Z_nwmRun": 26.664
+  },
+  "Tucker (15876711)": {
+   "peakM3s": 64.335,
+   "peakTime": "2026-11-02T13:00Z",
+   "hoursAfterInletPeak22Z": 15.0,
+   "kmNorthOfInlet": 25.1,
+   "peakSpeedKmH": 1.67,
+   "q07Z": 32.423,
+   "q18Z": 43.146,
+   "baselineQ07Z_nwmRun": 31.14
+  },
+  "Outlet 720060498 (outflow links)": {
+   "peakM3s": 26.321,
+   "peakTime": "2026-11-02T14:00Z",
+   "hoursAfterInletPeak22Z": 16.0,
+   "kmNorthOfInlet": 28.4,
+   "peakSpeedKmH": 1.77,
+   "q07Z": 17.306,
+   "q18Z": 19.115,
+   "baselineQ07Z_nwmRun": 17.575
+  },
+  "Mile Wide Black Wash 15876815 band (ALERT 6443)": {
+   "peakM3s": 40.66,
+   "peakTime": "2026-11-02T09:00Z",
+   "q03Z": 8.834,
+   "q07Z": 29.53
+  },
+  "Mile Wide Brawley 15877627 band": {
+   "peakM3s": 7.002,
+   "peakTime": "2026-11-02T10:00Z",
+   "q03Z": 2.921,
+   "q07Z": 5.1
+  }
+ },
+ "inletPeak": {
+  "time": "2026-11-01T22:00Z",
+  "m3s": 48.42,
+  "faceZsMax": 755.671
+ },
+ "nwmAnalysis": {
+  "15876941": {
+   "peak": 46.8,
+   "time": "2026-11-01T23:00:00Z"
+  },
+  "15876923": {
+   "peak": 47.23,
+   "time": "2026-11-01T23:00:00Z"
+  },
+  "15876811": {
+   "peak": 39.13,
+   "time": "2026-11-02T02:00:00Z"
+  },
+  "15876815": {
+   "peak": 0.33,
+   "time": "2026-11-02T00:00:00Z"
+  },
+  "15876711": {
+   "peak": 37.77,
+   "time": "2026-11-02T03:00:00Z"
+  }
+ },
+ "alert6443": {
+  "reading": "~817 cfs (23.1 m3/s) at ~03:04Z, second-hand",
+  "modelBothBands03Z": 11.755,
+  "ratio03Z": 0.51,
+  "modelFirstAt23p1": "~06:12Z (20.30 at 06Z, 34.59 at 07Z, linear)",
+  "modelPeak": {
+   "m3s": 47.541,
+   "time": "2026-11-02T09:00Z"
+  },
+  "gaugeCellZsMax": 673.631,
+  "gaugeCellZsMaxTime": "2026-11-02T09:15Z"
+ },
+ "crossings": [
+  {
+   "label": "West Donaldson Ranch Road",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 710.69,
+   "roadZmax": 710.77,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 710.747,
+   "maxWseTime": "2026-11-02T03:45Z",
+   "maxOver": 0.057,
+   "maxOverTo07Z": 0.057,
+   "maxOverAfter07Z": 0.047,
+   "firstOver": "2026-11-01T19:00Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 5,
+   "maxFramesOver": 93,
+   "dryFramesZsAboveRoadMax": 30
+  },
+  {
+   "label": "West Manville Road",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 652.59,
+   "roadZmax": 652.94,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 653.202,
+   "maxWseTime": "2026-11-02T11:15Z",
+   "maxOver": 0.612,
+   "maxOverTo07Z": 0.446,
+   "maxOverAfter07Z": 0.612,
+   "firstOver": "2026-11-01T22:30Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 5,
+   "maxFramesOver": 79,
+   "dryFramesZsAboveRoadMax": 0
+  },
+  {
+   "label": "West Mile Wide Road",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 674.88,
+   "roadZmax": 674.93,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 674.792,
+   "maxWseTime": "2026-11-02T08:45Z",
+   "maxOver": -0.128,
+   "maxOverTo07Z": null,
+   "maxOverAfter07Z": -0.128,
+   "firstOver": null,
+   "lastOver": null,
+   "stationsOver": 0,
+   "maxFramesOver": 0,
+   "dryFramesZsAboveRoadMax": 0
+  },
+  {
+   "label": "West Little Williams Drive",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 631.37,
+   "roadZmax": 631.83,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 631.799,
+   "maxWseTime": "2026-11-02T12:45Z",
+   "maxOver": 0.429,
+   "maxOverTo07Z": 0.376,
+   "maxOverAfter07Z": 0.429,
+   "firstOver": "2026-11-01T19:30Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 4,
+   "maxFramesOver": 72,
+   "dryFramesZsAboveRoadMax": 4
+  },
+  {
+   "label": "West Tucker Road",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 631.67,
+   "roadZmax": 632.55,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 632.591,
+   "maxWseTime": "2026-11-02T12:45Z",
+   "maxOver": 0.921,
+   "maxOverTo07Z": 0.869,
+   "maxOverAfter07Z": 0.921,
+   "firstOver": "2026-11-01T21:45Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 5,
+   "maxFramesOver": 82,
+   "dryFramesZsAboveRoadMax": 1
+  }
+ ],
+ "dips": [
+  {
+   "label": "West Snyder Hill Road 1.73 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 706.68,
+   "roadZmax": 706.95,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 707.322,
+   "maxWseTime": "2026-11-02T14:30Z",
+   "maxOver": 0.642,
+   "maxOverTo07Z": 0.456,
+   "maxOverAfter07Z": 0.642,
+   "firstOver": "2026-11-01T19:15Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 5,
+   "maxFramesOver": 92,
+   "dryFramesZsAboveRoadMax": 0
+  },
+  {
+   "label": "Garcia Ranch Road 1.32 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 726.5,
+   "roadZmax": 727.24,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 726.804,
+   "maxWseTime": "2026-11-01T19:30Z",
+   "maxOver": 0.304,
+   "maxOverTo07Z": 0.304,
+   "maxOverAfter07Z": 0.228,
+   "firstOver": "2026-11-01T17:00Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 1,
+   "maxFramesOver": 101,
+   "dryFramesZsAboveRoadMax": 0
+  },
+  {
+   "label": "West Manville Road 1.24 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 651.85,
+   "roadZmax": 652.55,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 652.267,
+   "maxWseTime": "2026-11-02T03:30Z",
+   "maxOver": 0.417,
+   "maxOverTo07Z": 0.417,
+   "maxOverAfter07Z": 0.399,
+   "firstOver": "2026-11-01T21:30Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 4,
+   "maxFramesOver": 83,
+   "dryFramesZsAboveRoadMax": 4
+  },
+  {
+   "label": "West Manville Road 1.12 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 652.1,
+   "roadZmax": 652.87,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 653.422,
+   "maxWseTime": "2026-11-02T11:15Z",
+   "maxOver": 1.322,
+   "maxOverTo07Z": 0.944,
+   "maxOverAfter07Z": 1.322,
+   "firstOver": "2026-11-01T21:45Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 5,
+   "maxFramesOver": 82,
+   "dryFramesZsAboveRoadMax": 0
+  },
+  {
+   "label": "Garcia Ranch Road 1.01 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 728.06,
+   "roadZmax": 728.19,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 728.346,
+   "maxWseTime": "2026-11-01T23:00Z",
+   "maxOver": 0.286,
+   "maxOverTo07Z": 0.286,
+   "maxOverAfter07Z": 0.143,
+   "firstOver": "2026-11-01T17:00Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 5,
+   "maxFramesOver": 101,
+   "dryFramesZsAboveRoadMax": 0
+  },
+  {
+   "label": "Garcia Ranch Road 0.98 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 726.68,
+   "roadZmax": 727.66,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 726.657,
+   "maxWseTime": "2026-11-01T18:45Z",
+   "maxOver": -0.023,
+   "maxOverTo07Z": -0.023,
+   "maxOverAfter07Z": -0.058,
+   "firstOver": null,
+   "lastOver": null,
+   "stationsOver": 0,
+   "maxFramesOver": 0,
+   "dryFramesZsAboveRoadMax": 0
+  },
+  {
+   "label": "North Mesquite Oasis Road 0.96 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 624.56,
+   "roadZmax": 624.85,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 624.731,
+   "maxWseTime": "2026-11-02T08:15Z",
+   "maxOver": 0.171,
+   "maxOverTo07Z": 0.16,
+   "maxOverAfter07Z": 0.171,
+   "firstOver": "2026-11-01T20:30Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 2,
+   "maxFramesOver": 87,
+   "dryFramesZsAboveRoadMax": 0
+  },
+  {
+   "label": "West Donaldson Ranch Road 0.9 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 707.83,
+   "roadZmax": 708.28,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 708.222,
+   "maxWseTime": "2026-11-02T02:45Z",
+   "maxOver": 0.392,
+   "maxOverTo07Z": 0.392,
+   "maxOverAfter07Z": 0.3,
+   "firstOver": "2026-11-01T23:15Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 5,
+   "maxFramesOver": 76,
+   "dryFramesZsAboveRoadMax": 88
+  },
+  {
+   "label": "West Tucker Road 0.88 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 631.67,
+   "roadZmax": 632.55,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 632.591,
+   "maxWseTime": "2026-11-02T12:45Z",
+   "maxOver": 0.921,
+   "maxOverTo07Z": 0.869,
+   "maxOverAfter07Z": 0.921,
+   "firstOver": "2026-11-01T21:45Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 5,
+   "maxFramesOver": 82,
+   "dryFramesZsAboveRoadMax": 1
+  },
+  {
+   "label": "West Orange Grove Road 0.73 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 637.79,
+   "roadZmax": 638.05,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 637.998,
+   "maxWseTime": "2026-11-01T21:00Z",
+   "maxOver": 0.208,
+   "maxOverTo07Z": 0.208,
+   "maxOverAfter07Z": 0.196,
+   "firstOver": "2026-11-01T19:30Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 3,
+   "maxFramesOver": 91,
+   "dryFramesZsAboveRoadMax": 0
+  },
+  {
+   "label": "West Little Williams Drive 0.72 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 631.11,
+   "roadZmax": 631.46,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 631.577,
+   "maxWseTime": "2026-11-02T12:45Z",
+   "maxOver": 0.467,
+   "maxOverTo07Z": 0.416,
+   "maxOverAfter07Z": 0.467,
+   "firstOver": "2026-11-01T20:30Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 5,
+   "maxFramesOver": 87,
+   "dryFramesZsAboveRoadMax": 1
+  },
+  {
+   "label": "West Drillers Road 0.65 m",
+   "stations": 5,
+   "noCellOrHeight": 0,
+   "roadZmin": 633.44,
+   "roadZmax": 633.76,
+   "cellM": [
+    6.25
+   ],
+   "maxWse": 633.721,
+   "maxWseTime": "2026-11-02T10:15Z",
+   "maxOver": 0.281,
+   "maxOverTo07Z": 0.271,
+   "maxOverAfter07Z": 0.281,
+   "firstOver": "2026-11-01T20:30Z",
+   "lastOver": "2026-11-02T18:00Z",
+   "stationsOver": 2,
+   "maxFramesOver": 87,
+   "dryFramesZsAboveRoadMax": 0
+  }
+ ],
+ "stationsOverTotal": {
+  "stations": 57465,
+  "overFullWindow": 4859,
+  "overBy07Z": 4279,
+  "newAfter07Z": 580
+ },
+ "stationsOverByCell": {
+  "6.25": {
+   "stations": 6432,
+   "overFullWindow": 1569,
+   "overBy07Z": 1367,
+   "overGt0p3": 206
+  },
+  "12.5": {
+   "stations": 12575,
+   "overFullWindow": 1831,
+   "overBy07Z": 1666,
+   "overGt0p3": 112
+  },
+  "25.0": {
+   "stations": 3195,
+   "overFullWindow": 373,
+   "overBy07Z": 313,
+   "overGt0p3": 9
+  },
+  "50.0": {
+   "stations": 7493,
+   "overFullWindow": 623,
+   "overBy07Z": 554,
+   "overGt0p3": 27
+  },
+  "100.0": {
+   "stations": 27770,
+   "overFullWindow": 463,
+   "overBy07Z": 379,
+   "overGt0p3": 38
+  }
+ },
+ "balance": {
+  "inflowM3": 955908,
+  "inflowPeakM3s": 48.42,
+  "rainM3": 41838620,
+  "rainMeanMm": 33.730186424241154,
+  "infiltrationM3": 33103294,
+  "infMeanMm": 26.68778903016392,
+  "storageEndM3": 7797766,
+  "outflowAllCellsHourlyRstM3": 2005591,
+  "outflowWindowStart": "2026-11-01T18:00Z",
+  "outletOnlyVolumeM3": 959158,
+  "residualM3": -112122,
+  "residualPctOfInputs": -0.26200172192365623,
+  "negativeVolumeEndM3": -0.07346029033317336,
+  "minCellVolumeM3": -0.03084995225071907
+ },
+ "negativeDepth": {
+  "minVolOverAreaM": -0.0006736539840698242,
+  "frame": "2026-11-01T22:00Z",
+  "face": 520909,
+  "cellAreaM2": 39.0625,
+  "cellsBelowMinus1mm": 0,
+  "framesBelowMinus1mm": 0,
+  "note": "vol/area of subgrid_volume; the live verifier rejects depth < -0.001 m"
+ },
+ "stability": {
+  "nanZs": 1014816,
+  "nanZsWet": 0,
+  "maxAbsDzs15minWet": 1.60333251953125,
+  "spikeCells": 0,
+  "zsBelowZbMin": 6.103515625e-05,
+  "maxDepth": 5.62017822265625,
+  "velocityProxyMaxMs": 1.4729463053974823,
+  "velocityProxyAt": [
+   "sfincs.20261102.090000.rst",
+   [
+    -111.24413,
+    32.24807
+   ]
+  ]
+ },
+ "reproduceV2ObservedTo07Z": {
+  "frames": 57,
+  "maxAbsZsDiffM": 0.073974609375,
+  "p99AbsZsDiffM": 0.00018310546875,
+  "cellsGt0p01": 4720
+ },
+ "outflowClusters": {
+  "outlet720060498_26cells": {
+   "peakM3s": 26.3,
+   "time": "14Z",
+   "volumeM3": 959158
+  },
+  "westValley_12cells_-111.337_32.413": {
+   "peakM3s": 32.0,
+   "time": "05Z",
+   "volumeM3": 956810
+  },
+  "north_4cells": {
+   "peakM3s": 4.5,
+   "time": "08Z",
+   "volumeM3": 47892
+  },
+  "north_5cells": {
+   "peakM3s": 5.1,
+   "time": "12Z",
+   "volumeM3": 41732
+  }
+ },
+ "pondNearOutlet": {
+  "face": 54135,
+  "cellM": 100.0,
+  "lonlat": [
+   -111.2705,
+   32.3652
+  ],
+  "zb": 617.08,
+  "zsMax": 622.53,
+  "depthMax": 5.62,
+  "stillRisingAt18Z": true,
+  "storedWithin1p5kmAt18ZM3": 1241386,
+  "outletChannelZb": 617.56,
+  "outletChannelZsMax": 617.632
+ },
+ "artifact": {
+  "name": "sfincs-verification",
+  "bytes": 648123058,
+  "retentionDays": 7,
+  "mapSha256": "61a1f177c291ebe7ca6afc5245c84c562dac241fd3d61709d660ca79042fd5d6",
+  "mapBytes": 390892695,
+  "committed": false
+ }
+}

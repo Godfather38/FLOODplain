@@ -534,3 +534,105 @@ The water under the deck stays 1.29–1.39 m below roadZ, and the exporter repor
   - A frozen window running to at least Nov 2 15Z with the observed inflow, so the routed peak is seen at Manville, Tucker and the outlet.
   - Retained ALERT 6443 records.
   - Observation points (his output) at the crossings.
+
+## 12. Extended-window validation run (v2x, observed inflow, to 2026-11-02T18Z) — 2026-11-09
+
+**Validation only, not a live configuration and not tuned.**
+- Run 42544624673, case `brawley-avra-west-native-case-v2x-observed-inflow`.
+- It uses the v2 mesh, parameters and boundaries (643,056 cells, 47 outflow cells); nothing was rebuilt.
+- The window is 2026-10-30T16Z to 2026-11-02T18Z (74 h). Map frames are every 15 min from Nov 1 17Z (101 frames).
+- Solver time 5,680.8 s against the 7,200 s cap.
+- Numbers: `tools/sfincs/data/brawley-avra-west-v2/extended/result-42544624673/summary.json`. Tools: `tools/sfincs/brawley/extend/`.
+
+### 12.1 Forcing
+
+- **Inflow.** Observed USGS 09487000 for all 75 hours, using the same top-of-hour rule as `build_brawley_inflow.py`. Peak 48.42 m³/s at 22Z; volume 955,922 m³.
+  - Hourly-mean variant, reported only, not used as forcing. The centred mean gives a peak of 47.79 m³/s and 1,017,550 m³.
+  - So top-of-hour sampling is 6.1% low in volume. Nearly all of the gap is the 21:15–21:30Z front: at 21Z the reading is 66 cfs, while the centred mean is 627 cfs.
+  - A refetch of NWIS on Nov 9 matched all 480 readings.
+- **Rain to 07Z.** The frozen v2 frames, unchanged. After 14Z Nov 1 these are the HRRR 14Z forecast, as in the frozen case.
+- **Rain 07Z–18Z.** Observed Stage IV 01h from IEM, with the same checks, grid hash and cell mapping as the frozen analysis hours. 0 missing cells, so no MRMS replacement was needed and nothing was zero-filled. Domain mean 3.29 mm, mostly 07–10Z (1.21, 1.25, 0.55 mm/h).
+- **Side finding: the frozen HRRR misses most of the early rain.** Stage IV for the hours that the case forces with HRRR (reference only, not forcing):
+
+  | Hours | Frozen HRRR, domain mean | Stage IV, domain mean |
+  |---|---|---|
+  | 14–17Z | 0.67 mm | 19.46 mm |
+  | 17–07Z | 14.16 mm | 14.49 mm |
+
+  - HRRR peaks at 19Z; Stage IV peaks at 15–17Z.
+  - So the frozen case misses about 19 mm of early rain and has the rain burst about 2–3 h late. This matters for the rain-fed Black Wash flow at ALERT 6443.
+
+### 12.2 Checks
+
+- **Mass balance.** The residual is −112,122 m³, −0.26% of inputs. It includes outflow before 18Z, which was not measured.
+- **Storage.** At 18Z there is still 7.80M m³ in storage. 2.01M m³ left through all outflow cells.
+- **Same result as the 63-h v2 observed run up to 07Z.**
+  - The 99th-percentile |Δzs| is 0.0002 m and the maximum is 0.074 m; 4,720 cells differ by more than 0.01 m.
+  - The inputs are identical up to 07Z, so these differences likely come from the solver run itself (inference).
+- **Negative depth.** The minimum vol/area is −0.67 mm (face 520909, 22:00Z). No cell goes below −1 mm, so this run is inside the live verifier's limit. The −1.03 mm cell is in the v1b NWM run, not here.
+- **Stability.**
+  - 0 wet NaN values and 0 spikes.
+  - Maximum 15-min rise 1.60 m. Velocity proxy at most 1.47 m/s (09Z, at the Mile Wide deck).
+
+### 12.3 Arrival and peaks (hourly restart flux, m³/s)
+
+The inlet peaks at 22Z. The baseline column is the v2 NWM-inflow run at 07Z: the same rain with almost no inflow (peak 1.70 m³/s), so it shows the rain-only flow.
+
+| Section | km N of inlet | Peak / time | h after inlet peak | Peak speed | Q 07Z (baseline) | Q 18Z |
+|---|---|---|---|---|---|---|
+| Donaldson Ranch | 7.4 | 21.29 / 03Z | +5 | 1.47 km/h | 13.98 (3.83) | 3.14 |
+| Mile Wide, both bands | 15.4 | 47.54 / 09Z | +11 | 1.40 km/h | 34.63 (15.25) | 31.27 |
+| ·· Black Wash band (ALERT 6443) | | 40.66 / 09Z | | | 29.53 (13.4) | 27.8 |
+| ·· Brawley 15877627 band | | 7.00 / 10Z | | | 5.10 (1.9) | 3.5 |
+| Manville | 20.3 | 62.79 / 11Z | +13 | 1.56 km/h | 29.36 (26.66) | 36.60 |
+| Tucker | 25.1 | 64.34 / 13Z | +15 | 1.67 km/h | 32.42 (31.14) | 43.15 |
+| Outlet 720060498 (26 outflow cells) | 28.4 | 26.32 / 14Z | +16 | 1.77 km/h | 17.31 (17.58) | 19.12 |
+
+- **The wave front.** It is the same as in v1b: by 07Z it is 16.98 km north of the inlet (lat 32.2626). At the ALERT cell the difference from the baseline first exceeds 0.3 m at 07:00Z (06:45Z in v1b).
+- **Peak timing against NWM analysis.**
+  - NWM: 15876941 peaks at 23Z (46.80), 15876811 at 02Z (39.13, +3 h) and 15876711 at 03Z (37.77, +4 h).
+  - SFINCS peaks at Mile Wide (15876811) at 09Z: +11 h from the inlet and 7 h after NWM.
+  - SFINCS peaks at Tucker at 13Z and at the outlet at 14Z: +15/+16 h, 10–11 h after NWM.
+  - The extended window shows the peaks, and the slow wave is confirmed: about 1.4–1.8 km/h, 3.7× NWM's travel time. **FAIL against the NWM reference.**
+- **Peak size against NWM** (window maxima, which include the extra rain from 07–10Z):
+  - Mile Wide 47.54 vs 39.13 (1.21×).
+  - Tucker 64.34 vs 37.77 (1.70×).
+  - Outlet 26.32 vs 37.77 (0.70×).
+  - After 07Z there is no rain-only baseline, so the split between inlet water and the extension's rain is not measured.
+- **Against the ALERT 6443 reading** (about 817 cfs = 23.1 m³/s at about 03:04Z, second-hand):
+  - The model gives 11.8 m³/s at 03Z across both bands (0.51×).
+  - It first reaches 23.1 m³/s at about 06:12Z (20.30 at 06Z, 34.59 at 07Z): about 3.1 h after the reading.
+  - Its peak at Mile Wide is 47.54 at 09Z. In the cell nearest the gauge, zs peaks at 673.631 at 09:15Z, 1.97 m above the cell bed.
+  - **V2 flow and timing: still FAIL**, with the same caveat about the second-hand reading.
+  - The missing early Stage IV rain (§12.1) may explain part of the 03Z shortfall (inference, not tested).
+- **Where the outlet water goes.**
+  - The outlet cluster passes 959,158 m³ (peak 26.3 at 14Z). Its channel cell holds at most 0.072 m of water.
+  - About 2 km east, at −111.2705, 32.3652 (a 100 m cell, zb 617.08), water ponds 5.62 m deep. It reaches zs 622.53 and is still rising at 18Z.
+  - 1.24M m³ is stored within 1.5 km of that cell at 18Z.
+  - The flow from Tucker (64 m³/s) is therefore stored before it reaches the outflow cells. This could be a terrain barrier or a flaw in the 100 m-cell terrain (inference, not identified). **It should be checked before the outlet flow is trusted.**
+  - The west-valley outflow cluster (12 cells, −111.337, 32.413) passes 956,810 m³ (peak 32.0 at 05Z).
+
+### 12.4 Road over-topping at the Brawley crossings, full window
+
+Over-topping is cell zs minus station roadZ, counted only in wet frames.
+
+| Crossing | Max over, whole window | Time | Max over by 07Z | First over → last over | Stations over |
+|---|---|---|---|---|---|
+| W Mile Wide Rd | **−0.128** | 08:45Z | (−0.176 in v2 obs) | never | 0/5 |
+| W Manville Rd | **+0.612** | 11:15Z | +0.446 | 22:30Z → still over at 18Z | 5/5 |
+| W Tucker Rd | **+0.921** | 12:45Z | +0.869 | 21:45Z → still over at 18Z | 5/5 |
+| W Little Williams Dr | +0.429 | 12:45Z | +0.376 | 19:30Z → still over at 18Z | 4/5 |
+| W Donaldson Ranch Rd | +0.057 | 03:45Z | +0.057 | 19:00Z → still over at 18Z | 5/5 |
+
+- **Mile Wide.** The crossing stays under the road. The 8 deck-lidar stations there stay 1.3–2.2 m below roadZ.
+- **Dips.** Manville dip 4 (1.12 m) reaches +1.322 at 11:15Z (+0.944 by 07Z). Snyder Hill reaches +0.642 at 14:30Z.
+- **All stations.** 4,859 of 57,465 stations (v2 list) go over at some point, against 4,279 by 07Z. That is 580 stations over only after 07Z.
+  - By cell size, full window: 6.25 m 1,569 (206 > 0.3 m), 12.5 m 1,831, 25 m 373, 50 m 623, 100 m 463.
+- **What changes after 07Z.** The routed flood raises Manville, Tucker and Little Williams by a further 0.05–0.17 m. These crossings are still over at the 18Z window end, so the recession is not complete.
+
+### 12.5 What is left
+
+- **No rain-only baseline after 07Z.** A rain-only sensitivity run (same v2x rain, NWM or no inflow, labelled as a sensitivity) would separate inlet water from extension rain at Mile Wide, Manville and Tucker.
+- **An all-observed-rain sensitivity** (Stage IV from 14Z Nov 1) would test whether HRRR's missing 19 mm explains the 03Z ALERT 6443 shortfall.
+- **The pond near the outlet** needs a terrain check.
+- **The window still ends while the crossings are over** (Manville, Tucker, Little Williams). A window to Nov 3 00Z would show the recession.
