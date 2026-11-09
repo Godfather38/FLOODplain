@@ -1,0 +1,53 @@
+{
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "kind": "prepared_native_case",
+  "caseId": "brawley-avra-west-native-case-v3l-obsrain",
+  "runReady": true,
+  "solverExecuted": false,
+  "approvedExecutionCapSeconds": 7200,
+  "archiveBytes": 151090691,
+  "archiveSha256": "aecf2a61bc60cbf6b328abeb314bfd335024b1483d192aa41432845272fef993",
+  "parts": [
+    {
+      "path": "case.part01",
+      "bytes": 40000000,
+      "sha256": "bbbdf573482e056fc5eb7658aff047f800c652cb41b93b2279070ab119900b13"
+    },
+    {
+      "path": "case.part02",
+      "bytes": 40000000,
+      "sha256": "3f659071b76e3e7d36dc3e7ce924a708d91f563715ab3d8f53dbca4f582ae0c4"
+    },
+    {
+      "path": "case.part03",
+      "bytes": 40000000,
+      "sha256": "64bf678954e0ba03bd186ca75b8fd4ea374f84ff9ac70ad7ac409475e9592c43"
+    },
+    {
+      "path": "case.part04",
+      "bytes": 31090691,
+      "sha256": "cfce341538cb5056489b577f40e0b0a1a49f47d5ae44a8f7213663557515e8a3"
+    }
+  ],
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T18:00:00Z",
+  "gridCells": 643056,
+  "inlets": 1,
+  "scope": {
+    "status": "brawley_avra_west_version3",
+    "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+    "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+    "areaKm2": 1240.369838309587,
+    "externalInlets": [
+      {
+        "reachId": "15876941",
+        "receivingReachId": "15876923"
+      }
+    ],
+    "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+    "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+  },
+  "executionAuthorization": "orchestrator_task_brawley_avra_west_v3l_obsrain_base_cap_7200_experimental_branch_only"
+}
