@@ -5,7 +5,7 @@ a gauge: the alternative runoff values are **brackets** (each with a physical so
 uncertainty, not proposed settings.
 
 The question: the brawley-avra-west diagnosis (`BRAWLEY-RUNOFF-ROUTING-20261109.md`) found that the model's
-curve-number (CN) rule turns about 47% of the Nov 1 rain into runoff, while ALERT 6443 (Mile Wide) saw about 7–8.5%.
+curve-number (CN) rule turns about 47% of the Nov 1 rain into runoff, while ALERT 6443 (Mile Wide) saw about 6.6–8.5% (§3).
 Do the three **live production cases** (northern, picture-rocks, gates) use the same setup, and does it reach users?
 
 ## 1. Short answer
