@@ -1,0 +1,66 @@
+{
+  "runId": "42535214906",
+  "caseId": "brawley-avra-west-native-case-v1",
+  "caseRouteIds": [],
+  "inventory": {
+    "path": "tools\\sfincs\\data\\all-route-ready-v3\\recovered-road-ledger\\coverage-ledger.json",
+    "sha256": "3efde086308b3ca81f54bfd44401119b26855c352d94e38e4d476d30fa3dc2f3",
+    "schema": "all-route-coverage-ledger/v1",
+    "arrays": [
+      "entries",
+      "officialRoadJunctions",
+      "terrainMinimumCandidates"
+    ],
+    "recordCounts": {
+      "entries": {
+        "sourceRecords": 88,
+        "retainedByRouteIds": 0,
+        "notInThisCase": 88
+      },
+      "officialRoadJunctions": {
+        "sourceRecords": 203,
+        "retainedByRouteIds": 0,
+        "notInThisCase": 203
+      },
+      "terrainMinimumCandidates": {
+        "sourceRecords": 167,
+        "retainedByRouteIds": 0,
+        "notInThisCase": 167
+      }
+    }
+  },
+  "caseMetadata": {
+    "path": ".sfincs-runs\\brawley-avra-west-result-42535214906\\artifact\\runs\\current\\current-case.json",
+    "sha256": "2554723fd4431ccd644d3f8773407a7fad6fc6173bf8df0b6a0926f8844bbd43"
+  },
+  "locationMethod": "Inventory longitude/latitude transformed EPSG:4326 to EPSG:32612 and located in this run exact native cell bounds; no other case native face IDs reused",
+  "coverageRule": "Route membership is recorded provenance, not modeled coverage. Only an exact native cell containment in this run geometry counts as located, and locating a point does not validate road depth.",
+  "counts": {
+    "retained": 0,
+    "located": 0,
+    "outsideCurrentNativeDomain": 0,
+    "locatedInInputButAbsentFromOutput": 0,
+    "boundaryAmbiguous": 0
+  },
+  "boundaryAmbiguity": {
+    "count": 0,
+    "canonicalIds": [],
+    "meaning": "Point falls exactly on a shared native cell boundary; lowest source native face ID selected"
+  },
+  "outsideDomainCanonicalIds": [],
+  "locatedInInputButAbsentFromOutputCanonicalIds": [],
+  "timeCoverage": {
+    "framesRecorded": 57,
+    "recordedValidFrom": "2026-11-01T17:00:00Z",
+    "recordedValidTo": "2026-11-02T07:00:00Z",
+    "distinctIntervalSeconds": [
+      900
+    ],
+    "requestedEndUtc": "2026-11-02T07:00:00Z",
+    "note": "Frames, interval and endpoints are read from the native output. The normal forecast product is 57 quarter-hour frames from 2026-11-01T17Z through 2026-11-02T07Z, but that count is not assumed here.",
+    "reachesRequestedEnd": true,
+    "shortfallSecondsFromRequestedEnd": 0
+  },
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "points": []
+}

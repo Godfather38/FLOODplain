@@ -1,0 +1,22 @@
+{
+  "registryVersion": "all-routes-connected-v2",
+  "case": "components",
+  "inlets": [
+    {
+      "reachId": "15876941",
+      "receivingReachId": "15876923",
+      "linkField": "dnhydroseq",
+      "note": "USGS 09487000 Brawley Wash near Three Points. NWM inflow of the gauge reach injected on 15876923. The 27.47 km2 local catchment of 15876941 below the gauge is excluded from the domain; its runoff arrives only through the NWM inflow.",
+      "x": 470075.4647826869,
+      "y": 3552603.0336856283,
+      "nativeFaceIndexZeroBased": 144751,
+      "downstreamOffsetM": 1.0,
+      "placement": "First active native face along verified directed receiving river, no elevation-based relocation"
+    }
+  ],
+  "outflowCells": 26,
+  "outflowMethod": "Official HydroMT directed outflow points, 500m corridor, official Deltares native mask builder",
+  "activeCells": 408207,
+  "solverExecuted": false,
+  "status": "Native geometry and boundary locations only; rainfall/case assembly pending"
+}

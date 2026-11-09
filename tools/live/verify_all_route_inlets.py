@@ -18,8 +18,8 @@ CASES = [
     ('northern', 'all-route-ready-v3/northern-native-case-v3/manifest.json', 'northern', 'northern-result-41382880257'),
     ('picture-rocks', 'all-route-ready-v3/picture-rocks-native-case-v2/manifest.json', 'picture-rocks-ina-twinpeaks', 'picture-rocks-result-41382872468'),
     ('gates', 'all-route-ready-v3/gates-full-native-case-v3/manifest.json', 'gates', 'gates-full-result-41750298470'),
-    # Result dir None = the single tools/sfincs/data/brawley-avra-west-result-<runid> made from its frozen run.
-    ('brawley-avra-west', 'all-route-ready-v3/brawley-avra-west-native-case-v1/manifest.json', 'brawley-avra-west', None),
+    # v1b (v1 domain, NWM-inflow variant); frozen run 42535214906. Past hours take the observed gauge live (OBSERVED).
+    ('brawley-avra-west', 'all-route-ready-v3/brawley-avra-west-native-case-v1b/manifest.json', 'brawley-avra-west', 'brawley-avra-west-result-42535214906'),
 ]
 # Cases that also publish local-road-forecast.json: their frozen station list (build_local_road_stations.py).
 LOCAL_ROADS = {'brawley-avra-west': 'tools/live/road-stations/brawley-avra-west-local.json.gz'}

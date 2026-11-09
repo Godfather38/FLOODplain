@@ -1,0 +1,66 @@
+{
+  "runId": "42535217219",
+  "runUrl": "https://github.com/Godfather38/FLOODplain/actions/runs/42535217219",
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "executionCommit": "a938373d6cedd4c2eec8c6885c54de22bc6a7e76",
+  "status": "completed_full_interval",
+  "nativeRuntimeSeconds": [
+    1784.84326171875
+  ],
+  "executionMode": "simulated_live_frozen_inputs",
+  "archiveSha256": "dc2d39f2baa08efa95cf6bac19f2210dfefdfc64a39b04bb584669a493cbded1",
+  "archiveBytes": 188469641,
+  "parts": [
+    {
+      "path": "native-output.tar.gz.part00",
+      "bytes": 67108864,
+      "sha256": "17aacb9380d88e42de32b5e8508e4438861dba4fb5710b5473511e15e7eaf781"
+    },
+    {
+      "path": "native-output.tar.gz.part01",
+      "bytes": 67108864,
+      "sha256": "c03ebc847ec37694325b455441a75efe5c01e46bf12314153c5d913ee9479cf9"
+    },
+    {
+      "path": "native-output.tar.gz.part02",
+      "bytes": 54251913,
+      "sha256": "bca83ec44357faffe20615e9cf956af55c7b473d0bbaf7356a00615052b6d44b"
+    }
+  ],
+  "archiveContents": [
+    "sfincs_map.nc",
+    "sfincs.nc",
+    "solver.log",
+    "sfincs.log",
+    "current-case.json",
+    "execution-started.txt",
+    "GCN10-NOTICE.txt",
+    "GCN10-source-metadata.xml",
+    "sfincs.20261101.180000.rst",
+    "sfincs.20261101.190000.rst",
+    "sfincs.20261101.200000.rst",
+    "sfincs.20261101.210000.rst",
+    "sfincs.20261101.220000.rst",
+    "sfincs.20261101.230000.rst",
+    "sfincs.20261102.000000.rst",
+    "sfincs.20261102.010000.rst",
+    "sfincs.20261102.020000.rst",
+    "sfincs.20261102.030000.rst",
+    "sfincs.20261102.040000.rst",
+    "sfincs.20261102.050000.rst",
+    "sfincs.20261102.060000.rst",
+    "sfincs.20261102.070000.rst"
+  ],
+  "reassembly": "Concatenate parts in order and extract. Unchanged forcing/subgrid inputs remain in the referenced prepared archive.",
+  "nativeInputs": "../all-route-ready-v3/brawley-avra-west-native-case-v1b-observed-inflow/manifest.json",
+  "pointSummary": "route-point-summary.json",
+  "pointSeries": "route-point-series.csv",
+  "compact": "compact/manifest.json",
+  "resultSummary": "result-summary.json",
+  "sourceMeshSha256": "82f52929c069f1cee114ee2c9dcaaea632fc90fddf53e4a5af8ce70550bd3a44",
+  "sourceMapSha256": "f1439549c8c266ad808999e87dc63395ddf74856470deadb67f5cfd73e4a5cf1",
+  "restartLimitation": "Type1 restores water/momentum but not cumulative cna precipitation/infiltration state; not an identical continuation",
+  "fullGatesCoverage": null,
+  "partsCommitted": false,
+  "partsNote": "The native-output.tar.gz parts (sfincs_map.nc, sfincs.nc, logs, restarts) are not committed to keep the repository small; the same files are in the GitHub run artifact sfincs-verification of run 42535217219 (retention-limited). archiveSha256 and sourceMapSha256 identify them."
+}

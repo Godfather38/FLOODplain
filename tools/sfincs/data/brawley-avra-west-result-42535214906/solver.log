@@ -1,0 +1,118 @@
+
+------------ Welcome to SFINCS ------------
+
+  @@@@@  @@@@@@@ @@ @@  @@   @@@@   @@@@@
+ @@@ @@@ @@@@@@@ @@ @@@ @@ @@@@@@@ @@@ @@@
+ @@@     @@      @@ @@@ @@ @@   @@ @@@
+  @@@@@  @@@@@@  @@ @@@@@@ @@       @@@@@
+     @@@ @@      @@ @@ @@@ @@   @@     @@@
+ @@@ @@@ @@      @@ @@  @@  @@@@@@ @@@ @@@
+  @@@@@  @@      @@ @@   @   @@@@   @@@@@
+
+              ..............
+          ......:@@@@@@@@:......
+       ..::::..@@........@@.:::::..
+     ..:::::..@@..::..::..@@.::::::..
+    .::::::..@@............@@.:::::::.
+   .::::::..@@..............@@.:::::::.
+  .::::::::..@@............@@..::::::::.
+ .:::::::::...@@.@..@@..@.@@..::::::::::.
+ .:::::::::...:@@@..@@..@@@:..:::::::::..
+ ............@@.@@..@@..@@.@@............
+ ^^^~~^^~~^^@@..............@@^^^~^^^~~^^
+ .::::::::::@@..............@@.:::::::::.
+  .......:.@@.....@.....@....@@.:.......
+   .::....@@......@.@@@.@....@@.....::.
+    .:::~@@.:...:.@@...@@.:.:.@@~::::.
+     .::~@@@@@@@@@@.....@@@@@@@@@~::.
+       ..:~~~~~~~:.......:~~~~~~~:..
+          ......................
+              ..............
+
+------------------------------------------
+
+By running a SFINCS pre-compiled executable
+provided by Deltares, you accept the
+conditions of the Deltares SFINCS FreeWare
+Software License Agreement, see:
+https://download.deltares.nl/sfincs
+
+------------------------------------------
+
+Build-Revision: $Rev: v2.5.0-beta Hautacam
+Build-Date: $Date: 2026-10-08
+
+------ Preparing model simulation --------
+
+ Warning : sfincs.inp keyword "dtout" is deprecated, use "dtmapout" instead
+Warning! Times in spatially-varying precipitation input file do not cover entire simulation period! Using nearest available data.
+------------------------------------------
+Computational mesh
+------------------------------------------
+Number of active z points      :    408207
+Number of active u/v points    :    827160
+Number of cells in level   1   :     70760
+Number of cells in level   2   :     31751
+Number of cells in level   3   :     42124
+Number of cells in level   4   :    131285
+Number of cells in level   5   :    132287
+
+------------------------------------------
+Processes
+------------------------------------------
+Subgrid topography   : yes
+Quadtree refinement  : yes
+Advection            : yes
+Viscosity            : yes
+Coriolis             : yes
+Wind                 : no
+Atmospheric pressure : no
+Precipitation        : yes
+Infiltration         : yes
+SnapWave             : no
+Wave paddles         : no
+------------------------------------------
+
+
+---------- Starting simulation -----------
+---- Using 2 of 4 available threads ----
+
+   0% complete,       - s remaining ...
+   5% complete,   538.3 s remaining ...
+  10% complete,   501.8 s remaining ...
+  15% complete,   474.5 s remaining ...
+  20% complete,   447.0 s remaining ...
+  25% complete,   422.0 s remaining ...
+  30% complete,   395.9 s remaining ...
+  35% complete,   368.8 s remaining ...
+  40% complete,   343.9 s remaining ...
+  45% complete,   317.7 s remaining ...
+  50% complete,   289.8 s remaining ...
+  55% complete,   266.6 s remaining ...
+  60% complete,   276.3 s remaining ...
+  65% complete,   276.0 s remaining ...
+  70% complete,   265.7 s remaining ...
+  75% complete,   239.4 s remaining ...
+  80% complete,   207.1 s remaining ...
+  85% complete,   183.0 s remaining ...
+  90% complete,   142.3 s remaining ...
+  95% complete,    81.4 s remaining ...
+ 100% complete,     0.0 s remaining ...
+
+---------- Simulation finished -----------
+
+ Total time                   :   1836.691
+ Time in input                :      0.199
+ Time in simulation           :   1836.492 (100.0%)
+ Time in meteo fields         :      0.477 (  0.0%)
+ Time in meteo forcing        :     50.118 (  2.7%)
+ Time in boundaries           :      1.458 (  0.1%)
+ Time in momentum             :   1286.254 ( 70.0%)
+ Time in discharges           :      0.378 (  0.0%)
+ Time in infiltration         :     60.814 (  3.3%)
+ Time in continuity           :    433.792 ( 23.6%)
+ Time in output               :      2.688 (  0.1%)
+
+ Average time step (s)  :      1.149
+
+----------- Closing off SFINCS -----------
