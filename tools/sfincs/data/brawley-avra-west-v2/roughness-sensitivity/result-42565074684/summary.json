@@ -1,0 +1,130 @@
+{
+ "label": "SENSITIVITY v2n (not for live registration): channel Manning n 0.030 inside the lidar-centred order>=3 channel mask (2.18 km2); otherwise identical to v2x",
+ "run": 42565074684,
+ "commit": "9b6f4ea",
+ "solverSeconds": 6092.481,
+ "comparedWith": "v2x run 42544624673",
+ "uvNavgInsideMask": {
+  "v2x": 0.04627,
+  "v2n": 0.03286,
+  "uvPoints": 17564
+ },
+ "peaks": [
+  {
+   "section": "Donaldson Ranch (15877627)",
+   "v2x": {
+    "m3s": 21.29,
+    "time": "03:00"
+   },
+   "v2n": {
+    "m3s": 20.989,
+    "time": "03:00"
+   }
+  },
+  {
+   "section": "Mile Wide Black Wash 15876815 band (ALERT 6443)",
+   "v2x": {
+    "m3s": 40.66,
+    "time": "09:00"
+   },
+   "v2n": {
+    "m3s": 40.546,
+    "time": "09:00"
+   }
+  },
+  {
+   "section": "Mile Wide both bands",
+   "v2x": {
+    "m3s": 47.541,
+    "time": "09:00"
+   },
+   "v2n": {
+    "m3s": 47.505,
+    "time": "09:00"
+   }
+  },
+  {
+   "section": "Manville (15876771)",
+   "v2x": {
+    "m3s": 62.788,
+    "time": "11:00"
+   },
+   "v2n": {
+    "m3s": 62.725,
+    "time": "11:00"
+   }
+  },
+  {
+   "section": "Tucker (15876711)",
+   "v2x": {
+    "m3s": 64.335,
+    "time": "13:00"
+   },
+   "v2n": {
+    "m3s": 64.081,
+    "time": "13:00"
+   }
+  },
+  {
+   "section": "Outlet 720060498 (outflow links)",
+   "v2x": {
+    "m3s": 26.321,
+    "time": "14:00"
+   },
+   "v2n": {
+    "m3s": 27.27,
+    "time": "14:00"
+   }
+  }
+ ],
+ "crossingsMaxOverM": {
+  "West Donaldson Ranch Road": {
+   "v2x": 0.057,
+   "v2n": 0.055
+  },
+  "West Manville Road": {
+   "v2x": 0.612,
+   "v2n": 0.612
+  },
+  "West Mile Wide Road": {
+   "v2x": -0.128,
+   "v2n": -0.121
+  },
+  "West Little Williams Drive": {
+   "v2x": 0.429,
+   "v2n": 0.416
+  },
+  "West Tucker Road": {
+   "v2x": 0.921,
+   "v2n": 0.928
+  }
+ },
+ "alert6443": {
+  "observed03Z_m3s": 21.974,
+  "v2x": {
+   "blackWashBand": 8.834,
+   "bothBands": 11.755
+  },
+  "v2n": {
+   "blackWashBand": 9.496,
+   "bothBands": 12.349
+  }
+ },
+ "negativeDepthMinMm": {
+  "v2x": -0.6736539840698242,
+  "v2n": -0.6094769477844239
+ },
+ "velocityProxyMaxMs": {
+  "v2x": 1.4729463053974823,
+  "v2n": 1.7400919659478746
+ },
+ "stationsOver": {
+  "v2x": 4859,
+  "v2n": 4850
+ },
+ "residualPct": {
+  "v2x": -0.26200172192365623,
+  "v2n": -0.09356909523836243
+ },
+ "verdict": "Roughness of the measured channels (mask, 17,564 of 1,308,350 velocity points) is not what delays the wave: every section peaks in the same hour as v2x and peak flows change by under 4%. Roughness outside the mask is untested."
+}
