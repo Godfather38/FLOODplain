@@ -1,0 +1,45 @@
+{
+ "schemaVersion": 1,
+ "cases": [
+  {
+   "case": "brawley-avra-west",
+   "modelVersion": "all-routes-brawley-avra-west-v1",
+   "caseManifest": "tools/sfincs/data/brawley-avra-west-v2/live-dryrun-candidate/case/manifest.json",
+   "archiveSha256": "aac61faaa0e947b3dd6f10ac922a5a37466069ebbc625650f086816723fdf8ca",
+   "meshSha256": "328042f02927f4ff9f5c40c39365b699c0edbfc0dbc21cea89eac3df368f6767",
+   "bounds32612": [
+    452409.3,
+    3533440.5,
+    495951.3,
+    3592788.2
+   ],
+   "inlets": [
+    {
+     "reachId": "15876941",
+     "x": 470075.5,
+     "y": 3552603.0,
+     "observed": {
+      "usgsSite": "09487000",
+      "parameterCd": "00060"
+     }
+    }
+   ],
+   "inletCheck": "sfincs.src within 0.1 m of boundary-placement.json; each sfincs.dis column equals that reach's frozen series",
+   "faceMapping": {
+    "path": "tools/sfincs/data/brawley-avra-west-result-42543054067/output-to-source-face-id.npy",
+    "sha256": "ebfd139958faacab1a8c5cd7fd36cde08dd6f92b7a3452852231e43467969460"
+   },
+   "geometry": {
+    "path": "tools/sfincs/data/brawley-avra-west-result-42543054067/compact/geometry.bin.gz",
+    "sha256": "76326fc7b1b206cafbe44f17d6bb7734b13d4ac0575b392d826f2e9ff83abd95"
+   },
+   "localRoads": {
+    "path": "tools/live/road-stations/brawley-avra-west-local-v2.json.gz",
+    "sha256": "f820259acf4520ab9d1aa588601812a505c9c1b51e02240a9e0b17d79c8dce8c",
+    "output": "local-road-forecast.json",
+    "kind": "floodplain-local-road-forecast"
+   },
+   "dryRunOnly": "SENSITIVITY: v2 live case with inftype cnb (POLARIS ks, seff = smax cold start at live tstart) and btfilter -1. Used only through the live-all-route.yml cases_registry input on experimental/brawley-avra-west-20261108; never published, not a live registration."
+  }
+ ]
+}

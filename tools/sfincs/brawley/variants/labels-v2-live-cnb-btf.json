@@ -1,0 +1,41 @@
+{
+ "caseId": "brawley-avra-west-native-case-v2-live-cnb-btf",
+ "modelVersion": "all-routes-brawley-avra-west-v1",
+ "approvedExecutionCapSeconds": 5400,
+ "proposedExecutionCapSeconds": 5400,
+ "executionAuthorization": "orchestrator_task_brawley_avra_west_live_dryrun_cnb_btf_no_publish_cap_5400_experimental_branch_only",
+ "knownLimits": [
+  "Current bridge and culvert elevations unknown; no structure openings",
+  "Published CN (GCN10 fair ARCII undrained) used as Smax of SFINCS cnb (CN with SWMM recovery); Ks from POLARIS 0-5 cm, not measured; seff = smax: dry cold start at the live tstart (HRRR cycle - 45 h), antecedent soil moisture not observed; no measured transmission loss",
+  "Terrain is bare-earth lidar: 1 m PimaCounty_2021_B21 and Eastern_PimaCO_2015 in road/wash windows (2015 covers most of the mid/upper Brawley mainstem and San Joaquin/Black Wash); 10 m context mixes all-route-context-v2, 2021, BrawleyRillito 2018 (flown 2019), 2015 and 0.98 km2 of USGS 1/3 arc-second; not a 2026 survey",
+  "2021 minus 2015 seam offset about -0.11 m median in 7 road windows; not corrected",
+  "6.25 m computational cells are not validated road-depth accuracy; compare cell water-surface elevation zs with road height, never averaged depth",
+  "The 27.47 km2 local catchment of 15876941 below USGS 09487000 is excluded; its runoff enters only through the inlet series",
+  "Directed network independence does not prove no cross-divide overland exchange; overlaps Gates by 139.42 km2; west-valley subtrees drain toward Northern, which keeps its own NWM inlets (independent model)",
+  "Domain v2 (1240 km2) adds the west-valley subtrees of Northern inlets 15876639/653/641/623, Pump Station tributaries 15876613/15876627 and terminal subtrees 15876757/719/669/675; 19 candidate dips (6 >= 1 m, mostly W Silverbell Rd and N Red Hill Rd near 32.445 N) remain in no model",
+  "Road heights exist only inside the floodplain-road-heights-v1 tile box (about lon >= -111.44, lat >= 32.146); roads outside it have no comparison",
+  "SENSITIVITY live dry-run: registered v2 live case (boundaries v2, 47 outflow cells; not the v3l lobe-tip boundaries of candidate v3l-obsrain-cnb-btf) with TWO changes: inftype cna -> cnb (infiltration.nc smax/seff/ks, values identical to v3l-obsrain-cnb-btf) and btfilter 60.0 -> -1; run only as an unpublished live-runner dry run on the experimental branch; not calibrated, not tuned to observations, not for live registration"
+ ],
+ "sensitivityVariant": true,
+ "validationVariant": true,
+ "notForLiveRegistration": true,
+ "label": "SENSITIVITY - live-runner dry run only, not for live registration",
+ "initialization": "Live runner cold start: forcing replaced by run_live_all_route.py prepare (tstart = HRRR cycle - 45 h); cnb seff = smax (dry soil) at that tstart; channels dry",
+ "baseCase": {
+  "caseId": "brawley-avra-west-native-case-v2",
+  "archiveSha256": "0dc4514f552dd2dfcb77c1dfdec6b6ac95bdb55c1cefb26c694ec5657d257a5b",
+  "differences": [
+   "infiltration.nc scs -> smax/seff/ks and sfincs.inp inftype cna -> cnb",
+   "sfincs.inp btfilter 60.0 -> -1"
+  ],
+  "unchanged": "sfincs.nc (meshSha256 328042f0...6767), sfincs_subgrid.nc, precip_2d.nc, sfincs.dis, sfincs.src byte-identical to the v2 live case; the live runner replaces precip_2d.nc values, sfincs.dis and the time keys"
+ },
+ "candidate": {
+  "caseId": "brawley-avra-west-native-case-v3l-obsrain-cnb-btf",
+  "runId": "42622454115",
+  "sameInfiltrationValues": true,
+  "sameBtfilter": true,
+  "notCarried": "v3l boundaries (5 lobe-tip outflow cells) and observed-rain/observed-inflow forcing: the live runner pins the registered mesh hash and supplies its own forcing"
+ },
+ "infiltrationBuilder": "tools/sfincs/brawley/variants/build_cnb_infiltration.py on the unpacked v2 live case with .sfincs-runs/brawley-avra-west-ks-polaris/raw, then the seff source attribute rewritten for the live cold start (values unchanged), then make_variant.py --inftype cnb, then make_variant.py --inp-set btfilter=-1"
+}

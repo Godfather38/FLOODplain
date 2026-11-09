@@ -1,0 +1,53 @@
+{
+  "modelVersion": "all-routes-brawley-avra-west-v1",
+  "kind": "prepared_native_case",
+  "caseId": "brawley-avra-west-native-case-v2-live-cnb-btf",
+  "runReady": true,
+  "solverExecuted": false,
+  "approvedExecutionCapSeconds": 5400,
+  "archiveBytes": 152249477,
+  "archiveSha256": "aac61faaa0e947b3dd6f10ac922a5a37466069ebbc625650f086816723fdf8ca",
+  "parts": [
+    {
+      "path": "case.part01",
+      "bytes": 40000000,
+      "sha256": "295120f7b8158958778a71dfbb6803223484d0697ff33ab4abfe35e06767256e"
+    },
+    {
+      "path": "case.part02",
+      "bytes": 40000000,
+      "sha256": "5164c0654b6802e6d16555ff6f1edf843dc4e68d08c9f761c58b8619f4ae8eab"
+    },
+    {
+      "path": "case.part03",
+      "bytes": 40000000,
+      "sha256": "373d3df99bf5d444f3b173cc9f9f351620f9edcf625bc610dba172a03027533c"
+    },
+    {
+      "path": "case.part04",
+      "bytes": 32249477,
+      "sha256": "9d240d184b35bc92c56f010688204f8ccf7010cef8b871256a96bbe260ae3c78"
+    }
+  ],
+  "forecastIssue": "2026-11-01T13:00:00Z",
+  "start": "2026-10-30T16:00:00Z",
+  "end": "2026-11-02T07:00:00Z",
+  "gridCells": 643056,
+  "inlets": 1,
+  "scope": {
+    "status": "brawley_avra_west_version3",
+    "domain": "../topology-version3/brawley-avra-west-domain.geojson",
+    "registry": "../topology-version3/brawley-avra-west-boundary-registry.json",
+    "areaKm2": 1240.369838309587,
+    "externalInlets": [
+      {
+        "reachId": "15876941",
+        "receivingReachId": "15876923"
+      }
+    ],
+    "outflow": "open outflows where the Brawley local set and the west-valley subtrees join water carried by the Northern case (HydroMT directed outflow points); terminal subtrees end inside the domain",
+    "roadOwnership": "owns every area-tile road station inside its domain that is more than 15 m from a rated route (rated-route stations stay with the route cases)",
+    "limitation": "Directed network independence does not prove no cross-divide overland exchange"
+  },
+  "executionAuthorization": "orchestrator_task_brawley_avra_west_live_dryrun_cnb_btf_no_publish_cap_5400_experimental_branch_only"
+}

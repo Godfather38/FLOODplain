@@ -12,7 +12,7 @@ infiltration, mask and solver settings are unchanged.
   (run the pinned SFINCS engine in WORK)
   python run_live_all_route.py export CASE WORK OUT              # compact frames for the map
 """
-import datetime as dt, gzip, hashlib, io, json, shutil, sys, tarfile
+import datetime as dt, gzip, hashlib, io, json, os, shutil, sys, tarfile
 from pathlib import Path
 import h5py, numpy as np
 
@@ -21,7 +21,9 @@ from run_live_sfincs import ISO, SPIN, AHEAD, apcp_hour, newest_cycle, nwm_hourl
 from export_road_forecast import RoadForecast
 from usgs_flows import observed_flows
 
-CASES = Path(__file__).resolve().parent / 'all-route-cases.json'
+# Experimental branch only: LIVE_ALL_ROUTE_CASES (the workflow's cases_registry input) may name a dry-run
+# registry under tools/live/dryrun/; the workflow refuses it on the live model branch. Empty: the registered cases.
+CASES = Path(os.environ.get('LIVE_ALL_ROUTE_CASES') or Path(__file__).resolve().parent / 'all-route-cases.json')
 SHOW_BACK, DTOUT, MARGIN_DEG = 3, 1800, 0.05
 sha = lambda b: hashlib.sha256(b).hexdigest()
 

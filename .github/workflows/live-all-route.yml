@@ -24,9 +24,15 @@ on:
       solver_cap_seconds:
         description: 'Solver time limit per case'
         default: '5400'
+      cases_registry:
+        description: 'Experimental dry runs only: a registry under tools/live/dryrun/ used instead of all-route-cases.json (refused on the live model branch)'
+        default: ''
 permissions:
   contents: write
   actions: read
+# Empty (every push, rain-triggered or ordinary manual run): the registered cases in all-route-cases.json.
+env:
+  LIVE_ALL_ROUTE_CASES: ${{ inputs.cases_registry }}
 # Serialize explicit request commits. Ordinary manual/rain runs keep their
 # per-case concurrency below; the request validator refuses overlapping runs.
 concurrency:
@@ -63,6 +69,15 @@ jobs:
           sparse-checkout: |
             tools/live
             .github/workflows
+      - name: Refuse a dry-run registry on the live model branch
+        run: |
+          set -euo pipefail
+          if [ -n "${LIVE_ALL_ROUTE_CASES:-}" ]; then
+            test "$GITHUB_REF_NAME" != experiment/all-route-models
+            case "$LIVE_ALL_ROUTE_CASES" in tools/live/dryrun/*.json) ;; *) echo "::error::cases_registry must be tools/live/dryrun/*.json"; exit 1;; esac
+            test -f "$LIVE_ALL_ROUTE_CASES"
+            echo "Dry-run registry $LIVE_ALL_ROUTE_CASES on $GITHUB_REF_NAME; results stay a workflow artifact"
+          fi
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -111,7 +126,7 @@ jobs:
           sparse-checkout: tools/live
       - name: Check out only this case's archive, face mapping and geometry
         run: |
-          dirs=$(python3 -c "import json,os;c=next(c for c in json.load(open('tools/live/all-route-cases.json'))['cases'] if c['case']=='${{ matrix.case }}');print(' '.join(sorted({os.path.dirname(c['caseManifest']),os.path.dirname(c['faceMapping']['path']),os.path.dirname(c['geometry']['path'])})))")
+          dirs=$(python3 -c "import json,os;c=next(c for c in json.load(open(os.environ.get('LIVE_ALL_ROUTE_CASES') or 'tools/live/all-route-cases.json'))['cases'] if c['case']=='${{ matrix.case }}');print(' '.join(sorted({os.path.dirname(c['caseManifest']),os.path.dirname(c['faceMapping']['path']),os.path.dirname(c['geometry']['path'])})))")
           git sparse-checkout add $dirs
       - uses: actions/setup-python@v5
         with:
@@ -173,7 +188,7 @@ jobs:
           print(json.dumps({k: m[k] for k in ('runId', 'status', 'validFrom', 'validTo', 'timing')}))
           PY
           # Cases with a localRoads entry also get local-road-forecast.json, published beside compact/.
-          local=$(python3 -c "import json;c=next(c for c in json.load(open('tools/live/all-route-cases.json'))['cases'] if c['case']=='${{ matrix.case }}');print('yes' if c.get('localRoads') else '')")
+          local=$(python3 -c "import json,os;c=next(c for c in json.load(open(os.environ.get('LIVE_ALL_ROUTE_CASES') or 'tools/live/all-route-cases.json'))['cases'] if c['case']=='${{ matrix.case }}');print('yes' if c.get('localRoads') else '')")
           echo "HAS_LOCAL_ROADS=$local" >> "$GITHUB_ENV"
           if [ -n "$local" ]; then
             mkdir -p local
