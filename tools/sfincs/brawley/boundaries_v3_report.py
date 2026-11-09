@@ -10,10 +10,14 @@ it was or was not opened, and the second reversed headwater 15876769.
      --components tools/sfincs/data/brawley-avra-west-v2/components --terrain .sfincs-runs/brawley-avra-west-context-v2/terrain.tif \
      --extra tools/sfincs/data/brawley-avra-west-v2/boundaries-v3/extra-outflow-channels.geojson --output <file>
 """
-import argparse, json
+import argparse, hashlib, json
 from pathlib import Path
 import numpy as np, geopandas as gpd, xugrid as xu, rasterio
 from shapely.geometry import Point
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
 
 NAMED = [54599, 54444, 54756, 54755, 54754, 54290]
 SEED = (474844.48, 3581562.25)
@@ -41,8 +45,8 @@ def main():
     for r in json.loads((a.audit.parent / 'edge-sides.json').read_text(encoding='utf-8')): sides.setdefault(r['face'], []).append(r)
     for f in NAMED:
         d = float(np.hypot(fx[f] - SEED[0], fy[f] - SEED[1])); marked = bool(m3[f] == 3)
-        why = 'marked by the HydroMT outflow point at the 15876709 start (250 m corridor)' if marked else (
-            'not marked: %.0f m from the outflow point, outside the 250 m corridor the existing outflow cells use' % d)
+        why = 'marked: within the 250 m buffer (radius) around the HydroMT outflow point at the 15876709 start' if marked else (
+            'not marked: %.0f m from the outflow point, beyond the 250 m buffer radius the existing outflow cells use' % d)
         named.append(dict(face=f, x=float(fx[f]), y=float(fy[f]), zZmin=round(float(z[f]), 2), distanceFromSeedM=round(d), outflowV3=marked, reason=why,
                           edgeSides=[dict(side=r['side'], outside=r['outside'], fallsOutward=r['fallsOutward'], keepsFalling=r['keepsFalling']) for r in sides.get(f, [])]))
     audit = json.loads(a.audit.read_text(encoding='utf-8'))
@@ -60,8 +64,18 @@ def main():
         elif not c['channelsCrossingEdge']: action = 'candidate, unchanged: ground falls outward but no NHDPlus or OSM channel crosses the edge here'
         elif not down: action = 'candidate, unchanged: the only mapped channel crossing here does not fall outward (%s)' % ', '.join('%s %s %s' % (q['source'], q['id'], q.get('waterway') or '') for q in c['channelsCrossingEdge'])
         else: action = 'candidate, unchanged: mapped channel crosses but has under 100 m of its length inside the domain, so it carries no domain water (%s)' % ', '.join('%s %s' % (q['source'], q['id']) for q in down)
+        extra = {}
+        if n3v3 > n3v2:
+            cf = set(int(x) for x in f); srcs = {}
+            for k, v in groups.items():
+                inc = [r['face'] for r in v if r['face'] in cf]
+                if inc: srcs[k] = dict(newCellsOfSource=len(v), inThisClusterCount=len(inc), notCounted=[r['face'] for r in v if r['face'] not in cf])
+            extra = dict(cellCountNote='outflowCellsV3 counts only the faces in this audit cluster, i.e. cells with an edge side where the ground keeps falling '
+                                       'outward. The source can have more new outflow cells: the 250 m buffer around its outflow point also marks neighbouring '
+                                       'cells whose edge sides do not keep falling, and those are not cluster faces. newCellsBySource lists every new cell.',
+                         newCellsBySourceInCluster=srcs)
         clusters.append(dict(cluster=c['cluster'], lon=c['lon'], lat=c['lat'], x=c['x'], y=c['y'], edgeSides=c['sides'], minZzmin=c['minZzmin'],
-                             fallTo400_600mM=c['maxFallTo400_600mM'], outflowCellsV2=n3v2, outflowCellsV3=n3v3, opened=opened, action=action,
+                             fallTo400_600mM=c['maxFallTo400_600mM'], outflowCellsV2=n3v2, outflowCellsV3=n3v3, **extra, opened=opened, action=action,
                              channels=[dict(source=q['source'], id=q['id'], waterway=q.get('waterway'), insideMinZ=q['insideMinZ'], outsideMinZ=q['outsideMinZ'], fallsOutward=q['terrainFallsOutward']) for q in c['channelsCrossingEdge']]))
     # 15876769
     net = gpd.read_file(a.components / 'brawley-avra-west-network.geojson').to_crs(32612); L = net[net.comid.astype(int) == 15876769].geometry.iloc[0]
@@ -73,7 +87,15 @@ def main():
                     profileStartToNearestEdgeAndBeyond=beyond,
                     action='candidate, unchanged: its start is 192 m inside the edge, beyond the 100 m HydroMT edge buffer, and no NHDPlus or OSM channel leaves there; the ground falls about 2 m over 1 km to the north-east outside, the CAP canal (OSM way 84241184) is 0.66 km away and crosses the same edge without falling outward; v2x held at most 0.90 m depth and 65,760 m3 within 1 km of it (BRAWLEY-OUTLET-POND-20261108.md)')
     rep = dict(case='brawley-avra-west', boundaries='v3', base='v2 boundaries (47 outflow cells), same mesh v2, same parameters v2, same inlet',
-               method=place['outflowMethod'], outflowCellsV2=int((m2 == 3).sum()), outflowCellsV3=int((m3 == 3).sum()), newOutflowCells=int(len(new)), lostOutflowCells=0,
+               method=('Official HydroMT directed outflow points (river_source_points, 100 m edge buffer); every outflow cell within 250 m (buffer radius, '
+                       'so a circle up to 500 m across) of an outflow point is marked msk 3 with the official Deltares native mask builder. The same search '
+                       'is run on the terrain-reversed reach and the extra channels listed here. prepare_route_case_boundaries.py records this as '
+                       '"500m corridor" (the circle diameter); it is buffer(250) in the code (line 49).'),
+               methodAsRecordedByBuild=place['outflowMethod'],
+               nativeMeshSha256=dict(v2=sha(a.v2 / 'sfincs.nc'), v3=sha(a.v3 / 'sfincs.nc'),
+                                     note='sha256 of sfincs.nc, which holds the mask. Every other variable of sfincs.nc is identical (this script checks it), so the '
+                                          'hash changes from v2 to v3 because of the 45 mask cells only; the mesh geometry is the same.'),
+               outflowCellsV2=int((m2 == 3).sum()), outflowCellsV3=int((m3 == 3).sum()), newOutflowCells=int(len(new)), lostOutflowCells=0,
                gridOtherVariablesIdentical=True, newCellsBySource={k: dict(count=len(v), cells=v) for k, v in groups.items()},
                terrainReversedReaches=place['terrainReversedReaches'], extraOutflowChannels=place['extraOutflowChannels'], namedLobeTipFaces=named,
                edgeAudit=dict(method=audit['method'], edgeSides=audit['edgeSides'], fallsOutward=audit['fallsOutward'], keepsFalling=audit['keepsFalling'], clusters=len(clusters)),

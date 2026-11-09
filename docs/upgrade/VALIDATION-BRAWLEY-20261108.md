@@ -55,8 +55,8 @@ numbers behind each row are in §11.
 | Mass balance (inflow + rain − infiltration − outflow − storage) | **PASS** | residual +3,439 m³ (+0.013% of inputs) for NWM, −11,949 m³ (−0.044%) for Obs. Limit 10% (§11.1) |
 | Outflow at the downstream edge vs NWM 15876711 (37.77 m³/s, 03Z) | **FAIL** (vs NWM reference, not an observation) | Obs outflow is 1.61 m³/s at 03Z, ratio 0.04. Its window maximum is 20.34 m³/s at 07Z, the run end, still rising, and it comes from rain (NWM run 19.96). By 07Z the inflow wave has not reached the outlet (§11.2) |
 | Brawley mainstem travel time vs NWM 15876941→15876811→15876711 | **FAIL** (vs NWM reference) | NWM: +3 h to 15876811, +4 h to 15876711. SFINCS Obs: the wave front (zs rise > 0.3 m over the NWM run) reaches Mile Wide at 06:45Z, 8.75 h after the 22:00Z inlet peak. It does not reach Manville or Tucker by 07Z (> 9 h) (§11.3) |
-| V2 Mile Wide / ALERT 6443, wet/dry | **PASS (1 wet point only)** | at 03:04Z the lowest cell within 30 m of the gauge is wet: zs 673.02 m, 1.34 m above the cell bed, in both runs. The Oct 31 dry reading falls outside the map window (starts Nov 1 17Z), so it is NOT TESTABLE (§11.4) |
-| V2 Mile Wide / ALERT 6443, flow and timing vs 817 cfs (23.1 m³/s) at ~03:04Z | **FAIL** (second-hand reading, ambiguous location) | model at 03Z: 12.05 m³/s across both candidate channels (ratio 0.52). Black Wash band 8.83 m³/s, Brawley 15877627 band 3.21 m³/s. All of it is local rain (NWM run equal within 0.05 m³/s). The inlet wave arrives 3.7 h after the reading (§11.4) |
+| V2 Mile Wide / ALERT 6443, wet/dry | **PASS (1 wet point only)** | the primary ALERT 6443 series reads 776 cfs (flowing) at 03:00Z Nov 2 (§13). In the model the lowest cell within 30 m of the gauge is wet then: zs 673.02 m, 1.34 m above the cell bed, in both runs (interpolated to 03:04Z). The Oct 31 dry reading falls outside the map window (starts Nov 1 17Z), so it is NOT TESTABLE (§11.4) |
+| V2 Mile Wide / ALERT 6443, flow and timing against the primary ALERT 6443 series (§13; 776 cfs = 21.97 m³/s at 03Z) | **FAIL** (provisional county data; which reach the gauge reads is not settled) | model at 03Z: Black Wash band 8.83 m³/s (0.40×), both bands 12.05 m³/s (0.55×); Brawley 15877627 band 3.21 m³/s. All of it is local rain (NWM run equal within 0.05 m³/s). The observed event peak was 64.7 m³/s at 18:20Z Nov 1; the model's inlet wave front reaches Mile Wide only at 06:45Z (§11.3, §11.4). *Corrected 2026-11-09: this row first compared with a second-hand ~817 cfs at ~03:04Z (§13.2)* |
 | Stage-to-road at the Brawley crossings | **Reported** (no pass threshold defined) | over road in both runs: Tucker +0.88 m, Manville +0.47 m, Little Williams +0.39 m, Donaldson +0.05 m. Mile Wide stays below the road (−0.17 m Obs, −0.20 m NWM). All of it is rain-driven; the run ends before the routed flood reaches Manville and Tucker (§11.5) |
 | V3 100-year vs BFE | **NOT TESTABLE** | no 100-year forcing or run |
 | V4 Nov 1–2 closures | **NOT TESTABLE** | no closure record inside the owned area. The Avra Valley Rd W of Brawley "Proceed with Caution" (Nov 1) is in Northern. The KOLD Sep 17 2026 story is a different event and was not tested (§11.8) |
@@ -148,19 +148,21 @@ differs slightly from the NWM agent's figures.
 
 **Observations available**
 - Oct 31 14:00 MST: 0 cfs, 2.30 ft (verified raw fixture).
-- Nov 1 about 20:04 MST: 817 cfs (23.1 m³/s). This comes from a sentence in `docs/BRAWLEY-UPSTREAM-EVIDENCE.md`, not a raw record. Its time is uncertain by about 1 h (NWM agent).
-- No other ALERT history was kept. V2 therefore has at most one "wet" point and one "dry" point.
+- *Corrected 2026-11-09.* The pre-run text here used a second-hand "817 cfs at about 20:04 MST" from `docs/BRAWLEY-UPSTREAM-EVIDENCE.md`. The primary ALERT 6443 series has since been retrieved from the county page (§13; `tools/sfincs/data/brawley-avra-west-v2/observed-gauges-20261101/gauges.json`).
+  - Peaks: 64.7 m³/s at 18:20Z Nov 1, 42.0 at 21:45Z and 25.7 at 02:10Z Nov 2. At 03:00Z it reads 776 cfs (21.97 m³/s).
+  - The 817 cfs value is in the series (02:45Z Nov 2 and 23:55Z Nov 1). Which report the owner saw is not known, so the model is compared with the series hour by hour.
+- The statement "no other ALERT history was kept" was true of the repo's `data` branch only (§13.1).
 
 **Location finding (verified geometry, new).** ALERT 6443 is at −111.244446, 32.248611.
 - It lies **4.8 m from NHD reach 15876815**, the San Joaquin/Black Wash outlet (604 km²).
 - The NHD Brawley mainstem crossing of Mile Wide Rd is reach **15877627**, at −111.2527, about 0.8 km west.
 - The site is also inside the Gates domain overlap.
 - **Inferred:** the NWM agent's mapping to 15876811 is not established.
-  - If the gauge does sit on 15876815, NWM's analysis peak there (0.33 m³/s) is inconsistent with the reported 817 cfs.
+  - If the gauge does sit on 15876815, NWM's analysis peak there (0.33 m³/s) is inconsistent with the observed flows (64.7 m³/s peak, 21.97 m³/s at 03Z; §13).
   - The gauge may instead read the combined flow at the confluence.
 - When results exist, compare model flow and wet timing in the 15876815, 15877627 and 15876811 cells separately. Do not pick one to make the comparison pass.
 
-**NWM analysis at 15876811:** 39.1 m³/s at 02Z Nov 2, which is 19:00 MST Nov 1. That is about 1 h before the 817 cfs report. This is NWM against a second-hand reading, not model validation.
+**NWM analysis at 15876811:** 39.1 m³/s at 02Z Nov 2, which is 19:00 MST Nov 1. The observed third peak is 25.7 m³/s at 02:10Z (§13.2). This compares NWM with provisional county data, not SFINCS; it is not model validation.
 
 ## 5. Crossings and representative dips (V5 inputs; zs pending)
 
@@ -257,7 +259,7 @@ Cell size per owned station (31,680), from the mesh face containing it:
 1. Restart the parameter build into a new folder. Then run boundaries (check for a second outflow at 15902533), stage ×2, finish ×2, package ×2, and dispatch `sfincs.yml` ×2 (build agent).
 2. **Mass balance:** from SFINCS output, compute Σ inflow (dis) + Σ rain·area − Σ outflow − Δstorage, and report the residual as % of input.
 3. **Outflow:** extract boundary or edge flux at node 720060498 each hour. Compare with the §3 reference (peak 37.77 m³/s, 03Z, 821,844 m³) and with Northern's injection (0.27 m³/s).
-4. **Mile Wide:** report zs and flux in the 15876815, 15877627 and 15876811 cells. Compare wet or dry at Oct 31 21Z (expect dry) and about Nov 2 03Z ±1 h (817 cfs).
+4. **Mile Wide:** report zs and flux in the 15876815, 15877627 and 15876811 cells. Compare wet or dry at Oct 31 21Z (expect dry) and about Nov 2 03Z (first planned against a second-hand 817 cfs; done against the primary series, §13).
 5. Run `export_road_forecast.py local` on each compact. Fill §5: max WSE, maxOver = maxWse − roadZ, firstOverTime and cellSizeM. Check that ridge stations (highest roadZ per road) stay dry and that the Brawley crossings wet before the upland dips.
 
 ## 10. Reviewer addendum (2026-11-08T22:35Z)
@@ -419,9 +421,11 @@ Hourly instantaneous outflow, m³/s (restart flux):
   - The 07Z window end cuts off the routed flood peak everywhere from Mile Wide downstream. A longer frozen window would be needed to see it. That is a test-design limit, not a tuning target.
 - **Where the main flow runs at Mile Wide (finding).** In the model, the inlet water reaches Mile Wide in the **east band (−111.2475 to −111.236, the NHD 15876815 Black Wash reach where ALERT 6443 sits)**: 29.95 m³/s Obs vs 13.83 NWM at 07Z. The NHD 15877627 band (−111.262 to −111.2475) carries only 5.21 vs 1.94. So the modelled Brawley channel at Mile Wide follows the terrain near the gauge, not the NHD 15877627 line.
 
-### 11.4 ALERT 6443 at 20:04 MST Nov 1 (03:04Z Nov 2) vs ~817 cfs (23.1 m³/s)
+### 11.4 ALERT 6443 at 03Z Nov 2 against the primary series (776 cfs = 21.97 m³/s)
 
-zs is linearly interpolated between 03:00Z and 03:15Z. Both runs agree to the millimetre at these cells.
+*Corrected 2026-11-09.* This section first compared with a second-hand "~817 cfs at 20:04 MST (03:04Z)". It now uses the primary county series (§13). The 817 cfs value is in that series, but which report the owner saw is not known (§13.2).
+
+The zs table was computed at 03:04Z, the time of the second-hand reading, linearly interpolated between 03:00Z and 03:15Z. Both runs agree to the millimetre at these cells. The primary report at 03:00Z is 776 cfs, so the gauge was flowing.
 
 | Candidate cell | Face, size | zb m | zs 03:04Z m | zs − zb m | vol/area m |
 |---|---|---|---|---|---|
@@ -433,12 +437,12 @@ zs is linearly interpolated between 03:00Z and 03:15Z. Both runs agree to the mi
 - **Section flow at 03Z** (Obs, NWM within 0.05):
   - Black Wash band: 8.83 m³/s
   - Brawley 15877627 band: 3.21 m³/s
-  - Both bands: 12.05 m³/s, which is **0.52× the reported 23.1 m³/s**
+  - Both bands: 12.05 m³/s, which is **0.55× the primary 21.97 m³/s** at 03Z (Black Wash band 0.40×)
   - All of it is local rain. NWM analysis 15876815 was 0.28 m³/s at 03Z, so SFINCS makes about 30× more runoff in that subtree than NWM does.
 - **Verdict.**
   - Wet/dry: the gauge channel is wet at the reading, so wet/dry agrees (1 point).
-  - Flow: 0.52×. The inlet wave reaches Mile Wide 3.7 h after the reading.
-  - **V2 flow and timing: FAIL**, on one second-hand value with an uncertainty of about ±1 h. The location ambiguity stays unresolved, although the model's main channel runs past the gauge.
+  - Flow: 0.40× (Black Wash band) / 0.55× (both bands) at 03Z. The model's inlet wave front reaches Mile Wide at 06:45Z (§11.3).
+  - **V2 flow and timing: FAIL** against the primary series (§13). The observed event peak, 64.7 m³/s at 18:20Z Nov 1, came from local rain that the frozen forcing lacks. The location ambiguity stays unresolved, although the model's main channel runs past the gauge.
   - The Oct 31 14:00 MST dry reading is outside the map window: NOT TESTABLE.
 
 ### 11.5 Road crossings and representative dips (zs vs roadZ, both variants)
@@ -824,13 +828,14 @@ Both use the v2 mesh (643,056 cells, mesh sha256 328042f02927…, up from 408,20
 
 ## 16. v3 boundaries: outlet lobe opened (v3x, run 42567934972) — 2026-11-09
 
-**Validation only, not a live configuration and not tuned.** Case `brawley-avra-west-native-case-v3x-observed-inflow` is v2x (§12) with only the boundary mask changed. Mesh v2, parameters v2, inflow, rain and the 74 h window are byte-identical to v2x; in `sfincs.nc` only `mask` differs. Solver 5,593.1 s. Numbers: `tools/sfincs/data/brawley-avra-west-v2/boundaries-v3/result-42567934972/summary.json`. Boundaries: `tools/sfincs/data/brawley-avra-west-v2/boundaries-v3/placement-report.json`.
+**Validation only, not a live configuration and not tuned.** Case `brawley-avra-west-native-case-v3x-observed-inflow` is v2x (§12) with only the boundary mask changed. Mesh v2, parameters v2, inflow, rain and the 74 h window are byte-identical to v2x; in `sfincs.nc` only `mask` differs. That is also why the recorded `nativeMeshSha256` changes from 328042f0… to 9e2f1498…: it is the sha256 of `sfincs.nc`, which holds the mask (45 cells 1 → 3). The mesh geometry is the same. Solver 5,593.1 s. Numbers: `tools/sfincs/data/brawley-avra-west-v2/boundaries-v3/result-42567934972/summary.json`. Boundaries: `tools/sfincs/data/brawley-avra-west-v2/boundaries-v3/placement-report.json`.
 
 ### 16.1 What changed in the boundaries
 
-- 92 outflow cells (v2: 47). Same boundary type (msk 3) and the same HydroMT outflow-point search (100 m edge buffer, 250 m corridor, Deltares mask builder) as the v2 cells. Two new optional flags in `prepare_route_case_boundaries.py`; without them the v2 boundaries rebuild byte-identical.
-- **Lobe tip, 5 cells** (54443, 54444, 54598, 54599, 54756). NHDPlus 15876709 is reversed for the outflow search only, after the script checks the terrain (617.76 m at its digitized start, 641.15 m at its end). Of the six faces named in `BRAWLEY-OUTLET-POND-20261108.md`, 54599, 54444 and 54756 are marked. 54755 and 54754 are not: they are outside the 250 m corridor and the ground east of them does not fall. 54290 is not marked either: it is 456 m from the outflow point.
+- 92 outflow cells (v2: 47). Same boundary type (msk 3) and the same HydroMT outflow-point search as the v2 cells: 100 m edge buffer, then every cell within a 250 m buffer radius of an outflow point (`buffer(250)`, a circle up to 500 m across, which the build records as "500m corridor"), Deltares mask builder. Two new optional flags in `prepare_route_case_boundaries.py`; without them the v2 boundaries rebuild byte-identical.
+- **Lobe tip, 5 cells** (54443, 54444, 54598, 54599, 54756). NHDPlus 15876709 is reversed for the outflow search only, after the script checks the terrain (617.76 m at its digitized start, 641.15 m at its end). Of the six faces named in `BRAWLEY-OUTLET-POND-20261108.md`, 54599, 54444 and 54756 are marked. 54755 and 54754 are not: they are beyond the 250 m buffer radius (330 m and 426 m from the outflow point), and the ground east of them does not fall. 54290 is not marked either: it is 456 m from the outflow point.
 - **NW valley floor, 40 cells** on two OSM intermittent streams that leave downhill: way 1489567542 (5 cells, near W Silverbell Rd, −111.352, 32.463) and way 1489567547 (35 cells of 6–100 m, near N Cocio Rd, −111.348, 32.440).
+- **Cluster counts vs cell counts.** The edge-audit clusters count only cells with an edge side where the ground keeps falling outward. So cluster 0 lists 3 of the 5 OSM 1489567542 cells, cluster 4 lists 30 of the 35 OSM 1489567547 cells, and cluster 25 lists 3 of the 5 lobe cells. The others were marked by the same 250 m buffer, but their edge sides do not keep falling (for example 32957 and 33299). The placement report now lists them per cluster.
 - **Edge audit** (`tools/sfincs/brawley/audit_edge_outfall.py`). 4,318 domain-edge sides were checked; on 1,485 of them the 10 m terrain keeps falling outward, in 102 clusters. Only the three places above have both falling ground and a mapped channel leaving. Every other cluster is listed as a candidate and left unchanged:
   - 90 clusters have no channel crossing the edge. Most are ridges where the ground falls away on both sides.
   - Cluster 38 (east edge, 136 sides): only the CAP canal crosses, and the ground there does not fall outward.
@@ -849,12 +854,21 @@ Outflow is hourly restart flux (instantaneous snapshots, which swing a lot from 
 | OSM 1489567547 (35 cells) | 0.25 / 10Z | 3,616 m³ | — |
 | All outflow cells | 99.56 / 13Z | 3,056,141 m³ | 56.19 / 13Z; 2,005,591 m³ |
 
+- **The lobe outflow is not purely head-driven.** Every msk 3 link gets SFINCS's boundary flux, which is the head-driven part plus the `uvmean` memory term (`BRAWLEY-STABILITY-20261109.md` §1.3).
+  - At the lobe's 15Z peak the stored flux is 39.49 m³/s against a head-driven part of 13.83 m³/s (2.9×).
+  - Over 18Z–18Z the head-driven part alone gives 676,188 m³ against the stored 1,108,288 m³.
+  - So 39.5 m³/s is what the boundary formula drew, not a physical outfall rate. The lobe storage did fall by about the same volume (below).
+- **The 47 v2 outflow cells pass 101,169 m³ less than in v2x** (1,904,422 against 2,005,591 m³). **This is not explained.**
+  - Most of the drop is at six faces: 36344 (0 in v3x), 37645, 34353 (0 in v3x), 37960, 37001 and 35022, 139,950 m³ in all. It is partly offset by gains, mainly at 37011 (+42,886 m³).
+  - Three of them (36344, 34353, 35022) lie 0.4–0.8 km from the new NW outfalls, as does 37011. 37001 is 2.25 km away. 37645 and 37960 lie about 4 km from any new cell and differ only in the 17–18Z snapshots.
+  - These cells' hourly flux switches between 0 and a few m³/s from snapshot to snapshot, so the trapezoid volumes have a sampling error of the same size as the drop (details in the result README).
+
 - **Pond (face 54135).** Its peak water surface is 620.35 m at 14:15Z, and it is falling at the end (620.30 at 18Z). In v2x it was 622.70 and still rising.
   - Peak height above the cell's lowest sub-pixel: 3.27 m (v2x 5.62 m). That sub-pixel is the stock tank; it is not the cell's mean depth.
   - Lobe storage peaks at 183,954 m³ around 14Z and ends at 148,045 m³ (v2x 1,317,460 m³ at the end).
   - Stored within 1.5 km of the pond at 18Z: 72,372 m³ (v2x 1,241,787 m³).
   - The lobe outflow (1.11M m³) matches the storage that is no longer there (1.17M m³).
-- **Tucker vs the outlet.** At Tucker's peak (64.34, 13Z), the outlet plus the lobe pass 25.6 + 36.7 = 62.3 m³/s. So the 38 m³/s gap in v2x was water stored in the dead-end lobe (see §12.3 and `BRAWLEY-OUTLET-POND-20261108.md`).
+- **Tucker vs the outlet.** At Tucker's peak (64.34, 13Z), the outlet plus the lobe pass 25.6 + 36.7 = 62.3 m³/s. Both include the `uvmean` term, so the match in rate is not by itself evidence. The volume match is: the lobe's outflow (1.11M m³) is about the storage it no longer holds (1.17M m³). So the 38 m³/s gap in v2x was water stored in the dead-end lobe (see §12.3 and `BRAWLEY-OUTLET-POND-20261108.md`).
 - **Upstream sections: unchanged.** Mile Wide, Manville and Tucker differ from v2x by at most 0.023 m³/s in any hour. Peaks: Mile Wide 47.54 / 09Z, Manville 62.79 / 11Z, Tucker 64.34 / 13Z.
 - **ALERT 6443: unchanged, against the primary county series.**
 
@@ -871,8 +885,9 @@ Outflow is hourly restart flux (instantaneous snapshots, which swing a lot from 
 - **Stability and velocity.**
   - 0 wet NaN values, 0 spikes, maximum 15-min rise 1.60 m. The domain maximum depth is now 3.85 m (v2x 5.62).
   - The velocity proxy (validate_extended rule, depth > 0.1 m) peaks at 1.47 m/s at the Mile Wide deck, unchanged. At the outflow links it peaks at 1.27 m/s (v2x 1.41).
-  - Every new outflow link is shallower than 0.1 m: water leaves the lobe tip as a sheet 1–5 cm deep, with at most 0.25 m²/s per metre of width.
-  - With a 1 cm depth floor instead, the proxy reaches 16.9 m/s at the lobe and 33–35 m/s at the v2 outlet, in both runs. Thin-sheet depth makes that figure meaningless; it is not a real speed.
+  - On every new outflow link, max zs − max zb of the two cells stays below 0.1 m, so the proxy is not evaluated there. That difference is the water surface above the lowest sub-pixel (z_zmin), not the flow depth. *Corrected 2026-11-09:* an earlier version read it as "a sheet 1–5 cm deep"; that claim is withdrawn.
+  - The largest unit flux on a new link is 0.254 m²/s (lobe tip, 15Z).
+  - With a 1 cm floor on the same zs − z_zmin, the proxy reaches 16.9 m/s at the lobe and 33–35 m/s at the v2 outlet, in both runs. It divides by a quantity that is not flow depth, so it is not a speed.
 - **Roads.**
   - All 5 Brawley crossings and all 12 representative dips are unchanged (for example Tucker +0.921, Manville +0.612, Mile Wide −0.128).
   - Stations over the road at some point: 4,857 (v2x 4,859). The 2 that dropped are W Silverbell Rd stations (32.4620, −111.3535). Their cell (face 32266) is now an outflow cell, and outflow cells hold zs at the bed. **That is a boundary artifact, not a real change.**

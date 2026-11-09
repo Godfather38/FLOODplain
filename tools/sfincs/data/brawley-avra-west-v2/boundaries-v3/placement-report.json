@@ -2,7 +2,13 @@
  "case": "brawley-avra-west",
  "boundaries": "v3",
  "base": "v2 boundaries (47 outflow cells), same mesh v2, same parameters v2, same inlet",
- "method": "Official HydroMT directed outflow points, 500m corridor, official Deltares native mask builder; plus the same HydroMT outflow search on the reversed reaches and extra channels listed here (same 100 m edge buffer and 250 m corridor)",
+ "method": "Official HydroMT directed outflow points (river_source_points, 100 m edge buffer); every outflow cell within 250 m (buffer radius, so a circle up to 500 m across) of an outflow point is marked msk 3 with the official Deltares native mask builder. The same search is run on the terrain-reversed reach and the extra channels listed here. prepare_route_case_boundaries.py records this as \"500m corridor\" (the circle diameter); it is buffer(250) in the code (line 49).",
+ "methodAsRecordedByBuild": "Official HydroMT directed outflow points, 500m corridor, official Deltares native mask builder; plus the same HydroMT outflow search on the reversed reaches and extra channels listed here (same 100 m edge buffer and 250 m corridor)",
+ "nativeMeshSha256": {
+  "v2": "328042f02927f4ff9f5c40c39365b699c0edbfc0dbc21cea89eac3df368f6767",
+  "v3": "9e2f149879aff52e8cdbbe2df4eb1b17ab72e2593387cb49c7835ad98d58d2e1",
+  "note": "sha256 of sfincs.nc, which holds the mask. Every other variable of sfincs.nc is identical (this script checks it), so the hash changes from v2 to v3 because of the 45 mask cells only; the mesh geometry is the same."
+ },
  "outflowCellsV2": 47,
  "outflowCellsV3": 92,
  "newOutflowCells": 45,
@@ -383,7 +389,7 @@
    "zZmin": 617.74,
    "distanceFromSeedM": 13,
    "outflowV3": true,
-   "reason": "marked by the HydroMT outflow point at the 15876709 start (250 m corridor)",
+   "reason": "marked: within the 250 m buffer (radius) around the HydroMT outflow point at the 15876709 start",
    "edgeSides": [
     {
      "side": "W",
@@ -424,7 +430,7 @@
    "zZmin": 618.16,
    "distanceFromSeedM": 147,
    "outflowV3": true,
-   "reason": "marked by the HydroMT outflow point at the 15876709 start (250 m corridor)",
+   "reason": "marked: within the 250 m buffer (radius) around the HydroMT outflow point at the 15876709 start",
    "edgeSides": [
     {
      "side": "W",
@@ -455,7 +461,7 @@
    "zZmin": 618.37,
    "distanceFromSeedM": 237,
    "outflowV3": true,
-   "reason": "marked by the HydroMT outflow point at the 15876709 start (250 m corridor)",
+   "reason": "marked: within the 250 m buffer (radius) around the HydroMT outflow point at the 15876709 start",
    "edgeSides": [
     {
      "side": "E",
@@ -486,7 +492,7 @@
    "zZmin": 618.71,
    "distanceFromSeedM": 330,
    "outflowV3": false,
-   "reason": "not marked: 330 m from the outflow point, outside the 250 m corridor the existing outflow cells use",
+   "reason": "not marked: 330 m from the outflow point, beyond the 250 m buffer radius the existing outflow cells use",
    "edgeSides": [
     {
      "side": "E",
@@ -507,7 +513,7 @@
    "zZmin": 619.02,
    "distanceFromSeedM": 426,
    "outflowV3": false,
-   "reason": "not marked: 426 m from the outflow point, outside the 250 m corridor the existing outflow cells use",
+   "reason": "not marked: 426 m from the outflow point, beyond the 250 m buffer radius the existing outflow cells use",
    "edgeSides": [
     {
      "side": "E",
@@ -528,7 +534,7 @@
    "zZmin": 619.23,
    "distanceFromSeedM": 456,
    "outflowV3": false,
-   "reason": "not marked: 456 m from the outflow point, outside the 250 m corridor the existing outflow cells use",
+   "reason": "not marked: 456 m from the outflow point, beyond the 250 m buffer radius the existing outflow cells use",
    "edgeSides": [
     {
      "side": "W",
@@ -580,6 +586,17 @@
    "fallTo400_600mM": 5.7,
    "outflowCellsV2": 0,
    "outflowCellsV3": 3,
+   "cellCountNote": "outflowCellsV3 counts only the faces in this audit cluster, i.e. cells with an edge side where the ground keeps falling outward. The source can have more new outflow cells: the 250 m buffer around its outflow point also marks neighbouring cells whose edge sides do not keep falling, and those are not cluster faces. newCellsBySource lists every new cell.",
+   "newCellsBySourceInCluster": {
+    "OSM 1489567542": {
+     "newCellsOfSource": 5,
+     "inThisClusterCount": 3,
+     "notCounted": [
+      32957,
+      33299
+     ]
+    }
+   },
    "opened": [
     "1489567542"
    ],
@@ -668,6 +685,20 @@
    "fallTo400_600mM": 4.13,
    "outflowCellsV2": 0,
    "outflowCellsV3": 30,
+   "cellCountNote": "outflowCellsV3 counts only the faces in this audit cluster, i.e. cells with an edge side where the ground keeps falling outward. The source can have more new outflow cells: the 250 m buffer around its outflow point also marks neighbouring cells whose edge sides do not keep falling, and those are not cluster faces. newCellsBySource lists every new cell.",
+   "newCellsBySourceInCluster": {
+    "OSM 1489567547": {
+     "newCellsOfSource": 35,
+     "inThisClusterCount": 30,
+     "notCounted": [
+      33650,
+      109606,
+      109650,
+      149894,
+      150196
+     ]
+    }
+   },
    "opened": [
     "1489567547"
    ],
@@ -1045,6 +1076,17 @@
    "fallTo400_600mM": 2.97,
    "outflowCellsV2": 0,
    "outflowCellsV3": 3,
+   "cellCountNote": "outflowCellsV3 counts only the faces in this audit cluster, i.e. cells with an edge side where the ground keeps falling outward. The source can have more new outflow cells: the 250 m buffer around its outflow point also marks neighbouring cells whose edge sides do not keep falling, and those are not cluster faces. newCellsBySource lists every new cell.",
+   "newCellsBySourceInCluster": {
+    "lobe tip, reversed NHDPlus 15876709": {
+     "newCellsOfSource": 5,
+     "inThisClusterCount": 3,
+     "notCounted": [
+      54443,
+      54598
+     ]
+    }
+   },
    "opened": [],
    "action": "opened in v3: 3 new outflow cells in the cluster, outflow point at the digitized start of the terrain-reversed NHDPlus 15876709 (OSM way 1103245450 continues north)",
    "channels": [
