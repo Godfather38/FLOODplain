@@ -332,4 +332,4 @@ for r in ['15876941', '15876923', '15876811', '15876815', '15876711']:
     if r not in aa: continue
     s = sorted(aa[r].items()); v = [x[1] for x in s]; i = int(np.argmax(v))
     res['nwmAnalysisRef'][r] = {'peak': round(v[i], 3), 'time': s[i][0], 'hourly': {k[5:13]: round(x, 2) for k, x in s if k >= '2026-11-01T17'}}
-a.output.write_text(json.dumps(res, indent=1, default=float)); print('ok', a.output)
+a.output.write_bytes(json.dumps(res, indent=1, default=float).encode('utf-8'))  # LF only; print('ok', a.output)
