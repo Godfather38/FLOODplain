@@ -27,7 +27,7 @@ def main():
  uv=uv_points(grid)
  if len(uv)!=b.sizes['npuv']:raise ValueError(f'uv reconstruction {len(uv)} != table {b.sizes["npuv"]}')
  same={k:bool(np.array_equal(b[k].values,v[k].values,equal_nan=True)) for k in b.data_vars}
- for k in ('z_zmin','z_zmax','z_volmax','z_level','uv_zmin','uv_zmax'):
+ for k in ('z_zmin','z_zmax','z_volmax','z_level','uv_zmin','uv_zmax','uv_pwet'):
   if not same[k]:raise ValueError(f'{k} differs: the variant changed more than roughness')
  mask=gpd.read_file(a.variant/'channel-mask.geojson').to_crs(32612).geometry.union_all();inside=contains_xy(mask,uv[:,0],uv[:,1])
  nb=b.uv_navg.values;nv=v.uv_navg.values;d=nv-nb

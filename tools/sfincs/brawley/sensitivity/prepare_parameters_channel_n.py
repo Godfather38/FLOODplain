@@ -133,7 +133,11 @@ def main():
  values=np.full(lulc.shape,np.nan,dtype='float32')
  for code,row in mapping_csv.iterrows():values[lulc.values==int(code)]=row['N']
  if not np.isfinite(values).all() or (values<=0).any():raise ValueError('Missing roughness mapping')
- inside=burn(lulc,cmask,clines);inside_nhd=burn(lulc,gpd.GeoDataFrame(geometry=nhd),clines);before=values[inside].copy();values[inside]=a.channel_n
+ # In lidar mode the NHD line is off the channel at most measured sections, so its centreline pixels are burned only
+ # inside rectangles that stayed on NHD (no lidar centre measured); lidar-centred rectangles burn their polygon only.
+ blines=clines if a.centerline=='nhd' else gpd.GeoDataFrame(geometry=clines.geometry.intersection(cmask.geometry[cmask.offsetUsedM==0].union_all()),crs=32612)
+ blines=blines[~blines.geometry.is_empty]
+ inside=burn(lulc,cmask,blines);inside_nhd=burn(lulc,gpd.GeoDataFrame(geometry=nhd),clines);before=values[inside].copy();values[inside]=a.channel_n
  px=abs(lulc.rio.transform().a*lulc.rio.transform().e)
  thalweg=sec.centreOffsetM.notna();outside_nhd=(sec.centreOffsetM.abs()>sec.widthM/2)&thalweg
  classes={int(c):int(v) for c,v in zip(*np.unique(lulc.values[inside],return_counts=True))}
@@ -142,7 +146,7 @@ def main():
   'sections':int(len(sec)),'sectionStatus':sec.status.value_counts().to_dict(),'sectionStatusByOrder':{str(k):v.value_counts().to_dict() for k,v in sec.groupby('order').status},'widthSource':sec.widthSource.value_counts().to_dict(),
   'measuredWidthM':{str(k):{q:round(float(v.quantile(f)),1) for q,f in (('p10',.1),('p25',.25),('median',.5),('p75',.75),('p90',.9))}|{'n':int(v.notna().sum())} for k,v in sec.groupby('order').measuredWidthM if v.notna().any()},
   'nhdVsLidar':{'measuredSections':int(thalweg.sum()),'lidarChannelCentreOutsideNhdBuffer':int(outside_nhd.sum()),'fraction':round(float(outside_nhd.sum()/max(thalweg.sum(),1)),3),'absOffsetM':{q:round(float(sec.centreOffsetM.abs().quantile(f)),1) for q,f in (('median',.5),('p90',.9))} if thalweg.any() else None},
-  'rasterPixelM':float(abs(lulc.rio.transform().a)),'maskPolygonAreaKm2':round(float(cmask.geometry.union_all().area)/1e6,4),'burnedPixels':int(inside.sum()),'burnedAreaKm2':round(float(inside.sum()*px)/1e6,4),'literalNhdMaskBurnedAreaKm2':round(float(inside_nhd.sum()*px)/1e6,4),'overlapWithLiteralNhdMaskKm2':round(float((inside&inside_nhd).sum()*px)/1e6,4),
+  'rasterPixelM':float(abs(lulc.rio.transform().a)),'maskPolygonAreaKm2':round(float(cmask.geometry.union_all().area)/1e6,4),'burnedPixels':int(inside.sum()),'centrelinePixelsBurnedKm':round(float(blines.length.sum())/1e3,3),'burnedAreaKm2':round(float(inside.sum()*px)/1e6,4),'literalNhdMaskBurnedAreaKm2':round(float(inside_nhd.sum()*px)/1e6,4),'overlapWithLiteralNhdMaskKm2':round(float((inside&inside_nhd).sum()*px)/1e6,4),
   'previousClassPixels':classes,'previousNInsideMask':{'mean':round(float(before.mean()),4) if len(before) else None,'fractionRaised':round(float((before<a.channel_n).mean()),4) if len(before) else None,'fractionLowered':round(float((before>a.channel_n).mean()),4) if len(before) else None}}
  cmask.to_file(a.output/'channel-mask.geojson',driver='GeoJSON');sec.to_csv(a.output/'channel-sections.csv',index=False)
  (a.output/'channel-report.json').write_text(json.dumps(creport,indent=2)+'\n',encoding='utf-8');print(json.dumps(creport))
