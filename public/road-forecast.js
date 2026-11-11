@@ -74,9 +74,10 @@ export function routeModelText(route) {
 // One rating row per route. A dry prediction never lowers another source's rating.
 export function roadForecastPoint(id, r) {
   let why = roadForecastText(r);
-  if (r.maxOver > 0 && r.time != null) why += ` Peak at ${new Date(r.time).toLocaleTimeString('en-US', { timeZone: 'America/Phoenix', hour: 'numeric', minute: '2-digit' })} Arizona time.`;
-  if (r.source === 'coarse_fallback' && r.fallbackReason) why += ` ${r.fallbackReason}`;
-  if (r.issuedAt) why += ` Run issued ${new Date(r.issuedAt).toLocaleString('en-US', { timeZone: 'America/Phoenix', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })} Arizona time.`;
+  const add = (more) => { why = `${why.replace(/\.?$/, '.')} ${more}`; }; // The sentence before always ends with a period.
+  if (r.maxOver > 0 && r.time != null) add(`Peak at ${new Date(r.time).toLocaleTimeString('en-US', { timeZone: 'America/Phoenix', hour: 'numeric', minute: '2-digit' })} Arizona time.`);
+  if (r.source === 'coarse_fallback' && r.fallbackReason) add(r.fallbackReason);
+  if (r.issuedAt) add(`Run issued ${new Date(r.issuedAt).toLocaleString('en-US', { timeZone: 'America/Phoenix', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })} Arizona time.`);
   return { id: `sfincs-${id}`, short: 'Flood model', name: 'SFINCS road flood forecast', where: 'Along this route', kind: 'road', lat: r.lat, lon: r.lon,
     level: r.level, why, evidenceAvailable: true, closurePts: [], routeBarricade: true, checks: [{ src: 'sfincs', level: r.level, why }] };
 }

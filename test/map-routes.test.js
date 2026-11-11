@@ -12,7 +12,7 @@ const info={a:{name:'Trico-Marana',via:'Trico Rd'},b:{name:'Avra Valley <Rd>',vi
 test('every route row shows its rating as a number, a status dot and its crossings',()=>{
  const html=routeRowsHtml({areas,area:'avra',routes:[{id:'a',score:1,level:'ok'},{id:'b',score:3,level:'caution'}],info,features,crossings,selected:'b',issue:r=>r.id==='a'?'Nothing working against it':'Wash running'});
  assert.match(html,/data-map-area="avra" aria-selected="true"/);
- assert.match(html,/<span class="dot ok"[^>]*><\/span>.*Trico-Marana.*11\.2 km · 1 crossing<.*1 of 5 · Low · Nothing working against it/);
+ assert.match(html,/<span class="dot ok"[^>]*><\/span>.*Trico-Marana.*7\.0 mi · 1 crossing<.*1 of 5 · Low · Nothing working against it/);
  assert.match(html,/data-map-route="b" aria-pressed="true"/);
  assert.match(html,/Avra Valley &lt;Rd&gt;/);
  assert.match(html,/2 crossings<.*class="st status warn">3 of 5 · Moderate · Wash running/);

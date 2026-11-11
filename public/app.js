@@ -18,6 +18,7 @@ import { loadGaugeReadings } from './gauge-feed.js?v=dev';
 import { resolveScreen, routeAreaForHash } from './routing.js?v=dev';
 import { conditionsNotEstablished, groupRoutePoints } from './route-status.js?v=dev';
 import { UNDERPASSES } from './underpasses.js?v=dev';
+import { shareText, shareCheck } from './share.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl, parseCountyClosures,
   riskScore, routeScore, goodSigns, againstIt, routeClosures, worst, roadEventActive, roadEventTiming, roadEventLabel, driveSummary, bridgeHeightComparison, crossingLead,
@@ -317,7 +318,8 @@ function homeScreen() {
       ${against.length ? `<ul class="against">${against.map((a) => `<li><span class="dot ${a.level}"></span><span>${esc(a.short)}: ${esc(a.why)}</span></li>`).join('')}</ul>` : ''}
       <p class="meta model-prediction">${esc(routeModelText(best))}</p>
       ${routeBridgeEvidence(best)}
-      <div class="actions">${navBtn(best)}<a class="btn btn-text" href="#/r/${best.id}">Details</a></div>
+      <div class="actions">${navBtn(best)}<a class="btn btn-text" href="#/r/${best.id}">Details</a><button type="button" class="btn btn-text" data-share>Share this check</button></div>
+      <p id="share-notice" class="meta" role="status"></p>
     </article>
     <section class="saved-routes" aria-labelledby="saved-title"><h3 id="saved-title" class="section">Your saved routes</h3>
     ${favorites.some((id) => view.byId[id]) ? `<div class="list">${favorites.filter((id) => view.byId[id]).map((id) => `<a class="row" href="#/r/${id}">${badge(view.byId[id].score)}<span class="text"><span class="t">${esc(ROUTE_INFO[id].name)}</span><span class="st">${esc(topIssue(view.byId[id]))}</span><span class="st model-prediction">${esc(routeModelText(view.byId[id]))}</span>${routeBridgeEvidence(view.byId[id])}</span><span class="chev" aria-hidden="true">›</span></a>`).join('')}</div>` : '<p class="meta">Open a route and choose Save route to keep it here for this area.</p>'}
@@ -748,6 +750,11 @@ function wireReport() {
 
 // Newest first. Add a line here whenever something people can notice changes.
 const UPDATES = [
+  ['November 11, 2026', [
+    'Share this check: the home screen has a button that sends the current rating, in the same words as the text alerts, to anyone you pick.',
+    'On phones the top bar is one row, so the rating sits higher on the screen. Feed problems are listed once, in the box under it.',
+    'The Map tab\'s route list gives distances in miles.',
+  ]],
   ['November 5, 2026', [
     'Back: SFINCS road flood forecast on every route. The hourly SFINCS run is compared with the lidar road surface along the whole route, not only the listed crossings. When it shows water over a road during the forecast hours, that route\'s number goes up and the route screen says where, how deep and when. It can raise a number but never lower one.',
     'The Map tab lists every route with water over the road at the hour shown, for the live run and the saved runs.',
@@ -867,7 +874,7 @@ function render() {
 }
 function subtitle() {
   const t = (ms) => new Date(ms).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-  return `${areaInfo().name} ↔ I-10 · ${t(data.now)}${data.errors.length ? ` · public ${data.errors.join(', ')}` : ''}`;
+  return `${areaInfo().name} ↔ I-10 · ${t(data.now)}`;
 }
 function updateCheckAge() {
   const el = $('#check-age');
@@ -909,6 +916,7 @@ function wire(w) {
     } else if (openSource === i) openSource = null;
     drawMap(where());
   }));
+  document.querySelectorAll('[data-share]').forEach((b) => b.addEventListener('click', async () => { const said = await shareCheck(shareText(view, data, area)); const note = $('#share-notice'); if (note) note.textContent = said; }));
   document.querySelectorAll('[data-nav]').forEach((b) => b.addEventListener('click', () => navigate(b.dataset.nav)));
   if (w.screen === 'alerts') wireAlerts();
   if (w.screen === 'stretch') wireDrive(w.fp);

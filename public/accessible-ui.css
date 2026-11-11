@@ -25,7 +25,9 @@ button,summary,select,input{min-height:48px}button:focus-visible,a:focus-visible
 .map-first .map-dock .dock-status{font-size:.875rem;line-height:1.5}
 .route-tracking{margin:16px 0;background:var(--surface);border:1px solid var(--muted);border-radius:14px;padding:12px}.route-tracking summary{min-height:48px;padding:10px 4px;cursor:pointer;font-size:1rem;font-weight:600}.route-tracking p{font-size:1rem;line-height:1.5;overflow-wrap:anywhere}.tracking-entry{border-top:1px solid var(--divider);padding:8px 0}.tracking-entry summary span{display:block;font-weight:400;color:var(--muted);margin-top:8px}.tracking-entry-body{padding:0 8px}.tracking-gauge{border-top:1px solid var(--divider);padding:8px 0}.tracking-gauge h4{font-size:1.125rem;margin:12px 0}.tracking-gauge a{display:inline-block;padding:12px 0;min-height:48px}.tracking-gauge button{width:100%;border:1px solid var(--muted)}
 .route-tracking .btn{font-size:1rem;line-height:1.5}
-@media(max-width:600px){.appbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:8px 16px}.appbar .titles{grid-column:1/-1;grid-row:1;min-width:0}.appbar #title{overflow:visible;text-overflow:clip;overflow-wrap:anywhere}.appbar .icon-btn,.appbar .help-link{justify-self:center}.appbar .logo{justify-self:center;margin:0}}
+/* Phones: one row. Logo or Back, then the title, then Refresh and Help. */
+@media(max-width:600px){.appbar{flex-wrap:nowrap;gap:4px;padding:8px 8px 8px 12px}.appbar.sub{padding-left:4px}.appbar .titles{flex:1;min-width:0}.appbar #title{overflow:visible;text-overflow:clip;overflow-wrap:anywhere;line-height:1.25}.appbar .logo{margin-right:8px}.appbar .help-link{flex:none}}
+#share-notice:empty{display:none}
 .route-tracking input,.route-tracking select {display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:48px;font:inherit;margin:8px 0 16px;padding:8px;}
 .tracking-entry[hidden] {display:none;}
 
