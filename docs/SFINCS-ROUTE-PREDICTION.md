@@ -114,3 +114,7 @@ recover a surface. The coarse grid retains the actual surface and its scoring de
 Tapping a road in the selected map run compares its own road and water heights for that frame.
 Saved runs remain explicitly dated and never alter today's score. Missing road height is never
 replaced by the model cell's mean ground height.
+
+## Hour by hour
+
+The best-route card and every route screen show the same forecast one hour at a time (`public/outlook.js`): the deepest modeled water over that route's road in each coming hour, from the model the route's rating came from. Its deepest hour is the depth the rating already reports. An hour with no model value says "No data", never "Dry". River gauges, rain gauges and closures are live readings with no forecast, so the strip leaves them out and says so. The strip is kept off the forecast object the alert service also computes, so the app and the service still produce identical forecasts.

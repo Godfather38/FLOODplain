@@ -187,7 +187,7 @@ try{
   await page.goto(origin+'/#/map');await ready(page);await dismissNotice(page);
   await page.click('[data-m-tab=routes]');
   const s=await page.$eval('.live-map-panel',p=>{const c=getComputedStyle(p),r=p.getBoundingClientRect(),b=p.querySelector('[data-refresh]').getBoundingClientRect();return {bg:c.backgroundColor,color:c.color,inset:r.right-b.right}});
-  assert.equal(s.bg,'rgb(239, 239, 236)');assert.equal(s.color,'rgb(27, 27, 26)');assert.ok(s.inset>=8,'refresh inset '+s.inset);
+  assert.equal(s.bg,'rgb(235, 232, 223)');assert.equal(s.color,'rgb(26, 28, 30)');assert.ok(s.inset>=8,'refresh inset '+s.inset);
   await context.close();
  });
  await check('Map tab lists routes with live ratings, and a pin opens its crossing card',async()=>{

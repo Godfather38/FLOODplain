@@ -1,0 +1,97 @@
+/* The app's look, loaded last: colors, type, cards, buttons, the tab bar and the hour-by-hour strip.
+   Risk colors come from semantic-colors.js and are not changed here. Text sizes set by
+   accessible-ui.css are kept; this file never makes body text smaller than that layer does. */
+:root {
+  --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df; --on: #1a1c1e; --muted: #54524c; --divider: #dedacf;
+  --primary: #0f5cc0; --on-primary: #fff; --angel: #fdf3cf; --radius: 18px;
+  --card-shadow: 0 1px 2px rgba(30, 25, 10, .05), 0 4px 14px rgba(30, 25, 10, .04);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0f1215; --surface: #191d21; --surface-2: #252b31; --on: #eceae4; --muted: #b9b6ad; --divider: #2f363d;
+    --primary: #9cc4ff; --on-primary: #06213f; --angel: #3a341c; --card-shadow: none; }
+}
+body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+
+/* top bar */
+.appbar { border-bottom: 1px solid var(--divider); }
+#title { font-weight: 700; letter-spacing: -.01em; }
+
+/* cards */
+.hero, .list, .page, .summary, .drive-report, .outlook-card, .route-tracking, .risk-key, .bridge-evidence {
+  border: 1px solid var(--divider); border-radius: var(--radius); box-shadow: var(--card-shadow); }
+#map { border-radius: var(--radius); }
+h3.section { font-size: 1rem; font-weight: 700; color: var(--on); margin: 28px 4px 10px; }
+h3.section:empty { display: none; }
+.row { padding: 14px 16px; }
+.row .t { font-weight: 600; }
+.row .chev { font-size: 24px; }
+.fine { margin-top: 24px; }
+
+/* the rating card */
+.hero { position: relative; overflow: hidden; padding: 20px; --tone: var(--sq); }
+.hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 6px; background: var(--tone); }
+.hero[data-score="1"] { --tone: var(--s1); } .hero[data-score="2"] { --tone: var(--s2); } .hero[data-score="3"] { --tone: var(--s3); }
+.hero[data-score="4"] { --tone: var(--s4); } .hero[data-score="5"] { --tone: var(--s5); }
+.overline { font-size: .9375rem; font-weight: 700; }
+.hero h2 { font-size: 1.875rem; font-weight: 700; letter-spacing: -.02em; }
+.badge { font-variant-numeric: tabular-nums; }
+.badge.lg { width: 60px; height: 60px; font-size: 1.75rem; }
+.badge-word { font-weight: 700; color: var(--on); margin-top: 6px; }
+.angel p { border-radius: 4px 14px 14px 14px; }
+.hero .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+.hero .actions > .btn-primary, .hero .actions > .closed-note { grid-column: 1 / -1; }
+
+/* buttons and fields */
+.btn { border-radius: 14px; font-weight: 600; }
+.btn-tonal { background: var(--surface-2); color: var(--on); }
+.btn-primary:active, .btn-tonal:active { filter: brightness(.94); }
+.save-route { border-radius: 14px; }
+.seg { border-radius: 14px; }
+.seg button { border-radius: 10px; font-weight: 600; }
+.field input, .field select, .field textarea, .time-row input[type=time] { border-width: 1.5px; background: var(--surface); }
+.note { border-radius: 12px; }
+
+/* check time and feed problems */
+.check-status { background: transparent; border: 1px solid var(--divider); border-radius: 14px; padding: 10px 14px; margin: 12px 0 16px; }
+.check-status strong { font-weight: 700; }
+
+/* tab bar: five places, on every screen */
+nav.primary-destinations { gap: 2px; }
+nav.primary-destinations a { flex: 1 1 0; flex-direction: column; gap: 2px; min-width: 0; min-height: 56px; padding: 6px 2px; border-radius: 14px; background: none; color: var(--muted); font-size: .8125rem; font-weight: 600; line-height: 1.2; }
+nav.primary-destinations a svg { width: 60px; height: 28px; padding: 2px 18px; box-sizing: border-box; border-radius: 14px; fill: currentColor; flex: none; }
+nav.primary-destinations a[aria-current=page] { background: none; color: var(--primary); }
+nav.primary-destinations a[aria-current=page] svg { background: color-mix(in srgb, var(--primary) 16%, transparent); }
+@media (max-width: 899px) {
+  body:not(.mapp-on) nav.primary-destinations { position: fixed; inset: auto 0 0 0; z-index: 1100; height: auto; min-height: 0; flex-wrap: nowrap;
+    padding: 4px 8px calc(4px + env(safe-area-inset-bottom)); background: var(--surface); border-top: 1px solid var(--divider); border-bottom: 0; }
+  html body.mapp-on nav.primary-destinations { order: 5; position: static; height: auto; flex-wrap: nowrap; gap: 2px;
+    padding: 2px 8px calc(2px + env(safe-area-inset-bottom)); background: var(--surface); border-top: 1px solid var(--divider); border-bottom: 0; }
+  html body.mapp-on nav.primary-destinations a { min-height: 52px; padding: 4px 2px; font-size: .8125rem; }
+  #screen { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }
+  .bottom-bar { bottom: calc(64px + env(safe-area-inset-bottom)); }
+}
+@media (min-width: 900px) {
+  nav.primary-destinations { height: auto; min-height: 0; padding: 6px 16px; gap: 4px; }
+  nav.primary-destinations a, html body.mapp-on nav.primary-destinations a { flex: none; flex-direction: row; gap: 8px; min-height: 40px; padding: 0 16px; border-radius: 20px; font-size: .9375rem; }
+  nav.primary-destinations a svg { width: 20px; height: 20px; padding: 0; border-radius: 0; background: none !important; }
+  nav.primary-destinations a[aria-current=page] { background: var(--primary); color: var(--on-primary); }
+  nav.primary-destinations a:hover:not([aria-current=page]) { background: var(--surface-2); color: var(--on); }
+}
+
+/* hour by hour */
+.outlook-card { background: var(--surface); padding: 16px; }
+.outlook-lead { margin: 0 0 12px; font-weight: 600; }
+.outlook.compact { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--divider); }
+.outlook-title { margin: 0 0 8px; font-size: .875rem; font-weight: 600; color: var(--muted); }
+.outlook-strip { list-style: none; margin: 0; padding: 0 0 4px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: thin; }
+.oc { flex: 1 0 52px; display: grid; justify-items: center; gap: 4px; min-width: 52px; }
+.oh { font-size: .875rem; color: var(--muted); white-space: nowrap; }
+.oc:first-child .oh { color: var(--on); font-weight: 700; }
+.ob { width: 100%; height: 36px; border-radius: 8px; background: var(--surface-2); display: flex; align-items: flex-end; overflow: hidden; }
+.ob i { display: block; width: 100%; background: var(--s2); }
+.oc.caution .ob i { background: var(--s3); } .oc.danger .ob i { background: var(--s5); }
+.oc.dry .ob { border-bottom: 3px solid var(--s1); }
+.oc.none .ob { background: repeating-linear-gradient(135deg, var(--surface-2) 0 6px, transparent 6px 12px); border: 1px dashed var(--muted); }
+.od { font-variant-numeric: tabular-nums; font-size: .875rem; font-weight: 600; white-space: nowrap; }
+.oc.none .od { font-weight: 400; color: var(--muted); }
+.outlook.compact .ob { height: 24px; }

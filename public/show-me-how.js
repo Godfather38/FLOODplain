@@ -1,6 +1,6 @@
 // Explicitly opened, session-only help. Never changes route, time, or model state.
 const steps = [
- ['Choose your route','Open Routes & conditions. Choose your road from the route list, or open a saved route. Details shows the crossings along that route. The suggested route has the least going against it; it is not a promise of a clear road.'],
+ ['Choose your route','Open Routes. Choose your road from the route list, or open a saved route. Details shows the crossings along that route. The suggested route has the least going against it; it is not a promise of a clear road.'],
  ['Read warnings and freshness','Read the closure and warning text before the risk number. Open a crossing to see each source and its time. A recent check does not make an old reading fresh. “No data”, “Missing” and “Stale” mean conditions are unknown, not dry. County closures still apply.'],
  ['Inspect the map','Open Map to see routes, crossings and closures. Tap a crossing for details. Current conditions on the map offers live readings and a modeled water estimate, each with its own time. Modeled depth is an estimate in feet, not observed water, and is separate from route risk.']
 ];

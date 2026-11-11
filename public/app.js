@@ -19,6 +19,7 @@ import { resolveScreen, routeAreaForHash } from './routing.js?v=dev';
 import { conditionsNotEstablished, groupRoutePoints } from './route-status.js?v=dev';
 import { UNDERPASSES } from './underpasses.js?v=dev';
 import { shareText, shareCheck } from './share.js?v=dev';
+import { outlookHtml } from './outlook.js?v=dev';
 import {
   parseContinuous, summarizeFlow, rateFailurePoint, rateRoutes, recommend, googleMapsUrl, parseCountyClosures,
   riskScore, routeScore, goodSigns, againstIt, routeClosures, worst, roadEventActive, roadEventTiming, roadEventLabel, driveSummary, bridgeHeightComparison, crossingLead,
@@ -224,7 +225,7 @@ function addSfincs(r, d) {
   const forecast = s.routes?.[r.id];
   if (!forecast) return { ...r, sfincs: { status: 'unavailable', reason: s.routeStatus?.[r.id]?.reason || 'This route has no current model coverage.' } };
   const point = sfincsModel.roadForecastPoint(r.id, forecast);
-  return { ...r, sfincs: { ...forecast, status: 'current' }, points: [...r.points, point], level: worst([r.level, point.level]) };
+  return { ...r, sfincs: { ...forecast, status: 'current', hours: s.hours?.[r.id] }, points: [...r.points, point], level: worst([r.level, point.level]) };
 }
 
 function compute(d) {
@@ -298,6 +299,13 @@ const closureBanner = (routes) => {
 };
 
 // ---------------- screens ----------------
+// One route in a list: number, name, drive time, the top thing against it, and the model line.
+const routeRow = (r) => { r = typeof r === 'string' ? view.byId[r] : r; return `
+        <a class="row" href="#/r/${r.id}">
+          ${badge(r.score)}
+          <span class="text"><div class="t">${esc(ROUTE_INFO[r.id].name)}</div><div class="st">${minutes(r)} · ${esc(topIssue(r))}</div><div class="st model-prediction">${esc(routeModelText(r))}</div>${routeBridgeEvidence(r)}</span>
+          <span class="chev" aria-hidden="true">›</span>
+        </a>`; };
 function homeScreen() {
   const { rec } = view;
   const best = rec.best;
@@ -305,12 +313,14 @@ function homeScreen() {
   const against = againstIt(best).slice(0, 2);
   const others = rec.order.filter((r) => r.id !== best.id);
   const allClosed = routeClosures(best).length > 0;
+  // The hour strip shows modeled water, so it follows the same one-notice rule as the route screen.
+  if (best.sfincs?.maxOver > sfincsModel?.COVER_M) import('./model-acknowledgement.js?v=dev').then((m) => m.showAcknowledgement('modelRun')).catch(() => {});
   const overline = allClosed ? 'Every route has a closure report' : best.score <= 2 ? 'Best route right now' : 'Least going against it';
   const areaSwitch = `<div class="seg" role="tablist" aria-label="Area">${AREAS.map((x) => `<button type="button" role="tab" data-area="${x.id}" aria-selected="${x.id === area}">${esc(x.name)}</button>`).join('')}</div>`;
   return `
     ${areaSwitch}
     ${closureBanner(rec.order)}
-    <article class="hero">
+    <article class="hero" data-score="${best.score ?? ''}">
       <p class="overline">${overline}</p>
       <div class="hero-top"><h2>${esc(info.name)}</h2>${badgeWithWord(best.score)}</div>
       <p class="meta">${minutes(best)} · ${esc(viaText(best.id))}</p>
@@ -318,32 +328,31 @@ function homeScreen() {
       ${against.length ? `<ul class="against">${against.map((a) => `<li><span class="dot ${a.level}"></span><span>${esc(a.short)}: ${esc(a.why)}</span></li>`).join('')}</ul>` : ''}
       <p class="meta model-prediction">${esc(routeModelText(best))}</p>
       ${routeBridgeEvidence(best)}
-      <div class="actions">${navBtn(best)}<a class="btn btn-text" href="#/r/${best.id}">Details</a><button type="button" class="btn btn-text" data-share>Share this check</button></div>
+      ${outlookHtml(best.sfincs?.hours, { compact: true })}
+      <div class="actions">${navBtn(best)}<a class="btn btn-tonal" href="#/r/${best.id}">Details</a><button type="button" class="btn btn-tonal" data-share>Share</button></div>
       <p id="share-notice" class="meta" role="status"></p>
     </article>
-    <section class="saved-routes" aria-labelledby="saved-title"><h3 id="saved-title" class="section">Your saved routes</h3>
-    ${favorites.some((id) => view.byId[id]) ? `<div class="list">${favorites.filter((id) => view.byId[id]).map((id) => `<a class="row" href="#/r/${id}">${badge(view.byId[id].score)}<span class="text"><span class="t">${esc(ROUTE_INFO[id].name)}</span><span class="st">${esc(topIssue(view.byId[id]))}</span><span class="st model-prediction">${esc(routeModelText(view.byId[id]))}</span>${routeBridgeEvidence(view.byId[id])}</span><span class="chev" aria-hidden="true">›</span></a>`).join('')}</div>` : '<p class="meta">Open a route and choose Save route to keep it here for this area.</p>'}
-    <p class="meta">Saved on this browser. Ratings still use the current check.</p></section>
-    <h3 class="section">Other routes</h3>
+    ${favorites.some((id) => view.byId[id]) ? `<section class="saved-routes" aria-labelledby="saved-title"><h3 id="saved-title" class="section">Your saved routes</h3>
+    <div class="list">${favorites.filter((id) => view.byId[id]).map(routeRow).join('')}</div></section>` : ''}
+    <h3 class="section">${others.length ? 'Other routes' : ''}</h3>
+    <div class="list">${others.map(routeRow).join('')}</div>
+    <p class="fine">A guide built from public data, not a safety guarantee. Water over the road: turn around.</p>`;
+}
+
+function moreScreen() {
+  const row = (href, title, sub) => `<a class="row small" href="${href}"><span class="text"><div class="t">${title}</div>${sub ? `<div class="st">${sub}</div>` : ''}</span><span class="chev" aria-hidden="true">›</span></a>`;
+  return `<h3 class="section">On the road</h3>
     <div class="list">
-      ${others.map((r) => `
-        <a class="row" href="#/r/${r.id}">
-          ${badge(r.score)}
-          <span class="text"><div class="t">${esc(ROUTE_INFO[r.id].name)}</div><div class="st">${minutes(r)} · ${esc(topIssue(r))}</div><div class="st model-prediction">${esc(routeModelText(r))}</div>${routeBridgeEvidence(r)}</span>
-          <span class="chev">›</span>
-        </a>`).join('')}
+      ${row('#/underpasses', 'I-10 underpasses', 'Marana, Orange Grove, Grant, Speedway')}
+      ${row('#/report', 'Help fill the gaps', 'Tell us what a crossing is really like in the rain')}
     </div>
-    <h3 class="section">More</h3>
+    <h3 class="section">About FLOODplain</h3>
     <div class="list">
-      <a class="row small" href="#/closures"><span class="lead-icon">🚧</span><span class="text"><div class="t">Road closures</div><div class="st">Closed and caution points near you</div></span><span class="chev">›</span></a>
-      <a class="row small" href="#/alerts"><span class="lead-icon">🔔</span><span class="text"><div class="t">Alerts</div><div class="st">Get this sent to your phone at a time you pick</div></span><span class="chev">›</span></a>
-      <a class="row small" href="#/report"><span class="lead-icon">✍️</span><span class="text"><div class="t">Help fill the gaps</div><div class="st">Tell us what a crossing is really like in the rain</div></span><span class="chev">›</span></a>
-      <a class="row small" href="#/underpasses"><span class="lead-icon">🛣️</span><span class="text"><div class="t">I-10 underpasses</div><div class="st">Marana, Orange Grove, Grant, Speedway</div></span><span class="chev">›</span></a>
-      <a class="row small" href="#/how"><span class="lead-icon">❓</span><span class="text"><div class="t">How to read this</div></span><span class="chev">›</span></a>
-      <a class="row small" href="#/updates"><span class="lead-icon">📝</span><span class="text"><div class="t">What's new</div></span><span class="chev">›</span></a>
-      <a class="row small" href="#/settings"><span class="lead-icon">⚙️</span><span class="text"><div class="t">Settings</div></span><span class="chev">›</span></a>
-      <a class="row small" href="#/sources"><span class="lead-icon">ℹ️</span><span class="text"><div class="t">Sources</div></span><span class="chev">›</span></a>
-      <a class="row small" href="#/privacy"><span class="lead-icon">🔒</span><span class="text"><div class="t">Privacy &amp; terms</div></span><span class="chev">›</span></a>
+      ${row('#/how', 'How to read this', 'What the numbers and colors mean')}
+      ${row('#/sources', 'Sources', 'Where every reading comes from')}
+      ${row('#/updates', "What's new", '')}
+      ${row('#/settings', 'Settings', '')}
+      ${row('#/privacy', 'Privacy &amp; terms', '')}
     </div>
     <p class="fine">A guide built from public data, not a safety guarantee. Water over the road: turn around.</p>`;
 }
@@ -369,11 +378,12 @@ function routeScreen(rid) {
   if (r.sfincs?.maxOver > sfincsModel?.COVER_M) import('./model-acknowledgement.js?v=dev').then((m) => m.showAcknowledgement('modelRun')).catch(() => {});
   return `
     ${closureBanner([r])}
-    <article class="hero">
+    <article class="hero" data-score="${r.score ?? ''}">
       <div class="hero-top"><div style="flex:1"><p class="meta" style="margin:0">${minutes(r)} · ${esc(viaText(rid))}</p></div>${badgeWithWord(r.score)}</div>
       ${closed ? '' : `<div class="angel"><span class="face" aria-hidden="true">😇</span><p>${esc(angelText(r))}</p></div>`}
       <p class="meta model-prediction">${esc(routeModelText(r))}</p>
     </article>
+    ${outlookHtml(r.sfincs?.hours)}
     ${saveButton(rid)}<p id="save-notice" class="meta" role="status">${esc(saveNotice)}</p>
     ${concerns.length ? `<h3 class="section">Warnings and concerns</h3><div class="list">${concerns.map(row).join('')}</div>` : ''}
     ${unestablished.length ? `<h3 class="section">Conditions not established</h3><div class="list">${unestablished.map(row).join('')}</div>` : ''}
@@ -751,8 +761,11 @@ function wireReport() {
 // Newest first. Add a line here whenever something people can notice changes.
 const UPDATES = [
   ['November 11, 2026', [
-    'Share this check: the home screen has a button that sends the current rating, in the same words as the text alerts, to anyone you pick.',
-    'On phones the top bar is one row, so the rating sits higher on the screen. Feed problems are listed once, in the box under it.',
+    'New: hour by hour. The best-route card and every route screen show the SFINCS forecast of water over that road for each coming hour. River gauges, rain gauges and closures are live readings with no forecast, so they are not in the strip.',
+    'New: a tab bar on every screen with Routes, Map, Closures, Alerts and More. On a phone it sits at the bottom.',
+    'The home screen starts with the rating. The check time and any feed problems sit right under it, and the long list at the bottom moved to the More tab.',
+    'A new look across the app. Risk colors and wording are unchanged.',
+    'Share: the best-route card has a button that sends the current rating, in the same words as the text alerts, to anyone you pick.',
     'The Map tab\'s route list gives distances in miles.',
   ]],
   ['November 5, 2026', [
@@ -834,30 +847,32 @@ function render() {
     view = compute(data);
   }
   const w = where();
-  const sub = w.screen !== 'home';
+  const sub = !['home', 'closures', 'alerts', 'more'].includes(w.screen); // the tab bar's own screens have no Back
   $('.appbar').classList.toggle('sub', sub);
   $('#back').hidden = !sub;
   $('#logo').hidden = sub;
-  $('#refresh').hidden = sub && !['route', 'stretch'].includes(w.screen);
+  $('#refresh').hidden = !['home', 'route', 'stretch', 'closures'].includes(w.screen);
   const titles = {
     home: ["FLOODplain", subtitle()], map: ['Flood map', 'Live readings, model estimates and simulated water'],
     route: [ROUTE_INFO[w.route]?.name, 'Route'],
     stretch: [view.fpResults[w.fp]?.short, ROUTE_INFO[w.route]?.name],
-    closures: ['Road closures', 'Closed and caution points'], how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
+    closures: ['Road closures', 'Closed and caution points'], how: ['How to read this', ''], settings: ['Settings', ''], sources: ['Sources', ''], alerts: ['Alerts', 'Text or phone notification'], more: ['More', ''], report: ['Help fill the gaps', 'Tell us about a crossing'], privacy: ['Privacy & terms', "FLOODplain texts"], updates: ["What's new", ''], underpasses: ['I-10 underpasses', 'Rain nearby, not a reading from the underpass'],
   }[w.screen];
   $('#title').textContent = titles[0] ?? '';
   $('#subtitle').textContent = titles[1] ?? '';
-  $('#map').hidden = ['closures', 'how', 'settings', 'sources', 'alerts', 'privacy', 'report', 'updates', 'underpasses'].includes(w.screen);
+  $('#map').hidden = ['closures', 'more', 'how', 'settings', 'sources', 'alerts', 'privacy', 'report', 'updates', 'underpasses'].includes(w.screen);
   window.dispatchEvent(new Event('flood-before-screen-render'));
   $('#screen').innerHTML = plainWords({
     map: () => '', home: homeScreen, route: () => routeScreen(w.route), stretch: () => stretchScreen(w.route, w.fp),
-    closures: closuresScreen, how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, updates: updatesScreen, underpasses: underpassesScreen, report: () => reportScreen(w.fp),
+    closures: closuresScreen, more: moreScreen, how: howScreen, settings: settingsScreen, sources: sourcesScreen, alerts: alertsScreen, privacy: privacyScreen, updates: updatesScreen, underpasses: underpassesScreen, report: () => reportScreen(w.fp),
   }[w.screen](), Date.now());
   if (['home', 'route', 'stretch'].includes(w.screen)) {
     const status = document.createElement('aside');
     status.className = 'check-status';
     status.innerHTML = '<strong id="check-age"></strong><p>Check time is not the age of every reading. Open a crossing for source details.</p>' + (data.errors.length ? `<p>${esc(data.errors.join('; '))}.</p>` : '');
-    $('#screen').prepend(status);
+    // Home: the rating comes first and the check time sits right under it.
+    const hero = w.screen === 'home' && $('#screen .hero');
+    if (hero) hero.after(status); else $('#screen').prepend(status);
     updateCheckAge();
   }
   wire(w);

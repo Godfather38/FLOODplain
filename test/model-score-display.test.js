@@ -33,7 +33,10 @@ test('map route score rows show wet, dry and unavailable predictions', () => {
 test('home, saved routes, other routes and detail hero expose model output alongside scores', () => {
   const app=readFileSync(new URL('../public/app.js',import.meta.url),'utf8');
   assert.match(app,/routeModelText\(best\)/);
-  assert.match(app,/routeModelText\(view.byId\[id\]\)/);
+  // Saved routes and other routes share one row, which carries the model line.
+  assert.match(app,/const routeRow = [\s\S]*?routeModelText\(r\)/);
+  assert.match(app,/favorites\.filter\([^\n]*\)\.map\(routeRow\)/);
+  assert.match(app,/others\.map\(routeRow\)/);
   assert.equal((app.match(/routeModelText\(r\)/g)||[]).length,2);
   assert.match(app,/roadForecast:\(\)=>data\?\.sfincs/);
 });

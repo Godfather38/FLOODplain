@@ -16,6 +16,6 @@ export function resolveScreen(hash, byId) {
     return point ? { screen: 'stretch', route: p[1], fp: point.id } : { screen: 'route', route: p[1] };
   }
   if (p[0] === 'report') return { screen: 'report', fp: p[1] };
-  if (['map', 'how', 'settings', 'sources', 'alerts', 'privacy', 'updates', 'underpasses', 'closures'].includes(p[0])) return { screen: p[0] };
+  if (['map', 'more', 'how', 'settings', 'sources', 'alerts', 'privacy', 'updates', 'underpasses', 'closures'].includes(p[0])) return { screen: p[0] };
   return { screen: 'home' };
 }
