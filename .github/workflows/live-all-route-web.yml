@@ -3,6 +3,9 @@ name: Live all-route map package
 # all-route/<case>/compact/) into the Map tab's display package and publish it to the
 # live-all-route-web branch. The app's Live scenario reads it from there. The branch always holds
 # one commit: each build replaces the last, so it does not grow.
+# Started by the live run itself: the last job of live-all-route.yml (experiment/all-route-models)
+# runs this workflow, because a run started by a workflow does not start others by finishing
+# (the workflow_run trigger below did not fire on Nov 12, 2026; it is kept as a harmless extra).
 on:
   workflow_run:
     workflows: ["Live all-route SFINCS when rain is forecast"]
