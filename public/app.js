@@ -760,6 +760,11 @@ function wireReport() {
 
 // Newest first. Add a line here whenever something people can notice changes.
 const UPDATES = [
+  ['November 12, 2026', [
+    'Flood simulator, storyline: the Crossings tab on the Map lists when modeled water reaches each road and crossing in the run you loaded, how deep it gets and when it clears. Tap one to jump to that moment and place.',
+    'Flood simulator, playback: a line under the readouts says what is under water as the run plays, and a speed button switches between 1×, 2×, 4× and half speed.',
+    'Flood simulator, water: on the saved and what-if runs the water is drawn with soft edges when zoomed out. Zoom in and the model\'s own 100 m squares show again.',
+  ]],
   ['November 11, 2026', [
     'New: hour by hour. The best-route card and every route screen show the SFINCS forecast of water over that road for each coming hour. River gauges, rain gauges and closures are live readings with no forecast, so they are not in the strip.',
     'New: a tab bar on every screen with Routes, Map, Closures, Alerts and More. On a phone it sits at the bottom.',

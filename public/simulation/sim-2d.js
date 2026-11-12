@@ -170,6 +170,19 @@ export function crossingsFor(run,points,pkg){
 export const depthBand=m=>{const ft=m/.3048;let k=-1;for(let i=0;i<DEPTH_FT.length;i++)if(ft>=DEPTH_FT[i])k=i;return k;};
 const rainBand=v=>{let k=-1;for(let i=0;i<RAIN_MMH.length;i++)if(v>=RAIN_MMH[i])k=i;return k;};
 
+// The 100 m cells as one small picture, a pixel per cell (north up), so the map can draw water with
+// soft edges instead of squares. px[k] is cell k's pixel; cols and rows are counted from the grid origin.
+export function cellGrid(index){
+ let minC=Infinity,maxC=-Infinity,minR=Infinity,maxR=-Infinity;
+ for(const key of index.keys()){const c=Math.floor(key/1000),r=key%1000;if(c<minC)minC=c;if(c>maxC)maxC=c;if(r<minR)minR=r;if(r>maxR)maxR=r;}
+ if(!Number.isFinite(minC))return null;
+ const w=maxC-minC+1,h=maxR-minR+1,px=new Int32Array(index.size);
+ for(const [key,k] of index)px[k]=(maxR-key%1000)*w+(Math.floor(key/1000)-minC);
+ return{w,h,minC,maxR,px};
+}
+const DEPTH_RGB=DEPTH_COLORS.map(c=>[1,3,5].map(i=>parseInt(c.slice(i,i+2),16)));
+// Below this many screen pixels per cell the water is drawn soft; closer in, the model's own cells show.
+const SOFT_BELOW_PX=14;
 // The layer: one canvas over the map, redrawn when the view, the hour or the run changes.
 export function createSimLayer(L,map){
  if(!map.getPane('simWater'))map.createPane('simWater').style.zIndex=350;
@@ -234,7 +247,8 @@ export function createSimLayer(L,map){
    run.painter.paintOutlines(ctx,map,Math.min(run.times.length-1,Math.round(clock)));
    run.painter.paint(ctx,map,clock,size);
   }
-  if(show.water&&!run.quad){
+  if(show.water&&!run.quad&&softWater(ctx)){/* drawn soft */}
+  else if(show.water&&!run.quad){
    const {box,n}=run.cells,south=b.getSouth(),north=b.getNorth(),west=b.getWest(),east=b.getEast();ctx.globalAlpha=.82;
    for(let k=0;k<n;k++){
     if(box[k*4+2]<south||box[k*4]>north||box[k*4+3]<west||box[k*4+1]>east)continue;
@@ -244,6 +258,33 @@ export function createSimLayer(L,map){
    }
    ctx.globalAlpha=1;
   }
+ }
+ // Soft water for the 100 m runs: the cells as a small picture, stretched onto the map with smoothing.
+ // Colors are the same depth bands as the key. Returns false when zoomed in far enough to show cells.
+ let soft=null;
+ function softWater(ctx){
+  const cells=run.cells;
+  if(soft?.cells!==cells){
+   const g=cellGrid(cells.index);if(!g){soft={cells};return false;}
+   const off=document.createElement('canvas');off.width=g.w;off.height=g.h;
+   soft={cells,g,off,octx:off.getContext('2d'),image:new ImageData(g.w,g.h)};
+  }
+  if(!soft.g)return false;
+  const {g,off,octx,image}=soft;
+  // The picture's corners on screen. UTM to screen is close to a straight stretch over this area.
+  const corner=(c,r)=>{const ll=fromUtm(GRID.x0+c*100,GRID.y0+r*100);return map.latLngToContainerPoint([ll.lat,ll.lon]);};
+  const tl=corner(g.minC,g.maxR+1),tr=corner(g.minC+g.w,g.maxR+1),bl=corner(g.minC,g.maxR+1-g.h);
+  if(Math.hypot(tr.x-tl.x,tr.y-tl.y)/g.w>=SOFT_BELOW_PX)return false;
+  const data=image.data;data.fill(0);
+  for(let k=0;k<cells.n;k++){
+   const d=depthAt(k);const band=Number.isNaN(d)?-1:depthBand(d);if(band<0)continue;
+   const o=g.px[k]*4,c=DEPTH_RGB[band];data[o]=c[0];data[o+1]=c[1];data[o+2]=c[2];data[o+3]=255;
+  }
+  octx.putImageData(image,0,0);
+  ctx.save();ctx.globalAlpha=.82;ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+  ctx.transform((tr.x-tl.x)/g.w,(tr.y-tl.y)/g.w,(bl.x-tl.x)/g.h,(bl.y-tl.y)/g.h,tl.x,tl.y);
+  ctx.drawImage(off,0,0);ctx.restore();
+  return true;
  }
  function drawFlow(){
   flowLayer.clearLayers();if(!run||!show.flow)return;

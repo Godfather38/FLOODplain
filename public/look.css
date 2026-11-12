@@ -95,3 +95,16 @@ nav.primary-destinations a[aria-current=page] svg { background: color-mix(in srg
 .od { font-variant-numeric: tabular-nums; font-size: .875rem; font-weight: 600; white-space: nowrap; }
 .oc.none .od { font-weight: 400; color: var(--muted); }
 .outlook.compact .ob { height: 24px; }
+
+/* simulator: storyline, the line under the readouts, and the speed button */
+.mapp-story { margin: 6px 4px 4px; font-size: .875rem; font-weight: 600; min-height: 1.3em; }
+.mapp-story:empty { display: none; }
+.mapp-speed { min-width: 48px; min-height: 40px; margin-left: 6px; border: 1px solid var(--divider); border-radius: 10px; background: var(--surface); font-weight: 700; cursor: pointer; }
+.story { list-style: none; margin: 8px 0 20px; padding: 0; display: grid; gap: 8px; }
+.story-row button { width: 100%; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; text-align: left; padding: 12px; border: 1px solid var(--divider); border-left: 5px solid var(--muted); border-radius: 12px; background: var(--surface); cursor: pointer; font-size: .9375rem; line-height: 1.45; }
+.story-row.over button { border-left-color: var(--s5); }
+.story-row.cleared button { border-left-color: var(--s1); }
+.story-time { font-weight: 700; white-space: nowrap; }
+.story-text b { display: block; }
+.story-state { grid-column: 2; font-size: .875rem; font-weight: 700; color: var(--muted); }
+.story-row.over .story-state { color: var(--s5); }

@@ -116,3 +116,10 @@ about 90 KB per frame per area, with frames loaded one at a time.
 - Live run: `.github/workflows/live-sfincs.yml` and `tools/live/run_live_sfincs.py` on `experiment/live-sfincs`, publishing to the `live-model` branch.
 - All-route model runs and the route-point ledger: `tools/sfincs/data/` on `experiment/sfincs-engine` (start at `all-route-results-v2/README.md` on `claude/all-route-expansion-78d5d4`).
 - Error and freeze reports: ntfy topic `washwatch-diag-q7m3x9` (`public/diagnostics.js`).
+
+## Simulator additions (Nov 12, 2026)
+
+- **Storyline** (`public/sim-story.js`, Crossings tab): for the loaded run, when modeled water first goes over each whole road (every road station, `route-prediction.js`) and each listed crossing, the deepest value and when it clears. Same threshold as the scoreboard (more than about 2 in over the road). Tapping a row moves the clock to that frame and the map to that place. A line under the readouts says what is under water at the frame shown. It is off for the live run.
+- **Speed**: the player has a 1×, 2×, 4×, ½× button for the 2D map.
+- **Soft water**: the 100 m runs are drawn from a one-pixel-per-cell picture with smoothing while a cell is under 14 screen pixels. Closer in, the model's own squares are drawn as before. Colors are the same depth bands as the key, and a tap still reads the cell's own value. The all-route run (6.25 m cells) is drawn as before.
+
