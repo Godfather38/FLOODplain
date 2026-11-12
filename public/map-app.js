@@ -69,7 +69,7 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
   <h3>Water</h3>
   <div class="mapp-radios" role="radiogroup" aria-label="Water">${MODELS.map(([v,t])=>`<label><input type="radio" name="mapp-model" value="${v}"> ${t}</label>`).join('')}</div>
   <p class="mapp-hint model-hint" data-m-model-hint aria-live="polite"></p>
-  <fieldset class="mapp-overlap" data-m-overlap hidden><legend>Where model areas overlap, draw</legend><div class="mapp-radios" role="radiogroup" aria-label="Where model areas overlap, draw"></div><p class="mapp-hint">The all-route run is three separate models. Where Northern and Picture Rocks overlap they differ by up to <span data-m-overlap-diff></span> at the same place and time. One is drawn at each place: by default the area built for the nearest route. Tap the map for both. Nothing is averaged.</p></fieldset>
+  <fieldset class="mapp-overlap" data-m-overlap hidden><legend>Where model areas overlap, draw</legend><div class="mapp-radios" role="radiogroup" aria-label="Where model areas overlap, draw"></div><p class="mapp-hint">The all-route run is three separate models. <span data-m-overlap-diff></span> One is drawn at each place: by default the area built for the nearest route. Tap the map for both. Nothing is averaged.</p></fieldset>
   <h3>Map details</h3>
   <div class="mapp-switches">${DETAILS.map(([k,t])=>`<label><span>${t}</span><input type="checkbox" role="switch" data-m-detail="${k}" checked></label>`).join('')}</div>
   <h3>Graphics</h3>
@@ -323,7 +323,8 @@ export function mountMapApp({L,map,baseMaps,routeLayer,liveLayer,fitRoutes,targe
  const overlapBox=$('[data-m-overlap]');
  function paintOverlap(){
   const q=sim.run?.quad;overlapBox.hidden=!q;if(!q)return;
-  $('[data-m-overlap-diff]').textContent=`${q.pkg.overlap.maximumDifferenceM.toFixed(2)} m (${(q.pkg.overlap.maximumDifferenceM/.3048).toFixed(1)} ft)`;
+  // The measured difference belongs to the saved run; a live run has no such measurement.
+  $('[data-m-overlap-diff]').textContent=q.pkg.overlap?`Where Northern and Picture Rocks overlap they differ by up to ${q.pkg.overlap.maximumDifferenceM.toFixed(2)} m (${(q.pkg.overlap.maximumDifferenceM/.3048).toFixed(1)} ft) at the same place and time.`:'Where two areas overlap they can differ at the same place and time.';
   const box=overlapBox.querySelector('.mapp-radios');
   if(box.dataset.run!==sim.run.def.id){box.dataset.run=sim.run.def.id;box.innerHTML=`<label><input type="radio" name="mapp-overlap" value="nearest"> The area built for the nearest route</label>`+q.cases.map(c=>`<label><input type="radio" name="mapp-overlap" value="${c.key}"> ${esc(c.label.split(':')[0])} first</label>`).join('');
    box.querySelectorAll('input').forEach(r=>r.onchange=()=>setOverlap(r.value));}

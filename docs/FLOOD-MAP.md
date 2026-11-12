@@ -123,3 +123,14 @@ about 90 KB per frame per area, with frames loaded one at a time.
 - **Speed**: the player has a 1×, 2×, 4×, ½× button for the 2D map.
 - **Soft water**: the 100 m runs are drawn from a one-pixel-per-cell picture with smoothing while a cell is under 14 screen pixels. Closer in, the model's own squares are drawn as before. Colors are the same depth bands as the key, and a tap still reads the cell's own value. The all-route run (6.25 m cells) is drawn as before.
 
+## Live is the all-route model (Nov 12, 2026)
+
+Owner direction: the all-route model becomes the only model on the map. This is step 1 of 3.
+
+1. **Done: Live reads the live all-route runs.** `.github/workflows/live-all-route-web.yml` runs after every live all-route SFINCS run (and by hand). It runs `tools/all-route/build_live_web_package.py`, which reads each area's newest compact result from the `live-model` branch and writes the same display format as the saved run. The live runs use the saved run's meshes, so the builder reuses the saved package's cell files and writes only new water frames. It publishes to the `live-all-route-web` branch, which always holds one commit.
+   - The app (2D map and 3D view) loads an area only when its run is at most 3 hours old and still covers now, the same limit as the route ratings. A stale area is left out by name in the run note. Where areas overlap and one is missing, the first area present in the package order draws the place.
+   - With no fresh area, or no package, Live shows the 100 m river-strip run as before, and its note starts by saying so.
+   - A live package has no rain or river readout and no measured overlap difference; those belong to the 100 m runs and the saved run.
+2. **Not done: what-if storms on the all-route model.** The 100-year and 1,000-year storms exist only on the 100 m river strip. They need new forcing for the three areas and a run on GitHub's runners.
+3. **Not done: retire the 100 m runs.** Only after 1 and 2 are in place, so no scenario disappears in between. The alert service's coarse fallback (`public/data/road-cells.json`) is part of this step and is unchanged.
+

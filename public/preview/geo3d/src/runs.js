@@ -6,6 +6,10 @@
 // experiment/live-sfincs) to the live-model branch. It is shown only while it is fresh.
 export const LIVE='https://raw.githubusercontent.com/Godfather38/FLOODplain/live-model/live/',LIVE_MAX_AGE_H=3;
 export const BASE_DISPLAY='frozen-terrain-display.json.gz';
+// The live all-route runs as a map display package (tools/all-route/build_live_web_package.py),
+// rebuilt after every live all-route run by .github/workflows/live-all-route-web.yml. The Live
+// scenario shows it when at least one model area is fresh, and the 100 m river run otherwise.
+export const LIVE_ALL_ROUTE='https://raw.githubusercontent.com/Godfather38/FLOODplain/live-all-route-web/';
 export const RUNS=[
  {id:'live',card:{kind:'Live',short:'Live now',severity:0,blurb:'The newest hourly run: NOAA HRRR rain and NWM river flows from the last few hours, 18 hours ahead.'},label:'Live: newest model run, every hour',live:true},
  {id:'13z',handFlows:'run-flows/13z.json',card:{kind:'Forecast',short:'Nov 1 · 13Z forecast',severity:1,rainInH:.7,riverCfs:2498,wetKm2:.7,blurb:'A real storm day: the HRRR forecast issued Nov 1 at 13Z, with NWM river flows.'},label:'Nov 1, 13Z forecast run',note:'Rain shown from this run\'s rainfall input.',display:'frozen-terrain-display.json.gz',rain:'frozen-map-context.json',inflow:'frozen-map-context.json'},

@@ -15,7 +15,7 @@ export function deckHtml(runs,current,live){
  return `<div class="sim-deck">${runs.map(r=>{
   const c=r.card??{},on=r.id===current;
   const pips=c.severity?`<span class="sev" aria-label="Severity ${c.severity} of 5">${[1,2,3,4,5].map(i=>`<i class="${i<=c.severity?'on':''}"></i>`).join('')}</span>`:'<span class="sev live-dot" aria-label="Updates every hour"><i class="on"></i>hourly</span>';
-  const stats=r.live?(live?`<dl><div><dt>Peak wet</dt><dd>${num(live.wetKm2,1)} km²</dd></div><div><dt>Rain</dt><dd>${num(live.rainInH,2)} in/h</dd></div><div><dt>River</dt><dd>${Math.round(live.riverCfs).toLocaleString()} ft³/s</dd></div></dl>`:'<dl><div><dt>Status</dt><dd>Newest hourly run</dd></div></dl>')
+  const stats=r.live?(live?`<dl><div><dt>Peak wet</dt><dd>${num(live.wetKm2,1)} km²</dd></div><div><dt>Rain</dt><dd>${num(live.rainInH,2)} in/h</dd></div><div><dt>River</dt><dd>${Number.isFinite(live.riverCfs)?Math.round(live.riverCfs).toLocaleString():'–'} ft³/s</dd></div></dl>`:'<dl><div><dt>Status</dt><dd>Newest live run</dd></div></dl>')
    :`<dl><div><dt>Peak rain</dt><dd>${num(c.rainInH,2)} in/h</dd></div><div><dt>River</dt><dd>${Math.round(c.riverCfs).toLocaleString()} ft³/s</dd></div><div><dt>Peak wet</dt><dd>${num(c.wetKm2,1)} km²</dd></div></dl>`;
   return `<article class="sim-card k-${(c.kind??'').toLowerCase().replace(/[^a-z]/g,'')}${on?' on':''}"><header><span class="kind">${esc(c.kind??'')}</span>${pips}</header><h4>${esc(c.short??r.label)}</h4><p>${esc(c.blurb??'')}</p>${stats}<button type="button" data-sim-load="${r.id}"${on?' aria-pressed="true"':''}>${on?'Loaded':'Load scenario'}</button></article>`;
  }).join('')}</div>`;

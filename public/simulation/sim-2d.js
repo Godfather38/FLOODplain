@@ -3,14 +3,14 @@
 // (water surface minus the cell's mean terrain), rain is the run's own rainfall input as a
 // radar-style tint, river flow is the run's inflow at the model's inlets, and HAND is the 13Z
 // run's modeled extent. Nothing here is observed water.
-import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY} from '../preview/geo3d/src/runs.js?v=dev';
+import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY,LIVE_ALL_ROUTE} from '../preview/geo3d/src/runs.js?v=dev';
 import {fromUtm,toUtm} from '../preview/geo3d/src/utm.js?v=dev';
 import {parseRain,rainAtUtm} from '../preview/geo3d/src/world/rain-data.js?v=dev';
 import {decodeRoadHeights,roadPackage} from '../preview/geo3d/src/road-package.js?v=dev';
 import {loadHand,flowsForRun,handHour,windowBounds,HAND_COLORS,isSantaCruz,useFetcher} from './hand-runs.js?v=dev';
 export {loadHand,flowsForRun,HAND_COLORS,isSantaCruz};
 import {canvasRatio} from '../graphics.js?v=dev';
-import {openAllRoute,createQuadPainter} from './all-route-run.js?v=dev';
+import {openAllRoute,createQuadPainter,liveAllRoute} from './all-route-run.js?v=dev';
 export {RUNS};
 const DATA=new URL('./data/',import.meta.url);
 // Depth bands in feet, the same as the app's simulated-water key.
@@ -76,6 +76,11 @@ let baseCells=null;
 export async function loadRun2d(def){
  if(def.quad)return loadQuad(def);
  if(def.live){
+  // The live all-route runs first: three model areas with 6.25 m cells on the roads. The 100 m
+  // river run stands in, and says so, when no model area has a fresh live result.
+  let allRouteProblem='';
+  try{const live=await liveAllRoute({base:LIVE_ALL_ROUTE,maxAgeH:LIVE_MAX_AGE_H,variant:'web',fetchBytes:url=>fetchBytes(url)});return quadRun({...def,note:live.note},live.quad);}
+  catch(e){allRouteProblem=e.message;}
   const bust='?t='+Math.floor(Date.now()/120000);
   const manifest=await fetchJson(LIVE+'manifest.json'+bust).catch(()=>{throw new Error('The live model feed did not answer.');});
   const age=(Date.now()-Date.parse(manifest.issuedAt))/3600e3;
@@ -84,7 +89,7 @@ export async function loadRun2d(def){
   baseCells??=cellsOf((await data(BASE_DISPLAY)).vertices);
   const issued=new Date(manifest.issuedAt).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:'2-digit'});
   const cycle=new Date(manifest.hrrrCycle).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric'});
-  return build({...def,note:`Model forecast from public forcing, not observed water: SFINCS run at ${issued} MST from the NOAA HRRR rain forecast of ${cycle} MST and NWM river flows, after a 45-hour warm-up. A new run is published every hour.`},baseCells,water.frames,rain,inflow.series,null);
+  return build({...def,note:`The live all-route model is not on the map: ${allRouteProblem} This is the 100 m river-strip run instead. Model forecast from public forcing, not observed water: SFINCS run at ${issued} MST from the NOAA HRRR rain forecast of ${cycle} MST and NWM river flows, after a 45-hour warm-up. A new run is published every hour.`},baseCells,water.frames,rain,inflow.series,null);
  }
  const display=await data(def.display);
  const [rainJson,inflowJson,handJson]=await Promise.all([def.rain&&data(def.rain),def.inflow&&def.inflow!==def.rain&&data(def.inflow),null]);
@@ -106,8 +111,8 @@ function build(def,cells,waterFrames,rainJson,series,handJson){
 }
 // The all-route run (all-route-run.js): three model areas on quadtree cells, frames loaded one
 // at a time. Rain and river inputs are not in its display package, so they read as unknown (NaN).
-async function loadQuad(def){
- const quad=await openAllRoute({variant:'web',fetchBytes:url=>fetchBytes(url)});
+async function loadQuad(def){return quadRun(def,await openAllRoute({variant:'web',fetchBytes:url=>fetchBytes(url)}));}
+function quadRun(def,quad){
  const series=quad.series().map(v=>({...v,rainMmH:NaN,inflowM3s:NaN}));
  // Each cell's corners on the map, worked out once while the run loads.
  const painter=createQuadPainter(quad,{colors:DEPTH_COLORS,bandOf:m=>depthBand(m)});

@@ -761,6 +761,7 @@ function wireReport() {
 // Newest first. Add a line here whenever something people can notice changes.
 const UPDATES = [
   ['November 12, 2026', [
+    'Map, Live: the Live scenario now shows the live all-route model, three model areas with 6.25 m cells on the roads, covering every route instead of only the strip along the Santa Cruz. If no model area has a run from the last 3 hours, the 100 m river run shows instead and the run note says why.',
     'Flood simulator, storyline: the Crossings tab on the Map lists when modeled water reaches each road and crossing in the run you loaded, how deep it gets and when it clears. Tap one to jump to that moment and place.',
     'Flood simulator, playback: a line under the readouts says what is under water as the run plays, and a speed button switches between 1×, 2×, 4× and half speed.',
     'Flood simulator, water: on the saved and what-if runs the water is drawn with soft edges when zoomed out. Zoom in and the model\'s own 100 m squares show again.',

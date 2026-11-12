@@ -1,0 +1,47 @@
+name: Live all-route map package
+# After every live all-route SFINCS run, turn the three areas' newest results (live-model branch,
+# all-route/<case>/compact/) into the Map tab's display package and publish it to the
+# live-all-route-web branch. The app's Live scenario reads it from there. The branch always holds
+# one commit: each build replaces the last, so it does not grow.
+on:
+  workflow_run:
+    workflows: ["Live all-route SFINCS when rain is forecast"]
+    types: [completed]
+  workflow_dispatch:
+  push:
+    paths: [.github/workflows/live-all-route-web.yml, tools/all-route/build_live_web_package.py]
+permissions:
+  contents: write
+concurrency:
+  group: live-all-route-web
+  cancel-in-progress: false
+jobs:
+  build:
+    # Only the default branch publishes; other branches may run it by hand.
+    if: github.ref_name == github.event.repository.default_branch || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            tools/all-route
+            public/simulation/data/all-route-13z
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy
+      - name: Build the display package from the newest live results
+        # The app checks each area's age itself (3 hours); this only keeps day-old results out.
+        run: python tools/all-route/build_live_web_package.py --out pkg --max-age-hours 24
+      - name: Publish (one commit, replaced each time)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd pkg
+          git init -q -b live-all-route-web
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Live all-route map package $(date -u +%FT%TZ)"
+          git push -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" live-all-route-web

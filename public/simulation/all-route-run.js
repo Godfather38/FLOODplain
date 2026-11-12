@@ -26,12 +26,44 @@ function unpack(bytes){
 }
 async function sha256(bytes){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');}
 
+// The live all-route package: only model areas whose live run is at most maxAgeH old and still
+// covers now. Throws, with the reason in plain words, when no area qualifies.
+export function liveAreaProblem(info,now,maxAgeH){
+ const age=(now-Date.parse(info.issuedAt))/3600e3;
+ if(!Number.isFinite(age))return 'its run time is missing';
+ if(age>maxAgeH)return `its newest run is ${age.toFixed(1)} hours old`;
+ if(!(Date.parse(info.validTo)>=now))return 'its run ends before now';
+ return '';
+}
+// One quick try for the live package itself: when it is missing, the 100 m run should appear at once.
+const quickFetch=async url=>{const r=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(8000)});if(!r.ok)throw new Error(`package.json answered ${r.status}`);return new Uint8Array(await r.arrayBuffer());};
+export async function liveAllRoute({base,maxAgeH,variant='web',fetchBytes=plainFetch,fetchPackage=quickFetch,now=Date.now()}){
+ const left=[];
+ let quad;
+ try{
+  quad=await openAllRoute({variant,fetchBytes,fetchPackage,base,bust:'?t='+Math.floor(now/120000),keep:info=>{const why=liveAreaProblem(info,now,maxAgeH);if(why)left.push(`${info.label.split(':')[0]}: ${why}`);return !why;}});
+ }catch(e){throw new Error(/answered|fetch|network|JSON|abort|timed out|download/i.test(e.message)?'its map package did not answer.':e.message);}
+ for(const u of quad.pkg.unavailable??[])left.push(`${u.label.split(':')[0]}: no usable live run`);
+ if(!quad.cases.length)throw new Error(left.length?`no model area has a fresh run (${left.join('; ')}).`:'no model area has a live run.');
+ const at=t=>new Date(t).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:'2-digit'});
+ const note=`Model forecast from public forcing, not observed water: the live all-route SFINCS runs, three separate model areas with cells from 6.25 m on the roads to 100 m, from the current NOAA HRRR rain forecast and NWM river flows. On the map: ${quad.pkg.cases.map(c=>`${c.label.split(':')[0]} (run at ${at(c.issuedAt)} MST)`).join(', ')}.${left.length?` Left out: ${left.join('; ')}.`:''}${quad.pkg.cases.some(c=>c.key==='gates')?' Gates uses mixed-vintage terrain (2021 lidar, plus 2015 lidar in a former gap).':''}`;
+ return{quad,note,left};
+}
 // variant: 'web' or 'full'. fetchBytes(url) -> Uint8Array (raw, maybe gzipped).
-export async function openAllRoute({variant='web',fetchBytes=plainFetch}={}){
- const json=async name=>JSON.parse(new TextDecoder().decode(await gunzip(await fetchBytes(new URL(name,ALL_ROUTE_DATA)))));
- const [pkg,points]=await Promise.all([json('package.json'),json('route-points.json')]);
- const cases=await Promise.all(pkg.cases.map(async(info,ci)=>{
-  const g=info.variants[variant].geometry,raw=await fetchBytes(new URL(`${info.key}/${g.file}`,ALL_ROUTE_DATA));
+// base: the package's folder (the saved run by default). bust: a query for package.json so a
+// live package is never read from a stale copy. keep(info): which model areas to load (a live
+// package's areas are checked for age one by one).
+export async function openAllRoute({variant='web',fetchBytes=plainFetch,fetchPackage=fetchBytes,base=ALL_ROUTE_DATA,bust='',keep=()=>true}={}){
+ const json=async(name,get=fetchBytes)=>JSON.parse(new TextDecoder().decode(await gunzip(await get(new URL(name,base)))));
+ const pkg=await json('package.json'+bust,fetchPackage);
+ // Files of a live package keep their names from build to build, so they carry the build's own time.
+ const tag=pkg.builtAt?'?b='+encodeURIComponent(pkg.builtAt):'';
+ const points=await json('route-points.json'+tag);
+ const all=pkg.cases.length;pkg.cases=pkg.cases.filter(keep);pkg.dropped=all-pkg.cases.length;
+ const cases=await Promise.all(pkg.cases.map(async info=>{
+  // Overlap flags name areas by their place in caseOrder, whichever areas this package holds.
+  const ci=pkg.caseOrder.indexOf(info.key);
+  const g=info.variants[variant].geometry,raw=await fetchBytes(new URL(`${info.key}/${g.file}${tag}`,base));
   if(await sha256(raw)!==g.sha256)throw new Error(`${info.key} cells failed their checksum`);
   const {header,body}=unpack(await gunzip(raw)),n=header.count;
   const ix=new Uint16Array(body,0,n),iy=new Uint16Array(body,2*n,n),lvl=new Uint8Array(body,4*n,n),flags=new Uint8Array(body,5*n,n);
@@ -52,7 +84,7 @@ export async function openAllRoute({variant='web',fetchBytes=plainFetch}={}){
   if(c.pending.has(k))return c.pending.get(k);
   const d=c.info.frames[k][variant];
   const p=(async()=>{
-   const raw=await fetchBytes(new URL(`${c.key}/${d.file}`,ALL_ROUTE_DATA));
+   const raw=await fetchBytes(new URL(`${c.key}/${d.file}${tag}`,base));
    if(await sha256(raw)!==d.sha256)throw new Error(`${c.key} frame ${iso[fi]} failed its checksum`);
    const {header,body}=unpack(await gunzip(raw)),L=header.listed,rc=header.routeCells;
    const delta=new Uint32Array(body,0,L),mm=new Uint16Array(body,4*L,L),ro=6*L+((-2*L)%4+4)%4;
@@ -76,8 +108,11 @@ export async function openAllRoute({variant='web',fetchBytes=plainFetch}={}){
  let mode='nearest';
  function setMode(m){
   mode=m;const order=m==='nearest'?pkg.caseOrder:[m,...pkg.caseOrder.filter(k=>k!==m)];
-  for(const c of cases){let before=0;for(const key of order){if(key===c.key)break;before|=cases.find(x=>x.key===key).bit;}
-   c.drawn=Uint8Array.from({length:256},(_,fl)=>m==='nearest'?((fl&7)===0||(fl&128)?1:0):((fl&before)===0?1:0));}
+  // With an area missing (a live package), 'nearest' cannot hand a place to the missing area:
+  // the first area present in the package order draws it instead.
+  const whole=cases.length===pkg.caseOrder.length;
+  for(const c of cases){let before=0;for(const key of order){if(key===c.key)break;before|=cases.find(x=>x.key===key)?.bit??0;}
+   c.drawn=Uint8Array.from({length:256},(_,fl)=>m==='nearest'&&whole?((fl&7)===0||(fl&128)?1:0):((fl&before)===0?1:0));}
  }
  setMode(mode);
  // Per frame: wet area and deepest cell, counting each place once under the current order.

@@ -24,8 +24,8 @@ import {mountAcknowledgement} from '../acknowledge.js';
 import {mountEmbed} from './embed.js';
 import {startGraphics,mountGraphics,chunkDetail} from './graphics-3d.js';
 import {loadHand,flowsForRun,handHour,windowBounds} from '../../../../simulation/hand-runs.js?v=dev';
-import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY} from '../runs.js';
-import {openAllRoute,rasterize} from '../../../../simulation/all-route-run.js?v=dev';
+import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY,LIVE_ALL_ROUTE} from '../runs.js';
+import {openAllRoute,rasterize,liveAllRoute} from '../../../../simulation/all-route-run.js?v=dev';
 const $=id=>document.getElementById(id);
 const DATA='../../../../simulation/data/',E=2,SHOW_DEPTH_M=.05,HOUR_SECONDS=4;
 const diagnostics={ready:false,errors:[],frameTimes:[]};
@@ -117,6 +117,10 @@ async function prepareRun(def,display){
 loading('Preparing the model water',.7);await breathe();
 // The newest live run, refused when it is older than LIVE_MAX_AGE_H: never an old one in its place.
 async function prepareLive(def){
+ // The live all-route runs first; the 100 m river run stands in, and says so, when none is fresh.
+ let allRouteProblem='';
+ try{const variant=['high','ultra'].includes(gfx.preset)?'full':'web',live=await liveAllRoute({base:LIVE_ALL_ROUTE,maxAgeH:LIVE_MAX_AGE_H,variant,fetchBytes:rawBytes});return quadRun({...def,note:live.note},live.quad,variant);}
+ catch(e){allRouteProblem=e.message;}
  const bust='?t='+Math.floor(Date.now()/120000),manifest=await json(LIVE+'manifest.json'+bust).catch(()=>{throw new Error('The live model feed did not answer.');});
  const age=(Date.now()-Date.parse(manifest.issuedAt))/3600e3;
  if(!(age<=LIVE_MAX_AGE_H))throw new Error(`The newest live model run is ${age.toFixed(1)} hours old (from HRRR ${manifest.hrrrCycle}), older than ${LIVE_MAX_AGE_H} hours.`);
@@ -124,7 +128,7 @@ async function prepareLive(def){
  const frames=parseFrames({waterFrames:water.frames}),levels=await eachFrame(frames,f=>levelGrid(f,data.vertices));
  const inflow=inflowJson.series.filter(s=>s.points.some(p=>p.flowM3s>0)).map(s=>{const [x,z]=world(s.lon,s.lat);return{name:s.name,x,z,points:new Map(s.points.map(p=>[Date.parse(p.time),p.flowM3s]))};});
  const issued=new Date(manifest.issuedAt).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric',minute:'2-digit'});
- def={...def,note:`Model forecast from public forcing, not observed water: SFINCS run at ${issued} MST from the NOAA HRRR rain forecast of ${new Date(manifest.hrrrCycle).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric'})} MST and NWM river flows, after a 45-hour warm-up. A new run is published every hour.`};
+ def={...def,note:`The live all-route model is not on the map: ${allRouteProblem} This is the 100 m river-strip run instead. Model forecast from public forcing, not observed water: SFINCS run at ${issued} MST from the NOAA HRRR rain forecast of ${new Date(manifest.hrrrCycle).toLocaleString('en-US',{timeZone:'America/Phoenix',hour:'numeric'})} MST and NWM river flows, after a 45-hour warm-up. A new run is published every hour.`};
  return{def,frames,levels,shares:await eachFrame(frames,f=>shareGrid(f,data,SHOW_DEPTH_M)),samplers:levels.map(levelSampler),measured,rain:parseRain(rainJson),inflow,...handFields(frames,inflowJson.series),manifest};
 }
 // The all-route run (simulation/all-route-run.js): three separate model areas on 6.25-100 m cells.
@@ -132,8 +136,8 @@ async function prepareLive(def){
 // cell on High and Ultra, the lighter web cells otherwise. The 100 m grid is left empty for it.
 const blankLevels=new Float32Array(GRID.mmax*GRID.nmax).fill(-1e5),blankShares=new Float32Array(GRID.mmax*GRID.nmax).fill(-2);
 const rawBytes=async url=>{const r=await fetchRetry(url);if(!r.ok)throw new Error(`${String(url).split('/').pop()} answered ${r.status}.`);return readCounted(r,String(url));};
-async function prepareQuad(def){
- const variant=['high','ultra'].includes(gfx.preset)?'full':'web',quad=await openAllRoute({variant,fetchBytes:rawBytes});
+async function prepareQuad(def){const variant=['high','ultra'].includes(gfx.preset)?'full':'web';return quadRun(def,await openAllRoute({variant,fetchBytes:rawBytes}),variant);}
+function quadRun(def,quad,variant){
  const frames=quad.iso.map(time=>({time})),zero=quad.times.map(()=>0);
  // A point is inside when any of the three areas has a cell there.
  const inside=(x,z)=>{const u=worldToUtm(x,z);return quad.cases.some(c=>quad.cellAtUtm(c,u.e,u.n)>=0);};
