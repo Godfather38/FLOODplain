@@ -1,9 +1,9 @@
-import json,hashlib,time
+import json,hashlib,time,sys
 from pathlib import Path
 import numpy as np
 from export_road_forecast import RoadForecast,read_columns
 from native_dry_residuals import load_evidence,SOURCE_COMMIT
-root=Path(__file__).resolve().parents[2];folder=root/'.sfincs-runs/audit-picture-rocks-dfe68555';m=json.loads((folder/'manifest.json').read_text());c=next(c for c in json.load(open(root/'tools/live/all-route-cases.json'))['cases'] if c['case']=='picture-rocks');order=np.argsort(np.load(root/c['faceMapping']['path']))
+root=Path(__file__).resolve().parents[2];folder=Path(sys.argv[1]) if len(sys.argv)>1 else root/'.sfincs-runs/audit-picture-rocks-dfe68555';m=json.loads((folder/'manifest.json').read_text());c=next(c for c in json.load(open(root/'tools/live/all-route-cases.json'))['cases'] if c['case']=='picture-rocks');order=np.argsort(np.load(root/c['faceMapping']['path']))
 rf=RoadForecast.load('picture-rocks',folder/m['geometry']['path'],m['geometry']['sha256']);rf.native_dry_evidence=load_evidence(root/'.sfincs-runs/pr-20z-forcing-reconstruction',order,'picture-rocks',m['solverCompletion']['status']=='complete' and m['solverCompletion']['nativeStatus']==[0],SOURCE_COMMIT);assert rf.native_dry_evidence is not None
 before={f['path']:hashlib.sha256((folder/f['path']).read_bytes()).hexdigest() for f in m['frames']}
 for f in m['frames']:

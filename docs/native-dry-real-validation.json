@@ -1,5 +1,5 @@
 {
-  "sourceRunId": "all-routes-picture-rocks-v2-live-20261113-20z",
+  "sourceRunId": "all-routes-picture-rocks-v2-live-20261113-21z",
   "policy": {
     "staticSha256": {
       "sfincs.nc": "76b60da1bcceacd448d3817f1ec28383dfc475bbd9a10d86d419a280558059a0",
@@ -13,21 +13,21 @@
     "meaning": "Pinned SFINCS modeled dry state; raw residual retained; not observed road safety",
     "thresholdMeaning": "Conservative interpretation limits, not a solver error bound"
   },
-  "interpretedStationFrames": 244,
-  "minimumInterpretedDepthM": -5.853041657246649e-08,
+  "interpretedStationFrames": 17,
+  "minimumInterpretedDepthM": -8.779497584328055e-08,
   "rawFramesUnchanged": true,
   "routes": {
     "pr-ina": {
       "totalStations": 3626,
       "minimumValidStations": 3626,
       "allFramesComplete": true,
-      "interpretedStationFrames": 242
+      "interpretedStationFrames": 16
     },
     "pr-twinpeaks": {
       "totalStations": 3341,
       "minimumValidStations": 3341,
       "allFramesComplete": true,
-      "interpretedStationFrames": 2
+      "interpretedStationFrames": 1
     },
     "pr-avra": {
       "totalStations": 3317,

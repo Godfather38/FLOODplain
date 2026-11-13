@@ -19,3 +19,11 @@ Changed implementation: native_dry_residuals.py, export_road_forecast.py, run_li
 Primary source:
 https://github.com/Deltares/SFINCS/blob/f3647fc0289bb15cb2512d60686cef74cb853c78/source/src/sfincs_continuity.f90#L665
 https://github.com/Deltares/SFINCS/blob/f3647fc0289bb15cb2512d60686cef74cb853c78/source/src/sfincs_ncoutput_helpers.F90
+
+## Newest forecast and full exporter integration
+
+Validated the newer completed all-routes-picture-rocks-v2-live-20261113-21z package from live-model commit 17c34e29cd02e0b63a609e1c643feca46d3c4810, native run 43523529191. Same strict limits accepted 17 station/frame samples (16 Ina, 1 Twin Peaks), minimum equivalent depth -8.779497584e-8 m. All 43 frames now have full mapped valid counts for Ina/Twin Peaks/Avra; all original frame hashes unchanged.
+
+Full export integration used a clearly labeled local NetCDF reconstruction from those hash-verified published native columns, the actual pinned engine binary/source marker, exact physical inputs and original successful run log. This is not the original raw NetCDF and not a new solver execution. The full exporter activated the evidence guard, kept every native volume/surface column unchanged, and the package verifier passed across all 537,476 cells and 43 frames. The existing materiality validator retained 3,931 negative cell samples unchanged. Original issue time was restored for the integration artifact, with offlineIntegrationReplay=true; it was never published as current data.
+
+App build integration is separate from activation: app branch experiment/patched-build-20261113, model companion patch based on 4af428a. Production must actually adopt the model exporter correction and complete a fresh run before claiming the live service is fixed.
