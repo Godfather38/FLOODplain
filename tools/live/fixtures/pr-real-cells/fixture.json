@@ -1,0 +1,58 @@
+{
+  "kind": "real-cell-synthetic-forcing-regression-not-forecast",
+  "cells": 16,
+  "sourceFaces": [
+    527672,
+    527673,
+    527674,
+    527675,
+    527724,
+    527725,
+    527726,
+    527727,
+    527776,
+    527777,
+    527778,
+    527779,
+    527826,
+    527827,
+    527828,
+    527829
+  ],
+  "targetSourceFace": 527725,
+  "boundary": "closed crop, upstream flow intentionally absent",
+  "rain": "same bounded artificial light/heavy/dry pulse as initial fixture",
+  "limitations": [
+    "Not current forecast forcing",
+    "Crop excludes external fluxes and soil history",
+    "Cannot establish full-route correctness"
+  ],
+  "archiveSha256": "fbdc2167cb7932f1de4f461caa005a087d9acad04ab1510b45e68596cb5286d3",
+  "files": [
+    {
+      "path": "infiltration.nc",
+      "sha256": "5cad29522b2bf0d253aefc01bc085d5e4c80429a4acee59c7e505314a5bccbea",
+      "bytes": 6208
+    },
+    {
+      "path": "sfincs.inp",
+      "sha256": "165a1587de806e5447d12c9dc35dfef981f5f8feb54ead0376c03996d1da2009",
+      "bytes": 1280
+    },
+    {
+      "path": "sfincs.nc",
+      "sha256": "8b3e34c463ce7b556666b2047ccaeed0df064274164b7785eab72776927035c1",
+      "bytes": 41341
+    },
+    {
+      "path": "sfincs.precip",
+      "sha256": "561c77960cbaf80112ff4f8d4fa544e25f5514634e9091cf988369719facaa81",
+      "bytes": 102
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "sha256": "2a7d162c80af4b967249dcd9f2ef19bd66bc0d8843673eff879a152a6a8c931b",
+      "bytes": 17684
+    }
+  ]
+}
