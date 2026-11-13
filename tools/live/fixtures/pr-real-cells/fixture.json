@@ -27,7 +27,7 @@
     "Crop excludes external fluxes and soil history",
     "Cannot establish full-route correctness"
   ],
-  "archiveSha256": "fbdc2167cb7932f1de4f461caa005a087d9acad04ab1510b45e68596cb5286d3",
+  "archiveSha256": "917111d20aafa9fe61481f6612c350cd0339f752a7c53b328f76aa39dd92c42b",
   "files": [
     {
       "path": "infiltration.nc",
@@ -41,7 +41,7 @@
     },
     {
       "path": "sfincs.nc",
-      "sha256": "8b3e34c463ce7b556666b2047ccaeed0df064274164b7785eab72776927035c1",
+      "sha256": "29be9558b489ea62566c8256ac54edd730787becd8912fcdb4972fad940f1626",
       "bytes": 41341
     },
     {

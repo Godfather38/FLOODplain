@@ -1,1 +1,1 @@
-{"case":"picture-rocks-16-real-cells-synthetic-pulse","solverCapSecondsPerRun":150,"runs":2,"jobCapMinutes":10,"revision":3}
+{"case":"picture-rocks-16-real-cells-compact-lattice","solverCapSecondsPerRun":60,"runs":2,"jobCapMinutes":10,"revision":4}

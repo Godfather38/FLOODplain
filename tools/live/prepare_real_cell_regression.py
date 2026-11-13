@@ -15,10 +15,11 @@ keep=np.isin(row,selected)&np.isin(destinations,selected)
 lookup={(int(row[i]),int(destinations[i])):int(i) for i in np.flatnonzero(keep)}
 g['mask'].values[:]=0;g['mask'].values[selected]=1;g['snapwave_mask'].values[:]=0
 factor=2**(int(l[target])-1);g.attrs['dx']/=factor;g.attrs['dy']/=factor;g.attrs['nmax']*=factor;g.attrs['mmax']*=factor;g.attrs['nr_levels']=1;g['level'].values[selected]=1
+baseN=int(n[selected].min())-1;baseM=int(m[selected].min())-1;g.attrs['x0']+=baseM*g.attrs['dx'];g.attrs['y0']+=baseN*g.attrs['dy'];g.attrs['nmax']=4;g.attrs['mmax']=4;g['n'].values[selected]-=baseN;g['m'].values[selected]-=baseM
 spec=importlib.util.spec_from_file_location('builder','H:/AI/Projects/FloodPLAIN-sfincs/.sfincs-runs/cht-refinement-source/quadtree_builder.py');b=importlib.util.module_from_spec(spec);spec.loader.exec_module(b)
 small=b.cut_inactive_cells(g);small.ugrid.to_netcdf(out/'sfincs.nc')
 key={(int(n[i]),int(m[i])):int(i) for i in selected}
-order=[key[(int(bb),int(cc))] for a,bb,cc in zip(small['level'].values,small['n'].values,small['m'].values)]
+order=[key[(int(bb)+baseN,int(cc)+baseM)] for a,bb,cc in zip(small['level'].values,small['n'].values,small['m'].values)]
 uv=[]
 for i in range(16):
  for k in ('mu1','mu2','nu1','nu2'):
