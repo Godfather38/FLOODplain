@@ -1,0 +1,39 @@
+{
+  "sourceRunId": "all-routes-picture-rocks-v2-live-20261113-20z",
+  "policy": {
+    "staticSha256": {
+      "sfincs.nc": "76b60da1bcceacd448d3817f1ec28383dfc475bbd9a10d86d419a280558059a0",
+      "sfincs_subgrid.nc": "e57fc0d61a7ef8a82c101b1772f27383775d5b8870201df2f1fb7eca8f9dfdb2"
+    },
+    "scope": "picture-rocks pinned physical case",
+    "completedNativeRun": true,
+    "sourceCommit": "f3647fc0289bb15cb2512d60686cef74cb853c78",
+    "maxResidualDepthM": 1e-07,
+    "maxResidualVolumeM3": 1e-05,
+    "meaning": "Pinned SFINCS modeled dry state; raw residual retained; not observed road safety",
+    "thresholdMeaning": "Conservative interpretation limits, not a solver error bound"
+  },
+  "interpretedStationFrames": 244,
+  "minimumInterpretedDepthM": -5.853041657246649e-08,
+  "rawFramesUnchanged": true,
+  "routes": {
+    "pr-ina": {
+      "totalStations": 3626,
+      "minimumValidStations": 3626,
+      "allFramesComplete": true,
+      "interpretedStationFrames": 242
+    },
+    "pr-twinpeaks": {
+      "totalStations": 3341,
+      "minimumValidStations": 3341,
+      "allFramesComplete": true,
+      "interpretedStationFrames": 2
+    },
+    "pr-avra": {
+      "totalStations": 3317,
+      "minimumValidStations": 3317,
+      "allFramesComplete": true,
+      "interpretedStationFrames": 0
+    }
+  }
+}

@@ -23,7 +23,8 @@ from run_live_all_route import AHEAD, DTOUT, SHOW_BACK, SPIN, case_entry
 # below the road export's 0.0091 m wet threshold. huthresh is not an error bound
 # and the NetCDF subgrid reader resets it to zero, so do not derive this from it.
 # https://github.com/Deltares/SFINCS/tree/f3647fc0289bb15cb2512d60686cef74cb853c78/source/src
-# Every negative sample remains raw and UNKNOWN in RoadForecast.add_frame.
+# Every negative sample remains raw. A separately source-bound, much narrower
+# road interpretation may recognize native dry residuals; other negatives remain UNKNOWN.
 NEGATIVE_RESIDUAL_DEPTH_M = 0.001
 
 
@@ -133,7 +134,7 @@ def verify(folder, case, cycle_iso):
             or (road.get('provenance') or {}).get('geometrySha256') != geometry['sha256']):
         raise ValueError('Road forecast does not match the completed all-route package')
     print(f'Verified completed all-route {case}: {len(frames)} half-hour frames, {count} cells; '
-          f'{negative_count} negative native samples retained unchanged/unknown, '
+          f'{negative_count} negative native samples retained unchanged (road interpretation audited separately), '
           f'minimum area-equivalent depth={minimum_depth:.12g} m '
           f'(residual limit {NEGATIVE_RESIDUAL_DEPTH_M} m)')
 
