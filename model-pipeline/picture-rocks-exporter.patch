@@ -1,0 +1,189 @@
+diff --git a/tools/live/export_road_forecast.py b/tools/live/export_road_forecast.py
+index 3fbb54b..e970bb6 100644
+--- a/tools/live/export_road_forecast.py
++++ b/tools/live/export_road_forecast.py
+@@ -166,6 +166,9 @@ class RoadForecast:
+     def __init__(self, case, geometry, routes, source, road_metadata):
+         self.case, self.geometry, self.source, self.road_metadata = case, geometry, source, road_metadata
+         self.times, self.routes, self.samples = [], {}, {}
++        self.native_dry_evidence = None
++        self.residual_station_samples = 0
++        self.minimum_interpreted_depth_m = 0.0
+         for route_id, stations in routes.items():
+             faces = np.array([geometry.locate(s['lon'], s['lat']) for s in stations], dtype=np.int64)
+             heights = np.array([np.nan if s['roadM'] is None else s['roadM'] for s in stations])
+@@ -192,6 +195,8 @@ class RoadForecast:
+         if len(volume) != len(self.geometry.area) or len(surface) != len(self.geometry.area):
+             raise ValueError('Native frame does not match geometry')
+         self.times.append(time)
++        interpreted = (self.native_dry_evidence.classify(volume, surface, self.geometry.area)
++                       if self.native_dry_evidence is not None else np.zeros(len(volume), dtype=bool))
+         for route_id, (stations, faces, heights) in self.samples.items():
+             mapped = (faces >= 0) & np.isfinite(heights)
+             candidates = np.flatnonzero(mapped)
+@@ -200,6 +205,10 @@ class RoadForecast:
+             depth = np.asarray(volume[native_faces], dtype=float) / self.geometry.area[native_faces]
+             z = np.asarray(surface[native_faces], dtype=float)
+             dry = np.isfinite(depth) & (depth >= 0) & (depth < WET_M)
++            residual = interpreted[native_faces]
++            dry |= residual
++            self.residual_station_samples += int(residual.sum())
++            if residual.any(): self.minimum_interpreted_depth_m = min(self.minimum_interpreted_depth_m, float(depth[residual].min()))
+             valid = dry | (np.isfinite(depth) & (depth >= WET_M) & np.isfinite(z) & (z != -99999.0))
+             road_depth = np.zeros(len(candidates), dtype=float)
+             wet = valid & ~dry
+@@ -221,6 +230,9 @@ class RoadForecast:
+                 'coverage': 'complete' if valid_count == len(stations) and valid_count else 'partial' if valid_count else 'unavailable',
+             })
+ 
++            if self.native_dry_evidence is not None:
++                self.routes[route_id]['frames'][-1]['nativeDryResidualStations'] = int(residual.sum())
++
+     def write(self, path, manifest):
+         expected_times = [frame['time'] for frame in manifest['frames']]
+         if self.times != expected_times:
+@@ -244,6 +256,9 @@ class RoadForecast:
+             'uncertainty': manifest['uncertainty'],
+             'limits': manifest['limits'] + ' Road heights are lidar-derived estimates, not pavement surveys. Missing stations or frames cannot establish a dry route. Approach-estimated bridge decks retain their provenance.',
+         }
++        if self.native_dry_evidence is not None:
++            result['limits'] += ' Tiny signed residuals may be interpreted as the pinned native modeled-dry state only with verified physical evidence and recorded strict limits; this is not observed road safety.'
++            result['provenance']['nativeDryResidualInterpretation'] = dict(self.native_dry_evidence.provenance, stationFrameSamples=self.residual_station_samples, minimumInterpretedDepthM=self.minimum_interpreted_depth_m, rawVolumesUnchanged=True)
+         encoded = (json.dumps(result, separators=(',', ':'), allow_nan=False) + '\n').encode()
+         Path(path).write_bytes(encoded)
+         return {'path': Path(path).name, 'sha256': digest(encoded), 'bytes': len(encoded),
+diff --git a/tools/live/native_dry_residuals.py b/tools/live/native_dry_residuals.py
+new file mode 100644
+index 0000000..46c0668
+--- /dev/null
++++ b/tools/live/native_dry_residuals.py
+@@ -0,0 +1,41 @@
++"""Interpret the pinned native dry branch; never alter signed water volumes."""
++import hashlib
++from pathlib import Path
++import h5py
++import numpy as np
++SOURCE_COMMIT='f3647fc0289bb15cb2512d60686cef74cb853c78'
++ENGINE_SHA256='c4917bc54158b0943d6d128b45c4346a33d059fb5d93808d05520c975e38f090'
++STATIC_SHA256={'sfincs.nc':'76b60da1bcceacd448d3817f1ec28383dfc475bbd9a10d86d419a280558059a0','sfincs_subgrid.nc':'e57fc0d61a7ef8a82c101b1772f27383775d5b8870201df2f1fb7eca8f9dfdb2'}
++# Conservative interpretation limits, NOT solver accuracy/error bounds. Much
++# narrower than the separate 1 mm package materiality check. Never infer safety.
++MAX_DEPTH_M=1e-7
++MAX_VOLUME_M3=1e-5
++
++class NativeDryEvidence:
++ def __init__(self,active,bottom,capacity,provenance):
++  self.eligible=(np.asarray(active)==1)&np.isfinite(bottom)&(np.asarray(bottom)>-20)&np.isfinite(capacity)&(np.asarray(capacity)>0)
++  self.provenance=dict(provenance,sourceCommit=SOURCE_COMMIT,maxResidualDepthM=MAX_DEPTH_M,maxResidualVolumeM3=MAX_VOLUME_M3,meaning='Pinned SFINCS modeled dry state; raw residual retained; not observed road safety',thresholdMeaning='Conservative interpretation limits, not a solver error bound')
++ def classify(self,volume,surface,area):
++  v=np.asarray(volume,dtype=float);z=np.asarray(surface,dtype=float);a=np.asarray(area,dtype=float)
++  if v.shape!=self.eligible.shape or z.shape!=v.shape or a.shape!=v.shape:raise ValueError('Native dry evidence shape mismatch')
++  # The pinned continuity branch sets zs to the finite subgrid minimum when
++  # volume<=1e-6; wet-only NetCDF output suppresses that dry level. Compact
++  # export represents that sentinel as NaN. Finite/wet or infinite surfaces
++  # contradict this branch and are never overridden.
++  return self.eligible&np.isfinite(v)&(v<0)&(v>=-MAX_VOLUME_M3)&np.isfinite(a)&(a>0)&(v>=-MAX_DEPTH_M*a)&(np.isnan(z)|(z==-99999.0))
++
++def load_evidence(work,order,case,completed,source_commit):
++ if case!='picture-rocks' or not completed or source_commit!=SOURCE_COMMIT:return None
++ work=Path(work)
++ if any(not (work/n).exists() or hashlib.sha256((work/n).read_bytes()).hexdigest()!=h for n,h in STATIC_SHA256.items()):return None
++ config={l.split('=',1)[0].strip():l.split('=',1)[1].strip() for l in (work/'sfincs.inp').read_text().splitlines() if '=' in l}
++ if float(config.get('theta','nan'))!=1 or config.get('sbgfile')!='sfincs_subgrid.nc':return None
++ with h5py.File(work/'sfincs.nc') as mesh,h5py.File(work/'sfincs_subgrid.nc') as sub:
++  mask,bottom,capacity=mesh['mask'][:],sub['z_zmin'][:],sub['z_volmax'][:]
++ if not np.array_equal(np.sort(order),np.arange(len(mask))):return None
++ return NativeDryEvidence(mask[order],bottom[order],capacity[order],{'staticSha256':STATIC_SHA256,'scope':'picture-rocks pinned physical case','completedNativeRun':True})
++
++def verified_engine_source(work):
++ engine=Path(work).parent/'engine';p=engine/'SOURCE_COMMIT';binary=engine/'sfincs'
++ if p.exists() and binary.exists() and hashlib.sha256(binary.read_bytes()).hexdigest()==ENGINE_SHA256:return p.read_text().strip()
++ return None
+diff --git a/tools/live/run_live_all_route.py b/tools/live/run_live_all_route.py
+index a2060ca..03b18a9 100644
+--- a/tools/live/run_live_all_route.py
++++ b/tools/live/run_live_all_route.py
+@@ -18,6 +18,7 @@ import h5py, numpy as np
+ sys.path.insert(0, str(Path(__file__).resolve().parent))
+ from run_live_sfincs import ISO, SPIN, AHEAD, apcp_hour, newest_cycle, nwm_hourly, regrid, utm_to_lonlat
+ from export_road_forecast import RoadForecast
++from native_dry_residuals import load_evidence, verified_engine_source
+ 
+ CASES = Path(__file__).resolve().parent / 'all-route-cases.json'
+ SHOW_BACK, DTOUT, MARGIN_DEG = 3, 1800, 0.05
+@@ -72,6 +73,8 @@ def prepare(name, work, cycle_iso):
+     with h5py.File(work / 'precip_2d.nc', 'r+') as f:
+         assert f['time'].shape[0] == hours, f['time'].shape
+         x, y = f['x'][:], f['y'][:]; ee, nn = np.meshgrid(x, y); tlon, tlat = utm_to_lonlat(ee, nn)
++        native_ok = ('status' in f and np.all(f['status'][()] == 0) and (work / 'solver.log').exists() and 'Simulation finished' in (work / 'solver.log').read_text(errors='replace'))
++        road_forecast.native_dry_evidence = load_evidence(work, order, name, native_ok, verified_engine_source(work))
+         units = f['time'].attrs['units']; units = units.decode() if isinstance(units, bytes) else str(units)
+         new = 'minutes since ' + start.strftime('%Y-%m-%dT%H:%M:%S'); assert len(new) == len(units), (units, new)
+         f['time'].attrs['units'] = np.bytes_(new); f['time'][:] = np.arange(hours) * 60.0
+@@ -129,6 +132,8 @@ def export(name, work, out, run_id=None):
+     run_id = run_id or f"{c['modelVersion']}-live-{meta['hrrrCycle'][:13].replace('-', '').replace('T', '-')}z"
+     frames = []
+     with h5py.File(work / 'sfincs_map.nc', 'r') as f:
++        native_ok = ('status' in f and np.all(f['status'][()] == 0) and (work / 'solver.log').exists() and 'Simulation finished' in (work / 'solver.log').read_text(errors='replace'))
++        road_forecast.native_dry_evidence = load_evidence(work, order, name, native_ok, verified_engine_source(work))
+         units = f['time'].attrs['units']; units = units.decode() if isinstance(units, bytes) else str(units)
+         base = dt.datetime.fromisoformat(units.split('since ')[1].strip().replace(' ', 'T'))
+         for i, s in enumerate(f['time'][:]):
+diff --git a/tools/live/test_native_dry_residuals.py b/tools/live/test_native_dry_residuals.py
+new file mode 100644
+index 0000000..c32142c
+--- /dev/null
++++ b/tools/live/test_native_dry_residuals.py
+@@ -0,0 +1,29 @@
++import unittest,tempfile
++from pathlib import Path
++import numpy as np
++from native_dry_residuals import NativeDryEvidence,load_evidence,SOURCE_COMMIT,MAX_DEPTH_M,MAX_VOLUME_M3
++from test_export_road_forecast import forecast,station
++class ResidualTests(unittest.TestCase):
++ def test_limits_missing_and_contradictory_surface(self):
++  v=np.array([-1e-8,-2e-5,-2e-7,np.nan,-99999,-1e-8,-1e-8,-1e-8,0,1e-8]);a=np.ones(10);z=np.full(10,np.nan);z[5]=10;z[6]=np.inf;z[7]=-99999
++  e=NativeDryEvidence(np.ones(10),np.ones(10)*600,np.ones(10),{})
++  np.testing.assert_array_equal(e.classify(v,z,a),[1,0,0,0,0,0,0,1,0,0])
++  self.assertEqual(v[0],-1e-8)
++ def test_inactive_bottom_capacity_and_area_unknown(self):
++  e=NativeDryEvidence([0,1,1,1,1],[600,np.nan,600,600,600],[1,1,0,np.nan,1],{})
++  self.assertFalse(e.classify(np.full(5,-1e-8),np.full(5,np.nan),[1,1,1,1,np.nan]).any())
++ def test_exact_bounds_not_extended(self):
++  e=NativeDryEvidence([1,1],[600,600],[1,1],{})
++  np.testing.assert_array_equal(e.classify([-MAX_DEPTH_M,np.nextafter(-MAX_DEPTH_M,-np.inf)],[np.nan,np.nan],[1,1]),[1,0])
++  np.testing.assert_array_equal(e.classify([-MAX_VOLUME_M3,np.nextafter(-MAX_VOLUME_M3,-np.inf)],[np.nan,np.nan],[1000,1000]),[1,0])
++ def test_default_unknown_and_evidence_dry_counts(self):
++  v=np.array([0.,-1e-6,0.]);z=np.full(3,np.nan);original=v.copy();f=forecast();f.add_frame('a',v,z);self.assertEqual(f.routes['trico']['frames'][0]['validStations'],0)
++  f=forecast();f.native_dry_evidence=NativeDryEvidence([1]*3,[600]*3,[1]*3,{})
++  f.add_frame('a',v,z);self.assertEqual(f.routes['trico']['frames'][0]['validStations'],1);self.assertEqual(f.routes['trico']['frames'][0]['nativeDryResidualStations'],1);np.testing.assert_array_equal(v,original)
++ def test_unknown_road_height_and_outside_remain_unknown(self):
++  f=forecast([station(height=None),station(lon=9)]);f.native_dry_evidence=NativeDryEvidence([1]*3,[600]*3,[1]*3,{})
++  f.add_frame('a',np.full(3,-1e-8),np.full(3,np.nan));self.assertEqual(f.routes['trico']['frames'][0]['validStations'],0)
++ def test_missing_wrong_source_or_unfinished_disables(self):
++  with tempfile.TemporaryDirectory() as d:
++   for case,complete,source in [('picture-rocks',True,SOURCE_COMMIT),('northern',True,SOURCE_COMMIT),('picture-rocks',False,SOURCE_COMMIT),('picture-rocks',True,'other')]:
++    self.assertIsNone(load_evidence(d,np.arange(3),case,complete,source))
+diff --git a/tools/live/verify_all_route_package.py b/tools/live/verify_all_route_package.py
+index 338f56a..9f6ac80 100644
+--- a/tools/live/verify_all_route_package.py
++++ b/tools/live/verify_all_route_package.py
+@@ -23,7 +23,8 @@ from run_live_all_route import AHEAD, DTOUT, SHOW_BACK, SPIN, case_entry
+ # below the road export's 0.0091 m wet threshold. huthresh is not an error bound
+ # and the NetCDF subgrid reader resets it to zero, so do not derive this from it.
+ # https://github.com/Deltares/SFINCS/tree/f3647fc0289bb15cb2512d60686cef74cb853c78/source/src
+-# Every negative sample remains raw and UNKNOWN in RoadForecast.add_frame.
++# Every negative sample remains raw. A separately source-bound, much narrower
++# road interpretation may recognize native dry residuals; other negatives remain UNKNOWN.
+ NEGATIVE_RESIDUAL_DEPTH_M = 0.001
+ 
+ 
+@@ -133,7 +134,7 @@ def verify(folder, case, cycle_iso):
+             or (road.get('provenance') or {}).get('geometrySha256') != geometry['sha256']):
+         raise ValueError('Road forecast does not match the completed all-route package')
+     print(f'Verified completed all-route {case}: {len(frames)} half-hour frames, {count} cells; '
+-          f'{negative_count} negative native samples retained unchanged/unknown, '
++          f'{negative_count} negative native samples retained unchanged (road interpretation audited separately), '
+           f'minimum area-equivalent depth={minimum_depth:.12g} m '
+           f'(residual limit {NEGATIVE_RESIDUAL_DEPTH_M} m)')
+ 

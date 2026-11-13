@@ -21,9 +21,9 @@ export function liveCoverage(entry,{handPoints=[],roadHeights={},closures=[]}={}
   county:closures.filter(c=>metres(here,c)<=CLOSURE_RADIUS_M),gauges:entry.gaugeAssociations?.length??0};
 }
 export function coverageText(c){
- const parts=[c.forecast?(c.roadHeight?'Live forecast compared with road height':'Live forecast, road height not resolved'):'No live forecast here'];
+ const parts=[c.forecast?(c.roadHeight?'Live forecast compared with road height':'Live forecast, road height not resolved'):null].filter(Boolean);
  if(c.county.length)parts.push('county barricade nearby');
- parts.push(c.gauges?`${c.gauges} linked gauge${c.gauges>1?'s':''}`:'no linked gauge');
+ if(c.gauges)parts.push(`${c.gauges} linked gauge${c.gauges>1?'s':''}`);
  return parts.join(' · ');
 }
 
@@ -81,9 +81,8 @@ export async function mountRouteTracking(root,{routeId,entryId=null,flows,alert,
   for(const {entry,cover} of rows){
    const detail=document.createElement('details');detail.className='tracking-entry';
    detail.dataset.search=[entry.name,entry.id].join(' ').toLowerCase();detail.dataset.forecast=cover.forecast;detail.dataset.gauge=cover.gauges>0;
-   detail.innerHTML=`<summary>${esc(entry.name)}<span>${esc(coverageText(cover))}</span></summary><div class="tracking-entry-body"><p>Record type: ${esc(KINDS[entry.kind]??entry.kind.replaceAll('_',' '))}</p>${cover.county.map(c=>`<p>County: ${esc(c.location)}: ${esc(c.status||'no status')}${c.updated?` (updated ${esc(c.updated)})`:''}</p>`).join('')}<div data-entry-gauges></div></div>`;
+   detail.innerHTML=`<summary>${esc(entry.name)}${coverageText(cover)?`<span>${esc(coverageText(cover))}</span>`:''}</summary><div class="tracking-entry-body"><p>Record type: ${esc(KINDS[entry.kind]??entry.kind.replaceAll('_',' '))}</p>${cover.county.map(c=>`<p>County: ${esc(c.location)}: ${esc(c.status||'no status')}${c.updated?` (updated ${esc(c.updated)})`:''}</p>`).join('')}<div data-entry-gauges></div></div>`;
    const gauges=detail.querySelector('[data-entry-gauges]');
-   if(!entry.gaugeAssociations?.length)gauges.innerHTML='<p>No hydrologically linked gauge for this location. Gauge support is unknown.</p>';
    for(const association of entry.gaugeAssociations??[]){
     const gauge=tracking.gauges.find(g=>g.id===association.gaugeId);
     if(gauge)gauges.append(gaugeBox(gauge,association,{flows,alert}));
