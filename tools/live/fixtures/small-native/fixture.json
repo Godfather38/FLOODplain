@@ -23,8 +23,8 @@
     },
     {
       "path": "sfincs.inp",
-      "sha256": "9a9011c0a3033a50e253abacf9f069e21b684888d7a8fe6efac22e883f566444",
-      "bytes": 1557
+      "sha256": "2ac05bd9b2b0f09050d87b03ac5fb48cf822835d7721962a60cc741fd7ffdedf",
+      "bytes": 1556
     },
     {
       "path": "sfincs.msk",
@@ -47,5 +47,5 @@
       "bytes": 24178
     }
   ],
-  "archiveSha256": "333b2b6bca2b781259835ca452d15736133ba28c60485a09e2c7cc866d2ffbe5"
+  "archiveSha256": "bcbb7a19edb5d6690147392f7a227cdac441f7764429c4d2d0321499b66bb0c7"
 }
