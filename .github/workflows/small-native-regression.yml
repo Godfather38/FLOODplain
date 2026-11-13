@@ -1,0 +1,51 @@
+name: Small native wet dry regression
+on:
+  push:
+    branches: [experiment/picture-rocks-current-data]
+    paths: [tools/live/small-native-request.json]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: tools/live
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libnetcdf-dev libgfortran5 libgomp1
+          python -m pip install numpy h5py
+      - name: Locate existing pinned engine
+        id: engine
+        run: |
+          id=$(gh api "repos/${{ github.repository }}/actions/artifacts?name=sfincs-engine&per_page=20" --jq '[.artifacts[]|select(.expired|not)][0].workflow_run.id')
+          test -n "$id" && test "$id" != null
+          echo "run=$id" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        with:
+          name: sfincs-engine
+          path: engine-download
+          run-id: ${{ steps.engine.outputs.run }}
+          github-token: ${{ github.token }}
+      - name: Execute bounded synthetic regression
+        run: |
+          mkdir engine && tar -xzf engine-download/sfincs-engine.tar.gz -C engine
+          (cd engine && sha256sum -c SHA256SUMS)
+          test "$(cat engine/SOURCE_COMMIT)" = f3647fc0289bb15cb2512d60686cef74cb853c78
+          python tools/live/run_small_native_regression.py tools/live/fixtures/small-native/fixture.tar.gz engine/sfincs result
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: small-native-wet-dry-regression
+          path: result/
+          retention-days: 1

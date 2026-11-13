@@ -1,0 +1,51 @@
+{
+  "kind": "synthetic-native-regression-not-forecast",
+  "cells": 16,
+  "cellSizeM": 6.25,
+  "hours": 4,
+  "rainMmPerHour": [
+    1,
+    100,
+    0
+  ],
+  "curveNumber": 75,
+  "boundary": "closed",
+  "purpose": "rain/infiltration cancellation and positive wet-volume control",
+  "limitations": [
+    "Regular subgrid, not production quadtree",
+    "No real road or current forecast coverage validation"
+  ],
+  "files": [
+    {
+      "path": "sfincs.ind",
+      "sha256": "162033432b87cffd8101d33d3fc07495c2eaeb4d39cdca30c54ac191ca5cdecf",
+      "bytes": 68
+    },
+    {
+      "path": "sfincs.inp",
+      "sha256": "9a9011c0a3033a50e253abacf9f069e21b684888d7a8fe6efac22e883f566444",
+      "bytes": 1557
+    },
+    {
+      "path": "sfincs.msk",
+      "sha256": "cc8cd41cef907c4d216069122c4b89936211361f9050a717a1e37ad1862e952f",
+      "bytes": 16
+    },
+    {
+      "path": "sfincs.precip",
+      "sha256": "561c77960cbaf80112ff4f8d4fa544e25f5514634e9091cf988369719facaa81",
+      "bytes": 102
+    },
+    {
+      "path": "sfincs.scs",
+      "sha256": "b580e39bdc8ddbf17dba14df68da8b4566187552b6e1d6d58176cb8fd3de4fd9",
+      "bytes": 64
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "sha256": "253f9824f5775d5e568d3b4d81e483c703d5e733985a4eba3b93b2a1b416b147",
+      "bytes": 24178
+    }
+  ],
+  "archiveSha256": "333b2b6bca2b781259835ca452d15736133ba28c60485a09e2c7cc866d2ffbe5"
+}
