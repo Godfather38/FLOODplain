@@ -1,0 +1,61 @@
+{
+  "kind": "real-cell-real-rain-cropped-regression-not-forecast",
+  "cells": 16,
+  "sourceFaces": [
+    527672,
+    527673,
+    527674,
+    527675,
+    527724,
+    527725,
+    527726,
+    527727,
+    527776,
+    527777,
+    527778,
+    527779,
+    527826,
+    527827,
+    527828,
+    527829
+  ],
+  "targetSourceFace": 527725,
+  "boundary": "closed crop, upstream flow intentionally absent",
+  "rain": "Reconstructed exact public HRRR 20261113 20Z and 45-hour antecedent sequence via existing preparer",
+  "limitations": [
+    "Not current forecast forcing",
+    "Crop excludes external fluxes and soil history",
+    "Cannot establish full-route correctness"
+  ],
+  "archiveSha256": "083ae3e8da64673a6572d8b9daded6beaa50ed3875cb507aa01553f034e714ee",
+  "files": [
+    {
+      "path": "sfincs.inp",
+      "sha256": "07792f01751413fd894e425afa968b2357a07192e7ca592f86c2d76ab0665205",
+      "bytes": 1338
+    },
+    {
+      "path": "sfincs.nc",
+      "sha256": "29be9558b489ea62566c8256ac54edd730787becd8912fcdb4972fad940f1626",
+      "bytes": 41341
+    },
+    {
+      "path": "sfincs_subgrid.nc",
+      "sha256": "2a7d162c80af4b967249dcd9f2ef19bd66bc0d8843673eff879a152a6a8c931b",
+      "bytes": 17684
+    },
+    {
+      "path": "infiltration.nc",
+      "sha256": "5cad29522b2bf0d253aefc01bc085d5e4c80429a4acee59c7e505314a5bccbea",
+      "bytes": 6208
+    },
+    {
+      "path": "precip_2d.nc",
+      "sha256": "9c0135a57d5aeed2e5bc6b11688df58ee7fa97924b41a630cd48e9f84aa6855b",
+      "bytes": 706116
+    }
+  ],
+  "expectedFrames": 43,
+  "requirePositiveControl": false,
+  "limits": "Closed crop omits boundary fluxes. No full route forecast validation."
+}

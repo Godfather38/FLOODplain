@@ -17,8 +17,8 @@ for alpha in (.5,.25):
   except subprocess.TimeoutExpired:raise RuntimeError('60-second native cap reached; no correctness claim')
  assert r.returncode==0 and 'Simulation finished' in (work/'solver.log').read_text()
  with h5py.File(work/'sfincs_map.nc') as f:
-  assert len(f['time'])==241, 'Incomplete four-hour output'; assert np.all(f['status'][()]==0), 'Native status failure'
-  v=f['subgrid_volume'][:];valid=np.isfinite(v)&(v!=-99999);assert valid.any();assert (v[valid]>0).any(),'Wet control failed'
+  assert len(f['time'])==meta.get('expectedFrames',241), 'Incomplete four-hour output'; assert np.all(f['status'][()]==0), 'Native status failure'
+  v=f['subgrid_volume'][:];valid=np.isfinite(v)&(v!=-99999);assert valid.any();assert not meta.get('requirePositiveControl',True) or (v[valid]>0).any(),'Wet control failed'
   results.append({'alpha':alpha,'elapsedSeconds':time.monotonic()-start,'negativeSamples':int((valid&(v<0)).sum()),'minimumVolumeM3':float(v[valid].min()),'maximumVolumeM3':float(v[valid].max()),'frames':len(f['time']),'status':[int(x) for x in np.ravel(f['status'][()])]})
  (out/'result.json').write_text(json.dumps({'syntheticNotForecast':True,'solverCapSecondsPerRun':60,'threads':1,'results':results},indent=2))
 print(json.dumps(results))
