@@ -1,0 +1,1 @@
+{"schemaVersion":1,"requestId":"wider-design-storms-20261114-v1","purpose":"isolated_test_deployment","productionPublication":false,"solverCapSeconds":5400,"scenarios":["stress","extreme"],"cases":["northern","picture-rocks","gates"]}
