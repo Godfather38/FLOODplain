@@ -36,15 +36,16 @@ jobs:
           assert r['enabled'] is True
           assert r['gatesNumericalProfile']=='gates-stress-alpha025'
           assert r['referenceDiagnosticRunId']==43549222876
+          assert r['referenceTimedOutRunId']==43554643252
           assert r['productionPublication'] is False
-          assert r['solverCapSeconds']==5400
+          assert r['solverCapSeconds']==9000
           assert r['scenarios']==['stress']
           assert r['cases']==['northern','picture-rocks','gates']
           PY
   run:
     needs: verify
     runs-on: ubuntu-24.04
-    timeout-minutes: 110
+    timeout-minutes: 170
     strategy:
       fail-fast: false
       max-parallel: 3
@@ -100,7 +101,7 @@ jobs:
         continue-on-error: true
         run: |
           set +e
-          (cd work && GFORTRAN_UNBUFFERED_ALL=y timeout --signal=KILL 5400 "$GITHUB_WORKSPACE/engine/sfincs" > solver.log 2>&1)
+          (cd work && GFORTRAN_UNBUFFERED_ALL=y timeout --signal=KILL 9000 "$GITHUB_WORKSPACE/engine/sfincs" > solver.log 2>&1)
           result=$?
           printf '%s\n' "$result" > work/solver-exit-code.txt
           tail -20 work/solver.log

@@ -41,7 +41,14 @@ The accepted display is still a synthetic scenario, never live conditions.
 
 The pinned SFINCS timestep is alpha times the CFL limit (sfincs_lib.f90:334-338).
 Its initialization also applies alpha to the maximum timestep ceiling
-(sfincs_domain.f90:1614-1629), so runtime need not scale simply by 2. The existing
-5400-second cap remains; timeout or any quality failure rejects the output and
-retains diagnostics. No automatic retry or output clipping is introduced.
+(sfincs_domain.f90:1614-1629), so runtime need not scale simply by 2.
+
+Run 43554643252 completed and accepted Northern and Picture Rocks, but Gates
+hit its 5400-second cap with exit 137 after saving 40 of 57 frames. Its saved
+portion reached a minimum signed depth of -0.348971 mm, within the unchanged
+1 mm gate, but the incomplete run is diagnostic-only and cannot be displayed.
+The next explicitly requested run keeps the same numerical and physical inputs
+and allows 9000 seconds (150 minutes), with a 170-minute job bound for export
+and retained diagnostics. Timeout or any quality failure still rejects output.
+No automatic retry or output clipping is introduced.
 Passing the gate is not proof of temporal convergence or a complete water budget.

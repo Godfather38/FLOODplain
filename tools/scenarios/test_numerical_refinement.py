@@ -30,9 +30,9 @@ class NumericalRefinementTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'exactly one pinned alpha'):
                 refine_numerics(text,'gates','stress','gates-stress-alpha025')
 
-    def test_only_read_only_preview_workflow_with_original_bounds(self):
+    def test_only_read_only_preview_workflow_with_bounded_runtime(self):
         text=(Path(__file__).resolve().parents[2]/'.github/workflows/design-storm-refinement.yml').read_text()
-        for required in ['contents: read','actions: read','timeout --signal=KILL 5400','max-parallel: 3','profile: gates-stress-alpha025',"steps.solver.outcome == 'success' && steps.audit.outcome == 'success'",'rejected-refinement-', 'action=diagnostic-export', "if [ '${{ steps.solver.outcome }}' = success ]; then action=export; fi"]:
+        for required in ['contents: read','actions: read','timeout --signal=KILL 9000','max-parallel: 3','profile: gates-stress-alpha025',"steps.solver.outcome == 'success' && steps.audit.outcome == 'success'",'rejected-refinement-', 'action=diagnostic-export', "if [ '${{ steps.solver.outcome }}' = success ]; then action=export; fi"]:
             self.assertIn(required,text)
         for forbidden in ['contents: write','git push','deploy-pages','workflow_run:','schedule:']:
             self.assertNotIn(forbidden,text)
