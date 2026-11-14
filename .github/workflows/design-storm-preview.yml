@@ -102,11 +102,17 @@ jobs:
       - name: Export and validate preview output only
         run: python tools/scenarios/run_design_storm.py export '${{ matrix.case }}' '${{ matrix.scenario }}' work out
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: success()
         with:
           name: scenario-${{ matrix.scenario }}-${{ matrix.case }}
+          path: out/
+          retention-days: 2
+          compression-level: 6
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scenario-diagnostics-${{ matrix.scenario }}-${{ matrix.case }}
           path: |
-            out/
             work/scenario-case.json
             work/solver.log
           retention-days: 2
