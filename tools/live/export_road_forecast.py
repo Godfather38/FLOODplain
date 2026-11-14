@@ -166,9 +166,6 @@ class RoadForecast:
     def __init__(self, case, geometry, routes, source, road_metadata):
         self.case, self.geometry, self.source, self.road_metadata = case, geometry, source, road_metadata
         self.times, self.routes, self.samples = [], {}, {}
-        self.native_dry_evidence = None
-        self.residual_station_samples = 0
-        self.minimum_interpreted_depth_m = 0.0
         for route_id, stations in routes.items():
             faces = np.array([geometry.locate(s['lon'], s['lat']) for s in stations], dtype=np.int64)
             heights = np.array([np.nan if s['roadM'] is None else s['roadM'] for s in stations])
@@ -195,8 +192,6 @@ class RoadForecast:
         if len(volume) != len(self.geometry.area) or len(surface) != len(self.geometry.area):
             raise ValueError('Native frame does not match geometry')
         self.times.append(time)
-        interpreted = (self.native_dry_evidence.classify(volume, surface, self.geometry.area)
-                       if self.native_dry_evidence is not None else np.zeros(len(volume), dtype=bool))
         for route_id, (stations, faces, heights) in self.samples.items():
             mapped = (faces >= 0) & np.isfinite(heights)
             candidates = np.flatnonzero(mapped)
@@ -205,10 +200,6 @@ class RoadForecast:
             depth = np.asarray(volume[native_faces], dtype=float) / self.geometry.area[native_faces]
             z = np.asarray(surface[native_faces], dtype=float)
             dry = np.isfinite(depth) & (depth >= 0) & (depth < WET_M)
-            residual = interpreted[native_faces]
-            dry |= residual
-            self.residual_station_samples += int(residual.sum())
-            if residual.any(): self.minimum_interpreted_depth_m = min(self.minimum_interpreted_depth_m, float(depth[residual].min()))
             valid = dry | (np.isfinite(depth) & (depth >= WET_M) & np.isfinite(z) & (z != -99999.0))
             road_depth = np.zeros(len(candidates), dtype=float)
             wet = valid & ~dry
@@ -229,9 +220,6 @@ class RoadForecast:
                 'deck': bool(station['flags'] & 3) if station else None,
                 'coverage': 'complete' if valid_count == len(stations) and valid_count else 'partial' if valid_count else 'unavailable',
             })
-
-            if self.native_dry_evidence is not None:
-                self.routes[route_id]['frames'][-1]['nativeDryResidualStations'] = int(residual.sum())
 
     def write(self, path, manifest):
         expected_times = [frame['time'] for frame in manifest['frames']]
@@ -256,9 +244,6 @@ class RoadForecast:
             'uncertainty': manifest['uncertainty'],
             'limits': manifest['limits'] + ' Road heights are lidar-derived estimates, not pavement surveys. Missing stations or frames cannot establish a dry route. Approach-estimated bridge decks retain their provenance.',
         }
-        if self.native_dry_evidence is not None:
-            result['limits'] += ' Tiny signed residuals may be interpreted as the pinned native modeled-dry state only with verified physical evidence and recorded strict limits; this is not observed road safety.'
-            result['provenance']['nativeDryResidualInterpretation'] = dict(self.native_dry_evidence.provenance, stationFrameSamples=self.residual_station_samples, minimumInterpretedDepthM=self.minimum_interpreted_depth_m, rawVolumesUnchanged=True)
         encoded = (json.dumps(result, separators=(',', ':'), allow_nan=False) + '\n').encode()
         Path(path).write_bytes(encoded)
         return {'path': Path(path).name, 'sha256': digest(encoded), 'bytes': len(encoded),

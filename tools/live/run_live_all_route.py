@@ -18,7 +18,6 @@ import h5py, numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from run_live_sfincs import ISO, SPIN, AHEAD, apcp_hour, newest_cycle, nwm_hourly, regrid, utm_to_lonlat
 from export_road_forecast import RoadForecast
-from native_dry_residuals import load_evidence, verified_engine_source
 
 CASES = Path(__file__).resolve().parent / 'all-route-cases.json'
 SHOW_BACK, DTOUT, MARGIN_DEG = 3, 1800, 0.05
@@ -130,8 +129,6 @@ def export(name, work, out, run_id=None):
     run_id = run_id or f"{c['modelVersion']}-live-{meta['hrrrCycle'][:13].replace('-', '').replace('T', '-')}z"
     frames = []
     with h5py.File(work / 'sfincs_map.nc', 'r') as f:
-        native_ok = ('status' in f and np.all(f['status'][()] == 0) and (work / 'solver.log').exists() and 'Simulation finished' in (work / 'solver.log').read_text(errors='replace'))
-        road_forecast.native_dry_evidence = load_evidence(work, order, name, native_ok, verified_engine_source(work))
         units = f['time'].attrs['units']; units = units.decode() if isinstance(units, bytes) else str(units)
         base = dt.datetime.fromisoformat(units.split('since ')[1].strip().replace(' ', 'T'))
         for i, s in enumerate(f['time'][:]):
