@@ -2,8 +2,10 @@
 import argparse
 import datetime as dt
 import hashlib
+import gzip
 import io
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -14,8 +16,8 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'live'))
 import run_live_all_route as live
-from export_road_forecast import read_columns
-from verify_all_route_package import verify_native_data
+from export_road_forecast import read_columns, RoadForecast, WET_M
+from verify_all_route_package import verify_native_data, NEGATIVE_RESIDUAL_DEPTH_M
 
 SCENARIOS = {
     'stress': ('stress-storm-v1', '700b8de5b82101affbbe8bdbdbd941fc1e83adfedc63c9ae00a7ee354e029fa0', 100),
@@ -172,45 +174,253 @@ def prepare(case, scenario, work, root):
     print(json.dumps({k: meta[k] for k in ('scenario', 'case', 'validFrom', 'validTo', 'absoluteTimeShiftSeconds', 'river')}))
 
 
-def export(case, scenario, work, out):
+def _json_write(path, value):
+    raw = (json.dumps(value, separators=(',', ':'), allow_nan=False) + '\n').encode()
+    Path(path).write_bytes(raw)
+    return {'path': Path(path).name, 'sha256': sha(raw), 'bytes': len(raw)}
+
+
+def audit_native_frame(volume, surface, area, label, samples=None):
+    """Describe raw native data without changing it or weakening its existing gate.
+
+    A negative-volume deficit is the magnitude of negative cell volumes in this
+    snapshot. It is not a solver mass-balance error and is not summed over time.
+    """
+    volume, surface, area = (np.asarray(x) for x in (volume, surface, area))
+    failures = []
+    try:
+        verify_native_data(volume, surface, area, label)
+    except ValueError as exc:
+        failures.append(str(exc))
+    usable = (volume.ndim == surface.ndim == area.ndim == 1
+              and len(volume) == len(surface) == len(area) and len(area) > 0
+              and np.isfinite(area).all() and (area > 0).all())
+    if not usable:
+        return {'qualityFailures': failures or ['Invalid native arrays'], 'statisticsAvailable': False}, {}
+    v = volume.astype(np.float64); a = area.astype(np.float64)
+    finite = np.isfinite(v); negative = finite & (v < 0); positive = finite & (v > 0)
+    nonfinite_volume = ~finite; nonfinite_surface = ~np.isfinite(surface)
+    depth = v / a
+    limit = NEGATIVE_RESIDUAL_DEPTH_M * (1 + np.finfo(np.float32).eps)
+    exceeds = negative & (depth < -limit)
+    indices = {name: np.flatnonzero(mask).tolist() for name, mask in (
+        ('negativeVolume', negative), ('beyondResidualLimit', exceeds),
+        ('nonfiniteVolume', nonfinite_volume), ('nonfiniteSurface', nonfinite_surface))}
+    def extent(mask):
+        return {'count': int(mask.sum()), 'areaM2': float(a[mask].sum())}
+    def nonfinite_stats(values, mask):
+        return dict(**extent(mask), nanCount=int(np.isnan(values).sum()),
+                    positiveInfinityCount=int(np.isposinf(values).sum()), negativeInfinityCount=int(np.isneginf(values).sum()))
+    minimum = int(np.flatnonzero(negative)[np.argmin(depth[negative])]) if negative.any() else None
+    stats = {'statisticsAvailable': True, 'nativeCells': len(a), 'nativeAreaM2': float(a.sum()),
+        'negativeVolume': dict(**extent(negative), deficitM3=float(-v[negative].sum()),
+            minimumEquivalentDepthM=float(depth[minimum]) if minimum is not None else 0.0,
+            minimumCell=None if minimum is None else {'index': minimum, 'volumeM3': float(v[minimum]),
+                                                     'areaM2': float(a[minimum]), 'equivalentDepthM': float(depth[minimum])}),
+        'beyondResidualLimit': extent(exceeds),
+        'nonfiniteVolume': nonfinite_stats(v, nonfinite_volume),
+        'nonfiniteSurface': nonfinite_stats(surface, nonfinite_surface),
+        'zeroVolume': extent(finite & (v == 0)),
+        'positiveVolume': dict(**extent(positive), totalM3=float(v[positive].sum()),
+            maximumM3=float(v[positive].max()) if positive.any() else None,
+            maximumEquivalentDepthM=float(depth[positive].max()) if positive.any() else None,
+            areaWeightedMeanDepthM=float(v[positive].sum() / a[positive].sum()) if positive.any() else None),
+        'unknownVolume': extent(negative | nonfinite_volume), 'qualityFailures': failures, 'routeCoverage': {}}
+    route_indices = {}
+    for route_id, (stations, faces, heights) in (samples or {}).items():
+        mapped = (faces >= 0) & np.isfinite(heights); candidates = np.flatnonzero(mapped); face = faces[candidates]
+        d, z = depth[face], surface[face]
+        dry = np.isfinite(d) & (d >= 0) & (d < WET_M)
+        valid = dry | (np.isfinite(d) & (d >= WET_M) & np.isfinite(z) & (z != -99999.0))
+        over = np.zeros(len(candidates)); wet_native = valid & ~dry
+        over[wet_native] = np.maximum(z[wet_native] - heights[candidates[wet_native]], 0)
+        affected = {name: candidates[mask[face]].tolist() for name, mask in (
+            ('negativeVolume', negative), ('beyondResidualLimit', exceeds),
+            ('nonfiniteVolume', nonfinite_volume), ('nonfiniteSurface', nonfinite_surface))}
+        affected['unknownResult'] = sorted(set(np.flatnonzero(~mapped).tolist() + candidates[~valid].tolist()))
+        route_indices[route_id] = affected
+        stats['routeCoverage'][route_id] = {'totalStations': len(stations), 'mappedStations': int(mapped.sum()),
+            'validStations': int(valid.sum()), 'unknownStations': len(stations) - int(valid.sum()),
+            'wetStations': int((valid & (over >= WET_M)).sum()),
+            'negativeVolumeStations': len(affected['negativeVolume']),
+            'beyondResidualLimitStations': len(affected['beyondResidualLimit']),
+            'nonfiniteVolumeStations': len(affected['nonfiniteVolume']),
+            'nonfiniteSurfaceStations': len(affected['nonfiniteSurface'])}
+    indices['routeStationIndices'] = route_indices
+    return stats, indices
+
+
+def audit_compact(case, manifest, road, out, expected, run_id):
+    """Audit every available frame, including frames after the first gate failure."""
+    out = Path(out)
+    report = {'schemaVersion': 1, 'kind': 'design_storm_numerical_audit',
+        'executionMode': 'synthetic_design_storm_diagnostic', 'case': case, 'runId': run_id,
+        'expectedFrameCount': len(expected), 'providedFrameCount': len(manifest.get('frames', [])),
+        'materialityLimitM': NEGATIVE_RESIDUAL_DEPTH_M,
+        'negativeVolumeDeficitMeaning': 'Magnitude of negative native cell volumes in one saved snapshot; not a solver mass-balance error. No sum across times is interpreted as a physical volume.',
+        'missingSurfaceMeaning': 'Nonfinite dry-sentinel surfaces are reported separately; finite nonnegative dry native volume can still establish a valid dry station.',
+        'solverCompletion': manifest.get('solverCompletion'), 'qualityFailures': [], 'frames': []}
+    if (manifest.get('status') != 'complete' or manifest.get('solverCompletion', {}).get('status') != 'complete'
+            or manifest.get('solverCompletion', {}).get('nativeStatus') != [0]):
+        report['qualityFailures'].append('Native solver did not finish cleanly')
+    if ([f.get('time') for f in manifest.get('frames', [])] != expected
+            or manifest.get('validFrom') != expected[0] or manifest.get('validTo') != expected[-1]):
+        report['qualityFailures'].append('Native frames do not cover all 57 ordered quarter-hour timestamps')
+    geometry = manifest['geometry']
+    _, geom = read_columns(out / geometry['path'], 'floodplain-columns-v1', geometry['sha256'])
+    mapped = RoadForecast.load(case, out / geometry['path'], geometry['sha256'])
+    for index, frame in enumerate(manifest.get('frames', [])):
+        detail = {'index': index, 'time': frame.get('time'), 'sourceFrame': frame, 'qualityFailures': []}
+        try:
+            path = out / frame['path']
+            if path.stat().st_size != frame['bytes']:
+                raise ValueError('Native frame byte count differs')
+            header, columns = read_columns(path, 'floodplain-columns-v1', frame['sha256'])
+            metadata = header.get('metadata', {})
+            if (metadata.get('runId') != run_id or metadata.get('time') != frame['time']
+                    or metadata.get('geometrySha256') != geometry['sha256']):
+                detail['qualityFailures'].append('Scenario frame identity differs')
+            stats, affected = audit_native_frame(columns['nativeVolumeM3'], columns['waterSurfaceM'], geom['areaM2'], frame['path'], mapped.samples)
+            detail['qualityFailures'].extend(stats.pop('qualityFailures')); detail.update(stats)
+            for route_id, coverage in stats.get('routeCoverage', {}).items():
+                native_frames = road.get('routes', {}).get(route_id, {}).get('frames', [])
+                if index >= len(native_frames) or any(native_frames[index].get(k) != coverage[k] for k in ('validStations', 'wetStations')):
+                    detail['qualityFailures'].append('Exported road coverage differs: ' + route_id)
+            payload = (json.dumps({'nativeFaceOrder': 'Compact geometry face indices, not source-mesh order',
+                'routeStationOrder': 'Pinned road-stations route order', **affected}, separators=(',', ':'), allow_nan=False) + '\n').encode()
+            compressed = gzip.compress(payload, compresslevel=6, mtime=0)
+            name = f'audit-indices-{index}.json.gz'; (out / name).write_bytes(compressed)
+            detail['affectedIndices'] = {'path': name, 'bytes': len(compressed), 'sha256': sha(compressed)}
+        except Exception as exc:
+            detail['qualityFailures'].append(type(exc).__name__ + ': ' + str(exc))
+        report['frames'].append(detail)
+    available = [f for f in report['frames'] if f.get('statisticsAvailable')]
+    report.update(negativeNativeSamplesRetained=sum(f['negativeVolume']['count'] for f in available),
+        minimumEquivalentDepthM=min([0.0] + [f['negativeVolume']['minimumEquivalentDepthM'] for f in available]),
+        maximumFrameNegativeVolumeDeficitM3=max([0.0] + [f['negativeVolume']['deficitM3'] for f in available]),
+        framesAudited=len(report['frames']), framesWithStatistics=len(available),
+        failedFrames=[f['index'] for f in report['frames'] if f['qualityFailures']])
+    report['qualityStatus'] = 'rejected' if report['qualityFailures'] or report['failedFrames'] else 'passed_existing_gate'
+    return report
+
+
+def _tag_diagnostic(item, meta, road=False, quality='pending_audit'):
+    item.update(kind='diagnostic_all_route_road_forecast' if road else 'diagnostic_quadtree_output_package',
+        executionMode='synthetic_design_storm_diagnostic', status='diagnostic_only', diagnosticOnly=True,
+        acceptedForDisplay=False, scenario=meta['scenario'], scenarioInputs=meta, limits=meta['limitations'],
+        qualityStatus=quality)
+    item['sourceIssues'] = {'mode': 'synthetic_design_storm_diagnostic', 'sourceArchiveSha256': meta['sourceArchiveSha256']}
+    item.pop('hrrrCycle', None)
+
+
+def _save_exports(out, manifest, road):
+    descriptor = _json_write(out / 'road-forecast.json', road)
+    manifest.setdefault('roadForecast', {}).update(descriptor)
+    _json_write(out / 'manifest.json', manifest)
+
+
+def _strict_json(raw):
+    def invalid(value):
+        raise ValueError('Nonfinite JSON token in exported metadata: ' + value)
+    return json.loads(raw, parse_constant=invalid)
+
+
+def _safe_metadata(value):
+    """JSON-safe fallback only; source metadata bytes are preserved separately."""
+    if isinstance(value, dict):
+        return {key: _safe_metadata(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_safe_metadata(item) for item in value]
+    if isinstance(value, float) and not math.isfinite(value):
+        return None
+    return value
+
+
+def _diagnostic_fallback(out, meta, case, run_id, error):
+    """Replace unsafe/incomplete export labels, even when either JSON is broken.
+
+    Raw source metadata is kept in explicitly unvalidated compressed evidence,
+    while the only manifest/road JSON identities remain diagnostic-only.
+    """
+    items = {}
+    for name, is_road in (('manifest.json', False), ('road-forecast.json', True)):
+        path = out / name; item = {}; evidence = None
+        if path.exists():
+            raw = path.read_bytes()
+            evidence_name = 'unvalidated-export-' + name + '.raw.gz'
+            evidence_path = out / evidence_name
+            if not evidence_path.exists():
+                evidence_path.write_bytes(gzip.compress(raw, compresslevel=6, mtime=0))
+            encoded = evidence_path.read_bytes()
+            evidence = {'path': evidence_name, 'bytes': len(encoded), 'sha256': sha(encoded),
+                'meaning': 'Unvalidated source metadata bytes, retained as evidence only. Not a display package or accepted live result.'}
+            try:
+                parsed = json.loads(raw)
+                if isinstance(parsed, dict): item = _safe_metadata(parsed)
+            except (ValueError, UnicodeError):
+                pass
+        item.setdefault('case', case); item.setdefault('runId', run_id)
+        _tag_diagnostic(item, _safe_metadata(meta), is_road, 'rejected_export_metadata')
+        item['diagnosticFailure'] = {'reason': type(error).__name__ + ': ' + str(error),
+            'nonfiniteMetadata': 'Nonfinite source metadata is null here; original bytes are retained in unvalidated evidence.'}
+        if evidence is not None: item['unvalidatedMetadataEvidence'] = evidence
+        items[name] = item
+    _save_exports(out, items['manifest.json'], items['road-forecast.json'])
+
+
+def export(case, scenario, work, out, diagnostic_only=False):
     work, out = Path(work), Path(out)
-    meta = json.loads((work / 'scenario-case.json').read_text())
+    meta = _strict_json((work / 'scenario-case.json').read_bytes())
     if meta['case'] != case or meta['scenario'] != scenario: raise ValueError('Wrong scenario input identity')
     engine = work.parent / 'engine'
     if (engine / 'SOURCE_COMMIT').read_text().strip() != SOURCE_COMMIT or sha((engine / 'sfincs').read_bytes()) != ENGINE_SHA256:
         raise ValueError('Pinned engine identity mismatch')
-    run_id = f"{meta['modelVersion']}-{scenario}-preview-{os.environ.get('GITHUB_RUN_ID', 'local')}"
-    live.export(case, work, out, run_id)
-    manifest = json.loads((out / 'manifest.json').read_text())
-    road = json.loads((out / 'road-forecast.json').read_text())
-    start = dt.datetime.fromisoformat(meta['validFrom'].rstrip('Z'))
-    expected = [live.ISO(start + dt.timedelta(seconds=i * FRAME_SECONDS)) for i in range(57)]
-    if manifest['status'] != 'complete' or manifest['solverCompletion']['nativeStatus'] != [0] or [f['time'] for f in manifest['frames']] != expected:
-        raise ValueError('Native design-storm run incomplete; no preview output accepted')
-    _, geom = read_columns(out / manifest['geometry']['path'], 'floodplain-columns-v1', manifest['geometry']['sha256'])
-    negative_samples, minimum = 0, 0.0
-    for frame in manifest['frames']:
-        header, columns = read_columns(out / frame['path'], 'floodplain-columns-v1', frame['sha256'])
-        if header['metadata']['runId'] != run_id or header['metadata']['time'] != frame['time']:
-            raise ValueError('Scenario frame identity mismatch')
-        count, depth = verify_native_data(columns['nativeVolumeM3'], columns['waterSurfaceM'], geom['areaM2'], frame['path'])
-        negative_samples += count; minimum = min(minimum, depth)
-    for item in (manifest, road):
-        item['executionMode'] = 'synthetic_design_storm'; item['scenario'] = scenario
-        item['limits'] = meta['limitations']; item['scenarioInputs'] = meta
-    manifest['sourceIssues'] = {'mode': 'synthetic_design_storm', 'sourceArchiveSha256': meta['sourceArchiveSha256']}
-    manifest['numericalAudit'] = {'negativeNativeSamplesRetained': negative_samples, 'minimumEquivalentDepthM': minimum, 'materialityLimitM': 0.001}
-    road['kind'] = 'saved_all_route_road_forecast'; road.pop('hrrrCycle', None)
-    raw = (json.dumps(road, separators=(',', ':'), allow_nan=False) + '\n').encode()
-    (out / 'road-forecast.json').write_bytes(raw)
-    manifest['roadForecast'].update(sha256=sha(raw), bytes=len(raw))
-    (out / 'manifest.json').write_text(json.dumps(manifest, indent=1) + '\n')
-    (out / 'scenario-case.json').write_text(json.dumps(meta, indent=2) + '\n')
-    print(json.dumps({'scenario': scenario, 'case': case, 'frames': len(expected), 'audit': manifest['numericalAudit'], 'routes': {k: {'total': r['totalStations'], 'minimumValid': min(f['validStations'] for f in r['frames'])} for k, r in road['routes'].items()}}))
+    role = 'diagnostic' if diagnostic_only else 'preview'
+    run_id = f"{meta['modelVersion']}-{scenario}-{role}-{os.environ.get('GITHUB_RUN_ID', 'local')}"
+    out.mkdir(parents=True, exist_ok=True)
+    _json_write(out / 'scenario-case.json', meta)
+    try:
+        live.export(case, work, out, run_id)
+        manifest = _strict_json((out / 'manifest.json').read_bytes())
+        road = _strict_json((out / 'road-forecast.json').read_bytes())
+        # Persist diagnostic identity BEFORE auditing. Completion remains an
+        # explicit native fact, not permission to publish a failed result.
+        original_manifest = json.loads(json.dumps(manifest, allow_nan=False))
+        _tag_diagnostic(manifest, meta); _tag_diagnostic(road, meta, True)
+        _save_exports(out, manifest, road)
+        start = dt.datetime.fromisoformat(meta['validFrom'].rstrip('Z'))
+        expected = [live.ISO(start + dt.timedelta(seconds=i * FRAME_SECONDS)) for i in range(57)]
+        try:
+            audit = audit_compact(case, original_manifest, road, out, expected, run_id)
+        except Exception as exc:
+            audit = {'schemaVersion': 1, 'kind': 'design_storm_numerical_audit', 'executionMode': 'synthetic_design_storm_diagnostic',
+                'qualityStatus': 'rejected', 'qualityFailures': [str(exc)], 'frames': [], 'framesAudited': 0,
+                'solverCompletion': manifest.get('solverCompletion'), 'materialityLimitM': NEGATIVE_RESIDUAL_DEPTH_M}
+        manifest['numericalAudit'] = {k: audit[k] for k in ('negativeNativeSamplesRetained', 'minimumEquivalentDepthM',
+            'materialityLimitM', 'maximumFrameNegativeVolumeDeficitM3') if k in audit}
+        manifest['numericalAudit']['report'] = _json_write(out / 'numerical-audit.json', audit)
+        quality = audit['qualityStatus']; manifest['qualityStatus'] = quality; road['qualityStatus'] = quality
+        accepted = quality == 'passed_existing_gate' and not diagnostic_only
+        if accepted:
+            for item in (manifest, road):
+                item.update(executionMode='synthetic_design_storm', status='complete', diagnosticOnly=False, acceptedForDisplay=True)
+                item['sourceIssues'] = {'mode': 'synthetic_design_storm', 'sourceArchiveSha256': meta['sourceArchiveSha256']}
+            manifest['kind'] = 'quadtree_output_package'; road['kind'] = 'saved_all_route_road_forecast'
+        _save_exports(out, manifest, road)
+        print(json.dumps({'scenario': scenario, 'case': case, 'framesAudited': audit['framesAudited'],
+            'qualityStatus': quality, 'acceptedForDisplay': accepted, 'diagnosticOnly': not accepted,
+            'audit': manifest['numericalAudit']}, allow_nan=False))
+    except Exception as exc:
+        # The entire export + parse + tag + serialize path is guarded. A malformed
+        # road JSON or nonfinite manifest metadata cannot leave live/complete labels.
+        _diagnostic_fallback(out, meta, case, run_id, exc)
+        raise
+    if quality != 'passed_existing_gate':
+        raise ValueError('Native design-storm quality rejected; full diagnostic-only compact output retained at ' + str(out))
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(); parser.add_argument('action', choices=['prepare', 'export']); parser.add_argument('case', choices=['northern', 'picture-rocks', 'gates']); parser.add_argument('scenario', choices=list(SCENARIOS)); parser.add_argument('work'); parser.add_argument('out_or_root', nargs='?', default='.')
+    parser = argparse.ArgumentParser(); parser.add_argument('action', choices=['prepare', 'export', 'diagnostic-export']); parser.add_argument('case', choices=['northern', 'picture-rocks', 'gates']); parser.add_argument('scenario', choices=list(SCENARIOS)); parser.add_argument('work'); parser.add_argument('out_or_root', nargs='?', default='.')
     args = parser.parse_args()
     if args.action == 'prepare': prepare(args.case, args.scenario, args.work, args.out_or_root)
-    else: export(args.case, args.scenario, args.work, args.out_or_root)
+    else: export(args.case, args.scenario, args.work, args.out_or_root, diagnostic_only=args.action == 'diagnostic-export')

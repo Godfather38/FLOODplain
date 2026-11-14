@@ -1,0 +1,139 @@
+name: Design storm diagnostic recovery only
+on:
+  push:
+    branches: [experiment/all-route-storm-preview]
+    paths: [tools/scenarios/diagnostic-run-request.json]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: expanded-design-storm-diagnostic-recovery
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      enabled: ${{ steps.request.outputs.enabled }}
+      matrix: ${{ steps.request.outputs.matrix }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            tools/live
+            tools/scenarios
+            .github/workflows
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy h5py eccodes
+      - name: Test audits and recovery restrictions
+        run: python -m unittest discover -s tools/scenarios -p 'test_*.py' -v
+      - name: Verify opt-in and original solver capacity
+        id: request
+        run: |
+          set -euo pipefail
+          enabled=$(python -c "import json; print(str(json.load(open('tools/scenarios/diagnostic-run-request.json'))['enabled']).lower())")
+          if [ "$enabled" = true ]; then
+            id=$(python -c "import json; from tools.scenarios.validate_diagnostic_request import validate_request; r=json.load(open('tools/scenarios/diagnostic-run-request.json')); validate_request(r); print(r['originalRunId'])")
+            gh api "repos/${{ github.repository }}/actions/runs/$id" > original-run.json
+            gh api "repos/${{ github.repository }}/actions/runs/$id/jobs?per_page=100" > original-jobs.json
+            python tools/scenarios/validate_diagnostic_request.py tools/scenarios/diagnostic-run-request.json --run original-run.json --jobs original-jobs.json --github-output "$GITHUB_OUTPUT"
+          else
+            python tools/scenarios/validate_diagnostic_request.py tools/scenarios/diagnostic-run-request.json --github-output "$GITHUB_OUTPUT"
+          fi
+  recover:
+    needs: verify
+    if: needs.verify.outputs.enabled == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.verify.outputs.matrix) }}
+    env:
+      OMP_NUM_THREADS: '4'
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            tools/live
+            tools/scenarios
+      - name: Read only pinned case and original storm inputs
+        run: |
+          dirs=$(python3 -c "import json,os;c=next(c for c in json.load(open('tools/live/all-route-cases.json'))['cases'] if c['case']=='${{ matrix.case }}');print(' '.join(sorted({os.path.dirname(c['caseManifest']),os.path.dirname(c['faceMapping']['path']),os.path.dirname(c['geometry']['path'])})))")
+          git sparse-checkout add $dirs tools/sfincs/data/stress-storm-v1 tools/sfincs/data/extreme-storm-v1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install native runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libnetcdf-dev libgfortran5 libgomp1
+          python -m pip install numpy h5py eccodes
+      - name: Find saved pinned engine
+        id: engine
+        run: |
+          id=$(gh api "repos/${{ github.repository }}/actions/artifacts?name=sfincs-engine&per_page=20" --jq '[.artifacts[]|select(.expired|not)][0].workflow_run.id')
+          test -n "$id" && test "$id" != null
+          echo "run=$id" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        with:
+          name: sfincs-engine
+          path: engine-download
+          run-id: ${{ steps.engine.outputs.run }}
+          github-token: ${{ github.token }}
+      - name: Verify engine and prepare exact original inputs
+        id: prepare
+        run: |
+          mkdir engine
+          tar -xzf engine-download/sfincs-engine.tar.gz -C engine
+          (cd engine && sha256sum -c SHA256SUMS)
+          test "$(cat engine/SOURCE_COMMIT)" = f3647fc0289bb15cb2512d60686cef74cb853c78
+          echo 'c4917bc54158b0943d6d128b45c4346a33d059fb5d93808d05520c975e38f090  engine/sfincs' | sha256sum -c -
+          python tools/scenarios/run_design_storm.py prepare '${{ matrix.case }}' '${{ matrix.scenario }}' work .
+      - name: Run bounded native diagnostic recovery
+        id: solver
+        continue-on-error: true
+        run: |
+          set +e
+          (cd work && GFORTRAN_UNBUFFERED_ALL=y timeout --signal=KILL 5400 "$GITHUB_WORKSPACE/engine/sfincs" > solver.log 2>&1)
+          result=$?
+          printf '%s\n' "$result" > work/solver-exit-code.txt
+          tail -20 work/solver.log
+          exit "$result"
+      - name: Export all frames and retain strict quality rejection
+        id: audit
+        if: always() && steps.prepare.outcome == 'success'
+        run: python tools/scenarios/run_design_storm.py diagnostic-export '${{ matrix.case }}' '${{ matrix.scenario }}' work out
+      - name: Retain diagnostic-only compact output and native diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostic-only-${{ matrix.scenario }}-${{ matrix.case }}-${{ github.run_id }}
+          path: |
+            out/
+            work/scenario-case.json
+            work/solver.log
+            work/sfincs.log
+            work/solver-exit-code.txt
+            work/sfincs.inp
+            work/sfincs.dis
+            work/sfincs.src
+            work/sfincs_his.nc
+            work/sfincs_his.nc.*
+            work/sfincs.bal*
+            work/sfincs_bal.nc
+            work/*balance*
+            work/*mass*
+            work/*.log
+          if-no-files-found: warn
+          retention-days: 7
+          compression-level: 6
+      - name: Keep solver failure visible after artifact retention
+        if: always() && steps.solver.outcome == 'failure'
+        run: exit 1

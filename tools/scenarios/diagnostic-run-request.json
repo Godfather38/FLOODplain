@@ -1,0 +1,1 @@
+{"schemaVersion":1,"requestId":"gates-stress-diagnostic-recovery-20261114-v1","purpose":"diagnostic_recovery_only","enabled":true,"productionPublication":false,"acceptForDisplay":false,"solverCapSeconds":5400,"maximumRecoveryJobs":2,"originalRunId":43538306549,"jobs":[{"case":"gates","scenario":"stress"}]}
