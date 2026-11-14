@@ -73,8 +73,6 @@ def prepare(name, work, cycle_iso):
     with h5py.File(work / 'precip_2d.nc', 'r+') as f:
         assert f['time'].shape[0] == hours, f['time'].shape
         x, y = f['x'][:], f['y'][:]; ee, nn = np.meshgrid(x, y); tlon, tlat = utm_to_lonlat(ee, nn)
-        native_ok = ('status' in f and np.all(f['status'][()] == 0) and (work / 'solver.log').exists() and 'Simulation finished' in (work / 'solver.log').read_text(errors='replace'))
-        road_forecast.native_dry_evidence = load_evidence(work, order, name, native_ok, verified_engine_source(work))
         units = f['time'].attrs['units']; units = units.decode() if isinstance(units, bytes) else str(units)
         new = 'minutes since ' + start.strftime('%Y-%m-%dT%H:%M:%S'); assert len(new) == len(units), (units, new)
         f['time'].attrs['units'] = np.bytes_(new); f['time'][:] = np.arange(hours) * 60.0
