@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "kind": "expanded_design_storm_case",
+  "executionMode": "synthetic_design_storm",
+  "scenario": "extreme",
+  "returnPeriodYears": 1000,
+  "case": "picture-rocks",
+  "modelVersion": "all-routes-picture-rocks-v2",
+  "caseArchiveSha256": "626c29c306a3225641b57996b833f0531d25e9ae6bc72cdf2e6e5d1bbc632bdd",
+  "sourceArchive": "tools/sfincs/data/extreme-storm-v1/case.tar.gz",
+  "sourceArchiveSha256": "3e69143a474cbe022158f404d98b938a41eac1e67ba30a2f9c3f23902fd92ca0",
+  "sourceFileSha256": {
+    "sfincs.inp": "63dac18fddda38eb51aa2022f7fe88f2530d6de5a7b8d086aee8d916fa1a254c",
+    "sfincs.dis": "28afedb56d4f33372a8dca6660433ca7d2cb3d0405be73b2fadccd74c660e516",
+    "sfincs.src": "8a74b9d56b6ee772e09213988aec926f773959c7b430383491e3dd848cbcaa3f",
+    "precip_2d.nc": "2774aa73e8a5e7caf3e61f318612dbf3abbd4df049e7025e091f55ac199c8611",
+    "current-case.json": "9366eed5d4469bda9b222cac3a79786db5e270240a3cf4fb3936c06424f9b284"
+  },
+  "physicalInputSha256": {
+    "GCN10-source-metadata.xml": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156",
+    "sfincs.src": "f3de9d95977e5462457390c1e51667422ad7f3ee03f68a8e8c823149f59f76b9",
+    "GCN10-NOTICE.txt": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8",
+    "sfincs_subgrid.nc": "e57fc0d61a7ef8a82c101b1772f27383775d5b8870201df2f1fb7eca8f9dfdb2",
+    "current-case.json": "67f2d9705a755617072c4de72391edd9f44c3690a20b5a6075e00c2597695759",
+    "sfincs.nc": "76b60da1bcceacd448d3817f1ec28383dfc475bbd9a10d86d419a280558059a0",
+    "infiltration.nc": "d635c25a11558c38576b6ffb40971a4864de560aa9af00b932470cc1a3116bba"
+  },
+  "modifiedInputSha256": {
+    "precip_2d.nc": "68decce1f410c54dda6fa8966879b0d7997035f773da3448f8e0a6504a436628",
+    "sfincs.dis": "0d0130cc1f33c275b42779ce0611b4f71636ec26e79cef6c63f706a35b850cd3",
+    "sfincs.inp": "25307793e726cd2c63adb27cd64ab55b31daa7decc56dea598298082632ae33b"
+  },
+  "sourceReference": "2026-10-30T21:00:00Z",
+  "reference": "2026-10-30T16:00:00Z",
+  "absoluteTimeShiftSeconds": -18000,
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "frameSeconds": 900,
+  "rain": [
+    {
+      "elapsedSeconds": 176400,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 180000,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 183600,
+      "mmPerHour": 2.8702
+    },
+    {
+      "elapsedSeconds": 187200,
+      "mmPerHour": 6.35
+    },
+    {
+      "elapsedSeconds": 190800,
+      "mmPerHour": 77.216
+    },
+    {
+      "elapsedSeconds": 194400,
+      "mmPerHour": 9.398
+    },
+    {
+      "elapsedSeconds": 198000,
+      "mmPerHour": 2.8702
+    },
+    {
+      "elapsedSeconds": 201600,
+      "mmPerHour": 2.8956
+    },
+    {
+      "elapsedSeconds": 205200,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 208800,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 212400,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 216000,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 219600,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 223200,
+      "mmPerHour": 0.0
+    }
+  ],
+  "river": {
+    "targetReachId": null,
+    "targetColumn": null,
+    "designPeakM3s": null,
+    "sourceColumn": 1,
+    "otherInletsUnchanged": true,
+    "sourceLabelCorrection": "Old source metadata called 15902351 Santa Cruz. Registry/network identify 15902363 as Santa Cruz at the same native location. The exact designed hydrograph replaces 15902363; it is not added on top of its normal flow."
+  },
+  "limitations": "Synthetic design storm, not current conditions. Exact original design rainfall and record-river curve transplanted by elapsed simulation time onto each wider case; its original antecedent and other inlet flows remain unchanged. The absolute scenario clock shifts by five hours. Return period describes the imposed rainfall, not a calibrated joint flood probability. No river hydrograph is invented for model areas without the Santa Cruz inlet."
+}

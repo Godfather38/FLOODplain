@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "kind": "expanded_design_storm_case",
+  "executionMode": "synthetic_design_storm",
+  "scenario": "extreme",
+  "returnPeriodYears": 1000,
+  "case": "gates",
+  "modelVersion": "all-routes-gates-full-v3",
+  "caseArchiveSha256": "67ee11150eeaf08c0ddc6596509effdd461e03a4ec6133e73aabf95e15a99ea2",
+  "sourceArchive": "tools/sfincs/data/extreme-storm-v1/case.tar.gz",
+  "sourceArchiveSha256": "3e69143a474cbe022158f404d98b938a41eac1e67ba30a2f9c3f23902fd92ca0",
+  "sourceFileSha256": {
+    "sfincs.inp": "63dac18fddda38eb51aa2022f7fe88f2530d6de5a7b8d086aee8d916fa1a254c",
+    "sfincs.dis": "28afedb56d4f33372a8dca6660433ca7d2cb3d0405be73b2fadccd74c660e516",
+    "sfincs.src": "8a74b9d56b6ee772e09213988aec926f773959c7b430383491e3dd848cbcaa3f",
+    "precip_2d.nc": "2774aa73e8a5e7caf3e61f318612dbf3abbd4df049e7025e091f55ac199c8611",
+    "current-case.json": "9366eed5d4469bda9b222cac3a79786db5e270240a3cf4fb3936c06424f9b284"
+  },
+  "physicalInputSha256": {
+    "GCN10-source-metadata.xml": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156",
+    "sfincs.src": "8ca285e82019717d7612f821ca323f48ce3a3d31c619b1289729ad94126eae17",
+    "GCN10-NOTICE.txt": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8",
+    "sfincs_subgrid.nc": "f85657d571c55b309bb8922c27f898aad0850c75d0790c00fc89173ed029f688",
+    "current-case.json": "0a8fd8746a52605bf612a75601104b44ceafa9153f3617165e45ce0da33c941e",
+    "sfincs.nc": "7f99f1da7d0086c3a4f19e92698048f726ef25ca0c0dcc783568a1910b4139ff",
+    "infiltration.nc": "5250373c2ac71437125f2b850194133c0fc835934123999316a95154a65c6012"
+  },
+  "modifiedInputSha256": {
+    "precip_2d.nc": "a833467fbcd6955bb844f8a5b45ee6670fb839545ebbd5cea0ba5bc57913c896",
+    "sfincs.dis": "7ef01f3754318cc0403c66c6d9076a9abc8f02970ab111d7cd1ee3655155b035",
+    "sfincs.inp": "25307793e726cd2c63adb27cd64ab55b31daa7decc56dea598298082632ae33b"
+  },
+  "sourceReference": "2026-10-30T21:00:00Z",
+  "reference": "2026-10-30T16:00:00Z",
+  "absoluteTimeShiftSeconds": -18000,
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "frameSeconds": 900,
+  "rain": [
+    {
+      "elapsedSeconds": 176400,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 180000,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 183600,
+      "mmPerHour": 2.8702
+    },
+    {
+      "elapsedSeconds": 187200,
+      "mmPerHour": 6.35
+    },
+    {
+      "elapsedSeconds": 190800,
+      "mmPerHour": 77.216
+    },
+    {
+      "elapsedSeconds": 194400,
+      "mmPerHour": 9.398
+    },
+    {
+      "elapsedSeconds": 198000,
+      "mmPerHour": 2.8702
+    },
+    {
+      "elapsedSeconds": 201600,
+      "mmPerHour": 2.8956
+    },
+    {
+      "elapsedSeconds": 205200,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 208800,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 212400,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 216000,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 219600,
+      "mmPerHour": 0.0
+    },
+    {
+      "elapsedSeconds": 223200,
+      "mmPerHour": 0.0
+    }
+  ],
+  "river": {
+    "targetReachId": null,
+    "targetColumn": null,
+    "designPeakM3s": null,
+    "sourceColumn": 1,
+    "otherInletsUnchanged": true,
+    "sourceLabelCorrection": "Old source metadata called 15902351 Santa Cruz. Registry/network identify 15902363 as Santa Cruz at the same native location. The exact designed hydrograph replaces 15902363; it is not added on top of its normal flow."
+  },
+  "limitations": "Synthetic design storm, not current conditions. Exact original design rainfall and record-river curve transplanted by elapsed simulation time onto each wider case; its original antecedent and other inlet flows remain unchanged. The absolute scenario clock shifts by five hours. Return period describes the imposed rainfall, not a calibrated joint flood probability. No river hydrograph is invented for model areas without the Santa Cruz inlet."
+}

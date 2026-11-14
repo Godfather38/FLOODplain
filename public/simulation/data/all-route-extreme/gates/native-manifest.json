@@ -1,0 +1,562 @@
+{
+ "schemaVersion": 1,
+ "kind": "quadtree_output_package",
+ "status": "complete",
+ "runId": "all-routes-gates-full-v3-extreme-preview-43538306549",
+ "case": "gates",
+ "modelVersion": "all-routes-gates-full-v3",
+ "executionMode": "synthetic_design_storm",
+ "validFrom": "2026-11-01T17:00:00Z",
+ "validTo": "2026-11-02T07:00:00Z",
+ "geometry": {
+  "path": "geometry.bin.gz",
+  "sha256": "43d11db3340fa180bdaa2fa7bf1ae2feaa4974481a6a2d6e2d6483b3388a56b9",
+  "bytes": 11772377,
+  "sameAs": "tools/sfincs/data/gates-full-result-41750298470/compact/geometry.bin.gz"
+ },
+ "frames": [
+  {
+   "time": "2026-11-01T17:00:00Z",
+   "path": "frame-0.bin.gz",
+   "sha256": "d9ecf6d32c1877487ee2c53023ebe123dcd5244096a9ce8919b652f88fa97848",
+   "bytes": 1739830,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T17:15:00Z",
+   "path": "frame-1.bin.gz",
+   "sha256": "73fbcdb905a9ba87912e6bb7c12d442c2c7611a4694c6521e0f36d96224c096f",
+   "bytes": 1739744,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T17:30:00Z",
+   "path": "frame-2.bin.gz",
+   "sha256": "b3fe8e0eeccff5e3bd946e9e7800f1c7c22ba51f1d884d4be3657198f9ceadb7",
+   "bytes": 1739702,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T17:45:00Z",
+   "path": "frame-3.bin.gz",
+   "sha256": "93481c43185c60980ece0a676469316e4c532eb4336aa728dfe0dc319124ad44",
+   "bytes": 1739756,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T18:00:00Z",
+   "path": "frame-4.bin.gz",
+   "sha256": "23f7e9e27c90c4b85ec0ccf6c14552d92dacf4c6f66f5a3013edbfb42e3a6ac7",
+   "bytes": 1739670,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T18:15:00Z",
+   "path": "frame-5.bin.gz",
+   "sha256": "e800ff987c673d731a4b2aab407b9486063cdd29fee3d20388ac4d3520ff73fd",
+   "bytes": 1739646,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T18:30:00Z",
+   "path": "frame-6.bin.gz",
+   "sha256": "3fd08ccd91223cfff506d05169c7023ea4683180d5517c8fa062020f4175c137",
+   "bytes": 1739785,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T18:45:00Z",
+   "path": "frame-7.bin.gz",
+   "sha256": "17d22a3d3900d53a00420c8864997c0b87e2647db7c2b45b013e3038ded0f617",
+   "bytes": 1827361,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T19:00:00Z",
+   "path": "frame-8.bin.gz",
+   "sha256": "d1d5e03ce5ecf9e976dc7653a92873883f55f09fc163392a4b381067b1bc830a",
+   "bytes": 2013698,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T19:15:00Z",
+   "path": "frame-9.bin.gz",
+   "sha256": "14b0fe9969962845132e55ab62bdcf1458ee9d18d73c64dbe5ed8281dfd4a168",
+   "bytes": 2120336,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T19:30:00Z",
+   "path": "frame-10.bin.gz",
+   "sha256": "25cc984b20dfea0d85dbc8a4186a1b5b44b32688286915e044de2369e84c389e",
+   "bytes": 2165454,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T19:45:00Z",
+   "path": "frame-11.bin.gz",
+   "sha256": "6d90d618f71d99455f72ee1bd0ca7dd161beea5fc491ed94dcac07d671bacf07",
+   "bytes": 2249438,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T20:00:00Z",
+   "path": "frame-12.bin.gz",
+   "sha256": "fe5599b16356bdafc875c3a95be3be156642cf5c1a228d31337cc1eea98b3eb4",
+   "bytes": 2283340,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T20:15:00Z",
+   "path": "frame-13.bin.gz",
+   "sha256": "47ba164897bcf2c4984d5e2d6815b32fc998ec6ab48c016d847f59e636b5bf4c",
+   "bytes": 2319848,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T20:30:00Z",
+   "path": "frame-14.bin.gz",
+   "sha256": "0fdc939f9a1816b71eaf44b48670775a0e6e2e210200946e9f1fdcf78bfb50c2",
+   "bytes": 2358979,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T20:45:00Z",
+   "path": "frame-15.bin.gz",
+   "sha256": "b330ebe1f415089a3a1ed102d284e840151629ba2f8c2e8ec066acfdd712a489",
+   "bytes": 2533112,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T21:00:00Z",
+   "path": "frame-16.bin.gz",
+   "sha256": "ad4a1db2eeff2cbb55ccc9d6e1e888ffef26b584f2e3cad837e3f71e1cce3dc4",
+   "bytes": 2550682,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T21:15:00Z",
+   "path": "frame-17.bin.gz",
+   "sha256": "04bea8266a522f369e82075cd980a6755fd2c5fdae3b78e2b80f2deb4a9e71a1",
+   "bytes": 2555543,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T21:30:00Z",
+   "path": "frame-18.bin.gz",
+   "sha256": "06481d55862802c0198b144d1c93937a60146bb724efc8ebaceee20a58a75be0",
+   "bytes": 2558244,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T21:45:00Z",
+   "path": "frame-19.bin.gz",
+   "sha256": "9c68655f767e6b6c72330ebbe460e55101da622633e06222422352443d2cbcbd",
+   "bytes": 2557608,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T22:00:00Z",
+   "path": "frame-20.bin.gz",
+   "sha256": "5dcc6624dcec93b2a0700e963ef68538e8c244ebffd81ea0712c99751c56bdd1",
+   "bytes": 2548512,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T22:15:00Z",
+   "path": "frame-21.bin.gz",
+   "sha256": "acdafbba7150eede084a3dbab416218d771cf0c083620b9209d3a7bd2303196a",
+   "bytes": 2543443,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T22:30:00Z",
+   "path": "frame-22.bin.gz",
+   "sha256": "cfc6761c54189e03f1043e9090b482c6d509d9224146b899733cf6d938aeddc3",
+   "bytes": 2542092,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T22:45:00Z",
+   "path": "frame-23.bin.gz",
+   "sha256": "9cc428ad7cea4f7e9ed6bfd4e8ad450e25b02af76d18e6b2a5f07fd53bde4305",
+   "bytes": 2538920,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T23:00:00Z",
+   "path": "frame-24.bin.gz",
+   "sha256": "b0b95a81cf93de12a0dac3538f5112837c15324140e7246c4789a098cce18c10",
+   "bytes": 2534439,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T23:15:00Z",
+   "path": "frame-25.bin.gz",
+   "sha256": "f86bf76d5e765cb0450da9701e5847e35e161b3b90961349ffb1090afeefcd89",
+   "bytes": 2531793,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T23:30:00Z",
+   "path": "frame-26.bin.gz",
+   "sha256": "0fdaf5c9941ac3adcc951e790837a5129ec1a8120307f6ff781295d57d3d28d4",
+   "bytes": 2529638,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-01T23:45:00Z",
+   "path": "frame-27.bin.gz",
+   "sha256": "0ea1e04e31f677113f8c980cf798ad802e82ada2c1618f9c6d2277b829a1a183",
+   "bytes": 2528655,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T00:00:00Z",
+   "path": "frame-28.bin.gz",
+   "sha256": "9757c6944630b1581d7cfe7a4a2abe709b32d796c4c108cbc70116065dd3d103",
+   "bytes": 2527760,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T00:15:00Z",
+   "path": "frame-29.bin.gz",
+   "sha256": "f7a0a00dfa47acab68af9d6f571d11d67be787604e54296019d4357d8acfb71a",
+   "bytes": 2527174,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T00:30:00Z",
+   "path": "frame-30.bin.gz",
+   "sha256": "5c837a325e1a150ae57173d5556e96e6b4393463adf14a14bdeaf925698f207a",
+   "bytes": 2526732,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T00:45:00Z",
+   "path": "frame-31.bin.gz",
+   "sha256": "eb3954e11555bdd5e6ce006deece4d11490db3a6b705987cb0f9c63bb11e061e",
+   "bytes": 2524296,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T01:00:00Z",
+   "path": "frame-32.bin.gz",
+   "sha256": "cf305987baa5e416d08f00a5d14a49178d42a20dcb270890717aa3b967c72f99",
+   "bytes": 2518895,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T01:15:00Z",
+   "path": "frame-33.bin.gz",
+   "sha256": "815d7c9c1c5d6246f6b7eb1aa0c7b12ca1bcff29c7b5536fb9d38e9a450feddf",
+   "bytes": 2514127,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T01:30:00Z",
+   "path": "frame-34.bin.gz",
+   "sha256": "8eb0abc1711c257931f9547d9982715d76c86f716c67b718050ef1b76dde5053",
+   "bytes": 2510956,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T01:45:00Z",
+   "path": "frame-35.bin.gz",
+   "sha256": "9ef0fec12771f6c27ffc23b86b70555984114e664e289c456ef37a15dc1255f6",
+   "bytes": 2508716,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T02:00:00Z",
+   "path": "frame-36.bin.gz",
+   "sha256": "5c46a23de1c1610a3c45e7490d1c64635992d2d6d3a1bcbe48ac63bae0f8c5a4",
+   "bytes": 2506745,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T02:15:00Z",
+   "path": "frame-37.bin.gz",
+   "sha256": "37326eb139f02a2c1f09aab1f9e6e496a1a70306d507eb4fec53cce72b634349",
+   "bytes": 2505266,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T02:30:00Z",
+   "path": "frame-38.bin.gz",
+   "sha256": "6c122dfb3ad0f0e75e0e90f250c9f3b09bc9cce684178fdec39963ee0a95f892",
+   "bytes": 2503786,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T02:45:00Z",
+   "path": "frame-39.bin.gz",
+   "sha256": "b5fc1d71adadcd9239b15419715db09ef6c54defe0e08c3cddf3b802c22d0e98",
+   "bytes": 2502687,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T03:00:00Z",
+   "path": "frame-40.bin.gz",
+   "sha256": "d71edf2481dacb33e9b61d7b056f49f7dc42ab7c2909783a22e2989f12a057b9",
+   "bytes": 2501436,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T03:15:00Z",
+   "path": "frame-41.bin.gz",
+   "sha256": "b6a213242f64e0d2a03ced56bbe3f3517f9090435509974637b01ef2eb5b7a1e",
+   "bytes": 2500527,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T03:30:00Z",
+   "path": "frame-42.bin.gz",
+   "sha256": "2a20f5c14270e7b79fce794ca50d904ab0bd35f3d76d872a8b626923fd99d989",
+   "bytes": 2499540,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T03:45:00Z",
+   "path": "frame-43.bin.gz",
+   "sha256": "9a4c30d5d8c046f39e77737d1e37a22fa5b64ada62324d50c6166dbe2ad83a7c",
+   "bytes": 2498689,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T04:00:00Z",
+   "path": "frame-44.bin.gz",
+   "sha256": "680f46f8de65c904163f5edb0541f6a3a83cb24ae158fb64377cc1f508f0f56e",
+   "bytes": 2497825,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T04:15:00Z",
+   "path": "frame-45.bin.gz",
+   "sha256": "fa1d62f76643e921fa5843504e75d848147974567840dc95e8a4347d085d69f7",
+   "bytes": 2496985,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T04:30:00Z",
+   "path": "frame-46.bin.gz",
+   "sha256": "387e163c462ef676d3c35065e068704b87a9ab79c09ddb0eeb47fa50c3f31ee6",
+   "bytes": 2496314,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T04:45:00Z",
+   "path": "frame-47.bin.gz",
+   "sha256": "bdf0e4be3e1ee6115900a540573241f7605b5807df893a02d10575bfbccea4f6",
+   "bytes": 2495551,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T05:00:00Z",
+   "path": "frame-48.bin.gz",
+   "sha256": "2449d16e035d3580087eeac402842463c80843bf7383bcd3d8b70f7ad3d4cc88",
+   "bytes": 2495075,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T05:15:00Z",
+   "path": "frame-49.bin.gz",
+   "sha256": "dfe8b4d92fa94356155f58162e673a870bc8d13adcbace7dd7f3c46acfe84808",
+   "bytes": 2494345,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T05:30:00Z",
+   "path": "frame-50.bin.gz",
+   "sha256": "3f9703f277e0389d829980f0efcff20fb41166f52865190b29c4aa26d523627a",
+   "bytes": 2493701,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T05:45:00Z",
+   "path": "frame-51.bin.gz",
+   "sha256": "3dd1895640b78696d5d46e21270bd38c42ad696b7efca7e1191c1f15d2c1c058",
+   "bytes": 2492920,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T06:00:00Z",
+   "path": "frame-52.bin.gz",
+   "sha256": "656cbc4af853c3ca0b34c4ce926748119b3ea7e3a16adaf655c9ace9dabada7a",
+   "bytes": 2492215,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T06:15:00Z",
+   "path": "frame-53.bin.gz",
+   "sha256": "d298b60178e0e9b0c2c1bb9499f7e24a978e990750647131a285728141820629",
+   "bytes": 2491842,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T06:30:00Z",
+   "path": "frame-54.bin.gz",
+   "sha256": "d5712e296f5c5ed00de95ee03ad665899be47ca301a072bc5d958584ee4d14f2",
+   "bytes": 2491236,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T06:45:00Z",
+   "path": "frame-55.bin.gz",
+   "sha256": "bd7c6c8c29fa5ce5e762b6988534b00165386aeef4d9336a9bc43f62d63a6e4c",
+   "bytes": 2490639,
+   "decodedBytes": 3078104
+  },
+  {
+   "time": "2026-11-02T07:00:00Z",
+   "path": "frame-56.bin.gz",
+   "sha256": "6959f36b55df500a5635b073a678f9ff58862d6d73d20cdff6f951e187d90eb4",
+   "bytes": 2490299,
+   "decodedBytes": 3078104
+  }
+ ],
+ "quantity": {
+  "name": "cell_average_depth",
+  "units": "m",
+  "definition": "Native volume divided by each full native polygon area"
+ },
+ "sourceIssues": {
+  "mode": "synthetic_design_storm",
+  "sourceArchiveSha256": "3e69143a474cbe022158f404d98b938a41eac1e67ba30a2f9c3f23902fd92ca0"
+ },
+ "solverCompletion": {
+  "status": "complete",
+  "nativeStatus": [
+   0
+  ],
+  "nativeRuntimeSeconds": 2676.849609375
+ },
+ "flowNotes": [],
+ "flowSources": [],
+ "caseArchiveSha256": "67ee11150eeaf08c0ddc6596509effdd461e03a4ec6133e73aabf95e15a99ea2",
+ "issuedAt": "2026-11-14T02:54:40Z",
+ "uncertainty": {
+  "status": "not_quantified",
+  "plusMinus": null
+ },
+ "limits": "Synthetic design storm, not current conditions. Exact original design rainfall and record-river curve transplanted by elapsed simulation time onto each wider case; its original antecedent and other inlet flows remain unchanged. The absolute scenario clock shifts by five hours. Return period describes the imposed rainfall, not a calibrated joint flood probability. No river hydrograph is invented for model areas without the Santa Cruz inlet.",
+ "roadForecast": {
+  "path": "road-forecast.json",
+  "sha256": "ae63a799a7194558ead7056e71894a7562f55751193d888d2c29808529506eb9",
+  "bytes": 17920,
+  "kind": "live_all_route_road_forecast",
+  "schemaVersion": 1
+ },
+ "scenario": "extreme",
+ "scenarioInputs": {
+  "schemaVersion": 1,
+  "kind": "expanded_design_storm_case",
+  "executionMode": "synthetic_design_storm",
+  "scenario": "extreme",
+  "returnPeriodYears": 1000,
+  "case": "gates",
+  "modelVersion": "all-routes-gates-full-v3",
+  "caseArchiveSha256": "67ee11150eeaf08c0ddc6596509effdd461e03a4ec6133e73aabf95e15a99ea2",
+  "sourceArchive": "tools/sfincs/data/extreme-storm-v1/case.tar.gz",
+  "sourceArchiveSha256": "3e69143a474cbe022158f404d98b938a41eac1e67ba30a2f9c3f23902fd92ca0",
+  "sourceFileSha256": {
+   "sfincs.inp": "63dac18fddda38eb51aa2022f7fe88f2530d6de5a7b8d086aee8d916fa1a254c",
+   "sfincs.dis": "28afedb56d4f33372a8dca6660433ca7d2cb3d0405be73b2fadccd74c660e516",
+   "sfincs.src": "8a74b9d56b6ee772e09213988aec926f773959c7b430383491e3dd848cbcaa3f",
+   "precip_2d.nc": "2774aa73e8a5e7caf3e61f318612dbf3abbd4df049e7025e091f55ac199c8611",
+   "current-case.json": "9366eed5d4469bda9b222cac3a79786db5e270240a3cf4fb3936c06424f9b284"
+  },
+  "physicalInputSha256": {
+   "GCN10-source-metadata.xml": "8cb11e095755803c304c83db7fced3af702ba3aebe92eba111aeddbf9205d156",
+   "sfincs.src": "8ca285e82019717d7612f821ca323f48ce3a3d31c619b1289729ad94126eae17",
+   "GCN10-NOTICE.txt": "bf1ab628854b657fdeb9d6fc10ac13e921a4fcb514e9cfc80458f6b0089814e8",
+   "sfincs_subgrid.nc": "f85657d571c55b309bb8922c27f898aad0850c75d0790c00fc89173ed029f688",
+   "current-case.json": "0a8fd8746a52605bf612a75601104b44ceafa9153f3617165e45ce0da33c941e",
+   "sfincs.nc": "7f99f1da7d0086c3a4f19e92698048f726ef25ca0c0dcc783568a1910b4139ff",
+   "infiltration.nc": "5250373c2ac71437125f2b850194133c0fc835934123999316a95154a65c6012"
+  },
+  "modifiedInputSha256": {
+   "precip_2d.nc": "a833467fbcd6955bb844f8a5b45ee6670fb839545ebbd5cea0ba5bc57913c896",
+   "sfincs.dis": "7ef01f3754318cc0403c66c6d9076a9abc8f02970ab111d7cd1ee3655155b035",
+   "sfincs.inp": "25307793e726cd2c63adb27cd64ab55b31daa7decc56dea598298082632ae33b"
+  },
+  "sourceReference": "2026-10-30T21:00:00Z",
+  "reference": "2026-10-30T16:00:00Z",
+  "absoluteTimeShiftSeconds": -18000,
+  "validFrom": "2026-11-01T17:00:00Z",
+  "validTo": "2026-11-02T07:00:00Z",
+  "frameSeconds": 900,
+  "rain": [
+   {
+    "elapsedSeconds": 176400,
+    "mmPerHour": 0.0
+   },
+   {
+    "elapsedSeconds": 180000,
+    "mmPerHour": 0.0
+   },
+   {
+    "elapsedSeconds": 183600,
+    "mmPerHour": 2.8702
+   },
+   {
+    "elapsedSeconds": 187200,
+    "mmPerHour": 6.35
+   },
+   {
+    "elapsedSeconds": 190800,
+    "mmPerHour": 77.216
+   },
+   {
+    "elapsedSeconds": 194400,
+    "mmPerHour": 9.398
+   },
+   {
+    "elapsedSeconds": 198000,
+    "mmPerHour": 2.8702
+   },
+   {
+    "elapsedSeconds": 201600,
+    "mmPerHour": 2.8956
+   },
+   {
+    "elapsedSeconds": 205200,
+    "mmPerHour": 0.0
+   },
+   {
+    "elapsedSeconds": 208800,
+    "mmPerHour": 0.0
+   },
+   {
+    "elapsedSeconds": 212400,
+    "mmPerHour": 0.0
+   },
+   {
+    "elapsedSeconds": 216000,
+    "mmPerHour": 0.0
+   },
+   {
+    "elapsedSeconds": 219600,
+    "mmPerHour": 0.0
+   },
+   {
+    "elapsedSeconds": 223200,
+    "mmPerHour": 0.0
+   }
+  ],
+  "river": {
+   "targetReachId": null,
+   "targetColumn": null,
+   "designPeakM3s": null,
+   "sourceColumn": 1,
+   "otherInletsUnchanged": true,
+   "sourceLabelCorrection": "Old source metadata called 15902351 Santa Cruz. Registry/network identify 15902363 as Santa Cruz at the same native location. The exact designed hydrograph replaces 15902363; it is not added on top of its normal flow."
+  },
+  "limitations": "Synthetic design storm, not current conditions. Exact original design rainfall and record-river curve transplanted by elapsed simulation time onto each wider case; its original antecedent and other inlet flows remain unchanged. The absolute scenario clock shifts by five hours. Return period describes the imposed rainfall, not a calibrated joint flood probability. No river hydrograph is invented for model areas without the Santa Cruz inlet."
+ },
+ "numericalAudit": {
+  "negativeNativeSamplesRetained": 33779,
+  "minimumEquivalentDepthM": -0.0006739837646484375,
+  "materialityLimitM": 0.001
+ }
+}
