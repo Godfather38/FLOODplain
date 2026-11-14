@@ -28,7 +28,7 @@ test('live coverage reports real sources and never claims dry',()=>{
  assert.equal(c.forecast,true);assert.equal(c.roadHeight,true);assert.equal(c.county.length,1);assert.ok(c.gauges>0);
  assert.match(coverageText(c),/Live forecast compared with road height/);
  const none=liveCoverage({coordinates:[-100,30],gaugeAssociations:[]},{handPoints:coverage.points,roadHeights:roads.points});
- assert.equal(coverageText(none),'');
+ assert.match(coverageText(none),/No live forecast here.*no linked gauge/);
  assert.doesNotMatch(coverageText(none),/dry|clear|safe/i);
 });
 test('gauge readings come only from live feeds and keep their own clock',()=>{

@@ -1,9 +1,0 @@
-{
-  "fixture": "Remote sources return HTTP 503; local app and retained data load",
-  "errors": [],
-  "routeHasSyntheticAnnouncement": false,
-  "routeHasFalseNormalHeading": false,
-  "detailHasSyntheticAnnouncement": false,
-  "detailRetainsUnavailable": true,
-  "detailRetainsUncertainty": true
-}

@@ -250,7 +250,7 @@ test('a quiet crossing says nothing reports it, rather than calling it dry', () 
 
 test('the crossing screen uses that lead instead of the level sentence', () => {
   const src = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8');
-  assert.ok(src.includes("crossingLead(p) ?? (p.evidenceAvailable===false?'Current road conditions are not established.':LEVEL_SENTENCE[p.level])"), 'app.js leads with evidence and does not call missing evidence normal');
+  assert.match(src, /crossingLead\(p\) \?\? LEVEL_SENTENCE\[p\.level\]/, 'app.js leads with the evidence');
   assert.match(src, /'road-status': \['🛑', 'This crossing itself'\]/, 'the road-status row has a label');
 });
 

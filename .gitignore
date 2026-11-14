@@ -7,8 +7,3 @@ apps-script/Secrets.gs
 .hand-cache/
 .wrangler/
 worker/.dev.vars*
-
-.test-tmp/
-.test-output.txt
-.browser-test-output.txt
-.browser-test-output-final.txt

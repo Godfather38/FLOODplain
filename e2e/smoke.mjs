@@ -97,8 +97,6 @@ try{
   assert.match(comparison,/Road:.*ft NAVD88.*Predicted water:.*ft NAVD88.*0.13 ft above the road/s);
   await page.click('.leaflet-popup-close-button');
   await page.click('[data-destination=routes]');await page.click('[data-destination=map]');
-  // Navigation remounts the map asynchronously; verify the restored marker before counting duplicates.
-  await page.waitForSelector('.road-forecast-pin',{state:'attached',timeout:15000});
   assert.equal(await page.locator('.road-forecast-pin').count(),1,'one marker after repeated navigation');
   assert.deepEqual(errors,[]);await context.close();
  });

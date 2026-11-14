@@ -3,10 +3,3 @@ public/inundation/data/nwps-scta3-*.json -text
 public/simulation/data/refined-compact-41339621278/** -text
 public/simulation/data/bridge-evidence-registry.json -text
 public/simulation/data/all-route-13z/** -text
-
-# Preserve hash-bound evidence and deterministic generated source on Windows.
-public/simulation/data/road-heights/*.json -text
-public/simulation/data/road-heights/repairs/*.json -text
-public/data/routes.geojson -text
-apps-script/Code.gs text eol=lf
-worker/generated/input-health.js text eol=lf
