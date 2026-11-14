@@ -1,0 +1,863 @@
+{
+ "fetched_at": "2026-11-14T16:08:12+00:00",
+ "source": "Pima County Regional Flood Control District ALERT (provisional data)",
+ "rain_windows": [
+  "m10",
+  "m30",
+  "h1",
+  "h3",
+  "h6",
+  "d1",
+  "d3",
+  "d7",
+  "d30"
+ ],
+ "rain": [
+  {
+   "site": "1000",
+   "name": "Arthur Pack Park - Santa Cruz Basin",
+   "lat": 32.376011,
+   "lon": -111.0476,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.08,
+    "d3": 0.08,
+    "d7": 0.08,
+    "d30": 2.64
+   }
+  },
+  {
+   "site": "1210",
+   "name": "Massingale Detention",
+   "lat": 32.345741,
+   "lon": -111.059273,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.16,
+    "d3": 0.16,
+    "d7": 0.16,
+    "d30": 3.35
+   }
+  },
+  {
+   "site": "1220",
+   "name": "Oro Valley Water Plant 13",
+   "lat": 32.458187,
+   "lon": -110.97332,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.08,
+    "d3": 0.08,
+    "d7": 0.08,
+    "d30": 3.27
+   }
+  },
+  {
+   "site": "1230",
+   "name": "Oro Valley Public Works - Canada Del Oro Basin",
+   "lat": 32.373859,
+   "lon": -110.982651,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.12,
+    "d3": 0.12,
+    "d7": 0.12,
+    "d30": 3.54
+   }
+  },
+  {
+   "site": "1240",
+   "name": "Moore Rd at La Cholla Blvd - Canada Del Oro Basin",
+   "lat": 32.438057,
+   "lon": -111.011948,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.12,
+    "d3": 0.12,
+    "d7": 0.12,
+    "d30": 3.74
+   }
+  },
+  {
+   "site": "1250",
+   "name": "Pima Wash at Ina Road",
+   "lat": 32.337059,
+   "lon": -110.962357,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.2,
+    "d3": 0.2,
+    "d7": 0.2,
+    "d30": 3.39
+   }
+  },
+  {
+   "site": "1290",
+   "name": "Tangerine Sky Park",
+   "lat": 32.421646,
+   "lon": -111.061668,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.2,
+    "d3": 0.2,
+    "d7": 0.2,
+    "d30": 3.23
+   }
+  },
+  {
+   "site": "1342",
+   "name": "Santa Cruz River at Trico Road",
+   "lat": 32.471603,
+   "lon": -111.301956,
+   "last_rpt": "2026-11-07T19:16:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": null,
+    "m30": null,
+    "h1": null,
+    "h3": null,
+    "h6": null,
+    "d1": null,
+    "d3": null,
+    "d7": null,
+    "d30": null
+   }
+  },
+  {
+   "site": "2340",
+   "name": "Agua Nueva Outfall",
+   "lat": 32.28455,
+   "lon": -111.029259,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.04,
+    "d3": 0.04,
+    "d7": 0.04,
+    "d30": 3.5
+   }
+  },
+  {
+   "site": "2360",
+   "name": "Rillito Creek at La Cholla Blvd",
+   "lat": 32.302853,
+   "lon": -111.011185,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.04,
+    "d3": 0.04,
+    "d7": 0.04,
+    "d30": 3.86
+   }
+  },
+  {
+   "site": "2380",
+   "name": "Ruthraff Rd near La Cholla Blvd - Rillito Basin",
+   "lat": 32.294136,
+   "lon": -111.011742,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.04,
+    "d3": 0.04,
+    "d7": 0.04,
+    "d30": 3.46
+   }
+  },
+  {
+   "site": "4100",
+   "name": "AZGFD1",
+   "lat": 32.33852,
+   "lon": -111.411942,
+   "last_rpt": "2026-11-14T17:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.08,
+    "d3": 0.08,
+    "d7": 0.08,
+    "d30": 1.42
+   }
+  },
+  {
+   "site": "5020",
+   "name": "AZGFD 2",
+   "lat": 32.347321,
+   "lon": -111.465012,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.31,
+    "d3": 0.31,
+    "d7": 0.31,
+    "d30": 2.28
+   }
+  },
+  {
+   "site": "5030",
+   "name": "AZGFD 3",
+   "lat": 32.16695,
+   "lon": -111.328484,
+   "last_rpt": "2026-11-14T17:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.16,
+    "d3": 0.16,
+    "d7": 0.16,
+    "d30": 2.28
+   }
+  },
+  {
+   "site": "5040",
+   "name": "San Xavier-Black Mountain West",
+   "lat": 32.079945,
+   "lon": -111.08847,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.0,
+    "d3": 0.0,
+    "d7": 0.0,
+    "d30": 1.73
+   }
+  },
+  {
+   "site": "6010",
+   "name": "Santa Cruz River below Canada Del Oro Wash",
+   "lat": 32.328156,
+   "lon": -111.068497,
+   "last_rpt": "2026-11-13T22:21:59-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.16,
+    "d3": 0.16,
+    "d7": 0.16,
+    "d30": 3.11
+   }
+  },
+  {
+   "site": "6020",
+   "name": "Santa Cruz River at Ina Road",
+   "lat": 32.337223,
+   "lon": -111.080002,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.08,
+    "d3": 0.08,
+    "d7": 0.08,
+    "d30": 2.44
+   }
+  },
+  {
+   "site": "6030",
+   "name": "Santa Cruz River above Grant Road",
+   "lat": 32.246769,
+   "lon": -110.99691,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.2,
+    "d3": 0.2,
+    "d7": 0.2,
+    "d30": 1.97
+   }
+  },
+  {
+   "site": "6040",
+   "name": "Santa Cruz River at Valencia Road",
+   "lat": 32.133076,
+   "lon": -110.993134,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.0,
+    "d3": 0.0,
+    "d7": 0.0,
+    "d30": 2.44
+   }
+  },
+  {
+   "site": "6100",
+   "name": "Mission Road near Silverlake Road - Santa Cruz Basin",
+   "lat": 32.201485,
+   "lon": -110.993416,
+   "last_rpt": "2026-11-14T01:58:07-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.12,
+    "d3": 0.12,
+    "d7": 0.12,
+    "d30": 1.73
+   }
+  },
+  {
+   "site": "6110",
+   "name": "Marana High Plains - Santa Cruz Basin",
+   "lat": 32.429016,
+   "lon": -111.22506,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.0,
+    "d3": 0.0,
+    "d7": 0.0,
+    "d30": 1.97
+   }
+  },
+  {
+   "site": "6120",
+   "name": "W. 20th St. near I-10 - Santa Cruz Basin",
+   "lat": 32.209259,
+   "lon": -110.97686,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.28,
+    "d3": 0.28,
+    "d7": 0.28,
+    "d30": 2.48
+   }
+  },
+  {
+   "site": "6130",
+   "name": "Continental Reserve- Marana",
+   "lat": 32.362514,
+   "lon": -111.12178,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.08,
+    "d3": 0.08,
+    "d7": 0.08,
+    "d30": 3.5
+   }
+  },
+  {
+   "site": "6140",
+   "name": "San Xavier-Black Mountain East",
+   "lat": 32.074581,
+   "lon": -111.040596,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.12,
+    "d3": 0.12,
+    "d7": 0.12,
+    "d30": 2.13
+   }
+  },
+  {
+   "site": "6160",
+   "name": "Tom Meixner Memorial at Holy Hope Cemetery",
+   "lat": 32.270538,
+   "lon": -110.982651,
+   "last_rpt": "2026-11-14T01:06:52-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.12,
+    "d3": 0.12,
+    "d7": 0.12,
+    "d30": 2.36
+   }
+  },
+  {
+   "site": "6170",
+   "name": "Public Works Building- Downtown",
+   "lat": 32.22485,
+   "lon": -110.972969,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.2,
+    "d3": 0.2,
+    "d7": 0.2,
+    "d30": 2.24
+   }
+  },
+  {
+   "site": "6420",
+   "name": "Brawley Wash at Three Points",
+   "lat": 32.075554,
+   "lon": -111.338333,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.04,
+    "d3": 0.04,
+    "d7": 0.04,
+    "d30": 1.85
+   }
+  },
+  {
+   "site": "6430",
+   "name": "Valhalla Park - Black Wash Basin",
+   "lat": 32.118889,
+   "lon": -111.114441,
+   "last_rpt": "2026-11-14T08:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.08,
+    "d3": 0.08,
+    "d7": 0.08,
+    "d30": 1.54
+   }
+  },
+  {
+   "site": "6440",
+   "name": "Brawley Wash at Milewide Road",
+   "lat": 32.248611,
+   "lon": -111.244446,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.0,
+    "d3": 0.0,
+    "d7": 0.0,
+    "d30": 2.05
+   }
+  },
+  {
+   "site": "6460",
+   "name": "Picture Rocks Community Center - Brawley Basin",
+   "lat": 32.309166,
+   "lon": -111.235558,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.08,
+    "d3": 0.08,
+    "d7": 0.08,
+    "d30": 2.48
+   }
+  },
+  {
+   "site": "6470",
+   "name": "Tucson Water Treatment Plant - Brawley Basin",
+   "lat": 32.170334,
+   "lon": -111.088104,
+   "last_rpt": "2026-11-13T21:29:44-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.08,
+    "d3": 0.08,
+    "d7": 0.08,
+    "d30": 2.95
+   }
+  },
+  {
+   "site": "6480",
+   "name": "Trico Rd north of Manville",
+   "lat": 32.319149,
+   "lon": -111.303688,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.0,
+    "d3": 0.0,
+    "d7": 0.0,
+    "d30": 0.79
+   }
+  },
+  {
+   "site": "6490",
+   "name": "Old Tucson",
+   "lat": 32.220211,
+   "lon": -111.131416,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.16,
+    "d3": 0.16,
+    "d7": 0.16,
+    "d30": 2.8
+   }
+  },
+  {
+   "site": "6500",
+   "name": "Arizona-Sonora Desert Museum",
+   "lat": 32.244461,
+   "lon": -111.162674,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.04,
+    "d3": 0.04,
+    "d7": 0.04,
+    "d30": 2.64
+   }
+  },
+  {
+   "site": "6520",
+   "name": "El Camino Del Cerro TH",
+   "lat": 32.2887,
+   "lon": -111.121941,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.24,
+    "d3": 0.24,
+    "d7": 0.24,
+    "d30": 3.62
+   }
+  },
+  {
+   "site": "6530",
+   "name": "Santa Cruz River at Silverlake Rd",
+   "lat": 32.200748,
+   "lon": -110.987961,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "in": {
+    "m10": 0.0,
+    "m30": 0.0,
+    "h1": 0.0,
+    "h3": 0.0,
+    "h6": 0.0,
+    "d1": 0.12,
+    "d3": 0.12,
+    "d7": 0.12,
+    "d30": 1.3
+   }
+  }
+ ],
+ "stream": [
+  {
+   "site": "1213",
+   "name": "Massingale Detention - PT",
+   "lat": 32.345741,
+   "lon": -111.059273,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "stage_ft": 0.05,
+   "flow_cfs": 8.0
+  },
+  {
+   "site": "1253",
+   "name": "Pima Wash at Ina Road - PT",
+   "lat": 32.337059,
+   "lon": -110.962357,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "stage_ft": 0.25,
+   "flow_cfs": 8.0
+  },
+  {
+   "site": "1345",
+   "name": "Santa Cruz River at Trico Road",
+   "lat": 32.471603,
+   "lon": -111.301956,
+   "last_rpt": "2026-11-07T19:16:00-07:00",
+   "maintenance": false,
+   "stage_ft": null,
+   "flow_cfs": 0.0
+  },
+  {
+   "site": "2341",
+   "name": "Agua Nueva Outfall Water Level",
+   "lat": 32.28455,
+   "lon": -111.029259,
+   "last_rpt": "2025-06-06T12:00:27-07:00",
+   "maintenance": false,
+   "stage_ft": null,
+   "flow_cfs": 0.0
+  },
+  {
+   "site": "2363",
+   "name": "Rillito Creek at La Cholla Blvd - PT",
+   "lat": 32.302853,
+   "lon": -111.011185,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "stage_ft": 0.53,
+   "flow_cfs": 4.0
+  },
+  {
+   "site": "4103",
+   "name": "AZGFD1 - PT",
+   "lat": 32.33849,
+   "lon": -111.411911,
+   "last_rpt": "2026-11-14T09:03:18-07:00",
+   "maintenance": false,
+   "stage_ft": 3.46,
+   "flow_cfs": 0.0
+  },
+  {
+   "site": "5023",
+   "name": "AZGFD 2 - PT",
+   "lat": 32.347321,
+   "lon": -111.465012,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "stage_ft": 6.14,
+   "flow_cfs": 0.0
+  },
+  {
+   "site": "5033",
+   "name": "AZGFD 3 - PT",
+   "lat": 32.16695,
+   "lon": -111.328484,
+   "last_rpt": "2026-11-14T09:07:12-07:00",
+   "maintenance": false,
+   "stage_ft": 3.4,
+   "flow_cfs": 0.0
+  },
+  {
+   "site": "6013",
+   "name": "Santa Cruz River below Canada Del Oro Wash - PT",
+   "lat": 32.328156,
+   "lon": -111.068558,
+   "last_rpt": "2026-11-13T22:21:59-07:00",
+   "maintenance": false,
+   "stage_ft": 6.5,
+   "flow_cfs": 0.0
+  },
+  {
+   "site": "6023",
+   "name": "Santa Cruz River at Ina Road - PT",
+   "lat": 32.337223,
+   "lon": -111.080002,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "stage_ft": 0.0,
+   "flow_cfs": 0.0
+  },
+  {
+   "site": "6033",
+   "name": "Santa Cruz River above Grant Road - PT",
+   "lat": 32.246769,
+   "lon": -110.99691,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "stage_ft": 1.91,
+   "flow_cfs": 6.0
+  },
+  {
+   "site": "6043",
+   "name": "Santa Cruz River at Valencia Road PT",
+   "lat": 32.133076,
+   "lon": -110.993134,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "stage_ft": 0.44,
+   "flow_cfs": 0.0
+  },
+  {
+   "site": "6143",
+   "name": "San Xavier-Black Mountain East (PT)",
+   "lat": 32.074581,
+   "lon": -111.040596,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "stage_ft": 0.31,
+   "flow_cfs": 0.0
+  },
+  {
+   "site": "6423",
+   "name": "Brawley Wash at Three Points (PT)",
+   "lat": 32.075554,
+   "lon": -111.338333,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "stage_ft": 0.3,
+   "flow_cfs": 0.0
+  },
+  {
+   "site": "6443",
+   "name": "Brawley Wash at Milewide Road (PT)",
+   "lat": 32.248611,
+   "lon": -111.244446,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "stage_ft": 2.3,
+   "flow_cfs": 0.0
+  },
+  {
+   "site": "6533",
+   "name": "Santa Cruz River at Silverlake Rd (PT)",
+   "lat": 32.200748,
+   "lon": -110.987961,
+   "last_rpt": "2026-11-14T09:00:00-07:00",
+   "maintenance": false,
+   "stage_ft": 0.04,
+   "flow_cfs": 0.0
+  }
+ ]
+}
