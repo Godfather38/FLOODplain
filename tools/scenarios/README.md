@@ -21,3 +21,27 @@ The full archived scenario window is retained: 57 quarter-hour water frames from
 - No negative-as-dry patch or production exporter activation is included.
 
 Run artifacts are named `scenario-{stress|extreme}-{northern|picture-rocks|gates}`. Each contains compact output plus input provenance and the native run log. Failed/incomplete artifacts are diagnostic only and must not be wired into a completed scenario.
+
+## Gates 100-year timestep refinement, November 14
+
+The completed diagnostic run 43549222876 failed the existing 1 mm gate in two
+saved frames (28 and 36): two adjacent 6.25 m cells reached -2.086625 mm and
+-1.147112 mm. Those cells were not sampled road stations. The audit covered all
+57 frames; the maximum negative-volume deficit in any snapshot was 9.175888 m3.
+That deficit is not a solver mass-balance error or a sum across time.
+
+`design-storm-refinement.yml` performs one explicitly requested three-case stress
+run. Northern and Picture Rocks retain baseline settings; Gates alone uses
+`--numerical-profile gates-stress-alpha025`, changing native alpha from 0.5 to
+0.25. The full antecedent run, forcing, mesh, subgrid, infiltration, roughness,
+output window, pinned binary, unknown handling and 1 mm gate stay unchanged.
+All three cases run together to preserve the display builder's same-run rule.
+The profile is recorded in scenario-case.json, including the changed input hash.
+The accepted display is still a synthetic scenario, never live conditions.
+
+The pinned SFINCS timestep is alpha times the CFL limit (sfincs_lib.f90:334-338).
+Its initialization also applies alpha to the maximum timestep ceiling
+(sfincs_domain.f90:1614-1629), so runtime need not scale simply by 2. The existing
+5400-second cap remains; timeout or any quality failure rejects the output and
+retains diagnostics. No automatic retry or output clipping is introduced.
+Passing the gate is not proof of temporal convergence or a complete water budget.

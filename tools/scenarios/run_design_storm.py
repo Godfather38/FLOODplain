@@ -104,7 +104,30 @@ def replace_boundary(boundary, source_boundary, inlets):
     return result, targets[0] if targets else None
 
 
-def prepare(case, scenario, work, root):
+def refine_numerics(text, case, scenario, profile='baseline'):
+    """Explicit, isolated timestep refinement; never changes physics or output data."""
+    if profile == 'baseline':
+        return text, None
+    if profile != 'gates-stress-alpha025' or (case, scenario) != ('gates', 'stress'):
+        raise ValueError('Numerical refinement is restricted to Gates stress alpha025')
+    lines = text.splitlines(keepends=True)
+    indices = [i for i, line in enumerate(lines) if '=' in line and line.split('=', 1)[0].strip() == 'alpha']
+    if len(indices) != 1 or float(config(text).get('alpha', 'nan')) != 0.5:
+        raise ValueError('Expected exactly one pinned alpha = 0.5 setting')
+    i = indices[0]
+    newline = '\r\n' if lines[i].endswith('\r\n') else '\n' if lines[i].endswith('\n') else ''
+    lines[i] = 'alpha = 0.25' + newline
+    changed = ''.join(lines)
+    before, after = config(text), config(changed)
+    if {k: v for k, v in before.items() if k != 'alpha'} != {k: v for k, v in after.items() if k != 'alpha'}:
+        raise ValueError('A setting other than alpha changed')
+    return changed, {'profile': profile, 'parameter': 'alpha', 'originalValue': 0.5, 'value': 0.25,
+        'purpose': 'Reduce the native CFL timestep after the original Gates stress run exceeded the unchanged 1 mm signed-volume gate.',
+        'source': 'https://github.com/Deltares/SFINCS/blob/' + SOURCE_COMMIT + '/source/src/sfincs_lib.f90#L334-L338',
+        'caveat': 'Numerical refinement only. Passing the existing publication gate is not proof of temporal convergence or a full water-budget audit.'}
+
+
+def prepare(case, scenario, work, root, numerical_profile='baseline'):
     work = Path(work).resolve(); root = Path(root).resolve()
     if work.exists(): raise ValueError('Scenario work directory must be new; no existing data is removed')
     entry = live.case_entry(case)
@@ -117,7 +140,9 @@ def prepare(case, scenario, work, root):
     finally:
         os.chdir(previous_cwd)
     before = {p.name: sha(p.read_bytes()) for p in work.iterdir() if p.is_file()}
-    text = (work / 'sfincs.inp').read_text(); cfg = config(text)
+    text = (work / 'sfincs.inp').read_text()
+    text, refinement = refine_numerics(text, case, scenario, numerical_profile)
+    cfg = config(text)
     reference = model_time(cfg['tref'])
     if model_time(cfg['tstart']) != reference or (model_time(cfg['tstop']) - reference).total_seconds() != END_OFFSET:
         raise ValueError('Wider case does not have the exact 63-hour baseline')
@@ -170,6 +195,9 @@ def prepare(case, scenario, work, root):
                       'sourceColumn': 1, 'otherInletsUnchanged': True,
                       'sourceLabelCorrection': 'Old source metadata called 15902351 Santa Cruz. Registry/network identify 15902363 as Santa Cruz at the same native location. The exact designed hydrograph replaces 15902363; it is not added on top of its normal flow.'},
             'limitations': 'Synthetic design storm, not current conditions. Exact original design rainfall and record-river curve transplanted by elapsed simulation time onto each wider case; its original antecedent and other inlet flows remain unchanged. The absolute scenario clock shifts by five hours. Return period describes the imposed rainfall, not a calibrated joint flood probability. No river hydrograph is invented for model areas without the Santa Cruz inlet.'}
+    if refinement is not None:
+        meta['numericalRefinement'] = refinement
+        meta['limitations'] += ' Gates uses an explicitly recorded alpha 0.25 timestep refinement; its native signed values and acceptance gate are unchanged.'
     (work / 'scenario-case.json').write_text(json.dumps(meta, indent=2) + '\n')
     print(json.dumps({k: meta[k] for k in ('scenario', 'case', 'validFrom', 'validTo', 'absoluteTimeShiftSeconds', 'river')}))
 
@@ -421,6 +449,7 @@ def export(case, scenario, work, out, diagnostic_only=False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(); parser.add_argument('action', choices=['prepare', 'export', 'diagnostic-export']); parser.add_argument('case', choices=['northern', 'picture-rocks', 'gates']); parser.add_argument('scenario', choices=list(SCENARIOS)); parser.add_argument('work'); parser.add_argument('out_or_root', nargs='?', default='.')
+    parser.add_argument('--numerical-profile', choices=['baseline', 'gates-stress-alpha025'], default='baseline')
     args = parser.parse_args()
-    if args.action == 'prepare': prepare(args.case, args.scenario, args.work, args.out_or_root)
+    if args.action == 'prepare': prepare(args.case, args.scenario, args.work, args.out_or_root, args.numerical_profile)
     else: export(args.case, args.scenario, args.work, args.out_or_root, diagnostic_only=args.action == 'diagnostic-export')
