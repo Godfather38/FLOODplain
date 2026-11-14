@@ -24,6 +24,7 @@ export function plainAge(time, now) {
 // Readable wording for people, leaving the source text used by alerts and tests alone.
 export function plainWords(text, now) {
   return String(text ?? '')
+    .replace(/No live readings right now; current road conditions are not established/g, 'No local reading is available.')
     .replace(/updated (\d\d\/\d\d\/\d\d, \d\d:\d\d)/g, (all, stamp) => { const age = plainAge(countyTime(stamp), now); return age ? `updated ${age}` : all; })
     .replace(/\bHAND model\b/g, 'Flood model')
     .replace(/\(NAVD88 elevation reference\)/g, '(above sea level)')
