@@ -5,12 +5,13 @@
 // run's modeled extent. Nothing here is observed water.
 import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY,LIVE_ALL_ROUTE} from '../preview/geo3d/src/runs.js?v=dev';
 import {fromUtm,toUtm} from '../preview/geo3d/src/utm.js?v=dev';
-import {parseRain,rainAtUtm} from '../preview/geo3d/src/world/rain-data.js?v=dev';
+import {parseRain,rainAtUtm,rainFrameAt} from '../preview/geo3d/src/world/rain-data.js?v=dev';
 import {decodeRoadHeights,roadPackage} from '../preview/geo3d/src/road-package.js?v=dev';
 import {loadHand,flowsForRun,handHour,windowBounds,HAND_COLORS,isSantaCruz,useFetcher} from './hand-runs.js?v=dev';
 export {loadHand,flowsForRun,HAND_COLORS,isSantaCruz};
 import {canvasRatio} from '../graphics.js?v=dev';
-import {openAllRoute,createQuadPainter,liveAllRoute} from './all-route-run.js?v=dev';
+import {openAllRoute,allRouteBase,createQuadPainter,liveAllRoute} from './all-route-run.js?v=dev';
+import {allRouteInputs} from './all-route-forcing.js?v=dev';
 export {RUNS};
 const DATA=new URL('./data/',import.meta.url);
 // Depth bands in feet, the same as the app's simulated-water key.
@@ -110,16 +111,16 @@ function build(def,cells,waterFrames,rainJson,series,handJson){
  return{def,cells,times,surface,depth,rain,inflow,hand,riverM3s,series:hourSeries({cells,times,depth,rain,inflow})};
 }
 // The all-route run (all-route-run.js): three model areas on quadtree cells, frames loaded one
-// at a time. Rain and river inputs are not in its display package, so they read as unknown (NaN).
-async function loadQuad(def){return quadRun(def,await openAllRoute({variant:'web',fetchBytes:url=>fetchBytes(url)}));}
+// at a time. Verified scenario inputs populate the existing layers; absent inputs remain unknown.
+async function loadQuad(def){return quadRun(def,await openAllRoute({base:allRouteBase(def),variant:'web',fetchBytes:url=>fetchBytes(url)}));}
 function quadRun(def,quad){
- const series=quad.series().map(v=>({...v,rainMmH:NaN,inflowM3s:NaN}));
+ const series=quad.series(),inputs=allRouteInputs(quad.pkg,quad.times);
  // Each cell's corners on the map, worked out once while the run loads.
  const painter=createQuadPainter(quad,{colors:DEPTH_COLORS,bandOf:m=>depthBand(m)});
- return{def,quad,painter,cells:null,times:quad.times,frameHours:quad.frameMs/3600e3,series,rain:null,inflow:[],hand:null,riverM3s:quad.times.map(()=>0)};
+ return{def,quad,painter,cells:null,times:quad.times,frameHours:quad.frameMs/3600e3,series,...inputs,hand:null,riverM3s:series.map(v=>v.inflowM3s)};
 }
 // After the overlap choice changes: the timeline counts each place once under the new order.
-export function setQuadOrder(run,mode){run.quad.setMode(mode);run.series=run.quad.series().map(v=>({...v,rainMmH:NaN,inflowM3s:NaN}));}
+export function setQuadOrder(run,mode){run.quad.setMode(mode);run.series=run.quad.series();}
 // The model cell holding a UTM point, or -1 outside the model.
 export function cellAt(cells,e,n){const k=cells.index.get(Math.floor((e-GRID.x0)/100)*1000+Math.floor((n-GRID.y0)/100));return k??-1;}
 // Per hour, for the timeline: wet area (km²), deepest cell (m), rain averaged over the model
@@ -223,7 +224,7 @@ export function createSimLayer(L,map){
   const t=time(),b=map.getBounds().pad(.05);
   // Rain first, softly, so water reads on top of it.
   if(show.rain&&run.rain){
-   const f=run.rain.frames.find(f=>t>=f.start&&t<f.end);
+   const f=rainFrameAt(run.rain,t);
    if(f){
     const {rows,cols,utm}=run.rain,dr=Math.abs(rows[1]-rows[0])/2,dc=Math.abs(cols[1]-cols[0])/2;ctx.globalAlpha=.42;
     for(let r=0;r<rows.length;r++)for(let c=0;c<cols.length;c++){
@@ -295,7 +296,7 @@ export function createSimLayer(L,map){
   flowLayer.clearLayers();if(!run||!show.flow)return;
   const {i}=at(),t=run.times[i];
   for(const s of run.inflow){
-   const q=s.points.get(t)??[...s.points].reduce((best,[k,v])=>Math.abs(k-t)<Math.abs(best[0]-t)?[k,v]:best,[Infinity,null])[1];
+   const q=s.points.get(t)??(s.exactTimes?null:[...s.points].reduce((best,[k,v])=>Math.abs(k-t)<Math.abs(best[0]-t)?[k,v]:best,[Infinity,null])[1]);
    if(q==null)continue;
    L.marker([s.lat,s.lon],{interactive:false,icon:L.divIcon({className:'live-reading flow-reading',html:`<span>${s.name}: ${Math.round(q*35.3147).toLocaleString()} ft³/s</span>`,iconSize:[0,0]})}).addTo(flowLayer);
   }

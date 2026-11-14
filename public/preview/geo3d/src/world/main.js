@@ -25,7 +25,8 @@ import {mountEmbed} from './embed.js';
 import {startGraphics,mountGraphics,chunkDetail} from './graphics-3d.js';
 import {loadHand,flowsForRun,handHour,windowBounds} from '../../../../simulation/hand-runs.js?v=dev';
 import {RUNS,LIVE,LIVE_MAX_AGE_H,BASE_DISPLAY,LIVE_ALL_ROUTE} from '../runs.js';
-import {openAllRoute,rasterize,liveAllRoute} from '../../../../simulation/all-route-run.js?v=dev';
+import {openAllRoute,allRouteBase,rasterize,rasterizeUnknown,liveAllRoute} from '../../../../simulation/all-route-run.js?v=dev';
+import {allRouteInputs} from '../../../../simulation/all-route-forcing.js?v=dev';
 const $=id=>document.getElementById(id);
 const DATA='../../../../simulation/data/',E=2,SHOW_DEPTH_M=.05,HOUR_SECONDS=4;
 const diagnostics={ready:false,errors:[],frameTimes:[]};
@@ -136,12 +137,13 @@ async function prepareLive(def){
 // cell on High and Ultra, the lighter web cells otherwise. The 100 m grid is left empty for it.
 const blankLevels=new Float32Array(GRID.mmax*GRID.nmax).fill(-1e5),blankShares=new Float32Array(GRID.mmax*GRID.nmax).fill(-2);
 const rawBytes=async url=>{const r=await fetchRetry(url);if(!r.ok)throw new Error(`${String(url).split('/').pop()} answered ${r.status}.`);return readCounted(r,String(url));};
-async function prepareQuad(def){const variant=['high','ultra'].includes(gfx.preset)?'full':'web';return quadRun(def,await openAllRoute({variant,fetchBytes:rawBytes}),variant);}
+async function prepareQuad(def){const variant=['high','ultra'].includes(gfx.preset)?'full':'web';return quadRun(def,await openAllRoute({base:allRouteBase(def),variant,fetchBytes:rawBytes}),variant);}
 function quadRun(def,quad,variant){
- const frames=quad.iso.map(time=>({time})),zero=quad.times.map(()=>0);
+ const frames=quad.iso.map(time=>({time})),inputs=allRouteInputs(quad.pkg,quad.times);
+ const inflow=inputs.inflow.map(s=>{const [x,z]=world(s.lon,s.lat);return{...s,x,z};});
  // A point is inside when any of the three areas has a cell there.
  const inside=(x,z)=>{const u=worldToUtm(x,z);return quad.cases.some(c=>quad.cellAtUtm(c,u.e,u.n)>=0);};
- return{def,quad,variant,frames,frameMs:quad.frameMs,levels:frames.map(()=>blankLevels),shares:frames.map(()=>blankShares),samplers:frames.map(()=>()=>NaN),measured,rain:null,inflow:[],times:quad.times,riverM3s:zero,inside};
+ return{def,quad,variant,frames,frameMs:quad.frameMs,levels:frames.map(()=>blankLevels),shares:frames.map(()=>blankShares),samplers:frames.map(()=>()=>NaN),measured,rain:inputs.rain,inflow,times:quad.times,riverM3s:quad.series().map(v=>v.inflowM3s),inside};
 }
 const gfx=startGraphics(),G=gfx.settings;
 let run,liveProblem=null;
@@ -167,7 +169,7 @@ async function showFine(i){
    const r=run,at=fineWant,next=Math.min(r.frames.length-1,at+1);
    await Promise.all([r.quad.ensure(at),r.quad.ensure(next)]);
    if(r!==run||!r.quad)break;
-   const pic=k=>{const key=r.def.id+'|'+r.quad.mode+'|'+k;if(!finePics.has(key)){if(finePics.size>=4)finePics.delete(finePics.keys().next().value);finePics.set(key,rasterize(r.quad,k,fineBox));}return finePics.get(key);};
+   const pic=k=>{const key=r.def.id+'|'+r.quad.mode+'|'+k;if(!finePics.has(key)){if(finePics.size>=4)finePics.delete(finePics.keys().next().value);finePics.set(key,{depth:rasterize(r.quad,k,fineBox),unknown:rasterizeUnknown(r.quad,k,fineBox)});}return finePics.get(key);};
    surface.setFine(pic(at),pic(next));
    for(const k of [next+1,next+2])if(k<r.frames.length)r.quad.ensure(k).catch(()=>{});
    if(fineWant===at)break;
@@ -363,7 +365,7 @@ diagnostics.ready=true;
 status(`${run.def.label}: ${run.frames.length} hours over the model's 10 m lidar terrain.`);
 setInterval(()=>{
  const t=diagnostics.frameTimes.slice(-120),s=chunks.stats(),c=toLonLat(controls.target.x,controls.target.z),here=run.rain?rainAt(run.rain,frameTime(),c.lon,c.lat):null;
- $('rain-now').textContent=run.rain?(here>.05?`${here.toFixed(1)} mm/h at the view centre this hour`:'No rain at the view centre this hour'):'';
+ $('rain-now').textContent=run.rain&&Number.isFinite(here)?(here>.05?`${here.toFixed(1)} mm/h at the view centre this hour`:'No rain at the view centre this hour'):'';
  if(t.length)$('metrics').textContent=`${(1000/(t.reduce((a,b)=>a+b,0)/t.length)).toFixed(1)} FPS · ${s.painted}/${s.chunks} areas mapped`;
 },500);
 window.world={graphics,renderer,scene,camera,controls,chunks,diagnostics,ground,filled,labels,places,flyTo,routesUI,get run(){return run;},setClock:v=>{playing=false;clock=v;},get frameIndex(){return frameIndex;}};

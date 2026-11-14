@@ -16,6 +16,9 @@ export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exagger
  const fineW=finePx,fineH=Math.round(finePx*SIZE_Z/SIZE_X);
  const fineTex=()=>{const t=new THREE.DataTexture(new Uint8Array(fineW*fineH),fineW,fineH,THREE.RedFormat,THREE.UnsignedByteType);t.magFilter=THREE.LinearFilter;t.minFilter=THREE.LinearMipmapLinearFilter;t.generateMipmaps=true;t.needsUpdate=true;return t;};
  const fineA=fineTex(),fineB=fineTex();
+ // Unknown masks are categorical: never interpolate them or generate blurred mipmaps.
+ const maskTex=()=>{const t=fineTex();t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;return t;};
+ const unknownA=maskTex(),unknownB=maskTex();
  // The HAND modeled extent for the hour, painted on a canvas over the whole model rectangle.
  const handCanvas=document.createElement('canvas');handCanvas.width=handPx;handCanvas.height=Math.round(handPx*SIZE_Z/SIZE_X);
  const handTex=new THREE.CanvasTexture(handCanvas);handTex.flipY=false;
@@ -44,7 +47,9 @@ export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exagger
  const level=Fn(([xz])=>pick(levelA_(xz),levelB_(xz)));
  const fineUv=xz=>vec2(xz.x.add(SIZE_X/2).div(SIZE_X),xz.y.add(SIZE_Z/2).div(SIZE_Z));
  const decode=v=>select(v.lessThan(.5/255),float(-1),pow(v.mul(255).sub(1).div(254).max(0),2).mul(16));
- const fineDepth=Fn(([xz])=>{const uv=fineUv(xz);return mix(decode(texture(fineA,uv).r),decode(texture(fineB,uv).r),U.alpha);});
+ const fineDepth=Fn(([xz])=>{const uv=fineUv(xz),a=texture(unknownA,uv).r,b=texture(unknownB,uv).r;
+  const unknown=select(U.alpha.lessThanEqual(0),a,select(U.alpha.greaterThanEqual(1),b,max(a,b)));
+  return select(unknown.greaterThan(.5),float(-1),mix(decode(texture(fineA,uv).r),decode(texture(fineB,uv).r),U.alpha));});
  const share=Fn(([xz])=>max(pick(shareA_(xz),shareB_(xz)),0));
  const worldXZ=modelWorldMatrix.mul(vec4(positionLocal,1)).xz;
  const blank=new THREE.DataTexture(new Uint8Array([239,232,216,255]),1,1);blank.needsUpdate=true;
@@ -111,7 +116,7 @@ export function createSurface({heights,levelA,levelB,shareA,shareB,noise,exagger
   }
   handTex.needsUpdate=true;
  }
- // a, b: Uint8Array depth codes (fineW × fineH, row 0 = north) for this frame and the next.
- function setFine(a,b){fineA.image.data=a;fineB.image.data=b;fineA.needsUpdate=true;fineB.needsUpdate=true;}
+ // a, b: depth codes and categorical unknown masks (row 0 = north) for adjacent frames.
+ function setFine(a,b){fineA.image.data=a.depth;fineB.image.data=b.depth;unknownA.image.data=a.unknown;unknownB.image.data=b.unknown;for(const t of [fineA,fineB,unknownA,unknownB])t.needsUpdate=true;}
  return{U,make,setHand,setHandImages,handCanvas,setFine,fineSize:{w:fineW,h:fineH},setLevels:(a,b,sa,sb)=>{texA.image.data=a;texB.image.data=b;shareTexA.image.data=sa;shareTexB.image.data=sb;for(const t of [texA,texB,shareTexA,shareTexB])t.needsUpdate=true;}};
 }

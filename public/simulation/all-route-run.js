@@ -24,6 +24,30 @@ function unpack(bytes){
  // Copy the body so every array starts on its own aligned buffer.
  const body=bytes.slice(8+n);return{header,body:body.buffer};
 }
+// New packages explicitly retain unknown cells; old packages omit that extension.
+export function decodeAllRouteFrame(bytes,cellCount,routeIndex,time){
+ const {header,body}=unpack(bytes),L=header.listed,rc=header.routeCells,U=header.unknownCells===undefined?0:header.unknownCells;
+ if(![L,rc,U].every(n=>Number.isSafeInteger(n)&&n>=0)||rc!==routeIndex.length)throw new Error('Invalid all-route frame counts');
+ const ro=6*L+((-2*L)%4+4)%4;
+ if(body.byteLength!==ro+8*rc+4*U)throw new Error('Invalid all-route frame length');
+ const delta=new Uint32Array(body,0,L),mm=new Uint16Array(body,4*L,L);
+ const routeDepth=new Float32Array(body,ro,rc),routeZs=new Float32Array(body,ro+4*rc,rc),unknown=new Uint32Array(body,ro+8*rc,U);
+ const listed=new Uint32Array(L),depth=new Float32Array(L);let at=0;
+ for(let i=0;i<L;i++){at+=delta[i];if(at>=cellCount||(i>0&&at<=listed[i-1]))throw new Error('Invalid all-route listed cell');listed[i]=at;depth[i]=mm[i]/1000;}
+ for(let u=0,j=0;u<U;u++){const cell=unknown[u];if(cell>=cellCount||(u>0&&cell<=unknown[u-1]))throw new Error('Invalid all-route unknown cell');while(j<L&&listed[j]<cell)j++;if(listed[j]===cell)throw new Error('Unknown cell also lists water');}
+ for(let slot=0;slot<rc;slot++){const j=search(listed,routeIndex[slot]);if(j>=0)depth[j]=routeDepth[slot];}
+ return{listed,depth,routeDepth,routeZs,unknown,time};
+}
+export function allRouteDepthAt(frame,cell){
+ if(search(frame.unknown??[],cell)>=0)return null;
+ const j=search(frame.listed,cell);return j<0?0:frame.depth[j];
+}
+// Folder-valued quad definitions choose their own verified saved package.
+export function allRouteBase(def){return typeof def.quad==='string'?new URL('./data/'+def.quad.replace(/\/$/,'')+'/',import.meta.url):ALL_ROUTE_DATA;}
+export function allRouteForcingAt(pkg,time){
+ const frame=pkg.forcing?.frames?.find(f=>Date.parse(f.time)===time);
+ return{rainMmH:Number.isFinite(frame?.rainMmH)?frame.rainMmH:NaN,inflowM3s:Number.isFinite(frame?.inflowM3s)?frame.inflowM3s:NaN};
+}
 async function sha256(bytes){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');}
 
 // The live all-route package: only model areas whose live run is at most maxAgeH old and still
@@ -86,13 +110,7 @@ export async function openAllRoute({variant='web',fetchBytes=plainFetch,fetchPac
   const p=(async()=>{
    const raw=await fetchBytes(new URL(`${c.key}/${d.file}${tag}`,base));
    if(await sha256(raw)!==d.sha256)throw new Error(`${c.key} frame ${iso[fi]} failed its checksum`);
-   const {header,body}=unpack(await gunzip(raw)),L=header.listed,rc=header.routeCells;
-   const delta=new Uint32Array(body,0,L),mm=new Uint16Array(body,4*L,L),ro=6*L+((-2*L)%4+4)%4;
-   const routeDepth=new Float32Array(body,ro,rc),routeZs=new Float32Array(body,ro+4*rc,rc);
-   const listed=new Uint32Array(L),depth=new Float32Array(L);let at=0;
-   for(let i=0;i<L;i++){at+=delta[i];listed[i]=at;depth[i]=mm[i]/1000;}
-   for(let s=0;s<rc;s++){const cell=c.routeIndex[s],j=search(listed,cell);if(j>=0)depth[j]=routeDepth[s];}
-   const f={listed,depth,routeDepth,routeZs,time:times[fi]};
+   const f=decodeAllRouteFrame(await gunzip(raw),c.n,c.routeIndex,times[fi]);
    c.frames.set(k,f);c.pending.delete(k);
    // Keep the last dozen frames of each case.
    if(c.frames.size>12)c.frames.delete(c.frames.keys().next().value);
@@ -121,7 +139,7 @@ export async function openAllRoute({variant='web',fetchBytes=plainFetch,fetchPac
    let wet=0,deep=0;
    for(const c of cases){const k=c.byTime.get(iso[fi]);if(k==null)continue;
     for(const [fl,[km2,dm]] of Object.entries(c.info.frames[k].byFlags))if(c.drawn[Number(fl)]){wet+=km2;deep=Math.max(deep,dm);}}
-   return{time:t,wetKm2:wet,deepM:deep,rainMmH:0,inflowM3s:0};
+   return{time:t,wetKm2:wet,deepM:deep,...allRouteForcingAt(pkg,t)};
   });
  }
  // Cell lookup by place, built on first use: 100 m buckets of cell indices.
@@ -136,13 +154,12 @@ export async function openAllRoute({variant='web',fetchBytes=plainFetch,fetchPac
   for(const k of l){const s=1<<c.lvl[k];if(ux>=c.ix[k]&&ux<c.ix[k]+s&&uy>=c.iy[k]&&uy<c.iy[k]+s)return k;}
   return -1;
  }
- function depthOf(c,f,k){const j=search(f.listed,k);return j<0?0:f.depth[j];}
  // Every case's value at a place for one frame: [{key,label,depth (m) | null when the case has no frame}].
  function valuesAt(lat,lon,fi){
   const u=toUtm(lon,lat),out=[];
   for(const c of cases){const k=cellAtUtm(c,u.e,u.n);if(k<0)continue;
    const hasFrame=c.byTime.has(iso[fi]),f=hasFrame?peek(c,fi):null;
-   out.push({key:c.key,label:c.label,cell:k,sizeM:UNIT*(1<<c.lvl[k]),hasFrame,loaded:!!f,depth:f?depthOf(c,f,k):null,drawn:!!c.drawn[c.flags[k]]});}
+   out.push({key:c.key,label:c.label,cell:k,sizeM:UNIT*(1<<c.lvl[k]),hasFrame,loaded:!!f,depth:f?allRouteDepthAt(f,k):null,drawn:!!c.drawn[c.flags[k]]});}
   return out;
  }
  // Each crossing's water surface per frame, from the exact route-point series of every case that has it.
@@ -199,7 +216,7 @@ export function createQuadPainter(run,{colors,bandOf}){
    used.push(c.key+':'+i);
    const box=c.box,cx=c.origin[0]*k+bx,cy=-c.origin[1]*k+by,drawn=c.drawn,flags=c.flags;
    const la=A.listed,da=A.depth,lb=B&&B!==A?B.listed:null,db=lb?B.depth:null;
-   let p=0,q=0;
+   const unknownA=A.unknown??[],unknownB=B?.unknown??[];let p=0,q=0,ua=0,ub=0;
    // Merge the two frames' sorted cell lists so each cell is blended once.
    while(p<la.length||(lb&&q<lb.length)){
     let cell,d;
@@ -207,6 +224,8 @@ export function createQuadPainter(run,{colors,bandOf}){
     else if(q>=lb.length||(p<la.length&&la[p]<lb[q])){cell=la[p];d=da[p++]*(1-f);}
     else if(p>=la.length||lb[q]<la[p]){cell=lb[q];d=db[q++]*f;}
     else{cell=la[p];d=da[p++]+(db[q++]-da[p-1])*f;}
+    // Unknown is not a dry endpoint. Exact known frames remain drawable.
+    if(f>0&&f<1&&B){while(unknownA[ua]<cell)ua++;while(unknownB[ub]<cell)ub++;if(unknownA[ua]===cell||unknownB[ub]===cell)continue;}
     if(!drawn[flags[cell]])continue;
     const band=bandOf(d);if(band<0)continue;
     const x0=box[cell*4]*k+cx,y1=-box[cell*4+1]*k+cy,x1=box[cell*4+2]*k+cx,y0=-box[cell*4+3]*k+cy;
@@ -265,5 +284,18 @@ export function rasterize(run,fi,box,out=new Uint8Array(box.cols*box.rows),acc=n
  }
  const area=px*py;
  for(let q=0;q<acc.length;q++){const d=acc[q]/area;out[q]=d<WET_M?0:1+Math.round(254*Math.sqrt(Math.min(d,16)/16));}
+ return out;
+}
+
+// Categorical missing-data mask for the 3D texture. A partially unknown pixel is unknown.
+export function rasterizeUnknown(run,fi,box,out=new Uint8Array(box.cols*box.rows)){
+ out.fill(0);const px=box.w/box.cols,py=box.h/box.rows,north=box.n0+box.h;
+ for(const c of run.cases){const f=run.peek(c,fi);if(!f?.unknown?.length)continue;
+  for(const cell of f.unknown){if(!c.drawn[c.flags[cell]])continue;
+   const s=(1<<c.lvl[cell])*UNIT,x0=c.e0+c.ix[cell]*UNIT-box.e0,x1=x0+s,yTop=north-(c.n0+c.iy[cell]*UNIT+s),yBot=yTop+s;
+   const i0=Math.max(0,Math.floor(x0/px)),i1=Math.min(box.cols-1,Math.floor((x1-1e-6)/px)),j0=Math.max(0,Math.floor(yTop/py)),j1=Math.min(box.rows-1,Math.floor((yBot-1e-6)/py));
+   for(let j=j0;j<=j1;j++)for(let i=i0;i<=i1;i++)out[j*box.cols+i]=255;
+  }
+ }
  return out;
 }
