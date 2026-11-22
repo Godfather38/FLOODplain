@@ -1,0 +1,29 @@
+{
+ "schemaVersion": 1,
+ "cases": {
+  "northern": {
+   "hrrrCycle": "2026-11-21T22:00:00Z",
+   "requestedAt": "2026-11-21T23:58:15Z",
+   "reason": "refresh_before_expiry",
+   "coordinatorRun": "44949092426",
+   "workflowRef": "experiment/all-route-models",
+   "dispatchStatus": "accepted"
+  },
+  "picture-rocks": {
+   "hrrrCycle": "2026-11-21T22:00:00Z",
+   "requestedAt": "2026-11-21T23:58:15Z",
+   "reason": "refresh_before_expiry",
+   "coordinatorRun": "44949092426",
+   "workflowRef": "experiment/all-route-models",
+   "dispatchStatus": "accepted"
+  },
+  "gates": {
+   "hrrrCycle": "2026-11-21T22:00:00Z",
+   "requestedAt": "2026-11-21T23:58:15Z",
+   "reason": "refresh_before_expiry",
+   "coordinatorRun": "44949092426",
+   "workflowRef": "experiment/all-route-models",
+   "dispatchStatus": "accepted"
+  }
+ }
+}
